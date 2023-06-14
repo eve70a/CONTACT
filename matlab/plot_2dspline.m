@@ -61,7 +61,7 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
       opt.view     = [110 20];
    end
    if (~isfield(opt, 'zoom'))
-      opt.zoom     = [1000 1 1];   % data aspect ratio
+      opt.zoom     = [];
    end
    if (~isfield(opt, 'addplot'))
       opt.addplot  = 0;
@@ -95,6 +95,11 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
       xlen = opt.xrange(2) - opt.xrange(1);
       ylen = max(max(slcs.ysurf)) - min(min(slcs.ysurf));
       opt.xysteps = max(xlen/4, ylen/15);
+   end
+   if (isempty(opt.zoom))
+      xlen = opt.xrange(2) - opt.xrange(1);
+      ylen = max(max(slcs.ysurf)) - min(min(slcs.ysurf));
+      opt.zoom = [ max(1, 0.5*xlen/ylen) 1 1 ]; % data aspect ratio, e.g. [1000 1 1]
    end
    if (length(opt.xysteps)==1)
       opt.xysteps = [1 1] * opt.xysteps;
