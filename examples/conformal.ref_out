@@ -1,0 +1,624 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   ------------------------------------------------------------------------
+
+ Case     1
+ NORM
+       1, Norm: size of Contact, Exterior :   1235    754
+      Norm: final element division: C, E=   1027    962  ItCG=    14
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :    1027      0
+      Tang: final element division: A, S=      0   1027  ItGS=    12
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED APPROACH, FULL SOLUTION
+ STEADY STATE ROLLING
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800      0.8200E+05   0.000      0.1000E-07
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800      0.8200E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       3.000E+04  -4.000E-03  -9.900E-03  -1.537E-03
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     1.000E+05       9144.   2.592E+04   3.860E+04       3.993  -1.055E+04
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         1.220      0.3048      0.8639   9.089E-02       912.8
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    1989   1027      0   1027      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    39  o.......................................o
+    38  .........................................
+    37  .........................................
+    36  ...............SSSSSSSSSSS...............
+    35  ............SSSSSSSSSSSSSSSSS............
+    34  ..........SSSSSSSSSSSSSSSSSSSSS..........
+    33  ........SSSSSSSSSSSSSSSSSSSSSSSSS........
+    32  .......SSSSSSSSSSSSSSSSSSSSSSSSSSS.......
+    31  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    30  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    29  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    28  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    27  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    26  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    25  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    24  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    23  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    22  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    21  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    20  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    19  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    16  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    14  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    13  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    11  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    10  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+     9  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+     8  .......SSSSSSSSSSSSSSSSSSSSSSSSSSS.......
+     7  ........SSSSSSSSSSSSSSSSSSSSSSSSS........
+     6  ..........SSSSSSSSSSSSSSSSSSSSS..........
+     5  ............SSSSSSSSSSSSSSSSS............
+     4  ...............SSSSSSSSSSS...............
+     3  .........................................
+     2  .........................................
+     1  o.......................................o
+            1         2         3         4
+        67890123456789012345678901234567890123456
+     X  -->        Chi=  0.00 degrees
+
+ Case     2
+ NORM
+       1, Norm: size of Contact, Exterior :   1033    956
+      Norm: final element division: C, E=    871   1118  ItCG=    14
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     871      0
+      Tang: final element division: A, S=      0    871  ItGS=    12
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED APPROACH, FULL SOLUTION
+ STEADY STATE ROLLING
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800      0.8200E+05   0.000      0.1000E-07
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800      0.8200E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       3.000E+04  -4.000E-03  -9.900E-03  -1.537E-03
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     9.184E+04       8959.   2.417E+04   2.676E+04       3.669      -9466.
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         1.120      0.3252      0.8774       0.000       1012.
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    1989    871      0    871      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    34  o.........................................o
+    33  ...............SSSSSSSSSSSSS...............
+    32  ............SSSSSSSSSSSSSSSSSSS............
+    31  ..........SSSSSSSSSSSSSSSSSSSSSSS..........
+    30  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+    29  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    28  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    27  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    26  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    25  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    24  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    23  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    22  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    21  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    20  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    19  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    17  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    16  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    15  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    14  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    13  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    11  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    10  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+     9  ..........SSSSSSSSSSSSSSSSSSSSSSS..........
+     8  ............SSSSSSSSSSSSSSSSSSS............
+     7  ...............SSSSSSSSSSSSS...............
+     6  o.........................................o
+             1         2         3         4
+        5678901234567890123456789012345678901234567
+     X  -->        Chi=  0.00 degrees
+
+ Case     3
+ Opening file "inflcf_r10_mx51.txt" with influence coefficients
+ Infl.cf.file: the wheel is the upper body.
+ NORM
+       1, Norm: size of Contact, Exterior :   1033    956
+      Norm: final element division: C, E=    914   1075  ItCG=    14
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     914      0
+      Tang: final element division: A, S=      0    914  ItGS=    12
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       437.0   2.185E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    914   1075
+      Norm: final element division: C, E=    900   1089  ItCG=    14
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      29    871
+      Tang: final element division: A, S=      0    900  ItGS=    11
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       55.00   2.236E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    900   1089
+      Norm: final element division: C, E=    901   1088  ItCG=    11
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       2    899
+      Tang: final element division: A, S=      0    901  ItGS=     9
+
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.410   2.221E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    901   1088
+      Norm: final element division: C, E=    901   1088  ItCG=     8
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    901
+      Tang: final element division: A, S=      0    901  ItGS=     8
+
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.4535   2.221E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    901   1088
+      Norm: final element division: C, E=    901   1088  ItCG=     7
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    901
+      Tang: final element division: A, S=      0    901  ItGS=     6
+
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.554E-02   2.221E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    901   1088
+      Norm: final element division: C, E=    901   1088  ItCG=     5
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    901
+      Tang: final element division: A, S=      0    901  ItGS=     4
+
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.169E-03   2.221E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    901   1088
+      Norm: final element division: C, E=    901   1088  ItCG=     4
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    901
+      Tang: final element division: A, S=      0    901  ItGS=     3
+
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.891E-04   2.221E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    901   1088
+      Norm: final element division: C, E=    901   1088  ItCG=     3
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    901
+      Tang: final element division: A, S=      0    901  ItGS=     2
+
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.210E-05   2.221E-05
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 0, INFLCF 9, MATER  0, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED APPROACH, FULL SOLUTION
+ STEADY STATE ROLLING
+ CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 15
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800      0.8200E+05   0.000      0.1000E-07
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800      0.8200E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       3.000E+04  -4.000E-03  -9.900E-03  -1.537E-03
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     9.932E+04   1.086E+04   2.578E+04   3.292E+04       3.969  -1.046E+04
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         1.211      0.3646      0.8651       0.000       1034.
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    1989    901      0    901      8      8
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    34  o.........................................o
+    33  ...............SSSSSSSSSSSSS...............
+    32  ............SSSSSSSSSSSSSSSSSSS............
+    31  .........SSSSSSSSSSSSSSSSSSSSSSSS..........
+    30  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+    29  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
+    28  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    27  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    26  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    25  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    24  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    23  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    22  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    21  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    20  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    19  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    16  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    14  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    13  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    12  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    11  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+     9  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+     8  ..........SSSSSSSSSSSSSSSSSSSSSSS..........
+     7  .............SSSSSSSSSSSSSSSSS.............
+     6  ..................SSSSSSS..................
+     5  o.........................................o
+             1         2         3         4
+        5678901234567890123456789012345678901234567
+     X  -->        Chi=  0.00 degrees
+
+ Case     4
+ NORM
+       1, Norm: size of Contact, Exterior :   1033    956
+      Norm: final element division: C, E=    871   1118  ItCG=    14
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     871      0
+      Tang: final element division: A, S=      0    871  ItGS=    12
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 0, INFLCF 2, MATER  0, RZNORM 0, RZTANG 9
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED APPROACH, FULL SOLUTION
+ STEADY STATE ROLLING
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800      0.8200E+05   0.000      0.1000E-07
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800      0.8200E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       3.000E+04       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     9.184E+04   1.050E+04   2.251E+04   3.227E+04       3.656      -9726.
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         1.120      0.3812      0.8172       0.000       1012.
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    1989    871      0    871      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    34  o.........................................o
+    33  ...............SSSSSSSSSSSSS...............
+    32  ............SSSSSSSSSSSSSSSSSSS............
+    31  ..........SSSSSSSSSSSSSSSSSSSSSSS..........
+    30  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+    29  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    28  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    27  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    26  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    25  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    24  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    23  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    22  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    21  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    20  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    19  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    17  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    16  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    15  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    14  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    13  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    11  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    10  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+     9  ..........SSSSSSSSSSSSSSSSSSSSSSS..........
+     8  ............SSSSSSSSSSSSSSSSSSS............
+     7  ...............SSSSSSSSSSSSS...............
+     6  o.........................................o
+             1         2         3         4
+        5678901234567890123456789012345678901234567
+     X  -->        Chi=  0.00 degrees
+
+ Case     5
+ Opening file "inflcf_r10_mx51.txt" with influence coefficients
+ Infl.cf.file: the wheel is the upper body.
+ NORM
+       1, Norm: size of Contact, Exterior :   1033    956
+      Norm: final element division: C, E=    914   1075  ItCG=    14
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     914      0
+      Tang: final element division: A, S=      0    914  ItGS=    12
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       437.0   2.185E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    914   1075
+      Norm: final element division: C, E=    902   1087  ItCG=    13
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      28    874
+      Tang: final element division: A, S=      0    902  ItGS=    11
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       52.07   2.242E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    902   1087
+      Norm: final element division: C, E=    904   1085  ItCG=    11
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       3    901
+      Tang: final element division: A, S=      0    904  ItGS=     9
+
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.092   2.227E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    904   1085
+      Norm: final element division: C, E=    905   1084  ItCG=     8
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       1    904
+      Tang: final element division: A, S=      0    905  ItGS=     7
+
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.3723   2.225E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    905   1084
+      Norm: final element division: C, E=    905   1084  ItCG=     7
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    905
+      Tang: final element division: A, S=      0    905  ItGS=     6
+
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.199E-02   2.226E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    905   1084
+      Norm: final element division: C, E=    905   1084  ItCG=     5
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    905
+      Tang: final element division: A, S=      0    905  ItGS=     4
+
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.254E-03   2.226E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    905   1084
+      Norm: final element division: C, E=    905   1084  ItCG=     4
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    905
+      Tang: final element division: A, S=      0    905  ItGS=     3
+
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.538E-04   2.226E-05
+
+ NORM
+       1, Norm: size of Contact, Exterior :    905   1084
+      Norm: final element division: C, E=    905   1084  ItCG=     3
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    905
+      Tang: final element division: A, S=      0    905  ItGS=     2
+
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.348E-05   2.226E-05
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 0, INFLCF 9, MATER  0, RZNORM 0, RZTANG 1
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED APPROACH, FULL SOLUTION
+ STEADY STATE ROLLING
+ CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 15
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800      0.8200E+05   0.000      0.1000E-07
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800      0.8200E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       3.000E+04       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     9.983E+04   1.270E+04   2.383E+04   4.039E+04       3.954  -1.064E+04
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         1.217      0.4239      0.7955       0.000       1040.
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    1989    905      0    905      8      8
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    34  o.........................................o
+    33  ..............SSSSSSSSSSSSSS...............
+    32  ...........SSSSSSSSSSSSSSSSSSSS............
+    31  .........SSSSSSSSSSSSSSSSSSSSSSSS..........
+    30  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+    29  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    28  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    27  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    26  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    25  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    24  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    23  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    22  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    21  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    20  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    19  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    16  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    14  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    13  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    12  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    11  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+     9  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+     8  ..........SSSSSSSSSSSSSSSSSSSSSSS..........
+     7  .............SSSSSSSSSSSSSSSSS.............
+     6  ..................SSSSSSS..................
+     5  o.........................................o
+             1         2         3         4
+        5678901234567890123456789012345678901234567
+     X  -->        Chi=  0.00 degrees
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       2.0 | 100.0 |        2.0 | 100.0 |
+|Non-Hertzian cases   |       5 |       2.0 | 100.0 |        2.0 | 100.0 |
+|Panag.process        |       5 |       1.2 |  60.3 |        1.2 |  59.6 |
+|Algorithm Norm       |      19 |       0.5 |  24.6 |        0.5 |  25.4 |
+|Algorithm Tang       |      19 |       0.7 |  35.7 |        0.7 |  33.3 |
+|Output quantities    |       5 |       0.0 |   1.6 |        0.1 |   2.8 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |      19 |       0.4 |  22.2 |        0.4 |  20.9 |
+|Tang: StedyGS solver |      19 |       0.6 |  31.0 |        0.6 |  28.3 |
+|------------------------------------------------------------------------|
+|Reading input-file   |       5 |       0.0 |   0.8 |        0.0 |   0.6 |
+|Influence coeffic.   |       5 |       0.0 |   0.8 |        0.0 |   0.7 |
+|Load infl.coeffic.   |       2 |       0.7 |  34.9 |        0.7 |  34.8 |
+|Initial state/estim. |       5 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |       5 |       0.0 |   1.6 |        0.0 |   1.6 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.

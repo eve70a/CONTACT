@@ -1,0 +1,962 @@
+%
+% Example input file for CONTACT. See User guide, Section 5.5.
+% Onset of rolling, "From Cattaneo to Carter". 
+% Cf. paragraph 5.2.2.5 and figure 5.25 of [Kalker1990].
+% Contact diameter = 7mm = 28 elements.
+%
+% Case       1: Cattaneo shift, initialisation of first sequence.
+% Cases  2- 57: Transient rolling, T=2, for 2 contact diameters.
+%
+% Case      58: Cattaneo shift, initialisation of second sequence.
+% Cases 59-114: 56 time-steps using world-fixed coordinates, T=1.
+%
+
+% First case: Cattaneo shift (T=1) starting from zero tangential tractions (P=2)
+
+ 3  MODULE
+  201110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0001341    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+  0.4013      0.4013                                FSTAT, FKIN
+  0.280       0.280       1.000       1.000         POISS 1,2,  GG 1,2
+    1                                               IPOTCN
+   33   33   -4.125    -4.125    0.250   0.250      MX,MY,XL,YL,DX,DY
+       1           1                                IBASE, IPLAN
+ 0.002963    0.000     0.002963    0.000     0.000     0.000     B(I), I=1, 6
+
+% Second case: instationary rolling (T=2) starting from tangential tractions 
+%              of previous case (P=0)
+
+ 3  MODULE      % distance traversed  1 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  102000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011341    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+  0.000       0.250        1000.                    CHI, DQ, VELOC
+  0.280       0.280       1.000       1.000         POISS 1,2,  GG 1,2
+
+% Third and consecutive cases: same as case 2, maintain same discretisation,
+% material parameters and geometry (D=C=Z=0).
+
+ 3  MODULE      % distance traversed  2 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed  3 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed  4 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed  5 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed  6 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed  7 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed  8 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed  9 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 10 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 11 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 12 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 13 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 14 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 15 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 16 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 17 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 18 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 19 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 20 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 21 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 22 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 23 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 24 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 25 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 26 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 27 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 28 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 29 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 30 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 31 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 32 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 33 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 34 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 35 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 36 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 37 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 38 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 39 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 40 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 41 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 42 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 43 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 44 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 45 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 46 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 47 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 48 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 49 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 50 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 51 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 52 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 53 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 54 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 55 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+ 3  MODULE      % distance traversed 56 DX
+  002110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011341    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000         FN, FX, CETA, CPHI
+
+
+% Example "From Cattaneo to Carter".
+% Cf. paragraph 5.2.2.5 and figure 5.25 in [Kalker1990].
+% Contact diameter = 7mm = 28 elements. 56 time-steps = 2 contact diameters.
+%
+% In the following cases we simulate the same steps as above, now using the 
+% world-fixed coordinates of the shift (T=1).
+
+% First case: Cattaneo shift (T=1) starting from zero tangential tractions (P=2)
+
+ 3  MODULE
+  201110      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0001341    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.4705     -0.657       0.000       0.000        FN, FX, CETA, CPHI
+  0.4013      0.4013                                FSTAT, FKIN
+  0.280       0.280       1.000       1.000         POISS 1,2,  GG 1,2
+    1                                               IPOTCN
+   90   33   -4.125    -4.125    0.250   0.250      MX,MY,XL,YL,DX,DY
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963  0.0000000  0.000  0.0000000   B(I), I=1, 6
+
+% Second case: shift (T=1) starting from tangential tractions of previous 
+%              case (P=0)
+% Shift the undeformed distance to the right over 0.25 mm
+%       h(x,y) = 0.002963 (x-0.25)^2 + 0.002963 y^2
+%              = 0.002963 x^2 - 0.5*0.002963 x + 0.002963*0.0625  + 0.002963 y^2
+
+ 3  MODULE      % distance traversed  1 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011341    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0014815  0.000  0.0001852   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed  2 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0029630  0.000  0.0007407   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed  3 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0044445  0.000  0.0016667   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed  4 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0059260  0.000  0.0029630   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed  5 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0074075  0.000  0.0046297   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed  6 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0088890  0.000  0.0066667   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed  7 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0103705  0.000  0.0090742   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed  8 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0118520  0.000  0.0118520   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed  9 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0133335  0.000  0.0150002   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 10 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0148150  0.000  0.0185188   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 11 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0162965  0.000  0.0224077   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 12 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0177780  0.000  0.0266670   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 13 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0192595  0.000  0.0312967   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 14 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0207410  0.000  0.0362967   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 15 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0222225  0.000  0.0416672   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 16 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0237040  0.000  0.0474080   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 17 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0251855  0.000  0.0535192   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 18 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0266670  0.000  0.0600007   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 19 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0281485  0.000  0.0668527   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 20 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0296300  0.000  0.0740750   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 21 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0311115  0.000  0.0816677   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 22 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0325930  0.000  0.0896307   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 23 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0340745  0.000  0.0979642   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 24 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0355560  0.000  0.1066680   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 25 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0370375  0.000  0.1157422   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 26 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0385190  0.000  0.1251867   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 27 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0400005  0.000  0.1350017   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 28 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0414820  0.000  0.1451870   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 29 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0429635  0.000  0.1557427   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 30 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0444450  0.000  0.1666688   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 31 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0459265  0.000  0.1779652   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 32 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0474080  0.000  0.1896320   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 33 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0488895  0.000  0.2016692   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 34 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0503710  0.000  0.2140767   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 35 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0518525  0.000  0.2268547   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 36 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0533340  0.000  0.2400030   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 37 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0548155  0.000  0.2535217   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 38 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0562970  0.000  0.2674107   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 39 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0577785  0.000  0.2816702   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 40 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0592600  0.000  0.2963000   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 41 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0607415  0.000  0.3113002   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 42 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0622230  0.000  0.3266708   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 43 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0637045  0.000  0.3424117   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 44 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0651860  0.000  0.3585230   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 45 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0666675  0.000  0.3750047   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 46 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0681490  0.000  0.3918567   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 47 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0696305  0.000  0.4090792   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 48 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0711120  0.000  0.4266720   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 49 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0725935  0.000  0.4446352   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 50 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0740750  0.000  0.4629687   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 51 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0755565  0.000  0.4816727   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 52 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0770380  0.000  0.5007470   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 53 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0785195  0.000  0.5201917   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 54 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0800010  0.000  0.5400067   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 55 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0010141    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0814825  0.000  0.5601922   B(I), I=1, 6
+
+ 3  MODULE      % distance traversed 56 DX
+  001010      P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0011341    H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      1e-7              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07258    -0.657       0.000       0.000         PEN, FX, CETA, CPHI
+       1           1                                IBASE, IPLAN
+ 0.002963  0.000  0.002963 -0.0829640  0.000  0.5807480   B(I), I=1, 6
+
+ 0  MODULE

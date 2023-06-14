@@ -1,0 +1,2249 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   ------------------------------------------------------------------------
+
+ Case     1
+ Input: Warning: Using DQ = DX =   1.000     (instead of  0.5000    )
+                 for solver ConvexGS with plasticity.
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  4, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       1.036       0.000       0.000   1.062E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.2072       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.00       1.04           0.0     0.00      -1.00       0.00    
+
+ Case     2
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       2.072       0.000       0.000   1.217E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.4145       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.00       2.07           0.0     0.00      -1.00       0.00    
+
+ Case     3
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       3.032       0.000       0.000   1.454E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.6063       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.03       3.03           0.0     0.00      -1.00       0.00    
+
+ Case     4
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       3.335       0.000       0.000   1.547E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.6670       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.33       3.33           0.0     0.00      -1.00       0.00    
+
+ Case     5
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       3.638       0.000       0.000   1.649E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.7276       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.64       3.64           0.0     0.00      -1.00       0.00    
+
+ Case     6
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       3.638       0.000       0.000   1.649E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.7276       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.64       3.64           0.0     0.00       0.00       0.00    
+
+ Case     7
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       2.602       0.000       0.000   1.337E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.5204       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.64       2.60           0.0     0.00       1.00       0.00    
+
+ Case     8
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       1.566       0.000       0.000   1.128E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.3132       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.64       1.57           0.0     0.00       1.00       0.00    
+
+ Case     9
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000      0.5296       0.000       0.000   1.024E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.1059       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.64      0.530           0.0     0.00       1.00       0.00    
+
+ Case    10
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000      0.5296       0.000       0.000   1.024E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.1059       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.64      0.530           0.0     0.00       0.00       0.00    
+
+ Case    11
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       1.566       0.000       0.000   1.128E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.3132       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.64       1.57           0.0     0.00      -1.00       0.00    
+
+ Case    12
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       2.602       0.000       0.000   1.337E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.5204       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.64       2.60           0.0     0.00      -1.00       0.00    
+
+ Case    13
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       3.638       0.000       0.000   1.649E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.7276       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.64       3.64           0.0     0.00      -1.00       0.00    
+
+ Case    14
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       3.941       0.000       0.000   1.760E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.7883       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       3.94       3.94           0.0     0.00      -1.00       0.00    
+
+ Case    15
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       4.244       0.000       0.000   1.879E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.8489       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.24       4.24           0.0     0.00      -1.00       0.00    
+
+ Case    16
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      -1.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       4.548       0.000       0.000   2.008E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.9095       0.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.55       4.55           0.0     0.00      -1.00       0.00    
+
+ Case    17
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      0.1100     -0.9766       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       4.434       1.012       0.000   2.008E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.8867      0.2024       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.55       4.55          12.9     0.00      0.110     -0.977    
+
+ Case    18
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      0.3246     -0.9276       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       4.097       1.973       0.000   2.008E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.8195      0.3946       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.55       4.55          25.7     0.00      0.325     -0.928    
+
+ Case    19
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      0.5229     -0.8322       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       3.555       2.835       0.000   2.008E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.7111      0.5671       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.55       4.55          38.6     0.00      0.523     -0.832    
+
+ Case    20
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      0.6949     -0.6949       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       2.835       3.555       0.000   2.008E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.5671      0.7111       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.55       4.55          51.4     0.00      0.695     -0.695    
+
+ Case    21
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      0.8322     -0.5229       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       1.973       4.097       0.000   2.008E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.3946      0.8194       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.55       4.55          64.3     0.00      0.832     -0.523    
+
+ Case    22
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      0.9276     -0.3246       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000       1.012       4.434       0.000   2.008E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000      0.2024      0.8867       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.55       4.55          77.1     0.00      0.928     -0.325    
+
+ Case    23
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      1      0      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000      0.9766     -0.1100       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000   5.024E-05       4.548       0.000   2.008E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000   1.005E-05      0.9095       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      1      0      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   *
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.55       4.55          90.0     0.00      0.977     -0.110    
+
+ Case    24
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000  -1.000E-02       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000   5.016E-05       4.551       0.000   2.009E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000   1.003E-05      0.9101       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.55       4.55          90.0     0.00       0.00     -0.100E-01
+
+ Case    25
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      0      1  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000      -1.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000   4.358E-05       4.854       0.000   2.147E-02       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000   8.716E-06      0.9708       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      0      1      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   |
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       4.85       4.85          90.0     0.00       0.00      -1.00    
+
+ Case    26
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      1      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000      -1.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000   3.699E-05       5.000       0.000   2.216E-02  -2.589E-03
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000   7.399E-06       1.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      1      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   S
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       5.00       5.00          90.0    0.518       0.00      -1.00    
+
+ Case    27
+ NORM
+       1, Norm: size of Contact, Exterior :      1      0
+      Norm: final element division: C, E=      1      0  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip, Plast area :       1      0      0
+      Tang: final element division: A, S, P=      0      1      0  ItGS=     2
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 5, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ SEMIAXES PRESCRIBED, AA,BB:                 0.5000      0.5000    
+ THE CURVATURES A1,B1 ARE:                    10.80       10.80    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP        0.9259E-01  0.5000    
+ POTENTIAL CONTACT, SCALE:                  -0.5000     -0.5000       1.000    
+ DISCRETISATION MX,MY, DX,DY:                   1     1   1.000       1.000    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000       3.000      0.4286    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     1.000       1.000    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000      -1.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+         5.000   3.064E-05       5.000       0.000   2.216E-02  -5.000E-03
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         5.000   6.129E-06       1.000       4.040       5.000
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+       1      1      0      1      0      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1   S
+         1
+     X  -->
+
+ QUANTITIES DISTRIBUTED OVER THE CONTACT AREA:
+ "H-PEN" IS THE UNDEFORMED DISTANCE WITH THE APPROACH TAKEN INTO ACCOUNT.
+ PN IS THE NORMAL PRESSURE, PT THE TANGENTIAL TRACTION (2-VECTOR).
+ S IS THE SLIP DISTANCE PER STEP, WHICH IS OPPOSITE TO THE TANGENTIAL TRACTION.
+ RIGID SHIFT(X, Y) ARE THE (X, Y) COMPONENTS OF THE RIGID SHIFT DISTANCE W.
+ X, H, PEN, S AND W ARE IN MM, PN AND PT ARE IN N/MM^2, AND ARGUMENTS ARE IN DEGREES.
+
+
+     X         H-PEN        PN      TRCBND    ABS(PT)     ARG(PT;-S)  ABS(S)      RIGID SHIFT(X, Y)
+
+ Y =    0.000     ROW  1 OF THE POTENTIAL CONTACT
+
+    0.000      -4.04       5.00       5.00       5.00          90.0     1.00       0.00      -1.00    
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
+|Non-Hertzian cases   |      27 |       0.0 | 100.0 |        0.1 | 100.0 |
+|Panag.process        |      27 |       0.0 |   0.0 |        0.0 |  17.4 |
+|Algorithm Norm       |      27 |       0.0 |   0.0 |        0.0 |  11.6 |
+|Algorithm Tang       |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Output quantities    |      27 |       0.0 |  33.3 |        0.0 |  23.2 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: ConvxGS solver |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
+|------------------------------------------------------------------------|
+|Reading input-file   |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |      27 |       0.0 |  66.7 |        0.0 |  59.4 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.

@@ -1,0 +1,74 @@
+\usepackage{hugepag,epsfig,ignore,rotating}
+\usepackage{amsfonts,amsmath}
+\usepackage{color}
+
+\definecolor{darkblue}{rgb}{ 0.04, 0.04, 0.4}
+\definecolor{darkgreen}{rgb}{0.05, 0.50, 0.05}
+\definecolor{premium}{rgb}{ 0.04, 0.04, 0.6}
+\definecolor{magenta}{rgb}{ 0.6, 0.0, 0.6}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\magenta}[1]{{\color{magenta}#1}}
+\newcommand{\premium}[1]{{\color{premium}#1}}
+
+\newcommand{\bsea}{\begin{subequations}\begin{eqnarray}}
+\newcommand{\esea}{\end{eqnarray}\end{subequations}}
+\newcommand{\bseal}[1]{\begin{subequations}\label{#1}\begin{eqnarray}}
+\newcommand{\eseal}{\end{eqnarray}\end{subequations}}
+
+\def\Z{\mathbb{Z}}
+\def\R{\mathbb{R}}
+% \def\R{\hbox{I\kern-.2em\hbox{R}}}
+\renewcommand{\vec}[1]{ \mathbf{#1} }
+\newcommand{\mat}[1]{ \mathbf{#1} }
+% \newcommand{\transp}{^{\mathrm{\scriptscriptstyle T}}}
+\newcommand{\grid}[1]{{\cal #1}}
+
+\newcommand{\fpd}[2]{ \frac{\partial #1}{\partial #2} }	
+\newcommand{\spd}[2]{ \frac{\partial^2 #1}{\partial #2^2} }
+\newcommand{\mpd}[3]{ \frac{\partial^2 #1}{\partial #2 \partial #3} }
+\newcommand{\fod}[2]{ \frac{{\rm d} #1}{{\rm d} #2} }
+\newcommand{\sod}[2]{ \frac{d^2 #1}{d #2^2} }	
+\newcommand{\mtd}[1]{ \frac{{\rm D} #1}{{\rm D}t} }
+\newcommand{\txtfpd}[2]{ \partial #1/\partial #2 } 
+\newcommand{\txtspd}[2]{ \partial^2 #1/\partial #2^2 } 
+\newcommand{\txtmpd}[3]{ \partial^2 #1 / \partial #2 \partial #3 }
+\newcommand{\txtfod}[2]{d #1/d #2}	
+\newcommand{\txtmtd}[1]{ {\rm D} #1/{\rm D}t }
+
+\newcommand{\acos}{ \mathrm{acos} }	
+\newcommand{\asin}{ \mathrm{asin} }	
+\newcommand{\atan}{ \mathrm{atan} }	
+
+\newcommand{\bunit}[1]{[\mathrm{#1}]}
+\newcommand{\unit}[1]{\,\mathrm{#1}}
+\newcommand{\kelv}{\mbox{}^{\,\circ\!}\mathrm{K}}
+\newcommand{\celc}{\mbox{}^{\,\circ\!}\mathrm{C}}
+\newcommand{\fahr}{\mbox{}^{\,\circ\!}\mathrm{F}}
+\newcommand{\mpa}{\unit{MPa}}
+\newcommand{\tauc}{\tau_{\scriptscriptstyle C}}
+\newcommand{\taue}{\tau_{\scriptscriptstyle E}}
+
+\newcommand{\vecalpha}{\boldsymbol{\alpha}}
+\newcommand{\vecbeta}{\boldsymbol{\beta}}
+\newcommand{\vecgamma}{\boldsymbol{\gamma}}
+\newcommand{\veceps}{\boldsymbol{\epsilon}}
+\newcommand{\veclambda}{\boldsymbol{\lambda}}
+\newcommand{\vecsigma}{\boldsymbol{\sigma}}
+\newcommand{\vectheta}{\boldsymbol{\theta}}
+\newcommand{\vecomega}{\boldsymbol{\omega}}
+\newcommand{\vectau}{\boldsymbol{\tau}}
+\newcommand{\vecnu}{\boldsymbol{\nu}}
+\newcommand{\vecxi}{\boldsymbol{\xi}}
+\newcommand{\vecphi}{\boldsymbol{\phi}}
+\newcommand{\vecPhi}{\boldsymbol{\Phi}}
+\newcommand{\vecpsi}{\boldsymbol{\psi}}
+\newcommand{\vecPsi}{\boldsymbol{\Psi}}
+\newcommand{\vecDelta}{\boldsymbol{\Delta}}
+\newcommand{\vecGamma}{\boldsymbol{\Gamma}}
+\newcommand{\vecNabla}{\boldsymbol{\nabla}}
+\newcommand{\vecSigma}{\boldsymbol{\Sigma}}
+
+\newcommand{\eff}{ef\!f}
+\newcommand{\rf}{re\!f}
+\newcommand{\parll}{\mathbin{\!/\mkern-5mu/\!}}

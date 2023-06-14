@@ -1,0 +1,763 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   ------------------------------------------------------------------------
+
+ Case     1
+         0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
+         2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
+         3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
+         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 3
+ VLDCMZE.  VARFRC 1, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     ALPHA       FSTAT       FKIN
+   -0.3491      0.2000      0.2000    
+   -0.1745      0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       6.000       3.000    
+
+ RAIL PROFILE "MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1981       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3481181
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      0.2774       36.24   1.000E+04      0.2774       36.24   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0117    751.4397      0.1380     -0.1277      -16.68      -4604.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    751.8726      0.1252     -0.0290     -8.6600      0.1252
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000      1.8726     -0.0729
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.  -5.665E-05       0.000   6.302E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9997.      0.2774      -253.7      -4605.   6.042E-02     -0.4677
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1219   9.249E-05  -8.458E-02   1.596E-02       338.3
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3956   1291    943    348      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    85   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+    84   . . . . . . . . . . . S S S S S . . . . . . . . . . .
+    83   . . . . . . . . S S S S S S * * * * S . . . . . . . .
+    82   . . . . . . . S S S S S S * * * * * * * . . . . . . .
+    81   . . . . . . S S S S S S * * * * * * * * * . . . . . .
+    80   . . . . . S S S S S S * * * * * * * * * * * . . . . .
+    79   . . . . . S S S S * * * * * * * * * * * * * . . . . .
+    78   . . . . S S S S S * * * * * * * * * * * * * * . . . .
+    77   . . . S S S S S * * * * * * * * * * * * * * * S . . .
+    76   . . . S S S S * * * * * * * * * * * * * * * * * . . .
+    75   . . . S S S S * * * * * * * * * * * * * * * * * . . .
+    74   . . S S S S * * * * * * * * * * * * * * * * * * * . .
+    73   . . S S S S * * * * * * * * * * * * * * * * * * * . .
+    72   . . S S S S * * * * * * * * * * * * * * * * * * * . .
+    71   . . S S S * * * * * * * * * * * * * * * * * * * * . .
+    70   . S S S S * * * * * * * * * * * * * * * * * * * * S .
+    69   . S S S S * * * * * * * * * * * * * * * * * * * * * .
+    68   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    67   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    66   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    65   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    64   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    63   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    62   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    61   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    60   . S S * * * * * * * * * * * * * * * * * * * * * * S .
+    59   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    58   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    57   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    56   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    55   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    54   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    53   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    52   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    51   . . . S * * * * * * * * * * * * * * * * * * * * . . .
+    50   . . . S * * * * * * * * * * * * * * * * * * * * . . .
+    49   . . . S * * * * * * * * * * * * * * * * * * * S . . .
+    48   . . . . S * * * * * * * * * * * * * * * * * * . . . .
+    47   . . . . S * * * * * * * * * * * * * * * * * * . . . .
+    46   . . . . S S * * * * * * * * * * * * * * * * * . . . .
+    45   . . . . S S * * * * * * * * * * * * * * * * S . . . .
+    44   . . . . . S S * * * * * * * * * * * * * * * . . . . .
+    43   . . . . . S S * * * * * * * * * * * * * * * . . . . .
+    42   . . . . . S S S * * * * * * * * * * * * * * . . . . .
+    41   . . . . . . S S * * * * * * * * * * * * * . . . . . .
+    40   . . . . . . S S * * * * * * * * * * * * * . . . . . .
+    39   . . . . . . S S S * * * * * * * * * * * * . . . . . .
+    38   . . . . . . S S S * * * * * * * * * * * S . . . . . .
+    37   . . . . . . . S S S * * * * * * * * * * . . . . . . .
+    36   . . . . . . . S S S S * * * * * * * * * . . . . . . .
+    35   . . . . . . . S S S S * * * * * * * * * . . . . . . .
+    34   . . . . . . . . S S S * * * * * * * * . . . . . . . .
+    33   . . . . . . . . S S S S * * * * * * * . . . . . . . .
+    32   . . . . . . . . S S S S S * * * * * * . . . . . . . .
+    31   . . . . . . . . S S S S S * * * * * S . . . . . . . .
+    30   . . . . . . . . . S S S S * * * * * . . . . . . . . .
+    29   . . . . . . . . . S S S S S * * * * . . . . . . . . .
+    28   . . . . . . . . . S S S S S S * * * . . . . . . . . .
+    27   . . . . . . . . . S S S S S S * * S . . . . . . . . .
+    26   . . . . . . . . . . S S S S S * * . . . . . . . . . .
+    25   . . . . . . . . . . S S S S S * * . . . . . . . . . .
+    24   . . . . . . . . . . S S S S S S * . . . . . . . . . .
+    23   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    22   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    21   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    20   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    19   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    18   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    17   . . . . . . . . . S S S S S S S S S . . . . . . . . .
+    16   . . . . . . . . . S S S S S S S S S . . . . . . . . .
+    15   . . . . . . . . . S S S S S S S * * . . . . . . . . .
+    14   . . . . . . . . S S S S S S S S * * S . . . . . . . .
+    13   . . . . . . . . S S S S S S S S * * * . . . . . . . .
+    12   . . . . . . . S S S S S S S S * * * * S . . . . . . .
+    11   . . . . . . S S S S S S S S * * * * * * S . . . . . .
+    10   . . . . . S S S S S S S S * * * * * * * * S . . . . .
+     9   . . . . . S S S S S S S S * * * * * * * * * . . . . .
+     8   . . . . . S S S S S S S S * * * * * * * * S . . . . .
+     7   . . . . . . S S S S S S S S * * * * * * S . . . . . .
+     6   . . . . . . . . . S S S S S S S S S . . . . . . . . .
+     5   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+           1                   2                   3
+         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+     X  -->        Chi=  0.00 degrees
+
+ SUBSURFACE STRESSES BLOCK  1:
+ 
+ ABSMAX SIGHYD =  -295.685 AT (X,Y,Z) = (   0.000,   2.000,   0.000)
+ MAX     SIGVM =   210.509 AT (X,Y,Z) = (   0.200,   2.000,   1.500)
+ MAX     SIGTR =   222.736 AT (X,Y,Z) = (  -0.200,  -9.800,   0.000)
+ MAX    SIGMA1 =   123.081 AT (X,Y,Z) = (  -2.200,   3.600,   0.000)
+ MIN    SIGMA3 =  -386.841 AT (X,Y,Z) = (  -0.200,  -9.800,   0.000)
+ ABSMAX  SIGXX =  -307.830 AT (X,Y,Z) = (   0.000,   2.200,   0.000)
+ ABSMAX  SIGYY =  -281.848 AT (X,Y,Z) = (  -0.200,  -9.800,   0.000)
+ ABSMAX  SIGZZ =  -338.316 AT (X,Y,Z) = (   0.000,   2.000,   0.000)
+
+ Case     2
+         0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2016   1.860E+04, dFz/dz:   1.020E+06
+         2, NR,  z_ws, Fz:       0.1932       9375., dFz/dz:   1.094E+06
+         3, NR,  z_ws, Fz:       0.1938       9945., dFz/dz:   9.973E+05
+         4, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   1.001E+06
+         5, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   9.945E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     ALPHA       FSTAT       FKIN
+   -0.3491      0.2000      0.2000    
+   -0.1745      0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       6.000       3.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000      0.5000      0.1938  -2.304E-05   1.200E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3474134
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -880.0      -2015.   1.000E+04      -882.4      -2014.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.7756    744.7416      0.4162       285.1       675.5      -3235.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -0.8614    744.5026      0.4289     -0.0568    -16.0300      0.4289
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0314     -6.0075      0.2522
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.   4.948E-04   1.202E-03   1.233E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9870.      -880.0      -2579.      -3202.   7.091E-02      -7.427
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1204     -0.2972     -0.8711   1.948E-02       632.5
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3995   1147     73   1074      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    77   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    76   . . . . . . . . . . . . . . S S S S S . . . . . . . . . . . . . .
+    75   . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . .
+    74   . . . . . . . . . . . . S S S S S S S S S . . . . . . . . . . . .
+    73   . . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . .
+    72   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . .
+    71   . . . . . . . . . . S S S S S S S S S S S S . . . . . . . . . . .
+    70   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    69   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    68   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    67   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . .
+    66   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    65   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    64   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    63   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    62   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    61   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    60   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    59   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    58   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    57   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    56   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    55   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    54   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    53   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    52   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    51   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    50   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . .
+    49   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . .
+    48   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    47   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    46   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    45   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    44   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    43   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    42   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    41   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    40   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    39   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    38   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    37   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    36   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    35   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    34   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    33   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    32   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    31   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    30   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    28   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    27   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    26   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . .
+    25   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . .
+    24   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . .
+    23   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
+    22   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
+    21   . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    20   . . . . . S S S S S S S S S S S S S S S S S S S S * * S . . . . .
+    19   . . . . . S S S S S S S S S S S S S S S S S S S S * * S . . . . .
+    18   . . . . S S S S S S S S S S S S S S S S S S S S * * * * S . . . .
+    17   . . . S S S S S S S S S S S S S S S S S S S S S * * * * * S . . .
+    16   . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * S . .
+    15   . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * S .
+    14   . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * .
+    13   . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * .
+    12   . S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S .
+    11   . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * . .
+    10   . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * . . .
+     9   . . . . S S S S S S S S S S S S S S S S S S S S S S * * S . . . .
+     8   . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . .
+     7   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+     6   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+             1                   2                   3                   4
+         8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+     X  -->        Chi=  0.00 degrees
+
+ Case     3
+         0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0032   1.158E+04, dFz/dz:   5.750E+05
+         2, NR,  z_ws, Fz:       0.0004       9288., dFz/dz:   8.335E+05
+         3, NR,  z_ws, Fz:       0.0013       9967., dFz/dz:   7.954E+05
+         4, NR,  z_ws, Fz:       0.0013   1.000E+04, dFz/dz:   8.117E+05
+         5, NR,  z_ws, Fz:       0.0013   1.000E+04, dFz/dz:   8.098E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 1
+ VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     ALPHA       FSTAT       FKIN
+   -0.3491      0.2000      0.2000    
+   -0.1745      0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       6.000       3.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.000      0.0013  -3.554E-04   1.200E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3353637
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -637.5       646.3   1.000E+04      -629.7       650.4   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -7.1000    728.1633      2.7298       60.31      -58.37      -946.4
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -8.0430    736.7684      1.0983     -0.2480    -23.7642      1.0983
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.7366    -18.3517      1.3570
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2581      0.2581    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.   1.680E-05   1.203E-02   5.312E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         1536.     -0.2797      -396.3      -4.822   4.288E-03      -9.497
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     1.873E-02  -7.055E-04     -0.9997   6.464E-03       305.1
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    696    196      0    196      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    20   o . . . . . . . . . . . . . . . . . . . o
+    19   . . . . . . S S S S S S S S . . . . . . .
+    18   . . . . S S S S S S S S S S S S . . . . .
+    17   . . . S S S S S S S S S S S S S S S . . .
+    16   . . S S S S S S S S S S S S S S S S S . .
+    15   . . S S S S S S S S S S S S S S S S S . .
+    14   . S S S S S S S S S S S S S S S S S S . .
+    13   . S S S S S S S S S S S S S S S S S S S .
+    12   . . S S S S S S S S S S S S S S S S S S .
+    11   . . S S S S S S S S S S S S S S S S S . .
+    10   . . . S S S S S S S S S S S S S S S S . .
+     9   . . . . S S S S S S S S S S S S S S . . .
+     8   . . . . . S S S S S S S S S S S S . . . .
+     7   . . . . . . . S S S S S S S S S . . . . .
+     6   . . . . . . . . . S S S S . . . . . . . .
+     5   o . . . . . . . . . . . . . . . . . . . o
+                   1                   2
+         5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+     X  -->        Chi=  0.00 degrees
+
+ SUBSURFACE STRESSES BLOCK  1:
+ 
+ ABSMAX SIGHYD =  -261.472 AT (X,Y,Z) = (   0.000,  -0.200,   0.000)
+ MAX     SIGVM =   193.183 AT (X,Y,Z) = (   0.000,  -0.200,   0.500)
+ MAX     SIGTR =   199.077 AT (X,Y,Z) = (   0.000,   0.000,   0.500)
+ MAX    SIGMA1 =   134.359 AT (X,Y,Z) = (  -0.200,   1.400,   0.000)
+ MIN    SIGMA3 =  -360.361 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ ABSMAX  SIGXX =  -228.563 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ ABSMAX  SIGYY =  -267.733 AT (X,Y,Z) = (   0.000,  -0.400,   0.000)
+ ABSMAX  SIGZZ =  -305.074 AT (X,Y,Z) = (   0.000,   0.200,   0.000)
+
+ ----- DATA FOR CONTACT PATCH  2 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -6.9474    726.5982      3.1429     -0.2930    -33.9344      3.1429
+
+     XCP(W)      YCP(W)      ZCP(W)
+      1.7101    -28.5350      3.3981
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2323      0.2323    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2004.   4.474E-03   1.258E-02   6.240E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         8244.      -637.2      -1805.      -53.17   9.519E-02      -51.17
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1005     -0.3327     -0.9425   2.714E-02       1579.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    935    205      0    205      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    11  o...........................................o
+    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS........
+     9  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+     8  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     7  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     6  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+     5  .................SSSSSSSSSSSSSS..............
+     4  o...........................................o
+            1         2         3         4         5
+        678901234567890123456789012345678901234567890
+     X  -->        Chi=  0.00 degrees
+
+ SUBSURFACE STRESSES BLOCK  1:
+ 
+ ABSMAX SIGHYD = -1353.162 AT (X,Y,Z) = (  -0.200,  -0.200,   0.000)
+ MAX     SIGVM =   935.250 AT (X,Y,Z) = (  -0.200,  -0.200,   0.500)
+ MAX     SIGTR =  1029.171 AT (X,Y,Z) = (  -0.200,  -0.200,   0.500)
+ MAX    SIGMA1 =   517.191 AT (X,Y,Z) = (   0.200,   0.600,   0.000)
+ MIN    SIGMA3 = -1891.555 AT (X,Y,Z) = (  -0.000,  -0.200,   0.000)
+ ABSMAX  SIGXX =  -964.733 AT (X,Y,Z) = (  -0.400,  -0.200,   0.000)
+ ABSMAX  SIGYY = -1609.184 AT (X,Y,Z) = (  -0.000,  -0.200,   0.000)
+ ABSMAX  SIGZZ = -1578.902 AT (X,Y,Z) = (  -0.000,   0.000,   0.000)
+
+ Case     4
+         0, NR,  z_ws, Fz:      -0.1176       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.0910       7721., dFz/dz:   4.361E+05
+         2, NR,  z_ws, Fz:      -0.0858   1.011E+04, dFz/dz:   4.571E+05
+         3, NR,  z_ws, Fz:      -0.0860       9996., dFz/dz:   4.724E+05
+         4, NR,  z_ws, Fz:      -0.0860      10000., dFz/dz:   4.721E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     ALPHA       FSTAT       FKIN
+   -0.3491      0.2000      0.2000    
+   -0.1745      0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       6.000       3.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.500     -0.0860  -4.777E-04   1.320E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3318864
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -608.6       1417.      10000.      -589.9       1420.   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -7.3799    726.1268      3.2972       2.430      -8.124      -39.89
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -7.3697    726.1166      3.3007     -0.3363    -34.4159      3.3007
+
+     XCP(W)      YCP(W)      ZCP(W)
+      2.1398    -29.5703      3.7309
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2076      0.2076    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2004.   4.379E-03   1.401E-02   7.122E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9907.      -608.6      -1963.      -13.85      0.1240      -60.40
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1208     -0.2960     -0.9547   2.983E-02       1500.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    986    261      0    261      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    13  o.............................................o
+    12  .........SSSSSSSSSSSSSSSSSSSSSSSSSS............
+    11  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    10  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+     9  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     8  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     7  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+     6  .............SSSSSSSSSSSSSSSSSSSSSSSSS.........
+     5  o.............................................o
+           1         2         3         4         5
+        78901234567890123456789012345678901234567890123
+     X  -->        Chi=  0.00 degrees
+
+ Case     5
+         0, NR,  z_ws, Fz:      -0.1176       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.0910       7722., dFz/dz:   4.361E+05
+         2, NR,  z_ws, Fz:      -0.0858   1.011E+04, dFz/dz:   4.573E+05
+         3, NR,  z_ws, Fz:      -0.0860       9996., dFz/dz:   4.727E+05
+         4, NR,  z_ws, Fz:      -0.0860      10000., dFz/dz:   4.723E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 4, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     ALPHA       FSTAT       FKIN
+   -0.3491      0.2000      0.2000    
+   -0.1745      0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       9.000       5.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.500     -0.0860  -4.777E-04   1.320E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3318864
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -613.9       1387.      10000.      -595.6       1390.   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -7.3772    726.1295      3.2963      -1.422      0.8994       23.10
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -7.3697    726.1166      3.3007     -0.3363    -34.4159      3.3007
+
+     XCP(W)      YCP(W)      ZCP(W)
+      2.1398    -29.5703      3.7309
+
+ Actual contact on columns iy = [  6, 12] (my= 17), sc = [ -0.700,  0.700]
+ Reference contact angle delttr = -19.27 deg, range = [ -21.30, -17.30] deg
+ Total moments Mxp =       133.1, Msp =        67.5, Mnp =        45.4 N.mm
+
+ FRICTION LAW PARAMETERS
+      IY         FSTAT       FKIN
+         1      0.2000      0.2000    
+         2      0.2000      0.2000    
+                      ...
+        16      0.2451      0.2451    
+        17      0.2474      0.2474    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9897.      -613.9      -1991.       45.38      0.1240      -60.81
+     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
+        0.1207  -6.202E-02     -0.2012   2.980E-02       1499.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    986    261      0    261      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    13  o.............................................o
+    12  .........SSSSSSSSSSSSSSSSSSSSSSSSSS............
+    11  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    10  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+     9  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     8  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     7  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+     6  .............SSSSSSSSSSSSSSSSSSSSSSSSS.........
+     5  o.............................................o
+           1         2         3         4         5
+        78901234567890123456789012345678901234567890123
+     X  -->        Chi=  0.00 degrees
+
+ CURVED REFERENCE SURFACE, TRACK COORDINATES,   17 POINTS:
+    I        Y(I)       Z(I)       A(I)
+     1   724.6342     3.9166    -0.4359
+     2   724.8161     3.8334    -0.4227
+     3   724.9990     3.7526    -0.4096
+     4   725.1829     3.6742    -0.3968
+     5   725.3679     3.5981    -0.3842
+     6   725.5538     3.5243    -0.3717
+     7   725.7406     3.4528    -0.3595
+     8   725.9282     3.3835    -0.3476
+     9   726.1166     3.3165    -0.3358
+    10   726.3059     3.2517    -0.3243
+    11   726.4958     3.1890    -0.3129
+    12   726.6864     3.1285    -0.3019
+    13   726.8777     3.0701    -0.2906
+    14   727.0696     3.0138    -0.2806
+    15   727.2619     2.9592    -0.2740
+    16   727.4546     2.9054    -0.2704
+    17   727.6474     2.8524    -0.2664
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       3.7 | 100.0 |        3.7 | 100.0 |
+|Wheel-rail cases     |       5 |       3.7 | 100.0 |        3.7 | 100.0 |
+|Subsurface points    |       3 |       0.3 |   8.9 |        0.3 |   8.8 |
+|W/r profiles         |       2 |       0.0 |   0.4 |        0.0 |   0.4 |
+|Geometric analysis   |      27 |       0.0 |   1.3 |        0.0 |   1.0 |
+|Panag.process        |      27 |       2.7 |  71.7 |        2.7 |  71.2 |
+|Algorithm Norm       |      27 |       0.2 |   4.2 |        0.1 |   3.4 |
+|Algorithm Tang       |      27 |       2.5 |  67.5 |        2.5 |  67.8 |
+|Output quantities    |      32 |       0.0 |   0.8 |        0.0 |   1.2 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |      27 |       0.2 |   4.2 |        0.1 |   3.3 |
+|Tang: StedyGS solver |      27 |       2.5 |  67.5 |        2.5 |  67.5 |
+|------------------------------------------------------------------------|
+|Reading input-file   |       5 |       0.0 |   0.4 |        0.0 |   0.4 |
+|Contact location     |      27 |       0.0 |   0.8 |        0.0 |   0.7 |
+|Undeformed distance  |      27 |       0.0 |   0.4 |        0.0 |   0.3 |
+|Influence coeffic.   |      27 |       0.0 |   0.4 |        0.0 |   0.4 |
+|Initial state/estim. |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurf infl.cf.     |      33 |       0.2 |   4.2 |        0.1 |   3.7 |
+|Subsurf FFTs         |      33 |       0.2 |   4.2 |        0.2 |   4.6 |
+|Subsurf derived qnt  |      33 |       0.0 |   0.4 |        0.0 |   0.5 |
+|Subsurf writing      |       6 |       0.6 |  15.6 |        0.6 |  15.4 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.

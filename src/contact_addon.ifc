@@ -1,0 +1,1246 @@
+!============================================================================================================
+! contact_addon.ifc - interface definition for CONTACT library version.
+!
+! Copyright 2008-2023 by Vtech CMCC.
+!
+! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
+!============================================================================================================
+
+interface
+
+!------------------------------------------------------------------------------------------------------------
+! macros to append underscores to exported subroutine names
+
+#define CONCAT_(a)    a ## _
+#define STRINGIFY_(a) # a
+#define STRINGIFY(a)  STRINGIFY_(a)
+
+#ifdef TARGET_nc
+#define CNAME_(a)     STRINGIFY( CONCAT_(a) )
+#else
+#define CNAME_(a)     STRINGIFY( a )
+#endif
+
+! CONCAT_(hello)               expands to hello_
+! STRINGIFY( CONCAT_(hello) )  expands to STRINGIFY_( hello_ )
+! STRINGIFY_( CONCAT_(hello) ) expands to "hello_"
+! CNAME_(hello)           thus expands to "hello_"
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setFileUnits(nunits, iunits) &
+   bind(c,name=CNAME_(cntc_setfileunits))
+!--function: used for configuring the logical file units used by the CONTACT library.
+!            Five values are requested: positive, distinct and not containing 5 or 6.
+!--subroutine arguments:
+   integer, intent(in) :: nunits         ! length of array iunits, number of file units provided
+   integer, intent(in) :: iunits(nunits) ! logical file units to be used by the CONTACT library
+end subroutine cntc_setFileUnits
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, len_outpath, len_expnam) &
+   bind(c,name=CNAME_(cntc_initializefirst))
+!--function: initialize the addon internal data structures and initialize output channels,
+!            print version information; return the addon version number.
+   use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
+!--subroutine arguments:
+   integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
+   integer,                intent(inout) :: ierror       ! error flag
+   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
+   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory
+   character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
+   integer,                intent(in)    :: len_outpath  ! length of C-string
+   integer,                intent(in)    :: len_expnam   ! length of C-string
+end subroutine cntc_initializeFirst
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) &
+   bind(c,name=CNAME_(cntc_initialize))
+!--function: upon first call: perform one-time initializations;
+!            for each ire: initialize and return the addon version number.
+   use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
+!--subroutine arguments:
+   integer,                intent(in)    :: ire          ! result element ID
+   integer,                intent(in)    :: imodul       ! module number 1=w/r contact, 3=basic contact
+   integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
+   integer,                intent(inout) :: ierror       ! error flag
+   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory
+   integer,                intent(in)    :: len_outpath  ! length of C-string
+end subroutine cntc_initialize
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setGlobalFlags(lenflg, params, values) &
+   bind(c,name=CNAME_(cntc_setglobalflags))
+!--function: used for configuring various flags that are the same for all contact problems
+!--subroutine arguments:
+   integer,      intent(in) :: lenflg         ! length of params/values arrays
+   integer,      intent(in) :: params(lenflg) ! codes of the parameters to be communicated to CONTACT
+   integer,      intent(in) :: values(lenflg) ! values of the parameters to be communicated to CONTACT
+end subroutine cntc_setGlobalFlags
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getMaxNumThreads(mxthrd) &
+   bind(c,name=CNAME_(cntc_getmaxnumthreads))
+!--function: used for retrieving the maximum number of active threads allowed by the current license
+!--subroutine arguments:
+   integer,      intent(out) :: mxthrd        ! maximum number of concurrently active threads allowed
+end subroutine cntc_getMaxNumThreads
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
+   bind(c,name=CNAME_(cntc_setflags))
+!--function: used for configuring various flags for a contact problem
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: lenflg         ! length of params/values arrays
+   integer,      intent(in) :: params(lenflg) ! codes of the parameters to be communicated to CONTACT
+   integer,      intent(in) :: values(lenflg) ! values of the parameters to be communicated to CONTACT
+end subroutine cntc_setFlags
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setMetadata(ire, icp, lenmta, params, values) &
+   bind(c,name=CNAME_(cntc_setmetadata))
+!--function: used for providing various metadata for a contact problem
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: lenmta         ! length of params/values arrays
+   integer,      intent(in) :: params(lenmta) ! codes of the metadata to be communicated to CONTACT
+   real(kind=8), intent(in) :: values(lenmta) ! values of the metadata to be communicated to CONTACT
+end subroutine cntc_setMetadata
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) &
+   bind(c,name=CNAME_(cntc_setsolverflags))
+!--function: set parameters for the iterative solution algorithms
+!    0: default solvers,    iparam = [maxgs, maxin, maxnr, maxout],         rparam = [eps]
+!    1: keep parameters,    iparam = [ ],                                   rparam = [ ]
+!    2: always ConvexGS,    iparam = [maxgs, maxin, maxnr, maxout, inislp], 
+!                                                   rparam = [eps, omegah, omegas, omgslp]
+!    3: SteadyGS if poss.,  iparam = [maxgs, maxin, maxnr, maxout, inislp], 
+!                                                   rparam = [eps, omegah, omegas, omgslp]
+!    4: flags veloc.dep.    iparam = [maxgs, maxin, maxnr, maxout, inislp], rparam = [eps, omgslp]
+!    5: GDsteady if poss.,  iparam = [maxgs, maxin, maxnr, maxout, kdowfb], rparam = [eps, fdecay, 
+!                                                       betath, d_ifc, d_lin, d_cns, d_slp, pow_s]
+!    6: flags sensitivities iparam = [mxsens],                              rparam = [epsens]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: gdigit         ! G-digit, selecting the iteration methods to be used
+   integer,      intent(in) :: nints, nreals  ! number of integer/real parameters provided
+   integer,      intent(in) :: iparam(*)      ! array of integer parameters
+   real(kind=8), intent(in) :: rparam(*)      ! array of real parameters
+end subroutine cntc_setSolverFlags
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setMaterialProperties(ire, icp, g1, nu1, g2, nu2) &
+   bind(c,name=CNAME_(cntc_setmaterialproperties))
+!--function: set the material properties for a contact problem
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   real(kind=8), intent(in) :: g1, g2         ! modulus of rigidity for body 1, 2 [force/area]
+   real(kind=8), intent(in) :: nu1, nu2       ! Poisson's ratio for body 1, 2 [-]
+end subroutine cntc_setMaterialProperties
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
+   bind(c,name=CNAME_(cntc_setmaterialparameters))
+!--function: set the M-digit and material parameters for a contact problem
+!    0: purely elastic material,           params = [ nu1, nu2, g1, g2 ]
+!    1: visco-elastic material,            params = [ nu1, nu2, g1, g2, fg1, fg2, vt1, vt2 ]
+!    2: modified Fastsim, 1 flexibility    params = [ nu1, nu2, g1, g2, flx, k0_mf, alfamf, betamf ]
+!    3: modified Fastsim, 3 flexibilities  params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
+!    4: elastic + elasto-plastic 3rd body  params = [ nu1, nu2, g1, g2, g3, laythk, tau_c0, k_tau ]
+!
+! dimensions: nu1, nu2        [-],        g1, g2    [force/area],   
+!             fg1, fg2        [-],        vt1, vt2  [time],
+!             flx         [volume/force], k0_mf, alfamf, betamf [-], 
+!             g3, tau_c0   [force/area],  laythk    [length],        k_tau [force/volume]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: imeth          ! M-digit
+   integer,      intent(in) :: nparam         ! number of parameters in rparam
+   real(kind=8), intent(in) :: rparam(nparam) ! material parameters, dependent on m-digit
+end subroutine cntc_setMaterialParameters
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setTemperatureData(ire, icp, imeth, nparam, params) &
+   bind(c,name=CNAME_(cntc_settemperaturedata))
+!--function: set H-digit and parameters for the temperature calculation for a contact problem
+!    0: no temperature calculation,     params = []
+!    1: keep old parameters,            params = []
+!    3: calculate temperature based on new parameters and steady rolling,
+!       params = [bktemp1, heatcp1, lambda1, dens1, bktemp2, heatcp2, lambda2, dens2]
+!
+! dimensions:  bktemp: [C],  heatcp: [J/kg-C],  lambda: [W/length-C],  dens: [kg/length^3]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: imeth          ! H-digit
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! depending on method that is used
+end subroutine cntc_setTemperatureData
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setTimestep(ire, icp, dt) &
+   bind(c,name=CNAME_(cntc_settimestep))
+!--function: set the time step size dt for a contact problem, particularly for T=0 or 1
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   real(kind=8), intent(in) :: dt             ! time step size [time]
+end subroutine cntc_setTimestep
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setReferenceVelocity(ire, icp, veloc) &
+   bind(c,name=CNAME_(cntc_setreferencevelocity))
+!--function: set the rolling velocity for a contact problem
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   real(kind=8), intent(in) :: veloc          ! absolute rolling velocity [veloc]
+end subroutine cntc_setReferenceVelocity
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setRollingStepsize(ire, icp, chi, dq) &
+   bind(c,name=CNAME_(cntc_setrollingstepsize))
+!--function: set the rolling direction chi and step size dq for a contact problem
+!  in w/r contact,    icp = -1
+!      chi            - ignored
+!      dq             - rolling step size relative to grid size dx [-]
+!  in generic contact, icp > 0,
+!      chi            - rolling direction [angle]
+!      dq             - rolling step size [length]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   real(kind=8), intent(in) :: chi, dq        ! rolling direction [angle] and step size [length/-]
+end subroutine cntc_setRollingStepsize
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
+   bind(c,name=CNAME_(cntc_setfrictionmethod))
+!--function: set V and L-digits and parameters for the friction law for a contact problem
+!  imeth          - type of friction law used: 10 * V-digit + 1 * L-digit
+!  L = 0: Coulomb friction,             lparam = [fstat, fkin]
+!      2: linear falling friction,      lparam = [fkin, flin1, sabsh1, flin2, sabsh2, memdst, mem_s0]
+!      3: rational falling friction,    lparam = [fkin, frat1, sabsh1, frat2, sabsh2, memdst, mem_s0]
+!      4: exponential falling friction, lparam = [fkin, fexp1, sabsh1, fexp2, sabsh2, memdst, mem_s0]
+!      5: exponential falling friction, lparam = [fstat, polach_a, polach_b]
+!      6: temperature dep. friction,    lparam = [fref, tref, dfheat, dtheat, memdst, mem_s0]
+!
+!  When V = 0, params = lparam(1:n), with n=2 for L=0, n=7 for L=2--4, n=3 for L=5, n=6 for L=6
+!  When V = 1, params = [ nvf, ...
+!                         alphvf(1),   lparam( 1 ,1:n) ],  ...
+!                                   ...
+!                         alphvf(nvf), lparam(nvf,1:n) ]
+!    
+!  dimensions:  alphvf: [angle],  fstat, fkin, flin1,2, frat1,2, fexp1,2, polach_a, fref, dfheat: [-]
+!               sabsh1,2, mem_s0: [veloc],  memdst: [length],  polach_b [1/veloc],  tref, dtheat [C]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: imeth          ! VL = type of friction law used
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! depending on method that is used
+end subroutine cntc_setFrictionMethod
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
+   bind(c,name=CNAME_(cntc_setinterfaciallayer))
+!--function: set M-digit and parameters for the interfacial layer for a contact problem
+!    0: clean interface, no layer     params = [ ]
+!    2: modified Fastsim algorithm    params = [ flx, k0_mf, alfamf, betamf ]
+!    3: modified Fastsim algorithm    params = [      k0_mf, alfamf, betamf ]
+!    4: elasto-plastic intfc.layer    params = [ gg3, laythk, tau_c0, k_tau ]
+!
+!  dimensions: k0_mf, alfamf, betamf: [-],
+!              G3, tau_c0: [force/area],  laythk: [length],  k_tau: [force/area/length]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: imeth          ! M-digit, type of interfacial layer used
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! depending on method that is used
+end subroutine cntc_setInterfacialLayer
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
+   bind(c,name=CNAME_(cntc_sethertzcontact))
+!--function: set the parameters for a Hertzian contact problem
+!   -6: SDEC approach, union of two half ellipses                  params = [ mx, my, aa , bneg, bpos, scale ]
+!   -5: Hertzian rectangular contact, half-sizes prescribed,       params = [ mx, my, aa , bb , scale ]
+!   -4: Hertzian rectangular contact, curv+half width prescribed,  params = [ mx, my, a1 , bb , scale ]
+!   -3: Hertzian elliptical contact, semi-axes prescribed,         params = [ mx, my, aa , bb , scale ]
+!   -2: Hertzian elliptical contact, ellipticity prescribed,       params = [ mx, my, a1 , aob, scale ]
+!   -1: Hertzian elliptical contact, curvatures prescribed,        params = [ mx, my, a1 , b1 , scale ]
+!
+! dimensions:  mx, my, aob, scale [-],    a1, b1: [1/length],    aa, bneg, bpos, bb: [length]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: ipotcn         ! type of potcon specification
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! dependent on type of specification [length]
+end subroutine cntc_setHertzContact
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
+   bind(c,name=CNAME_(cntc_setpotcontact))
+!--function: set the parameters of the potential contact area for a contact problem
+!  for w/r contact, icp = -1:
+!    0: w/r contact, fixed grid sizes,  params = [ dx, ds, n.a. ]
+!   -1: w/r contact, fixed grid sizes,  params = [ dx, ds, a_sep, d_sep, d_comb, [d_turn] ]
+!
+!  for generic contact, icp > 0:
+!    1: lower-left + grid sizes,        params = [ mx, my, xl , yl , dx , dy  ]
+!    2: lower-left + upper right,       params = [ mx, my, xl , yl , xh , yh  ]
+!    3: 1st center + grid sizes,        params = [ mx, my, xc1, yc1, dx , dy  ]
+!    4: 1st center + last center,       params = [ mx, my, xc1, yc1, xcm, ycm ]
+!
+!  dimensions: mx, my [-],   a_sep [angle],
+!              dx, ds, dy, d_sep, d_comb, d_turn, xl, yl, xh, yh, xc1, yc1, xcm, ycm [length]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: ipotcn         ! type of potcon specification
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! dependent on type of specification [length]
+end subroutine cntc_setPotContact
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setVerticalForce(ire, fz) &
+   bind(c,name=CNAME_(cntc_setverticalforce))
+!--function: set the total vertical force between the contacting bodies for a w/r contact problem (module 1)
+!            Note: this function sets control-digit N = 1
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   real(kind=8), intent(in) :: fz             ! total vertical force between the two bodies [force]
+end subroutine cntc_setVerticalForce
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setPenetration(ire, icp, pen) &
+   bind(c,name=CNAME_(cntc_setpenetration))
+!--function: set the approach (penetration) of the bodies as a whole for a contact problem
+!            Note: this function sets control-digit N = 0
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   real(kind=8), intent(in) :: pen            ! penetration/approach of the two bodies [length]
+end subroutine cntc_setPenetration
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setNormalForce(ire, icp, fn) &
+   bind(c,name=CNAME_(cntc_setnormalforce))
+!--function: set the total normal force of the bodies as a whole for a contact problem
+!            Note: this function sets control-digit N = 1
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   real(kind=8), intent(in) :: fn             ! total normal force between the two bodies [force]
+end subroutine cntc_setNormalForce
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
+   bind(c,name=CNAME_(cntc_setundeformeddistc))
+!--function: set the undeformed distance function through a formula or by element-wise specification
+!    1: quadratic function            params = [b1, b2, b3, b4, b5, b6]
+!    2: circular-x, piecewise-lin-y   params = [nn, xm, rm, y1, dy1], [b(k), k=1..nn]
+!    3: quadratic plus two sines      params = [b1, b2, b3, b4, b5, b6, b7, b8]
+!    9: element-wise specification    params = [h(i), i=1..npot] - undeformed distance per element [length]
+!                                               note: positive values == separation between profiles
+!--subroutine arguments:
+   integer,      intent(in)  :: ire            ! result element ID
+   integer,      intent(in)  :: icp            ! contact problem ID
+   integer,      intent(in)  :: ibase          ! type of undeformed distance specification
+   integer,      intent(in)  :: nparam         ! number of parameters provided
+   real(kind=8), intent(in)  :: prmudf(nparam) ! parameters of undef.dist, depending on method that is used
+end subroutine cntc_setUndeformedDistc
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setCreepages(ire, icp, vx, vy, phi) &
+   bind(c,name=CNAME_(cntc_setcreepages))
+!--function: set the kinematic constants (creepages) for a contact problem
+!            note: vx is ignored when F=1 or 2, vy is ignored when F=2.
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   real(kind=8), intent(in) :: vx, vy, phi    ! long/lat/spin creepages [-], [angle/length]
+end subroutine cntc_setCreepages
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setExtraRigidSlip(ire, icp, lenarr, wx, wy) &
+   bind(c,name=CNAME_(cntc_setextrarigidslip))
+!--function: set the extra term of the tangential right hand side for all elements in the potential contact
+!            area for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: lenarr        ! length of input array
+   real(kind=8), intent(in)  :: wx(lenarr), wy(lenarr) ! extra term of tangential rhs for all elements of contact area [-]
+end subroutine cntc_setExtraRigidSlip
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setTangentialForces(ire, icp, fx, fy) &
+   bind(c,name=CNAME_(cntc_settangentialforces))
+!--function: set the total tangential forces for a contact problem
+!            note: Fx is ignored when F=0, Fy is ignored when F=0 or 1.
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   real(kind=8), intent(in) :: fx, fy         ! total tangential forces relative to fstat*fn [-]
+end subroutine cntc_setTangentialForces
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nreals, rparam) &
+   bind(c,name=CNAME_(cntc_setprofileinputfname))
+!--function: set a wheel or rail profile filename for a wheel-rail contact problem
+!  fname          - string: name of profile file
+!  iparam         - integer configuration parameters
+!                     1: itype     0 = rail, 1 = wheel profile, -1 = taken from file extension (default)
+!                     2:  -        not used
+!                     3: mirrory   0 or -1 = no mirroring (default), 1 = mirror y coordinate values
+!                     4: mirrorz   0 = autodetect (default), -1 = no mirroring, 1 = mirror z values
+!                     5: errhndl   configuration of error handling. 
+!                                   -2 = continue as much as possible, suppress error messages; 
+!                                   -1 = suppress warnings; 0: warn and continue (default);
+!                                    1 = signal errors and abort
+!                     6: ismooth   selection of smoothing method. 0 = original smoothing spline (default),
+!                                    1 = weighted PP smoothing spline, 2 = weighted smoothing B-spline (best),
+!                                    3 = arc-fit approach
+!  rparam         - real configuration parameters
+!                     1: sclfac    scaling factor for conversion to [mm], e.g. 1e3 for data given in [m]
+!                                  default (sclfac<=0): using the active unit convention
+!                     2: smooth    smoothing parameter lambda for non-weighted spline or l_filt for
+!                                  weighted splines/arc-fit smoothing
+!                     3: maxomit   fraction: signal error if more than maxomit of profile points are
+!                                  discarded after cleanup of profile. Default 0.5, use 1 to disable check.
+!                     4: zigthrs   angle threshold for zig-zag detection. Default 5/6*pi, >=pi to disable.
+!                     5: kinkhigh  angle threshold for kink detection. Default pi/6, >=pi to disable.
+!                     6: kinklow   angle threshold for neighbouring points in kink detection. 
+!                                  default kinkhigh/5.
+!                     7: kinkwid   half-width of window used for kink detection, [len], default 2 mm
+   use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
+!--subroutine arguments:
+   integer,                intent(in) :: ire          ! result element ID
+   character(kind=C_CHAR), intent(in) :: c_fname(*)   ! C-string: name of profile file
+   integer,                intent(in) :: len_fname    ! length of filename
+   integer,                intent(in) :: nints, nreals
+   integer,                intent(in) :: iparam(nints)
+   real(kind=8),           intent(in) :: rparam(nreals)
+end subroutine cntc_setProfileInputFname
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setProfileInputValues(ire, npoint, values, nints, iparam, nreals, rparam) &
+   bind(c,name=CNAME_(cntc_setprofileinputvalues))
+!--function: set a wheel or rail profile for a wheel-rail contact problem using a table of values
+!  iparam         - integer configuration parameters
+!                     1: itype     0 = rail, 1 = wheel profile, -1 = taken from file extension (default)
+!                     2:  -        not used
+!                     3: mirrory   0 or -1 = no mirroring (default), 1 = mirror y coordinate values
+!                     4: mirrorz   0 = autodetect (default), -1 = no mirroring, 1 = mirror z values
+!                     5: errhndl   configuration of error handling. 
+!                                   -2 = continue as much as possible, suppress error messages; 
+!                                   -1 = suppress warnings; 0: warn and continue (default);
+!                                    1 = signal errors and abort
+!                     6: ismooth   selection of smoothing method. 0 = original smoothing spline (default),
+!                                    1 = weighted PP smoothing spline, 2 = weighted smoothing B-spline (best),
+!                                    3 = arc-fit approach
+!  rparam         - real configuration parameters
+!                     1: sclfac    scaling factor for conversion to [mm], e.g. 1e3 for data given in [m]
+!                                  default (sclfac<=0): using the active unit convention
+!                     2: smooth    smoothing parameter lambda for non-weighted spline or l_filt for
+!                                  weighted splines/arc-fit smoothing
+!                     3: maxomit   fraction: signal error if more than maxomit of profile points are
+!                                  discarded after cleanup of profile. Default 0.5, use 1 to disable check.
+!                     4: zigthrs   angle threshold for zig-zag detection. Default 5/6*pi, >=pi to disable.
+!                     5: kinkhigh  angle threshold for kink detection. Default pi/6, >=pi to disable.
+!                     6: kinklow   angle threshold for neighbouring points in kink detection. 
+!                                  default kinkhigh/5.
+!                     7: kinkwid   half-width of window used for kink detection, [len], default 2 mm
+!--subroutine arguments:
+   integer,                intent(in) :: ire              ! result element ID
+   integer,                intent(in) :: npoint           ! number of profile points in values
+   real(kind=8),           intent(in) :: values(2*npoint) ! profile values, ordered [y1,z1, y2,z2, ...]
+   integer,                intent(in) :: nints, nreals
+   integer,                intent(in) :: iparam(nints)
+   real(kind=8),           intent(in) :: rparam(nreals)
+end subroutine cntc_setProfileInputValues
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setTrackDimensions_old(ire, ztrack, nparam, params) &
+   bind(c,name=CNAME_(cntc_settrackdimensions_old))
+!--function: set the track or roller-rig description for a wheel-rail contact problem
+!    1: new design track dimensions   params = [gaugwd, gaught, cant, nomrad]
+!    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
+!    3: new dimensions & track deviations for current side of the track
+!           params = [gaugwd, gaught, cant, nomrad, dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
+!
+! dimensions: gaugwd, gaught, nomrad, dyrail, dzrail [length],  cant, drollr [angle],
+!                                     vyrail, vzrail [veloc],         vrollr [ang.veloc]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: ztrack         ! control digit ZTRACK
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
+end subroutine cntc_setTrackDimensions_old
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
+   bind(c,name=CNAME_(cntc_settrackdimensions_new))
+!--function: set the track or roller-rig description for a wheel-rail contact problem
+!    1: new design track dimensions   params = [gaught, gaugsq, gaugwd, cant, nomrad],   if gaught >  0,
+!                                         or   [gaught, raily0, railz0, cant, nomrad],   if gaught <= 0.
+!    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
+!    3: new dimensions & track deviations for current side of the track
+!                                     params(1:5) cf. Z=1 followed by params(6:11) cf. Z=2.
+!
+! dimensions: gaught, gaugwd, raily0, railz0, nomrad, dyrail, dzrail [length],    cant, drollr [angle]
+!                                                     vyrail, vzrail [veloc],           vrollr [ang.veloc]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: ztrack         ! control digit ZTRACK
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
+end subroutine cntc_setTrackDimensions_new
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
+   bind(c,name=CNAME_(cntc_settrackdimensions))
+!--function: set the track or roller-rig description for a wheel-rail contact problem
+!       !!!  This is has become an alias for cntc_settrackdimensions_new.
+!            This used to link to cntc_settrackdimensions_old in the previous version. !!!
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: ztrack         ! control digit ZTRACK
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
+end subroutine cntc_setTrackDimensions
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
+   bind(c,name=CNAME_(cntc_setwheelsetdimensions))
+!--function: set the wheelset description for a wheel-rail contact problem
+!    E=0-2, 4: no new geometry         params = []
+!    E=3, 5:   new wheelset geometry   params = [fbdist, fbpos, nomrad]
+!
+!  dimensions:  fbdist, fbpos, nomrad [length]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: ewheel         ! control digit E of the computation
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
+end subroutine cntc_setWheelsetDimensions
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setWheelsetPosition(ire, ewheel, nparam, params) &
+   bind(c,name=CNAME_(cntc_setwheelsetposition))
+!--function: set the wheelset position data for a wheel-rail contact problem
+!    1-5: new wheelset position     params = [ s_ws, y_ws, z_ws, roll, yaw, pitch ]
+!       s_ws, y_ws, z_ws : [length]    roll, yaw, pitch : [angle]
+!       z_ws is ignored when N=1
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: ewheel         ! control digit E of the computation
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
+end subroutine cntc_setWheelsetPosition
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setWheelsetVelocity(ire, ewheel, nparam, params) &
+   bind(c,name=CNAME_(cntc_setwheelsetvelocity))
+!--function: set the wheelset velocity data for a wheel-rail contact problem
+!      1: no new wheelset velocity    params = [ ]
+!    2-5:    new wheelset velocity    params = [ vx, vy, vz, vroll, vyaw, vpitch ]
+!       vx, vy, vz : [veloc]     vroll, vyaw, vpitch : [ang.veloc]
+!       z_ws is ignored when N=1. vx is replaced by rpitch when C1=4,5.
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: ewheel         ! control digit E of the computation
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
+end subroutine cntc_setWheelsetVelocity
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
+   bind(c,name=CNAME_(cntc_setwheelsetflexibility))
+!--function: set the description of wheelset flexibilities for a wheel-rail contact problem
+!    1--3: no wheelset flexibility               params = []
+!     4,5: new wheelset flexibility parameters   params = [dxwhl, dywhl, dzwhl, drollw, dyaww, dpitchw,
+!                                                          vxwhl, vywhl, vzwhl, vrollw, vyaww, vpitchw],
+!
+!    dimensions:   dxwhl, dywhl, dzwhl [length],  drollw, dyaww, dpitchw [angle]
+!                  vxwhl, vywhl, vzwhl [veloc],   vrollw, vyaww, vpitchw [ang.veloc]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: ewheel         ! control digit E of the computation
+   integer,      intent(in) :: nparam         ! number of parameters provided
+   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
+end subroutine cntc_setWheelsetFlexibility
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine subs_addBlock(ire, icp, iblk, isubs, npx, npy, npz, xparam, yparam, zparam) &
+   bind(c,name=CNAME_(subs_addblock))
+!--function: set the parameters for a block of points for the subsurf. calculation for a contact problem
+!  isubs:
+!    1: xparam = [                 ]  yparam = [                 ]  zparam = [ NZ, ZL, DZ    ]
+!    2: xparam = [ IXL, IXINC, IXH ]  yparam = [ IYL, IYINC, IYH ]  zparam = [ NZ, ZL, DZ    ]
+!    3: xparam = [ IX(i), i=1:npx  ]  yparam = [ IY(j), j=1:npy  ]  zparam = [ NZ, ZL, DZ    ]
+!    5: xparam = [                 ]  yparam = [                 ]  zparam = [ Z(k), k=1:npz ]
+!    6: xparam = [ IXL, IXINC, IXH ]  yparam = [ IYL, IYINC, IYH ]  zparam = [ Z(k), k=1:npz ]
+!    7: xparam = [ IX(i), i=1:npx  ]  yparam = [ IY(j), j=1:npy  ]  zparam = [ Z(k), k=1:npz ]
+!    9: xparam = [ X(i),  i=1:npx  ]  yparam = [ Y(j),  j=1:npy  ]  zparam = [ Z(k), k=1:npz ]
+!       ix, iy [-],    x, y, z, zl, dz [length]
+!--subroutine arguments:
+   integer,      intent(in) :: ire            ! result element ID
+   integer,      intent(in) :: icp            ! contact problem ID
+   integer,      intent(in) :: iblk           ! subsurface stress block number
+   integer,      intent(in) :: isubs          ! type of block specification
+   integer,      intent(in) :: npx, npy, npz  ! number of parameters given per dimension (dependent on isubs)
+   real(kind=8), intent(in) :: xparam(npx)    ! dependent on type of specification [-/length]
+   real(kind=8), intent(in) :: yparam(npy)    ! dependent on type of specification [-/length]
+   real(kind=8), intent(in) :: zparam(npz)    ! dependent on type of specification [-/length]
+end subroutine subs_addBlock
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_calculate(ire, icp, ierror) &
+   bind(c,name=CNAME_(cntc_calculate))
+!--function: perform the actual calculation for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(out) :: ierror        ! error code of CONTACT calculation
+end subroutine cntc_calculate
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine subs_calculate(ire, icp, ierror) &
+   bind(c,name=CNAME_(subs_calculate))
+!--function: perform the actual calculation of subsurface stresses for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(out) :: ierror        ! error code of CONTACT calculation
+end subroutine subs_calculate
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
+   bind(c,name=CNAME_(cntc_getflags))
+!--function: used for getting various configuration flags from a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire            ! result element ID
+   integer,      intent(in)  :: icp            ! contact problem ID
+   integer,      intent(in)  :: lenflg         ! length of params/values arrays
+   integer,      intent(in)  :: params(lenflg) ! codes of the parameters to be obtained from CONTACT
+   integer,      intent(out) :: values(lenflg) ! values of the parameters obtained from CONTACT
+end subroutine cntc_getFlags
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getParameters(ire, icp, lenarr, values) &
+   bind(c,name=CNAME_(cntc_getparameters))
+!--function: internal routine for getting parameters needed in getcpresults
+!--subroutine arguments:
+   integer,      intent(in)  :: ire            ! result element ID
+   integer,      intent(in)  :: icp            ! contact problem ID
+   integer,      intent(in)  :: lenarr         ! length of values array
+   integer,      intent(out) :: values(lenarr) ! values of the parameters obtained from CONTACT
+end subroutine cntc_getParameters
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
+   bind(c,name=CNAME_(cntc_getprofilevalues))
+!--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
+!  itask          - select type of outputs:
+!                     0: npnt   number of points used in profile
+!                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
+!                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
+!                     3: gaug   get left-most point within gauge height, offset, point at gauge height
+!                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
+!                     4: arc    get arc-length parameter s along profile
+!                     5: angl   get surface inclination atan2(dz, dy) [angle]
+!  iparam         - integer configuration parameters
+!                     1: itype     0 = rail, 1 = wheel profile
+!                     2:  -      not used
+!  tasks 1,2,4: no unit conversion or scaling are applied for profile values
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: itask         ! integer code for requested values
+   integer,      intent(in)  :: nints         ! number of integer parameters provided
+   integer,      intent(in)  :: iparam(*)     ! array of integer parameters
+   integer,      intent(in)  :: lenarr        ! length of output array
+   real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
+end subroutine cntc_getProfileValues
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getWheelsetPosition(ire, lenarr, rvalues) &
+   bind(c,name=CNAME_(cntc_getwheelsetposition))
+!--function: get the wheelset position data for a wheel-rail contact problem
+!
+!  dimensions:   s_ws, y_ws, z_ws [length],       roll, yaw, pitch [angle]
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: lenarr        ! length of output array
+   real(kind=8), intent(out) :: rvalues(lenarr) ! wheelset position for current result element
+end subroutine cntc_getWheelsetPosition
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getWheelsetVelocity(ire, lenarr, rvalues) &
+   bind(c,name=CNAME_(cntc_getwheelsetvelocity))
+!--function: get the wheelset velocity data for a wheel-rail contact problem
+!
+!  dimensions:  vs_ws, vy_ws, vz_ws [veloc],     vroll, vyaw, vpitch [ang.veloc]
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: lenarr        ! length of output array
+   real(kind=8), intent(out) :: rvalues(lenarr) ! wheelset velocity for current result element
+end subroutine cntc_getWheelsetVelocity
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getNumContactPatches(ire, npatch) &
+   bind(c,name=CNAME_(cntc_getnumcontactpatches))
+!--function: return the number of contact patches used in a w/r contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(out) :: npatch        ! number of separate contact patches
+end subroutine cntc_getNumContactPatches
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
+   bind(c,name=CNAME_(cntc_getcontactlocation))
+!--function: return the contact reference location for a contact patch in a w/r contact problem
+!  The following values are returned, if permitted by the length of rvalues:
+!   1 - XCP_TR    - x-position of the contact reference point in track coordinates
+!   2 - YCP_TR    - y-position of the contact reference point in track coordinates
+!   3 - ZCP_TR    - z-position of the contact reference point in track coordinates
+!   4 - DELTCP_TR - contact reference angle: rotation about track x-axis from the track positive z-axis to the
+!                   contact positive n-axis, with sign according the right-hand rule
+!
+!   5 - XCP_R     - x-position of the contact reference point in rail profile coordinates
+!   6 - YCP_R     - y-position of the contact reference point in rail profile coordinates
+!   7 - ZCP_R     - z-position of the contact reference point in rail profile coordinates
+!   8 - SCP_R     - s-parameter of the contact reference point, measured along the rail profile
+!   9 - DELTCP_R  - rotation about rail x-axis from rail positive z-axis to contact positive n-axis
+!
+!  10 - XCP_W     - x-position of the contact reference point in wheel profile coordinates
+!  11 - YCP_W     - y-position of the contact reference point in wheel profile coordinates
+!  12 - ZCP_W     - z-position of the contact reference point in wheel profile coordinates
+!  13 - SCP_W     - s-parameter of the contact reference point, measured along the wheel profile
+!  14 - DELTCP_W  - rotation about wheel x-axis from wheel positive z-axis to contact positive n-axis
+!
+!  15 - XPN_TR    - x-position of the pressure center of gravity in track coordinates
+!  16 - YPN_TR    - y-position of the pressure center of gravity in track coordinates
+!
+!  21 - XW_TR     - x-position of wheel profile marker in track coordinates
+!  22 - YW_TR     - y-position of wheel profile marker in track coordinates
+!  23 - ZR_TR     - z-position of wheel profile marker in track coordinates
+!  24 - ROLLW_TR  - roll angle of wheel profile marker in track coordinates
+!  25 - YAWW_TR   - yaw angle of wheel profile marker in track coordinates
+!
+!  26 - YR_TR     - y-position of rail profile marker in track coordinates
+!  27 - ZR_TR     - z-position of rail profile marker in track coordinates
+!  28 - ROLLR_TR  - roll angle of rail profile marker in track coordinates
+!
+!  The "contact reference point" is the origin of the contact local coordinate system. It is determined by
+!  a heuristic rule and is centered within the contact patch in a weighted sense.
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: lenarr        ! length of output array
+   real(kind=8), intent(out) :: rvalues(lenarr) ! contact location for current contact patch
+end subroutine cntc_getContactLocation
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getReferenceVelocity(ire, icp, veloc) &
+   bind(c,name=CNAME_(cntc_getreferencevelocity))
+!--function: get the rolling velocity of a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   real(kind=8), intent(out) :: veloc         ! absolute rolling velocity [veloc]
+end subroutine cntc_getReferenceVelocity
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getHertzContact(ire, icp, lenarr, rvalues) &
+   bind(c,name=CNAME_(cntc_gethertzcontact))
+!--function: get the parameters from a Hertzian contact problem
+!
+! The following values are returned, if permitted by the length of rvalues:
+!   1 - A1       - curvature in rolling direction [1/length]
+!   2 - B1       - curvature in lateral direction [1/length]
+!   3 - AA       - semi-axis in rolling direction [length]
+!   4 - BB       - semi-axis in lateral direction [length]
+!   5 - RHO      - effective radius of curvature, 2 / (A1 + B1) [length]
+!   6 - CP       - effective semi-axis, sqrt(AA * BB) [length]
+!   7 - SCALE    - potential contact scale factor [-]
+!   8 - BNEG     - semi-axis of negative half-ellipse in lateral direction [length]
+!   9 - BPOS     - semi-axis of positive half-ellipse in lateral direction [length]
+!  10 - AOB      - ellipticity AA/BB [-]
+!--subroutine arguments:
+   integer,      intent(in)  :: ire             ! result element ID
+   integer,      intent(in)  :: icp             ! contact problem ID
+   integer,      intent(in)  :: lenarr          ! length of array provided
+   real(kind=8), intent(out) :: rvalues(lenarr) ! parameters of Hertzian solution
+end subroutine cntc_getHertzContact
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getNumElements(ire, icp, mx, my) &
+   bind(c,name=CNAME_(cntc_getnumelements))
+!--function: return the number of elements in the potential contact area used for a contact problem
+!            length of tractions arrays
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(out) :: mx, my        ! number of discretization elements in long/lat dirs
+end subroutine cntc_getNumElements
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getGridDiscretization(ire, icp, dx, dy) &
+   bind(c,name=CNAME_(cntc_getgriddiscretization))
+!--function: get the grid discretization step sizes dx,dy for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   real(kind=8), intent(out) :: dx, dy        ! grid discretization step sizes [length]
+end subroutine cntc_getGridDiscretization
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getPotContact(ire, icp, lenarr, rvalues) &
+   bind(c,name=CNAME_(cntc_getpotcontact))
+!--function: return the parameters of the potential contact area for a contact problem, according to ipotcn=3
+!    3: 1st center + grid sizes,    params = [ mx, my, xc1, yc1, dx, dy ]
+!--subroutine arguments:
+   integer,      intent(in)  :: ire             ! result element ID
+   integer,      intent(in)  :: icp             ! contact problem ID
+   integer,      intent(in)  :: lenarr          ! length of output array
+   real(kind=8), intent(out) :: rvalues(lenarr) ! num.elements [-], positions and step sizes [length]
+end subroutine cntc_getPotContact
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getPenetration(ire, icp, pen) &
+   bind(c,name=CNAME_(cntc_getpenetration))
+!--function: return the penetration for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   real(kind=8), intent(out) :: pen           ! penetration [length]
+end subroutine cntc_getPenetration
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getCreepages(ire, icp, vx, vy, phi) &
+   bind(c,name=CNAME_(cntc_getcreepages))
+!--function: return the kinematic constants (creepages) for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire            ! result element ID
+   integer,      intent(in)  :: icp            ! contact problem ID
+   real(kind=8), intent(out) :: vx, vy, phi    ! long/lat/spin creepages [-], [angle/length]
+end subroutine cntc_getCreepages
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getContactForces(ire, icp, fn, tx, ty, mz) &
+   bind(c,name=CNAME_(cntc_getcontactforces))
+!--function: return the total forces and torsional moment for a contact problem wrt contact reference
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   real(kind=8), intent(out) :: fn            ! total normal force [force]
+   real(kind=8), intent(out) :: tx, ty        ! total long/lat forces [force]
+   real(kind=8), intent(out) :: mz            ! total torsional moment [force.length]
+end subroutine cntc_getContactForces
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
+   bind(c,name=CNAME_(cntc_getglobalforces))
+!--function: return the overall forces for a w/r contact problem (module 1 only)
+!
+! rvalues(lenarr)   - contact forces [force] and moments [force.length]
+!
+! The following values are returned, if permitted by the length of rvalues:
+!   1 - FX_TR    - total force on the output body, component in track longitudinal x-direction
+!   2 - FY_TR    - total force on the output body, component in track lateral y-direction
+!   3 - FZ_TR    - total force on the output body, component in track vertical z-direction
+!   4 - MX_RR_TR - total moment on output body about rail profile marker, component in track x-direction
+!   5 - MY_RR_TR - total moment on output body about rail profile marker, component in track y-direction
+!   6 - MZ_RR_TR - total moment on output body about rail profile marker, component in track z-direction
+!
+!   7 - FX_WS    - total force on the output body, component in wheelset longitudinal x-direction
+!   8 - FY_WS    - total force on the output body, component in wheelset lateral y-direction
+!   9 - FZ_WS    - total force on the output body, component in wheelset vertical z-direction
+!  10 - MX_RW_WS - total moment on output body about wheel profile marker, component in wheelset x-direction
+!  11 - MY_RW_WS - total moment on output body about wheel profile marker, component in wheelset y-direction
+!  12 - MZ_RW_WS - total moment on output body about wheel profile marker, component in wheelset z-direction
+!                  Note that the 'output body' is the rail when using CONTACTs unit convention
+!
+!  13 - FX_RR    - total force on the output body, component in rail profile x-direction
+!  14 - FY_RR    - total force on the output body, component in rail profile y-direction
+!  15 - FZ_RR    - total force on the output body, component in rail profile z-direction
+!  16 - MX_RR_RR - total moment on output body about rail profile marker, component in rail x-direction
+!  17 - MY_RR_RR - total moment on output body about rail profile marker, component in rail y-direction
+!  18 - MZ_RR_RR - total moment on output body about rail profile marker, component in rail z-direction
+!
+!  19 - FX_RW    - total force on the output body, component in wheel profile x-direction
+!  20 - FY_RW    - total force on the output body, component in wheel profile y-direction
+!  21 - FZ_RW    - total force on the output body, component in wheel profile z-direction
+!  22 - MX_RW_RW - total moment on output body about wheel profile marker, component in wheel x-direction
+!  23 - MY_RW_RW - total moment on output body about wheel profile marker, component in wheel y-direction
+!  24 - MZ_RW_RW - total moment on output body about wheel profile marker, component in wheel z-direction
+!
+!  25 - X_AVG    - average contact position (minimum total moment), track longitudinal x-direction
+!  26 - Y_AVG    - average contact position (minimum total moment), track lateral y-direction
+!  27 - Z_AVG    - average contact position (minimum total moment), track vertical z-direction
+!  28 - MX_AV_TR - total moment on output body about average contact position, comp. in track x-direction
+!  29 - MY_AV_TR - total moment on output body about average contact position, comp. in track y-direction
+!  30 - MZ_AV_TR - total moment on output body about average contact position, comp. in track z-direction
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: lenarr        ! length of output array
+   real(kind=8), intent(out) :: rvalues(lenarr) ! forces [force] and moments [force.length]
+end subroutine cntc_getGlobalForces
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getContactPatchAreas(ire, icp, carea, harea, sarea) &
+   bind(c,name=CNAME_(cntc_getcontactpatchareas))
+!--function: return the area of contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   real(kind=8), intent(out) :: carea         ! area of contact patch [area]
+   real(kind=8), intent(out) :: harea         ! area of adhesion area [area]
+   real(kind=8), intent(out) :: sarea         ! area of slip area [area]
+!  the size of the plasticity area follows as carea - harea - sarea
+end subroutine cntc_getContactPatchAreas
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getElementDivision(ire, icp, lenarr, eldiv) &
+   bind(c,name=CNAME_(cntc_getelementdivision))
+!--function: return flags for all elements in the potential contact area for a contact problem
+!            indicating whether the element is in Exerior (0), Adhesion (1), Slip (2) or Plasticity (3).
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: lenarr        ! length of output array
+   integer,      intent(out) :: eldiv(lenarr) ! element division of contact area, 0=E, 1=H, 2=S, 3=P.
+end subroutine cntc_getElementDivision
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getMaximumPressure(ire, icp, pnmax) &
+   bind(c,name=CNAME_(cntc_getmaximumpressure))
+!--function: return the maximum normal pressure in contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   real(kind=8), intent(out) :: pnmax         ! maximum pressure in contact patch [force/area]
+end subroutine cntc_getMaximumPressure
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getMaximumTraction(ire, icp, ptmax) &
+   bind(c,name=CNAME_(cntc_getmaximumtraction))
+!--function: return the maximum tangential traction in contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   real(kind=8), intent(out) :: ptmax         ! maximum traction |pt| in contact patch [force/area]
+end subroutine cntc_getMaximumTraction
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getMaximumTemperature(ire, icp, t1max, t2max) &
+   bind(c,name=CNAME_(cntc_getmaximumtemperature))
+!--function: return the maximum temperatures in bodies 1 and 2 in a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   real(kind=8), intent(out) :: t1max, t2max  ! maximum surface temperatures in contact patch [C]
+end subroutine cntc_getMaximumTemperature
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
+   bind(c,name=CNAME_(cntc_getfielddata))
+!--function: return an array with values for all elements in the potential contact for a contact problem
+!          fields provided: CNTC_fld_h      =    1 ! for retrieving array h      [length]
+!                           CNTC_fld_mu     =    2 ! for retrieving array mu     [-]
+!                           CNTC_fld_px     =    3 ! for retrieving array px     [force/area]
+!                           CNTC_fld_py     =    4 ! for retrieving array py     [force/area]
+!                           CNTC_fld_pn     =    5 ! for retrieving array pn     [force/area]
+!                           CNTC_fld_ux     =    7 ! for retrieving array ux     [length]
+!                           CNTC_fld_uy     =    8 ! for retrieving array uy     [length]
+!                           CNTC_fld_un     =    9 ! for retrieving array un     [length]
+!                           CNTC_fld_taucrt =   11 ! for retrieving array taucrt [force/area]
+!                           CNTC_fld_uplsx  =   12 ! for retrieving array uplsx  [length]
+!                           CNTC_fld_uplsy  =   13 ! for retrieving array uplsy  [length]
+!                           CNTC_fld_sx     =   15 ! for retrieving array sx     [-]
+!                           CNTC_fld_sy     =   16 ! for retrieving array sy     [-]
+!                           CNTC_fld_temp1  =   20 ! for retrieving array temp1  [C]
+!                           CNTC_fld_temp2  =   21 ! for retrieving array temp2  [C]
+!                           CNTC_fld_wx     =   22 ! for retrieving array wx     [-]
+!                           CNTC_fld_wy     =   23 ! for retrieving array wy     [-]
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: ifld          ! integer code for requested field
+   integer,      intent(in)  :: lenarr        ! length of output arrays
+   real(kind=8), intent(out) :: fld(lenarr)   ! output values for all elements of contact area
+end subroutine cntc_getFieldData
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getTractions(ire, icp, lenarr, pn, px, py) &
+   bind(c,name=CNAME_(cntc_gettractions))
+!--function: return the tractions for all elements in the potential contact area for a contact problem
+!            note the order of the arguments, with pn (z-direction) occurring before px,py.
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: lenarr        ! length of output arrays
+   real(kind=8), intent(out) :: pn(lenarr), px(lenarr), py(lenarr)    ! surface tractions for all elements
+                                                                      ! of contact area [force/area]
+end subroutine cntc_getTractions
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getMicroSlip(ire, icp, lenarr, sx, sy) &
+   bind(c,name=CNAME_(cntc_getmicroslip))
+!--function: return the relative micro-slip velocity for all elements in the potential contact area for
+!            contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: lenarr        ! length of output arrays
+   real(kind=8), intent(out) :: sx(lenarr), sy(lenarr) ! relative micro-slip velocity [-]
+end subroutine cntc_getMicroSlip
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getDisplacements(ire, icp, lenarr, un, ux, uy) &
+   bind(c,name=CNAME_(cntc_getdisplacements))
+!--function: return the displ.differences for all elements in the potential contact area for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: lenarr        ! length of output arrays
+   real(kind=8), intent(out) :: un(lenarr), ux(lenarr), uy(lenarr) ! displacement difference [length]
+end subroutine cntc_getDisplacements
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getSensitivities(ire, icp, lenout, lenin, sens) &
+   bind(c,name=CNAME_(cntc_getsensitivities))
+!--function: return the sensitivities of the total forces for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire                ! result element ID
+   integer,      intent(in)  :: icp                ! contact problem ID
+   integer,      intent(in)  :: lenout, lenin      ! requested number of output/input variables
+   real(kind=8), intent(out) :: sens(lenout*lenin) ! matrix of sensitivities
+end subroutine cntc_getSensitivities
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getCalculationTime(ire, icp, tcpu, twall) &
+   bind(c,name=CNAME_(cntc_getcalculationtime))
+!--function: return accumulated cpu-time and wall-clock-time used since last timer reset for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   real(kind=8), intent(out) :: tcpu, twall   ! cpu- and wall-clock times used [time]
+end subroutine cntc_getCalculationTime
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_resetCalculationTime(ire, icp) &
+   bind(c,name=CNAME_(cntc_resetcalculationtime))
+!--function: reset the accumulated cpu-time and wall-clock-time used for a contact problem
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+end subroutine cntc_resetCalculationTime
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine subs_getBlocksize(ire, icp, iblk, nx, ny, nz) &
+   bind(c,name=CNAME_(subs_getblocksize))
+!--function: return the number of points in a block of subsurface points used for a contact problem
+!            length of results arrays
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: iblk          ! subsurface stress block number
+   integer,      intent(out) :: nx, ny, nz    ! number of positions in x/y/z directions
+end subroutine subs_getBlocksize
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
+   bind(c,name=CNAME_(subs_getresults))
+!--function: return selected results of block iblk of subsurface stress calculation for a contact problem
+!  icol(ncol)        - requested columns of result data
+!                       1-- 3: x,y,z        - positions of points for subsurface stress calculation
+!                       4-- 6: ux,uy,uz     - elastic displacements
+!                       7-- 9: sighyd,vm,tr - hydrostatic, von Mises and Tresca stresses
+!                      10--12: sigma1,2,3   - principal stresses
+!                      13--15: sigxx,yx,zx  - components of the full stress tensor
+!                      16--18: sigxy,yy,zy
+!                      19--21: sigxz,yz,zz
+!  values(lenarr,ncol) - result data, with min(lenarr,nx*ny*nz) entries filled per column
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(in)  :: iblk          ! subsurface block ID
+   integer,      intent(in)  :: lenarr, ncol  ! sizes of output arrays
+   integer,      intent(in)  :: icol(ncol)    ! selected output variables
+   real(kind=8), intent(out) :: values(lenarr,ncol)  ! output values for all points of block iblk
+end subroutine subs_getResults
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_finalize(ire) &
+   bind(c,name=CNAME_(cntc_finalize))
+!--function: cleanup for one ire, and in case of last one: call overall finalization
+!--subroutine arguments:
+   integer,      intent(in)    :: ire           ! result element ID
+end subroutine cntc_finalize
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_finalizeLast() &
+   bind(c,name=CNAME_(cntc_finalizelast))
+!--function: clean-up all remaining ire's, print timings, close files, cleanup
+!--subroutine arguments:
+end subroutine cntc_finalizeLast
+
+!------------------------------------------------------------------------------------------------------------
+
+end interface
+
+!------------------------------------------------------------------------------------------------------------
+
+#ifdef _WIN32
+!dec$ attributes dllimport :: cntc_setFileUnits
+!dec$ attributes dllimport :: cntc_initializeFirst
+!dec$ attributes dllimport :: cntc_initialize
+!dec$ attributes dllimport :: cntc_manageLicense
+!dec$ attributes dllimport :: cntc_setGlobalFlags
+!dec$ attributes dllimport :: cntc_getMaxNumThreads
+!dec$ attributes dllimport :: cntc_setFlags
+!dec$ attributes dllimport :: cntc_setMetadata
+!dec$ attributes dllimport :: cntc_setSolverFlags
+!dec$ attributes dllimport :: cntc_setMaterialProperties
+!dec$ attributes dllimport :: cntc_setMaterialParameters
+!dec$ attributes dllimport :: cntc_setTemperatureData
+!dec$ attributes dllimport :: cntc_setTimestep
+!dec$ attributes dllimport :: cntc_setReferenceVelocity
+!dec$ attributes dllimport :: cntc_setRollingStepsize
+!dec$ attributes dllimport :: cntc_setFrictionMethod
+!dec$ attributes dllimport :: cntc_setInterfacialLayer
+!dec$ attributes dllimport :: cntc_setHertzContact
+!dec$ attributes dllimport :: cntc_setPotContact
+!dec$ attributes dllimport :: cntc_setVerticalForce
+!dec$ attributes dllimport :: cntc_setPenetration
+!dec$ attributes dllimport :: cntc_setNormalForce
+!dec$ attributes dllimport :: cntc_setUndeformedDistc
+!dec$ attributes dllimport :: cntc_setCreepages
+!dec$ attributes dllimport :: cntc_setExtraRigidSlip
+!dec$ attributes dllimport :: cntc_setTangentialForces
+!dec$ attributes dllimport :: cntc_setProfileInputFname
+!dec$ attributes dllimport :: cntc_setProfileInputValues
+!dec$ attributes dllimport :: cntc_setRailProfileFname
+!dec$ attributes dllimport :: cntc_setWheelProfileFname
+!dec$ attributes dllimport :: cntc_setRailProfileValues
+!dec$ attributes dllimport :: cntc_setWheelProfileValues
+!dec$ attributes dllimport :: cntc_setTrackDimensions
+!dec$ attributes dllimport :: cntc_setWheelsetDimensions
+!dec$ attributes dllimport :: cntc_setWheelsetPosition
+!dec$ attributes dllimport :: cntc_setWheelsetVelocity
+!dec$ attributes dllimport :: cntc_setWheelsetFlexibility
+!dec$ attributes dllimport :: subs_addBlock
+!dec$ attributes dllimport :: cntc_calculate
+!dec$ attributes dllimport :: subs_calculate
+!dec$ attributes dllimport :: cntc_getWheelsetPosition
+!dec$ attributes dllimport :: cntc_getWheelsetVelocity
+!dec$ attributes dllimport :: cntc_getNumContactPatches
+!dec$ attributes dllimport :: cntc_getContactLocation
+!dec$ attributes dllimport :: cntc_getReferenceVelocity
+!dec$ attributes dllimport :: cntc_getNumElements
+!dec$ attributes dllimport :: cntc_getGridDiscretization
+!dec$ attributes dllimport :: cntc_getPotContact
+!dec$ attributes dllimport :: cntc_getPenetration
+!dec$ attributes dllimport :: cntc_getCreepages
+!dec$ attributes dllimport :: cntc_getContactForces
+!dec$ attributes dllimport :: cntc_getGlobalForces
+!dec$ attributes dllimport :: cntc_getContactPatchAreas
+!dec$ attributes dllimport :: cntc_getElementDivision
+!dec$ attributes dllimport :: cntc_getMaximumPressure
+!dec$ attributes dllimport :: cntc_getMaximumTraction
+!dec$ attributes dllimport :: cntc_getMaximumTemperature
+!dec$ attributes dllimport :: cntc_getFieldData
+!dec$ attributes dllimport :: cntc_getTractions
+!dec$ attributes dllimport :: cntc_getMicroSlip
+!dec$ attributes dllimport :: cntc_getDisplacements
+!dec$ attributes dllimport :: cntc_getSensitivities
+!dec$ attributes dllimport :: cntc_getCalculationTime
+!dec$ attributes dllimport :: cntc_resetCalculationTime
+!dec$ attributes dllimport :: subs_getBlocksize
+!dec$ attributes dllimport :: subs_getResults
+!dec$ attributes dllimport :: cntc_finalize
+!dec$ attributes dllimport :: cntc_finalizeLast
+#endif
+
+!============================================================================================================

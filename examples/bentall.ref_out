@@ -1,0 +1,561 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   ------------------------------------------------------------------------
+
+ Case     1
+ Input: WARNING. With dissimilar materials (Ak= 0.1002), MAXOUT should
+        be > 1, i.e. the Panag/outer iteration process should be used.
+
+ Case     2
+ Input: WARNING. With dissimilar materials (Ak= 0.1002), MAXOUT should
+        be > 1, i.e. the Panag/outer iteration process should be used.
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     3
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :       0    200
+         0, NR_Fx,    Cksi, Fxk:    5.200E-04   6.018E-02   ItGS:    2
+         Warning: full sliding, A, S=      0    200
+         1, NR_Fx,    Cksi, Fxk:    5.500E-04     -0.2701   ItGS:    7
+         2, NR_Fx,    Cksi, Fxk:    5.255E-04   1.397E-02   ItGS:    3
+         Warning: full sliding, A, S=      0    200
+         3, NR_Fx,    Cksi, Fxk:    5.267E-04  -9.314E-03   ItGS:    2
+         Warning: full sliding, A, S=      0    200
+         4, NR_Fx,    Cksi, Fxk:    5.259E-04   4.813E-03   ItGS:    6
+         5, NR_Fx,    Cksi, Fxk:    5.262E-04  -4.577E-03   ItGS:    6
+         6, NR_Fx,    Cksi, Fxk:    5.260E-04  -3.147E-04   ItGS:    6
+         7, NR_Fx,    Cksi, Fxk:    5.260E-04   1.944E-09   ItGS:    5
+      Tang: final element division: A, S=      1    199  ItGS=    37
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 1, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ X-FORCE,  Y-CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.3034      0.3592E+05  0.1002      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.3100      0.2800      0.2300E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.1000E-03  0.1000E-03
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
+     3.142      0.1000E-02       1000.       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     1.620E+04       0.000       0.000       0.000   1.645E-02  -1.156E-04
+     FN/G       CREEP X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4510   5.260E-04       0.000   2.081E-03       103.1
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00   -3.03E+04        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+     216    200      1    199      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSo
+                                                                                                    1                                                                                                   2
+          1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0
+        8901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+     X  -->        Chi=180.00 degrees
+
+ Case     3
+ NORM
+       1, Norm: size of Contact, Exterior :    216      0
+      Norm: final element division: C, E=    200     16  ItCG=    13
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     200      0
+         0, NR_Fx,    Cksi, Fxk:    1.000E-06   1.804E-02   ItGS:   66
+         1, NR_Fx,    Cksi, Fxk:    3.100E-05   1.655E-02   ItGS:   44
+         2, NR_Fx,    Cksi, Fxk:    3.651E-04  -1.148E-04   ItGS:   69
+         3, NR_Fx,    Cksi, Fxk:    3.628E-04   3.600E-07   ItGS:   39
+      Tang: final element division: A, S=    200      0  ItGS=   218
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       48.69   2.435E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     5
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     200      0
+         0, NR_Fx,    Cksi, Fxk:    3.628E-04  -1.751E-04   ItGS:   60
+         1, NR_Fx,    Cksi, Fxk:    3.593E-04   2.510E-13   ItGS:   41
+      Tang: final element division: A, S=    200      0  ItGS=   101
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.5516   2.442E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     5
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     200      0
+         0, NR_Fx,    Cksi, Fxk:    3.593E-04  -7.310E-06   ItGS:   40
+         1, NR_Fx,    Cksi, Fxk:    3.591E-04  -7.728E-12   ItGS:   21
+      Tang: final element division: A, S=    200      0  ItGS=    61
+
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.249E-02   2.442E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     3
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     200      0
+         0, NR_Fx,    Cksi, Fxk:    3.591E-04  -3.062E-07   ItGS:   17
+      Tang: final element division: A, S=    200      0  ItGS=    17
+
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.597E-04   2.442E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     2
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     200      0
+         0, NR_Fx,    Cksi, Fxk:    3.591E-04  -3.304E-07   ItGS:    5
+      Tang: final element division: A, S=    200      0  ItGS=     5
+
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.513E-05   2.442E-04
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ X-FORCE,  Y-CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.3034      0.3592E+05  0.1002      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.3100      0.2800      0.2300E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+     10.00       10.00    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
+     3.142      0.1000E-02       1000.       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     1.620E+04       0.000       0.000       0.000   1.644E-02       0.000
+     FN/G       CREEP X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4510   3.591E-04       0.000   2.080E-03       103.8
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -50.0        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+     216    200    200      0      5      5
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  o********************************************************************************************************************************************************************************************************o
+                                                                                                    1                                                                                                   2
+          1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0
+        8901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+     X  -->        Chi=180.00 degrees
+
+ Case     4
+ NORM
+       1, Norm: size of Contact, Exterior :    216      0
+      Norm: final element division: C, E=    200     16  ItCG=    13
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     200      0
+         0, NR_Fx,    Cksi, Fxk:    1.000E-06      0.9687   ItGS:   14
+         1, NR_Fx,    Cksi, Fxk:    3.100E-05      0.9532   ItGS:   15
+         2, NR_Fx,    Cksi, Fxk:    1.874E-03      -1.000   ItGS:    2
+         Warning: full sliding, A, S=      0    200
+         3, NR_Fx,    Cksi, Fxk:   -5.953E-05      0.9889   ItGS:    9
+         4, NR_Fx,    Cksi, Fxk:    9.018E-04      -1.000   ItGS:    2
+         Warning: full sliding, A, S=      0    200
+         5, NR_Fx,    Cksi, Fxk:   -7.029E-05      0.9911   ItGS:    9
+         6, NR_Fx,    Cksi, Fxk:    4.136E-04   8.602E-02   ItGS:   48
+         7, NR_Fx,    Cksi, Fxk:    4.596E-04     -0.2337   ItGS:   49
+         8, NR_Fx,    Cksi, Fxk:    4.259E-04   1.346E-02   ItGS:   43
+         9, NR_Fx,    Cksi, Fxk:    4.278E-04   1.958E-03   ItGS:   30
+        10, NR_Fx,    Cksi, Fxk:    4.281E-04  -1.777E-05   ItGS:   22
+        11, NR_Fx,    Cksi, Fxk:    4.281E-04   6.953E-08   ItGS:    6
+      Tang: final element division: A, S=    127     73  ItGS=   249
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       48.65   2.432E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     6
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     127     73
+         0, NR_Fx,    Cksi, Fxk:    4.281E-04   8.166E-03   ItGS:   35
+         1, NR_Fx,    Cksi, Fxk:    4.294E-04   1.920E-04   ItGS:   29
+         2, NR_Fx,    Cksi, Fxk:    4.294E-04  -1.543E-06   ItGS:   12
+         3, NR_Fx,    Cksi, Fxk:    4.294E-04   2.121E-07   ItGS:    1
+      Tang: final element division: A, S=    125     75  ItGS=    77
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.2836   2.436E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     4
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     125     75
+         0, NR_Fx,    Cksi, Fxk:    4.294E-04  -3.542E-05   ItGS:   19
+         1, NR_Fx,    Cksi, Fxk:    4.294E-04   9.938E-09   ItGS:    7
+      Tang: final element division: A, S=    125     75  ItGS=    26
+
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.349E-03   2.436E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     2
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     125     75
+         0, NR_Fx,    Cksi, Fxk:    4.294E-04   2.175E-08   ItGS:    4
+      Tang: final element division: A, S=    125     75  ItGS=     4
+
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.277E-04   2.436E-04
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ X-FORCE,  Y-CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.3034      0.3592E+05  0.1002      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.3100      0.2800      0.2300E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.5000E-01  0.5000E-01
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
+     3.142      0.1000E-02       1000.       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     1.620E+04       0.000       0.000       0.000   1.644E-02  -9.475E-03
+     FN/G       CREEP X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4510   4.294E-04       0.000   2.080E-03       103.6
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00   -6.27E+03        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+     216    200    125     75      4      4
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*********************************************************************************************************************SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS********SSSSSSSSo
+                                                                                                    1                                                                                                   2
+          1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0
+        8901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+     X  -->        Chi=180.00 degrees
+
+ Case     5
+ NORM
+       1, Norm: size of Contact, Exterior :    216      0
+      Norm: final element division: C, E=    200     16  ItCG=    13
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     200      0
+         0, NR_Fx,    Cksi, Fxk:    1.000E-06      0.9687   ItGS:   14
+         1, NR_Fx,    Cksi, Fxk:    3.100E-05      0.9532   ItGS:   15
+         2, NR_Fx,    Cksi, Fxk:    4.238E-04   2.655E-02   ItGS:   51
+         3, NR_Fx,    Cksi, Fxk:    1.171E-04      0.8823   ItGS:   18
+         4, NR_Fx,    Cksi, Fxk:    1.646E-04      0.8227   ItGS:   21
+         5, NR_Fx,    Cksi, Fxk:    2.223E-04      0.7256   ItGS:   25
+         6, NR_Fx,    Cksi, Fxk:    2.078E-04      0.7528   ItGS:   20
+         7, NR_Fx,    Cksi, Fxk:    2.093E-04      0.7501   ItGS:   16
+         8, NR_Fx,    Cksi, Fxk:    2.094E-04      0.7500   ItGS:    8
+         9, NR_Fx,    Cksi, Fxk:    2.094E-04      0.7500   ItGS:    3
+      Tang: final element division: A, S=     37    163  ItGS=   191
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       48.68   2.434E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=    10
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      37    163
+         0, NR_Fx,    Cksi, Fxk:    2.094E-04      0.7525   ItGS:   17
+         1, NR_Fx,    Cksi, Fxk:    2.107E-04      0.7501   ItGS:   15
+         2, NR_Fx,    Cksi, Fxk:    2.108E-04      0.7500   ItGS:    8
+      Tang: final element division: A, S=     36    164  ItGS=    40
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.4788   2.436E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     5
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      36    164
+         0, NR_Fx,    Cksi, Fxk:    2.108E-04      0.7501   ItGS:    8
+         1, NR_Fx,    Cksi, Fxk:    2.108E-04      0.7500   ItGS:    8
+      Tang: final element division: A, S=     36    164  ItGS=    16
+
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.308E-03   2.436E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    200     16  ItCG=     2
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      36    164
+         0, NR_Fx,    Cksi, Fxk:    2.108E-04      0.7500   ItGS:    3
+      Tang: final element division: A, S=     36    164  ItGS=     3
+
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.680E-05   2.436E-04
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ X-FORCE,  Y-CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.3034      0.3592E+05  0.1002      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.3100      0.2800      0.2300E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.5000E-01  0.5000E-01
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
+     3.142      0.1000E-02       1000.      0.7500       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     1.620E+04       607.6       0.000       0.000   1.647E-02     -0.1955
+     FN/G       CREEP X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4510   2.108E-04       0.000   2.080E-03       103.2
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00   -1.81E+03        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+     216    200     36    164      4      4
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSS************************************SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSo
+                                                                                                    1                                                                                                   2
+          1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0
+        8901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+     X  -->        Chi=180.00 degrees
+
+ Case     6
+ NORM
+       1, Norm: size of Contact, Exterior :    216      0
+      Norm: final element division: C, E=    200     16  ItCG=    13
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     200      0
+         0, NR_Fx,    Cksi, Fxk:    1.000E-06      0.9687   ItGS:   14
+         1, NR_Fx,    Cksi, Fxk:    3.100E-05      0.9532   ItGS:   15
+         2, NR_Fx,    Cksi, Fxk:    3.324E-03      -1.000   ItGS:    2
+         Warning: full sliding, A, S=      0    200
+         3, NR_Fx,    Cksi, Fxk:    2.841E-03      -1.000   ItGS:    1
+         Warning: full sliding, A, S=      0    200
+         4, NR_Fx,    Cksi, Fxk:    2.357E-03      -1.000   ItGS:    1
+         Warning: full sliding, A, S=      0    200
+         5, NR_Fx,    Cksi, Fxk:    1.874E-03      -1.000   ItGS:    1
+         Warning: full sliding, A, S=      0    200
+         6, NR_Fx,    Cksi, Fxk:    1.391E-03      -1.000   ItGS:    1
+         Warning: full sliding, A, S=      0    200
+         7, NR_Fx,    Cksi, Fxk:    9.072E-04      -1.000   ItGS:    1
+         Warning: full sliding, A, S=      0    200
+         8, NR_Fx,    Cksi, Fxk:    4.238E-04   2.655E-02   ItGS:   46
+         9, NR_Fx,    Cksi, Fxk:    7.895E-04      -1.000   ItGS:    2
+         Warning: full sliding, A, S=      0    200
+        10, NR_Fx,    Cksi, Fxk:    6.717E-04      -1.000   ItGS:    1
+         Warning: full sliding, A, S=      0    200
+        11, NR_Fx,    Cksi, Fxk:    5.540E-04     -0.8266   ItGS:   38
+        12, NR_Fx,    Cksi, Fxk:    5.020E-04     -0.5319   ItGS:   48
+        13, NR_Fx,    Cksi, Fxk:    5.405E-04     -0.7591   ItGS:   39
+        14, NR_Fx,    Cksi, Fxk:    5.390E-04     -0.7510   ItGS:   27
+        15, NR_Fx,    Cksi, Fxk:    5.388E-04     -0.7500   ItGS:   18
+        16, NR_Fx,    Cksi, Fxk:    5.388E-04     -0.7500   ItGS:    4
+      Tang: final element division: A, S=    106     94  ItGS=   259
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       48.66   2.433E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    200     16
+      Norm: final element division: C, E=    201     15  ItCG=     7
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     107     94
+         0, NR_Fx,    Cksi, Fxk:    5.388E-04     -0.7478   ItGS:   31
+         1, NR_Fx,    Cksi, Fxk:    5.392E-04     -0.7500   ItGS:   22
+         2, NR_Fx,    Cksi, Fxk:    5.392E-04     -0.7500   ItGS:    4
+      Tang: final element division: A, S=    106     95  ItGS=    57
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.4536   2.427E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    201     15
+      Norm: final element division: C, E=    201     15  ItCG=     4
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     106     95
+         0, NR_Fx,    Cksi, Fxk:    5.392E-04     -0.7501   ItGS:   16
+         1, NR_Fx,    Cksi, Fxk:    5.392E-04     -0.7500   ItGS:    9
+      Tang: final element division: A, S=    106     95  ItGS=    25
+
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.749E-03   2.427E-04
+
+ NORM
+       1, Norm: size of Contact, Exterior :    201     15
+      Norm: final element division: C, E=    201     15  ItCG=     1
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :     106     95
+         0, NR_Fx,    Cksi, Fxk:    5.392E-04     -0.7500   ItGS:    2
+      Tang: final element division: A, S=    106     95  ItGS=     2
+
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.483E-05   2.427E-04
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ X-FORCE,  Y-CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.3034      0.3592E+05  0.1002      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.3100      0.2800      0.2300E+05  0.8200E+05
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.5000E-01  0.5000E-01
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
+     3.142      0.1000E-02       1000.     -0.7500       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     1.620E+04      -607.6       0.000       0.000   1.647E-02  -4.418E-02
+     FN/G       CREEP X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4510   5.392E-04       0.000   2.081E-03       103.3
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00   -5.31E+03        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+     216    201    106     95      4      4
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS**********************************************************************************************************SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSo
+                                                                                                    1                                                                                                   2
+          1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0         1
+        89012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+     X  -->        Chi=180.00 degrees
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       0.6 | 100.0 |        0.6 | 100.0 |
+|Non-Hertzian cases   |       6 |       0.6 | 100.0 |        0.6 | 100.0 |
+|Panag.process        |       6 |       0.6 |  97.4 |        0.6 |  98.0 |
+|Algorithm Norm       |      19 |       0.0 |   0.0 |        0.0 |   1.9 |
+|Algorithm Tang       |      19 |       0.6 |  97.4 |        0.6 |  96.0 |
+|Output quantities    |       6 |       0.0 |   0.0 |        0.0 |   0.3 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |      19 |       0.0 |   0.0 |        0.0 |   1.0 |
+|Tang: StedyGS solver |      77 |       0.5 |  89.5 |        0.5 |  92.4 |
+|------------------------------------------------------------------------|
+|Reading input-file   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |       5 |       0.0 |   2.6 |        0.0 |   1.7 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.

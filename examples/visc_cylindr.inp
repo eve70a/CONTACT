@@ -1,0 +1,131 @@
+%
+% Example input file for CONTACT. See User guide, Section 5.4.
+% Steady rolling of two Viscoelastic cylinders.
+%
+% [Wang1993] G. Wang and K. Knothe, "Stress analysis for rolling contact
+% between two viscoelastic cylinders", Trans. ASME, vol.60, pp.310-317, 1993.
+%
+% Half width of contact area (softest case): a=6.38, 99 elements
+% Material: polymer PA6
+% Material constants G=1143, nu=0.4, f=1, varying tau_C
+% Radii of cylinders: R=100 mm, 100mm: combined radius R=50mm, curvature 0.01
+% Normal force: 600 N/mm
+% Four viscoelastic cases with varying tau_C and
+% two elastic cases with varying G
+
+
+% Case 1: viscoelastic, tau_C = 0 [s]. 
+%         Immediate reaction of the material == softest material behaviour
+
+ 3  MODULE
+  203120     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022120     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+ 600000.   -0.600    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.160    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0        0.0      0.0            FG 1,2, TC 1,2
+    3                                          IPOTCN
+  99   1   -7.920   0.000    0.160    1000.0   MX,MY,XC1,YC1,DX,DY
+    1    1                                     IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+  0.010    0.000     0.000    0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+% Case 2: viscoelastic, tau_C = 0.009 [s].
+
+ 3  MODULE
+  203120     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022120     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+ 600000.   -0.600    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.160    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+    3                                          IPOTCN
+  99   1   -7.920   0.000    0.160    1000.0   MX,MY,XC1,YC1,DX,DY
+    1    1                                     IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+  0.010    0.000     0.000    0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+% Case 3: viscoelastic, tau_C = 0.045 [s].
+
+ 3  MODULE
+  203120     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022120     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+ 600000.   -0.600    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.160    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.045    0.045            FG 1,2, TC 1,2
+    3                                          IPOTCN
+  99   1   -7.920   0.000    0.160    1000.0   MX,MY,XC1,YC1,DX,DY
+    1    1                                     IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+  0.010    0.000     0.000    0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+% Case 4: viscoelastic, tau_C = 2.0 [s].
+%         very slow reaction of the material == strongest material.
+
+ 3  MODULE
+  203120     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022120     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+ 600000.   -0.600    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.160    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      2.000    2.000            FG 1,2, TC 1,2
+    3                                          IPOTCN
+  99   1   -7.920   0.000    0.160    1000.0   MX,MY,XC1,YC1,DX,DY
+    1    1                                     IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+  0.010    0.000     0.000    0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+% Case 5: elastic, Gg = 571.5 [N/mm2], softest material behaviour
+
+ 3  MODULE
+  203120     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022020     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+ 600000.   -0.600    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.160    1000.                     CHI, DQ, VELOC
+   0.400    0.400    571.5    571.5            POISS 1,2,  GG 1,2
+    3                                          IPOTCN
+  99   1   -7.920   0.000    0.160    1000.0   MX,MY,XC1,YC1,DX,DY
+    1    1                                     IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+  0.010    0.000     0.000    0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+% Case 6: elastic, Gg = 1143. [N/mm2], strongest material behaviour
+
+  3  MODULE
+  203120     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022020     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+ 600000.   -0.600    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.160    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+    3                                          IPOTCN
+  99   1   -7.920   0.000    0.160    1000.0   MX,MY,XC1,YC1,DX,DY
+    1    1                                     IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+  0.010    0.000     0.000    0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+  0  MODULE

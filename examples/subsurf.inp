@@ -1,0 +1,62 @@
+%
+% Example input file for CONTACT. See User guide, Section 5.6.
+% Calculation of subsurface stresses, cf. [Kalker1990], Figure 5.20.
+%
+% Subsurface stresses in the half-space (z>=0).
+% Case 1: Unit load pn=1 in unit square [-0.5,0.5] x [-0.5,0.5].
+% Case 2: Unit load pn=1 and unit load px=1 in unit square.
+%
+% The subsurface stresses are stored in output-files subsurf1.0001.subs
+% and subsurf1.0002.subs, an overview is printed to output-file subsurf1.out.
+%
+ 3  MODULE
+% Next Case  - frictionless compression, Fn=1, Fx=Fy=0.
+  200103     P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020     L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0001541   H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+      80         100      30       1  1e-6       MAX_GS,_IN,_NR,_OUT, EPS
+   1.000       0.000       0.000      0.000      FN, CKSI, CETA, CPHI
+   1.000       1.000                             FSTAT, FKIN
+   0.280       0.280       1.000      1.000      POISS 1,2, GG 1,2
+    1                                            IPOTCN
+% slight offset in XL,YL for symmetry breaking, reduce effects of round-off
+    1    1   -0.4999  -0.4998   1.000    1.000   MX,MY,XL,YL,DX,DY
+    1    1                                       IBASE, IPLAN
+  2.160   0.    2.1600    0.     0.     0.       B(I), I=1, 6
+% subsurface points:
+   2   1        MATFIL, OUTPUT
+% first block of subsurface points:
+   9            ISUBS
+   1   1   15   NX, NY, NZ
+% points x:         % slight asymmetry to reduce effects of round-off errors
+   1e-5
+% points y:
+   1e-5
+% points z:
+   0.0   0.1   0.2   0.3   0.4   0.5   0.6   0.7   0.8   0.9
+   1.0   1.25  1.667 2.5   5.0
+
+% second block of subsurface points:
+   9            ISUBS
+  21   21   15   % NX, NY, NZ
+% points x:
+  -5.0  -3.0  -2.0  -1.0  -0.8  -0.6  -0.4  -0.3  -0.2  -0.1   0.0
+   0.1   0.2   0.3   0.4   0.6   0.8   1.0   2.0   3.0   5.0  
+% points y:
+  -5.0  -3.0  -2.0  -1.0  -0.8  -0.6  -0.4  -0.3  -0.2  -0.1   0.0
+   0.1   0.2   0.3   0.4   0.6   0.8   1.0   2.0   3.0   5.0  
+% points z:
+   0.0   0.1   0.2   0.3   0.4   0.5   0.6   0.7   0.8   0.9
+   1.0   1.25  1.667 2.5   5.0
+   0            ISUBS
+
+ 3  MODULE
+% Next Case - cf. previous case, now Fx=0.999, re-use subsurface points
+  203111     P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  102000     L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0101541   H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   1.000       0.999       0.000      0.000      FN, FX, CETA, CPHI
+   0.000       1.000       30000.                CHI, DQ, VELOC
+   0.280       0.280       1.000      1.000      POISS 1,2, GG 1,2
+
+ 0  MODULE

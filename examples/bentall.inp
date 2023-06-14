@@ -1,0 +1,99 @@
+%
+% Example input file for CONTACT. See User guide, Section 5.3.
+% 2D Bentall/Johnson problem.
+%
+% Aluminium roller (23000, 0.31) on steel roller (82000, 0.28).
+% Half width of contact area: a_h=1.0, 200 elements
+% Radii of cylinders: R1=R2=50, effective R=25mm.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Cases 1 - 2: Bentall-solution with complete slip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+% Aluminium-on-steel, with "minimal friction", "free rolling" Fx=0.
+
+% Note: a trick is needed to make this work, because the Newton-Raphson
+%       procedure fails when the initial estimate for CKSI is too far off.
+%
+%   --> solve one case with creepage CKSI=0.00052 prescribed (F=0), to
+%       get close to the intended Fx=0.
+
+ 3 MODULE
+  203100     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022020     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0000011   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   500   100    30      1     1e-6      MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   16201.9  0.00052   0.000   0.000            FN, CKSI, CETA, CPHI
+   0.0001   0.0001                             FSTAT, FKIN
+   180.0d   0.001     1000.                    CHI, DQ, VELOC
+   0.310    0.280    23000.   82000.           POISS 1,2,  GG 1,2
+   1                                           IPOTCN
+ 216   1   -0.108    -500.    0.001    1000.   MX,MY,XL,YL,DX,DY
+   1   1                                       IBASE, IPLAN
+   0.020   0.0   0.0   0.0   0.0   0.0         B1,B2,B3,B4,B5,B6
+
+%   --> solve the same case with force Fx=0 prescribed (F=1), using the
+%       results of the previous case as initial estimate (I=1).
+
+ 3 MODULE
+  203110     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  000000     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0011341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   500   100    30      1     1e-6      MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   16201.9  0.000    0.000    0.000            FN, FX, CETA, CPHI
+   0.0001   0.0001                             FSTAT, FKIN
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Case 3: Bufler no-slip solution with infinite friction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+% Aluminium-on-steel, with "infinite friction", "free rolling" Fx=0.
+
+ 3 MODULE
+  203110     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  000000     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     10     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   16201.9  0.000    0.000    0.000            FN, FX, CETA, CPHI
+   10.00    10.00                              FSTAT, FKIN
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Case 4: numerical solution with typical friction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+% Aluminium-on-steel, with modest friction, "free rolling" Fx=0, mu=0.05
+
+ 3 MODULE
+  203110     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  000000     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     10     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   16201.9  0.000    0.000    0.000            FN, FX, CETA, CPHI
+   0.050    0.050                              FSTAT, FKIN
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Cases 5 - 6: comparing to Bentall-Johnson, Fig.9
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+% Aluminium-on-steel, with modest friction, mu=0.05, tractive rolling Fx=+0.75
+
+ 3 MODULE
+  203110     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  000000     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     10     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   16201.9  0.750    0.000    0.000            FN, FX, CETA, CPHI
+   0.050    0.050                              FSTAT, FKIN
+
+% Aluminium-on-steel, with modest friction, mu=0.05, tractive rolling Fx=-0.75
+
+ 3 MODULE
+  203110     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  000000     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     10     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   16201.9 -0.750    0.000    0.000            FN, FX, CETA, CPHI
+   0.050    0.050                              FSTAT, FKIN
+
+ 0  MODULE
+

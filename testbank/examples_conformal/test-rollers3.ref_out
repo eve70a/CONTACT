@@ -1,0 +1,1570 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   ------------------------------------------------------------------------
+
+ Case     1
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 3, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "../profiles/flat_plane.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "../profiles/circ_r100.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1600       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         100.0       0.000       0.000       0.000       0.000  -1.0000000
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       1091.  -2.218E-06   9.722E+04       1091.  -2.218E-06   9.722E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0000    200.0000      0.0000   6.096E-07  -1.239E-15   5.432E-05
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    200.0000      0.0000      0.0000     -0.0000      0.0000
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000     -0.0000     -0.1600
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           100.0       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.722E+04       1091.       0.000       0.000       6.227  -2.954E-02
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.186   3.741E-02       0.000      0.1600       2906.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1273   1221     52      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ...................SSSSS...................
+    50  ...............SSS**********...............
+    49  .............SS***************.............
+    48  ...........SS*******************...........
+    47  .........SSS**********************.........
+    46  ........SS*************************........
+    45  .......SS***************************.......
+    44  ......SS*****************************......
+    43  .....SS*******************************.....
+    42  .....S********************************.....
+    41  ....S**********************************....
+    40  ....***********************************....
+    39  ...*************************************...
+    38  ...*************************************...
+    37  ..***************************************..
+    36  ..***************************************..
+    35  ..***************************************..
+    34  ..***************************************..
+    33  .S****************************************.
+    32  .*****************************************.
+    31  .*****************************************.
+    30  .*****************************************.
+    29  .S****************************************.
+    28  ..***************************************..
+    27  ..***************************************..
+    26  ..***************************************..
+    25  ..***************************************..
+    24  ...*************************************...
+    23  ...*************************************...
+    22  ....***********************************....
+    21  ....S**********************************....
+    20  .....S********************************.....
+    19  .....SS*******************************.....
+    18  ......SS*****************************......
+    17  .......SS***************************.......
+    16  ........SS*************************........
+    15  .........SSS**********************.........
+    14  ...........SS*******************...........
+    13  .............SS***************.............
+    12  ...............SSS**********...............
+    11  ...................SSSSS...................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+ Case     2
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 4
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL PROFILE "../profiles/circ_r100.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1600       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         100.0       0.000       0.000       0.000       0.000  -1.0000000
+
+ FLEXIBLE WHEEL-SET DEVIATIONS
+     DXWHL       DYWHL       DZWHL       DROLLW      DYAWW       DPITCHW
+         0.000       0.000       0.000       0.000     -0.3000       0.000
+     VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
+         0.000       0.000       0.000       0.000       0.000       0.000
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       1094.  -2.738E-02   9.716E+04       1094.  -2.738E-02   9.716E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.0000    200.0000      0.0000   2.395E-03  -5.991E-08      0.2126
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    200.0000      0.0000      0.0000     -0.0000      0.0000
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000     -0.0000     -0.1600
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           100.0       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.716E+04       1094.  -2.738E-02      0.2126       6.220  -2.967E-02
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.185   3.754E-02  -9.392E-07      0.1600       2917.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1273   1219     54      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ...................SSSSS...................
+    50  ...............SSS**********...............
+    49  .............SS***************.............
+    48  ...........SS*******************...........
+    47  .........SSS**********************.........
+    46  ........SS*************************........
+    45  .......SS***************************.......
+    44  ......SS*****************************......
+    43  .....SS*******************************.....
+    42  .....S********************************.....
+    41  ....S**********************************....
+    40  ....***********************************....
+    39  ...*************************************...
+    38  ...*************************************...
+    37  ..S**************************************..
+    36  ..***************************************..
+    35  ..***************************************..
+    34  ..***************************************..
+    33  .S****************************************.
+    32  .*****************************************.
+    31  .*****************************************.
+    30  .*****************************************.
+    29  .S****************************************.
+    28  ..***************************************..
+    27  ..***************************************..
+    26  ..***************************************..
+    25  ..S**************************************..
+    24  ...*************************************...
+    23  ...*************************************...
+    22  ....***********************************....
+    21  ....S**********************************....
+    20  .....S********************************.....
+    19  .....SS*******************************.....
+    18  ......SS*****************************......
+    17  .......SS***************************.......
+    16  ........SS*************************........
+    15  .........SSS**********************.........
+    14  ...........SS*******************...........
+    13  .............SS***************.............
+    12  ...............SSS**********...............
+    11  ...................SSSSS...................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+ Case     3
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 4
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL PROFILE "../profiles/circ_r100.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1600       0.000     -0.3000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         95.53      -29.55       0.000       0.000       0.000  -1.0000000
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       991.1      -745.2   9.716E+04       1167.      -419.0   9.716E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     59.1041    191.0673      0.0000      -2.475       1.792      -242.7
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     59.1040    191.0673      0.0000      0.0000     -8.9327      0.0000
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000     -0.0000     -0.1600
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           95.53       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.716E+04       991.1      -745.2      -242.7       6.220  -2.780E-02
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.185   3.400E-02  -2.557E-02      0.1600       2917.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1273   1218     55      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ...................SSSSS...................
+    50  ...............SSS**********...............
+    49  .............SS***************.............
+    48  ...........SS*******************...........
+    47  .........SSS**********************.........
+    46  ........SS*************************........
+    45  .......SS***************************.......
+    44  ......SS*****************************......
+    43  .....SS*******************************.....
+    42  .....S********************************.....
+    41  ....S**********************************....
+    40  ....***********************************....
+    39  ...S************************************...
+    38  ...*************************************...
+    37  ..S**************************************..
+    36  ..***************************************..
+    35  ..***************************************..
+    34  ..***************************************..
+    33  .S****************************************.
+    32  .S****************************************.
+    31  .S****************************************.
+    30  .S****************************************.
+    29  .S****************************************.
+    28  ..***************************************..
+    27  ..***************************************..
+    26  ..***************************************..
+    25  ..S**************************************..
+    24  ...*************************************...
+    23  ...S************************************...
+    22  ....***********************************....
+    21  ....S**********************************....
+    20  .....S********************************.....
+    19  .....S********************************.....
+    18  ......S******************************......
+    17  .......SS***************************.......
+    16  ........SS*************************........
+    15  .........SS***********************.........
+    14  ...........SS*******************...........
+    13  .............SS***************.............
+    12  ...............SSS**********...............
+    11  ...................SSS*S...................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+ Case     4
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 4
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL PROFILE "../profiles/circ_r100.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1600       0.000     -0.3000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+        -95.53       29.55       0.000       0.000       0.000   1.0000000
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -991.1       745.2   9.716E+04      -1167.       419.0   9.716E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     59.1040    191.0673      0.0000       2.475      -1.930      -242.7
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     59.1040    191.0673      0.0000      0.0000     -8.9327      0.0000
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000     -0.0000     -0.1600
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     3.142      0.2000           95.53       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.716E+04      -991.1       745.2      -242.7       6.220  -2.780E-02
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.185  -3.400E-02   2.557E-02      0.1600       2917.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1273   1218     55      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ...................S*SSS...................
+    50  ...............**********SSS...............
+    49  .............***************SS.............
+    48  ...........*******************SS...........
+    47  .........***********************SS.........
+    46  ........*************************SS........
+    45  .......***************************SS.......
+    44  ......******************************S......
+    43  .....********************************S.....
+    42  .....********************************S.....
+    41  ....**********************************S....
+    40  ....***********************************....
+    39  ...************************************S...
+    38  ...*************************************...
+    37  ..**************************************S..
+    36  ..***************************************..
+    35  ..***************************************..
+    34  ..***************************************..
+    33  .****************************************S.
+    32  .****************************************S.
+    31  .****************************************S.
+    30  .****************************************S.
+    29  .****************************************S.
+    28  ..***************************************..
+    27  ..***************************************..
+    26  ..***************************************..
+    25  ..**************************************S..
+    24  ...*************************************...
+    23  ...************************************S...
+    22  ....***********************************....
+    21  ....**********************************S....
+    20  .....********************************S.....
+    19  .....*******************************SS.....
+    18  ......*****************************SS......
+    17  .......***************************SS.......
+    16  ........*************************SS........
+    15  .........**********************SSS.........
+    14  ...........*******************SS...........
+    13  .............***************SS.............
+    12  ...............**********SSS...............
+    11  ...................SSSSS...................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=180.00 degrees
+
+ Case     5
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 4
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL PROFILE "../profiles/circ_r100.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1600       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         100.0       0.000       0.000       0.000       0.000  -1.0000000
+
+ FLEXIBLE WHEEL-SET DEVIATIONS
+     DXWHL       DYWHL       DZWHL       DROLLW      DYAWW       DPITCHW
+         0.000       0.000     -0.4996      0.1000       0.000       0.000
+     VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
+         0.000       0.000       0.000       0.000       0.000       0.000
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       1092.   1.063E-04   9.720E+04       1092.   1.063E-04   9.720E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.0000    209.9833      0.0000   5.061E-04  -1.457E-09   4.504E-02
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    209.9833      0.0000      0.0000      9.9833      0.0000
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000      9.9674     -0.6588
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           100.0       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.720E+04       1092.       0.000   6.057E-02       6.224  -2.959E-02
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.185   3.746E-02       0.000      0.1600       2901.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1273   1221     52      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ...................SSSSS...................
+    50  ...............SSS**********...............
+    49  .............SS***************.............
+    48  ...........SS*******************...........
+    47  .........SSS**********************.........
+    46  ........SS*************************........
+    45  .......SS***************************.......
+    44  ......SS*****************************......
+    43  .....SS*******************************.....
+    42  .....S********************************.....
+    41  ....S**********************************....
+    40  ....***********************************....
+    39  ...*************************************...
+    38  ...*************************************...
+    37  ..***************************************..
+    36  ..***************************************..
+    35  ..***************************************..
+    34  ..***************************************..
+    33  .S****************************************.
+    32  .*****************************************.
+    31  .*****************************************.
+    30  .*****************************************.
+    29  .S****************************************.
+    28  ..***************************************..
+    27  ..***************************************..
+    26  ..***************************************..
+    25  ..***************************************..
+    24  ...*************************************...
+    23  ...*************************************...
+    22  ....***********************************....
+    21  ....S**********************************....
+    20  .....S********************************.....
+    19  .....SS*******************************.....
+    18  ......SS*****************************......
+    17  .......SS***************************.......
+    16  ........SS*************************........
+    15  .........SSS**********************.........
+    14  ...........SS*******************...........
+    13  .............SS***************.............
+    12  ...............SSS**********...............
+    11  ...................SSSSS...................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+ Case     6
+
+ WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 5, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 3, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 5
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ ROLLER PROFILE "../profiles/circ_r100.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "../profiles/flat_plane.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1600       0.000       0.000       0.000
+
+    VPITCH_ROL   VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     0.2500000       0.000       0.000       0.000       0.000  -0.7500000
+
+
+ TOTAL FORCES AND MOMENTS ON ROLLER
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -284.2   1.086E-06   9.719E+04      -284.2   1.086E-06   9.719E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.0000    200.0000      0.0000  -1.585E-04  -5.178E-18  -4.634E-07
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    200.0000      0.0000      0.0000      0.0000      0.0000
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000      0.0000     -0.1600
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           100.0       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.719E+04      -284.2       0.000       0.000       6.221  -6.146E-04
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.185  -9.748E-03       0.000      0.1600       2901.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1273   1263     10      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ...................S****...................
+    50  ...............S************...............
+    49  .............*****************.............
+    48  ...........*********************...........
+    47  .........S************************.........
+    46  ........S**************************........
+    45  .......*****************************.......
+    44  ......*******************************......
+    43  .....S********************************.....
+    42  .....*********************************.....
+    41  ....***********************************....
+    40  ....***********************************....
+    39  ...*************************************...
+    38  ...*************************************...
+    37  ..***************************************..
+    36  ..***************************************..
+    35  ..***************************************..
+    34  ..***************************************..
+    33  .*****************************************.
+    32  .*****************************************.
+    31  .*****************************************.
+    30  .*****************************************.
+    29  .*****************************************.
+    28  ..***************************************..
+    27  ..***************************************..
+    26  ..***************************************..
+    25  ..***************************************..
+    24  ...*************************************...
+    23  ...*************************************...
+    22  ....***********************************....
+    21  ....***********************************....
+    20  .....*********************************.....
+    19  .....S********************************.....
+    18  ......*******************************......
+    17  .......*****************************.......
+    16  ........S**************************........
+    15  .........S************************.........
+    14  ...........*********************...........
+    13  .............*****************.............
+    12  ...............S************...............
+    11  ...................S****...................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+ Case     7
+
+ WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 5, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ ROLLER PROFILE "../profiles/circ_r100.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "../profiles/flat_plane.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1600       0.000     -0.3000       0.000
+
+    VPITCH_ROL   VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     0.2388340      -29.55       0.000       0.000       0.000  -0.7500000
+
+
+ TOTAL FORCES AND MOMENTS ON ROLLER
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -372.1      -243.9   9.882E+04      -283.4      -343.0   9.882E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.0000      0.0000      0.0000      -1.227     -0.5995       242.9
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -0.0000     -0.0000      0.0000      0.0000     -0.0000      0.0000
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0000     -0.0000     -0.1600
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           95.53       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.882E+04      -372.1      -243.9       242.9       6.324  -9.615E-04
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.205  -1.255E-02  -8.228E-03      0.1600       2899.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1297   1280     17      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    51  o...........................................o
+    50  ......................S***********...........
+    49  ...................S*****************........
+    48  .................S********************.......
+    47  ...............S************************.....
+    46  .............S***************************....
+    45  ............S*****************************...
+    44  ...........*******************************...
+    43  ..........*********************************..
+    42  .........**********************************..
+    41  ........************************************.
+    40  .......*************************************.
+    39  ......**************************************.
+    38  .....***************************************.
+    37  ....S***************************************.
+    36  ....****************************************.
+    35  ...S****************************************.
+    34  ...*****************************************.
+    33  ..S*****************************************.
+    32  ..******************************************.
+    31  ..*****************************************..
+    30  .S*****************************************..
+    29  .******************************************..
+    28  .*****************************************...
+    27  .*****************************************...
+    26  .****************************************....
+    25  .****************************************....
+    24  .***************************************.....
+    23  .**************************************......
+    22  .*************************************.......
+    21  .S***********************************........
+    20  ..**********************************.........
+    19  ..S********************************..........
+    18  ...*******************************...........
+    17  ...S*****************************............
+    16  ....S***************************.............
+    15  .....S************************...............
+    14  .......*********************.................
+    13  ........S*****************...................
+    12  ...........S***********......................
+    11  o...........................................o
+         1         2         3         4         5
+        901234567890123456789012345678901234567890123
+     X  -->        Chi=  0.00 degrees
+
+ Case     8
+
+ WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 5, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1600       0.000     -0.3000       0.000
+
+    VPITCH_ROL   VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+    -0.2388340       29.55       0.000       0.000       0.000   0.7500000
+
+
+ TOTAL FORCES AND MOMENTS ON ROLLER
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       372.1       243.9   9.882E+04       283.4       343.0   9.882E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0000     -0.0000      0.0000       1.227      0.5995       242.9
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -0.0000     -0.0000      0.0000      0.0000     -0.0000      0.0000
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0000     -0.0000     -0.1600
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     3.142      0.2000           95.53       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.882E+04       372.1       243.9       242.9       6.324  -9.615E-04
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.205   1.255E-02   8.228E-03      0.1600       2899.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1297   1280     17      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    51  o...........................................o
+    50  ......................***********S...........
+    49  ...................*****************S........
+    48  .................*********************.......
+    47  ...............************************S.....
+    46  .............***************************S....
+    45  ............*****************************S...
+    44  ...........*******************************...
+    43  ..........********************************S..
+    42  .........**********************************..
+    41  ........***********************************S.
+    40  .......*************************************.
+    39  ......**************************************.
+    38  .....***************************************.
+    37  ....****************************************.
+    36  ....****************************************.
+    35  ...*****************************************.
+    34  ...*****************************************.
+    33  ..******************************************.
+    32  ..*****************************************S.
+    31  ..*****************************************..
+    30  .******************************************..
+    29  .*****************************************S..
+    28  .*****************************************...
+    27  .****************************************S...
+    26  .****************************************....
+    25  .***************************************S....
+    24  .***************************************.....
+    23  .**************************************......
+    22  .*************************************.......
+    21  .************************************........
+    20  ..**********************************.........
+    19  ..*********************************..........
+    18  ...*******************************...........
+    17  ...*****************************S............
+    16  ....***************************S.............
+    15  .....************************S...............
+    14  .......********************S.................
+    13  ........*****************S...................
+    12  ...........***********S......................
+    11  o...........................................o
+         1         2         3         4         5
+        901234567890123456789012345678901234567890123
+     X  -->        Chi=180.00 degrees
+
+ Case     9
+
+ WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 5, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ ROLLER PROFILE "../profiles/circ_r100.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "../profiles/flat_plane.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1600       0.000       0.000       0.000
+
+    VPITCH_ROL   VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     0.2500000       0.000       0.000       0.000       0.000  -0.7500000
+
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0000      0.4996      0.1000       0.000       0.000       0.000
+
+
+ TOTAL FORCES AND MOMENTS ON ROLLER
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -284.2   2.578E-03   9.719E+04      -284.2   2.578E-03   9.719E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.0000    190.0165      0.0000  -7.166E-02       283.9   5.210E-02
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    190.0167      0.0000      0.0000     -9.9833      0.4996
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000     -9.9833     -0.1600
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           100.0       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.719E+04      -284.2   7.290E-03   6.727E-03       6.220  -6.136E-04
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.185  -9.747E-03   2.500E-07      0.1600       2900.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1273   1263     10      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ...................S****...................
+    50  ...............S************...............
+    49  .............*****************.............
+    48  ...........*********************...........
+    47  .........S************************.........
+    46  ........S**************************........
+    45  .......*****************************.......
+    44  ......*******************************......
+    43  .....S********************************.....
+    42  .....*********************************.....
+    41  ....***********************************....
+    40  ....***********************************....
+    39  ...*************************************...
+    38  ...*************************************...
+    37  ..***************************************..
+    36  ..***************************************..
+    35  ..***************************************..
+    34  ..***************************************..
+    33  .*****************************************.
+    32  .*****************************************.
+    31  .*****************************************.
+    30  .*****************************************.
+    29  .*****************************************.
+    28  ..***************************************..
+    27  ..***************************************..
+    26  ..***************************************..
+    25  ..***************************************..
+    24  ...*************************************...
+    23  ...*************************************...
+    22  ....***********************************....
+    21  ....***********************************....
+    20  .....*********************************.....
+    19  .....S********************************.....
+    18  ......*******************************......
+    17  .......*****************************.......
+    16  ........S**************************........
+    15  .........S************************.........
+    14  ...........*********************...........
+    13  .............*****************.............
+    12  ...............S************...............
+    11  ...................S****...................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+ Case    10
+
+ WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 5, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 3, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ ROLLER PROFILE "../profiles/flat_ang200.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "../profiles/circ_r100.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000     -1.8700       0.000       0.000       0.000
+
+    VPITCH_ROL   VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     0.2438100       0.000       0.000       0.000       0.000  -0.7500000
+
+
+ TOTAL FORCES AND MOMENTS ON ROLLER
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       209.1      -5826.   9.886E+04       209.1      -5826.   9.886E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0475    180.1636     -4.0210       69.98      -1950.   3.308E+04
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    180.1450     -4.0248      0.2000    -19.8550     -4.0248
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000    -19.8550     -2.1548
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           98.50       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.805E+04       209.1   1.393E+04   3.347E+04       6.572      -5.942
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.196   7.110E-03      0.4736      0.1606       2898.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1287    609    678      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ..................SSSSSSS..................
+    50  ...............SSSSSSSSSSSSS...............
+    49  ............SSSSSSSSSSSSSSSSSSS............
+    48  ...........SSSSSSSSSSSSSSSSSSSSS...........
+    47  .........SSSSSSSSSSSSSSSSSSSSSSS*S.........
+    46  ........SSSSSSSSSSSSSSSSSSSSSSS***S........
+    45  .......SSSSSSSSSSSSSSSSSSSSSS******S.......
+    44  ......SSSSSSSSSSSSSSSSSSSSS*********S......
+    43  .....SSSSSSSSSSSSSSSSSSSSS***********S.....
+    42  ....SSSSSSSSSSSSSSSSSSS***************S....
+    41  ....SSSSSSSSSSSSSSSSSS*****************....
+    40  ...SSSSSSSSSSSSSSSSS*******************S...
+    39  ...SSSSSSSSSSSSSSSS*********************...
+    38  ..SSSSSSSSSSSSSSS***********************S..
+    37  ..SSSSSSSSSSSSS*************************S..
+    36  ..SSSSSSSSSSSS***************************..
+    35  ..SSSSSSSSSS*****************************..
+    34  .SSSSSSSSS*******************************S.
+    33  .SSSSSSSS********************************S.
+    32  .SSSSSSS*********************************S.
+    31  .SSSSSS**********************************S.
+    30  .SSSSSSS*********************************S.
+    29  .SSSSSSSS********************************S.
+    28  .SSSSSSSSSS******************************S.
+    27  ..SSSSSSSSSSS****************************..
+    26  ..SSSSSSSSSSSSS**************************..
+    25  ..SSSSSSSSSSSSSSS***********************S..
+    24  ...SSSSSSSSSSSSSSS**********************...
+    23  ...SSSSSSSSSSSSSSSSSS******************S...
+    22  ...SSSSSSSSSSSSSSSSSSS*****************S...
+    21  ....SSSSSSSSSSSSSSSSSSSS**************S....
+    20  .....SSSSSSSSSSSSSSSSSSSSS************.....
+    19  .....SSSSSSSSSSSSSSSSSSSSSSS*********S.....
+    18  ......SSSSSSSSSSSSSSSSSSSSSSSS******S......
+    17  .......SSSSSSSSSSSSSSSSSSSSSSSSS***S.......
+    16  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+    15  .........SSSSSSSSSSSSSSSSSSSSSSSSS.........
+    14  ...........SSSSSSSSSSSSSSSSSSSSS...........
+    13  .............SSSSSSSSSSSSSSSSS.............
+    12  ...............SSSSSSSSSSSSS...............
+    11  ....................SSS....................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+ Case    11
+
+ WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 5, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 3, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ ROLLER PROFILE "../profiles/flat_plane.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "../profiles/circ_r100.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000     -1.8700       0.000       0.000       0.000
+
+    VPITCH_ROL   VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     0.2438100       0.000       0.000       0.000       0.000  -0.7500000
+
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0000      0.0000      0.2000       0.000       0.000       0.000
+
+
+ TOTAL FORCES AND MOMENTS ON ROLLER
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       204.1      -5934.   9.865E+04       204.1      -5934.   9.865E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0470    180.1638     -4.0210   1.601E+04      -2802.   3.286E+04
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    180.1450     -4.0248      0.2000    -20.2588      0.0000
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000    -19.8550     -2.1548
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           98.50       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.786E+04       204.1   1.378E+04   3.332E+04       6.557      -5.913
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.193   6.953E-03      0.4695      0.1606       2904.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1281    610    671      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ..................SSSSSSS..................
+    50  ...............SSSSSSSSSSSSS...............
+    49  ............SSSSSSSSSSSSSSSSSSS............
+    48  ...........SSSSSSSSSSSSSSSSSSSSS...........
+    47  .........SSSSSSSSSSSSSSSSSSSSSSS*S.........
+    46  ........SSSSSSSSSSSSSSSSSSSSSSS***S........
+    45  .......SSSSSSSSSSSSSSSSSSSSSS******S.......
+    44  ......SSSSSSSSSSSSSSSSSSSSS*********S......
+    43  .....SSSSSSSSSSSSSSSSSSSS************S.....
+    42  .....SSSSSSSSSSSSSSSSSS***************.....
+    41  ....SSSSSSSSSSSSSSSSSS****************S....
+    40  ...SSSSSSSSSSSSSSSSS*******************S...
+    39  ...SSSSSSSSSSSSSSSS********************S...
+    38  ...SSSSSSSSSSSSSS***********************...
+    37  ..SSSSSSSSSSSSS*************************S..
+    36  ..SSSSSSSSSSSS***************************..
+    35  ..SSSSSSSSSS*****************************..
+    34  .SSSSSSSSS*******************************S.
+    33  .SSSSSSSS********************************S.
+    32  .SSSSSSS*********************************S.
+    31  .SSSSSS**********************************S.
+    30  .SSSSSSS*********************************S.
+    29  .SSSSSSSS********************************S.
+    28  ..SSSSSSSSS******************************..
+    27  ..SSSSSSSSSSS****************************..
+    26  ..SSSSSSSSSSSSS**************************..
+    25  ..SSSSSSSSSSSSSS************************S..
+    24  ...SSSSSSSSSSSSSSS**********************...
+    23  ...SSSSSSSSSSSSSSSSS*******************S...
+    22  ...SSSSSSSSSSSSSSSSSSS*****************S...
+    21  ....SSSSSSSSSSSSSSSSSSSS**************S....
+    20  .....SSSSSSSSSSSSSSSSSSSSS************.....
+    19  .....SSSSSSSSSSSSSSSSSSSSSSS*********S.....
+    18  ......SSSSSSSSSSSSSSSSSSSSSSSS******S......
+    17  .......SSSSSSSSSSSSSSSSSSSSSSSSS***S.......
+    16  ........SSSSSSSSSSSSSSSSSSSSSSSSSSS........
+    15  .........SSSSSSSSSSSSSSSSSSSSSSSSS.........
+    14  ...........SSSSSSSSSSSSSSSSSSSSS...........
+    13  .............SSSSSSSSSSSSSSSSS.............
+    12  ...............SSSSSSSSSSSSS...............
+    11  ....................SSS....................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+ Case    12
+
+ WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 5, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 3, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-07
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ ROLLER PROFILE "../profiles/flat_ang200.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "../profiles/circ_r100.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000    -56.6096      0.2667       0.000       0.000
+
+    VPITCH_ROL   VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     0.2451499       0.000       0.000       0.000       0.000  -0.7500000
+
+
+ TOTAL FORCES AND MOMENTS ON ROLLER
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       835.8  -1.946E+04   9.549E+04       835.8       6392.   9.725E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0000    164.3119     -7.2343      -2.579       60.03      -294.6
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    164.2920     -7.2384      0.2000    -35.7080     -7.2384
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000      6.6309     -0.3804
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           99.83       0.000       0.000       0.000
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     9.746E+04       835.8      -100.1      -317.7       6.240  -1.523E-02
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.188   2.859E-02  -3.424E-03      0.1600       2894.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3721   1281   1243     38      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    52  o.........................................o
+    51  ...................SS***...................
+    50  ...............SS***********...............
+    49  ............SSS****************............
+    48  ...........SS*******************...........
+    47  .........SS***********************.........
+    46  ........S**************************........
+    45  .......S****************************.......
+    44  ......S******************************......
+    43  .....S********************************.....
+    42  .....*********************************.....
+    41  ....S**********************************....
+    40  ...S************************************...
+    39  ...*************************************...
+    38  ...*************************************...
+    37  ..***************************************..
+    36  ..***************************************..
+    35  ..***************************************..
+    34  .S****************************************.
+    33  .*****************************************.
+    32  .*****************************************.
+    31  .*****************************************.
+    30  .*****************************************.
+    29  .*****************************************.
+    28  .S***************************************S.
+    27  ..***************************************..
+    26  ..***************************************..
+    25  ..***************************************..
+    24  ...*************************************...
+    23  ...*************************************...
+    22  ...S************************************...
+    21  ....S**********************************....
+    20  .....*********************************.....
+    19  .....S********************************.....
+    18  ......S******************************......
+    17  .......S****************************.......
+    16  ........S**************************........
+    15  .........SS***********************.........
+    14  ...........SS*******************...........
+    13  .............SS***************.............
+    12  ...............SSS**********...............
+    11  ....................SSS....................
+    10  o.........................................o
+        1         2         3         4         5
+        0123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       4.1 | 100.0 |        4.1 | 100.0 |
+|Wheel-rail cases     |      12 |       4.1 | 100.0 |        4.1 | 100.0 |
+|W/r profiles         |      14 |       0.1 |   1.9 |        0.1 |   1.8 |
+|Geometric analysis   |      12 |       0.1 |   1.5 |        0.1 |   1.4 |
+|Panag.process        |      12 |       3.9 |  95.8 |        3.9 |  95.0 |
+|Algorithm Norm       |      12 |       0.0 |   1.2 |        0.1 |   2.3 |
+|Algorithm Tang       |      12 |       3.8 |  94.6 |        3.8 |  92.6 |
+|Output quantities    |      24 |       0.0 |   0.4 |        0.1 |   1.7 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |      12 |       0.0 |   1.2 |        0.1 |   2.1 |
+|Tang: StedyGS solver |      12 |       3.8 |  94.6 |        3.8 |  92.6 |
+|------------------------------------------------------------------------|
+|Reading input-file   |      12 |       0.1 |   2.3 |        0.1 |   1.9 |
+|Contact location     |      12 |       0.0 |   0.4 |        0.0 |   0.4 |
+|Undeformed distance  |      12 |       0.0 |   0.8 |        0.0 |   0.6 |
+|Influence coeffic.   |      12 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Initial state/estim. |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.

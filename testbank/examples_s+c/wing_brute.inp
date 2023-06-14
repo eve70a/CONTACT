@@ -1,0 +1,21 @@
+% Artificial wing rail shifting sideways at 1:10
+
+  1 MODULE
+ 1203000    C-P-B-T-N-F-S   CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 0052033    V-L-D-C-M-Z-E   VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0001321    H-G-I-A-O-W-R     HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+    999     100    30    1     1e-5         MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  0.200   0.050   1.000   90d   8.0   4.0       DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+   -1.0   750.0   0.000   0.000                 GAUGHT, RAILY0, RAILZ0, CANT
+  '../profiles/wing_rail.slcs'        0    1.0   0.0  -1   RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ
+     0.0    0.0   0.000   0.0   0.0   0.000     DY, DZ, ROLL, VY, VZ, VROLL
+  1360.0  -70.0   460.0                         FBDIST, FBPOS, NOMRAD
+  '../profiles/MBench_S1002_v3.prw'   0    1.0   0.0       WFNAME, MIRRORY, SCALE, SMOOTH
+  100.0  0.0  0.6589  0.00000000 0.0000  0.0      S, Y, Z, ROLL, YAW, PITCH
+% 100.0  0.0  10000.  0.00000000 0.0000  0.0      S, Y, FZ, ROLL, YAW, PITCH
+ 2000.   0.0    0.0   0.0        0.0  -4.34811810 VS,VY,VZ, VROLL,VYAW,VPITCH
+
+  0 MODULE
+

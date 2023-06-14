@@ -1,0 +1,626 @@
+% Con93 testbank.
+
+ 3  MODULE
+% Next Case - Cattaneo shift, penetration and creepages prescribed
+  201000       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100   30   1   .1-07   MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+   .01131      .00304      .0000       .0000        PEN, CKSI, CETA, CPHI
+   .3000       .3000                                FSTAT, FKIN
+   .2800       .2800   .8200E+05   .8200E+05        POISS 1,2,  GG 1,2
+    1                                               IPOTCN
+   17   17  -1.13333  -1.13333   .13333     .13333  MX,MY,XL,YL,DX,DY
+       1           1                                IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+     .0056566    .0     .0056566    .0     .0     .0     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+ 3  MODULE
+% Next Case - Cattaneo shift, bilinear loading, penetration and creepages prescribed
+  201000       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  023020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100   30   1   .1-07   MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+   .01131      .00304      .0000       .0000        PEN, CKSI, CETA, CPHI
+   .3000       .3000                                FSTAT, FKIN
+   .2800       .2800   .8200E+05   .8200E+05        POISS 1,2,  GG 1,2
+    1                                               IPOTCN
+   17   17  -1.13333  -1.13333   .13333     .13333  MX,MY,XL,YL,DX,DY
+       1           1                                IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+     .0056566    .0     .0056566    .0     .0     .0     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+ 3  MODULE
+% Next Case - Kalker90, fig5.20: Subsurface stresses in the half-space (z>=0). 
+  200103       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000541     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+      80         100      30       1   .1000E-03    MAX_GS,_IN,_NR,_OUT, EPS
+   1.000       0.000       0.000      0.000         FN, CKSI, CETA, CPHI
+   1.000       1.000                                FSTAT, FKIN
+   .2800       .2800       200.0      1.000         POISS 1,2, GG 1,2
+   -3                                               IPOTCN
+    3    3     0.500       0.500      3.000         MX,MY,AA,BB,SCALE
+% subsurface points
+   1   4        MATFIL, OUTPUT
+   9            ISUBS
+   2   1   3    ix, iy, iz
+% points x:
+  0.0  0.4
+% points y:
+  0.0
+% points z:
+  -1.0  0.2  1.0
+   0            ISUBS
+
+ 3  MODULE
+% Next Case - cf. previous case, now Fx=0.999, re-use subsurface points
+  203111       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000541     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+      80         100      30      10   .1000E-03    MAX_GS,_IN,_NR,_OUT, EPS
+   1.000       0.999       0.000      0.000         FN, FX, CETA, CPHI
+   1.000       1.000                                FSTAT, FKIN
+   0.000       1.000       1000.                    CHI, DQ, VELOC
+   .2800       .2800       200.0      1.000         POISS 1,2, GG 1,2
+   -3                                               IPOTCN
+    3    3     0.500       0.500      3.000         MX,MY,AA,BB,SCALE
+
+ 3  MODULE
+% Next Case - m17002, bilinear loading, re-use subsurface points
+  200101       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  023020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000541     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+      80         100      30       1   .1000E-03    MAX_GS,_IN,_NR,_OUT, EPS
+   1.000       0.000       0.000      0.000         FN, CKSI, CETA, CPHI
+   1.000       1.000                                FSTAT, FKIN
+   .2800       .2800       200.0      1.000         POISS 1,2, GG 1,2
+   -3                                               IPOTCN
+    3    3     0.500       0.500      3.000         MX,MY,AA,BB,SCALE
+
+ 3  MODULE
+% Next Case - Carter2d example met ConvexGS en DQ = 5*DX
+  203100      P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020      L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0200241    H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   999   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   0.8   0.8    1    0.9
+  35780.   -0.00024  0.000    0.000            FN, CKSI, CETA, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.200    30000.                    CHI, DQ, VELOC
+   0.280    0.280    82000.   82000.           POISS 1,2,  GG 1,2
+    3                                          IPOTCN
+  55   1   -1.0450   0.000    0.0400   200.0   MX,MY,XC1,YC1,DX,DY
+   1   1                                       IBASE, IPLAN
+   0.001   0.0   0.0   0.0   0.0   0.0         B1,B2,B3,B4,B5,B6
+
+ 3  MODULE
+% Next Case - Steady state rolling via Non-Hertzian module, Srel=1.0
+  203100       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+    80    30      5    1      .1000E-05        MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+   0.4705    -0.00304     0.0         0.0           FN, CKSI, CETA, CPHI
+   0.4013     0.4013                                FSTAT, FKIN
+   0.0         0.200      1000.                     CHI, DQ, VELOC
+   .2800       .2800   1.0         1.0              POISS 1,2,  GG 1,2
+    1                                               IPOTCN
+   41   41            % mx, my
+  -4.10000  -4.10000  % xl, yl
+    0.2000     0.2000   dx, dy
+       1           1                                IBASE, IPLAN
+  %    QUADRATIC UNDEFORMED DISTANCE
+ .002963     .0000     .002963     % B1, B2, B3
+ .0000       .0000     .0000       B(I), I=4, 6
+%    UNRESTRICTED PLANFORM
+
+ 3  MODULE
+% Next Case - Steady state rolling with variable friction, NVF = MY
+  203100     P-B-T-N-F-S          PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 2022020   V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0000341   H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+    80    30      5    1     1e-6              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+   0.4705    -0.00304     0.0         0.0           FN, CKSI, CETA, CPHI
+   0.0         0.200      1000.                     CHI, DQ, VELOC
+   .2800       .2800   1.0         1.0              POISS 1,2,  GG 1,2
+    1                                               IPOTCN
+   51   41            % mx, my
+  -4.10000  -4.10000  % xl, yl
+    0.2000     0.2000   dx, dy
+       1           1                                IBASE, IPLAN
+  %    QUADRATIC UNDEFORMED DISTANCE
+ .002963     .0000     .002963     % B1, B2, B3
+ .0000       .0000     .0000       B(I), I=4, 6
+%    UNRESTRICTED PLANFORM
+   0.200      0.200                                 FSTAT, FKIN
+   0.210      0.210                                 FSTAT, FKIN
+   0.220      0.220                                 FSTAT, FKIN
+   0.230      0.230                                 FSTAT, FKIN
+   0.240      0.240                                 FSTAT, FKIN
+   0.250      0.250                                 FSTAT, FKIN
+   0.260      0.260                                 FSTAT, FKIN
+   0.270      0.270                                 FSTAT, FKIN
+   0.280      0.280                                 FSTAT, FKIN
+   0.290      0.290                                 FSTAT, FKIN
+   0.300      0.300                                 FSTAT, FKIN
+   0.310      0.310                                 FSTAT, FKIN
+   0.320      0.320                                 FSTAT, FKIN
+   0.330      0.330                                 FSTAT, FKIN
+   0.340      0.340                                 FSTAT, FKIN
+   0.350      0.350                                 FSTAT, FKIN
+   0.360      0.360                                 FSTAT, FKIN
+   0.370      0.370                                 FSTAT, FKIN
+   0.380      0.380                                 FSTAT, FKIN
+   0.390      0.390                                 FSTAT, FKIN
+   0.400      0.400                                 FSTAT, FKIN
+   0.410      0.410                                 FSTAT, FKIN
+   0.420      0.420                                 FSTAT, FKIN
+   0.430      0.430                                 FSTAT, FKIN
+   0.440      0.440                                 FSTAT, FKIN
+   0.450      0.450                                 FSTAT, FKIN
+   0.460      0.460                                 FSTAT, FKIN
+   0.470      0.470                                 FSTAT, FKIN
+   0.480      0.480                                 FSTAT, FKIN
+   0.490      0.490                                 FSTAT, FKIN
+   0.500      0.500                                 FSTAT, FKIN
+   0.510      0.510                                 FSTAT, FKIN
+   0.520      0.520                                 FSTAT, FKIN
+   0.530      0.530                                 FSTAT, FKIN
+   0.540      0.540                                 FSTAT, FKIN
+   0.550      0.550                                 FSTAT, FKIN
+   0.560      0.560                                 FSTAT, FKIN
+   0.570      0.570                                 FSTAT, FKIN
+   0.580      0.580                                 FSTAT, FKIN
+   0.590      0.590                                 FSTAT, FKIN
+   0.600      0.600                                 FSTAT, FKIN
+
+ 3  MODULE
+% Next Case - A non-quasi-identical case con93.non_quasi.inp, Panagiotopoulos
+  203110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESSS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHSS
+  000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURNN
+    80   100    30    10     1.E-06     MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+%    0.5      0.5
+   2.468     -0.4718       0.000     0.1000E-03             FN, FX, CETA, CPHI
+  0.6000      0.6000                                        FSTAT, FKIN
+   0.000       1.100       1000.                            CHI, DQ, VELOC
+  0.1000      0.2800   1.000      0.8100E+05                POISS 1,2,  GG 1,2
+    1                                                       IPOTCN
+   25   25  -13.75      -13.75      1.1000      1.1000      MX,MY,XL,YL,DX,DY
+       1           1                                        IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+0.3332E-03 0.000    0.3332E-03 0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+ 3  MODULE
+% Next Case - Cattaneo shift, normal and tangential forces prescribed
+  201120       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      .1000E-07      MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+   1722.      -.8750       .0000       .0000        FN, FX, FY, CPHI
+   .3000       .3000                                FSTAT, FKIN
+   .2800       .2800   .8200E+05   .8200E+05        POISS 1,2,  GG 1,2
+    2                                               IPOTCN
+   17   17  -1.13333  -1.13333  1.13333    1.13333  MX,MY,XL,YL,XH,YH
+       1           1                                IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+ .0056566    .0000     .0056566    .0000     .0000     .0000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+ 3  MODULE
+% Next Case - Mindlin multi-step shift, tangential forces prescribed
+  001020       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1      .1000E-07      MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+   0.01131    -.8750       .0000       .0000        PEN, CKSI, FY, CPHI
+   .3000       .3000                                FSTAT, FKIN
+   .2800       .2800   .8200E+05   .8200E+05        POISS 1,2,  GG 1,2
+    2                                               IPOTCN
+   17   17  -1.13333  -1.13333  1.13333    1.13333  MX,MY,XL,YL,XH,YH
+       1           1                                IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+ .0056566    .0000     .0056566    .0000     .0000     .0000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+ 3  MODULE
+% Next Case - Steady state rolling via Fastsim algorithm, parab.tract.bound
+  233110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022320       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+    80   200      5    1      .1000E-05        MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+   82000.     0.600       0.0        0.001          FN, FX, CETA, CPHI
+   0.300      0.300                                 FSTAT, FKIN
+   0.0        0.200       1000.                     CHI, DQ, VELOC
+   0.280      0.280      82000.     82000.          POISS 1,2,  GG 1,2
+   1.000      1.000      1.000                      K0_MF,ALFAMF,BETAMF
+   -1                                               IPOTCN
+   40   40     0.004219   0.004219   1.000          MX,MY,AA,BB,SCALE
+
+ 3  MODULE
+% Next Case - Cattaneo shift via Hertz-option (T=1, P=2), 41x41 grid
+  221110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000340     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+      80         100      30       1   .1000E-05    MAX_GS,_IN,_NR,_OUT, EPS
+   0.7563      0.6570      0.000      0.000         FN, FX, CETA, CPHI
+   0.4013      0.4013                               FSTAT, FKIN
+   0.280       0.280       1.000      1.000         POISS 1,2, GG 1,2
+   -3                                               IPOTCN
+   41   41     4.100       4.100      1.17143       MX,MY,AA,BB,SCALE
+
+% Next Case - Transient rolling (T=2, P=0) voor Srel=1.0, stap  1, Xtot=0.2
+  002110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  010340     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+      80         100      30       1   .1000E-05    MAX_GS,_IN,_NR,_OUT, EPS
+   0.7563      0.6570      0.000      0.000         FN, FX, CETA, CPHI
+   0.4013      0.4013                               FSTAT, FKIN
+   0.000       0.200       1000.                    CHI, DQ, VELOC
+   0.280       0.280       1.000      1.000         POISS 1,2, GG 1,2
+   -3                                               IPOTCN
+   41   41     4.100       4.100      1.17143       MX,MY,AA,BB,SCALE
+
+% Next Case - Transient rolling (T=2, P=0) voor Srel=1.0, stap  2, Xtot=0.4
+  002110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  000000       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  010340     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+      80         100      30       1   .1000E-05    MAX_GS,_IN,_NR,_OUT, EPS
+   0.7563      0.6570      0.000      0.000         FN, FX, CETA, CPHI
+   0.4013      0.4013                               FSTAT, FKIN
+
+% Next Case - Transient rolling (T=2, P=0) voor Srel=4.0, stap  3, Xtot=1.2
+  002100       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  010341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+      80         100      30       1   .1000E-05    MAX_GS,_IN,_NR,_OUT, EPS
+   0.7563     -0.002124    0.000      0.000         FN, CKSI, CETA, CPHI
+   0.4013      0.4013                               FSTAT, FKIN
+   0.000       0.800       1000.                    CHI, DQ, VELOC
+   0.280       0.280       1.000      1.000         POISS 1,2, GG 1,2
+   -2                                               IPOTCN
+   41   41    0.2963E-2    1.000      1.17143       MX,MY,A1,AOB,SCALE
+
+ 3  MODULE
+% Next Case - Transient rolling via Non-Hertzian module, Srel=2.0, Xtot=1.6
+  202110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+    80    30      5    1      .1000E-05        MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+   0.4705     0.6570      0.0         0.0           FN, FX, CETA, CPHI
+   0.4013     0.4013                                FSTAT, FKIN
+   0.0         0.400      1000.                     CHI, DQ, VELOC
+   .2800       .2800      1.0         1.0           POISS 1,2,  GG 1,2
+    1                                               IPOTCN
+   41   41  -4.10000  -4.10000  0.2000     0.2000   MX,MY,XL,YL,DX,DY
+       1           1                                IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+ .002963     .0000     .002963     .0000     .0000     .0000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+ 1  MODULE
+% Next Case - w/r contact with large roll & rail irregularities
+ 1200100   C-P-B-T-N-F-S   CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0022033   V-L-D-C-M-Z-E   VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0001321   H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+    999     100    30    1     1e-5  MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.300   0.300                                  FSTAT, FKIN
+  0.280   0.280   82000.  82000.                 POISS 1,2,  GG 1,2
+  0.200   0.200   1.000   90d0   8.0   4.0       DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+   14.0     0    1435.0   0.000                  GAUGHT, GAUGSQ, GAUGWD, CANT
+  'profiles/MBench_UIC60_v3.prr' 0  1.  0.0  0 1 RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                      ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+     0.0    5.0   15.00d   0.0   0.0   0.000     DY, DZ, ROLL, VY, VZ, VROLL
+  1360.0  -70.0   460.0                          FBDIST, FBPOS, NOMRAD
+  'profiles/MBench_S1002_v3.prw' 0  1.  0.0  0 1 WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                      ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.0  -50.0  10000. -10.00d     0.0000  0.0     S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0   0.0        0.0    -4.348176 VS,VY,VZ, VROLL,VYAW,VPITCH
+
+  1 MODULE
+% Next Case - w/r contact with circular wheel profile on flat inclined surface
+ 1200100   C-P-B-T-N-F-S   CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0022033   V-L-D-C-M-Z-E   VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0001321   H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+    999     100    30    1     1e-5  MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  0.200   0.200   1.000    90d0   8.0   4.0     DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+   -1.0   750.0   0.000   0.000                 GAUGHT, RAILY0, RAILZ0, CANT
+  'profiles/flat_plane.prr'  0  1.  0.0  0  1   RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                     ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+     0.0    0.0   -0.0997r  0.0   0.0   0.000   DY, DZ, ROLL, VY, VZ, VROLL
+  1360.0  -70.0   100.0                         FBDIST, FBPOS, NOMRAD
+  'profiles/circ_r100.prw'   0  1.  0.0  0  1   WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                     ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.0  0.0  10000.  0.000d     2.00d   0.0      S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0   0.0        0.0    -4.348176 VS,VY,VZ, VROLL,VYAW,VPITCH
+
+% Roller contact, vertical section in wheel profile, w-on-roller contact locus
+
+ 1  MODULE
+ 5203000      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 0052033      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0001331      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+   999    20    25     1    1.0E-05              MAXGS,  MAXIN,  MAXNR,  MAXOUT, EPS
+  0.8000E-01  0.8000E-01                              FSTAT, FKIN
+  0.2800      0.2800      0.8203E+05  0.8203E+05      POISS 1,2,  GG 1,2
+   0.0400   0.2000   1.0000   3.1416   8.0000   4.00  DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+  -1.0      0.000    0.000   22.7020                  GAUGHT, RAILY0, RAILZ0, NOMRAD
+ 'profiles/os_l.csv'      0    1.    0.00      0  1   RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                           ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+   0.0   0.0   0.0   0.0   0.0   0.0                  DY, DZ, DROLLR  VY, VZ, VROLL
+   0.00000       0.00000       6.31450                FBDIST, FBPOS, NOMRAD
+ 'profiles/fr_ol.csv'     0    1.    0.00      0  1   WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                           ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.0    0.0   0.01650   0.0   0.2105263E-04   0.0    X, Y, Z, ROLL, YAW, PITCH
+  0.0    0.0   0.000     0.0   0.000           0.0    VPITCH_ROL, VY, VZ, VROLL, VYAW, VPITCH
+
+% compressible sheet, combining nearby patches
+
+ 1  MODULE
+ 5210000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0022033    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0001321    H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+    999     100    30    1     1e-5  MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.500   0.500                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  0.00007429                                    FLX_Z
+  0.100   0.100   1.000   90d0   8.0   4.0      DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+   -1.0   0.000   0.000  571.5                  GAUGHT, RAILY0, RAILZ0, NOMRAD
+  'profiles/meas_roller.prr'   0  1.  0.050  0  1   RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                     ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+     0.0    0.0   0.000   0.0   0.0   0.000     DY, DZ, ROLL, VY, VZ, VROLL
+   0.0      0.0   127.0                         FBDIST, FBPOS, NOMRAD
+  'profiles/final_clean.prw'   0  1.  0.005  0  1   WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                     ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.0   -5.5  0.0550  0.0        0.0000  0.0    S, Y, FZ, ROLL, YAW, PITCH
+  0.0010         0.0  0.0  0.0  0.0 -0.0045     RPITCH,VY,VZ, VROLL,VYAW,VPITCH
+
+% Steady curving example
+  1  MODULE
+ 0203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1022033    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0101321    H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+      2                                         NVF
+ -0.5236  0.6000   0.6000                       ALPHA, FSTAT, FKIN
+ -0.3491  0.6000   0.6000                       ALPHA, FSTAT, FKIN
+  0.2800   0.2800   0.8200E+05   0.8200E+05     POISS 1,2,  GG 1,2
+  0.5000   0.5000   1.000   90d0   8.0   4.0    DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+ 15.8750     0    1435.10   0.000               GAUGHT, GAUGSQ, GAUGWD, CANT
+ 'profiles/avg_HR.BAN'      1  1.  10.0  0  1   RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                     ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+   0.00  0.00  0.00  0.00  0.00  0.00           DY, DZ, DROLLR, VY, VZ, VROLL
+  1352.20  0.00000   419.100                    FBDIST, FBPOS, NOMRAD
+ 'profiles/avg_wheel.whl'   0  1.  10.0  0  1   WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                     ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.0 -12.916008 124393.2 0.1413332E-02 -0.7708929E-02 0.0   S, Y, FZ, ROLL, YAW, PITCH
+  14305.28 0.0  0.0  0.0  0.0  -33.79094        VS, VY, VZ, VROLL, VYAW, VPITCH
+
+  1  MODULE
+ 1203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1101031    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0101321    H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+ 15.8750     0    1435.10   0.000               GAUGHT, GAUGSQ, GAUGWD, CANT
+ 'profiles/avg_low2.ban'   1  1.   10.0  0  1   RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                     ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+   0.00  0.00  0.00  0.00  0.00  0.00           DY, DZ, DROLLR, VY, VZ, VROLL
+  0.0 -14.471209 71386.1 0.1413332E-02 -0.7708929E-02 0.0   S, Y, FZ, ROLL, YAW, PITCH
+
+ 3  MODULE
+% Next Case - A non-quasi-identical case con93.non_quasi.inp, Panagiotopoulos
+  203000       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESSS
+  022029       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHSS
+  000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURNN
+    80   100    30    10     0.1000E-03 MAXGS, MAXIN, MAXNR, MAXOUT, EPS
+  0.07695     0.0001      0.000      0.1000E-04         PEN, CKSI, CETA, CPHI
+  0.6000      0.6000                                    FSTAT, FKIN
+   0.000       2.200      1000.                         CHI, DQ, VELOC
+  0.1000      0.2800      1.000      0.8100E+05         POISS 1,2,  GG 1,2
+    3                                                   IPOTCN
+   15   15  -16.50      -16.50      2.2000      2.2000  MX,MY,XC1,YC1,DX,DY
+       1           1                                    IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+0.3332E-03 0.000    0.3332E-03 0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+%    CONTRIBUTION TO RIGHT HAND SIDE OF TANGENTIAL PROBLEM, PER ELEMENT:
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0 
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
+  .0 .0  .0 .0   .0 .0   .0 .0   .0 .0  
+
+% m14010, dissim_cases.inp, Scenario 7: dissimilar materials,
+%         friction 0.4, pressing down, then tilted in 1 step
+
+ 3  MODULE
+  201100      P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020      L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0000111    H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     30     1e-8     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+ 400000.    0.000    0.000    0.000            FN, CKSI, CETA, CPHI
+   0.400    0.400                              FSTAT, FKIN
+   0.500    0.000      2e7    200.             POISS 1,2,  GG 1,2
+    3                                          IPOTCN
+ 251   1   -20.000     0.0    0.160   1000.0   MX,MY,XC1,YC1,DX,DY
+   1   1                                       IBASE, IPLAN
+   0.00    0.0   0.0   0.0   0.0   0.0         B1,B2,B3,B4,B5,B6
+
+ 3  MODULE
+  001100      P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100020      L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 0000111    H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     30     1e-8     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+ 400000.    0.000    0.000    0.000            FN, CKSI, CETA, CPHI
+   1   1                                       IBASE, IPLAN
+   0.00    0.0   0.0  -0.031816   0.0   0.0    B1,B2,B3,B4,B5,B6
+
+ 1  MODULE   % rail with dents
+ 0203100      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 1022033      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0001321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+   999   100    30     1    1.0E-06              MAXGS,  MAXIN,  MAXNR,  MAXOUT, EPS
+       2                                                  NVF
+ -0.5236      0.2070      0.2070                          ALPHA, FSTAT, FKIN
+ -0.3491      0.3700      0.3700                          ALPHA, FSTAT, FKIN
+  0.2800      0.2800      0.8200E+05  0.8200E+05          POISS 1,2,  GG 1,2
+   0.5000   0.5000   1.0000   3.1416   8.0000   4.0000    DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+  15.8750      0    1435.10   0.000                       GAUGHT, GAUGSQ, GAUGWD, CANT
+ 'profiles/rail_left_iter288.ban'   1  1.00    0.100  0 1 RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                               ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+   0.0    0.0    0.0     0.0    0.0    0.0                DY, DZ, DROLLR, VY, VZ, VROLL
+   1347.40       0.00000       457.200                    FBDIST, FBPOS, NOMRAD
+ 'profiles/whl_left_iter288.whl'    0  1.00   10.00   0 1 WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                               ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.0  -10.35066   141539.6  0.766666E-03 -0.3624925E-02   0.0   S, Y, FZ, ROLL, YAW, PITCH
+  12964.16   0.0   0.0   0.0   0.0  -28.23635             VS, VY, VZ, VROLL, VYAW, VPITCH
+
+ 1  MODULE   % rail with dents
+ 0203100      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 1022033      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0001321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+   999   100    30     1    1.0E-06              MAXGS,  MAXIN,  MAXNR,  MAXOUT, EPS
+       2                                                  NVF
+ -0.5236      0.2070      0.2070                          ALPHA, FSTAT, FKIN
+ -0.3491      0.3700      0.3700                          ALPHA, FSTAT, FKIN
+  0.2800      0.2800      0.8200E+05  0.8200E+05          POISS 1,2,  GG 1,2
+   0.5000   0.5000   1.0000   3.1416   8.0000   4.0000    DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+  15.8750      0    1435.10   0.000                       GAUGHT, GAUGSQ, GAUGWD, CANT
+ 'profiles/rail_left_iter288.ban'   1  1.00    0.100 0 1  RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0    150d   30d    6d    0.0                           ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+   0.0    0.0    0.0     0.0    0.0    0.0                DY, DZ, DROLLR, VY, VZ, VROLL
+   1347.40       0.00000       457.200                    FBDIST, FBPOS, NOMRAD
+ 'profiles/whl_left_iter288.whl'    0  1.00  10.0  0  1   WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0    150d   30d    6d    0.0                           ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.0  -10.35066   141539.6  0.766666E-03 -0.3624925E-02   0.0   S, Y, FZ, ROLL, YAW, PITCH
+  12964.16   0.0   0.0   0.0   0.0  -28.23635             VS, VY, VZ, VROLL, VYAW, VPITCH
+
+ 1  MODULE   % contact at 1st rail point, bottom of flange
+ 0203100      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 1022033      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0101321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+       2                                                  NVF
+ -0.5236      0.2000      0.2000                          ALPHA, FSTAT, FKIN
+ -0.3491      0.3340      0.3340                          ALPHA, FSTAT, FKIN
+  0.2800      0.2800      0.8200E+05  0.8200E+05          POISS 1,2,  GG 1,2
+   0.5000   0.5000   1.0000   3.1416   8.0000   4.0000    DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+  15.8750      0    1435.10   0.000                       GAUGHT, GAUGSQ, GAUGWD, CANT
+ 'profiles/rail_left_iter795.ban'   1  1.00    0.100  0 1 RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                               ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+   0.0    0.0    0.0     0.0    0.0    0.0                DY, DZ, DROLLR, VY, VZ, VROLL
+   1347.40       0.00000       457.200                    FBDIST, FBPOS, NOMRAD
+ 'profiles/whl_left_iter795.whl'    0  1.00    10.00  0 1 WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                               ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.0   -7.41379   190558.5 -0.197988E-03  0.8106596E-03   0.0   S, Y, FZ, ROLL, YAW, PITCH
+  17881.60   0.0   0.0   0.0   0.0  -39.02267             VS, VY, VZ, VROLL, VYAW, VPITCH
+
+ 1  MODULE   % guard rail with narrow potential contact
+ 1203000      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 1022033      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0101321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+       2                                                  NVF
+ -0.5236      0.2000      0.2000                          ALPHA, FSTAT, FKIN
+ -0.3491      0.3340      0.3340                          ALPHA, FSTAT, FKIN
+  0.2800      0.2800      0.8200E+05  0.8200E+05          POISS 1,2,  GG 1,2
+   0.5000   0.5000   1.0000   3.1416   8.0000   4.0000    DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+  -1.0         717.56          0.000    0.000             GAUGHT, RAILY0, RAILZ0, CANT
+ 'profiles/guard_rail_test.ban'   1  1.00   0.100  1  1   RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                               ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+   0.00000       0.00000       0.00000                    % DY, DZ, DROLLR
+   0.00000       0.00000       0.00000                      VY, VZ, VROLL
+   1347.40       0.00000       431.800                    FBDIST, FBPOS, NOMRAD
+ 'profiles/Car7813_0001r.whl'        0  1.00  10.00    0  1  WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                               ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.000000      -8.278410       -1.5024                   % S, Y, Z
+ 0.2932665E-03 -0.1261404E-01   0.000000                  % ROLL, YAW, PITCH
+  9270.268       0.000000       0.000000                  % VS, VY, VZ
+  0.000000       0.000000      -21.48043                  % VROLL, VYAW, VPITCH
+
+ 1  MODULE   % guard rail, wheel with measurement noise at bottom of flange
+ 1203000      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 1111003      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0101321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+   1347.40       0.00000       431.800                    FBDIST, FBPOS, NOMRAD
+ 'profiles/Car7216_0001r.whl'        0  1.00     10.00   0  1  WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                               ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.000000      -8.99000        4.3340                    % S, Y, Z
+-0.4198416E-02 -0.1340857E-01   0.000000                  % ROLL, YAW, PITCH
+  5273.731       0.000000       0.000000                  % VS, VY, VZ
+  0.000000      0.2835444E-01  -12.2228592                % VROLL, VYAW, VPITCH
+
+ 1  MODULE   % guard rail, wheel with measurement noise at bottom of flange
+ 1203100      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 1111003      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0101321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+   1347.40       0.00000       431.800                    FBDIST, FBPOS, NOMRAD
+ 'profiles/Car7358_0001r.whl'        0  1.00     10.00   0  1  WFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
+   0  150d   30d   6d   2.0                               ISMOOTH, ZIGTRS, KNKHGH, KNKLOW, KNKWID
+  0.000000      -9.920520       40000.00                  % S, Y, FZ
+-0.4340344E-02 -0.1325679E-01   0.000000                  % ROLL, YAW, PITCH
+  2899.054       0.000000       0.000000                  % VS, VY, VZ
+  0.000000      0.1558689E-01  -6.71250858                % VROLL, VYAW, VPITCH
+
+% Pictures for illustrating multiple patches and combination in user guide
+%  - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 4 - 8
+
+ 1  MODULE
+ 1203000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1022033        V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0001321        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   999   100   30    1    1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+       2                                                  NVF
+    -30d      0.2000      0.2000                          ALPHA, FSTAT, FKIN
+    -20d      0.3500      0.3500                          ALPHA, FSTAT, FKIN
+  0.2800      0.2800      0.8200E+05  0.8200E+05          POISS 1,2,  GG 1,2
+  0.4000      0.4000       1.000      90d      6.0   3.0  DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+  15.8750      0    1435.10   0.000                       GAUGHT, GAUGSQ, GAUGWD, CANT
+ 'profiles/site_b_hr.prr'                   0  1.0   0.0  RFNAME, MIRRORY, SCALE, SMOOTH
+   0.00000       0.00000       0.00000                    % DY, DZ, DROLLR
+   0.00000       0.00000       0.00000                      VY, VZ, VROLL
+   1347.40       0.00000       444.000                    FBDIST, FBPOS, NOMRAD
+ 'profiles/worn_high_mileage.prw'           0  1.0   0.0  WFNAME, MIRRORY, SCALE, SMOOTH
+  0.000000      14.850000       1.1700                    % S, Y, Z
+ -0.001300       0.005000       0.000000                  % ROLL, YAW, PITCH
+  15000.00       0.000000       0.000000                  % VS, VY, VZ
+  0.000000       0.000000      -32.10000                  % VROLL, VYAW, FX
+
+%  - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 8 - 12
+ 1  MODULE
+ 1203000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1121000        V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0101321        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  0.400    0.400    1.000    90d   10.0    6.0   14.0     DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN
+
+%  - Conformal contact method, combination distance 20 - 30
+ 1  MODULE
+ 1203000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1141000        V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0101321        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  0.400   0.400     1.000    90d   30.0   20.0   40.0     DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN
+
+ 0  MODULE

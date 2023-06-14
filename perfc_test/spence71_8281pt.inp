@@ -1,0 +1,570 @@
+% [Kalker1990], Figure 5.25: Spence compression in 70 stages.
+
+    3   module  % Stage k=1
+  201103            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  022020            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  000211            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.000011    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+  0.000       0.000       0.500       100000.             POISS 1,2,  GG 1,2
+    1                                                     IPOTCN
+   91   91   -4.550      -4.550        0.100     0.100    MX,MY,XL,YL,DX,DY
+    1    1                                                IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+  0.004116  0.000     0.004116  0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+% subsurface points:
+   0   1         MATFIL, OUTPUT
+   5             ISUBS
+  11             NZ
+% points z:
+  1e-6 0.1  0.2  0.3  0.5  1.0  1.5  2.0  3.0  5.0
+  9.0
+   0            ISUBS
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.000037    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.000088    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.000171    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.000296    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.000471    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.000702    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.001000    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.001372    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.001826    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.002370    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.003014    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.003764    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.004630    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.005619    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.006739    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.008000    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.009409    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.010974    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.012704    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.014606    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.016690    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.018963    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.021433    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.024110    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.027000    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.030112    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.033455    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.037037    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.040866    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.044949    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.049296    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.053915    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.058813    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.064000    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.069483    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.075270    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.081370    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.087791    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.094542    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.101630    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.109063    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.116850    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.125000    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.133520    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.142418    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.151704    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.161384    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.171468    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.181963    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.192878    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.204221    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.216000    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.228224    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.240900    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.254037    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.267643    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.281727    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.296296    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.311359    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.326925    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.343000    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.359594    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.376715    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.394370    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.412569    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.431320    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010011            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.450630    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    3   module  % next stage
+  001101            P-B-T-N-F-S  PVTIME, BOUND , TANG  , F_NORM, F_TANG, STRESS
+  000000            L-D-C-M-Z-E  FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS 
+  010211            G-I-A-O-W-R  GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   200    30   30    10   1.0E-06        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.470508    0.000       0.000        0.000              FN, CKSI, CETA, CPHI
+  0.2986      0.2986                                      FSTAT, FKIN
+
+    0   module

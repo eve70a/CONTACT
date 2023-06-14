@@ -1,0 +1,124 @@
+#-----------------------------------------------------------------------------------------------------------
+# make_inc.linux - Make include-file for generating CONTACT exe and dlls for linux
+#
+# Copyright 2008-2023 by Vtech CMCC.
+#
+# Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
+#-----------------------------------------------------------------------------------------------------------
+
+# path to directory for object/mod-files:
+
+P = obj/$(PLATF)_$(TARGET)/
+
+# compiler for current platform:
+
+F90   = ifort
+CXX   = g++
+   
+#-----------------------------------------------------------------------------------------------------------
+# settings for use of OpenMP
+#-----------------------------------------------------------------------------------------------------------
+
+ifeq ($(TARGET), exe)
+#  OPENMP  = -qopenmp -DOMP_INSIDE
+   OPENMP  = -qopenmp
+#  OPENMP  =
+else ifeq ($(TARGET), clib)
+   OPENMP  = -qopenmp 
+#  OPENMP  =
+else
+   OPENMP  =
+endif
+
+#-----------------------------------------------------------------------------------------------------------
+# settings for FFT library: Intel MKL, linked statically
+#-----------------------------------------------------------------------------------------------------------
+
+MKLINC  = -DWITH_MKLFFT -I$(MKLROOT)/include
+
+ifeq ($(OPENMP), )
+
+   ifeq ($(PLATF), linux64)
+      MKLDIR  = $(MKLROOT)/lib/intel64
+      MKLLIB  = -Wl,--start-group $(MKLDIR)/libmkl_intel_lp64.a $(MKLDIR)/libmkl_sequential.a $(MKLDIR)/libmkl_core.a -Wl,--end-group -lpthread
+   else
+      MKLDIR  = $(MKLROOT)/lib/ia32
+      MKLLIB  = -Wl,--start-group $(MKLDIR)/libmkl_intel.a $(MKLDIR)/libmkl_sequential.a $(MKLDIR)/libmkl_core.a -Wl,--end-group -lpthread
+   endif
+
+else
+
+   ifeq ($(PLATF), linux64)
+      MKLDIR  = $(MKLROOT)/lib/intel64
+      MKLLIB  = -Wl,--start-group $(MKLDIR)/libmkl_intel_lp64.a $(MKLDIR)/libmkl_intel_thread.a $(MKLDIR)/libmkl_core.a -Wl,--end-group -lpthread
+   else
+      MKLDIR  = $(MKLROOT)/lib/ia32
+      MKLLIB  = -Wl,--start-group $(MKLDIR)/libmkl_intel.a $(MKLDIR)/libmkl_intel_thread.a $(MKLDIR)/libmkl_core.a -Wl,--end-group -lpthread
+   endif
+
+endif
+
+#-----------------------------------------------------------------------------------------------------------
+# settings for license checking mechanism
+#-----------------------------------------------------------------------------------------------------------
+
+LICINC  = 
+LICLIB  =
+
+#-----------------------------------------------------------------------------------------------------------
+# compiler options
+#-----------------------------------------------------------------------------------------------------------
+
+ifeq ($(PLATF),linux32)
+   CCOPTS          = -fPIC -m32
+   LIB32           = -lifcore
+else
+   CCOPTS          = -fPIC $(LICINC)
+   LIB32           =
+endif
+CXXOPTS            = -Wall $(LICINC) -fpermissive -Wno-unused-but-set-variable
+
+FFOPTS_ALL      = -DTARGET_$(TARGET) -I. $(LICINC) $(MKLINC) -fpp -O3 $(OPENMP) -fPIC -module $(P)
+FFOPTS_DEBUG    = -g -traceback -warn ignore_loc -warn interfaces -warn uncalled -warn declarations \
+                  -warn usage -warn general -check uninit -check bounds -check format -check pointer \
+                  -init=snan,arrays
+# -warn unused
+
+FFOPTS_DEVELOP  = -g -traceback
+FFOPTS_RELEASE  = 
+FFOPTS_CADDON   = -names lowercase -convert big_endian
+
+ifeq ($(TARGET), exe)
+   FFOPTS  = $(FFOPTS_ALL) $(FFOPTS_DEVELOP) # $(FFOPTS_DEBUG)
+else ifeq ($(TARGET), clib)
+   FFOPTS  = $(FFOPTS_ALL) $(FFOPTS_RELEASE) $(FFOPTS_CADDON)
+endif
+
+DLLOPT  = -shared
+
+#-----------------------------------------------------------------------------------------------------------
+# paths and libraries
+#-----------------------------------------------------------------------------------------------------------
+
+DLL_PATH    = ../bin
+
+# Main target for CONTACT stand-alone executable
+STND_EXE    = ../bin/contact_$(PLATF)
+
+# Main targets for CONTACT library version
+CLIB_DLL    = $(DLL_PATH)/contact_addon_$(PLATF).so
+CLIB_LIB    = -L$(DLL_PATH) -l:contact_addon_$(PLATF).so 
+
+CLIB_EXE1   = $(DLL_PATH)/test_caddon_$(PLATF)
+CLIB_EXE2   = $(DLL_PATH)/test_mbench_$(PLATF)
+CLIB_EXE3   = $(DLL_PATH)/test_switch_$(PLATF)
+CLIB_EXE4   = $(DLL_PATH)/test_table_$(PLATF)
+CLIB_EXE5   = $(DLL_PATH)/test_memory_$(PLATF)
+CLIB_EXE6   = $(DLL_PATH)/usetab_table_$(PLATF)
+
+MANIF   = 
+EXPFILE =
+
+O       = o
+CP      = cp
+RM      = rm -f

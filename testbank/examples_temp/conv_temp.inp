@@ -1,0 +1,65 @@
+% Investigate convergence/stability of temperature dependent friction
+
+% Without memory distance, OMGSLP = 1.0
+
+ 3  MODULE
+  203100         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  622020         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 3402441       H-G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   999   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   1.0   1.0                                   INISLP, OMGSLP
+  100000.  -0.03333  0.000    0.000            FN, CKSI, CETA, CPHI
+   0.300    100.0   -0.180     30.0            FREF, TREF, DFHEAT, DTHEAT
+   0.000    1.000                              MEMDST MEM_S0
+   180.d    0.200    30000.                    CHI, DQ, VELOC
+   0.280    0.280    82000.   82000.           POISS 1,2,  GG 1,2
+   0.000    450.0    50e-3    7.85e-6          BKTEMP, HEATCP1, LAMBDA1, DENS1
+   0.000    450.0    50e-3    7.85e-6          BKTEMP, HEATCP2, LAMBDA2, DENS2
+    1                                          IPOTCN
+   216  45  -7.90  -11.25   0.200   0.500      MX, MY, XL, YL, DX, DY
+    1    1                                     IBASE, IPLAN
+  0.001015  0.0  0.0004215  0.0  0.0  0.0      B1,B2,B3,B4,B5,B6
+
+% Without memory distance, OMGSLP = 0.5
+
+ 3  MODULE
+  203100         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 1402441       H-G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   999   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   1.0   0.5                                   INISLP, OMGSLP
+  100000.  -0.03333  0.000    0.000            FN, CKSI, CETA, CPHI
+
+% Without memory distance, OMGSLP = 0.2
+
+ 3  MODULE
+  203100         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 1402441       H-G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   999   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   1.0   0.2                                   INISLP, OMGSLP
+  100000.  -0.03333  0.000    0.000            FN, CKSI, CETA, CPHI
+
+% With memory distance, OMGSLP = 1.0
+
+ 3  MODULE
+  203100         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  600000         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 1402441       H-G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   999   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   1.0   1.0                                   INISLP, OMGSLP
+  100000.  -0.03333  0.000    0.000            FN, CKSI, CETA, CPHI
+   0.300    100.0   -0.180     30.0            FREF, TREF, DFHEAT, DTHEAT
+   0.0001   1.000                              MEMDST MEM_S0
+
+% With memory distance, OMGSLP = 0.2
+
+ 3  MODULE
+  203100         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  100000         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 1402441       H-G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   999   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   1.0   0.2                                   INISLP, OMGSLP
+  100000.  -0.03333  0.000    0.000            FN, CKSI, CETA, CPHI
+
+ 0  MODULE

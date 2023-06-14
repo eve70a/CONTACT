@@ -1,0 +1,50 @@
+% Example input file for CONTACT.
+% Illustration of temperature calculation, see User guide, paragraph 5.13.
+% Geometry and material parameters according to Ertz & Knothe, 2002.
+% Elliptical contact with a=5.88, b=10.54 mm, dx=0.2, dy=0.5 mm.
+
+% full sliding at 1 m/s (cksi = -0.03333)
+
+% First case:
+%  - temperature calculation (H=2), equal background temperatures
+%  - no effect on friction (L=0), no temperature dependent traction.
+
+ 3  MODULE
+  203100         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022020         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 3002441         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   999   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  100000.  -0.03333  0.000    0.000            FN, CKSI, CETA, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   180.d    0.200    30000.                    CHI, DQ, VELOC
+   0.280    0.280    82000.   82000.           POISS 1,2,  GG 1,2
+   0.000    450.0    50e-3    7.85e-6          BKTEMP, HEATCP1, LAMBDA1, DENS1
+   0.000    450.0    50e-3    7.85e-6          BKTEMP, HEATCP2, LAMBDA2, DENS2
+    1                                          IPOTCN
+   216  45  -7.90  -11.25   0.200   0.500      MX, MY, XL, YL, DX, DY
+    1    1                                     IBASE, IPLAN
+  0.001015  0.0  0.0004215  0.0  0.0  0.0      B1,B2,B3,B4,B5,B6
+
+% Second case:
+%  - compute effect on friction (L=6), increased temperature reduces friction.
+
+ 3  MODULE
+  203100         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  600000         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 1102441       H-G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+  100000.  -0.03333  0.000    0.000            FN, CKSI, CETA, CPHI
+   0.300    0.000   -0.180    400.0            FREF, TREF, DFHEAT, DTHEAT
+   0.000    1.000                              MEMDST MEM_S0
+
+% Third case:
+%  - compute effect on friction (L=6), increased temperature increases friction.
+
+ 3  MODULE
+  203100         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  600000         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+ 1102441       H-G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+  100000.  -0.03333  0.000    0.000            FN, CKSI, CETA, CPHI
+   0.300    0.000    0.180    400.0            FREF, TREF, DFHEAT, DTHEAT
+   0.000    1.000                              MEMDST MEM_S0
+
+ 0  MODULE

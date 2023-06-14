@@ -1,0 +1,176 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:25)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   ------------------------------------------------------------------------
+
+ Case     1
+ Reading file "../profiles/wing_rail.slcs" with profile slices
+ s_offset =   0.000    , s_scale =   1.000
+ obtained  21 slices
+ feature information for  21 slices with   5 features per slice
+   1     0.00     3.93    43.09    68.80   299.00
+   2     0.00     4.93    44.09    69.80   299.00
+   3     0.00     5.93    45.09    70.80   299.00
+   4     0.00     6.93    46.09    71.80   299.00
+   5     0.00     7.93    47.09    72.80   299.00
+   6     0.00     8.93    48.09    73.80   299.00
+   7     0.00     9.93    49.09    74.80   299.00
+   8     0.00    10.93    50.09    75.80   299.00
+   9     0.00    11.93    51.09    76.80   299.00
+  10     0.00    12.93    52.09    77.80   299.00
+  11     0.00    13.93    53.09    78.80   299.00
+  12     0.00    14.93    54.09    79.80   299.00
+  13     0.00    15.93    55.09    80.80   299.00
+  14     0.00    16.93    56.09    81.80   299.00
+  15     0.00    17.93    57.09    82.80   299.00
+  16     0.00    18.93    58.09    83.80   299.00
+  17     0.00    19.93    59.09    84.80   299.00
+  18     0.00    20.93    60.09    85.80   299.00
+  19     0.00    21.93    61.09    86.80   299.00
+  20     0.00    22.93    62.09    87.80   299.00
+  21     0.00    23.93    63.09    88.80   299.00
+ make_2dspline: constructing interpolating spline surface
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   0, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 5, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.5000E-01   1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "../profiles/wing_rail.slcs"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0          -1           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "../profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         100.0       0.000      0.6589       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3481181
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       1818.       889.5   1.016E+04       1818.       889.5   1.016E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -2.4290    779.2381      0.0289      -151.8      -190.3      -838.0
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -2.4205    779.2310      0.0138     -0.0768     29.2310      0.0138
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -2.4205     29.2310     -0.6451
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1999.  -1.261E-03  -4.042E-04   1.670E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.020E+04       1818.       107.1      -861.8      0.1469      -4.500
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1244      0.5942   3.502E-02   3.453E-02       2589.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2684    624    363    261      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    35  o.................................................o
+    34  .........................................SSSSS.....
+    33  ...................................SSSSSSSSS****S..
+    32  ...............................SSSSSSSSS*********S.
+    31  ............................SSSSSSSSSS***********S.
+    30  .........................SSSSSSSSS***************..
+    29  .......................SSSSSSSSS*****************..
+    28  ....................SSSSSSSSSS******************...
+    27  ..................SSSSSSSSSS*******************S...
+    26  ................SSSSSSSSSS********************S....
+    25  ...............SSSSSSSSS*********************S.....
+    24  .............SSSSSSSSS**********************.......
+    23  ...........SSSSSSSSSS**********************........
+    22  ..........SSSSSSSSSS*********************S.........
+    21  .........SSSSSSSSS**********************...........
+    20  .......SSSSSSSSSS*********************S............
+    19  ......SSSSSSSSSS*********************..............
+    18  .....SSSSSSSSSS********************................
+    17  ....SSSSSSSSSS*******************..................
+    16  ...SSSSSSSSSSS*****************....................
+    15  ..SSSSSSSSSSS***************S......................
+    14  ..SSSSSSSSSSS*************.........................
+    13  .SSSSSSSSSSSS**********S...........................
+    12  .SSSSSSSSSSSSS******S..............................
+    11  ..SSSSSSSSSSSSSSS..................................
+    10  ....SSSSSSSSS......................................
+     9  o.................................................o
+            1         2         3         4         5
+        678901234567890123456789012345678901234567890123456
+     X  -->        Chi=  0.00 degrees
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       0.6 | 100.0 |        0.6 | 100.0 |
+|Wheel-rail cases     |       1 |       0.6 | 100.0 |        0.6 | 100.0 |
+|W/r profiles         |       2 |       0.1 |  15.0 |        0.2 |  39.2 |
+|Geometric analysis   |       1 |       0.5 |  75.0 |        0.3 |  48.0 |
+|Panag.process        |       1 |       0.1 |  10.0 |        0.1 |  11.0 |
+|Algorithm Norm       |       1 |       0.0 |   2.5 |        0.0 |   1.8 |
+|Algorithm Tang       |       1 |       0.0 |   7.5 |        0.1 |   9.2 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |       1 |       0.0 |   2.5 |        0.0 |   1.8 |
+|Tang: StedyGS solver |       1 |       0.0 |   7.5 |        0.1 |   9.2 |
+|------------------------------------------------------------------------|
+|Reading input-file   |       1 |       0.1 |  15.0 |        0.2 |  39.2 |
+|Contact location     |       1 |       0.5 |  72.5 |        0.3 |  46.6 |
+|Undeformed distance  |       1 |       0.0 |   2.5 |        0.0 |   1.4 |
+|Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.4 |
+|Initial state/estim. |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.

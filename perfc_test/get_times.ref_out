@@ -1,0 +1,90 @@
+ ------------------------------------------------------------------------
+ Starting performance test at 29-07-2016 14:34:40
+ Running at host vortech32.vortech.nl (linux), started by edwin
+ Performance test complete at 29-07-2016 14:36:58
+ Total 0 days, 0 hr, 2 min, 18 sec
+ ------------------------------------------------------------------------
+norm_problm_1p: ncon=  3148, ItCG=   19, tot.wall=   0.1 (ver= 1274)
+norm_problm_2p: ncon= 12902, ItCG=   22, tot.wall=   0.5 (ver= 1274)
+norm_problm_4p: ncon= 50796, ItCG=   27, tot.wall=   2.7 (ver= 1274)
+norm_problm_8p: ncon=200980, ItCG=   31, tot.wall=  17.6 (ver= 1274)
+norm_problm_1f: ncon=  3148, ItCG=   16, tot.wall=   0.1 (ver= 1274)
+norm_problm_2f: ncon= 12912, ItCG=   18, tot.wall=   0.5 (ver= 1274)
+norm_problm_4f: ncon= 50830, ItCG=   23, tot.wall=   2.5 (ver= 1274)
+norm_potcon_1p: ncon=  3148, ItCG=   19, tot.wall=   0.7 (ver= 1274)
+ ------------------------------------------------------------------------
+norm_parall_1s (8 tr): ItCG=   19, seq.norm=   0.1, par=   0.1, fac=  1.0 (1274)
+norm_parall_2s (8 tr): ItCG=   22, seq.norm=   0.3, par=   0.3, fac=  1.0 (1274)
+norm_parall_4s (8 tr): ItCG=   27, seq.norm=   2.0, par=   1.3, fac=  1.5 (1274)
+norm_parall_8s (8 tr): ItCG=   31, seq.norm=  12.3, par=   7.3, fac=  1.7 (1274)
+ ------------------------------------------------------------------------
+tang_problm_1s: nslp=  1730, ItGS=   51, wall.tang=   0.3 (ver= 1274)
+tang_problm_2s: nslp=  7243, ItGS=   71, wall.tang=   2.1 (ver= 1274)
+tang_problm_4s: nslp= 28260, ItGS=  154, wall.tang=  22.6 (ver= 1274)
+tang_problm_8s: nslp=111191, ItGS=  190, wall.tang=   167 (ver= 1274)
+tang_problm_1c: nslp=  1872, ItGS=   56, wall.tang=   4.8 (ver= 1274)
+tang_problm_2c: nslp=  7735, ItGS=   90, wall.tang=    97 (ver= 1274)
+tang_problm_4c: nslp= 30181, ItGS=  151, wall.tang=  2210 (ver= 1274)
+tang_problm_1f: nslp=  1872, ItGS=  496, wall.tang=  42.3 (ver= 1274)
+tang_problm_2f: nslp=  7757, ItGS=  826, wall.tang=   889 (ver= 1274)
+tang_problm_4f: nslp= 30263, ItGS= 1392, wall.tang= 20199 (ver= 1274)
+ ------------------------------------------------------------------------
+tang_potcon_1c: nslp=  1872, ItGS=   56, wall.tang=   6.3 (ver= 1274)
+tang_cnvxgs_1c: nslp=  1872, ItGS=  205, wall.tang=  18.3 (ver= 1274)
+ ------------------------------------------------------------------------
+tang_mugri_1c : nslp=  1872, ItGS=   48, wall.tang=   4.3 (ver= 1274)
+tang_mugri_2c : nslp=  7735, ItGS=   69, wall.tang=    79 (ver= 1274)
+tang_mugri_4c : nslp= 30181, ItGS=  113, wall.tang=  1723 (ver= 1274)
+tang_mugri_1f : nslp=  1872, ItGS=  199, wall.tang=  18.5 (ver= 1274)
+tang_mugri_2f : nslp=  7757, ItGS=  269, wall.tang=   312 (ver= 1274)
+tang_mugri_4f : nslp= 30263, ItGS=  481, wall.tang=  7354 (ver= 1274)
+ ------------------------------------------------------------------------
+tang_parall_1s (8 tr): ItGS=   51, seq.tang=   0.3, par=   0.3, fac=  1.0 (1274)
+tang_parall_2s (8 tr): ItGS=   71, seq.tang=   2.1, par=   1.7, fac=  1.2 (1274)
+tang_parall_4s (8 tr): ItGS=  154, seq.tang=  22.6, par=  14.1, fac=  1.6 (1274)
+tang_parall_8s (8 tr): ItGS=  190, seq.tang=   167, par=   107, fac=  1.6 (1274)
+tang_parall_1c (8 tr): ItGS=   56, seq.tang=   4.8, par=   2.0, fac=  2.4 (1274)
+tang_parall_2c (8 tr): ItGS=   90, seq.tang=  97.3, par=  24.0, fac=  4.1 (1274)
+tang_parall_4c (8 tr): ItGS=  151, seq.tang=  2210, par=   364, fac=  6.1 (1274)
+ ------------------------------------------------------------------------
+table_11x11  : ncase= 3221, ncon=    0, tot.wall=   6.0,   1.9 ms/cs (ver= 1274)
+table_15x15  : ncase= 3221, ncon=    0, tot.wall=  13.0,   4.0 ms/cs (ver= 1274)
+table_19x19  : ncase= 3221, ncon=    0, tot.wall=  31.1,   9.7 ms/cs (ver= 1274)
+table_25x25  : ncase= 3221, ncon=    0, tot.wall=    93,    28 ms/cs (ver= 1274)
+table_35x35  : ncase= 3221, ncon=    0, tot.wall=   433,   134 ms/cs (ver= 1274)
+ ------------------------------------------------------------------------
+tabshft_11x11: ncase= 3221, ncon=    0, tot.wall=   6.5,   2.0 ms/cs (ver= 1274)
+tabshft_15x15: ncase= 3221, ncon=    0, tot.wall=  11.2,   3.5 ms/cs (ver= 1274)
+tabshft_19x19: ncase= 3221, ncon=    0, tot.wall=  19.0,   5.9 ms/cs (ver= 1274)
+tabshft_25x25: ncase= 3221, ncon=    0, tot.wall=  34.1,  10.6 ms/cs (ver= 1274)
+tabshft_35x35: ncase= 3221, ncon=    0, tot.wall=    76,    23 ms/cs (ver= 1274)
+ ------------------------------------------------------------------------
+test_clib_seq11: ncase= 3220, ncon=    0, tot.wall=   5.1,   1.6 ms/cs (ver= 1275)
+test_clib_seq15: ncase= 3220, ncon=    0, tot.wall=  11.7,   3.6 ms/cs (ver= 1275)
+test_clib_seq19: ncase= 3220, ncon=    0, tot.wall=  29.7,   9.2 ms/cs (ver= 1275)
+test_clib_seq25: ncase= 3220, ncon=    0, tot.wall=    91,    28 ms/cs (ver= 1275)
+test_clib_seq35: ncase= 3220, ncon=    0, tot.wall=   431,   133 ms/cs (ver= 1275)
+ ------------------------------------------------------------------------
+test_clib_par11: ncase= 3220, seq.wall=   5.1, par=   0.9, fac= 5.7 (ver= 1275)
+test_clib_par15: ncase= 3220, seq.wall=  11.7, par=   2.0, fac= 5.8 (ver= 1275)
+test_clib_par19: ncase= 3220, seq.wall=  29.7, par=   4.2, fac= 7.1 (ver= 1275)
+test_clib_par25: ncase= 3220, seq.wall=  91.3, par=  12.6, fac= 7.2 (ver= 1275)
+test_clib_par35: ncase= 3220, seq.wall=   430, par=    67, fac= 6.4 (ver= 1275)
+ ------------------------------------------------------------------------
+spence35_nosubs : ncon=  917, nout=  252,  tot.wall=   4.1   (ver= 1274)
+spence35_135pt  :                         wall.subs=     0.7 (ver= 1274)
+spence35_2025pt :                         wall.subs=     1.1 (ver= 1274)
+spence71_nosubs : ncon= 3657, nout=  511,  tot.wall=  30.7   (ver= 1274)
+spence71_273pt  :                         wall.subs=    11.7 (ver= 1274)
+spence71_8281pt :                         wall.subs=    22.0 (ver= 1274)
+ ------------------------------------------------------------------------
+carter2d_100  : ncon=   100, ItCG=  18.0, wall.norm=   1.0 (ver= 1274)
+carter2d_800  : ncon=   801, ItCG=  14.0, wall.norm=   0.3 (ver= 1274)
+veldep_fric   : ncon=   161, ItCG=  16.0, wall.norm=   0.1 (ver= 1274)
+visc_cylindr  : ncon=   195, ItCG= 101.0, wall.norm=   0.2 (ver= 1274)
+ ------------------------------------------------------------------------
+carter2d_100  : nslp=    84, ItGS=  45.5, wall.tang=   5.4 (ver= 1274)
+carter2d_800  : nslp=   668, ItGS=  54.9, wall.tang=  15.4 (ver= 1274)
+veldep_fric   : nslp=     6, ItGS= 408.8, wall.tang=   4.6 (ver= 1274)
+visc_cylindr  : nslp=   177, ItGS= 542.9, wall.tang=   5.0 (ver= 1274)
+ ------------------------------------------------------------------------

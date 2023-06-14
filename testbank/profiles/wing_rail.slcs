@@ -1,0 +1,62 @@
+% data for artificial wing rail shifting sideways at rate 1:10
+
+%  - general parameters and counters
+
+   0.000      1.0    S_OFFSET [m], S_SCALE [mm/mm]
+   21                NSLC
+    5    0    0      NFEAT, NKINK, NACCEL
+    1                S_METHOD (1=intpol, 2=approx)
+
+%  - slice positions S_SLC [mm] and filenames RFNAME per slice
+
+    0.0      'wing_rail/wing_1.prr'
+   10.0      'wing_rail/wing_2.prr'
+   20.0      'wing_rail/wing_3.prr'
+   30.0      'wing_rail/wing_4.prr'
+   40.0      'wing_rail/wing_5.prr'
+   50.0      'wing_rail/wing_6.prr'
+   60.0      'wing_rail/wing_7.prr'
+   70.0      'wing_rail/wing_8.prr'
+   80.0      'wing_rail/wing_9.prr'
+   90.0      'wing_rail/wing_10.prr'
+  100.0      'wing_rail/wing_11.prr'
+  110.0      'wing_rail/wing_12.prr'
+  120.0      'wing_rail/wing_13.prr'
+  130.0      'wing_rail/wing_14.prr'
+  140.0      'wing_rail/wing_15.prr'
+  150.0      'wing_rail/wing_16.prr'
+  160.0      'wing_rail/wing_17.prr'
+  170.0      'wing_rail/wing_18.prr'
+  180.0      'wing_rail/wing_19.prr'
+  190.0      'wing_rail/wing_20.prr'
+  200.0      'wing_rail/wing_21.prr'
+
+%  - part numbers P with kinks and accelerations to part P+1
+
+%  -3           P_KINK(ik)
+%  -1  3        P_ACCEL(ia)
+
+%  - S_F positions at geometrical positions at start/end of each part per slice
+%        S_SLC        S_F,  F = 1 .. NFEAT
+
+    0.0        0.0    3.9267   43.0894   68.7971   299.0
+   10.0        0.0    4.9267   44.0894   69.7971   299.0
+   20.0        0.0    5.9267   45.0894   70.7971   299.0
+   30.0        0.0    6.9267   46.0894   71.7971   299.0
+   40.0        0.0    7.9267   47.0894   72.7971   299.0
+   50.0        0.0    8.9267   48.0894   73.7971   299.0
+   60.0        0.0    9.9267   49.0894   74.7971   299.0
+   70.0        0.0   10.9267   50.0894   75.7971   299.0
+   80.0        0.0   11.9267   51.0894   76.7971   299.0
+   90.0        0.0   12.9267   52.0894   77.7971   299.0
+  100.0        0.0   13.9267   53.0894   78.7971   299.0
+  110.0        0.0   14.9267   54.0894   79.7971   299.0
+  120.0        0.0   15.9267   55.0894   80.7971   299.0
+  130.0        0.0   16.9267   56.0894   81.7971   299.0
+  140.0        0.0   17.9267   57.0894   82.7971   299.0
+  150.0        0.0   18.9267   58.0894   83.7971   299.0
+  160.0        0.0   19.9267   59.0894   84.7971   299.0
+  170.0        0.0   20.9267   60.0894   85.7971   299.0
+  180.0        0.0   21.9267   61.0894   86.7971   299.0
+  190.0        0.0   22.9267   62.0894   87.7971   299.0
+  200.0        0.0   23.9267   63.0894   88.7971   299.0

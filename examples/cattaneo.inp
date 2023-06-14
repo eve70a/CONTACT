@@ -1,0 +1,48 @@
+%
+% Example input file for CONTACT. See User guide, Section 5.1.
+% Cattaneo shift problem on 15x15 grid.
+% Cf. [Kalker1990], section 5.2.1.1.
+%
+% Compression and slow shifting of a polyethylene ball (shear modulus 
+% 200 MPa, Poisson ratio 0.42) on a plane of the same material.
+%
+% The radius of the ball is 50 mm (curvatures A1=B1=0.010 mm^-1). The 
+% normal force is chosen such that the contact area has a radius 
+% (semi-axes AA=BB) of 1 mm.
+%
+% The ball is shifted by a relative tangential force Fx = -7/8 (*Fstat*Fn).
+% This results in a circular adhesion area with radius 0.5. The shift 
+% distance at the center of the ball is Cksi=0.9307.
+%
+
+% First case: using Hertzian input, normal problem only.
+
+ 3  MODULE
+  200100     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022020     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0000331   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   100   100    30     1   0.0001      MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  9.1954      0.000        0.000       0.000        FN, CKSI, CETA, CPHI
+  0.400       0.400                                 FSTAT, FKIN
+  0.420       0.420          200.        200.       POISS 1,2,  GG 1,2
+   -3                                               IPOTCN
+   19   19     1.000       1.000      1.26667       MX,MY,AA,BB,SCALE
+
+% Second case: using non-Hertzian geometry-description, and including the
+%              tangential shift problem.
+
+ 3  MODULE
+  201120     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022020     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0101541   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  9.1954     -0.8750       0.000       0.000        FN, FX, FY, CPHI
+  0.400       0.400                                 FSTAT, FKIN
+  0.420       0.420          200.        200.       POISS 1,2,  GG 1,2
+    1                                               IPOTCN
+   19   19  -1.26667  -1.26667   .13333     .13333  MX,MY,XL,YL,DX,DY
+    1    1                                          IBASE, IPLAN
+%    QUADRATIC UNDEFORMED DISTANCE
+  0.0100    0.000     0.0100    0.000     0.000     0.000     B(I), I=1, 6
+%    UNRESTRICTED PLANFORM
+
+ 0  MODULE

@@ -1,0 +1,409 @@
+%
+%  ug_contact.sty
+%  ---------
+%
+%  Vtech CMCC style-file for CONTACT user guide
+%
+%  Reports:
+%  --------
+%
+%  \pagestyle{vtrep}       change the headtext: Vtech, rep.number
+%  \maketitle              create a title-page with:
+%     \title{}
+%     \author{}
+%     \date{}
+%     \reportnumber{}      sets the report number
+%     \cprtext{}           change the copyright notice (default: No part...)
+%  \chapter		   modified: show head-text also on chapter-pages
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\setlength\overfullrule{0pt}
+%
+% Import packages for distinguishing between plain latex, pdflatex and xelatex
+%
+\usepackage{ifpdf,ifxetex}
+%
+% Import package hugepag for definitions of pagesize
+%
+\usepackage{hugepag}
+%
+% Import packages graphicx and epsfig for PostScript/PDF-figures
+%
+\ifpdf
+   \usepackage[pdftex]{graphicx}
+   \pdfcompresslevel=9
+\else
+   \usepackage{graphicx}
+\fi
+\usepackage{epsfig}
+\usepackage{eurosym}
+%
+% Import package color for comment
+%
+\ifpdf
+   \usepackage[pdftex]{color}
+   \usepackage{pdfcolmk}
+\else
+   \usepackage{color}
+\fi
+\definecolor{darkgreen}{rgb}{ 0.05, 0.50, 0.05}
+%
+% Adjust some elements of head-text etc.
+%
+\def\pageheadtext{Page}
+\def\datetext{Date}
+\def\contentstext{Table of contents}
+\def\listoffigstext{List of figures}
+\def\referencetext{References}
+%
+\def\vtechcmcc{{Vtech CMCC}}
+\def\vortechcmcc{{Vtech CMCC}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% font for Vtech address etc., independent of pointsize
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newfont{\letterfont}{cmss9 scaled\magstep0}
+\newfont{\faxfont}{cmss10 scaled\magstep0}
+\def\wheelfig{fig/trainwheel-workshop}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+% commands Vtech 
+%   vtech         - company name standard style
+%   addrtxt       - the text of the address, tel,fax,email
+%   addrtxtlg     - the text of the address, tel,fax,email, bank,btw,kvk
+%   addrps        - PostScript-figures of the address (vtlogo, shadebx)
+%   vtaddress     - command for displaying the address on the top of a
+%                   page (reports)
+%   vtaddrtop     - command for displaying the address on the top of a
+%                   page (fax, memo's, alt.report)
+%   vtaddrtoplg   - command for displaying the address on the top of a
+%                   page (quotations, agreements, invoices)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+\def\vtdscrplong{Contact $|$ Mechanics $|$ Computing $|$ Consulting}
+\def\vtdscrpshrt{contact mechanics}
+
+\def\addrtxt{
+    \begin{picture}(40,40)(0,0)
+    \put(40,29  ){\makebox(0,0)[tr]{Bahialaan 100}}
+    \put(40,24.5){\makebox(0,0)[tr]{3065 WC Rotterdam}}
+    \put(40,20  ){\makebox(0,0)[tr]{The Netherlands}}
+    % \put(40,14  ){\makebox(0,0)[tr]{tel. +31(0)6-2146 5291}}
+    \put(40,14  ){\makebox(0,0)[tr]{info@vtech-cmcc.nl}}
+    \end{picture}}
+\def\addrtxtlg{
+    \begin{picture}(40,40)(0,0)
+    \put(40,33.5){\makebox(0,0)[tr]{Bahialaan 100}}
+    \put(40,29.0){\makebox(0,0)[tr]{3065 WC Rotterdam, The Netherlands}}
+    \put(40,24.0){\makebox(0,0)[tr]{tel. +31(0)6-2146 5291}}
+    \put(40,18.5){\makebox(0,0)[tr]{KvK Rotterdam 243.78.579}}
+    \put(40,14.0){\makebox(0,0)[tr]{Tax ID NL 8144.51.202.B.01}}
+    \put(40, 9.5){\makebox(0,0)[tr]{BIC/SWIFT RABONL2U}}
+    \put(40, 5.0){\makebox(0,0)[tr]{IBAN NL45.RABO.0115.2840.36}}
+    \end{picture}}
+\def\addrps{}
+
+\def\vtaddrcorner{
+       \setlength{\unitlength}{1mm}
+       \begin{picture}(170,55)(0,0)
+       \put( 96,38.5){\makebox(0,0)[bl]{\large \vtechcmcc}}
+       \put(173,37  ){\makebox(0,0)[br]{\rule{77mm}{0.3mm}}}
+       \put(170,35.5){\makebox(0,0)[tr]{\normalsize\vtdscrpshrt}}
+       \put(162, 0  ){\makebox(0,0)[bl]{\addrps}}
+       \put(170,-2  ){\makebox(0,0)[br]{\faxfont\addrtxt}}
+       \end{picture}}
+\def\vtaddrtop{
+       \setlength{\unitlength}{1mm}
+       \begin{picture}(170,55)(0,0)
+       \put(  3,38.5){\makebox(0,0)[bl]{\LARGE \vtechcmcc}}
+       \put(162, 0  ){\makebox(0,0)[bl]{\addrps}}
+       \put(  0,36.7){\makebox(0,0)[bl]{\rule{173mm}{0.3mm}}}
+       \put(170,35  ){\makebox(0,0)[tr]{\large\vtdscrplong}}
+       \put(170,-2  ){\makebox(0,0)[br]{\faxfont\addrtxt}}
+       \end{picture}}
+\def\vtaddrtoplg{
+       \setlength{\unitlength}{1mm}
+       \begin{picture}(170,55)(0,0.5)
+       \put(162,  0){\makebox(0,0)[bl]{\addrps}}
+       \put(  3, 39.5){\makebox(0,0)[bl]{\LARGE \vtechcmcc}}
+       \put(  0, 38){\makebox(0,0)[tl]{\rule{173mm}{0.3mm}}}
+       \put(  3, 36){\makebox(0,0)[tl]{\large\vtdscrplong}}
+       \put(170,  0){\makebox(0,0)[br]{\faxfont\addrtxtlg}}
+       \end{picture}}
+\def\vtaddress{
+       \setlength{\unitlength}{1mm}
+       \begin{picture}(170,55)(0,0)
+       \put(  3, 41){\makebox(0,0)[bl]{\LARGE \vtechcmcc}}
+       \put(  0, 39){\makebox(0,0)[bl]{\rule{170mm}{0.3mm}}}
+       \put(167, 37){\makebox(0,0)[tr]{\large\vtdscrplong}}
+       \put(167,  0){\makebox(0,0)[br]{\faxfont\addrtxt}}
+       \end{picture}}
+
+% Noot: voor article+12pt+hugepag is \textwidth=167mm, rule steekt links 3mm uit.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Define commands and strings for customizing reports
+%         user commands                    internal string-commands
+%   - title, author, date;             @title, @author, @date
+%   - shorttitle, reportnumber;        @shorttitle, @reportnumber
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\def\title#1{\def\@title{#1}\def\@shorttitle{#1}}
+\def\shorttitle#1{\def\@shorttitle{#1}}
+\def\reportnumber#1{\def\@reportnumber{#1}}
+\def\cprtext#1{\def\@cprtext{#1}}
+\def\revision#1{\def\@revisiontext{#1}}
+%
+\def\@shorttitle{}
+\def\@reportnumber{}
+\def\@revisiontext{}
+%
+\def\@cprtext{    No part of this report may be reproduced, stored in a 
+                     retrieval system or transmitted in any form or by any
+                     means, mechanical, photocopying, recording or otherwise,
+                     without the prior written permission of \vtechcmcc,
+                     Bergschenhoek, the Netherlands. This
+                     permission will not be given without the prior
+                     written permission of the organisation or person that
+                     has ordered this report.\\[0.5ex]
+                     \copyright~\vtechcmcc~\number\year. }
+%
+% Parameters in head- en foot-texts in eigen page-styles:
+%
+\newlength{\textwidthhead}
+\setlength{\headheight}{0.5in}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% define counters needed for generic titlepages:
+%
+\newcounter{vtvertpos0}
+\newcounter{vtvertpos1}
+\newcounter{vtvertpos2}
+\newcounter{vtvertpos3}
+\newcounter{vtvertpos4}
+\newcounter{vtvertpos5}
+\newcounter{vtvertpos6}
+\newcounter{vtvertpos7}
+\newcounter{vtvertpos8}
+\newcounter{vtvertaddr}
+\newcounter{vtpicthght}
+\newcounter{vtheight0}
+\newcounter{vtheight1}
+\newcounter{vtheight2}
+\newcounter{vtheight3}
+\newcounter{vtheight4}
+\newcounter{vtheight5}
+\newcounter{vtheight6}
+\newcounter{vtheight7}
+\newcounter{vtheight8}
+\newcounter{vtaddroffs}
+\newcounter{vtbaseoffs}
+\newcounter{vtpictoffs}
+\newcounter{vtauthheight}
+\newcounter{vttitlepos}
+%
+% set default values for user-adjustable counters:
+%
+\setcounter{vtheight0}{15}
+\setcounter{vtheight1}{6}
+\setcounter{vtheight2}{22}
+\setcounter{vtheight3}{6}
+\setcounter{vtheight4}{6}
+\setcounter{vtheight5}{6}
+\setcounter{vtheight6}{6}
+\setcounter{vtheight7}{6}
+\setcounter{vtheight8}{6}
+\setcounter{vtpictoffs}{-36}
+\setcounter{vtaddroffs}{60}
+\setcounter{vtbaseoffs}{0}
+\setcounter{vtauthheight}{7}
+%
+% define command \vtcomputepositions
+%
+\newcommand{\vtcomputepositions}{
+   \setcounter  {vtvertpos8}{\value{vtbaseoffs}}
+   \addtocounter{vtvertpos8}{\value{vtheight8}}
+   \setcounter  {vtvertpos7}{\value{vtvertpos8}}
+   \addtocounter{vtvertpos7}{\value{vtheight7}}
+   \setcounter  {vtvertpos6}{\value{vtvertpos7}}
+   \addtocounter{vtvertpos6}{\value{vtheight6}}
+   \setcounter  {vtvertpos5}{\value{vtvertpos6}}
+   \addtocounter{vtvertpos5}{\value{vtheight5}}
+   \setcounter  {vtvertpos4}{\value{vtvertpos5}}
+   \addtocounter{vtvertpos4}{\value{vtheight4}}
+   \setcounter  {vtvertpos3}{\value{vtvertpos4}}
+   \addtocounter{vtvertpos3}{\value{vtheight3}}
+   \setcounter  {vtvertpos2}{\value{vtvertpos3}}
+   \addtocounter{vtvertpos2}{\value{vtheight2}}
+   \setcounter  {vtvertpos1}{\value{vtvertpos2}}
+   \addtocounter{vtvertpos1}{\value{vtheight1}}
+   \setcounter  {vtvertpos0}{\value{vtvertpos1}}
+   \addtocounter{vtvertpos0}{\value{vtheight0}}
+   \setcounter  {vtvertaddr}{\value{vtvertpos0}}
+   \addtocounter{vtvertaddr}{\value{vtaddroffs}}
+   \setcounter  {vtpicthght}{\value{vtvertaddr}}
+   \addtocounter{vtpicthght}{\value{vtpictoffs}}
+}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Redefine \maketitle for Vtech reports
+% Define \alttitle
+%   - address, title, reportnumber, date, author, cprtext
+% Redefine \chapter: show head-text also on chapter-pages
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\def\reptypetext{Technical Report}
+\def\repauthtext{Author(s)}
+%
+% page-style voor rapporten:
+%
+\def\ps@vtrep{%
+      \let\@mkboth\markboth
+      \def\@oddhead{\begin{picture}(1,1)(0,35)
+          \put(157,  7  ){\makebox(0,0)[bl]{\addrps}}
+          \put(  0, 40.5){\makebox(0,0)[bl]{\normalsize \vtechcmcc}}
+          \put(  0, 39  ){\makebox(0,0)[bl]{\rule{\textwidth}{0.2mm}}}
+          \put(  0, 38  ){\makebox(0,0)[tl]{\makebox[\textwidth]{%
+                          {\em \reptypetext\/} \@reportnumber \hfill \thepage}}}
+          \end{picture}\hfill}
+      \def\@evenhead{\begin{picture}(1,1)(0,35)
+          \put( -5 ,  7  ){\makebox(0,0)[bl]{\addrps}}
+          \put(  0, 40.5){\makebox(0,0)[bl]{\makebox[\textwidth]{%
+                          \hfill \vtechcmcc}}}
+          \put(  0, 39  ){\makebox(0,0)[bl]{\rule{\textwidth}{0.2mm}}}
+          \put(  0, 38  ){\makebox(0,0)[tl]{\makebox[\textwidth]{%
+                          \thepage \hfill {\em \reptypetext\/} \@reportnumber}}}
+          \end{picture}\hfill}
+      \def\@evenfoot{}
+      \def\@oddfoot{}}
+%
+% titelpagina van rapporten:
+%
+\renewcommand{\maketitle}{
+    \thispagestyle{empty}
+    \setlength{\unitlength}{1mm}
+    \begin{picture}(150,210)(10,0)
+         \ifxetex
+            % XeLaTeX => PDF: 
+            \put( -5, 0){\makebox(0,0)[bl]{
+            \psfig{figure=shadebx5,width=25mm,height=220mm,silent=}}}
+            \put(178.5, 0.5){\makebox(0,0)[br]{
+            \psfig{figure=\wheelfig,width=130mm,trim=0 40 400 0,clip=,silent=}}}
+         \else
+            % LaTeX => PDF: 
+            \put(  0, 0){\makebox(0,0)[bl]{
+            \psfig{figure=shadebx5,width=25mm,height=220mm,silent=}}}
+         \fi
+         \put( 10,192){\makebox(0,0)[bl]{\vtaddress}}
+         \put( 40,180){\begin{minipage}[t]{98mm}\raggedright\baselineskip 4.3ex
+                          {\Large\bf\@title}
+                       \end{minipage}}
+         \put( 40,150){\it\reptypetext}
+         \put( 90,150){\@reportnumber}
+         \put( 40,130){\it\datetext}
+         \put( 40,122){\@date}
+         \put( 40,110){\it\repauthtext}
+         \put( 40,102){\begin{minipage}[t]{98mm}
+		          \@author
+		       \end{minipage}}
+         \put( 40, 90){\begin{minipage}[t]{98mm}
+                          \setlength{\baselineskip}{10pt}
+                          {\@cprtext}
+                       \end{minipage}}
+    \end{picture}
+    \allowfloatsattop
+\newpage
+}
+
+\def\chapter{\if@openright\cleardoublepage\else\clearpage\fi
+                          \global\@topnum\z@
+                          \@afterindentfalse
+                          \secdef\@chapter\@schapter}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+% Commando \tabulminpg voor het maken van 'hoge' minipages binnen een
+% tabular-omgeving.
+%
+% --> eerste regel 2.5ex hoog, onder minipage 2mm extra ruimte
+%
+\newcommand{\tabulminpg}[2]{%
+        \begin{minipage}[t]{#1}%
+                \rule{0mm}{2.5ex}#2\rule[-2mm]{0mm}{2mm}%
+        \end{minipage}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%
+% Prohibit figures and tables to be placed at the top of the first page:
+%  - topnumber is the number of floats allowed at the top of a page
+%  - save the original value now, i.e. when reading the preamble of
+%    the document
+%  - set value 0, no floats allowed at this page, i.e. the first page
+%  - within maketitle: restore the original value of topnumber, which
+%    then takes effect on the following page
+%
+\newcounter{orig_topnumber}
+\setcounter{orig_topnumber}{\value{topnumber}}
+\setcounter{topnumber}{0}
+\newcommand{\allowfloatsattop}{\setcounter{topnumber}{\value{orig_topnumber}}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Environment vtlogsheet en commando vtlogentry voor aanmaken log-sheet
+%
+% table[b] - onderaan pagina
+% breedte kolommen vast m.u.v. 1e - wg. centreren
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newlength{\logdscrpwidth}
+\setlength{\logdscrpwidth}{82mm}
+
+\newlength{\logfilelocwidth}
+\setlength{\logfilelocwidth}{\logdscrpwidth}
+\addtolength{\logfilelocwidth}{32mm}
+
+\newcommand{\vtlogentry}[5]{\multicolumn{1}{|c|}{#1} & #2 & #3 &
+            \tabulminpg{\logdscrpwidth}{\raggedright #4} & #5 \\ \hline}
+
+\newcommand{\vtfilelocation}[1]{
+   \multicolumn{2}{|l}{File location:
+       } & \multicolumn{3}{l|}{\tabulminpg{\logfilelocwidth}{#1}} \\ \hline
+}
+
+\newenvironment{vtlogsheet}{%
+   \color{magenta}
+   \chapter*{Log-sheet}
+   \addcontentsline{toc}{chapter}{Log-sheet}
+
+   \begin{vtlogsheetbody}
+}{
+   \end{vtlogsheetbody}
+   \color{black}
+}
+
+\newenvironment{vtlogsheetbody}{%
+   \begin{table}[ht]
+   \color{magenta}
+   \begin{tabular}{|p{11mm}|p{17mm}|p{21mm}|p{\logdscrpwidth}|p{5mm}|}
+   \hline
+   \mbox{\hspace{-1mm}Version\hspace{-2mm}} & Author & Date &
+                \tabulminpg{\logdscrpwidth}{Description} & \\
+   \hline\hline
+}{
+   \end{tabular}
+   \end{table}
+}
+
+\newcommand{\vtlogsheetbreak}{\end{vtlogsheetbody}\begin{vtlogsheetbody}}

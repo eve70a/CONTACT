@@ -1,0 +1,226 @@
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  022120         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000221         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.050    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+    3                                          IPOTCN
+ 320   1   -8.000   0.000    0.0500   1000.0   MX,MY,XC1,YC1,DX,DY
+    1    1                                     IBASE, IPLAN
+  0.010    0.000     0.000    0.000     0.000     0.000     B(I), I=1, 6
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.100    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.150    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.200    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.250    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.300    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.350    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.400    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.450    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.500    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.550    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.600    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.650    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.700    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.750    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.800    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.850    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.900    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000021         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.950    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+ 3  MODULE
+  203120         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
+  002100         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  000221         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   100   100    30      1     1e-6     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  600000.  -0.990    0.000    0.000            FN, FX, FY, CPHI
+   0.300    0.300                              FSTAT, FKIN
+   0.000    0.050    1000.                     CHI, DQ, VELOC
+   0.400    0.400    1143.    1143.            POISS 1,2,  GG 1,2
+   1.0      1.0      0.009    0.009            FG 1,2, TC 1,2
+
+  0  MODULE

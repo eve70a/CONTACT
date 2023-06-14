@@ -1,0 +1,32 @@
+      version(1) = 'CONTACT - detailed investigation of 3D frictional contact problems'
+      version(2) = '          by E.A.H. Vollebregt and J.J. Kalker'
+      version(3) = ' '
+#if   defined _WIN64
+      version(4) = 'Version: trunk(win64), $Revision: 2343 $, $Date:: 2023-04-14#$'
+#elif defined __x86_64__
+      version(4) = 'Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14#$'
+#elif defined _WIN32
+      version(4) = 'Version: trunk(win32), $Revision: 2343 $, $Date:: 2023-04-14#$'
+#else
+      version(4) = 'Version: trunk(linux32), $Revision: 2343 $, $Date:: 2023-04-14#$'
+#endif
+      version(5) = 'Copyright Vtech CMCC, all rights reserved.'
+      version(6) = ' '
+      version(7) = ' '
+      num_version = 7
+!
+! Remove the hash-sign added by Subversion in Date-expansion:
+!
+      ix = index(version(4),'#')
+      version(4) = version(4)(1:ix-1) // '$'
+!
+! Note: the following lines are added automatically by make (print_ver.pl),
+!       to ensure that the file is modified at each svn commit.
+!       These lines may be removed by "make stripver" after committing.
+!
+      version(7) = '(Subversion revision 2338M, 04-Apr-2023 14:43)'
+      version(7) = '(Subversion revision 2338M, 04-Apr-2023 14:45)'
+      version(7) = '(Subversion revision 2338M, 04-Apr-2023 14:49)'
+      version(7) = '(Subversion revision 2342, 10-Apr-2023 17:33)'
+      version(7) = '(Subversion revision 2342M, 10-Apr-2023 17:35)'
+      version(7) = '(Subversion revision 2342M, 10-Apr-2023 17:37)'

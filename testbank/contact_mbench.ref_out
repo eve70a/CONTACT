@@ -1,0 +1,3471 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:25)                      |
+   |  Licensed to: Edwin Vollebregt (clibrary, floating), VTECH CMCC      |
+   ------------------------------------------------------------------------
+ **                cntc_calculate1(  1): calculating...
+ Case      1 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
+         2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
+         3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
+         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1981       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3481181
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      0.2774      -36.24   1.000E+04      0.2774      -36.24   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0117   -751.4397      0.1380      0.1277      -16.68       4604.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000   -751.8726      0.1252      0.0290      8.6600      0.1252
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000     -1.8726     -0.0729
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.  -5.665E-05       0.000  -6.302E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9997.      0.2774       253.7       4605.   6.042E-02     -0.4677
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1219   9.249E-05   8.458E-02   1.596E-02       338.3
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3956   1291    943    348      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case      1 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
+         2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
+         3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
+         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1981       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3481181
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      0.2774       36.24   1.000E+04      0.2774       36.24   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0117    751.4397      0.1380     -0.1277      -16.68      -4604.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    751.8726      0.1252     -0.0290     -8.6600      0.1252
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000      1.8726     -0.0729
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.  -5.665E-05       0.000   6.302E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9997.      0.2774      -253.7      -4605.   6.042E-02     -0.4677
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1219   9.249E-05  -8.458E-02   1.596E-02       338.3
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3956   1291    943    348      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case      2 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.1759       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1985   1.348E+04, dFz/dz:   8.934E+05
+         2, NR,  z_ws, Fz:       0.1946   1.011E+04, dFz/dz:   8.643E+05
+         3, NR,  z_ws, Fz:       0.1945   1.001E+04, dFz/dz:   8.163E+05
+         4, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   8.152E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000      0.5000      0.1945  -2.304E-05   1.200E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3474134
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       887.1      -2582.   1.000E+04       884.0      -2583.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.8664   -754.2648      0.0656       107.3      -305.3       1219.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.8940   -754.2092      0.0668      0.0211      6.3233      0.0668
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0117     -4.7204     -0.1451
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.  -3.708E-04   1.200E-03  -4.592E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.005E+04       887.1      -2370.       1340.   8.036E-02      -6.042
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1226      0.2942     -0.7860   1.859E-02       395.3
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3015    989    342    647      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case      2 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2016   1.860E+04, dFz/dz:   1.020E+06
+         2, NR,  z_ws, Fz:       0.1932       9375., dFz/dz:   1.094E+06
+         3, NR,  z_ws, Fz:       0.1938       9945., dFz/dz:   9.973E+05
+         4, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   1.001E+06
+         5, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   9.945E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000      0.5000      0.1938  -2.304E-05   1.200E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3474134
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -880.0      -2015.   1.000E+04      -882.4      -2014.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.7756    744.7416      0.4162       285.1       675.5      -3235.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -0.8614    744.5026      0.4289     -0.0568    -16.0300      0.4289
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0314     -6.0075      0.2522
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.   4.948E-04   1.202E-03   1.233E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9870.      -880.0      -2579.      -3202.   7.091E-02      -7.427
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1204     -0.2972     -0.8711   1.948E-02       632.5
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3995   1147     73   1074      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case      3 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.1645       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1871   1.255E+04, dFz/dz:   8.319E+05
+         2, NR,  z_ws, Fz:       0.1841   1.008E+04, dFz/dz:   8.071E+05
+         3, NR,  z_ws, Fz:       0.1840   1.000E+04, dFz/dz:   7.760E+05
+         4, NR,  z_ws, Fz:       0.1840   1.000E+04, dFz/dz:   7.746E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       1.000      0.1840  -5.049E-05   2.400E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3465752
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       829.2      -3070.   1.000E+04       821.8      -3072.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      1.7873   -755.2849      0.0460       26.09      -89.91       316.6
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      1.7955   -755.2440      0.0467      0.0176      5.2886      0.0467
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0195     -6.2694     -0.1754
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1999.  -6.297E-04   2.400E-03  -3.848E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.005E+04       829.2      -2893.       376.0   8.658E-02      -14.45
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1226      0.2749     -0.9592   1.946E-02       423.9
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2820    916      0    916      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case      3 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.1593       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1865   1.179E+04, dFz/dz:   6.503E+05
+         2, NR,  z_ws, Fz:       0.1838       9920., dFz/dz:   6.795E+05
+         3, NR,  z_ws, Fz:       0.1839       9996., dFz/dz:   6.497E+05
+         4, NR,  z_ws, Fz:       0.1839   1.000E+04, dFz/dz:   6.503E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       1.000      0.1839  -5.049E-05   2.400E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3465752
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -814.3      -2142.   1.000E+04      -819.4      -2140.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -1.6958    741.8109      0.5876       5.960       38.76      -68.25
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -1.7013    741.9908      0.5753     -0.0696    -18.5418      0.5753
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0770     -9.0305      0.4288
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2001.   6.943E-04   2.407E-03   1.510E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9827.      -814.3      -2832.      -227.9      0.1043      -14.41
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1198     -0.2762     -0.9607   2.448E-02       741.3
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2550    606      0    606      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case      4 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.1494       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1721   1.198E+04, dFz/dz:   7.940E+05
+         2, NR,  z_ws, Fz:       0.1696   1.005E+04, dFz/dz:   7.740E+05
+         3, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.477E+05
+         4, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.458E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       1.500      0.1695  -8.103E-05   3.600E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3462440
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       641.1      -3095.   1.000E+04       629.9      -3098.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      2.6970   -756.0026      0.0343       11.35      -52.17       177.8
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      2.7017   -755.9669      0.0348      0.0152      4.5657      0.0348
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0254     -7.5089     -0.1960
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1999.  -7.530E-04   3.599E-03  -3.330E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.005E+04       641.1      -2942.       215.2   8.927E-02      -21.65
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1225      0.2127     -0.9763   2.007E-02       446.5
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2585    859      0    859      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case      4 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.1444       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1717   1.143E+04, dFz/dz:   6.287E+05
+         2, NR,  z_ws, Fz:       0.1694   1.001E+04, dFz/dz:   6.238E+05
+         3, NR,  z_ws, Fz:       0.1694   1.000E+04, dFz/dz:   6.056E+05
+         4, NR,  z_ws, Fz:       0.1694   1.000E+04, dFz/dz:   6.058E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       1.500      0.1694  -8.103E-05   3.600E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3462440
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -619.8      -2131.   1.000E+04      -627.5      -2129.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -2.5359    741.3132      0.6237       1.911       18.64      -35.75
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -2.5385    741.3771      0.6189     -0.0753    -19.1554      0.6189
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.1250    -10.1558      0.5094
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2001.   7.903E-04   3.612E-03   1.633E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9811.      -619.8      -2877.      -81.43      0.1077      -21.37
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1197     -0.2106     -0.9774   2.489E-02       754.1
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1836    514      0    514      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case      5 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.1324       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1550   1.156E+04, dFz/dz:   7.664E+05
+         2, NR,  z_ws, Fz:       0.1530   1.003E+04, dFz/dz:   7.500E+05
+         3, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.333E+05
+         4, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.329E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       2.000      0.1530  -1.128E-04   4.800E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3459197
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       546.3      -3096.   1.000E+04       531.4      -3100.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      3.6083   -756.5382      0.0267       6.348      -34.61       116.6
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      3.6112   -756.5056      0.0271      0.0134      4.0270      0.0271
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0299     -8.5660     -0.2114
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1999.  -8.651E-04   4.798E-03  -2.947E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.004E+04       546.3      -2961.       143.4   9.135E-02      -28.86
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1224      0.1814     -0.9830   2.054E-02       465.9
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2444    830      0    830      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case      5 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.1280       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1553   1.147E+04, dFz/dz:   6.312E+05
+         2, NR,  z_ws, Fz:       0.1529   1.003E+04, dFz/dz:   6.169E+05
+         3, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.041E+05
+         4, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.030E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       2.000      0.1529  -1.128E-04   4.800E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3459197
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -517.3      -2095.   1.000E+04      -527.3      -2094.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -3.3668    740.9042      0.6557       1.437       12.63      -29.18
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -3.3682    740.9147      0.6548     -0.0806    -19.6178      0.6548
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.1784    -11.1296      0.5853
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2001.   8.752E-04   4.818E-03   1.746E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9799.      -517.3      -2893.      -37.56      0.1074      -28.39
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1195     -0.1760     -0.9843   2.480E-02       744.8
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1683    505      0    505      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case      6 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.1138       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1364   1.124E+04, dFz/dz:   7.447E+05
+         2, NR,  z_ws, Fz:       0.1347   1.002E+04, dFz/dz:   7.315E+05
+         3, NR,  z_ws, Fz:       0.1347   1.000E+04, dFz/dz:   7.184E+05
+         4, NR,  z_ws, Fz:       0.1347   1.000E+04, dFz/dz:   7.186E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       2.500      0.1347  -1.457E-04   6.000E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3455627
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       492.1      -3091.   1.000E+04       473.5      -3095.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      4.5213   -756.9482      0.0215       4.109      -24.96       83.78
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      4.5233   -756.9177      0.0219      0.0121      3.6148      0.0219
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0337     -9.4982     -0.2235
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1999.  -9.792E-04   5.998E-03  -2.655E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.004E+04       492.1      -2970.       105.0   9.306E-02      -36.08
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1224      0.1634     -0.9863   2.094E-02       483.1
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2350    799      0    799      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case      6 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.1097       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1370   1.160E+04, dFz/dz:   6.380E+05
+         2, NR,  z_ws, Fz:       0.1345   1.004E+04, dFz/dz:   6.229E+05
+         3, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.060E+05
+         4, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.058E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       2.500      0.1344  -1.457E-04   6.000E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3455627
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -456.2      -2047.   1.000E+04      -468.5      -2046.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -4.1882    740.4689      0.6920      0.9062       10.08      -27.09
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -4.1890    740.4620      0.6926     -0.0862    -20.0706      0.6926
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.2384    -12.0933      0.6657
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2001.   9.607E-04   6.025E-03   1.866E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9787.      -456.2      -2900.      -25.37      0.1064      -35.43
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1194     -0.1554     -0.9878   2.461E-02       730.4
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1632    510      0    510      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case      7 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.0932       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1159   1.096E+04, dFz/dz:   7.268E+05
+         2, NR,  z_ws, Fz:       0.1145   1.001E+04, dFz/dz:   7.174E+05
+         3, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.042E+05
+         4, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.038E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       3.000      0.1145  -1.803E-04   7.200E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3451503
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       460.5      -3084.   1.000E+04       438.2      -3089.       9999.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      5.4361   -757.2640      0.0179       2.931      -19.04       63.85
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      5.4373   -757.2358      0.0182      0.0110      3.2967      0.0182
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0370    -10.3382     -0.2334
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1999.  -1.103E-03   7.197E-03  -2.432E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.003E+04       460.5      -2974.       80.74   9.456E-02      -43.31
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1224      0.1530     -0.9881   2.128E-02       498.8
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2352    766      0    766      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case      7 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.0898       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.1171   1.177E+04, dFz/dz:   6.467E+05
+         2, NR,  z_ws, Fz:       0.1143   1.004E+04, dFz/dz:   6.309E+05
+         3, NR,  z_ws, Fz:       0.1143   1.000E+04, dFz/dz:   6.157E+05
+         4, NR,  z_ws, Fz:       0.1143   1.000E+04, dFz/dz:   6.157E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       3.000      0.1143  -1.803E-04   7.200E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3451503
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -417.5      -1988.   1.000E+04      -431.8      -1987.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -4.9983    739.9795      0.7358       1.155       8.877      -26.99
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -4.9990    739.9698      0.7367     -0.0923    -20.5627      0.7367
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.3067    -13.0963      0.7553
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2001.   1.052E-03   7.235E-03   1.998E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9774.      -417.5      -2902.      -23.90      0.1054      -42.48
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1192     -0.1424     -0.9897   2.439E-02       713.2
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1632    530      0    530      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case      8 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.0708       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0934   1.073E+04, dFz/dz:   7.116E+05
+         2, NR,  z_ws, Fz:       0.0924   1.001E+04, dFz/dz:   7.050E+05
+         3, NR,  z_ws, Fz:       0.0924   1.000E+04, dFz/dz:   6.962E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       3.500      0.0924  -2.168E-04   8.400E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3446688
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       443.1      -3078.   1.000E+04       417.2      -3084.       9999.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      6.3521   -757.5068      0.0153       2.245      -15.14       50.80
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      6.3530   -757.4801      0.0156      0.0102      3.0525      0.0156
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0402    -11.1063     -0.2418
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1999.  -1.241E-03   8.395E-03  -2.263E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.003E+04       443.1      -2976.       65.56   9.586E-02      -50.55
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1223      0.1472     -0.9890   2.158E-02       513.4
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2303    748      0    748      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case      8 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.0678       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0952   1.198E+04, dFz/dz:   6.578E+05
+         2, NR,  z_ws, Fz:       0.0922   1.006E+04, dFz/dz:   6.390E+05
+         3, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.207E+05
+         4, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.206E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       3.500      0.0921  -2.168E-04   8.400E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3446688
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -393.1      -1918.   1.000E+04      -409.2      -1917.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -5.7953    739.4199      0.7895       1.146       8.447      -28.61
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -5.7956    739.4071      0.7908     -0.0994    -21.1254      0.7908
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.3853    -14.1700      0.8583
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2001.   1.154E-03   8.447E-03   2.150E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9760.      -393.1      -2901.      -23.33      0.1040      -49.54
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1190     -0.1342     -0.9909   2.410E-02       691.6
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1683    542      0    542      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case      9 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.0462       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0688   1.053E+04, dFz/dz:   6.983E+05
+         2, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.923E+05
+         3, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.857E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       4.000      0.0680  -2.557E-04   9.600E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3440930
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       436.6      -3073.   1.000E+04       407.0      -3079.       9999.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      7.2692   -757.6900      0.0135       1.813      -12.38       41.64
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      7.2699   -757.6645      0.0138      0.0096      2.8681      0.0138
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0434    -11.8167     -0.2490
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1999.  -1.399E-03   9.594E-03  -2.138E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.003E+04       436.6      -2977.       54.89   9.704E-02      -57.81
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1223      0.1451     -0.9893   2.185E-02       527.2
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2205    727      0    727      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case      9 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.0437       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0711   1.229E+04, dFz/dz:   6.738E+05
+         2, NR,  z_ws, Fz:       0.0677   1.007E+04, dFz/dz:   6.528E+05
+         3, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.285E+05
+         4, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.277E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       4.000      0.0676  -2.557E-04   9.600E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3440930
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -379.6      -1833.   1.000E+04      -397.2      -1832.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -6.5747    738.7560      0.8584       1.240       8.592      -32.19
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -6.5746    738.7381      0.8604     -0.1078    -21.7944      0.8604
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.4780    -15.3505      0.9806
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2001.   1.276E-03   9.662E-03   2.330E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9745.      -379.6      -2898.      -24.05      0.1021      -56.61
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1188     -0.1298     -0.9914   2.370E-02       664.4
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1734    561      0    561      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     10 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:       0.0189       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0415   1.036E+04, dFz/dz:   6.866E+05
+         2, NR,  z_ws, Fz:       0.0410   1.000E+04, dFz/dz:   6.841E+05
+         3, NR,  z_ws, Fz:       0.0410   1.000E+04, dFz/dz:   6.799E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       4.500      0.0410  -2.977E-04   1.080E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3433715
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       440.6      -3067.   1.000E+04       407.4      -3075.       9999.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      8.1873   -757.8237      0.0123       1.536      -10.36       34.95
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      8.1878   -757.7990      0.0125      0.0091      2.7335      0.0125
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0468    -12.4799     -0.2554
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1998.  -1.591E-03   1.079E-02  -2.049E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.003E+04       440.6      -2976.       47.29   9.810E-02      -65.09
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1223      0.1465     -0.9892   2.209E-02       540.2
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2107    712      0    712      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     10 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:       0.0171       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0445   1.278E+04, dFz/dz:   6.996E+05
+         2, NR,  z_ws, Fz:       0.0405   1.010E+04, dFz/dz:   6.742E+05
+         3, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.479E+05
+         4, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.473E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       4.500      0.0404  -2.977E-04   1.080E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3433715
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -376.8      -1723.   1.000E+04      -395.4      -1722.       9999.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -7.3289    737.9185      0.9533       1.525       9.551      -40.02
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -7.3279    737.8905      0.9567     -0.1185    -22.6421      0.9567
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.5915    -16.7104      1.1346
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2001.   1.430E-03   1.088E-02   2.559E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9726.      -376.8      -2893.      -25.19   9.935E-02      -63.71
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1186     -0.1291     -0.9915   2.310E-02       625.5
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1887    602      0    602      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     11 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -0.0205       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0018       9961., dFz/dz:   6.707E+05
+         2, NR,  z_ws, Fz:       0.0019   1.000E+04, dFz/dz:   6.706E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.000      0.0019  -3.554E-04   1.200E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3353637
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       837.8      -2977.   1.000E+04       802.0      -2990.       9999.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      9.1065   -757.9189      0.0114       2.408      -8.540       28.75
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      9.1066   -757.8958      0.0116      0.0088      2.6368      0.0116
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0506    -13.1136     -0.2614
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1997.  -3.462E-03   1.198E-02  -1.990E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.003E+04       837.8      -2889.       48.32   9.911E-02      -74.40
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1223      0.2785     -0.9604   2.232E-02       552.8
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2107    692      0    692      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     11 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.0023       7420., dFz/dz:   4.501E+05
+         2, NR,  z_ws, Fz:       0.0034   1.139E+04, dFz/dz:   6.932E+05
+         3, NR,  z_ws, Fz:       0.0014       9914., dFz/dz:   7.359E+05
+         4, NR,  z_ws, Fz:       0.0015       9997., dFz/dz:   7.068E+05
+         5, NR,  z_ws, Fz:       0.0015      10000., dFz/dz:   7.004E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.000      0.0015  -3.554E-04   1.200E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3353637
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -763.3       131.6      10000.      -761.7       137.2   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -7.0519    727.9412      2.7850       130.2      -9.804      -1711.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -6.9999    727.0855      3.0041     -0.2905    -33.4470      3.0041
+
+     XCP(W)      YCP(W)      ZCP(W)
+      1.6634    -28.0471      3.2592
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2004.   4.174E-03   1.255E-02   6.188E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9619.      -763.3      -2738.      -826.6      0.1061      -75.99
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1173     -0.2645     -0.9488   2.719E-02       1556.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3905    389      0    389      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     12 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -0.1091       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.0858   1.048E+04, dFz/dz:   6.751E+05
+         2, NR,  z_ws, Fz:      -0.0865   1.000E+04, dFz/dz:   6.693E+05
+         3, NR,  z_ws, Fz:      -0.0865   1.000E+04, dFz/dz:   6.658E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.500     -0.0865  -4.777E-04   1.320E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3318864
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       934.1      -2944.   1.000E+04       895.1      -2961.       9999.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     10.0267   -757.9972      0.0108       2.308      -8.641       24.31
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     10.0266   -757.9746      0.0110      0.0085      2.5580      0.0110
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0548    -13.7601     -0.2673
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1996.  -4.292E-03   1.317E-02  -1.959E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.002E+04       934.1      -2859.       45.16      0.1001      -82.67
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1223      0.3106     -0.9505   2.255E-02       565.8
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   2009    679      0    679      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     12 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -0.1176       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.0910       7944., dFz/dz:   4.487E+05
+         2, NR,  z_ws, Fz:      -0.0864   1.009E+04, dFz/dz:   4.684E+05
+         3, NR,  z_ws, Fz:      -0.0866       9997., dFz/dz:   4.846E+05
+         4, NR,  z_ws, Fz:      -0.0866      10000., dFz/dz:   4.838E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.500     -0.0866  -4.777E-04   1.320E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3318864
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -850.2       572.9      10000.      -842.7       579.3   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -7.3779    726.1267      3.2972       4.092       8.681      -54.40
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -7.3700    726.1169      3.3006     -0.3363    -34.4157      3.3006
+
+     XCP(W)      YCP(W)      ZCP(W)
+      2.1396    -29.5701      3.7315
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2004.   4.379E-03   1.401E-02   7.122E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9629.      -850.2      -2759.      -17.76      0.1242      -84.73
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1174     -0.2943     -0.9552   2.926E-02       1486.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    969    258      0    258      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     13 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -0.2185       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.1949   1.052E+04, dFz/dz:   6.695E+05
+         2, NR,  z_ws, Fz:      -0.1957   1.000E+04, dFz/dz:   6.645E+05
+         3, NR,  z_ws, Fz:      -0.1957   1.000E+04, dFz/dz:   6.560E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       6.000     -0.1957  -6.272E-04   1.440E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3293718
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       973.1      -2929.   1.000E+04       930.8      -2949.       9998.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     10.9471   -758.0421      0.0104       2.111      -9.014       20.91
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     10.9471   -758.0210      0.0106      0.0084      2.5116      0.0106
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0597    -14.3878     -0.2730
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1995.  -4.901E-03   1.437E-02  -1.957E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.002E+04       973.1      -2845.       41.57      0.1011      -90.59
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1222      0.3236     -0.9462   2.278E-02       578.5
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1960    658      0    658      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     13 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -0.2259       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.2022       7117., dFz/dz:   4.503E+05
+         2, NR,  z_ws, Fz:      -0.1958   1.017E+04, dFz/dz:   4.763E+05
+         3, NR,  z_ws, Fz:      -0.1961       9991., dFz/dz:   5.012E+05
+         4, NR,  z_ws, Fz:      -0.1961      10000., dFz/dz:   5.003E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       6.000     -0.1961  -6.272E-04   1.440E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3293718
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -880.0       1401.      10000.      -859.8       1408.   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -7.4129    725.1701      3.6736       5.081      -12.16      -57.17
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -7.3822    725.1371      3.6882     -0.4176    -35.3954      3.6882
+
+     XCP(W)      YCP(W)      ZCP(W)
+      2.9696    -31.1222      4.3352
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2005.   5.077E-03   1.580E-02   8.744E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9709.      -880.0      -2775.       59.67      0.1171      -96.52
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1184     -0.3021     -0.9527   2.728E-02       1149.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1197    332      0    332      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     14 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -3.0696       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -3.0420   1.257E+04, dFz/dz:   6.831E+05
+         2, NR,  z_ws, Fz:      -3.0458   1.009E+04, dFz/dz:   6.591E+05
+         3, NR,  z_ws, Fz:      -3.0459   1.000E+04, dFz/dz:   6.330E+05
+         4, NR,  z_ws, Fz:      -3.0459   1.000E+04, dFz/dz:   6.327E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       6.500     -3.0459  -4.376E-03   1.560E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2748834
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       2260.      -2043.   1.000E+04       2227.      -2121.       9991.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     11.8693   -758.6418      0.0060       2.063      -225.6      -32.99
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     11.8913   -758.6243      0.0061      0.0064      1.9083      0.0061
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0771    -17.2354     -0.3006
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1983.  -1.764E-02   1.546E-02  -2.319E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.001E+04       2260.      -1979.       51.61      0.1051      -139.3
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1221      0.7524     -0.6587   2.369E-02       637.0
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1836    601      0    601      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     14 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -3.1382       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -3.0841       4593., dFz/dz:   1.274E+05
+         2, NR,  z_ws, Fz:      -3.0570       8370., dFz/dz:   1.397E+05
+         3, NR,  z_ws, Fz:      -3.0442   1.042E+04, dFz/dz:   1.603E+05
+         4, NR,  z_ws, Fz:      -3.0469       9988., dFz/dz:   1.650E+05
+         5, NR,  z_ws, Fz:      -3.0468      10000., dFz/dz:   1.641E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       6.500     -3.0468  -4.376E-03   1.560E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2748834
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -1987.   1.248E+04      10000.      -1792.   1.247E+04   1.005E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      5.7852    718.4776     10.4011       65.28      -912.8       298.8
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      5.8010    718.4931     10.3654     -1.1591    -42.0394     10.3654
+
+     XCP(W)      YCP(W)      ZCP(W)
+     16.8745    -40.2622     16.5234
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2018.   1.828E-02   3.905E-02   1.937E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.544E+04      -1987.      -4170.      -728.2      0.2481      -405.1
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1883     -0.4289     -0.9003   3.623E-02       2603.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1164    249      0    249      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     15 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -4.6045       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -4.5759   1.285E+04, dFz/dz:   6.760E+05
+         2, NR,  z_ws, Fz:      -4.5802   1.011E+04, dFz/dz:   6.507E+05
+         3, NR,  z_ws, Fz:      -4.5803   1.000E+04, dFz/dz:   6.219E+05
+         4, NR,  z_ws, Fz:      -4.5803   1.000E+04, dFz/dz:   6.215E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       7.000     -4.5803  -6.393E-03   1.680E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2635629
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       2327.      -1964.   1.000E+04       2292.      -2067.       9987.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     12.7868   -758.6240      0.0061       2.085      -277.8      -42.62
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     12.8140   -758.6092      0.0062      0.0064      1.9234      0.0062
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.0990    -18.6704     -0.3175
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1980.  -2.035E-02   1.663E-02  -2.761E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.001E+04       2327.      -1900.       45.23      0.1071      -155.8
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1221      0.7746     -0.6325   2.412E-02       666.7
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1785    575      0    575      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     15 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -4.6549       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -4.5979       6765., dFz/dz:   1.783E+05
+         2, NR,  z_ws, Fz:      -4.5798   1.022E+04, dFz/dz:   1.902E+05
+         3, NR,  z_ws, Fz:      -4.5809       9985., dFz/dz:   2.033E+05
+         4, NR,  z_ws, Fz:      -4.5809      10000., dFz/dz:   2.029E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       7.000     -4.5809  -6.393E-03   1.680E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2635629
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -2079.   1.049E+04      10000.      -1903.   1.046E+04   1.007E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      2.3138    719.0298      9.2790       74.99      -1058.       352.1
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      2.3584    719.0445      9.2525     -1.0634    -41.4881      9.2525
+
+     XCP(W)      YCP(W)      ZCP(W)
+     14.2687    -41.1389     18.3758
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2020.   1.949E-02   3.457E-02   1.838E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.403E+04      -2079.      -3644.      -654.2      0.2216      -338.8
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1711     -0.4940     -0.8659   3.563E-02       2622.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    957    224      0    224      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     16 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -5.5537       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -5.5249   1.284E+04, dFz/dz:   6.687E+05
+         2, NR,  z_ws, Fz:      -5.5291   1.011E+04, dFz/dz:   6.437E+05
+         3, NR,  z_ws, Fz:      -5.5293   1.000E+04, dFz/dz:   6.163E+05
+         4, NR,  z_ws, Fz:      -5.5293   1.000E+04, dFz/dz:   6.158E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       7.500     -5.5293  -7.642E-03   1.800E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2575747
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       2327.      -1969.   1.000E+04       2290.      -2087.       9985.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     13.7020   -758.4584      0.0072       2.034      -297.2      -46.93
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     13.7311   -758.4440      0.0073      0.0070      2.0885      0.0073
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.1210    -19.6018     -0.3303
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1978.  -2.180E-02   1.781E-02  -3.146E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.001E+04       2327.      -1899.       43.85      0.1082      -166.9
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1221      0.7748     -0.6322   2.438E-02       685.9
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1734    559      0    559      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     16 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -5.5956       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -5.5415       7474., dFz/dz:   2.071E+05
+         2, NR,  z_ws, Fz:      -5.5293   1.012E+04, dFz/dz:   2.168E+05
+         3, NR,  z_ws, Fz:      -5.5299       9994., dFz/dz:   2.279E+05
+         4, NR,  z_ws, Fz:      -5.5298      10000., dFz/dz:   2.269E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       7.500     -5.5298  -7.642E-03   1.800E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2575747
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -2086.       9344.      10000.      -1919.       9303.   1.007E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.4512    719.4491      8.5747       73.10      -1067.       340.3
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.5078    719.4632      8.5526     -1.0006    -41.0693      8.5526
+
+     XCP(W)      YCP(W)      ZCP(W)
+     13.2568    -41.8043     19.5093
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2021.   2.044E-02   3.333E-02   1.765E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.326E+04      -2086.      -3375.      -578.2      0.2073      -315.6
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1617     -0.5242     -0.8481   3.524E-02       2630.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    913    208      0    208      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     17 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -6.2851       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -6.2561   1.281E+04, dFz/dz:   6.627E+05
+         2, NR,  z_ws, Fz:      -6.2604   1.011E+04, dFz/dz:   6.378E+05
+         3, NR,  z_ws, Fz:      -6.2606   1.000E+04, dFz/dz:   6.128E+05
+         4, NR,  z_ws, Fz:      -6.2606   1.000E+04, dFz/dz:   6.120E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       8.000     -6.2606  -8.606E-03   1.920E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2534857
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       2310.      -1998.   1.000E+04       2270.      -2128.       9982.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     14.6159   -758.2352      0.0088       1.971      -304.7      -49.47
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     14.6457   -758.2223      0.0089      0.0077      2.3103      0.0089
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.1441    -20.3458     -0.3418
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1977.  -2.281E-02   1.899E-02  -3.511E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.002E+04       2310.      -1921.       40.02      0.1091      -175.9
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1221      0.7689     -0.6394   2.458E-02       701.1
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1683    549      0    549      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     17 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -6.3220       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -6.2707       7825., dFz/dz:   2.287E+05
+         2, NR,  z_ws, Fz:      -6.2612   1.008E+04, dFz/dz:   2.374E+05
+         3, NR,  z_ws, Fz:      -6.2616       9996., dFz/dz:   2.485E+05
+         4, NR,  z_ws, Fz:      -6.2615      10000., dFz/dz:   2.476E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       8.000     -6.2615  -8.606E-03   1.920E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2534857
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -2070.       8493.      10000.      -1909.       8445.   1.007E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.9637    719.8180      8.0282       67.99      -1032.       308.6
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -0.9036    719.8316      8.0092     -0.9501    -40.7010      8.0092
+
+     XCP(W)      YCP(W)      ZCP(W)
+     12.6841    -42.3894     20.3791
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2021.   2.127E-02   3.300E-02   1.701E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.272E+04      -2070.      -3195.      -516.1      0.1971      -304.0
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1552     -0.5423     -0.8370   3.494E-02       2634.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    869    199      0    199      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     18 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -6.8925       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -6.8634   1.276E+04, dFz/dz:   6.574E+05
+         2, NR,  z_ws, Fz:      -6.8676   1.010E+04, dFz/dz:   6.328E+05
+         3, NR,  z_ws, Fz:      -6.8677   1.000E+04, dFz/dz:   6.095E+05
+         4, NR,  z_ws, Fz:      -6.8677   1.000E+04, dFz/dz:   6.088E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       8.500     -6.8677  -9.408E-03   2.040E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2503245
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       2285.      -2037.   1.000E+04       2242.      -2177.       9980.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     15.5284   -757.9798      0.0109       1.903      -306.3      -51.07
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     15.5584   -757.9681      0.0110      0.0086      2.5645      0.0110
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.1686    -20.9835     -0.3527
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1977.  -2.360E-02   2.017E-02  -3.864E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.002E+04       2285.      -1951.       36.85      0.1098      -183.9
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1222      0.7605     -0.6493   2.474E-02       714.0
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1632    543      0    543      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     18 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -6.9252       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -6.8762       8097., dFz/dz:   2.476E+05
+         2, NR,  z_ws, Fz:      -6.8685   1.006E+04, dFz/dz:   2.547E+05
+         3, NR,  z_ws, Fz:      -6.8687       9998., dFz/dz:   2.648E+05
+         4, NR,  z_ws, Fz:      -6.8687   1.000E+04, dFz/dz:   2.648E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       8.500     -6.8687  -9.408E-03   2.040E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2503245
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -2044.       7801.   1.000E+04      -1887.       7747.   1.007E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -2.1788    720.1578      7.5728       62.63      -976.2       268.5
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -2.1179    720.1709      7.5561     -0.9065    -40.3617      7.5561
+
+     XCP(W)      YCP(W)      ZCP(W)
+     12.3079    -42.9279     21.0991
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2022.   2.200E-02   3.309E-02   1.642E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.231E+04      -2044.      -3064.      -459.9      0.1893      -297.5
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1501     -0.5537     -0.8299   3.469E-02       2638.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    847    192      0    192      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     19 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -7.4161       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -7.3869   1.270E+04, dFz/dz:   6.528E+05
+         2, NR,  z_ws, Fz:      -7.3911   1.010E+04, dFz/dz:   6.290E+05
+         3, NR,  z_ws, Fz:      -7.3912   1.000E+04, dFz/dz:   6.050E+05
+         4, NR,  z_ws, Fz:      -7.3913   1.000E+04, dFz/dz:   6.042E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       9.000     -7.3913  -1.010E-02   2.160E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2477561
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       2257.      -2080.   1.000E+04       2209.      -2229.       9978.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     16.4400   -757.7031      0.0134       1.834      -304.0      -52.00
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     16.4697   -757.6922      0.0135      0.0095      2.8403      0.0135
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.1945    -21.5501     -0.3634
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1976.  -2.425E-02   2.135E-02  -4.210E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.002E+04       2257.      -1985.       34.39      0.1105      -191.4
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1222      0.7509     -0.6604   2.489E-02       725.3
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1632    532      0    532      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     19 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -7.4455       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -7.3979       8366., dFz/dz:   2.637E+05
+         2, NR,  z_ws, Fz:      -7.3917   1.004E+04, dFz/dz:   2.705E+05
+         3, NR,  z_ws, Fz:      -7.3919       9999., dFz/dz:   2.797E+05
+         4, NR,  z_ws, Fz:      -7.3919   1.000E+04, dFz/dz:   2.797E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       9.000     -7.3919  -1.010E-02   2.160E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2477561
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -2014.       7213.   1.000E+04      -1860.       7153.   1.007E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -3.2856    720.4778      7.1791       57.00      -910.5       226.4
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -3.2265    720.4903      7.1643     -0.8676    -40.0422      7.1643
+
+     XCP(W)      YCP(W)      ZCP(W)
+     12.0370    -43.4346     21.7187
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2023.   2.266E-02   3.341E-02   1.588E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.197E+04      -2014.      -2963.      -411.9      0.1829      -293.9
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1460     -0.5609     -0.8254   3.447E-02       2640.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    825    186      0    186      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     20 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -7.8778       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -7.8486   1.265E+04, dFz/dz:   6.486E+05
+         2, NR,  z_ws, Fz:      -7.8527   1.009E+04, dFz/dz:   6.257E+05
+         3, NR,  z_ws, Fz:      -7.8528   1.000E+04, dFz/dz:   6.001E+05
+         4, NR,  z_ws, Fz:      -7.8528   1.000E+04, dFz/dz:   5.985E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       9.500     -7.8528  -1.071E-02   2.280E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2455665
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       2227.      -2125.   1.000E+04       2175.      -2282.       9977.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     17.3504   -757.4113      0.0163       1.767      -299.3      -52.42
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     17.3797   -757.4008      0.0164      0.0105      3.1318      0.0164
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.2219    -22.0650     -0.3739
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1975.  -2.482E-02   2.253E-02  -4.549E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.002E+04       2227.      -2020.       33.43      0.1110      -198.6
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1222      0.7407     -0.6718   2.501E-02       735.2
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1632    520      0    520      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     20 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -7.9046       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -7.8583       8603., dFz/dz:   2.789E+05
+         2, NR,  z_ws, Fz:      -7.8533   1.003E+04, dFz/dz:   2.844E+05
+         3, NR,  z_ws, Fz:      -7.8534       9999., dFz/dz:   2.913E+05
+         4, NR,  z_ws, Fz:      -7.8534   1.000E+04, dFz/dz:   2.914E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       9.500     -7.8534  -1.071E-02   2.280E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2455665
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -1981.       6697.   1.000E+04      -1830.       6633.   1.007E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -4.3299    720.7830      6.8310       51.63      -840.1       185.1
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -4.2731    720.7950      6.8178     -0.8321    -39.7376      6.8178
+
+     XCP(W)      YCP(W)      ZCP(W)
+     11.8273    -43.9174     22.2644
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2024.   2.325E-02   3.388E-02   1.536E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.168E+04      -1981.      -2884.      -368.0      0.1776      -292.0
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1425     -0.5652     -0.8228   3.428E-02       2641.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    803    181      0    181      1      1
+ **                cntc_calculate1(  2): done...
+ **                cntc_calculate1(  1): calculating...
+ Case     21 for w/r contact on result element  1
+         0, NR,  z_ws, Fz:      -8.2913       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -8.2620   1.261E+04, dFz/dz:   6.452E+05
+         2, NR,  z_ws, Fz:      -8.2661   1.009E+04, dFz/dz:   6.226E+05
+         3, NR,  z_ws, Fz:      -8.2662   1.000E+04, dFz/dz:   5.969E+05
+         4, NR,  z_ws, Fz:      -8.2662   1.000E+04, dFz/dz:   5.963E+05
+
+ WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 0, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       10.00     -8.2662  -1.126E-02   2.400E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2436375
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       2196.      -2169.   1.000E+04       2141.      -2334.       9975.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     18.2599   -757.1077      0.0196       1.702      -293.0      -52.46
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     18.2884   -757.0975      0.0197      0.0115      3.4351      0.0197
+
+     XCP(W)      YCP(W)      ZCP(W)
+     -0.2508    -22.5401     -0.3844
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           1975.  -2.532E-02   2.371E-02  -4.883E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.002E+04       2196.      -2054.       32.16      0.1115      -205.6
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1222      0.7302     -0.6832   2.511E-02       744.0
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1643    515      0    515      1      1
+ **                cntc_calculate1(  1): done...
+ **                cntc_calculate1(  2): calculating...
+ Case     21 for w/r contact on result element  2
+         0, NR,  z_ws, Fz:      -8.3159       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -8.2709       8774., dFz/dz:   2.922E+05
+         2, NR,  z_ws, Fz:      -8.2667   1.002E+04, dFz/dz:   2.976E+05
+         3, NR,  z_ws, Fz:      -8.2668       9999., dFz/dz:   3.055E+05
+         4, NR,  z_ws, Fz:      -8.2668   1.000E+04, dFz/dz:   3.055E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "profiles/MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       10.00     -8.2668  -1.126E-02   2.400E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.2436375
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -1947.       6235.   1.000E+04      -1800.       6167.   1.007E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -5.3342    721.0765      6.5185       46.67      -768.0       146.0
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -5.2821    721.0880      6.5066     -0.7992    -39.4446      6.5066
+
+     XCP(W)      YCP(W)      ZCP(W)
+     11.6545    -44.3815     22.7530
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2024.   2.378E-02   3.445E-02   1.486E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.144E+04      -1947.      -2820.      -333.7      0.1730      -291.3
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1395     -0.5672     -0.8216   3.411E-02       2643.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    781    177      0    177      1      1
+ **                cntc_calculate1(  2): done...
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       6.9 | 100.0 |        6.9 | 100.0 |
+|Wheel-rail cases     |      42 |       6.7 |  96.6 |        6.7 |  96.8 |
+|Subsurface points    |       1 |       0.2 |   2.9 |        0.2 |   2.9 |
+|W/r profiles         |       4 |       0.0 |   0.5 |        0.0 |   0.3 |
+|Geometric analysis   |     206 |       0.4 |   5.2 |        0.3 |   4.3 |
+|Panag.process        |     164 |       6.1 |  88.0 |        6.1 |  88.4 |
+|Algorithm Norm       |     164 |       0.9 |  12.7 |        0.9 |  12.7 |
+|Algorithm Tang       |     164 |       5.2 |  74.9 |        5.2 |  75.3 |
+|Output quantities    |     206 |       0.1 |   1.1 |        0.1 |   1.8 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |     164 |       0.8 |  12.0 |        0.8 |  11.9 |
+|Tang: StedyGS solver |     164 |       5.1 |  73.8 |        5.1 |  74.2 |
+|------------------------------------------------------------------------|
+|Result element  1    |      21 |       3.4 |  49.8 |        3.4 |  49.8 |
+|Result element  2    |      22 |       3.4 |  49.8 |        3.4 |  49.9 |
+|------------------------------------------------------------------------|

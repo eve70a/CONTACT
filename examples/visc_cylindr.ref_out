@@ -1,0 +1,485 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   ------------------------------------------------------------------------
+
+ Case     1
+ NORM
+       1, Norm: size of Contact, Exterior :     99      0
+      Norm: final element division: C, E=     80     19  ItCG=    24
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      80      0
+         0, NR_Fy,    Cksi, Fxk:    1.000E-06  -5.330E-05
+                      Ceta, Fyk:        0.000       0.000   ItGS:   29
+         1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.132E-04
+                      Ceta, Fyk:    3.000E-06  -9.595E-05   ItGS:   54
+         2, NR_Fy,    Cksi, Fxk:    1.126E-02     -0.5099
+                      Ceta, Fyk:        0.000   2.419E-08   ItGS:   36
+         3, NR_Fy,    Cksi, Fxk:    1.325E-02     -0.5816
+                      Ceta, Fyk:    8.543E-10  -2.174E-08   ItGS:   21
+         4, NR_Fy,    Cksi, Fxk:    1.376E-02     -0.5991
+                      Ceta, Fyk:    8.667E-11  -4.296E-09   ItGS:   17
+         5, NR_Fy,    Cksi, Fxk:    1.378E-02     -0.6000
+                      Ceta, Fyk:   -6.503E-11   1.413E-09   ItGS:    9
+      Tang: final element division: A, S=     51     29  ItGS=   166
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  2, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  1, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ TANGENTIAL FORCE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.4000       1143.       0.000      0.1000E-04
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.4000      0.4000       1143.       1143.    
+
+ VISCOELASTIC MATERIAL CONSTANTS
+     NUV         GV          AKV
+    0.4000       571.5       0.000    
+
+     FG(1)       FG(2)       TC(1)       TC(2)       VT(1)       VT(2)
+     1.000       1.000           0.000       0.000       0.000       0.000
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
+     0.000      0.1600           1000.     -0.6000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     6.000E+05  -1.080E+05       0.000       0.000       749.1      -1438.
+     FN/G       CREEP X      CREEP Y     APPROACH     PMAX    
+         524.9   1.378E-02       0.000       2.508       60.32
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -34.0        0.00        0.00
+   FY         0.00        0.00       -28.3        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+      99     80     51     29      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSSSSSSSSSSSSSSSSSS***************************************************o
+        1         2         3         4         5         6         7         8         9
+        0123456789012345678901234567890123456789012345678901234567890123456789012345678901
+     X  -->        Chi=  0.00 degrees
+
+ Case     2
+ NORM
+       1, Norm: size of Contact, Exterior :     99      0
+      Norm: final element division: C, E=     62     37  ItCG=    51
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      62      0
+         0, NR_Fy,    Cksi, Fxk:    1.000E-06  -5.338E-05
+                      Ceta, Fyk:        0.000       0.000   ItGS:   53
+         1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.135E-04
+                      Ceta, Fyk:    3.000E-06  -9.610E-05   ItGS:  100
+         2, NR_Fy,    Cksi, Fxk:    1.124E-02     -0.5132
+                      Ceta, Fyk:        0.000  -1.328E-09   ItGS:   55
+         3, NR_Fy,    Cksi, Fxk:    1.314E-02     -0.5823
+                      Ceta, Fyk:   -4.669E-11   1.347E-09   ItGS:   32
+         4, NR_Fy,    Cksi, Fxk:    1.363E-02     -0.5992
+                      Ceta, Fyk:    6.878E-13  -5.147E-11   ItGS:   26
+         5, NR_Fy,    Cksi, Fxk:    1.365E-02     -0.6000
+                      Ceta, Fyk:   -1.123E-12   3.230E-11   ItGS:   13
+      Tang: final element division: A, S=     37     25  ItGS=   279
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  2, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  1, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ TANGENTIAL FORCE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.4000       1143.       0.000      0.1000E-04
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.4000      0.4000       1143.       1143.    
+
+ VISCOELASTIC MATERIAL CONSTANTS
+     NUV         GV          AKV
+    0.4000       1143.       0.000    
+
+     FG(1)       FG(2)       TC(1)       TC(2)       VT(1)       VT(2)
+     1.000       1.000       9.000E-03   9.000E-03       9.000       9.000
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
+     0.000      0.1600           1000.     -0.6000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     6.000E+05  -1.080E+05       0.000       0.000       712.9      -913.7
+     FN/G       CREEP X      CREEP Y     APPROACH     PMAX    
+         524.9   1.365E-02       0.000       2.367       78.74
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -34.5        0.00        0.00
+   FY         0.00        0.00       -28.4        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+      99     62     37     25      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSSSSSSSSSSSSS*************************************So
+             3         4         5         6         7         8
+        5678901234567890123456789012345678901234567890123456789012345678
+     X  -->        Chi=  0.00 degrees
+
+ Case     3
+ NORM
+       1, Norm: size of Contact, Exterior :     99      0
+      Norm: final element division: C, E=     57     42  ItCG=    34
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      57      0
+         0, NR_Fy,    Cksi, Fxk:    1.000E-06  -6.220E-05
+                      Ceta, Fyk:        0.000       0.000   ItGS:   33
+         1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.488E-04
+                      Ceta, Fyk:    3.000E-06  -1.120E-04   ItGS:   62
+         2, NR_Fy,    Cksi, Fxk:    9.647E-03     -0.5188
+                      Ceta, Fyk:        0.000   1.489E-08   ItGS:   37
+         3, NR_Fy,    Cksi, Fxk:    1.116E-02     -0.5848
+                      Ceta, Fyk:    4.444E-10  -1.418E-08   ItGS:   22
+         4, NR_Fy,    Cksi, Fxk:    1.150E-02     -0.5994
+                      Ceta, Fyk:    2.106E-11  -1.304E-09   ItGS:   17
+         5, NR_Fy,    Cksi, Fxk:    1.152E-02     -0.6000
+                      Ceta, Fyk:   -1.786E-11   5.282E-10   ItGS:    8
+         6, NR_Fy,    Cksi, Fxk:    1.152E-02     -0.6000
+                      Ceta, Fyk:   -2.091E-12   1.035E-10   ItGS:    3
+      Tang: final element division: A, S=     36     21  ItGS=   182
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  2, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  1, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ TANGENTIAL FORCE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.4000       1143.       0.000      0.1000E-04
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.4000      0.4000       1143.       1143.    
+
+ VISCOELASTIC MATERIAL CONSTANTS
+     NUV         GV          AKV
+    0.4000       1143.       0.000    
+
+     FG(1)       FG(2)       TC(1)       TC(2)       VT(1)       VT(2)
+     1.000       1.000       4.500E-02   4.500E-02       45.00       45.00
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
+     0.000      0.1600           1000.     -0.6000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     6.000E+05  -1.080E+05       0.000       0.000       625.0      -952.0
+     FN/G       CREEP X      CREEP Y     APPROACH     PMAX    
+         524.9   1.152E-02       0.000       2.063       84.72
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -41.3        0.00        0.00
+   FY         0.00        0.00       -33.5        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+      99     57     36     21      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSSSSSSSSSS************************************o
+             3         4         5         6         7         8
+        56789012345678901234567890123456789012345678901234567890123
+     X  -->        Chi=  0.00 degrees
+
+ Case     4
+ NORM
+       1, Norm: size of Contact, Exterior :     99      0
+      Norm: final element division: C, E=     56     43  ItCG=    33
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      56      0
+         0, NR_Fy,    Cksi, Fxk:    1.000E-06  -7.379E-05
+                      Ceta, Fyk:        0.000       0.000   ItGS:   25
+         1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.952E-04
+                      Ceta, Fyk:    3.000E-06  -1.330E-04   ItGS:   47
+         2, NR_Fy,    Cksi, Fxk:    8.131E-03     -0.5109
+                      Ceta, Fyk:        0.000   3.736E-08   ItGS:   32
+         3, NR_Fy,    Cksi, Fxk:    9.548E-03     -0.5817
+                      Ceta, Fyk:    9.502E-10  -3.310E-08   ItGS:   18
+         4, NR_Fy,    Cksi, Fxk:    9.914E-03     -0.5992
+                      Ceta, Fyk:    1.086E-10  -7.039E-09   ItGS:   15
+         5, NR_Fy,    Cksi, Fxk:    9.931E-03     -0.6000
+                      Ceta, Fyk:   -7.043E-11   1.949E-09   ItGS:    8
+         6, NR_Fy,    Cksi, Fxk:    9.932E-03     -0.6000
+                      Ceta, Fyk:   -2.086E-11   1.026E-09   ItGS:    3
+      Tang: final element division: A, S=     35     21  ItGS=   148
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  2, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  1, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ TANGENTIAL FORCE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.4000       1143.       0.000      0.1000E-04
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.4000      0.4000       1143.       1143.    
+
+ VISCOELASTIC MATERIAL CONSTANTS
+     NUV         GV          AKV
+    0.4000       1143.       0.000    
+
+     FG(1)       FG(2)       TC(1)       TC(2)       VT(1)       VT(2)
+     1.000       1.000           2.000       2.000       2000.       2000.
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
+     0.000      0.1600           1000.     -0.6000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     6.000E+05  -1.080E+05       0.000       0.000       437.2      -1010.
+     FN/G       CREEP X      CREEP Y     APPROACH     PMAX    
+         524.9   9.932E-03       0.000       1.455       85.31
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -46.5        0.00        0.00
+   FY         0.00        0.00       -39.3        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+      99     56     35     21      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSSSSSSSSSS***********************************o
+                3         4         5         6         7
+        2345678901234567890123456789012345678901234567890123456789
+     X  -->        Chi=  0.00 degrees
+
+ Case     5
+ NORM
+       1, Norm: size of Contact, Exterior :     99      0
+      Norm: final element division: C, E=     80     19  ItCG=    18
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      80      0
+         0, NR_Fy,    Cksi, Fxk:    1.000E-06  -5.330E-05
+                      Ceta, Fyk:        0.000       0.000   ItGS:   29
+         1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.132E-04
+                      Ceta, Fyk:    3.000E-06  -9.595E-05   ItGS:   54
+         2, NR_Fy,    Cksi, Fxk:    1.126E-02     -0.5099
+                      Ceta, Fyk:        0.000   2.419E-08   ItGS:   36
+         3, NR_Fy,    Cksi, Fxk:    1.325E-02     -0.5816
+                      Ceta, Fyk:    8.543E-10  -2.174E-08   ItGS:   21
+         4, NR_Fy,    Cksi, Fxk:    1.376E-02     -0.5991
+                      Ceta, Fyk:    8.667E-11  -4.296E-09   ItGS:   17
+         5, NR_Fy,    Cksi, Fxk:    1.378E-02     -0.6000
+                      Ceta, Fyk:   -6.503E-11   1.413E-09   ItGS:    9
+      Tang: final element division: A, S=     51     29  ItGS=   166
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  2, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ TANGENTIAL FORCE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.4000       571.5       0.000      0.1000E-04
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.4000      0.4000       571.5       571.5    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
+     0.000      0.1600           1000.     -0.6000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     6.000E+05  -1.080E+05       0.000       0.000       749.1      -1438.
+     FN/G       CREEP X      CREEP Y     APPROACH     PMAX    
+         1050.   1.378E-02       0.000       2.508       60.32
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -34.0        0.00        0.00
+   FY         0.00        0.00       -28.3        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+      99     80     51     29      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSSSSSSSSSSSSSSSSSS***************************************************o
+        1         2         3         4         5         6         7         8         9
+        0123456789012345678901234567890123456789012345678901234567890123456789012345678901
+     X  -->        Chi=  0.00 degrees
+
+ Case     6
+ NORM
+       1, Norm: size of Contact, Exterior :     99      0
+      Norm: final element division: C, E=     56     43  ItCG=    24
+
+ TANG: STEADY STATE ROLLING CONTACT
+       1, Tang: size of Adhes, Slip area :      56      0
+         0, NR_Fy,    Cksi, Fxk:    1.000E-06  -7.468E-05
+                      Ceta, Fyk:        0.000       0.000   ItGS:   25
+         1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.987E-04
+                      Ceta, Fyk:    3.000E-06  -1.344E-04   ItGS:   46
+         2, NR_Fy,    Cksi, Fxk:    8.035E-03     -0.5120
+                      Ceta, Fyk:        0.000   9.987E-09   ItGS:   33
+         3, NR_Fy,    Cksi, Fxk:    9.416E-03     -0.5819
+                      Ceta, Fyk:    2.508E-10  -8.796E-09   ItGS:   18
+         4, NR_Fy,    Cksi, Fxk:    9.773E-03     -0.5991
+                      Ceta, Fyk:    2.993E-11  -1.976E-09   ItGS:   15
+         5, NR_Fy,    Cksi, Fxk:    9.792E-03     -0.6000
+                      Ceta, Fyk:   -1.969E-11   5.824E-10   ItGS:    9
+      Tang: final element division: A, S=     36     20  ItGS=   146
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  2, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ TANGENTIAL FORCE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.4000       1143.       0.000      0.1000E-04
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.4000      0.4000       1143.       1143.    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
+     0.000      0.1600           1000.     -0.6000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+     6.000E+05  -1.080E+05       0.000       0.000       396.1      -1007.
+     FN/G       CREEP X      CREEP Y     APPROACH     PMAX    
+         524.9   9.792E-03       0.000       1.324       85.29
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -48.1        0.00        0.00
+   FY         0.00        0.00       -39.8        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+      99     56     36     20      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+     1  oSSSSSSSSSSSSSSSSSSSS************************************o
+                3         4         5         6         7
+        2345678901234567890123456789012345678901234567890123456789
+     X  -->        Chi=  0.00 degrees
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       0.1 | 100.0 |        0.1 | 100.0 |
+|Non-Hertzian cases   |       6 |       0.1 | 100.0 |        0.1 | 100.0 |
+|Panag.process        |       6 |       0.1 |  71.4 |        0.1 |  80.9 |
+|Algorithm Norm       |       6 |       0.0 |  14.3 |        0.0 |  20.9 |
+|Algorithm Tang       |       6 |       0.1 |  57.1 |        0.1 |  57.3 |
+|Output quantities    |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |       6 |       0.0 |  14.3 |        0.0 |  20.0 |
+|Tang: StedyGS solver |      70 |       0.1 |  57.1 |        0.1 |  57.3 |
+|------------------------------------------------------------------------|
+|Reading input-file   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       6 |       0.0 |  14.3 |        0.0 |  11.8 |
+|Initial state/estim. |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.

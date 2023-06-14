@@ -1,0 +1,207 @@
+
+% Simplified test-cases for roller rigs in CONTACT: flat & circular profiles
+
+% Test 1a: sphere R=100 on flat plane, aligned, yc = 200
+
+  1 MODULE
+ 1203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0032033    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0000321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+    999     100    10    1     1e-7  MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  0.200   0.200   1.000   90d   8.0   4.0       DX,DS, DQREL, A_SEP, D_SEP, D_COMB
+   -1.0   200.0   0.000   0.0                   GAUGHT, RAILY0, RAILZ0, CANT
+  '../profiles/flat_plane.prr'   0  1.0   0.0   RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0   0.000   0.0    0.0   0.000    DY, DZ, ROLL, VY, VZ, VROLL
+   200.0 -100.0   100.0                         FBDIST, FBPOS, NOMRAD_W
+  '../profiles/circ_r100.prw'    0  1.0   0.0   WFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0     0.160                       % X_WS, Y_WS, Z_WS
+     0.0    0.0     0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+   100.0    0.0     0.0                         % VS_WS, VY_WS, VZ_WS
+     0.0    0.0    -1.000                       % VROLL, VYAW, VPITCH_WS
+
+% Test 1b: sphere R=100 on flat plane, with yaw angle through flexibility
+%          --> DYAW does not generate lateral creepage, use VYAW for this
+
+  1 MODULE
+ 1203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0111004    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+     0.0    0.0   0.160                         % X_WS, Y_WS, Z_WS
+     0.0    0.0     0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+   100.0    0.0     0.0                         % VS_WS, VY_WS, VZ_WS
+     0.0    0.0    -1.000                       % VROLL, VYAW, VPITCH_WS
+     0.0    0.0     0.0     0.0  -0.30r 0.0     DX,DY,DZ, DROLL,DYAW,DPITCH
+     0.0    0.0     0.0     0.0   0.0   0.0     VX,VY,VZ, VROLL,VYAW,VPITCH
+
+% Test 1c: sphere on flat plane, with yaw angle through wheelset position
+%           xc = -200 sin(yaw) = 59.1, yc = 200 - 200 cos(yaw) = 191.07 mm.
+%           velocities vx = 100 cos(psi), vy = -100 sin(psi) to get zero creepage
+
+  1 MODULE
+ 1203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0111004    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+     0.0    0.0   0.160                         % X_WS, Y_WS, Z_WS
+     0.0   -0.30r   0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+  95.533649 -29.552021  0.0                     % VS_WS, VY_WS, VZ_WS
+     0.0    0.0    -1.000                       % VROLL, VYAW, VPITCH_WS
+     0.0    0.0     0.0     0.0   0.0   0.0     DX,DY,DZ, DROLL,DYAW,DPITCH
+     0.0    0.0     0.0     0.0   0.0   0.0     VX,VY,VZ, VROLL,VYAW,VPITCH
+
+% Test 1d: same as 1c, rolling direction reversed
+
+  1 MODULE
+ 1203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0111004    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+     0.0    0.0   0.160                         % X_WS, Y_WS, Z_WS
+     0.0   -0.30r   0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+ -95.533649 29.552021  0.0                      % VS_WS, VY_WS, VZ_WS
+     0.0    0.0     1.000                       % VROLL, VYAW, VPITCH_WS
+     0.0    0.0     0.0     0.0   0.0   0.0     DX,DY,DZ, DROLL,DYAW,DPITCH
+     0.0    0.0     0.0     0.0   0.0   0.0     VX,VY,VZ, VROLL,VYAW,VPITCH
+
+% Test 1e: sphere R=100 on flat plane, with roll angle (through flexibility)
+%          profile Dy = 100 sin(droll) = 9.98, Dz = 100 (1-cos(droll) = 0.4996
+%          --> DROLl does not generate spin creepage, use VROLl for this
+
+  1 MODULE
+ 1203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0111004    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+     0.0    0.0   0.160                         % X_WS, Y_WS, Z_WS
+ 0.000000   0.0000  0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+   100.0    0.0     0.0                         % VS_WS, VY_WS, VZ_WS
+     0.0    0.0    -1.000                       % VROLL, VYAW, VPITCH_WS
+     0.0    0.0    -0.4996  0.10r 0.0   0.0     DX,DY,DZ, DROLL,DYAW,DPITCH
+     0.0    0.0     0.0     0.0   0.0   0.0     VX,VY,VZ, VROLL,VYAW,VPITCH
+
+% Test 2a: bus R=133 (flat profile) on ellipsoidal roller Rx=400, Ry=100, aligned
+
+  1 MODULE
+ 5203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0032035    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  0.200   0.200   1.000   90d   8.0   4.0       DX,DS, DQREL, A_SEP, D_SEP, D_COMB
+   -1.0   200.0   0.000   400.0                 GAUGHT, RAILY0, RAILZ0, NOMRAD_R
+  '../profiles/circ_r100.prr'    0  1.0   0.0   RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0   0.000   0.0    0.0   0.000    DY, DZ, ROLL, VY, VZ, VROLL
+   300.0  -50.0   133.33333                     FBDIST, FBPOS, NOMRAD_W
+  '../profiles/flat_plane.prw'   0  1.0   0.0   WFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0     0.160                       % X_WS, Y_WS, Z_WS
+     0.0    0.0     0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+   0.250    0.0     0.0                         % VPITCH_ROL, VY_WS, VZ_WS
+     0.0    0.0    -0.750                       % VROLL, VYAW, VPITCH_WS
+     0.0    0.0     0.0     0.00  0.0   0.0     DX,DY,DZ, DROLL,DYAW,DPITCH
+     0.0    0.0     0.0     0.0   0.0   0.0     VX,VY,VZ, VROLL,VYAW,VPITCH
+
+% Test 2c: bus R=133 (flat profile) with yaw angle on ellipsoidal roller
+
+  1 MODULE
+ 5203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0111033    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   -1.0     0.0   0.000   400.0                 GAUGHT, RAILY0, RAILZ0, NOMRAD_R
+  '../profiles/circ_r100.prr'    0  1.0   0.0   RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0   0.000   0.0    0.0   0.000    DY, DZ, ROLL, VY, VZ, VROLL
+  -100.0  -50.0   133.33333                     FBDIST, FBPOS, NOMRAD_W
+  '../profiles/flat_plane.prw'   0  1.0   0.0   WFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0     0.160                       % X_WS, Y_WS, Z_WS
+     0.0   -0.3r    0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+ 0.238834  -29.552021  0.0                      % VPITCH_ROL, VY_WS, VZ_WS
+     0.0    0.0    -0.750                       % VROLL, VYAW, VPITCH_WS
+
+% Test 2d: bus R=133 (flat profile) with yaw angle on ellipsoidal roller, rolling direction reversed
+
+  1 MODULE
+ 5203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0111002    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+     0.0    0.0     0.160                       % X_WS, Y_WS, Z_WS
+     0.0   -0.3r    0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+-0.238834   29.552021  0.0                      % VPITCH_ROL, VY_WS, VZ_WS
+     0.0    0.0     0.750                       % VROLL, VYAW, VPITCH_WS
+
+% Test 2e: bus R=133 (flat profile) on tilted ellipsoidal roller
+
+  1 MODULE
+ 5203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0111033    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+   -1.0   200.0   0.000   400.0                 GAUGHT, RAILY0, RAILZ0, NOMRAD_R
+  '../profiles/circ_r100.prr'    0  1.0   0.0   RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0  0.4996  0.100r  0.0    0.0   0.000    DY, DZ, ROLL, VY, VZ, VROLL
+   300.0  -50.0   133.33333                     FBDIST, FBPOS, NOMRAD_W
+  '../profiles/flat_plane.prw'   0  1.0   0.0   WFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0     0.160                       % X_WS, Y_WS, Z_WS
+     0.0    0.0     0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+   0.250    0.0     0.0                         % VPITCH_ROL, VY_WS, VZ_WS
+     0.0    0.0    -0.750                       % VROLL, VYAW, VPITCH_WS
+
+% Test 3a: ellipsoid Rx=133, Ry=100 on conical roller (taper 0.2 rad), aligned
+%          yc = -19.85, r_eff = 131.34, z_ws, vpitch_rol adapted for Fz & cksi
+
+  1 MODULE
+ 5203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0032033    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  0.200   0.200   1.000   90d   8.0   4.0       DX,DS, DQREL, A_SEP, D_SEP, D_COMB
+   -1.0   200.0   0.000   400.0                 GAUGHT, RAILY0, RAILZ0, NOMRAD_R
+  '../profiles/flat_ang200.prr'  0  1.0   0.0   RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0   0.000   0.0    0.0   0.000    DY, DZ, ROLL, VY, VZ, VROLL
+   200.0 -100.0   133.33333                     FBDIST, FBPOS, NOMRAD_W
+  '../profiles/circ_r100.prw'    0  1.0   0.0   WFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0    -1.870                       % X_WS, Y_WS, Z_WS
+     0.0    0.0     0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+ 0.24381000 0.0     0.0                         % VPITCH_ROL, VY_WS, VZ_WS
+     0.0    0.0    -0.750                       % VROLL, VYAW, VPITCH_WS
+
+% Test 3b: ellipsoid Rx=133, Ry=100 on tilted cilindrical roller (flexibility), aligned
+%          yc = -19.85, r_eff = 131.34, z_ws, vpitch_rol adapted for Fz & cksi
+
+  1 MODULE
+ 5203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0032033    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  0.200   0.200   1.000   90d   8.0   4.0       DX,DS, DQREL, A_SEP, D_SEP, D_COMB
+   -1.0   200.0   0.000   400.0                 GAUGHT, RAILY0, RAILZ0, NOMRAD_R
+  '../profiles/flat_plane.prr'   0  1.0   0.0   RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0   0.200r  0.0    0.0   0.000    DY, DZ, ROLL, VY, VZ, VROLL
+   200.0 -100.0   133.33333                     FBDIST, FBPOS, NOMRAD_W
+  '../profiles/circ_r100.prw'    0  1.0   0.0   WFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0    -1.870                       % X_WS, Y_WS, Z_WS
+     0.0    0.0     0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+ 0.24381000 0.0     0.0                         % VPITCH_ROL, VY_WS, VZ_WS
+     0.0    0.0    -0.750                       % VROLL, VYAW, VPITCH_WS
+
+% Test 3c: ellipsoid Rx=133, Ry=100 on conical roller, with roll angle
+%          roll angle 0.267 - contact angle 0.200
+%          raise wheel & adapt vpitch_rol for Fz & cksi
+
+  1 MODULE
+ 5203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0032033    V-L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  0.200   0.200   1.000   90d   8.0   4.0       DX,DS, DQREL, A_SEP, D_SEP, D_COMB
+   -1.0   200.0   0.000   400.0                 GAUGHT, RAILY0, RAILZ0, NOMRAD_R
+  '../profiles/flat_ang200.prr'  0  1.0   0.0   RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0   0.000   0.0    0.0   0.000    DY, DZ, ROLL, VY, VZ, VROLL
+   200.0 -100.0   133.33333                     FBDIST, FBPOS, NOMRAD_W
+  '../profiles/circ_r100.prw'    0  1.0   0.0   WFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0   -56.60956                     % X_WS, Y_WS, Z_WS
+ 0.266667r  0.0     0.0                         % ROLL_WS, YAW_WS, PITCH_WS
+ 0.2451499  0.0     0.0                         % VPITCH_ROL, VY_WS, VZ_WS
+     0.0    0.0    -0.750                       % VROLL, VYAW, VPITCH_WS
+
+  0 MODULE
+

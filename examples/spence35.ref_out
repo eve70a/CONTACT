@@ -1,0 +1,1308 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   ------------------------------------------------------------------------
+
+ Case     1
+ NORM
+       1, Norm: size of Contact, Exterior :      1   2024
+      Norm: final element division: C, E=      1   2024  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :       1      0
+      Tang: final element division: A, S=      1      0  ItCG=     1
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.588E-04   7.939E-10
+
+ NORM
+       1, Norm: size of Contact, Exterior :      1   2024
+      Norm: final element division: C, E=      1   2024  ItCG=     1
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :       1      0
+      Tang: final element division: A, S=      1      0  ItCG=     1
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.130E-20   7.939E-10
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 3
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+     0.000       1.000      0.5000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+     0.000       0.000      0.5000      0.1000E+06
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2986      0.2986    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     1.100E-05       0.000       0.000       0.000   3.395E-13       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     1.100E-05       0.000       0.000   6.172E-05   2.750E-04
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    2025      1      1      0      2      2
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    24   o . o
+    23   . * .
+    22   o . o
+         2 3 4
+     X  -->
+
+ Case     2
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.705E-04   1.668E-09
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.609E-06   1.698E-09
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.097E-07   1.697E-09
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.002E-08   1.697E-09
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.385E-10   1.697E-09
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     8.800E-05  -2.552E-09  -2.552E-09       0.000   1.093E-11  -3.184E-13
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     8.800E-05  -9.713E-05  -9.713E-05   3.274E-04   1.208E-03
+
+ Case     3
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.766E-04   2.806E-09
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.214E-05   2.879E-09
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.618E-07   2.877E-09
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.167E-08   2.877E-09
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.293E-09   2.877E-09
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     2.960E-04  -5.216E-10  -5.216E-10       0.000   7.970E-11  -1.465E-12
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     2.960E-04  -5.902E-06  -5.902E-06   7.025E-04   1.809E-03
+
+ Case     4
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.176E-04   4.571E-09
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.749E-05   4.698E-09
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.085E-06   4.697E-09
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.837E-08   4.697E-09
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.471E-09   4.697E-09
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     7.020E-04  -6.493E-09  -6.493E-09       0.000   3.666E-10  -5.868E-12
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     7.020E-04  -3.097E-05  -3.097E-05   1.293E-03   2.546E-03
+
+ Case     5
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.929E-04   5.380E-09
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.654E-05   5.504E-09
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.733E-06   5.511E-09
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.448E-07   5.511E-09
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.475E-08   5.511E-09
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.064E-08   5.511E-09
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.656E-09   5.511E-09
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     1.372E-03  -2.458E-09  -2.458E-09       0.000   1.069E-09  -1.101E-11
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     1.372E-03  -6.000E-06  -6.000E-06   1.985E-03   3.188E-03
+
+ Case     6
+ NORM
+       1, Norm: size of Contact, Exterior :     21   2004
+      Norm: final element division: C, E=     29   1996  ItCG=     7
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :      13     16
+      Tang: final element division: A, S=      9     20  ItCG=     7
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.574E-04   6.841E-09
+
+ NORM
+       1, Norm: size of Contact, Exterior :     29   1996
+      Norm: final element division: C, E=     29   1996  ItCG=     4
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :       9     20
+      Tang: final element division: A, S=      9     20  ItCG=     8
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.233E-05   7.009E-09
+
+ NORM
+       1, Norm: size of Contact, Exterior :     29   1996
+      Norm: final element division: C, E=     29   1996  ItCG=     4
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :       9     20
+      Tang: final element division: A, S=      5     24  ItCG=     9
+
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.384E-06   7.018E-09
+
+ NORM
+       1, Norm: size of Contact, Exterior :     29   1996
+      Norm: final element division: C, E=     29   1996  ItCG=     3
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :       5     24
+      Tang: final element division: A, S=      5     24  ItCG=     8
+
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.156E-06   7.018E-09
+
+ NORM
+       1, Norm: size of Contact, Exterior :     29   1996
+      Norm: final element division: C, E=     29   1996  ItCG=     2
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :       5     24
+      Tang: final element division: A, S=      5     24  ItCG=     2
+
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.144E-07   7.018E-09
+
+ NORM
+       1, Norm: size of Contact, Exterior :     29   1996
+      Norm: final element division: C, E=     29   1996  ItCG=     2
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :       5     24
+      Tang: final element division: A, S=      5     24  ItCG=     2
+
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.072E-08   7.018E-09
+
+ NORM
+       1, Norm: size of Contact, Exterior :     29   1996
+      Norm: final element division: C, E=     29   1996  ItCG=     2
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :       5     24
+      Tang: final element division: A, S=      5     24  ItCG=     2
+
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.222E-09   7.018E-09
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 2
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 1, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+     0.000       1.000      0.5000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+     0.000       0.000      0.5000      0.1000E+06
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2986      0.2986    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     2.370E-03  -7.799E-09  -7.799E-09       0.000   2.753E-09  -2.710E-11
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     2.370E-03  -1.102E-05  -1.102E-05   2.901E-03   3.941E-03
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    2025     29      5     24      7      7
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    27   o . . . . . . . o
+    26   . . . . S . . . .
+    25   . . S S S S S . .
+    24   . . S S * S S . .
+    23   . S S * * * S S .
+    22   . . S S * S S . .
+    21   . . S S S S S . .
+    20   . . . . S . . . .
+    19   o . . . . . . . o
+         9 0 1 2 3 4 5 6 7
+     X  -->
+
+ SUBSURFACE STRESSES BLOCK  1:
+ 
+ ABSMAX SIGHYD =    -0.002 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ MAX     SIGVM =     0.003 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ MAX     SIGTR =     0.003 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ MAX    SIGMA1 =     0.000 AT (X,Y,Z) = (  -0.800,   0.000,   0.000)
+ MIN    SIGMA3 =    -0.004 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ ABSMAX  SIGXX =    -0.001 AT (X,Y,Z) = (  -0.400,   0.000,   0.000)
+ ABSMAX  SIGYY =    -0.001 AT (X,Y,Z) = (  -0.400,   0.000,   0.000)
+ ABSMAX  SIGZZ =    -0.004 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+
+ Case     7
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.014E-04   8.174E-09
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.257E-05   8.305E-09
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.787E-06   8.315E-09
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.361E-06   8.316E-09
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.804E-07   8.316E-09
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.500E-08   8.316E-09
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.106E-09   8.316E-09
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     3.764E-03  -6.188E-09  -6.188E-09       0.000   5.863E-09  -3.840E-11
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     3.764E-03  -5.506E-06  -5.506E-06   3.927E-03   4.608E-03
+
+ Case     8
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.165E-04   9.367E-09
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.269E-05   9.534E-09
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.110E-05   9.544E-09
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.770E-06   9.544E-09
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.382E-07   9.545E-09
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.033E-08   9.545E-09
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.647E-09   9.545E-09
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     5.619E-03  -7.919E-09  -7.919E-09       0.000   1.155E-08  -7.091E-11
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     5.619E-03  -4.720E-06  -4.720E-06   5.153E-03   5.320E-03
+
+ Case     9
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.755E-04   9.920E-09
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.191E-05   1.075E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.185E-05   1.076E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.244E-06   1.077E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.908E-07   1.077E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.167E-08   1.077E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.029E-08   1.077E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     8.000E-03  -6.974E-09  -6.974E-09       0.000   2.071E-08  -1.002E-10
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     8.000E-03  -2.919E-06  -2.919E-06   6.512E-03   6.001E-03
+
+ Case    10
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.449E-04   1.144E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.416E-05   1.258E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.176E-05   1.260E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.365E-06   1.260E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.615E-07   1.260E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.361E-07   1.260E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.483E-08   1.260E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.552E-09   1.260E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     1.097E-02  -5.968E-09  -5.968E-09       0.000   3.531E-08  -1.561E-10
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     1.097E-02  -1.821E-06  -1.821E-06   8.064E-03   6.707E-03
+
+ Case    11
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.245E-04   1.254E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.731E-05   1.272E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.191E-05   1.273E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.274E-06   1.274E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.218E-07   1.274E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.598E-08   1.274E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.469E-08   1.274E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.957E-09   1.274E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     1.461E-02   3.414E-09   3.414E-09       0.000   5.645E-08  -2.035E-10
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     1.461E-02   7.827E-07   7.827E-07   9.731E-03   7.376E-03
+
+ Case    12
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.494E-04   1.390E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.069E-05   1.434E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.289E-05   1.435E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.523E-06   1.436E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.802E-07   1.436E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.873E-08   1.436E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.782E-08   1.436E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.827E-09   1.436E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     1.896E-02       0.000       0.000       0.000   8.753E-08  -3.101E-10
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     1.896E-02       0.000       0.000   1.160E-02   8.075E-03
+
+ Case    13
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.343E-04   1.479E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.437E-05   1.499E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.291E-05   1.501E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.625E-06   1.501E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.462E-07   1.501E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.712E-07   1.501E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.674E-08   1.501E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.379E-08   1.501E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     2.411E-02       0.000       0.000       0.000   1.305E-07  -4.007E-10
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     2.411E-02       0.000       0.000   1.361E-02   8.761E-03
+
+ Case    14
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.906E-04   1.651E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.709E-05   1.690E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.266E-05   1.691E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.578E-06   1.691E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.474E-07   1.691E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.726E-07   1.691E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.744E-08   1.691E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.396E-08   1.691E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     3.011E-02       0.000       0.000       0.000   1.890E-07  -5.318E-10
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     3.011E-02       0.000       0.000   1.578E-02   9.449E-03
+
+ Case    15
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.432E-04   1.734E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.872E-05   1.753E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.301E-05   1.755E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.722E-06   1.755E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.977E-07   1.755E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.370E-07   1.755E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.928E-08   1.755E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.043E-08   1.755E-08
+  9, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.022E-09   1.755E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     3.704E-02       0.000       0.000       0.000   2.666E-07  -7.006E-10
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     3.704E-02       0.000       0.000   1.811E-02   1.013E-02
+
+ Case    16
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.968E-04   1.896E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.031E-04   1.914E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.375E-05   1.916E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.857E-06   1.916E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.937E-07   1.916E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.153E-07   1.916E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.356E-08   1.916E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.067E-09   1.916E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     4.495E-02       0.000       0.000       0.000   3.687E-07  -9.057E-10
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     4.495E-02       0.000       0.000   2.062E-02   1.083E-02
+
+ Case    17
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.816E-04   1.998E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.033E-04   2.017E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.369E-05   2.018E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.826E-06   2.018E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.340E-07   2.018E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.062E-07   2.018E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.891E-08   2.018E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.797E-08   2.018E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     5.391E-02       0.000       0.000       0.000   4.987E-07  -1.108E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     5.392E-02       0.000       0.000   2.327E-02   1.151E-02
+
+ Case    18
+ NORM
+       1, Norm: size of Contact, Exterior :    221   1804
+      Norm: final element division: C, E=    241   1784  ItCG=     8
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :      77    164
+      Tang: final element division: A, S=     97    144  ItCG=    11
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.085E-04   2.149E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    241   1784
+      Norm: final element division: C, E=    241   1784  ItCG=     5
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :      97    144
+      Tang: final element division: A, S=     69    172  ItCG=     7
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.058E-04   2.166E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    241   1784
+      Norm: final element division: C, E=    241   1784  ItCG=     4
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :      69    172
+      Tang: final element division: A, S=     61    180  ItCG=    11
+
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.376E-05   2.167E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    241   1784
+      Norm: final element division: C, E=    241   1784  ItCG=     3
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :      61    180
+      Tang: final element division: A, S=     61    180  ItCG=     4
+
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.909E-06   2.167E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    241   1784
+      Norm: final element division: C, E=    241   1784  ItCG=     3
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :      61    180
+      Tang: final element division: A, S=     61    180  ItCG=     3
+
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.563E-07   2.167E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    241   1784
+      Norm: final element division: C, E=    241   1784  ItCG=     3
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :      61    180
+      Tang: final element division: A, S=     61    180  ItCG=     3
+
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.134E-07   2.167E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    241   1784
+      Norm: final element division: C, E=    241   1784  ItCG=     3
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :      61    180
+      Tang: final element division: A, S=     61    180  ItCG=     3
+
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.149E-08   2.167E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    241   1784
+      Norm: final element division: C, E=    241   1784  ItCG=     2
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :      61    180
+      Tang: final element division: A, S=     61    180  ItCG=     3
+
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.875E-08   2.167E-08
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 2
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 1, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+     0.000       1.000      0.5000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+     0.000       0.000      0.5000      0.1000E+06
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2986      0.2986    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     6.400E-02       0.000       0.000       0.000   6.639E-07  -1.403E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     6.400E-02       0.000       0.000   2.610E-02   1.220E-02
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    2025    241     61    180      8      8
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    32   o . . . . . . . . . . . . . . . . . o
+    31   . . . . . . S S S S S S S . . . . . .
+    30   . . . . S S S S S S S S S S S . . . .
+    29   . . . S S S S S S S S S S S S S . . .
+    28   . . S S S S S S S S S S S S S S S . .
+    27   . . S S S S S S * * * S S S S S S . .
+    26   . S S S S S * * * * * * * S S S S S .
+    25   . S S S S S * * * * * * * S S S S S .
+    24   . S S S S * * * * * * * * * S S S S .
+    23   . S S S S * * * * * * * * * S S S S .
+    22   . S S S S * * * * * * * * * S S S S .
+    21   . S S S S S * * * * * * * S S S S S .
+    20   . S S S S S * * * * * * * S S S S S .
+    19   . . S S S S S S * * * S S S S S S . .
+    18   . . S S S S S S S S S S S S S S S . .
+    17   . . . S S S S S S S S S S S S S . . .
+    16   . . . . S S S S S S S S S S S . . . .
+    15   . . . . . . S S S S S S S . . . . . .
+    14   o . . . . . . . . . . . . . . . . . o
+                     2                   3
+         4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
+     X  -->
+
+ SUBSURFACE STRESSES BLOCK  1:
+ 
+ ABSMAX SIGHYD =    -0.005 AT (X,Y,Z) = (  -0.800,   0.000,   0.000)
+ MAX     SIGVM =     0.011 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ MAX     SIGTR =     0.011 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ MAX    SIGMA1 =     0.001 AT (X,Y,Z) = (   2.000,   0.000,   0.000)
+ MIN    SIGMA3 =    -0.012 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ ABSMAX  SIGXX =    -0.004 AT (X,Y,Z) = (   1.000,   0.000,   0.000)
+ ABSMAX  SIGYY =    -0.003 AT (X,Y,Z) = (   1.600,   0.000,   0.000)
+ ABSMAX  SIGZZ =    -0.012 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+
+ Case    19
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.848E-04   2.232E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.078E-04   2.252E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.438E-05   2.253E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.033E-06   2.253E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.437E-07   2.253E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.269E-07   2.253E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.721E-08   2.253E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.273E-09   2.253E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     7.527E-02       0.000       0.000       0.000   8.702E-07  -1.742E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     7.527E-02       0.000       0.000   2.908E-02   1.289E-02
+
+ Case    20
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.271E-04   2.376E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.039E-04   2.426E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.396E-05   2.427E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.093E-06   2.428E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.876E-07   2.428E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.362E-07   2.428E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.759E-08   2.428E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.112E-09   2.428E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+     8.779E-02       0.000       0.000       0.000   1.125E-06  -2.069E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+     8.779E-02       0.000       0.000   3.223E-02   1.358E-02
+
+ Case    21
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.903E-04   2.459E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.026E-04   2.509E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.448E-05   2.510E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.080E-06   2.510E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.150E-07   2.510E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.407E-07   2.510E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.059E-08   2.510E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.229E-08   2.510E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.1016       0.000       0.000       0.000   1.436E-06  -2.526E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.1016       0.000       0.000   3.553E-02   1.427E-02
+
+ Case    22
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.152E-04   2.583E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.082E-04   2.631E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.477E-05   2.632E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.103E-06   2.632E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.399E-07   2.632E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.508E-07   2.632E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.722E-08   2.632E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.310E-08   2.632E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.1168       0.000       0.000       0.000   1.812E-06  -3.000E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.1169       0.000       0.000   3.900E-02   1.496E-02
+
+ Case    23
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.153E-04   2.710E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.119E-04   2.743E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.490E-05   2.745E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.229E-06   2.745E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.182E-07   2.745E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.471E-07   2.745E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.047E-08   2.745E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.845E-09   2.745E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.1335       0.000       0.000       0.000   2.263E-06  -3.567E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.1335       0.000       0.000   4.263E-02   1.565E-02
+
+ Case    24
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.255E-04   2.841E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.152E-04   2.860E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.515E-05   2.861E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.288E-06   2.861E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.315E-07   2.861E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.489E-07   2.861E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.077E-08   2.861E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.000E-09   2.861E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.1517       0.000       0.000       0.000   2.799E-06  -4.144E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.1517       0.000       0.000   4.641E-02   1.634E-02
+
+ Case    25
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.063E-04   2.939E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.173E-04   2.959E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.551E-05   2.961E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.215E-06   2.961E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.755E-07   2.961E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.680E-07   2.961E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.059E-08   2.961E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.598E-08   2.961E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.1715       0.000       0.000       0.000   3.433E-06  -4.983E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.1715       0.000       0.000   5.037E-02   1.703E-02
+
+ Case    26
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.367E-04   3.067E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.134E-04   3.123E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.517E-05   3.124E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.376E-06   3.124E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.377E-07   3.124E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.627E-07   3.124E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.470E-08   3.124E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.616E-08   3.124E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.1929       0.000       0.000       0.000   4.177E-06  -5.655E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.1929       0.000       0.000   5.447E-02   1.771E-02
+
+ Case    27
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.247E-04   3.199E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.195E-04   3.218E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.571E-05   3.220E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.420E-06   3.220E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.691E-07   3.220E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.566E-07   3.220E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.270E-08   3.220E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.352E-09   3.220E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.2160       0.000       0.000       0.000   5.044E-06  -6.654E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.2160       0.000       0.000   5.875E-02   1.840E-02
+
+ Case    28
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.330E-04   3.322E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.205E-04   3.342E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.568E-05   3.343E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.427E-06   3.343E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.900E-07   3.343E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.572E-07   3.343E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.270E-08   3.343E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.2409       0.000       0.000       0.000   6.049E-06  -7.581E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.2409       0.000       0.000   6.318E-02   1.909E-02
+
+ Case    29
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.322E-04   3.430E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.180E-04   3.472E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.589E-05   3.473E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.393E-06   3.473E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.727E-07   3.473E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.041E-07   3.473E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.129E-08   3.473E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.597E-08   3.473E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.2676       0.000       0.000       0.000   7.212E-06  -8.856E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.2676       0.000       0.000   6.778E-02   1.978E-02
+
+ Case    30
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.552E-04   3.582E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.222E-04   3.601E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.573E-05   3.602E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.307E-06   3.602E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.125E-07   3.602E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.880E-07   3.602E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.793E-08   3.602E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.918E-08   3.602E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.2963       0.000       0.000       0.000   8.541E-06  -9.785E-09
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.2963       0.000       0.000   7.253E-02   2.047E-02
+
+ Case    31
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.335E-04   3.666E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.238E-04   3.706E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.626E-05   3.708E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.530E-06   3.708E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.232E-07   3.708E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.704E-07   3.708E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.510E-08   3.708E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.3269       0.000       0.000       0.000   1.007E-05  -1.150E-08
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.3269       0.000       0.000   7.745E-02   2.116E-02
+
+ Case    32
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.501E-04   3.794E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.200E-04   3.834E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.604E-05   3.835E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.587E-06   3.835E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.465E-07   3.836E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.788E-07   3.836E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.618E-08   3.836E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.3596       0.000       0.000       0.000   1.180E-05  -1.271E-08
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.3596       0.000       0.000   8.253E-02   2.185E-02
+
+ Case    33
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.503E-04   3.908E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.163E-04   3.967E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.611E-05   3.968E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.461E-06   3.968E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.896E-07   3.968E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.208E-07   3.968E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.495E-08   3.968E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.725E-08   3.968E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.3944       0.000       0.000       0.000   1.376E-05  -1.451E-08
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.3944       0.000       0.000   8.778E-02   2.254E-02
+
+ Case    34
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.524E-04   4.032E-08
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.233E-04   4.071E-08
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.623E-05   4.072E-08
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.431E-06   4.072E-08
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.711E-07   4.072E-08
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.136E-07   4.072E-08
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.776E-08   4.072E-08
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.279E-08   4.072E-08
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4313       0.000       0.000       0.000   1.597E-05  -1.599E-08
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.4313       0.000       0.000   9.317E-02   2.322E-02
+
+ Case    35
+ NORM
+       1, Norm: size of Contact, Exterior :    869   1156
+      Norm: final element division: C, E=    933   1092  ItCG=     8
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     285    648
+      Tang: final element division: A, S=    349    584  ItCG=    15
+
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.488E-04   4.145E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    933   1092
+      Norm: final element division: C, E=    917   1108  ItCG=     6
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     349    568
+      Tang: final element division: A, S=    261    656  ItCG=    10
+
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.175E-04   4.202E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    917   1108
+      Norm: final element division: C, E=    919   1106  ItCG=     6
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     263    656
+      Tang: final element division: A, S=    241    678  ItCG=     8
+
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.649E-05   4.199E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    919   1106
+      Norm: final element division: C, E=    921   1104  ItCG=     3
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     243    678
+      Tang: final element division: A, S=    225    696  ItCG=    11
+
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.661E-06   4.194E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    921   1104
+      Norm: final element division: C, E=    921   1104  ItCG=     3
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     227    694
+      Tang: final element division: A, S=    225    696  ItCG=    13
+
+  5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.738E-07   4.194E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    921   1104
+      Norm: final element division: C, E=    921   1104  ItCG=     3
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     225    696
+      Tang: final element division: A, S=    225    696  ItCG=     9
+
+  6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.868E-07   4.194E-08
+
+ NORM
+       1, Norm: size of Contact, Exterior :    921   1104
+      Norm: final element division: C, E=    921   1104  ItCG=     2
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     225    696
+      Tang: final element division: A, S=    225    696  ItCG=     2
+
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.837E-08   4.194E-08
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   1, FORCE  0, STRESS 2
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 1, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ CREEPAGE PRESCRIBED
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+     0.000       1.000      0.5000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+     0.000       0.000      0.5000      0.1000E+06
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2986      0.2986    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC       CKSI        CETA        CPHI
+     1.000           1.000       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705       0.000       0.000       0.000   1.847E-05  -1.842E-08
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705       0.000       0.000   9.874E-02   2.392E-02
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    2025    921    225    696      7      7
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    41  o...................................o
+    40  .................SSS.................
+    39  .............SSSSSSSSSSS.............
+    38  ..........SSSSSSSSSSSSSSSSS..........
+    37  .........SSSSSSSSSSSSSSSSSSS.........
+    36  .......SSSSSSSSSSSSSSSSSSSSSSS.......
+    35  ......SSSSSSSSSSSSSSSSSSSSSSSSS......
+    34  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    33  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    32  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    31  ...SSSSSSSSSSSSS*****SSSSSSSSSSSSS...
+    30  ...SSSSSSSSSSS*********SSSSSSSSSSS...
+    29  ..SSSSSSSSSS*************SSSSSSSSS...
+    28  ..SSSSSSSSSS*************SSSSSSSSSS..
+    27  ..SSSSSSSSS***************SSSSSSSSS..
+    26  ..SSSSSSSSS***************SSSSSSSSS..
+    25  ..SSSSSSSS*****************SSSSSSSS..
+    24  .SSSSSSSSS*****************SSSSSSSSS.
+    23  .SSSSSSSSS*****************SSSSSSSSS.
+    22  .SSSSSSSSS*****************SSSSSSSSS.
+    21  ..SSSSSSSS*****************SSSSSSSS..
+    20  ..SSSSSSSSS***************SSSSSSSSS..
+    19  ..SSSSSSSSS***************SSSSSSSSS..
+    18  ..SSSSSSSSSS*************SSSSSSSSSS..
+    17  ..SSSSSSSSSS*************SSSSSSSSS...
+    16  ...SSSSSSSSSSS*********SSSSSSSSSSS...
+    15  ...SSSSSSSSSSSSS*****SSSSSSSSSSSSS...
+    14  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    13  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    11  ......SSSSSSSSSSSSSSSSSSSSSSSSS......
+    10  .......SSSSSSSSSSSSSSSSSSSSSSS.......
+     9  .........SSSSSSSSSSSSSSSSSSS.........
+     8  ..........SSSSSSSSSSSSSSSSS..........
+     7  ............SSSSSSSSSSSSS............
+     6  .................SSS.................
+     5  o...................................o
+             1         2         3         4
+        5678901234567890123456789012345678901
+     X  -->
+
+ SUBSURFACE STRESSES BLOCK  1:
+ 
+ ABSMAX SIGHYD =    -0.009 AT (X,Y,Z) = (  -1.600,   0.000,   0.000)
+ MAX     SIGVM =     0.023 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ MAX     SIGTR =     0.023 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ MAX    SIGMA1 =     0.003 AT (X,Y,Z) = (  -4.000,   0.000,   0.000)
+ MIN    SIGMA3 =    -0.024 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ ABSMAX  SIGXX =    -0.008 AT (X,Y,Z) = (  -2.200,   0.000,   0.000)
+ ABSMAX  SIGYY =    -0.005 AT (X,Y,Z) = (  -3.000,   0.000,   0.000)
+ ABSMAX  SIGZZ =    -0.024 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
+ 
+ Position (X,Y,Z):  -4.400      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1456E-01;   0.2549E-02 -0.1331E-06  0.6245E-09
+  2   -0.3335E-06;  -0.1331E-06 -0.3307E-02 -0.2089E-13
+  3    0.3644E-01;   0.6245E-09 -0.2089E-13  0.7593E-09
+  SigHyd =  -0.2526E-03, SigVM =   0.5085E-02
+
+ Position (X,Y,Z):  -4.200      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1508E-01;   0.2659E-02 -0.1480E-06  0.9026E-09
+  2   -0.3615E-06;  -0.1480E-06 -0.3588E-02 -0.2741E-13
+  3    0.3851E-01;   0.9026E-09 -0.2741E-13  0.7916E-09
+  SigHyd =  -0.3096E-03, SigVM =   0.5430E-02
+
+ Position (X,Y,Z):  -4.000      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1562E-01;   0.2734E-02 -0.1642E-06  0.1364E-08
+  2   -0.3926E-06;  -0.1642E-06 -0.3904E-02 -0.4141E-13
+  3    0.4087E-01;   0.1364E-08 -0.4141E-13  0.8057E-09
+  SigHyd =  -0.3898E-03, SigVM =   0.5778E-02
+
+ Position (X,Y,Z):  -3.800      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1617E-01;   0.2726E-02 -0.1827E-06  0.2242E-08
+  2   -0.4271E-06;  -0.1827E-06 -0.4260E-02 -0.6910E-13
+  3    0.4362E-01;   0.2242E-08 -0.6910E-13  0.8199E-09
+  SigHyd =  -0.5113E-03, SigVM =   0.6098E-02
+
+ Position (X,Y,Z):  -3.600      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1669E-01;   0.2477E-02 -0.2078E-06  0.4814E-08
+  2   -0.4661E-06;  -0.2078E-06 -0.4669E-02 -0.1704E-12
+  3    0.4693E-01;   0.4814E-08 -0.1704E-12  0.8247E-09
+  SigHyd =  -0.7307E-03, SigVM =   0.6284E-02
+
+ Position (X,Y,Z):  -3.400      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1702E-01;   0.9162E-03 -0.1367E-06  0.2565E-03
+  2   -0.5052E-06;  -0.1367E-06 -0.5092E-02 -0.8880E-08
+  3    0.5117E-01;   0.2565E-03 -0.8880E-08 -0.8591E-03
+  SigHyd =  -0.1678E-02, SigVM =   0.5365E-02
+
+ Position (X,Y,Z):  -3.200      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1655E-01;  -0.3980E-02 -0.4065E-07  0.1687E-02
+  2   -0.5176E-06;  -0.4065E-07 -0.5244E-02 -0.5056E-07
+  3    0.5660E-01;   0.1687E-02 -0.5056E-07 -0.5651E-02
+  SigHyd =  -0.4958E-02, SigVM =   0.3289E-02
+
+ Position (X,Y,Z):  -3.000      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1554E-01;  -0.5500E-02  0.5409E-08  0.2420E-02
+  2   -0.5179E-06;   0.5409E-08 -0.5267E-02 -0.7976E-07
+  3    0.6170E-01;   0.2420E-02 -0.7976E-07 -0.8105E-02
+  SigHyd =  -0.6291E-02, SigVM =   0.5002E-02
+
+ Position (X,Y,Z):  -2.800      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1429E-01;  -0.6463E-02  0.4281E-07  0.3002E-02
+  2   -0.5102E-06;   0.4281E-07 -0.5212E-02 -0.1066E-06
+  3    0.6648E-01;   0.3002E-02 -0.1066E-06 -0.1005E-01
+  SigHyd =  -0.7244E-02, SigVM =   0.6782E-02
+
+ Position (X,Y,Z):  -2.600      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1289E-01;  -0.7072E-02  0.7522E-07  0.3494E-02
+  2   -0.4959E-06;   0.7522E-07 -0.5091E-02 -0.1337E-06
+  3    0.7092E-01;   0.3494E-02 -0.1337E-06 -0.1170E-01
+  SigHyd =  -0.7954E-02, SigVM =   0.8434E-02
+
+ Position (X,Y,Z):  -2.400      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1141E-01;  -0.7432E-02  0.1051E-06  0.3925E-02
+  2   -0.4753E-06;   0.1051E-06 -0.4909E-02 -0.1627E-06
+  3    0.7504E-01;   0.3925E-02 -0.1627E-06 -0.1315E-01
+  SigHyd =  -0.8496E-02, SigVM =   0.9983E-02
+
+ Position (X,Y,Z):  -2.200      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.9868E-02;  -0.7587E-02  0.1339E-06  0.4315E-02
+  2   -0.4485E-06;   0.1339E-06 -0.4672E-02 -0.1953E-06
+  3    0.7882E-01;   0.4315E-02 -0.1953E-06 -0.1445E-01
+  SigHyd =  -0.8904E-02, SigVM =   0.1147E-01
+
+ Position (X,Y,Z):  -2.000      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.8320E-02;  -0.7547E-02  0.1606E-06  0.4676E-02
+  2   -0.4154E-06;   0.1606E-06 -0.4381E-02 -0.2342E-06
+  3    0.8228E-01;   0.4676E-02 -0.2342E-06 -0.1566E-01
+  SigHyd =  -0.9195E-02, SigVM =   0.1293E-01
+
+ Position (X,Y,Z):  -1.800      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.6804E-02;  -0.7274E-02  0.1815E-06  0.5020E-02
+  2   -0.3767E-06;   0.1815E-06 -0.4041E-02 -0.2813E-06
+  3    0.8541E-01;   0.5020E-02 -0.2813E-06 -0.1681E-01
+  SigHyd =  -0.9375E-02, SigVM =   0.1442E-01
+
+ Position (X,Y,Z):  -1.600      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.5376E-02;  -0.6714E-02  0.1897E-06  0.5280E-02
+  2   -0.3351E-06;   0.1897E-06 -0.3667E-02 -0.3313E-06
+  3    0.8821E-01;   0.5280E-02 -0.3313E-06 -0.1796E-01
+  SigHyd =  -0.9448E-02, SigVM =   0.1593E-01
+
+ Position (X,Y,Z):  -1.400      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.4113E-02;  -0.5969E-02  0.1906E-06  0.5233E-02
+  2   -0.2940E-06;   0.1906E-06 -0.3284E-02 -0.3719E-06
+  3    0.9068E-01;   0.5233E-02 -0.3719E-06 -0.1907E-01
+  SigHyd =  -0.9440E-02, SigVM =   0.1721E-01
+
+ Position (X,Y,Z):  -1.200      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.3019E-02;  -0.5192E-02  0.1915E-06  0.5007E-02
+  2   -0.2522E-06;   0.1915E-06 -0.2900E-02 -0.4134E-06
+  3    0.9282E-01;   0.5007E-02 -0.4134E-06 -0.2006E-01
+  SigHyd =  -0.9385E-02, SigVM =   0.1832E-01
+
+ Position (X,Y,Z): -0.9999      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.2092E-02;  -0.4409E-02  0.1937E-06  0.4641E-02
+  2   -0.2073E-06;   0.1937E-06 -0.2519E-02 -0.4667E-06
+  3    0.9463E-01;   0.4641E-02 -0.4667E-06 -0.2096E-01
+  SigHyd =  -0.9295E-02, SigVM =   0.1932E-01
+
+ Position (X,Y,Z): -0.7999      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1335E-02;  -0.3625E-02  0.1883E-06  0.4142E-02
+  2   -0.1610E-06;   0.1883E-06 -0.2144E-02 -0.5353E-06
+  3    0.9611E-01;   0.4142E-02 -0.5353E-06 -0.2176E-01
+  SigHyd =  -0.9176E-02, SigVM =   0.2023E-01
+
+ Position (X,Y,Z): -0.5999      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.7455E-03;  -0.2849E-02  0.1752E-06  0.3501E-02
+  2   -0.1206E-06;   0.1752E-06 -0.1778E-02 -0.5916E-06
+  3    0.9726E-01;   0.3501E-02 -0.5916E-06 -0.2247E-01
+  SigHyd =  -0.9033E-02, SigVM =   0.2107E-01
+
+ Position (X,Y,Z): -0.3999      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.3243E-03;  -0.2090E-02  0.1659E-06  0.2696E-02
+  2   -0.7944E-07;   0.1659E-06 -0.1434E-02 -0.6920E-06
+  3    0.9808E-01;   0.2696E-02 -0.6920E-06 -0.2310E-01
+  SigHyd =  -0.8874E-02, SigVM =   0.2185E-01
+
+ Position (X,Y,Z): -0.1999      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.6990E-04;  -0.1369E-02  0.1402E-06  0.1672E-02
+  2   -0.3545E-07;   0.1402E-06 -0.1150E-02 -0.8588E-06
+  3    0.9858E-01;   0.1672E-02 -0.8588E-06 -0.2365E-01
+  SigHyd =  -0.8723E-02, SigVM =   0.2258E-01
+
+ Position (X,Y,Z):  0.1000E-03  0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1    0.1274E-08;  -0.1025E-02 -0.9868E-10 -0.1074E-05
+  2    0.1274E-08;  -0.9868E-10 -0.1025E-02 -0.1074E-05
+  3    0.9874E-01;  -0.1074E-05 -0.1074E-05 -0.2392E-01
+  SigHyd =  -0.8655E-02, SigVM =   0.2289E-01
+
+ Position (X,Y,Z):  0.2001      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.7010E-04;  -0.1370E-02 -0.1402E-06 -0.1673E-02
+  2   -0.3553E-07;  -0.1402E-06 -0.1150E-02 -0.8583E-06
+  3    0.9858E-01;  -0.1673E-02 -0.8583E-06 -0.2365E-01
+  SigHyd =  -0.8724E-02, SigVM =   0.2258E-01
+
+ Position (X,Y,Z):  0.4001      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.3247E-03;  -0.2090E-02 -0.1658E-06 -0.2697E-02
+  2   -0.7950E-07;  -0.1658E-06 -0.1434E-02 -0.6916E-06
+  3    0.9808E-01;  -0.2697E-02 -0.6916E-06 -0.2310E-01
+  SigHyd =  -0.8874E-02, SigVM =   0.2185E-01
+
+ Position (X,Y,Z):  0.6001      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.7460E-03;  -0.2849E-02 -0.1751E-06 -0.3501E-02
+  2   -0.1207E-06;  -0.1751E-06 -0.1778E-02 -0.5913E-06
+  3    0.9726E-01;  -0.3501E-02 -0.5913E-06 -0.2247E-01
+  SigHyd =  -0.9033E-02, SigVM =   0.2107E-01
+
+ Position (X,Y,Z):  0.8001      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1335E-02;  -0.3626E-02 -0.1882E-06 -0.4143E-02
+  2   -0.1610E-06;  -0.1882E-06 -0.2145E-02 -0.5349E-06
+  3    0.9611E-01;  -0.4143E-02 -0.5349E-06 -0.2176E-01
+  SigHyd =  -0.9176E-02, SigVM =   0.2023E-01
+
+ Position (X,Y,Z):   1.000      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.2093E-02;  -0.4409E-02 -0.1936E-06 -0.4642E-02
+  2   -0.2074E-06;  -0.1936E-06 -0.2520E-02 -0.4662E-06
+  3    0.9463E-01;  -0.4642E-02 -0.4662E-06 -0.2096E-01
+  SigHyd =  -0.9295E-02, SigVM =   0.1932E-01
+
+ Position (X,Y,Z):   1.200      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.3020E-02;  -0.5193E-02 -0.1914E-06 -0.5007E-02
+  2   -0.2522E-06;  -0.1914E-06 -0.2901E-02 -0.4129E-06
+  3    0.9282E-01;  -0.5007E-02 -0.4129E-06 -0.2006E-01
+  SigHyd =  -0.9385E-02, SigVM =   0.1832E-01
+
+ Position (X,Y,Z):   1.400      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.4114E-02;  -0.5970E-02 -0.1904E-06 -0.5233E-02
+  2   -0.2941E-06;  -0.1904E-06 -0.3284E-02 -0.3712E-06
+  3    0.9067E-01;  -0.5233E-02 -0.3712E-06 -0.1907E-01
+  SigHyd =  -0.9440E-02, SigVM =   0.1721E-01
+
+ Position (X,Y,Z):   1.600      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.5377E-02;  -0.6714E-02 -0.1895E-06 -0.5280E-02
+  2   -0.3351E-06;  -0.1895E-06 -0.3668E-02 -0.3305E-06
+  3    0.8820E-01;  -0.5280E-02 -0.3305E-06 -0.1796E-01
+  SigHyd =  -0.9448E-02, SigVM =   0.1593E-01
+
+ Position (X,Y,Z):   1.800      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.6805E-02;  -0.7274E-02 -0.1808E-06 -0.5019E-02
+  2   -0.3768E-06;  -0.1808E-06 -0.4042E-02 -0.2801E-06
+  3    0.8541E-01;  -0.5019E-02 -0.2801E-06 -0.1681E-01
+  SigHyd =  -0.9375E-02, SigVM =   0.1441E-01
+
+ Position (X,Y,Z):   2.000      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.8322E-02;  -0.7547E-02 -0.1596E-06 -0.4675E-02
+  2   -0.4154E-06;  -0.1596E-06 -0.4381E-02 -0.2329E-06
+  3    0.8228E-01;  -0.4675E-02 -0.2329E-06 -0.1566E-01
+  SigHyd =  -0.9195E-02, SigVM =   0.1292E-01
+
+ Position (X,Y,Z):   2.200      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.9869E-02;  -0.7587E-02 -0.1326E-06 -0.4315E-02
+  2   -0.4485E-06;  -0.1326E-06 -0.4672E-02 -0.1938E-06
+  3    0.7882E-01;  -0.4315E-02 -0.1938E-06 -0.1445E-01
+  SigHyd =  -0.8903E-02, SigVM =   0.1147E-01
+
+ Position (X,Y,Z):   2.400      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1141E-01;  -0.7432E-02 -0.1036E-06 -0.3925E-02
+  2   -0.4753E-06;  -0.1036E-06 -0.4909E-02 -0.1609E-06
+  3    0.7503E-01;  -0.3925E-02 -0.1609E-06 -0.1314E-01
+  SigHyd =  -0.8495E-02, SigVM =   0.9981E-02
+
+ Position (X,Y,Z):   2.600      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1290E-01;  -0.7071E-02 -0.7348E-07 -0.3493E-02
+  2   -0.4959E-06;  -0.7348E-07 -0.5091E-02 -0.1317E-06
+  3    0.7092E-01;  -0.3493E-02 -0.1317E-06 -0.1170E-01
+  SigHyd =  -0.7954E-02, SigVM =   0.8432E-02
+
+ Position (X,Y,Z):   2.800      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1429E-01;  -0.6463E-02 -0.4075E-07 -0.3002E-02
+  2   -0.5101E-06;  -0.4075E-07 -0.5212E-02 -0.1042E-06
+  3    0.6647E-01;  -0.3002E-02 -0.1042E-06 -0.1005E-01
+  SigHyd =  -0.7243E-02, SigVM =   0.6781E-02
+
+ Position (X,Y,Z):   3.000      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1554E-01;  -0.5499E-02 -0.2737E-08 -0.2420E-02
+  2   -0.5174E-06;  -0.2737E-08 -0.5267E-02 -0.7682E-07
+  3    0.6170E-01;  -0.2420E-02 -0.7682E-07 -0.8103E-02
+  SigHyd =  -0.6290E-02, SigVM =   0.5000E-02
+
+ Position (X,Y,Z):   3.200      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1655E-01;  -0.3978E-02  0.4439E-07 -0.1686E-02
+  2   -0.5164E-06;   0.4439E-07 -0.5244E-02 -0.4750E-07
+  3    0.5659E-01;  -0.1686E-02 -0.4750E-07 -0.5648E-02
+  SigHyd =  -0.4957E-02, SigVM =   0.3288E-02
+
+ Position (X,Y,Z):   3.400      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1702E-01;   0.9219E-03  0.1407E-06 -0.2549E-03
+  2   -0.5026E-06;   0.1407E-06 -0.5091E-02 -0.8194E-08
+  3    0.5116E-01;  -0.2549E-03 -0.8194E-08 -0.8535E-03
+  SigHyd =  -0.1674E-02, SigVM =   0.5369E-02
+
+ Position (X,Y,Z):   3.600      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1669E-01;   0.2477E-02  0.2103E-06 -0.4806E-08
+  2   -0.4625E-06;   0.2103E-06 -0.4668E-02 -0.1691E-12
+  3    0.4692E-01;  -0.4806E-08 -0.1691E-12  0.8247E-09
+  SigHyd =  -0.7302E-03, SigVM =   0.6284E-02
+
+ Position (X,Y,Z):   3.800      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1617E-01;   0.2726E-02  0.1829E-06 -0.2240E-08
+  2   -0.4232E-06;   0.1829E-06 -0.4259E-02 -0.6857E-13
+  3    0.4362E-01;  -0.2240E-08 -0.6857E-13  0.8199E-09
+  SigHyd =  -0.5111E-03, SigVM =   0.6098E-02
+
+ Position (X,Y,Z):   4.000      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1562E-01;   0.2734E-02  0.1632E-06 -0.1364E-08
+  2   -0.3889E-06;   0.1632E-06 -0.3903E-02 -0.4094E-13
+  3    0.4087E-01;  -0.1364E-08 -0.4094E-13  0.8057E-09
+  SigHyd =  -0.3897E-03, SigVM =   0.5778E-02
+
+ Position (X,Y,Z):   4.200      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1508E-01;   0.2659E-02  0.1465E-06 -0.9022E-09
+  2   -0.3581E-06;   0.1465E-06 -0.3588E-02 -0.2695E-13
+  3    0.3851E-01;  -0.9022E-09 -0.2695E-13  0.7916E-09
+  SigHyd =  -0.3096E-03, SigVM =   0.5430E-02
+
+ Position (X,Y,Z):   4.400      0.1000E-03  0.1000E-05
+ I,Displacement(I); Stress(I,J),J = 1,3
+  1   -0.1456E-01;   0.2549E-02  0.1315E-06 -0.6243E-09
+  2   -0.3304E-06;   0.1315E-06 -0.3306E-02 -0.2050E-13
+  3    0.3644E-01;  -0.6243E-09 -0.2050E-13  0.7593E-09
+  SigHyd =  -0.2526E-03, SigVM =   0.5085E-02
+
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       1.6 | 100.0 |        1.7 | 100.0 |
+|Non-Hertzian cases   |      35 |       1.6 | 100.0 |        1.7 | 100.0 |
+|Subsurface points    |      35 |       0.1 |   6.7 |        0.1 |   5.7 |
+|Panag.process        |      35 |       1.3 |  78.1 |        1.3 |  76.6 |
+|Algorithm Norm       |     257 |       0.5 |  32.4 |        0.5 |  31.4 |
+|Algorithm Tang       |     257 |       0.7 |  43.8 |        0.7 |  43.1 |
+|Output quantities    |      35 |       0.0 |   1.0 |        0.0 |   2.0 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |     257 |       0.4 |  24.8 |        0.4 |  23.7 |
+|Tang: TangCG solver  |     257 |       0.6 |  36.2 |        0.6 |  37.1 |
+|------------------------------------------------------------------------|
+|Reading input-file   |      35 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |      35 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |      35 |       0.2 |   9.5 |        0.2 |  10.4 |
+|Subsurf infl.cf.     |      35 |       0.1 |   4.8 |        0.1 |   4.7 |
+|Subsurf FFTs         |      35 |       0.0 |   1.9 |        0.0 |   1.0 |
+|Subsurf derived qnt  |      35 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurf writing      |      70 |       0.0 |   2.9 |        0.1 |   3.2 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.

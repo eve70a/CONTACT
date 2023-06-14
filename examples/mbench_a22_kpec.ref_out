@@ -1,0 +1,1384 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   ------------------------------------------------------------------------
+
+ Case     1
+         0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2048   1.536E+04, dFz/dz:   1.018E+06
+         2, NR,  z_ws, Fz:       0.1995       9600., dFz/dz:   1.094E+06
+         3, NR,  z_ws, Fz:       0.1999       9947., dFz/dz:   9.482E+05
+         4, NR,  z_ws, Fz:       0.1999   1.000E+04, dFz/dz:   9.568E+05
+         5, NR,  z_ws, Fz:       0.1999      10000., dFz/dz:   9.753E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  5, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  3, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, APPROXIMATE KPEC SOLUTION
+ STEADY STATE ROLLING, "FASTSIM APPROACH", CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_MF       ALFAMF      BETAMF
+     1.000       1.000       1.000    
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ RAIL PROFILE "MBench_UIC60_v3.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "MBench_S1002_v3.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1999       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3481181
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       687.3       8.071      10000.       687.3       8.071      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0085    753.0008      0.0947      -197.7      -2.609      -2876.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    751.6369      0.1321     -0.0298     -8.8956      0.1321
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000      1.6369     -0.0678
+
+ SIMPLIFIED THEORY MATERIAL CONSTANTS
+     FLX1        FLX2        FLX3
+    0.1833E-04  0.2354E-04  0.1450E-04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_EFF
+     1.000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.  -4.165E-05       0.000   6.482E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9996.       687.3      -290.1      -3815.   6.994E-02     -0.4665
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1219      0.2292  -9.673E-02   1.779E-02       381.9
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   4275   1033    912    121      0      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    88   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+    87   . . . . . . . . . S S S * * * * * * . . . . . . . . .
+    86   . . . . . . . . S S S * * * * * * * * . . . . . . . .
+    85   . . . . . . S S S S S * * * * * * * * * * . . . . . .
+    84   . . . . . S S S S S * * * * * * * * * * * * . . . . .
+    83   . . . . . S S S S * * * * * * * * * * * * * . . . . .
+    82   . . . . S S S S S * * * * * * * * * * * * * * . . . .
+    81   . . . S S S S S * * * * * * * * * * * * * * * * . . .
+    80   . . . S S S S * * * * * * * * * * * * * * * * * . . .
+    79   . . S S S S S * * * * * * * * * * * * * * * * * * . .
+    78   . . S S S S * * * * * * * * * * * * * * * * * * * . .
+    77   . . S S S S * * * * * * * * * * * * * * * * * * * . .
+    76   . S S S S S * * * * * * * * * * * * * * * * * * * * .
+    75   . S S S S * * * * * * * * * * * * * * * * * * * * * .
+    74   . S S S S * * * * * * * * * * * * * * * * * * * * * .
+    73   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    72   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    71   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    70   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    69   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    68   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    67   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    66   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    65   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    64   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    63   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    62   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    61   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    60   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    59   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    58   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    57   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    56   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    55   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    54   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    53   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    52   . . . . * * * * * * * * * * * * * * * * * * * . . . .
+    51   . . . . * * * * * * * * * * * * * * * * * * * . . . .
+    50   . . . . S * * * * * * * * * * * * * * * * * * . . . .
+    49   . . . . . * * * * * * * * * * * * * * * * * . . . . .
+    48   . . . . . S * * * * * * * * * * * * * * * * . . . . .
+    47   . . . . . . * * * * * * * * * * * * * * * . . . . . .
+    46   . . . . . . S * * * * * * * * * * * * * * . . . . . .
+    45   . . . . . . . * * * * * * * * * * * * * . . . . . . .
+    44   . . . . . . . S * * * * * * * * * * * * . . . . . . .
+    43   . . . . . . . . S * * * * * * * * * * . . . . . . . .
+    42   . . . . . . . . . * * * * * * * * * . . . . . . . . .
+    41   . . . . . . . . . . * * * * * * * . . . . . . . . . .
+    40   . . . . . . . . . . . * * * * * . . . . . . . . . . .
+    39   . . . . . . . . . . . . * * * . . . . . . . . . . . .
+    38   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    37   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    36   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    35   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    34   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    33   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    29   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    28   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    27   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    26   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    25   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    24   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    23   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    22   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    21   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    20   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    19   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    18   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    17   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    16   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    15   . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    14   . . . . . . . . . . . . . S . . . . . . . . . . . . .
+    13   . . . . . . . . . . S S S * * * * . . . . . . . . . .
+    12   . . . . . . . . . S S S S * * * * * . . . . . . . . .
+    11   . . . . . . . . S S S S S * * * * * * . . . . . . . .
+    10   . . . . . . . S S S S S S * * * * * * * . . . . . . .
+     9   . . . . . . . S S S S S S S * * * * * * . . . . . . .
+     8   . . . . . . . . S S S S S S * * * * * . . . . . . . .
+     7   . . . . . . . . . . S S S * * * * . . . . . . . . . .
+     6   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+         1                   2                   3
+         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6
+     X  -->        Chi=  0.00 degrees
+
+ Case     2
+         0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2016   1.550E+04, dFz/dz:   8.499E+05
+ WARNING: potential contact area too small;   13 elements next to boundary.
+         2, NR,  z_ws, Fz:       0.1951   1.521E+04, dFz/dz:   4.499E+04
+         3, NR,  z_ws, Fz:       0.1847       2771., dFz/dz:   1.191E+06
+         4, NR,  z_ws, Fz:       0.1908       5908., dFz/dz:   2.127E+06
+         5, NR,  z_ws, Fz:       0.1927       7091., dFz/dz:   6.148E+05
+         6, NR,  z_ws, Fz:       0.1939       7979., dFz/dz:   7.250E+05
+         7, NR,  z_ws, Fz:       0.1945   1.042E+04, dFz/dz:   3.989E+06
+         8, NR,  z_ws, Fz:       0.1944       9610., dFz/dz:   7.664E+06
+         9, NR,  z_ws, Fz:       0.1945       9983., dFz/dz:   7.326E+06
+        10, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   7.419E+06
+        11, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   7.073E+06
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  5, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  3, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, APPROXIMATE KPEC SOLUTION
+ STEADY STATE ROLLING, "FASTSIM APPROACH", CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_MF       ALFAMF      BETAMF
+     1.000       1.000       1.000    
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000      0.5000      0.1945  -2.304E-05   1.200E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3474134
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -982.5      -1687.   1.000E+04      -984.5      -1686.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.7821    744.2666      0.4416       332.5       599.7      -3379.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -0.8619    744.6479      0.4211     -0.0562    -15.8846      0.4211
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0311     -5.8622      0.2438
+
+ SIMPLIFIED THEORY MATERIAL CONSTANTS
+     FLX1        FLX2        FLX3
+    0.2129E-04  0.2503E-04  0.1856E-04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_EFF
+     1.000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.   4.780E-04   1.202E-03   1.221E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9889.      -982.5      -2247.      -3895.   7.390E-02      -6.624
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1206     -0.3312     -0.7573   2.017E-02       569.8
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   4042    939    378    561      0      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    77   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    76   . . . . . . . . . . . . . . S S S * S . . . . . . . . . . . . . .
+    75   . . . . . . . . . . . . . S S S S S * S . . . . . . . . . . . . .
+    74   . . . . . . . . . . . . S S S S S * * * . . . . . . . . . . . . .
+    73   . . . . . . . . . . . . S S S S S S * * * . . . . . . . . . . . .
+    72   . . . . . . . . . . . S S S S S S * * * * . . . . . . . . . . . .
+    71   . . . . . . . . . . . S S S S S S S * * * * . . . . . . . . . . .
+    70   . . . . . . . . . . . S S S S S S S * * * * . . . . . . . . . . .
+    69   . . . . . . . . . . . S S S S S S * * * * * . . . . . . . . . . .
+    68   . . . . . . . . . . S S S S S S S * * * * * . . . . . . . . . . .
+    67   . . . . . . . . . . S S S S S S S * * * * * . . . . . . . . . . .
+    66   . . . . . . . . . . S S S S S S S * * * * * . . . . . . . . . . .
+    65   . . . . . . . . . . S S S S S S S * * * * * . . . . . . . . . . .
+    64   . . . . . . . . . . S S S S S S S * * * * * . . . . . . . . . . .
+    63   . . . . . . . . . . S S S S S S S * * * * * . . . . . . . . . . .
+    62   . . . . . . . . . . S S S S S S S * * * * * . . . . . . . . . . .
+    61   . . . . . . . . . . S S S S S S S * * * * * . . . . . . . . . . .
+    60   . . . . . . . . . . . S S S S S S * * * * * . . . . . . . . . . .
+    59   . . . . . . . . . . . S S S S S S * * * * * . . . . . . . . . . .
+    58   . . . . . . . . . . . S S S S S S * * * * * . . . . . . . . . . .
+    57   . . . . . . . . . . . S S S S S S * * * * * . . . . . . . . . . .
+    56   . . . . . . . . . . . S S S S S S * * * * * . . . . . . . . . . .
+    55   . . . . . . . . . . . S S S S S * * * * * . . . . . . . . . . . .
+    54   . . . . . . . . . . . . S S S S * * * * * . . . . . . . . . . . .
+    53   . . . . . . . . . . . . S S S S S * * * * . . . . . . . . . . . .
+    52   . . . . . . . . . . . . S S S S S * * * * . . . . . . . . . . . .
+    51   . . . . . . . . . . . . S S S S * * * * S . . . . . . . . . . . .
+    50   . . . . . . . . . . . . . S S S * * * * . . . . . . . . . . . . .
+    49   . . . . . . . . . . . . . S S S S * * * . . . . . . . . . . . . .
+    48   . . . . . . . . . . . . . S S S S * * * . . . . . . . . . . . . .
+    47   . . . . . . . . . . . . . S S S * * * . . . . . . . . . . . . . .
+    46   . . . . . . . . . . . . . . S S * * * . . . . . . . . . . . . . .
+    45   . . . . . . . . . . . . . . S S S * * . . . . . . . . . . . . . .
+    44   . . . . . . . . . . . . . . S S S * S . . . . . . . . . . . . . .
+    43   . . . . . . . . . . . . . . S S * * S . . . . . . . . . . . . . .
+    42   . . . . . . . . . . . . . . S S * * . . . . . . . . . . . . . . .
+    41   . . . . . . . . . . . . . . . S * * . . . . . . . . . . . . . . .
+    40   . . . . . . . . . . . . . . . S * * . . . . . . . . . . . . . . .
+    39   . . . . . . . . . . . . . . S S S * S . . . . . . . . . . . . . .
+    38   . . . . . . . . . . . . . . S S S * * . . . . . . . . . . . . . .
+    37   . . . . . . . . . . . . . . S S S * * . . . . . . . . . . . . . .
+    36   . . . . . . . . . . . . . S S S * * * . . . . . . . . . . . . . .
+    35   . . . . . . . . . . . . . S S S S * * * . . . . . . . . . . . . .
+    34   . . . . . . . . . . . . . S S S * * * * . . . . . . . . . . . . .
+    33   . . . . . . . . . . . . S S S S S * * * * . . . . . . . . . . . .
+    32   . . . . . . . . . . . . S S S S * * * * * . . . . . . . . . . . .
+    31   . . . . . . . . . . . S S S S S S * * * * * . . . . . . . . . . .
+    30   . . . . . . . . . . . S S S S S S * * * * * . . . . . . . . . . .
+    29   . . . . . . . . . . S S S S S S S * * * * * * . . . . . . . . . .
+    28   . . . . . . . . . . S S S S S S S * * * * * * . . . . . . . . . .
+    27   . . . . . . . . . S S S S S S S S * * * * * * * . . . . . . . . .
+    26   . . . . . . . . S S S S S S S S S S * * * * * * S . . . . . . . .
+    25   . . . . . . . . S S S S S S S S S * * * * * * * * . . . . . . . .
+    24   . . . . . . . S S S S S S S S S S S * * * * * * * * . . . . . . .
+    23   . . . . . . . S S S S S S S S S S * * * * * * * * * . . . . . . .
+    22   . . . . . . S S S S S S S S S S S S * * * * * * * * * . . . . . .
+    21   . . . . . S S S S S S S S S S S S S S * * * * * * * * * . . . . .
+    20   . . . . . S S S S S S S S S S S S S * * * * * * * * * * . . . . .
+    19   . . . . S S S S S S S S S S S S S S S * * * * * * * * * * . . . .
+    18   . . . S S S S S S S S S S S S S S S S S * * * * * * * * * * . . .
+    17   . . . S S S S S S S S S S S S S S S S * * * * * * * * * * * . . .
+    16   . . S S S S S S S S S S S S S S S S S S * * * * * * * * * * * . .
+    15   . . S S S S S S S S S S S S S S S S S S * * * * * * * * * * * . .
+    14   . S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * .
+    13   . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * .
+    12   . . S S S S S S S S S S S S S S S S S S S * * * * * * * * * * . .
+    11   . . S S S S S S S S S S S S S S S S S S S * * * * * * * * * * . .
+    10   . . . S S S S S S S S S S S S S S S S S S * * * * * * * * * . . .
+     9   . . . . S S S S S S S S S S S S S S S S S * * * * * * * * . . . .
+     8   . . . . . . S S S S S S S S S S S S S S * * * * * * * . . . . . .
+     7   . . . . . . . . S S S S S S S S S S S * * * * * * . . . . . . . .
+     6   . . . . . . . . . . . S S S S S S S S * * * . . . . . . . . . . .
+     5   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+             1                   2                   3                   4
+         8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+     X  -->        Chi=  0.00 degrees
+
+ Case     3
+         0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.0023       6992., dFz/dz:   4.241E+05
+         2, NR,  z_ws, Fz:       0.0048   1.031E+04, dFz/dz:   4.680E+05
+         3, NR,  z_ws, Fz:       0.0041       9909., dFz/dz:   6.048E+05
+         4, NR,  z_ws, Fz:       0.0043       9991., dFz/dz:   5.448E+05
+         5, NR,  z_ws, Fz:       0.0043   1.001E+04, dFz/dz:   1.196E+06
+         6, NR,  z_ws, Fz:       0.0043       9999., dFz/dz:   1.038E+06
+         7, NR,  z_ws, Fz:       0.0043   1.000E+04, dFz/dz:   1.708E+06
+         8, NR,  z_ws, Fz:       0.0043   1.000E+04, dFz/dz:   1.522E+06
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  5, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  3, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, APPROXIMATE KPEC SOLUTION
+ STEADY STATE ROLLING, "FASTSIM APPROACH", CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_MF       ALFAMF      BETAMF
+     1.000       1.000       1.000    
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.000      0.0043  -3.554E-04   1.200E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3353637
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -965.8       69.46   1.000E+04      -964.9       77.49   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -6.9402    726.5908      3.1452       6.155       31.21      -63.95
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -7.0537    727.5827      2.8755     -0.2823    -32.9499      2.8755
+
+     XCP(W)      YCP(W)      ZCP(W)
+      1.6156    -27.5493      3.1280
+
+ SIMPLIFIED THEORY MATERIAL CONSTANTS
+     FLX1        FLX2        FLX3
+    0.1338E-04  0.1338E-04  0.1338E-04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_EFF
+     1.000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2004.   3.897E-03   1.252E-02   6.019E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9624.      -965.8      -2719.      -1354.      0.1224      -76.91
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1174     -0.3345     -0.9418   2.993E-02       1625.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   4176    225      0    225      0      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    12  o..............................................o
+    11  .....................SSSSS......................
+    10  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS........
+     9  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+     8  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     7  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+     6  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+     5  ................SSSSSSSSSSSSSSSSSS..............
+     4  o..............................................o
+            1         2         3         4         5
+        678901234567890123456789012345678901234567890123
+     X  -->        Chi=  0.00 degrees
+
+ Case     4
+         0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2048   1.707E+04, dFz/dz:   1.131E+06
+         2, NR,  z_ws, Fz:       0.1985       9911., dFz/dz:   1.146E+06
+         3, NR,  z_ws, Fz:       0.1986       9998., dFz/dz:   1.116E+06
+         4, NR,  z_ws, Fz:       0.1986      10000., dFz/dz:   1.099E+06
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  6, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  3, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, APPROXIMATE ANALYN SOLUTION
+ STEADY STATE ROLLING, "FASTSIM APPROACH", CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_MF       ALFAMF      BETAMF
+     1.000       1.000       1.000    
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1986       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3481181
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       340.5       30.71      10000.       340.5       30.71      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0083    752.2396      0.1148      -107.4      -9.718      -3153.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    751.8039      0.1272     -0.0292     -8.7287      0.1272
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000      1.8039     -0.0714
+
+ SIMPLIFIED THEORY MATERIAL CONSTANTS
+     FLX1        FLX2        FLX3
+    0.2072E-04  0.2641E-04  0.1660E-04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_EFF
+     1.000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.  -5.232E-05       0.000   6.354E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9997.       340.5      -261.6      -3302.   6.438E-02     -0.3391
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1219      0.1135  -8.722E-02   1.646E-02       352.1
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3999   1224   1087    137      0      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    86   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+    85   . . . . . . . . . . . . . * . . . . . . . . . . . . .
+    84   . . . . . . . . . S S * * * * * * * . . . . . . . . .
+    83   . . . . . . . S S S * * * * * * * * * * . . . . . . .
+    82   . . . . . . S S S * * * * * * * * * * * * . . . . . .
+    81   . . . . . S S S * * * * * * * * * * * * * * . . . . .
+    80   . . . . S S S S * * * * * * * * * * * * * * * . . . .
+    79   . . . . S S S * * * * * * * * * * * * * * * * . . . .
+    78   . . . S S S S * * * * * * * * * * * * * * * * * . . .
+    77   . . . S S S * * * * * * * * * * * * * * * * * * . . .
+    76   . . S S S S * * * * * * * * * * * * * * * * * * * . .
+    75   . . S S S * * * * * * * * * * * * * * * * * * * * . .
+    74   . . S S S * * * * * * * * * * * * * * * * * * * * . .
+    73   . . S S * * * * * * * * * * * * * * * * * * * * * . .
+    72   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    71   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    70   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    69   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    68   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    67   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    66   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    65   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    64   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    63   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    62   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    61   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    60   . S * * * * * * * * * * * * * * * * * * * * * * * * .
+    59   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    58   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    57   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    56   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    55   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    54   . . * * * * * * * * * * * * * * * * * * * * * * * . .
+    53   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    52   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    51   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    50   . . . S * * * * * * * * * * * * * * * * * * * * . . .
+    49   . . . . * * * * * * * * * * * * * * * * * * * . . . .
+    48   . . . . * * * * * * * * * * * * * * * * * * * . . . .
+    47   . . . . S * * * * * * * * * * * * * * * * * * . . . .
+    46   . . . . S * * * * * * * * * * * * * * * * * * . . . .
+    45   . . . . . * * * * * * * * * * * * * * * * * . . . . .
+    44   . . . . . * * * * * * * * * * * * * * * * * . . . . .
+    43   . . . . . S * * * * * * * * * * * * * * * * . . . . .
+    42   . . . . . S * * * * * * * * * * * * * * * * . . . . .
+    41   . . . . . S S * * * * * * * * * * * * * * S . . . . .
+    40   . . . . . . S * * * * * * * * * * * * * * . . . . . .
+    39   . . . . . . S * * * * * * * * * * * * * * . . . . . .
+    38   . . . . . . S S * * * * * * * * * * * * * . . . . . .
+    37   . . . . . . S S * * * * * * * * * * * * * . . . . . .
+    36   . . . . . . . S * * * * * * * * * * * * . . . . . . .
+    35   . . . . . . . S S * * * * * * * * * * * . . . . . . .
+    34   . . . . . . . S S * * * * * * * * * * * . . . . . . .
+    33   . . . . . . . . S * * * * * * * * * * . . . . . . . .
+    32   . . . . . . . . S S * * * * * * * * * . . . . . . . .
+    31   . . . . . . . . S S * * * * * * * * * . . . . . . . .
+    30   . . . . . . . . S S S * * * * * * * * . . . . . . . .
+    29   . . . . . . . . . S S * * * * * * * . . . . . . . . .
+    28   . . . . . . . . . S S * * * * * * * . . . . . . . . .
+    27   . . . . . . . . . S S * * * * * * * . . . . . . . . .
+    26   . . . . . . . . . S S S * * * * * * . . . . . . . . .
+    25   . . . . . . . . . S S S * * * * * S . . . . . . . . .
+    24   . . . . . . . . . . S S * * * * * . . . . . . . . . .
+    23   . . . . . . . . . . S S * * * * * . . . . . . . . . .
+    22   . . . . . . . . . . S S * * * * * . . . . . . . . . .
+    21   . . . . . . . . . . S S * * * * * . . . . . . . . . .
+    20   . . . . . . . . . . S S S * * * * . . . . . . . . . .
+    19   . . . . . . . . . . S S S * * * * . . . . . . . . . .
+    18   . . . . . . . . . . S S S * * * * . . . . . . . . . .
+    17   . . . . . . . . . . S S S * * * * . . . . . . . . . .
+    16   . . . . . . . . . . S S S * * * * . . . . . . . . . .
+    15   . . . . . . . . . S S S S * * * * * . . . . . . . . .
+    14   . . . . . . . . . S S S S * * * * * . . . . . . . . .
+    13   . . . . . . . . . S S S S * * * * * . . . . . . . . .
+    12   . . . . . . . . S S S S S * * * * * S . . . . . . . .
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+           1                   2                   3
+         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+     X  -->        Chi=  0.00 degrees
+
+ Case     5
+         0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2016   1.772E+04, dFz/dz:   9.717E+05
+         2, NR,  z_ws, Fz:       0.1937       8835., dFz/dz:   1.118E+06
+         3, NR,  z_ws, Fz:       0.1947       9880., dFz/dz:   1.003E+06
+         4, NR,  z_ws, Fz:       0.1948       9968., dFz/dz:   7.367E+05
+         5, NR,  z_ws, Fz:       0.1949   1.000E+04, dFz/dz:   7.713E+05
+         6, NR,  z_ws, Fz:       0.1949   1.000E+04, dFz/dz:   7.126E+05
+         7, NR,  z_ws, Fz:       0.1949   1.000E+04, dFz/dz:   6.364E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  6, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  3, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, APPROXIMATE ANALYN SOLUTION
+ STEADY STATE ROLLING, "FASTSIM APPROACH", CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_MF       ALFAMF      BETAMF
+     1.000       1.000       1.000    
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000      0.5000      0.1949  -2.304E-05   1.200E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3474134
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -1098.      -1745.   1.000E+04      -1100.      -1744.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.8181    743.6662      0.4748       186.7       339.5      -1693.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -0.8621    744.7299      0.4168     -0.0559    -15.8027      0.4168
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0309     -5.7802      0.2391
+
+ SIMPLIFIED THEORY MATERIAL CONSTANTS
+     FLX1        FLX2        FLX3
+    0.2370E-04  0.2730E-04  0.2098E-04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_EFF
+     1.000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.   4.686E-04   1.202E-03   1.214E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9887.      -1098.      -2301.      -2942.   7.673E-02      -6.670
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1206     -0.3703     -0.7759   2.055E-02       710.4
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   4089   1016    325    691      0      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    71   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    70   . . . . . . . . . . . . . . . . . S . . . . . . . . . . . . . . . . .
+    69   . . . . . . . . . . . . . . . S S S S S . . . . . . . . . . . . . . .
+    68   . . . . . . . . . . . . . . S S S S S * S . . . . . . . . . . . . . .
+    67   . . . . . . . . . . . . . . S S S S S * * . . . . . . . . . . . . . .
+    66   . . . . . . . . . . . . . S S S S S S S * S . . . . . . . . . . . . .
+    65   . . . . . . . . . . . . . S S S S S S * * * . . . . . . . . . . . . .
+    64   . . . . . . . . . . . . . S S S S S S * * * . . . . . . . . . . . . .
+    63   . . . . . . . . . . . . S S S S S S S S * * S . . . . . . . . . . . .
+    62   . . . . . . . . . . . . S S S S S S S S * * * . . . . . . . . . . . .
+    61   . . . . . . . . . . . . S S S S S S S S * * * . . . . . . . . . . . .
+    60   . . . . . . . . . . . . S S S S S S S * * * * . . . . . . . . . . . .
+    59   . . . . . . . . . . . . S S S S S S S * * * * . . . . . . . . . . . .
+    58   . . . . . . . . . . . . S S S S S S S * * * * . . . . . . . . . . . .
+    57   . . . . . . . . . . . . S S S S S S S * * * * . . . . . . . . . . . .
+    56   . . . . . . . . . . . S S S S S S S S * * * * S . . . . . . . . . . .
+    55   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    54   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    53   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    52   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    51   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    50   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    49   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    48   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    47   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    46   . . . . . . . . . . . S S S S S S S S S * * * S . . . . . . . . . . .
+    45   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    44   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    43   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    42   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    41   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    40   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    39   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    38   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    37   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    36   . . . . . . . . . . . S S S S S S S S S * * * * . . . . . . . . . . .
+    35   . . . . . . . . . . . S S S S S S S S * * * * * . . . . . . . . . . .
+    34   . . . . . . . . . . S S S S S S S S S S S * * * S . . . . . . . . . .
+    33   . . . . . . . . . . S S S S S S S S S S S * * * * . . . . . . . . . .
+    32   . . . . . . . . . . S S S S S S S S S S * * * * * . . . . . . . . . .
+    31   . . . . . . . . . . S S S S S S S S S S * * * * * . . . . . . . . . .
+    30   . . . . . . . . . . S S S S S S S S S S * * * * * . . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S S S * * * * S . . . . . . . . .
+    28   . . . . . . . . . S S S S S S S S S S S S * * * * * . . . . . . . . .
+    27   . . . . . . . . . S S S S S S S S S S S S * * * * * . . . . . . . . .
+    26   . . . . . . . . . S S S S S S S S S S S S * * * * * . . . . . . . . .
+    25   . . . . . . . . S S S S S S S S S S S S S S * * * * * . . . . . . . .
+    24   . . . . . . . . S S S S S S S S S S S S S S * * * * * . . . . . . . .
+    23   . . . . . . . . S S S S S S S S S S S S S S * * * * * . . . . . . . .
+    22   . . . . . . . S S S S S S S S S S S S S S S S * * * * S . . . . . . .
+    21   . . . . . . . S S S S S S S S S S S S S S S S * * * * * . . . . . . .
+    20   . . . . . . . S S S S S S S S S S S S S S S * * * * * * . . . . . . .
+    19   . . . . . . S S S S S S S S S S S S S S S S S S * * * * * . . . . . .
+    18   . . . . . S S S S S S S S S S S S S S S S S S S * * * * * * . . . . .
+    17   . . S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * . .
+    16   . S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * .
+    15   . S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * .
+    14   . S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * .
+    13   . S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * .
+    12   . . S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * . .
+    11   . . S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * S . .
+    10   . . . . S S S S S S S S S S S S S S S * * * * * * * * * * * * . . . .
+     9   . . . . . . S S S S S S S S S S S S S * * * * * * * * * * . . . . . .
+     8   . . . . . . . . . S S S S S S S S S S * * * * * * * . . . . . . . . .
+     7   . . . . . . . . . . . . . . . . S S * . . . . . . . . . . . . . . . .
+     6   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+               1                   2                   3                   4
+         7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+     X  -->        Chi=  0.00 degrees
+
+ Case     6
+         0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.0023       7209., dFz/dz:   4.373E+05
+         2, NR,  z_ws, Fz:       0.0041   1.012E+04, dFz/dz:   4.564E+05
+         3, NR,  z_ws, Fz:       0.0038   1.020E+04, dFz/dz:  -2.768E+05
+         4, NR,  z_ws, Fz:       0.0007       8411., dFz/dz:   5.834E+05
+         5, NR,  z_ws, Fz:       0.0035   1.003E+04, dFz/dz:   4.802E+05
+         6, NR,  z_ws, Fz:       0.0034       9974., dFz/dz:   8.429E+05
+         7, NR,  z_ws, Fz:       0.0034   1.001E+04, dFz/dz:   1.055E+06
+         8, NR,  z_ws, Fz:       0.0034       9998., dFz/dz:   1.376E+06
+         9, NR,  z_ws, Fz:       0.0034   1.000E+04, dFz/dz:   2.027E+06
+        10, NR,  z_ws, Fz:       0.0034      10000., dFz/dz:   2.118E+06
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  6, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  3, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, APPROXIMATE ANALYN SOLUTION
+ STEADY STATE ROLLING, "FASTSIM APPROACH", CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_MF       ALFAMF      BETAMF
+     1.000       1.000       1.000    
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.000      0.0034  -3.554E-04   1.200E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3353637
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -963.5       95.65      10000.      -962.3       103.7      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -6.9857    726.6018      3.1418       6.043       30.04      -63.01
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -7.0359    727.4182      2.9177     -0.2850    -33.1144      2.9177
+
+     XCP(W)      YCP(W)      ZCP(W)
+      1.6314    -27.7139      3.1710
+
+ SIMPLIFIED THEORY MATERIAL CONSTANTS
+     FLX1        FLX2        FLX3
+    0.1492E-04  0.1492E-04  0.1492E-04
+
+ MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
+     K0_EFF
+     1.000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2004.   3.987E-03   1.253E-02   6.075E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9623.      -963.5      -2720.      -1004.      0.1229      -76.69
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1174     -0.3337     -0.9421   2.905E-02       1630.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   4161    256      0    256      0      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    14  o.............................................o
+    13  ................SSSSSSSSSSSSSSS................
+    12  .............SSSSSSSSSSSSSSSSSSSSS.............
+    11  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSSS.........
+    10  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+     9  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     8  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+     7  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+     6  .............SSSSSSSSSSSSSSSSSSSSSSS...........
+     5  o.............................................o
+            1         2         3         4         5
+        67890123456789012345678901234567890123456789012
+     X  -->        Chi=  0.00 degrees
+
+ Case     7
+         0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
+         2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
+         3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
+         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       0.000      0.1981       0.000       0.000       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3481181
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      0.2774       36.24   1.000E+04      0.2774       36.24   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+      0.0117    751.4397      0.1380     -0.1277      -16.68      -4604.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      0.0000    751.8726      0.1252     -0.0290     -8.6600      0.1252
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0000      1.8726     -0.0729
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.  -5.665E-05       0.000   6.302E-05
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9997.      0.2774      -253.7      -4605.   6.042E-02     -0.4677
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1219   9.249E-05  -8.458E-02   1.596E-02       338.3
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3956   1291    943    348      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    85   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+    84   . . . . . . . . . . . S S S S S . . . . . . . . . . .
+    83   . . . . . . . . S S S S S S * * * * S . . . . . . . .
+    82   . . . . . . . S S S S S S * * * * * * * . . . . . . .
+    81   . . . . . . S S S S S S * * * * * * * * * . . . . . .
+    80   . . . . . S S S S S S * * * * * * * * * * * . . . . .
+    79   . . . . . S S S S * * * * * * * * * * * * * . . . . .
+    78   . . . . S S S S S * * * * * * * * * * * * * * . . . .
+    77   . . . S S S S S * * * * * * * * * * * * * * * S . . .
+    76   . . . S S S S * * * * * * * * * * * * * * * * * . . .
+    75   . . . S S S S * * * * * * * * * * * * * * * * * . . .
+    74   . . S S S S * * * * * * * * * * * * * * * * * * * . .
+    73   . . S S S S * * * * * * * * * * * * * * * * * * * . .
+    72   . . S S S S * * * * * * * * * * * * * * * * * * * . .
+    71   . . S S S * * * * * * * * * * * * * * * * * * * * . .
+    70   . S S S S * * * * * * * * * * * * * * * * * * * * S .
+    69   . S S S S * * * * * * * * * * * * * * * * * * * * * .
+    68   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    67   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    66   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    65   . S S S * * * * * * * * * * * * * * * * * * * * * * .
+    64   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    63   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    62   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    61   . S S * * * * * * * * * * * * * * * * * * * * * * * .
+    60   . S S * * * * * * * * * * * * * * * * * * * * * * S .
+    59   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    58   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    57   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    56   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    55   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    54   . . S * * * * * * * * * * * * * * * * * * * * * * . .
+    53   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    52   . . . * * * * * * * * * * * * * * * * * * * * * . . .
+    51   . . . S * * * * * * * * * * * * * * * * * * * * . . .
+    50   . . . S * * * * * * * * * * * * * * * * * * * * . . .
+    49   . . . S * * * * * * * * * * * * * * * * * * * S . . .
+    48   . . . . S * * * * * * * * * * * * * * * * * * . . . .
+    47   . . . . S * * * * * * * * * * * * * * * * * * . . . .
+    46   . . . . S S * * * * * * * * * * * * * * * * * . . . .
+    45   . . . . S S * * * * * * * * * * * * * * * * S . . . .
+    44   . . . . . S S * * * * * * * * * * * * * * * . . . . .
+    43   . . . . . S S * * * * * * * * * * * * * * * . . . . .
+    42   . . . . . S S S * * * * * * * * * * * * * * . . . . .
+    41   . . . . . . S S * * * * * * * * * * * * * . . . . . .
+    40   . . . . . . S S * * * * * * * * * * * * * . . . . . .
+    39   . . . . . . S S S * * * * * * * * * * * * . . . . . .
+    38   . . . . . . S S S * * * * * * * * * * * S . . . . . .
+    37   . . . . . . . S S S * * * * * * * * * * . . . . . . .
+    36   . . . . . . . S S S S * * * * * * * * * . . . . . . .
+    35   . . . . . . . S S S S * * * * * * * * * . . . . . . .
+    34   . . . . . . . . S S S * * * * * * * * . . . . . . . .
+    33   . . . . . . . . S S S S * * * * * * * . . . . . . . .
+    32   . . . . . . . . S S S S S * * * * * * . . . . . . . .
+    31   . . . . . . . . S S S S S * * * * * S . . . . . . . .
+    30   . . . . . . . . . S S S S * * * * * . . . . . . . . .
+    29   . . . . . . . . . S S S S S * * * * . . . . . . . . .
+    28   . . . . . . . . . S S S S S S * * * . . . . . . . . .
+    27   . . . . . . . . . S S S S S S * * S . . . . . . . . .
+    26   . . . . . . . . . . S S S S S * * . . . . . . . . . .
+    25   . . . . . . . . . . S S S S S * * . . . . . . . . . .
+    24   . . . . . . . . . . S S S S S S * . . . . . . . . . .
+    23   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    22   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    21   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    20   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    19   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    18   . . . . . . . . . . S S S S S S S . . . . . . . . . .
+    17   . . . . . . . . . S S S S S S S S S . . . . . . . . .
+    16   . . . . . . . . . S S S S S S S S S . . . . . . . . .
+    15   . . . . . . . . . S S S S S S S * * . . . . . . . . .
+    14   . . . . . . . . S S S S S S S S * * S . . . . . . . .
+    13   . . . . . . . . S S S S S S S S * * * . . . . . . . .
+    12   . . . . . . . S S S S S S S S * * * * S . . . . . . .
+    11   . . . . . . S S S S S S S S * * * * * * S . . . . . .
+    10   . . . . . S S S S S S S S * * * * * * * * S . . . . .
+     9   . . . . . S S S S S S S S * * * * * * * * * . . . . .
+     8   . . . . . S S S S S S S S * * * * * * * * S . . . . .
+     7   . . . . . . S S S S S S S S * * * * * * S . . . . . .
+     6   . . . . . . . . . S S S S S S S S S . . . . . . . . .
+     5   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+           1                   2                   3
+         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+     X  -->        Chi=  0.00 degrees
+
+ Case     8
+         0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.2016   1.860E+04, dFz/dz:   1.020E+06
+         2, NR,  z_ws, Fz:       0.1932       9375., dFz/dz:   1.094E+06
+         3, NR,  z_ws, Fz:       0.1938       9945., dFz/dz:   9.973E+05
+         4, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   1.001E+06
+         5, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   9.945E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000      0.5000      0.1938  -2.304E-05   1.200E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3474134
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -880.0      -2015.   1.000E+04      -882.4      -2014.      10000.
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -0.7756    744.7416      0.4162       285.1       675.5      -3235.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -0.8614    744.5026      0.4289     -0.0568    -16.0300      0.4289
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.0314     -6.0075      0.2522
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2000.   4.948E-04   1.202E-03   1.233E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9870.      -880.0      -2579.      -3202.   7.091E-02      -7.427
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1204     -0.2972     -0.8711   1.948E-02       632.5
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3995   1147     73   1074      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    77   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    76   . . . . . . . . . . . . . . S S S S S . . . . . . . . . . . . . .
+    75   . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . .
+    74   . . . . . . . . . . . . S S S S S S S S S . . . . . . . . . . . .
+    73   . . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . .
+    72   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . .
+    71   . . . . . . . . . . S S S S S S S S S S S S . . . . . . . . . . .
+    70   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    69   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    68   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    67   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . .
+    66   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    65   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    64   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    63   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    62   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    61   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    60   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    59   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    58   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    57   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    56   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    55   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    54   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    53   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    52   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    51   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    50   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . .
+    49   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . .
+    48   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    47   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    46   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    45   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    44   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    43   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    42   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    41   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    40   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    39   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    38   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    37   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    36   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    35   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    34   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    33   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    32   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+    31   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    30   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    28   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    27   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+    26   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . .
+    25   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . .
+    24   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . .
+    23   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
+    22   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
+    21   . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    20   . . . . . S S S S S S S S S S S S S S S S S S S S * * S . . . . .
+    19   . . . . . S S S S S S S S S S S S S S S S S S S S * * S . . . . .
+    18   . . . . S S S S S S S S S S S S S S S S S S S S * * * * S . . . .
+    17   . . . S S S S S S S S S S S S S S S S S S S S S * * * * * S . . .
+    16   . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * S . .
+    15   . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * S .
+    14   . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * .
+    13   . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * .
+    12   . S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S .
+    11   . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * . .
+    10   . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * . . .
+     9   . . . . S S S S S S S S S S S S S S S S S S S S S S * * S . . . .
+     8   . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . .
+     7   . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+     6   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+             1                   2                   3                   4
+         8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+     X  -->        Chi=  0.00 degrees
+
+ Case     9
+         0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -0.0023       7420., dFz/dz:   4.501E+05
+         2, NR,  z_ws, Fz:       0.0034   1.139E+04, dFz/dz:   6.932E+05
+         3, NR,  z_ws, Fz:       0.0014       9914., dFz/dz:   7.359E+05
+         4, NR,  z_ws, Fz:       0.0015       9997., dFz/dz:   7.068E+05
+         5, NR,  z_ws, Fz:       0.0015      10000., dFz/dz:   7.004E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-05
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.2000      0.2000       1.000       1.571       8.000       4.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       5.000      0.0015  -3.554E-04   1.200E-02       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+         2000.       0.000       0.000       0.000       0.000  -4.3353637
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+      -763.3       131.6      10000.      -761.7       137.2   1.000E+04
+
+ AVERAGE CONTACT POSITION
+     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
+     -7.0519    727.9412      2.7850       130.2      -9.804      -1711.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -6.9999    727.0855      3.0041     -0.2905    -33.4470      3.0041
+
+     XCP(W)      YCP(W)      ZCP(W)
+      1.6634    -28.0471      3.2592
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2000           2004.   4.174E-03   1.255E-02   6.188E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         9619.      -763.3      -2738.      -826.6      0.1061      -75.99
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1173     -0.2645     -0.9488   2.719E-02       1556.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   3905    389      0    389      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    67  o............................................o
+    66  .............SSSSSSS..........................
+    65  ...........SSSSSSSSSSSS.......................
+    64  ..........SSSSSSSSSSSSSS......................
+    63  .........SSSSSSSSSSSSSSSS.....................
+    62  .........SSSSSSSSSSSSSSSSS....................
+    61  .........SSSSSSSSSSSSSSSSS....................
+    60  .........SSSSSSSSSSSSSSSSS....................
+    59  .........SSSSSSSSSSSSSSSSS....................
+    58  .........SSSSSSSSSSSSSSSS.....................
+    57  ..........SSSSSSSSSSSSSSS.....................
+    56  ...........SSSSSSSSSSSSS......................
+    55  .............SSSSSSSSSS.......................
+    54  ...............SSSSSS.........................
+    53  ..............................................
+    52  ..............................................
+    51  ..............................................
+    50  ..............................................
+    49  ..............................................
+    48  ..............................................
+    47  ..............................................
+    46  ..............................................
+    45  ..............................................
+    44  ..............................................
+    43  ..............................................
+    42  ..............................................
+    41  ..............................................
+    40  ..............................................
+    39  ..............................................
+    38  ..............................................
+    37  ..............................................
+    36  ..............................................
+    35  ..............................................
+    34  ..............................................
+    33  ..............................................
+    32  ..............................................
+    31  ..............................................
+    30  ..............................................
+    29  ..............................................
+    28  ..............................................
+    27  ..............................................
+    26  ..............................................
+    25  ..............................................
+    24  ..............................................
+    23  ..............................................
+    22  ..............................................
+    21  ..............................................
+    20  ..............................................
+    19  ..............................................
+    18  ..............................................
+    17  ..............................................
+    16  ..............................................
+    15  ..............................................
+    14  ..............................................
+    13  ..............................................
+    12  ..............................................
+    11  ...........SSSSSSSSSSSSSSSSSSSSS..............
+    10  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+     9  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+     8  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     7  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+     6  ..........SSSSSSSSSSSSSSSSSSSSSSSSSSSS........
+     5  o............................................o
+            1         2         3         4         5
+        6789012345678901234567890123456789012345678901
+     X  -->        Chi=  0.00 degrees
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       3.2 | 100.0 |        3.3 | 100.0 |
+|Wheel-rail cases     |       9 |       3.2 | 100.0 |        3.3 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |      68 |       0.2 |   4.9 |        0.2 |   4.9 |
+|Panag.process        |      59 |       2.9 |  90.7 |        2.8 |  87.0 |
+|Algorithm Norm       |      14 |       0.2 |   6.9 |        0.2 |   5.4 |
+|Algorithm Tang       |      59 |       2.6 |  82.8 |        2.6 |  80.7 |
+|Output quantities    |      68 |       0.0 |   1.5 |        0.1 |   2.7 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |      14 |       0.2 |   6.4 |        0.2 |   5.0 |
+|Norm: KPEC method    |      24 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Norm: ANALYN method  |      21 |       0.0 |   0.5 |        0.0 |   0.5 |
+|Tang: StedyGS solver |      14 |       2.6 |  82.4 |        2.6 |  79.5 |
+|Tang: Fastsim solver |      45 |       0.0 |   0.0 |        0.0 |   0.0 |
+|------------------------------------------------------------------------|
+|Reading input-file   |       9 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |      68 |       0.1 |   2.5 |        0.1 |   2.3 |
+|Undeformed distance  |      59 |       0.1 |   2.5 |        0.1 |   2.6 |
+|Influence coeffic.   |      59 |       0.0 |   1.5 |        0.1 |   1.7 |
+|Initial state/estim. |      59 |       0.0 |   0.0 |        0.0 |   0.1 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.

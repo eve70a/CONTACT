@@ -1,0 +1,76 @@
+%
+% Example input file for CONTACT. See User guide, Section 5.7.
+% Manchester contact benchmark - tangential contact.
+%
+% Variant with subsurface stresses and friction variation
+%
+% Input for right wheel of the wheelset
+
+%  1: Lateral displacement  0.0 mm, yaw angle  0.0 mrad
+
+  1 MODULE
+ 1203103    C-P-B-T-N-F-S   CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 1022033    V-L-D-C-M-Z-E   VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0001321    H-G-I-A-O-W-R     HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+    999     100    30    1     1e-5         MAXGS,  MAXIN,  MAXNR,  MAXOUT, EPS
+  2                                            NVF
+  -20d    0.200   0.200                        ALPHA, FSTAT, FKIN
+  -10d    0.300   0.300                        ALPHA, FSTAT, FKIN
+  0.280   0.280   82000.  82000.               POISS 1,2,  GG 1,2
+  0.200   0.200   1.000   90d   6.0   3.0      DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+   14.0     0    1435.0   0.000                GAUGHT, GAUGSQ, GAUGWD, CANT
+  'MBench_UIC60_v3.prr'   0     1.0   0.0      RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0   0.000   0.0   0.0   0.000    DY, DZ, ROLL, VY, VZ, VROLL
+  1360.0  -70.0   460.0                        FBDIST, FBPOS, NOMRAD
+  'MBench_S1002_v3.prw'   0     1.0   0.0      WFNAME, MIRRORY, SCALE, SMOOTH
+  0.0  0.0  10000. 0.00000000 0.0000  0.0      S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0  0.0        0.0  -4.34811810 VS,VY,VZ, VROLL,VYAW,VPITCH
+% subsurface points:
+  2    1              MATFIL, OUTPUT
+  1                   ISUBS
+  11   1e-6   0.5     NZ, ZL, DZ
+  0                   ISUBS
+
+%  2: Lateral displacement  0.5 mm, yaw angle  1.2 mrad
+
+  1 MODULE
+ 1203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1111002    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  0.0  0.5  10000. -0.00002304 0.0012  0.0      S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0   0.0        0.0  -4.34741340 VS,VY,VZ, VROLL,VYAW,VPITCH
+
+% 11: Lateral displacement  5.0 mm, yaw angle 12.0 mrad
+
+  1 MODULE
+ 1203101    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1111002    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0101321    H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  0.0  5.0  10000. -0.00035540 0.0120  0.0      S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0   0.0        0.0  -4.33536370 VS,VY,VZ, VROLL,VYAW,VPITCH
+% subsurface points:
+% 2    1              MATFIL, OUTPUT
+% 1                   ISUBS
+% 11   1e-6   0.5     NZ, ZL, DZ
+% 0                   ISUBS
+
+% 12: Lateral displacement  5.5 mm, yaw angle 13.2 mrad
+
+  1 MODULE
+ 1203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1111002    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0100321    H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  0.0  5.5  10000. -0.00047770 0.0132  0.0      S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0   0.0        0.0  -4.33188640 VS,VY,VZ, VROLL,VYAW,VPITCH
+
+% 12: Lateral displacement  5.5 mm, yaw angle 13.2 mrad, conformal
+
+  1 MODULE
+ 1203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1141002    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0101321    H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  0.200   0.200   1.000   90d   9.0   5.0      DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+  0.0  5.5  10000. -0.00047770 0.0132  0.0      S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0   0.0        0.0  -4.33188640 VS,VY,VZ, VROLL,VYAW,VPITCH
+
+ 0 MODULE

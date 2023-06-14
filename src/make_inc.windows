@@ -1,0 +1,139 @@
+#-----------------------------------------------------------------------------------------------------------
+# make_inc.windows - Make include-file for generating CONTACT exe and dlls for Windows 
+#
+# Copyright 2008-2023 by Vtech CMCC.
+#
+# Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
+#-----------------------------------------------------------------------------------------------------------
+
+# path to directory for object/mod-files:
+
+P = obj\$(PLATF)_$(TARGET)\\
+
+# compiler for current platform:
+
+F90   = ifort
+MS    = C:\Program Files (x86)\Microsoft Visual Studio 12.0
+CXX   = "$(MS)\VC\bin\cl.exe"
+
+#-----------------------------------------------------------------------------------------------------------
+# settings for use of OpenMP
+#-----------------------------------------------------------------------------------------------------------
+
+!if "$(TARGET)"=="exe"
+# OPENMP  = /Qopenmp -DOMP_INSIDE
+OPENMP  = /Qopenmp
+!elseif "$(TARGET)"=="clib"
+# new OpenMP version conflicts with Matlab
+# OPENMP  = /Qopenmp
+OPENMP  =
+!else
+OPENMP  =
+!endif
+
+#-----------------------------------------------------------------------------------------------------------
+# settings for FFT library: Intel MKL, linked statically
+#-----------------------------------------------------------------------------------------------------------
+
+MKLINC  = -DWITH_MKLFFT
+
+!if "$(OPENMP)"==""
+
+!if "$(PLATF)"=="win32"
+MKLLIB  = mkl_intel_c.lib mkl_sequential.lib mkl_core.lib
+!else
+MKLLIB  = mkl_intel_lp64.lib mkl_sequential.lib mkl_core.lib
+!endif
+
+!else
+
+!if "$(PLATF)"=="win32"
+MKLLIB  = mkl_intel_c.lib mkl_intel_thread.lib mkl_core.lib
+!else
+MKLLIB  = mkl_intel_lp64.lib mkl_intel_thread.lib mkl_core.lib
+!endif
+
+!endif
+
+#-----------------------------------------------------------------------------------------------------------
+# settings for license checking mechanism
+#-----------------------------------------------------------------------------------------------------------
+
+LICINC  = 
+LICLIB  = 
+
+#-----------------------------------------------------------------------------------------------------------
+# compiler options
+#-----------------------------------------------------------------------------------------------------------
+
+# CCOPTS          = /nologo /MT /EHsc $(LICINC)
+CCOPTS_ALL      = /nologo /MT $(LICINC)
+CXXOPTS         = /Wall
+CRTLIB          = 
+LIB32           =
+
+!if "$(PLATF)"=="win32"
+CCOPTS32        = /Gz
+FFOPTS32        = /iface:cvf
+# cvf: stdcall, by reference, char-length following char-address, uppercase, underscore prefix, @n
+!else
+CCOPTS32        =
+FFOPTS32        =
+!endif
+CCOPTS          = $(CCOPTS_ALL) $(CCOPTS32)
+
+FFOPTS_ALL      = -DTARGET_$(TARGET) /nologo /I. $(LICINC) $(MKLINC) /fpp /O3 \
+                  $(FFOPTS32) $(OPENMP) /heap-arrays:64 /MT /module:$(P) /object:$(P)
+FFOPTS_DEBUG    = /debug /Zi /RTCu /warn:ignore_loc /warn:interfaces /warn:uncalled \
+                  /check:bounds /check:uninit /check:pointers /check:format /traceback
+FFOPTS_DEVELOP  = /debug /Zi /warn:unused /traceback /check:uninit
+# /warn:unused /traceback /check:pointers /check:bounds
+# /check:arg_temp_created -- subsurf: idamax(table(1:,25))
+FFOPTS_RELEASE  = /nodebug
+FFOPTS_CADDON   = /names:lowercase /iface:nomixed_str_len_arg
+# FFOPTS_DEVELOP += /Qoption,link,/nodefaultlib:libc
+
+!if "$(TARGET)"=="exe"
+FFOPTS  = $(FFOPTS_ALL) $(FFOPTS_DEVELOP) $(FFOPTS_CADDON)
+!elseif "$(TARGET)"=="clib"
+FFOPTS  = $(FFOPTS_ALL) $(FFOPTS_DEVELOP) $(FFOPTS_CADDON)
+!endif
+
+DLLOPT  = /dll
+
+#-----------------------------------------------------------------------------------------------------------
+# paths and libraries
+#-----------------------------------------------------------------------------------------------------------
+
+DLL_PATH    = ..\bin
+
+# Main target for CONTACT stand-alone executable
+STND_EXE    = ..\bin\contact_$(PLATF).exe
+
+# Main targets for CONTACT add-on dll
+CLIB_DLL    = $(DLL_PATH)\contact_addon_$(PLATF).dll
+CLIB_LIB    = $(DLL_PATH)\contact_addon_$(PLATF).lib
+
+CLIB_EXE1   = $(DLL_PATH)\test_caddon_$(PLATF).exe
+CLIB_EXE2   = $(DLL_PATH)\test_mbench_$(PLATF).exe
+CLIB_EXE3   = $(DLL_PATH)\test_switch_$(PLATF).exe
+CLIB_EXE4   = $(DLL_PATH)\test_table_$(PLATF).exe
+CLIB_EXE5   = $(DLL_PATH)\test_memory_$(PLATF).exe
+CLIB_EXE6   = $(DLL_PATH)\usetab_table_$(PLATF).exe
+
+ILK1        = $(DLL_PATH)\test_caddon_$(PLATF).ilk
+ILK2        = $(DLL_PATH)\test_mbench_$(PLATF).ilk
+ILK3        = $(DLL_PATH)\test_switch_$(PLATF).ilk
+ILK4        = $(DLL_PATH)\test_table_$(PLATF).ilk
+ILK5        = $(DLL_PATH)\test_memory_$(PLATF).ilk
+ILK6        = $(DLL_PATH)\usetab_table_$(PLATF).ilk
+
+!if "$(TARGET)"=="clib"
+MANIF   = ..\bin\test_caddon_$(PLATF).exe.manifest
+EXPFILE = ..\bin\contact_addon_$(PLATF).exp
+ILKFILE = ..\bin\contact_addon_$(PLATF).ilk
+!endif
+
+O       = obj
+CP      = copy
+RM      = del

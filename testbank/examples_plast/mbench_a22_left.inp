@@ -1,0 +1,21 @@
+
+%  1: Lateral displacement  0.0 mm, yaw angle  0.0 mrad
+
+  1 MODULE
+ 0203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 0022433    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0002321    H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+    999     100    30    1     1e-5  MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  820.0   0.020    60.0   1000.                 GG3, LAYTHK, TAU_C0, K_TAU
+  0.200   0.200   1.000   90d0  8.0   4.0       DX, DS, DQREL, A_SEP,D_SEP,D_COMB
+   14.0     0    1435.0   0.000                 GAUGHT, GAUGSQ, GAUGWD, CANT
+  '../profiles/MBench_UIC60_v3.prr' 0  1.0  0.0 RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    0.0   0.000   0.0   0.0   0.000     DY, DZ, ROLL, VY, VZ, VROLL
+  1360.0  -70.0   460.0                         FBDIST, FBPOS, NOMRAD
+  '../profiles/MBench_S1002_v3.prw' 0  1.0  0.0 WFNAME, MIRRORY, SCALE, SMOOTH
+  0.0  0.0  10000.  0.00000000 0.000  0.0       S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0   0.0        0.0   -4.35675   VS,VY,VZ, VROLL,VYAW,VPITCH
+
+  0 MODULE

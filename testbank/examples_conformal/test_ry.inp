@@ -1,0 +1,29 @@
+
+% Test-case for message "small or negative ry"
+
+  1 MODULE
+ 1203000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+  042033      L-D-C-M-Z-E    FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+  002221      G-I-A-O-W-R    GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+    999     100    30    1     1e-7  MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   80000.  80000.                POISS 1,2,  GG 1,2
+% 0.100   0.200   1.000   1.000                 DX, DS, DQREL, SAFETY
+ 0.095833 0.250   1.000   1.000                 DX, DS, DQREL, SAFETY
+  0.000      -1   0.000                         GAUGWD, GAUGHT, CANT
+% '../profiles/groove_r1025.prr'  0   1.0  0.0  RFNAME, MIRRORY,SCALE,SMOOTH
+  '../profiles/groove_r1005.prr'  0   1.0 0.1  RFNAME, MIRRORY,SCALE,SMOOTH
+     0.0    0.0   0.000   0.0   0.0   0.000     DY,DZ, ROLL, VY,VZ, VROLL
+     0.0    0.0   420.0                         FBDIST, FBPOS, NOMRAD
+  '../profiles/circ_r10.prw'     0    1.0 0.1  WFNAME, MIRRORY,SCALE,SMOOTH
+% prescribed position/velocity, case 1, r1025:
+%  0.0 0.0  0.02237 0.000      0.000  0.0       S, Y, Z,  ROLL, YAW, PITCH
+%420.0 0.0    0.0   0.0        0.0   -1.0002314 VS,VY,VZ, VROLL,VYAW,VPITCH
+% prescribed position/velocity, case 3, r1005:
+   0.0 0.0  0.01743 0.000      0.000  0.0       S, Y, Z,  ROLL, YAW, PITCH
+ 420.0 0.0    0.0   0.0        0.0   -1.0006495 VS,VY,VZ, VROLL,VYAW,VPITCH
+% prescribed forces:
+%  0.0 0.0  10000.  0.000      0.000  0.0       S, Y, FZ, ROLL, YAW, PITCH
+%420.0 0.0    0.0   0.0        0.0    0.0       VS,VY,VZ, VROLL,VYAW,FX_WS
+
+  0 MODULE

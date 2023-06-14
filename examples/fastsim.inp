@@ -1,0 +1,106 @@
+%
+% Example input file for CONTACT. See User guide, Section 5.12.
+% Steady state rolling test-problem.
+%
+% Hertzian geometry, AA=8mm and BB=4mm specified. Using 40x40 elements in 
+% contact area in first three cases (44 / SCALE 1.1), 200x200 elements
+% in final two cases.
+%
+% Spin creepage 0.000625, lateral creepage -0.000625 selected in order
+% to get nice pictures of element divisions, and be able to show the
+% difficulties for FASTSIM when using an elliptical traction bound.
+% 
+
+% first case: CONTACT's original half-space approach.
+%             M=0 == elastic material
+%             B=0 == compute half-space solution.
+
+ 3 MODULE
+  203100     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  022020     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0001341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+    80   200    5    1      1e-6    MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+   82000.     0.000     -0.000625   0.000625        FN, CKSI, CETA, CPHI
+   0.300      0.300                                 FSTAT, FKIN
+   0.000      0.400      30000.                     CHI, DQ, VELOC
+   0.280      0.280      82000.     82000.          POISS 1,2,  GG 1,2
+   -3                                               IPOTCN
+   44   44     8.000      4.000      1.100          MX,MY,AA,BB,SCALE
+
+% second case: FASTSIM algorithm, parabolical traction bound.
+%              M=3 == simplified theory with 3 flexibilities
+%              B=3 == use parabolical traction bound.
+
+ 3 MODULE
+  233100     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  122320     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0100341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   82000.     0.000     -0.000625   0.000625        FN, CKSI, CETA, CPHI
+   0.000      0.400      30000.                     CHI, DQ, VELOC
+   0.280      0.280      82000.     82000.          POISS 1,2,  GG 1,2
+   1.000      1.000      1.000                      K0_MF,ALFAMF,BETAMF
+   -3                                               IPOTCN
+   44   44     8.000      4.000      1.100          MX,MY,AA,BB,SCALE
+
+% third case: FASTSIM algorithm, elliptical traction bound.
+%              M=3 == simplified theory with 3 flexibilities
+%              B=2 == use elliptical traction bound.
+
+ 3 MODULE
+  223100     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  122320     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0100341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   82000.     0.000     -0.000625   0.000625        FN, CKSI, CETA, CPHI
+   0.000      0.400      30000.                     CHI, DQ, VELOC
+   0.280      0.280      82000.     82000.          POISS 1,2,  GG 1,2
+   1.000      1.000      1.000                      K0_MF,ALFAMF,BETAMF
+   -3                                               IPOTCN
+   44   44     8.000      4.000      1.100          MX,MY,AA,BB,SCALE
+
+% fourth case: FASTSIM algorithm, elliptical traction bound.
+%              M=3 == simplified theory with 3 flexibilities
+%              B=2 == use elliptical traction bound.
+
+ 3 MODULE
+  223100     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  122320     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0101341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   82000.     0.000     -0.000625   0.000625        FN, CKSI, CETA, CPHI
+   0.000      0.080      30000.                     CHI, DQ, VELOC
+   0.280      0.280      82000.     82000.          POISS 1,2,  GG 1,2
+   1.000      1.000      1.000                      K0_MF,ALFAMF,BETAMF
+   -3                                               IPOTCN
+  220  220     8.000      4.000      1.100          MX,MY,AA,BB,SCALE
+
+% fifth case: FASTSIM algorithm, parabolical traction bound.
+%              M=3 == simplified theory with 3 flexibilities
+%              B=3 == use parabolical traction bound.
+
+ 3 MODULE
+  233100     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  122320     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0101341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   82000.     0.000     -0.000625   0.000625        FN, CKSI, CETA, CPHI
+   0.000      0.080      30000.                     CHI, DQ, VELOC
+   0.280      0.280      82000.     82000.          POISS 1,2,  GG 1,2
+   1.000      1.000      1.000                      K0_MF,ALFAMF,BETAMF
+   -3                                               IPOTCN
+  220  220     8.000      4.000      1.100          MX,MY,AA,BB,SCALE
+
+% sixth case: same as fifth one, but with rolling direction and spin
+%             creepage reversed.
+%              M=3 == simplified theory with 3 flexibilities
+%              B=3 == use parabolical traction bound.
+
+ 3 MODULE
+  233100     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM , FORCE, STRESS
+  122320     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 0101341   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   82000.     0.000     -0.000625  -0.000625        FN, CKSI, CETA, CPHI
+   180.0d     0.080      30000.                     CHI, DQ, VELOC
+   0.280      0.280      82000.     82000.          POISS 1,2,  GG 1,2
+   1.000      1.000      1.000                      K0_MF,ALFAMF,BETAMF
+   -3                                               IPOTCN
+  220  220     8.000      4.000      1.100          MX,MY,AA,BB,SCALE
+
+ 0 MODULE
