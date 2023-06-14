@@ -281,6 +281,10 @@ end
 
 if (isempty(myopt.view)), myopt.view = 'default'; end
 if (ischar(myopt.view))
+   if (strcmp(myopt.view,'rail') & strcmp(myopt.typplot,'surf'))
+      % 3d surface plot should not use 2d view
+      myopt.view = 'default';
+   end
    if (strcmp(myopt.view,'rail'))
       % wheel-rail view: 2D, rolling direction == plot y-direction
       myopt.view=[90 -90];
@@ -362,7 +366,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Add profiles to the sol struct, using mirroring for left-side w/r combination
+% Add profiles to the sol struct
 
 if (any(strcmp(myopt.rw_surfc, {'prr','both'})))
    if (isfield(prr,'nslc')) % variable profile
@@ -417,7 +421,9 @@ pfxtit = '';
 %
 
 if (myopt.addplot<=0)
-   cla;
+   clf;  % restart figure
+elseif (myopt.addplot==2)
+   cla;  % restart subplot?
 end
 
 % start by plotting the rail and/or wheel surfaces
@@ -2192,31 +2198,37 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
 
    else
 
+      % mirror ProfileY for left-side w/r pairs
+
+      prf_s = sol.prr.ProfileS; prf_y = sol.prr.ProfileY; prf_z = sol.prr.ProfileZ;
+      if (is_left_side(sol))
+         prf_s = -flipud(prf_s); prf_y = -flipud(prf_y); prf_z =  flipud(prf_z);
+      end
+
       % find oref in the rail profile
 
-      dst = sqrt( (sol.prr.ProfileY-sol.meta.ycp_r).^2 + ...
-                  (sol.prr.ProfileZ-sol.meta.zcp_r).^2 );
+      dst = sqrt( (prf_y-sol.meta.ycp_r).^2 + (prf_z-sol.meta.zcp_r).^2 );
       [~,ix] = min(dst);
-      rg = [max(1,ix-5) : min(length(sol.prr.ProfileY),ix+5)];
+      rg = [max(1,ix-5) : min(length(prf_y),ix+5)];
 
-      sref = interp1(sol.prr.ProfileY(rg), sol.prr.ProfileS(rg), sol.meta.ycp_r);
+      sref = interp1(prf_y(rg), prf_s(rg), sol.meta.ycp_r);
       if (isnan(sref))
          disp(sprintf('ERROR: prr seems different from prr used in simulation (needs mirroring?).'))
-         sref = sol.prr.ProfileS(ix);
+         sref = prf_s(ix);
       end
 
       % find grid points in the rail profile
 
       sc = yc;
       sr = sref + sc;
-      yr_at_s = interp1(sol.prr.ProfileS, sol.prr.ProfileY, sr);
-      zr_at_s = interp1(sol.prr.ProfileS, sol.prr.ProfileZ, sr);
+      yr_at_s = interp1(prf_s, prf_y, sr);
+      zr_at_s = interp1(prf_s, prf_z, sr);
 
       % determine n-vectors on the rail profile
 
       ds = 0.1;
-      dy = (interp1(sol.prr.ProfileS, sol.prr.ProfileY, sr+ds) - yr_at_s) / ds;
-      dz = (interp1(sol.prr.ProfileS, sol.prr.ProfileZ, sr+ds) - zr_at_s) / ds;
+      dy = (interp1(prf_s, prf_y, sr+ds) - yr_at_s) / ds;
+      dz = (interp1(prf_s, prf_z, sr+ds) - zr_at_s) / ds;
       nvec = [zeros(1,m*n); -dz; dy] ./ ([1;1;1] * sqrt(dy.^2+dz.^2));
 
       % hack: slight raise to put the data above the surfaces
@@ -2278,27 +2290,33 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
 
    else
 
+      % mirror ProfileY for left-side w/r pairs
+
+      prf_s = sol.prr.ProfileS; prf_y = sol.prr.ProfileY; prf_z = sol.prr.ProfileZ;
+      if (is_left_side(sol))
+         prf_s = -flipud(prf_s); prf_y = -flipud(prf_y); prf_z =  flipud(prf_z);
+      end
+
       % find oref in the rail profile
 
-      dst = sqrt( (sol.prr.ProfileY-sol.meta.ycp_r).^2 + ...
-                  (sol.prr.ProfileZ-sol.meta.zcp_r).^2 );
+      dst = sqrt( (prf_y-sol.meta.ycp_r).^2 + (prf_z-sol.meta.zcp_r).^2 );
       [~,ix] = min(dst);
-      rg = [max(1,ix-5), min(length(sol.prr.ProfileY),ix+5)];
+      rg = [max(1,ix-5), min(length(prf_y),ix+5)];
 
-      sref = interp1(sol.prr.ProfileY(rg), sol.prr.ProfileS(rg), sol.meta.ycp_r);
+      sref = interp1(prf_y(rg), prf_s(rg), sol.meta.ycp_r);
 
       % find grid points in the rail profile
 
       sc = yc;
       sr = sref + sc;
-      yr_at_s = interp1(sol.prr.ProfileS, sol.prr.ProfileY, sr);
-      zr_at_s = interp1(sol.prr.ProfileS, sol.prr.ProfileZ, sr);
+      yr_at_s = interp1(prf_s, prf_y, sr);
+      zr_at_s = interp1(prf_s, prf_z, sr);
 
       % determine n-vectors on the rail profile
 
       ds = 0.1;
-      dy = (interp1(sol.prr.ProfileS, sol.prr.ProfileY, sr+ds) - yr_at_s) / ds;
-      dz = (interp1(sol.prr.ProfileS, sol.prr.ProfileZ, sr+ds) - zr_at_s) / ds;
+      dy = (interp1(prf_s, prf_y, sr+ds) - yr_at_s) / ds;
+      dz = (interp1(prf_s, prf_z, sr+ds) - zr_at_s) / ds;
       nvec = [zeros(1,m*n); -dz; dy] ./ ([1;1;1] * sqrt(dy.^2+dz.^2));
 
       coords = [xc; yr_at_s; zr_at_s] + nvec .* ([1;1;1] * zc);
@@ -2355,26 +2373,37 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
 
    else
 
+      % mirror ProfileY for left-side w/r pairs
+
+      prf_s = sol.prw.ProfileS; prf_y = sol.prw.ProfileY; prf_z = sol.prw.ProfileZ;
+      if (is_left_side(sol))
+         prf_s = -flipud(prf_s); prf_y = -flipud(prf_y); prf_z =  flipud(prf_z);
+      end
+
       % change oref from rail to track to wheel coordinates
 
       wref = R_w' * ( o_r + R_r * oref - o_w );
 
       % find wref.y in the wheel profile
 
-      sref = interp1(sol.prw.ProfileY, sol.prw.ProfileS, wref(2));
+      dst = sqrt( (prf_y-wref(2)).^2 + (prf_z-wref(3)).^2 );
+      [~,ix] = min(dst);
+      rg = [max(1,ix-5), min(length(prf_y),ix+5)];
+
+      sref = interp1(prf_y(rg), prf_s(rg), wref(2));
 
       % find grid points in the wheel profile
 
       sc = yc;
       sw = sref - sc;    % sw increasing to the left
-      yw_at_s = interp1(sol.prw.ProfileS, sol.prw.ProfileY, sw);
-      zw_at_s = interp1(sol.prw.ProfileS, sol.prw.ProfileZ, sw);
+      yw_at_s = interp1(prf_s, prf_y, sw);
+      zw_at_s = interp1(prf_s, prf_z, sw);
 
       % determine n-vectors on the wheel profile
 
       ds = 0.1;
-      dy = (interp1(sol.prw.ProfileS, sol.prw.ProfileY, sw-ds) - yw_at_s) / ds;
-      dz = (interp1(sol.prw.ProfileS, sol.prw.ProfileZ, sw-ds) - zw_at_s) / ds;
+      dy = (interp1(prf_s, prf_y, sw-ds) - yw_at_s) / ds;
+      dz = (interp1(prf_s, prf_z, sw-ds) - zw_at_s) / ds;
       nvec = [zeros(1,m*n); -dz; dy] ./ ([1;1;1] * sqrt(dy.^2+dz.^2));
 
       coords = [xc; yw_at_s; zw_at_s] + nvec .* ([1;1;1] * zc);
