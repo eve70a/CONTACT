@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: v23.1.1(win64), $Revision: 2360 $, $Date:: 2023-05-16$     |
+   |  Version: v23.1.2(win64), $Revision: 2361 $, $Date:: 2023-05-20$     |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
    ------------------------------------------------------------------------
@@ -3452,19 +3452,19 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       4.2 | 100.0 |        4.4 | 100.0 |
-|Wheel-rail cases     |      42 |       4.2 |  98.2 |        4.3 |  97.4 |
-|Subsurface points    |       1 |       0.1 |   1.8 |        0.1 |   2.2 |
-|W/r profiles         |       4 |       0.0 |   0.0 |        0.0 |   0.4 |
-|Geometric analysis   |     206 |       0.1 |   1.8 |        0.1 |   2.5 |
-|Panag.process        |     164 |       3.8 |  90.0 |        4.0 |  91.2 |
-|Algorithm Norm       |     164 |       0.5 |  11.4 |        0.5 |  11.0 |
-|Algorithm Tang       |     164 |       3.3 |  78.6 |        3.5 |  80.0 |
-|Output quantities    |     206 |       0.1 |   2.6 |        0.0 |   1.1 |
+|Total                |       1 |       3.2 | 100.0 |        4.6 | 100.0 |
+|Wheel-rail cases     |      42 |       3.2 |  98.6 |        4.4 |  97.3 |
+|Subsurface points    |       1 |       0.0 |   1.4 |        0.1 |   2.6 |
+|W/r profiles         |       4 |       0.0 |   0.0 |        0.0 |   0.2 |
+|Geometric analysis   |     206 |       0.1 |   3.9 |        0.2 |   3.5 |
+|Panag.process        |     164 |       2.9 |  90.3 |        4.0 |  87.1 |
+|Algorithm Norm       |     164 |       0.2 |   7.7 |        0.5 |  10.0 |
+|Algorithm Tang       |     164 |       2.7 |  82.6 |        3.5 |  76.8 |
+|Output quantities    |     206 |       0.0 |   1.4 |        0.1 |   2.8 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     164 |       0.4 |  10.3 |        0.4 |   8.7 |
-|Tang: StedyGS solver |     164 |       3.3 |  78.2 |        3.5 |  78.6 |
+|Norm: ConjGrd solver |     164 |       0.2 |   4.8 |        0.4 |   9.0 |
+|Tang: StedyGS solver |     164 |       2.7 |  82.1 |        3.5 |  76.2 |
 |------------------------------------------------------------------------|
-|Result element  1    |      21 |       2.1 |  49.8 |        2.2 |  50.3 |
-|Result element  2    |      22 |       2.1 |  50.2 |        2.2 |  49.3 |
+|Result element  1    |      21 |       1.6 |  48.3 |        2.3 |  49.4 |
+|Result element  2    |      22 |       1.7 |  51.7 |        2.3 |  50.4 |
 |------------------------------------------------------------------------|

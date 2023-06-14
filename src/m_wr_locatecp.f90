@@ -557,7 +557,7 @@ contains
 
          ! call write_log(' --- calling set_planar_potcon ---')
          call set_planar_potcon( ic, icp, cp, prr_trk, my_rail%m_trk, sgn, trk%nom_radius, discr%dx,    &
-                        discr%ds, idebug )
+                        discr%ds, discr%npot_max, idebug )
 
          ! estimate curvatures a1, b1 for the contact patches
 
@@ -568,8 +568,7 @@ contains
 
          if (is_conformal) then
             ! call write_log(' --- calling compute_curved_potcon ---')
-            call compute_curved_potcon( ic, ws, prr_trk, my_rail%m_trk, trk%nom_radius, cp, discr%ds,   &
-                        idebug )
+            call compute_curved_potcon( ic, ws, prr_trk, my_rail%m_trk, trk%nom_radius, cp, idebug )
          endif
 
       enddo ! icp
@@ -3020,20 +3019,20 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine set_planar_potcon( ic, icp, cp, prr, mtrk, sgn, nom_radius, dx_cp, ds_cp, idebug )
+   subroutine set_planar_potcon( ic, icp, cp, prr, mtrk, sgn, nom_radius, dx_in, ds_in, npot_max, idebug )
 !--purpose: define the potential contact area for planar computations
       implicit none
 !--subroutine arguments:
       type(t_ic)                :: ic
       type(t_cpatch)            :: cp
       type(t_grid)              :: prr
-      integer,      intent(in)  :: icp, idebug
+      integer,      intent(in)  :: icp, npot_max, idebug
       type(t_marker)            :: mtrk                 ! roller profile marker
       real(kind=8), intent(in)  :: nom_radius           ! radius in case of a roller
-      real(kind=8), intent(in)  :: sgn, dx_cp, ds_cp
+      real(kind=8), intent(in)  :: sgn, dx_in, ds_in    ! dx, ds: user input
 !--local variables:
       logical        :: is_roller
-      integer        :: sub_ierror, mx, my
+      integer        :: sub_ierror, mx, my, ix_l, ix_h, iy_l, iy_h
       real(kind=8)   :: cref_x, zc_rol, rsta, rend, zsta, zend, xp_l, xp_h, sp_l, sp_h, tmp
       type(t_marker) :: msta, mend
 
@@ -3083,9 +3082,15 @@ contains
       endif
 
       ! define planar potential contact area for [xsta_tr,xend_tr] x [sp_sta,sp_end]
-      !  - round limits [xp_l,xp_h] to multiples of dx, extend by -/+0.5dx to get a grid point at O,
-      !    add another -/+1 dx as guard band
-      !  - add +/-ds as safety in lateral direction
+      !  - there is an element with center at the contact reference position, (0,0) in local coords
+      !  - elements are numbered here as [ ix_l : ix_h ] x [ iy_l : iy_h ],
+      !             with ix_l and iy0 <= 0, ix_h and iy_h >= 0.
+      !  - we get mx = ix_h - ix_l + 1, my = iy_h - iy_l + 1
+      !  - element sizes are repeatedly doubled as needed to bring mx * my below npot_max.
+      !  - effective element sizes are dx_eff = dx_fac * dx_in, ds_eff = ds_fac * ds_in
+      !  - the limits [xp_l, xp_h] are rounded downwards/upwards to multiples of dx_eff
+      !  - one element +/-dx_eff and +/-ds_eff is added as safety, guard band
+      !  - +/- 0.5 * dx_eff is added for the corners of the elements
 
       xp_l = cp%xsta - cp%mref%x()
       xp_h = cp%xend - cp%mref%x()
@@ -3096,9 +3101,6 @@ contains
          xp_h = max(0d0, xp_h)
       endif
 
-      xp_l = floor  (xp_l/dx_cp) * dx_cp - 1.5d0 * dx_cp
-      xp_h = ceiling(xp_h/dx_cp) * dx_cp + 1.5d0 * dx_cp
-
       if (cp%sp_sta.gt.cp%sp_end) then
          write(bufout,'(a,2g12.4)') ' Internal error: negative size for potential contact, sl/h=',      &
                 cp%sp_sta, cp%sp_end
@@ -3108,11 +3110,63 @@ contains
          cp%sp_end = tmp
       endif
 
-      sp_l = floor  (cp%sp_sta/ds_cp) * ds_cp - 1.5d0 * ds_cp
-      sp_h = ceiling(cp%sp_end/ds_cp) * ds_cp + 1.5d0 * ds_cp
+      ! determine mx, my on basis of dx_eff, ds_eff
 
-      mx   = nint( (xp_h-xp_l) / dx_cp )
-      my   = nint( (sp_h-sp_l) / ds_cp )
+      cp%dx_fac = 1d0
+      cp%ds_fac = 1d0
+      cp%dx_eff = cp%dx_fac * dx_in
+      cp%ds_eff = cp%ds_fac * ds_in
+
+      ix_l = floor  (xp_l/cp%dx_eff) - 1
+      ix_h = ceiling(xp_h/cp%dx_eff) + 1
+      mx   = ix_h - ix_l + 1
+
+      iy_l = floor  (cp%sp_sta/cp%ds_eff) - 1
+      iy_h = ceiling(cp%sp_end/cp%ds_eff) + 1
+      my   = iy_h - iy_l + 1
+
+      ! increase dx_eff, ds_eff as needed to bring npot below max #elements
+
+      if (ic%return.le.1 .and. npot_max.ge.100 .and. mx*my.ge.npot_max) then
+         if (idebug.ge.-1) then
+            write(bufout,'(a,2i5,a,i6,a,2f7.3,4(a,i4),a)') ' setting mx,my=', mx, my, ', npot=',        &
+                mx*my, ', setting  dx,dy=', cp%dx_eff, cp%ds_eff, ', ix=[',ix_l,' :',ix_h,              &
+                '], iy=[',iy_l,' :', iy_h,']'
+            call write_log(1, bufout)
+         endif
+      
+         do while (npot_max.ge.100 .and. mx*my.ge.npot_max)
+            if (mx.gt.10) then
+               cp%dx_fac = cp%dx_fac * 2d0
+               cp%dx_eff = cp%dx_fac * dx_in
+               ix_l = floor  (xp_l/cp%dx_eff) - 1
+               ix_h = ceiling(xp_h/cp%dx_eff) + 1
+               mx   = ix_h - ix_l + 1
+            endif
+
+            if (my.gt.10) then
+               cp%ds_fac = cp%ds_fac * 2d0
+               cp%ds_eff = cp%ds_fac * ds_in
+               iy_l = floor  (cp%sp_sta/cp%ds_eff) - 1
+               iy_h = ceiling(cp%sp_end/cp%ds_eff) + 1
+               my   = iy_h - iy_l + 1
+            endif
+
+            if (idebug.ge.-1) then
+               write(bufout,'(a,2i5,a,i6,a,2f7.3,4(a,i4),a)') ' reduced mx,my=', mx, my, ', npot=',     &
+                   mx*my, ', enlarged dx,dy=', cp%dx_eff, cp%ds_eff, ', ix=[',ix_l,' :',ix_h,           &
+                   '], iy=[',iy_l, ' :',iy_h,']'
+               call write_log(1, bufout)
+            endif
+         enddo
+      endif
+
+      ! compute extent [xl,xh] x [sl,sh] of potential contact area
+
+      xp_l = (ix_l - 0.5d0) * cp%dx_eff
+      xp_h = (ix_h + 0.5d0) * cp%dx_eff
+      sp_l = (iy_l - 0.5d0) * cp%ds_eff
+      sp_h = (iy_h + 0.5d0) * cp%ds_eff
 
       if (idebug.ge.3) then
          write(bufout,128) 'range x =',     cp%mref%x(),' + [', xp_l, ',', xp_h, '], mx=',mx
@@ -3139,7 +3193,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine compute_curved_potcon( ic, ws, prr, mtrk, nom_radius, cp, ds, idebug )
+   subroutine compute_curved_potcon( ic, ws, prr, mtrk, nom_radius, cp, idebug )
 !--purpose: compute the curved reference curve for conformal contact calculation
       implicit none
 !--subroutine arguments:
@@ -3149,7 +3203,6 @@ contains
       type(t_marker),    intent(in)  :: mtrk        ! roller profile marker
       real(kind=8),      intent(in)  :: nom_radius  ! radius in case of a roller
       type(t_cpatch)                 :: cp
-      real(kind=8),      intent(in)  :: ds
       integer,           intent(in)  :: idebug
 !--local variables:
       logical,      parameter :: use_old_wnrm = .true.
@@ -3195,29 +3248,30 @@ contains
       if (idebug.ge.3) then
          write(bufout,'(3(a,f12.6),a)') ' sr_ref=',cp%sr_ref, ', sr_sta,sr_end=[', sr_sta,',',sr_end,']'
          call write_log(1, bufout)
-         write(bufout,'(3(a,f12.6),a)') '   ds  =',ds, ', sc_sta,sc_end=[', cp%sc_sta,',', cp%sc_end,']'
+         write(bufout,'(3(a,f12.6),a)') ' ds_eff=',cp%ds_eff, ', sc_sta,sc_end=[', cp%sc_sta,',',       &
+                cp%sc_end,']'
          call write_log(1, bufout)
       endif
 
       ! snap to grid points i*ds, with three extra points on each side
       ! TODO: replace own blas (idamin) by MKL functions
 
-      cp%sc_sta = (nint(cp%sc_sta/ds) - 3) * ds
-      cp%sc_end = (nint(cp%sc_end/ds) + 3) * ds
-      ny        = nint((cp%sc_end-cp%sc_sta)/ds) + 1
+      cp%sc_sta = (nint(cp%sc_sta/cp%ds_eff) - 3) * cp%ds_eff
+      cp%sc_end = (nint(cp%sc_end/cp%ds_eff) + 3) * cp%ds_eff
+      ny        = nint((cp%sc_end-cp%sc_sta)/cp%ds_eff) + 1
 
       allocate( si(ny) )
 
       do iy = 1, ny
-         si(iy) = cp%sc_sta + (iy-1) * ds
+         si(iy) = cp%sc_sta + (iy-1) * cp%ds_eff
       enddo
       iy_ref = idamin(ny, si, 1)
 
       if (idebug.ge.2) then
          write(bufout,'(3(a,f12.6),a)') ' sr_ref=',cp%sr_ref, ', sr_sta,sr_end=[', sr_sta,',',sr_end,']'
          call write_log(1, bufout)
-         write(bufout,'(3(a,f12.6),a,i4)') '   ds  =',ds, ', sc_sta,sc_end=[', cp%sc_sta,',', cp%sc_end, &
-                '], ny=', ny
+         write(bufout,'(3(a,f12.6),a,i4)') ' ds_eff=',cp%ds_eff, ', sc_sta,sc_end=[', cp%sc_sta,',',    &
+                cp%sc_end, '], ny=', ny
          call write_log(1, bufout)
       endif
       if (idebug.ge.2) then
@@ -3407,8 +3461,8 @@ contains
       ! overwrite sc_sta, sc_end with selected range for potential contact area
 
       if (my.ge.1) then
-         cp%sc_sta = si(iy0) - 0.5*ds
-         cp%sc_end = si(iy1) + 0.5*ds
+         cp%sc_sta = si(iy0) - 0.5*cp%ds_eff
+         cp%sc_end = si(iy1) + 0.5*cp%ds_eff
       endif
 
       ! 5. create output grid with my elements: (rsrf + wsrf) / 2

@@ -342,47 +342,30 @@ contains
 
       gd%potcon%ipotcn =  1
       gd%potcon%xl     = cp%xsta - cp%mref%x()
-      gd%potcon%dx     = discr%dx
-      gd%potcon%mx     = nint((cp%xend-cp%xsta)/discr%dx)
+      gd%potcon%dx     = cp%dx_eff
+      gd%potcon%mx     = nint((cp%xend-cp%xsta)/cp%dx_eff)
 
       if (is_conformal) then
          ! conformal: curved surface
-         gd%potcon%dy  = discr%ds
+         gd%potcon%dy  = cp%ds_eff
          gd%potcon%yl  = cp%sc_sta
-         gd%potcon%my  = nint((cp%sc_end-cp%sc_sta)/discr%ds)
+         gd%potcon%my  = nint((cp%sc_end-cp%sc_sta)/cp%ds_eff)
       else
          ! planar: tangent plane
-         gd%potcon%dy  = discr%ds
+         gd%potcon%dy  = cp%ds_eff
          gd%potcon%yl  = cp%sp_sta
-         gd%potcon%my  = nint((cp%sp_end-cp%sp_sta)/discr%ds)
+         gd%potcon%my  = nint((cp%sp_end-cp%sp_sta)/cp%ds_eff)
       endif
 
       npot = gd%potcon%mx * gd%potcon%my
 
       if (wtd_ic%return.le.1 .and. discr%npot_max.ge.100 .and. npot.ge.discr%npot_max) then
-         if (idebug.ge.-1) then
-            write(bufout,'(a,2i5,a,i6,a,2f7.3,a,2f10.3)') ' setting mx,my=', gd%potcon%mx,              &
-                gd%potcon%my, ', npot=',npot, ', setting  dx,dy=', gd%potcon%dx, gd%potcon%dy,          &
-                ', xl,yl=', gd%potcon%xl, gd%potcon%yl
+         write(bufout,'(2(a,i6))') ' Internal error: npot=',npot,' >= NPOT_MAX=', discr%npot_max
             call write_log(1, bufout)
-         endif
-
-         do while (discr%npot_max.ge.100 .and. npot.ge.discr%npot_max)
-            if (gd%potcon%mx.gt.10) then
-               gd%potcon%mx = (gd%potcon%mx+1) / 2
-               gd%potcon%dx = gd%potcon%dx * 2d0
-            endif
-            if (gd%potcon%my.gt.10) then
-               gd%potcon%my = (gd%potcon%my+1) / 2
-               gd%potcon%dy = gd%potcon%dy * 2d0
-            endif
-            npot = gd%potcon%mx * gd%potcon%my
-            if (idebug.ge.-1) then
-               write(bufout,'(a,2i5,a,i6,a,2f8.4)') ' reduced mx,my=', gd%potcon%mx, gd%potcon%my,      &
-                   ', npot=',npot, ', enlarged dx,dy=', gd%potcon%dx, gd%potcon%dy
+         write(bufout,'(a,2i5,a,i6,a,2f7.3,a,2f10.3)') ' mx,my=', gd%potcon%mx, gd%potcon%my,           &
+             ', npot=',npot, ', dx,dy=', gd%potcon%dx,gd%potcon%dy, ', xl,yl=', gd%potcon%xl,gd%potcon%yl
                call write_log(1, bufout)
-            endif
-         enddo
+         call abort_run()
       endif
 
       !  - call sdis to create the main grid "cgrid"

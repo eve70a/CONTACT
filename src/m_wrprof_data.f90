@@ -70,6 +70,7 @@ public
       real(kind=8)     :: delttr
       real(kind=8)     :: xsta, xend, ysta, yend, zsta, zend
       real(kind=8)     :: sr_ref, sp_sta, sp_end, sc_sta, sc_end
+      real(kind=8)     :: dx_fac, ds_fac, dx_eff, ds_eff
       integer          :: nsub
       real(kind=8), dimension(:), pointer :: y_sep => NULL(), f_sep => NULL()
       type(t_vec)      :: ftrk, ttrk, fws, tws
@@ -80,7 +81,7 @@ public
 
       ! variables concerning the interpenetration region:
       ! micp             position of maximum interpenetration in contact patch wrt the track coordinate system
-      ! gapmin    [mm]   minimum vertical gap for this contact patch
+      ! gap_min   [mm]   minimum vertical gap for this contact patch
       ! totgap    [?]    integral of gap (squared) used for weighted center
       ! wgt_xgap  [mm]   weighted average of x-values for interpenetration area
       ! wgt_ygap  [mm]   weighted average of y-values for interpenetration area
@@ -96,6 +97,10 @@ public
       ! sp_end    [mm]   end-position of (estimated) interpenetration area in planar contact sp-coordinate
       ! sc_sta    [mm]   start-position of (estimated) interpenetration area in conformal sc-coordinate
       ! sc_end    [mm]   end-position of (estimated) interpenetration area in conformal sc-coordinate
+      ! dx_fac    [-]    multiplier for grid step size in x-direction, dx_eff = dx_fac * dx_in
+      ! ds_fac    [-]    multiplier for grid step size in s-direction, ds_eff = ds_fac * ds_in
+      ! dx_eff    [mm]   effective grid step size used in x-direction
+      ! ds_eff    [mm]   effective grid step size used in s-direction
       !
       ! for combining contact patches with blending approach:
       ! nsub             number of sub-patches with reduced interaction

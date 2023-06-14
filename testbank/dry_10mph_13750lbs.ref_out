@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Version: v23.1.2(win64), $Revision: 2361 $, $Date:: 2023-05-20$     |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  (Subversion revision 2342M, 14-Apr-2023 09:25)                      |
    |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
@@ -8947,18 +8947,18 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.8 | 100.0 |        1.9 | 100.0 |
-|Wheel-rail cases     |      74 |       1.8 | 100.0 |        1.9 | 100.0 |
-|W/r profiles         |       4 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Geometric analysis   |      74 |       0.2 |  10.3 |        0.2 |   9.5 |
-|Panag.process        |      87 |       1.5 |  83.8 |        1.5 |  79.9 |
-|Algorithm Norm       |      87 |       0.2 |  11.1 |        0.2 |  11.0 |
-|Algorithm Tang       |      87 |       1.3 |  72.6 |        1.3 |  68.9 |
-|Output quantities    |     161 |       0.0 |   1.7 |        0.1 |   6.3 |
+|Total                |       1 |       0.2 | 100.0 |        1.4 | 100.0 |
+|Wheel-rail cases     |      74 |       0.2 | 100.0 |        1.4 | 100.0 |
+|W/r profiles         |       4 |       0.0 |   0.0 |        0.0 |   2.9 |
+|Geometric analysis   |      74 |       0.0 |   0.0 |        0.1 |   5.9 |
+|Panag.process        |      87 |       0.1 |  81.8 |        0.9 |  66.2 |
+|Algorithm Norm       |      87 |       0.0 |   9.1 |        0.2 |  11.3 |
+|Algorithm Tang       |      87 |       0.1 |  72.7 |        0.8 |  54.8 |
+|Output quantities    |     161 |       0.0 |  18.2 |        0.3 |  19.7 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      87 |       0.2 |  10.3 |        0.2 |  10.2 |
-|Tang: StedyGS solver |      87 |       1.3 |  72.6 |        1.3 |  68.9 |
-|Temperature calc.    |      37 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Norm: ConjGrd solver |      87 |       0.0 |   9.1 |        0.2 |  10.7 |
+|Tang: StedyGS solver |      87 |       0.1 |  72.7 |        0.8 |  53.7 |
+|Temperature calc.    |      37 |       0.0 |   0.0 |        0.0 |   0.9 |
 |------------------------------------------------------------------------|
 |Reading input-file   |      74 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Contact location     |      74 |       0.1 |   6.8 |        0.1 |   6.9 |
