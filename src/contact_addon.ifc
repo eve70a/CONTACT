@@ -1085,6 +1085,19 @@ end subroutine cntc_getDisplacements
 subroutine cntc_getSensitivities(ire, icp, lenout, lenin, sens) &
    bind(c,name=CNAME_(cntc_getsensitivities))
 !--function: return the sensitivities of the total forces for a contact problem
+!
+!  lenout, lenin      - requested number of outputs (forces) and inputs (creepages or shifts)
+!  sens(lenout,lenin) - matrix of sensitivities -- zeros if not computed
+!
+!  calculation of sensitivities is requested using the flag 'CNTC_ic_sens'.
+!  accuracy is configured using cntc_setsolverflags with G=6.
+!
+!  the inputs are ordered   1: pen, 2: cksi, 3: ceta, 4: cphi
+!  in rolling, T=2,3, the units are pen [length], cksi, ceta [-],      cphi [angle/length]
+!  in shifts,  T=1,   the units are pen [length], cksi, ceta [length], cphi [angle]
+!
+!  the outputs are ordered  1: fn,  2: fx,   3: fy,   4: mz
+!  the units are fn [force], fx, fy [-], mz [force.length]
 !--subroutine arguments:
    integer,      intent(in)  :: ire                ! result element ID
    integer,      intent(in)  :: icp                ! contact problem ID

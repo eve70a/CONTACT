@@ -540,14 +540,7 @@ contains
       character(len= 4), parameter :: namits(1:3) = (/ 'ItGS', 'ItCG', 'ItGD' /)
       character(len= 3)  :: namcrp
 
-      type(t_eldiv),    pointer :: igs1
-      type(t_gridfnc3), pointer :: ps1, facdt
-      real(kind=8), dimension(:,:), pointer :: sens
-
-      igs1  => outpt1%igs
-      ps1   => outpt1%ps
-      sens  => outpt1%sens
-      facdt => outpt1%ledg%facdt
+      associate(igs1 => outpt1%igs, ps1 => outpt1%ps, sens => outpt1%sens, facdt => outpt1%ledg%facdt)
 
       call gf3_dup(wstot, 'wstot', ps1, .true.)
       call gf3_dup(psloc, 'psloc', ps1, .true.)
@@ -601,6 +594,7 @@ contains
       icloc%flow  = ic%flow - 1
       ! icloc%flow  = 5
       maxtmp = solv%maxgs
+      itgs   = 0
 
       ! loop over creepages cksi, ceta, cphi
 
@@ -668,7 +662,7 @@ contains
 
          ! copy original solution to backup
 
-         call eldiv_copy(igs1, igsloc, ikTANG)
+         call eldiv_copy(igs1, igsloc, ikALL)
          call gf3_copy(AllElm, ps1, psloc, ikALL)
          call gf3_copy(AllElm, outpt1%us, usloc, ikALL)
          call gf3_copy(AllElm, outpt1%ss, ssloc, ikALL)
@@ -766,6 +760,7 @@ contains
       call gf3_destroy(psloc)
       call gf3_destroy(wstot)
       call eldiv_destroy(igsloc)
+      end associate
 
       end subroutine sens_tang
 

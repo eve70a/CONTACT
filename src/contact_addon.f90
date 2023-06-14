@@ -344,9 +344,6 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
    my_license%is_valid = .true.
    my_license%licensee_name = 'Open source version'
 
-   write(bufout,'(a,a30,6x,a,l3)') pfx,subnam,': no license check, licd=',my_license%is_valid
-   call write_log(1, bufout)
-
    ! Include file with version identification, display to log-streams
    ! Display information from the licensefile, if it is valid.
 
@@ -5715,6 +5712,20 @@ end subroutine cntc_getDisplacements
 subroutine cntc_getSensitivities(ire, icp, lenout, lenin, sens) &
    bind(c,name=CNAME_(cntc_getsensitivities))
 !--function: return the sensitivities of the total forces for a contact problem
+!
+!  lenout, lenin      - requested number of outputs (forces) and inputs (creepages or shifts)
+!  sens(lenout,lenin) - matrix of sensitivities -- zeros if not computed
+!
+!  calculation of sensitivities is requested using the flag 'CNTC_ic_sens'.
+!  accuracy is configured using cntc_setsolverflags with G=6.
+!
+!  the inputs are ordered   1: pen, 2: cksi, 3: ceta, 4: cphi
+!  in rolling, T=2,3, the units are pen [length], cksi, ceta [-],      cphi [angle/length]
+!  in shifts,  T=1,   the units are pen [length], cksi, ceta [length], cphi [angle]
+!
+!  the outputs are ordered  1: fn,  2: fx,   3: fy,   4: mz
+!  the units are fn [force], fx, fy [-], mz [force.length]
+!
 !--category: 6, "m=any, cp":        available for modules 1 and 3, in module 1 working on cp data
    implicit none
 !--subroutine arguments:

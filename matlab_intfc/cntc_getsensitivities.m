@@ -5,7 +5,10 @@
 % return the sensitivities of the total forces for a contact problem
 %
 %  lenout, lenin      - requested number of outputs (forces) and inputs (creepages or shifts)
-%  sens(lenout,lenin) - matrix of sensitivities
+%  sens(lenout,lenin) - matrix of sensitivities -- zeros if not computed
+%
+%  calculation of sensitivities is requested using the flag 'CNTC_ic_sens'.
+%  accuracy is configured using cntc_setsolverflags with G=6.
 %
 %  the inputs are ordered   1: pen, 2: cksi, 3: ceta, 4: cphi
 %  in rolling, T=2,3, the units are pen [length], cksi, ceta [-],      cphi [angle/length]
@@ -34,9 +37,11 @@ function [ sens ] = cntc_getsensitivities(ire, icp, lenout, lenin)
       disp(sprintf('ERROR in cntc_getsensitivities: not available for icp=%d',icp));
       return
    end
-   if (nargin<4 | isempty(lenout) | isempty(lenin))
-      disp('ERROR in cntc_getsensitivities: lenout, lenin are mandatory.');
-      return
+   if (nargin<3 | isempty(lenout))
+      lenout = 4;
+   end
+   if (nargin<4 | isempty(lenin))
+      lenin  = 4;
    end
 
    lenarr = lenout * lenin;
