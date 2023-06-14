@@ -8,7 +8,7 @@ my $perl_platform = $^O;
 my $dir_separator;
 my $bits = '64';
 my $contact_exe;
-my $contact_addon;
+my $test_nonhz;
 my $test_mbench;
 my $test_table;
 my $nc_addon;
@@ -16,7 +16,7 @@ my $tkdiff;
 if ($perl_platform =~ /.*win.*/i) {
    $dir_separator = '\\';
    $contact_exe = "..\\bin\\contact_win$bits.exe";
-   $contact_addon = "..\\bin\\test_caddon_win$bits.exe";
+   $test_nonhz = "..\\bin\\test_caddon_win$bits.exe";
    $test_mbench = "..\\bin\\test_mbench_win$bits.exe";
    $test_table = "..\\bin\\test_table_win$bits.exe"; 
 #  $tkdiff = "\"c:\\program files\\WinMerge\\winmergeu.exe\"";
@@ -24,7 +24,7 @@ if ($perl_platform =~ /.*win.*/i) {
 } else {
    $dir_separator = '/';
    $contact_exe = "../bin/contact_linux$bits";
-   $contact_addon = "../bin/test_caddon_linux$bits";
+   $test_nonhz = "../bin/test_caddon_linux$bits";
    $test_mbench = "../bin/test_mbench_linux$bits";
    $test_table = "../bin/test_table_linux$bits"; 
    $tkdiff = "tkdiff";
@@ -32,10 +32,10 @@ if ($perl_platform =~ /.*win.*/i) {
 }
 
 my $status = 0;
-my @list=( 'stand_alone', 'contact_addon', 'test_mbench', 'test_table' );
-#  @list=( 'contact_addon', 'test_mbench', 'test_table' );
+my @list=( 'stand_alone', 'test_nonhz', 'test_mbench', 'test_table' );
+#  @list=( 'test_nonhz', 'test_mbench', 'test_table' );
 #  @list=( 'stand_alone' );
-#  @list=( 'contact_addon' );
+   @list=( 'test_nonhz' );
 #  @list=( 'test_mbench' );
 #  @list=( 'test_table' );
 my @files;
@@ -58,16 +58,16 @@ foreach my $test ( @list ) {
          }
          @files = ( 'testbank.ref_out', 'dry_10mph_13750lbs.ref_out' );
 
-      } elsif ( $test =~ /contact_addon/i and -e "$contact_addon" ) {
+      } elsif ( $test =~ /test_nonhz/i and -e "$test_nonhz" ) {
 
-         # Testing the CONTACT library version for basic contact, module 3
+         # Testing the CONTACT library version for basic non-Hertzian contact, module 3
 
          $ENV{OMP_NUM_THREADS} = 1;
-         system($contact_addon . " > test_caddon.out");
+         system($test_nonhz . " > test_caddon.out");
          $status=$?;
-         move "contact_addon.out", "contact_addon.out";
-         move "contact_addon.inp", "contact_addon.inp";
-         @files = ( 'test_caddon.ref_out', 'contact_addon.ref_out', 'contact_addon.ref_inp' );
+         move "contact_addon.out", "contact_nonhz.out";
+         move "contact_addon.inp", "contact_nonhz.inp";
+         @files = ( 'test_caddon.ref_out', 'contact_nonhz.ref_out', 'contact_nonhz.ref_inp' );
 
       } elsif ( $test =~ /test_mbench/i and -e "$test_mbench" ) {
 

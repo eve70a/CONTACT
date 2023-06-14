@@ -2,18 +2,18 @@
       version(2) = '          by E.A.H. Vollebregt and J.J. Kalker'
       version(3) = ' '
 #if   defined _WIN64
-      version(4) = 'Version: trunk(win64), $Revision: 2343 $, $Date:: 2023-04-14#$'
+      version(4) = 'Version: trunk(win64), $Revision: 2369 $, $Date:: 2023-06-13#$'
 #elif defined __x86_64__
-      version(4) = 'Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14#$'
+      version(4) = 'Version: trunk(linux64), $Revision: 2369 $, $Date:: 2023-06-13#$'
 #elif defined _WIN32
-      version(4) = 'Version: trunk(win32), $Revision: 2343 $, $Date:: 2023-04-14#$'
+      version(4) = 'Version: trunk(win32), $Revision: 2369 $, $Date:: 2023-06-13#$'
 #else
-      version(4) = 'Version: trunk(linux32), $Revision: 2343 $, $Date:: 2023-04-14#$'
+      version(4) = 'Version: trunk(linux32), $Revision: 2369 $, $Date:: 2023-06-13#$'
 #endif
       version(5) = 'Copyright Vtech CMCC, all rights reserved.'
       version(6) = ' '
       version(7) = ' '
-      num_version = 7
+      num_version = 6
 !
 ! Remove the hash-sign added by Subversion in Date-expansion:
 !
@@ -24,9 +24,3 @@
 !       to ensure that the file is modified at each svn commit.
 !       These lines may be removed by "make stripver" after committing.
 !
-      version(7) = '(Subversion revision 2338M, 04-Apr-2023 14:43)'
-      version(7) = '(Subversion revision 2338M, 04-Apr-2023 14:45)'
-      version(7) = '(Subversion revision 2338M, 04-Apr-2023 14:49)'
-      version(7) = '(Subversion revision 2342, 10-Apr-2023 17:33)'
-      version(7) = '(Subversion revision 2342M, 10-Apr-2023 17:35)'
-      version(7) = '(Subversion revision 2342M, 10-Apr-2023 17:37)'

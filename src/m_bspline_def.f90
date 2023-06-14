@@ -43,46 +43,46 @@ module m_bspline_def
    public  bspline_check_mask
 
 !------------------------------------------------------------------------------------------------------------
-!  data for a parametric tensor B-spline (s1, s2, [x(s1,s2)], y(s1,s2), z(s1,s2)):
+!  data for a parametric tensor B-spline (u, v, [x(u,v)], y(u,v), z(u,v)):
 
    type :: t_bspline2d
-      integer      :: nknot1, nknot2, nreduc1, nreduc2, nspl1, nspl2, nbrk1, nbrk2
+      integer      :: nknotu, nknotv, nreducu, nreducv, nsplu, nsplv, nbrku, nbrkv
       logical      :: has_xdata
 
-      real(kind=8), dimension(:),   pointer  :: ti1    => NULL() ! (nknot1)
-      real(kind=8), dimension(:),   pointer  :: tj2    => NULL() ! (nknot2)
-      logical,      dimension(:),   pointer  :: keepi1 => NULL() ! (nknot1)
-      logical,      dimension(:),   pointer  :: keepj2 => NULL() ! (nknot2)
+      real(kind=8), dimension(:),   pointer  :: tui    => NULL() ! (nknotu)
+      real(kind=8), dimension(:),   pointer  :: tvj    => NULL() ! (nknotv)
+      logical,      dimension(:),   pointer  :: keeptu => NULL() ! (nknotu)
+      logical,      dimension(:),   pointer  :: keeptv => NULL() ! (nknotv)
 
-      real(kind=8), dimension(:),   pointer  :: s1brk  => NULL() ! (nbrk1)
-      real(kind=8), dimension(:),   pointer  :: s2brk  => NULL() ! (nbrk2)
+      real(kind=8), dimension(:),   pointer  :: ubrk   => NULL() ! (nbrku)
+      real(kind=8), dimension(:),   pointer  :: vbrk   => NULL() ! (nbrkv)
 
-      real(kind=8), dimension(:,:), pointer  :: cij_x  => NULL() ! (nspl1,nspl2)
-      real(kind=8), dimension(:,:), pointer  :: cij_y  => NULL() ! (nspl1,nspl2)
-      real(kind=8), dimension(:,:), pointer  :: cij_z  => NULL() ! (nspl1,nspl2)
-      integer,      dimension(:,:), pointer  :: mask   => NULL() ! (nspl1,nspl2)
+      real(kind=8), dimension(:,:), pointer  :: cij_x  => NULL() ! (nsplu,nsplv)
+      real(kind=8), dimension(:,:), pointer  :: cij_y  => NULL() ! (nsplu,nsplv)
+      real(kind=8), dimension(:,:), pointer  :: cij_z  => NULL() ! (nsplu,nsplv)
+      integer,      dimension(:,:), pointer  :: mask   => NULL() ! (nsplu,nsplv)
 
-      ! nknot1   number of knots used in s1 direction
-      ! nknot2   number of knots used in s2 direction
-      ! ti1      knots in s1 direction
-      ! tj2      knots in s2 direction
-      ! keepi1   flags indicating kept knots in s1 direction
-      ! keepj2   flags indicating kept knots in s2 direction
-      ! nreduc1  number of knots kept in s1 direction after reduction
-      ! nreduc2  number of knots kept in s2 direction after reduction
+      ! nknotu   number of knots used in u-direction
+      ! nknotv   number of knots used in v-direction
+      ! tui      knots in u-direction
+      ! tvj      knots in v-direction
+      ! keeptu   flags indicating kept knots in u-direction
+      ! keeptv   flags indicating kept knots in v-direction
+      ! nreducu  number of knots kept in u-direction after reduction
+      ! nreducv  number of knots kept in v-direction after reduction
 
-      ! has_xdata  flag indicating that cij_x is present (3d space curve)
-      ! nspl1    number of splines used in s1 direction
-      ! nspl2    number of splines used in s2 direction
-      ! cij_x    tensor B-spline coefficients for x(s1,s2)
-      ! cij_y    tensor B-spline coefficients for y(s1,s2)
-      ! cij_z    tensor B-spline coefficients for z(s1,s2)
+      ! has_xdata  flag indicating that cij_x is present (3d space curve or 3d surface)
+      ! nsplu    number of splines used in u-direction
+      ! nsplv    number of splines used in v-direction
+      ! cij_x    tensor B-spline coefficients for x(u,v)
+      ! cij_y    tensor B-spline coefficients for y(u,v)
+      ! cij_z    tensor B-spline coefficients for z(u,v)
       ! mask     flags indicating which cij are available (1) or missing (0)
 
-      ! nbrk1    number of break points in s1 direction
-      ! nbrk2    number of break points in s2 direction
-      ! s1brk    break points in s1 direction
-      ! s2brk    break points in s2 direction
+      ! nbrku    number of break points in u-direction
+      ! nbrkv    number of break points in v-direction
+      ! ubrk     break points in u-direction
+      ! vbrk     break points in v-direction
 
    end type t_bspline2d
 
@@ -123,28 +123,28 @@ subroutine bspline2d_nullify(bspl)
 !--subroutine parameters:
    type(t_bspline2d) :: bspl
 
-   bspl%nknot1  =  0
-   bspl%nknot2  =  0
-   bspl%nreduc1 =  0
-   bspl%nreduc2 =  0
-   bspl%nspl1   =  0
-   bspl%nspl2   =  0
-   bspl%nbrk1   =  0
-   bspl%nbrk2   =  0
+   bspl%nknotu  =  0
+   bspl%nknotv  =  0
+   bspl%nreducu =  0
+   bspl%nreducv =  0
+   bspl%nsplu   =  0
+   bspl%nsplv   =  0
+   bspl%nbrku   =  0
+   bspl%nbrkv   =  0
    bspl%has_xdata = .false.
 
-   bspl%ti1    => NULL()
-   bspl%tj2    => NULL()
-   bspl%keepi1 => NULL()
-   bspl%keepj2 => NULL()
+   bspl%tui    => NULL()
+   bspl%tvj    => NULL()
+   bspl%keeptu => NULL()
+   bspl%keeptv => NULL()
 
-   bspl%nbrk1   =  0
-   bspl%nbrk2   =  0
-   bspl%s1brk  => NULL()
-   bspl%s2brk  => NULL()
+   bspl%nbrku   =  0
+   bspl%nbrkv   =  0
+   bspl%ubrk   => NULL()
+   bspl%vbrk   => NULL()
 
-   bspl%nspl1   =  0
-   bspl%nspl2   =  0
+   bspl%nsplu   =  0
+   bspl%nsplv   =  0
    bspl%cij_x  => NULL()
    bspl%cij_y  => NULL()
    bspl%cij_z  => NULL()
@@ -160,12 +160,12 @@ subroutine bspline2d_destroy(bspl)
 !--subroutine parameters:
    type(t_bspline2d)  :: bspl
 
-   if (associated(bspl%ti1))    deallocate(bspl%ti1)
-   if (associated(bspl%tj2))    deallocate(bspl%tj2)
-   if (associated(bspl%keepi1)) deallocate(bspl%keepi1)
-   if (associated(bspl%keepj2)) deallocate(bspl%keepj2)
-   if (associated(bspl%s1brk))  deallocate(bspl%s1brk)
-   if (associated(bspl%s2brk))  deallocate(bspl%s2brk)
+   if (associated(bspl%tui))    deallocate(bspl%tui)
+   if (associated(bspl%tvj))    deallocate(bspl%tvj)
+   if (associated(bspl%keeptu)) deallocate(bspl%keeptu)
+   if (associated(bspl%keeptv)) deallocate(bspl%keeptv)
+   if (associated(bspl%ubrk))   deallocate(bspl%ubrk)
+   if (associated(bspl%vbrk))   deallocate(bspl%vbrk)
    if (associated(bspl%cij_x))  deallocate(bspl%cij_x)
    if (associated(bspl%cij_y))  deallocate(bspl%cij_y)
    if (associated(bspl%cij_z))  deallocate(bspl%cij_z)
@@ -199,7 +199,7 @@ subroutine bspline2d_print(bspl, nam, idebug, ndigit)
    my_ndigit = max(2, min(10, my_ndigit))
    my_len    = 8 + my_ndigit
 
-   if (.not.associated(bspl%ti1) .or. .not.associated(bspl%cij_y)) then
+   if (.not.associated(bspl%tui) .or. .not.associated(bspl%cij_y)) then
       write(bufout,'(3a)') ' spline ',trim(nam),' has not yet been defined'
       call write_log(1, bufout)
       return
@@ -208,12 +208,12 @@ subroutine bspline2d_print(bspl, nam, idebug, ndigit)
    ! idebug>=6: array sizes
 
    if (idebug.ge.6) then
-      call print_array_size_1d(bspl%ti1,   'ti1')
-      call print_array_size_1d(bspl%tj2,   'tj2')
-      ! call print_array_size_1d(bspl%keepi1,'keepi1')
-      ! call print_array_size_1d(bspl%keepj2,'keepj2')
-      call print_array_size_1d(bspl%s1brk, 's1brk')
-      call print_array_size_1d(bspl%s2brk, 's2brk')
+      call print_array_size_1d(bspl%tui,   'tui')
+      call print_array_size_1d(bspl%tvj,   'tvj')
+      ! call print_array_size_1d(bspl%keeptu,'keeptu')
+      ! call print_array_size_1d(bspl%keeptv,'keeptv')
+      call print_array_size_1d(bspl%ubrk,  'ubrk')
+      call print_array_size_1d(bspl%vbrk,  'vbrk')
       call print_array_size_2d(bspl%cij_x, 'cij_x')
       call print_array_size_2d(bspl%cij_y, 'cij_y')
       call print_array_size_2d(bspl%cij_z, 'cij_z')
@@ -227,33 +227,36 @@ subroutine bspline2d_print(bspl, nam, idebug, ndigit)
 
       ! knots ti, breaks in x-direction
 
-      write(bufout,'(2a,i5,a)') trim(nam), '.nknotx =', bspl%nknot1,';'
+      write(bufout,'(2a,i5,a)') trim(nam), '.nknotu =', bspl%nknotu,';'
       call write_log(1, bufout);
 
-      call print_1d_real(bspl%nknot1, bspl%ti1, trim(nam)//'.txi', 10, 'f13.4')
+      call print_1d_real(bspl%nknotu, bspl%tui, trim(nam)//'.tui', 10, 'f13.4')
 
-      write(bufout,'(2a,i5,a)') trim(nam), '.nbrkx = ', bspl%nbrk1,';'
+      write(bufout,'(2a,i5,a)') trim(nam), '.nbrku = ', bspl%nbrku,';'
       call write_log(1, bufout);
 
-      call print_1d_real(bspl%nbrk1, bspl%s1brk, trim(nam)//'.xbrk', 10, 'f13.4')
+      call print_1d_real(bspl%nbrku, bspl%ubrk, trim(nam)//'.ubrk', 10, 'f13.4')
 
       ! knots tj, breaks in u-direction
 
-      write(bufout,'(2a,i5,a)') trim(nam), '.nknotu =', bspl%nknot2,';'
+      write(bufout,'(2a,i5,a)') trim(nam), '.nknotv =', bspl%nknotv,';'
       call write_log(1, bufout);
 
-      call print_1d_real(bspl%nknot2, bspl%tj2, trim(nam)//'.tuj', 10, 'f12.4')
+      call print_1d_real(bspl%nknotv, bspl%tvj, trim(nam)//'.tvj', 10, 'f12.4')
 
-      write(bufout,'(2a,i5,a)') trim(nam), '.nbrku = ', bspl%nbrk2,';'
+      write(bufout,'(2a,i5,a)') trim(nam), '.nbrkv = ', bspl%nbrkv,';'
       call write_log(1, bufout);
 
-      call print_1d_real(bspl%nbrk2, bspl%s2brk, trim(nam)//'.ubrk', 10, 'f12.4')
+      call print_1d_real(bspl%nbrkv, bspl%vbrk, trim(nam)//'.ubrk', 10, 'f12.4')
 
-      ! coefficients cij_y      ! TODO: use fmt_gs for requested #digits
+      ! coefficients cij_[xyz]      ! TODO: use fmt_gs for requested #digits
 
-      call print_2d_real(bspl%nspl1, bspl%nspl2, bspl%cij_y, trim(nam)//'.cij_y', 10, 'g12.4')
-      call print_2d_real(bspl%nspl1, bspl%nspl2, bspl%cij_z, trim(nam)//'.cij_z', 10, 'g12.4')
-      call print_2d_int(bspl%nspl1, bspl%nspl2, bspl%mask, trim(nam)//'.mask', 40, 'i3')
+      if (bspl%has_xdata) then
+         call print_2d_real(bspl%nsplu, bspl%nsplv, bspl%cij_x, trim(nam)//'.cij_x', 10, 'g12.4')
+      endif
+      call print_2d_real(bspl%nsplu, bspl%nsplv, bspl%cij_y, trim(nam)//'.cij_y', 10, 'g12.4')
+      call print_2d_real(bspl%nsplu, bspl%nsplv, bspl%cij_z, trim(nam)//'.cij_z', 10, 'g12.4')
+      call print_2d_int(bspl%nsplu, bspl%nsplv, bspl%mask, trim(nam)//'.mask', 40, 'i3')
 
    endif ! idebug >= 5
 
@@ -262,7 +265,7 @@ end subroutine bspline2d_print
 !------------------------------------------------------------------------------------------------------------
 
 subroutine bspline_make_breakpoints(nknot, tj, tiny_dt, nbrk_arg, spnt, idebug)
-!--function: determine breakpoints in knot vector tj: unique knots, excluding first k-1 and last k-1
+!--function: determine breakpoints in knot vector tj: unique knots, excluding 1:k-1 and end-[0:k-2]
    implicit none
 !--subroutine arguments:
    integer,      intent(in)     :: nknot, nbrk_arg, idebug
@@ -924,19 +927,19 @@ end subroutine bspline_check_kink_accel
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_check_mask(nmeasx, nmeasu, mask, ierror)
+subroutine bspline_check_mask(nmeasu, nmeasv, mask, ierror)
 !--function: check requirements on `missing parts' encoded in mask array
    implicit none
 !--subroutine arguments:
-   integer                            :: nmeasx, nmeasu
-   logical,      intent(in)           :: mask(nmeasx,nmeasu)
+   integer                            :: nmeasu, nmeasv
+   logical,      intent(in)           :: mask(nmeasu,nmeasv)
    integer,      intent(out)          :: ierror
 !--local variables:
    integer, parameter :: minsep = 4, minpts = 4, maxreg = 9
    logical     :: in_region, is_ok
-   integer     :: ix, iu, nregion, npts
+   integer     :: iu, jv, nregion, npts
 
-   do ix = 1, nmeasx
+   do iu = 1, nmeasu
 
       ! determine the number of regions of active points
       !  - each region must hold at least minpts points
@@ -946,15 +949,15 @@ subroutine bspline_check_mask(nmeasx, nmeasu, mask, ierror)
       nregion = 0
       npts    = 0
 
-      do iu = 1, nmeasu
-         if (.not.in_region .and. mask(ix,iu)) then
+      do jv = 1, nmeasv
+         if (.not.in_region .and. mask(iu,jv)) then
 
             ! entering a new active region. Check previous inactive part
 
             is_ok = (npts.ge.minsep .or. (nregion.eq.0 .and. npts.eq.0))
             if (.not.is_ok) then
                ierror = 171
-               write(bufout,'(a,i4,a,i2,2a,i2,a)') ' slice',ix,' has',npts,' inactive points at start ', &
+               write(bufout,'(a,i4,a,i2,2a,i2,a)') ' slice',iu,' has',npts,' inactive points at start ', &
                         'or between active regions, need separation >=',minsep,' points'
                call write_log(1, bufout)
             endif
@@ -965,13 +968,13 @@ subroutine bspline_check_mask(nmeasx, nmeasu, mask, ierror)
             nregion   = nregion + 1
             npts      = 1
 
-         elseif (in_region .and. .not.mask(ix,iu)) then
+         elseif (in_region .and. .not.mask(iu,jv)) then
 
             ! entering a new inactive part. Check previous active region
 
             if (npts.lt.minpts) then
                ierror = 172
-               write(bufout,'(a,i4,a,i2,2a,i2,a)') ' slice',ix,' has a region of',npts,' active points,', &
+               write(bufout,'(a,i4,a,i2,2a,i2,a)') ' slice',iu,' has a region of',npts,' active points,', &
                         ' must be >=',minpts,' points'
                call write_log(1, bufout)
             endif
@@ -988,20 +991,20 @@ subroutine bspline_check_mask(nmeasx, nmeasu, mask, ierror)
             npts      = npts + 1
 
          endif
-      enddo ! points iu within slice
+      enddo ! points jv within slice
 
       if (nregion.gt.maxreg) then
          ierror = 173
-         write(bufout,'(a,i4,a,i2,2a,i2,a)') ' slice',ix,' has',nregion,' regions of active points,',    &
+         write(bufout,'(a,i4,a,i2,2a,i2,a)') ' slice',iu,' has',nregion,' regions of active points,',    &
                   ' whereas max.',maxreg,' regions are permitted.'
          call write_log(1, bufout)
       endif
 
-   enddo ! slices ix
+   enddo ! slices iu
 
    ! check the active regions per column ('interpolation path')
 
-   do iu = 1, nmeasu
+   do jv = 1, nmeasv
 
       ! determine the number of regions of active points
       !  - each region must hold at least minpts points
@@ -1011,15 +1014,15 @@ subroutine bspline_check_mask(nmeasx, nmeasu, mask, ierror)
       nregion = 0
       npts    = 0
 
-      do ix = 1, nmeasx
-         if (.not.in_region .and. mask(ix,iu)) then
+      do iu = 1, nmeasu
+         if (.not.in_region .and. mask(iu,jv)) then
 
             ! entering a new active region. Check previous inactive part
 
             is_ok = (npts.ge.minsep .or. (nregion.eq.0 .and. npts.eq.0))
             if (.not.is_ok) then
                ierror = 171
-               write(bufout,'(a,i4,a,i2,2a,i2,a)') ' intpol.path',iu,' has',npts,' inactive points ', &
+               write(bufout,'(a,i4,a,i2,2a,i2,a)') ' intpol.path',jv,' has',npts,' inactive points ', &
                         'at start or between active regions, need separation >=',minsep,' points'
                call write_log(1, bufout)
             endif
@@ -1030,13 +1033,13 @@ subroutine bspline_check_mask(nmeasx, nmeasu, mask, ierror)
             nregion   = nregion + 1
             npts      = 1
 
-         elseif (in_region .and. .not.mask(ix,iu)) then
+         elseif (in_region .and. .not.mask(iu,jv)) then
 
             ! entering a new inactive part. Check previous active region
 
             if (npts.lt.minpts) then
                ierror = 172
-               write(bufout,'(a,i4,a,i2,2a,i2,a)') ' intpol.path',iu,' has a region of',npts,' active', &
+               write(bufout,'(a,i4,a,i2,2a,i2,a)') ' intpol.path',jv,' has a region of',npts,' active', &
                         ' points, must be >=',minpts,' points'
                call write_log(1, bufout)
             endif
@@ -1053,16 +1056,16 @@ subroutine bspline_check_mask(nmeasx, nmeasu, mask, ierror)
             npts      = npts + 1
 
          endif
-      enddo ! points iu within slice
+      enddo ! points jv within slice
 
       if (nregion.gt.maxreg) then
          ierror = 173
-         write(bufout,'(a,i4,a,i2,2a,i2,a)') ' intpol.path',iu,' has',nregion,' regions of active',    &
+         write(bufout,'(a,i4,a,i2,2a,i2,a)') ' intpol.path',jv,' has',nregion,' regions of active',    &
                   ' points, whereas max.',maxreg,' regions are permitted.'
          call write_log(1, bufout)
       endif
 
-   enddo ! paths iu
+   enddo ! paths jv
 
 end subroutine bspline_check_mask
 

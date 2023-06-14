@@ -1,20 +1,20 @@
 
-function [ u_out, y_out, z_out ] = eval_2dspline( spl2d, x_in, u_in, y_in, idebug )
+function [ v_out, x_out, y_out, z_out ] = eval_2dspline( spl2d, u_in, v_in, y_in, idebug )
 
-% function [ u_out, y_out, z_out ] = eval_2dspline( spl2d, x_in, u_in, y_in, idebug )
+% function [ v_out, x_out, y_out, z_out ] = eval_2dspline( spl2d, u_in, v_in, y_in, idebug )
 %
-% evaluate parametric 2d spline {txi, tuj, cij_y, cij_z} 
-%  - if u_in is given, determine [yz]_out(x_in, u_in) for given (x_in, u_in)
-%  - if y_in is given, determine u_out and corresponding z_out(x_in, u_out)
+% evaluate parametric 2d spline {tui, tvj, cij_x, cij_y, cij_z} 
+%  - if v_in is given, determine [xyz]_out(u_in, v_in) for given (u_in, v_in)
+%  - if y_in is given, determine v_out and corresponding x_out,z_out(u_in, v_out)
 %
-% the inputs (x,u) or (x,y) are considered a list when of the same size, else a tensor grid
+% the inputs (u,v) or (u,y) are considered a list when of the same size, else a tensor grid
 
 % Copyright 2008-2023 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
    if (nargin<3)
-      u_in = [];
+      v_in = [];
    end
    if (nargin<4)
       y_in = [];
@@ -22,31 +22,31 @@ function [ u_out, y_out, z_out ] = eval_2dspline( spl2d, x_in, u_in, y_in, idebu
    if (nargin<5 | isempty(idebug))
       idebug = 0;
    end
-   if ( (isempty(u_in) & isempty(y_in)) | (~isempty(u_in) & ~isempty(y_in)) )
-      disp('ERROR: either u_in or y_in must be given');
+   if ( (isempty(v_in) & isempty(y_in)) | (~isempty(v_in) & ~isempty(y_in)) )
+      disp('ERROR: either v_in or y_in must be given');
       return;
    end
 
-   if (~isempty(u_in))
+   if (~isempty(v_in))
 
-      % forward calculation u_in --> y_out, z_out
+      % forward calculation u_in, v_in --> x_out, y_out, z_out
 
-      % disp('u_in specified, forward (x,u) --> (y,z)')
-      u_out = u_in;
-      [ y_out, z_out ] = eval_2dspline_forward(spl2d, x_in, u_in, idebug);
+      % disp('u_in specified, forward (u,v) --> (x,y,z)')
+      v_out = v_in;
+      [ x_out, y_out, z_out ] = eval_2dspline_forward(spl2d, u_in, v_in, idebug);
 
    else
 
-      % inverse calculation y_in --> u_out
+      % inverse calculation u_in, y_in --> v_out
 
-      % disp('y_in specified, inverse (x,y) --> (u)')
-      u_out = eval_2dspline_inverse( spl2d, x_in, y_in, idebug );
+      % disp('y_in specified, inverse (u,y) --> (v)')
+      v_out = eval_2dspline_inverse( spl2d, u_in, y_in, idebug );
 
-      % forward calculation u_out --> z_out
+      % forward calculation v_out --> x_out, z_out
 
-      % disp('y_in specified, forward (x,u) --> (z)')
+      % disp('y_in specified, forward (u,v) --> (x,z)')
       y_out = y_in;
-      [ ~, z_out ] = eval_2dspline_forward(spl2d, x_in, u_out, idebug);
+      [ x_out, ~, z_out ] = eval_2dspline_forward(spl2d, u_in, v_out, idebug);
 
    end
 
@@ -54,14 +54,16 @@ end % function eval_2dspline
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [y_out, z_out] = eval_2dspline_forward(spl2d, x_in, u_in, idebug)
+function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug)
 
-% function [y_out, z_out] = eval_2dspline_forward(spl2d, x_in, u_in, idebug)
+% function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug)
 %
-% if x_in and u_in have the same size, evaluate 2d spline at pairs (x_in(i), u_in(i))
-%                                else, evaluate 2d spline at tensor grid x_in x u_in.
+% if u_in and v_in have the same size, evaluate 2d spline at pairs (u_in(i), v_in(i))
+%                                else, evaluate 2d spline at tensor grid u_in x v_in.
 
-   if (all(size(x_in)==size(u_in)))
+   has_xij = isfield(spl2d, 'cij_x');
+
+   if (all(size(u_in)==size(v_in)))
       use_list = 1; typ_eval = 'list';
    else
       use_list = 0; typ_eval = 'tens.grid';
@@ -69,48 +71,56 @@ function [y_out, z_out] = eval_2dspline_forward(spl2d, x_in, u_in, idebug)
    k = 4;
 
    if (idebug>=1)
-      disp(sprintf('Forward spline evaluation (x,u) --> (y,z), x: %d x %d, u: %d x %d (%s)', ...
-                                                                        size(x_in), size(u_in), typ_eval));
+      disp(sprintf('Forward spline evaluation (u,v) --> (x,y,z), u: %d x %d, v: %d x %d (%s)', ...
+                                                                        size(u_in), size(v_in), typ_eval));
    end
 
-   % determine collocation matrix for u-direction: evaluate each B-spline at each output location
+   % determine collocation matrix for v-direction: evaluate each B-spline at each output location
    %  - check basic interval [tj(4),tj(nknot-k+1)]
 
-   n0 = nnz(u_in < spl2d.tuj(4));
-   n1 = nnz(u_in > spl2d.tuj(end-3));
+   n0 = nnz(v_in < spl2d.tvj(4));
+   n1 = nnz(v_in > spl2d.tvj(end-3));
    if (n0+n1>0)
-      disp(sprintf('Warning: there are %d u-positions before and %d after spline u-range [%3.1f,%3.1f]', ...
-                n0, n1, spl2d.tuj(4), spl2d.tuj(end-3)));
+      disp(sprintf('Warning: there are %d v-positions before and %d after spline v-range [%3.1f,%3.1f]', ...
+                n0, n1, spl2d.tvj(4), spl2d.tvj(end-3)));
    end
 
-   numnan = nnz(isnan(u_in));
+   numnan = nnz(isnan(v_in));
    if (idebug>=3 | (idebug>=1 & numnan>0))
-      disp(sprintf('array u_in has %d NaN-values', nnz(isnan(u_in))));
+      disp(sprintf('array v_in has %d NaN-values', nnz(isnan(v_in))));
    end
 
-   [~, ~, ~, Bmat] = eval_bspline_basisfnc( spl2d.tuj, u_in, k );
+   [~, ~, ~, Bmat] = eval_bspline_basisfnc( spl2d.tvj, v_in, k );
+   % nknotu = length(spl2d.tui); nsplu  = nknotu - k;
+   % nknotv = length(spl2d.tvj); nsplv  = nknotv - k;
 
-   % matrix-multply to get 1d spline coefficients for x-direction
+   % matrix-multply to get 1d spline coefficients for u-direction
 
-   % ci_y: [ nsplx, nout ], Bmat: [ nout, nsplu ], cij_y: [ nsplx, nsplu ], u_in: [ nout ]
+   % ci_y: [ nsplu, nout ], Bmat: [ nout, nsplv ], cij_y: [ nsplu, nsplv ], v_in: [ nout ]
+   if (has_xij)
+      ci_x = (Bmat * spl2d.cij_x')';
+   end
    ci_y = (Bmat * spl2d.cij_y')';
    ci_z = (Bmat * spl2d.cij_z')';
    mask = (Bmat * spl2d.mask_j')';
 
-   % determine collocation matrix for x-direction: evaluate each B-spline at each output location
+   % determine collocation matrix for u-direction: evaluate each B-spline at each output location
 
-   n0 = nnz(x_in < spl2d.txi(4));
-   n1 = nnz(x_in > spl2d.txi(end-3));
+   n0 = nnz(u_in < spl2d.tui(4));
+   n1 = nnz(u_in > spl2d.tui(end-3));
    if (n0+n1>0)
-      disp(sprintf('Warning: there are %d x-positions before and %d after spline x-range [%3.1f,%3.1f]', ...
-                n0, n1, spl2d.txi(4), spl2d.txi(end-3)));
+      disp(sprintf('Warning: there are %d u-positions before and %d after spline u-range [%3.1f,%3.1f]', ...
+                n0, n1, spl2d.tui(4), spl2d.tui(end-3)));
    end
 
-   [~, ~, ~, Bmat] = eval_bspline_basisfnc( spl2d.txi, x_in, k );
+   [~, ~, ~, Bmat] = eval_bspline_basisfnc( spl2d.tui, u_in, k );
 
    % matrix-multply to get output values
 
-   % y_out: [ noutx, noutu ], Bmat: [ noutx, nsplx ], ci_y: [ nsplx, noutu ], x_in: [ noutx ]
+   % y_out: [ noutu, noutv ], Bmat: [ noutu, nsplu ], ci_y: [ nsplu, noutv ], u_in: [ noutu ]
+   if (has_xij)
+      x_out = Bmat * ci_x;
+   end
    y_out = Bmat * ci_y;
    z_out = Bmat * ci_z;
    mask  = Bmat * mask;
@@ -119,15 +129,18 @@ function [y_out, z_out] = eval_2dspline_forward(spl2d, x_in, u_in, idebug)
 
    tiny  = 1e-10;
    ix    = find(mask<1-tiny);
+   x_out(ix) = NaN;
    y_out(ix) = NaN;
    z_out(ix) = NaN;
 
    % output a list when both inputs are of same size
 
-   if (all(size(x_in)==size(u_in)))
+   if (all(size(u_in)==size(v_in)))
+      x_out = diag(x_out);
       y_out = diag(y_out);
       z_out = diag(z_out);
-      if (any(size(y_out)~=size(x_in)))
+      if (any(size(y_out)~=size(u_in)))
+         x_out = x_out';
          y_out = y_out';
          z_out = z_out';
       end
@@ -138,56 +151,56 @@ end % function eval_2dspline_forward
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-function [ u_out ] = eval_2dspline_inverse(spl2d, x_in, y_in, idebug)
+function [ v_out ] = eval_2dspline_inverse(spl2d, u_in, y_in, idebug)
 
-% function [ u_out ] = eval_2dspline_inverse(spl2d, x_in, y_in, idebug)
+% function [ v_out ] = eval_2dspline_inverse(spl2d, u_in, y_in, idebug)
 %
-% if x_in and y_in have the same size, invert 2d spline at pairs (x_in(i), y_in(i))
-%                                else, invert 2d spline at tensor grid x_in x y_in.
+% if u_in and y_in have the same size, invert 2d spline at pairs (u_in(i), y_in(i))
+%                                else, invert 2d spline at tensor grid u_in x y_in.
 
-   tiny   = 1e-10 * max(abs(spl2d.xi));
+   tiny   = 1e-10 * max(abs(spl2d.ui));
    k      = 4;
-   nknotx = length(spl2d.txi);
-   nknotu = length(spl2d.tuj);
-   nsplx  = nknotx - k;
+   nknotu = length(spl2d.tui);
+   nknotv = length(spl2d.tvj);
    nsplu  = nknotu - k;
+   nsplv  = nknotv - k;
 
-   if (all(size(x_in)==size(y_in)))
+   if (all(size(u_in)==size(y_in)))
       use_list = 1; typ_eval = 'list';
-      nx    = length(x_in);
+      nu    = length(u_in);
       ny    = 1;
-      u_out = ones(size(x_in));
+      v_out = ones(size(u_in));
    else
       use_list = 0; typ_eval = 'tens.grid';
-      nx    = length(x_in);
+      nu    = length(u_in);
       ny    = length(y_in);
-      u_out = ones(nx, ny);
+      v_out = ones(nu, ny);
    end
 
    if (idebug>=1)
-      disp(sprintf('Inverse spline evaluation (x,y) --> (u),   x: %d x %d, y: %d x %d (%s)', ...
-                                                                    size(x_in), size(y_in), typ_eval));
+      disp(sprintf('Inverse spline evaluation (u,y) --> (v),   u: %d x %d, y: %d x %d (%s)', ...
+                                                                    size(u_in), size(y_in), typ_eval));
    end
 
-   % check basic interval in x-direction, knots [t(4), t(nknot-k+1)]
+   % check basic interval in u-direction, knots [t(4), t(nknot-k+1)]
 
-   if (any(x_in<spl2d.txi(k)) | any(x_in>spl2d.txi(nknotx-k+1)))
-      disp(sprintf('ERROR: all input x_in must lie in range of spline x=[%3.1e,%3.1e]', ...
-                spl2d.txi(k), spl2d.txi(nknotx-k+1)));
+   if (any(u_in<spl2d.tui(k)) | any(u_in>spl2d.tui(nknotu-k+1)))
+      disp(sprintf('ERROR: all input u_in must lie in range of spline u=[%3.1e,%3.1e]', ...
+                spl2d.tui(k), spl2d.tui(nknotu-k+1)));
       return;
    end
 
    % determine collocation matrix for computing coefficients cj_y
 
-   [~, ~, ~, Bmatx] = eval_bspline_basisfnc( spl2d.txi, x_in );
+   [~, ~, ~, Bmatx] = eval_bspline_basisfnc( spl2d.tui, u_in );
 
-   % loop over output positions x_in
+   % loop over output positions u_in
 
-   for iout = 1 : nx
+   for iout = 1 : nu
 
-      % determine spline coefficients cj_y at position x_in(iout)
+      % determine spline coefficients cj_y at position u_in(iout)
 
-      % cj_y: [ nsplu, 1 ], Bmat: [ nx, nsplx ], cij_y: [ nsplx, nsplu ], x_in: [ nx ]
+      % cj_y: [ nsplv, 1 ], Bmat: [ nu, nsplu ], cij_y: [ nsplu, nsplv ], u_in: [ nu ]
 
       cj_y = (Bmatx(iout,:) * spl2d.cij_y)';
 
@@ -199,12 +212,12 @@ function [ u_out ] = eval_2dspline_inverse(spl2d, x_in, y_in, idebug)
 
       % determine interval [ylow, yhig] for segments j, j = k to n
 
-      tmp            = NaN * ones(4, nknotu);
-      tmp(:,k:nsplu) = [ cj_y(1:nsplu-3)';  cj_y(2:nsplu-2)';  cj_y(3:nsplu-1)';  cj_y(4:nsplu)' ];
+      tmp            = NaN * ones(4, nknotv);
+      tmp(:,k:nsplv) = [ cj_y(1:nsplv-3)';  cj_y(2:nsplv-2)';  cj_y(3:nsplv-1)';  cj_y(4:nsplv)' ];
 
       ylow = min(tmp); yhig = max(tmp);
 
-      % no inner loop when using list-input, size(x_in) == size(y_in)
+      % no inner loop when using list-input, size(u_in) == size(y_in)
 
       if (use_list)
          j0 = iout; j1 = iout;
@@ -217,42 +230,42 @@ function [ u_out ] = eval_2dspline_inverse(spl2d, x_in, y_in, idebug)
          % determine segments jseg that may contain y(jout) at xout
 
          y    = y_in(jout);
-         jseg = find( ylow(1:nsplu)<=y & y<=yhig(1:nsplu) );
+         jseg = find( ylow(1:nsplv)<=y & y<=yhig(1:nsplv) );
          nseg = length(jseg);
 
          if (nseg<=0)
-            % disp(sprintf('ERROR: no segments for (x,y) = (%6.1f,%6.1f)', x_in(iout), y));
+            % disp(sprintf('ERROR: no segments for (u,y) = (%6.1f,%6.1f)', u_in(iout), y));
             found = 0;
          else
             if (idebug>=2)
-               disp(sprintf(['(i,j)=(%2d,%2d), (x,y)=(%6.1f,%6.1f): found %d possible segments jseg = ', ...
-                   '%d, %d, %d, %d, %d, %d'], iout, jout, x_in(iout), y_in(jout), nseg, jseg(1:min(6,nseg))));
+               disp(sprintf(['(i,j)=(%2d,%2d), (u,y)=(%6.1f,%6.1f): found %d possible segments jseg = ', ...
+                   '%d, %d, %d, %d, %d, %d'], iout, jout, u_in(iout), y_in(jout), nseg, jseg(1:min(6,nseg))));
                if (idebug>=-4)
 
-                  [~, ~, ~, Bmatu] = eval_bspline_basisfnc( spl2d.tuj, spl2d.uj );
-                  % ytmp: [ nu, 1 ], Bmatu: [ nu, nu ], cj_y: [ nu, 1 ]
-                  ytmp = Bmatu * cj_y;
-                  tuj  = spl2d.tuj;
-                  tgrev(1:nsplu) = (tuj(2:nsplu+1) + tuj(3:nsplu+2) + tuj(4:nsplu+3)) / 3;
-                  tm   = (tgrev(1:nsplu-1) + tgrev(2:end)) / 2;
+                  [~, ~, ~, Bmatv] = eval_bspline_basisfnc( spl2d.tvj, spl2d.vj );
+                  % ytmp: [ nv, 1 ], Bmatv: [ nv, nv ], cj_y: [ nv, 1 ]
+                  ytmp = Bmatv * cj_y;
+                  tvj  = spl2d.tvj;
+                  tgrev(1:nsplv) = (tvj(2:nsplv+1) + tvj(3:nsplv+2) + tvj(4:nsplv+3)) / 3;
+                  tm   = (tgrev(1:nsplv-1) + tgrev(2:end)) / 2;
 
                   figure(7); clf; hold on;
-                  tmpt  = reshape( [1;1]*tuj(1:nsplu+1), 1, 2*nsplu+2 );
-                  tmpyl = reshape( [1;1]*ylow(1:nsplu), 1, 2*nsplu );
-                  tmpyh = reshape( [1;1]*yhig(1:nsplu), 1, 2*nsplu );
+                  tmpt  = reshape( [1;1]*tvj(1:nsplv+1), 1, 2*nsplv+2 );
+                  tmpyl = reshape( [1;1]*ylow(1:nsplv), 1, 2*nsplv );
+                  tmpyh = reshape( [1;1]*yhig(1:nsplv), 1, 2*nsplv );
                   plot(tmpt(2:end-1), tmpyl);
                   plot(tmpt(2:end-1), tmpyh);
-                  plot(spl2d.uj([1,end]), y*[1 1], '--');
-                  plot(spl2d.uj, ytmp);
-                  plot([1;1]*(tuj(jseg)+tuj(jseg+1))/2, [ylow(jseg);yhig(jseg)], 'color',matlab_color(3))
-                  plot(spl2d.tuj(nsplu+1), cj_y(end), '*');
+                  plot(spl2d.vj([1,end]), y*[1 1], '--');
+                  plot(spl2d.vj, ytmp);
+                  plot([1;1]*(tvj(jseg)+tvj(jseg+1))/2, [ylow(jseg);yhig(jseg)], 'color',matlab_color(3))
+                  plot(spl2d.tvj(nsplv+1), cj_y(end), '*');
                   for jj = jseg
-                      text( (tuj(jj)+tuj(jj+1))/2, ylow(jj), sprintf('j=%d',jj), ...
+                      text( (tvj(jj)+tvj(jj+1))/2, ylow(jj), sprintf('j=%d',jj), ...
                         'horizontalalignment','center', 'verticalalignment','top');
                   end
                   grid on
-                  xlabel('u_j'); ylabel('y_r');
-                  legend('y_{low}(u;x)', 'y_{hig}(u;x)', 'target y_{out}', 'actual y(u), x=x_{out}', ...
+                  xlabel('v_j'); ylabel('y_r');
+                  legend('y_{low}(v;u)', 'y_{hig}(v;u)', 'target y_{out}', 'actual y(v), u=u_{out}', ...
                                                                                 'location','northwest')
                end
             end
@@ -263,9 +276,9 @@ function [ u_out ] = eval_2dspline_inverse(spl2d, x_in, y_in, idebug)
             found = 0;
             while(jj<=nseg & ~found)
 
-               % spline segment: interval [u_j, u_{j+1}]
+               % spline segment: interval [v_j, v_{j+1}]
 
-               useg = spl2d.tuj( jseg(jj)+[0,1] );
+               vseg = spl2d.tvj( jseg(jj)+[0,1] );
 
                % PP-spline coefficients for segment:
 
@@ -281,9 +294,9 @@ function [ u_out ] = eval_2dspline_inverse(spl2d, x_in, y_in, idebug)
 
                % Solve cubic equation for segment:
 
-               [u, found] = solve_cubic_eq(coef, useg, y, idebug, iout, jout, jseg(jj));
+               [v, found] = solve_cubic_eq(coef, vseg, y, idebug, iout, jout, jseg(jj));
                if (found & idebug>=2)
-                  disp(sprintf('jj = %d: found u =%7.2f', jj, u));
+                  disp(sprintf('jj = %d: found v =%7.2f', jj, v));
                elseif (~found & idebug>=3)
                   disp(sprintf('jj = %d: no solution',jj));
                end
@@ -299,12 +312,12 @@ function [ u_out ] = eval_2dspline_inverse(spl2d, x_in, y_in, idebug)
             if (idebug>=2)
                disp(sprintf('No solution for (i,j)=(%d,%d), setting NaN', iout, jout));
             end
-            u = NaN;
+            v = NaN;
          end
          if (use_list)
-            u_out(iout) = u;
+            v_out(iout) = v;
          else
-            u_out(iout,jout) = u;
+            v_out(iout,jout) = v;
          end
 
       end % for jout
@@ -322,10 +335,10 @@ function [ coef ] = get_ppcoef_1seg_full(spl2d, cj_y, jseg)
 
    % average step sizes over 1/2/3 adjacent intervals
 
-   nknot  = length(spl2d.tuj);
-   dtj_k1 = (spl2d.tuj(2:end) - spl2d.tuj(1:nknot-1))';        
-   dtj_k2 = (spl2d.tuj(3:end) - spl2d.tuj(1:nknot-2))' / 2;
-   dtj_k3 = (spl2d.tuj(4:end) - spl2d.tuj(1:nknot-3))' / 3;
+   nknot  = length(spl2d.tvj);
+   dtj_k1 = (spl2d.tvj(2:end) - spl2d.tvj(1:nknot-1))';        
+   dtj_k2 = (spl2d.tvj(3:end) - spl2d.tvj(1:nknot-2))' / 2;
+   dtj_k3 = (spl2d.tvj(4:end) - spl2d.tvj(1:nknot-3))' / 3;
 
    % inverse average step sizes, zero at zero step size
 
@@ -339,9 +352,9 @@ function [ coef ] = get_ppcoef_1seg_full(spl2d, cj_y, jseg)
    D2   = spdiags(dtj_inv2, 0, nknot-2, nknot-3) - spdiags(dtj_inv2(2:end), -1, nknot-2, nknot-3);
    D3   = spdiags(dtj_inv3, 0, nknot-3, nknot-4) - spdiags(dtj_inv3(2:end), -1, nknot-3, nknot-4);
 
-   % evaluate function and derivative values at position uj(jseg)
+   % evaluate function and derivative values at position vj(jseg)
 
-   [B1, B2, B3, B4] = eval_bspline_basisfnc( spl2d.tuj, spl2d.tuj(jseg)+1e-9 );
+   [B1, B2, B3, B4] = eval_bspline_basisfnc( spl2d.tvj, spl2d.tvj(jseg)+1e-9 );
 
    ay0 = B4 * cj_y;
    ay1 = B3 * D3 * cj_y;
@@ -377,11 +390,11 @@ function [ coef ] = get_ppcoef_1seg_sparse(spl2d, cj_y, jseg)
 
    % average step sizes over 1/2/3 adjacent intervals
 
-   nknotu = length(spl2d.tuj);
-   tuj    = spl2d.tuj(jseg-3:jseg+4);            % dtj_k3 uses (jseg+1)+3 - (jseg+1)
-   dtj_k1 = (tuj(2:end) - tuj(1:end-1))';        % used for jseg  :jseg+1, last one * 0.0
-   dtj_k2 = (tuj(3:end) - tuj(1:end-2))' / 2;    % used for jseg-1:jseg+1, last one * 0.0
-   dtj_k3 = (tuj(4:end) - tuj(1:end-3))' / 3;    % used for jseg-2:jseg+1, last one * 0.0
+   nknotv = length(spl2d.tvj);
+   tvj    = spl2d.tvj(jseg-3:jseg+4);            % dtj_k3 uses (jseg+1)+3 - (jseg+1)
+   dtj_k1 = (tvj(2:end) - tvj(1:end-1))';        % used for jseg  :jseg+1, last one * 0.0
+   dtj_k2 = (tvj(3:end) - tvj(1:end-2))' / 2;    % used for jseg-1:jseg+1, last one * 0.0
+   dtj_k3 = (tvj(4:end) - tvj(1:end-3))' / 3;    % used for jseg-2:jseg+1, last one * 0.0
 
    % inverse average step sizes, zero at zero step size
 
@@ -390,29 +403,29 @@ function [ coef ] = get_ppcoef_1seg_sparse(spl2d, cj_y, jseg)
    dtj_inv3 = zeros(7,1); ix  = find(dtj_k3>0); dtj_inv3(ix) = 1./ dtj_k3(ix);
    % disp(dtj_inv3')
 
-   % evaluate function and derivative values at position tuj(jseg)
+   % evaluate function and derivative values at position tvj(jseg)
 
    B1   = zeros(1,5);
    B2   = zeros(1,5);
    B3   = zeros(1,5);
    B4   = zeros(1,5);
 
-   u = tuj(4)+1e-9;
+   u = tvj(4)+1e-9;
    for jj = 4 : 4       % B(j;1) is nonzero for jseg only
-      B1(1,jj)    = (u >= tuj(jj)  & u < tuj(jj+1));
+      B1(1,jj)    = (u >= tvj(jj)  & u < tvj(jj+1));
    end
    for jj = 3 : 4       % B(j;2) uses B(j+1;1), nonzero for jseg-1 and jseg,
                         % using dt1(jseg:jseg), using 0 * dt1(jseg-1) and 0 * dt1(jseg+1)
-      B2(1,jj) = ( (u-tuj(jj  )) .* B1(:,jj  ) * dtj_inv1(jj  )  +  ...
-                   (tuj(jj+2)-u) .* B1(:,jj+1) * dtj_inv1(jj+1) ) / 1;
+      B2(1,jj) = ( (u-tvj(jj  )) .* B1(:,jj  ) * dtj_inv1(jj  )  +  ...
+                   (tvj(jj+2)-u) .* B1(:,jj+1) * dtj_inv1(jj+1) ) / 1;
    end
    for jj = 2 : 4       % B(j;3) uses B(j+1;2), nonzero for jseg-2 to jseg, using dt2(jseg-1:jseg)
-      B3(1,jj) = ( (u-tuj(jj  )) .* B2(:,jj  ) * dtj_inv2(jj  )  +  ...
-                   (tuj(jj+3)-u) .* B2(:,jj+1) * dtj_inv2(jj+1) ) / 2;
+      B3(1,jj) = ( (u-tvj(jj  )) .* B2(:,jj  ) * dtj_inv2(jj  )  +  ...
+                   (tvj(jj+3)-u) .* B2(:,jj+1) * dtj_inv2(jj+1) ) / 2;
    end
    for jj = 1 : 4       % B(j;4) uses B(j+1;3), nonzero for jseg-3 to jseg, using dt3(jseg-2:jseg)
-      B4(1,jj) = ( (u-tuj(jj  )) .* B3(:,jj  ) * dtj_inv3(jj  )  +  ...
-                   (tuj(jj+4)-u) .* B3(:,jj+1) * dtj_inv3(jj+1) ) / 3;
+      B4(1,jj) = ( (u-tvj(jj  )) .* B3(:,jj  ) * dtj_inv3(jj  )  +  ...
+                   (tvj(jj+4)-u) .* B3(:,jj+1) * dtj_inv3(jj+1) ) / 3;
    end
    % disp(B1); disp(B2); disp(B3); disp(B4)
 

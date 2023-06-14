@@ -10,21 +10,18 @@ if ($perl_platform =~ /.*win.*/i) {
 } else {
    $dir_separator = '/';
 }
+my $contactdir = "..".$dir_separator.".."; 
 my $bits = '64';
-my $contactdir;
 my $contact;
 my $clibrary;
 my $tkdiff;
 if ($perl_platform =~ /.*win.*/i) {
-   $contactdir = "..\\..";
-#  $contactdir = "C:\\CMCC\\releases\\contact_v22.2.5";
    $contact = "$contactdir\\bin\\contact.exe";
 #  $contact = "$contactdir\\bin\\contact_win$bits.exe";
    $clibrary = "$contactdir\\bin\\test_switch_win$bits.exe";
 #  $tkdiff = "\"c:\\program files\\WinMerge\\winmergeu.exe\"";
    $tkdiff = "winmergeu";
 } else {
-   $contactdir = "/v3/CMCC/contact";
    $contact = "$contactdir/bin/contact_linux$bits";
    $tkdiff = "tkdiff";
    $ENV{LD_LIBRARY_PATH} = "$contactdir/bin/linux$bits";
@@ -38,8 +35,8 @@ my @progrms=( $clibrary, $contact );
 my @list=( 'cross_brute',  'cross_locus',  'wing_brute',  'wing_locus',
            'cross+wing',   'cw_interrupt', 'two_patches',
            'mbench_brute', 'mbench_locus', 'mbench_intrup' );
-   @list=( 'cross_brute',  'cross_locus',  'wing_brute',  'wing_locus',
-           'cross+wing',   'cw_interrupt', 'two_patches' );
+#  @list=( 'cross_brute',  'cross_locus',  'wing_brute',  'wing_locus',
+#          'cross+wing',   'cw_interrupt', 'two_patches' );
    @list=( 'mbench_brute', 'mbench_intrup' );
 #  @list=( 'mbench_locus' );
 #  @list=( 'cross_locus' );

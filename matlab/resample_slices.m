@@ -100,6 +100,14 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
    L_part = max( len_part );
 
+   % check scaling
+
+   tot_len = sum(L_part);
+   if (tot_len < 5*ds_max2d)
+      disp(sprintf('Warning: step ds_max2d = %5.2f may be too large for total length = %5.2f', ...
+                ds_max2d, tot_len));
+   end
+
    % determine number of points and step size du for each of the parts
 
    nseg_p = ceil( L_part / ds_max2d );
@@ -112,12 +120,12 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
    n_pnt  = i_p(end);
 
-   % set the sampling positions uj
+   % set the sampling positions vj
 
-   uj  = [1 : n_pnt];
+   vj  = [1 : n_pnt];
 
-   for ipart = 1 : nfeat-1
-      if (idebug>=2)
+   if (idebug>=2 | n_pnt<=4)
+      for ipart = 1 : nfeat-1
          disp(sprintf('part %d: %3d segments, points [%3d,%3d]', ipart, nseg_p(ipart), i_p(ipart+[0,1])));
       end
    end
@@ -126,8 +134,9 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
    slcs.npnt   = n_pnt;
    slcs.iseg_p = i_p;
-   slcs.uj     = uj;
+   slcs.vj     = vj;
    slcs.mask_j =      zeros(slcs.nslc, n_pnt);
+   slcs.xsurf  = NaN * ones(slcs.nslc, n_pnt);
    slcs.ysurf  = NaN * ones(slcs.nslc, n_pnt);
    slcs.zsurf  = NaN * ones(slcs.nslc, n_pnt);
 
@@ -147,8 +156,9 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
       slc = slcs.prr(is);
       if (idebug>=3 & is==is_debug)
-         disp(sprintf('Slice %d: s=[%5.1f,%5.1f], s_p={%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f}', ...
-                        is, slcs.prr(is).ProfileS([1,end]), s_feat(is,:)));
+         disp(sprintf(['Slice %d: s=[%5.1f,%5.1f], s_p={%5.1f,',...
+                       '%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f}'], ...
+                       is, slcs.prr(is).ProfileS([1,end]), s_feat(is,:)));
       end
 
       % - determine breaks [ib0:ib1] available for this slice
@@ -163,10 +173,10 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
          i0  = i_p(ipart);
          i1  = i_p(ipart+1);
-         u_len = uj(i1) - uj(i0);
+         v_len = vj(i1) - vj(i0);
          s_ofs = s_feat(is,ipart);
          s_len = s_feat(is,ipart+1) - s_feat(is,ipart);
-         sj(i0:i1) = s_ofs + s_len * (uj(i0:i1) - uj(i0)) / u_len;
+         sj(i0:i1) = s_ofs + s_len * (vj(i0:i1) - vj(i0)) / v_len;
 
          if (idebug>=3 & is==is_debug)
             disp(sprintf(' part %d: s=[%6.1f,%6.1f], sj={%6.1f,%6.1f ..%6.1f}', ...
@@ -187,12 +197,14 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
          spl = make_spline( slc.ProfileS, slc.ProfileY, slc.ProfileZ, lambda, wgt, ikinks, iaccel, ...
                                                                            use_bspline, ds_bspline);
          [~, yj, zj] = eval_spline(spl, sj(i0:i1));
+         slcs.xsurf(is,i0:i1) = slcs.s(is);
          slcs.ysurf(is,i0:i1) = yj;
          slcs.zsurf(is,i0:i1) = zj;
 
       else
          % linear interpolation. Note: s_i(end) can be larger than ProfileS(end) by round-off error
 
+         slcs.xsurf(is,:) = slcs.s(is);
          slcs.ysurf(is,:) = interp1( slc.ProfileS, slc.ProfileY, sj, 'linear', 'extrap' )';
          slcs.zsurf(is,:) = interp1( slc.ProfileS, slc.ProfileZ, sj, 'linear', 'extrap' )';
       end
@@ -227,7 +239,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
    if (any(show_fig==4))
       figure(4+fig_ofs); clf;
-      surf(slcs.s, slcs.ysurf', slcs.zsurf');
+      surf(slcs.xsurf', slcs.ysurf', slcs.zsurf');
       set(gca, 'ydir','reverse', 'zdir','reverse');
       % v = axis; v(1:2) = slcs.s([5,end-4]); axis(v);
       v = get(gca,'dataaspectratio'); v(3) = v(2); set(gca,'dataaspectratio',v);

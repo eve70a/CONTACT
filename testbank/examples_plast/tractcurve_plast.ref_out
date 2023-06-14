@@ -2,10 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
-   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
@@ -27031,15 +27030,15 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      32.8 | 100.0 |       33.2 | 100.0 |
-|Non-Hertzian cases   |     240 |      32.8 | 100.0 |       33.2 | 100.0 |
-|Panag.process        |     240 |      32.2 |  98.5 |       32.4 |  97.6 |
-|Algorithm Norm       |     240 |       0.7 |   2.0 |        0.8 |   2.3 |
-|Algorithm Tang       |     240 |      31.6 |  96.5 |       31.5 |  95.0 |
-|Output quantities    |     240 |       0.5 |   1.5 |        0.8 |   2.3 |
+|Total                |       1 |      47.8 | 100.0 |       47.8 | 100.0 |
+|Non-Hertzian cases   |     240 |      47.8 | 100.0 |       47.8 | 100.0 |
+|Panag.process        |     240 |      47.1 |  98.6 |       47.1 |  98.6 |
+|Algorithm Norm       |     240 |       1.1 |   2.3 |        1.1 |   2.3 |
+|Algorithm Tang       |     240 |      46.0 |  96.3 |       46.0 |  96.3 |
+|Output quantities    |     240 |       0.6 |   1.2 |        0.6 |   1.2 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     240 |       0.6 |   1.8 |        0.6 |   1.9 |
-|Tang: StedyGS solver |     240 |      31.4 |  96.0 |       31.3 |  94.4 |
+|Norm: ConjGrd solver |     240 |       1.0 |   2.0 |        1.0 |   2.0 |
+|Tang: StedyGS solver |     240 |      45.8 |  95.9 |       45.8 |  95.8 |
 |------------------------------------------------------------------------|
 |Reading input-file   |     240 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       8 |       0.0 |   0.0 |        0.0 |   0.0 |

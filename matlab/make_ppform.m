@@ -35,7 +35,9 @@ function [ spl ] = make_ppform( spl, D1, D2, D3 )
 
    % determine value of each basis-function at the start of each segment ksi_i
 
-   [B1, B2, B3, B4] = eval_bspline_basisfnc( spl.tj, spl.s );
+   s = max(spl.s, spl.tj(4));      % avoid warning for extended knots
+   s = min(    s, spl.tj(end-3));  %  --> constant extrapolation outside basic interval
+   [B1, B2, B3, B4] = eval_bspline_basisfnc( spl.tj, s );
 
    % determine PP-form: value of spline & derivatives at start of each segment
 

@@ -2,10 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
+   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
-   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
@@ -62,7 +61,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0000    200.0000      0.0000   1.026E-09       0.000       0.000
+     -0.0000    200.0000      0.0000   1.031E-09       0.000       0.000
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -191,7 +190,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0000    200.0000      0.0000   6.649E-10       0.000       0.000
+     -0.0000    200.0000      0.0000   6.615E-10       0.000       0.000
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -566,7 +565,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0000    209.9833      0.0000  -1.281E-09   3.948E-19   1.418E-05
+     -0.0000    209.9833      0.0000  -6.985E-10   3.948E-19   1.418E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1549,22 +1548,22 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.8 | 100.0 |        2.4 | 100.0 |
-|Wheel-rail cases     |      12 |       1.8 | 100.0 |        2.4 | 100.0 |
-|W/r profiles         |      14 |       0.0 |   0.0 |        0.1 |   2.6 |
-|Geometric analysis   |      12 |       0.0 |   0.0 |        0.0 |   1.1 |
-|Panag.process        |      12 |       1.8 |  98.3 |        2.2 |  91.8 |
-|Algorithm Norm       |      12 |       0.0 |   1.7 |        0.1 |   5.4 |
-|Algorithm Tang       |      12 |       1.8 |  96.6 |        2.0 |  86.4 |
-|Output quantities    |      24 |       0.0 |   1.7 |        0.1 |   4.1 |
+|Total                |       1 |       5.0 | 100.0 |        5.0 | 100.0 |
+|Wheel-rail cases     |      12 |       5.0 | 100.0 |        5.0 | 100.0 |
+|W/r profiles         |      14 |       0.2 |   4.7 |        0.2 |   4.7 |
+|Geometric analysis   |      12 |       0.1 |   1.3 |        0.1 |   1.3 |
+|Panag.process        |      12 |       4.6 |  92.5 |        4.6 |  92.4 |
+|Algorithm Norm       |      12 |       0.1 |   2.8 |        0.1 |   2.8 |
+|Algorithm Tang       |      12 |       4.5 |  89.6 |        4.5 |  89.5 |
+|Output quantities    |      24 |       0.0 |   0.8 |        0.0 |   0.9 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      12 |       0.0 |   1.7 |        0.1 |   3.5 |
-|Tang: StedyGS solver |      12 |       1.8 |  96.6 |        2.0 |  86.4 |
+|Norm: ConjGrd solver |      12 |       0.1 |   2.4 |        0.1 |   2.4 |
+|Tang: StedyGS solver |      12 |       4.5 |  89.4 |        4.5 |  89.3 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      12 |       0.0 |   0.0 |        0.1 |   2.6 |
-|Contact location     |      12 |       0.0 |   0.0 |        0.0 |   0.3 |
-|Undeformed distance  |      12 |       0.0 |   0.0 |        0.0 |   0.8 |
-|Influence coeffic.   |      12 |       0.0 |   0.0 |        0.0 |   0.5 |
+|Reading input-file   |      12 |       0.2 |   4.8 |        0.2 |   4.8 |
+|Contact location     |      12 |       0.0 |   0.5 |        0.0 |   0.5 |
+|Undeformed distance  |      12 |       0.0 |   0.8 |        0.0 |   0.8 |
+|Influence coeffic.   |      12 |       0.0 |   0.5 |        0.0 |   0.5 |
 |Initial state/estim. |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

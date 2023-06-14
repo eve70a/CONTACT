@@ -77,7 +77,7 @@ else
 
 end
 
-if (isempty(p) | ~isfield(p, 'ProfileY') | isempty(p.ProfileY))
+if (isempty(p) | (~is_slices & ~isfield(p, 'ProfileY')) | (~is_slices & isempty(p.ProfileY)))
    if (idebug>=1)
       disp('No profile, returning');
    end

@@ -281,7 +281,7 @@ end
 
 if (isempty(myopt.view)), myopt.view = 'default'; end
 if (ischar(myopt.view))
-   if (strcmp(myopt.view,'rail') & strcmp(myopt.typplot,'surf'))
+   if (strcmp(myopt.view,'rail') & strcmp(myopt.typplot,'surf') & ~strcmp(myopt.rw_surfc,'none'))
       % 3d surface plot should not use 2d view
       myopt.view = 'default';
    end
@@ -1104,7 +1104,7 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
       sf_min = min(sol.slcs.spl2d.xi);
       sf_max = max(sol.slcs.spl2d.xi);
       s_fc   = max(sf_min, min(sf_max, sol.meta.s_ws + xi));
-      [ ~, ysurf, zsurf ] = eval_2dspline( sol.slcs.spl2d, s_fc, sol.slcs.uj(js) );
+      [ ~, ~, ysurf, zsurf ] = eval_2dspline( sol.slcs.spl2d, s_fc, sol.slcs.uj(js) );
 
    elseif (want_rail & has_slcs)
 

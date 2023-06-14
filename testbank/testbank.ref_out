@@ -2,10 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
+   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
-   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
@@ -508,16 +507,16 @@
  
  Position (X,Y,Z):   0.000       0.000      -1.000    
  I,Displacement(I); Stress(I,J),J = 1,3
-  1   -0.1058E-14;  -0.5950E-02   0.000      0.2441E-14
-  2    0.1064E-14;    0.000     -0.5950E-02 -0.2407E-14
-  3   -0.1561    ;   0.2441E-14 -0.2407E-14 -0.2720    
+  1   -0.1053E-14;  -0.5950E-02   0.000      0.2426E-14
+  2    0.1084E-14;    0.000     -0.5950E-02 -0.2382E-14
+  3   -0.1561    ;   0.2426E-14 -0.2382E-14 -0.2720    
   SigHyd =  -0.9463E-01, SigVM =   0.2660    
 
  Position (X,Y,Z):  0.4000       0.000      -1.000    
  I,Displacement(I); Stress(I,J),J = 1,3
-  1    0.9979E-02;  -0.1709E-01 -0.1385E-14  0.5616E-01
-  2     0.000    ;  -0.1385E-14 -0.5581E-02 -0.1433E-14
-  3   -0.1457    ;   0.5616E-01 -0.1433E-14 -0.2303    
+  1    0.9979E-02;  -0.1709E-01 -0.1241E-14  0.5616E-01
+  2     0.000    ;  -0.1241E-14 -0.5581E-02 -0.1448E-14
+  3   -0.1457    ;   0.5616E-01 -0.1448E-14 -0.2303    
   SigHyd =  -0.8431E-01, SigVM =   0.2398    
 
  Position (X,Y,Z):   0.000       0.000      0.2000    
@@ -1007,7 +1006,7 @@
  TANG: SHIFT TRANSIENT
        1, Tang: size of Adhes, Slip area :     177      0
          0, NR_Fy,    Cksi, Fxk:    1.000E-06  -3.635E-04
-                      Ceta, Fyk:        0.000   2.758E-20   ItCG:   10
+                      Ceta, Fyk:        0.000  -4.361E-20   ItCG:   10
          1, NR_Fy,    Cksi, Fxk:    4.000E-06  -1.454E-03
                       Ceta, Fyk:    3.000E-06  -1.091E-03   ItCG:   20
          2, NR_Fy,    Cksi, Fxk:    2.407E-03     -0.7411
@@ -1984,7 +1983,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-    -26.1745    759.4930     -0.9496       476.1   2.910E-11       0.000
+    -26.1745    759.4930     -0.9496       476.1   2.910E-11  -3.638E-12
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2274,7 +2273,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0000      1.7372      0.0426  -4.819E-10       0.000       0.000
+     -0.0000      1.7372      0.0426  -4.819E-10      -0.000       0.000
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2728,13 +2727,12 @@
   7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.616E-03   3.581E-07
   8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.187E-04   3.581E-07
   9, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.241E-04   3.581E-07
- 10, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.833E-05   3.581E-07
- 11, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.142E-05   3.581E-07
- 12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.797E-06   3.581E-07
- 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.915E-06   3.581E-07
- 14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.737E-07   3.581E-07
- 15, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.669E-07   3.581E-07
- 16, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.653E-07   3.581E-07
+ 10, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.119E-05   3.581E-07
+ 11, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.828E-06   3.581E-07
+ 12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.421E-06   3.581E-07
+ 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.786E-07   3.581E-07
+ 14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.006E-07   3.581E-07
+ 15, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.829E-07   3.581E-07
      FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
      4.000E+05       0.000       0.000       0.000       564.1      -10.46
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
@@ -2753,7 +2751,7 @@
  10, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.967E-05   5.360E-07
  11, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.019E-06   5.360E-07
  12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.869E-06   5.360E-07
- 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.851E-07   5.360E-07
+ 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.852E-07   5.360E-07
  14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.644E-07   5.360E-07
      FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
      4.000E+05   1.401E+04       0.000       0.000       640.3      -7.050
@@ -4390,28 +4388,28 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.3 | 100.0 |        1.6 | 100.0 |
-|Wheel-rail cases     |      15 |       0.3 |  81.0 |        1.1 |  66.1 |
-|Non-Hertzian cases   |      20 |       0.1 |  19.0 |        0.5 |  33.9 |
+|Total                |       1 |       2.5 | 100.0 |        2.5 | 100.0 |
+|Wheel-rail cases     |      15 |       1.5 |  61.4 |        1.5 |  61.3 |
+|Non-Hertzian cases   |      20 |       1.0 |  38.6 |        1.0 |  38.7 |
 |Subsurface points    |       3 |       0.0 |   0.0 |        0.0 |   0.0 |
-|W/r profiles         |      23 |       0.0 |  14.3 |        0.2 |   9.3 |
-|Geometric analysis   |      60 |       0.0 |   0.0 |        0.0 |   2.4 |
-|Panag.process        |      76 |       0.2 |  76.2 |        1.0 |  61.5 |
-|Algorithm Norm       |     117 |       0.1 |  23.8 |        0.2 |  13.5 |
-|Algorithm Tang       |     110 |       0.2 |  52.4 |        0.7 |  44.9 |
-|Output quantities    |      91 |       0.0 |   0.0 |        0.1 |   6.7 |
+|W/r profiles         |      23 |       0.2 |   7.6 |        0.2 |   7.6 |
+|Geometric analysis   |      60 |       0.1 |   5.0 |        0.1 |   5.0 |
+|Panag.process        |      76 |       1.9 |  75.1 |        1.9 |  74.9 |
+|Algorithm Norm       |     116 |       0.4 |  16.3 |        0.4 |  16.3 |
+|Algorithm Tang       |     109 |       1.5 |  58.4 |        1.5 |  58.3 |
+|Output quantities    |      91 |       0.1 |   3.8 |        0.1 |   3.9 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     117 |       0.1 |  23.8 |        0.2 |  11.1 |
-|Tang: TangCG solver  |      76 |       0.0 |   4.8 |        0.1 |   7.7 |
-|Tang: ConvxGS solver |       6 |       0.0 |   0.0 |        0.0 |   1.7 |
-|Tang: StedyGS solver |      80 |       0.2 |  47.6 |        0.6 |  34.2 |
+|Norm: ConjGrd solver |     116 |       0.4 |  14.2 |        0.4 |  14.2 |
+|Tang: TangCG solver  |      75 |       0.3 |  12.0 |        0.3 |  12.0 |
+|Tang: ConvxGS solver |       6 |       0.0 |   1.0 |        0.0 |   1.0 |
+|Tang: StedyGS solver |      80 |       1.1 |  44.0 |        1.1 |  43.9 |
 |Tang: Fastsim solver |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      35 |       0.0 |  14.3 |        0.2 |   9.3 |
-|Contact location     |      60 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Undeformed distance  |      56 |       0.0 |   0.0 |        0.0 |   1.7 |
-|Influence coeffic.   |      74 |       0.0 |   4.8 |        0.1 |   3.4 |
-|Initial state/estim. |      76 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |      35 |       0.2 |   7.8 |        0.2 |   7.8 |
+|Contact location     |      60 |       0.1 |   2.6 |        0.1 |   2.6 |
+|Undeformed distance  |      56 |       0.1 |   2.1 |        0.1 |   2.1 |
+|Influence coeffic.   |      74 |       0.1 |   4.1 |        0.1 |   4.1 |
+|Initial state/estim. |      76 |       0.0 |   0.3 |        0.0 |   0.4 |
 |Subsurf writing      |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -76,7 +76,8 @@ end
 
 if (ierror==0 & exist('make_2dspline'))
    use_approx = (slcs.s_method==2); idebug = 0;
-   slcs.spl2d  = make_2dspline(slcs.s, slcs.uj, slcs.ysurf, slcs.zsurf, slcs.mask_j, use_approx, idebug);
+   slcs.spl2d = make_2dspline(slcs.s, slcs.vj, slcs.xsurf, slcs.ysurf, slcs.zsurf, slcs.mask_j, ...
+                                                                                      use_approx, idebug);
 end
 
 end % function read_slices
@@ -162,7 +163,7 @@ function [ slcs, iline, ierror ] = read_slices_header(slcs, f, iline, idebug)
 
    if (idebug>=-2)
       disp(sprintf('Slices-file "%s": %d slices, %d features, %d parts, %d kinks, %d accel', ...
-                slcs.slc_file, slcs.nslc, slcs.nfeat, slcs.nfeat-1, slcs.nkink, slcs.naccel));
+                slcs.slc_file, slcs.nslc, slcs.nfeat, max(0,slcs.nfeat-1), slcs.nkink, slcs.naccel));
    end
 
 end % function read_slices_header
@@ -355,7 +356,7 @@ for is = 1 : nslc
 
    is_wheel = 0;
    slc_file = fullfile(filepath, strtrim(slcs.fnames(is,:)));
-   prr = read_profile(slc_file, is_wheel, mirror_y, mirror_z, scale_yz, idebug-1);
+   prr = read_profile(slc_file, is_wheel, mirror_y, mirror_z, scale_yz, [], idebug-1);
 
    % in case of an error (missing file), prr will be a struct with empty members
 

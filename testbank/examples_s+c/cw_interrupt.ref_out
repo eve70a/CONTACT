@@ -2,10 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2342M, 14-Apr-2023 09:25)                      |
-   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
@@ -304,22 +303,22 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.3 | 100.0 |        1.2 | 100.0 |
-|Wheel-rail cases     |       2 |       1.3 | 100.0 |        1.2 | 100.0 |
-|W/r profiles         |       2 |       0.1 |   7.1 |        0.2 |  14.1 |
-|Geometric analysis   |       6 |       0.9 |  65.9 |        0.7 |  55.8 |
-|Panag.process        |       5 |       0.3 |  24.7 |        0.3 |  27.5 |
-|Algorithm Norm       |       5 |       0.0 |   3.5 |        0.0 |   3.0 |
-|Algorithm Tang       |       5 |       0.3 |  21.2 |        0.3 |  24.5 |
-|Output quantities    |       7 |       0.0 |   0.0 |        0.0 |   0.8 |
+|Total                |       1 |       1.8 | 100.0 |        1.6 | 100.0 |
+|Wheel-rail cases     |       2 |       1.8 | 100.0 |        1.6 | 100.0 |
+|W/r profiles         |       2 |       0.2 |  10.8 |        0.2 |  11.0 |
+|Geometric analysis   |       6 |       1.1 |  60.1 |        0.9 |  56.2 |
+|Panag.process        |       5 |       0.5 |  26.9 |        0.5 |  30.1 |
+|Algorithm Norm       |       5 |       0.0 |   2.7 |        0.0 |   3.0 |
+|Algorithm Tang       |       5 |       0.4 |  24.2 |        0.4 |  27.0 |
+|Output quantities    |       7 |       0.0 |   0.5 |        0.0 |   0.7 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       5 |       0.0 |   3.5 |        0.0 |   2.7 |
-|Tang: StedyGS solver |       5 |       0.3 |  21.2 |        0.3 |  24.3 |
+|Norm: ConjGrd solver |       5 |       0.0 |   2.4 |        0.0 |   2.7 |
+|Tang: StedyGS solver |       5 |       0.4 |  24.0 |        0.4 |  26.9 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       2 |       0.1 |   7.1 |        0.2 |  14.1 |
-|Contact location     |       6 |       0.9 |  64.7 |        0.6 |  52.4 |
-|Undeformed distance  |       5 |       0.0 |   1.2 |        0.0 |   3.2 |
-|Influence coeffic.   |       5 |       0.0 |   1.2 |        0.0 |   0.6 |
-|Initial state/estim. |       5 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       2 |       0.2 |  10.8 |        0.2 |  11.1 |
+|Contact location     |       6 |       1.0 |  56.2 |        0.9 |  52.2 |
+|Undeformed distance  |       5 |       0.1 |   3.1 |        0.1 |   3.4 |
+|Influence coeffic.   |       5 |       0.0 |   0.8 |        0.0 |   0.9 |
+|Initial state/estim. |       5 |       0.0 |   0.1 |        0.0 |   0.1 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

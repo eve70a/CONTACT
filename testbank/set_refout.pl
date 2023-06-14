@@ -3,7 +3,7 @@
 use strict;
 use File::Copy qw(move);
 
-my @list=( 'stand_alone', 'contact_addon', 'test_mbench', 'test_table' );
+my @list=( 'stand_alone', 'test_nonhz', 'test_mbench', 'test_table' );
 #  @list=( 'test_table' );
 my @files;
 
@@ -13,8 +13,8 @@ foreach my $test ( @list ) {
 
    if ($test =~ /stand_alone/i) {
       @files = ( 'testbank.ref_out', 'dry_10mph_13750lbs.ref_out' );
-   } elsif ($test =~ /contact_addon/i) {
-      @files = ( 'test_caddon.ref_out', 'contact_addon.ref_out', 'contact_addon.ref_inp' );
+   } elsif ($test =~ /test_nonhz/i) {
+      @files = ( 'test_caddon.ref_out', 'contact_nonhz.ref_out', 'contact_nonhz.ref_inp' );
    } elsif ($test =~ /test_mbench/i) {
       @files = ( 'test_mbench.ref_out', 'contact_mbench.ref_out' );
    } elsif ($test =~ /test_table/i) {

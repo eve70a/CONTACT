@@ -42,6 +42,8 @@ module m_bspline_get
    private bspline_make_1d_ppspline_phase3
    public  bspline_make_1d_ppspline
 
+   ! inverse for half-parametric spline x==u, (x,v) -> (y,z)
+
    public  bspline_get_z_at_xy
    public  bspline_get_z_at_xy_list
    public  bspline_get_z_at_xy_prod
@@ -50,6 +52,17 @@ module m_bspline_get
       module procedure bspline_get_z_at_xy_list
       module procedure bspline_get_z_at_xy_prod
    end interface bspline_get_z_at_xy
+
+   ! inverse for full-parametric spline (u,v) -> (x,y,z)
+
+   public  bspline_get_xz_at_uy
+   public  bspline_get_xz_at_uy_list
+   public  bspline_get_xz_at_uy_prod
+
+   interface bspline_get_xz_at_uy
+      module procedure bspline_get_xz_at_uy_list
+      module procedure bspline_get_xz_at_uy_prod
+   end interface bspline_get_xz_at_uy
 
 contains
 
@@ -98,51 +111,51 @@ end subroutine bsplineget_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_list(spl2d, nout, xout, uout, yout, zout, my_ierror, exterval)
-!--function: evaluate 2D tensor B-spline at nout positions (xout,uout) producing (yout,zout)
+subroutine bspline_eval2d_list(spl2d, nout, uout, vout, xout, yout, zout, my_ierror, exterval)
+!--function: evaluate 2D tensor B-spline at nout positions (uout,vout) producing (xout,yout,zout)
    implicit none
 !--subroutine arguments:
    type(t_bspline2d)                           :: spl2d
    integer,      intent(in)                    :: nout
-   real(kind=8), intent(in)                    :: xout(nout), uout(nout)
-   real(kind=8), intent(out)                   :: yout(nout), zout(nout)
+   real(kind=8), intent(in)                    :: uout(nout), vout(nout)
+   real(kind=8), intent(out)                   :: xout(nout), yout(nout), zout(nout)
    integer,      intent(out)                   :: my_ierror
    real(kind=8), intent(in), optional          :: exterval
 !--local variables:
    logical              :: has_exter
-   integer              :: iout, i, ii, j, jj, mask, istat, sub_ierror, nsplu
-   real(kind=8)         :: ci_y, ci_z
-   integer,      dimension(:),   allocatable :: isegx, jsegu
-   real(kind=8), dimension(:,:), allocatable :: b1x, b2x, b3x, b4x, b1u, b2u, b3u, b4u
+   integer              :: iout, i, ii, j, jj, mask, istat, sub_ierror, nsplv
+   real(kind=8)         :: ci_x, ci_y, ci_z
+   integer,      dimension(:),   allocatable :: isegu, jsegv
+   real(kind=8), dimension(:,:), allocatable :: b1u, b2u, b3u, b4u, b1v, b2v, b3v, b4v
    character(len=20)    :: namvar
    character(len=256)   :: errmsg
 
    my_ierror = 0
    has_exter = present(exterval)
 
-   namvar = 'b1x-b4u'
-   allocate(isegx(nout), b1x(nout,1), b2x(nout,2), b3x(nout,3), b4x(nout,4),                            &
-            jsegu(nout), b1u(nout,1), b2u(nout,2), b3u(nout,3), b4u(nout,4), stat=istat, errmsg=errmsg)
+   namvar = 'b1u-b4v'
+   allocate(isegu(nout), b1u(nout,1), b2u(nout,2), b3u(nout,3), b4u(nout,4),                            &
+            jsegv(nout), b1v(nout,1), b2v(nout,2), b3v(nout,3), b4v(nout,4), stat=istat, errmsg=errmsg)
    if (istat.ne.0) goto 99
-
-   ! evaluate x-splines at positions xout
-
-   if (my_ierror.eq.0) then
-      call bspline_eval1d(spl2d%nknot1, spl2d%ti1, tiny_dt, nout, xout, isegx, b1x, b2x, b3x, b4x,      &
-                   ldebug, sub_ierror)
-      my_ierror = sub_ierror
-      if (my_ierror.ne.0) call write_log(' Bspline_eval2d: Error after eval1d(x)')
-   endif
 
    ! evaluate u-splines at positions uout
 
-   nsplu = spl2d%nspl2
-
    if (my_ierror.eq.0) then
-      call bspline_eval1d(spl2d%nknot2, spl2d%tj2, tiny_dt, nout, uout, jsegu, b1u, b2u, b3u, b4u,      &
+      call bspline_eval1d(spl2d%nknotu, spl2d%tui, tiny_dt, nout, uout, isegu, b1u, b2u, b3u, b4u,      &
                    ldebug, sub_ierror)
       my_ierror = sub_ierror
       if (my_ierror.ne.0) call write_log(' Bspline_eval2d: Error after eval1d(u)')
+   endif
+
+   ! evaluate v-splines at positions vout
+
+   nsplv = spl2d%nsplv
+
+   if (my_ierror.eq.0) then
+      call bspline_eval1d(spl2d%nknotv, spl2d%tvj, tiny_dt, nout, vout, jsegv, b1v, b2v, b3v, b4v,      &
+                   ldebug, sub_ierror)
+      my_ierror = sub_ierror
+      if (my_ierror.ne.0) call write_log(' Bspline_eval2d: Error after eval1d(v)')
    endif
 
    ! evaluate at all output positions
@@ -150,45 +163,50 @@ subroutine bspline_eval2d_list(spl2d, nout, xout, uout, yout, zout, my_ierror, e
    if (my_ierror.eq.0) then
       do iout = 1, nout
 
+         if (spl2d%has_xdata) xout(iout) = 0d0
          yout(iout) = 0d0
          zout(iout) = 0d0
          mask = 1
 
-         if (uout(iout).lt.spl2d%tj2(4) .or. uout(iout).gt.spl2d%tj2(nsplu+1)) then
+         if (vout(iout).lt.spl2d%tvj(4) .or. vout(iout).gt.spl2d%tvj(nsplv+1)) then
 
             mask = 0
             if (ldebug.ge.1) then
-               write(bufout,'(a,i4,3(a,f12.4),a,i4)') ' uout(',iout,')=',uout(iout),' out of range [',  &
-                           spl2d%tj2(4),',', spl2d%tj2(nsplu+1),'], jsegu=',jsegu(iout)
+               write(bufout,'(a,i4,3(a,f12.4),a,i4)') ' vout(',iout,')=',vout(iout),' out of range [',  &
+                           spl2d%tvj(4),',', spl2d%tvj(nsplv+1),'], jsegv=',jsegv(iout)
                call write_log(1, bufout)
             endif
 
          else
 
-            do i = isegx(iout)-3, isegx(iout)
-               ii = i - isegx(iout) + 4
+            do i = isegu(iout)-3, isegu(iout)
+               ii = i - isegu(iout) + 4
+               if (spl2d%has_xdata) ci_x = 0d0
                ci_y = 0d0
                ci_z = 0d0
-               do j = jsegu(iout)-3, jsegu(iout)
-                  jj = j - jsegu(iout) + 4
-                  ci_y = ci_y + spl2d%cij_y(i,j) * b4u(iout,jj)
-                  ci_z = ci_z + spl2d%cij_z(i,j) * b4u(iout,jj)
+               do j = jsegv(iout)-3, jsegv(iout)
+                  jj = j - jsegv(iout) + 4
+                  if (spl2d%has_xdata) ci_x = ci_x + spl2d%cij_x(i,j) * b4v(iout,jj)
+                  ci_y = ci_y + spl2d%cij_y(i,j) * b4v(iout,jj)
+                  ci_z = ci_z + spl2d%cij_z(i,j) * b4v(iout,jj)
                   mask = mask * spl2d%mask(i,j)
                enddo
-               yout(iout) = yout(iout) + ci_y * b4x(iout,ii)
-               zout(iout) = zout(iout) + ci_z * b4x(iout,ii)
+               if (spl2d%has_xdata) xout(iout) = xout(iout) + ci_x * b4u(iout,ii)
+               yout(iout) = yout(iout) + ci_y * b4u(iout,ii)
+               zout(iout) = zout(iout) + ci_z * b4u(iout,ii)
             enddo
 
          endif
 
          if (mask.eq.0 .and. has_exter) then
+            if (spl2d%has_xdata) xout(iout) = exterval
             yout(iout) = exterval
             zout(iout) = exterval
          endif
       enddo
    endif
 
-   deallocate(isegx, b1x, b2x, b3x, b4x, jsegu, b1u, b2u, b3u, b4u)
+   deallocate(isegu, b1u, b2u, b3u, b4u, jsegv, b1v, b2v, b3v, b4v)
 
    return
 
@@ -204,22 +222,22 @@ end subroutine bspline_eval2d_list
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_prod(spl2d, nxout, nuout, xout, uout, yout, zout, my_ierror, exterval)
-!--function: evaluate 2D tensor B-spline at nxout x nuout positions producing (yout,zout)
+subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout, my_ierror, exterval)
+!--function: evaluate 2D tensor B-spline at nuout x nvout positions producing (xout,yout,zout)
    implicit none
 !--subroutine arguments:
    type(t_bspline2d)                  :: spl2d
-   integer,      intent(in)           :: nxout, nuout
-   real(kind=8), intent(in)           :: xout(nxout), uout(nuout)
-   real(kind=8), intent(out)          :: yout(nxout,nuout), zout(nxout,nuout)
+   integer,      intent(in)           :: nuout, nvout
+   real(kind=8), intent(in)           :: uout(nuout), vout(nvout)
+   real(kind=8), intent(out)          :: xout(nuout,nvout), yout(nuout,nvout), zout(nuout,nvout)
    integer,      intent(out)          :: my_ierror
    real(kind=8), intent(in), optional :: exterval
 !--local variables:
    logical              :: has_exter
    integer              :: iout, jout, i, ii, j, jj, mask, istat, sub_ierror
-   real(kind=8)         :: ci_y, ci_z
-   integer,      dimension(:),   allocatable :: isegx, jsegu
-   real(kind=8), dimension(:,:), allocatable :: b1x, b2x, b3x, b4x, b1u, b2u, b3u, b4u
+   real(kind=8)         :: ci_x, ci_y, ci_z
+   integer,      dimension(:),   allocatable :: isegu, jsegv
+   real(kind=8), dimension(:,:), allocatable :: b1u, b2u, b3u, b4u, b1v, b2v, b3v, b4v
    character(len=20)    :: namvar
    character(len=256)   :: errmsg
 
@@ -227,88 +245,93 @@ subroutine bspline_eval2d_prod(spl2d, nxout, nuout, xout, uout, yout, zout, my_i
 
    has_exter = present(exterval)
 
-   namvar = 'b1x-b4u'
-   allocate(isegx(nxout), b1x(nxout,1), b2x(nxout,2), b3x(nxout,3), b4x(nxout,4),                       &
-            jsegu(nuout), b1u(nuout,1), b2u(nuout,2), b3u(nuout,3), b4u(nuout,4), stat=istat, errmsg=errmsg)
+   namvar = 'b1u-b4v'
+   allocate(isegu(nuout), b1u(nuout,1), b2u(nuout,2), b3u(nuout,3), b4u(nuout,4),                       &
+            jsegv(nvout), b1v(nvout,1), b2v(nvout,2), b3v(nvout,3), b4v(nvout,4), stat=istat, errmsg=errmsg)
    if (istat.ne.0) goto 99
 
    if (ldebug.ge.2) then
-      if (nxout.ge.5) then
-         write(bufout,'(a,i4,a,3g12.4,a)') ' eval2d_prod: nx=',nxout,' positions xout=',                &
-                (xout(i), i=1, 3), '...'
-      else
-         write(bufout,'(a,i4,a,4g12.4)')   ' eval2d_prod: nx=',nxout,' positions xout=',                &
-                (xout(i), i=1, nxout)
-      endif
-      call write_log(1, bufout)
       if (nuout.ge.5) then
-         write(bufout,'(a,i4,a,3g12.4,a)') '              nu=',nuout,' positions uout=',                &
-             (uout(i), i=1, 3), '...'
+         write(bufout,'(a,i4,a,3g12.4,a)') ' eval2d_prod: nu=',nuout,' positions uout=',                &
+                (uout(i), i=1, 3), '...'
       else
-         write(bufout,'(a,i4,a,4g12.4)')   '              nu=',nuout,' positions uout=',                &
-             (uout(i), i=1, nuout)
+         write(bufout,'(a,i4,a,4g12.4)')   ' eval2d_prod: nu=',nuout,' positions uout=',                &
+                (uout(i), i=1, nuout)
       endif
       call write_log(1, bufout)
-   endif
-
-   ! evaluate x-splines at positions xout
-
-   if (my_ierror.eq.0) then
-      call bspline_eval1d(spl2d%nknot1, spl2d%ti1, tiny_dt, nxout, xout, isegx, b1x, b2x, b3x, b4x,     &
-                   ldebug, sub_ierror)
-      my_ierror = sub_ierror
-      if (my_ierror.ne.0) call write_log(' Bspline_eval2d: Error after eval1d(x)')
+      if (nvout.ge.5) then
+         write(bufout,'(a,i4,a,3g12.4,a)') '              nv=',nvout,' positions vout=',                &
+             (vout(i), i=1, 3), '...'
+      else
+         write(bufout,'(a,i4,a,4g12.4)')   '              nv=',nvout,' positions vout=',                &
+             (vout(i), i=1, nvout)
+      endif
+      call write_log(1, bufout)
    endif
 
    ! evaluate u-splines at positions uout
 
    if (my_ierror.eq.0) then
-      call bspline_eval1d(spl2d%nknot2, spl2d%tj2, tiny_dt, nuout, uout, jsegu, b1u, b2u, b3u, b4u,     &
+      call bspline_eval1d(spl2d%nknotu, spl2d%tui, tiny_dt, nuout, uout, isegu, b1u, b2u, b3u, b4u,     &
                    ldebug, sub_ierror)
       my_ierror = sub_ierror
       if (my_ierror.ne.0) call write_log(' Bspline_eval2d: Error after eval1d(u)')
+   endif
+
+   ! evaluate v-splines at positions vout
+
+   if (my_ierror.eq.0) then
+      call bspline_eval1d(spl2d%nknotv, spl2d%tvj, tiny_dt, nvout, vout, jsegv, b1v, b2v, b3v, b4v,     &
+                   ldebug, sub_ierror)
+      my_ierror = sub_ierror
+      if (my_ierror.ne.0) call write_log(' Bspline_eval2d: Error after eval1d(v)')
    endif
 
    ! evaluate at all output positions
 
    if (my_ierror.eq.0) then
 
-      do iout = 1, nxout
-         do jout = 1, nuout
+      do iout = 1, nuout
+         do jout = 1, nvout
 
+            if (spl2d%has_xdata) xout(iout,jout) = 0d0
             yout(iout,jout) = 0d0
             zout(iout,jout) = 0d0
             mask = 1
-            do i = isegx(iout)-3, isegx(iout)
-               ii = i - isegx(iout) + 4
+            do i = isegu(iout)-3, isegu(iout)
+               ii = i - isegu(iout) + 4
 
+               if (spl2d%has_xdata) ci_x = 0d0
                ci_y = 0d0
                ci_z = 0d0
-               do j = jsegu(jout)-3, jsegu(jout)
-                  jj = j - jsegu(jout) + 4
-                  ci_y = ci_y + spl2d%cij_y(i,j) * b4u(jout,jj)
-                  ci_z = ci_z + spl2d%cij_z(i,j) * b4u(jout,jj)
+               do j = jsegv(jout)-3, jsegv(jout)
+                  jj = j - jsegv(jout) + 4
+                  if (spl2d%has_xdata) ci_x = ci_x + spl2d%cij_x(i,j) * b4v(jout,jj)
+                  ci_y = ci_y + spl2d%cij_y(i,j) * b4v(jout,jj)
+                  ci_z = ci_z + spl2d%cij_z(i,j) * b4v(jout,jj)
                   mask = mask * spl2d%mask(i,j)
 
                   if (ldebug.ge.5 .and. iout.eq.ii_debug .and. jout.eq.iel_debug) then
                      write(bufout,'(4(a,i4),3(a,g14.6))') ' (iout,jout)=(',iout,',',jout,       &
-                        '): ci_y += cij_y(',i,',',j,') * b4u =', spl2d%cij_y(i,j),' *', b4u(jout,jj)
+                        '): ci_y += cij_y(',i,',',j,') * b4v =', spl2d%cij_y(i,j),' *', b4v(jout,jj)
                      call write_log(1, bufout)
                   endif
                enddo
 
-               yout(iout,jout) = yout(iout,jout) + ci_y * b4x(iout,ii)
-               zout(iout,jout) = zout(iout,jout) + ci_z * b4x(iout,ii)
+               if (spl2d%has_xdata) xout(iout,jout) = xout(iout,jout) + ci_x * b4u(iout,ii)
+               yout(iout,jout) = yout(iout,jout) + ci_y * b4u(iout,ii)
+               zout(iout,jout) = zout(iout,jout) + ci_z * b4u(iout,ii)
 
                if (ldebug.ge.5 .and. iout.eq.ii_debug .and. jout.eq.iel_debug) then
                   write(bufout,'(2(a,i4),2(a,g14.6))') ' (iout,jout)=(',iout,',',jout,       &
-                     '): yout += ci_y * b4x =', ci_y,' *', b4x(iout,ii)
+                     '): yout += ci_y * b4u =', ci_y,' *', b4u(iout,ii)
                   call write_log(1, bufout)
                endif
             enddo
 
             if (mask.eq.0) then
                if (has_exter) then
+                  if (spl2d%has_xdata) xout(iout,jout) = exterval
                   yout(iout,jout) = exterval
                   zout(iout,jout) = exterval
                endif
@@ -329,7 +352,7 @@ subroutine bspline_eval2d_prod(spl2d, nxout, nuout, xout, uout, yout, zout, my_i
       call write_log(1, bufout)
    endif
 
-   deallocate(isegx, b1x, b2x, b3x, b4x, jsegu, b1u, b2u, b3u, b4u)
+   deallocate(isegu, b1u, b2u, b3u, b4u, jsegv, b1v, b2v, b3v, b4v)
 
    return
 
@@ -345,58 +368,58 @@ end subroutine bspline_eval2d_prod
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_inverse(spl2d, noutx, nouty, noutu, xout, yout, uout, my_ierror)
-!--function: inverse evaluation of 2D tensor B-spline, determining uout at given (xout,yout)
+subroutine bspline_eval2d_inverse(spl2d, noutu, nouty, noutv, uout, yout, vout, my_ierror)
+!--function: inverse evaluation of 2D tensor B-spline, determining vout at given (uout,yout)
    implicit none
 !--subroutine arguments:
    type(t_bspline2d)                  :: spl2d
-   integer,      intent(in)           :: noutx, nouty, noutu
-   real(kind=8), intent(in)           :: xout(noutx), yout(nouty)
-   real(kind=8), intent(out)          :: uout(noutx,noutu)
+   integer,      intent(in)           :: noutu, nouty, noutv
+   real(kind=8), intent(in)           :: uout(noutu), yout(nouty)
+   real(kind=8), intent(out)          :: vout(noutu,noutv)
    integer,      intent(out)          :: my_ierror
 !--local variables:
-   integer              :: nsplx, nsplu, i, ii, j, jseg, ioutu, ioutx, iouty, iouty0, iouty1, istat,    &
+   integer              :: nsplu, nsplv, i, ii, j, jseg, ioutv, ioutu, iouty, iouty0, iouty1, istat,    &
                            sub_ierror  ! jj
    logical              :: found, use_list
-   real(kind=8)         :: u_a, u_b, f_a, f_b, c0, c1, c2, c3, ul !  d0, d1, d2, d3
-   integer,      dimension(:),   allocatable :: isegx
+   real(kind=8)         :: v_a, v_b, f_a, f_b, c0, c1, c2, c3, vl !  d0, d1, d2, d3
+   integer,      dimension(:),   allocatable :: isegu
    real(kind=8), dimension(:),   allocatable :: cj_y, ylow, yhig
-   real(kind=8), dimension(:,:), allocatable :: b1x, b2x, b3x, b4x
+   real(kind=8), dimension(:,:), allocatable :: b1u, b2u, b3u, b4u
    character(len=20)    :: namvar
    character(len=256)   :: errmsg
 
-   ! two cases: tensor product noutx x nouty, noutu = nouty,
-   !            list noutx = nouty, noutu = 1
+   ! two cases: tensor product noutu x nouty, noutv = nouty,
+   !            list noutu = nouty, noutv = 1
 
-   use_list = (noutx.eq.nouty .and. noutu.eq.1)
-   if (.not.use_list .and. noutu.ne.nouty) then
-      call write_log(' Internal error: bspline_eval2d_inverse: noutu <> nouty.')
+   use_list = (noutu.eq.nouty .and. noutv.eq.1)
+   if (.not.use_list .and. noutv.ne.nouty) then
+      call write_log(' Internal error: bspline_eval2d_inverse: noutv <> nouty.')
       call abort_run()
    endif
-   if (noutx.le.0 .or. nouty.le.0) then
-      call write_log(' Internal error: bspline_eval2d_inverse: invalid noutx or nouty <= 0.')
+   if (noutu.le.0 .or. nouty.le.0) then
+      call write_log(' Internal error: bspline_eval2d_inverse: invalid noutu or nouty <= 0.')
       call abort_run()
    endif
 
    ! print information on inputs used
 
    if (ldebug.ge.1 .and. use_list) then
-      write(bufout,'(a,i4,a)') ' Inverse spline evaluation (x,y) --> (u) at nout=',noutx,' pairs (x,y)'
+      write(bufout,'(a,i4,a)') ' Inverse spline evaluation (u,y) --> (v) at nout=',noutu,' pairs (u,y)'
       call write_log(1, bufout)
    elseif (ldebug.ge.1) then
-      write(bufout,'(2(a,i4),a)') ' Inverse spline evaluation (x)x(y) --> (u) at nout=',noutx,' x',     &
+      write(bufout,'(2(a,i4),a)') ' Inverse spline evaluation (u)x(y) --> (v) at nout=',noutu,' x',     &
                 nouty,' positions'
       call write_log(1, bufout)
    endif
 
    if (ldebug.ge.2) then
-      if (noutx.ge.5) then
-         write(bufout,'(a,i4,a,3g12.4,a)') ' eval2d_inv : nx=',noutx,' positions xout=',                &
-                (xout(i), i=1, 3), '...'
+      if (noutu.ge.5) then
+         write(bufout,'(a,i4,a,3g12.4,a)') ' eval2d_inv : nu=',noutu,' positions uout=',                &
+                (uout(i), i=1, 3), '...'
          call write_log(1, bufout)
       else
-         write(bufout,'(a,i4,a,4g12.4)')   ' eval2d_inv : nx=',noutx,' positions xout=',                &
-                (xout(i), i=1, noutx)
+         write(bufout,'(a,i4,a,4g12.4)')   ' eval2d_inv : nu=',noutu,' positions uout=',                &
+                (uout(i), i=1, noutu)
          call write_log(1, bufout)
       endif
       if (nouty.ge.5) then
@@ -410,51 +433,47 @@ subroutine bspline_eval2d_inverse(spl2d, noutx, nouty, noutu, xout, yout, uout, 
       endif
    endif
 
-!  if (any(x_in<spl2d.xi(1)) | any(x_in.gt.spl2d.xi(end))) then
-!     disp(sprintf('ERROR: all input x_in must lie in range of spline x=[%3.1e,%3.1e]', spl2d.xi([1,end])))
-!  endif
-
    ! determine collocation matrix for computing coefficients cj_y
 
-   nsplx  = spl2d%nspl1
-   nsplu  = spl2d%nspl2
+   nsplu  = spl2d%nsplu
+   nsplv  = spl2d%nsplv
 
-   namvar = 'b1x-yhig'
-   allocate(isegx(noutx), b1x(noutx,1), b2x(noutx,2), b3x(noutx,3), b4x(noutx,4),                       &
-            cj_y(nsplu), ylow(nsplu), yhig(nsplu), stat=istat, errmsg=errmsg)
+   namvar = 'b1u-yhig'
+   allocate(isegu(noutu), b1u(noutu,1), b2u(noutu,2), b3u(noutu,3), b4u(noutu,4),                       &
+            cj_y(nsplv), ylow(nsplv), yhig(nsplv), stat=istat, errmsg=errmsg)
    if (istat.ne.0) goto 99
 
    if (my_ierror.eq.0) then
-      call bspline_eval1d(spl2d%nknot1, spl2d%ti1, tiny_dt, noutx, xout, isegx, b1x, b2x, b3x, b4x,     &
+      call bspline_eval1d(spl2d%nknotu, spl2d%tui, tiny_dt, noutu, uout, isegu, b1u, b2u, b3u, b4u,     &
                    ldebug, sub_ierror)
       my_ierror = sub_ierror
-      if (my_ierror.ne.0) call write_log(' Bspline_eval2d_inv: Error after eval1d(x)')
+      if (my_ierror.ne.0) call write_log(' Bspline_eval2d_inv: Error after eval1d(u)')
    endif
 
-   ! loop over output positions xout(1:noutx)
+   ! loop over output positions uout(1:noutu)
 
-   do ioutx = 1 , noutx
+   do ioutu = 1 , noutu
 
-      if (xout(ioutx).lt.spl2d%ti1(4) .or. xout(ioutx).gt.spl2d%ti1(nsplx+1)) then
+      if (uout(ioutu).lt.spl2d%tui(4) .or. uout(ioutu).gt.spl2d%tui(nsplu+1)) then
          if (ldebug.ge.1) then
-            write(bufout,'(a,i4,3(a,f12.4),a)') ' Warning: xout(',ioutx,')=',xout(ioutx),               &
-                ' is out of range tx=[',spl2d%ti1(4),',', spl2d%ti1(nsplx+1),']'
+            write(bufout,'(a,i4,3(a,f12.4),a)') ' Warning: uout(',ioutu,')=',uout(ioutu),               &
+                ' is out of range tu=[',spl2d%tui(4),',', spl2d%tui(nsplu+1),']'
             call write_log(1, bufout)
          endif
       endif
 
-      ! determine spline coefficients cj_y(:) at position xout(ioutx)
+      ! determine spline coefficients cj_y(:) at position uout(ioutu)
 
-      ! cj_y: [ nu, 1 ], Bmat: [ nout, nx ], cij_y: [ nx, nu ]
-      ! cj_y = (Bmatx(ioutx,:) * spl2d.cij_y)^T
+      ! cj_y: [ nv, 1 ], Bmat: [ nout, nu ], cij_y: [ nu, nv ]
+      ! cj_y = (Bmatu(ioutu,:) * spl2d.cij_y)^T
 
-      do j = 1, nsplu
+      do j = 1, nsplv
          cj_y(j) = 0d0
       enddo
-      do i = isegx(ioutx)-3, isegx(ioutx)
-         ii = i - isegx(ioutx) + 4
-         do j = 1, nsplu
-            cj_y(j) = cj_y(j) + spl2d%cij_y(i,j) * b4x(ioutx,ii)
+      do i = isegu(ioutu)-3, isegu(ioutu)
+         ii = i - isegu(ioutu) + 4
+         do j = 1, nsplv
+            cj_y(j) = cj_y(j) + spl2d%cij_y(i,j) * b4u(ioutu,ii)
          enddo
       enddo
 
@@ -468,7 +487,7 @@ subroutine bspline_eval2d_inverse(spl2d, noutx, nouty, noutu, xout, yout, uout, 
 
       ylow(1:3) = 1d0
       yhig(1:3) = 0d0
-      do jseg = 4, nsplu
+      do jseg = 4, nsplv
          ylow(jseg) = cj_y(jseg)
          ylow(jseg) = min(cj_y(jseg), cj_y(jseg-1))
          ylow(jseg) = min(cj_y(jseg), cj_y(jseg-2))
@@ -480,21 +499,21 @@ subroutine bspline_eval2d_inverse(spl2d, noutx, nouty, noutu, xout, yout, uout, 
       enddo
 
       if (ldebug.ge.5) then
-         do jseg = 4, nsplu
+         do jseg = 4, nsplv
             if (ylow(jseg).le.yout(iouty) .and. yout(iouty).le.yhig(jseg)) then
-               write(bufout,'(a,i4,4(a,f12.6),a)') ' seg j=',jseg,': u = [',spl2d%tj2(jseg),',',        &
-                                        spl2d%tj2(jseg+1),', y in [',ylow(jseg),',',yhig(jseg),'] *'
+               write(bufout,'(a,i4,4(a,f12.6),a)') ' seg j=',jseg,': v = [',spl2d%tvj(jseg),',',        &
+                                        spl2d%tvj(jseg+1),', y in [',ylow(jseg),',',yhig(jseg),'] *'
             else
-               write(bufout,'(a,i4,4(a,f12.6),a)') ' seg j=',jseg,': u = [',spl2d%tj2(jseg),',',        &
-                                        spl2d%tj2(jseg+1),', y in [',ylow(jseg),',',yhig(jseg),']'
+               write(bufout,'(a,i4,4(a,f12.6),a)') ' seg j=',jseg,': v = [',spl2d%tvj(jseg),',',        &
+                                        spl2d%tvj(jseg+1),', y in [',ylow(jseg),',',yhig(jseg),']'
             endif
             call write_log(1, bufout)
          enddo
       endif
 
       if (use_list) then
-         iouty0 = ioutx
-         iouty1 = ioutx
+         iouty0 = ioutu
+         iouty1 = ioutu
       else
          iouty0 = 1
          iouty1 = nouty
@@ -503,18 +522,18 @@ subroutine bspline_eval2d_inverse(spl2d, noutx, nouty, noutu, xout, yout, uout, 
       do iouty = iouty0, iouty1
 
          if (use_list) then
-            ioutu = 1
+            ioutv = 1
          else
-            ioutu = iouty
+            ioutv = iouty
          endif
 
-         ! consider all segments jseg = k : nspl that may contain yout(iouty) at xout(ioutx)
+         ! consider all segments jseg = k : nspl that may contain yout(iouty) at uout(ioutu)
          ! there are nknot-2k+1 segments with numbers jseg = k .. nknot-k
 
          jseg  = 3
          found = .false.
 
-         do while(.not.found .and. jseg.lt.nsplu)
+         do while(.not.found .and. jseg.lt.nsplv)
 
             jseg = jseg + 1
             if (ylow(jseg).le.yout(iouty) .and. yout(iouty).le.yhig(jseg)) then
@@ -528,13 +547,13 @@ subroutine bspline_eval2d_inverse(spl2d, noutx, nouty, noutu, xout, yout, uout, 
 
                ! spline segment j: interval [t_j, t_{j+1}]
 
-               u_a = spl2d%tj2(jseg)
-               u_b = spl2d%tj2(jseg+1)
+               v_a = spl2d%tvj(jseg)
+               v_b = spl2d%tvj(jseg+1)
 
                ! PP-spline coefficients for segment:
 
-               call bspline_get_ppcoef_1seg_orig(spl2d%nspl2, spl2d%tj2, cj_y, jseg, c0, c1, c2, c3, ldebug)
-!              call bspline_get_ppcoef_1seg_modf(spl2d%nspl2, spl2d%tj2, cj_y, jseg, d0, d1, d2, d3, ldebug)
+               call bspline_get_ppcoef_1seg_orig(spl2d%nsplv, spl2d%tvj, cj_y, jseg, c0, c1, c2, c3, ldebug)
+!              call bspline_get_ppcoef_1seg_modf(spl2d%nsplv, spl2d%tvj, cj_y, jseg, d0, d1, d2, d3, ldebug)
 
 !              if (abs(d0-c0).gt.1d-2*abs(c0) .or. abs(d1-c1).gt.1d-2*abs(c1) .or. abs(d2-c2).gt.1d-8 .or. &
 !                       abs(d3-c3).gt.1d-8) then
@@ -542,28 +561,28 @@ subroutine bspline_eval2d_inverse(spl2d, noutx, nouty, noutu, xout, yout, uout, 
 !                 call write_log(1, bufout)
 !                 write(bufout,'(a,4g16.8)') 'orig: c0-c3=',c0, c1, c2, c3
 !                 call write_log(1, bufout)
-!                 write(bufout,'(2(a,i6))') 'nspl=',spl2d%nspl2,', jseg=',jseg
+!                 write(bufout,'(2(a,i6))') 'nspl=',spl2d%nsplv,', jseg=',jseg
 !                 call write_log(1, bufout)
-!                 write(bufout,'(a,10g16.8)') 'tj2= ',(spl2d%tj2(jj), jj=jseg-4,min(spl2d%nspl2+4,jseg+4))
+!                 write(bufout,'(a,10g16.8)') 'tvj= ',(spl2d%tvj(jj), jj=jseg-4,min(spl2d%nsplv+4,jseg+4))
 !                 call write_log(1, bufout)
 !                 write(bufout,'(a,10g16.8)') 'cjy= ',(cj_y(jj), jj=jseg-3,jseg)
 !                 call write_log(1, bufout)
 
-!                 call bspline_get_ppcoef_1seg_orig(spl2d%nspl2, spl2d%tj2, cj_y, jseg, d0,d1,d2,d3, ldebug+5)
+!                 call bspline_get_ppcoef_1seg_orig(spl2d%nsplv, spl2d%tvj, cj_y, jseg, d0,d1,d2,d3, ldebug+5)
 !                 call abort_run()
 !              endif
 
                ! Solve cubic equation for segment:
 
                f_a = c0
-               f_b = c3 * (u_b-u_a)**3 + c2 * (u_b-u_a)**2 + c1 * (u_b-u_a) + c0
-               call solve_cubic_segm( u_a, u_b, f_a, c1, c2, c3, f_b, yout(iouty), ul, ldebug, sub_ierror)
+               f_b = c3 * (v_b-v_a)**3 + c2 * (v_b-v_a)**2 + c1 * (v_b-v_a) + c0
+               call solve_cubic_segm( v_a, v_b, f_a, c1, c2, c3, f_b, yout(iouty), vl, ldebug, sub_ierror)
 
-               found = (ul.ge.0d0 .and. ul.le.u_b-u_a)
-               if (found) uout(ioutx,ioutu) = u_a + ul
+               found = (vl.ge.0d0 .and. vl.le.v_b-v_a)
+               if (found) vout(ioutu,ioutv) = v_a + vl
 
                if (found .and. ldebug.ge.4) then
-                  write(bufout,'(a,i4,a,f9.3)') ' jseg=',jseg,': found u=', uout(ioutx,ioutu)
+                  write(bufout,'(a,i4,a,f9.3)') ' jseg=',jseg,': found v=', vout(ioutu,ioutv)
                   call write_log(1, bufout)
                elseif (.not.found .and. ldebug.ge.5) then
                   write(bufout,'(a,i4,a)') ' jseg=',jseg,': no solution'
@@ -574,22 +593,22 @@ subroutine bspline_eval2d_inverse(spl2d, noutx, nouty, noutu, xout, yout, uout, 
          enddo ! while(~found)
 
          if (found .and. ldebug.ge.2) then
-            write(bufout,'(2(a,i4),3(a,f10.4),a,i4)') ' iout=',ioutx,',',iouty,', (x,y)=(',             &
-                   xout(ioutx),',', yout(iouty), '): found uout=', uout(ioutx,ioutu),' in jseg=',jseg
+            write(bufout,'(2(a,i4),3(a,f10.4),a,i4)') ' iout=',ioutu,',',iouty,', (u,y)=(',             &
+                   uout(ioutu),',', yout(iouty), '): found vout=', vout(ioutu,ioutv),' in jseg=',jseg
             call write_log(1, bufout)
          elseif (.not.found) then
-            uout(ioutx,ioutu) = -1d0
+            vout(ioutu,ioutv) = -1d0
             if (ldebug.ge.2) then
-               write(bufout,'(2(a,i4),3(a,f10.4))') ' No solution for iout=',ioutx,',',iouty,           &
-                   ', (x,y)=(',xout(ioutx),',', yout(iouty),'), setting uout=',uout(ioutx,ioutu)
+               write(bufout,'(2(a,i4),3(a,f10.4))') ' No solution for iout=',ioutu,',',iouty,           &
+                   ', (u,y)=(',uout(ioutu),',', yout(iouty),'), setting vout=',vout(ioutu,ioutv)
                call write_log(1, bufout)
             endif
          endif
 
       enddo ! for iouty
-   enddo ! for ioutx
+   enddo ! for ioutu
 
-   deallocate(isegx, b1x, b2x, b3x, b4x, cj_y, ylow, yhig)
+   deallocate(isegu, b1u, b2u, b3u, b4u, cj_y, ylow, yhig)
 
    return
 
@@ -605,43 +624,43 @@ end subroutine bspline_eval2d_inverse
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_inverse_list(spl2d, nout, xout, yout, uout, my_ierror)
-!--function: inverse evaluation of 2D tensor B-spline, determining uout at given (xout,yout)
+subroutine bspline_eval2d_inverse_list(spl2d, nout, uout, yout, vout, my_ierror)
+!--function: inverse evaluation of 2D tensor B-spline, determining vout at given (uout,yout)
    implicit none
 !--subroutine arguments:
    type(t_bspline2d)                  :: spl2d
    integer,      intent(in)           :: nout
-   real(kind=8), intent(in)           :: xout(nout), yout(nout)
-   real(kind=8), intent(out)          :: uout(nout)
+   real(kind=8), intent(in)           :: uout(nout), yout(nout)
+   real(kind=8), intent(out)          :: vout(nout)
    integer,      intent(out)          :: my_ierror
 !--local variables
-   integer      :: noutx, nouty, noutu
-   real(kind=8) :: uout2d(nout,1)
+   integer      :: noutu, nouty, noutv
+   real(kind=8) :: vout2d(nout,1)
 
-   noutx = nout
+   noutu = nout
    nouty = nout
-   noutu = 1
+   noutv = 1
 
-   call bspline_eval2d_inverse(spl2d, noutx, nouty, noutu, xout, yout, uout2d, my_ierror)
+   call bspline_eval2d_inverse(spl2d, noutu, nouty, noutv, uout, yout, vout2d, my_ierror)
 
-   uout(1:nout) = uout2d(1:nout,1)
+   vout(1:nout) = vout2d(1:nout,1)
 
 end subroutine bspline_eval2d_inverse_list
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_inverse_prod(spl2d, noutx, nouty, xout, yout, uout, my_ierror)
-!--function: inverse evaluation of 2D tensor B-spline, determining uout at given (xout,yout)
+subroutine bspline_eval2d_inverse_prod(spl2d, noutu, nouty, uout, yout, vout, my_ierror)
+!--function: inverse evaluation of 2D tensor B-spline, determining vout at given (uout,yout)
    implicit none
 !--subroutine arguments:
    type(t_bspline2d)                  :: spl2d
-   integer,      intent(in)           :: noutx, nouty
-   real(kind=8), intent(in)           :: xout(noutx), yout(nouty)
-   real(kind=8), intent(out)          :: uout(noutx,nouty)
+   integer,      intent(in)           :: noutu, nouty
+   real(kind=8), intent(in)           :: uout(noutu), yout(nouty)
+   real(kind=8), intent(out)          :: vout(noutu,nouty)
    integer,      intent(out)          :: my_ierror
 !--local variables
 
-   call bspline_eval2d_inverse(spl2d, noutx, nouty, nouty, xout, yout, uout, my_ierror)
+   call bspline_eval2d_inverse(spl2d, noutu, nouty, nouty, uout, yout, vout, my_ierror)
 
 end subroutine bspline_eval2d_inverse_prod
 
@@ -674,7 +693,7 @@ subroutine bspline_make_1d_ppspline_phase1(bspl, nmeas, s_prf, ds_out, lambda, n
 
    my_ierror = 0
 
-   associate(nknot => bspl%nknot1, nreduc => bspl%nreduc1, nbrk => bspl%nbrk1)
+   associate(nknot => bspl%nknotu, nreduc => bspl%nreducu, nbrk => bspl%nbrku)
 
    ! Check requirements on kinks and accelerations
 
@@ -749,12 +768,12 @@ subroutine bspline_make_1d_ppspline_phase1(bspl, nmeas, s_prf, ds_out, lambda, n
    endif
 
    namvar = 'tj, keepj'
-   allocate(bspl%ti1(maxknot), bspl%keepi1(maxknot), stat=istat, errmsg=errmsg)
+   allocate(bspl%tui(maxknot), bspl%keeptu(maxknot), stat=istat, errmsg=errmsg)
    if (istat.ne.0) goto 99
 
    if (my_ierror.eq.0) then
       call bspline_make_knot_vector(nmeas, s_prf, nkink, ikinks, naccel, iaccel, knot_simple, ds_out,   &
-                            maxknot, nknot, bspl%ti1, bspl%keepi1, nreduc, ldebug, sub_ierror)
+                            maxknot, nknot, bspl%tui, bspl%keeptu, nreduc, ldebug, sub_ierror)
       my_ierror = sub_ierror
       if (my_ierror.ne.0) call write_log(' Error after make_knot_vector')
    endif
@@ -766,7 +785,7 @@ subroutine bspline_make_1d_ppspline_phase1(bspl, nmeas, s_prf, ds_out, lambda, n
       endif
       if (ldebug.ge.4) then
          do j = 1, nknot
-            write(bufout,'(a,i4,a,f12.6)') ' j =',j,': tj =',bspl%ti1(j)
+            write(bufout,'(a,i4,a,f12.6)') ' j =',j,': tj =',bspl%tui(j)
             call write_log(1, bufout)
          enddo
       endif
@@ -775,11 +794,11 @@ subroutine bspline_make_1d_ppspline_phase1(bspl, nmeas, s_prf, ds_out, lambda, n
    ! store the breakpoints ksi, unique knots in tj
 
    nbrk   = nknot - 6 - 2*(nkink-2) - naccel
-   namvar = 'bspl%s1brk'
-   allocate(bspl%s1brk(nbrk), stat=istat, errmsg=errmsg)
+   namvar = 'bspl%ubrk'
+   allocate(bspl%ubrk(nbrk), stat=istat, errmsg=errmsg)
    if (istat.ne.0) goto 99
 
-   call bspline_make_breakpoints(nknot, bspl%ti1, tiny_dt, nbrk, bspl%s1brk, ldebug)
+   call bspline_make_breakpoints(nknot, bspl%tui, tiny_dt, nbrk, bspl%ubrk, ldebug)
 
    end associate
 
@@ -810,7 +829,7 @@ subroutine bspline_make_1d_ppspline_phase2(bspl, nspl_rdc, lambda, wgt, &
    real(kind=8), intent(in)           :: wgt(nmeas) ! weights, e.g. using spacing ds
    real(kind=8), intent(in)           :: s_prf(nmeas), x_prf(nmeas), y_prf(nmeas), z_prf(nmeas) 
    logical,      intent(in)           :: has_xdata  ! whether x_prf is a dummy or needs to be used
-   real(kind=8), intent(out)          :: btw_xyz(bspl%nspl1,3)
+   real(kind=8), intent(out)          :: btw_xyz(bspl%nsplu,3)
    integer,      intent(out)          :: my_ierror
 !--local variables:
    integer                    :: ip, istat, sub_ierror
@@ -821,8 +840,8 @@ subroutine bspline_make_1d_ppspline_phase2(bspl, nspl_rdc, lambda, wgt, &
 
    my_ierror = 0
 
-   associate(nknot  => bspl%nknot1,  nreduc => bspl%nreduc1, nspl_all => bspl%nspl1,                    &
-             tj     => bspl%ti1,     keepj  => bspl%keepi1 )
+   associate(nknot  => bspl%nknotu,  nreduc => bspl%nreducu, nspl_all => bspl%nsplu,                    &
+             tj     => bspl%tui,     keepj  => bspl%keeptu )
 
    ! evaluate B-spline basis-functions at measurement locations
 
@@ -938,7 +957,7 @@ subroutine bspline_make_1d_ppspline_phase3(bspl, coef_xyz, ppspl, my_ierror)
 !--subroutine arguments:
    type(t_bspline2d)                  :: bspl
    type(t_spline)                     :: ppspl
-   real(kind=8), intent(in)           :: coef_xyz(bspl%nspl1,3)
+   real(kind=8), intent(in)           :: coef_xyz(bspl%nsplu,3)
    integer,      intent(out)          :: my_ierror
 !--local variables:
    integer                    :: istat, sub_ierror
@@ -949,7 +968,7 @@ subroutine bspline_make_1d_ppspline_phase3(bspl, coef_xyz, ppspl, my_ierror)
 
    my_ierror = 0
 
-   associate(nknot => bspl%nknot1, tj => bspl%ti1, nbrk => bspl%nbrk1, sbrk => bspl%s1brk )
+   associate(nknot => bspl%nknotu, tj => bspl%tui, nbrk => bspl%nbrku, sbrk => bspl%ubrk )
 
    ! create output spline
 
@@ -975,7 +994,7 @@ subroutine bspline_make_1d_ppspline_phase3(bspl, coef_xyz, ppspl, my_ierror)
    ! determine PP-form: value of spline & derivatives at start of each segment
 
    if (my_ierror.eq.0) then
-      call bspline_make_ppform(nknot, tj, tiny_dt, nbrk, jseg, b1, b2, b3, b4, bspl%nspl1, coef_xyz,    &
+      call bspline_make_ppform(nknot, tj, tiny_dt, nbrk, jseg, b1, b2, b3, b4, bspl%nsplu, coef_xyz,    &
                         ppspl, sub_ierror)
       my_ierror = sub_ierror
       if (my_ierror.ne.0) call write_log(' Error after make_ppform')
@@ -1040,8 +1059,8 @@ subroutine bspline_make_1d_ppspline(ppspl, nmeas, s_prf, x_prf, y_prf, z_prf, ha
 
    ! number of spline functions
 
-   bspl%nspl1   = bspl%nknot1 - 4
-   nspl_rdc     = bspl%nreduc1 - 4
+   bspl%nsplu   = bspl%nknotu - 4
+   nspl_rdc     = bspl%nreducu - 4
 
    ! set weights according to grid spacing ds
 
@@ -1064,7 +1083,7 @@ subroutine bspline_make_1d_ppspline(ppspl, nmeas, s_prf, x_prf, y_prf, z_prf, ha
    ! allocate space for B-spline coefficients
 
    namvar = 'coef_xyz'
-   allocate(coef_xyz(bspl%nspl1,3), stat=istat, errmsg=errmsg)
+   allocate(coef_xyz(bspl%nsplu,3), stat=istat, errmsg=errmsg)
    if (istat.ne.0) goto 99
 
    ! set up and solve equations (BtWB + lambda DtCD) * c_xyz = BtW [x y z]
@@ -1095,7 +1114,8 @@ end subroutine bspline_make_1d_ppspline
 !------------------------------------------------------------------------------------------------------------
 
 subroutine bspline_get_z_at_xy_list(spl2d, nout, xout, yout, zout, my_ierror, exterval)
-!--function: for nout positions (xout,yout), determine uout in the 2D tensor B-spline and produce zout
+!--function: for nout half-parametric positions (xout,yout), determine vout in the 2D tensor B-spline
+!            and produce (zout)
    implicit none
 !--subroutine arguments:
    type(t_bspline2d)                    :: spl2d
@@ -1106,20 +1126,25 @@ subroutine bspline_get_z_at_xy_list(spl2d, nout, xout, yout, zout, my_ierror, ex
    real(kind=8), optional, intent(in)   :: exterval
 !--local variables:
    integer              :: iout
-   real(kind=8)         :: uout(nout), ytmp(nout)
+   real(kind=8)         :: vout(nout), ytmp(nout), xdum2d(1,1)
+
+   if (spl2d%has_xdata) then
+      call write_log(' Internal error: bspline_get_z_at_xy: cannot be used for full-parametric splines.')
+      call abort_run()
+   endif
 
    my_ierror = 0
 
-   call bspline_eval2d_inverse_list(spl2d, nout, xout, yout, uout, my_ierror)
+   call bspline_eval2d_inverse_list(spl2d, nout, xout, yout, vout, my_ierror)
 
    if (my_ierror.eq.0) then
-      call bspline_eval2d_list(spl2d, nout, xout, uout, ytmp, zout, my_ierror, exterval)
+      call bspline_eval2d_list(spl2d, nout, xout, vout, xdum2d, ytmp, zout, my_ierror, exterval)
    endif
 
    if (ldebug.ge.2) then
       do iout = 1, nout
-         write(bufout,'(a,i4,4(a,f12.6))') ' bspline_get_z_at_xy: iout=',iout,': x,y=',xout(iout),',', &
-                     yout(iout), ': u=',uout(iout),', z=',zout(iout)
+         write(bufout,'(a,i4,5(a,f12.6))') ' bspline_get_z_at_xy: iout=',iout,': x,y=',xout(iout),',', &
+                     yout(iout), ': v=',vout(iout),', z=',zout(iout)
          call write_log(1, bufout)
       enddo
    endif
@@ -1129,7 +1154,8 @@ end subroutine bspline_get_z_at_xy_list
 !------------------------------------------------------------------------------------------------------------
 
 subroutine bspline_get_z_at_xy_prod(spl2d, nx, ny, xout, yout, zout, my_ierror, exterval)
-!--function: for positions (xout) x (yout), determine uij in the 2D tensor B-spline and produce zout
+!--function: for nx x ny half-parametric positions (xout) x (yout), determine vij in the 2D tensor
+!            B-spline and produce (zout)
    implicit none
 !--subroutine arguments:
    type(t_bspline2d)                    :: spl2d
@@ -1139,23 +1165,96 @@ subroutine bspline_get_z_at_xy_prod(spl2d, nx, ny, xout, yout, zout, my_ierror, 
    integer,                intent(out)  :: my_ierror
    real(kind=8), optional, intent(in)   :: exterval
 !--local variables:
-   integer              :: ix
-   real(kind=8)         :: uij(nx,ny), uj(ny), xi(1), yj(ny), zj(ny)
+   integer              :: iu
+   real(kind=8)         :: vij(nx,ny), vj(ny), ui(1), yj(ny), zj(ny), xdum2d(1,1)
+
+   if (spl2d%has_xdata) then
+      call write_log(' Internal error: bspline_get_z_at_xy: cannot be used for full-parametric splines.')
+      call abort_run()
+   endif
 
    my_ierror = 0
 
-   call bspline_eval2d_inverse_prod(spl2d, nx, ny, xout, yout, uij, my_ierror)
+   call bspline_eval2d_inverse_prod(spl2d, nx, ny, xout, yout, vij, my_ierror)
 
    if (my_ierror.eq.0) then
-      do ix = 1, nx
-         xi(1) = xout(ix)
-         uj(1:ny) = uij(ix,1:ny)
-         call bspline_eval2d_prod(spl2d, 1, ny, xi, uj, yj, zj, my_ierror, exterval)
-         zout(ix,1:ny) = zj(1:ny)
+      do iu = 1, nx
+         ui(1)    = xout(iu)
+         vj(1:ny) = vij(iu,1:ny)
+         call bspline_eval2d_prod(spl2d, 1, ny, ui, vj, xdum2d, yj, zj, my_ierror, exterval)
+         zout(iu,1:ny) = zj(1:ny)
       enddo
    endif
 
 end subroutine bspline_get_z_at_xy_prod
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine bspline_get_xz_at_uy_list(spl2d, nout, uout, yout, xout, zout, my_ierror, exterval)
+!--function: for nout full-parametric positions (uout,yout), determine vout in the 2D tensor B-spline
+!            and produce (xout,zout)
+   implicit none
+!--subroutine arguments:
+   type(t_bspline2d)                    :: spl2d
+   integer,                intent(in)   :: nout
+   real(kind=8),           intent(in)   :: uout(nout), yout(nout)
+   real(kind=8),           intent(out)  :: xout(nout), zout(nout)
+   integer,                intent(out)  :: my_ierror
+   real(kind=8), optional, intent(in)   :: exterval
+!--local variables:
+   integer              :: iout
+   real(kind=8)         :: vout(nout), ytmp(nout)
+
+   my_ierror = 0
+
+   call bspline_eval2d_inverse_list(spl2d, nout, uout, yout, vout, my_ierror)
+
+   if (my_ierror.eq.0) then
+      call bspline_eval2d_list(spl2d, nout, uout, vout, xout, ytmp, zout, my_ierror, exterval)
+   endif
+
+   if (ldebug.ge.2) then
+      do iout = 1, nout
+         write(bufout,'(a,i4,5(a,f12.6))') ' bspline_get_xz_at_uy: iout=',iout,': u,y=',uout(iout),',', &
+                     yout(iout), ': v=',vout(iout),', x=',xout(iout),', z=',zout(iout)
+         call write_log(1, bufout)
+      enddo
+   endif
+
+end subroutine bspline_get_xz_at_uy_list
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine bspline_get_xz_at_uy_prod(spl2d, nu, ny, uout, yout, xout, zout, my_ierror, exterval)
+!--function: for nu x ny full-parametric positions (uout) x (yout), determine vij in the 2D tensor
+!            B-spline and produce (xout,zout)
+   implicit none
+!--subroutine arguments:
+   type(t_bspline2d)                    :: spl2d
+   integer,                intent(in)   :: nu, ny
+   real(kind=8),           intent(in)   :: uout(nu), yout(ny)
+   real(kind=8),           intent(out)  :: xout(nu,ny), zout(nu,ny)
+   integer,                intent(out)  :: my_ierror
+   real(kind=8), optional, intent(in)   :: exterval
+!--local variables:
+   integer              :: iu
+   real(kind=8)         :: vij(nu,ny), vj(ny), ui(1), xj(ny), yj(ny), zj(ny)
+
+   my_ierror = 0
+
+   call bspline_eval2d_inverse_prod(spl2d, nu, ny, uout, yout, vij, my_ierror)
+
+   if (my_ierror.eq.0) then
+      do iu = 1, nu
+         ui(1)    = uout(iu)
+         vj(1:ny) = vij(iu,1:ny)
+         call bspline_eval2d_prod(spl2d, 1, ny, ui, vj, xj, yj, zj, my_ierror, exterval)
+         xout(iu,1:ny) = xj(1:ny)
+         zout(iu,1:ny) = zj(1:ny)
+      enddo
+   endif
+
+end subroutine bspline_get_xz_at_uy_prod
 
 !------------------------------------------------------------------------------------------------------------
 

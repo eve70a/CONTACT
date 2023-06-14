@@ -83,7 +83,7 @@ subroutine WriteVersion(num_version, version, license)
       spaces = ' '
       len1 = len(c_trim(license%licensee_name))
 
-      if (license%licensee_name(1:12).eq.'Open source version') then
+      if (license%licensee_name(1:19).eq.'Open source version') then
 
          write(bufout,125) c_trim(license%licensee_name), ' ',' ',' ', spaces(1:65-len1)
          call write_log(1, bufout)

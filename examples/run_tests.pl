@@ -26,7 +26,7 @@ my @list=( 'cattaneo', 'carter2d', 'bentall', 'visc_cylindr', 'tractcurv', 'subs
            'mbench_a22_left', 'mbench_a22_right', 'mbench_a22_varfric', 'mbench_a22_kpec', 
            'fastsim', 'spence35', 'catt_to_cart', 'conformal', 'veldep_fric', 
            'ertz_temperature', 'plastic_3bl' );
-#  @list=( 'mbench_a22_left', 'mbench_a22_right', 'mbench_a22_varfric', 'mbench_a22_kpec' );
+   @list=( 'mbench_a22_left', 'mbench_a22_right', 'mbench_a22_varfric', 'mbench_a22_kpec' );
 #  @list=( 'mbench_a22_right' );
 #  @list=( 'mbench_a22_varfric' );
 #  @list=( 'carter2d' );

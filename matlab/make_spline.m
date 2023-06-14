@@ -13,7 +13,7 @@ function [ spl ] = make_spline( s, y, z, lambda, wgt, ikinks, iaccel, use_bsplin
 %   iaccel    = discontinuous 2nd derivatives: radius jumps, acceleration points [i1, i2, ...]
 %   ds_bspl   = target step size for B-spline method
 %   use_deriv = 2 or 3 for penalty on 2nd or 3rd derivative
-%   use_repl  = replicate knots at s(1) and s(end) or replicate intervals ds(1), ds(end)
+%   use_repl  = 1=replicate knots at s(1) and s(end) or 0=extend knots, replicating intervals ds(1), ds(end)
 
 % Copyright 2008-2023 by Vtech CMCC.
 %

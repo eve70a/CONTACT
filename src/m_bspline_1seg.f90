@@ -29,7 +29,7 @@ subroutine bspline_get_ppcoef_1seg_orig(nspl, tj, cj_y, jseg, c0, c1, c2, c3, id
    real(kind=8), parameter    :: small_dt = 1d-7
    integer              :: jj
    real(kind=8)         :: dtj, dtj_inv1(4), dtj_inv2(4), dtj_inv3(4), b1(4), b2(4), b3(4), b4(4),      &
-                           u, d1_cy(4), d2_cy(4), d3_cy(4)
+                           v, d1_cy(4), d2_cy(4), d3_cy(4)
 
    ! average step sizes over 1/2/3 adjacent intervals
 
@@ -53,22 +53,22 @@ subroutine bspline_get_ppcoef_1seg_orig(nspl, tj, cj_y, jseg, c0, c1, c2, c3, id
 
    ! evaluate function and derivative values at position tj(jseg)
 
-   u = tj(jseg) + 1d-9
+   v = tj(jseg) + 1d-9
    b1(3)   = 0d0
    b1(4)   = 1d0
    b2(2)   = 0d0
    do jj = 3 , 4
-      b2(jj) =                       (u-tj(jseg-4+jj  )) * b1(jj  ) * dtj_inv1(jj  ) / 1d0
-      if (jj.lt.4) b2(jj) = b2(jj) + (tj(jseg-4+jj+2)-u) * b1(jj+1) * dtj_inv1(jj+1) / 1d0
+      b2(jj) =                       (v-tj(jseg-4+jj  )) * b1(jj  ) * dtj_inv1(jj  ) / 1d0
+      if (jj.lt.4) b2(jj) = b2(jj) + (tj(jseg-4+jj+2)-v) * b1(jj+1) * dtj_inv1(jj+1) / 1d0
    enddo
    b3(1)   = 0d0
    do jj = 2 , 4
-      b3(jj) =                       (u-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
-      if (jj.lt.4) b3(jj) = b3(jj) + (tj(jseg-4+jj+3)-u) * b2(jj+1) * dtj_inv2(jj+1) / 2d0
+      b3(jj) =                       (v-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
+      if (jj.lt.4) b3(jj) = b3(jj) + (tj(jseg-4+jj+3)-v) * b2(jj+1) * dtj_inv2(jj+1) / 2d0
    enddo
    do jj = 1 , 4
-      b4(jj) =                       (u-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
-      if (jj.lt.4) b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-u) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
+      b4(jj) =                       (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+      if (jj.lt.4) b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-v) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
    enddo
 
    if (idebug.ge.5) then
@@ -119,11 +119,11 @@ subroutine bspline_get_ppcoef_1seg_orig(nspl, tj, cj_y, jseg, c0, c1, c2, c3, id
 
    if (.false. .and. abs(c0-cj_y(jseg)).gt.1d0) then
       call write_log('orig:')
-      write(bufout,'(a,24x,4f12.4)') 'dt1  =',dtj_inv1(3),dtj_inv1(4)
+      write(bufout,'(a,24x,4f12.4)') 'dt1  =', dtj_inv1(3),dtj_inv1(4)
       call write_log(1, bufout)
-      write(bufout,'(a,12x,4f12.4)') 'dt2  =',dtj_inv2(2),dtj_inv2(3),dtj_inv2(4)
+      write(bufout,'(a,12x,4f12.4)') 'dt2  =', dtj_inv2(2),dtj_inv2(3),dtj_inv2(4)
       call write_log(1, bufout)
-      write(bufout,'(a,    4f12.4)') 'dt3  =',dtj_inv3(1),dtj_inv3(2),dtj_inv3(3),dtj_inv3(4)
+      write(bufout,'(a,    4f12.4)') 'dt3  =', dtj_inv3(1),dtj_inv3(2),dtj_inv3(3),dtj_inv3(4)
       call write_log(1, bufout)
       write(bufout,'(a,36x, f12.4)') 'b1   =', b1(4)
       call write_log(1, bufout)
@@ -131,13 +131,13 @@ subroutine bspline_get_ppcoef_1seg_orig(nspl, tj, cj_y, jseg, c0, c1, c2, c3, id
       call write_log(1, bufout)
       write(bufout,'(a,12x,3f12.4)') 'b3   =', b3(2),b3(3),b3(4)
       call write_log(1, bufout)
-      write(bufout,'(a,    4f12.4)') 'b4   =',b4(1),b4(2),b4(3),b4(4)
+      write(bufout,'(a,    4f12.4)') 'b4   =', b4(1),b4(2),b4(3),b4(4)
       call write_log(1, bufout)
-      write(bufout,'(a,12x,3f12.4)') 'd1_cy=',d1_cy(2),d1_cy(3),d1_cy(4)
+      write(bufout,'(a,12x,3f12.4)') 'd1_cy=', d1_cy(2),d1_cy(3),d1_cy(4)
       call write_log(1, bufout)
-      write(bufout,'(a,24x,2f12.4)') 'd2_cy=',d2_cy(3),d2_cy(4)
+      write(bufout,'(a,24x,2f12.4)') 'd2_cy=', d2_cy(3),d2_cy(4)
       call write_log(1, bufout)
-      write(bufout,'(a,36x, f12.4)') 'd3_cy=',d3_cy(4)
+      write(bufout,'(a,36x, f12.4)') 'd3_cy=', d3_cy(4)
       call write_log(1, bufout)
    endif
 
@@ -156,7 +156,7 @@ subroutine bspline_get_ppcoef_1seg_modf(nspl, tj, cj_y, jseg, c0, c1, c2, c3, id
    real(kind=8), parameter    :: small_dt = 1d-7
    integer              :: jj
    real(kind=8)         :: dtj, dtj_inv1(4), dtj_inv2(4), dtj_inv3(4), b1(4), b2(4), b3(4), b4(4),      &
-                           u, d1_cy(4), d2_cy(4), d3_cy(4)
+                           v, d1_cy(4), d2_cy(4), d3_cy(4)
 
    ! average step sizes over 1/2/3 adjacent intervals
 
@@ -201,38 +201,38 @@ subroutine bspline_get_ppcoef_1seg_modf(nspl, tj, cj_y, jseg, c0, c1, c2, c3, id
 
    ! evaluate function and derivative values at position tj(jseg)
 
-   u = tj(jseg) + 1d-9
+   v = tj(jseg) + 1d-9
    b1(3)  = 0d0
    b1(4)  = 1d0
 
    b2(2)  = 0d0
    jj = 3
-   b2(jj) =          (u-tj(jseg-4+jj  )) * b1(jj  ) * dtj_inv1(jj  ) / 1d0
-   b2(jj) = b2(jj) + (tj(jseg-4+jj+2)-u) * b1(jj+1) * dtj_inv1(jj+1) / 1d0
+   b2(jj) =          (v-tj(jseg-4+jj  )) * b1(jj  ) * dtj_inv1(jj  ) / 1d0
+   b2(jj) = b2(jj) + (tj(jseg-4+jj+2)-v) * b1(jj+1) * dtj_inv1(jj+1) / 1d0
    jj = 4
-   b2(jj) =          (u-tj(jseg-4+jj  )) * b1(jj  ) * dtj_inv1(jj  ) / 1d0
+   b2(jj) =          (v-tj(jseg-4+jj  )) * b1(jj  ) * dtj_inv1(jj  ) / 1d0
 
    b3(1)  = 0d0
    jj = 2
-   b3(jj) =          (u-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
-   b3(jj) = b3(jj) + (tj(jseg-4+jj+3)-u) * b2(jj+1) * dtj_inv2(jj+1) / 2d0
+   b3(jj) =          (v-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
+   b3(jj) = b3(jj) + (tj(jseg-4+jj+3)-v) * b2(jj+1) * dtj_inv2(jj+1) / 2d0
    jj = 3
-   b3(jj) =          (u-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
-   b3(jj) = b3(jj) + (tj(jseg-4+jj+3)-u) * b2(jj+1) * dtj_inv2(jj+1) / 2d0
+   b3(jj) =          (v-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
+   b3(jj) = b3(jj) + (tj(jseg-4+jj+3)-v) * b2(jj+1) * dtj_inv2(jj+1) / 2d0
    jj = 4
-   b3(jj) =          (u-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
+   b3(jj) =          (v-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
 
    jj = 1
-   b4(jj) =          (u-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
-   b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-u) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
+   b4(jj) =          (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+   b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-v) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
    jj = 2
-   b4(jj) =          (u-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
-   b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-u) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
+   b4(jj) =          (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+   b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-v) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
    jj = 3
-   b4(jj) =          (u-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
-   b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-u) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
+   b4(jj) =          (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+   b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-v) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
    jj = 4
-   b4(jj) =          (u-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+   b4(jj) =          (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
 
    jj = 2
    d1_cy(jj) = (cj_y(jseg-4+jj) - cj_y(jseg-4+jj-1)) * dtj_inv3(jj)

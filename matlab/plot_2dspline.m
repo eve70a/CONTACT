@@ -4,7 +4,7 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
 % function [ opt ] = plot_2dspline( [sol], slcs, opt )
 %
 % create 3d surface plot of variable rail profile
-%   sol     - optional results from contact calculation
+%   sol     - optional results from CONTACT calculation, used for transforming to track coordinates
 %   slcs    - structure with variable profile as returned by read_slices
 %   opt     - plot configuration; called without options, a struct is returned with default settings
 %
@@ -25,11 +25,11 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
 
    % fill default options
 
-   if (~isfield(opt, 'xrange'))
-      opt.xrange   = [];
-   end
    if (~isfield(opt, 'urange'))
       opt.urange   = [];
+   end
+   if (~isfield(opt, 'vrange'))
+      opt.vrange   = [];
    end
    if (~isfield(opt, 'xysteps'))
       opt.xysteps  = [];
@@ -85,19 +85,19 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
 
    % set target step-sizes for plotting
 
-   if (isempty(opt.xrange))
-      opt.xrange = [ min(slcs.s), max(slcs.s) ];
-   end
    if (isempty(opt.urange))
-      opt.urange = [ min(slcs.uj), max(slcs.uj) ];
+      opt.urange = [ min(slcs.spl2d.ui), max(slcs.spl2d.ui) ];
+   end
+   if (isempty(opt.vrange))
+      opt.vrange = [ min(slcs.spl2d.vj), max(slcs.spl2d.vj) ];
    end
    if (isempty(opt.xysteps))
-      xlen = opt.xrange(2) - opt.xrange(1);
+      xlen = max(max(slcs.xsurf)) - min(min(slcs.xsurf));
       ylen = max(max(slcs.ysurf)) - min(min(slcs.ysurf));
       opt.xysteps = max(xlen/4, ylen/15);
    end
    if (isempty(opt.zoom))
-      xlen = opt.xrange(2) - opt.xrange(1);
+      xlen = max(max(slcs.xsurf)) - min(min(slcs.xsurf));
       ylen = max(max(slcs.ysurf)) - min(min(slcs.ysurf));
       opt.zoom = [ max(1, 0.5*xlen/ylen) 1 1 ]; % data aspect ratio, e.g. [1000 1 1]
    end
@@ -107,8 +107,8 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
 
    % form profile surface at given x, all u - fine sampling
 
-   [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, opt.xrange, [], opt.xysteps(1)/10, ...
-                                                              opt.urange, [], []);
+   [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, opt.urange, [], opt.xysteps(1)/10, ...
+                                                              opt.vrange, [], []);
 
    % plot 90% transparent surface (alpha=0.1); color-value?
 
@@ -132,7 +132,7 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
 
    % determine transverse curves along the surface at fixed steps in x
 
-   [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, opt, opt.xrange, [], opt.xysteps(1), ...
+   [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, opt, opt.urange, [], opt.xysteps(1), ...
                                                                         [], [], []);
 
    % plot transverse curves along the surface
@@ -144,7 +144,7 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
 
    % determine longitudinal curves along the surface at fixed steps in s
 
-   [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, opt, opt.xrange, [], opt.xysteps(1)/10, ...
+   [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, opt, opt.urange, [], opt.xysteps(1)/10, ...
                                                                   [], [], opt.xysteps(2));
 
    % plot curves along surface in longitudinal direction
@@ -160,14 +160,14 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
       islc = unique( sort( max(1, min(slcs.nslc, opt.show_slc)) ));
       nslc = length(islc);
       ncol = size(opt.slc_color,1);
-      ju   = [ max(1, round(opt.urange(1))) : min(slcs.npnt,round(opt.urange(2))) ];
-      nu   = length(ju);
+      jv   = [ max(1, round(opt.vrange(1))) : min(slcs.npnt,round(opt.vrange(2))) ];
+      nv   = length(jv);
       for i = 1 : nslc
          jslc = islc(i);
          icol = mod((i-1), ncol) + 1;
          col  = opt.slc_color(icol,:);
          if (length(col)==1 & isnumeric(col)), col = matlab_color(col); end
-         plot3( slcs.s(jslc)*ones(1,nu), slcs.ysurf(jslc,ju), slcs.zsurf(jslc,ju), 'color',col);
+         plot3( slcs.xsurf(jslc,jv), slcs.ysurf(jslc,jv), slcs.zsurf(jslc,jv), 'color',col);
       end
    end
 
@@ -177,14 +177,14 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
       ifeat = unique( sort( max(1, min(slcs.nfeat, opt.show_feat)) ));
       nfeat = length(ifeat);
       ncol  = size(opt.feat_color,1);
-      for i = 1 : nfeat
-         ip   = slcs.iseg_p( ifeat(i) );
-         [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, opt, opt.xrange, [], opt.xysteps(1)/10, ...
-                                                                  slcs.uj(ip)*[1 1], [], opt.xysteps(2));
-         icol = mod((i-1), ncol) + 1;
-         col  = opt.feat_color(icol,:);
+      for j = 1 : nfeat
+         jp   = slcs.iseg_p( ifeat(j) );
+         [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, opt, opt.urange, [], opt.xysteps(1)/10, ...
+                                                                  slcs.vj(jp)*[1 1], [], opt.xysteps(2));
+         jcol = mod((j-1), ncol) + 1;
+         col  = opt.feat_color(jcol,:);
          if (length(col)==1 & isnumeric(col)), col = matlab_color(col); end
-         % plot3( slcs.s, slcs.ysurf(:,ip), slcs.zsurf(:,ip), 'color',col );
+         % plot3( slcs.xsurf(:,jp), slcs.ysurf(:,jp), slcs.zsurf(:,jp), 'color',col );
          plot3( xcurv, ycurv, zcurv, 'color',col);
       end
    end
@@ -194,91 +194,88 @@ end % function show_profiles
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, ...
-                                                              xrange, dx_true, dx_appx, ...
-                                                              urange, du_true, du_appx)
+                                                              urange, du_true, du_appx, ...
+                                                              vrange, dv_true, dv_appx)
 
 % create 2D arrays (x,y,z) for a variable rail profile (slcs)
-%  - the profile will be plotted for xrange = [xmin, xmax]
-%  - fixed steps of size dx_true may be requested, or n-time fitting steps of approximately dx_appx
-%  - the whole profile will be used if urange = [umin, umax] is left empty
-%  - the profile will be sampled at uj-values in the profile close to uniform uj = [umin: du: umax]
-%  - all profile points will be used if both du_true and du_appx are left empty
+%  - the profile will be plotted for urange = [umin, umax]
+%  - fixed steps of size du_true may be requested, or n-time fitting steps of approximately du_appx
+%  - the whole profile will be used if vrange = [vmin, vmax] is left empty
+%  - the profile will be sampled at vj-values in the profile close to uniform vj = [vmin: dv: vmax]
+%  - all profile points will be used if both dv_true and dv_appx are left empty
 
-   if (nargin< 5), dx_true = []; end
-   if (nargin< 6), dx_appx = []; end
-   if (nargin< 7), urange  = []; end
-   if (nargin< 8), du_true = []; end
-   if (nargin< 9), du_appx = []; end
+   if (nargin< 5), du_true = []; end
+   if (nargin< 6), du_appx = []; end
+   if (nargin< 7), vrange  = []; end
+   if (nargin< 8), dv_true = []; end
+   if (nargin< 9), dv_appx = []; end
 
-   % determine longitudinal positions xi for evaluation of surface
-
-   if (~isempty(dx_true))
-
-      % if 'final' dx_true is prescribed,
-      %    set xi = { i * dx_true } for appropriate i
-
-      i0 = ceil( xrange(1) / dx_true );
-      i1 = floor( xrange(2) / dx_true );
-      xi = [i0 : i1] * dx_true;
-
-   elseif (~isempty(dx_appx))
-
-      % if 'target' dx_appx is given, 
-      %    divide [xmin,xmax] in odd #intervals of size dx_true close to dx_appx
-
-      nintv   = floor( (xrange(2) - xrange(1)) / dx_appx );
-      if (mod(nintv,2)==1)  % prefer odd #lines for symmetric [-xmax, xmax]
-         nintv = nintv + 1;
-      end
-      dx = (xrange(2) - xrange(1)) / max(1,nintv);
-      xi = xrange(1) + [0:nintv] * dx;
-
-   else
-
-      disp('Error: either dx_true or dx_appx must be given');
-      return
-
-   end
-
-   % determine lateral positions uj for evaluation of surface
-
-   if (isempty(urange))
-      urange = [ slcs.uj(1), slcs.uj(end) ];
-   end
+   % determine longitudinal positions ui for evaluation of surface
 
    if (~isempty(du_true))
 
       % if 'final' du_true is prescribed,
-      %    set uj = { j * du_true } for appropriate j
+      %    set ui = { i * du_true } for appropriate i
 
-      j0 = ceil(  (urange(1)-slcs.uj(1)) / du_true );
-      j1 = floor( (urange(2)-slcs.uj(1)) / du_true );
-      uj = [j0 : j1] * du_true;
+      i0 = ceil( urange(1) / du_true );
+      i1 = floor( urange(2) / du_true );
+      ui = [i0 : i1] * du_true;
 
    elseif (~isempty(du_appx))
 
       % if 'target' du_appx is given, 
-      %    divide [umin,umax] in odd #intervals of size du_true close to du_appx
+      %    diuide [xmin,xmax] in odd #intervals of size du_true close to du_appx
 
-      nintv = floor( (urange(2) - urange(1)) / du_appx );
+      nintv   = floor( (urange(2) - urange(1)) / du_appx );
+      if (mod(nintv,2)==1)  % prefer odd #lines for symmetric [-xmax, xmax]
+         nintv = nintv + 1;
+      end
       du = (urange(2) - urange(1)) / max(1,nintv);
-      uj = urange(1) + [0:nintv] * du;
+      ui = urange(1) + [0:nintv] * du;
+
+   else
+
+      disp('Error: either du_true or du_appx must be given');
+      return
+
+   end
+
+   % determine lateral positions vj for evaluation of surface
+
+   if (isempty(vrange))
+      vrange = [ slcs.vj(1), slcs.vj(end) ];
+   end
+
+   if (~isempty(dv_true))
+
+      % if 'final' dv_true is prescribed,
+      %    set vj = { j * dv_true } for appropriate j
+
+      j0 = ceil(  (vrange(1)-slcs.vj(1)) / dv_true );
+      j1 = floor( (vrange(2)-slcs.vj(1)) / dv_true );
+      vj = [j0 : j1] * dv_true;
+
+   elseif (~isempty(dv_appx))
+
+      % if 'target' dv_appx is given, 
+      %    diuide [umin,umax] in odd #intervals of size dv_true close to dv_appx
+
+      nintv = floor( (vrange(2) - vrange(1)) / dv_appx );
+      dv = (vrange(2) - vrange(1)) / max(1,nintv);
+      vj = vrange(1) + [0:nintv] * dv;
 
    else
 
       % if neither is given, use all profile points
 
-      j  = find( slcs.uj>=urange(1) & slcs.uj<=urange(2) );
-      uj = slcs.uj(j);
+      j  = find( slcs.vj>=vrange(1) & slcs.vj<=vrange(2) );
+      vj = slcs.vj(j);
 
    end
 
-   % form profile surface at given xi and uj
+   % form profile surface at given ui and vj
 
-   [ ~, ysurf, zsurf ] = eval_2dspline( slcs.spl2d, xi, uj );
-
-   nu    = length(uj);
-   xsurf = xi' * ones(1,nu);
+   [ ~, xsurf, ysurf, zsurf ] = eval_2dspline( slcs.spl2d, ui, vj );
 
    % transform to track coordinates if needed
 

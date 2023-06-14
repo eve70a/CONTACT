@@ -2,10 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
+   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
-   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
@@ -37,11 +36,11 @@
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   4.471E+05
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     5, SC, z, omg_ws:    0.022367  -1.00023007, res:   -0.00000001, dFx/domg:  624.441993
+     5, SC, z, omg_ws:    0.022367  -1.00023007, res:   -0.00000001, dFx/domg:  624.441992
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   4.471E+05
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     6, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000000, dFx/domg:  698.749955
+     6, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000000, dFx/domg:  698.749956
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -49,7 +48,7 @@
  VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 4, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
  HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   2, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
- STEADY STATE ROLLING, X-FORCE,  Y-CREEPAGE PRESCRIBED
+ STEADY STATE ROLLING, X-FORCE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
  MATERIAL CONSTANTS
@@ -95,7 +94,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0099     -0.0000     -0.0000   7.910E-04   2.416E-13   4.084E-05
+      0.0099     -0.0000     -0.0000   7.910E-04   2.558E-13   4.084E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -231,7 +230,7 @@
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
  HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
- STEADY STATE ROLLING, X-FORCE,  Y-CREEPAGE PRESCRIBED
+ STEADY STATE ROLLING, X-FORCE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
  MATERIAL CONSTANTS
@@ -429,15 +428,15 @@
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   5.738E+05
          2, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.126E+05
-     5, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000010, dFx/domg:  563.955809
+     5, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000010, dFx/domg:  563.955808
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   5.738E+05
          2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-     6, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000002, dFx/domg:  447.424623
+     6, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000002, dFx/domg:  447.424622
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
          2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-     7, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000002, dFx/domg:  -29.575062
+     7, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000002, dFx/domg:  -29.575063
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -445,7 +444,7 @@
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
  HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
- STEADY STATE ROLLING, X-FORCE,  Y-CREEPAGE PRESCRIBED
+ STEADY STATE ROLLING, X-FORCE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
  MATERIAL CONSTANTS
@@ -673,7 +672,7 @@
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
  HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
- STEADY STATE ROLLING, X-FORCE,  Y-CREEPAGE PRESCRIBED
+ STEADY STATE ROLLING, X-FORCE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
  MATERIAL CONSTANTS
@@ -927,15 +926,15 @@
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   4.496E+05
          2, NR,  z_ws, Fz:       0.0222      10000., dFz/dz:   6.731E+05
-     5, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000004, dFx/domg:  568.523282
+     5, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000004, dFx/domg:  568.523297
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0222      10000., dFz/dz:   4.496E+05
          2, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     6, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000001, dFx/domg:  370.675559
+     6, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000001, dFx/domg:  370.675578
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
          2, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     7, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000001, dFx/domg:  192.822905
+     7, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000001, dFx/domg:  192.821208
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -943,7 +942,7 @@
  VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 4, INFLCF 4, MATER  0, ZTRACK 3, EWHEEL 3
  HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   2, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
- STEADY STATE ROLLING, X-FORCE,  Y-CREEPAGE PRESCRIBED
+ STEADY STATE ROLLING, X-FORCE PRESCRIBED
  USING CONFORMAL IF-CORRECTION: BLANCO(v3), VARYING CURVATURE
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
@@ -990,7 +989,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0100      0.0000     -0.0000  -5.518E-05       0.000   5.522E-07
+      0.0100      0.0000     -0.0000  -5.518E-05       0.000   5.523E-07
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1125,7 +1124,7 @@
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
  HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
- STEADY STATE ROLLING, X-FORCE,  Y-CREEPAGE PRESCRIBED
+ STEADY STATE ROLLING, X-FORCE PRESCRIBED
  USING CONFORMAL IF-CORRECTION: BLANCO(v3), VARYING CURVATURE
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
@@ -1330,7 +1329,7 @@
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
  HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
- STEADY STATE ROLLING, X-FORCE,  Y-CREEPAGE PRESCRIBED
+ STEADY STATE ROLLING, X-FORCE PRESCRIBED
  USING CONFORMAL IF-CORRECTION: BLANCO(v3), VARYING CURVATURE
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
@@ -1557,7 +1556,7 @@
      6, SC, z, omg_ws:    0.014760  -1.00104248, res:    0.00000003, dFx/domg:  164.628532
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   6.775E+05
-     7, SC, z, omg_ws:    0.014760  -1.00104248, res:   -0.00000000, dFx/domg:  168.133542
+     7, SC, z, omg_ws:    0.014760  -1.00104248, res:   -0.00000000, dFx/domg:  168.133543
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1565,7 +1564,7 @@
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
  HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
- STEADY STATE ROLLING, X-FORCE,  Y-CREEPAGE PRESCRIBED
+ STEADY STATE ROLLING, X-FORCE PRESCRIBED
  USING CONFORMAL IF-CORRECTION: BLANCO(v3), VARYING CURVATURE
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
@@ -1800,22 +1799,22 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      45.1 | 100.0 |       63.8 | 100.0 |
-|Wheel-rail cases     |       8 |      45.1 | 100.0 |       63.8 | 100.0 |
-|W/r profiles         |      10 |       0.0 |   0.0 |        0.1 |   0.1 |
-|Geometric analysis   |     129 |       0.1 |   0.2 |        0.3 |   0.5 |
-|Panag.process        |     113 |      40.3 |  89.4 |       55.8 |  87.6 |
-|Algorithm Norm       |     113 |      12.8 |  28.4 |       17.4 |  27.3 |
-|Algorithm Tang       |     113 |      27.5 |  60.9 |       38.4 |  60.2 |
-|Output quantities    |     121 |       1.8 |   4.0 |        2.6 |   4.0 |
+|Total                |       1 |     120.5 | 100.0 |      120.6 | 100.0 |
+|Wheel-rail cases     |       8 |     120.5 | 100.0 |      120.6 | 100.0 |
+|W/r profiles         |      10 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |     129 |       0.5 |   0.4 |        0.5 |   0.4 |
+|Panag.process        |     113 |     102.0 |  84.7 |      102.1 |  84.7 |
+|Algorithm Norm       |     113 |      31.5 |  26.2 |       31.6 |  26.2 |
+|Algorithm Tang       |     113 |      70.5 |  58.5 |       70.6 |  58.5 |
+|Output quantities    |     121 |       4.8 |   4.0 |        4.8 |   4.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     113 |      12.1 |  26.8 |       16.4 |  25.7 |
-|Tang: StedyGS solver |     113 |      27.0 |  59.9 |       37.6 |  59.0 |
+|Norm: ConjGrd solver |     113 |      29.8 |  24.8 |       29.8 |  24.7 |
+|Tang: StedyGS solver |     113 |      69.1 |  57.4 |       69.2 |  57.4 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       8 |       0.0 |   0.0 |        0.1 |   0.1 |
-|Contact location     |     129 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Undeformed distance  |     113 |       0.1 |   0.2 |        0.3 |   0.4 |
-|Influence coeffic.   |     167 |       2.9 |   6.3 |        4.8 |   7.5 |
+|Reading input-file   |       8 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |     129 |       0.1 |   0.1 |        0.1 |   0.1 |
+|Undeformed distance  |     113 |       0.3 |   0.3 |        0.3 |   0.3 |
+|Influence coeffic.   |     167 |      12.9 |  10.7 |       12.9 |  10.7 |
 |Initial state/estim. |     113 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

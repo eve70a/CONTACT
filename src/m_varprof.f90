@@ -28,7 +28,7 @@ private
    public  varprof_read_file
    public  profile_read_slice
 
-   private varprof_make_uj
+   private varprof_make_vj
    public  varprof_make_bspline
    public  varprof_get_z_at_xy
    public  varprof_get_loc_z_at_xy
@@ -666,17 +666,17 @@ end subroutine varprof_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine varprof_make_uj(vprf, ds_max2d, uj)
-!--purpose: for a variable profile, determine the knot-vector uj for resampling of slices
+   subroutine varprof_make_vj(vprf, ds_max2d, vj)
+!--purpose: for a variable profile, determine the knot-vector vj for resampling of slices
       implicit none
 !--subroutine arguments:
       type(t_profile),            target      :: vprf
       real(kind=8),               intent(in)  :: ds_max2d
-      real(kind=8), dimension(:), allocatable :: uj
+      real(kind=8), dimension(:), allocatable :: vj
 !--local variables:
       real(kind=8), parameter   :: tiny = 1d-6
       integer                   :: islc, ib0, ib1, ib, ip, i0, i1, j, npart, nseg_p, nseg
-      real(kind=8)              :: ds, du, len_part, len_part_max(vprf%nfeat-1)
+      real(kind=8)              :: ds, dv, len_part, len_part_max(vprf%nfeat-1)
       type(t_grid), pointer     :: prr
 
       call reallocate_arr(vprf%iseg_p, vprf%nfeat)
@@ -757,7 +757,7 @@ end subroutine varprof_set_debug
 
       enddo ! islc: check/update feature info
 
-      ! determine the number of segments nseg per part and the first index in the vector uj
+      ! determine the number of segments nseg per part and the first index in the vector vj
 
       iseg_p(1) = 1
       do ip = 1, npart
@@ -769,44 +769,44 @@ end subroutine varprof_set_debug
 
       nseg = iseg_p(npart+1) - 1
 
-      ! determine the uj-positions to be used for resampling
+      ! determine the vj-positions to be used for resampling
 
-      allocate(uj(nseg+1))
+      allocate(vj(nseg+1))
 
       do ip = 1, npart
          i0 = iseg_p(ip)
          i1 = iseg_p(ip+1)  ! npnt = nseg+1
-         du = 1d0
+         dv = 1d0
          do j = i0, i1
-            uj(j) = real(j)
+            vj(j) = real(j)
          enddo
 
          if (ldebug.ge.1) then
             write(bufout,'(a,i3,3(a,i4),3(a,f6.1),a)') ' part',ip,':',i1-i0,' segments, points [',i0,   &
-                        ',',i1,'], uj = [', uj(i0), ',', uj(i0+1),' ...', uj(i1),' ]'
+                        ',',i1,'], vj = [', vj(i0), ',', vj(i0+1),' ...', vj(i1),' ]'
             call write_log(1, bufout)
          endif
       enddo
 
       end associate
-   end subroutine varprof_make_uj
+   end subroutine varprof_make_vj
 
 !------------------------------------------------------------------------------------------------------------
 
    subroutine varprof_make_bspline(vprf)
 !--purpose: for a variable profile, build a 2D tensor B-spline representation in struct vprf%spl2d
-!           using approximation of slices (resampling) with nsplu points in the lateral direction
+!           using approximation of slices (resampling) with nsplv points in the lateral direction
       implicit none
 !--subroutine arguments:
       type(t_profile)           :: vprf
 !--local variables:
       real(kind=8), parameter   :: ds_max2d = 0.5d0
-      logical            :: use_approx
-      integer            :: nsplx, nsplu, islc, jy, ib0, ib1, ip, i0, i1, npnt, sub_ierror
-      real(kind=8)       :: len_s, len_u
+      logical            :: has_xdata, use_approx
+      integer            :: nsplx, nsplv, islc, jy, ib0, ib1, ip, i0, i1, npnt, sub_ierror
+      real(kind=8)       :: len_s, len_v
       logical,      dimension(:,:), allocatable :: mask
-      real(kind=8), dimension(:),   allocatable :: uj, sj, y1d, z1d
-      real(kind=8), dimension(:,:), allocatable :: y2d, z2d
+      real(kind=8), dimension(:),   allocatable :: vj, sj, y1d, z1d
+      real(kind=8), dimension(:,:), allocatable :: x2d, y2d, z2d
 
       associate(ierror => vprf%ierror)
 
@@ -821,17 +821,19 @@ end subroutine varprof_set_debug
          ! set up the sampling for the lateral direction, based on feature information
 
          if (ierror.eq.0) then
-            call varprof_make_uj(vprf, ds_max2d, uj)
+            call varprof_make_vj(vprf, ds_max2d, vj)
          endif
 
          ! allocate work arrays for resampling of slices
 
          nsplx = vprf%nslc
-         nsplu = size(uj, 1)
-         allocate(sj(nsplu), y1d(nsplu), z1d(nsplu))
-         allocate(y2d(nsplx,nsplu), z2d(nsplx,nsplu), mask(nsplx,nsplu))
+         nsplv = size(vj, 1)
+         allocate(sj(nsplv), y1d(nsplv), z1d(nsplv))
+         allocate(x2d(1,1), y2d(nsplx,nsplv), z2d(nsplx,nsplv), mask(nsplx,nsplv))
 
-         do jy = 1, nsplu
+         x2d(1,1) = -1234d0
+
+         do jy = 1, nsplv
             y2d(1:nsplx,jy) = 0d0
             z2d(1:nsplx,jy) = 0d0
          enddo
@@ -839,7 +841,7 @@ end subroutine varprof_set_debug
          ! fill mask array for active points
 
          do islc = 1, vprf%nslc
-            mask(islc,1:nsplu) = .false.
+            mask(islc,1:nsplv) = .false.
             ib0 = vprf%slc_ib(islc,1)   ! features [ib0:ib1]
             ib1 = vprf%slc_ib(islc,2)
             i0  = vprf%iseg_p(ib0)      ! corresponding points [i0:i1]
@@ -870,15 +872,16 @@ end subroutine varprof_set_debug
 
                   i0    = vprf%iseg_p(ip)
                   i1    = vprf%iseg_p(ip+1)
-                  len_u = uj(i1) - uj(i0)          ! == 1d0
+                  len_v = vj(i1) - vj(i0)          ! == 1d0
 
                   ! stretching of s-values
 
-                  sj(i0:i1) = vprf%slc_s_f(islc,ip) + len_s * (uj(i0:i1) - uj(i0)) / len_u
+                  sj(i0:i1) = vprf%slc_s_f(islc,ip) + len_s * (vj(i0:i1) - vj(i0)) / len_v
 
                   if (ldebug.ge.3) then
-                     write(bufout,'(a,i4,a,i3,2(a,i4),4(a,f8.3),a)') ' slice',islc,', part',ip,': points [', &
-                           i0,',',i1,'], uj = [',uj(i0),',',uj(i1),', sj = [', sj(i0),',',sj(i1),']'
+                     write(bufout,'(a,i4,a,i3,2(a,i4),4(a,f8.3),a)') ' slice',islc,', part',ip,         &
+                           ': points [', i0,',',i1,'], vj = [',vj(i0),',',vj(i1),', sj = [', sj(i0),    &
+                           ',',sj(i1),']'
                      call write_log(1, bufout)
                   endif
 
@@ -905,23 +908,24 @@ end subroutine varprof_set_debug
             enddo ! islc
 
             if (ldebug.ge.5) then
-               call print_2d_real(vprf%nslc, nsplu, y2d, 'y2d', 10, 'g12.4')
-               call print_2d_real(vprf%nslc, nsplu, z2d, 'z2d', 10, 'g12.4')
+               call print_2d_real(vprf%nslc, nsplv, y2d, 'y2d', 10, 'g12.4')
+               call print_2d_real(vprf%nslc, nsplv, z2d, 'z2d', 10, 'g12.4')
             endif
          endif ! ierror.eq.0
 
-         ! create 2D tensor spline for data y2d, z2d
+         ! create 2D tensor spline for data x2d, y2d, z2d
 
          if (ierror.eq.0) then
             ! call write_log('bspline_make_2d_bspline...')
             ! call bspline_set_debug(3)
+            has_xdata  = .false.
             use_approx = (vprf%s_method.eq.SPL2D_APPROX)
-            call bspline_make_2d_bspline(vprf%spl2d, vprf%nslc, nsplu, vprf%slc_s, uj, y2d, z2d,        &
-                                        use_approx, ierror, mask)
+            call bspline_make_2d_bspline(vprf%spl2d, vprf%nslc, nsplv, vprf%slc_s, vj, x2d, y2d, z2d,   &
+                                        has_xdata, use_approx, ierror, mask)
             ! call bspline_set_debug(0)
          endif
 
-         deallocate(uj, sj, y1d, z1d, y2d, z2d)
+         deallocate(vj, sj, y1d, z1d, x2d, y2d, z2d)
 
       endif ! no slices, nothing to do
       end associate
@@ -1001,6 +1005,7 @@ end subroutine varprof_set_debug
       type(t_grid)              :: g_curv, g_slc, g_trim, g_out1d
       integer                   :: ix, iy, iy0, iy1, ii, ii0, nx, ns, nline, nbefor, nafter, sub_ierror
       real(kind=8), dimension(:), allocatable :: xi
+      real(kind=8)              :: xdum2d(1,1)
 
       my_ierror = 0
       nx = g_out%nx
@@ -1061,7 +1066,7 @@ end subroutine varprof_set_debug
 
       ! create temporary grid with nx slices, ns profile points
 
-      ns = vprf%spl2d%nbrk2
+      ns = vprf%spl2d%nbrkv
       call grid_create_curvil(g_curv, nx, ns, lies_in_oyz=.false.)
 
       ! extrude x-positions from first row of g_out
@@ -1075,11 +1080,12 @@ end subroutine varprof_set_debug
 
       if (my_ierror.eq.0) then
          if (ldebug.ge.1) then
-            write(bufout,'(2(a,i4),a)') ' varprof_get_loc_z: evaluate 2d-spline at', nx,' x', ns,' positions'
+            write(bufout,'(2(a,i4),a)') ' varprof_get_loc_z: evaluate 2d-spline at', nx,' x', ns,       &
+                        ' positions'
             call write_log(1, bufout)
          endif
 
-         call bspline_eval2d_prod(vprf%spl2d, nx, ns, xi, vprf%spl2d%s2brk, g_curv%y, g_curv%z,         &
+         call bspline_eval2d_prod(vprf%spl2d, nx, ns, xi, vprf%spl2d%vbrk, xdum2d, g_curv%y, g_curv%z,  &
                         sub_ierror, defval)
          my_ierror = sub_ierror
          if (my_ierror.ne.0) call write_log(' Varprof_get_loc_z: Error after eval2d')
@@ -1193,6 +1199,7 @@ end subroutine varprof_set_debug
       type(t_grid)              :: g_curv, g_slc, g_trim, g_out1d
       integer                   :: ix, iy, iy0, iy1, ii, ii0, nx, ns, nline, nbefor, nafter,            &
                                    my_ierror, sub_ierror
+      real(kind=8)              :: xdum2d(1,1)
       real(kind=8), dimension(:), allocatable :: xi
 
       my_ierror = 0
@@ -1231,7 +1238,7 @@ end subroutine varprof_set_debug
       enddo
 
       if (nbefor+nafter.gt.0) then
-         write(bufout,'(a,i4,2(a,f10.3),a)') ' varprof_intpol_grid_old: requested profile at', nx,         &
+         write(bufout,'(a,i4,2(a,f10.3),a)') ' varprof_intpol_grid_old: requested profile at', nx,      &
                 ' positions s_ws+x in [', xi(1),',',xi(nx),']'
          call write_log(1, bufout)
       endif
@@ -1256,7 +1263,7 @@ end subroutine varprof_set_debug
 
       ! create temporary grid with nx slices, ns profile points
 
-      ns = vprf%spl2d%nbrk2
+      ns = vprf%spl2d%nbrkv
       call grid_create_curvil(g_curv, nx, ns, lies_in_oyz=.false.)
 
       ! extrude x-positions from first row of g_out
@@ -1270,12 +1277,12 @@ end subroutine varprof_set_debug
 
       if (my_ierror.eq.0) then
          if (ldebug.ge.1) then
-            write(bufout,'(2(a,i4),a)') ' varprof_intpol_grid_old: evaluate 2d-spline at', nx,' x', ns,     &
-                        ' positions'
+            write(bufout,'(2(a,i4),a)') ' varprof_intpol_grid_old: evaluate 2d-spline at', nx,' x',     &
+                        ns, ' positions'
             call write_log(1, bufout)
          endif
 
-         call bspline_eval2d_prod(vprf%spl2d, nx, ns, xi, vprf%spl2d%s2brk, g_curv%y, g_curv%z,         &
+         call bspline_eval2d_prod(vprf%spl2d, nx, ns, xi, vprf%spl2d%vbrk, xdum2d, g_curv%y, g_curv%z,  &
                         sub_ierror, defval)
          my_ierror = sub_ierror
          if (my_ierror.ne.0) call write_log(' Varprof_intpol_grid_old: Error after eval2d')
@@ -1299,7 +1306,8 @@ end subroutine varprof_set_debug
       do ix = 1, nx
 
          if (ldebug.ge.5) then
-            write(bufout,'(a,i4,a,f8.3)') ' varprof_intpol_grid_old: compute slice ix=',ix,', xtr=',g_out%x(ix)
+            write(bufout,'(a,i4,a,f8.3)') ' varprof_intpol_grid_old: compute slice ix=',ix,', xtr=',    &
+                        g_out%x(ix)
             call write_log(1, bufout)
          endif
 
@@ -1498,7 +1506,7 @@ end subroutine varprof_set_debug
 !--local variables:
       real(kind=8), parameter :: defval = 999d0, tiny = 1d-6
       integer                 :: ix, iy, iy0, iy1, is, ii, ns, nline, nbefor, nafter, sub_ierror
-      real(kind=8)            :: xi(nx)
+      real(kind=8)            :: xi(nx), xdum2d(1,1)
       type(t_grid)            :: g_trim
 
       my_ierror = 0
@@ -1512,7 +1520,7 @@ end subroutine varprof_set_debug
 
       ! create output grid with nx slices, ns profile points
 
-      ns = vprf%spl2d%nbrk2
+      ns = vprf%spl2d%nbrkv
       call grid_create_curvil(g_out, nx, ns, lies_in_oyz=(nx.le.1))
 
       if (ldebug.ge.1) then
@@ -1539,7 +1547,7 @@ end subroutine varprof_set_debug
       endif
       if (ldebug.ge.2) then
          call write_log(' output positions sj across rail profile:')
-         write(bufout,'(10( 20(f10.3),:,/ ))') (vprf%spl2d%s2brk(is), is=1, min(200,ns))
+         write(bufout,'(10( 20(f10.3),:,/ ))') (vprf%spl2d%vbrk(is), is=1, min(200,ns))
          nline = int( (min(200,ns)-1) / 20 ) + 1
          call write_log(nline, bufout)
       endif
@@ -1584,7 +1592,7 @@ end subroutine varprof_set_debug
       if (my_ierror.eq.0) then
          ! call write_log(' ...bspline_eval2d_prod')
          ! call bspline_set_debug(5, 1, 1)
-         call bspline_eval2d_prod(vprf%spl2d, nx, ns, xi, vprf%spl2d%s2brk, g_out%y, g_out%z,           &
+         call bspline_eval2d_prod(vprf%spl2d, nx, ns, xi, vprf%spl2d%vbrk, xdum2d, g_out%y, g_out%z,    &
                 sub_ierror, defval)
          call bspline_set_debug(0)
 

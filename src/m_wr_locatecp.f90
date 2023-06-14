@@ -2935,6 +2935,7 @@ contains
 
       call spline_get_s_at_y( prr%spl, cref_y, cp%sr_ref, sub_ierror )
       call spline_get_xz_at_y( prr%spl, cref_y, sub_ierror, zout=cref_z )
+
       ! write(bufout,'(3(a,f12.4))') ' cref_s=',cp%sr_ref,', cref_y=',cref_y,', cref_z=',cref_z
       ! call write_log(1, bufout)
 
@@ -2961,7 +2962,7 @@ contains
       endif
 
       if (idebug.ge.2) then
-         write(bufout,129) ' estimated contact angle delttr=',sgn*cp%delttr,' rad =',                &
+         write(bufout,129) ' estimated contact angle delttr=',sgn*cp%delttr,' rad =',                   &
              sgn*cp%delttr*180d0/pi,' deg'
          call write_log(1, bufout)
  129     format(a,f10.6,a,f12.6,a)
@@ -3094,6 +3095,7 @@ contains
 
       xp_l = cp%xsta - cp%mref%x()
       xp_h = cp%xend - cp%mref%x()
+
       if (xp_l.gt.0d0 .or. xp_h.lt.0d0) then
          write(bufout,'(a,2g12.4)') ' Internal error: negative size for potential contact, xl/h=',xp_l,xp_h
          call write_log(1, bufout)
@@ -3221,9 +3223,9 @@ contains
       if (idebug.ge.3) call write_log(' compute_curved_potcon: starting')
 
       is_roller = (ic%config.eq.4 .or. ic%config.eq.5)
-      my_wheel => ws%whl
+      my_wheel  => ws%whl
 
-      associate( prw  => my_wheel%prw%grd_data,                                                              &
+      associate( prw  => my_wheel%prw%grd_data,                                                         &
                  csrf => cp%curv_ref,     cnrm => cp%curv_nrm,      calph => cp%curv_incln)
 
       if (idebug.ge.3) then
