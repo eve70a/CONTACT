@@ -2,9 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
    |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
    ------------------------------------------------------------------------
 
@@ -248,21 +248,21 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.1 | 100.0 |        0.1 | 100.0 |
-|Wheel-rail cases     |       1 |       0.1 | 100.0 |        0.1 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Geometric analysis   |       1 |       0.0 |  16.7 |        0.0 |  16.0 |
-|Panag.process        |       1 |       0.1 |  66.7 |        0.1 |  67.0 |
-|Algorithm Norm       |       1 |       0.1 |  66.7 |        0.1 |  66.0 |
-|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   1.0 |
-|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Total                |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
+|Wheel-rail cases     |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
+|W/r profiles         |       2 |       0.0 |  50.0 |        0.0 |  10.7 |
+|Geometric analysis   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Panag.process        |       1 |       0.0 |  50.0 |        0.0 |  44.0 |
+|Algorithm Norm       |       1 |       0.0 |  50.0 |        0.0 |  44.0 |
+|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |  22.7 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       1 |       0.1 |  66.7 |        0.1 |  66.0 |
-|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |   1.0 |
+|Norm: ConjGrd solver |       1 |       0.0 |  50.0 |        0.0 |  44.0 |
+|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       1 |       0.0 |  50.0 |        0.0 |  10.7 |
 |Contact location     |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |       1 |       0.0 |  16.7 |        0.0 |  16.0 |
+|Undeformed distance  |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|

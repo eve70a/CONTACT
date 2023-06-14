@@ -89,28 +89,33 @@ contains
       rail_phi = -trk%cant_angle + sgn * my_rail%roll
       call marker_roll(my_rail%m_trk, rail_phi, 0d0, 0d0)
 
-      ! shift the marker according to the rail position
+      if (idebug.ge.3) then
+         write(bufout,'(2(a,f12.4))') ' set_rail_marker: dy_defl=',trk%dy_defl,', dz_defl=',trk%dz_defl
+         call write_log(1, bufout)
+      endif
+
+      ! shift the marker according to the rail position (deflections: computed for right rail config)
 
       if (trk%gauge_height.le.0d0) then
 
          ! gauge_height <= 0: absolute rail placement + track deviations
 
-         rail_y    =  trk%rail_y0 + sgn * my_rail%dy
-         rail_z    =  trk%rail_z0 +       my_rail%dz
+         rail_y    =  trk%rail_y0 + sgn * my_rail%dy + trk%dy_defl
+         rail_z    =  trk%rail_z0 +       my_rail%dz + trk%dz_defl
 
       else
 
          ! gauge_height >  0: rail placement using half gauge width + deviations, subject to mirroring
 
-         rail_y    =  trk%track_gauge/2d0 - ygauge + sgn * my_rail%dy
+         rail_y    =  trk%track_gauge/2d0 - ygauge + sgn * my_rail%dy + trk%dy_defl
 
          ! wheelset on track: shift vertically to put highest point on z=0 + deviations
          ! wheelset on roller rig: no vertical shifting
 
          if (ic%config.le.1) then
-            rail_z =                      - zmin   +       my_rail%dz
+            rail_z =                      - zmin   +       my_rail%dz + trk%dz_defl
          else
-            rail_z =                                       my_rail%dz
+            rail_z =                                       my_rail%dz + trk%dz_defl
          endif
 
       endif

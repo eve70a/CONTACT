@@ -361,10 +361,10 @@ contains
 
       if (wtd_ic%return.le.1 .and. discr%npot_max.ge.100 .and. npot.ge.discr%npot_max) then
          write(bufout,'(2(a,i6))') ' Internal error: npot=',npot,' >= NPOT_MAX=', discr%npot_max
-            call write_log(1, bufout)
+         call write_log(1, bufout)
          write(bufout,'(a,2i5,a,i6,a,2f7.3,a,2f10.3)') ' mx,my=', gd%potcon%mx, gd%potcon%my,           &
              ', npot=',npot, ', dx,dy=', gd%potcon%dx,gd%potcon%dy, ', xl,yl=', gd%potcon%xl,gd%potcon%yl
-               call write_log(1, bufout)
+         call write_log(1, bufout)
          call abort_run()
       endif
 

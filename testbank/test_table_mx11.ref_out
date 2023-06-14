@@ -2,10 +2,10 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: v23.1.2(win64), $Revision: 2361 $, $Date:: 2023-05-20$     |
+   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2342M, 14-Apr-2023 09:25)                      |
-   |  Licensed to: Edwin Vollebregt (clibrary, floating), VTECH CMCC      |
+   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
+   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
    ------------------------------------------------------------------------
  Case     1 for contact problem  1 on result element  1
  
@@ -64,14 +64,14 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.6 | 100.0 |        1.9 | 100.0 |
-|Panag.process        |    3220 |       1.2 |  75.5 |        1.4 |  76.0 |
-|Algorithm Norm       |    3220 |       0.6 |  39.2 |        0.8 |  39.7 |
-|Algorithm Tang       |    3220 |       0.6 |  35.3 |        0.7 |  36.3 |
-|Output quantities    |    3220 |       0.2 |  13.7 |        0.2 |  11.1 |
+|Total                |       1 |       1.5 | 100.0 |        1.9 | 100.0 |
+|Panag.process        |    3220 |       1.2 |  80.8 |        1.5 |  78.1 |
+|Algorithm Norm       |    3220 |       0.6 |  41.4 |        0.9 |  46.0 |
+|Algorithm Tang       |    3220 |       0.6 |  39.4 |        0.6 |  31.6 |
+|Output quantities    |    3220 |       0.1 |   8.1 |        0.2 |  12.2 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |    3220 |       0.5 |  31.4 |        0.7 |  36.2 |
-|Tang: StedyGS solver |    3220 |       0.5 |  28.4 |        0.6 |  30.4 |
+|Norm: ConjGrd solver |    3220 |       0.6 |  37.4 |        0.8 |  40.3 |
+|Tang: StedyGS solver |    3220 |       0.5 |  32.3 |        0.6 |  29.2 |
 |------------------------------------------------------------------------|
-|Cp. 1 on Res.el.  1  |    3220 |       1.6 | 100.0 |        1.9 |  99.5 |
+|Cp. 1 on Res.el.  1  |    3220 |       1.5 |  99.0 |        1.9 |  99.1 |
 |------------------------------------------------------------------------|

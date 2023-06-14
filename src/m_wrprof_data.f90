@@ -164,7 +164,7 @@ public
       real(kind=8)  :: vs, vy, vz
       real(kind=8)  :: roll, yaw, pitch
       real(kind=8)  :: vroll, vyaw, vpitch
-      real(kind=8)  :: fx_inp, fy_inp, fz_inp
+      real(kind=8)  :: fx_inp, fy_inp, fz_inp, my_inp
       real(kind=8)  :: z_cnt0, gap_min, delt_min, zw_min, a1, b1
       logical       :: has_overlap
       type(t_wheel), pointer :: whl => NULL()
@@ -186,9 +186,10 @@ public
       ! vroll       [rad/s] roll angular velocity \dot{\phi} of wheel-set
       ! vyaw        [rad/s] yaw angular velocity \dot{\psi} of wheel-set
       ! vpitch      [rad/s] pitch angular velocity \omega=\dot{\theta} of wheel-set
-      ! fx_inp        [N]   prescribed total force "on rail" in "wheelset" longitudinal direction (F>=1)
-      ! fy_inp        [N]   prescribed total force on rail in track lateral direction (F>=2)
+      ! fx_inp        [N]   prescribed total force "on rail" in "wheelset" longitudinal direction (F=1)
+      ! fy_inp        [N]   prescribed total force on rail in track lateral direction (n.y.a.)
       ! fz_inp        [N]   prescribed total force in track vertical direction (N>=1)
+      ! my_inp      [N mm]  prescribed total moment on rail about wheelset lateral direction (F=2)
       ! z_cnt0       [mm]   z-position at which precise initial contact occurs
       ! gap_min      [mm]   overall minimum gap (max interpenetration) found, positive if no contact occurs
       ! delt_min    [rad]   contact angle at the location of the overall minimum gap value
@@ -209,14 +210,15 @@ public
       type(t_marker)             :: m_trk
       type(t_profile)            :: prr
 
-      ! dy        [mm]   lateral displacement of rail w.r.t. design layout
+      ! dy        [mm]   lateral displacement of rail w.r.t. design layout (left/right rail, non-mirrored)
       ! dz        [mm]   vertical displacement of rail w.r.t. design layout
-      ! roll      [rad]  rotation of rail about x-axis w.r.t. design layout
-      ! vy       [mm/s]  lateral velocity of rail w.r.t. design layout
+      ! roll      [rad]  rotation of rail about x-axis w.r.t. design layout (left/right rail, non-mirrored)
+      ! vy       [mm/s]  lateral velocity of rail w.r.t. design layout (track coord system, non-mirrored)
       ! vz       [mm/s]  vertical velocity of rail w.r.t. design layout
-      ! vroll   [rad/s]  rotation velocity of rail about x-axis w.r.t. design layout
+      ! vroll   [rad/s]  rotation velocity of rail about x-axis w.r.t. design layout (non-mirrored)
       ! m_trk            position and orientation of rail profile coordinates with respect to track system
-      ! prr              rail profile data
+      !                  (right rail, mirrored view)
+      ! prr              rail profile data (right side)
 
    end type t_rail
 
@@ -227,6 +229,7 @@ public
       integer               :: gauge_seqnum
       real(kind=8)          :: gauge_height, track_gauge, cant_angle
       real(kind=8)          :: rail_y0, rail_z0
+      real(kind=8)          :: ky_rail, kz_rail, dy_defl, dz_defl, fy_rail, fz_rail
       real(kind=8)          :: nom_radius, vpitch_rol
       type(t_rail), pointer :: rai => NULL()
 
@@ -239,6 +242,13 @@ public
       !                     should not be used for roller rigs
       ! rail_y0      [mm]   lateral position of rail origin in track system, e.g. +/-755 mm
       ! rail_z0      [mm]   vertical position of rail origin in track system, e.g. +/-0.5 mm
+      ! ky_rail     [N/mm]  track stiffness in lateral direction for massless rail deflection model (F=3)
+      ! kz_rail     [N/mm]  track stiffness in vertical direction for massless rail deflection model (F=3)
+      ! dy_defl      [mm]   lateral rail deflection (F=3, right rail, mirrored view)
+      ! dz_defl      [mm]   vertical rail deflection (F=3, right rail, mirrored view)
+      ! fy_rail      [N]    lateral spring force on rail at zero deflection for rail deflection model (F=3)
+      !                     (left/right rail, non-mirrored)
+      ! fz_rail      [N]    vertical spring force on rail at zero deflection for rail deflection model (F=3)
       ! nom_radius   [rad]  nominal radius of rollers, in case of roller rigs (config>=4)
       ! vpitch_rol  [rad/s] pitch angular velocity \omega=\dot{\theta} of rollers
       ! rai                 data structure for rail
@@ -363,10 +373,11 @@ contains
       ws%vyaw          =    0d0
       ws%vpitch        =    0d0
 
-      ! prescribed total forces
+      ! prescribed total forces and moments
       ws%fx_inp        =    0d0
       ws%fy_inp        =    0d0
       ws%fz_inp        =    0d0
+      ws%my_inp        =    0d0
 
       ! partial results of contact geometry analysis
       ws%has_overlap   = .false.
@@ -428,6 +439,12 @@ contains
       wtd%trk%cant_angle   =    0d0
       wtd%trk%rail_y0      =    0d0
       wtd%trk%rail_z0      =    0d0
+      wtd%trk%ky_rail      =    1d3
+      wtd%trk%kz_rail      =    1d3
+      wtd%trk%dy_defl      =    0d0
+      wtd%trk%dz_defl      =    0d0
+      wtd%trk%fy_rail      =    0d0
+      wtd%trk%fz_rail      =    0d0
 
       ! initialize data for left and right rails
 

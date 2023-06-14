@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `trunk' \magenta{(1.144)}}
+\reportnumber{20-01, version `trunk' \magenta{(1.146)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -75,6 +75,8 @@
 \vtlogentry{1.143}{EV}{20-03-2023}{Added {\tt NPOT\_MAX}}{}
 \vtlogentry{1.144}{EV}{23-03-2023}{Added ${\tt D}=6,8,9$}{}
 \vtlogentry{1.145}{EV}{14-04-2023}{Version for release v23.1}{}
+\vtlogentry{1.146}{EV}{10-05-2023}{Added massless rail deflection ${\tt 
+        F}_1=3$}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -612,9 +614,16 @@ $^*$ Module 1 does not yet provide for transient computations.
 \item[F$_1$ - FORCE] \label{f1-digit} : specifies the type of {\em
         tangential forces\/} that are prescribed:
 \begin{description}
-\item[0] -- using wheel-set velocities rather than tangential forces;
+\item[0] -- using prescribed wheel-set positions and velocities rather than
+        tangential forces;
 \item[1] -- total force \var{FX\_WS} prescribed instead of pitch velocity
         $\omega_{ws}=\var{VPITCH}$, that will be determined.
+%\item[2] -- total moment \var{MY\_WS} prescribed instead of pitch velocity
+%        $\omega_{ws}=\var{VPITCH}$, that will be determined.
+\item[3] -- use of massless rail model with rail deflections {\tt DYDEFL},
+        {\tt DZDEFL} that will be determined, instead of fully prescribed
+        lateral/vertical rail positions. Currently available only in
+        combination with ${\tt N}_1=1$.
 \end{description}
 }
 
@@ -1084,6 +1093,34 @@ These rail irregularities may be static/permanent, but may be due to track
 flexibility too. In such a case, the corresponding velocities
 $v_{y,r}=\Delta\dot{y}_{r}, \ldots$ may be specified also.
 
+\magenta{
+\paragraph{Massless rail model}
+
+Rail deflections may be computed resulting from the lateral and
+vertical contact forces.
+\begin{eqnarray}\label{eq:cntc_defl}
+   F_{y(tr)} + F^*_y - k^*_y \delta y_{defl} = 0 &\leftrightarrow&
+   \delta y_{\defl} = \frac{F_{y(tr)} + F^*_y}{ k^*_y } , \\
+   F_{z(tr)} + F^*_z - k^*_z \delta z_{defl} = 0 &\leftrightarrow&
+   \delta z_{\defl} = \frac{F_{z(tr)} + F^*_z}{ k^*_z } .
+\end{eqnarray}
+Here $F_y^*, F_z^*$ are prescribed forces on the rail at zero deflection.
+This can be used to implement a massless rail with stiffness and damping:
+\begin{equation}\label{eq:massless}
+   F_{y(tr)}^{n+1} + F^{n+1}_{\defl,y} = 0, \;\;
+   F^{n+1}_{\defl,y} = -k_y \delta y^{n+1}_{defl} - c_y \frac{\delta
+        y^{n+1}_{defl} - \delta y^n_{defl}}{ \delta t }
+\end{equation}
+Here $F_{y(tr)}^{n+1}$ is the contact force on the rail, at the end of a
+time step in a time integration procedure, $F_{\defl,y}$ the lateral force
+from the ground on the rail, with balance equation $\sum F=0$.
+Equation (\ref{eq:cntc_defl}) corresponds to (\ref{eq:massless}) with
+\begin{equation}
+   k^*_y = k_y + \frac{c_y}{\delta t}, \;\; 
+   F^*_y = \frac{ c_y \delta y^n}{\delta t} .
+\end{equation}
+}
+
 \paragraph{Roller rig configurations}
 
 \begin{figure}[bt]
@@ -1549,6 +1586,19 @@ is considered.
         origin with respect to the design orientation in track coordinates,
         positive using the right-hand rule.}
 \end{inputvars}
+
+\magenta{
+The massless rail model of Equation (\ref{eq:cntc_defl}) is activated using
+control digit ${\tt F}_1=3$, and takes the following inputs:
+\begin{inputvars}
+\inpvar{KYRAIL}{\bunit{N/mm}}{Effective lateral rail stiffness $k^*_y$.}
+\inpvar{FYRAIL}{\bunit{N}}{Lateral spring force $F_y^*$ from ground on rail
+        at zero deflection.}
+\inpvar{KZRAIL}{\bunit{N/mm}}{Effective vertical rail stiffness $k^*_z$.}
+\inpvar{FZRAIL}{\bunit{N}}{Vertical spring force $F_z^*$ from ground on
+        rail at zero deflection.}
+\end{inputvars}
+}
  
 \section{Wheelset geometry \& state}
 \label{sec:wheelset_geom}
@@ -1612,11 +1662,11 @@ shifted to positive and negative $x$-values, respectively.
 The creepages for the contact problem are obtained from the wheelset
 velocity. These are computed from the rates of change of the position
 parameters.
-The {\tt F}-digit is not yet supported in module 1.
-\magenta{Extensions for ${\tt F}_1=1$ are under development, prescribing
-$F_{x(ws)}$ (on the rail!) instead of $\omega_{ws}$. These are targeted
-mainly at small (relative) forces, little precautions are taken to prevent
-solver divergence.}
+
+\magenta{Extensions for ${\tt F}_1=1\text{--}2$ are under development,
+prescribing $F_{x(ws)}$ or $M_{y(ws)}$ (on the rail!) instead of
+$\omega_{ws}$. These are targeted mainly at small (relative) forces,
+little precautions are taken to prevent solver divergence.}
 \begin{inputvars}
 \inpvar{VS\_WS}{\bunit{mm/s}}{Wheelset forward velocity $v_{s_1}=v_x$ along
         the track center line.}
@@ -1627,7 +1677,7 @@ solver divergence.}
 \inpvar{VROLL}{\bunit{rad/s}}{Wheelset rate of roll $\dot{\phi}_{ws}$.}
 \inpvar{VYAW}{\bunit{rad/s}}{Wheelset yaw rate $\dot{\psi}_{ws}$.}
 \inpvar{VPITCH}{\bunit{rad/s}}{Wheelset angular velocity $\omega_{ws}=
-        \dot{\theta}_{ws}$. \magenta{Output when ${\tt F}_1=1$.}}
+        \dot{\theta}_{ws}$. \magenta{Output when ${\tt F}_1=1$ or $2$.}}
 \end{inputvars}
 In the computation of curving scenarios, the track coordinate system
 changes its forward direction by $1/r_{curv}\unit{rad/mm}$ for a curve
@@ -1803,8 +1853,8 @@ The global part of the output firstly contains a description of the problem
 that is solved (${\tt O}\ge 2$), its control digits and the primary input
 values that are used (except discretisation and geometry). Then several
 output quantities are displayed for the wheel/rail pair as a whole: the
-total forces as determined by the program, or the wheelset positions and
-rates that had to be found. 
+total forces as determined by the program, or the wheelset positions
+\magenta{ and rates} that had to be found. 
 
 With positive $z$ pointing downwards (Figure \ref{fig:wheel_coord}), the
 rail (roller) is the output body $(a)=(1)$.
@@ -1827,6 +1877,18 @@ The forces are also rotated to the wheelset orientation:
 \inpvar{FZ\_WS}{\bunit{N}}{Total force $F_{z_{ws}}$ on the rail in wheelset
         vertical direction $z_{wset}$.}
 \end{inputvars}
+\magenta{
+Rail deflections $\delta y_{\defl}, \delta z_{\defl}$ are output when ${\tt
+F}_1=3$:
+\begin{inputvars}
+\inpvar{DYDEFL}{\bunit{mm}}{Lateral shift $\delta y_{\defl}$ of the rail
+        with respect to the input position according to the model of
+        Equation (\ref{eq:cntc_defl}).}
+\inpvar{DZDEFL}{\bunit{mm}}{Vertical shift $\delta z_{\defl}$ of the rail
+        with respect to the input position according to the model of
+        Equation (\ref{eq:cntc_defl}).}
+\end{inputvars}
+}
 After the values for the wheel/rail pair as a whole, data are displayed for
 all the contact patches that have been detected and solved. This concerns
 firstly the contact reference point that was discussed in Section
@@ -5875,7 +5937,7 @@ functions. These are shown using Matlab's {\tt help}-feature:
      nparam         - number of parameters provided
      params(nparam) - depending on method that is used
 
-   E=0  : keep wheelset position from previous specification, ignore params provided
+   E=0  : keep wheelset position from previous specification, ignore params
    E=1-8: new wheelset position   params = [s, y, z, roll, yaw, pitch]
  
    dimensions:   s_ws, y_ws, z_ws [length],       roll, yaw, pitch [angle]
@@ -6786,32 +6848,27 @@ if Z=1,3:
       if CONFIG=4,5:  [  GAUGHT    GAUGSQ   GAUGWD   NOMRADR  ]  if GAUGHT >  0
                  or:  [  GAUGHT    RAILY0   RAILZ0   NOMRADR  ]  if GAUGHT <= 0
 
-if Z=3:       [ 'RFNAME'  MIRRORY  SCLFAC    SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
-if PRFOPT>=1: [  ISMOOTH  ZIGTHRS  KINKHIGH  KINKLOW  KINKWID ]
-\magenta{if PRFOPT>=2: [  ERRHND   MAXOMIT  ]}
-if Z=2,3:     [  DYRAIL   DZRAIL   DROLLR    VYRAIL   VZRAIL   VROLLR  ]
+if Z=3:        [ 'RFNAME'  MIRRORY  SCLFAC    SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
+if PRFOPT>=1:  [  ISMOOTH  ZIGTHRS  KINKHIGH  KINKLOW  KINKWID ]
+\magenta{if PRFOPT>=2:  [  ERRHND   MAXOMIT  ]}
+if Z=2,3:      [  DYRAIL   DZRAIL   DROLLR    VYRAIL   VZRAIL   VROLLR  ]
+\magenta{if Z=2,3, F=3: [  KYRAIL   FYRAIL   KZRAIL    FZRAIL                    ]}
 
 % Information on wheelset geometry (section \ref{sec:wheelset_geom}) \& wheel profile (section \ref{sec:profiles}):
 
-if E=3,5:     [  FBDIST   FBPOS     NOMRADW   ] 
-if E=3,5:     [ 'WFNAME'  MIRRORY   SCLFAC    SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
-if PRFOPT>=1: [  ISMOOTH  ZIGTHRS   KINKHIGH  KINKLOW  KINKWID ]
-\magenta{if PRFOPT>=2: [  ERRHND   MAXOMIT  ]}
+if E=3,5:      [  FBDIST   FBPOS     NOMRADW   ] 
+if E=3,5:      [ 'WFNAME'  MIRRORY   SCLFAC    SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
+if PRFOPT>=1:  [  ISMOOTH  ZIGTHRS   KINKHIGH  KINKLOW  KINKWID ]
+\magenta{if PRFOPT>=2:  [  ERRHND   MAXOMIT  ]}
 
 % Information on the wheelset state (section \ref{sec:wheelset_geom}):
 
-if CONFIG=0,1:
-      if E>=1, N=0: [ S\_WS    Y\_WS    Z\_WS   ROLL    YAW    PITCH     ]
-      if E>=1, N=1: [ S\_WS    Y\_WS    FZ     ROLL    YAW    PITCH     ]
-      if E>=2, F=0: [ VS\_WS   VY\_WS   VZ\_WS  VROLL   VYAW   VPITCH    ]
-\magenta{      if E>=2, F=1: [ VS\_WS   VY\_WS   VZ\_WS  VROLL   VYAW   FX\_WS     ] }
-\magenta{      if E>=2, F=2: [ VS\_WS   FY      VZ\_WS  VROLL   VYAW   FX\_WS ] (n.y.a.)}
-if CONFIG=4,5:
-      if E>=1, N=0: [ X\_WS    Y\_WS    Z\_WS   ROLL    YAW    PITCH     ]
-      if E>=1, N=1: [ X\_WS    Y\_WS    FZ     ROLL    YAW    PITCH     ]
-      if E>=2, F=0: [ RPITCH  VY\_WS   VZ\_WS  VROLL   VYAW   VPITCH    ]
-\magenta{      if E>=2, F=1: [ VS\_WS   VY\_WS   VZ\_WS  VROLL   VYAW   FX\_WS     ]}
-\magenta{      if E>=2, F=2: [ VS\_WS   FY      VZ\_WS  VROLL   VYAW   FX\_WS ] (n.y.a.)}
+if CONFIG=0,1, E>=1: [ S\_WS    Y\_WS    Z\_INP  ROLL    YAW    PITCH    ]
+if CONFIG=4,5, E>=1: [ X\_WS    Y\_WS    Z\_INP  ROLL    YAW    PITCH    ]
+if CONFIG=0,1, E>=2: [ VS\_WS   VY\_WS   VZ\_WS  VROLL   VYAW   V\_INP    ]
+if CONFIG=4,5, E>=2: [ RPITCH  VY\_WS   VZ\_WS  VROLL   VYAW   V\_INP    ]
+   with  N=0:\magenta{  } Z\_INP = Z\_WS,   N=1: Z\_INP = FZ\_WS
+         F=0\magenta{,3}: V\_INP = VPITCH, \magenta{F=1: V\_INP = FX\_WS, F=2: V\_INP = MY\_WS}
 
 % Information on flexible wheelset deviations (section \ref{sec:wheelset_geom}):
 

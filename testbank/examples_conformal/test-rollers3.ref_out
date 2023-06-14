@@ -2,9 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
    |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
    ------------------------------------------------------------------------
 
@@ -62,7 +62,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0000    200.0000      0.0000   6.096E-07  -1.239E-15   5.432E-05
+     -0.0000    200.0000      0.0000   6.096E-07  -1.239E-15   5.432E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -696,7 +696,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0000    200.0000      0.0000  -1.585E-04  -5.178E-18  -4.634E-07
+     -0.0000    200.0000      0.0000  -1.585E-04  -5.177E-18  -4.634E-07
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1549,22 +1549,22 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       4.1 | 100.0 |        4.1 | 100.0 |
-|Wheel-rail cases     |      12 |       4.1 | 100.0 |        4.1 | 100.0 |
-|W/r profiles         |      14 |       0.1 |   1.9 |        0.1 |   1.8 |
-|Geometric analysis   |      12 |       0.1 |   1.5 |        0.1 |   1.4 |
-|Panag.process        |      12 |       3.9 |  95.8 |        3.9 |  95.0 |
-|Algorithm Norm       |      12 |       0.0 |   1.2 |        0.1 |   2.3 |
-|Algorithm Tang       |      12 |       3.8 |  94.6 |        3.8 |  92.6 |
-|Output quantities    |      24 |       0.0 |   0.4 |        0.1 |   1.7 |
+|Total                |       1 |       1.7 | 100.0 |        3.0 | 100.0 |
+|Wheel-rail cases     |      12 |       1.7 | 100.0 |        3.0 | 100.0 |
+|W/r profiles         |      14 |       0.0 |   0.9 |        0.1 |   2.9 |
+|Geometric analysis   |      12 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Panag.process        |      12 |       1.7 |  99.1 |        2.8 |  93.6 |
+|Algorithm Norm       |      12 |       0.0 |   0.9 |        0.0 |   1.5 |
+|Algorithm Tang       |      12 |       1.7 |  98.2 |        2.7 |  92.1 |
+|Output quantities    |      24 |       0.0 |   0.0 |        0.1 |   2.5 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      12 |       0.0 |   1.2 |        0.1 |   2.1 |
-|Tang: StedyGS solver |      12 |       3.8 |  94.6 |        3.8 |  92.6 |
+|Norm: ConjGrd solver |      12 |       0.0 |   0.9 |        0.0 |   0.7 |
+|Tang: StedyGS solver |      12 |       1.7 |  97.2 |        2.7 |  91.5 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      12 |       0.1 |   2.3 |        0.1 |   1.9 |
-|Contact location     |      12 |       0.0 |   0.4 |        0.0 |   0.4 |
-|Undeformed distance  |      12 |       0.0 |   0.8 |        0.0 |   0.6 |
-|Influence coeffic.   |      12 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Reading input-file   |      12 |       0.0 |   0.9 |        0.1 |   2.9 |
+|Contact location     |      12 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Undeformed distance  |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |      12 |       0.0 |   0.0 |        0.0 |   0.9 |
 |Initial state/estim. |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -106,7 +106,7 @@ contains
       zerror = zerror .or. .not.check_2rng ('Control digit B',  ic%bound , 0, 1, 5, 6)
       zerror = zerror .or. .not.check_irng ('Control digit T',  ic%tang  , 0, 3)
       zerror = zerror .or. .not.check_irng ('Control digit N1', ic%norm  , 0, 1)
-      zerror = zerror .or. .not.check_irng ('Control digit F',  ic%force , 0, 1)
+      zerror = zerror .or. .not.check_2rng ('Control digit F',  ic%force , 0, 1, 3, 3)
       zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress, 0, 3)
 
       zerror = zerror .or. .not.check_irng ('Control digit V',  ic%varfrc, 0, 1)
@@ -254,9 +254,9 @@ contains
                 15x, 'coefficients are required.  T=',i3,', C3=',i3,'.')
       endif
 
-      ! Check consistency between different control integers
+      ! Check consistency between different control integers F=1 needs N=1, F=3 needs N=1
 
-      if (ic%force.eq.1 .and. ic%norm.le.0) then
+      if ((ic%force.eq.1 .and. ic%norm.ne.1) .or. (ic%force.eq.3 .and. ic%norm.ne.1)) then
          zerror = .true.
          write(lout, 2051) ic%force, ic%norm
          write(   *, 2051) ic%force, ic%norm
@@ -718,6 +718,21 @@ contains
          trk%rai%vy    = dbles(4)
          trk%rai%vz    = dbles(5)
          trk%rai%vroll = dbles(6)
+
+      endif
+
+      if (ic%ztrack.ge.2 .and. ic%ztrack.le.3 .and. ic%force.eq.3) then
+
+         ! read the track deflection parameters for current side of the track
+
+         call readline(linp, ncase, linenr, 'current rail deflection parameters', 'dddd', ints, dbles,  &
+                        flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+
+         trk%ky_rail   = dbles(1)
+         trk%fy_rail   = dbles(2)
+         trk%kz_rail   = dbles(3)
+         trk%fz_rail   = dbles(4)
+
       endif
 
       !------------------------------------------------------------------------------------------------------
@@ -758,18 +773,18 @@ contains
          call readline(linp, ncase, linenr, 'wheel-set position and orientation', 'dddaaa', ints, &
                         dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
          if (ic%config.le.1) then
-            ws%s     = dbles(1)
-            ws%x     = 0d0
+            ws%s      = dbles(1)
+            ws%x      = 0d0
          else
-            ws%s     = 0d0
-            ws%x     = dbles(1)
+            ws%s      = 0d0
+            ws%x      = dbles(1)        ! C1=4,5: PITCH_ROL prescribed
          endif
-         ws%y        = dbles(2)
+         ws%y      = dbles(2)
          if (ic%norm.le.0) then
             ws%z      = dbles(3)
             ws%fz_inp = 0d0
          else
-            ws%z      = 0d0
+            ws%z      = 0d0             ! N=1: FZ_TR prescribed
             ws%fz_inp = dbles(3)
          endif
          ws%roll     = dbles(4)
@@ -781,14 +796,14 @@ contains
 
       if (ic%ewheel.ge.2 .and. ic%ewheel.le.5) then
 
-         if     (ic%config.le.1 .and. ic%force.le.0) then
-            types = 'dddaaa'
+         if     (ic%config.le.1 .and. (ic%force.le.0 .or. ic%force.ge.3)) then
+            types = 'dddaaa'    ! 1st VS_WS,      6th VPITCH_WS
          elseif (ic%config.le.1) then
-            types = 'dddaad'
-         elseif (ic%config.ge.4 .and. ic%force.le.0) then
-            types = 'addaaa'
+            types = 'dddaad'    ! 1st VS_WS,      6th FX_WS/MY_WS
+         elseif (ic%config.ge.4 .and. (ic%force.le.0 .or. ic%force.ge.3)) then
+            types = 'addaaa'    ! 1st VPITCH_ROL, 6th VPITCH_WS
          elseif (ic%config.ge.4) then
-            types = 'addaad'
+            types = 'addaad'    ! 1st VPITCH_ROL, 6th FX_WS/MY_WS
          endif
 
          call readline(linp, ncase, linenr, 'wheel-set velocity and rotation', types, ints, dbles,      &
@@ -799,20 +814,18 @@ contains
             trk%vpitch_rol = 0d0
          else
             ws%vs          = 0d0
-            trk%vpitch_rol = dbles(1)
+            trk%vpitch_rol = dbles(1)   ! C1=4,5: VPITCH_ROL prescribed
          endif
-         if (ic%force.le.1) then
-            ws%vy     = dbles(2)
-         else
-            ws%fy_inp = dbles(6)
-         endif
+         ws%vy       = dbles(2)
          ws%vz       = dbles(3)
          ws%vroll    = dbles(4)
          ws%vyaw     = dbles(5)
-         if (ic%force.le.0) then
+         if (ic%force.le.0 .or. ic%force.ge.3) then
             ws%vpitch = dbles(6)
-         else
-            ws%fx_inp = dbles(6)
+         elseif (ic%force.eq.1) then
+            ws%fx_inp = dbles(6)        ! F=1: FX_WS prescribed
+         elseif (ic%force.eq.2) then
+            ws%my_inp = dbles(6)        ! F=2: MY_WS prescribed
          endif
       endif
 
@@ -1016,6 +1029,16 @@ contains
 
       endif
 
+      ! write massless rail deflection parameters
+
+      if (ic%ztrack.eq.3 .and. ic%force.eq.3) then
+
+         write(linp, 7301) trk%ky_rail, trk%fy_rail, trk%kz_rail, trk%fz_rail
+
+ 7301    format (4g14.6, 2x, 'KYRAIL, FYRAIL, KZRAIL, FZRAIL')
+
+      endif
+
       ! write information on the wheelset geometry
 
       if (ic%ewheel.eq.3 .or. ic%ewheel.eq.5) then
@@ -1050,21 +1073,19 @@ contains
       endif
 
       if (ic%ewheel.ge.2) then
-         if (ic%config.le.1 .and. (ic%force.eq.0 .or. ic%force.eq.1)) then
-            write(linp, 8301) ws%vs,          ws%vy,     ws%vz, 'VS', 'VY'
-         elseif (ic%config.le.1) then
-            write(linp, 8301) ws%vs,          ws%fy_inp, ws%vz, 'VS', 'FY'
-         elseif (ic%config.ge.4 .and. (ic%force.eq.0 .or. ic%force.eq.1)) then
-            write(linp, 8301) trk%vpitch_rol, ws%vy,     ws%vz, 'VPITCH_ROL', 'VY'
-         elseif (ic%config.ge.4) then
-            write(linp, 8301) trk%vpitch_rol, ws%fy_inp, ws%vz, 'VPITCH_ROL', 'FY'
+         if (ic%config.le.1) then
+            write(linp, 8301) ws%vs,          ws%vy,     ws%vz, 'VS'
+         else
+            write(linp, 8301) trk%vpitch_rol, ws%vy,     ws%vz, 'VPITCH_ROL'
          endif
- 8301    format( 3(g14.7, 1x), 13x, '% ',a,', ',a,', VZ')
+ 8301    format( 3(g14.7, 1x), 13x, '% ',a,', VY, VZ')
 
-         if (ic%force.eq.0) then
+         if (ic%force.eq.0 .or. ic%force.eq.3) then
             write(linp, 8303) ws%vroll, ws%vyaw,   ws%vpitch, 'VPITCH'
-         elseif (ic%force.eq.1 .or. ic%force.eq.2) then
+         elseif (ic%force.eq.1) then
             write(linp, 8303) ws%vroll, ws%vyaw,   ws%fx_inp, 'FX'
+         elseif (ic%force.eq.2) then
+            write(linp, 8303) ws%vroll, ws%vyaw,   ws%my_inp, 'MY'
          endif
  8303    format( 2(g14.7, 1x), g16.9, 12x, '% VROLL, VYAW, ',a)
       endif

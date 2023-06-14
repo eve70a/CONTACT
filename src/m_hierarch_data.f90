@@ -155,10 +155,15 @@ public
       ! n, norm     specifies the normal problem:
       !              0 = penetration/approach prescribed,
       !              1 = normal force prescribed
-      ! f, force    specifies the tangential problem:
+      ! f1, force, module 1: specifies the long/lat forces:
+      !              0 = no rail deflection, pitch velocity omega_ws prescribed;
+      !              1 = no rail deflection, total long. force fx_ws prescribed;
+      !              2 = no rail deflection, total long. moment my_ws prescribed;
+      !              3 = rail deflection with stiffness ky, kz and spring forces fy_rail, fz_rail given
+      ! f3, force, module 3: specifies the tangential problem:
       !              0 = creepages cksi, ceta prescribed;
-      !              1 = force fxrel1, creepage ceta prescribed;
-      !              2 = forces fxrel1, fyrel1 prescribed
+      !              1 = relative force  fxrel1, creepage ceta prescribed;
+      !              2 = relative forces fxrel1, fyrel1 prescribed
       ! h, heat     activates the temperature calculation:
       !              0 = no surface temperature calculation;
       !              1 = surface temperature calculation using parameters stored in memory
@@ -225,11 +230,12 @@ public
       !              5 = reserved (pseudo-viscous damping)
       !              6 = reserved (vertical slice/gap)
       !              Note: the m-digit is copied to t_material
-      ! z1, ztrack  concerns the track geometry, profile and deviation (module 1)
-      !              0 = maintain track dimensions, profile and deviations;
+      ! z1, ztrack  concerns the track geometry, profile, deviation, and deflection parameters (module 1)
+      !              0 = maintain track dimensions, profile, deviations, and deflection parameters;
       !              1 = read new dimensions and profile;
-      !              2 = read new track deviations;
-      !              3 = read new dimensions, one profile for current side of track, and track deviations,
+      !              2 = read new track deviations and deflection parameters (if F=3);
+      !              3 = read new dimensions, one profile for current side of track, track deviations,
+      !                  and deflection parameters if F=3
       ! e1, ewheel   concerns the wheel-set geometry, profile, position and velocity (module 1)
       !              0 = maintain wheel-set geometry, profile, position and velocity;
       !              1 = read new position data;
@@ -786,7 +792,7 @@ public
       integer            :: REid
       integer            :: CPid
       integer            :: actv_thrd
-      integer            :: irun, iax, iside, ncase, itbrent
+      integer            :: irun, iax, iside, ncase, itforce
       integer            :: npatch, ipatch
       real(kind=8)       :: tim, s_ws, ynom_whl, rnom_whl, rnom_rol
       real(kind=8)       :: x_rw, y_rw, z_rw, rollrw, yawrw
@@ -803,7 +809,7 @@ public
       ! iax               for Sentient: axle number
       ! iside             for Sentient: side number
       ! ncase             case number for the (REid,CPid)
-      ! itbrent           iteration number for vertical force iteration
+      ! itforce           iteration number for total force iteration
       ! npatch            number of contact patches, used by module 1
       ! ipatch            contact patch number, used by module 1
       ! tim        [s]    (SIMPACK) simulation time
@@ -1051,7 +1057,7 @@ contains
       m%iax       = 0
       m%iside     = 0
       m%ncase     = 0
-      m%itbrent   = 0
+      m%itforce   = 0
       m%npatch    = 0
       m%ipatch    = 0
       m%tim       = 0d0

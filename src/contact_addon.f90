@@ -772,7 +772,11 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_ic_force) then          ! set F-digit in the RE-CP-data
 
-         my_ic%force  = max(0, min(2, values(i)))
+         if (imodul.eq.3) then
+            my_ic%force  = max(0, min(2, values(i)))
+         else
+            my_ic%force  = max(0, min(3, values(i)))
+         endif
 
       elseif (params(i).eq.CNTC_ic_sens) then           ! set S2-digit in the RE-CP-data
 
@@ -2973,10 +2977,12 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
 !                                         or   [gaught, raily0, railz0, cant, nomrad],   if gaught <= 0.
 !    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
 !    3: new dimensions & track deviations for current side of the track
-!                                     params(1:5) cf. Z=1 followed by params(6:11) cf. Z=2.
+!                                     params = params(1:5) cf. Z=1 followed by params(6:11) cf. Z=2;
+!                                              additionally, [kyrail, fyrail, kzrail, fzrail] when F=3.
 !
 ! dimensions: gaught, gaugwd, raily0, railz0, nomrad, dyrail, dzrail [length],    cant, drollr [angle]
 !                                                     vyrail, vzrail [veloc],           vrollr [ang.veloc]
+!                                                kyrail, kzrail [force/length], fyrail, fzrail [force]
 !--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
    implicit none
 !--subroutine arguments:
@@ -2985,7 +2991,7 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
    integer,      intent(in) :: nparam         ! number of parameters provided
    real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
 !--local variables:
-   integer, parameter  :: nparam_loc(1:3) = (/ 5, 6, 11 /)
+   integer             :: nparam_loc(3)
    integer             :: ierror
    type(t_rail),     pointer   :: my_rail
    character(len=*), parameter :: subnam = 'cntc_setTrackDimensions_new'
@@ -2997,12 +3003,20 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
-   ! check value of ZTRACK digit, check number of parameters supplied
+   ! check value of ZTRACK digit
 
    if (ztrack.lt.1 .or. ztrack.gt.3) then
       write(bufout,'(a,a30,a,i3,a,i4,a)') pfx,subnam,'(',ire,'): method', ztrack,' does not exist.'
       call write_log(1, bufout)
       return
+   endif
+
+   ! check number of parameters supplied, expecting 4 additional params when Z = 3, F = 3
+
+   if (ztrack.eq.3 .and. wtd%ic%force.eq.3) then
+      nparam_loc(1:3) = (/ 5, 6, 15 /)
+   else
+      nparam_loc(1:3) = (/ 5, 6, 11 /)
    endif
 
    if (nparam.ne.nparam_loc(ztrack)) then
@@ -3061,13 +3075,20 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
       my_rail%vz              = params(10) * my_scl%veloc
       my_rail%vroll           = params(11) * my_scl%angle
 
+      if (wtd%ic%force.eq.3) then
+         wtd%trk%ky_rail      = params(12) * my_scl%forc / my_scl%len
+         wtd%trk%fy_rail      = params(13) * my_scl%forc
+         wtd%trk%kz_rail      = params(14) * my_scl%forc / my_scl%len
+         wtd%trk%fz_rail      = params(15) * my_scl%forc
+      endif
+
    endif
 
-!  if (idebug.ge.2) then
-!     write(bufout,'(a,a30,a,i3,a,i1,a,f7.4,a)') pfx,subnam,'(',ire,'.',icp,'): penetration=',       &
-!               my_kin%pen, ' [mm]'
-!     call write_log(1, bufout)
-!  endif
+   if (idebug.ge.3) then
+      write(bufout,'(a,a30,a,i3,a,i2,2(a,g12.4),a)') pfx,subnam,'(',ire,'): Z=',ztrack, ', ky=',        &
+                wtd%trk%ky_rail,' [N/mm], fy_rail=',wtd%trk%fy_rail, ' [N]'
+      call write_log(1, bufout)
+   endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setTrackDimensions_new
@@ -4637,6 +4658,9 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !  27 - ZR_TR     - z-position of rail profile marker in track coordinates
 !  28 - ROLLR_TR  - roll angle of rail profile marker in track coordinates
 !
+!  31 - DY_DEFL   - lateral rail shift according to massless rail deflection
+!  32 - DZ_DEFL   - vertical rail shift according to massless rail deflection
+!
 !  The "contact reference point" is the origin of the contact local coordinate system. It is determined by
 !  a heuristic rule and is centered within the contact patch in a weighted sense.
 !--category: 3, "m=1 only, cp":     available for module 1 only, working on cp data
@@ -4738,6 +4762,8 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       if (lenarr.ge.27) rvalues(27) =       meta%z_rr      / my_scl%len
       if (lenarr.ge.28) rvalues(28) = sgn * meta%rollrr    / my_scl%angle
 
+      if (lenarr.ge.31) rvalues(31) = sgn * wtd%trk%dy_defl / my_scl%len
+      if (lenarr.ge.32) rvalues(32) =       wtd%trk%dz_defl / my_scl%len
    endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)

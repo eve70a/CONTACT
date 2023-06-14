@@ -2,9 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
    |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
    ------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   4.471E+05
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     6, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000000, dFx/domg:  698.749956
+     6, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000000, dFx/domg:  698.749955
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -111,14 +111,14 @@
  Total moments Mxp =         0.0, Msp =       -99.0, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
-     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
-     0.000      0.9583E-01       420.0   5.468E-09       0.000       0.000
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.9583E-01       420.0       0.000       0.000       0.000
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000   6.520E-04   4.730E-05   8.958E-02  -8.395E-02
-     FN/G       CREEP X     FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000   2.173E-07   2.237E-02       530.2
 
  CONTACT STATISTICS
@@ -286,14 +286,14 @@
  Total moments Mxp =        -0.0, Msp =      -327.3, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
-     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
-     0.000      0.9583E-01       420.0   4.233E-10       0.000       0.000
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.9583E-01       420.0       0.000       0.000       0.000
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000       0.000   1.388E-05   7.848E-02     -0.3018
-     FN/G       CREEP X     FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000       0.000   1.939E-02       409.3
 
  CONTACT STATISTICS
@@ -429,7 +429,7 @@
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   5.738E+05
          2, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.126E+05
-     5, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000010, dFx/domg:  563.955810
+     5, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000010, dFx/domg:  563.955809
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   5.738E+05
          2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
@@ -484,7 +484,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0678     -0.0000     -0.0000   8.942E-05   1.137E-13  -1.947E-05
+      0.0678     -0.0000     -0.0000   8.942E-05       0.000  -1.947E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -500,15 +500,15 @@
  Total moments Mxp =         0.0, Msp =      -677.5, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
-     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
-     0.000      0.9583E-01       420.0  -7.086E-08       0.000       0.000
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.9583E-01       420.0       0.000       0.000       0.000
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04  -2.126E-04   3.596E-04   4.896E-06   7.171E-02     -0.6444
-     FN/G       CREEP X     FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250       0.000   1.199E-07   1.743E-02       348.7
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1250  -7.086E-08   1.199E-07   1.743E-02       348.7
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -728,14 +728,14 @@
  Total moments Mxp =         0.0, Msp =     -1429.8, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
-     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
-     0.000      0.9583E-01       420.0  -1.641E-09       0.000       0.000
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.9583E-01       420.0       0.000       0.000       0.000
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000   1.893E-02   1.591E-02   6.552E-02      -1.389
-     FN/G       CREEP X     FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000   6.311E-06   1.541E-02       296.8
 
  CONTACT STATISTICS
@@ -1006,14 +1006,14 @@
  Total moments Mxp =         0.0, Msp =      -100.1, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
-     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
-     0.000      0.9583E-01       420.0  -2.371E-08       0.000       0.000
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.9583E-01       420.0       0.000       0.000       0.000
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000   2.880E-04   3.435E-06   9.029E-02  -8.402E-02
-     FN/G       CREEP X     FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000   9.600E-08   2.224E-02       527.4
 
  CONTACT STATISTICS
@@ -1181,14 +1181,14 @@
  Total moments Mxp =        -0.0, Msp =      -343.0, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
-     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
-     0.000      0.9583E-01       420.0   2.562E-08       0.000       0.000
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.9583E-01       420.0       0.000       0.000       0.000
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000       0.000   3.195E-05   7.887E-02     -0.3113
-     FN/G       CREEP X     FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000       0.000   1.911E-02       405.9
 
  CONTACT STATISTICS
@@ -1386,14 +1386,14 @@
  Total moments Mxp =        -0.0, Msp =      -722.3, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
-     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
-     0.000      0.9583E-01       420.0  -5.687E-09       0.000       0.000
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.9583E-01       420.0       0.000       0.000       0.000
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000  -1.698E-04   4.189E-05   7.146E-02     -0.6789
-     FN/G       CREEP X     FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000  -5.661E-08   1.700E-02       344.9
 
  CONTACT STATISTICS
@@ -1621,14 +1621,14 @@
  Total moments Mxp =         0.0, Msp =     -1572.3, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
-     CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
-     0.000      0.9583E-01       420.0  -2.190E-09       0.000       0.000
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.9583E-01       420.0       0.000       0.000       0.000
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000  -9.601E-03   2.604E-02   6.398E-02      -1.519
-     FN/G       CREEP X     FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000  -3.200E-06   1.476E-02       292.0
 
  CONTACT STATISTICS
@@ -1800,22 +1800,22 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      78.5 | 100.0 |       78.7 | 100.0 |
-|Wheel-rail cases     |       8 |      78.5 | 100.0 |       78.7 | 100.0 |
-|W/r profiles         |      10 |       0.0 |   0.1 |        0.1 |   0.1 |
-|Geometric analysis   |     129 |       0.3 |   0.4 |        0.4 |   0.4 |
-|Panag.process        |     113 |      70.2 |  89.5 |       70.3 |  89.4 |
-|Algorithm Norm       |     113 |      21.7 |  27.7 |       21.8 |  27.7 |
-|Algorithm Tang       |     113 |      48.5 |  61.8 |       48.5 |  61.7 |
-|Output quantities    |     121 |       3.3 |   4.2 |        3.3 |   4.2 |
+|Total                |       1 |      45.1 | 100.0 |       63.8 | 100.0 |
+|Wheel-rail cases     |       8 |      45.1 | 100.0 |       63.8 | 100.0 |
+|W/r profiles         |      10 |       0.0 |   0.0 |        0.1 |   0.1 |
+|Geometric analysis   |     129 |       0.1 |   0.2 |        0.3 |   0.5 |
+|Panag.process        |     113 |      40.3 |  89.4 |       55.8 |  87.6 |
+|Algorithm Norm       |     113 |      12.8 |  28.4 |       17.4 |  27.3 |
+|Algorithm Tang       |     113 |      27.5 |  60.9 |       38.4 |  60.2 |
+|Output quantities    |     121 |       1.8 |   4.0 |        2.6 |   4.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     113 |      20.5 |  26.1 |       20.5 |  26.1 |
-|Tang: StedyGS solver |     113 |      47.4 |  60.4 |       47.6 |  60.5 |
+|Norm: ConjGrd solver |     113 |      12.1 |  26.8 |       16.4 |  25.7 |
+|Tang: StedyGS solver |     113 |      27.0 |  59.9 |       37.6 |  59.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       8 |       0.0 |   0.1 |        0.1 |   0.1 |
-|Contact location     |     129 |       0.0 |   0.1 |        0.1 |   0.1 |
-|Undeformed distance  |     113 |       0.2 |   0.3 |        0.2 |   0.3 |
-|Influence coeffic.   |     167 |       4.5 |   5.7 |        4.4 |   5.6 |
+|Reading input-file   |       8 |       0.0 |   0.0 |        0.1 |   0.1 |
+|Contact location     |     129 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Undeformed distance  |     113 |       0.1 |   0.2 |        0.3 |   0.4 |
+|Influence coeffic.   |     167 |       2.9 |   6.3 |        4.8 |   7.5 |
 |Initial state/estim. |     113 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

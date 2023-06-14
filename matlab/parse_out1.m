@@ -49,6 +49,7 @@ headers = strvcat('Case', ...
                   'WHEEL-SET POSITION', ...
                   'FLEXIBLE WHEEL-SET DEVIATIONS', ...
                   'RAIL IRREGULARITY', ...
+                  'MASSLESS RAIL DEFLECTION', ...
                   'TOTAL FORCES AND MOMENTS', ...
                   'AVERAGE CONTACT POSITION', ...
                   'FX(TR)      FY(TR)', ...
@@ -95,6 +96,7 @@ vx_ws  = []; vy_ws  = []; vz_ws  = []; vroll   = []; vyaw   = []; vpitch = [];
 dx_whl = []; dy_whl = []; dz_whl = []; drollw  = []; dyaww  = []; dpitchw = [];
 vxwhl  = []; vywhl  = []; vzwhl  = []; vrollw  = []; vyaww  = []; vpitchw = [];
 dyrail = []; dzrail = []; drrail = []; vyrail  = []; vzrail = []; vrrail = [];
+kyrail = []; dydefl = []; fydefl = []; kzrail  = []; dzdefl = []; fzdefl = [];
 fx_tr  = []; fy_tr  = []; fz_tr  = []; fx_ws   = []; fy_ws  = []; fz_ws  = [];
 xcp_tr = []; ycp_tr = []; zcp_tr = []; delt_tr = []; ycp_r  = []; zcp_r  = [];
 xcp_w  = []; ycp_w  = []; zcp_w  = [];
@@ -233,6 +235,22 @@ while (iline<f.nline)
       tmp = sscanf(s, '%f %f %f %f %f %f');
       dyrail(icase) = tmp(1); dzrail(icase) = tmp(2); drrail(icase) = tmp(3);
       vyrail(icase) = tmp(4); vzrail(icase) = tmp(5); vrrail(icase) = tmp(6);
+   end
+
+   if (~isempty(strfind(s, 'MASSLESS RAIL DEFLECTION')))
+
+      % MASSLESS RAIL DEFLECTION
+      %     KY_RAIL     DY_DEFL     FY_RAIL     KZ_RAIL     DZ_DEFL     FZ_RAIL
+      %      100.0000     -1.0000   1.162E+05      0.0000      0.0000   1.230E+05
+
+      if (idebug>=5)
+         disp(sprintf('...Found massless rail deflection at line %d',iline));
+      end
+      [s, iline] = read_line(f, iline, idebug);
+      [s, iline] = read_line(f, iline, idebug);
+      tmp = sscanf(s, '%f %f %f %f %f %f');
+      kyrail(icase) = tmp(1); dydefl(icase) = tmp(2); fydefl(icase) = tmp(3);
+      kzrail(icase) = tmp(4); dzdefl(icase) = tmp(5); fzdefl(icase) = tmp(6);
    end
 
    if (~isempty(strfind(s, 'TOTAL FORCES AND MOMENTS')) | ...
@@ -491,6 +509,10 @@ end
 if (any(~isnan(dyrail)))
    ws_pos.dyrail = dyrail; ws_pos.dzrail = dzrail;  ws_pos.drrail  = drrail; 
    ws_pos.vyrail = vyrail; ws_pos.vzrail = vzrail;  ws_pos.vrrail  = vrrail; 
+end
+if (any(~isnan(kyrail)))
+   ws_pos.kyrail = kyrail; ws_pos.dydefl = dydefl;  ws_pos.fydefl  = fydefl; 
+   ws_pos.kzrail = kzrail; ws_pos.dzdefl = dzdefl;  ws_pos.fzdefl  = fzdefl; 
 end
 tot_forc = struct('fx_tr', fx_tr,  'fy_tr', fy_tr,  'fz_tr', fz_tr,  ...
                   'fx_ws', fx_ws,  'fy_ws', fy_ws,  'fz_ws', fz_ws,  ...

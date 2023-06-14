@@ -2,9 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
    |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
    ------------------------------------------------------------------------
 
@@ -194,9 +194,9 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.1 | 100.0 |        0.1 | 100.0 |
-|Non-Hertzian cases   |       2 |       0.1 | 100.0 |        0.1 | 100.0 |
-|Subsurface points    |       2 |       0.0 |  25.0 |        0.0 |  23.1 |
+|Total                |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
+|Non-Hertzian cases   |       2 |       0.0 | 100.0 |        0.1 | 100.0 |
+|Subsurface points    |       2 |       0.0 |   0.0 |        0.0 |  12.9 |
 |Panag.process        |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Algorithm Norm       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
@@ -205,10 +205,10 @@ Performance timers:
 |Norm: ConjGrd solver |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: ConvxGS solver |       3 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       2 |       0.0 |   0.0 |        0.0 |   1.5 |
 |Influence coeffic.   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Subsurf writing      |       4 |       0.1 |  75.0 |        0.1 |  76.9 |
+|Writing output-files |       2 |       0.0 |   0.0 |        0.0 |  23.5 |
+|Subsurf writing      |       4 |       0.0 | 100.0 |        0.1 |  37.9 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

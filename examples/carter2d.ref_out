@@ -2,9 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2340 $, $Date:: 2023-04-10$       |
+   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2342M, 14-Apr-2023 09:14)                      |
+   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
    |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
    ------------------------------------------------------------------------
 
@@ -636,8 +636,8 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Non-Hertzian cases   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Total                |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
+|Non-Hertzian cases   |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
 |Panag.process        |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Algorithm Norm       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
@@ -649,6 +649,6 @@ Performance timers:
 |Reading input-file   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

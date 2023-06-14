@@ -126,11 +126,11 @@ contains
             if (ic%force.eq.0) then
                strng(2) = strng(1)
             elseif (ic%force.eq.1) then
-               strng(2) = 'X-FORCE,  Y-' // trim(strng(1))
+               strng(2) = 'X-FORCE'
             elseif (ic%force.eq.2) then
-               strng(2) = 'TANGENTIAL FORCE'
-            else
-               strng(2) = ' '
+               strng(2) = 'X-MOMENT'
+            elseif (ic%force.eq.3) then
+               strng(2) = strng(1)
             endif
 
             if (ic%mater.ge.2 .and. ic%mater.le.3) then
@@ -317,6 +317,15 @@ contains
                    3x,'VROLLR',3x, /, 2x, 3f12.4, 3a,/)
          endif
 
+         if (ic%force.eq.3) then
+            write(lout,4202)
+            write(lout,4203) wtd%trk%ky_rail, sgn*wtd%trk%dy_defl, fmt_gs(12,4,wtd%trk%fy_rail),        &
+                   wtd%trk%kz_rail, wtd%trk%dz_defl, fmt_gs(12,4,wtd%trk%fz_rail)
+ 4202       format (1x,'MASSLESS RAIL DEFLECTION')
+ 4203       format (2x, 3x,'KY_RAIL',2x, 3x,'DY_DEFL',2x, 3x,'FY_RAIL',2x, 3x,'KZ_RAIL',2x,             &
+                   3x,'DZ_DEFL',2x, 3x,'FZ_RAIL',2x, /, 2x, 2f12.4,a, 2f12.4,a,/)
+         endif
+
       endif
 
       ! Print the overall results for the W/R-problem if "output" >= 1.
@@ -446,26 +455,14 @@ contains
 
             ! report on creepages
 
-            str_muscal = '/FSTAT/FN'
-            if (.not.gd%kin%use_muscal) str_muscal = '/FN'
             strng(1) = fmt_gs(12, 4,     veloc)
             strng(2) = fmt_gs(12, 4,     cksi)
             strng(3) = fmt_gs(12, 4, sgn*ceta)
             strng(4) = fmt_gs(12, 4, sgn*cphi)
-            strng(5) = fmt_gs(12, 4,     fxrel1)
-            strng(6) = fmt_gs(12, 4, sgn*fyrel1)
             write(lout, 6301)
-            if (ic%force.eq.0) write(lout, 6305) sgn*chi, dq, strng(1), strng(2), strng(3), strng(4)
-            if (ic%force.eq.1) write(lout, 6306) str_muscal, sgn*chi, dq, strng(1), strng(5), strng(3),     &
-                strng(4)
-            if (ic%force.eq.2) write(lout, 6307) str_muscal, str_muscal, sgn*chi, dq, strng(1), strng(5),   &
-                strng(6), strng(4)
+            write(lout, 6305) sgn*chi, dq, strng(1), strng(2), strng(3), strng(4)
  6301       format (' KINEMATIC CONSTANTS')
  6305       format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 3x,'CKSI',5x, 3x,'CETA',5x, 3x,'CPHI',/, &
-                    2x, 2g12.4, 4a12, /)
- 6306       format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 1x,'FX',a,    3x,'CETA',5x, 3x,'CPHI',/, &
-                    2x, 2g12.4, 4a12, /)
- 6307       format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 1x,'FX',a,    1x,'FY',a,    3x,'CPHI',/, &
                     2x, 2g12.4, 4a12, /)
          endif
 
@@ -492,29 +489,14 @@ contains
  6401       format (2x, 3x,'FN',7x, 3x,'FX',7x, 3x,'FS',7x, 3x,'MN',7x, 2x,'ELAST.EN.',1x, 2x,'FRIC.POWER')
  6402       format ( 2x, 6a12)
 
+            strng(1) = 'FX/FSTAT/FN'
+            strng(2) = 'FS/FSTAT/FN'
+            if (.not.gd%kin%use_muscal) strng(1) = '  FX/FN'
+            if (.not.gd%kin%use_muscal) strng(2) = ' FS/FN'
+
             strng(3) = fmt_gs(12, 4, fnscal)
-            if (ic%force.eq.0) then
-               strng(1) = 'FX/FSTAT/FN'
-               if (.not.gd%kin%use_muscal) strng(1) = '  FX/FN'
-               strng(4) = fmt_gs(12, 4, filt_sml(fxrel1,0.5d0*eps))
-            elseif (is_roll) then
-               strng(1) = ' CREEP X'
-               strng(4) = fmt_gs(12, 4, filt_sml(cksi, sgn*ceta*eps))
-            else
-               strng(1) = ' SHIFT X'
-               strng(4) = fmt_gs(12, 4, filt_sml(cksi, sgn*ceta*eps))
-            endif
-            if (ic%force.le.1) then
-               strng(2) = 'FS/FSTAT/FN'
-               if (.not.gd%kin%use_muscal) strng(2) = ' FS/FN'
-               strng(5) = fmt_gs(12, 4, filt_sml(sgn*fyrel1,0.5d0*eps))
-            elseif (is_roll) then
-               strng(2) = ' CREEP S'
-               strng(5) = fmt_gs(12, 4, filt_sml(sgn*ceta, cksi*eps))
-            else
-               strng(2) = ' SHIFT S'
-               strng(5) = fmt_gs(12, 4, filt_sml(sgn*ceta, cksi*eps))
-            endif
+            strng(4) = fmt_gs(12, 4, filt_sml(fxrel1,0.5d0*eps))
+            strng(5) = fmt_gs(12, 4, filt_sml(sgn*fyrel1,0.5d0*eps))
             strng(6) = fmt_gs(12, 4, gd%kin%pen)
 
             if (ic%print_pmax) then
