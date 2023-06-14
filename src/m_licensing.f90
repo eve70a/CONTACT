@@ -19,7 +19,7 @@ public
    ! - Version number for current version.  For the trunk: version number for next release
    integer, parameter :: my_version_major  = 23
    integer, parameter :: my_version_minor  =  1
-   integer, parameter :: my_version_update =  0
+   integer, parameter :: my_version_update =  1
 
    !---------------------------------------------------------------------------------------------------------
 

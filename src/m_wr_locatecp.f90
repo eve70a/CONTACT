@@ -551,12 +551,13 @@ contains
          ! fill in the contact angle and reference marker
 
          ! call write_log(' --- calling set_cpatch_reference ---')
-         call set_cpatch_reference( icp, cp, prr_trk, sgn, idebug)
+         call set_cpatch_reference( ic, icp, cp, prr_trk, my_rail%m_trk, sgn, trk%nom_radius, idebug)
 
          ! compute potential contact area for planar contact approach
 
          ! call write_log(' --- calling set_planar_potcon ---')
-         call set_planar_potcon( icp, cp, prr_trk, sgn, discr%dx, discr%ds, idebug )
+         call set_planar_potcon( ic, icp, cp, prr_trk, my_rail%m_trk, sgn, trk%nom_radius, discr%dx,    &
+                        discr%ds, idebug )
 
          ! estimate curvatures a1, b1 for the contact patches
 
@@ -567,7 +568,8 @@ contains
 
          if (is_conformal) then
             ! call write_log(' --- calling compute_curved_potcon ---')
-            call compute_curved_potcon( ws, prr_trk, cp, discr%ds, idebug )
+            call compute_curved_potcon( ic, ws, prr_trk, my_rail%m_trk, trk%nom_radius, cp, discr%ds,   &
+                        idebug )
          endif
 
       enddo ! icp
@@ -2353,7 +2355,7 @@ contains
             tzero  = sqrt(pen_y / (cos_a * curv_y))
             xmin   = min(xmin, x(iy)-tzero)
             xmax   = max(xmax, x(iy)+tzero)
-            if (idebug.ge.2) then
+            if (idebug.ge.4) then
                write(bufout,'(a,i4,5(a,f9.4),a)') ' iy=',iy,': xlc=',x(iy), ', pen=', pen_y,            &
                         ', curv=', curv_y, ', x in [', x(iy)-tzero,',', x(iy)+tzero, ']'
                call write_log(1,bufout)
@@ -2901,20 +2903,24 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine set_cpatch_reference( icp, cp, prr, sgn, idebug)
+   subroutine set_cpatch_reference( ic, icp, cp, prr, mtrk, sgn, nom_radius, idebug)
 !--purpose: determine the contact angle and reference marker for one contact patch
       implicit none
 !--subroutine arguments:
+      type(t_ic),   intent(in)  :: ic
       integer,      intent(in)  :: icp                  ! current contact patch number
       type(t_cpatch)            :: cp
       type(t_grid)              :: prr                  ! rail profile in track coordinates
+      type(t_marker)            :: mtrk                 ! roller profile marker
       real(kind=8), intent(in)  :: sgn                  ! +1/-1 for right/left w/r-combination
+      real(kind=8), intent(in)  :: nom_radius           ! radius in case of a roller
       integer,      intent(in)  :: idebug
 !--local variables:
-      logical                   :: use_initial_cp, use_wgt_angle
+      logical                   :: use_initial_cp, use_wgt_angle, is_roller
       integer                   :: sub_ierror
-      real(kind=8)              :: cref_x, cref_y, cref_z
+      real(kind=8)              :: cref_x, cref_y, cref_z, zc_rol, r_y
 
+      is_roller      = (ic%config.eq.4 .or. ic%config.eq.5)
       use_initial_cp = .false.
       use_wgt_angle  = .true.
 
@@ -2932,6 +2938,20 @@ contains
       call spline_get_xz_at_y( prr%spl, cref_y, sub_ierror, zout=cref_z )
       ! write(bufout,'(3(a,f12.4))') ' cref_s=',cp%sr_ref,', cref_y=',cref_y,', cref_z=',cref_z
       ! call write_log(1, bufout)
+
+      if (is_roller) then
+         ! cref_z as computed above lies in the principal profile, x==0, in track coordinates
+         zc_rol = mtrk%z() + nom_radius
+         ! correct cref_z for offset in x
+         r_y    = zc_rol - cref_z
+         cref_z = zc_rol - sqrt( r_y**2 - cref_x**2 )
+
+         if (idebug.ge.2) then
+            write(bufout,'(4(a,f12.4))') ' zc_rol=',zc_rol,', r_y=',r_y,', cref_x=',cref_x,             &
+                        ', cref_z=',cref_z
+            call write_log(1, bufout)
+         endif
+      endif
 
       ! 5.g compute the contact angle from track vertical to contact normal
 
@@ -3000,23 +3020,47 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine set_planar_potcon( icp, cp, prr, sgn, dx_cp, ds_cp, idebug )
+   subroutine set_planar_potcon( ic, icp, cp, prr, mtrk, sgn, nom_radius, dx_cp, ds_cp, idebug )
 !--purpose: define the potential contact area for planar computations
       implicit none
 !--subroutine arguments:
+      type(t_ic)                :: ic
       type(t_cpatch)            :: cp
       type(t_grid)              :: prr
       integer,      intent(in)  :: icp, idebug
+      type(t_marker)            :: mtrk                 ! roller profile marker
+      real(kind=8), intent(in)  :: nom_radius           ! radius in case of a roller
       real(kind=8), intent(in)  :: sgn, dx_cp, ds_cp
 !--local variables:
+      logical        :: is_roller
       integer        :: sub_ierror, mx, my
-      real(kind=8)   :: zsta, zend, xp_l, xp_h, sp_l, sp_h, tmp
+      real(kind=8)   :: cref_x, zc_rol, rsta, rend, zsta, zend, xp_l, xp_h, sp_l, sp_h, tmp
       type(t_marker) :: msta, mend
+
+      is_roller = (ic%config.eq.4 .or. ic%config.eq.5)
 
       ! compute positions [ssta,send] and [zsta_tr,zend_tr] on rail profile for [ysta_tr, yend_tr],
 
       call spline_get_xz_at_y( prr%spl, cp%ysta, sub_ierror, zout=zsta )
       call spline_get_xz_at_y( prr%spl, cp%yend, sub_ierror, zout=zend )
+
+      if (is_roller) then
+         ! msta/end as computed above lie in the principal profile, x==0, in track coordinates
+         zc_rol = mtrk%z() + nom_radius
+         cref_x = cp%mref%x()
+
+         ! correct msta%z, mend%z for offset in x
+         rsta  = zc_rol - zsta
+         zsta  = zc_rol - sqrt( rsta**2 - cref_x**2 )
+         rend  = zc_rol - zend
+         zend  = zc_rol - sqrt( rend**2 - cref_x**2 )
+
+         if (idebug.ge.2) then
+            write(bufout,'(3(a,f12.4),/,3(a,f12.4))') ' zc_rol=',zc_rol,', r_sta/end=',rsta,',',rend,   &
+                           ' cref_x=',cref_x,', z_sta/end=',zsta,',',zend
+            call write_log(2, bufout)
+         endif
+      endif
 
       if (idebug.ge.2) then
          write(bufout,'(a,i2,a,2f12.6)') ' patch',icp,': start of interpen.region: (y,z)_tr=', cp%ysta, zsta
@@ -3095,29 +3139,35 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine compute_curved_potcon( ws, prr, cp, ds, idebug )
+   subroutine compute_curved_potcon( ic, ws, prr, mtrk, nom_radius, cp, ds, idebug )
 !--purpose: compute the curved reference curve for conformal contact calculation
       implicit none
 !--subroutine arguments:
+      type(t_ic),        intent(in)  :: ic
       type(t_wheelset),  intent(in)  :: ws
       type(t_grid),      intent(in)  :: prr         ! track coordinates
+      type(t_marker),    intent(in)  :: mtrk        ! roller profile marker
+      real(kind=8),      intent(in)  :: nom_radius  ! radius in case of a roller
       type(t_cpatch)                 :: cp
       real(kind=8),      intent(in)  :: ds
       integer,           intent(in)  :: idebug
 !--local variables:
       logical,      parameter :: use_old_wnrm = .true.
+      logical                 :: is_roller
       type(t_wheel),  pointer :: my_wheel
       type(t_marker)          :: whl_trk, mq_cp, mq_trk, mq_whl
       type(t_grid)            :: rsrf, wsrf
       type(t_gridfnc3)        :: rnrm, wnrm
       integer                 :: iter, iy_ref, iy, iy0, iy1, ky, my, ny, sub_ierror
-      real(kind=8)            :: fac_sc, sr_sta, sr_end, sw_ref, z_axle, x_err, yi, dy, dz, ds_min
+      real(kind=8)            :: fac_sc, sr_sta, sr_end, sw_ref, z_axle, x_err, yi, dy, dz, ds_min,     &
+                                 cref_x, rref, dzrol
       real(kind=8), dimension(:), allocatable :: si, xw
 
       ! set pointer to the active rail and wheel in the current configuration
 
       if (idebug.ge.3) call write_log(' compute_curved_potcon: starting')
 
+      is_roller = (ic%config.eq.4 .or. ic%config.eq.5)
       my_wheel => ws%whl
 
       associate( prw  => my_wheel%prw%grd_data,                                                              &
@@ -3184,6 +3234,20 @@ contains
 
       rsrf%s_prf(1:ny) = si(1:ny) + cp%sr_ref
       call spline_get_xyz_at_s( prr%spl, ny, rsrf%s_prf, sub_ierror, yout=rsrf%y, zout=rsrf%z )
+
+      ! correction for z-offset on roller at shifted x-position
+
+      if (is_roller) then
+         cref_x = cp%mref%x()
+         rref   = nom_radius + mtrk%z() - cp%mref%z()
+         dzrol  = rref - sqrt(rref**2 - cref_x**2) 
+         rsrf%z(1:ny) = rsrf%z(1:ny) + dzrol
+
+         if (idebug.ge.2) then
+            write(bufout,'(4(a,f12.4))') ' rref=',rref,', cref_x=',cref_x,', dz=',dzrol
+            call write_log(2, bufout)
+         endif
+      endif
 
       ! 2.b fill rnrm: evaluate dydz(s) at positions sr(i)
       !     outward normal: [ 0, dy/dz, -1 ]
@@ -3302,8 +3366,9 @@ contains
       endif
 
       if (idebug.ge.3) then
-         call grid_print(wsrf, 'wsrf(trk)', 5, 9)
-         call gf3_print(wnrm, 'wnrm(trk)', ikALL, 4)
+         call grid_print(rsrf, 'rsrf_trk', 5, 9)
+         call grid_print(wsrf, 'wsrf_trk', 5, 9)
+         call gf3_print(wnrm, 'wnrm_trk', ikALL, 4)
       endif
 
       ! 4. trim curved reference: select indices iy for which csrf%y lies in [ysta, yend]
