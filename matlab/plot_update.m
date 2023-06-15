@@ -47,8 +47,8 @@ end
 
 if (n1~=n2)
    % form spline for profile 1
-   lambda = 0; use_bspline = 0;
-   spl  = make_spline([], y1_in, z1_in, lambda, [], [], [], use_bspline);
+   lambda = 0; use_bspline = 0; wgt = []; ikinks = []; iaccel = [];
+   spl  = make_spline([], y1_in, z1_in, lambda, wgt, ikinks, iaccel, use_bspline);
 
    % determine coordinates s1 in spline 1 for points (y2,z2)
    % figure(5); clf; hold on;

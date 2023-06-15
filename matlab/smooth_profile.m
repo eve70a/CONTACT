@@ -1,12 +1,12 @@
 
-function [ p_out, spl ] = smooth_profile( p_in, l_filt, e_spur, lambda, ds_sampl, ikinks, iaccel, ...
+function [ p_out, spl ] = smooth_profile( p_in, l_filt, lambda, ds_sampl, ikinks, iaccel, ...
                                                                 use_wgt, use_bspline, ds_bspl, idebug );
 
-% function [ p_out, spl ] = smooth_profile( p_in, [l_filt], [e_spur], [lambda], [ds_sampl], [ikinks], 
-%                                                 [iaccel], [use_wgt], [use_bspline], [ds_bspl], [idebug] );
+% function [ p_out, spl ] = smooth_profile( p_in, [l_filt], [lambda], [ds_sampl], [ikinks], [iaccel], 
+%                                                           [use_wgt], [use_bspline], [ds_bspl], [idebug] );
 %
 % compute smoothed profile using parametric smoothing spline approximation with smoothness
-% parameters l_filt, e_spur [mm] or lambda.
+% parameters l_filt [mm] or lambda.
 %
 % p_in may be a struct ('ProfileY', 'ProfileZ') or array [y_prf, z_prf]
 %
@@ -25,30 +25,27 @@ if (nargin<2)
    l_filt = [];
 end
 if (nargin<3)
-   e_spur = [];
-end
-if (nargin<4)
    lambda = [];
 end
-if (nargin<5)
+if (nargin<4)
    ds_sampl = [];
 end
-if (nargin<6)
+if (nargin<5)
    ikinks = -1;
 end
-if (nargin<7)
+if (nargin<6)
    iaccel = [];
 end
-if (nargin<8 | isempty(use_wgt))
+if (nargin<7 | isempty(use_wgt))
    use_wgt = 1;
 end
-if (nargin<9 | isempty(use_bspline))
+if (nargin<8 | isempty(use_bspline))
    use_bspline = 1;
 end
-if (nargin<10 | isempty(ds_bspl))
+if (nargin<9 | isempty(ds_bspl))
    ds_bspl = 2;
 end
-if (nargin<11 | isempty(idebug))
+if (nargin<10 | isempty(idebug))
    idebug = 0;
 end
 
@@ -56,6 +53,13 @@ is_wheel = 0;
 if (isstruct(p_in))
    is_wheel = p_in.is_wheel;
 end
+
+if (use_bspline)
+   use_deriv = 3;
+else
+   use_deriv = 2;
+end
+use_repl = 1;
 
 % compute lambda when l_filt is given
 
@@ -66,7 +70,7 @@ elseif (~isempty(l_filt) & ~isempty(lambda))
    disp('L_filt and lambda may not both be given.');
    return;
 elseif (~isempty(l_filt))
-   if (use_bspline)
+   if (use_deriv==3)
       lambda = l_filt^6 / (64*pi^6);
    else
       lambda = l_filt^4 / (16*pi^4);
@@ -124,21 +128,7 @@ else
       wgt([1,end  ]) = wgt([1,end  ]) * 20;     % PP-spline: increase weight at end points
    end
 
-
-   if (use_wgt==1 & ~isempty(e_spur))
-      drho = zeros(size(wgt));
-      for i = 1 : length(curv)
-         ix = find( abs(s_in(i)-s_in) < s_windw );
-         drho(i) = max(curv(ix)) - min(curv(ix));
-      end
-
-      if (use_bspline)
-         fac_spur = max(1, l_filt/15.65 * sqrt(drho./e_spur)) .^ 6;
-      else
-         fac_spur = max(1, l_filt/15.65 * sqrt(drho./e_spur)) .^ 4;
-      end
-      wgt = wgt .* fac_spur;
-   elseif (use_wgt>=2)
+   if (use_wgt>=2)
       ix = find(abs(curv)>0.1);
       fac = 50; wgt(ix) = fac * wgt(ix);
       ix = find(abs(curv)>0.07 & abs(curv)<=0.1);
@@ -171,7 +161,8 @@ end
 
 % create spline representation
 
-spl = make_spline( s_in, y_in, z_in, lambda, wgt, ikinks, iaccel, use_bspline, ds_bspl, idebug );
+spl = make_spline( s_in, y_in, z_in, lambda, wgt, ikinks, iaccel, use_bspline, ds_bspl, ...
+                                                                  use_deriv, use_repl, idebug );
 
 % evaluate spline at output positions
 
