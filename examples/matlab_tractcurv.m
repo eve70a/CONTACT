@@ -265,4 +265,4 @@ if (make_fig)
    text(4.8, 0.42, 'User guide, section 6.4','horizontalalignment','right');
 end
 
-% $Revision: 2347 $, $Date: 2023-04-17 08:20:08 +0000 (Mon, 17 Apr 2023) $
+% $Revision: 2372 $, $Date: 2023-06-15 16:58:45 +0200 (Thu, 15 Jun 2023) $

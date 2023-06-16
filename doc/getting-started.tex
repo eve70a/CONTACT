@@ -1,0 +1,533 @@
+\documentclass[12pt]{report}
+% \usepackage{array}
+\usepackage{ug_contact}
+% \usepackage{amsfonts,amsmath,multirow,enumitem}
+\usepackage{alltt}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, linktoc=all]{hyperref}
+\usepackage{bookmark}
+\usepackage{step}\usepackage{newtxmath}\usepackage[T1]{fontenc}
+
+\input{texinputs.tex}
+
+\title{Programmer guide for CONTACT, Getting started with the source code}
+\author{Dr.ir.\ E.A.H.\ Vollebregt}
+\cprtext{\copyright\ \vtechcmcc.}
+\date{\today}
+\reportnumber{23-01, version `trunk'}
+
+\parindent 0mm
+\parskip 1ex
+
+\begin{document}
+\maketitle
+
+\vspace{2ex} % (i.g.v. titel verdeeld over twee regels)
+
+%\begin{vtlogsheet}
+%\vtlogentry{0.1}{EV}{25-10-2021}{Initial version of report}{}
+%% \vtfilelocation{CMCC/Verkoop/Strategie}
+%\end{vtlogsheet}
+
+\chapter{Introduction}
+
+This document gives a quick introduction to the open-source version of the
+CONTACT software. A diverse set of aspects is covered, including some
+general programming advice, some background on Fortran, and discussion of
+the main aspects of the CONTACT program itself.
+
+{\em This document could be used to start a Wiki, for easier further
+elaboration.}
+
+\chapter{Top ten advice for scientific programming}
+
+Here's VORtech's top-10 guidelines for scientific programming. Created in
+2010, but still fairly up to date.
+\begin{enumerate}
+\item\label{itm:clarity} Above all, strive for clarity of the code.
+        Complexity is the worst enemy when your programs get bigger.
+\item\label{itm:version_mngmt} Use a version management tool.
+\item\label{itm:coding_std} Use good coding standards. Uniformity is more
+        important than making your parts look nice according to your own
+        standards. 
+\item\label{itm:automate_testing} Automate testing, so that you can test
+        often.
+\item\label{itm:know_sensitivity} Get to know the sensitivity of your
+        calculations: distinguish noise due to round-off from errors in
+        the code.
+\item\label{itm:design} Make a design.
+\item Develop incrementally.
+\item\label{itm:debug_facility} Create visualization and debugging facilities.
+\item\label{itm:dont_optimize} Don't optimize until necessary.
+\item Use an issue management tool.
+\end{enumerate}
+Additional practices that are recommended are as follows:
+\begin{enumerate}\setcounter{enumi}{10}
+\item\label{itm:think_early} Think before you start: what you need, how to
+        do it, how to test if it's working. {\em Shift left\/}. The cost of
+        errors increases dramatically the longer they are left in the system.
+\item\label{itm:lean_on_compiler} Lean on the compiler to detect
+        programming errors.
+\item\label{itm:build_system} Don't save on the build system. Errors due to
+        parts not being recompiled or compiled differently are particularly
+        difficult to trace.
+\item {\em Boy scout rule}: leave things better than you found them. Polish,
+        clean up the parts that you studied. % {\em Continual Improvement\/}.
+\end{enumerate}
+A nice book with lots of advice from Google: \cite{Winters2020}, and
+another one collecting wisdom of many experienced programmers:
+\cite{Henney2010}.
+
+\chapter{Programming on CONTACT}
+
+\section{Development environment}
+
+Vollebregt does not use an Integrated Development Environment (IDE) such as
+Visual Studio. Instead, he works with an editor (GVIM) and makefiles.
+\begin{itemize}
+\item CONTACT is programmed mostly using Fortran, with some bits in C and
+        the CONTACT GUI programmed in Java.
+\item Vollebregt uses Matlab a lot, some scripting in Perl, and some
+        programming in Python.
+\item The main compiler used is the one from Intel, with the corresponding
+        facilities of the Intel Math Kernel Library (MKL).
+\item Separate makefiles are maintained for Windows (using {\tt nmake}) and
+        Linux (GNU {\tt make}), set up in a generic way, with configuration
+        options hidden in include files.
+\end{itemize}
+
+\section{Makefiles}
+
+Makefiles are used to automate compilation. This uses a specific (complex)
+language of ``targets'' and ``dependencies''. Only those targets are
+compiled (anew) that are ``out of date'', using the rules and commands
+defined in the makefile.
+
+We use separate makefiles for Windows (using nmake) and Linux (GNU make).
+Each makefile can generate multiple outputs for the stand-alone program or
+the CONTACT library, with or without OpenMP (multithreading), with
+different options for debugging or naming of symbols (with/without
+underscores). We also used to create separate versions for 64bit and 32bit
+platforms, but the latter are no longer used.
+
+\section{Coding standards}
+
+Coding standards help to make code more uniform and enforce practices to
+make the code easier to understand (best practice \ref{itm:coding_std},
+page \pageref{itm:coding_std}).
+\begin{itemize}
+\item The screen width is set to 110 characters. No line should be longer
+        than that.
+\item Indentation (tabs) goes with 3 characters.
+\item Using {\tt implicit none} all of the time (best practice
+        \ref{itm:lean_on_compiler}, page \pageref{itm:lean_on_compiler}).
+\item Use lots of white space, to facilitate identifying the separate
+        constituents of compound statements.
+\item Avoid uppercase characters, except for constants.
+\item Use underscores in variable names with different parts.
+\item Type names start with {\tt t\_}, e.g.\ {\tt t\_grid}, defined in the
+        module {\tt m\_grids.f90}. The prefix {\tt m\_} is used for
+        modules, {\tt p\_} for pointers.
+\item Subroutines specific for a derived type start with the type it is
+        used for, e.g.\ {\tt grid\_copy}.
+\item Relational operators {\tt .lt.}, {\tt .le.}, {\tt .eq.}, etc.\ are
+        used instead of the alternative forms {\tt <=}, {\tt <}, {\tt ==}.
+        This is a subjective, personal preference of Vollebregt, imposed on
+        others for the uniformity of the code.
+\end{itemize}
+
+\section{Conditional compilation}
+
+Conditional compilation is used to make different executables from the same
+source code.
+\begin{itemize}
+\item Platform dependence, e.g.\
+{\small\begin{verbatim}
+#if defined _WIN32 || defined _WIN64
+   integer,          parameter :: platform = plat_win
+   character(len=1), parameter :: path_sep = '\\'
+#else
+   integer,          parameter :: platform = plat_lnx
+   character(len=1), parameter :: path_sep = '/'
+#endif
+\end{verbatim}}
+\item Compiling with one or another compiler:
+{\small\begin{verbatim}
+#ifdef PLATF_ppc
+   icount = IARGC()
+#else
+   icount = command_argument_count()
+#endif
+\end{verbatim}}
+\item Compiling with or without OpenMP (multithreading):
+{\small\begin{verbatim}
+#ifdef _OPENMP
+   iparll = omp_in_parallel()
+#else
+   iparll = 0
+#endif
+\end{verbatim}}
+\item Compiling with or without certain features:
+{\small\begin{verbatim}
+#ifdef WITH_MKLFFT
+   use mkl_dfti
+#endif
+\end{verbatim}}
+\end{itemize}
+Some of the variables used are set automatically by the compiler ({\tt
+\_WIN32}, {\tt \_OPENMP}), others are set using compiler options ({\tt
+-DWITH\_MKLFFT}).
+
+\section{(Semi-)automated testing}
+
+Scripts are used to run a series of tests, one by one, and pull up a diff
+of the new and reference output (best practice \ref{itm:automate_testing},
+page \pageref{itm:automate_testing}). Especially {\tt cleanup.pl},
+{\tt run\_tests.pl}, and {\tt set\_refout.pl} in the {\tt examples} folder
+(programmed in Perl).
+
+{\em It is desired to reduce the number of scripting languages used,
+reprogramming Perl and shell scripts in Python.}
+
+We go through the differences manually, judging whether these are
+acceptable or not. We often find slight differences in the numerical
+outputs due to round-off errors. Differences between Windows and Linux or
+just between two runs of the compiler after a code modification. This
+round-off error cannot be circumvented. It takes some training to judge
+quickly where this occurs (best practice \ref{itm:know_sensitivity}, page
+\pageref{itm:know_sensitivity}).
+
+{\em It is desired to automate testing.}
+
+\section{Version identification}
+
+CONTACT prints the revision number from Subversion in its startup message:
+\begin{alltt}
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |                                                                      |
+   |  Version: \red{trunk(64), $Revision: 2116 $, $Date:: 2022-01-14$}          |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  \red{(Subversion revision 2116M, 14-Jan-2022 17:00)}                      |
+   ------------------------------------------------------------------------
+\end{alltt}
+This facilitates the comparison of different outputs, e.g.\ reference
+output from one version and new output from a modified version. If
+differences need be explained, we can then use bisection to identify the
+version where those differences can be seen for the first time.
+
+{\em This needs to be extended for the open source version using Git for 
+version control.}
+
+\section{Modern Fortran}
+
+The first version of CONTACT was developed using Fortran IV. Then came
+Fortran77 and Fortran90. Today we use some features of Fortran 2003 or
+2008. 
+
+A nice feature is to have multiple subroutines used under a generic name.
+An example is the {\tt write\_log} function from {\tt m\_print\_output}.
+This can be called with one argument, a literal character string, or two
+arguments, an array of strings and the number of lines it contains:
+{\small\begin{verbatim}
+   public write_log
+   interface write_log
+      module procedure write_log_str
+      module procedure write_log_msg
+   end interface write_log
+
+   subroutine write_log_str(str)
+      !--purpose: Write a single string to the log output streams
+      implicit none
+      !--subroutine arguments
+      character(len=*), intent(in) :: str
+   end subroutine write_log_str
+
+   subroutine write_log_msg(nlines, msg)
+      !--purpose: Write an array of strings to the log output streams
+      implicit none
+      !--subroutine arguments
+      integer,          intent(in) :: nlines
+      character(len=*), intent(in) :: msg(nlines)
+   end subroutine write_log_msg
+\end{verbatim}}
+If the compiler then encounters a call like {\tt write\_log('some
+message')}, it will try to match the actual arguments (one literal string)
+with each of the options. The example matches with {\tt write\_\-log\_\-str},
+which is then the actual subroutine that will be used.
+
+See also operator overloading in Section \ref{sec:m_markers}.
+
+\section{Pointers and associate}
+
+Pointers are slightly different in Fortran than in other languages like C
+or C++. Whereas assignment `{\tt =}' changes the pointer value (memory
+address) in C/C++, in Fortran this changes the variable that is pointed to
+(memory contents). In Fortran, the assignment `{\tt =>}' is used to change
+the pointer value (memory address).
+
+Pointers in Fortran behave much like nick-names for the names of other
+variables, e.g.\
+{\small\begin{verbatim}
+   type(t_profile), pointer :: my_rail
+
+   my_rail => wtd%trk%rai
+      ...
+\end{verbatim}}
+This allows {\tt my\_rail} to be used as shorthand for {\tt wtd\%trk\%rai}
+and behave like any other variable of type {\tt t\_profile}. The associate
+clause achieves mostly the same without the variable declaration:
+{\small\begin{verbatim}
+   associate( my_rail => wtd%trk%rai )
+      ...
+   end associate
+\end{verbatim}}
+Pointers are used only minimally in CONTACT, because of the risk they have
+for allocating memory and forgetting about deallocation. Associate is being
+used more and more throughout the code.
+
+\section{Lazy implementation}
+\label{sec:lazy_implem}
+
+The modules/objects used in CONTACT are expanded using a strategy called
+``lazy implementation''. Only those parts are implemented that are actually
+needed or foreseen to be needed.
+
+An example concerns the construction of a rotation matrix from Euler angles
+({\tt t\_rotmat} in {\tt m\_\-mar\-kers}). Four functions are defined for this:
+{\small\begin{verbatim}
+   function rotmat_pure_roll
+   function rotmat_pure_yaw
+   function rotmat_pure_pitch
+   function rotmat_roll_yaw
+\end{verbatim}}
+In principle, additional variants could be defined for {\tt roll\_pitch}, 
+{\tt yaw\_pitch}, and {\tt roll\_\-yaw\_\-pitch}. There has been no need for
+these functions (yet), so they have not (yet) been implemented.
+
+A typical error message in a generic function would be ``this functionality
+(variant, combination) is not yet supported''.
+
+Adding all variants that logically fit together creates ballast: additional
+time for compilation, and additional maintenance work.
+
+\chapter{Internal structure of CONTACT}
+
+\section{Stacking of modules}
+
+\begin{figure}[p]
+\centering
+\psfig{figure=fig/contact_sw_modules2,width=5.0in,trim=5 155 20 15,clip=}
+\caption{\em Stacking of the Fortran90 modules used in CONTACT.}
+\label{fig:arch_modules2}
+\end{figure}
+
+Figure \ref{fig:arch_modules2} shows how different modules in CONTACT build
+on each other (best practice \ref{itm:design}, page \pageref{itm:design}). 
+\begin{itemize}
+\item The makefiles are at the bottom, together with facilities provided
+        by SoftwareKey (licensing mechanism) and Intel (MKL). 
+\item Right above this we find facilities for printing, as needed to
+        integrate the CONTACT output in the output streams of software
+        packages like SIMPACK or RecurDyn.
+\item Going upwards we find generic facilities (timing, input, licensing,
+        BLAS), quite generic facilities oriented towards CONTACT (markers,
+        grids, grid functions, interpolation), and more specific facilities
+        (friction, influence coefficients, w/r profiles).
+\item Next comes the aggregation in {\tt m\_hierarch\_data}. This provides
+        the data-type {\tt t\_probdata} that groups all the elements used
+        for a single ``contact problem'' in module 3.
+\item The layer above {\tt m\_hierarch\_data} shows the components used
+        in the stand-alone program in module 3: I/O, preparations, solving,
+        and specific computations.
+\item The layer {\tt m\_wrprof\_data} provides the data-type {\tt
+        t\_ws\_track} that groups all the elements used for a single
+        ``w/r contact problem'' in module 1. This uses many aspects of
+        {\tt m\_\-hierarch\_\-data}, and adds specific elements for the analysis
+        of wheel/rail contact analysis.
+\item The layer above {\tt m\_wrprof\_data} shows the additional components
+        used for solving w/r contact problems.
+\item The top layer adds the main program and driver routines, and the
+        additional data and wrapper functions for the CONTACT library
+        version.
+\end{itemize}
+
+
+\section{Scope of modules}
+
+Modules are used to group functionality that belongs together and separate
+from other functionality that is less related. ``High cohesion, loose
+coupling'' (best practice \ref{itm:design}, page \pageref{itm:design}).
+
+Some modules are centered around a derived type. An example of this is {\tt
+m\_friclaw}, that hides the many facets of different friction laws from the
+rest of the program. This module includes the input from the {\tt
+inp}-file and output to the {\tt out}-file specific to friction. This uses
+ideas from object orientation.
+
+Other modules just combine related computations. Examples are {\tt
+m\_solvpt} for different solution algorithms for the tangential problem,
+and {\tt m\_sdis} for different preparations for the actual solver
+routines.
+
+\section{Hierarchical data-structure}
+
+The implementation of CONTACT revolves around ``hierarchical
+data-structures'' as defined in {\tt m\_\-hie\-rarch\_\-data.f90} and {\tt
+m\_wrprof\_data.f90}.
+
+The main object in contact is a ``contact problem''. In module 1, this is
+encoded in the type {\tt t\_ws\_\-track}, in module 3 it is {\tt
+t\_probdata}. These types group together all the inputs, configuration,
+intermediate results, and outputs of a single contact problem. 
+
+In module 3 these data comprise
+{\small\begin{verbatim}
+   ! aggregate of all data for a CONTACT calculation in module 3:
+
+   type :: t_probdata
+      type(t_metadata) :: meta   ! meta-data describing the calculation
+      type(t_scaling)  :: scl    ! scaling factors for the CONTACT library
+      type(t_ic)       :: ic     ! integer control digits
+      type(t_material) :: mater  ! material-description of the bodies
+      type(t_potcon)   :: potcon ! description of potential contact area
+      type(t_grid)     :: cgrid  ! main discretisation grid for CONTACT
+      type(t_hertz)    :: hertz  ! Hertzian problem-description
+      type(t_geomet)   :: geom   ! geometry-description of the bodies
+      type(t_friclaw)  :: fric   ! input parameters of friction law used
+      type(t_kincns)   :: kin    ! kinematic description of the problem
+      type(t_influe)   :: influ  ! combined influence coefficients
+      type(t_solvers)  :: solv   ! variables related to solution algorithms
+      type(t_output)   :: outpt1 ! solution and derived quantities
+      type(t_subsurf)  :: subs   ! data of subsurface stress calculation
+   end type t_probdata
+\end{verbatim}}
+A number of these items are re-used in the contact problem central to module
+1. Additional data used there are
+{\small\begin{verbatim}
+   ! aggregate data for the half wheelset on track/roller combination:
+
+   type :: t_ws_track
+      type(t_discret)  :: discr   ! parameters used for potential contact
+                                  !     areas and discretization
+      type(t_vec)      :: ftrk, ttrk, fws, tws, xavg, tavg
+      real(kind=8)     :: dfz_dzws ! sensitivity of fz_tr to z_ws
+
+      type(t_wheelset) :: ws      ! wheel-set data, including wheel profile
+      type(t_trackdata):: trk     ! track/roller data, including rail profile
+      integer          :: numcps  ! number of contact problems
+      type(p_cpatch)   :: allcps(MAX_NUM_CPS) ! pointers to the data for
+                                  !     all contact problems of ws on trk
+   end type t_ws_track
+\end{verbatim}}
+Module 1 uses an array of ``contact patches'', where each contact patch
+eventually contains the data for a ``contact problem'' as defined in module
+3.
+
+A central object in CONTACT is a ``contact patch''. This is defined
+primarily using a ``potential contact area'' and a corresponding ``CONTACT
+grid'' of $m_x\cdot m_y$ rectangular elements of size $\delta
+x\times\delta y$. Module 1 identifies and defines contact patches, module 3
+performs the solution.
+
+\section{Module m\_markers, operator overloading}
+\label{sec:m_markers}
+
+Module {\tt m\_markers} provides the derived types (classes?) {\tt t\_vec},
+{\tt t\_rotmat}, and {\tt t\_marker}. The main ideas behind these are
+explained in the paper \cite{Vollebregt2020b-wrgeom}. 
+
+A fourth type that is defined is {\tt t\_coordsys}. The idea behind this is
+to provide automated checking of compatibility of markers used in
+computations. This hasn't been worked out.
+
+The module uses operator overloading to define standard operations like
+addition of vectors, multiplication of a rotation matrix times vector, or
+the product of two rotation matrices, e.g.
+{\small\begin{verbatim}
+public operator (+)
+interface operator (+)
+   procedure vec_add
+end interface operator (+)
+
+function vec_add(v1, v2)
+   type(t_vec), intent(in) :: v1, v2  !--inputs
+   type(t_vec)             :: vec_add !--result value
+end function vec_add
+\end{verbatim}}
+If the compiler then encounters the addition of two vectors, it will call
+the function as follows:
+{\small\begin{verbatim}
+   ftot = vec( 0d0, 0d0, 0d0 )
+   do icp = 1, numcps
+      cp   => wtd%allcps(icp)%cp
+      ftot = ftot + cp%ftrk   ! --> ftot = vec_add(ftot, cp%ftrk)
+   enddo
+\end{verbatim}}
+
+\section{Module m\_ptrarray}
+
+Module {\tt m\_ptrarray} provides a number of generic facilities,
+esp.\ {\tt reallocate\_arr}, that permit changing size of arrays during
+program execution.
+
+\section{Module m\_grids}
+
+Module {\tt m\_grids} defines the derived type {\tt t\_grid} with
+corresponding functions. The main ideas behind this are presented in
+\cite{Vollebregt2020b-wrgeom}.
+
+There are actually three different types of grids that are squeezed into a
+single derived type {\tt t\_grid}: curves, used to represent profiles,
+curvilinear grids, used to represent wheel and rail surfaces, and uniform
+grids, used for the potential contact area. Benefits of combining into one
+type are that this avoids repetition (translating a profile, translating a
+surface), and that this facilitates conversion from one type to another
+(profile to surface).
+
+The module does not aim to provide a fully generic grid data-type. Only
+those grids are supported that are needed by CONTACT. The operations
+provided came about by the process of ``lazy implementation'' (\S 
+\ref{sec:lazy_implem}). More functions can be added as needed in CONTACT.
+
+For profiles, the grid used may be complemented with a spline
+approximation (\S \ref{sec:m_interp}).
+
+\section{Interpolations: m\_interp, m\_spline\_*}
+\label{sec:m_interp}
+
+Interpolations are essential to CONTACT's analysis of the wheel/rail
+contact geometry problem. These are used in two different forms: 
+\begin{enumerate}
+\item subroutines for 2d bilinear interpolation on curvilinear grids,
+        provided in {\tt m\_interp},
+\item subroutines related to splines, for profile smoothing and
+        interpolation.
+\end{enumerate}
+A lot of code has been developed for working with splines. This started
+with ``PP-splines'' to represent plane curves (profiles), adding smoothing,
+adding ``B-spline curves'', and finally adding ``B-spline surfaces''.
+These are typically stored together with a grid definition. The original
+PP-form is implemented in {\tt m\_spline\_def}, {\tt make}, {\tt get};
+extensions for 1D/2D B-splines are implemented in {\tt m\_bspline\_def},
+{\tt make}, {\tt get}.
+
+The main ideas related to splines are presented in
+\cite{Vollebregt2020b-wrgeom}. The arrays used are stored along with the
+original profile data in the {\tt t\_grid} data structure. Crucial
+subroutines are {\tt make\_smoothing\_spline\_\-section}, {\tt
+grid\_spline\_eval}, and {\tt solve\_cubic\_segm}. Many other routines are
+built on top of these cornerstones.
+
+{\em The functionality for splines is still under construction. Needs
+completion of the functionality and extension of the documentation.}
+
+The main work-horse for 2D interpolation is subroutine {\tt
+interp\_wgt\_surf2unif}, establishing the mapping between a curved surface
+and a uniform mesh in an efficient way. A number of variants are built on
+top of this, for interpolation of scalar data or 3-vectors, packed in an
+array, surface (grid), or grid-function. 
+
+\bibliographystyle{unsrt}
+\bibliography{ug_contact}
+
+\end{document}

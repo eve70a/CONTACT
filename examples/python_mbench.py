@@ -36,7 +36,7 @@ if (not importlib.util.find_spec('python_intfc')):
 
 import python_intfc as cntc
 
-# $Revision: 2347 $, $Date: 2023-04-17 08:20:08 +0000 (Mon, 17 Apr 2023) $
+# $Revision: 2372 $, $Date: 2023-06-15 16:58:45 +0200 (Thu, 15 Jun 2023) $
 
 #------------------------------------------------------------------------------------------------------------
 # Part 1: Initialize the CONTACT library, register two problems 

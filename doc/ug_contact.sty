@@ -81,8 +81,6 @@
 %                   page (reports)
 %   vtaddrtop     - command for displaying the address on the top of a
 %                   page (fax, memo's, alt.report)
-%   vtaddrtoplg   - command for displaying the address on the top of a
-%                   page (quotations, agreements, invoices)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %
@@ -91,21 +89,11 @@
 
 \def\addrtxt{
     \begin{picture}(40,40)(0,0)
-    \put(40,29  ){\makebox(0,0)[tr]{Bahialaan 100}}
-    \put(40,24.5){\makebox(0,0)[tr]{3065 WC Rotterdam}}
+    \put(40,29  ){\makebox(0,0)[tr]{P.O. Box 27097}}
+    \put(40,24.5){\makebox(0,0)[tr]{3003 LB Rotterdam}}
     \put(40,20  ){\makebox(0,0)[tr]{The Netherlands}}
     % \put(40,14  ){\makebox(0,0)[tr]{tel. +31(0)6-2146 5291}}
     \put(40,14  ){\makebox(0,0)[tr]{info@vtech-cmcc.nl}}
-    \end{picture}}
-\def\addrtxtlg{
-    \begin{picture}(40,40)(0,0)
-    \put(40,33.5){\makebox(0,0)[tr]{Bahialaan 100}}
-    \put(40,29.0){\makebox(0,0)[tr]{3065 WC Rotterdam, The Netherlands}}
-    \put(40,24.0){\makebox(0,0)[tr]{tel. +31(0)6-2146 5291}}
-    \put(40,18.5){\makebox(0,0)[tr]{KvK Rotterdam 243.78.579}}
-    \put(40,14.0){\makebox(0,0)[tr]{Tax ID NL 8144.51.202.B.01}}
-    \put(40, 9.5){\makebox(0,0)[tr]{BIC/SWIFT RABONL2U}}
-    \put(40, 5.0){\makebox(0,0)[tr]{IBAN NL45.RABO.0115.2840.36}}
     \end{picture}}
 \def\addrps{}
 
@@ -126,15 +114,6 @@
        \put(  0,36.7){\makebox(0,0)[bl]{\rule{173mm}{0.3mm}}}
        \put(170,35  ){\makebox(0,0)[tr]{\large\vtdscrplong}}
        \put(170,-2  ){\makebox(0,0)[br]{\faxfont\addrtxt}}
-       \end{picture}}
-\def\vtaddrtoplg{
-       \setlength{\unitlength}{1mm}
-       \begin{picture}(170,55)(0,0.5)
-       \put(162,  0){\makebox(0,0)[bl]{\addrps}}
-       \put(  3, 39.5){\makebox(0,0)[bl]{\LARGE \vtechcmcc}}
-       \put(  0, 38){\makebox(0,0)[tl]{\rule{173mm}{0.3mm}}}
-       \put(  3, 36){\makebox(0,0)[tl]{\large\vtdscrplong}}
-       \put(170,  0){\makebox(0,0)[br]{\faxfont\addrtxtlg}}
        \end{picture}}
 \def\vtaddress{
        \setlength{\unitlength}{1mm}
