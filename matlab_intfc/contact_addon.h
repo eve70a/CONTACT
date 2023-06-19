@@ -86,6 +86,9 @@ void cntc_getparameters(int *ire, int *icp, int *lenarr, double *values);
 
 void cntc_getprofilevalues(int *ire, int *itask, int *nints, int *iparam, int *lenarr, double *values);
 
+void cntc_getprofilevalues_new(int *ire, int *itask, int *nints, int *iparam, int *nreals, double *rparam,
+                                        int *lenarr, double *values);
+
 void cntc_getwheelsetposition(int *ire, int *lenarr, double *values);
 
 void cntc_getwheelsetvelocity(int *ire, int *lenarr, double *values);

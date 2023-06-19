@@ -62,6 +62,7 @@ private cntc_calculate3
 private subs_calculate
 private cntc_getFlags
 private cntc_getParameters
+private cntc_getProfileValues_new
 private cntc_getProfileValues
 private cntc_getWheelsetPosition
 private cntc_getWheelsetVelocity
@@ -4336,11 +4337,11 @@ end subroutine cntc_getParameters
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
-   bind(c,name=CNAME_(cntc_getprofilevalues))
+subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
+   bind(c,name=CNAME_(cntc_getprofilevalues_new))
 !--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
 !  itask          - select type of outputs:
-!                     0: npnt   number of points used in profile
+!                     0: npnt   number of points used in requested sampling method
 !                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
 !                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
 !                     3: gaug   get left-most point within gauge height, offset, point at gauge height
@@ -4349,31 +4350,37 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
 !                     5: angl   get surface inclination atan2(dz, dy) [angle]
 !  iparam         - integer configuration parameters
 !                     1: itype     0 = rail, 1 = wheel profile
-!                     2:  -      not used
+!                     2: isampl   -1 = sampling cf. original input data;
+!                                  0 = sampling cf. spline representation (default);
+!                                  1 = sampling cf. spline representation at spacing ds_out
+!                            kchk>=2 = sampling cf. spline representation with integer refinement factor
+!  rparam         - real configuration parameters
+!                     1: ds_out  step-size ds used with sampling method isampl=1, default 1mm
 !  tasks 1,2,4: no unit conversion or scaling are applied for profile values
 !--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
    implicit none
 !--subroutine arguments:
    integer,      intent(in)  :: ire           ! result element ID
    integer,      intent(in)  :: itask         ! integer code for requested values
-   integer,      intent(in)  :: nints         ! number of integer parameters provided
+   integer,      intent(in)  :: nints, nreals ! number of integer/real parameters provided
    integer,      intent(in)  :: iparam(*)     ! array of integer parameters
+   real(kind=8), intent(in)  :: rparam(*)     ! array of real parameters
    integer,      intent(in)  :: lenarr        ! length of output array
    real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
 !--local variables:
-   character(len=*), parameter :: subnam = 'cntc_getProfileValues'
+   character(len=*), parameter :: subnam = 'cntc_getProfileValues_new'
    character(len=5)            :: namtyp(0:1) = (/ 'rail ', 'wheel' /)
-   integer                     :: itype, npnt, ip, ldebug, ierror, sub_ierror
+   integer                     :: itype, isampl, npnt, ip, j, jp, ldebug, ierror, sub_ierror
    logical                     :: is_ok, is_left_side
-   real(kind=8)                :: sgn, ygauge, yvampr, zgauge, zmin
+   real(kind=8)                :: s0, s1, ds, ds_out, sgn, ygauge, yvampr, zgauge, zmin
    type(t_marker)              :: rw_trk
-   type(t_grid)                :: g_trk
+   type(t_grid)                :: g_wrk
    type(t_gridfnc3)            :: dxyz
    type(t_rail),     pointer   :: my_rail
    type(t_wheel),    pointer   :: my_wheel
    type(t_grid),     pointer   :: g
 #ifdef _WIN32
-!dec$ attributes dllexport :: cntc_getProfileValues
+!dec$ attributes dllexport :: cntc_getProfileValues_new
 #endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
@@ -4383,10 +4390,26 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
    ! unpack option values, fill in defaults
 
    itype   = 0  ! default: rail
-   if (nints.ge.1) itype   = max(0, min(1, iparam(1)))  ! 0=rail, 1=wheel
+   if (nints.ge.1) itype   = max(0, min(1, iparam(1)))     ! 0=rail, 1=wheel
+
+   isampl  = 0  ! default: use s-positions from profile spline
+   if (nints.ge.2) isampl  = max(-1, min(100, iparam(2)))
+
+   ds_out  = 1d0
+   if (nreals.ge.1) ds_out = rparam(1)
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,2(a,i2))') pfx,subnam,'(',ire,'): task=',itask,', itype=',itype
+      write(bufout,'(a,a30,a,i3,3(a,i2),a,g12.4)') pfx,subnam,'(',ire,'): task=',itask,', itype=',itype, &
+                ', isampl=',isampl,', ds_out=',ds_out
+      call write_log(1, bufout)
+   endif
+
+   ! reject negative ds_out; reject very small ds_out (huge npnt)
+
+   if (isampl.eq.1 .and. ds_out.lt.1d-4) then
+      isampl = 0
+      write(bufout,'(a,a30,a,i3,a,g12.4,a)') pfx,subnam,'(',ire,'): ds_out=',ds_out,                    &
+                ' too small, using default sampling'
       call write_log(1, bufout)
    endif
 
@@ -4428,14 +4451,86 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
    is_left_side = (my_ic%config.eq.0 .or. my_ic%config.eq.4)
    if (is_left_side) sgn = -1d0
 
-   ! look up the requested values
+   ! determine number of output s-positions
 
-   npnt = g%ntot
+   if (isampl.eq.-1) then       ! -1: s-positions of input data
 
+      npnt = g%ntot
+
+   elseif (isampl.eq.0) then    !  0: s-positions of spline representation
+
+      npnt = g%spl%npnt
+
+   elseif (isampl.eq.1) then    !  1: uniform sampling at spacing ds_out
+
+      s0   = g%spl%s(1)
+      s1   = g%spl%s(g%spl%npnt)
+      npnt = int( (s1 - s0) / ds_out ) + 1
+      
+   elseif (isampl.ge.2 .and. isampl.le.100) then ! using 'isampl' points in each spline interval 
+
+      npnt = isampl * (g%spl%npnt - 1) + 1
+
+   else
+
+      write(bufout,'(a,a30,a,i3,a,i9)') pfx,subnam,'(',ire,'): invalid isampl =',isampl
+      call write_log(1, bufout)
+      return
+
+   endif
+      
    if (idebug.ge.3) then
       write(bufout,'(a,a30,a,i3,a,i6)') pfx,subnam,'(',ire,'): npnt=',npnt
       call write_log(1, bufout)
    endif
+
+   ! allocate working grid
+
+   call grid_create_curvil(g_wrk, 1, npnt)
+   call reallocate_arr(g_wrk%s_prf, npnt)
+
+   ! fill output s-positions
+
+   if (isampl.eq.-1) then       ! -1: s-positions of input data
+
+      g_wrk%s_prf(1:npnt) = g%s_prf(1:npnt)
+
+   elseif (isampl.eq.0) then    !  0: s-positions of spline representation
+
+      g_wrk%s_prf(1:npnt) = g%spl%s(1:npnt)
+
+   elseif (isampl.eq.1) then    !  1: uniform sampling at spacing ds_out
+
+      s0   = g%spl%s(1)
+      s1   = g%spl%s(g%spl%npnt)
+
+      do ip = 1, npnt
+         g_wrk%s_prf(ip) = s0 + (ip-1) * ds_out
+      enddo
+      
+   elseif (isampl.ge.2 .and. isampl.le.100) then ! using 'isampl' points in each spline interval 
+
+      g_wrk%s_prf(1) = g%spl%s(1)
+      do ip = 1, g%spl%npnt-1
+         s0   = g%spl%s(ip)
+         s1   = g%spl%s(ip+1)
+         ds   = (s1 - s0) / (1d0*isampl)
+         do j = 1, isampl
+            jp = 1 + isampl * (ip-1) + j
+            g_wrk%s_prf(jp) = s0 + j * ds
+         enddo
+      enddo
+
+   endif
+      
+   ! evaluate spline (y,z) at requested s-positions
+
+   if (itask.eq.1 .or. itask.eq.2) then
+      call spline_eval(g%spl, ikYDIR, npnt, g_wrk%s_prf, ierror, 999d0, g_wrk%y)
+      call spline_eval(g%spl, ikZDIR, npnt, g_wrk%s_prf, ierror, 999d0, g_wrk%z)
+   endif
+
+   ! copy output-values
 
    if     (itask.eq.0) then     ! 0 = npnt
 
@@ -4448,36 +4543,34 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
       ! output rail or wheel profile in its own coordinates
 
       do ip = 1, min(lenarr     ,npnt)
-         val(     ip) = g%y(ip)
+         val(     ip) = g_wrk%y(ip)
       enddo
       do ip = 1, min(lenarr-npnt,npnt)
-         val(npnt+ip) = g%z(ip)
+         val(npnt+ip) = g_wrk%z(ip)
       enddo
 
    elseif (itask.eq.2) then     ! 2 = trk
 
       ! convert the profile to track coordinates
 
-      call grid_copy(g, g_trk)
       if (itype.eq.0) then      ! rail
-         call cartgrid_2glob(g_trk, my_rail%m_trk)
+         call cartgrid_2glob(g_wrk, my_rail%m_trk)
       else                      ! wheel
          rw_trk = marker_2glob( my_wheel%m_ws, wtd%ws%m_trk )
          ! call marker_print(my_wheel%m_ws, 'm_ws', 2)
          ! call marker_print(wtd%ws%m_trk, 'm_trk', 2)
          ! call marker_print(rw_trk, 'rw_trk', 2)
-         call cartgrid_2glob(g_trk, rw_trk)
+         call cartgrid_2glob(g_wrk, rw_trk)
       endif
 
       ! output rail or wheel profile in track coordinates
 
       do ip = 1, min(lenarr     ,npnt)
-         val(     ip) = sgn * g_trk%y(ip)
+         val(     ip) = sgn * g_wrk%y(ip)
       enddo
       do ip = 1, min(lenarr-npnt,npnt)
-         val(npnt+ip) =       g_trk%z(ip)
+         val(npnt+ip) =       g_wrk%z(ip)
       enddo
-      call grid_destroy(g_trk)
 
    elseif (itask.eq.3) then     ! 3 = gaug
 
@@ -4507,14 +4600,14 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
       ! output rail or wheel arc-length parameter
 
       do ip = 1, min(lenarr, npnt)
-         val(ip) = g%s_prf(ip)
+         val(ip) = g_wrk%s_prf(ip)
       enddo
 
    elseif (itask.eq.5) then     ! 5 = angl
 
       ! output surface inclination on rail or wheel
 
-      call gf3_new(dxyz, 'dxyz', g, lzero=.true.)
+      call gf3_new(dxyz, 'dxyz', g_wrk, lzero=.true.)
       call spline_get_dxyz_at_s_gfout(g%spl, dxyz, sub_ierror)
       ! call gf3_print(dxyz, 'dxyz', ikALL, 4)
       do ip = 1, min(lenarr     ,npnt)
@@ -4523,8 +4616,38 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
       call gf3_destroy(dxyz)
 
    endif
+   call grid_destroy(g_wrk)
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+end subroutine cntc_getProfileValues_new
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
+   bind(c,name=CNAME_(cntc_getprofilevalues))
+!--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
+!  backward compatibility
+!
+!--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
+   implicit none
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: itask         ! integer code for requested values
+   integer,      intent(in)  :: nints         ! number of integer parameters provided
+   integer,      intent(in)  :: iparam(*)     ! array of integer parameters
+   integer,      intent(in)  :: lenarr        ! length of output array
+   real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
+!--local variables:
+   integer                     :: nreals
+   real(kind=8)                :: rparam(1)
+#ifdef _WIN32
+!dec$ attributes dllexport :: cntc_getProfileValues
+#endif
+
+   nreals    = 1
+   rparam(1) = 1d0
+   call cntc_getprofilevalues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val)
+
 end subroutine cntc_getProfileValues
 
 !------------------------------------------------------------------------------------------------------------

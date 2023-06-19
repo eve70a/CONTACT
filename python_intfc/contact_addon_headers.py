@@ -193,7 +193,7 @@ def contact_addon_headers( cntc_dll ):
   
     # void cntc_setprofileinputvalues               ( int *ire,          int *npoint,       double *values, 
     #                                                 int *nints,        int *iparam,       int *nreals, 
-    #                                                 double* rparam );
+    #                                                 double *rparam );
   
     cntc_dll.cntc_setprofileinputvalues.restype   = None
     cntc_dll.cntc_setprofileinputvalues.argtypes  = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_double),
@@ -250,11 +250,20 @@ def contact_addon_headers( cntc_dll ):
     cntc_dll.subs_calculate.argtypes              = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int) ]
     
     # void cntc_getprofilevalues                    ( int *ire,          int *itask,        int *nints, 
-    #                                                 int *iparam,       int *lenarr,       double* values );
+    #                                                 int *iparam,       int *lenarr,       double *values );
     
     cntc_dll.cntc_getprofilevalues.restype        = None
     cntc_dll.cntc_getprofilevalues.argtypes       = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
                                                       POINTER(c_int),    POINTER(c_int),    POINTER(c_double) ]
+    
+    # void cntc_getprofilevalues_new                ( int *ire,          int *itask,        int *nints, 
+    #                                                 int *iparam,       int *nreals,       double *rparam,
+    #                                                 int *lenarr,       double *values );
+    
+    cntc_dll.cntc_getprofilevalues_new.restype    = None
+    cntc_dll.cntc_getprofilevalues_new.argtypes   = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
+                                                      POINTER(c_int),    POINTER(c_int),    POINTER(c_double),
+                                                      POINTER(c_int),    POINTER(c_double) ]
     
     # void cntc_getwheelsetposition                 ( int *ire,          int *lenarr,       double *values );
     

@@ -1,19 +1,25 @@
 #------------------------------------------------------------------------------------------------------------
-# function [ values ] = cntc_getprofilevalues(ire, itask, iparam)
+# function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
 #
 # Get a wheel or rail profile for a wheel-rail contact problem as a table of values
 #
 #  itask          - select type of outputs:
-#                     0: npnt   number of points used in profile
+#                     0: npnt   number of points used in requested sampling method
 #                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
 #                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
-#                     3: gaug   get left-most point within gauge height, offsets, point at gauge height
+#                     3: gaug   get left-most point within gauge height, offset, point at gauge height
 #                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
 #                     4: arc    get arc-length parameter s along profile
-#                     5: angl   get surface inclination atan2(dz, dy) [length]
+#                     5: angl   get surface inclination atan2(dz, dy) [angle]
 #  iparam         - integer configuration parameters
 #                     1: itype     0 = rail, 1 = wheel profile
-#                     2: iside     0 = left, 1 = right side
+#                     2: isampl   -1 = sampling cf. original input data;
+#                                  0 = sampling cf. spline representation (default);
+#                                  1 = sampling cf. spline representation at spacing ds_out
+#                            kchk>=2 = sampling cf. spline representation with integer refinement factor
+#  rparam         - real configuration parameters
+#                     1: ds_out  step-size ds used with sampling method isampl=1, default 1mm
+#
 #  tasks 1,2,4: no unit conversion or scaling are applied for profile values
 #------------------------------------------------------------------------------------------------------------
 
@@ -28,7 +34,7 @@ import numpy               as     np
 from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, POINTER
 
-def cntc_getprofilevalues(ire, itask, iparam):
+def cntc_getprofilevalues(ire, itask, iparam=None, rparam=None):
     CNTC_err_profil = -32
 
     if (not ire):
@@ -36,10 +42,14 @@ def cntc_getprofilevalues(ire, itask, iparam):
     if (not itask):
         itask = 0
     if (not iparam):
-        itype = 0       # 0 = rail
-        iside = 1       # 1 = right side
-        iparam = [ itype, iside ]
-    nints = len(iparam)
+        itype  = 0       # 0 = rail
+        isampl = 0       # 0 = spline sampling
+        iparam = [ itype, isampl ]
+    if (not rparam):
+        ds_out = 1.0     # step size ds
+        rparam = [ ds_out ]
+    nints  = len(iparam)
+    nreals = len(rparam)
 
     if (itask<0 or itask>5):
         print('ERROR in cntc_getprofilevalues: itask=%d not available' % itask)
@@ -48,15 +58,21 @@ def cntc_getprofilevalues(ire, itask, iparam):
         if (isinstance(iparam, list)):
             iparam = np.array( iparam, dtype=c_int )
         else:
-            sys.exit('ERROR in cntc_setprofileinputvalues: invalid iparam provided.')
+            sys.exit('ERROR in cntc_getprofilevalues: invalid iparam provided.')
+    if (not isinstance(rparam, np.ndarray)):
+        if (isinstance(rparam, list)):
+            rparam = np.array( rparam, dtype=c_double )
+        else:
+            sys.exit('ERROR in cntc_getprofilevalues: invalid rparam provided.')
 
     # always get the number of points in the profile (task=0)
 
     lenarr = 1
     tmp    = np.zeros(lenarr, dtype=c_double)
 
-    cntc_dll.cntc_getprofilevalues(c_int(ire), c_int(0),
+    cntc_dll.cntc_getprofilevalues_new(c_int(ire), c_int(0),
                                c_int(nints),  iparam.ctypes.data_as(POINTER(c_int)),
+                               c_int(nreals), rparam.ctypes.data_as(POINTER(c_double)),
                                c_int(lenarr), tmp.ctypes.data_as(POINTER(c_double)))
     npnt = int(tmp[0])
 
@@ -77,8 +93,9 @@ def cntc_getprofilevalues(ire, itask, iparam):
         lenarr  = lengths[itask]
         val     = np.zeros(lenarr, dtype=c_double)
 
-        cntc_dll.cntc_getprofilevalues(c_int(ire), c_int(itask),
+        cntc_dll.cntc_getprofilevalues_new(c_int(ire), c_int(itask),
                                 c_int(nints),  iparam.ctypes.data_as(POINTER(c_int)),
+                                c_int(nreals), rparam.ctypes.data_as(POINTER(c_double)),
                                 c_int(lenarr), val.ctypes.data_as(POINTER(c_double)))
 
         if (itask==1 or itask==2):

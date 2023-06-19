@@ -53,7 +53,7 @@ contains
       ! suppress warnings for rail/wheel profiles in subsequent outer iterations (Brent, Secant)
 
       ldebug = idebug
-      if (wtd%meta%itbrent.ge.1) ldebug = ldebug - 1
+      if (wtd%meta%itforce.ge.1) ldebug = ldebug - 1
 
       call timer_start(itimer_wrgeom)
 
@@ -61,7 +61,7 @@ contains
 
       is_varprof = (wtd%trk%rai%prr%nslc.gt.0)
 
-      if (wtd%meta%itbrent.le.0 .and. is_varprof) then
+      if (wtd%meta%itforce.le.0 .and. is_varprof) then
          ! call profile_select_slice(wtd%trk%rai%prr, wtd%ws%s, ldebug)
 
          if (idebug.ge.2) call write_log(' setting up "current slice" for variable profile')

@@ -688,6 +688,38 @@ end subroutine cntc_getParameters
 
 !------------------------------------------------------------------------------------------------------------
 
+subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
+   bind(c,name=CNAME_(cntc_getprofilevalues_new))
+!--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
+!  itask          - select type of outputs:
+!                     0: npnt   number of points used in requested sampling method
+!                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
+!                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
+!                     3: gaug   get left-most point within gauge height, offset, point at gauge height
+!                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
+!                     4: arc    get arc-length parameter s along profile
+!                     5: angl   get surface inclination atan2(dz, dy) [angle]
+!  iparam         - integer configuration parameters
+!                     1: itype     0 = rail, 1 = wheel profile
+!                     2: isampl   -1 = sampling cf. original input data;
+!                                  0 = sampling cf. spline representation (default);
+!                                  1 = sampling cf. spline representation at spacing ds_out
+!                            kchk>=2 = sampling cf. spline representation with integer refinement factor
+!  rparam         - real configuration parameters
+!                     1: ds_out  step-size ds used with sampling method isampl=1, default 1mm
+!  tasks 1,2,4: no unit conversion or scaling are applied for profile values
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: itask         ! integer code for requested values
+   integer,      intent(in)  :: nints, nreals ! number of integer/real parameters provided
+   integer,      intent(in)  :: iparam(*)     ! array of integer parameters
+   real(kind=8), intent(in)  :: rparam(*)     ! array of real parameters
+   integer,      intent(in)  :: lenarr        ! length of output array
+   real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
+end subroutine cntc_getProfileValues_new
+
+!------------------------------------------------------------------------------------------------------------
+
 subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
    bind(c,name=CNAME_(cntc_getprofilevalues))
 !--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
