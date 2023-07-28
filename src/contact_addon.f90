@@ -4341,6 +4341,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    bind(c,name=CNAME_(cntc_getprofilevalues_new))
 !--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
 !  itask          - select type of outputs:
+!                    -1: ierr   <0: error codes, 0=profile loaded ok, 1=not set
 !                     0: npnt   number of points used in requested sampling method
 !                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
 !                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
@@ -4376,6 +4377,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    type(t_marker)              :: rw_trk
    type(t_grid)                :: g_wrk
    type(t_gridfnc3)            :: dxyz
+   type(t_profile),  pointer   :: my_prf
    type(t_rail),     pointer   :: my_rail
    type(t_wheel),    pointer   :: my_wheel
    type(t_grid),     pointer   :: g
@@ -4406,7 +4408,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 
    ! reject negative ds_out; reject very small ds_out (huge npnt)
 
-   if (isampl.eq.1 .and. ds_out.lt.1d-4) then
+   if (isampl.eq.1 .and. ds_out.lt.1d-4 .and. itask.ge.0) then
       isampl = 0
       write(bufout,'(a,a30,a,i3,a,g12.4,a)') pfx,subnam,'(',ire,'): ds_out=',ds_out,                    &
                 ' too small, using default sampling'
@@ -4417,22 +4419,29 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 
    if (itype.eq.0) then
       my_rail => wtd%trk%rai
-      g     => my_rail%prr%grd_data
-      is_ok = (my_rail%prr%ierror.eq.0)
-
-      if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,3a)') pfx,subnam,'(',ire,'): fname="', trim(my_rail%prr%fname),'"'
-         call write_log(1, bufout)
-      endif
+      my_prf   => my_rail%prr
    else
       my_wheel => wtd%ws%whl
-      g     => my_wheel%prw%grd_data
-      is_ok = (my_wheel%prw%ierror.eq.0)
+      my_prf   => my_wheel%prw
+   endif
+
+   g     => my_prf%grd_data
+   ierror = my_prf%ierror
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,3a)') pfx,subnam,'(',ire,'): fname="', trim(my_wheel%prw%fname),'"'
+      write(bufout,'(a,a30,a,i3,3a)') pfx,subnam,'(',ire,'): fname="', trim(my_prf%fname),'"'
          call write_log(1, bufout)
       endif
+
+   ! task -1: return error code
+
+   is_ok = (ierror.eq.0)
+
+   if (itask.eq.-1) then
+      if (lenarr.ge.1 .and.      is_ok) val(1) = 0
+      if (lenarr.ge.1 .and. .not.is_ok) val(1) = CNTC_err_profil
+      if (lenarr.ge.2) val(2) = ierror
+      return
    endif
 
    ! check availability of profile

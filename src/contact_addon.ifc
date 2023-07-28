@@ -692,6 +692,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    bind(c,name=CNAME_(cntc_getprofilevalues_new))
 !--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
 !  itask          - select type of outputs:
+!                    -1: ierr   <0: error codes, 0=profile loaded ok, 1=not set
 !                     0: npnt   number of points used in requested sampling method
 !                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
 !                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)

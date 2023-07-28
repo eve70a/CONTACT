@@ -5,6 +5,7 @@
 % Get a wheel or rail profile for a wheel-rail contact problem as a table of values
 %
 %  itask          - select type of outputs:
+%                    -1: ierr   <0: error codes, 0=profile loaded ok, 1=not set
 %                     0: npnt   number of points used in requested sampling method
 %                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
 %                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
@@ -42,7 +43,7 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
       disp('ERROR in cntc_getprofilevalues: itask is mandatory.');
       return
    end
-   if (itask<0 | itask>5)
+   if (itask<-1 | itask>5)
       disp(sprintf('ERROR in cntc_getprofilevalues: itask=%d not available.', itask));
       return
    end
@@ -57,42 +58,56 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
    nints  = length(iparam);
    nreals = length(rparam);
 
-   % always get the number of points in the profile at requested s sampling positions
+   if (itask==-1)       % task -1: get error code
 
-   p_npnt = libpointer('doublePtr',-1);
-   calllib(libname,'cntc_getprofilevalues_new', ire, 0, nints, iparam, nreals, rparam, 1, p_npnt);
-
-   npnt = round(p_npnt.value);
-
-   if (npnt==CNTC_err_profil | npnt<=0)
-      disp(sprintf('cntc_getprofilevalues: the rail and/or wheel profile could not be found or processed (%d).',npnt));
-      return;
-   end
-
-   % create output-array dependent on task to be performed
-
-   if (itask==0)
-
-      values = [ npnt ];
-
-   elseif (itask>=1 & itask<=5)
-
-      lenarr = [ npnt*2, npnt*2, 6, npnt, npnt ];
-      lenarr = lenarr(itask);
+      lenarr = 2;
       p_val  = libpointer('doublePtr',zeros(lenarr,1));
 
-      calllib(libname,'cntc_getprofilevalues_new', ire, itask, nints, iparam, nreals, rparam, lenarr, p_val);
-      values = p_val.value;
+      calllib(libname,'cntc_getprofilevalues_new', ire, itask, nints, iparam, nreals, rparam, 1, p_val);
+      values = round(p_val.value);
 
-      if (itask==1 | itask==2)
-         values = reshape(values, npnt, 2);
+   elseif (itask>=0 & itask<=5)
+
+      % task 0--5: first get the number of points in the profile at requested s sampling positions
+
+      p_npnt = libpointer('doublePtr',-1);
+      calllib(libname,'cntc_getprofilevalues_new', ire, 0, nints, iparam, nreals, rparam, 1, p_npnt);
+
+      npnt = round(p_npnt.value);
+
+      if (npnt==CNTC_err_profil | npnt<=0)
+         disp(sprintf(['cntc_getprofilevalues: the rail and/or wheel profile could not be found or ',...
+                                                                                'processed (%d).'], npnt));
+         return;
       end
+
+      % create output-array dependent on task to be performed
+
+      if (itask==0)
+
+         values = [ npnt ];
+
+      elseif (itask>=1 & itask<=5)
+
+         lenarr = [ npnt*2, npnt*2, 6, npnt, npnt ];
+         lenarr = lenarr(itask);
+         p_val  = libpointer('doublePtr',zeros(lenarr,1));
+
+         calllib(libname,'cntc_getprofilevalues_new', ire, itask, nints, iparam, nreals, rparam, ...
+                                                                                         lenarr, p_val);
+         values = p_val.value;
+
+         if (itask==1 | itask==2)
+            values = reshape(values, npnt, 2);
+         end
+
+      end % (itask==0 | 1--5)
 
    else
 
       values = [];
 
-   end
+   end % if (itask==-1)
 
 end % cntc_getprofilevalues
 
