@@ -86,8 +86,6 @@ module m_spline_get
       module procedure spline_get_xy_at_z_gout
    end interface spline_get_xy_at_z
 
-   public  spline_get_dxyz_at_s_gfout
-
    public  spline_get_dzdy_at_s
    public  spline_get_dzdy_at_s_scalar
    public  spline_get_dzdy_at_s_arr
@@ -156,11 +154,15 @@ module m_spline_get
    public  spline_get_dxyz_at_s
    public  spline_get_dxyz_at_s_scalar
    public  spline_get_dxyz_at_s_arr
+   public  spline_get_dxyz_at_s_gfout
 
    interface spline_get_dxyz_at_s
       module procedure spline_get_dxyz_at_s_scalar
       module procedure spline_get_dxyz_at_s_arr
+      module procedure spline_get_dxyz_at_s_gfout
    end interface spline_get_dxyz_at_s
+
+   public  spline_get_nvec_at_s_gfout
 
    public  spline_get_pt_at_line_oyz
 
@@ -822,45 +824,6 @@ end subroutine spline_get_xy_at_z_gout
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_get_dxyz_at_s_gfout( spl, gf_out, my_ierror )
-!--function: compute derivatives d[xyz]/ds of spline [x(s),y(s),z(s)] (input grid) to output
-!            grid-function gfout
-   implicit none
-!--subroutine arguments
-   type(t_spline)               :: spl
-   type(t_gridfnc3)             :: gf_out
-   integer,         intent(out) :: my_ierror
-!--local variables
-   integer                  :: sub_ierror, nout
-   type(t_grid), pointer    :: gout
-
-   my_ierror = 0
-
-   ! get output grid gout
-
-   gout => gf_out%grid
-   nout = gout%ntot
-
-   ! evaluate derivatives at output s-positions
-
-   if (spl%has_xdata) then
-      if (ldebug.ge.3) call write_log(' spline_dxyz_at_s: spline_eval(dy_ds)')
-      call spline_eval( spl, ikXDIR, nout, gout%s_prf, sub_ierror, f1_eval=gf_out%vx)
-      if (my_ierror.eq.0) my_ierror = sub_ierror
-   endif
-
-   if (ldebug.ge.3) call write_log(' spline_dxyz_at_s: spline_eval(dy_ds)')
-   call spline_eval( spl, ikYDIR, nout, gout%s_prf, sub_ierror, f1_eval=gf_out%vy)
-   if (my_ierror.eq.0) my_ierror = sub_ierror
-
-   if (ldebug.ge.3) call write_log(' spline_dxyz_at_s: spline_eval(dz_ds)')
-   call spline_eval( spl, ikZDIR, nout, gout%s_prf, sub_ierror, f1_eval=gf_out%vn)
-   if (my_ierror.eq.0) my_ierror = sub_ierror
-
-end subroutine spline_get_dxyz_at_s_gfout
-
-!------------------------------------------------------------------------------------------------------------
-
 subroutine spline_get_dzdy_at_s_scalar( spl, sout, dzdy, my_ierror )
 !--function: compute profile slope dzdy of spline [y(s),z(s)] (input grid) at output position sout
    implicit none
@@ -1492,6 +1455,89 @@ subroutine spline_get_dxyz_at_s_arr( spl, nout, sout, my_ierror, dxout, dyout, d
    endif
 
 end subroutine spline_get_dxyz_at_s_arr
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine spline_get_dxyz_at_s_gfout( spl, gf_out, my_ierror )
+!--function: compute derivatives d[xyz]/ds of spline [x(s),y(s),z(s)] (input grid) to output
+!            grid-function gfout
+   implicit none
+!--subroutine arguments
+   type(t_spline)               :: spl
+   type(t_gridfnc3)             :: gf_out
+   integer,         intent(out) :: my_ierror
+!--local variables
+   integer                  :: sub_ierror, nout
+   type(t_grid), pointer    :: gout
+
+   my_ierror = 0
+
+   ! get output grid gout
+
+   gout => gf_out%grid
+   nout = gout%ntot
+
+   ! evaluate derivatives at output s-positions
+
+   if (spl%has_xdata) then
+      if (ldebug.ge.3) call write_log(' spline_dxyz_at_s: spline_eval(dy_ds)')
+      call spline_eval( spl, ikXDIR, nout, gout%s_prf, sub_ierror, f1_eval=gf_out%vx)
+      if (my_ierror.eq.0) my_ierror = sub_ierror
+   endif
+
+   if (ldebug.ge.3) call write_log(' spline_dxyz_at_s: spline_eval(dy_ds)')
+   call spline_eval( spl, ikYDIR, nout, gout%s_prf, sub_ierror, f1_eval=gf_out%vy)
+   if (my_ierror.eq.0) my_ierror = sub_ierror
+
+   if (ldebug.ge.3) call write_log(' spline_dxyz_at_s: spline_eval(dz_ds)')
+   call spline_eval( spl, ikZDIR, nout, gout%s_prf, sub_ierror, f1_eval=gf_out%vn)
+   if (my_ierror.eq.0) my_ierror = sub_ierror
+
+end subroutine spline_get_dxyz_at_s_gfout
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine spline_get_nvec_at_s_gfout( spl, gf_out, my_ierror )
+!--function: compute outward normal vector for a plane curve [0, y, z] and store in grid-function gfout
+   implicit none
+!--subroutine arguments
+   type(t_spline)               :: spl
+   type(t_gridfnc3)             :: gf_out
+   integer,         intent(out) :: my_ierror
+!--local variables
+   integer                  :: sub_ierror, iout, nout
+   real(kind=8)             :: ty, tz, tnrm
+   type(t_grid), pointer    :: gout
+
+   my_ierror = 0
+
+   ! get output grid gout
+
+   gout => gf_out%grid
+   nout = gout%ntot
+
+   ! evaluate derivatives at output s-positions
+
+   if (ldebug.ge.3) call write_log(' spline_nvec_at_s: spline_eval(dy_ds)')
+   call spline_eval( spl, ikYDIR, nout, gout%s_prf, sub_ierror, f1_eval=gf_out%vy)
+   if (my_ierror.eq.0) my_ierror = sub_ierror
+
+   if (ldebug.ge.3) call write_log(' spline_nvec_at_s: spline_eval(dz_ds)')
+   call spline_eval( spl, ikZDIR, nout, gout%s_prf, sub_ierror, f1_eval=gf_out%vn)
+   if (my_ierror.eq.0) my_ierror = sub_ierror
+
+   ! tangent vector: [ (dx/ds), dy/ds, dz/ds ], outward normal vector [ 0, dz/ds, -dy/ds ]
+
+   do iout = 1, nout
+      ty   = gf_out%vy(iout)
+      tz   = gf_out%vn(iout)
+      tnrm = sqrt(ty**2 + tz**2)
+      gf_out%vx(iout) = 0d0
+      gf_out%vy(iout) =  tz / tnrm
+      gf_out%vn(iout) = -ty / tnrm
+   enddo
+
+end subroutine spline_get_nvec_at_s_gfout
 
 !------------------------------------------------------------------------------------------------------------
 

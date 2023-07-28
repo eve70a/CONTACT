@@ -1057,7 +1057,7 @@ contains
 
       ! call write_log('grid_check_nan prw_lc')
       if (idebug.ge.1) call grid_check_nan(prw_lc, 'locus(rw)', idebug)
-      if (idebug.ge.4) call grid_print(prw_lc, 'locus(rw)', 5)
+      if (idebug.ge.4) call grid_print(prw_lc, 'locus_rw', 5)
 
       ! convert the wheel mesh in one step from profile to view coordinates
 
@@ -1065,7 +1065,7 @@ contains
       call cartgrid_2glob(prw_lc, rw_vw)
 
       if (idebug.ge.1) call grid_check_nan(prw_lc, 'locus(vw)', idebug)
-      if (idebug.ge.4) call grid_print(prw_lc, 'locus(vw)', 5)
+      if (idebug.ge.4) call grid_print(prw_lc, 'locus_vw', 5)
 
       ! detect sudden steps in contact locus, including overall start/end-points
 
@@ -1080,21 +1080,21 @@ contains
                         scale_z, nkink, ikinks, idebug-1, sub_ierror, s=prw_lc%s_prf, ds_thrs=ds_thrs)
 
       if (idebug.ge.2 .and. nkink.gt.2) then
-         write(bufout,'(a,i3,a,20i5,/,4(10x,20i5))') ' contact locus: nkink=',nkink,', ikinks=',        &
-                ikinks(1:min(max_num_kinks,nkink))
-         nline = int( (nkink-1)/20 ) + 1
+         write(bufout,'(a,i3,a,20i5,:,/,4(10x,20i5,:,/))') ' contact locus: nkink=',nkink,', ikinks= ', &
+                ikinks(1:min(nkink,max_num_kinks))
+         nline = int( (min(nkink,max_num_kinks)-1)/20 ) + 1
          call write_log(nline, bufout)
       endif
 
       ! create interpolating spline for the contact locus, preparing for interpolations
 
       call grid_make_ppspline(prw_lc, 0d0, .false., nkink, ikinks, my_ierror=sub_ierror)
-      ! call grid_print(prw_lc, 'locus(vw)', 5)
+      ! call grid_print(prw_lc, 'locus_vw', 5)
 
       if (is_varprof .or. is_roller) then
          call grid_make_arclength(prr_lc, sub_ierror)
 
-         call profile_find_kinks(nw, prr_lc%y, prr_lc%x, 0, kink_high, kink_low, kink_wid,              &
+         call profile_find_kinks(nw, prr_lc%y, prr_lc%x, is_wheel, kink_high, kink_low, kink_wid,       &
                         scale_z, nkink, ikinks, idebug-1, sub_ierror, s=prr_lc%s_prf, ds_thrs=ds_thrs)
 
          if (idebug.ge.2 .and. nkink.gt.2) then
@@ -3306,11 +3306,10 @@ contains
       endif
 
       ! 2.b fill rnrm: evaluate dydz(s) at positions sr(i)
-      !     outward normal: [ 0, dy/dz, -1 ]
+      !     tangent vector: [ (dx/ds), dy/ds, dz/ds ], outward normal vector [ 0, dz/ds, -dy/ds ]
 
       call gf3_new(rnrm, 'rnrm', rsrf, lzero=.true.)
-      call spline_get_dzdy_at_s(prr%spl, rnrm, sub_ierror)
-      rnrm%vn(1:ny) = -1d0
+      call spline_get_nvec_at_s_gfout( prr%spl, rnrm, sub_ierror )
 
       ! 3. compute wsrf: points (y(s),z(s)) on wheel surface at positions wsrf%s_prf == sw(i)
 
@@ -3365,17 +3364,21 @@ contains
          z_axle = -ws%nom_radius
          call grid_revolve_profile(wsrf, 1, ny, wsrf%x, z_axle, -999d0, wsrf%z)
 
-         ! fill wnrm: evaluate dydz(s) at positions sw(i)
-         ! outward normal: [ 0, -dy/dz, 1 ]
+         ! fill wnrm: evaluate dy/ds, dz/ds at positions sw(i), define outward normal
 
          if (use_old_wnrm) then
             call gf3_new(wnrm, 'wnrm', wsrf, lzero=.true.)
-            call spline_get_dzdy_at_s(prw%spl, wnrm, sub_ierror)
-            call gf3_scal(AllElm, -1d0, wnrm, ikYDIR)
-            wnrm%vn(1:ny) = 1d0
+            call spline_get_nvec_at_s_gfout( prw%spl, wnrm, sub_ierror )
          endif
 
          ! rotate profile from wheel to track coordinates
+         ! TODO: rotation should ignore yaw angle or set nx=0 and re-normalize
+
+         if (abs(whl_trk%yaw()).gt.0.025d0) then
+            write(bufout,'(2a,g12.4,a)') ' WARNING: curved reference surface may be inaccurate for ',    &
+                        'yaw angle', whl_trk%yaw(),' rad'
+            call write_log(1, bufout)
+         endif
 
          call cartgrid_2glob( wsrf, whl_trk )
          if (use_old_wnrm) call gf3_rotate( wnrm, whl_trk%rot )
@@ -3424,6 +3427,7 @@ contains
       if (idebug.ge.3) then
          call grid_print(rsrf, 'rsrf_trk', 5, 9)
          call grid_print(wsrf, 'wsrf_trk', 5, 9)
+         call gf3_print(rnrm, 'rnrm_trk', ikALL, 4)
          call gf3_print(wnrm, 'wnrm_trk', ikALL, 4)
       endif
 
@@ -3488,8 +3492,8 @@ contains
       enddo
 
       if (idebug.ge.3) then
-         call grid_print(csrf, 'csrf(trk)', 5, 9)
-         call gf3_print(cnrm, 'cnrm(trk)', ikALL, 4)
+         call grid_print(csrf, 'csrf_trk', 5, 9)
+         call gf3_print(cnrm, 'cnrm_trk', ikALL, 4)
       endif
 
       ! create surface inclination on csrf: atan2(ny, -nz)
@@ -3503,7 +3507,7 @@ contains
       enddo
 
       if (idebug.ge.3) then
-         call gf3_print(calph, 'calph(trk)', ikALL, 4)
+         call gf3_print(calph, 'calph_trk', ikALL, 4)
       endif
 
       call grid_destroy(rsrf)
