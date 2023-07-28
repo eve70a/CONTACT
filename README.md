@@ -1,7 +1,4 @@
-
-                    CONTACT version "open-src"
-
-## Overview
+## CONTACT
 
 CONTACT is an advanced simulation program for the study of three-dimensional
 frictional contact problems, such as occur between wheel and rail, in roller
@@ -30,7 +27,20 @@ Finite Elements, at one thousandth  of the computation time needed.
 
 ## Getting started
 
-Introductory information is provided in the document [doc/getting_started.pdf].
+Introductory information is provided in the [getting started guide](./doc/getting-started.pdf).
+
+## Reporting issues
+
+We welcome your feedback. No specific systems are put in place for this, just
+contact Edwin Vollebregt via e-mail or through his user profile.
+
+## Contribution
+
+We welcome contributions. Please contact Edwin Vollebregt and we'll discuss
+how to work together.
+
+The open source version of CONTACT has been supported financially by the US
+Federal Railroad Administration. This is greatly acknowledged.
 
 ## Binary version
 
@@ -40,8 +50,8 @@ CONTACT is provided by Edwin Vollebregt, through his company Vtech CMCC.
 * A "convenience version" is provided at a service fee: with additional
    quality checking, documentation, with an automated installer, and
    detailed support.
-See the section "Software products" at the [website](www.cmcc.nl).
+See the section "Software products" at the website of [Vtech CMCC](https://www.cmcc.nl).
 
 ## License
 
-Apache License 2.0, see [LICENSE.txt].
+Apache License 2.0, see [LICENSE.md](./LICENSE.md).
