@@ -31,15 +31,16 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, POINTER
 
 def subs_addblock(ire, icp, iblk, isubs, xparam, yparam, zparam):
+    # default: fall-back for all contact patches
 
-    if (not ire):
-        ire = 1
-    if (not icp):
-        icp = -1  # default: fall-back for all contact patches
-    if (not iblk):
+    if (not isinstance(ire, int)):
+        ire =  1
+    if (not isinstance(icp, int)):
+        icp = -1
+    if (not isinstance(iblk, int)):
         iblk = 1
 
-    if (not isubs or not zparam):
+    if (not isinstance(isubs, int) or not isinstance(zparam, int)):
         sys.exit('ERROR in subs_addblock: isubs, zparam are mandatory.')
 
     if (isubs in [1, 5]):

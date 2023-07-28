@@ -18,12 +18,12 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double
 
 def cntc_setmaterialproperties(ire, icp, g1, nu1, g2, nu2):
+    # default: W/R contact, all patches
 
-    if (not ire):
-        ire = 1
-    if (not icp):
-        icp = -1; # default: W/R contact, all patches
-
+    if (not isinstance(ire, int)):
+        ire =  1
+    if (not isinstance(icp, int)):
+        icp = -1
     cntc_dll.cntc_setmaterialproperties(c_int(ire), c_int(icp), c_double(g1), c_double(nu1), 
                                                                 c_double(g2), c_double(nu2))
 

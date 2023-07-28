@@ -17,7 +17,7 @@ use m_aijpj
 use m_subsurf
 use m_wr_input
 use m_wr_profiles
-use m_wr_brentmeth
+use m_wr_totforce
 implicit none
 private
 
@@ -774,9 +774,11 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
       elseif (params(i).eq.CNTC_ic_force) then          ! set F-digit in the RE-CP-data
 
          if (imodul.eq.3) then
-            my_ic%force  = max(0, min(2, values(i)))
+            my_ic%force1  = 0
+            my_ic%force3  = max(0, min(2, values(i)))
          else
-            my_ic%force  = max(0, min(3, values(i)))
+            my_ic%force1  = max(0, min(4, values(i)))
+            my_ic%force3  = 0
          endif
 
       elseif (params(i).eq.CNTC_ic_sens) then           ! set S2-digit in the RE-CP-data
@@ -3012,9 +3014,9 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
       return
    endif
 
-   ! check number of parameters supplied, expecting 4 additional params when Z = 3, F = 3
+   ! check number of parameters supplied, expecting 4 additional params when Z = 3, F = 3/4
 
-   if (ztrack.eq.3 .and. wtd%ic%force.eq.3) then
+   if (ztrack.eq.3 .and. (wtd%ic%force1.ge.3 .or. wtd%ic%force1.le.4)) then
       nparam_loc(1:3) = (/ 5, 6, 15 /)
    else
       nparam_loc(1:3) = (/ 5, 6, 11 /)
@@ -3076,7 +3078,7 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
       my_rail%vz              = params(10) * my_scl%veloc
       my_rail%vroll           = params(11) * my_scl%angle
 
-      if (wtd%ic%force.eq.3) then
+      if (wtd%ic%force1.eq.3 .or. wtd%ic%force1.eq.4) then
          wtd%trk%ky_rail      = params(12) * my_scl%forc / my_scl%len
          wtd%trk%fy_rail      = params(13) * my_scl%forc
          wtd%trk%kz_rail      = params(14) * my_scl%forc / my_scl%len
@@ -4218,7 +4220,11 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_ic_force) then          ! get F-digit from the RE-CP-data
 
-         values(i) = my_ic%force
+         if (icp.le.0) then
+            values(i) = my_ic%force1
+         else
+            values(i) = my_ic%force3
+         endif
 
       elseif (params(i).eq.CNTC_ic_sens) then           ! get S2-digit from the RE-CP-data
 
@@ -4418,7 +4424,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    ! select rail or wheel, set pointer g to actual data
 
    if (itype.eq.0) then
-      my_rail => wtd%trk%rai
+      my_rail  => wtd%trk%rai
       my_prf   => my_rail%prr
    else
       my_wheel => wtd%ws%whl
@@ -4428,10 +4434,10 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    g     => my_prf%grd_data
    ierror = my_prf%ierror
 
-      if (idebug.ge.2) then
+   if (idebug.ge.2) then
       write(bufout,'(a,a30,a,i3,3a)') pfx,subnam,'(',ire,'): fname="', trim(my_prf%fname),'"'
-         call write_log(1, bufout)
-      endif
+      call write_log(1, bufout)
+   endif
 
    ! task -1: return error code
 

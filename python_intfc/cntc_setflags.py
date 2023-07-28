@@ -21,12 +21,12 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, POINTER
 
 def cntc_setflags(ire, icp, params, values):
+    # default: W/R contact, all patches
 
-    if (not ire):
-        ire = 1
-    if (not icp):
-        icp = -1; # default: W/R contact, all patches
-
+    if (not isinstance(ire, int)):
+        ire =  1
+    if (not isinstance(icp, int)):
+        icp = -1
     # convert params and values to NumPy ndarrays, allowing for scalar or list of scalars
     if (not isinstance(params, np.ndarray)):
         params = np.atleast_1d( np.array( params, dtype=c_int ) )

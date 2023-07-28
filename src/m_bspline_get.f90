@@ -779,7 +779,7 @@ subroutine bspline_make_1d_ppspline_phase1(bspl, nmeas, s_prf, ds_out, lambda, n
    endif
 
    if (my_ierror.eq.0) then
-      if (ldebug.ge.-1) then
+      if (ldebug.ge.1) then
          write(bufout,'(a,i4,a,i4)') ' knot vector tj has ',nknot,' knots, nmeas=',nmeas
          call write_log(1, bufout)
       endif

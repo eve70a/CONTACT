@@ -29,9 +29,9 @@ from ctypes                import c_int, c_double, POINTER
 def cntc_getsensitivities(ire, icp, lenout, lenin):
     print('function called for first time:', __name__)
 
-    if (not ire):
+    if (not isinstance(ire, int)):
         ire = 1
-    if (not icp):
+    if (not isinstance(icp, int)):
         icp = 1
     if (icp<=0):
         sys.exit('ERROR in cntc_getsensitivities: not available for icp=%d' % icp)

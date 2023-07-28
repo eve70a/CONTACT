@@ -109,8 +109,8 @@ public
       !
       ! for pot.contact in conformal method:
       ! curv_ref  [mm]   curved reference [0,y,z]_c(tr) (1 x my) for conformal contact approach (trk coord)
-      ! curv_nrm         non-normalized outward surface normals [0,ny,nz] at the curved reference surface
-      ! curv_incln [rad] values representing surface inclination [0,alpha,0] of the curved reference surface
+      ! curv_nrm         non-normalized outward surface normals [0,ny,nz]_(tr) at curved reference surface
+      ! curv_incln [rad] values representing surface inclination [0,alpha,0]_(tr) of curved reference surface
       !
       ! for use in wr_undefdistc and wr_rigslip:
       ! rail_srfc [mm]   rail surface [x,sp,np]_r(cp) in planar contact reference coordinates

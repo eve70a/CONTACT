@@ -24,9 +24,9 @@ from ctypes                import c_int, c_double
 
 def cntc_setrollingstepsize(ire, icp, chi, dq):
 
-    if (not ire):
-        ire = 1
-    if (not icp):
+    if (not isinstance(ire, int)):
+        ire =  1
+    if (not isinstance(icp, int)):
         icp = -1; # default: W/R contact, all patches
         chi =  0;
 

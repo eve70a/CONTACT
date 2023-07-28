@@ -100,7 +100,7 @@ contains
       zerror = zerror .or.           .not.check_irng ('Control digit B',  ic%bound , 0, 6)
       zerror = zerror .or.           .not.check_irng ('Control digit T',  ic%tang  , 0, 3)
       zerror = zerror .or.           .not.check_irng ('Control digit N',  ic%norm  , 0, 1)
-      zerror = zerror .or.           .not.check_irng ('Control digit F',  ic%force , 0, 2)
+      zerror = zerror .or.           .not.check_irng ('Control digit F3', ic%force3, 0, 2)
       zerror = zerror .or.           .not.check_irng ('Control digit S',  ic%stress, 0, 3)
 
       zerror = zerror .or.           .not.check_2int ('Control digit V',  ic%varfrc, 0, 2)
@@ -351,13 +351,13 @@ contains
       else
          kin%fntrue = dbles(1)
       endif
-      if (ic%force.eq.0) then
+      if (ic%force3.eq.0) then
          kin%cksi   = dbles(2)
          kin%ceta   = dbles(3)
-      elseif (ic%force.eq.1) then
+      elseif (ic%force3.eq.1) then
          kin%fxrel1 = dbles(2)
          kin%ceta   = dbles(3)
-      elseif (ic%force.eq.2) then
+      elseif (ic%force3.eq.2) then
          kin%fxrel1 = dbles(2)
          kin%fyrel1 = dbles(3)
       endif
@@ -369,12 +369,12 @@ contains
          zerror = zerror .or. .not.check_range ('the normal force', kin%fntrue, 0d0, 1d20)
       endif
 
-      if (ic%force.ge.1 .and. abs(kin%fxrel1).gt.1d0) then
+      if (ic%force3.ge.1 .and. abs(kin%fxrel1).gt.1d0) then
          zerror = zerror .or. .not.check_range ('Abs(Fx)', abs(kin%fxrel1), -1d0, 1d0)
       endif
 
       z = (kin%fxrel1 **2 + kin%fyrel1 **2).gt.1d0
-      if (ic%force.eq.2 .and. z) then
+      if (ic%force3.eq.2 .and. z) then
          zerror = .true.
          write(lout, 2101) dsqrt (kin%fxrel1 **2 + kin%fyrel1 **2)
          write(   *, 2101) dsqrt (kin%fxrel1 **2 + kin%fyrel1 **2)
@@ -1152,13 +1152,13 @@ contains
          fun = kin%fntrue
       endif
 
-      if (ic%force.eq.0) then
+      if (ic%force3.eq.0) then
          fux = kin%cksi
          fuy = kin%ceta
-      elseif (ic%force.eq.1) then
+      elseif (ic%force3.eq.1) then
          fux = kin%fxrel1
          fuy = kin%ceta
-      elseif (ic%force.eq.2) then
+      elseif (ic%force3.eq.2) then
          fux = kin%fxrel1
          fuy = kin%fyrel1
       endif
@@ -1177,12 +1177,12 @@ contains
          write(linp, 1215) solv%fdecay, solv%betath, solv%kdowfb, solv%d_ifc, solv%d_lin, solv%d_cns,  &
             solv%d_slp, solv%pow_s
       endif
-      if (ic%norm.eq.0 .and. ic%force.eq.0) write(linp, 2131) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.0 .and. ic%force.eq.1) write(linp, 2132) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.0 .and. ic%force.eq.2) write(linp, 2133) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.1 .and. ic%force.eq.0) write(linp, 2134) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.1 .and. ic%force.eq.1) write(linp, 2135) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.1 .and. ic%force.eq.2) write(linp, 2136) fun, fux, fuy, kin%cphi
+      if (ic%norm.eq.0 .and. ic%force3.eq.0) write(linp, 2131) fun, fux, fuy, kin%cphi
+      if (ic%norm.eq.0 .and. ic%force3.eq.1) write(linp, 2132) fun, fux, fuy, kin%cphi
+      if (ic%norm.eq.0 .and. ic%force3.eq.2) write(linp, 2133) fun, fux, fuy, kin%cphi
+      if (ic%norm.eq.1 .and. ic%force3.eq.0) write(linp, 2134) fun, fux, fuy, kin%cphi
+      if (ic%norm.eq.1 .and. ic%force3.eq.1) write(linp, 2135) fun, fux, fuy, kin%cphi
+      if (ic%norm.eq.1 .and. ic%force3.eq.2) write(linp, 2136) fun, fux, fuy, kin%cphi
       if (ic%varfrc.eq.0) call fric_wrtinp(linp, ic%varfrc, ic%frclaw_inp, fric)
 
  1101 format (i8.6, 6x,   'P-B-T-N-F-S          PVTIME, BOUND , TANG , NORM , FORCE, STRESS', /,        &

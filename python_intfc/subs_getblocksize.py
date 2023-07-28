@@ -17,10 +17,16 @@ import sys
 from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, POINTER
 
-def subs_getblocksize(ire=1, icp=1, iblk=1):
+def subs_getblocksize(ire, icp, iblk):
 
+    if (not isinstance(ire, int)):
+        ire = 1
+    if (not isinstance(icp, int)):
+        icp = 1
     if (icp<=0):
         sys.exit('ERROR in subs_getresults: not available for icp=%d' % icp)
+    if (not isinstance(iblk, int)):
+        iblk = 1
 
     nx = c_int()
     ny = c_int()

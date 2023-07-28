@@ -171,7 +171,7 @@ contains
       if (icount.gt.0 .and. (solv%solver_eff.eq.isolv_stdygs .or. solv%solver_eff.eq.isolv_gdstdy)) then
          if (solv%solver_eff.eq.isolv_stdygs) write(bufout,1101) icount, '(faster/more robust) SteadyGS'
          if (solv%solver_eff.eq.isolv_gdstdy) write(bufout,1101) icount, '(faster) GDsteady'
-         call write_log(2, bufout)
+         if (ic%flow.ge.3) call write_log(2, bufout)
          solv%solver_eff = isolv_cnvxgs
       endif
  1101 format(' TANG: Warning: pot.con. too small; no exterior points at trailing edge at',i4,' rows.',/, &

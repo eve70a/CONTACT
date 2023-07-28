@@ -194,7 +194,7 @@ program contact
       call get_command_argument(1, tmpstr, status=ierror)
       if (ierror.lt.0) goto 981
 #endif
-      read(tmpstr, *, err=983) imode
+      read(tmpstr, *, err=981) imode
    endif
 
    ! repeatedly inquire for the mode of operation when not yet provided

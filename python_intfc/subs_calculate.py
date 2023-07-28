@@ -15,7 +15,12 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double
 from .cntc_getmagicnumbers import cntc_getmagicnumbers
 
-def subs_calculate(ire=1, icp=-1, idebug=1):
+def subs_calculate(ire, icp, idebug=1):
+
+    if (not isinstance(ire, int)):
+        ire =  1
+    if (not isinstance(icp, int)):
+        icp = -1
 
     ierr = c_int()
 

@@ -2,15 +2,17 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
+   |  Version: trunk(win64), $Revision: 2392 $, $Date:: 2023-07-25$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
-   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   |  (Subversion revision 2392M, 26-Jul-2023 11:32)                      |
+   |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
    ------------------------------------------------------------------------
 
  Case     1
+ reading rail  profile "MBench_UIC60_v3.prr"
+ reading wheel profile "MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.536E+04, dFz/dz:   1.018E+06
+         1, NR,  z_ws, Fz:       0.2048   1.536E+04, dFz/dz:   6.786E+05
          2, NR,  z_ws, Fz:       0.1995       9600., dFz/dz:   1.094E+06
          3, NR,  z_ws, Fz:       0.1999       9947., dFz/dz:   9.482E+05
          4, NR,  z_ws, Fz:       0.1999   1.000E+04, dFz/dz:   9.568E+05
@@ -198,7 +200,7 @@
 
  Case     2
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2016   1.550E+04, dFz/dz:   8.499E+05
+         1, NR,  z_ws, Fz:       0.2016   1.550E+04, dFz/dz:   5.666E+05
  WARNING: potential contact area too small;   13 elements next to boundary.
          2, NR,  z_ws, Fz:       0.1951   1.521E+04, dFz/dz:   4.499E+04
          3, NR,  z_ws, Fz:       0.1847       2771., dFz/dz:   1.191E+06
@@ -369,7 +371,7 @@
 
  Case     3
          0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.0023       6992., dFz/dz:   4.241E+05
+         1, NR,  z_ws, Fz:      -0.0023       6992., dFz/dz:   2.827E+05
          2, NR,  z_ws, Fz:       0.0048   1.031E+04, dFz/dz:   4.680E+05
          3, NR,  z_ws, Fz:       0.0041       9909., dFz/dz:   6.048E+05
          4, NR,  z_ws, Fz:       0.0043       9991., dFz/dz:   5.448E+05
@@ -472,7 +474,7 @@
 
  Case     4
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.707E+04, dFz/dz:   1.131E+06
+         1, NR,  z_ws, Fz:       0.2048   1.707E+04, dFz/dz:   7.542E+05
          2, NR,  z_ws, Fz:       0.1985       9911., dFz/dz:   1.146E+06
          3, NR,  z_ws, Fz:       0.1986       9998., dFz/dz:   1.116E+06
          4, NR,  z_ws, Fz:       0.1986      10000., dFz/dz:   1.099E+06
@@ -638,7 +640,7 @@
 
  Case     5
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2016   1.772E+04, dFz/dz:   9.717E+05
+         1, NR,  z_ws, Fz:       0.2016   1.772E+04, dFz/dz:   6.478E+05
          2, NR,  z_ws, Fz:       0.1937       8835., dFz/dz:   1.118E+06
          3, NR,  z_ws, Fz:       0.1947       9880., dFz/dz:   1.003E+06
          4, NR,  z_ws, Fz:       0.1948       9968., dFz/dz:   7.367E+05
@@ -797,7 +799,7 @@
 
  Case     6
          0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.0023       7209., dFz/dz:   4.373E+05
+         1, NR,  z_ws, Fz:      -0.0023       7209., dFz/dz:   2.915E+05
          2, NR,  z_ws, Fz:       0.0041   1.012E+04, dFz/dz:   4.564E+05
          3, NR,  z_ws, Fz:       0.0038   1.020E+04, dFz/dz:  -2.768E+05
          4, NR,  z_ws, Fz:       0.0007       8411., dFz/dz:   5.834E+05
@@ -903,7 +905,7 @@
 
  Case     7
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
+         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   7.764E+05
          2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
          3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
          4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
@@ -1062,7 +1064,7 @@
 
  Case     8
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2016   1.860E+04, dFz/dz:   1.020E+06
+         1, NR,  z_ws, Fz:       0.2016   1.860E+04, dFz/dz:   6.797E+05
          2, NR,  z_ws, Fz:       0.1932       9375., dFz/dz:   1.094E+06
          3, NR,  z_ws, Fz:       0.1938       9945., dFz/dz:   9.973E+05
          4, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   1.001E+06
@@ -1213,7 +1215,7 @@
 
  Case     9
          0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.0023       7420., dFz/dz:   4.501E+05
+         1, NR,  z_ws, Fz:      -0.0023       7420., dFz/dz:   3.001E+05
          2, NR,  z_ws, Fz:       0.0034   1.139E+04, dFz/dz:   6.932E+05
          3, NR,  z_ws, Fz:       0.0014       9914., dFz/dz:   7.359E+05
          4, NR,  z_ws, Fz:       0.0015       9997., dFz/dz:   7.068E+05
@@ -1360,25 +1362,25 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.1 | 100.0 |        2.0 | 100.0 |
-|Wheel-rail cases     |       9 |       1.1 | 100.0 |        2.0 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Geometric analysis   |      68 |       0.0 |   0.0 |        0.1 |   4.9 |
-|Panag.process        |      59 |       1.1 |  97.2 |        1.6 |  81.2 |
-|Algorithm Norm       |      14 |       0.0 |   1.4 |        0.1 |   5.4 |
-|Algorithm Tang       |      59 |       1.1 |  95.8 |        1.5 |  75.0 |
-|Output quantities    |      68 |       0.0 |   2.8 |        0.0 |   1.7 |
+|Total                |       1 |       0.9 | 100.0 |        1.9 | 100.0 |
+|Wheel-rail cases     |       9 |       0.9 | 100.0 |        1.9 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Geometric analysis   |      68 |       0.0 |   3.6 |        0.1 |   5.1 |
+|Panag.process        |      59 |       0.8 |  90.9 |        1.5 |  78.6 |
+|Algorithm Norm       |      14 |       0.0 |   1.8 |        0.1 |   4.2 |
+|Algorithm Tang       |      59 |       0.8 |  89.1 |        1.4 |  74.1 |
+|Output quantities    |      68 |       0.0 |   3.6 |        0.1 |   3.3 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      14 |       0.0 |   1.4 |        0.1 |   5.1 |
-|Norm: KPEC method    |      24 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Norm: ANALYN method  |      21 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      14 |       1.1 |  95.8 |        1.5 |  74.9 |
+|Norm: ConjGrd solver |      14 |       0.0 |   1.8 |        0.1 |   2.9 |
+|Norm: KPEC method    |      24 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Norm: ANALYN method  |      21 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Tang: StedyGS solver |      14 |       0.7 |  85.5 |        1.4 |  72.4 |
 |Tang: Fastsim solver |      45 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       9 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Contact location     |      68 |       0.0 |   0.0 |        0.0 |   1.5 |
-|Undeformed distance  |      59 |       0.0 |   0.0 |        0.1 |   3.4 |
-|Influence coeffic.   |      59 |       0.0 |   0.0 |        0.1 |   3.5 |
-|Initial state/estim. |      59 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Reading input-file   |       9 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Contact location     |      68 |       0.0 |   1.8 |        0.1 |   3.6 |
+|Undeformed distance  |      59 |       0.0 |   0.0 |        0.0 |   1.4 |
+|Influence coeffic.   |      59 |       0.0 |   1.8 |        0.1 |   4.5 |
+|Initial state/estim. |      59 |       0.0 |   0.0 |        0.0 |   0.6 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

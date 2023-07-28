@@ -9,7 +9,7 @@ module m_wrprof
 
 use m_wrprof_data
 use m_wr_input
-use m_wr_brentmeth
+use m_wr_totforce
 implicit none
 private
 

@@ -43,8 +43,8 @@ from ctypes                import c_int, c_double, POINTER
 
 def cntc_setprofileinputfname(ire, fname, iparam, rparam):
 
-    if (not ire):
-        ire = 1
+    if (not isinstance(ire, int)):
+        ire    = 1
     if (not iparam):
         iparam = [ -1 ]
     if (not rparam):

@@ -50,10 +50,10 @@ contains
       if (idebug.ge.2) call write_log(' ')
       if (idebug.ge.2) call write_log(' --- Start subroutine wr_contact_pos ---')
 
-      ! suppress warnings for rail/wheel profiles in subsequent outer iterations (Brent, Secant)
+      ! suppress warnings for rail/wheel profiles in subsequent total force iterations (Brent, Secant)
 
       ldebug = idebug
-      if (wtd%meta%itforce.ge.1) ldebug = ldebug - 1
+      if (wtd%meta%itforc_out.ge.1 .or. wtd%meta%itforc_inn.ge.1) ldebug = ldebug - 1
 
       call timer_start(itimer_wrgeom)
 
@@ -61,7 +61,7 @@ contains
 
       is_varprof = (wtd%trk%rai%prr%nslc.gt.0)
 
-      if (wtd%meta%itforce.le.0 .and. is_varprof) then
+      if (wtd%meta%itforc_out.le.0 .and. wtd%meta%itforc_inn.le.0 .and. is_varprof) then
          ! call profile_select_slice(wtd%trk%rai%prr, wtd%ws%s, ldebug)
 
          if (idebug.ge.2) call write_log(' setting up "current slice" for variable profile')
@@ -214,7 +214,7 @@ contains
       character(len=5)          :: nam_side
       logical                   :: is_left_side, is_conformal, is_roller
       integer                   :: ip, ii, iy, mx, my, npot, ierror
-      real(kind=8)              :: sw_ref
+      real(kind=8)              :: sw_ref, fac_warn
       type(t_marker)            :: mref_rai, mref_whl, whl_trk
       type(t_probdata), pointer :: gd
 
@@ -323,7 +323,7 @@ contains
 
       gd%ic        = wtd_ic
       gd%ic%norm   = 0
-      gd%ic%force  = 0
+      gd%ic%force3 = 0
       gd%ic%matfil_surf = 0
 
       ! copy solver settings
@@ -350,16 +350,18 @@ contains
          gd%potcon%dy  = cp%ds_eff
          gd%potcon%yl  = cp%sc_sta
          gd%potcon%my  = nint((cp%sc_end-cp%sc_sta)/cp%ds_eff)
+         fac_warn      = 1.2d0          ! accomodate for fac_sc=1.2 in compute_curved_potcon
       else
          ! planar: tangent plane
          gd%potcon%dy  = cp%ds_eff
          gd%potcon%yl  = cp%sp_sta
          gd%potcon%my  = nint((cp%sp_end-cp%sp_sta)/cp%ds_eff)
+         fac_warn      = 1.0d0
       endif
 
       npot = gd%potcon%mx * gd%potcon%my
 
-      if (wtd_ic%return.le.1 .and. discr%npot_max.ge.100 .and. npot.ge.discr%npot_max) then
+      if (wtd_ic%return.le.1 .and. discr%npot_max.ge.100 .and. npot.ge.fac_warn*discr%npot_max) then
          write(bufout,'(2(a,i6))') ' Internal error: npot=',npot,' >= NPOT_MAX=', discr%npot_max
          call write_log(1, bufout)
          write(bufout,'(a,2i5,a,i6,a,2f7.3,a,2f10.3)') ' mx,my=', gd%potcon%mx, gd%potcon%my,           &
@@ -650,10 +652,10 @@ contains
       endif
       fnscal = fntrue / mater%ga
 
-      if (ic%force.eq.0) then
+      if (ic%force3.eq.0) then
          fxrel1 = dxdy * gf3_sum(AllElm, ps_cp, ikXDIR) / (fntrue*muscal + tiny)
       endif
-      if (ic%force.le.1) then
+      if (ic%force3.le.1) then
          fyrel1 = dxdy * gf3_sum(AllElm, ps_cp, ikYDIR) / (fntrue*muscal + tiny)
       endif
 

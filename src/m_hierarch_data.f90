@@ -97,7 +97,8 @@ public
       integer :: bound
       integer :: tang
       integer :: norm
-      integer :: force
+      integer :: force1
+      integer :: force3
       integer :: heat
       integer :: stress
       integer :: sens
@@ -155,12 +156,13 @@ public
       ! n, norm     specifies the normal problem:
       !              0 = penetration/approach prescribed,
       !              1 = normal force prescribed
-      ! f1, force, module 1: specifies the long/lat forces:
+      ! f1, force1, module 1: specifies the long/lat forces:
       !              0 = no rail deflection, pitch velocity omega_ws prescribed;
       !              1 = no rail deflection, total long. force fx_ws prescribed;
       !              2 = no rail deflection, total long. moment my_ws prescribed;
       !              3 = rail deflection with stiffness ky, kz and spring forces fy_rail, fz_rail given
-      ! f3, force, module 3: specifies the tangential problem:
+      !              4 = same model as 3, using nested outer-inner iteration instead of Broyden solver
+      ! f3, force3, module 3: specifies the tangential problem:
       !              0 = creepages cksi, ceta prescribed;
       !              1 = relative force  fxrel1, creepage ceta prescribed;
       !              2 = relative forces fxrel1, fyrel1 prescribed
@@ -611,9 +613,9 @@ public
       ! fntrue [N]     total normal force, input when N=1, output when N=0
       ! fnscal [mm2]   total normal force relative to combined modulus of rigidity (output)
       ! fxrel1 [-]     total tangential force in x-direction _on_ body (1), relative to muscal*fntrue;
-      !                input when F>=1, output when F=0.
+      !                input when F3>=1, output when F3=0.
       ! fyrel1 [-]     total tangential force in y-direction _on_ body (1), relative to muscal*fntrue;
-      !                input when F=2, output when F<=1.
+      !                input when F3=2, output when F3<=1.
       ! fprev  [N,-]   total forces [fx1,fy1,fn1] of previous time instance
 
       ! use_muscal     flag indicating whether tangential forces are scaled by MU*FN (true) or by FN (false)
@@ -792,7 +794,7 @@ public
       integer            :: REid
       integer            :: CPid
       integer            :: actv_thrd
-      integer            :: irun, iax, iside, ncase, itforce
+      integer            :: irun, iax, iside, ncase, itforc_out, itforc_inn
       integer            :: npatch, ipatch
       real(kind=8)       :: tim, s_ws, ynom_whl, rnom_whl, rnom_rol
       real(kind=8)       :: x_rw, y_rw, z_rw, rollrw, yawrw
@@ -809,7 +811,8 @@ public
       ! iax               for Sentient: axle number
       ! iside             for Sentient: side number
       ! ncase             case number for the (REid,CPid)
-      ! itforce           iteration number for total force iteration
+      ! itforc_out        iteration number for total force outer iteration
+      ! itforc_inn        iteration number for total force inner iteration
       ! npatch            number of contact patches, used by module 1
       ! ipatch            contact patch number, used by module 1
       ! tim        [s]    (SIMPACK) simulation time
@@ -900,7 +903,8 @@ contains
       ic%bound  = 0
       ic%tang   = 3
       ic%norm   = 1
-      ic%force  = 0
+      ic%force1 = 0
+      ic%force3 = 0
       ic%heat   = 0
       ic%stress = 0
       ic%sens   = 1
@@ -937,7 +941,7 @@ contains
       integer    :: modul, cpbtnfs, vldcmze, xhgiaowr
 !--local variables:
       integer, parameter :: idebug = 0
-      integer            :: ihulp, vdigit, zdigit, edigit
+      integer            :: ihulp, fdigit, zdigit, edigit
 
       ihulp         = 0
       ic%config     = (cpbtnfs - ihulp) / 1000000
@@ -950,12 +954,19 @@ contains
          ihulp      = ihulp +    1000 * ic%tang
       ic%norm       = (cpbtnfs - ihulp) / 100
          ihulp      = ihulp +     100 * ic%norm
-      ic%force      = (cpbtnfs - ihulp) / 10
-         ihulp      = ihulp +      10 * ic%force
+      fdigit        = (cpbtnfs - ihulp) / 10
+         ihulp      = ihulp +      10 * fdigit
       ic%stress     = (cpbtnfs - ihulp) / 1
       if (idebug.ge.2) write(*,'(7(a,i2))') 'unpack: C=',ic%config,', P=',ic%pvtime,', B=',ic%bound,    &
-         ', T=',ic%tang,', N=',ic%norm,', F=',ic%force,', S=',ic%stress
+         ', T=',ic%tang,', N=',ic%norm,', F=',fdigit,', S=',ic%stress
 
+      if (modul.eq.1) then
+         ic%force1 = fdigit
+         ic%force3 = -99
+      else
+         ic%force1 = -99
+         ic%force3 = fdigit
+      endif
 
       ihulp         = 0
       ic%varfrc     = (vldcmze - ihulp) / 1000000
@@ -971,7 +982,7 @@ contains
       zdigit        = (vldcmze - ihulp) / 10
          ihulp      = ihulp +      10 * zdigit
       edigit        = (vldcmze - ihulp) / 1
-      if (idebug.ge.2) write(*,'(7(a,i2))') 'unpack: V=',vdigit,', L=',ic%frclaw_inp,                   &
+      if (idebug.ge.2) write(*,'(7(a,i2))') 'unpack: V=',ic%varfrc,', L=',ic%frclaw_inp,                &
          ', D=',ic%discns_inp, ', C=',ic%gencr_inp,', M=',ic%mater, ', Z=',zdigit,', E=',edigit
 
       if (modul.eq.1) then
@@ -1018,11 +1029,15 @@ contains
       integer    :: modul, cpbtnfs, vldcmze, xhgiaowr
 
       cpbtnfs = 0
-      if (modul.eq.1) cpbtnfs =  1000000*ic%config
 
-      cpbtnfs =  cpbtnfs +                                                                              &
+      if (modul.eq.1) then
+         cpbtnfs =                                                    1000000*ic%config      +          &
                     100000*ic%pvtime      +    10000*ic%bound       +    1000*ic%tang        +          &
-                       100*ic%norm        +       10*ic%force       +       1*ic%stress
+                       100*ic%norm        +       10*ic%force1      +       1*ic%stress
+      else
+         cpbtnfs =  100000*ic%pvtime      +    10000*ic%bound       +    1000*ic%tang        +          &
+                       100*ic%norm        +       10*ic%force3      +       1*ic%stress
+      endif
 
       if (modul.eq.1) then
          vldcmze =                                                    1000000*ic%varfrc      +          &
@@ -1050,19 +1065,20 @@ contains
    integer          :: ilevel        ! 1 = time-varying parts; 2 = full init
 
    if (ilevel.ge.2) then
-      m%REid      = 0
-      m%CPid      = 0
-      m%actv_thrd = -1
-      m%irun      = 0
-      m%iax       = 0
-      m%iside     = 0
-      m%ncase     = 0
-      m%itforce   = 0
-      m%npatch    = 0
-      m%ipatch    = 0
-      m%tim       = 0d0
-      m%dirnam    = ' '
-      m%expnam    = ' '
+      m%REid       = 0
+      m%CPid       = 0
+      m%actv_thrd  = -1
+      m%irun       = 0
+      m%iax        = 0
+      m%iside      = 0
+      m%ncase      = 0
+      m%itforc_out = 0
+      m%itforc_inn = 0
+      m%npatch     = 0
+      m%ipatch     = 0
+      m%tim        = 0d0
+      m%dirnam     = ' '
+      m%expnam     = ' '
    endif
 
    if (ilevel.ge.1) then

@@ -2186,6 +2186,9 @@ subroutine gf3_print(f, nam, ikarg, idebug)
 
    if (idebug.ge.4) then
 
+      write(bufout,'(2a)') trim(nam), ' = ['
+      call write_log(1, bufout)
+
       ! determine range for coordinate directions ik
 
       call gf3_ikrange(ikarg, ik0, ik1)
@@ -2193,15 +2196,15 @@ subroutine gf3_print(f, nam, ikarg, idebug)
       ! write header according to ikarg
 
       if     (ikarg.eq.ikXDIR .or. ikarg.eq.jkXDIR) then
-         call write_log('        ii (  ix,  iy)          vx')
+         call write_log('%       ii (  ix,  iy)          vx')
       elseif (ikarg.eq.ikYDIR .or. ikarg.eq.jkYDIR) then
-         call write_log('        ii (  ix,  iy)          vy')
+         call write_log('%       ii (  ix,  iy)          vy')
       elseif (ikarg.eq.ikZDIR .or. ikarg.eq.jkZDIR) then
-         call write_log('        ii (  ix,  iy)          vn')
+         call write_log('%       ii (  ix,  iy)          vn')
       elseif (ikarg.eq.ikTANG .or. ikarg.eq.jkTANG) then
-         call write_log('        ii (  ix,  iy)          vx         vy')
+         call write_log('%       ii (  ix,  iy)          vx         vy')
       elseif (ikarg.eq.ikALL  .or. ikarg.eq.jkALL ) then
-         call write_log('        ii (  ix,  iy)          vx         vy         vn')
+         call write_log('%       ii (  ix,  iy)          vx         vy         vn')
       endif
 
       ! Compose format-string dependent on absolute size of values per direction
@@ -2228,6 +2231,8 @@ subroutine gf3_print(f, nam, ikarg, idebug)
             call write_log(1, bufout)
          enddo
       enddo
+
+      call write_log('];')
 
    endif ! idebug>=4
 

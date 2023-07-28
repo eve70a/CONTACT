@@ -20,9 +20,9 @@ from ctypes                import c_int, c_double
 
 def cntc_setpenetration(ire, icp, pen):
 
-    if (not ire):
+    if (not isinstance(ire, int)):
         ire = 1
-    if (not icp):
+    if (not isinstance(icp, int)):
         icp = 1
     if (icp<=0):
         sys.exit('ERROR in cntc_setpenetration: not available for icp=%d' % icp)

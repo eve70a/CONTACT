@@ -92,7 +92,7 @@ contains
          else
             ic_discns = ic%discns_inp + 10*ic%gapwgt
          endif
-         write(lout, 1101) ic%config, ic%pvtime, ic%bound, ic%tang, ic%norm, ic%force, ic%stress
+         write(lout, 1101) ic%config, ic%pvtime, ic%bound, ic%tang, ic%norm, ic%force1, ic%stress
          write(lout, 1102) ic%varfrc, ic%frclaw_inp, ic_discns, ic%gencr_inp, ic%mater, ic%ztrack,      &
                         ic%ewheel
          write(lout, 1103) ic%heat, ic%gausei_inp, ic%iestim, ic%matfil_surf, ic%output_surf, ic%flow,  &
@@ -123,13 +123,13 @@ contains
                strng(1) = 'CREEPAGE'
             endif
                
-            if (ic%force.eq.0) then
+            if (ic%force1.eq.0) then
                strng(2) = strng(1)
-            elseif (ic%force.eq.1) then
+            elseif (ic%force1.eq.1) then
                strng(2) = 'X-FORCE'
-            elseif (ic%force.eq.2) then
+            elseif (ic%force1.eq.2) then
                strng(2) = 'X-MOMENT'
-            elseif (ic%force.eq.3) then
+            elseif (ic%force1.ge.3) then
                strng(2) = strng(1)
             endif
 
@@ -317,7 +317,7 @@ contains
                    3x,'VROLLR',3x, /, 2x, 3f12.4, 3a,/)
          endif
 
-         if (ic%force.eq.3) then
+         if (ic%force1.ge.3) then
             write(lout,4202)
             write(lout,4203) wtd%trk%ky_rail, sgn*wtd%trk%dy_defl, fmt_gs(12,4,wtd%trk%fy_rail),        &
                    wtd%trk%kz_rail, wtd%trk%dz_defl, fmt_gs(12,4,wtd%trk%fz_rail)
@@ -690,20 +690,13 @@ contains
                   hmp = hs1%vn(ii) - pen
                   if (ic%tang.ne.0) then
 
+                     ! module 1 uses F3 = 0
                      ! hs, ss  == (rigid) slip distance per (time-)step
                      ! rolling: rhs, creepage == relative slip velocity
                      ! shifts:  rhs, creepage == slip distance, dq == 1
 
-                     if (ic%force.ge.1) then
-                        rhsx = filt_sml(cksi, ceta*eps) - hs1%vx(ii) / dq
-                     else
-                        rhsx =                          - hs1%vx(ii) / dq
-                     endif
-                     if (ic%force.eq.2) then
-                        rhsy = filt_sml(ceta, cksi*eps) - hs1%vy(ii) / dq
-                     else
-                        rhsy =                          - hs1%vy(ii) / dq
-                     endif
+                     rhsx = - hs1%vx(ii) / dq
+                     rhsy = - hs1%vy(ii) / dq
 
                      write(lout, 6920) gd%cgrid%x(ii), hmp, ps1%vn(ii), ps1%vn(ii)*mus1%vt(ii),          &
                                 ptabs, ptarg, shft1%vt(ii)/dq, rhsx, rhsy

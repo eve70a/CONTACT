@@ -45,8 +45,8 @@ from ctypes                import c_int, c_double, POINTER
 def cntc_setprofileinputvalues(ire, values, iparam, rparam):
     print('function called for first time:', __name__)
 
-    if (not ire):
-        ire = 1
+    if (not isinstance(ire, int)):
+        ire    = 1
     if (not iparam):
         iparam = [  0 ]
     if (not rparam):

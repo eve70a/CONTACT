@@ -266,7 +266,7 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, ...
 
    else
 
-      % if neither is given, use all profile points
+      % if neither is given, use all profile points in range vrange
 
       j  = find( slcs.vj>=vrange(1) & slcs.vj<=vrange(2) );
       vj = slcs.vj(j);

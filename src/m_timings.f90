@@ -631,19 +631,21 @@ subroutine timer_read(itimer, iinstn_arg, ithread_arg, namtmr, numtms, cputim, w
 !-- HEADER VARIABLES/ARGUMENTS
    implicit none
    integer,          intent(in)            :: itimer    
-   integer,          intent(in), optional  :: iinstn_arg  
-   integer,          intent(in), optional  :: ithread_arg  
-   character(len=*), intent(out)           :: namtmr
-   integer,          intent(out)           :: numtms
-   real(kind=8),     intent(out)           :: cputim
-   real(kind=8),     intent(out)           :: waltim
-   integer,          intent(out)           :: ncontrb
+   integer,          intent(in),  optional :: iinstn_arg  
+   integer,          intent(in),  optional :: ithread_arg  
+   character(len=*), intent(out), optional :: namtmr
+   integer,          intent(out), optional :: numtms
+   real(kind=8),     intent(out), optional :: cputim
+   real(kind=8),     intent(out), optional :: waltim
+   integer,          intent(out), optional :: ncontrb
 
 !-- LOCAL VARIABLES
    integer      :: iinstn                ! actual instance
    integer      :: ithread               ! actual thread number
    real(kind=8) :: curcpu, curwal        ! current cpu/wallclock-time
    integer      :: jthread, jthread0, jthread1 ! variables for loop over threads
+   integer      :: my_numtms, my_ncontrb
+   real(kind=8) :: my_cputim, my_waltim
 
    ! Handle optional arguments
 
@@ -660,11 +662,10 @@ subroutine timer_read(itimer, iinstn_arg, ithread_arg, namtmr, numtms, cputim, w
 
    ! Initialize the outputs
 
-   namtmr = ' '
-   numtms = 0
-   cputim = 0d0
-   waltim = 0d0
-   ncontrb = 0
+   my_numtms = 0
+   my_cputim = 0d0
+   my_waltim = 0d0
+   my_ncontrb = 0
 
    ! If ithread<0 this routine changes global data, and may then not be called from parallel regions
 
@@ -696,13 +697,13 @@ subroutine timer_read(itimer, iinstn_arg, ithread_arg, namtmr, numtms, cputim, w
 
    ! Get current accumulated timings from timer_table
 
-   namtmr = timer_table(itimer,iinstn,jthread0)%namtmr 
+   if (present(namtmr)) namtmr = timer_table(itimer,iinstn,jthread0)%namtmr 
 
    do jthread = jthread0, jthread1
 
-      numtms = numtms + timer_table(itimer,iinstn,jthread)%numtms 
-      cputim = cputim + timer_table(itimer,iinstn,jthread)%totcpu 
-      waltim = waltim + timer_table(itimer,iinstn,jthread)%totwal 
+      my_numtms = my_numtms + timer_table(itimer,iinstn,jthread)%numtms 
+      my_cputim = my_cputim + timer_table(itimer,iinstn,jthread)%totcpu 
+      my_waltim = my_waltim + timer_table(itimer,iinstn,jthread)%totwal 
 
       ! If a timing is active for the requested timer, get time and add to accumulated time
 
@@ -710,17 +711,22 @@ subroutine timer_read(itimer, iinstn_arg, ithread_arg, namtmr, numtms, cputim, w
          call my_cpu_time(curcpu)
          call wall_time(curwal)
 
-         numtms = numtms + 1
-         cputim = cputim + curcpu - timer_table(itimer,iinstn,jthread)%stacpu
-         waltim = waltim + curwal - timer_table(itimer,iinstn,jthread)%stawal 
+         my_numtms = my_numtms + 1
+         my_cputim = my_cputim + curcpu - timer_table(itimer,iinstn,jthread)%stacpu
+         my_waltim = my_waltim + curwal - timer_table(itimer,iinstn,jthread)%stawal 
       endif
 
       ! Increment number of contributing threads when appropriate
 
       if (timer_table(itimer,iinstn,jthread)%numtms.gt.0 .or.                                           &
-          timer_table(itimer,iinstn,jthread)%isactv.gt.0) ncontrb = ncontrb + 1
+          timer_table(itimer,iinstn,jthread)%isactv.gt.0) my_ncontrb = my_ncontrb + 1
 
    enddo
+
+   if (present(numtms)) numtms = my_numtms
+   if (present(cputim)) cputim = my_cputim
+   if (present(waltim)) waltim = my_waltim
+   if (present(ncontrb)) ncontrb = my_ncontrb
 
 end subroutine timer_read
 !------------------------------------------------------------------------------------------------------------

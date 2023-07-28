@@ -834,7 +834,7 @@ contains
 
             use_wgt         = .true.
             lambda          = smooth**6 / (64d0 * pi**6)
-            ds_bspl         = 0.0001d0
+            ds_bspl         = 0.2d0
             naccel          = 0
             iaccel(1)       = 0
             use_minz        = (is_wheel.eq.0)
@@ -1922,7 +1922,7 @@ contains
          points(1:npoint,1:ncolpnt) = tmparr(1:npoint,1:ncolpnt)
          deallocate(tmparr)
 
-         if (ldebug.ge.2) then
+         if (ldebug.ge.3) then
             write(bufout,'(a,g11.4,a,i6,a)') ' Point_dist_min: mindst=',point_dist_min,', keeping',     &
                         npoint,' profile points'
             call write_log(1, bufout)
@@ -2720,7 +2720,7 @@ contains
       integer      :: max_kinks, nignored, ipnt, k
       real(kind=8) :: ds0, ds1, dy0, dy1, dz0, dz1, dst
       real(kind=8), dimension(:), allocatable :: dalph
-      character(len= 5)    :: nam_rw
+      character(len=13)    :: nam_rw
 
       ierror = 0
       max_kinks = size(ikinks)
@@ -2774,12 +2774,14 @@ contains
             if (ds0.gt.ds_thrs .or. ds1.gt.ds_thrs) is_kink = .true.
 
             if (ldebug.ge.1 .and. is_kink) then
-               if (is_wheel.eq.0) then
-                  nam_rw = 'rail '
+               if (is_wheel.lt.0) then
+                  nam_rw = 'contact locus'
+               elseif (is_wheel.eq.0) then
+                  nam_rw = 'rail profile '
                else
-                  nam_rw = 'wheel'
+                  nam_rw = 'wheel profile'
                endif
-               write(bufout,'(2a,2(a,f7.2),a,i5,2(a,f7.1),a)') ' Kink in ',trim(nam_rw),' profile at (', &
+               write(bufout,'(2a,2(a,f7.2),a,i5,2(a,f7.1),a)') ' Kink in ',trim(nam_rw),' at (', &
                    y(ipnt),',',z(ipnt), ') (ip=',ipnt,'): successive steps ', ds0,',',ds1,' mm'
                call write_log(1, bufout)
             endif
@@ -2833,14 +2835,16 @@ contains
    
          if (is_kink) then
             if (ldebug.ge.1) then
-               if (is_wheel.eq.0) then
-                  nam_rw = 'rail '
+               if (is_wheel.lt.0) then
+                  nam_rw = 'contact locus'
+               elseif (is_wheel.eq.0) then
+                  nam_rw = 'rail profile '
                else
-                  nam_rw = 'wheel'
+                  nam_rw = 'wheel profile'
                endif
                dy0 = y(ipnt) - y(ipnt-1)
                dz0 = z(ipnt) - z(ipnt-1)
-               write(bufout,'(2a,2(a,f7.2),a,i5,2(a,f7.1),a)') ' Kink in ',trim(nam_rw),' profile at (', &
+               write(bufout,'(2a,2(a,f7.2),a,i5,2(a,f7.1),a)') ' Kink in ',trim(nam_rw),' at (', &
                    y(ipnt),',',z(ipnt), ') (ip=',ipnt,'): successive angles',                           &
                    atan2(dz0,dy0)*180d0/pi,',', (atan2(dz0,dy0)+dalph(ipnt))*180d0/pi,' deg'
                call write_log(1, bufout)
@@ -2849,7 +2853,7 @@ contains
                nignored = nignored + 1
                if (nignored.le.5) then
                   write(bufout,'(a,i5,a,i3,a)') ' Warning: ignoring kink at ip=',ipnt,': max.',         &
-                              max_kinks, ' supported.'
+                              max_kinks, ' kinks supported.'
                   call write_log(1, bufout)
                endif
             else
@@ -2877,7 +2881,7 @@ contains
       endif
 
       if (nignored.gt.1) then
-         write(bufout,'(2(a,i3),a)') ' Warning: max.',max_kinks,' supported,',nignored,' kinks ignored.'
+         write(bufout,'(2(a,i3),a)') ' Warning: max.',max_kinks,' kinks supported,',nignored,' are ignored.'
          call write_log(1, bufout)
       endif
    

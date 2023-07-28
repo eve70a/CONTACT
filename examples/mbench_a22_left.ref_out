@@ -2,15 +2,17 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
+   |  Version: trunk(win64), $Revision: 2392 $, $Date:: 2023-07-25$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
-   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   |  (Subversion revision 2392M, 26-Jul-2023 11:32)                      |
+   |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
    ------------------------------------------------------------------------
 
  Case     1
+ reading rail  profile "MBench_UIC60_v3.prr"
+ reading wheel profile "MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
+         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   7.764E+05
          2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
          3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
          4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
@@ -183,7 +185,7 @@
 
  Case     2
          0, NR,  z_ws, Fz:       0.1759       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1985   1.348E+04, dFz/dz:   8.934E+05
+         1, NR,  z_ws, Fz:       0.1985   1.348E+04, dFz/dz:   5.956E+05
          2, NR,  z_ws, Fz:       0.1946   1.011E+04, dFz/dz:   8.643E+05
          3, NR,  z_ws, Fz:       0.1945   1.001E+04, dFz/dz:   8.163E+05
          4, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   8.152E+05
@@ -310,7 +312,7 @@
 
  Case     3
          0, NR,  z_ws, Fz:       0.1645       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1871   1.255E+04, dFz/dz:   8.319E+05
+         1, NR,  z_ws, Fz:       0.1871   1.255E+04, dFz/dz:   5.546E+05
          2, NR,  z_ws, Fz:       0.1841   1.008E+04, dFz/dz:   8.071E+05
          3, NR,  z_ws, Fz:       0.1840   1.000E+04, dFz/dz:   7.760E+05
          4, NR,  z_ws, Fz:       0.1840   1.000E+04, dFz/dz:   7.746E+05
@@ -431,7 +433,7 @@
 
  Case     4
          0, NR,  z_ws, Fz:       0.1494       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1721   1.198E+04, dFz/dz:   7.940E+05
+         1, NR,  z_ws, Fz:       0.1721   1.198E+04, dFz/dz:   5.294E+05
          2, NR,  z_ws, Fz:       0.1696   1.005E+04, dFz/dz:   7.740E+05
          3, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.477E+05
          4, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.458E+05
@@ -548,7 +550,7 @@
 
  Case     5
          0, NR,  z_ws, Fz:       0.1324       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1550   1.156E+04, dFz/dz:   7.664E+05
+         1, NR,  z_ws, Fz:       0.1550   1.156E+04, dFz/dz:   5.109E+05
          2, NR,  z_ws, Fz:       0.1530   1.003E+04, dFz/dz:   7.500E+05
          3, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.333E+05
          4, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.329E+05
@@ -663,7 +665,7 @@
 
  Case     6
          0, NR,  z_ws, Fz:       0.1138       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1364   1.124E+04, dFz/dz:   7.447E+05
+         1, NR,  z_ws, Fz:       0.1364   1.124E+04, dFz/dz:   4.965E+05
          2, NR,  z_ws, Fz:       0.1347   1.002E+04, dFz/dz:   7.315E+05
          3, NR,  z_ws, Fz:       0.1347   1.000E+04, dFz/dz:   7.184E+05
          4, NR,  z_ws, Fz:       0.1347   1.000E+04, dFz/dz:   7.186E+05
@@ -776,7 +778,7 @@
 
  Case     7
          0, NR,  z_ws, Fz:       0.0932       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1159   1.096E+04, dFz/dz:   7.268E+05
+         1, NR,  z_ws, Fz:       0.1159   1.096E+04, dFz/dz:   4.845E+05
          2, NR,  z_ws, Fz:       0.1145   1.001E+04, dFz/dz:   7.174E+05
          3, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.042E+05
          4, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.038E+05
@@ -887,7 +889,7 @@
 
  Case     8
          0, NR,  z_ws, Fz:       0.0708       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0934   1.073E+04, dFz/dz:   7.116E+05
+         1, NR,  z_ws, Fz:       0.0934   1.073E+04, dFz/dz:   4.744E+05
          2, NR,  z_ws, Fz:       0.0924   1.001E+04, dFz/dz:   7.050E+05
          3, NR,  z_ws, Fz:       0.0924   1.000E+04, dFz/dz:   6.962E+05
 
@@ -996,7 +998,7 @@
 
  Case     9
          0, NR,  z_ws, Fz:       0.0462       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0688   1.053E+04, dFz/dz:   6.983E+05
+         1, NR,  z_ws, Fz:       0.0688   1.053E+04, dFz/dz:   4.655E+05
          2, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.923E+05
          3, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.857E+05
 
@@ -1103,7 +1105,7 @@
 
  Case    10
          0, NR,  z_ws, Fz:       0.0189       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0415   1.036E+04, dFz/dz:   6.866E+05
+         1, NR,  z_ws, Fz:       0.0415   1.036E+04, dFz/dz:   4.577E+05
          2, NR,  z_ws, Fz:       0.0410   1.000E+04, dFz/dz:   6.841E+05
          3, NR,  z_ws, Fz:       0.0410   1.000E+04, dFz/dz:   6.799E+05
 
@@ -1210,7 +1212,7 @@
 
  Case    11
          0, NR,  z_ws, Fz:      -0.0205       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0018       9961., dFz/dz:   6.707E+05
+         1, NR,  z_ws, Fz:       0.0018       9961., dFz/dz:   4.471E+05
          2, NR,  z_ws, Fz:       0.0019   1.000E+04, dFz/dz:   6.706E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
@@ -1315,7 +1317,7 @@
 
  Case    12
          0, NR,  z_ws, Fz:      -0.1091       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.0858   1.048E+04, dFz/dz:   6.751E+05
+         1, NR,  z_ws, Fz:      -0.0858   1.048E+04, dFz/dz:   4.501E+05
          2, NR,  z_ws, Fz:      -0.0865   1.000E+04, dFz/dz:   6.693E+05
          3, NR,  z_ws, Fz:      -0.0865   1.000E+04, dFz/dz:   6.658E+05
 
@@ -1420,7 +1422,7 @@
 
  Case    13
          0, NR,  z_ws, Fz:      -0.2185       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.1949   1.052E+04, dFz/dz:   6.695E+05
+         1, NR,  z_ws, Fz:      -0.1949   1.052E+04, dFz/dz:   4.464E+05
          2, NR,  z_ws, Fz:      -0.1957   1.000E+04, dFz/dz:   6.645E+05
          3, NR,  z_ws, Fz:      -0.1957   1.000E+04, dFz/dz:   6.560E+05
 
@@ -1524,7 +1526,7 @@
 
  Case    14
          0, NR,  z_ws, Fz:      -3.0696       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.0420   1.257E+04, dFz/dz:   6.831E+05
+         1, NR,  z_ws, Fz:      -3.0420   1.257E+04, dFz/dz:   4.554E+05
          2, NR,  z_ws, Fz:      -3.0458   1.009E+04, dFz/dz:   6.591E+05
          3, NR,  z_ws, Fz:      -3.0459   1.000E+04, dFz/dz:   6.330E+05
          4, NR,  z_ws, Fz:      -3.0459   1.000E+04, dFz/dz:   6.327E+05
@@ -1626,7 +1628,7 @@
 
  Case    15
          0, NR,  z_ws, Fz:      -4.6045       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -4.5759   1.285E+04, dFz/dz:   6.760E+05
+         1, NR,  z_ws, Fz:      -4.5759   1.285E+04, dFz/dz:   4.507E+05
          2, NR,  z_ws, Fz:      -4.5802   1.011E+04, dFz/dz:   6.507E+05
          3, NR,  z_ws, Fz:      -4.5803   1.000E+04, dFz/dz:   6.219E+05
          4, NR,  z_ws, Fz:      -4.5803   1.000E+04, dFz/dz:   6.215E+05
@@ -1727,7 +1729,7 @@
 
  Case    16
          0, NR,  z_ws, Fz:      -5.5537       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -5.5249   1.284E+04, dFz/dz:   6.687E+05
+         1, NR,  z_ws, Fz:      -5.5249   1.284E+04, dFz/dz:   4.458E+05
          2, NR,  z_ws, Fz:      -5.5291   1.011E+04, dFz/dz:   6.437E+05
          3, NR,  z_ws, Fz:      -5.5293   1.000E+04, dFz/dz:   6.163E+05
          4, NR,  z_ws, Fz:      -5.5293   1.000E+04, dFz/dz:   6.158E+05
@@ -1827,7 +1829,7 @@
 
  Case    17
          0, NR,  z_ws, Fz:      -6.2851       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -6.2561   1.281E+04, dFz/dz:   6.627E+05
+         1, NR,  z_ws, Fz:      -6.2561   1.281E+04, dFz/dz:   4.418E+05
          2, NR,  z_ws, Fz:      -6.2604   1.011E+04, dFz/dz:   6.378E+05
          3, NR,  z_ws, Fz:      -6.2606   1.000E+04, dFz/dz:   6.128E+05
          4, NR,  z_ws, Fz:      -6.2606   1.000E+04, dFz/dz:   6.120E+05
@@ -1926,7 +1928,7 @@
 
  Case    18
          0, NR,  z_ws, Fz:      -6.8925       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -6.8634   1.276E+04, dFz/dz:   6.574E+05
+         1, NR,  z_ws, Fz:      -6.8634   1.276E+04, dFz/dz:   4.383E+05
          2, NR,  z_ws, Fz:      -6.8676   1.010E+04, dFz/dz:   6.328E+05
          3, NR,  z_ws, Fz:      -6.8677   1.000E+04, dFz/dz:   6.095E+05
          4, NR,  z_ws, Fz:      -6.8677   1.000E+04, dFz/dz:   6.088E+05
@@ -2025,7 +2027,7 @@
 
  Case    19
          0, NR,  z_ws, Fz:      -7.4161       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -7.3869   1.270E+04, dFz/dz:   6.528E+05
+         1, NR,  z_ws, Fz:      -7.3869   1.270E+04, dFz/dz:   4.352E+05
          2, NR,  z_ws, Fz:      -7.3911   1.010E+04, dFz/dz:   6.290E+05
          3, NR,  z_ws, Fz:      -7.3912   1.000E+04, dFz/dz:   6.050E+05
          4, NR,  z_ws, Fz:      -7.3913   1.000E+04, dFz/dz:   6.042E+05
@@ -2124,7 +2126,7 @@
 
  Case    20
          0, NR,  z_ws, Fz:      -7.8778       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -7.8486   1.265E+04, dFz/dz:   6.486E+05
+         1, NR,  z_ws, Fz:      -7.8486   1.265E+04, dFz/dz:   4.324E+05
          2, NR,  z_ws, Fz:      -7.8527   1.009E+04, dFz/dz:   6.257E+05
          3, NR,  z_ws, Fz:      -7.8528   1.000E+04, dFz/dz:   6.001E+05
          4, NR,  z_ws, Fz:      -7.8528   1.000E+04, dFz/dz:   5.985E+05
@@ -2222,7 +2224,7 @@
 
  Case    21
          0, NR,  z_ws, Fz:      -8.2913       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -8.2620   1.261E+04, dFz/dz:   6.452E+05
+         1, NR,  z_ws, Fz:      -8.2620   1.261E+04, dFz/dz:   4.302E+05
          2, NR,  z_ws, Fz:      -8.2661   1.009E+04, dFz/dz:   6.226E+05
          3, NR,  z_ws, Fz:      -8.2662   1.000E+04, dFz/dz:   5.969E+05
          4, NR,  z_ws, Fz:      -8.2662   1.000E+04, dFz/dz:   5.963E+05
@@ -2324,22 +2326,22 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.2 | 100.0 |        2.5 | 100.0 |
-|Wheel-rail cases     |      21 |       1.2 | 100.0 |        2.5 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   1.0 |
-|Geometric analysis   |      98 |       0.0 |   0.0 |        0.1 |   2.3 |
-|Panag.process        |      77 |       1.2 | 100.0 |        2.2 |  85.5 |
-|Algorithm Norm       |      77 |       0.0 |   1.4 |        0.3 |  11.5 |
-|Algorithm Tang       |      77 |       1.1 |  98.6 |        1.9 |  73.9 |
-|Output quantities    |      98 |       0.0 |   0.0 |        0.2 |   7.3 |
+|Total                |       1 |       0.8 | 100.0 |        2.4 | 100.0 |
+|Wheel-rail cases     |      21 |       0.8 | 100.0 |        2.4 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |      98 |       0.0 |   0.0 |        0.1 |   4.2 |
+|Panag.process        |      77 |       0.8 |  98.0 |        2.1 |  87.0 |
+|Algorithm Norm       |      77 |       0.0 |   0.0 |        0.2 |   6.8 |
+|Algorithm Tang       |      77 |       0.8 |  98.0 |        2.0 |  80.2 |
+|Output quantities    |      98 |       0.0 |   2.0 |        0.1 |   4.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      77 |       0.0 |   1.4 |        0.2 |   9.7 |
-|Tang: StedyGS solver |      77 |       1.1 |  98.6 |        1.9 |  73.3 |
+|Norm: ConjGrd solver |      77 |       0.0 |   0.0 |        0.1 |   5.3 |
+|Tang: StedyGS solver |      77 |       0.8 |  98.0 |        1.9 |  79.3 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      21 |       0.0 |   0.0 |        0.0 |   1.0 |
-|Contact location     |      98 |       0.0 |   0.0 |        0.0 |   1.2 |
-|Undeformed distance  |      77 |       0.0 |   0.0 |        0.0 |   0.8 |
-|Influence coeffic.   |      77 |       0.0 |   0.0 |        0.0 |   0.8 |
-|Initial state/estim. |      77 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |      21 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |      98 |       0.0 |   0.0 |        0.1 |   2.7 |
+|Undeformed distance  |      77 |       0.0 |   0.0 |        0.0 |   0.7 |
+|Influence coeffic.   |      77 |       0.0 |   0.0 |        0.0 |   1.9 |
+|Initial state/estim. |      77 |       0.0 |   0.0 |        0.0 |   0.5 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

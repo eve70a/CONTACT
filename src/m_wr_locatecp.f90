@@ -1069,7 +1069,7 @@ contains
 
       ! detect sudden steps in contact locus, including overall start/end-points
 
-      is_wheel  = 1
+      is_wheel  = -1
       kink_high = pi/10d0
       kink_low  = pi/10d0
       kink_wid  = 0.01d0

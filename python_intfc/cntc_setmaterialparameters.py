@@ -28,12 +28,13 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, POINTER
 
 def cntc_setmaterialparameters(ire, icp, m_digit, rparam):
+    # default: W/R contact, all patches
 
-    if (not ire):
-        ire = 1
-    if (not icp):
-        icp = -1    # default: W/R contact, all patches
-    if (not m_digit):
+    if (not isinstance(ire, int)):
+        ire =  1
+    if (not isinstance(icp, int)):
+        icp = -1
+    if (not isinstance(m_digit, int)):
         m_digit = 0 # default: linearly elastic material
     # convert rparam to NumPy ndarray
     if (not isinstance(rparam, np.ndarray)):

@@ -29,7 +29,7 @@ from ctypes                import c_int, c_double, POINTER
 
 def cntc_settrackdimensions_old(ire, ztrack, params):
 
-    if (not ire):
+    if (not isinstance(ire, int)):
         ire = 1
 
     # convert params to NumPy ndarray

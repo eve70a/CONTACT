@@ -78,6 +78,8 @@ contains
          call write_log(1, bufout)
       endif
 
+      ! 1. determine rail surface (x,s,n)_(cp) on potential contact grid
+
       if (is_prismatic .or. is_varprof) then
 
          !  - mcp_rail: contact marker in terms of rail coordinates
@@ -421,6 +423,8 @@ contains
          enddo
       endif
 
+      ! the rail and wheel meshes are both computed on the planar potential contact grid
+
       ! 6. subtract rail - wheel to get the gap, negative == interpenetration
 
       ixdbg = (gd%cgrid%nx+1) / 2
@@ -435,15 +439,17 @@ contains
          call write_log(1, bufout)
       endif
 
+      ! conformal: multiply h_ii in np-direction by cos(delt_act-delt_ref) = 
+      !                                      dot(n_ref, n_actual) / (|n_ref| * |n_actual|)
+
       do iy = 1, gd%cgrid%ny
 
-         ! conformal: multiply h_ii in np-direction by cos(delt_act-delt_ref) = 
-         !                                      dot(n_ref, n_actual) / (|n_ref| * |n_actual|)
          if (is_conformal) then
             ii = 1 + (iy-1) * gd%cgrid%nx
             vy_iy = cp%curv_nrm%vy(iy)
             vz_iy = cp%curv_nrm%vn(iy)
             vlen_inv = 1d0 / max(1d-8, sqrt( vy_iy**2 + vz_iy**2 ))
+
             if (idebug.ge.3) then
                write(bufout,'(a,i4,3(a,f10.6))') ' iy=',iy,': nrm=[',vy_iy,',',vz_iy,'] /', 1d0/vlen_inv
                call write_log(1, bufout)

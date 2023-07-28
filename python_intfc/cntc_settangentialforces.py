@@ -19,9 +19,9 @@ from ctypes                import c_int, c_double
 
 def cntc_settangentialforces(ire, icp, fx, fy):
 
-    if (not ire):
+    if (not isinstance(ire, int)):
         ire = 1
-    if (not icp):
+    if (not isinstance(icp, int)):
         icp = 1
 
     cntc_dll.cntc_settangentialforces(c_int(ire), c_int(icp), c_double(fx), c_double(fy))

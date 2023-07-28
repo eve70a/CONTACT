@@ -26,6 +26,8 @@ from ctypes                import c_int, c_double, POINTER
 
 def cntc_setwheelsetdimensions(ire, ewheel, params):
 
+    if (not isinstance(ire, int)):
+        ire = 1
     # convert params to NumPy ndarray
     if (not isinstance(params, np.ndarray)):
         if (isinstance(params, list)):

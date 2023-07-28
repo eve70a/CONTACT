@@ -32,17 +32,17 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, POINTER
 from .subs_getblocksize    import subs_getblocksize
 
-def subs_getresults(ire, icp, iblk, icol):
+def subs_getresults(ire, icp, iblk, icol=None):
 
     totcol = 21
 
-    if (not ire):
+    if (not isinstance(ire, int)):
         ire = 1
-    if (not icp):
+    if (not isinstance(icp, int)):
         icp = 1
     if (icp<=0):
         sys.exit('ERROR in subs_getresults: not available for icp=%d' % icp)
-    if (not iblk):
+    if (not isinstance(iblk, int)):
         iblk = 1
 
     # convert icol to NumPy ndarray, allowing for scalar or list of scalars

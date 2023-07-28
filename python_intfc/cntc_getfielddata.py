@@ -39,11 +39,11 @@ from .cntc_getnumelements  import cntc_getnumelements
 
 def cntc_getfielddata(ire, icp, ifld):
 
-    if (not ire):
+    if (not isinstance(ire, int)):
         ire = 1
-    if (not icp):
+    if (not isinstance(icp, int)):
         icp = 1
-    if (not ifld):
+    if (not isinstance(ifld, int)):
         ifld = CNTC.fld_pn
     if (icp<=0):
         sys.exit('ERROR in cntc_getfielddata: not available for icp=%d' % icp)

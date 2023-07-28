@@ -103,14 +103,14 @@ contains
 
       call gf3_copy(AllElm, wsfix1, wstot, ikTANG)
 
-      if (ic%force.ge.1) then
+      if (ic%force3.ge.1) then
          do i = 1, k
             ii = iel(i)
             wstot%vx(ii) = wstot%vx(ii) + facdt%vt(ii) * kin%cksi*kin%dq
          enddo
       endif
 
-      if (ic%force.ge.2) then
+      if (ic%force3.ge.2) then
          do i = 1, k
             ii = iel(i)
             wstot%vy(ii) = wstot%vy(ii) + facdt%vt(ii) * kin%ceta*kin%dq
@@ -131,7 +131,7 @@ contains
 
       ! if total forces Fx and/or Fy are prescribed: perform Newton-Raphson iteration
 
-      if (ic%force.ge.1 .and. info1.le.1) then
+      if (ic%force3.ge.1 .and. info1.le.1) then
 
          ! Print output on initial solution
 
@@ -140,10 +140,10 @@ contains
          strng(2) = fmt_gs(12,4, fxkp1)
          strng(3) = fmt_gs(12,4, kin%ceta)
          strng(4) = fmt_gs(12,4, fykp1)
-         if (ic%force.eq.1) then
+         if (ic%force3.eq.1) then
             if (ic%flow.ge.4) write(bufout,7000) itnr, (strng(j),j=1,2), namits(imeth), it
             if (ic%flow.ge.4) call write_log(1, bufout)
-         elseif (ic%force.eq.2) then
+         elseif (ic%force3.eq.2) then
             if (ic%flow.ge.4) write(bufout,8000) itnr, (strng(j),j=1,4), namits(imeth), it
             if (ic%flow.ge.4) call write_log(2, bufout)
          endif
@@ -157,7 +157,7 @@ contains
          ! While (|dF| > Eps|F|) do
 
          df = abs(kin%fxrel1 - fxkp1)
-         if (ic%force.ge.2) df = df + abs(kin%fyrel1 - fykp1)
+         if (ic%force3.ge.2) df = df + abs(kin%fyrel1 - fykp1)
 
          do while (df.gt.solv%eps .and. itnr.lt.solv%maxnr .and. info1.le.1)
             itnr = itnr + 1
@@ -165,7 +165,7 @@ contains
             ! print sensitivities used, when requested
 
             if (.false. .and. (ic%flow.ge.5 .or. ic%nmdbg.ge.5)) then
-               if (ic%force.eq.1) then
+               if (ic%force3.eq.1) then
                   strng(1) = fmt_gs(12,4, sens(iout_fx1,iin_dksi1))
                   write(bufout,'(18x,2a)') 'Sens:',strng(1)
                   call write_log(1, bufout)
@@ -182,14 +182,14 @@ contains
             dfx = kin%fxrel1 - fxkp1
             dfy = kin%fyrel1 - fykp1
 
-            if (ic%force.eq.1) then
+            if (ic%force3.eq.1) then
                dceta = 0d0
                if (abs(sens(iout_fx1,iin_dksi1)).gt.1e-6) then
                   dcksi = dfx / sens(iout_fx1,iin_dksi1)
                else
                   dcksi = 0.00003
                endif
-            elseif (ic%force.eq.2) then
+            elseif (ic%force3.eq.2) then
                det =   sens(iout_fx1,iin_dksi1) * sens(iout_fy1,iin_deta1)              &
                      - sens(iout_fy1,iin_dksi1) * sens(iout_fx1,iin_deta1)
                if (det.gt.solv%eps) then
@@ -218,7 +218,7 @@ contains
             it1hlf = 0
             it2hlf = 0
 
-            do ifxy = 1, ic%force
+            do ifxy = 1, ic%force3
 
                ! store "previous" total forces fxk, fyk
 
@@ -309,11 +309,11 @@ contains
                ! compute error w.r.t. requested total forces Fx, Fy
 
                df = abs(kin%fxrel1 - fxkp1)
-               if (ic%force.ge.2) df = df + abs(kin%fyrel1 - fykp1)
+               if (ic%force3.ge.2) df = df + abs(kin%fyrel1 - fykp1)
 
                ! print progress report for half iteration
 
-               if (ic%force.eq.2 .and. .false.) then
+               if (ic%force3.eq.2 .and. .false.) then
                   strng(1) = fmt_gs(12,4, kin%cksi)
                   strng(2) = fmt_gs(12,4, fxkp1)
                   strng(3) = fmt_gs(12,4, kin%ceta)
@@ -332,10 +332,10 @@ contains
             strng(2) = fmt_gs(12,4, fxkp1)
             strng(3) = fmt_gs(12,4, kin%ceta)
             strng(4) = fmt_gs(12,4, fykp1)
-            if (ic%force.eq.1 .and. ic%flow.ge.4) then
+            if (ic%force3.eq.1 .and. ic%flow.ge.4) then
                write(bufout,7000) itnr, (strng(j), j=1,2), namits(imeth), it1hlf
                call write_log(1, bufout)
-            elseif (ic%force.eq.2 .and. ic%flow.ge.4) then
+            elseif (ic%force3.eq.2 .and. ic%flow.ge.4) then
                write(bufout,8000) itnr, (strng(j), j=1,4), namits(imeth), it1hlf+it2hlf
                call write_log(2, bufout)
             endif
@@ -573,14 +573,14 @@ contains
 
       call gf3_copy(AllElm, wsfix1, wstot, ikTANG)
 
-      if (ic%force.ge.1) then
+      if (ic%force3.ge.1) then
          do i = 1, k
             ii = iel(i)
             wstot%vx(ii) = wstot%vx(ii) + facdt%vt(ii) * kin%cksi * kin%dq
          enddo
       endif
 
-      if (ic%force.ge.2) then
+      if (ic%force3.ge.2) then
          do i = 1, k
             ii = iel(i)
             wstot%vy(ii) = wstot%vy(ii) + facdt%vt(ii) * kin%ceta * kin%dq
@@ -590,7 +590,7 @@ contains
       ! copy control digits, set F = 0
 
       icloc       = ic
-      icloc%force = 0
+      icloc%force3 = 0
       icloc%flow  = ic%flow - 1
       ! icloc%flow  = 5
       maxtmp = solv%maxgs

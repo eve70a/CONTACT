@@ -259,7 +259,7 @@ contains
          enddo
       enddo
 
-      if (use_ledg .and. nwarn.gt.0 .and. ic%flow.ge.1) then
+      if (use_ledg .and. nwarn.gt.0 .and. ic%flow.ge.3) then
          write(bufout,4021) nwarn
          call write_log(1, bufout)
  4021    format(' TANG: Warning: pot.con. too small; cannot estimate Ubnd at',i4,' rows.')

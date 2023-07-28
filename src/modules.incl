@@ -1,9 +1,3 @@
-$(P)bspline_err.mod       $(P)bspline_err.$O:       \
-                                                    $(P)m_globals.mod         \
-                                                    $(P)m_markers.mod         \
-                                                    $(P)m_ptrarray.mod        \
-                                                    $(P)m_interp_1d.mod       \
-                                                    $(P)m_spline_def.mod     
 $(P)m_aijpj.mod           $(P)m_aijpj.$O:           \
                                                     $(P)m_hierarch_data.mod   \
                                                     $(P)mkl_dfti.mod         
@@ -192,11 +186,7 @@ $(P)m_visc.mod            $(P)m_visc.$O:            \
                                                     $(P)m_hierarch_data.mod  
 $(P)m_wr_brentmeth.mod    $(P)m_wr_brentmeth.$O:    \
                                                     $(P)m_wrprof_data.mod     \
-                                                    $(P)m_hertz.mod           \
-                                                    $(P)m_visc.mod            \
-                                                    $(P)m_soutpt.mod          \
-                                                    $(P)m_wr_solvecp.mod      \
-                                                    $(P)m_wr_output.mod      
+                                                    $(P)m_wr_solvecp.mod     
 $(P)m_wr_input.mod        $(P)m_wr_input.$O:        \
                                                     $(P)m_hierarch_data.mod   \
                                                     $(P)m_wrprof_data.mod     \
@@ -224,13 +214,21 @@ $(P)m_wr_solvecp.mod      $(P)m_wr_solvecp.$O:      \
                                                     $(P)m_wr_locatecp.mod     \
                                                     $(P)m_wr_undefdist.mod    \
                                                     $(P)m_wr_rigslip.mod     
+$(P)m_wr_totforce.mod     $(P)m_wr_totforce.$O:     \
+                                                    $(P)m_wrprof_data.mod     \
+                                                    $(P)m_hertz.mod           \
+                                                    $(P)m_visc.mod            \
+                                                    $(P)m_soutpt.mod          \
+                                                    $(P)m_wr_solvecp.mod      \
+                                                    $(P)m_wr_output.mod       \
+                                                    $(P)m_wr_brentmeth.mod   
 $(P)m_wr_undefdist.mod    $(P)m_wr_undefdist.$O:    \
                                                     $(P)m_wrprof_data.mod     \
                                                     $(P)m_wr_locatecp.mod    
 $(P)m_wrprof.mod          $(P)m_wrprof.$O:          \
                                                     $(P)m_wrprof_data.mod     \
                                                     $(P)m_wr_input.mod        \
-                                                    $(P)m_wr_brentmeth.mod   
+                                                    $(P)m_wr_totforce.mod    
 $(P)m_wrprof_data.mod     $(P)m_wrprof_data.$O:     \
                                                     $(P)m_hierarch_data.mod   \
                                                     $(P)m_profile.mod         \
@@ -245,3 +243,6 @@ $(P)test_lshape.mod       $(P)test_lshape.$O:       \
                                                     $(P)m_licensing.mod       \
                                                     $(P)m_spline_def.mod      \
                                                     $(P)m_bspline.mod        
+$(P)test_switch.mod       $(P)test_switch.$O:       \
+                                                    caddon_flags.inc          \
+                                                    contact_addon.ifc        

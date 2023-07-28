@@ -2,16 +2,16 @@
 icase      = 20;
 show_wheel = 0;
 show_patch = 1;
-show_fig   = [ 1   3   5   ];
+show_fig   = [   3 4       ];
 
 % expnam = 'cross_brute'; slc_file = '../profiles/cross_nose.slcs'; scale_yz = 1;
 % expnam = 'cross_locus'; slc_file = '../profiles/cross_nose.slcs'; scale_yz = 1;
-% expnam = 'wing_brute'; slc_file = '../profiles/wing_rail.slcs'; scale_yz = 1;
+  expnam = 'wing_brute'; slc_file = '../profiles/wing_rail.slcs'; scale_yz = 1;
 % expnam = 'cross+wing'; slc_file = '../profiles/cross+wing.slcs'; scale_yz = 1;
 % expnam = 'cw_interrupt'; slc_file = '../profiles/cross+wing_extd.slcs'; scale_yz = 1;
 % expnam = 'mbench_brute'; slc_file = '../profiles/uk_crossing.slcs'; scale_yz = 1000;
 % expnam = 'mbench_locus'; slc_file = '../profiles/uk_crossing.slcs'; scale_yz = 1000;
-expnam = 'mbench_intrup'; slc_file = '../profiles/uk_interrupt_v2.slcs'; scale_yz = 1000;
+% expnam = 'mbench_intrup'; slc_file = '../profiles/uk_interrupt_v2.slcs'; scale_yz = 1000;
 % expnam = 'two_patches'; slc_file = '../profiles/uk_interrupt_v2.slcs'; scale_yz = 1000;
 
 if (~exist('slcs') | ~strcmp(slcs.slc_file, slc_file))
@@ -75,9 +75,15 @@ if (any(show_fig==3))
    opt.field    = 'pn';
    opt.xrange   = [-100, 100];
    opt.xysteps  = 20;
+
+   if (1==1 & strcmp(expnam,'wing_brute'))
+      opt.xrange   = [-60, 60];
+      opt.xysteps  = [30, 8];
+      opt.view     = [85, 30];
+   end
    if (show_wheel), opt.rw_surfc = 'both'; end
 
-   figure(4);
+   figure(3);
    plot3d(s, opt, slcs, prw);
 end
 
@@ -88,9 +94,16 @@ if (any(show_fig==4))
    opt.field = 'pn';
    opt.view  = 'rail';
 
+   % transform (xc,yc) coordinates to (xtr,ytr)
+   s(show_patch).x_offset = s(show_patch).meta.xcp_r;
+   s(show_patch).y_offset = s(show_patch).meta.ycp_r + s(show_patch).meta.y_r;
+
    figure(4);
    plot3d(s(show_patch), opt);
    set(gca,'dataaspectratio',[2 1 1])
+
+   xlabel('x_{tr} [mm]'); ylabel('y_{tr} [mm]');
+   axis([-8 3 778 780.3]);
 end
 
 % 5: plot load transfer

@@ -627,8 +627,8 @@ contains
       ! initial estimates of creepages and tangential sensitivities:
 
       if (ic%iestim.eq.0 .or. ic%iestim.eq.2) then
-         if (ic%force.ge.1) kin%cksi = 1d-6
-         if (ic%force.eq.2) kin%ceta = 0d0
+         if (ic%force3.ge.1) kin%cksi = 1d-6
+         if (ic%force3.eq.2) kin%ceta = 0d0
          sens(iout_fn:iout_mz1, iin_dksi1:iin_dphi1) = 0d0
       endif
 
@@ -949,7 +949,7 @@ contains
 
       ! if x-creepage prescribed:
 
-      if (ic%force.eq.0) then
+      if (ic%force3.eq.0) then
          do ii = 1, cgrid%ntot
             hs1%vx(ii) = hs1%vx(ii) + cksi
          enddo
@@ -957,7 +957,7 @@ contains
 
       ! if y-creepage prescribed:
 
-      if (ic%force.le.1) then
+      if (ic%force3.le.1) then
          do ii = 1, cgrid%ntot
             hs1%vy(ii) = hs1%vy(ii) + ceta
          enddo

@@ -1108,7 +1108,7 @@ subroutine simpflex(ic, aa, bb, mater, fstat, kin, idebug)
 
    ! compute combined flexibility L_crss
 
-   if (ic%force.le.0) then
+   if (ic%force3.le.0) then
       f3 = 8d0 * aa / 3d0
       f4 = pi * aa**2 / 4d0
       l_crss = (cksi**2 + ceta**2 + (cphi*f4/f3)**2) /                                                  &

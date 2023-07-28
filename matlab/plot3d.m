@@ -389,8 +389,8 @@ end
 
 % Add defaults for missing components of sol - for convenience of C.library
 
-if (~isfield(sol, 'grid.x_offset')), sol.x_offset = []; end
-if (~isfield(sol, 'grid.y_offset')), sol.y_offset = []; end
+if (~isfield(sol, 'x_offset')), sol.x_offset = []; end
+if (~isfield(sol, 'y_offset')), sol.y_offset = []; end
 if (~isfield(sol, 'kincns.t_digit')), sol.kincns.t_digit = 3; end
 if (~isfield(sol, 'x'))
    sol.x = sol.xl + ([1:sol.mx]-0.5)*sol.dx;
@@ -969,12 +969,12 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
                                                               srange, ds_true, ds_appx, idebug)
 
 % create 2D arrays (x,y,z) for a prismatic rail (prr), variable rail (slcs), or roller (nom_radius)
-%  - the profile will be plotted for xrange = [xmin, xmax]
+%  - the profile will be plotted for xrange = [xmin, xmax] in track coordinates
 %  - fixed steps of size dx_true may be requested, or n-time fitting steps of approximately dx_appx
 %  - the whole profile will be used if srange = [smin, smax] is left empty
 %  - the profile will be sampled at sj-values in the profile close to uniform sj = [smin: ds: smax]
 %  - all profile points will be used if both ds_true and ds_appx are left empty
-%  - for variable profiles, arc-lengths s are replaced by the u-parametrization
+%  - for variable profiles, x-positions and arc-lengths s are replaced by the (u,v)-parametrization
 
    use_intern   = 1;
    if (nargin< 5), dx_true = []; end
@@ -993,7 +993,7 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
    end
    has_slcs   = (want_rail & isfield(sol,'slcs'));
 
-   % determine longitudinal positions xi for evaluation of surface
+   % determine longitudinal positions xi (track coords) for evaluation of surface
 
    if (~isempty(dx_true))
 
@@ -1026,7 +1026,7 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
    % determine lateral positions sj for evaluation of surface
 
    if (has_slcs)
-      profile_s = sol.slcs.uj;
+      profile_s = sol.slcs.vj;
    else
       profile_s = prf.ProfileS;
    end
@@ -1049,7 +1049,12 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
       % if 'target' ds_appx is given, 
       %    divide [smin,smax] in odd #intervals of size ds_true close to ds_appx
 
-      nintv   = floor( (srange(2) - srange(1)) / ds_appx );
+      if (has_slcs)
+         len = 1.3 * max(max(sol.slcs.ysurf)) - min(min(sol.slcs.ysurf));
+         nintv = floor ( len / ds_appx );
+      else
+         nintv = floor( (srange(2) - srange(1)) / ds_appx );
+      end
       if (mod(nintv,2)==1)
          nintv = nintv + 1;  % prefer odd #lines for symmetric [-smax, smax]
       end
@@ -1058,27 +1063,18 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
 
    else
 
-      % if neither is given, use all profile points
+      % if neither is given, use all profile points in range srange
 
-      sj = [];
+      j  = find( profile_s>=srange(1) & profile_s<=srange(2) );
+      sj = profile_s(j);
 
    end
 
    % determine indices js closest to each sj
 
-   if (isempty(sj))
-
-      % no sj given: use all profile points
-
-      js = [ 1 : length(prf.ProfileY) ];
-
-   else
-
-      js = zeros(size(sj));
-      for j = 1 : length(sj)
-         [~,js(j)] = min(abs(profile_s - sj(j)));
-      end
-
+   js = zeros(size(sj));
+   for j = 1 : length(sj)
+      [~,js(j)] = min(abs(profile_s - sj(j)));
    end
 
    % form profile surface at given xi and js
@@ -1098,13 +1094,14 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
 
       % variable rail profile, using internal 2D spline algorithm
 
-      % form profile surface at given xi and uj
+      % form profile surface at given ui (==x_fc) and vj
 
-      xsurf  = xi' * ones(1,ns);
-      sf_min = min(sol.slcs.spl2d.xi);
-      sf_max = max(sol.slcs.spl2d.xi);
-      s_fc   = max(sf_min, min(sf_max, sol.meta.s_ws + xi));
-      [ ~, ~, ysurf, zsurf ] = eval_2dspline( sol.slcs.spl2d, s_fc, sol.slcs.uj(js) );
+      sf_min = min(sol.slcs.spl2d.ui);
+      sf_max = max(sol.slcs.spl2d.ui);
+      ui     = max(sf_min, min(sf_max, sol.meta.s_ws + xi));
+      vj     = sj;
+
+      [ ~, xsurf, ysurf, zsurf ] = eval_2dspline( sol.slcs.spl2d, ui, vj );
 
    elseif (want_rail & has_slcs)
 
@@ -2149,9 +2146,9 @@ else
 end
 
 % set arc-length s, accounting for NaN's in 'missing parts' 
-% s  = slcs.uj; ix = find(isnan(yi)); s(ix) = NaN;
+% s  = slcs.vj; ix = find(isnan(yi)); s(ix) = NaN;
 
-prr = struct('ProfileY',yi', 'ProfileZ',zi', 'ProfileS',slcs.uj);
+prr = struct('ProfileY',yi', 'ProfileZ',zi', 'ProfileS',slcs.vj);
 
 end % function get_profile_slice
 
@@ -2280,7 +2277,15 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
    if (isfield(sol.meta, 'roty')) % hack for 'grade' normal [nx,0,nz] instead of [0,0,1]
       Rref = Rref * roty(sol.meta.roty*180/pi);
    end
-   oref = [sol.meta.xcp_r; sol.meta.ycp_r; sol.meta.zcp_r];
+
+   % for variable rails, x_r-coordinates are defined by the slices-file rather than aligned with track x_tr
+
+   has_slcs = isfield(sol,'slcs');
+   if (has_slcs)
+      oref = [sol.meta.s_ws+sol.meta.xcp_r; sol.meta.ycp_r; sol.meta.zcp_r];
+   else
+      oref = [              sol.meta.xcp_r; sol.meta.ycp_r; sol.meta.zcp_r];
+   end
 
    if (sol.d_digit~=4)
 
@@ -2289,6 +2294,8 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
       coords = oref*ones(1,m*n) + Rref * coords;
 
    else
+
+      if (has_slcs), disp('Rail coords not supported for conformal on variable profile'); end
 
       % mirror ProfileY for left-side w/r pairs
 
@@ -2443,7 +2450,15 @@ function [ xtr, ytr, ztr ] = rail_to_track_coords(sol, xr, yr, zr);
    % form transformation matrices and vectors
 
    R_r  = rotx(sol.meta.roll_r*180/pi);
-   o_r  = [0; sol.meta.y_r; sol.meta.z_r];
+
+   % for variable rails, x_r-coordinates are defined by the slices-file rather than aligned with track x_tr
+
+   has_slcs = isfield(sol,'slcs');
+   if (has_slcs)
+      o_r  = [-sol.meta.s_ws; sol.meta.y_r; sol.meta.z_r];
+   else
+      o_r  = [          0   ; sol.meta.y_r; sol.meta.z_r];
+   end
 
    % change coordinates from rail to track coordinates
 

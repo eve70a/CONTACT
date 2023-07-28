@@ -88,8 +88,8 @@ MODS_ALL = $(P)m_aijpj.$O           $(P)m_arcfit.$O          $(P)m_blas.$O      
            $(P)m_varprof.$O         $(P)m_visc.$O            $(P)m_wrprof.$O          \
            $(P)m_wrprof_data.$O     $(P)m_wr_brentmeth.$O    $(P)m_wr_input.$O        \
            $(P)m_wr_locatecp.$O     $(P)m_wr_profiles.$O     $(P)m_wr_output.$O       \
-           $(P)m_wr_rigslip.$O      $(P)m_wr_solvecp.$O      $(P)m_wr_undefdist.$O    \
-           $(P)mkl_dfti.$O          
+           $(P)m_wr_rigslip.$O      $(P)m_wr_solvecp.$O      $(P)m_wr_totforce.$O     \
+           $(P)m_wr_undefdist.$O    $(P)mkl_dfti.$O          
 MODS_CLIB= $(P)m_caddon_data.$O
 OBJS_ALL = 
 

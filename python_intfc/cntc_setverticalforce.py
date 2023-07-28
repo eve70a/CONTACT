@@ -19,7 +19,7 @@ from ctypes                import c_int, c_double
 
 def cntc_setverticalforce(ire, fz):
 
-    if (not ire):
+    if (not isinstance(ire, int)):
         ire = 1
 
     cntc_dll.cntc_setverticalforce(c_int(ire), c_double(fz));

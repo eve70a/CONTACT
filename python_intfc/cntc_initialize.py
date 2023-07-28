@@ -26,7 +26,9 @@ from .cntc_getmagicnumbers import cntc_getmagicnumbers
 
 def cntc_initialize(ire, imodul, outpath=' ', idebug=1):
 
-    if (not imodul):
+    if (not isinstance(ire, int)):
+        ire = 1
+    if (not isinstance(imodul, int)):
         sys.exit('cntc_initialize: please select module 1 or 3')
 
     # initialize the internal data of the library, open its output streams

@@ -63,7 +63,7 @@ contains
       if (ic%output_surf.ge.2 .and. out_open.eq.1) then
 
          write(lout, 8000)
-         write(lout, 8001) ic%pvtime, ic%bound, ic%tang, ic%norm, ic%force, ic%stress
+         write(lout, 8001) ic%pvtime, ic%bound, ic%tang, ic%norm, ic%force3, ic%stress
          if (ic%varfrc.eq.0) then
             write(lout, 8002) ic%frclaw_inp, ic%discns_inp, ic%gencr_inp, ic%mater, ic%rznorm, ic%rztang
          else
@@ -109,9 +109,9 @@ contains
  8022       format (' TRANSIENT ROLLING')
  8023       format (' STEADY STATE ROLLING')
 
-            if (ic%force.eq.0) write(lout, 8030)
-            if (ic%force.eq.1) write(lout, 8031)
-            if (ic%force.eq.2) write(lout, 8032)
+            if (ic%force3.eq.0) write(lout, 8030)
+            if (ic%force3.eq.1) write(lout, 8031)
+            if (ic%force3.eq.2) write(lout, 8032)
  8030       format (' CREEPAGE PRESCRIBED')
  8031       format (' X-FORCE,  Y-CREEPAGE PRESCRIBED')
  8032       format (' TANGENTIAL FORCE PRESCRIBED')
@@ -261,25 +261,25 @@ contains
          strng(6) = fmt_gs(12, 4, fyrel1)
          write(lout, 8301)
          if (.not.is_roll) then
-            if (ic%force.eq.0) write(lout, 8302)             gd%kin%dt, strng(1), strng(2), strng(3),   &
+            if (ic%force3.eq.0) write(lout, 8302)             gd%kin%dt, strng(1), strng(2), strng(3),  &
                 strng(4)
-            if (ic%force.eq.1) write(lout, 8303) str_muscal, gd%kin%dt, strng(1), strng(5), strng(3),   &
+            if (ic%force3.eq.1) write(lout, 8303) str_muscal, gd%kin%dt, strng(1), strng(5), strng(3),  &
                 strng(4)
-            if (ic%force.eq.2) write(lout, 8304) str_muscal, str_muscal, gd%kin%dt, strng(1), strng(5), &
+            if (ic%force3.eq.2) write(lout, 8304) str_muscal, str_muscal, gd%kin%dt, strng(1), strng(5), &
                 strng(6), strng(4)
          else
-            if (ic%force.eq.0) write(lout, 8305) chi, dq, strng(1), strng(2), strng(3), strng(4)
-            if (ic%force.eq.1) write(lout, 8306) str_muscal, chi, dq, strng(1), strng(5), strng(3),     &
+            if (ic%force3.eq.0) write(lout, 8305) chi, dq, strng(1), strng(2), strng(3), strng(4)
+            if (ic%force3.eq.1) write(lout, 8306) str_muscal, chi, dq, strng(1), strng(5), strng(3),    &
                 strng(4)
-            if (ic%force.eq.2) write(lout, 8307) str_muscal, str_muscal, chi, dq, strng(1), strng(5),   &
+            if (ic%force3.eq.2) write(lout, 8307) str_muscal, str_muscal, chi, dq, strng(1), strng(5),  &
                 strng(6), strng(4)
          endif
  8301    format (' KINEMATIC CONSTANTS')
- 8302    format (2x, 3x,'DT',7x,  3x,'VELOC',4x, 3x,'CKSI',5x,  3x,'CETA',5x, 3x,'CPHI',/,               &
+ 8302    format (2x, 3x,'DT',7x,  3x,'VELOC',4x, 3x,'CKSI',5x,  3x,'CETA',5x, 3x,'CPHI',/,              &
                  2x, f8.3,4x, 4a12, /)
- 8303    format (2x, 3x,'DT',7x,  3x,'VELOC',4x, 1x,'FX',a,     3x,'CETA',5x, 3x,'CPHI',/,               &
+ 8303    format (2x, 3x,'DT',7x,  3x,'VELOC',4x, 1x,'FX',a,     3x,'CETA',5x, 3x,'CPHI',/,              &
                  2x, f8.3,4x, 4a12, /)
- 8304    format (2x, 3x,'DT',7x,  3x,'VELOC',4x, 1x,'FX',a,     1x,'FY',a,    3x,'CPHI',/,               &
+ 8304    format (2x, 3x,'DT',7x,  3x,'VELOC',4x, 1x,'FX',a,     1x,'FY',a,    3x,'CPHI',/,              &
                  2x, f8.3,4x, 4a12, /)
  8305    format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 3x,'CKSI',5x, 3x,'CETA',5x, 3x,'CPHI',/, &
                  2x, 2g12.4, 4a12, /)
@@ -357,10 +357,10 @@ contains
          endif
          fnscal = fntrue / gd%mater%ga
      
-         if (ic%force.eq.0) then
+         if (ic%force3.eq.0) then
             fxrel1 = dxdy * gf3_sum(AllElm, ps1, ikXDIR) / (fntrue*muscal + tiny)
          endif
-         if (ic%force.le.1) then
+         if (ic%force3.le.1) then
             fyrel1 = dxdy * gf3_sum(AllElm, ps1, ikYDIR) / (fntrue*muscal + tiny)
          endif
          fxtru1 = fxrel1 * (fntrue*muscal+tiny)
@@ -456,7 +456,7 @@ contains
  8502 format (2x, 6a12)
 
       strng(3) = fmt_gs(12, 4, fnscal)
-      if (ic%force.eq.0) then
+      if (ic%force3.eq.0) then
          strng(1) = 'FX/FSTAT/FN'
          if (.not.gd%kin%use_muscal) strng(1) = '  FX/FN'
          strng(4) = fmt_gs(12, 4, filt_sml(fxrel1,0.5d0*eps))
@@ -467,7 +467,7 @@ contains
          strng(1) = ' SHIFT X'
          strng(4) = fmt_gs(12, 4, filt_sml(cksi, ceta*eps))
       endif
-      if (ic%force.le.1) then
+      if (ic%force3.le.1) then
          strng(2) = 'FY/FSTAT/FN'
          if (.not.gd%kin%use_muscal) strng(2) = ' FY/FN'
          strng(5) = fmt_gs(12, 4, filt_sml(fyrel1,0.5d0*eps))
@@ -656,12 +656,12 @@ contains
                !  - rolling: rhs, creepage == relative slip velocity
                !  - shifts:  rhs, creepage == slip distance, dq == 1
 
-               if (ic%force.ge.1) then
+               if (ic%force3.ge.1) then
                   rhsx = filt_sml(cksi, ceta*eps) - hs1%vx(ii) / dq
                else
                   rhsx =                          - hs1%vx(ii) / dq
                endif
-               if (ic%force.eq.2) then
+               if (ic%force3.eq.2) then
                   rhsy = filt_sml(ceta, cksi*eps) - hs1%vy(ii) / dq
                else
                   rhsy =                          - hs1%vy(ii) / dq

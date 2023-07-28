@@ -21,12 +21,8 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, POINTER
 from .cntc_getnumelements  import cntc_getnumelements
 
-def cntc_getelementdivision(ire, icp):
+def cntc_getelementdivision(ire=1, icp=1):
 
-    if (not ire):
-        ire = 1
-    if (not icp):
-        icp = 1
     if (icp<=0):
         sys.exit('ERROR in cntc_getelementdivision: not available for icp=%d' % icp)
 

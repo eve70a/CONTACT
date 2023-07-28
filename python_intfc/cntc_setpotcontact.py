@@ -33,12 +33,12 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, POINTER
 
 def cntc_setpotcontact(ire, icp, ipotcn, params):
+    # default: W/R contact, all patches
 
-    if (not ire):
-        ire = 1
-    if (not icp):
-        icp = -1; # default: W/R contact, all patches
-
+    if (not isinstance(ire, int)):
+        ire =  1
+    if (not isinstance(icp, int)):
+        icp = -1
     # convert params to NumPy ndarray
     if (not isinstance(params, np.ndarray)):
         if (isinstance(params, list)):

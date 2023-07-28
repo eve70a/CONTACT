@@ -585,7 +585,7 @@ end subroutine varprof_set_debug
       endif
       call set_platform_filesep(fulnam)
 
-      if (idebug.ge.2) call write_log(' reading ' // nam_rw // ' profile "' // trim(fulnam) // '"')
+      if (idebug.ge.1) call write_log(' reading ' // nam_rw // ' profile "' // trim(fulnam) // '"')
 
       ! get type of file from filename extension
 

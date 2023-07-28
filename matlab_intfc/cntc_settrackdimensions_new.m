@@ -10,10 +10,12 @@
 %                                         or   [gaught, raily0, railz0, cant, nomrad],   if gaught <= 0.
 %    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
 %    3: new dimensions & track deviations for current side of the track
-%                                     params(1:5) cf. Z=1 followed by params(6:11) cf. Z=2.
+%                                     params = params(1:5) cf. Z=1 followed by params(6:11) cf. Z=2;
+%                                              additionally, [kyrail, fyrail, kzrail, fzrail] when F=3.
 %
 % dimensions: gaught, gaugwd, raily0, railz0, nomrad, dyrail, dzrail [length],    cant, drollr [angle]
 %                                                     vyrail, vzrail [veloc],           vrollr [ang.veloc]
+%                                                kyrail, kzrail [force/length], fyrail, fzrail [force]
 %------------------------------------------------------------------------------------------------------------
 
 % Copyright 2008-2023 by Vtech CMCC.

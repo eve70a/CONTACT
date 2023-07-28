@@ -30,9 +30,9 @@ from ctypes                import c_int, c_double, POINTER
 
 def cntc_setwheelsetflexibility(ire, ewheel, params):
 
-    if (not ire):
+    if (not isinstance(ire, int)):
         ire = 1
-    if (not ewheel):
+    if (not isinstance(ewheel, int)):
         ewheel = 0
     if (ewheel<=4):
         params = np.zeros(1, dtype=c_double)

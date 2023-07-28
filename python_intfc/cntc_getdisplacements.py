@@ -19,13 +19,9 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, POINTER
 from .cntc_getnumelements  import cntc_getnumelements
 
-def cntc_getdisplacements(ire, icp, mx, my):
+def cntc_getdisplacements(ire=1, icp=1):
     print('function called for first time:', __name__)
 
-    if (not ire):
-        ire = 1
-    if (not icp):
-        icp = 1
     if (icp<=0):
         sys.exit('ERROR in cntc_getdisplacements: not available for icp=%d' % icp)
 
