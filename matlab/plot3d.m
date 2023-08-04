@@ -123,10 +123,18 @@ if (nargin<2 | isempty(opt3))
 end
 
 if (nargin<3)
-   prr = [];
+   if (isfield(sol,'prr'))
+      prr = sol.prr;
+   else
+      prr = [];
+   end
 end
 if (nargin<4)
-   prw = [];
+   if (isfield(sol,'prw'))
+      prw = sol.prw;
+   else
+      prw = [];
+   end
 end
 if (nargin<5)
    subs = [];

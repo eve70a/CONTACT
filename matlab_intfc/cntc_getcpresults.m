@@ -57,6 +57,26 @@ function [ sol ] = cntc_getcpresults(ire, icp)
    sol.mater.tau_c0 = values.tau_c0;
    use_plast = (sol.mater.m_digit==4 & (sol.mater.tau_c0>1e-10 & sol.mater.tau_c0<1e10));
 
+   % retrieve wheel and rail profile data
+
+   itask   = 1;
+   iswheel = 0;
+   isampl  = 0;
+   iparam  = [iswheel, isampl];
+   rparam  = [];
+   val = cntc_getprofilevalues(ire, itask, iparam, rparam);
+   sol.prr = struct('ProfileY',val(:,1), 'ProfileZ',val(:,2));
+   itask   = 4;
+   sol.prr.ProfileS = cntc_getprofilevalues(ire, itask, iparam, rparam);
+
+   itask   = 1;
+   iswheel = 1;
+   iparam  = [iswheel, isampl];
+   val = cntc_getprofilevalues(ire, itask, iparam, rparam);
+   sol.prw = struct('ProfileY',val(:,1), 'ProfileZ',val(:,2));
+   itask   = 4;
+   sol.prw.ProfileS = cntc_getprofilevalues(ire, itask, iparam, rparam);
+
    % retrieve wheel, rail and contact position data
 
    ws_pos = cntc_getwheelsetposition(ire);
