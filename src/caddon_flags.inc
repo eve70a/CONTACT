@@ -66,6 +66,10 @@
                                                    !   3: analytical IF for halfspace, bilinear elements
                                                    !   4: IF for conformal contact, using angle correction
       integer, parameter :: CNTC_ic_mater  = 1979  ! code for retrieving the control digit M, MATER
+      integer, parameter :: CNTC_ic_xflow  = 1981  ! code for setting extended debug print output (X, XFLOW)
+                                                   ! <=0: no additional debug output
+                                                   !  >0: codeword PSFLRIN for profil, smooth, force, locate,
+                                                   !      readln, inflcf, nmdbg
       integer, parameter :: CNTC_ic_heat   = 1982  ! code for retrieving the control digit H, HEAT
       integer, parameter :: CNTC_ic_iestim = 1983  ! code for setting the control digit I, IESTIM:
                                                    !   0: start from zero initial estimate (default)
@@ -167,5 +171,5 @@
       integer, parameter :: CNTC_err_other  =  -99  ! other error, unspecified
       integer, parameter :: CNTC_err_broydn =  CNTC_err_ftot  ! obsolete, kept for backward compatibility
 
-! $Revision: 2372 $, $Date: 2023-06-15 16:58:45 +0200 (Thu, 15 Jun 2023) $
+! $Revision: 2372 $, $Date: 2023-06-15 14:58:45 +0000 (Thu, 15 Jun 2023) $
 !------------------------------------------------------------------------------------------------------------

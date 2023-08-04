@@ -186,7 +186,7 @@ contains
          call influe_load(gd%mater%fname_influe, gd%meta%dirnam, is_roll, gd%cgrid, gd%influ)
          call influe_mater(gd%influ, gd%mater)
 
-         if (gd%ic%nmdbg.eq.6) then
+         if (gd%ic%x_inflcf.eq.6) then
             write(lout,*) 'Printing influence coefficients cs (instat)'
             call inflcf_print (gd%influ%cs, lout)
          endif

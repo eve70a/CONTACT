@@ -48,10 +48,10 @@ contains
 
       ! idebug: 0 = errors/silent, 1 = warnings/info, >=2 = flow/debug
 
-      if (wtd%ic%nmdbg.le.0) then
+      if (wtd%ic%x_locate.le.0) then
          idebug_cnt = wtd%ic%ilvout
       else
-         idebug_cnt = wtd%ic%nmdbg
+         idebug_cnt = wtd%ic%x_locate
       endif
 
       ! set rail deflections if not used in this case

@@ -164,7 +164,7 @@ contains
 
             ! print sensitivities used, when requested
 
-            if (.false. .and. (ic%flow.ge.5 .or. ic%nmdbg.ge.5)) then
+            if (.false. .and. (ic%flow.ge.5 .or. ic%x_nmdbg.ge.5)) then
                if (ic%force3.eq.1) then
                   strng(1) = fmt_gs(12,4, sens(iout_fx1,iin_dksi1))
                   write(bufout,'(18x,2a)') 'Sens:',strng(1)
@@ -1087,7 +1087,7 @@ contains
       mx = ps%grid%nx
       my = ps%grid%ny
       ga = cs%ga
-      ic_nmdbg = ic%nmdbg
+      ic_nmdbg = ic%x_nmdbg
       iidbg = min(npot, 196)
 
 #if defined WITH_MKLFFT
@@ -2105,7 +2105,7 @@ contains
          flx = 0d0
       endif
 
-      if (ic%nmdbg.ge.1 .and. iidbg.ge.1 .and. iidbg.le.npot) then
+      if (ic%x_nmdbg.ge.1 .and. iidbg.ge.1 .and. iidbg.le.npot) then
          ii = iidbg
          write(bufout,'(a,i6,4(a,g12.4))') ' stdygs: pn(',ii,')=',ps%vn(ii),', mu=', mus%vt(ii),     &
                 ', wx=', ws%vx(ii),', wy=',ws%vy(ii)
@@ -2190,22 +2190,22 @@ contains
 
                   ! Solve the equations for the current element
 
-                  if (ic%nmdbg.ge.7 .and. ii.eq.iidbg) then
+                  if (ic%x_nmdbg.ge.7 .and. ii.eq.iidbg) then
                      write(bufout,'(a,i4,a,7g11.3)') ' itgs',itgs,': taucs=', (taucs%vt(ii+j), j=-3,2)
                      call write_log(1,bufout)
                   endif
 
                   idebug = 0
-                  if (ic%nmdbg.ge.2 .and. ii.eq.iidbg .and. itgs.ge.1 .and. itgs.le.-5) idebug = 5
+                  if (ic%x_nmdbg.ge.2 .and. ii.eq.iidbg .and. itgs.ge.1 .and. itgs.le.-5) idebug = 5
                   call plstrc(ii, ix, iy, igs%el(ii), coef, eps, omegah, omegas, pr, mus%vt(ii),       &
                                  tau_c0, k_tau, tauv, tauc, s, dupl, idebug)
 
-                  if (igs%el(ii).ne.elprv .and. (ic%nmdbg.ge.4 .or. ic%flow.ge.7)) then
+                  if (igs%el(ii).ne.elprv .and. (ic%x_nmdbg.ge.4 .or. ic%flow.ge.7)) then
                      write(bufout,'(a,i4,2(a,i3),4a)') ' it=',itgs,': moving element (',cgrid%ix(ii),   &
                         ',',cgrid%iy(ii),') from ', aset(elprv),' to ', aset(igs%el(ii))
                      call write_log(1,bufout)
                   endif
-                  if (ic%nmdbg.ge.1 .and. ii.eq.iidbg) then
+                  if (ic%x_nmdbg.ge.1 .and. ii.eq.iidbg) then
                      write(bufout,'(a,i4,2(a,i3),2a,2(a,f9.3),2(a,g12.4))') ' itgs',itgs,': el (',      &
                          ix,',', iy,') in ',aset(igs%el(ii)),', pr=',pr(1),',',pr(2),', s=',s(1),',',s(2)
                      call write_log(1,bufout)
@@ -2339,24 +2339,24 @@ contains
  5303    format (6x,i6,', size A, S =',   2i6, ', |dPt(k)|, Eps|Pt|:', 2g11.3)
  5304    format (6x,i6,', size A, S =',   2i8, ', |dPt(k)|, Eps|Pt|:', 2g11.3)
 
-         if (ic%nmdbg.ge.5 .and. .false.) then
+         if (ic%x_nmdbg.ge.5 .and. .false.) then
             ii = difmax_ii
             write(bufout,'(a,g12.4,a,2i5,3a,g12.4)') '   largest dif',difmax,                &
                 ' at ix,iy=',cgrid%ix(ii), cgrid%iy(ii), ' in ',aset(igs%el(ii))
             call write_log(1, bufout)
          endif
-         if (ic%nmdbg.ge.5 .and. .false.) then
+         if (ic%x_nmdbg.ge.5 .and. .false.) then
             ii = idamax(npot, ps%vy, 1)
             write(bufout,*) 'absmax(py)=',ps%vy(ii),' at ii=',ii
             call write_log(1,bufout)
             if (abs(ps%vy(ii)).gt.1d0) call abort_run()
          endif
-         if (ic%nmdbg.ge.5 .and. itgs.eq.-1) then
+         if (ic%x_nmdbg.ge.5 .and. itgs.eq.-1) then
             ii = difmax_ii
             write(bufout,5400) ii, igs%el(ii), ps%vn(ii), ps%vx(ii), ps%vy(ii)
             call write_log(1, bufout)
          endif
-         if (ic%nmdbg.ge.5 .and. itgs.ge.261 .and. itgs.le.299) then
+         if (ic%x_nmdbg.ge.5 .and. itgs.ge.261 .and. itgs.le.299) then
             write(bufout,'(a,i3.3,a)') 'sol', itgs, '=['
             call write_log(1, bufout)
             do ii = 1, npot
@@ -2372,7 +2372,7 @@ contains
       enddo ! while(not converged)
 
 
-      if (ic%nmdbg.ge.1 .and. iidbg.ge.1 .and. iidbg.le.npot) then
+      if (ic%x_nmdbg.ge.1 .and. iidbg.ge.1 .and. iidbg.le.npot) then
          ii = iidbg
          write(bufout,'(a,i6,4(a,g12.4))') ' stdygs: px(',ii,')=',ps%vx(ii),', py=', ps%vy(ii),     &
                 ', sx=', ss%vx(ii),', sy=',ss%vy(ii)

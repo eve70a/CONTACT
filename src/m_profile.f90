@@ -900,14 +900,14 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine read_simpack_profile(fname, fulnam, npoint, points, is_wheel, inp_mirror_y, inp_mirror_z, &
-                        inp_sclfac, inp_zig_thrs, ldebug, lstop, ierror)
+                        inp_sclfac, inp_zig_thrs, x_profil, x_readln, lstop, ierror)
 !--purpose: Read a wheel or rail profile from a Simpack prr or prw file
       implicit none
 !--subroutine arguments:
       character*(*)             :: fname, fulnam
       real(kind=8), dimension(:,:), pointer :: points ! npoint x 3:  (y,z,wgt)
       integer,      intent(out) :: npoint
-      integer,      intent(in)  :: is_wheel, inp_mirror_y, inp_mirror_z, ldebug
+      integer,      intent(in)  :: is_wheel, inp_mirror_y, inp_mirror_z, x_profil, x_readln
       real(kind=8), intent(in)  :: inp_sclfac, inp_zig_thrs
       logical,      intent(in)  :: lstop
       integer                   :: ierror
@@ -922,7 +922,7 @@ contains
       real(kind=8)       :: approx_smooth, point_dist_min, shift_y, shift_z, rotate, bound_y_min,       &
                             bound_y_max, bound_z_min, bound_z_max, units_len_fac, units_ang_fac
 
-      if (ldebug.ge.2) then
+      if (x_profil.ge.2) then
          write(bufout,'(/,2a)') ' --- read_spck: file ',trim(fulnam)
          call write_log(2, bufout)
       endif
@@ -969,13 +969,13 @@ contains
 
          ! Increment line number and read input, thereby skipping comments and empty lines
 
-         call getNonemptyLine(unitnm, 0, 'line of simpack profile file', commnt, ldebug, ieof, lstop,   &
+         call getNonemptyLine(unitnm, 0, 'line of simpack profile file', commnt, x_readln, ieof, lstop,   &
                 linenr, nblank, ncmtln, inptxt)
 
          ! split the input at spaces and put into string array
 
          if (ieof.le.0) then
-            call readKeywordValues(inptxt, commnt, mxitem, ldebug, has_key, keywrd, has_str, valstr,    &
+            call readKeywordValues(inptxt, commnt, mxitem, x_readln, has_key, keywrd, has_str, valstr,    &
                 nitem, values)
          else
             ierror = 100
@@ -1037,7 +1037,7 @@ contains
                         '" in prr/prw-file "', trim(fname),'")'
                call write_log(1, bufout)
             endif
-            if (ldebug.ge.3 .and. has_match) then
+            if (x_profil.ge.3 .and. has_match) then
                write(bufout,*) '   ...found section ',trim(keywrd)
                call write_log(1, bufout)
             endif
@@ -1053,7 +1053,7 @@ contains
                call write_log(1, bufout)
             elseif (keywrd.eq.'version') then
                iversion = nint(values(1))
-               if (ldebug.ge.3) then
+               if (x_profil.ge.3) then
                   write(bufout,*) '      ...found version=',iversion
                   call write_log(1, bufout)
                endif
@@ -1069,7 +1069,7 @@ contains
                   call write_log(1, bufout)
                   ierror = 113
                endif
-               if (ldebug.ge.3) then
+               if (x_profil.ge.3) then
                   write(bufout,*) '      ...found is_wheel=',my_wheel
                   call write_log(1, bufout)
                endif
@@ -1117,10 +1117,10 @@ contains
             elseif (keywrd.eq.'mirror.z') then
                file_mirror_z  = nint(values(1))
             elseif (keywrd.eq.'units.len') then
-               if (ldebug.ge.1) call write_log(' The keyword "units.len" is ignored. Please use ' //    &
+               if (x_profil.ge.1) call write_log(' The keyword "units.len" is ignored. Please use ' //    &
                         '"units.len.f" instead')
             elseif (keywrd.eq.'units.ang') then
-               if (ldebug.ge.1) call write_log(' The keyword "units.ang" is ignored. Please use ' //    &
+               if (x_profil.ge.1) call write_log(' The keyword "units.ang" is ignored. Please use ' //    &
                         '"units.ang.f" instead')
             elseif (keywrd.eq.'units.len.f') then
                units_len_fac = values(1)
@@ -1179,7 +1179,7 @@ contains
          ! recognize end of data
 
          if (index(inptxt, 'spline.end').gt.0) then
-            if (ldebug.ge.3) call write_log(' found spline end.')
+            if (x_profil.ge.3) call write_log(' found spline end.')
             ieof = 1
          endif
 
@@ -1197,20 +1197,20 @@ contains
       endif
 
       if (ierror.ne.0) then
-         if (ldebug.ge.1) call write_log(' Errors found, skipping profile processing.')
+         if (x_profil.ge.1) call write_log(' Errors found, skipping profile processing.')
       else
-         if (ldebug.ge.3) then
+         if (x_profil.ge.3) then
             write(bufout,'(a,i6,a)') ' Obtained',npoint,' profile points'
             call write_log(1, bufout)
          endif
 
          !  - modification 1: point.dist.min - remove points too close together
 
-         call filter_close_points(points, arrsiz, npoint, ncolpnt, point_dist_min, is_wheel, ldebug)
+         call filter_close_points(points, arrsiz, npoint, ncolpnt, point_dist_min, is_wheel, x_profil)
 
          !  - modification 1': remove zig-zag-patterns with double kink
 
-         call filter_double_kinks(points, arrsiz, npoint, ncolpnt, is_wheel, inp_zig_thrs, ldebug)
+         call filter_double_kinks(points, arrsiz, npoint, ncolpnt, is_wheel, inp_zig_thrs, x_profil)
 
          !  - modification 2: shift.y - in user units
          !  - modification 3: shift.z
@@ -1236,7 +1236,7 @@ contains
 
          if (bound_y_min.lt.bound_y_max) then
             call delete_outside_boundbox(points, arrsiz, npoint, ncolpnt, bound_y_min, bound_y_max,     &
-                         1d0, 0d0, ldebug)
+                         1d0, 0d0, x_profil)
          endif
 
          !  - modification 6: bound.z.min, bound.z.max - clipping - shifting points to interval boundary
@@ -1278,17 +1278,17 @@ contains
          !  - modification 9: inversion
 
          if (ierror.eq.0 .and. flip_data.le.-99) then
-            call check_inversion(fname, npoint, points, 1, 2, is_wheel, ldebug, 0, flip_data, ierror)
+            call check_inversion(fname, npoint, points, 1, 2, is_wheel, x_profil, 0, flip_data, ierror)
          endif
 
          if (ierror.eq.0 .and. flip_data.eq.1) then
-            call invert_points(npoint, points, is_wheel, ldebug)
+            call invert_points(npoint, points, is_wheel, x_profil)
          endif
 
          !  - first/last points should now be in appropriate order
 
          if (ierror.eq.0) then
-            call check_overall_order(npoint, points, is_wheel, ldebug, ierror)
+            call check_overall_order(npoint, points, is_wheel, x_profil, ierror)
          endif
 
       endif ! ierror<>0
@@ -1298,21 +1298,22 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine read_miniprof_profile(fname, fulnam, iftype, npoint, points, is_wheel, mirror_y,          &
-                        inp_mirror_z, inp_sclfac, inp_zig_thrs, icol_kyield, ldebug, lstop, ierror)
+                        inp_mirror_z, inp_sclfac, inp_zig_thrs, icol_kyield, x_profil, x_readln,        &
+                        lstop, ierror)
 !--purpose: Read a wheel or rail profile from a Miniprof ban or whl file
       implicit none
 !--subroutine arguments:
       character*(*)             :: fname, fulnam
       integer,      intent(out) :: npoint
       real(kind=8), dimension(:,:), pointer :: points ! npoint x 6: [y, z, angle, curvature, wgt, kyield]
-      integer,      intent(in)  :: iftype, is_wheel, mirror_y, inp_mirror_z, ldebug
+      integer,      intent(in)  :: iftype, is_wheel, mirror_y, inp_mirror_z, x_profil, x_readln
       real(kind=8), intent(in)  :: inp_sclfac, inp_zig_thrs
       integer,      intent(out) :: icol_kyield
       logical,      intent(in)  :: lstop
       integer                   :: ierror
 !--local variables:
       integer,      parameter :: mxitem = 20, ncolpnt = 6, mxwarn_coldef = 4
-      character*3,  parameter :: commnt = '!"%'
+      character*4,  parameter :: commnt = '!"%#'
       real(kind=8), parameter :: point_dist_min = 1d-4
       integer             :: unitnm, ios, linenr, line_prv, nblank, ncmtln, in_headers, old_style,      &
                              ieof, nwarn_coldef, nitem, i, ipnt
@@ -1322,7 +1323,7 @@ contains
       integer             :: arrsiz, xypoints, mirror_z, flip_data, ncolfile, icolfile, ipnt2file(ncolpnt)
       real(kind=8)        :: xoffset, yoffset, grade, superelevation, gauge
 
-      if (ldebug.ge.2) then
+      if (x_profil.ge.2) then
          write(bufout,'(/,2a)') '--- read_miniprof: file ',trim(fulnam)
          call write_log(2, bufout)
       endif
@@ -1363,7 +1364,7 @@ contains
          ! Increment line number and read input, thereby skipping comments and empty lines
 
          line_prv = linenr
-         call getNonemptyLine(unitnm, 0, 'line of miniprof file', commnt, ldebug, ieof, lstop, linenr,  &
+         call getNonemptyLine(unitnm, 0, 'line of miniprof file', commnt, x_readln, ieof, lstop, linenr,  &
                         nblank, ncmtln, inptxt)
 
          ! Miniprof data start after an empty line
@@ -1375,14 +1376,14 @@ contains
          !    case 2: keyword, or keyword = <empty>
          !    case 3: numerical value(s)
 
-         call readKeywordValues(inptxt, commnt, mxitem, ldebug, has_key, keywrd, has_str, valstr,       &
+         call readKeywordValues(inptxt, commnt, mxitem, x_readln, has_key, keywrd, has_str, valstr,       &
                         nitem, values)
 
          ! Provide support for basic 2-column X,Y values and for miniprof files with missing blank line
 
          if (in_headers.eq.1 .and. .not.has_key .and. old_style.le.0) then
 
-            if (ldebug.ge.-1 .and. iftype.ne.FTYPE_PLAIN2D) then
+            if (x_profil.ge.-1 .and. iftype.ne.FTYPE_PLAIN2D) then
                write(bufout,'(a,i5,a)') ' WARNING: found data at line', linenr,' not preceded by blank line'
                call write_log(1, bufout)
             endif
@@ -1405,7 +1406,7 @@ contains
 
          elseif (in_headers.eq.1 .and. .not.has_key) then
 
-            if (ldebug.ge.1) then
+            if (x_profil.ge.1) then
                write(bufout,'(a,i5)') ' WARNING: found data while still in headers, ignoring line', linenr
                call write_log(1, bufout)
             endif
@@ -1414,7 +1415,7 @@ contains
 
             ! plain keyword (old-style Miniprof file?)
 
-            if (ldebug.ge.3) then
+            if (x_profil.ge.3) then
                write(bufout,*) 'Plain keyword "',trim(keywrd),'", ignored.'
                call write_log(1, bufout)
             endif
@@ -1450,7 +1451,7 @@ contains
             elseif (keywrd.eq.'ColumnDef') then
                columndef = valstr
                ncolfile = (len(trim(columndef)) + 1) / 2
-               if (ldebug.ge.3) then
+               if (x_profil.ge.3) then
                   write(bufout,*) 'columndef = "',trim(columndef),'", ncol=',ncolfile
                   call write_log(1, bufout)
                endif
@@ -1474,7 +1475,7 @@ contains
                      call write_log(1, bufout)
                   endif
                enddo
-               if (ldebug.ge.3) then
+               if (x_profil.ge.3) then
                   write(bufout,*)'ipnt2file=',(ipnt2file(i), i=1,ncolpnt)
                   call write_log(1, bufout)
                endif
@@ -1603,7 +1604,7 @@ contains
                xypoints = nint(values(1))
             elseif (keywrd.eq.'Yoffset' .or. keywrd.eq.'YOffset') then
                yoffset = values(1)
-            elseif (ldebug.ge.2) then
+            elseif (x_profil.ge.2) then
                write(bufout,*) 'unknown keyword "',trim(keywrd),'", ignored.'
                call write_log(1, bufout)
             endif
@@ -1646,7 +1647,7 @@ contains
             ! adjust column definition if not specified before
 
             if (nitem.gt.ncolfile .and. columndef.eq.'X,Y,*') then
-               if (ldebug.ge.1) then
+               if (x_profil.ge.1) then
                   if (nitem.eq.3) then
                      write(bufout,'(a,i3,a,/,9x,3a)') ' WARNING: unspecified ColumnDef with',nitem,     &
                            ' values per line.',' Assuming "', trim(columndef), '", ignoring last column.'
@@ -1685,11 +1686,11 @@ contains
          call write_log(1, bufout)
       endif
 
-      if (ldebug.ge.3) then
+      if (x_profil.ge.3) then
          write(bufout,'(a,i6,a)') ' Obtained',npoint,' profile points'
          call write_log(1, bufout)
       endif
-      if (ldebug.ge.4) then
+      if (x_profil.ge.4) then
          do ipnt = 1, npoint
             write(bufout, '(i5,2(a,f9.3))') ipnt,': y=',points(ipnt,1),', z=',points(ipnt,2)
             call write_log(1, bufout)
@@ -1717,7 +1718,7 @@ contains
 
       if (ierror.ne.0) then
 
-         if (ldebug.ge.1) call write_log(' Errors found, skipping profile processing.')
+         if (x_profil.ge.1) call write_log(' Errors found, skipping profile processing.')
 
       else
 
@@ -1726,11 +1727,11 @@ contains
          !  - modification 1: point.dist.min - remove points too close together
 
          ! call write_log('...filter_close_points')
-         call filter_close_points(points, arrsiz, npoint, ncolpnt, point_dist_min, is_wheel, ldebug)
+         call filter_close_points(points, arrsiz, npoint, ncolpnt, point_dist_min, is_wheel, x_profil)
 
          !  - modification 1': remove zig-zag-patterns with double kink
 
-         call filter_double_kinks(points, arrsiz, npoint, ncolpnt, is_wheel, inp_zig_thrs, ldebug)
+         call filter_double_kinks(points, arrsiz, npoint, ncolpnt, is_wheel, inp_zig_thrs, x_profil)
 
          !  - modification 2: xoffset - in [mm]
          !  - modification 3: yoffset - in [mm]
@@ -1756,7 +1757,7 @@ contains
          if (inp_mirror_z.ne.0) then
             mirror_z = inp_mirror_z
          else
-            call check_z_pos_down(fname, npoint, points, is_wheel, ldebug, mirror_z)
+            call check_z_pos_down(fname, npoint, points, is_wheel, x_profil, mirror_z)
          endif
 
          if (mirror_z.eq.1) then
@@ -1764,7 +1765,7 @@ contains
             do ipnt = 1, npoint
                points(ipnt,2) = -points(ipnt,2)
             enddo
-            if (ldebug.ge.4) then
+            if (x_profil.ge.4) then
                call write_log(' after mirror_z:')
                do ipnt = 1, npoint
                   write(bufout, '(i5,2(a,f9.3))') ipnt,': y=',points(ipnt,1),', z=',points(ipnt,2)
@@ -1783,12 +1784,12 @@ contains
 
          !  - modification 9: inversion
 
-         call check_inversion(fname, npoint, points, 1, 2, is_wheel, ldebug, 0, flip_data, ierror)
+         call check_inversion(fname, npoint, points, 1, 2, is_wheel, x_profil, 0, flip_data, ierror)
 
          if (flip_data.eq.1) then
-            call invert_points(npoint, points, is_wheel, ldebug)
+            call invert_points(npoint, points, is_wheel, x_profil)
 
-            if (ldebug.ge.4) then
+            if (x_profil.ge.4) then
                call write_log(' after flip_data:')
                do ipnt = 1, npoint
                   write(bufout, '(i5,2(a,f9.3))') ipnt,': y=',points(ipnt,1),', z=',points(ipnt,2)
@@ -1799,7 +1800,7 @@ contains
 
          !  - first/last points should now be in appropriate order
 
-         call check_overall_order(npoint, points, is_wheel, ldebug, ierror)
+         call check_overall_order(npoint, points, is_wheel, x_profil, ierror)
 
       endif ! ierror<>0
 

@@ -35,6 +35,8 @@ public
    public  ic_init
    public  ic_unpack
    public  ic_pack
+   public  dbg_unpack
+   public  dbg_pack
 
    public  t_material
    public  mater_init
@@ -120,7 +122,14 @@ public
       integer :: output_surf
       integer :: output_subs
       integer :: flow
-      integer :: nmdbg
+      integer :: xflow
+      integer :: x_profil
+      integer :: x_smooth
+      integer :: x_force
+      integer :: x_locate
+      integer :: x_readln
+      integer :: x_inflcf
+      integer :: x_nmdbg
       integer :: wrtinp
       integer :: return
       integer :: ilvout
@@ -298,7 +307,18 @@ public
       !              1-4 = flow of iteration processes Panag, Duvorol, Norm/Tang, Newton-Raphson,
       !              5,6 = flow of iterative solvers ConvexGS, ConjGrad,
       !              9   = full flow-trace.
-      ! x, nmdbg    governs the extent of (debug) grid data printed to the output-file
+      ! x, xflow    governs additional debug outputs printed to the output-file
+      !              0   = none,
+      !              1   = additional debug output enabled
+      !    x_profil governs the debug output on profile processing
+      !    x_smooth governs the debug output on profile smoothing
+      !    x_force  governs the debug output on total force iteration
+      !    x_locate governs the debug output on the contact search
+      !    x_readln governs the debug output on reading the input file
+      !    x_inflcf governs the debug output on influence coefficients
+      !              0   = none
+      !              7   = print influence coefficients
+      !    x_nmdbg  governs the debug output from the contact solvers
       !              0-3 = none
       !              4   = global problem inputs Hs and outputs Igs,Ps,Us
       !              5   = intermediate results of the Panagiotopoulos' process
@@ -922,12 +942,19 @@ contains
       ic%matfil_subs = 1
       ic%output_surf = 2
       ic%output_subs = 1
-      ic%flow   = 4
-      ic%nmdbg  = 0
-      ic%wrtinp = 0
-      ic%return = 1
+      ic%flow     = 4
+      ic%xflow    = 0
+      ic%x_profil = 0
+      ic%x_smooth = 0
+      ic%x_force  = 0
+      ic%x_locate = 0
+      ic%x_readln = 0
+      ic%x_inflcf = 0
+      ic%x_nmdbg  = 0
+      ic%wrtinp   = 0
+      ic%return   = 1
       ic%print_pmax = .true.
-      ic%ilvout = 1
+      ic%ilvout   = 1
 
    end subroutine ic_init
 
@@ -998,8 +1025,8 @@ contains
       endif
 
       ihulp          = 0
-      ic%nmdbg       = (xhgiaowr  - ihulp) / 10000000
-         ihulp       = ihulp + 10000000 * ic%nmdbg
+      ic%xflow       = (xhgiaowr  - ihulp) / 10000000
+         ihulp       = ihulp + 10000000 * ic%xflow
       ic%heat        = (xhgiaowr  - ihulp) / 1000000
          ihulp       = ihulp +  1000000 * ic%heat
       ic%gausei_inp  = (xhgiaowr  - ihulp) / 100000
@@ -1014,7 +1041,7 @@ contains
          ihulp       = ihulp +       10 * ic%flow
       ic%return      = (xhgiaowr  - ihulp)
 
-      if (idebug.ge.2) write(*,'(8(a,i2))') 'unpack: X=',ic%nmdbg,', H=',ic%heat, ', G=',ic%gausei_inp,  &
+      if (idebug.ge.2) write(*,'(8(a,i2))') 'unpack: X=',ic%xflow,', H=',ic%heat, ', G=',ic%gausei_inp,  &
          ', I=',ic%iestim,', A=',ic%matfil_surf,', O=',ic%output_surf,', W=',ic%flow,  ', R=',ic%return
 
    end subroutine ic_unpack
@@ -1049,11 +1076,69 @@ contains
                        100*ic%mater       +       10*ic%rznorm      +       1*ic%rztang
       endif
 
-      xhgiaowr =                            10000000*ic%nmdbg       + 1000000*ic%heat        +          &
+      xhgiaowr =                            10000000*ic%xflow       + 1000000*ic%heat        +          &
                     100000*ic%gausei_inp  +    10000*ic%iestim      +    1000*ic%matfil_surf +          &
                        100*ic%output_surf +       10*ic%flow        +       1*ic%return
 
    end subroutine ic_pack
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine dbg_unpack (modul, psflrin, ic)
+!--purpose: unpack the debug flags into array ic
+      implicit none
+!--subroutine parameters:
+      type(t_ic) :: ic
+      integer    :: modul, psflrin
+!--local variables:
+      integer, parameter :: idebug = 0
+      integer            :: ihulp
+
+      ihulp         = 0
+      ic%x_profil   = (psflrin - ihulp) / 1000000
+         ihulp      = ihulp + 1000000 * ic%x_profil
+      ic%x_smooth   = (psflrin - ihulp) / 100000
+         ihulp      = ihulp +  100000 * ic%x_smooth
+      ic%x_force    = (psflrin - ihulp) / 10000
+         ihulp      = ihulp +   10000 * ic%x_force
+      ic%x_locate   = (psflrin - ihulp) / 1000
+         ihulp      = ihulp +    1000 * ic%x_locate
+      ic%x_readln   = (psflrin - ihulp) / 100
+         ihulp      = ihulp +     100 * ic%x_readln
+      ic%x_inflcf   = (psflrin - ihulp) / 10
+         ihulp      = ihulp +      10 * ic%x_inflcf
+      ic%x_nmdbg    = (psflrin - ihulp) / 1
+
+      if (idebug.ge.2) then
+         write(bufout,'(7(a,i2))') ' dbg_unpack: P=',ic%x_profil,', S=',ic%x_smooth,                    &
+             ', F=',ic%x_force,', L=',ic%x_locate,', R=',ic%x_readln,', I=',ic%x_inflcf,                &
+             ', N=',ic%x_nmdbg
+         call write_log(1, bufout)
+      endif
+
+      if (modul.ne.1) then
+         ic%x_profil = 0
+         ic%x_smooth = 0
+         ic%x_force  = 0
+         ic%x_locate = 0
+      endif
+
+   end subroutine dbg_unpack
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine dbg_pack (modul, psflrin, ic)
+!--purpose: pack the debug flags in ic together in a control-word
+      implicit none
+!--subroutine parameters:
+      type(t_ic) :: ic
+      integer    :: modul, psflrin
+
+      psflrin =                                                    1000000*ic%x_profil    +             &
+                 100000*ic%x_smooth    +    10000*ic%x_force     +    1000*ic%x_locate    +             &
+                    100*ic%x_readln    +       10*ic%x_inflcf    +       1*ic%x_nmdbg
+
+   end subroutine dbg_pack
 
 !------------------------------------------------------------------------------------------------------------
 

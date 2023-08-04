@@ -670,7 +670,7 @@ subroutine subsur_calc (ic, mater, cgrid_arg, igs_arg, ps_arg, mirror_y, subs, i
       close(ltmp)
    endif
 
-   if (ic%nmdbg.ge.4) then
+   if (ic%x_nmdbg.ge.4) then
       if (mater%gencr_eff.eq.3) then
          call write_log(' subsurface stresses: using bilinear tractions profile...')
       else

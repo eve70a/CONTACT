@@ -17,6 +17,9 @@ function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, nor
 if (nargin<3 | isempty(fac))
    fac       = 1000;
 end
+if (nargin<4 | isempty(plot_n))
+   plot_n    = 5;
+end
 if (nargin<5 | isempty(use_angl2))
    use_angl2 = 0;
 end

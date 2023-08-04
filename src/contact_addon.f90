@@ -723,7 +723,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
    integer,      intent(in) :: values(lenflg) ! values of the parameters to be communicated to CONTACT
 !--local variables:
    character(len=*), parameter :: subnam = 'cntc_setFlags'
-   integer  :: i, imodul, ierror
+   integer  :: i, imodul, ierror, psflrin
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_setFlags
 #endif
@@ -854,13 +854,17 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
          my_ic%flow   = max(0, min(9, values(i)))
 
+      elseif (params(i).eq.CNTC_ic_xflow) then          ! set X-codes in the RE-CP-data
+
+         ! note: usage is different from other flags; we could introduce a subroutine setdebugflags
+
+         my_ic%xflow  = 1
+         psflrin      = max(0, values(i))
+         call dbg_unpack(imodul, psflrin, my_ic)
+
       elseif (params(i).eq.CNTC_ic_return) then         ! set R-digit in the RE-CP-data
 
          my_ic%return = max(0, min(3, values(i)))
-
-      elseif (params(i).eq.19960816) then               ! set X-digit in the RE-CP-data
-
-         my_ic%nmdbg  = max(0, min(9, values(i)))
 
       elseif (params(i).eq.CNTC_if_wrtinp) then         ! set flag wrtinp in the RE-CP-data
 
@@ -2724,7 +2728,7 @@ subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nre
    integer,                intent(in) :: iparam(nints)
    real(kind=8),           intent(in) :: rparam(nreals)
 !--local variables:
-   integer                     :: ierror, i, ilen, is_spck, itype, my_idebug
+   integer                     :: ierror, i, ilen, is_spck, itype
    type(t_profile),  pointer   :: my_prf
    character(len=256)          :: f_fname
    character(len=*), parameter :: subnam = 'cntc_setProfileInputFname'
@@ -2776,8 +2780,7 @@ subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nre
 
    ! read actual profile data
 
-   my_idebug = max(idebug, wtd%ic%nmdbg-4)
-   call profile_read_file(my_prf, my_meta%dirnam, itype, my_idebug, .false.)
+   call profile_read_file(my_prf, my_meta%dirnam, itype, wtd%ic%x_profil, wtd%ic%x_readln, .false.)
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setProfileInputFname
@@ -2857,7 +2860,7 @@ subroutine cntc_setProfileInputValues(ire, npoint, values, nints, iparam, nreals
 
    ! store actual profile data
 
-   my_idebug = max(idebug, wtd%ic%nmdbg-4)
+   my_idebug = max(idebug, wtd%ic%x_profil)
    call profile_store_values(my_prf, itype, npoint, values, my_idebug)
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -3016,7 +3019,7 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
 
    ! check number of parameters supplied, expecting 4 additional params when Z = 3, F = 3/4
 
-   if (ztrack.eq.3 .and. (wtd%ic%force1.ge.3 .or. wtd%ic%force1.le.4)) then
+   if (ztrack.eq.3 .and. wtd%ic%force1.ge.3 .and. wtd%ic%force1.le.4) then
       nparam_loc(1:3) = (/ 5, 6, 15 /)
    else
       nparam_loc(1:3) = (/ 5, 6, 11 /)
@@ -4258,6 +4261,12 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
 
          values(i) = my_ic%mater
 
+      elseif (params(i).eq.CNTC_ic_xflow) then          ! get X-digit from the RE-CP-data
+
+         ! note: usage is inconsistent with setflags; we could return psflrin
+
+         values(i) = my_ic%xflow
+
       elseif (params(i).eq.CNTC_ic_heat) then           ! get H-digit from the RE-CP-data
 
          values(i) = my_ic%heat
@@ -4289,10 +4298,6 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
       elseif (params(i).eq.CNTC_ic_return) then         ! get R-digit from the RE-CP-data
 
          values(i) = my_ic%return
-
-      elseif (params(i).eq.19960816) then               ! get X-digit from the RE-CP-data
-
-         values(i) = my_ic%nmdbg
 
       elseif (params(i).eq.CNTC_if_wrtinp) then         ! get flag wrtinp from the RE-CP-data
 

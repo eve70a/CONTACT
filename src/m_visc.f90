@@ -314,7 +314,7 @@ contains
 
       ! print influence coefficients to output-file when requested
 
-      if (ic%nmdbg.ge.7) then
+      if (ic%x_inflcf.ge.7) then
          if (.false.) then
             write(lout,*) 'Printing influence coefficients csv (steady)'
             call inflcf_print (influ%csv, lout)

@@ -31,7 +31,7 @@ contains
       integer,      parameter :: mxnval = 20
       logical,      parameter :: lstop  = .true.
       integer          :: ints(mxnval), line0, nval, is_wheel, i_ftype, ldebug, ieof, ierror,           &
-                          cpbtnfs, vldcmze, xhgiaowr
+                          cpbtnfs, vldcmze, xhgiaowr, psflrin
       logical          :: flags(mxnval), is_roll, is_ssrol, was_roll, zerror
       real(kind=8)     :: dbles(mxnval)
       character*16     :: types, namside
@@ -83,12 +83,10 @@ contains
 
       ! set level of debug-output of input-routines. 0 = errors, 1 = warnings/info, >=2 = flow/debug
 
-      if (ic%nmdbg.le.0) then
+      if (ic%x_readln.le.0) then
          ldebug = ic%ilvout
-      elseif (ic%nmdbg.le.6) then
-         ldebug = min(2, ic%nmdbg)
       else
-         ldebug = ic%nmdbg - 6 + 2
+         ldebug = ic%x_readln
       endif
 
       ! Determine whether T describes rolling or not
@@ -118,7 +116,7 @@ contains
       zerror = zerror .or. .not.check_irng ('Control digit Z1', ic%ztrack, 0, 3)
       zerror = zerror .or. .not.check_irng ('Control digit E1', ic%ewheel, 0, 5)
 
-      zerror = zerror .or. .not.check_irng ('Control digit X',  ic%nmdbg , 0, 9)
+      zerror = zerror .or. .not.check_irng ('Control digit X',  ic%xflow , 0, 1)
       zerror = zerror .or. .not.check_2rng ('Control digit H',  ic%heat  , 0, 1, 3, 3)
       zerror = zerror .or. .not.check_irng ('Control digit G',  ic%gausei_inp, 0, 5)
       zerror = zerror .or. .not.check_irng ('Control digit I',  ic%iestim, 0, 0)
@@ -319,6 +317,20 @@ contains
       ! Copy the effective C3-digit to the material parameter data
 
       if (ic%gencr_inp.ge.2) mater%gencr_eff = ic%gencr_inp
+
+      !------------------------------------------------------------------------------------------------------
+      ! read & process debug parameters
+      !------------------------------------------------------------------------------------------------------
+
+      if (ic%xflow.ge.1) then
+         call readline(linp, ncase, linenr, 'debug output psflrin', 'i', ints, dbles, flags, strngs,    &
+                       mxnval, nval, ldebug, ieof, lstop, ierror)
+         psflrin = ints(1)
+      else
+         psflrin = 0
+      endif
+
+      call dbg_unpack (1, psflrin, ic)
 
       !------------------------------------------------------------------------------------------------------
       ! Read input for G-digit
@@ -699,7 +711,7 @@ contains
          ! read the rail profile
 
          if (.not.zerror) then
-            call profile_read_file(trk%rai%prr, meta%dirnam, 0, ldebug, lstop)
+            call profile_read_file(trk%rai%prr, meta%dirnam, 0, ic%x_profil, ic%x_readln, lstop)
             zerror = zerror .or. (trk%rai%prr%ierror.ne.0)
          endif
 
@@ -761,7 +773,7 @@ contains
 
          ! read the wheel profile, store in wheel data
 
-         call profile_read_file(ws%whl%prw, meta%dirnam, 1, ldebug, lstop)
+         call profile_read_file(ws%whl%prw, meta%dirnam, 1, ic%x_profil, ic%x_readln, lstop)
          zerror = zerror .or. (ws%whl%prw%ierror.ne.0)
 
       endif
@@ -895,7 +907,7 @@ contains
       integer                   :: ncase
       type(t_ws_track), target  :: prob
 !--local variables:
-      integer                  :: vldcmze, xhgiaowr, cpbtnfs
+      integer                  :: vldcmze, xhgiaowr, cpbtnfs, psflrin
       character(len=1)         :: namside
       type(t_wheel),   pointer :: my_wheel
 
@@ -908,7 +920,18 @@ contains
 
       call ic_pack (1, cpbtnfs, vldcmze, xhgiaowr, ic)
 
-      write(linp, 1101) cpbtnfs, vldcmze, xhgiaowr
+      if (ic%xflow.le.0) then
+         write(linp, 1101) cpbtnfs, vldcmze, xhgiaowr
+      else
+         write(linp, 1102) cpbtnfs, vldcmze, xhgiaowr
+      endif
+
+      ! write debug parameters
+
+      if (ic%xflow.ge.1) then
+         call dbg_pack(1, psflrin, ic)
+         write(linp, 1103) psflrin
+      endif
 
       ! write parameters for the iterative solution algorithms
 
@@ -926,6 +949,10 @@ contains
  1101 format (i8.7, 6x, 'C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS', /,   &
               i8.7, 6x, 'V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL', /,   &
               i8.7, 6x, 'H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN' )
+ 1102 format (i8.7, 6x, '  C-P-B-T-N-F-S         CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS',/, &
+              i8.7, 6x, '  V-L-D-C-M-Z-E         VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL',/, &
+              i8.7, 6x, 'X-H-G-I-A-O-W-R   XFLOW,  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN' )
+ 1103 format (i8.7, 6x, '  P-S-F-L-R-I_N         PROFIL, SMOOTH, FORCE,  LOCATE, READLN, INFLCF, NMDBG' )
  1201 format( 4i6, 3x, es8.1, 14x,   'MAXGS,  MAXIN,  MAXNR,  MAXOUT, EPS')
  1211 format( 2g12.4, i6, g12.4, 7x,  'OMEGAH, OMEGAS, INISLP, OMGSLP')
  1212 format(         i6, g12.4, 40x, 'INISLP, OMGSLP')

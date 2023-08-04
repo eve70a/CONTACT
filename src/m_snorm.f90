@@ -68,7 +68,7 @@ contains
       call areas (igs1)
 
 #if defined WITH_MKLFFT
-      use_vecfft = (npot.ge.700 .or. ic%nmdbg.ge.5)
+      use_vecfft = (npot.ge.700 .or. ic%x_nmdbg.ge.5)
       use_fftprec = .true.
       if (.false.) then
          call test_fft (igs1, ps1, cs)
@@ -118,7 +118,7 @@ contains
          call gf3_set(AllElm, 0.d0, htang, ikZDIR) 
       endif
 
-      if (ic%nmdbg.ge.5) then
+      if (ic%x_nmdbg.ge.5) then
          call snorm_nmdbg ('problem to NORM:', 1, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
       endif
 
@@ -162,7 +162,7 @@ contains
 
          ! Compute new normal tractions ps1 and element division igs1
 
-         if (ic%nmdbg.ge.8) then
+         if (ic%x_nmdbg.ge.8) then
             call snorm_nmdbg ('problem to normcg:', 2, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
          endif
 
@@ -186,7 +186,7 @@ contains
             call write_log(1, bufout)
          endif
 
-         if (ic%nmdbg.ge.7) then
+         if (ic%x_nmdbg.ge.7) then
             call snorm_nmdbg ('solution of normcg:', 2, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
          endif
 
@@ -231,7 +231,7 @@ contains
                call VecAijPj(igs1, AllElm, unn, ikZDIR, ps1, jkZDIR, cs)
             endif
 
-            if (ic%nmdbg.ge.7) then
+            if (ic%x_nmdbg.ge.7) then
                call snorm_nmdbg ('solution of "contract" phase:', 3, cgrid, igs1, hs, pen, ps1, htang,  &
                                  hstot, unn)
             endif
@@ -331,14 +331,14 @@ contains
 
       ! Print warning for potential errors in element division
 
-      if (smlldd+smllpn.ge.5 .and. (ic%flow.ge.3 .or. ic%nmdbg.ge.1)) then
+      if (smlldd+smllpn.ge.5 .and. (ic%flow.ge.3 .or. ic%x_nmdbg.ge.1)) then
          write(bufout, 6100) smlldd, smllpn
          call write_log(3, bufout)
  6100    format (/,' NORM: WARNING. There are',i6,' elements with ', 'small deformed distance', /,     &
                  22x, 'and',i6,' elements with ', 'small pressure')
       endif
 
-      if (ic%nmdbg.ge.4) then
+      if (ic%x_nmdbg.ge.4) then
          call snorm_nmdbg ('solution of NORM:', 4, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
          write(lout,*)
       endif

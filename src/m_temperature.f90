@@ -243,7 +243,7 @@ contains
 
          ! BEGIN FORMATTING FOR PUTTING RESULTS IN MATLAB ==================================
 
-         if (ic%nmdbg.ge.5) then
+         if (ic%x_nmdbg.ge.5) then
             ii = 1 + (iy-1)*mx
             if (abs(y(ii)) < 1d-10) then
                call write_log(' ')

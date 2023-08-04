@@ -384,7 +384,7 @@ contains
             ! Compute tangential tractions for current Slip, Adhesion areas. (Note that CnvxGS may change
             !     the element division as well.)
 
-            if (ic%nmdbg.ge.5) then
+            if (ic%x_nmdbg.ge.5) then
                call stang_nmdbg ('problem to solvpt:', 5, ic, cgrid, igs1, ledg, ps1, mus1, tmp,        &
                                  wsfix1, tmp, tmp, tmp, ss1)
             endif
@@ -393,12 +393,12 @@ contains
                         info, it, errpt)
             itgs = itgs + it
 
-            if (ic%nmdbg.ge.5) then
+            if (ic%x_nmdbg.ge.5) then
                call stang_nmdbg ('solution of solvpt:', 6,                                              &
                                  ic, cgrid, igs1, ledg, ps1, mus1, tmp, wsfix1, tmp, tmp, tmp, ss1)
             endif
 
-            if (ic%nmdbg.ge.5) then
+            if (ic%x_nmdbg.ge.5) then
                call stang_nmdbg ('shift distance:', 7,                                                  &
                                  ic, cgrid, igs1, ledg, ps1, mus1, tmp, wsfix1, tmp, tmp, tmp, ss1)
             endif
@@ -463,7 +463,7 @@ contains
                tol1 = errpt * 2d0 * abs (AijPj(ii, ikXDIR, tmp, jkXDIR, cs))
                tol2 = errpt * 2d0 * abs (AijPj(ii, ikYDIR, tmp, jkYDIR, cs))
 
-               if (ic%nmdbg.ge.5) then
+               if (ic%x_nmdbg.ge.5) then
                   call stang_nmdbg('after expanding slip-area:', 8,                                     &
                                    ic, cgrid, igs1, ledg, ps1, mus1, tmp, wsfix1, tmp, tmp, tmp, ss1)
                endif
@@ -603,7 +603,7 @@ contains
                if (igs1%el(ii).ne.igsprv%el(ii)) icount = icount + 1
             enddo
 
-            if (ic%nmdbg.ge.1 .and. itslp.ge.10 .and. icount.gt.0) then
+            if (ic%x_nmdbg.ge.1 .and. itslp.ge.10 .and. icount.gt.0) then
                write(bufout,'(2(a,i4),a)') '   it',itslp,': element division changed at',icount,' points'
                call write_log(1, bufout)
             endif
@@ -816,7 +816,7 @@ contains
          enddo
       enddo
 
-      if (ic%nmdbg.ge.8) then
+      if (ic%x_nmdbg.ge.8) then
          namdbg = 'rigid shift):'
          call stang_nmdbg (namdbg, 1, ic, cgrid, igs, ledg, ps, tmp, wsrig, wsfix, usn, uvn, uvt, tmp)
       endif
@@ -834,7 +834,7 @@ contains
          call VecAijPj (igs,AllInt, uvn, ikTANG, ps, jkZDIR, cv)
       endif
 
-      if (ic%nmdbg.ge.9) then
+      if (ic%x_nmdbg.ge.9) then
          namdbg = 'shift due to normal problem:'
          call stang_nmdbg (namdbg, 2, ic, cgrid, igs, ledg, ps, tmp, wsrig, wsfix, usn, uvn, uvt, tmp)
       endif
@@ -849,7 +849,7 @@ contains
 
          call VecAijPj (igs,AllInt, uvt, ikTANG, pv, jkTANG, cv)
 
-         if (ic%nmdbg.ge.9) then
+         if (ic%x_nmdbg.ge.9) then
             namdbg = 'shift due to previous tang.traction:'
             call stang_nmdbg (namdbg, 3, ic, cgrid, igs, ledg, ps, tmp, wsrig, wsfix, usn, uvn, uvt, tmp)
          endif
@@ -904,7 +904,7 @@ contains
          enddo
       enddo
 
-      if (ic%nmdbg.ge.5) then
+      if (ic%x_nmdbg.ge.5) then
          namdbg = 'contributions to rhs:'
          call stang_nmdbg (namdbg, 4, ic, cgrid, igs, ledg, ps, tmp, wsrig, wsfix, usn, uvn, uvt, tmp)
       endif
@@ -1233,7 +1233,7 @@ contains
 
       call gf3_set(AllElm,  fric%fstat(), mus1, ikXDIR)
 
-      if (ic%nmdbg.ge.8) then
+      if (ic%x_nmdbg.ge.8) then
          call stang_nmdbg ('rigid shift', 1, ic, cgrid, igs1, ledg, ps1, tmp, wsfix1, wsfix1,            &
                            tmp, tmp, tmp, tmp)
       endif
@@ -1247,7 +1247,7 @@ contains
 
       ! Compute tangential tractions & corresponding Adhesion/Slip areas using modified Fastsim-algorithm.
 
-      if (ic%nmdbg.ge.5) then
+      if (ic%x_nmdbg.ge.5) then
          call stang_nmdbg ('problem to solvpt:', 5, ic, cgrid, igs1, ledg, ps1, mus1, tmp, wsfix1,      &
                            tmp, tmp, tmp, ss1)
       endif
@@ -1255,7 +1255,7 @@ contains
       call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, outpt1, imeth, info,   &
                   it, errpt)
 
-      if (ic%nmdbg.ge.5) then
+      if (ic%x_nmdbg.ge.5) then
          call stang_nmdbg ('solution of solvpt:', 6, ic, cgrid, igs1, ledg, ps1, mus1, tmp, wsfix1,     &
                            tmp, tmp, tmp, ss1)
          call stang_nmdbg ('shift distance:', 7, ic, cgrid, igs1, ledg, ps1, mus1, tmp, wsfix1,         &

@@ -132,7 +132,7 @@ contains
             call wr_solve_cp(wtd%ws, wtd%trk, icp, cp, wtd%ic, idebug, sub_ierror)
             if (my_ierror.eq.0) my_ierror = sub_ierror
 
-            if (wtd%ic%nmdbg.ge.3) then
+            if (wtd%ic%x_nmdbg.ge.3) then
                write(bufout,*) 'contact patch icp=',icp,':'
                call write_log(1, bufout)
                call wrigs(cp%gd%outpt1%igs, .true., 0d0)

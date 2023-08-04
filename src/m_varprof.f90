@@ -87,7 +87,7 @@ end subroutine varprof_set_debug
       ix = index(fname, '.', back=.true.) + 1
       file_ext = to_lower( trim(fname(ix:)) )
 
-      if (idebug.ge.3) then
+      if (idebug.ge.4) then
          write(bufout,*) 'File extension is "', trim(file_ext), '"'
          call write_log(1, bufout)
       endif
@@ -112,7 +112,7 @@ end subroutine varprof_set_debug
          is_wheel = 1
       else
          is_wheel = -1
-         if (idebug.ge.3) then
+         if (idebug.ge.5) then
             write(bufout,'(3a)') ' INFO: unknown file extension for profile file "', trim(fname), '"'
             call write_log(1, bufout)
          endif
@@ -122,12 +122,12 @@ end subroutine varprof_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine profile_read_file(prf, dirnam, is_wheel_arg, idebug, lstop)
+   subroutine profile_read_file(prf, dirnam, is_wheel_arg, x_profil, x_readln, lstop)
 !--purpose: reads a single w/r profile (Simpack, Miniprof, Ascii) or a variable profile (slcs)
       implicit none
 !--subroutine parameters:
       type(t_profile)              :: prf
-      integer,       intent(in)    :: is_wheel_arg, idebug
+      integer,       intent(in)    :: is_wheel_arg, x_profil, x_readln
       logical,       intent(in)    :: lstop
       character*(*), intent(in)    :: dirnam
 !--local variables:
@@ -138,19 +138,19 @@ end subroutine varprof_set_debug
 
       ! determine the type of file
 
-      call profile_get_filetype(prf%fname, is_wheel, i_ftype, idebug)
+      call profile_get_filetype(prf%fname, is_wheel, i_ftype, x_profil)
 
       ! switch on basis of the type of file
 
       if (i_ftype.eq.FTYPE_SLICES) then
 
-         call varprof_read_file(prf, dirnam, is_wheel_arg, idebug, lstop)
+         call varprof_read_file(prf, dirnam, is_wheel_arg, x_profil, x_readln, lstop)
 
       else
 
          fill_spline = .true.
          call profile_read_slice(prf%fname, dirnam, prf%grd_data, prf%ext_data, prf, is_wheel_arg,      &
-                        fill_spline, idebug, lstop)
+                        fill_spline, x_profil, x_readln, lstop)
 
       endif
 
@@ -160,19 +160,19 @@ end subroutine varprof_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine varprof_read_file(vprf, dirnam, is_wheel_arg, idebug, lstop)
+   subroutine varprof_read_file(vprf, dirnam, is_wheel_arg, x_profil, x_readln, lstop)
 !--purpose: read, process and store contents of a so-called slices file
       implicit none
 !--subroutine parameters:
       type(t_profile)              :: vprf
-      integer,       intent(in)    :: is_wheel_arg, idebug
+      integer,       intent(in)    :: is_wheel_arg, x_profil, x_readln
       logical,       intent(in)    :: lstop
       character*(*), intent(in)    :: dirnam
 !--local variables:
       integer,      parameter :: mxnval = 20
       character*3,  parameter :: commnt = '!%"'
       real(kind=8), parameter :: tiny_ds = 1d-3  ! cf. tiny_dt in m_bspline
-      integer          :: ints(mxnval), idum(1), lslcs, ncase, linenr, nval, ieof, my_idebug
+      integer          :: ints(mxnval), idum(1), lslcs, ncase, linenr, nval, ieof, my_profil
       integer          :: ia, ik, ip, islc, ix, nout
       integer          :: iout, sub_ierror
       logical          :: flags(mxnval), any_kyield, fill_spline, zerror
@@ -202,7 +202,7 @@ end subroutine varprof_set_debug
          fulnam = fname
       endif
 
-      if (idebug.ge.1) then
+      if (x_profil.ge.1) then
          write(bufout,*) 'Reading file "',trim(fulnam), '" with profile slices'
          call write_log(1, bufout)
       endif
@@ -231,12 +231,12 @@ end subroutine varprof_set_debug
       ! Read offset and scaling factor
 
       call readline(lslcs, ncase, linenr, 'offset and scaling factor', 'dd', ints, dbles, flags,        &
-                strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+                strngs, mxnval, nval, x_readln, ieof, lstop, ierror)
 
       s_offset = dbles(1)
       s_scale  = dbles(2)
 
-      if (idebug.ge.1) then
+      if (x_profil.ge.1) then
          write(bufout,'(a,g12.4,a,g12.4)') ' s_offset =', s_offset,', s_scale =',s_scale
          call write_log(1, bufout)
       endif
@@ -244,12 +244,12 @@ end subroutine varprof_set_debug
       ! Read number of slices, number of parts, kinks, accelerations, spline method
 
       call readline(lslcs, ncase, linenr, 'number of slices', 'i', ints, dbles, flags, strngs, mxnval,  &
-                nval, idebug, ieof, lstop, ierror)
+                nval, x_readln, ieof, lstop, ierror)
 
       nslc     = ints(1)
 
       call readline(lslcs, ncase, linenr, 'number of parts, kinks, accel', 'iii', ints, dbles, flags,   &
-                strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+                strngs, mxnval, nval, x_readln, ieof, lstop, ierror)
 
       nfeat    = ints(1)
       if (nfeat.le.1) then      ! NFEAT <= 1 means 1 part with default S_F = [ 0, 1e6 ]
@@ -261,7 +261,7 @@ end subroutine varprof_set_debug
       endif
 
       call readline(lslcs, ncase, linenr, 'longitudinal spline method', 'i', ints, dbles, flags,        &
-                strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+                strngs, mxnval, nval, x_readln, ieof, lstop, ierror)
 
       s_method = ints(1)
 
@@ -295,12 +295,12 @@ end subroutine varprof_set_debug
             write(descrp,'(a,i4)') 'profile slice',islc
 
             call readline(lslcs, ncase, linenr, descrp, 'ds', ints, dbles, flags, strngs, mxnval, nval,    &
-                   idebug, ieof, lstop, ierror)
+                   x_readln, ieof, lstop, ierror)
 
             vprf%slc_s(islc)   = s_scale * (s_offset + dbles(1))
             vprf%slc_nam(islc) = trim(strngs(1))
 
-            if (idebug.ge.3) then
+            if (x_profil.ge.3) then
                write(bufout,'(a,i4,a,f11.3,3a)') ' slice ',islc,': slc_s =',vprf%slc_s(islc),              &
                    ', fname = "', trim(vprf%slc_nam(islc)),'"'
                call write_log(1, bufout)
@@ -308,7 +308,7 @@ end subroutine varprof_set_debug
 
          enddo ! islc
 
-         if (idebug.ge.1) then
+         if (x_profil.ge.1) then
             write(bufout,'(a,i3,a)') ' obtained ',nslc,' slices'
             call write_log(1, bufout)
          endif
@@ -334,9 +334,9 @@ end subroutine varprof_set_debug
       if (ierror.eq.0 .and. nkink.ge.1) then
          call reallocate_arr(vprf%kink_if, nkink)
          call read1darr(lslcs, ncase, linenr, 'kinks between parts', 'i', nkink, vprf%kink_if,           &
-                        rdum, idebug, lstop, ierror)
+                        rdum, x_readln, lstop, ierror)
 
-         if (idebug.ge.-1) then
+         if (x_profil.ge.-1) then
             if (nkink.eq.1) then
                write(bufout,'(a,i5)') ' there is 1 kink after part p =', vprf%kink_if(1)
             else
@@ -350,9 +350,9 @@ end subroutine varprof_set_debug
       if (ierror.eq.0 .and. naccel.ge.1) then
          call reallocate_arr(vprf%accel_if, naccel)
          call read1darr(lslcs, ncase, linenr, 'accel between parts', 'i', naccel, vprf%accel_if,         &
-                        rdum, idebug, lstop, ierror)
+                        rdum, x_readln, lstop, ierror)
 
-         if (idebug.ge.-1) then
+         if (x_profil.ge.-1) then
             if (naccel.eq.1) then
                write(bufout,'(a,i5)') ' there is 1 acceleration after part p =', vprf%accel_if(1)
             else
@@ -401,7 +401,7 @@ end subroutine varprof_set_debug
             do islc = 1, nslc
 
                write(descrp,'(a,i4)') 'features s_f for slice', islc
-               call read1darr(lslcs, ncase, linenr, descrp, 'd', nfeat+1, idum, tmp, idebug, lstop,     &
+               call read1darr(lslcs, ncase, linenr, descrp, 'd', nfeat+1, idum, tmp, x_readln, lstop,   &
                         ierror)
 
                tmp(1) = s_scale * (s_offset + tmp(1))
@@ -417,7 +417,7 @@ end subroutine varprof_set_debug
             enddo ! islc
             deallocate(tmp)
 
-            if (idebug.ge.-1) then
+            if (x_profil.ge.-1) then
                write(bufout,'(2(a,i4),a)') ' feature information for',nslc,' slices with',nfeat,        &
                               ' features per slice'
                call write_log(1, bufout)
@@ -450,7 +450,7 @@ end subroutine varprof_set_debug
 
          if (ierror.eq.0) then
 
-            if (idebug.ge.3) then
+            if (x_profil.ge.3) then
                write(bufout,'(a,i4,3a)') ' reading slice',islc,', file="',trim(vprf%slc_nam(islc)),'"'
                call write_log(1, bufout)
             endif
@@ -468,12 +468,12 @@ end subroutine varprof_set_debug
 
             ! read file for slice islc
 
-            my_idebug = idebug
-            if (islc.gt.1) my_idebug = idebug - 1
+            my_profil = x_profil
+            if (islc.gt.1) my_profil = my_profil - 1
             fill_spline = .true.
 
             call profile_read_slice(vprf%slc_nam(islc), slcdir, vprf%slc_grd(islc)%g, vprf%ext_data,       &
-                        vprf, is_wheel_arg, fill_spline, my_idebug, lstop)
+                        vprf, is_wheel_arg, fill_spline, my_profil, x_readln, lstop)
             ! ierror returned via vprf%ierror
 
             if (vprf%has_kyield) any_kyield = .true.
@@ -546,7 +546,7 @@ end subroutine varprof_set_debug
 !------------------------------------------------------------------------------------------------------------
 
    subroutine profile_read_slice(fname, slcdir, prf_grd, prf_ext, prf_opt, is_wheel_arg, fill_spline,   &
-                        idebug, lstop)
+                        x_profil, x_readln, lstop)
 !--purpose: read, process and store contents of a single w/r profile file (Simpack, Miniprof, Ascii)
       implicit none
 !--subroutine parameters:
@@ -554,7 +554,7 @@ end subroutine varprof_set_debug
       type(t_grid)                 :: prf_grd   ! output: profile data
       type(t_gridfnc3)             :: prf_ext   ! output: extra data
       type(t_profile)              :: prf_opt   ! input: configuration options
-      integer,       intent(in)    :: is_wheel_arg, idebug
+      integer,       intent(in)    :: is_wheel_arg, x_profil, x_readln
       logical,       intent(in)    :: fill_spline, lstop
 !--local variables:
       real(kind=8), parameter :: pi     = 4d0*atan(1d0)
@@ -585,11 +585,11 @@ end subroutine varprof_set_debug
       endif
       call set_platform_filesep(fulnam)
 
-      if (idebug.ge.1) call write_log(' reading ' // nam_rw // ' profile "' // trim(fulnam) // '"')
+      if (x_profil.ge.1) call write_log(' reading ' // nam_rw // ' profile "' // trim(fulnam) // '"')
 
       ! get type of file from filename extension
 
-      call profile_get_filetype(fulnam, is_wheel, i_ftype, idebug)
+      call profile_get_filetype(fulnam, is_wheel, i_ftype, x_profil)
       if (is_wheel.eq.-1) is_wheel = is_wheel_arg
 
       ! read file with appropriate routine 
@@ -605,40 +605,40 @@ end subroutine varprof_set_debug
 
       elseif ( i_ftype.eq.FTYPE_SIMPACK ) then
 
-         if (idebug.ge.3) then
+         if (x_profil.ge.3) then
             write(bufout,*) 'Opening Simpack ',trim(nam_rw),' profile "',trim(fname),'"...'
             call write_log(1, bufout)
          endif
          call read_simpack_profile(fname, fulnam, npoint, points, is_wheel, mirror_y, mirror_z, sclfac, &
-                        zig_thrs, idebug, lstop, ierror)
+                        zig_thrs, x_profil, x_readln, lstop, ierror)
          icol_kyield = 0
 
       elseif ( i_ftype.eq.FTYPE_MINIPROF .and. is_wheel.eq.is_wheel_arg ) then
 
-         if (idebug.ge.3) then
+         if (x_profil.ge.3) then
             write(bufout,*) 'Opening Miniprof ',trim(nam_rw),' profile "',trim(fname),'"...'
             call write_log(1, bufout)
          endif
          call read_miniprof_profile(fname, fulnam, i_ftype, npoint, points, is_wheel, mirror_y, mirror_z, &
-                        sclfac, zig_thrs, icol_kyield, idebug, lstop, ierror)
+                        sclfac, zig_thrs, icol_kyield, x_profil, x_readln, lstop, ierror)
 
       elseif ( i_ftype.eq.FTYPE_PLAIN2D ) then
 
          ! unknown file extension: assume plain X,Y columns, process via miniprof routine 
          ! using is_wheel_arg as provided by user instead of is_wheel obtained from file extension
 
-         if (idebug.ge.3) then
+         if (x_profil.ge.3) then
             write(bufout,'(5a,/,a)') ' INFO: unknown file extension for ',trim(nam_rw),                 &
-                        ' profile file "',     trim(fname),'"', '       assuming plain X,Y-values'
+                        ' profile file "',     trim(fname),'",', '       assuming plain X,Y-values'
             call write_log(2, bufout)
          endif
 
-         if (idebug.ge.3) then
+         if (x_profil.ge.3) then
             write(bufout,*) 'Opening plain ',trim(nam_rw),' profile "',trim(fname),'"...'
             call write_log(1, bufout)
          endif
          call read_miniprof_profile(fname, fulnam, i_ftype, npoint, points, is_wheel_arg, mirror_y,     &
-                        mirror_z, sclfac, zig_thrs, icol_kyield, idebug, lstop, ierror)
+                        mirror_z, sclfac, zig_thrs, icol_kyield, x_profil, x_readln, lstop, ierror)
 
       else
 
@@ -656,7 +656,7 @@ end subroutine varprof_set_debug
          ! store points in profile-grid, modify, and create spline representation
 
          call profile_finish_grid(fname, prf_grd, prf_ext, prf_opt, npoint, points, is_wheel,           &
-                icol_kyield, fill_spline, idebug)
+                icol_kyield, fill_spline, x_profil)
 
       endif
 

@@ -42,7 +42,7 @@ contains
       integer, parameter :: mxnval = 20
       logical, parameter :: lstop  = .true.
       type(t_ic)     :: icold
-      integer        :: ncase, vldcmze, xgiaowr, pbtnfs, nval, ieof, ierror
+      integer        :: ncase, vldcmze, xgiaowr, pbtnfs, psflrin, nval, ieof, ierror
       integer        :: ii, iof, ip, j, k, line0, idebug, mxold, myold, nn, npot
       logical        :: z, zerror, is_roll, is_ssrol, was_roll, flags(mxnval)
       real(kind=8)   :: akeff
@@ -112,7 +112,7 @@ contains
       zerror = zerror .or.           .not.check_irng ('Control digit Z',  ic%rznorm, 0, 2)
       zerror = zerror .or.     .not.check_2rng ('Control digit E',  ic%rztang, 0, 1, 9, 9)
 
-      zerror = zerror .or.           .not.check_irng ('Control digit X',  ic%nmdbg , 0, 9)
+      zerror = zerror .or.           .not.check_irng ('Control digit X',   ic%xflow, 0, 1)
       zerror = zerror .or.     .not.check_2rng ('Control digit H',  ic%heat  , 0, 1, 3, 3)
       zerror = zerror .or.       .not.check_irng ('Control digit G',  ic%gausei_inp, 0, 5)
       zerror = zerror .or.           .not.check_irng ('Control digit I',  ic%iestim, 0, 3)
@@ -269,6 +269,21 @@ contains
       ! Copy the effective C-digit to the material parameter data
 
       if (ic%gencr_inp.ge.2) mater%gencr_eff = ic%gencr_inp
+
+      !------------------------------------------------------------------------------------------------------
+      ! read & process debug parameters
+      !------------------------------------------------------------------------------------------------------
+
+      if (ic%xflow.ge.1) then
+         call readline(linp, ncase, linenr, 'debug output psflrin', 'i', ints, dbles, flags, strngs,    &
+                       mxnval, nval, idebug, ieof, lstop, ierror)
+         psflrin = ints(1)
+      else
+         psflrin = 0
+      endif
+
+      call dbg_unpack (3, psflrin, ic)
+      idebug = ic%x_readln
 
       !------------------------------------------------------------------------------------------------------
       ! read & check iteration parameters
@@ -1108,7 +1123,7 @@ contains
       type(t_subsurf)  :: subs
       logical          :: ltight  ! flag: use solution to create tight pot.con.
 !--local variables:
-      integer      :: vldcmze, xgiaowr, pbtnfs
+      integer      :: vldcmze, xgiaowr, pbtnfs, psflrin
       integer      :: ii, ix, ix0, ix1, iy, iy0, iy1, iof, k, len1
       logical      :: is_roll
       real(kind=8) :: fun, fux, fuy
@@ -1163,10 +1178,27 @@ contains
          fuy = kin%fyrel1
       endif
 
-      ! write flow-control variables and kinematic constants
+      ! write control digits, debug parameters
 
       if (ncase.gt.0) write(linp,'(a,i8)') '% Next case', ncase
-      write(linp, 1101) pbtnfs, vldcmze, xgiaowr
+      if (ic%xflow.le.0) then
+         write(linp, 1101) pbtnfs, vldcmze, xgiaowr
+      else
+         call dbg_pack(3, psflrin, ic)
+         write(linp, 1102) pbtnfs, vldcmze, xgiaowr
+         write(linp, 1103) psflrin
+      endif
+
+ 1101 format (i8.6, 4x, '  P-B-T-N-F-S          PVTIME, BOUND , TANG , NORM , FORCE, STRESS', /,        &
+              i8.6, 4x, '  L-D-C-M-Z-E          FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS ', /,      &
+              i8.7, 4x, 'H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN' )
+ 1102 format (i8.7, 6x, '    P-B-T-N-F-S                 PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS',/, &
+              i8.7, 6x, '    L-D-C-M-Z-E                 FRCLAW, DISCNS, INFLCF, MATER,  RZNORM, EXRHS', /, &
+              i8.7, 6x, 'X-H-G-I-A-O-W-R   XFLOW,  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN' )
+ 1103 format (i8.3, 6x, '  P-S-F-L-R-I_N         PROFIL, SMOOTH, FORCE,  LOCATE, READLN, INFLCF, NMDBG' )
+
+      ! write solver settings
+
       if (ic%gausei_inp.ne.1) write(linp, 1201) solv%maxgs, solv%maxin, solv%maxnr, solv%maxout, solv%eps
       if (ic%gausei_inp.eq.2 .or. ic%gausei_inp.eq.3)                                                   &
          write(linp, 1211) solv%omegah, solv%omegas, solv%inislp, solv%omgslp
@@ -1177,6 +1209,14 @@ contains
          write(linp, 1215) solv%fdecay, solv%betath, solv%kdowfb, solv%d_ifc, solv%d_lin, solv%d_cns,  &
             solv%d_slp, solv%pow_s
       endif
+
+ 1201 format( 2i6, 2i5, 3x, es8.1, 8x,   'MAXGS , MAXIN , MAXNR , MAXOUT, EPS')
+ 1211 format( 2g12.4, i6, g12.4, 7x, 'OMEGAH, OMEGAS, INISLP, OMGSLP')
+ 1212 format( i6, g12.4, 40x, 'INISLP, OMGSLP')
+ 1215 format( 6f8.3,  10x, 'FDECAY, D_IFC/LIN/CNS, D_SLP, POW_S')
+
+      ! write kinematic constants
+
       if (ic%norm.eq.0 .and. ic%force3.eq.0) write(linp, 2131) fun, fux, fuy, kin%cphi
       if (ic%norm.eq.0 .and. ic%force3.eq.1) write(linp, 2132) fun, fux, fuy, kin%cphi
       if (ic%norm.eq.0 .and. ic%force3.eq.2) write(linp, 2133) fun, fux, fuy, kin%cphi
@@ -1185,13 +1225,6 @@ contains
       if (ic%norm.eq.1 .and. ic%force3.eq.2) write(linp, 2136) fun, fux, fuy, kin%cphi
       if (ic%varfrc.eq.0) call fric_wrtinp(linp, ic%varfrc, ic%frclaw_inp, fric)
 
- 1101 format (i8.6, 6x,   'P-B-T-N-F-S          PVTIME, BOUND , TANG , NORM , FORCE, STRESS', /,        &
-              i8.6, 6x,   'L-D-C-M-Z-E          FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS ', /,      &
-              i8.7, 4x, 'H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN' )
- 1201 format( 2i6, 2i5, 3x, es8.1, 8x,   'MAXGS , MAXIN , MAXNR , MAXOUT, EPS')
- 1211 format( 2g12.4, i6, g12.4, 7x, 'OMEGAH, OMEGAS, INISLP, OMGSLP')
- 1212 format( i6, g12.4, 40x, 'INISLP, OMGSLP')
- 1215 format( 6f8.3,  10x, 'FDECAY, D_IFC/LIN/CNS, D_SLP, POW_S')
  2131 format( 4g12.4, 10x, 'PEN, CKSI, CETA, CPHI')
  2132 format( 4g12.4, 10x, 'PEN, FX, CETA, CPHI')
  2133 format( 4g12.4, 10x, 'PEN, FX, FY, CPHI')
