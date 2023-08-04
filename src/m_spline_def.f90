@@ -1482,148 +1482,170 @@ end subroutine spline_get_s_at_f_spl
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, s_xtrm, ierror)
+subroutine locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, typ_xtrm, s_xtrm, ierror)
 !--function: for a simple spline, determine the s-position of a locally extremal function value
 !            --> for segment iseg with f'(s0)*f'(s1)<0, solve f'(s) = 0 with quadratic f'
    implicit none
 !--subroutine arguments
    integer,          intent(in)   :: npnt, iseg
+   integer,          intent(in)   :: typ_xtrm   ! <0: minimum, 0: dont care, >0: maximum
    real(kind=8),     intent(in)   :: s_spl(npnt), a3(npnt), a2(npnt), a1(npnt), a0(npnt)
    real(kind=8),     intent(out)  :: s_xtrm
    integer,          intent(out)  :: ierror
 !--local variables
    real(kind=8), parameter :: tiny_a3 = 1d-10, tiny_a2 = 1d-10
-   real(kind=8) :: discr, ds, sloc, sloc1, sloc2, a1loc
+   real(kind=8) :: discr, ds, sloc, sloc1, sloc2, a1loc, floc1, floc2
 
    ierror = 0
    s_xtrm = 1d10
 
-   if (a1(iseg)*a1(iseg+1).gt.0d0) then
+   if (ldebug.ge.3) then
+      write(bufout,'(a,i5,3(a,f9.4),3g12.4,a,i3)') ' locate_xtrem: seg',iseg,': s=[', s_spl(iseg),      &
+              ',', s_spl(iseg+1), '], a0-a3=',a0(iseg), a1(iseg), a2(iseg), a3(iseg),', type',typ_xtrm
+      call write_log(1, bufout)
+   endif
 
-      ierror = -1
-      call write_log('INTERNAL ERROR: a1(sta)*a1(end)>0')
+   ! segment cubic:   v(s)  = a0 + a1 * s +     a2 * s^2 +     a3 * s^3
+   ! derivative:      v'(s) =      a1     + 2 * a2 * s   + 3 * a3 * s^2
+   ! D = b^2 - 4ac = (2*a2)^2 - 4 * (3*a3) * a1
 
-   else
+   ds    = s_spl(iseg+1) - s_spl(iseg)
+   discr = 4d0 * a2(iseg)**2 - 12d0 * a3(iseg) * a1(iseg)
+
+   if (abs(a3(iseg)).lt.tiny_a3 .and. abs(a2(iseg)).lt.tiny_a2) then
+
+      ! segment function f(s) is linear within roundoff precision
+      ! f'(s) is constant - changes sign only in case there's a discontinuity, kink at end of segment
+
+      s_xtrm = s_spl(iseg+1)
 
       if (ldebug.ge.3) then
-         write(bufout,'(a,i5,3(a,f9.4),3g12.4)') ' locate_xtrem: seg',iseg,': s=[', s_spl(iseg), &
-                     ',', s_spl(iseg+1), '], a0-a3=',a0(iseg), a1(iseg), a2(iseg), a3(iseg)
+         write(bufout,'(a,f11.6)') '   ...linear segment, s_xtrm=', s_xtrm
          call write_log(1, bufout)
       endif
 
-      ! segment cubic:   v(s)  = a0 + a1 * s +     a2 * s^2 +     a3 * s^3
-      ! derivative:      v'(s) =      a1     + 2 * a2 * s   + 3 * a3 * s^2
-      ! D = b^2 - 4ac = (2*a2)^2 - 4 * (3*a3) * a1
+   elseif (discr.le.0d0 .and. a1(iseg)*a1(iseg+1).gt.0d0) then
 
-      ds    = s_spl(iseg+1) - s_spl(iseg)
-      discr = 4d0 * a2(iseg)**2 - 12d0 * a3(iseg) * a1(iseg)
+      ! D<0, same sign for f'(s0) and f'(s1) -- no zeros in f'
 
-      if (abs(a3(iseg)).lt.tiny_a3 .and. abs(a2(iseg)).lt.tiny_a2) then
+      ierror = -1
+      call write_log(' INTERNAL ERROR(spline, locate_extremum): a1(sta) * a1(end) > 0')
 
-         ! segment function is linear, within roundoff precision
-         ! constant f' can change sign only in case there's a discontinuity, kink at end of segment
+   elseif (discr.le.0d0) then
 
-         s_xtrm = s_spl(iseg+1)
+      ! D<0, no zeros in f' : f'(s0) * f'(s1) <= 0  indicates a discontinuity in f', kink at end of segment
 
-         if (ldebug.ge.3) then
-            write(bufout,'(a,f11.6)') '   ...linear segment, s_xtrm=', s_xtrm
+      s_xtrm = s_spl(iseg+1)
+
+      if (ldebug.ge.3) then
+         write(bufout,'(a,g12.4,a,i4,a,f11.6)') '   ...D=',discr,'<0, kink at end of seg',iseg,      &
+                  ', s_xtrm=', s_xtrm
+         call write_log(1, bufout)
+      endif
+
+   else
+
+      ! compute zeros sloc1 and sloc2
+
+      if (abs(a3(iseg)).lt.tiny_a3) then          ! |a2|>tiny: quadratic f, linear f' = a1 + 2*a2*s
+         sloc1 = -0.5d0 * a1(iseg) / a2(iseg)
+         sloc2 =  1d10
+      else                                        ! |a3|>tiny: cubic f, quadratic f'
+         sloc1 = (-2d0 * a2(iseg) - sqrt(discr)) / (6d0 * a3(iseg))
+         sloc2 = (-2d0 * a2(iseg) + sqrt(discr)) / (6d0 * a3(iseg))
+      endif
+
+      if (ldebug.ge.3) then
+         write(bufout,'(15x,3(a,f11.4))') 'zeros at sloc1=',sloc1,', sloc2=',sloc2,', ds=',ds
+         call write_log(1, bufout)
+      endif
+
+      if (min(sloc1,sloc2).ge.0d0 .and. max(sloc1,sloc2).le.ds) then
+
+         ! two zeros within [0, ds]
+
+         floc1 = a0(iseg) + a1(iseg) * sloc1 + a2(iseg) * sloc1**2 + a3(iseg) * sloc1**3
+         floc2 = a0(iseg) + a1(iseg) * sloc2 + a2(iseg) * sloc2**2 + a3(iseg) * sloc2**3
+
+         if (typ_xtrm.eq.0) then
+
+            ! searching locally minimum AND locally maximum values
+
+            s_xtrm = s_spl(iseg) + 0.5d0 * (sloc1 + sloc2)
+
+            ierror = -2
+            call write_log(' ERROR(spline, locate extremum): two zeros in segment')
+
+         elseif ( (typ_xtrm.lt.0 .and. floc1.le.floc2) .or.                                             &
+                  (typ_xtrm.gt.0 .and. floc1.ge.floc2) ) then
+
+            ! searching (minimum & f1<=f2) or (maximum & f1>=f2)
+
+            s_xtrm = s_spl(iseg) + sloc1
+
+         else
+
+            ! searching (minimum & f1> f2) or (maximum & f1< f2)
+
+            s_xtrm = s_spl(iseg) + sloc2
+
+         endif
+
+         if (ldebug.ge.1 .and. typ_xtrm.ne.0)                                                           &
+            call write_log(' WARNING(spline, locate extremum): solution need not be overall min/max')
+
+      elseif (max(sloc1,sloc2).lt.0d0 .or. min(sloc1,sloc2).gt.ds .or.                                  &
+              (min(sloc1,sloc2).lt.0d0 .and. max(sloc1,sloc2).gt.ds)) then
+
+         ! no zeros within [0, ds]
+
+         ! check for f' jumping at end of segment
+
+         sloc  = ds
+         a1loc = a1(iseg) + 2d0 * a2(iseg) * ds + 3d0 * a3(iseg) * ds**2
+
+         if (a1loc * a1(iseg+1).lt.0d0) then      ! kink at end of segment
+
+            s_xtrm = s_spl(iseg+1)
+
+            if (ldebug.ge.3) then
+               write(bufout,'(a,f11.6)') '    ...discontin f'', s_xtrm=', s_xtrm
+               call write_log(1, bufout)
+            endif
+
+         else                                     ! continuous: should have zero within segment
+
+            call write_log(' ERROR: no zero in segment')
+            write(bufout,'(a,i4,4(a,g12.4))') ' iseg=',iseg,': sloc1,2=',sloc1,',',sloc2,         &
+                          ', ds=',ds, ', D=',discr
             call write_log(1, bufout)
          endif
 
-      elseif (discr.le.0d0) then
+      elseif (sloc1.ge.0d0 .and. sloc1.le.ds) then
 
-         ! D<0, no zeros in f', cannot happen at the same time as f'(s0) * f'(s1) < 0 
-         !      unless there's a discontinuity in f', kink at end of segment
+         ! first zero within [0, ds]
 
-         s_xtrm = s_spl(iseg+1)
+         s_xtrm = s_spl(iseg) + sloc1
 
          if (ldebug.ge.3) then
-            write(bufout,'(a,g12.4,a,i4,a,f11.6)') '   ...D=',discr,'<0, kink at end of seg',iseg,      &
-                     ', s_xtrm=', s_xtrm
+            write(bufout,'(a,f11.6)') '    ...using sloc1, s_xtrm=', s_xtrm
             call write_log(1, bufout)
          endif
 
       else
 
-         ! compute zeros sloc1 and sloc2
+         ! second zero within [0, ds]
 
-         if (abs(a3(iseg)).lt.tiny_a3) then          ! |a2|>tiny: quadratic f, linear f' = a1 + 2*a2*s
-            sloc1 = -0.5d0 * a1(iseg) / a2(iseg)
-            sloc2 =  1d10
-         else                                        ! |a3|>tiny: cubic f, quadratic f'
-            sloc1 = (-2d0 * a2(iseg) - sqrt(discr)) / (6d0 * a3(iseg))
-            sloc2 = (-2d0 * a2(iseg) + sqrt(discr)) / (6d0 * a3(iseg))
-         endif
+         s_xtrm = s_spl(iseg) + sloc2
 
          if (ldebug.ge.3) then
-            write(bufout,'(15x,3(a,f10.3))') 'zeros at sloc1=',sloc1,', sloc2=',sloc2,', ds=',ds
+            write(bufout,'(a,f11.6)') '    ...using sloc2, s_xtrm=', s_xtrm
             call write_log(1, bufout)
          endif
 
-         if (min(sloc1,sloc2).ge.0d0 .and. max(sloc1,sloc2).le.ds) then
+      endif
 
-            ! two zeros within [0, ds]
-
-            ierror = -2
-            call write_log(' ERROR: two zeros in segment')
-
-            write(bufout,'(a,i4,3(a,g12.4))') ' iseg=',iseg,': sloc1,2=',sloc1,',',sloc2,', ds=',ds
-            call write_log(1, bufout)
-
-         elseif (max(sloc1,sloc2).lt.0d0 .or. min(sloc1,sloc2).gt.ds .or.                            &
-                 (min(sloc1,sloc2).lt.0d0 .and. max(sloc1,sloc2).gt.ds)) then
-
-            ! no zeros within [0, ds]
-
-            ! check for f' jumping at end of segment
-
-            sloc  = ds
-            a1loc = a1(iseg) + 2d0 * a2(iseg) * ds + 3d0 * a3(iseg) * ds**2
-
-            if (a1loc * a1(iseg+1).lt.0d0) then      ! kink at end of segment
-
-               s_xtrm = s_spl(iseg+1)
-
-               if (ldebug.ge.3) then
-                  write(bufout,'(a,f11.6)') '    ...discontin f'', s_xtrm=', s_xtrm
-                  call write_log(1, bufout)
-               endif
-
-            else                                     ! continuous: should have zero within segment
-
-               call write_log(' ERROR: no zero in segment')
-               write(bufout,'(a,i4,4(a,g12.4))') ' iseg=',iseg,': sloc1,2=',sloc1,',',sloc2,         &
-                             ', ds=',ds, ', D=',discr
-               call write_log(1, bufout)
-            endif
-
-         elseif (sloc1.ge.0d0 .and. sloc1.le.ds) then
-
-            ! first zero within [0, ds]
-
-            s_xtrm = s_spl(iseg) + sloc1
-
-            if (ldebug.ge.3) then
-               write(bufout,'(a,f11.6)') '    ...using sloc1, s_xtrm=', s_xtrm
-               call write_log(1, bufout)
-            endif
-
-         else
-
-            ! second zero within [0, ds]
-
-            s_xtrm = s_spl(iseg) + sloc2
-
-            if (ldebug.ge.3) then
-               write(bufout,'(a,f11.6)') '    ...using sloc2, s_xtrm=', s_xtrm
-               call write_log(1, bufout)
-            endif
-
-         endif
-
-      endif ! discr>0
-
-   endif ! f'*f'<0
+   endif ! discr>0
 
 end subroutine locate_one_extremum
 
@@ -1652,7 +1674,7 @@ subroutine locate_extremal_values(npnt, s_spl, a3, a2, a1, a0, nxtrm, s_xtrm, my
       if (a1(iseg)*a1(iseg+1).le.0d0) then
 
          nxtrm = nxtrm + 1
-         call locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, s_xtrm(nxtrm), sub_ierror)
+         call locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, 0, s_xtrm(nxtrm), sub_ierror)
 
          ! ignore segments with two zeros in f'
 

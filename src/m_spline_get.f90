@@ -26,9 +26,9 @@ module m_spline_get
    integer  :: ii_debug  = -1    ! output point for which detailed info is requested (-1 = none)
    integer  :: iel_debug = -1    ! input element for which detailed info is requested (-1 = none)
 
-   private spline_get_s_at_minval
-   private spline_get_s_at_minval_arr
-   private spline_get_s_at_minval_spl
+   public  spline_get_s_at_minval
+   public  spline_get_s_at_minval_arr
+   public  spline_get_s_at_minval_spl
 
    interface spline_get_s_at_minval
       module procedure spline_get_s_at_minval_arr
@@ -233,6 +233,8 @@ subroutine spline_get_s_at_minval_arr(npnt, s_spl, nam_f, a3, a2, a1, a0, smin, 
 
    ierror = 0
 
+   ! Note: using a quick search that does not guarantee overall minimum function value.
+
    ! determine the break point with minimum value
 
    imin = idmin(npnt, a0(1:), 1)
@@ -245,6 +247,8 @@ subroutine spline_get_s_at_minval_arr(npnt, s_spl, nam_f, a3, a2, a1, a0, smin, 
 
    ! df/ds < 0 - function is decreasing - take interval to the right;
    ! df/ds > 0 - function is increasing - interval to the left
+
+   ! Note: f(s) can wiggle more within neighbouring segments than indicated in a0(1:)
 
    if (a1(imin).lt.0d0) then
       iseg = imin
@@ -272,7 +276,7 @@ subroutine spline_get_s_at_minval_arr(npnt, s_spl, nam_f, a3, a2, a1, a0, smin, 
 
    else                                 ! minimum in interior
 
-      call locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, smin, sub_ierror)
+      call locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, -1, smin, sub_ierror)
       if (sub_ierror.ne.0) smin = s_spl(imin)
 
    endif
