@@ -31,8 +31,8 @@ Introductory information is provided in the [getting started guide](./doc/gettin
 
 ## Reporting issues
 
-We welcome your feedback. No specific systems are put in place for this, just
-contact Edwin Vollebregt via e-mail or through his user profile.
+We welcome your feedback. You can create an issue, start a discussion, or just
+contact Edwin Vollebregt via e-mail or his user profile.
 
 ## Contribution
 
