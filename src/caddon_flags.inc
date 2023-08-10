@@ -171,5 +171,5 @@
       integer, parameter :: CNTC_err_other  =  -99  ! other error, unspecified
       integer, parameter :: CNTC_err_broydn =  CNTC_err_ftot  ! obsolete, kept for backward compatibility
 
-! $Revision: 2372 $, $Date: 2023-06-15 14:58:45 +0000 (Thu, 15 Jun 2023) $
+! $Revision: 2399 $, $Date: 2023-08-04 07:39:18 +0000 (Fri, 04 Aug 2023) $
 !------------------------------------------------------------------------------------------------------------

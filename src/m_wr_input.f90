@@ -761,6 +761,8 @@ contains
          ws%flback_pos   = dbles(2)
          ws%nom_radius   = dbles(3)
 
+         zerror = zerror .or. .not.check_range ('NOMRAD', ws%nom_radius, 1d-3, 1d20)
+
       endif
 
       ! get the wheel profile

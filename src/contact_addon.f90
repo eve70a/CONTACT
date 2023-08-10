@@ -3142,6 +3142,7 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
 !--local variables:
    integer, parameter  :: nparam_loc(0:5) = (/ 0, 0, 0, 3, 0, 3 /)
    integer             :: ierror
+   logical             :: zerror
    character(len=*), parameter :: subnam = 'cntc_setWheelsetDimensions'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_setWheelsetDimensions
@@ -3177,6 +3178,9 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
       wtd%ws%flback_dist  = params(1) * my_scl%len
       wtd%ws%flback_pos   = params(2) * my_scl%len
       wtd%ws%nom_radius   = params(3) * my_scl%len
+
+      zerror = .not.check_range ('NOMRAD', wtd%ws%nom_radius, 1d-3, 1d20)
+      wtd%ws%nom_radius   = max(1d-3, min(1d20, wtd%ws%nom_radius))
 
    endif
 
