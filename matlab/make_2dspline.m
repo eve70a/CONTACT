@@ -28,7 +28,7 @@ function [ spl2d ] = make_2dspline( ui, vj, xij, yij, zij, mask_j, use_approx, u
       use_approx = 1;
    end
    if (nargin<8 | isempty(use_insert))
-      use_insert = 0,   % option for pure tensor splines: do not(0)/do(1) fill in not-a-knot positions
+      use_insert = 1;   % option for pure tensor splines: do not(0)/do(1) fill in not-a-knot positions
    end
    if (nargin<9 | isempty(idebug))
       idebug = 0;

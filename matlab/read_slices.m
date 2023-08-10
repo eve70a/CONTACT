@@ -75,9 +75,9 @@ end
 % add 2d spline representation
 
 if (ierror==0 & exist('make_2dspline'))
-   use_approx = (slcs.s_method==2); idebug = 0;
+   use_approx = (slcs.s_method==2); use_insert = 1; idebug = 0;
    slcs.spl2d = make_2dspline(slcs.s, slcs.vj, slcs.xsurf, slcs.ysurf, slcs.zsurf, slcs.mask_j, ...
-                                                                                      use_approx, idebug);
+                                                                        use_approx, use_insert, idebug);
 end
 
 end % function read_slices
