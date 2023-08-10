@@ -95,7 +95,7 @@ tz = [tz(1); (tz(1:end-1)+tz(2:end))/2; tz(end)];
 ny = [ny(1); (ny(1:end-1)+ny(2:end))/2; ny(end)];
 nz = [nz(1); (nz(1:end-1)+nz(2:end))/2; nz(end)];
 
-% signed distance in normal direction between input profiles
+% dst_n, dst_t: signed distance in normal/tangential direction between input profiles
 
 dst_y = (y2 - y1_int);
 dst_z = (z2 - z1_int);
@@ -108,6 +108,16 @@ elseif (norm_dist==0)
    [dst_max, ixm] = max(dst_y.^2 + dst_z.^2);
 else
    [dst_max, ixm] = max(abs(dst_t));
+end
+
+% fac<0: automatic scaling factor, fac * dst_max ~=~ 4% to 8% * tot_width
+
+if (fac<0)
+   fac_list  = [ -1e-6 0.00005 0.0001 0.00025 0.0005 0.001 0.0025 0.005 0.01 0.025 0.05 0.1 0.25 0.5 1.0;
+                  1000   20000  10000    4000   2000  1000    400   200  100    40   20  10    4   2   1];
+   tot_width = max(y1_in) - min(y1_in);
+   ifac      = find(fac_list(1,:)<25*dst_max/tot_width, 1, 'last');
+   fac       = fac_list(2,ifac);
 end
 
 % plot original profiles 1 + 2
