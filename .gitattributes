@@ -1,0 +1,44 @@
+# git has LF in the repository, will convert files to CRLF (win) or LF (lnx) that have text property set
+
+# guess file type if no subsequent rule matches
+
+* text=auto
+
+# general
+*.txt text
+*.md  text
+
+# bin
+*.dll -text
+*.exe -text
+*.ico -text
+*.jar -text
+*.lib -text
+*.so  -text
+
+# doc
+*.html text
+*.tex text
+*.pdf -text
+
+# examples
+*.inp text
+*.pl  text
+*.ban text
+*.prr text
+*.prw text
+*.ref_out  text
+*.ref_subs text
+
+# matlab
+*.m   text
+*.h   text
+
+# python
+*.py  text
+
+# src
+*.c   text
+*.f90 text
+*.inc text
+*.ifc text
