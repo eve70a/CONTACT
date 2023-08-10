@@ -1,5 +1,5 @@
 
-function [ opt ] = plot_2dspline( sol, slcs, opt )
+function [ myopt ] = plot_2dspline( sol, slcs, opt )
 
 % function [ opt ] = plot_2dspline( [sol], slcs, opt )
 %
@@ -23,49 +23,21 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
       opt = struct();
    end
 
-   % fill default options
+   % construct a local struct "myopt" in which default values are filled in for all available options.
 
-   if (~isfield(opt, 'urange'))
-      opt.urange   = [];
-   end
-   if (~isfield(opt, 'vrange'))
-      opt.vrange   = [];
-   end
-   if (~isfield(opt, 'xysteps'))
-      opt.xysteps  = [];
-   end
-   if (~isfield(opt, 'show_slc'))   % slice numbers that are highlighted
-      opt.show_slc = [];
-   end
-   if (~isfield(opt, 'slc_color'))  % color-spec for slices that are highlighted
-      opt.slc_color = 'r';
-   end
-   if (~isempty(opt.slc_color) & ~any(size(opt.slc_color,2)==[1 3]))
-      disp('ERROR: slc_color should be column vector with 1 or 3 entries per row');
-      opt.slc_color = 'r';
-   end
-   if (~isfield(opt, 'show_feat'))  % feature numbers that are highlighted
-      opt.show_feat = [];
-   end
-   if (~isfield(opt, 'feat_color')) % color-spec for features that are highlighted
-      opt.feat_color = 'r';
-   end
-   if (~isempty(opt.feat_color) & ~any(size(opt.feat_color,2)==[1 3]))
-      disp('ERROR: feat_color should be column vector with 1 or 3 entries per row');
-      opt.feat_color = 'r';
-   end
-   if (~isfield(opt, 'coordsys'))
-      opt.coordsys = 'fc';
-   end
-   if (~isfield(opt, 'view'))
-      opt.view     = [110 20];
-   end
-   if (~isfield(opt, 'zoom'))
-      opt.zoom     = [];
-   end
-   if (~isfield(opt, 'addplot'))
-      opt.addplot  = 0;
-   end
+   myopt = struct( ...
+      'urange',     [],  ...
+      'vrange',     [],  ...
+      'xysteps',    [],  ...
+      'show_slc',   [],  ...   % slice numbers that are highlighted
+      'slc_color',  'r', ...   % color-spec for slices that are highlighted
+      'show_feat',  [],  ...   % feature numbers that are highlighted
+      'feat_color', 'r', ...   % color-spec for features that are highlighted
+      'coordsys',   'fc', ...
+      'view',       [110 20], ...
+      'zoom',       [], ...
+      'addplot',    0   ...
+   );
 
    if (isempty(fields(slcs)))   % called with no arguments: return default options
       return;
@@ -79,36 +51,70 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
       return;
    end
 
-   if (~opt.addplot)
+   % Check whether user-supplied opt3-struct contains unknown options
+
+   useropts = fieldnames(opt);
+   ierror = 0;
+   for i = 1:length(useropts)
+      if (~isfield(myopt, useropts{i}))
+         ierror = ierror + 1;
+         disp(sprintf('Unknown option "%s" will be ignored',useropts{i}));
+         if (ierror==1)
+            disp(sprintf('You may use "opt=rmfield(opt,''%s'');" to remove the option',useropts{i}));
+         end
+      end
+   end
+
+   % Overwrite all values in "myopt" with user-supplied values
+
+   myopts = fieldnames(myopt);
+   for i = 1:length(myopts)
+      if (isfield(opt, myopts{i}))
+         myopt = setfield(myopt, myopts{i}, mygetfield(opt,myopts{i}));
+      end
+   end
+
+   if (~any(size(myopt.slc_color,2)==[1 3]))
+      disp('ERROR: slc_color should be column vector with 1 or 3 entries per row');
+      myopt.slc_color = 'r';
+   end
+   if (~any(size(myopt.feat_color,2)==[1 3]))
+      disp('ERROR: feat_color should be column vector with 1 or 3 entries per row');
+      myopt.feat_color = 'r';
+   end
+
+   % start plotting
+
+   if (~myopt.addplot)
       clf;
    end
 
    % set target step-sizes for plotting
 
-   if (isempty(opt.urange))
-      opt.urange = [ min(slcs.spl2d.ui), max(slcs.spl2d.ui) ];
+   if (isempty(myopt.urange))
+      myopt.urange = [ min(slcs.spl2d.ui), max(slcs.spl2d.ui) ];
    end
-   if (isempty(opt.vrange))
-      opt.vrange = [ min(slcs.spl2d.vj), max(slcs.spl2d.vj) ];
+   if (isempty(myopt.vrange))
+      myopt.vrange = [ min(slcs.spl2d.vj), max(slcs.spl2d.vj) ];
    end
-   if (isempty(opt.xysteps))
+   if (isempty(myopt.xysteps))
       xlen = max(max(slcs.xsurf)) - min(min(slcs.xsurf));
       ylen = max(max(slcs.ysurf)) - min(min(slcs.ysurf));
-      opt.xysteps = max(xlen/4, ylen/15);
+      myopt.xysteps = max(xlen/4, ylen/15);
    end
-   if (isempty(opt.zoom))
+   if (isempty(myopt.zoom))
       xlen = max(max(slcs.xsurf)) - min(min(slcs.xsurf));
       ylen = max(max(slcs.ysurf)) - min(min(slcs.ysurf));
-      opt.zoom = [ max(1, 0.5*xlen/ylen) 1 1 ]; % data aspect ratio, e.g. [1000 1 1]
+      myopt.zoom = [ max(1, 0.5*xlen/ylen) 1 1 ]; % data aspect ratio, e.g. [1000 1 1]
    end
-   if (length(opt.xysteps)==1)
-      opt.xysteps = [1 1] * opt.xysteps;
+   if (length(myopt.xysteps)==1)
+      myopt.xysteps = [1 1] * myopt.xysteps;
    end
 
    % form profile surface at given x, all u - fine sampling
 
-   [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, opt.urange, [], opt.xysteps(1)/10, ...
-                                                              opt.vrange, [], []);
+   [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, myopt, myopt.urange, [], myopt.xysteps(1)/10, ...
+                                                              myopt.vrange, [], []);
 
    % plot 90% transparent surface (alpha=0.1); color-value?
 
@@ -120,19 +126,19 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
 
    set(gca,'xdir','reverse', 'zdir','reverse');
    axis equal;
-   view(opt.view);
+   view(myopt.view);
    hold on
 
-   if (strcmp(opt.coordsys,'fc'))
+   if (strcmp(myopt.coordsys,'fc'))
       xlabel('x_{fc} [mm]');
       ylabel('y_{r} [mm]');
       zlabel('z_{r} [mm]');
    end
-   set(gca,'dataaspectratio',opt.zoom);
+   set(gca,'dataaspectratio',myopt.zoom);
 
    % determine transverse curves along the surface at fixed steps in x
 
-   [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, opt, opt.urange, [], opt.xysteps(1), ...
+   [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, myopt, myopt.urange, [], myopt.xysteps(1), ...
                                                                         [], [], []);
 
    % plot transverse curves along the surface
@@ -144,8 +150,8 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
 
    % determine longitudinal curves along the surface at fixed steps in s
 
-   [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, opt, opt.urange, [], opt.xysteps(1)/10, ...
-                                                                  [], [], opt.xysteps(2));
+   [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, myopt, ...
+                                     myopt.urange, [], myopt.xysteps(1)/10, [], [], myopt.xysteps(2));
 
    % plot curves along surface in longitudinal direction
 
@@ -156,46 +162,48 @@ function [ opt ] = plot_2dspline( sol, slcs, opt )
 
    % plot transverse curves at selected slices
 
-   if (~isempty(opt.show_slc))
-      islc = unique( sort( max(1, min(slcs.nslc, opt.show_slc)) ));
+   if (~isempty(myopt.show_slc))
+      islc = unique( sort( max(1, min(slcs.nslc, myopt.show_slc)) ));
       nslc = length(islc);
-      ncol = size(opt.slc_color,1);
-      jv   = [ max(1, round(opt.vrange(1))) : min(slcs.npnt,round(opt.vrange(2))) ];
+      ncol = size(myopt.slc_color,1);
+      jv   = [ max(1, round(myopt.vrange(1))) : min(slcs.npnt,round(myopt.vrange(2))) ];
       nv   = length(jv);
       for i = 1 : nslc
          jslc = islc(i);
-         icol = mod((i-1), ncol) + 1;
-         col  = opt.slc_color(icol,:);
-         if (length(col)==1 & isnumeric(col)), col = matlab_color(col); end
-         plot3( slcs.xsurf(jslc,jv), slcs.ysurf(jslc,jv), slcs.zsurf(jslc,jv), 'color',col);
+         if (slcs.s(jslc)>=myopt.urange(1) & slcs.s(jslc)<=myopt.urange(end))
+            icol = mod((i-1), ncol) + 1;
+            col  = myopt.slc_color(icol,:);
+            if (length(col)==1 & isnumeric(col)), col = matlab_color(col); end
+            plot3( slcs.xsurf(jslc,jv), slcs.ysurf(jslc,jv), slcs.zsurf(jslc,jv), 'color',col);
+         end
       end
    end
 
    % plot longitudinal curves at selected features
 
-   if (~isempty(opt.show_feat))
-      ifeat = unique( sort( max(1, min(slcs.nfeat, opt.show_feat)) ));
+   if (~isempty(myopt.show_feat))
+      ifeat = unique( sort( max(1, min(slcs.nfeat, myopt.show_feat)) ));
       nfeat = length(ifeat);
-      ncol  = size(opt.feat_color,1);
+      ncol  = size(myopt.feat_color,1);
       for j = 1 : nfeat
          jp   = slcs.iseg_p( ifeat(j) );
-         [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, opt, opt.urange, [], opt.xysteps(1)/10, ...
-                                                                  slcs.vj(jp)*[1 1], [], opt.xysteps(2));
+         [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, myopt, ...
+                       myopt.urange, [], myopt.xysteps(1)/10, slcs.vj(jp)*[1 1], [], myopt.xysteps(2));
          jcol = mod((j-1), ncol) + 1;
-         col  = opt.feat_color(jcol,:);
+         col  = myopt.feat_color(jcol,:);
          if (length(col)==1 & isnumeric(col)), col = matlab_color(col); end
          % plot3( slcs.xsurf(:,jp), slcs.ysurf(:,jp), slcs.zsurf(:,jp), 'color',col );
          plot3( xcurv, ycurv, zcurv, 'color',col);
       end
    end
 
-end % function show_profiles
+end % function plot_2dspline
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, ...
                                                               urange, du_true, du_appx, ...
-                                                              vrange, dv_true, dv_appx)
+                                                              vrange, dv_true, dv_appx, idebug)
 
 % create 2D arrays (x,y,z) for a variable rail profile (slcs)
 %  - the profile will be plotted for urange = [umin, umax]
@@ -209,6 +217,7 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, ...
    if (nargin< 7), vrange  = []; end
    if (nargin< 8), dv_true = []; end
    if (nargin< 9), dv_appx = []; end
+   if (nargin<10), idebug  = 0;  end
 
    % determine longitudinal positions ui for evaluation of surface
 
@@ -220,6 +229,7 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, ...
       i0 = ceil( urange(1) / du_true );
       i1 = floor( urange(2) / du_true );
       ui = [i0 : i1] * du_true;
+      if (idebug>=1), disp(sprintf('Using du_true=%4.2f, i0=%d, i1=%d',du_true,i0,i1)); end
 
    elseif (~isempty(du_appx))
 
@@ -232,6 +242,7 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, ...
       end
       du = (urange(2) - urange(1)) / max(1,nintv);
       ui = urange(1) + [0:nintv] * du;
+      if (idebug>=1), disp(sprintf('Using du_appx=%4.2f, nintv=%d',du_appx,nintv)); end
 
    else
 
@@ -254,15 +265,17 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, opt, ...
       j0 = ceil(  (vrange(1)-slcs.vj(1)) / dv_true );
       j1 = floor( (vrange(2)-slcs.vj(1)) / dv_true );
       vj = [j0 : j1] * dv_true;
+      if (idebug>=1), disp(sprintf('Using dv_true=%4.2f, j0=%d, j1=%d',dv_true,j0,j1)); end
 
    elseif (~isempty(dv_appx))
 
       % if 'target' dv_appx is given, 
-      %    diuide [umin,umax] in odd #intervals of size dv_true close to dv_appx
+      %    diuide [vmin,vmax] in odd #intervals of size dv_true close to dv_appx
 
       nintv = floor( (vrange(2) - vrange(1)) / dv_appx );
       dv = (vrange(2) - vrange(1)) / max(1,nintv);
       vj = vrange(1) + [0:nintv] * dv;
+      if (idebug>=1), disp(sprintf('Using dv_appx=%4.2f, nintv=%d',dv_appx,nintv)); end
 
    else
 
