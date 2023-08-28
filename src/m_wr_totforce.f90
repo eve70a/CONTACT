@@ -41,7 +41,7 @@ contains
       type(t_ws_track), target      :: wtd
       integer,          intent(out) :: my_ierror
 !--local variables:
-      logical            :: lfound, is_left
+      logical            :: lfound
       integer            :: iestim_br, idebug_cnt, icp, i, sub_ierror, known_err(10)
 
       my_ierror = 0
@@ -139,9 +139,8 @@ contains
          do icp = 1, wtd%numcps
             associate( gd => wtd%allcps(icp)%cp%gd )
             gd%ic%matfil_surf = wtd%ic%matfil_surf
-            is_left = (wtd%ic%config.eq.0 .or. wtd%ic%config.eq.4)
             call writmt (gd%meta, gd%ic, gd%cgrid, gd%potcon%xl, gd%potcon%yl, gd%geom%hs1, gd%mater,   &
-                         gd%fric, gd%kin, gd%outpt1, is_left)
+                         gd%fric, gd%kin, gd%outpt1, wtd%ic%is_left_side())
             end associate
          enddo
       endif
@@ -497,7 +496,7 @@ contains
       integer,          intent(out) :: my_ierror
 !--local variables:
       integer,       parameter :: neq = 2
-      logical                  :: has_fz, has_fx, is_roller, ldone, laccept
+      logical                  :: has_fz, has_fx, ldone, laccept
       integer                  :: k, iestim_br, idebug_br, itry, maxtry, sub_ierror
       real(kind=8)             :: aa, aob, bb, c11, c22, c23, dfx_domg, dfz_dzws, veloc, r_act, solv_eps
       real(kind=8)             :: xk(neq), xkm1(neq), xchr(neq), dxk(neq), fk(neq), fkm1(neq), dfk(neq), &
@@ -513,7 +512,6 @@ contains
 
       has_fz    = (wtd%ic%norm.ge.1)
       has_fx    = (wtd%ic%tang.ge.1 .and. (wtd%ic%force1.eq.1 .or. wtd%ic%force1.eq.2))
-      is_roller = (wtd%ic%config.ge.4)
 
       if (.not.has_fz .or. .not.has_fx) then
          call write_log(' INTERNAL ERROR: secant method needs N=1, F=1')
@@ -545,7 +543,7 @@ contains
 
       if (has_fx) then
 
-         if (is_roller) then
+         if (wtd%ic%is_roller()) then
             veloc = wtd%trk%vpitch_rol * wtd%trk%nom_radius
          else
             veloc = wtd%ws%vs
@@ -786,7 +784,7 @@ contains
       integer,          intent(out) :: my_ierror
 !--local variables:
       integer, parameter       :: maxit = 100
-      logical                  :: has_fz, has_fy, is_left_side, used_bisec, ldone
+      logical                  :: has_fz, has_fy, used_bisec, ldone
       integer                  :: k, idebug_br, iestim_br, sub_ierror
       real(kind=8)             :: ftarg, fy_tot, dfy_dy, dz_ws, x_new, r_new, tol_xk, tol_fk, res_fk,   &
                                   eps_out, eps_inn
@@ -800,7 +798,6 @@ contains
 
       has_fz    = (wtd%ic%norm.ge.1)
       has_fy    = (wtd%ic%tang.ge.1 .and. (wtd%ic%force1.eq.3 .or. wtd%ic%force1.eq.4))
-      is_left_side = (wtd%ic%config.eq.0 .or. wtd%ic%config.eq.4)
 
       if (.not.has_fz .or. .not.has_fy) then
          call write_log(' INTERNAL ERROR: Brent method for Fy needs N=1, F=4')
@@ -823,7 +820,7 @@ contains
       ! prepare structure to hold iterates with target force -fy_rail
 
       ftarg = -wtd%trk%fy_rail
-      if (is_left_side) ftarg = -ftarg          ! mirroring left-side input to right-side internal
+      if (wtd%ic%is_left_side()) ftarg = -ftarg      ! mirroring left-side input to right-side internal
 
       call brent_its_init(its, ikYDIR, maxit, ftarg)
 
@@ -1039,7 +1036,7 @@ contains
       integer,          intent(out) :: my_ierror
 !--local variables:
       integer,       parameter :: neq = 2
-      logical                  :: use_findiff_1st, use_findiff, is_left_side, ldone, laccept
+      logical                  :: use_findiff_1st, use_findiff, ldone, laccept
       integer                  :: k, idebug_br, ntry, maxtry, sub_ierror
       real(kind=8)             :: dfn_dpen
       real(kind=8)             :: xk(neq), xkm1(neq), xchr(neq), dxk(neq), fk(neq), fkm1(neq), dfk(neq), &
@@ -1053,7 +1050,6 @@ contains
 
       use_findiff_1st = .true.
       use_findiff     = .true.
-      is_left_side    = (wtd%ic%config.eq.0 .or. wtd%ic%config.eq.4)
 
       ! if N=1: override vertical inputs
 
@@ -1066,7 +1062,7 @@ contains
 
       ftarg(1) = -wtd%trk%fy_rail
       ftarg(2) = -wtd%trk%fz_rail
-      if (is_left_side) ftarg(1) = -ftarg(1)     ! mirroring left-side input to right-side internal
+      if (wtd%ic%is_left_side()) ftarg(1) = -ftarg(1)  ! mirroring left-side input to right-side internal
 
       ! relative tolerances. max. resolution for dy,dz \pm 1e-12, Fy,Fz \pm Jac * 1e-12
 

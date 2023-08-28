@@ -28,7 +28,7 @@ contains
       type(t_ws_track), target :: wtd
 !--local variables:
       integer, parameter       :: idebug = 0
-      logical      :: znewln, is_roll, is_ssrol, use_plast, is_left_side, is_conformal
+      logical      :: znewln, is_roll, is_ssrol, use_plast
       integer      :: icp, i, j, ii, iin, iout, iy0, iy1, ii0, ii1, lstrow, ncon, nadh, nslip,          &
                       nplast, nexter, ic_discns, is_right
       real(kind=8) :: def_turn, hmp, ptabs, ptarg, rhsx, rhsy, fxtru1, fytru1, sgn, rdum(20),           &
@@ -53,14 +53,12 @@ contains
       is_roll      = (ic%tang.eq.2 .or. ic%tang.eq.3)
       is_ssrol     = (ic%tang.eq.3)
       use_plast    = (ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10)
-      is_left_side = (ic%config.eq.0 .or. ic%config.eq.4)
-      is_conformal = (ic%discns_eff.eq.4)
 
       ! set pointers to the active rail and wheel in the current configuration
 
       my_rail  => trk%rai
       my_wheel => ws%whl
-      if (is_left_side) then
+      if (ic%is_left_side()) then
          nam_side = 'LEFT'
          is_right = 0
       else
@@ -420,7 +418,7 @@ contains
             iy0 = igs1%iymin
             iy1 = igs1%iymax
 
-            if (is_conformal .and. iy1.ge.iy0) then
+            if (ic%is_conformal() .and. iy1.ge.iy0) then
                ii0 = 1 + (iy0-1) * gd%cgrid%nx
                ii1 = 1 + (iy1-1) * gd%cgrid%nx
                sc0 = gd%cgrid%y( ii0 ) - 0.5d0*gd%cgrid%dy
@@ -617,7 +615,7 @@ contains
 
          ! print the curved reference surface used for conformal contact when "output" >= 3 and D == 4
 
-         if (ic%output_surf.ge.3 .and. is_conformal .and. ic%ilvout.ge.1) then
+         if (ic%output_surf.ge.3 .and. ic%is_conformal() .and. ic%ilvout.ge.1) then
 
             write(lout, '(/,a,i5,a)') ' CURVED REFERENCE SURFACE, TRACK COORDINATES,', cp%curv_ref%ny, &
                 ' POINTS:'

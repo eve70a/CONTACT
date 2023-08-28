@@ -135,6 +135,15 @@ public
       integer :: ilvout
       logical :: print_pmax
 
+   contains
+      procedure :: is_left_side     => ic_is_left_side
+      procedure :: is_roller        => ic_is_roller
+      procedure :: is_conformal     => ic_is_conformal
+      procedure :: use_brute        => ic_use_brute
+      procedure :: use_initial_cp   => ic_use_initial_cp
+      procedure :: use_oblique      => ic_use_oblique
+      procedure :: use_steep_slopes => ic_use_steep_slopes
+
       ! c1, config  configuration or composition of wheel/rail problems
       !              0 = wheelset on track, left wheel,
       !              1 = wheelset on track, right wheel,
@@ -215,11 +224,12 @@ public
       !              4 = "curved",     same as 2, with curved reference and conformal contact computation
       !              5 = "brute",      same as 2, using brute force instead of contact locus
       !              6 = "brute+steep" same as 5, using larger grid to accomodate steep slopes
+      !              7 = "icp-loc",    same as 2, using initial contact point instead of weighted center,
+      !                                           using the local contact angle instead of a weighted value
       !              8 = "locus+view"  same as 2, using a hard-coded oblique view direction
       !              9 = "brute+view"  same as 5, using a hard-coded oblique view direction
       !             Note: the variable ic%discns_inp contains the value obtained from (and written to) the
-      !                   input-file, whereas ic%discns_eff is the effective method used (2 -- 5),
-      !                   with inputs 6,8,9 rewritten to 2,5.
+      !                   input-file, whereas ic%discns_eff is the effective method used (2 -- 9).
       !     gapwgt  variations of weighted center method: 0 == default, 1 == linear weighting, 2 == quadratic
       ! c3, gencr   concerns the material parameters and influence coefficients
       !              0 = maintain inluence coefficients;
@@ -960,6 +970,104 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   function ic_is_left_side(this)
+!--function: determine from the ic-struct whether a left-side configuration is used
+      implicit none
+!--result value
+      logical                   :: ic_is_left_side
+!--subroutine arguments
+      class(t_ic),   intent(in) :: this
+
+      ic_is_left_side = (this%config.eq.0 .or. this%config.eq.4)
+
+   end function ic_is_left_side
+
+!------------------------------------------------------------------------------------------------------------
+
+   function ic_is_roller(this)
+!--function: determine from the ic-struct whether a wheel-on-roller configuration is used
+      implicit none
+!--result value
+      logical                   :: ic_is_roller
+!--subroutine arguments
+      class(t_ic),   intent(in) :: this
+
+      ic_is_roller = (this%config.ge.4)
+
+   end function ic_is_roller
+
+!------------------------------------------------------------------------------------------------------------
+
+   function ic_is_conformal(this)
+!--function: determine from the ic-struct whether a conformal computation is used
+      implicit none
+!--result value
+      logical                   :: ic_is_conformal
+!--subroutine arguments
+      class(t_ic),   intent(in) :: this
+
+      ic_is_conformal = (this%discns_eff.eq.4)
+
+   end function ic_is_conformal
+
+!------------------------------------------------------------------------------------------------------------
+
+   function ic_use_brute(this)
+!--function: determine from the ic-struct whether to use the (brute force) grid-based contact search
+      implicit none
+!--result value
+      logical                   :: ic_use_brute
+!--subroutine arguments
+      class(t_ic),   intent(in) :: this
+
+      ic_use_brute = (this%discns_eff.eq.5 .or. this%discns_eff.eq.6 .or. this%discns_eff.eq.9)
+
+   end function ic_use_brute
+
+!------------------------------------------------------------------------------------------------------------
+
+   function ic_use_initial_cp(this)
+!--function: determine from the ic-struct whether to use the initial contact point as reference position
+      implicit none
+!--result value
+      logical                   :: ic_use_initial_cp
+!--subroutine arguments
+      class(t_ic),   intent(in) :: this
+
+      ic_use_initial_cp = (this%discns_eff.eq.7)
+
+   end function ic_use_initial_cp
+
+!------------------------------------------------------------------------------------------------------------
+
+   function ic_use_oblique(this)
+!--function: determine from the ic-struct whether the computation uses an oblique view direction
+      implicit none
+!--result value
+      logical                   :: ic_use_oblique
+!--subroutine arguments
+      class(t_ic),   intent(in) :: this
+
+      ic_use_oblique = (this%discns_eff.eq.8 .or. this%discns_eff.eq.9)
+
+   end function ic_use_oblique
+
+!------------------------------------------------------------------------------------------------------------
+
+   function ic_use_steep_slopes(this)
+!--function: determine from the ic-struct whether the computation needs the steep slopes extension
+      implicit none
+!--result value
+      logical                   :: ic_use_steep_slopes
+!--subroutine arguments
+      class(t_ic),   intent(in) :: this
+
+      ic_use_steep_slopes = (this%discns_eff.eq.6)
+
+   end function ic_use_steep_slopes
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine ic_unpack (modul, cpbtnfs, vldcmze, xhgiaowr, ic)
 !--purpose: unpack the control-words into array ic
       implicit none
@@ -1127,12 +1235,12 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine dbg_pack (modul, psflrin, ic)
+   subroutine dbg_pack(psflrin, ic)
 !--purpose: pack the debug flags in ic together in a control-word
       implicit none
 !--subroutine parameters:
       type(t_ic) :: ic
-      integer    :: modul, psflrin
+      integer    :: psflrin
 
       psflrin =                                                    1000000*ic%x_profil    +             &
                  100000*ic%x_smooth    +    10000*ic%x_force     +    1000*ic%x_locate    +             &

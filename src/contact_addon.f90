@@ -789,8 +789,8 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
          ! set D-digit in the RE-CP-data (only makes sense for module 1)
 
-         if (values(i).ge.2 .and. values(i).le.9 .and. values(i).ne.7) my_ic%discns_inp = values(i)
-         if (values(i).ge.2 .and. values(i).le.9 .and. values(i).ne.7) my_ic%discns_eff = values(i)
+         if (values(i).ge.2 .and. values(i).le.9) my_ic%discns_inp = values(i)
+         if (values(i).ge.2 .and. values(i).le.9) my_ic%discns_eff = values(i)
 
       elseif (params(i).eq.CNTC_ic_npomax) then         ! set max. #elements in potential contact (mod. 1)
 
@@ -4079,7 +4079,6 @@ subroutine subs_calculate(ire, icp, ierror) &
    integer,      intent(out) :: ierror        ! error code of CONTACT calculation
 !--local variables:
    character(len=*), parameter   :: subnam = 'subs_calculate'
-   logical                       :: is_left_side
    integer                       :: imodul, itimer, lic_mxthrd, new_actv, jcp, jcp0, jcp1
    type(t_cpatch), pointer       :: cp
 #ifdef _WIN32
@@ -4138,15 +4137,11 @@ subroutine subs_calculate(ire, icp, ierror) &
 
          if (.not.cp%has_own_subs) call subsurf_copy(wtd%subs, cp%gd%subs)
 
-         ! use mirroring for left rail/wheel combination
-
-         is_left_side = (cp%gd%ic%config.eq.0 .or. cp%gd%ic%config.eq.4)
-
-         ! calculate subsurface stresses
+         ! calculate subsurface stresses, using mirroring for left rail/wheel combination
 
          cp%gd%meta%ncase = cp%gd%meta%ncase - 1
          call subsur(cp%gd%meta, cp%gd%ic, cp%gd%mater, cp%gd%cgrid, cp%gd%outpt1%igs,                  &
-                          cp%gd%outpt1%ps, is_left_side, cp%gd%subs)
+                          cp%gd%outpt1%ps, cp%gd%ic%is_left_side(), cp%gd%subs)
          cp%gd%meta%ncase = cp%gd%meta%ncase + 1
 
       enddo
@@ -4387,7 +4382,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    character(len=*), parameter :: subnam = 'cntc_getProfileValues_new'
    character(len=5)            :: namtyp(0:1) = (/ 'rail ', 'wheel' /)
    integer                     :: itype, isampl, npnt, ip, j, jp, ldebug, ierror, sub_ierror
-   logical                     :: is_ok, is_left_side
+   logical                     :: is_ok
    real(kind=8)                :: s0, s1, ds, ds_out, sgn, ygauge, yvampr, zgauge, zmin
    type(t_marker)              :: rw_trk
    type(t_grid)                :: g_wrk
@@ -4472,8 +4467,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    ! mirror track y-values for left side
 
    sgn = 1d0
-   is_left_side = (my_ic%config.eq.0 .or. my_ic%config.eq.4)
-   if (is_left_side) sgn = -1d0
+   if (my_ic%is_left_side()) sgn = -1d0
 
    ! determine number of output s-positions
 
@@ -4819,7 +4813,6 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
    real(kind=8), intent(out) :: rvalues(lenarr) ! contact location for current contact patch
 !--local variables:
    integer                     :: ierror, ii
-   logical                     :: is_left_side
    real(kind=8)                :: sgn, sum_pn, sum_xpn, sum_ypn
    type(t_marker)              :: m_pn
    type(t_wheel),    pointer   :: my_wheel
@@ -4850,8 +4843,7 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       ! set the sign to -1 for left and +1 for right rail/wheel combination
 
       sgn = 1d0
-      is_left_side = (my_ic%config.eq.0 .or. my_ic%config.eq.4)
-      if (is_left_side) sgn = -1d0
+      if (my_ic%is_left_side()) sgn = -1d0
 
       if (lenarr.ge.1) rvalues(1)   =       meta%xcp_tr    / my_scl%len
       if (lenarr.ge.2) rvalues(2)   = sgn * meta%ycp_tr    / my_scl%len
@@ -5080,7 +5072,6 @@ subroutine cntc_getPotContact(ire, icp, lenarr, rvalues) &
    real(kind=8), intent(out) :: rvalues(lenarr) ! num.elements [-], positions and step sizes [length]
 !--local variables:
    integer    :: imodul, ierror
-   logical    :: is_left_side
    character(len=*), parameter :: subnam = 'cntc_getPotContact'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_getPotContact
@@ -5093,12 +5084,11 @@ subroutine cntc_getPotContact(ire, icp, lenarr, rvalues) &
    ! use mirroring for left rail/wheel combination
 
    imodul = ire_module(ix_reid(ire))
-   is_left_side = (imodul.eq.1 .and. my_ic%config.eq.0 .or. my_ic%config.eq.4)
 
    if (lenarr.ge.1) rvalues(1) = real(gd%potcon%mx)
    if (lenarr.ge.2) rvalues(2) = real(gd%potcon%my)
    if (lenarr.ge.3) rvalues(3) = gd%potcon%xc1 / my_scl%len
-   if (lenarr.ge.4 .and. is_left_side) then
+   if (lenarr.ge.4 .and. imodul.eq.1 .and. my_ic%is_left_side()) then
       rvalues(4) = -gd%potcon%ycm / my_scl%len  ! renumber [my:-1:1] and mirror y:=-y
    elseif (lenarr.ge.4) then
       rvalues(4) =  gd%potcon%yc1 / my_scl%len
@@ -5162,7 +5152,6 @@ subroutine cntc_getCreepages(ire, icp, vx, vy, phi) &
    real(kind=8), intent(out) :: vx, vy, phi    ! long/lat/spin creepages [-], [angle/length]
 !--local variables:
    integer      :: imodul, ierror
-   logical      :: is_left_side
    real(kind=8) :: sgn
    character(len=*), parameter :: subnam = 'cntc_getCreepages'
 #ifdef _WIN32
@@ -5177,8 +5166,7 @@ subroutine cntc_getCreepages(ire, icp, vx, vy, phi) &
 
    sgn    = 1d0
    imodul = ire_module(ix_reid(ire))
-   is_left_side = (imodul.eq.1 .and. my_ic%config.eq.0 .or. my_ic%config.eq.4)
-   if (is_left_side) sgn = -1d0
+   if (imodul.eq.1 .and. my_ic%is_left_side()) sgn = -1d0
 
    ! note: retrieving data from gd%kin instead of my_kin (=> wtd%kin)
 
@@ -5216,7 +5204,6 @@ subroutine cntc_getContactForces(ire, icp, fn, tx, ty, mz) &
    real(kind=8), intent(out) :: tx, ty        ! total long/lat forces [force]
    real(kind=8), intent(out) :: mz            ! total torsional moment [force.length]
 !--local variables:
-   logical      :: is_left_side
    integer      :: imodul, ierror
    real(kind=8) :: sgn
    character(len=*), parameter :: subnam = 'cntc_getContactForces'
@@ -5232,8 +5219,7 @@ subroutine cntc_getContactForces(ire, icp, fn, tx, ty, mz) &
 
    sgn    = 1d0
    imodul = ire_module(ix_reid(ire))
-   is_left_side = (imodul.eq.1 .and. (my_ic%config.eq.0 .or. my_ic%config.eq.4))
-   if (is_left_side) sgn = -1d0
+   if (imodul.eq.1 .and. my_ic%is_left_side()) sgn = -1d0
 
    fn = my_kin%fntrue                                        ! note: in simpack, output body == body 2
    tx =       my_scl%body * my_kin%muscal * my_kin%fntrue * my_kin%fxrel1
@@ -5310,7 +5296,6 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
    real(kind=8), intent(out) :: rvalues(lenarr) ! forces [force] and moments [force.length]
 !--local variables:
    integer                     :: ierror
-   logical                     :: is_left_side
    real(kind=8)                :: sgn
    type(t_vec),      pointer   :: ftot_tr, ttot_rr_tr, ftot_ws, ttot_rw_ws, xavg, ttot_avg
    type(t_vec)                 :: ftot_rr, ttot_rr_rr, ftot_rw, ttot_rw_rw
@@ -5335,8 +5320,7 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
    ! set the sign to -1 for left and +1 for right rail/wheel combination
 
    sgn = 1d0
-   is_left_side = (my_ic%config.eq.0 .or. my_ic%config.eq.4)
-   if (is_left_side) sgn = -1d0
+   if (my_ic%is_left_side()) sgn = -1d0
 
    ! total forces and moments (on rail) provided w.r.t. track/wheelset x,y,z-coordinates
 

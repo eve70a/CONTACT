@@ -109,7 +109,7 @@ contains
 
       zerror = zerror .or. .not.check_irng ('Control digit V',  ic%varfrc, 0, 1)
       zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp, 0, 4, 6, 6)
-      zerror = zerror .or. .not.check_2rng ('Control digit D',  ic%discns_inp, 0, 6, 8, 9)
+      zerror = zerror .or. .not.check_irng ('Control digit D',  ic%discns_inp, 0, 9)
       zerror = zerror .or. .not.check_irng ('gap weighting',    ic%gapwgt, 0, 2)
       zerror = zerror .or. .not.check_irng ('Control digit C3', ic%gencr_inp , 0, 4)
       zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater , 0, 4)
@@ -931,7 +931,7 @@ contains
       ! write debug parameters
 
       if (ic%xflow.ge.1) then
-         call dbg_pack(1, psflrin, ic)
+         call dbg_pack(psflrin, ic)
          write(linp, 1103) psflrin
       endif
 

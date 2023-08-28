@@ -34,7 +34,7 @@ contains
       type(t_cpatch)        :: cp
       type(t_probdata)      :: gd
 !--local variables:
-      logical                 :: is_prismatic, is_varprof, is_roller, is_left_side, is_conformal
+      logical                 :: is_prismatic, is_varprof
       type(t_rail),   pointer :: my_rail
       type(t_wheel),  pointer :: my_wheel
       character(len=5)        :: nam_side
@@ -53,22 +53,18 @@ contains
       if (idebug.ge.2) call write_log(' --- Start subroutine wr_ud_planar ---')
       call timer_start(itimer_udist)
 
-      is_roller    = (ic%config.ge.4)
-      is_left_side = (ic%config.eq.0 .or. ic%config.eq.4)
-      is_conformal = (ic%discns_eff.eq.4)
-
       ! set pointer to the active rail and wheel in the current configuration
 
       my_rail  => trk%rai
       my_wheel => ws%whl
-      if (is_left_side) then
+      if (ic%is_left_side()) then
          nam_side = 'left'
       else
          nam_side = 'right'
       endif
 
       is_varprof    = (my_rail%prr%nslc.gt.0)
-      is_prismatic  = (.not.is_roller .and. .not.is_varprof)
+      is_prismatic  = (.not.ic%is_roller() .and. .not.is_varprof)
 
       associate(rail_srfc => cp%rail_srfc, whl_srfc => cp%whl_srfc)
 
@@ -94,7 +90,7 @@ contains
 
          ! conformal approach: gd%cgrid has curved sc-coordinates, convert to sp.
 
-         if (is_conformal) then
+         if (ic%is_conformal()) then
             call curved_sc_to_planar_sp(cp%mref, rail_srfc, cp%curv_ref, idebug)
          endif
 
@@ -123,7 +119,7 @@ contains
          endif
       endif ! is_prismatic or is_varprof
 
-      if (is_roller) then
+      if (ic%is_roller()) then
 
          ! convert input rail profile 'prr_grd' to planar contact reference coordinates
          !  1. form rail profile 'rail_sn' in planar contact reference (s,n) coordinates
@@ -189,7 +185,7 @@ contains
     
          call grid_copy(gd%cgrid, rail_srfc)
 
-         if (is_conformal) then
+         if (ic%is_conformal()) then
             ! conformal approach: gd%grid has curved sc-coordinates, convert to sp.
             call curved_sc_to_planar_sp(cp%mref, rail_srfc, cp%curv_ref, idebug)
          endif
@@ -434,7 +430,7 @@ contains
       vy_ref =  sin(cp%delttr)
       vz_ref = -cos(cp%delttr)
 
-      if (idebug.ge.3 .and. is_conformal) then
+      if (idebug.ge.3 .and. ic%is_conformal()) then
          write(bufout,'(3(a,f10.6),a)') ' delttr=',cp%delttr,', nrm=[',vy_ref,',',vz_ref,']'
          call write_log(1, bufout)
       endif
@@ -444,7 +440,7 @@ contains
 
       do iy = 1, gd%cgrid%ny
 
-         if (is_conformal) then
+         if (ic%is_conformal()) then
             ii = 1 + (iy-1) * gd%cgrid%nx
             vy_iy = cp%curv_nrm%vy(iy)
             vz_iy = cp%curv_nrm%vn(iy)
@@ -459,7 +455,7 @@ contains
          do ix = 1, gd%cgrid%nx
             ii = ix + (iy-1) * gd%cgrid%nx
             h_ii = rail_srfc%z(ii) - whl_srfc%z(ii)
-            if (is_conformal) h_ii = h_ii * (vy_ref*vy_iy + vz_ref*vz_iy) * vlen_inv
+            if (ic%is_conformal()) h_ii = h_ii * (vy_ref*vy_iy + vz_ref*vz_iy) * vlen_inv
             if (h_ii.lt.hmin) hmin = h_ii
             gd%geom%prmudf(ii) = h_ii
 
@@ -495,7 +491,7 @@ contains
          write(ltmp,'(2(a,i6),a)') 'mx=',gd%cgrid%nx,'; my=',gd%cgrid%ny,';'
          write(ltmp,*) 'tmp=['
          do iy = 1, gd%cgrid%ny
-            if (is_conformal) then
+            if (ic%is_conformal()) then
                vy_iy = cp%curv_nrm%vy(iy)
                vz_iy = cp%curv_nrm%vn(iy)
                delt_iy = atan(vz_iy/vy_iy)

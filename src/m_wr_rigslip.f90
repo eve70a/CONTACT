@@ -79,7 +79,6 @@ contains
       type(t_probdata)      :: gd
       real(kind=8)          :: dqrel
 !--local variables:
-      logical               :: is_roller, is_left_side
       integer               :: is_right
       real(kind=8)          :: rr_loc, rw_loc, sgn, vs_est
       type(t_marker)        :: m_rol, mref_rr, mref_rol, mrw_trk, mq_rw, mq_ws, mq_cp, mq_trk
@@ -95,12 +94,9 @@ contains
 
       if (idebug.ge.3) call write_log(' --- Start subroutine wr_creep_cref ---')
 
-      is_roller    = (ic%config.ge.4)
-      is_left_side = (ic%config.eq.0 .or. ic%config.eq.4)
-
       my_rail   => trk%rai
       my_wheel  => ws%whl
-      if (is_left_side) then
+      if (ic%is_left_side()) then
          nam_side  = 'left'
          is_right  = 0
       else
@@ -115,7 +111,7 @@ contains
       !------------------------------------------------------------------------------------------------------
       ! compute translation & rotation velocity of point P=mref on rail/roller
 
-      if (.not.is_roller) then
+      if (.not.ic%is_roller()) then
 
          ! convert position of contact point P on rail from track to rail profile coordinates
 
@@ -322,7 +318,7 @@ contains
       ! set rolling direction on basis of sign(VS) or -sign(OMEGA)
       ! chi = 0 or 180: coordinate system moves along rail, even if the wheelset moves laterally
 
-      if (.not.is_roller) then
+      if (.not.ic%is_roller()) then
          ! gd%kin%veloc =   ws%vs
          ! gd%kin%veloc =  (ws%vs - ws%vpitch * ws%nom_radius) / 2d0
          vs_est = vq_tvel_trk%x() - pitch_tvel_trk%x()
@@ -368,7 +364,7 @@ contains
       if (idebug.ge.2 .and. idebug.lt.3) then
          call write_log(' velocity of contact point on wheel w.r.t. O_trk')
          call vec_print(vq_tvel_trk,  'vq_tvel(trk)', 2, 6)
-         if (is_roller) then
+         if (ic%is_roller()) then
             call write_log(' velocity of contact point on roller w.r.t. O_trk')
             call vec_print(vp_tvel_trk,  'vp_tvel(trk)', 2, 6)
          endif
@@ -395,7 +391,7 @@ contains
          call write_log(' rotation of contact point on wheel w.r.t. O_cp')
          call vec_print(vq_rvel_cp, ' vq_rvel(cp)', 2, 6)
 
-         if (is_roller) then
+         if (ic%is_roller()) then
             call write_log(' contact reference position w.r.t. O_rol')
             call marker_print(mref_rol, 'm_cp(rol)', 2)
             write(bufout,'(a,f11.6)') ' actual rolling radius on roller r(cp) =', rr_loc
@@ -434,7 +430,6 @@ contains
       real(kind=8)          :: dqrel
 !--local variables:
       logical, parameter    :: project_on_cref = .false.
-      logical               :: is_roller, is_left_side, is_conformal
       integer               :: ii, iimin, iidbg, is_right
       real(kind=8)          :: sgn, dst2, dstmin, zmin, zmax
       type(t_marker)        :: m_rol, mrol_cp, mrr_rol, mrr_cp, mrw_arm, mrw_trk, mrw_cp, mws_cp
@@ -448,24 +443,20 @@ contains
       type(t_wheel),  pointer :: my_wheel
       character(len=5)        :: nam_side 
 
-      is_roller    = (ic%config.ge.4)
-      is_left_side = (ic%config.eq.0 .or. ic%config.eq.4)
-      is_conformal = (ic%discns_eff.eq.4)
-
       if (idebug.ge.3) call write_log(' --- Start subroutine wr_rigslip_wrsurf ---')
       if (idebug.ge.2) then
          if (project_on_cref) then
             call write_log(' computing rigid slip with projection on contact reference plane')
          elseif (ic%discns_eff.le.3) then
             call write_log(' planar contact, with rigid slip on actual surfaces in planar (s,n)')
-         elseif (is_conformal) then
+         elseif (ic%is_conformal()) then
             call write_log(' conformal contact, with rigid slip on actual surfaces, curved (s,n)')
          endif
       endif
 
       my_rail   => trk%rai
       my_wheel  => ws%whl
-      if (is_left_side) then
+      if (ic%is_left_side()) then
          nam_side  = 'left'
          is_right  = 0
       else
@@ -482,7 +473,7 @@ contains
       !------------------------------------------------------------------------------------------------------
       ! compute translational velocities of points on the rail/roller surface
 
-      if (.not.is_roller) then
+      if (.not.ic%is_roller()) then
 
          ! convert rail profile origin to contact coordinates
 
@@ -678,7 +669,7 @@ contains
 
       ! conformal method: rotate velocities to local surface (s,n) coordinates
 
-      if (is_conformal) then
+      if (ic%is_conformal()) then
 
          ! D=4: conformal rigid slip on curved potential contact
 
@@ -716,7 +707,7 @@ contains
       ! set the velocity, rolling direction and rolling step size
 
       gd%kin%chi    =  0d0
-      if (.not.is_roller) then
+      if (.not.ic%is_roller()) then
          ! gd%kin%veloc =  (ws%vs - ws%vpitch * ws%nom_radius) / 2d0
          gd%kin%veloc  =  ws%vs
       else
@@ -744,7 +735,7 @@ contains
          write(bufout,'(3(a,f12.5),a)') ' vq_tvel(trk) = (', gf_tvel_whl%vx(iimin), ',',                &
                 gf_tvel_whl%vy(iimin), ',',gf_tvel_whl%vn(iimin), ')^T'
          call write_log(1, bufout)
-         if (is_roller) then
+         if (ic%is_roller()) then
             call write_log(' velocity of contact point on roller w.r.t. O_trk')
             write(bufout,'(3(a,f12.5),a)') ' vp_tvel(trk) = (', gf_tvel_rail%vx(iimin), ',',            &
                 gf_tvel_rail%vy(iimin), ',',gf_tvel_rail%vn(iimin), ')^T'
@@ -755,10 +746,10 @@ contains
       ! full method: project velocities vP and vQ on inclined midplane vmid 
 
       if (.not.project_on_cref) then
-         call project_midplane(is_roller, gf_tvel_rail, gf_tvel_whl, gd, iimin, idebug)
+         call project_midplane(ic%is_roller(), gf_tvel_rail, gf_tvel_whl, gd, iimin, idebug)
 
          if (idebug.ge.2) then
-            if (.not.is_roller) then
+            if (.not.ic%is_roller()) then
                call write_log(' velocity of contact point on wheel w.r.t. moving O_trk')
             else
                call write_log(' velocity of contact point on wheel w.r.t. O_trk')
@@ -766,7 +757,7 @@ contains
             write(bufout,'(3(a,f12.5),a)') ' vq_tvel(trk) = (', gf_tvel_whl%vx(iimin), ',',             &
                    gf_tvel_whl%vy(iimin), ',',gf_tvel_whl%vn(iimin), ')^T'
             call write_log(1, bufout)
-            if (.not.is_roller) then
+            if (.not.ic%is_roller()) then
                call write_log(' velocity of contact point on rail w.r.t. moving O_trk')
             else
                call write_log(' velocity of contact point on roller w.r.t. O_trk')

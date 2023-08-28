@@ -810,7 +810,7 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
             sgn*meta%yawrw, sgn*meta%y_rr, meta%z_rr, sgn*meta%rollrr, (0, j=11,ncol-1), fmtmat
  101  format('%  TIM',9x, 'S_WS(FC)',6x, 'X_W(TR)',7x, 'Y_W(TR)',7x, 'Z_W(TR)',7x, 'ROLL_W(TR)',4x,     &
                 'YAW_W(TR)',5x, 'Y_R(TR)',7x, 'Z_R(TR)',7x, 'ROLL_R(TR)',4x, 10(a3,:,11x))
- 102  format(f12.6, g13.6, 5g14.6, g18.10, 2g14.6, 10(i6,:,8x))
+ 102  format(f12.6, g14.6, g13.6, 4g14.6, g18.10, 2g14.6, 10(i6,:,8x))
 
       ! 2: write comment and contact position
 

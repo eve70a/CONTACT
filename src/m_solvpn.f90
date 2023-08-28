@@ -270,6 +270,9 @@ contains
          !    rms_xk  = |Pk|
 
          rms_upd = abs(alpha) * gf3_rms(AllInt, v, ikZDIR)
+         !!! write(nam, '(a,i3.3)') 'ps', itcg
+         !!! call gf3_print(ps, nam, ikZDIR, 3, 12)
+
          if (itcg.eq.1) rms_upd1 = rms_upd
          if (itcg.le.3 .or. mod(itcg,10).eq.0) then
             if (.not.is_sens) then
@@ -385,7 +388,7 @@ contains
          endif ! check for negative ps or interpenetration
 
          if (ic%flow.ge.6) then
-            write(bufout,5200) itcg, ncon, npot-ncon, rms_upd,eps*rms_xk
+            write(bufout,5200) itcg, ncon, npot-ncon, rms_upd, eps*rms_xk
             call write_log(1, bufout)
  5200       format (9x,i3, ', size C, E =',2i6,', |dPn(k)|, ', 'Eps|Pn|:', 2g11.3)
          endif

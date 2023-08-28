@@ -156,7 +156,6 @@ contains
       integer                  :: idebug
 !--local variables:
       integer                  :: icp
-      logical                  :: is_left_side
 !--pointers to global data items:
       type(t_cpatch),   pointer :: cp => NULL()
       type(t_probdata), pointer :: gd
@@ -174,14 +173,10 @@ contains
 
          if (.not.cp%has_own_subs) call subsurf_copy(wtd%subs, gd%subs)
 
-         ! use mirroring for left rail/wheel combination
+         ! compute subsurface stresses for contact patch, using mirroring for left rail/wheel combination
 
-         is_left_side = (gd%ic%config.eq.0 .or. gd%ic%config.eq.4)
-
-         ! compute subsurface stresses for contact patch
-
-         call subsur_calc(gd%ic, gd%mater, gd%cgrid, gd%outpt1%igs, gd%outpt1%ps, is_left_side, gd%subs, &
-                        idebug)
+         call subsur_calc(gd%ic, gd%mater, gd%cgrid, gd%outpt1%igs, gd%outpt1%ps, gd%ic%is_left_side(), &
+                        gd%subs, idebug)
 
          ! write to subs-file if requested
 
@@ -212,7 +207,6 @@ contains
       type(t_rail),     pointer :: my_rail
       type(t_wheel),    pointer :: my_wheel
       character(len=5)          :: nam_side
-      logical                   :: is_left_side, is_conformal, is_roller
       integer                   :: ip, ii, iy, mx, my, npot, ierror
       real(kind=8)              :: sw_ref, fac_warn
       type(t_marker)            :: mref_rai, mref_whl, whl_trk
@@ -223,15 +217,11 @@ contains
          call write_log(2, bufout)
       endif
 
-      is_left_side = (wtd_ic%config.eq.0 .or. wtd_ic%config.eq.4)
-      is_conformal = (wtd_ic%discns_eff.eq.4)
-      is_roller    = (wtd_ic%config.ge.4)
-
       ! set pointer to the active rail and wheel in the current configuration
 
       my_rail     => trk%rai
       my_wheel    => ws%whl
-      if (is_left_side) then
+      if (wtd_ic%is_left_side()) then
          nam_side = 'left'
       else
          nam_side = 'right'
@@ -285,7 +275,7 @@ contains
       gd%meta%ynom_whl  = ws%whl%m_ws%y()
       gd%meta%rnom_whl  = ws%nom_radius
       gd%meta%rnom_rol  = 0d0
-      if (is_roller) gd%meta%rnom_rol  = trk%nom_radius
+      if (wtd_ic%is_roller()) gd%meta%rnom_rol  = trk%nom_radius
 
       !  - position of wheel profile origin w.r.t. track origin
       gd%meta%x_rw      = whl_trk%x()
@@ -345,7 +335,7 @@ contains
       gd%potcon%dx     = cp%dx_eff
       gd%potcon%mx     = nint((cp%xend-cp%xsta)/cp%dx_eff)
 
-      if (is_conformal) then
+      if (wtd_ic%is_conformal()) then
          ! conformal: curved surface
          gd%potcon%dy  = cp%ds_eff
          gd%potcon%yl  = cp%sc_sta
@@ -411,7 +401,7 @@ contains
       if (wtd_ic%varfrc.eq.0) then
          gd%ic%varfrc = 0
          call fric_copy(fric, gd%fric)
-      elseif (is_conformal) then
+      elseif (wtd_ic%is_conformal()) then
          gd%ic%varfrc = 2
          call fric_interp(fric, gd%potcon%my, cp%curv_incln%vy, gd%fric)
       else
@@ -537,7 +527,6 @@ contains
       integer           :: ierror
 !--local variables:
       integer                   :: iatbnd
-      logical                   :: is_conformal
       type(t_probdata), pointer :: gd
 
       if (idebug.ge.3) then
@@ -545,7 +534,6 @@ contains
          call write_log(1, bufout)
       endif
 
-      is_conformal = (ic%discns_eff.eq.4)
       gd => cp%gd
 
       ! solve the contact problem
@@ -568,7 +556,7 @@ contains
 
       ! conformal: rotate tractions, compute overall forces
 
-      if (is_conformal) then
+      if (ic%is_conformal()) then
          if (idebug.ge.2) then
             write(bufout,800) ' total force(cs) =  [', gd%kin%fxrel1,',',gd%kin%fyrel1,',',gd%kin%fntrue,']'
             call write_log(1, bufout)
@@ -585,7 +573,7 @@ contains
 
       ! rotate forces from contact-reference coordinates to global coordinates
 
-      call cpatch_forces_moments(ws, trk, cp, ic, idebug)
+      call cpatch_forces_moments(ws, trk, cp, idebug)
 
       if (idebug.ge.4) write(*,*) '--- end subroutine wr_solve_cp ---'
 
@@ -680,7 +668,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine cpatch_forces_moments(ws, trk, cp, ic, idebug)
+   subroutine cpatch_forces_moments(ws, trk, cp, idebug)
 !--purpose: rotate and shift total forces and moments to track and wheelset systems
       implicit none
 !--subroutine arguments:
@@ -688,16 +676,12 @@ contains
       type(t_trackdata) :: trk
       integer           :: idebug
       type(t_cpatch)    :: cp
-      type(t_ic)        :: ic
 !--local variables:
-      logical                   :: is_left_side
       type(t_vec)               :: fcntc, tcntc
       type(t_marker)            :: mrw_trk
       type(t_probdata), pointer :: gd
       type(t_rail),     pointer :: my_rail
       type(t_wheel),    pointer :: my_wheel
-
-      is_left_side = (ic%config.eq.0 .or. ic%config.eq.4)
 
       my_rail   => trk%rai
       my_wheel  => ws%whl
@@ -767,7 +751,6 @@ contains
       integer,          intent(in)    :: idebug
       type(t_ws_track), target        :: wtd
 !--local variables:
-      logical                   :: is_left_side
       integer                   :: icp, ierror
       real(kind=8)              :: sr, xr, yr, zr
       type(t_vec)               :: xavg_rr, fdir
@@ -777,7 +760,6 @@ contains
 
       ! set pointer to the active rail and wheel in the current configuration
 
-      is_left_side = (wtd%ic%config.eq.0 .or. wtd%ic%config.eq.4)
       my_rail     => wtd%trk%rai
 
       ! accumulate total forces and moments F_(trk), M_@rr(trk), F_(ws) and M_@rw(ws)

@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.148)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.150)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -79,6 +79,9 @@
         F}_1=3$}{}
 \vtlogentry{1.147}{EV}{19-06-2023}{Changed cntc\_getprofilevalues}{}
 \vtlogentry{1.148}{EV}{31-07-2023}{Added configuration of debug outputs}{}
+\vtlogentry{1.149}{EV}{11-08-2023}{Added ${\tt D}=7$ using initial contact
+        position}{}
+\vtlogentry{1.150}{EV}{16-08-2023}{Added comment on slice feature positions}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -686,8 +689,8 @@ be used:
 \begin{description}
 \item[0, 1] -- maintain the same approach as used in the previous case;
 \item[2] -- planar contact approach, \magenta{using the contact locus,
-        weighted center and weighted angle, }with rigid slip/creepage on contact
-        reference plane;
+        weighted center and weighted angle (wgt-wgt-2), }with rigid
+        slip/creepage on contact reference plane;
 \magenta{
 \item[3] -- planar contact approach, with rigid slip on actual wheel/rail
         surfaces;
@@ -699,6 +702,8 @@ be used:
 \magenta{
 \item[6] -- same as 5, using a larger grid supporting steep slopes, esp.\
         for guard rail contacts;
+\item[7] -- same as 2, using a the initial contact point and local contact
+        angle (icp-loc);
 \item[8] -- same as 2, using a hard-coded oblique view direction;
 \item[9] -- same as 5, using a hard-coded oblique view direction.
 }
@@ -1348,11 +1353,12 @@ z(s_{fc})$, and should therefore not run across sharp geometrical features.
 This is steered by dividing slices laterally into different `parts' that are
 resampled separately as illustrated in Figure \ref{fig:slcs_features}. The
 break points in a slice, also called `features', are $s_f, f=1\cdots
-n_{feat}$, with $s_f$ the `summed chord length' to the start of the slice. 
+n_{feat}$, with $s_f$ the `summed chord length' to the start of the slice
+(see below) given in $\unit{mm}$.
 
 \begin{alltt}\small
 %  - S_F positions at geometrical features at start/end of each part per slice
-%  S_SLC    S_F,  F = 1 .. NFEAT
+%  S_SLC    S_F [mm],  F = 1 .. NFEAT
           ...
  0.08076     -1      -1       -1       -1       0.      30.27   999.
  0.11395     -1      -1       -1       -1       0.      29.93   999.
@@ -1367,8 +1373,8 @@ using a negative value for the corresponding $s_f$. This implicitly defines
 
 The start and end of the profile are included in the definition of features,
 permitting trimming of the input slices. No input is needed when
-$n_{feat}\le 1$, using default values $s_1=0$ and $s_2=10^6$ covering the
-whole profile. 
+$n_{feat}\le 1$, using default values $s_1=0$ and $s_2=10^6\unit{mm}$
+covering the whole profile. 
 
 For a profile with $n$ points $(y_i,z_i)$ the summed chord length is computed
 as
@@ -1379,16 +1385,19 @@ as
     s_1 = 0, \; s_{i+1} = s_i + \delta s_i , \;\;
                 i = 1 \cdots n-1.
 \end{eqnarray}
-The file-structure is specified in Appendix \ref{sec:spec_slcs}.
+This uses the numbering of the points as obtained after mirroring and
+reordering, with point $1$ at the track center side of the rail profile.
+
+The file-structure for slices files is specified in Appendix
+\ref{sec:spec_slcs}.
 
 \paragraph{Form as needed by CONTACT}
 
 Profiles are transformed into a canonical form to simplify usage and
 processing in CONTACT. This form considers the wheel and rail on the right
-side of the wheelset and track. The track center and wheelset center are
-found at $y_r<0, y_w<0$, whereas the field side lies at positive values.
-Optional mirroring is provided for cases where left side profiles are
-given in the actual files. 
+side of the wheelset and track, with lateral $y$-coordinates increasing
+towards the field side. Optional mirroring is provided for cases where
+left side profiles are given in the actual files. 
 
 The canonical form uses $\unit{mm}$ as the unit of length and has positive
 $z$ pointing downwards. Optional scaling and mirroring are provided to

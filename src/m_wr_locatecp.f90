@@ -56,7 +56,7 @@ contains
       integer,          intent(out) :: my_ierror
 !--local variables:
       integer                  :: is_right, sub_ierror, irgn, num_rgn
-      logical                  :: is_left_side, is_varprof, is_conformal, use_initial_cp, use_brute
+      logical                  :: is_varprof
       real(kind=8)             :: sgn
       type(t_region)           :: all_rgn(MAX_NUM_RGN)
       type(t_rail),    pointer :: my_rail
@@ -75,14 +75,9 @@ contains
          call write_log(1, bufout)
       endif
 
-      is_left_side   = (ic%config.eq.0 .or. ic%config.eq.4)
-      is_conformal   = (ic%discns_eff.eq.4)
-      use_brute      = (ic%discns_eff.eq.5 .or. ic%discns_eff.eq.6 .or. ic%discns_eff.eq.9)
-      use_initial_cp = .false.
-
       my_rail   => trk%rai
       my_wheel  => ws%whl
-      if (is_left_side) then
+      if (ic%is_left_side()) then
          is_right  = 0
       else
          is_right  = 1
@@ -148,17 +143,15 @@ contains
       type(t_region),   target        :: all_rgn(MAX_NUM_RGN)
       integer,          intent(out)   :: my_ierror
 !--local variables:
-      logical                 :: use_oblique
       integer                 :: nr, nw
       real(kind=8)            :: sr0, sw0, sr_len, sw_len, cos_a, sin_a
       type(t_region), pointer :: region
       type(t_grid),   pointer :: prf
 
       my_ierror   = 0
-      use_oblique = (ic%discns_eff.eq.8 .or. ic%discns_eff.eq.9)
       num_rgn     = 0
 
-      if (use_oblique) then
+      if (ic%use_oblique()) then
 
          prf    => my_rail%prr%grd_data
          nr     =  prf%ntot
@@ -289,7 +282,7 @@ contains
       integer,          intent(out)   :: my_ierror
 !--local variables:
       integer                  :: sub_ierror, numcp0, icp
-      logical                  :: is_left_side, use_brute, rgn_has_overlap, use_oblique
+      logical                  :: rgn_has_overlap
       real(kind=8)             :: sgn, rgn_gap_min
       type(t_vec)              :: vec_trk
       type(t_marker)           :: rai_vw
@@ -300,17 +293,14 @@ contains
 
       my_ierror = 0
 
-      use_oblique      = (ic%discns_eff.eq.8 .or. ic%discns_eff.eq.9)
-      if (use_oblique) call write_log(' --- locate_patches: using oblique view direction ---')
+      if (ic%use_oblique()) call write_log(' --- locate_patches: using oblique view direction ---')
 
-      use_brute = (ic%discns_eff.eq.5 .or. ic%discns_eff.eq.6 .or. ic%discns_eff.eq.9)
       my_rail   => trk%rai
       my_wheel  => ws%whl
 
       ! set the sign to -1 for left and +1 for right rail/wheel combination
 
-      is_left_side   = (ic%config.eq.0 .or. ic%config.eq.4)
-      if (is_left_side) then
+      if (ic%is_left_side()) then
          sgn = -1
       else
          sgn =  1
@@ -322,7 +312,7 @@ contains
 
       ! select search region from (1d) rail profile 'prr_grd'
 
-      if (use_oblique) then
+      if (ic%use_oblique()) then
          call grid_trim(my_rail%prr%grd_data, prr_rgn, 1, 1, s_low=region%sr_sta, s_hig=region%sr_end,  &
                 with_spline=.true.)
       else
@@ -354,7 +344,7 @@ contains
       ! define the 'gap_mesh' and compute sf_whl, sf_rai accordingly
 
       if (my_ierror.eq.0) then
-         if (.not.use_brute) then
+         if (.not.ic%use_brute()) then
             if (idebug.ge.2) call write_log(' --- calling compute_wr_locus ---')
             call compute_wr_locus (ic, ws, trk, prr_rgn, region, discr%ds, sf_whl, sf_rai, idebug,      &
                         rgn_has_overlap, sub_ierror)
@@ -377,7 +367,7 @@ contains
 
          numcp0 = numcps
 
-         if (.not.use_brute) then
+         if (.not.ic%use_brute()) then
             if (idebug.ge.2) call write_log(' --- calling locate_interpen_1d ---')
             call locate_interpen_1d(ic, sf_whl, sf_rai, sf_incl, region%mview, sgn, ws%nom_radius,      &
                         trk%nom_radius, rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, numcps,      &
@@ -390,7 +380,7 @@ contains
 
          ! convert results from view direction to track orientation
 
-         if (use_oblique) then
+         if (ic%use_oblique()) then
 
             do icp = numcp0+1, numcps
                associate( cp => allcps(icp)%cp, m_view => region%mview )
@@ -469,7 +459,7 @@ contains
       integer,          intent(out)   :: my_ierror
 !--local variables:
       integer                  :: icp, sub_ierror
-      logical                  :: is_left_side, is_varprof, is_conformal, use_initial_cp
+      logical                  :: is_varprof
       real(kind=8)             :: sgn, cref_x
       type(t_grid)             :: prr_trk
       type(t_rail),    pointer :: my_rail
@@ -477,15 +467,12 @@ contains
 
       my_ierror  = 0
 
-      use_initial_cp = .false.
-      is_conformal   = (ic%discns_eff.eq.4)
       my_rail        => trk%rai
       is_varprof     = (my_rail%prr%nslc.gt.0)
 
       ! set the sign to -1 for left and +1 for right rail/wheel combination
 
-      is_left_side   = (ic%config.eq.0 .or. ic%config.eq.4)
-      if (is_left_side) then
+      if (ic%is_left_side()) then
          sgn = -1
       else
          sgn =  1
@@ -502,7 +489,7 @@ contains
 
       if (numcps.ge.2) then
          ! call write_log(' --- calling combine_cpatches ---')
-         call combine_cpatches( numcps, allcps, discr%angl_sep, discr%dist_sep, discr%dist_comb, idebug )
+         call combine_cpatches( ic, numcps, allcps, discr%angl_sep, discr%dist_sep, discr%dist_comb, idebug )
       endif
 
       ! turn contact reference angles for patches that lie close together
@@ -534,7 +521,7 @@ contains
                call write_log(1, bufout)
             endif
 
-            if (use_initial_cp) then
+            if (ic%use_initial_cp()) then
                cref_x = cp%micp%x()
             else
                cref_x = cp%wgt_xgap
@@ -566,7 +553,7 @@ contains
 
          ! compute curved contact reference surface, pot.contact for conformal contact approach
 
-         if (is_conformal) then
+         if (ic%is_conformal()) then
             ! call write_log(' --- calling compute_curved_potcon ---')
             call compute_curved_potcon( ic, ws, prr_trk, my_rail%m_trk, trk%nom_radius, cp, idebug )
          endif
@@ -595,8 +582,7 @@ contains
       type(t_region)                :: region
       logical,          intent(out) :: has_overlap
 !--local variables:
-      logical                 :: is_prismatic, is_varprof, is_roller, is_left_side, use_oblique,        &
-                                 use_steep_slopes
+      logical                 :: is_prismatic, is_varprof
       integer                 :: nslc, ii, ix, iy, nw, nr, nx, ny, is_right, sub_ierror
       real(kind=8)            :: fac_dyds, xmin_ws, xmax_ws, dx_ws, xmin_vw, xmax_vw, dx_vw, ymin,      &
                                  ymax, dy, sgn, z_axle
@@ -610,21 +596,16 @@ contains
          call write_log(2, bufout)
       endif
 
-      is_left_side     = (ic%config.eq.0 .or. ic%config.eq.4)
-      use_oblique      = (ic%discns_eff.eq.8 .or. ic%discns_eff.eq.9)
-      use_steep_slopes = (ic%discns_eff.eq.6)
-
       my_rail   => trk%rai
       my_wheel  => ws%whl
-      if (is_left_side) then
+      if (ic%is_left_side()) then
          is_right  = 0
       else
          is_right  = 1
       endif
 
-      is_roller    = (ic%config.ge.4)
       is_varprof   = (my_rail%prr%nslc.gt.0)
-      is_prismatic = (.not.is_roller .and. .not.is_varprof)
+      is_prismatic = (.not.ic%is_roller() .and. .not.is_varprof)
 
       ! set the sign to -1 for left and +1 for right rail/wheel combination
 
@@ -632,7 +613,7 @@ contains
 
       ! estimate appropriate range of x-coordinates, using nx = nslc slices
 
-      if (ws%nom_radius.lt.30.5d0 .or. use_oblique .or. use_steep_slopes) then
+      if (ws%nom_radius.lt.30.5d0 .or. ic%use_oblique() .or. ic%use_steep_slopes()) then
 
          ! - ball-on-plane: considering an arc of [-14,14deg], sin(14d) = 0.242
          !   also use this setting for steep guard rail contacts
@@ -647,7 +628,7 @@ contains
          xmax_ws =  ws%nom_radius / 8d0
       endif
 
-      if (use_oblique) then
+      if (ic%use_oblique()) then
 
          ! clip [xmin,xmax] on limits defined for region
          xmin_ws = max(xmin_ws, region%xsta)
@@ -669,7 +650,7 @@ contains
 
       ! select search region from (1d) wheel profile 'grd_data'
 
-      if (use_oblique) then
+      if (ic%use_oblique()) then
          call grid_trim(my_wheel%prw%grd_data, prw_rgn, 1, 1, s_low=region%sw_sta, s_hig=region%sw_end, &
                 with_spline=.true.)
       else
@@ -745,7 +726,7 @@ contains
       ! TODO: increase fac_dyds based on max. surfc inclination in view direction
 
       fac_dyds = 0.5d0
-      if (use_steep_slopes) fac_dyds = 0.2d0
+      if (ic%use_steep_slopes()) fac_dyds = 0.2d0
 
       ymin = prr_rgn%y(2)
       ymax = prr_rgn%y(nr-1)
@@ -766,7 +747,7 @@ contains
          rr_vw  = marker_2loc( my_rail%m_trk, region%mview )
          call varprof_intpol_grid_old(trk%rai%prr, rr_vw, ws%s, sf_rai)
 
-      elseif (is_roller .and. use_oblique) then
+      elseif (ic%is_roller() .and. ic%use_oblique()) then
 
          ! wheelset on roller rig, with roller axle aligned with view coordinate y-axis
 
@@ -782,7 +763,7 @@ contains
          z_axle = trk%nom_radius
          call grid_revolve_profile(prr_unif, nx, xmin_vw, dx_vw, z_axle, 999d0, sf_rai)
 
-      elseif (is_roller) then
+      elseif (ic%is_roller()) then
 
          ! wheelset on roller rig, roller axle different from view coordinate y-axis
 
@@ -912,7 +893,7 @@ contains
 !--local variables:
       integer,      parameter :: max_num_kinks = 99
       real(kind=8), parameter :: fac_dyds = 0.3d0
-      logical                 :: is_prismatic, is_varprof, is_roller, is_left_side, use_oblique
+      logical                 :: is_prismatic, is_varprof
       integer                 :: iw, nw, iwsta, iwend, nr, nx, ny, iw_dbg, is_right, is_wheel,          &
                                  nline, nkink, ikinks(max_num_kinks), sub_ierror
       real(kind=8)            :: sgn, xmin_vw, xmax_vw, dx_vw, ymin, ymax, dy, yw_dbg,                  &
@@ -930,12 +911,9 @@ contains
          call write_log(2, bufout)
       endif
 
-      is_left_side = (ic%config.eq.0 .or. ic%config.eq.4)
-      use_oblique  = (ic%discns_eff.eq.8 .or. ic%discns_eff.eq.9)
-
       my_rail   => trk%rai
       my_wheel  => ws%whl
-      if (is_left_side) then
+      if (ic%is_left_side()) then
          is_right  = 0
       else
          is_right  = 1
@@ -945,9 +923,8 @@ contains
 
       sgn = 2 * is_right - 1
 
-      is_roller    = (ic%config.ge.4)
       is_varprof   = (my_rail%prr%nslc.gt.0)
-      is_prismatic = (.not.is_roller .and. .not.is_varprof)
+      is_prismatic = (.not.ic%is_roller() .and. .not.is_varprof)
 
       ! the (1d) (trimmed) rail profile 'prr_rgn' is given in view coordinates
 
@@ -955,7 +932,7 @@ contains
 
       ! select search region from (1d) wheel profile 'grd_data'
 
-      if (use_oblique) then
+      if (ic%use_oblique()) then
          call grid_trim(my_wheel%prw%grd_data, prw_rgn, 1, 1, s_low=region%sw_sta, s_hig=region%sw_end, &
                 with_spline=.true.)
       else
@@ -1039,7 +1016,7 @@ contains
          call locus_iterate_varprof( my_rail%prr, ws, rr_vw, rw_vw, prw, nw, dz_dy, prr_lc, prw_lc,     &
                 iw_dbg, idebug )
 
-      elseif (is_roller) then
+      elseif (ic%is_roller()) then
 
          ! wheel-on-roller: iterative calculation
 
@@ -1091,7 +1068,7 @@ contains
       call grid_make_ppspline(prw_lc, 0d0, .false., nkink, ikinks, my_ierror=sub_ierror)
       ! call grid_print(prw_lc, 'locus_vw', 5)
 
-      if (is_varprof .or. is_roller) then
+      if (is_varprof .or. ic%is_roller()) then
          call grid_make_arclength(prr_lc, sub_ierror)
 
          call profile_find_kinks(nw, prr_lc%y, prr_lc%x, is_wheel, kink_high, kink_low, kink_wid,       &
@@ -1141,7 +1118,7 @@ contains
 
          call spline_get_xz_at_y(prr_rgn%spl, sf_rai, sub_ierror)
 
-      elseif (is_varprof .or. is_roller) then
+      elseif (is_varprof .or. ic%is_roller()) then
 
          call spline_get_xz_at_y(prr_lc%spl, sf_rai, sub_ierror)
 
@@ -1222,7 +1199,7 @@ contains
       call grid_destroy(prw_vw)
       call grid_destroy(prw)
       call grid_destroy(prw_lc)
-      if (is_varprof .or. is_roller) call grid_destroy(prr_lc)
+      if (is_varprof .or. ic%is_roller()) call grid_destroy(prr_lc)
       call grid_destroy(bbr)
       call grid_destroy(bbw)
 
@@ -1801,7 +1778,7 @@ contains
       integer,      intent(in)    :: idebug
 !--local variables:
       integer,      parameter :: MAX_NUM_MIN = 1000
-      logical        :: use_initial_cp, is_roller, has_zero
+      logical        :: has_zero
       integer        :: ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0
       integer        :: ii_n, ii_s, ilm, ixmin, nummin, numrem
       integer        :: locmin(2,MAX_NUM_MIN)
@@ -1819,9 +1796,6 @@ contains
          call write_log(1, bufout)
          call abort_run()
       endif
-
-      is_roller      = (ic%config.ge.4)
-      use_initial_cp = (ic%discns_eff.eq.7 .or. ic%discns_eff.eq.8 .or. ic%discns_eff.eq.9)
 
       ! 1. compute the gap, <0 means interpenetration.
       !    set gap to 999 outside the rail surface, where the interpolated rail height is 999
@@ -1968,7 +1942,7 @@ contains
          !      - using approximation gap(x,y) = gap(xlc,y) + curv * (x-xlc)^2
          !      - integral over x evaluated analytically
 
-         if (is_roller) then
+         if (ic%is_roller()) then
             curv_y = 0.5d0 / nom_radius + 0.5d0 / roller_radius     ! add zw for wheel and roller
          else
             curv_y = 0.5d0 / nom_radius                             ! add zw for wheel profile
@@ -1977,7 +1951,7 @@ contains
          call compute_wgt_center_1d(ic, cp, ny, x, y, zr, gap, sf_incl%vy, iy_sta, iy_end, curv_y, sgn, &
                         idebug )
 
-         if (use_initial_cp) then
+         if (ic%use_initial_cp()) then
             if (idebug.ge.3) call write_log(' using the initial contact location')
             cp%wgt_xgap = cp%micp%x()
             cp%wgt_ygap = cp%micp%y()
@@ -2624,24 +2598,22 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine combine_cpatches( numcps, allcps, angl_sep, dist_sep, dist_comb, idebug )
+   subroutine combine_cpatches( ic, numcps, allcps, angl_sep, dist_sep, dist_comb, idebug )
 !--purpose: combine contact problems with overlapping sr-positions or lying too close together.
 !           patches are sorted with sr-values decreasing (from field side to track center)
       implicit none
 !--subroutine arguments:
+      type(t_ic)                  :: ic
       type(p_cpatch)              :: allcps(MAX_NUM_CPS)  ! data of contact problems
       integer,      intent(in)    :: idebug
       integer,      intent(inout) :: numcps
       real(kind=8), intent(in)    :: angl_sep, dist_sep, dist_comb
 !--local variables:
       logical, parameter         :: debug_comb = .false.
-      logical                    :: use_initial_cp
       integer                    :: icp, jcp
       real(kind=8)               :: dy, dz, dist, angl
       type(p_cpatch)             :: tmp_cp
       real(kind=8),  allocatable :: ysta(:), yend(:), zsta(:), zend(:)
-
-      use_initial_cp = .false.
 
       if (idebug.ge.2 .or. debug_comb) then
          write(bufout,'(a,f6.2,a,f5.1,a)') ' Separating patches with more than', angl_sep,' rad or',    &
@@ -2749,7 +2721,7 @@ contains
 
             ! compute new weighted center
 
-            if (use_initial_cp) then
+            if (ic%use_initial_cp()) then
                cp_rgt%wgt_xgap = cp_rgt%micp%x()
                cp_rgt%wgt_ygap = cp_rgt%micp%y()
             else
@@ -2915,15 +2887,13 @@ contains
       real(kind=8), intent(in)  :: nom_radius           ! radius in case of a roller
       integer,      intent(in)  :: idebug
 !--local variables:
-      logical                   :: use_initial_cp, use_wgt_angle, is_roller
+      logical                   :: use_wgt_angle
       integer                   :: sub_ierror
       real(kind=8)              :: cref_x, cref_y, cref_z, zc_rol, r_y
 
-      is_roller      = (ic%config.eq.4 .or. ic%config.eq.5)
-      use_initial_cp = .false.
       use_wgt_angle  = .true.
 
-      if (use_initial_cp) then
+      if (ic%use_initial_cp()) then
          cref_x = cp%micp%x()
          cref_y = cp%micp%y()
       else
@@ -2939,7 +2909,7 @@ contains
       ! write(bufout,'(3(a,f12.4))') ' cref_s=',cp%sr_ref,', cref_y=',cref_y,', cref_z=',cref_z
       ! call write_log(1, bufout)
 
-      if (is_roller) then
+      if (ic%is_roller()) then
          ! cref_z as computed above lies in the principal profile, x==0, in track coordinates
          zc_rol = mtrk%z() + nom_radius
          ! correct cref_z for offset in x
@@ -3032,19 +3002,16 @@ contains
       real(kind=8), intent(in)  :: nom_radius           ! radius in case of a roller
       real(kind=8), intent(in)  :: sgn, dx_in, ds_in    ! dx, ds: user input
 !--local variables:
-      logical        :: is_roller
       integer        :: sub_ierror, mx, my, ix_l, ix_h, iy_l, iy_h
       real(kind=8)   :: cref_x, zc_rol, rsta, rend, zsta, zend, xp_l, xp_h, sp_l, sp_h, tmp
       type(t_marker) :: msta, mend
-
-      is_roller = (ic%config.eq.4 .or. ic%config.eq.5)
 
       ! compute positions [ssta,send] and [zsta_tr,zend_tr] on rail profile for [ysta_tr, yend_tr],
 
       call spline_get_xz_at_y( prr%spl, cp%ysta, sub_ierror, zout=zsta )
       call spline_get_xz_at_y( prr%spl, cp%yend, sub_ierror, zout=zend )
 
-      if (is_roller) then
+      if (ic%is_roller()) then
          ! msta/end as computed above lie in the principal profile, x==0, in track coordinates
          zc_rol = mtrk%z() + nom_radius
          cref_x = cp%mref%x()
@@ -3208,7 +3175,6 @@ contains
       integer,           intent(in)  :: idebug
 !--local variables:
       logical,      parameter :: use_old_wnrm = .true.
-      logical                 :: is_roller
       type(t_wheel),  pointer :: my_wheel
       type(t_marker)          :: whl_trk, mq_cp, mq_trk, mq_whl
       type(t_grid)            :: rsrf, wsrf
@@ -3222,7 +3188,6 @@ contains
 
       if (idebug.ge.3) call write_log(' compute_curved_potcon: starting')
 
-      is_roller = (ic%config.eq.4 .or. ic%config.eq.5)
       my_wheel  => ws%whl
 
       associate( prw  => my_wheel%prw%grd_data,                                                         &
@@ -3293,7 +3258,7 @@ contains
 
       ! correction for z-offset on roller at shifted x-position
 
-      if (is_roller) then
+      if (ic%is_roller()) then
          cref_x = cp%mref%x()
          rref   = nom_radius + mtrk%z() - cp%mref%z()
          dzrol  = rref - sqrt(rref**2 - cref_x**2) 
@@ -3656,13 +3621,10 @@ contains
       integer,      intent(in)  :: idebug
       real(kind=8), intent(in)  :: roller_radius
 !--local variables:
-      logical        :: is_roller
       integer        :: sub_ierror
       real(kind=8)   :: rrx, rwx, sw_ref, sarr(2), dzdy(2), alpha(2), kappa_r, kappa_w, a1, b1, rx, ry
       type(t_marker) :: mq_trk, whl_trk, mq_whl
       type(t_wheel),  pointer :: my_wheel
-
-      is_roller    = (ic%config.ge.4)
 
       my_wheel  => ws%whl
 
@@ -3675,7 +3637,7 @@ contains
       !          ', rwx=',rwx,', a1=',a1
       !call write_log(1, bufout)
 
-      if (is_roller) then
+      if (ic%is_roller()) then
          rrx  = roller_radius / max(0.05d0, cos(cp%delttr))
          a1   = a1 + 1d0 / (2d0 * rrx)
       endif
