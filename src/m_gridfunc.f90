@@ -2156,7 +2156,7 @@ end subroutine gf3_mirror_x
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine gf3_print(f, nam, ikarg, idebug)
+subroutine gf3_print(f, nam, ikarg, idebug, ndigit)
 !--function: print information on grid-function f
    implicit none
 !--subroutine arguments
@@ -2164,9 +2164,18 @@ subroutine gf3_print(f, nam, ikarg, idebug)
    character(len=*), intent(in) :: nam
    integer,          intent(in) :: ikarg
    integer,          intent(in) :: idebug
+   integer, optional    :: ndigit       ! number of significant digits
 !--local variables
-   integer              :: nx, ny, ix, iy, ii, ik, ik0, ik1
-   character(len=120)   :: fmtstr
+   integer              :: nx, ny, ix, iy, ii, ik, ik0, ik1, my_ndigit, my_len
+   character(len=20)    :: strng(3)
+
+   if (present(ndigit)) then
+      my_ndigit = ndigit
+   else
+      my_ndigit = 6
+   endif
+   my_ndigit = max(2, min(12, my_ndigit))
+   my_len    = 8 + my_ndigit
 
    if (.not.associated(f%val)) then
       call write_log(' gf3_print: error: f%val-array not associated')
@@ -2182,9 +2191,9 @@ subroutine gf3_print(f, nam, ikarg, idebug)
 
    call grid_print(f%grid, ' ', idebug)
 
-   ! idebug>=4: full details: full list of values
+   ! idebug>=3: full details: full list of values
 
-   if (idebug.ge.4) then
+   if (idebug.ge.3) then
 
       write(bufout,'(2a)') trim(nam), ' = ['
       call write_log(1, bufout)
@@ -2207,27 +2216,16 @@ subroutine gf3_print(f, nam, ikarg, idebug)
          call write_log('%       ii (  ix,  iy)          vx         vy         vn')
       endif
 
-      ! Compose format-string dependent on absolute size of values per direction
-
-      fmtstr = '('' ii='',i6,'' ('',i4,'','',i4,''):'','
-
-      do ik = ik0, ik1
-         if (gf3_maxabs(AllElm, f, ik).le.1d-3) then
-            fmtstr = trim(fmtstr) // 'g13.5'
-         else
-            fmtstr = trim(fmtstr) // 'f13.6'
-         endif
-         if (ik.lt.ik1) fmtstr = trim(fmtstr) // ','
-      enddo
-      fmtstr = trim(fmtstr) // ')'
-      ! call write_log(fmtstr)
-
       nx = f%grid%nx
       ny = f%grid%ny
       do iy = 1, ny
          do ix = 1, nx
             ii = ix + (iy-1)*nx
-            write(bufout, fmtstr) ii, ix, iy, (f%val(ii,ik), ik=ik0, ik1)
+            do ik = ik0, ik1
+               strng(ik) = fmt_gs(my_len, my_ndigit, f%val(ii,ik))
+            enddo
+            write(bufout, '(a,i6,a,i4,a,i4,a,3a)') ' ii=',ii,' (',ix,',',iy,'):',                       &
+                                                                 (strng(ik)(1:my_len), ik=ik0, ik1)
             call write_log(1, bufout)
          enddo
       enddo
