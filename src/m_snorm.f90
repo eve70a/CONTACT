@@ -488,7 +488,6 @@ contains
       type(t_gridfnc3)       :: hs, ps
       integer                :: itnorm
 !--local variables :
-      integer,      parameter :: idebug = 1
       type(t_gridfnc3)      :: htang, hstot
       integer               :: ii, iimin, ixmin, iymin, ncon, my_timer
       real(kind=8)          :: hsmin, pentot
@@ -541,7 +540,7 @@ contains
       hsmin  = hstot%vn(iimin)
       pentot = -hsmin
 
-      if (idebug.ge.2) then
+      if (ic%x_nmdbg.ge.2) then
          write(bufout,'(2(a,f12.6),a,i6,2(a,i3),a)') ' pen =', pen,', min.gap = ',hsmin,' at ii=',      &
                 iimin,' = (',ixmin,',',iymin,')'
          call write_log(1, bufout)
@@ -562,11 +561,11 @@ contains
 
          if (ic%bound.le.5) then
             ! B = 5: KPEC method
-            call snorm_kpec_method(mater, cgrid, iimin, hstot, pentot, cs, igs, ps, idebug)
+            call snorm_kpec_method(mater, cgrid, iimin, hstot, pentot, cs, igs, ps, ic%x_nmdbg)
          else
             ! B = 6: ANALYN method
             call snorm_analyn_method(mater, cgrid%nx, cgrid%ny, cgrid%dx, cgrid%dy, igs%el,             &
-                        cgrid%x, pentot, hstot%vn, ps%vn, idebug)
+                        cgrid%x, pentot, hstot%vn, ps%vn, ic%x_nmdbg)
          endif
 
       endif
@@ -621,9 +620,7 @@ contains
       type(t_gridfnc3)       :: hstot, ps
       integer                :: idebug
 !--local variables :
-      real(kind=8), parameter :: eps_kp = 0.5d0
-      integer               :: ii, ix, iy, iy0, iy1, &
-                               nummax, numy
+      integer               :: ii, ix, iy, iy0, iy1, nummax, numy, numtot
       real(kind=8)          :: hsmin, hsthrs, unmid, pmax, eps_kpec, xtrl, xledg, xmid, ymid,           &
                                xi, yi, leny, lenmax, a1, b1, aa, bb
 
@@ -646,7 +643,12 @@ contains
          eps_kpec = max(0d0, (a1 * aa**2 - (a1 * aa**2 - b1 * bb**2) * ((yi - ymid) / bb)**2) / pentot)
          hsthrs   = (1d0 - eps_kpec) * hsmin
          if (idebug.ge.3) then
-            write(bufout,'(a,i4,2(a,f7.3),a,f10.6)') 'iy=',iy,', yi=',yi,': eps_kpec=',eps_kpec,        &
+            if (iy.eq.1) then
+               write(bufout,'(5(a,f10.4))') 'eps_kpec=', a1*aa**2, '- (', a1*aa**2,' -',                &
+                        b1*bb**2,') * (', (yi-ymid)/bb, ')**2) / ',pentot
+               call write_log(1, bufout)
+            endif
+            write(bufout,'(a,i4,2(a,f7.3),a,f10.6)') ' iy=',iy,', yi=',yi,': eps_kpec=',eps_kpec,       &
                 ', hsthrs=',hsthrs
             call write_log(1, bufout)
          endif
@@ -669,14 +671,21 @@ contains
       iy0    = my + 1
       iy1    = 0
       nummax = 0
+      numtot = 0
       do iy = 1, my
          numy   = max(0, igs%rowlst(iy) - igs%row1st(iy) + 1)
          nummax = max(nummax, numy)
+         numtot = numtot + numy
          if (numy.ge.1) then
             iy0 = min(iy0, iy)
             iy1 = max(iy1, iy)
          endif
       enddo
+
+      if (idebug.ge.3) then
+         write(bufout,'(a,i5,a)') ' contact area has',numtot,' elements in contact'
+         call write_log(1, bufout)
+      endif
 
       ! y0     = y(iy0*mx)
       ! y1     = y(iy1*mx)
@@ -700,7 +709,7 @@ contains
             else
                xtrl  = x(ii-1) + dx * (hsthrs - hstot%vn(ii-1)) / (hstot%vn(ii) - hstot%vn(ii-1))
             endif
-            if (idebug.ge.5 .or. xtrl.gt.x(ii)) then
+            if (idebug.ge.4 .or. xtrl.gt.x(ii)) then
                write(bufout,'(a,i4,a,2i4,a,2f7.3,a,2f10.6,a,f7.3)') ' iy=',iy,', ix_trl=',ix-1,ix,   &
                      ', x=', x(ii-1), x(ii),': h=', hstot%vn(ii-1)-hsthrs, hstot%vn(ii)-hsthrs,      &
                      ', xtrl= ', xtrl
@@ -715,7 +724,7 @@ contains
             else
                xledg = x(ii) + dx * (hsthrs - hstot%vn(ii)) / (hstot%vn(ii+1) - hstot%vn(ii))
             endif
-            if (idebug.ge.5 .or. xledg.lt.x(ii)) then
+            if (idebug.ge.4 .or. xledg.lt.x(ii)) then
                write(bufout,'(a,i4,a,2i4,a,2f7.3,a,2f10.6,a,f7.3)') ' iy=',iy,', ix_ldg=',ix,ix+1,   &
                      ', x=', x(ii), x(ii+1),': h=', hstot%vn(ii)-hsthrs, hstot%vn(ii+1)-hsthrs,      &
                      ', xledg=', xledg
@@ -770,7 +779,7 @@ contains
       integer                :: idebug
       real(kind=8)           :: a1, b1, aa, bb, ymid, pentot
 !--local variables :
-      real(kind=8), parameter :: eps_kp = 0.5d0, hz_min_curv = 1d-4
+      real(kind=8), parameter :: eps_kp_orig = 0.5d0, hz_min_curv = 1d-4
       integer               :: icnt, iofs, ii, ii0, ii1, iimin, iiext, iiint, ix, ix0, ix1, ixmin,      &
                                iy, iy0, iy1, iymin
       logical               :: lfound
@@ -786,8 +795,8 @@ contains
       ixmin  = cgrid%ix(iimin)
       iymin  = cgrid%iy(iimin)
       hsmin  = h(iimin)
-      hsthrs = (1d0 - eps_kp) * hsmin
-      if (idebug.ge.3) then
+      hsthrs = (1d0 - eps_kp_orig) * hsmin
+      if (idebug.ge.4) then
          write(bufout,'(a,f12.6,a,i6,a,2i4,a)') ' h  = ',hsmin,' at ii=',iimin,' = (',ixmin,iymin,')'
          call write_log(1, bufout)
       endif
@@ -797,8 +806,8 @@ contains
       !  - take three points within row iymin at equal distance from each other
       !    {x0, xmid, x1}, with {h0, h1} in the KP scaled interpenetration area htot <= hstrsh
 
-      ix0    = ixmin - 1
-      ix1    = ixmin + 1
+      ix0    = ixmin - 1        ! ix0 = last outside before contact
+      ix1    = ixmin + 1        ! ix1 = first outside after contact
       lfound = .false.
       do while(.not.lfound)
          ii0 = ix0 + (iymin-1)*mx
@@ -820,8 +829,8 @@ contains
 
       a1 = (h(ii1) - 2d0 * h(iimin) + h(ii0)) / (2d0 * (x(ii1) - x(iimin))**2)
       if (idebug.ge.3) then
-         write(bufout,'(6(a,f9.3),a)') ' curvature a1=',a1,' = (',h(ii1),' - 2 * ',h(iimin),' +',h(ii0), &
-                ') / (2 * (', x(ii1),' -',x(iimin),')**2)'
+         write(bufout,'(a,f12.6,5(a,f9.3),a)') ' curvature a1=',a1,' = (',h(ii1),' - 2 * ',h(iimin),    &
+                ' +',h(ii0), ') / (2 * (', x(ii1),' -',x(iimin),')**2)'
          call write_log(1, bufout)
       endif
 
@@ -829,8 +838,8 @@ contains
 
       !   - locate first and last rows iy0, iy1 with points in KP interpenetration area
 
-      iy0 = my + 1
-      iy1 = 0
+      iy0 = my + 1              ! iy0 = first inside contact
+      iy1 = 0                   ! iy1 = last inside contact
 
       do iy = 1, my
 
@@ -861,12 +870,12 @@ contains
 
       iofs   = (iy0-1) * mx
       ixmin  = idmin(mx, h(iofs+1:), 1)
-      iiext  = ixmin + (iy0-2) * mx
-      iiint  = ixmin + (iy0-1) * mx
+      iiext  = ixmin + (iy0-2) * mx     ! (ixmin, iy0-1)
+      iiint  = ixmin + (iy0-1) * mx     ! (ixmin, iy0  )
       ysta   = y(iiint) - (hsthrs - h(iiint)) * dy / (h(iiext) - h(iiint))
 
       if (idebug.ge.3) then
-         write(bufout,'(a,2i4,a,i4,a,2f7.3,a,2f10.6,a,f7.3)') ' iy_sta=',iy0-1,iy0,': ix=',ixmin,       &
+         write(bufout,'(a,2i4,a,i4,a,2f7.3,a,2f10.6,a,f10.6)') ' iy_sta=',iy0-1,iy0,': ix=',ixmin,      &
                         ', y=', y(iiext), y(iiint),': h=', h(iiext)-hsthrs, h(iiint)-hsthrs,            &
                         ', ysta=', ysta
          call write_log(1, bufout)
@@ -885,18 +894,18 @@ contains
 
       iofs   = (iy1-1) * mx
       ixmin  = idmin(mx, h(iofs+1:), 1)
-      iiint  = ixmin + (iy1-1) * mx
-      iiext  = ixmin + (iy1  ) * mx
+      iiint  = ixmin + (iy1-1) * mx     ! (ixmin, iy1  )
+      iiext  = ixmin + (iy1  ) * mx     ! (ixmin, iy1+1)
       yend   = y(iiint) + (hsthrs - h(iiint)) * dy / (h(iiext) - h(iiint))
 
       if (idebug.ge.3) then
-         write(bufout,'(a,2i4,a,i4,a,2f7.3,a,2f10.6,a,f7.3)') ' iy_end=',iy1-1,iy1,': ix=',ixmin,       &
+         write(bufout,'(a,2i4,a,i4,a,2f7.3,a,2f10.6,a,f10.6)') ' iy_end=',iy1,iy1+1,': ix=',ixmin,      &
                         ', y=', y(iiint), y(iiext),': h=', h(iiint)-hsthrs, h(iiext)-hsthrs,            &
                         ', yend=', yend
          call write_log(1, bufout)
       endif
 
-      !   - determine curvature from parabolic h(y) = hmin + B (y-ymid)^2
+      !   - determine curvature from parabolic h(y) = hmin + B (y-ymid)^2 , h(yend) = hstrsh -->
       !                                      hstrsh = hmin + B (yend-ymid)^2
 
       ymid   = 0.5d0 * (ysta + yend)
@@ -908,10 +917,18 @@ contains
       epshz   = 1d-6
       call hzcalc3d (e_star, epshz, -1, a1, b1, aa, bb, 0, pentot, fn_hz, cp, rho)
 
+      ! for small contacts, ensure that point with minimum gap is included in eq.ellipse
+
+      if (iy0.ge.iy1) then
+         bb  = max( bb, 1.1d0*abs(y(iimin)-ymid))
+      endif
+
       if (idebug.ge.2) then
-         write(bufout,'(3(a,f12.6))') ' a1 = ', a1,', b1 =', b1,', pen   =', pentot
+         write(bufout,'(3(a,f14.8))') ' a1 = ', a1,', b1 =', b1,', pen   =', pentot
          call write_log(1, bufout)
-         write(bufout,'(4(a,f12.6))') ' aa = ', aa,', bb =', bb,', aa/bb =', aa/bb,', ymid =',ymid
+         write(bufout,'(4(a,f14.8))') ' aa = ', aa,', bb =', bb,', aa/bb =', aa/bb,', ymid =',ymid
+         call write_log(1, bufout)
+         write(bufout,'(a,f14.8)') ' a1*aa^2 - b1*bb^2 =', a1*aa**2 - b1*bb**2
          call write_log(1, bufout)
       endif
 
