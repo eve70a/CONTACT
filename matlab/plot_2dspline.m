@@ -8,6 +8,18 @@ function [ myopt ] = plot_2dspline( sol, slcs, opt )
 %   slcs    - structure with variable profile as returned by read_slices
 %   opt     - plot configuration; called without options, a struct is returned with default settings
 %
+% plot options:
+%   urange:      range of surface parameter u for longitudinal direction
+%   vrange:      range of surface parameter v for lateral direction
+%   xysteps:     (approx) distance between drawn lines on surface
+%   show_slc:    list of slice numbers that are highlighted
+%   slc_color:   color-spec for slices that are highlighted
+%   show_feat:   list of feature numbers that are highlighted
+%   feat_color:  color-spec for features that are highlighted
+%   coordsys:    either 'fc' for rail geometry or 'tr' for axle-centered track coordinates
+%   view:        matlab view direction, e.g. [50 25] (azimuth, elevation)
+%   zoom:        data aspect ratio, e.g. [1000 1 1]
+%   addplot:     clear (0) or do not clear (1) the figure before plotting.
 
 % Copyright 2008-2023 by Vtech CMCC.
 %
@@ -29,10 +41,10 @@ function [ myopt ] = plot_2dspline( sol, slcs, opt )
       'urange',     [],  ...
       'vrange',     [],  ...
       'xysteps',    [],  ...
-      'show_slc',   [],  ...   % slice numbers that are highlighted
-      'slc_color',  'r', ...   % color-spec for slices that are highlighted
-      'show_feat',  [],  ...   % feature numbers that are highlighted
-      'feat_color', 'r', ...   % color-spec for features that are highlighted
+      'show_slc',   [],  ...
+      'slc_color',  'r', ...
+      'show_feat',  [],  ...
+      'feat_color', 'r', ...
       'coordsys',   'fc', ...
       'view',       [110 20], ...
       'zoom',       [], ...
@@ -113,14 +125,14 @@ function [ myopt ] = plot_2dspline( sol, slcs, opt )
 
    % form profile surface at given x, all u - fine sampling
 
-   [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, myopt, myopt.urange, [], myopt.xysteps(1)/10, ...
+   [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, slcs, myopt, myopt.urange, [], myopt.xysteps(1)/20, ...
                                                               myopt.vrange, [], []);
 
    % plot 90% transparent surface (alpha=0.1); color-value?
 
    csurf = -1 * ones(size(xsurf));
    l=surf(xsurf, ysurf, zsurf, csurf, 'EdgeAlpha',0.1, 'FaceAlpha',0.1);
-   set(l,'tag','prr');
+   set(l,'Tag','prr');
 
    % set view appropriate for rails with z positive downwards
 
@@ -151,7 +163,7 @@ function [ myopt ] = plot_2dspline( sol, slcs, opt )
    % determine longitudinal curves along the surface at fixed steps in s
 
    [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, myopt, ...
-                                     myopt.urange, [], myopt.xysteps(1)/10, [], [], myopt.xysteps(2));
+                                     myopt.urange, [], myopt.xysteps(1)/20, [], [], myopt.xysteps(2));
 
    % plot curves along surface in longitudinal direction
 
@@ -174,7 +186,8 @@ function [ myopt ] = plot_2dspline( sol, slcs, opt )
             icol = mod((i-1), ncol) + 1;
             col  = myopt.slc_color(icol,:);
             if (length(col)==1 & isnumeric(col)), col = matlab_color(col); end
-            plot3( slcs.xsurf(jslc,jv), slcs.ysurf(jslc,jv), slcs.zsurf(jslc,jv), 'color',col);
+            plot3( slcs.xsurf(jslc,jv), slcs.ysurf(jslc,jv), slcs.zsurf(jslc,jv), 'color',col, ...
+                        'linewidth',1, 'Tag','slice');
          end
       end
    end
@@ -188,12 +201,12 @@ function [ myopt ] = plot_2dspline( sol, slcs, opt )
       for j = 1 : nfeat
          jp   = slcs.iseg_p( ifeat(j) );
          [ xcurv, ycurv, zcurv ] = make_3d_surface( sol, slcs, myopt, ...
-                       myopt.urange, [], myopt.xysteps(1)/10, slcs.vj(jp)*[1 1], [], myopt.xysteps(2));
+                       myopt.urange, [], myopt.xysteps(1)/20, slcs.vj(jp)*[1 1], [], myopt.xysteps(2));
          jcol = mod((j-1), ncol) + 1;
          col  = myopt.feat_color(jcol,:);
          if (length(col)==1 & isnumeric(col)), col = matlab_color(col); end
          % plot3( slcs.xsurf(:,jp), slcs.ysurf(:,jp), slcs.zsurf(:,jp), 'color',col );
-         plot3( xcurv, ycurv, zcurv, 'color',col);
+         plot3( xcurv, ycurv, zcurv, 'color',col, 'linewidth',1, 'Tag','feature');
       end
    end
 

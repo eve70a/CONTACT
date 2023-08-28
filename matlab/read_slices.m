@@ -203,7 +203,7 @@ function [ slcs, iline, nerror ] = read_slices_fnames(slcs, f, iline, idebug)
          if (length(ix)==2)
             nslc = nslc + 1;
             val            = sscanf(s(1:ix(1)-1), '%f');
-            if (~isempty(val))
+            if (length(val)==1)
                slcs.s(nslc,1) = val;
             end
             nam            = s(ix(1)+1:ix(2)-1);
@@ -211,7 +211,7 @@ function [ slcs, iline, nerror ] = read_slices_fnames(slcs, f, iline, idebug)
                slcs.fnames    = strvcat( slcs.fnames, nam );
             end
          end
-         if (length(ix)~=2 | isempty(val) | isempty(nam))
+         if (length(ix)~=2 | length(val)~=1 | isempty(nam))
             disp(sprintf('ERROR: could not interpret line %d:',iline));
             disp(sprintf('       "%s"',s));
             disp(sprintf('       line should provide S_SLC, ''RFNAME'''));
@@ -293,18 +293,18 @@ function [ slcs, iline, nerror ] = read_feature_info(slcs, f, iline, idebug)
 
                if (length(i_slc)<1)
                   is_ok = 0;
-                  disp(sprintf('ERROR: could not find slice at s_slc = %3.1f in list of slices', s_slc));
+                  disp(sprintf('ERROR: could not find slice at s_slc = %4.2f in list of slices', s_slc));
                   nerror = nerror + 1;
                elseif (length(i_slc)>1)
                   is_ok = 0;
-                  disp(sprintf('ERROR: multiple slices with s_slc = %3.1f in list of slices', s_slc));
+                  disp(sprintf('ERROR: multiple slices with s_slc = %4.2f in list of slices', s_slc));
                   if (~isempty(i_slc))
                      disp(sprintf('       possible slices i = %d %d %d %d %d', i_slc));
                   end
                   nerror = nerror + 1;
                elseif (any(slcs.s_feat(i_slc,:)))
                   is_ok = 0;
-                  disp(sprintf('ERROR: repeated definition of features for slice with s_slc = %3.1f', s_slc));
+                  disp(sprintf('ERROR: repeated definition of features for slice with s_slc = %4.2f', s_slc));
                   nerror = nerror + 1;
                end
             end
@@ -312,7 +312,7 @@ function [ slcs, iline, nerror ] = read_feature_info(slcs, f, iline, idebug)
             nbreak = nval - 1;
 
             if (is_ok & nbreak~=slcs.nfeat)
-               disp(sprintf('ERROR: incorrect number of feature positions for slice at s_slc = %3.1f', s_slc));
+               disp(sprintf('ERROR: incorrect number of feature positions for slice at s_slc = %4.2f', s_slc));
                disp(sprintf('       obtained %d values, expecting n_feat = %d', nbreak, slcs.nfeat));
                is_ok = 0;
                nerror = nerror + 1;

@@ -53,6 +53,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
       disp(sprintf('Incorrect break points s_feat, needs at least 2 s-values for each of %d slices', ...
                                                                                 slcs.nslc));
       disp(size(s_feat));
+      ierror = 1;
       return;
    end
 
@@ -87,6 +88,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
          disp(s_feat(is,:))
          m = min(diff(s_feat(is,ib0:ib1)));
          disp(sprintf('Minimum s_p - s_{p-1} = %3.1e', min(m)));
+         ierror = 2;
          return;
       end
 
@@ -212,7 +214,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
       nnan = nnz( isnan(slcs.ysurf(is,i0:i1))+isnan(slcs.zsurf(is,i0:i1)) );
       if (nnan>0)
          disp(sprintf('resample_slices: slice %3d has %d nan-values',is, nnan));
-         ierror = 1;
+         ierror = 3;
       end
 
       if (idebug>=3 & is==is_debug)
