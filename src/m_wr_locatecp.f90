@@ -2244,6 +2244,11 @@ contains
          cp%zsta = zr(ii_s)
          cp%zend = zr(ii_n)
 
+         if (idebug.ge.2) then
+            write(bufout,'(3(a,f8.3),a)') ' x in [',x(ii_w),',',x(ii_e),']'
+            call write_log(1,bufout)
+         endif
+
          if (idebug.ge.3) then
             write(bufout,'(2(a,i4,a,f12.6))') '   y(',iy_sta,')=', y(ii_s),  ',   y(',iy_end,')=',y(ii_n)
             call write_log(1,bufout)

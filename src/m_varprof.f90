@@ -1662,7 +1662,7 @@ end subroutine varprof_set_debug
 
          if (ldebug.ge.1) then
             write(bufout,'(3(a,f12.3),a)') ' grid has s_tr \in [',smin,',',smax,                        &
-                           '], before start of varprof, s1=', vprf%slc_s(1)
+                           '], before start of varprof, s_1=', vprf%slc_s(1)
             call write_log(1, bufout)
          endif
 
@@ -1675,7 +1675,7 @@ end subroutine varprof_set_debug
 
          if (ldebug.ge.1) then
             write(bufout,'(3(a,f12.3),a)') ' grid has s_tr \in [',smin,',',smax,                        &
-                        '], after end of varprof, sn=', vprf%slc_s(vprf%nslc)
+                        '], after end of varprof, s_end=', vprf%slc_s(vprf%nslc)
             call write_log(1, bufout)
          endif
 
@@ -1743,10 +1743,13 @@ end subroutine varprof_set_debug
             if (yr(iy).ge.ymin .and. yr(iy).le.ymax) then
                x_lbnd(iy) = min(x_lbnd(iy), xslc)
                x_ubnd(iy) = max(x_ubnd(iy), xslc)
+               ! constant extrapolation for points iy available on slice 1 or slice nslc
+               if (islc0.le.1)         x_lbnd(iy) = -xmax
+               if (islc1.ge.vprf%nslc) x_ubnd(iy) =  xmax
             endif
          enddo
 
-         if (ldebug.ge.5) then
+         if (ldebug.ge.2) then
             write(bufout,'(a,i3,4(a,f12.3),a)') ' slice',islc,': s=',vprf%slc_s(islc),', xslc=',xslc,   &
                    ': y = [',ymin,',',ymax,']'
             call write_log(1, bufout)
