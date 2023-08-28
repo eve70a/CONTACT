@@ -296,13 +296,14 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
    call set_print_streams(nw_outfil=.false., nw_screen=l_screen, nw_simpck=l_simpck)
 
    ! Try to open the .out-file in the requested output directory
-   ! Overwrite in case of new run (init==-3, -2), append after finalizelast (init==-1)
 
    fname = trim(caddon_outpath) // trim(caddon_expnam) // '.out'
    if (ltmpfile) write(37,*) 'init=',caddon_initialized,', fname=',trim(fname)
-   if (caddon_initialized.eq.-1) then
+   if (.false. .and. caddon_initialized.eq.-1) then
+      ! Continuing after finalizelast (init==-1), append output after previous contents
       open(unit=lout, file=fname, action='write', access='append', err=998)
    else
+      ! Overwrite in case of new run (init==-3, -2)
       open(unit=lout, file=fname, action='write', err=998)
    endif
    out_open = 1

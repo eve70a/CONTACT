@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.150)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.151)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -82,6 +82,7 @@
 \vtlogentry{1.149}{EV}{11-08-2023}{Added ${\tt D}=7$ using initial contact
         position}{}
 \vtlogentry{1.150}{EV}{16-08-2023}{Added comment on slice feature positions}{}
+\vtlogentry{1.151}{EV}{23-08-2023}{Clear out-file upon new initialization}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -6028,6 +6029,12 @@ This is done by subroutine {\tt cntc\_init\-ia\-lize\-first}. This
 routine will be called by {\tt cntc\_initialize} if it isn't called
 explicitly. In Matlab, this routine is called by {\tt cntc\_initlibrary}. 
 
+The output-file for the experiment will be opened (default {\tt
+contact\_addon.out}), removing the previous contents if already present.
+Note that {\tt cntc\_initializefirst} will be called again if a new
+computation is started after all previous result elements have been cleared
+({\tt cntc\_finalizelast}).
+
 \paragraph{cntc\_initialize}
 
 Additional initializations per result element are done by subroutine {\tt
@@ -6628,6 +6635,11 @@ cntc_resetcalculationtime  - reset timers
 cntc_finalize              - cleanup for one result element
 cntc_closelibrary          - finalize, cleanup and unload the library
 \end{alltt}
+Subroutine {\tt cntc\_finalize} will automatically call {\tt
+cntc\_finalizelast} if there are no more result elements remaining. This
+closes the output file for the experiment. Making further calls after this,
+subroutine {\tt cntc\_initializefirst} will be called again, removing the
+previous contents of the out-file.
 
 \section{Calculation of subsurface stresses}
 \label{sec:clib_subs}
