@@ -25,6 +25,12 @@ CONTACT aims to provide complete and detailed solutions, with a powerful
 interface for integration in multi-body simulation software. The quality of
 Finite Elements, at one thousandth  of the computation time needed.
 
+## Requirements
+
+Compilation currently requires use of the Intel Fortran compiler, mainly
+because of the use of the Math Kernel Library (Intel MKL) for FFTs and
+LAPACK functionality. The compiler can be obtained for free at intel.com.
+
 ## Getting started
 
 Introductory information is provided in the [getting started guide](./doc/getting-started.pdf).
