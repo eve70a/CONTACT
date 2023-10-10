@@ -102,7 +102,7 @@ subroutine bsplineget_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
    endif
 
    if (ldebug.ge.3) then
-      write(bufout,'(a,i3,2(a,i7))') ' bspline_get: debugging level =',ldebug,', ii_debug =', ii_debug, &
+      write(bufout,'(a,i3,2(a,i7))') ' bspline_get:  debugging level =',ldebug,', ii_debug =', ii_debug, &
                 ', iel_debug =', iel_debug
       call write_log(1, bufout)
    endif
@@ -163,7 +163,11 @@ subroutine bspline_eval2d_list(spl2d, nout, uout, vout, xout, yout, zout, my_ier
    if (my_ierror.eq.0) then
       do iout = 1, nout
 
-         if (spl2d%has_xdata) xout(iout) = 0d0
+         if (.not.spl2d%has_xdata) then
+            xout(iout) = uout(iout)     ! half-parametric spline: x==u
+         else
+            xout(iout) = 0d0
+         endif
          yout(iout) = 0d0
          zout(iout) = 0d0
          mask = 1
@@ -248,6 +252,7 @@ subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout
    namvar = 'b1u-b4v'
    allocate(isegu(nuout), b1u(nuout,1), b2u(nuout,2), b3u(nuout,3), b4u(nuout,4),                       &
             jsegv(nvout), b1v(nvout,1), b2v(nvout,2), b3v(nvout,3), b4v(nvout,4), stat=istat, errmsg=errmsg)
+
    if (istat.ne.0) goto 99
 
    if (ldebug.ge.2) then
@@ -278,7 +283,7 @@ subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout
       if (my_ierror.ne.0) call write_log(' Bspline_eval2d: Error after eval1d(u)')
    endif
 
-   ! evaluate v-splines at positions vout
+   ! evaluate v-splines at positions vout 
 
    if (my_ierror.eq.0) then
       call bspline_eval1d(spl2d%nknotv, spl2d%tvj, tiny_dt, nvout, vout, jsegv, b1v, b2v, b3v, b4v,     &
@@ -294,37 +299,48 @@ subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout
       do iout = 1, nuout
          do jout = 1, nvout
 
-            if (spl2d%has_xdata) xout(iout,jout) = 0d0
+            if (.not.spl2d%has_xdata) then
+               xout(iout,jout) = uout(iout)     ! half-parametric spline: x==u
+            else
+               xout(iout,jout) = 0d0
+            endif
             yout(iout,jout) = 0d0
             zout(iout,jout) = 0d0
             mask = 1
+
             do i = isegu(iout)-3, isegu(iout)
                ii = i - isegu(iout) + 4
+
+               ! Matlab: ci_y = (Bmat * spl2d.cij_y')';
+               ! ci_y: [nsplu, noutv], v_out: [noutv], full(b4v): [noutv, nsplv], cij_y: [nsplu, nsplv]
 
                if (spl2d%has_xdata) ci_x = 0d0
                ci_y = 0d0
                ci_z = 0d0
                do j = jsegv(jout)-3, jsegv(jout)
                   jj = j - jsegv(jout) + 4
-                  if (spl2d%has_xdata) ci_x = ci_x + spl2d%cij_x(i,j) * b4v(jout,jj)
-                  ci_y = ci_y + spl2d%cij_y(i,j) * b4v(jout,jj)
-                  ci_z = ci_z + spl2d%cij_z(i,j) * b4v(jout,jj)
+                  if (spl2d%has_xdata) ci_x = ci_x + b4v(jout,jj) * spl2d%cij_x(i,j)
+                  ci_y = ci_y + b4v(jout,jj) * spl2d%cij_y(i,j)
+                  ci_z = ci_z + b4v(jout,jj) * spl2d%cij_z(i,j)
                   mask = mask * spl2d%mask(i,j)
 
                   if (ldebug.ge.5 .and. iout.eq.ii_debug .and. jout.eq.iel_debug) then
                      write(bufout,'(4(a,i4),3(a,g14.6))') ' (iout,jout)=(',iout,',',jout,       &
-                        '): ci_y += cij_y(',i,',',j,') * b4v =', spl2d%cij_y(i,j),' *', b4v(jout,jj)
+                        '): ci_y += b4v * cij_y(',i,',',j,') =', b4v(jout,jj),' *', spl2d%cij_y(i,j)
                      call write_log(1, bufout)
                   endif
                enddo
 
-               if (spl2d%has_xdata) xout(iout,jout) = xout(iout,jout) + ci_x * b4u(iout,ii)
-               yout(iout,jout) = yout(iout,jout) + ci_y * b4u(iout,ii)
-               zout(iout,jout) = zout(iout,jout) + ci_z * b4u(iout,ii)
+               ! Matlab: y_out = full(b4u) * ci_y;
+               ! y_out: [noutu, noutv], u_out: [noutu], full(b4u): [noutu, nsplu], ci_y: [nsplu, noutv]
+
+               if (spl2d%has_xdata) xout(iout,jout) = xout(iout,jout) + b4u(iout,ii) * ci_x
+               yout(iout,jout) = yout(iout,jout) + b4u(iout,ii) * ci_y
+               zout(iout,jout) = zout(iout,jout) + b4u(iout,ii) * ci_z
 
                if (ldebug.ge.5 .and. iout.eq.ii_debug .and. jout.eq.iel_debug) then
                   write(bufout,'(2(a,i4),2(a,g14.6))') ' (iout,jout)=(',iout,',',jout,       &
-                     '): yout += ci_y * b4u =', ci_y,' *', b4u(iout,ii)
+                     '): yout += b4u * ci_y * b4u =', b4u(iout,ii),' *', ci_y
                   call write_log(1, bufout)
                endif
             enddo

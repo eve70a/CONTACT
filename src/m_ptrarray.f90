@@ -727,7 +727,7 @@ subroutine check_nan_1d_real(arr, nam, idebug)
    enddo
 
    if (nnan.gt.0 .and. idebug.ge.-1) then
-      write(bufout,'(a,i4,3a)') ' Error: there are',nnan,' NaN-values in array "',trim(nam),'"'
+      write(bufout,'(a,i6,3a)') ' Error: there are',nnan,' NaN-values in array "',trim(nam),'"'
       call write_log(1, bufout)
    elseif (idebug.ge.2) then
       call write_log(' no NaN-values in array "' // trim(nam) // '"')
@@ -755,7 +755,7 @@ subroutine check_nan_2d_real(arr, nam, idebug)
    enddo
 
    if (nnan.gt.0 .and. idebug.ge.-1) then
-      write(bufout,'(a,i4,3a)') ' Error: there are',nnan,' NaN-values in array "',trim(nam),'"'
+      write(bufout,'(a,i6,3a)') ' Error: there are',nnan,' NaN-values in array "',trim(nam),'"'
       call write_log(1, bufout)
    elseif (idebug.ge.2) then
       call write_log(' no NaN-values in array "' // trim(nam) // '"')

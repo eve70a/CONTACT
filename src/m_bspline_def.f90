@@ -108,7 +108,7 @@ subroutine bsplinedef_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
    endif
 
    if (ldebug.ge.3) then
-      write(bufout,'(a,i3,2(a,i7))') ' bspline_def: debugging level =',ldebug,', ii_debug =', ii_debug, &
+      write(bufout,'(a,i3,2(a,i7))') ' bspline_def:  debugging level =',ldebug,', ii_debug =', ii_debug, &
                 ', iel_debug =', iel_debug
       call write_log(1, bufout)
    endif

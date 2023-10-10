@@ -151,6 +151,7 @@ public
       ! vyaw    [rad/s]  rotation velocity of wheel profile origin about z-axis w.r.t. design layout
       ! vpitch  [rad/s]  rotation velocity of wheel profile origin about y-axis w.r.t. design layout
       ! m_ws             position and orientation of wheel profile origin in wheelset coordinates
+      !                  (excluding pitch rotation)
       ! prw              wheel profile data
 
    end type t_wheel

@@ -327,7 +327,7 @@ contains
                        mxnval, nval, ldebug, ieof, lstop, ierror)
          psflrin = ints(1)
       else
-         psflrin = 0
+         psflrin = 1000000
       endif
 
       call dbg_unpack (1, psflrin, ic)
@@ -910,6 +910,7 @@ contains
       type(t_ws_track), target  :: prob
 !--local variables:
       integer                  :: vldcmze, xhgiaowr, cpbtnfs, psflrin
+      real(kind=8)             :: dflt_turn
       character(len=1)         :: namside
       type(t_wheel),   pointer :: my_wheel
 
@@ -1022,8 +1023,17 @@ contains
       ! write information needed for the grid discretization
 
       if (ic%discns_inp.ge.2 .and. ic%discns_inp.le.9) then
-         write(linp, 6101) discr%dx, discr%ds, discr%dqrel, discr%angl_sep, discr%dist_sep, discr%dist_comb
- 6101    format( 6f9.4,  4x, 'DX, DS, DQREL, A_SEP, D_SEP, D_COMB')
+         ! write dist_turn only if different from default value
+         dflt_turn = 2d0 * discr%dist_sep - 1d0 * discr%dist_comb
+         if (abs(discr%dist_turn-dflt_turn).le.1d-3) then
+            write(linp, 6101) discr%dx, discr%ds, discr%dqrel, discr%angl_sep*180d0/pi, discr%dist_sep, &
+                   discr%dist_comb
+         else
+            write(linp, 6102) discr%dx, discr%ds, discr%dqrel, discr%angl_sep*180d0/pi, discr%dist_sep, &
+                   discr%dist_comb, discr%dist_turn
+         endif
+ 6101    format( 3f9.4, f8.1,'d', 2f9.4, 4x, 'DX, DS, DQREL, A_SEP, D_SEP, D_COMB')
+ 6102    format( 3f9.4, f8.1,'d', 3f6.2, 4x, 'DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN')
       endif
 
       ! write information on track geometry

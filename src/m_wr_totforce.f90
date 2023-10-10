@@ -326,7 +326,7 @@ contains
       type(t_brent_its)        :: its
 
       my_ierror = 0
-      idebug_br = 2
+      idebug_br = 1
       ! if (wtd%meta%itforc_out.eq.2) idebug_br = 3
 
       if (idebug_cnt.ge.2) call write_log(' --- Start subroutine wr_contact_fz_brent ---')

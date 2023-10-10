@@ -209,7 +209,7 @@ contains
                 gd%outpt1, ihertz)
 
       ! compute the constant part in the rigid slip, i.e. excluding creepages that are unknown
-      ! not for Fastsim + 3 flexibilities + non-Hertzian: flexibilities not yet filled in
+      ! note for Fastsim + 3 flexibilities + non-Hertzian: flexibilities not yet filled in
 
       if (gd%ic%mater.ne.3 .or. gd%potcon%ipotcn.lt.0) then
          if (idebug.ge.5) call write_log('contac: calling srztng')
