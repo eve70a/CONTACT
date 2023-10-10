@@ -21,6 +21,7 @@ end
 if (nargin<4 | isempty(idebug))
    idebug = 1;
 end
+tiny  = 1e-10;
 nknot = length(tj);
 npnt  = length(si);
 
@@ -31,12 +32,17 @@ if (size(si,2)>size(si,1)), si = si'; end
 % check for values si outside basic interval [tj(4),tj(nknot-k+1)]
 
 if (idebug>=1)
-   n0 = nnz(si < tj(k));
-   n1 = nnz(si > tj(nknot-k+1));
+   n0 = nnz(si < tj(k)-tiny);
+   n1 = nnz(si > tj(nknot-k+1)+tiny);
    if (n0+n1>0)
       disp(sprintf('Warning: there are %d u-positions before and %d after basic interval t=[%3.1f,%3.1f]', ...
                 n0, n1, tj(k), tj(nknot-k+1)));
    end
+end
+
+numnan = nnz(isnan(si));
+if (idebug>=3 | (idebug>=1 & numnan>0))
+   disp(sprintf('array si has %d NaN-values', numnan));
 end
 
 for ik = 1 : k

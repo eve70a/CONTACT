@@ -193,7 +193,7 @@ end
 % combine basisfunctions at segments that use a reduced order
 
 if (any(~keep_reduc))
-   if (idebug>=0)
+   if (idebug>=1)
       disp(sprintf('Total %d knots, %d knots removed, %d after reduction', nknot, nnz(~keep_reduc), ...
                         nnz(keep_reduc)))
    end

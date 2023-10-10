@@ -1,13 +1,15 @@
 
-function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, norm_dist, add_plot)
+function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, norm_dist, show_angl, add_plot)
 
-% function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, norm_dist, add_plot)
+% function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, norm_dist, show_angl, add_plot)
 %
 % show difference of two profiles at magnification 'fac'
 %
-% plot_n    == connect profile - update with normal lines
+% fac       == magnification factor, negative/default: automatic setting
+% plot_n    == connect profile and update with normal lines at points [1 : plot_n : end]
 % use_angl2 == use surface angle of second profile
 % norm_dist == plot tangential updates (<0), full updates (0) or normal updates (>0)
+% show_angl == add markers at specified surface inclinations [ show_angl ] (deg)
 % add_plot  == clear current figure (0) or add plot to figure (1)
 
 % Copyright 2008-2023 by Vtech CMCC.
@@ -15,7 +17,7 @@ function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, nor
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
 if (nargin<3 | isempty(fac))
-   fac       = 1000;
+   fac       = -1;
 end
 if (nargin<4 | isempty(plot_n))
    plot_n    = 5;
@@ -26,7 +28,10 @@ end
 if (nargin<6 | isempty(norm_dist))
    norm_dist = 1;
 end
-if (nargin<7 | isempty(add_plot))
+if (nargin<7);
+   show_angl = [];
+end
+if (nargin<8 | isempty(add_plot))
    add_plot  = 0;
 end
 
@@ -94,6 +99,7 @@ ty = [ty(1); (ty(1:end-1)+ty(2:end))/2; ty(end)];
 tz = [tz(1); (tz(1:end-1)+tz(2:end))/2; tz(end)];
 ny = [ny(1); (ny(1:end-1)+ny(2:end))/2; ny(end)];
 nz = [nz(1); (nz(1:end-1)+nz(2:end))/2; nz(end)];
+alph = atan2(tz, ty);
 
 % dst_n, dst_t: signed distance in normal/tangential direction between input profiles
 
@@ -185,6 +191,29 @@ if (1==1)
    set(gca,'children',c);
 end
 
+% plot angle indicators
+
+if (~isempty(show_angl))
+   if (size(show_angl,1)>size(show_angl,2)), show_angl = show_angl'; end
+   alph_deg = alph * 180/pi;
+   for angl = show_angl
+      % disp(sprintf('Show angle marker at %4d deg', angl));
+      % take profile points at start of segments with zero crossing
+      ix = find( (alph_deg(1:end-1)-angl).*(alph_deg(2:end)-angl) <= 0 );
+      if (~isempty(ix))
+         % disp(sprintf('  found at ix=%4d %4d %4d %4d',ix));
+         for j = 1 : length(ix)
+            yi = y1_int(ix(j));
+            zi = z1_int(ix(j));
+            nvec = [-sin(alph(ix(j))), cos(alph(ix(j)))]; % inward normal
+            plot(yi+5*nvec(1)*[-1,1], zi+5*nvec(2)*[-1,1], '-','color',matlab_color(5),'linewidth',1);
+            text(yi-5*nvec(1), zi-5*nvec(2), sprintf('$%d^\\circ$',angl), 'interpreter','latex', ...
+                                'fontsize',10, 'horizontalalignment','center', 'verticalalignment','bottom');
+         end
+      end
+   end
+end
+
 % print biggest updates on flange
 
 if (0==1)
@@ -200,11 +229,15 @@ end
 
 % show magnification factor
 
-if (1==1) % northeast
+if (1==1) % northeast / northwest
    text(0.95, 0.93, sprintf('$%d\\times$',round(fac)), 'units','normalized', ...
                                         'horizontalalignment','right', 'interpreter','latex');
-else % southeast
+   text(0.05, 0.93, sprintf('max update %5.3f mm',dst_max), 'units','normalized', ...
+                                        'horizontalalignment','left', 'interpreter','latex');
+else % southeast / southwest
    text(0.95, 0.07, sprintf('$%d\\times$',round(fac)), 'units','normalized', ...
                                         'horizontalalignment','right', 'interpreter','latex');
+   text(0.05, 0.07, sprintf('max update %5.3f mm',dst_max), 'units','normalized', ...
+                                        'horizontalalignment','left', 'interpreter','latex');
 end
 

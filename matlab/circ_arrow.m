@@ -12,7 +12,7 @@ function [ h ] = circ_arrow( pos_c, r, th0, th1, col, scale, width, rot )
 % scale = scale factor for arrow head; default=1: 25% of arrow size
 % width = width factor for arrow head; default=1: about 30 deg.
 % rot   = for 3d plots: rotation matrix from [x,y,0] to desired orientation
-%         [0,0,1; 1,0,0; 0,1,1] for arc in yz-plane
+%         [0,0,1; 1,0,0; 0,1,0] for arc in yz-plane
 %
 
 % Copyright 2008-2023 by Vtech CMCC.
@@ -20,7 +20,7 @@ function [ h ] = circ_arrow( pos_c, r, th0, th1, col, scale, width, rot )
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
 if (nargin<5 | isempty(col))
-   col = 'b';
+   col = 1;
 end
 if (nargin<6 | isempty(scale))
    scale = 1;

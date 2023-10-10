@@ -106,8 +106,9 @@ function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug
 
    % determine collocation matrix for u-direction: evaluate each B-spline at each output location
 
-   n0 = nnz(u_in < spl2d.tui(4));
-   n1 = nnz(u_in > spl2d.tui(end-3));
+   tiny  = 1e-10;
+   n0 = nnz(u_in < spl2d.tui(4)-tiny);
+   n1 = nnz(u_in > spl2d.tui(end-3)+tiny);
    if (n0+n1>0)
       disp(sprintf('Warning: there are %d u-positions before and %d after spline u-range [%3.1f,%3.1f]', ...
                 n0, n1, spl2d.tui(4), spl2d.tui(end-3)));
@@ -120,6 +121,8 @@ function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug
    % y_out: [ noutu, noutv ], Bmat: [ noutu, nsplu ], ci_y: [ nsplu, noutv ], u_in: [ noutu ]
    if (has_xij)
       x_out = Bmat * ci_x;
+   else
+      x_out = u_in'*ones(1,length(v_in));       % half-parametric spline: x==u
    end
    y_out = Bmat * ci_y;
    z_out = Bmat * ci_z;
@@ -127,7 +130,6 @@ function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug
 
    % remove points that don't have full support
 
-   tiny  = 1e-10;
    ix    = find(mask<1-tiny);
    x_out(ix) = NaN;
    y_out(ix) = NaN;
