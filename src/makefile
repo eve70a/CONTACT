@@ -62,9 +62,9 @@ OBJ_LSHP    = $(P)m_bspline.$O         $(P)m_print_output.$O     $(P)m_licensing
 
 # main targets of the makefile
 ifeq ($(TARGET), exe)
-all:	svn_ver $(STND_EXE)
+all:	$(STND_EXE)
 else ifeq ($(TARGET), clib)
-all:	svn_ver $(CLIB_DLL) $(CLIB_EXE1) $(CLIB_EXE2) $(CLIB_EXE3) $(CLIB_EXE4) $(CLIB_EXE5) $(CLIB_EXE6)
+all:	$(CLIB_DLL) $(CLIB_EXE1) $(CLIB_EXE2) $(CLIB_EXE3) $(CLIB_EXE4) $(CLIB_EXE5) $(CLIB_EXE6)
 else ifeq ($(TARGET),)
 all:
 	@echo "ERROR: invalid product PROD=$(PROD)."
@@ -92,13 +92,6 @@ MODS_ALL = $(P)m_aijpj.$O           $(P)m_arcfit.$O          $(P)m_blas.$O      
            $(P)m_wr_undefdist.$O    $(P)mkl_dfti.$O          
 MODS_CLIB= $(P)m_caddon_data.$O
 OBJS_ALL = 
-
-# make targets for including the subversion id in the printed header
-svn_ver:
-	./print_ver.pl
-
-stripver:
-	./print_ver.pl -strip
 
 $(TEST_LSHAPE):	test_lshape.f90 $(OBJ_LSHP)
 	$(F90) $(FFOPTS) test_lshape.f90 $(OBJ_LSHP) $(MKLLIB) $(CRTLIB) -o $(TEST_LSHAPE) $(LICLIB)
