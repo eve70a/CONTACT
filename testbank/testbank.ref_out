@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
+   |  Version: trunk(win64), $Revision: 2427 $, $Date:: 2023-10-10$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -507,16 +507,16 @@
  
  Position (X,Y,Z):   0.000       0.000      -1.000    
  I,Displacement(I); Stress(I,J),J = 1,3
-  1   -0.1053E-14;  -0.5950E-02   0.000      0.2426E-14
-  2    0.1084E-14;    0.000     -0.5950E-02 -0.2382E-14
-  3   -0.1561    ;   0.2426E-14 -0.2382E-14 -0.2720    
+  1   -0.1058E-14;  -0.5950E-02   0.000      0.2441E-14
+  2    0.1064E-14;    0.000     -0.5950E-02 -0.2407E-14
+  3   -0.1561    ;   0.2441E-14 -0.2407E-14 -0.2720    
   SigHyd =  -0.9463E-01, SigVM =   0.2660    
 
  Position (X,Y,Z):  0.4000       0.000      -1.000    
  I,Displacement(I); Stress(I,J),J = 1,3
-  1    0.9979E-02;  -0.1709E-01 -0.1241E-14  0.5616E-01
-  2     0.000    ;  -0.1241E-14 -0.5581E-02 -0.1448E-14
-  3   -0.1457    ;   0.5616E-01 -0.1448E-14 -0.2303    
+  1    0.9979E-02;  -0.1709E-01 -0.1385E-14  0.5616E-01
+  2     0.000    ;  -0.1385E-14 -0.5581E-02 -0.1433E-14
+  3   -0.1457    ;   0.5616E-01 -0.1433E-14 -0.2303    
   SigHyd =  -0.8431E-01, SigVM =   0.2398    
 
  Position (X,Y,Z):   0.000       0.000      0.2000    
@@ -1006,7 +1006,7 @@
  TANG: SHIFT TRANSIENT
        1, Tang: size of Adhes, Slip area :     177      0
          0, NR_Fy,    Cksi, Fxk:    1.000E-06  -3.635E-04
-                      Ceta, Fyk:        0.000  -4.361E-20   ItCG:   10
+                      Ceta, Fyk:        0.000   2.758E-20   ItCG:   10
          1, NR_Fy,    Cksi, Fxk:    4.000E-06  -1.454E-03
                       Ceta, Fyk:    3.000E-06  -1.091E-03   ItCG:   20
          2, NR_Fy,    Cksi, Fxk:    2.407E-03     -0.7411
@@ -1820,8 +1820,10 @@
      X  -->        Chi=  0.00 degrees
 
  Case    18
+ reading rail  profile "profiles\MBench_UIC60_v3.prr"
+ reading wheel profile "profiles\MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:     101.3834       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:     101.4203       8967., dFz/dz:   3.642E+05
+         1, NR,  z_ws, Fz:     101.4203       8967., dFz/dz:   2.428E+05
          2, NR,  z_ws, Fz:     101.4232   1.000E+04, dFz/dz:   3.645E+05
          3, NR,  z_ws, Fz:     101.4232      10000., dFz/dz:   3.709E+05
 
@@ -1924,8 +1926,10 @@
      X  -->
 
  Case    19
+ reading rail  profile "profiles\flat_plane.prr"
+ reading wheel profile "profiles\circ_r100.prw"
          0, NR,  z_ws, Fz:      -0.4534       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.4181       9933., dFz/dz:   4.221E+05
+         1, NR,  z_ws, Fz:      -0.4181       9933., dFz/dz:   2.814E+05
          2, NR,  z_ws, Fz:      -0.4180   1.000E+04, dFz/dz:   4.257E+05
          3, NR,  z_ws, Fz:      -0.4180   1.000E+04, dFz/dz:   4.271E+05
 
@@ -1983,7 +1987,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-    -26.1745    759.4930     -0.9496       476.1   2.910E-11  -3.638E-12
+    -26.1745    759.4930     -0.9496       476.1   2.910E-11       0.000
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2038,7 +2042,9 @@
      X  -->
 
  Case    20
+ reading rail  profile "profiles\os_l.csv"
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
+ reading wheel profile "profiles\fr_ol.csv"
  NORM
        1, Norm: size of Contact, Exterior :   1241    984
       Norm: final element division: C, E=    755   1470  ItCG=    17
@@ -2223,6 +2229,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    21
+ reading rail  profile "profiles\meas_roller.prr"
+ reading wheel profile "profiles\final_clean.prw"
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -2273,7 +2281,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0000      1.7372      0.0426  -4.819E-10      -0.000       0.000
+     -0.0000      1.7372      0.0426  -4.819E-10       0.000       0.000
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2358,14 +2366,16 @@
      X  -->
 
  Case    22
+ reading rail  profile "profiles\avg_HR.BAN"
  Zig-zag in rail profile at (  29.26,  -2.55) (ip=   84): successive angles  -13.8  180.0  -14.0 deg
  WARNING: deleting    1 points from rail-profile for zig-zag pattern...
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
+ reading wheel profile "profiles\avg_wheel.whl"
  WARNING: found data while still in headers, ignoring line    7
  WARNING: unspecified ColumnDef with  3 values per line.
           Assuming "X,Y,*", ignoring last column.
          0, NR,  z_ws, Fz:       0.1647       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.4113   2.371E+05, dFz/dz:   1.442E+06
+         1, NR,  z_ws, Fz:       0.4113   2.371E+05, dFz/dz:   9.615E+05
          2, NR,  z_ws, Fz:       0.3331   1.312E+05, dFz/dz:   1.355E+06
          3, NR,  z_ws, Fz:       0.3281   1.252E+05, dFz/dz:   1.194E+06
          4, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.186E+06
@@ -2477,6 +2487,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case    23
+ reading rail  profile "profiles\avg_low2.ban"
  Zig-zag in rail profile at ( -52.77, -27.86) (ip=   22): successive angles   90.0  -97.1   82.9 deg
  WARNING: deleting    1 points from rail-profile for zig-zag pattern...
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
@@ -2484,7 +2495,7 @@
  WARNING: profile spline deviates up to  0.429 mm from input profile
  INFO: left-most rail point found above gauge height: zr=  11.542 at yr=-25.247
          0, NR,  z_ws, Fz:       0.2139       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2989   7.180E+04, dFz/dz:   1.266E+06
+         1, NR,  z_ws, Fz:       0.2989   7.180E+04, dFz/dz:   8.441E+05
          2, NR,  z_ws, Fz:       0.2986   7.139E+04, dFz/dz:   1.259E+06
          3, NR,  z_ws, Fz:       0.2986   7.139E+04, dFz/dz:   1.257E+06
 
@@ -2727,12 +2738,13 @@
   7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.616E-03   3.581E-07
   8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.187E-04   3.581E-07
   9, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.241E-04   3.581E-07
- 10, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.119E-05   3.581E-07
- 11, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.828E-06   3.581E-07
- 12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.421E-06   3.581E-07
- 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.786E-07   3.581E-07
- 14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.006E-07   3.581E-07
- 15, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.829E-07   3.581E-07
+ 10, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.833E-05   3.581E-07
+ 11, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.142E-05   3.581E-07
+ 12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.797E-06   3.581E-07
+ 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.915E-06   3.581E-07
+ 14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.737E-07   3.581E-07
+ 15, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.669E-07   3.581E-07
+ 16, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.653E-07   3.581E-07
      FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
      4.000E+05       0.000       0.000       0.000       564.1      -10.46
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
@@ -2751,7 +2763,7 @@
  10, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.967E-05   5.360E-07
  11, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.019E-06   5.360E-07
  12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.869E-06   5.360E-07
- 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.852E-07   5.360E-07
+ 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.851E-07   5.360E-07
  14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.644E-07   5.360E-07
      FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
      4.000E+05   1.401E+04       0.000       0.000       640.3      -7.050
@@ -2759,11 +2771,13 @@
          1000.   8.755E-02       0.000       2.887       145.6
 
  Case    27
+ reading rail  profile "profiles\rail_left_iter288.ban"
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
  WARNING: profile spline deviates up to  0.151 mm from input profile
+ reading wheel profile "profiles\whl_left_iter288.whl"
  WARNING: profile spline deviates up to  0.184 mm from input profile
          0, NR,  z_ws, Fz:      -4.1702       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.8936   2.115E+04, dFz/dz:   1.147E+05
+         1, NR,  z_ws, Fz:      -3.8936   2.115E+04, dFz/dz:   7.645E+04
          2, NR,  z_ws, Fz:      -3.7553   3.806E+04, dFz/dz:   1.222E+05
          3, NR,  z_ws, Fz:      -3.5478   6.801E+04, dFz/dz:   1.444E+05
          4, NR,  z_ws, Fz:      -3.4233   8.762E+04, dFz/dz:   1.575E+05
@@ -2870,6 +2884,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case    28
+ reading rail  profile "profiles\rail_left_iter288.ban"
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
  Kink in rail profile at ( -36.00,  31.10) (ip=   31): successive angles  -45.5,    8.9 deg
  Kink in rail profile at ( -35.49,  31.18) (ip=   32): successive angles    8.9,  -40.8 deg
@@ -2882,9 +2897,10 @@
  Kink in rail profile at ( -30.03,  15.44) (ip=   95): successive angles -142.3,  -74.0 deg
  Kink in rail profile at ( -29.95,  15.13) (ip=   98): successive angles  -74.5, -118.5 deg
  WARNING: profile spline deviates up to  0.112 mm from input profile
+ reading wheel profile "profiles\whl_left_iter288.whl"
  WARNING: profile spline deviates up to  0.184 mm from input profile
          0, NR,  z_ws, Fz:      -4.2101       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.9268   2.189E+04, dFz/dz:   1.159E+05
+         1, NR,  z_ws, Fz:      -3.9268   2.189E+04, dFz/dz:   7.726E+04
          2, NR,  z_ws, Fz:      -3.7851   4.094E+04, dFz/dz:   1.345E+05
          3, NR,  z_ws, Fz:      -3.5727   7.514E+04, dFz/dz:   1.610E+05
          4, NR,  z_ws, Fz:      -3.4452   9.762E+04, dFz/dz:   1.764E+05
@@ -2992,36 +3008,23 @@
      X  -->        Chi=  0.00 degrees
 
  Case    29
+ reading rail  profile "profiles\rail_left_iter795.ban"
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
+ reading wheel profile "profiles\whl_left_iter795.whl"
  WARNING: profile spline deviates up to  0.278 mm from input profile
          0, NR,  z_ws, Fz:      -1.0890       0.000, dFz/dz:       0.000
- TANG: Warning: pot.con. too small; no exterior points at trailing edge at   1 rows.
-       Using solver ConvexGS instead of (faster/more robust) SteadyGS.
- TANG: Warning: pot.con. too small; cannot estimate Ubnd at   1 rows.
  WARNING: potential contact area too small;   64 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         1, NR,  z_ws, Fz:      -0.8426   2.595E+05, dFz/dz:   1.580E+06
- TANG: Warning: pot.con. too small; no exterior points at trailing edge at   1 rows.
-       Using solver ConvexGS instead of (faster/more robust) SteadyGS.
- TANG: Warning: pot.con. too small; cannot estimate Ubnd at   2 rows.
+         1, NR,  z_ws, Fz:      -0.8426   2.595E+05, dFz/dz:   1.053E+06
  WARNING: potential contact area too small;   59 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
          2, NR,  z_ws, Fz:      -0.8863   2.142E+05, dFz/dz:   1.037E+06
- TANG: Warning: pot.con. too small; no exterior points at trailing edge at   2 rows.
-       Using solver ConvexGS instead of (faster/more robust) SteadyGS.
- TANG: Warning: pot.con. too small; cannot estimate Ubnd at   2 rows.
  WARNING: potential contact area too small;   57 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
          3, NR,  z_ws, Fz:      -0.9091   1.913E+05, dFz/dz:   1.004E+06
- TANG: Warning: pot.con. too small; no exterior points at trailing edge at   2 rows.
-       Using solver ConvexGS instead of (faster/more robust) SteadyGS.
- TANG: Warning: pot.con. too small; cannot estimate Ubnd at   2 rows.
  WARNING: potential contact area too small;   57 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
          4, NR,  z_ws, Fz:      -0.9098   1.906E+05, dFz/dz:   9.527E+05
- TANG: Warning: pot.con. too small; no exterior points at trailing edge at   2 rows.
-       Using solver ConvexGS instead of (faster/more robust) SteadyGS.
- TANG: Warning: pot.con. too small; cannot estimate Ubnd at   2 rows.
  WARNING: potential contact area too small;   57 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
          5, NR,  z_ws, Fz:      -0.9099   1.906E+05, dFz/dz:   9.528E+05
@@ -3124,6 +3127,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    30
+ reading rail  profile "profiles\guard_rail_test.ban"
+ reading wheel profile "profiles\Car7813_0001r.whl"
  WARNING: profile spline deviates up to  0.142 mm from input profile
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
@@ -3222,6 +3227,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case    31
+ reading wheel profile "profiles\Car7216_0001r.whl"
  WARNING: profile spline deviates up to  0.547 mm from input profile
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
@@ -3384,9 +3390,10 @@
      X  -->        Chi=  0.00 degrees
 
  Case    32
+ reading wheel profile "profiles\Car7358_0001r.whl"
  WARNING: profile spline deviates up to  0.245 mm from input profile
          0, NR,  z_ws, Fz:      -5.3631       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -5.2312       5329., dFz/dz:   6.058E+04
+         1, NR,  z_ws, Fz:      -5.2312       5329., dFz/dz:   4.039E+04
          2, NR,  z_ws, Fz:      -5.1652       9601., dFz/dz:   6.475E+04
          3, NR,  z_ws, Fz:      -5.0662   1.783E+04, dFz/dz:   8.317E+04
          4, NR,  z_ws, Fz:      -5.0069   2.344E+04, dFz/dz:   9.447E+04
@@ -3488,6 +3495,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    33
+ reading rail  profile "profiles\site_b_hr.prr"
+ reading wheel profile "profiles\worn_high_mileage.prw"
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  3 CONTACT PATCHES
 
@@ -3994,11 +4003,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       6803.   1.310E+05   1.131E+05       7457.   1.309E+05   1.133E+05
+       6803.   1.310E+05   1.131E+05       7457.   1.308E+05   1.133E+05
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      1.5759    717.3411     16.8210  -1.118E+04  -2.153E+05  -1.861E+05
+      1.5761    717.3410     16.8212  -1.118E+04  -2.153E+05  -1.861E+05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -4010,8 +4019,8 @@
       6.7000     27.3754     20.0192
 
  Actual contact on columns iy = [  6,167] (my=173), sc = [ -9.800, 55.000]
- Reference contact angle delttr = -66.39 deg, range = [ -71.85,  -2.06] deg
- Total moments Mxp =    530875.7, Msp =    347376.6, Mnp =   -212735.9 N.mm
+ Reference contact angle delttr = -66.39 deg, range = [ -71.80,  -2.06] deg
+ Total moments Mxp =    530836.5, Msp =    347370.8, Mnp =   -212738.6 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -4028,9 +4037,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.654E+05       6803.  -5.115E+04  -2.127E+05       7.462  -1.720E+04
+     1.654E+05       6803.  -5.116E+04  -2.127E+05       7.462  -1.721E+04
      FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         2.017   4.114E-02     -0.3093      0.1051       1820.
+         2.017   4.114E-02     -0.3094      0.1051       1820.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -4209,65 +4218,65 @@
 
  CURVED REFERENCE SURFACE, TRACK COORDINATES,  173 POINTS:
     I        Y(I)       Z(I)       A(I)
-     1   713.2645    31.4131    -1.2173
-     2   713.4073    31.0406    -1.2210
-     3   713.5470    30.6666    -1.2279
-     4   713.6823    30.2907    -1.2367
-     5   713.8131    29.9129    -1.2460
-     6   713.9397    29.5336    -1.2541
-     7   714.0632    29.1532    -1.2606
+     1   713.2645    31.4131    -1.2017
+     2   713.4073    31.0406    -1.2082
+     3   713.5470    30.6666    -1.2190
+     4   713.6823    30.2907    -1.2316
+     5   713.8131    29.9129    -1.2435
+     6   713.9397    29.5336    -1.2531
+     7   714.0632    29.1532    -1.2603
      8   714.1843    28.7719    -1.2657
      9   714.3037    28.3901    -1.2699
     10   714.4216    28.0079    -1.2731
-    11   714.5384    27.6253    -1.2758
+    11   714.5384    27.6253    -1.2757
     12   714.6543    27.2424    -1.2777
     13   714.7696    26.8594    -1.2790
     14   714.8845    26.4762    -1.2799
     15   714.9991    26.0930    -1.2808
-    16   715.1133    25.7096    -1.2821
-    17   715.2269    25.3260    -1.2840
-    18   715.3395    24.9422    -1.2869
-    19   715.4509    24.5580    -1.2907
-    20   715.5607    24.1734    -1.2950
-    21   715.6688    23.7882    -1.2996
-    22   715.7750    23.4026    -1.3047
-    23   715.8793    23.0164    -1.3100
-    24   715.9814    22.6296    -1.3155
-    25   716.0814    22.2423    -1.3211
-    26   716.1792    21.8545    -1.3264
-    27   716.2751    21.4661    -1.3313
-    28   716.3691    21.0773    -1.3356
-    29   716.4617    20.6881    -1.3393
-    30   716.5528    20.2986    -1.3426
-    31   716.6427    19.9089    -1.3460
-    32   716.7313    19.5188    -1.3493
-    33   716.8187    19.1284    -1.3523
-    34   716.9049    18.7378    -1.3550
-    35   716.9903    18.3470    -1.3571
-    36   717.0748    17.9561    -1.3589
-    37   717.1588    17.5649    -1.3606
-    38   717.2421    17.1737    -1.3622
-    39   717.3248    16.7823    -1.3635
-    40   717.4071    16.3909    -1.3642
-    41   717.4894    15.9995    -1.3636
-    42   717.5723    15.6081    -1.3609
-    43   717.6568    15.2172    -1.3552
-    44   717.7444    14.8269    -1.3453
-    45   717.8368    14.4377    -1.3301
-    46   717.9361    14.0502    -1.3087
-    47   718.0451    13.6653    -1.2802
+    16   715.1133    25.7096    -1.2820
+    17   715.2269    25.3260    -1.2839
+    18   715.3395    24.9422    -1.2868
+    19   715.4509    24.5580    -1.2906
+    20   715.5607    24.1734    -1.2949
+    21   715.6688    23.7882    -1.2995
+    22   715.7750    23.4026    -1.3045
+    23   715.8793    23.0164    -1.3098
+    24   715.9814    22.6296    -1.3154
+    25   716.0814    22.2423    -1.3210
+    26   716.1792    21.8545    -1.3263
+    27   716.2751    21.4661    -1.3312
+    28   716.3691    21.0773    -1.3355
+    29   716.4617    20.6881    -1.3392
+    30   716.5528    20.2986    -1.3425
+    31   716.6427    19.9089    -1.3458
+    32   716.7313    19.5188    -1.3491
+    33   716.8187    19.1284    -1.3521
+    34   716.9049    18.7378    -1.3547
+    35   716.9903    18.3470    -1.3568
+    36   717.0748    17.9561    -1.3586
+    37   717.1588    17.5649    -1.3602
+    38   717.2421    17.1737    -1.3618
+    39   717.3248    16.7823    -1.3631
+    40   717.4071    16.3909    -1.3638
+    41   717.4894    15.9995    -1.3631
+    42   717.5723    15.6081    -1.3604
+    43   717.6568    15.2172    -1.3547
+    44   717.7444    14.8269    -1.3448
+    45   717.8368    14.4377    -1.3298
+    46   717.9361    14.0502    -1.3085
+    47   718.0451    13.6653    -1.2801
     48   718.1663    13.2841    -1.2445
-    49   718.3023    12.9080    -1.2022
-    50   718.4552    12.5383    -1.1545
-    51   718.6263    12.1768    -1.1030
-    52   718.8163    11.8249    -1.0498
-    53   719.0246    11.4835    -0.9976
-    54   719.2500    11.1532    -0.9483
-    55   719.4908    10.8339    -0.9033
-    56   719.7449    10.5250    -0.8630
-    57   720.0105    10.2260    -0.8273
-    58   720.2859     9.9360    -0.7957
-    59   720.5699     9.6543    -0.7679
+    49   718.3023    12.9080    -1.2021
+    50   718.4552    12.5383    -1.1542
+    51   718.6263    12.1768    -1.1025
+    52   718.8163    11.8249    -1.0492
+    53   719.0246    11.4835    -0.9968
+    54   719.2500    11.1532    -0.9477
+    55   719.4908    10.8339    -0.9028
+    56   719.7449    10.5250    -0.8627
+    57   720.0105    10.2260    -0.8271
+    58   720.2859     9.9360    -0.7955
+    59   720.5699     9.6543    -0.7678
     60   720.8611     9.3801    -0.7432
     61   721.1587     9.1127    -0.7209
     62   721.4620     8.8519    -0.6999
@@ -4279,12 +4288,12 @@
     68   723.3864     7.4200    -0.5787
     69   723.7235     7.2047    -0.5582
     70   724.0648     6.9962    -0.5384
-    71   724.4101     6.7943    -0.5203
-    72   724.7588     6.5983    -0.5040
-    73   725.1105     6.4079    -0.4888
-    74   725.4650     6.2226    -0.4743
-    75   725.8221     6.0424    -0.4604
-    76   726.1817     5.8672    -0.4470
+    71   724.4101     6.7943    -0.5202
+    72   724.7588     6.5983    -0.5039
+    73   725.1105     6.4079    -0.4887
+    74   725.4650     6.2226    -0.4742
+    75   725.8221     6.0424    -0.4603
+    76   726.1817     5.8672    -0.4469
     77   726.5434     5.6965    -0.4348
     78   726.9071     5.5301    -0.4235
     79   727.2727     5.3677    -0.4127
@@ -4388,28 +4397,28 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       2.5 | 100.0 |        2.5 | 100.0 |
-|Wheel-rail cases     |      15 |       1.5 |  61.4 |        1.5 |  61.3 |
-|Non-Hertzian cases   |      20 |       1.0 |  38.6 |        1.0 |  38.7 |
+|Total                |       1 |       0.2 | 100.0 |        1.4 | 100.0 |
+|Wheel-rail cases     |      15 |       0.1 |  54.5 |        0.9 |  63.7 |
+|Non-Hertzian cases   |      20 |       0.1 |  45.5 |        0.5 |  36.3 |
 |Subsurface points    |       3 |       0.0 |   0.0 |        0.0 |   0.0 |
-|W/r profiles         |      23 |       0.2 |   7.6 |        0.2 |   7.6 |
-|Geometric analysis   |      60 |       0.1 |   5.0 |        0.1 |   5.0 |
-|Panag.process        |      76 |       1.9 |  75.1 |        1.9 |  74.9 |
-|Algorithm Norm       |     116 |       0.4 |  16.3 |        0.4 |  16.3 |
-|Algorithm Tang       |     109 |       1.5 |  58.4 |        1.5 |  58.3 |
-|Output quantities    |      91 |       0.1 |   3.8 |        0.1 |   3.9 |
+|W/r profiles         |      23 |       0.0 |   9.1 |        0.1 |   6.8 |
+|Geometric analysis   |      60 |       0.0 |   0.0 |        0.0 |   2.3 |
+|Panag.process        |      76 |       0.1 |  81.8 |        1.0 |  74.8 |
+|Algorithm Norm       |     117 |       0.0 |   9.1 |        0.2 |  17.1 |
+|Algorithm Tang       |     110 |       0.1 |  72.7 |        0.8 |  54.2 |
+|Output quantities    |      91 |       0.0 |   0.0 |        0.1 |   8.8 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     116 |       0.4 |  14.2 |        0.4 |  14.2 |
-|Tang: TangCG solver  |      75 |       0.3 |  12.0 |        0.3 |  12.0 |
-|Tang: ConvxGS solver |       6 |       0.0 |   1.0 |        0.0 |   1.0 |
-|Tang: StedyGS solver |      80 |       1.1 |  44.0 |        1.1 |  43.9 |
+|Norm: ConjGrd solver |     117 |       0.0 |   9.1 |        0.2 |  14.2 |
+|Tang: TangCG solver  |      76 |       0.0 |  27.3 |        0.1 |   9.8 |
+|Tang: ConvxGS solver |       6 |       0.0 |   0.0 |        0.0 |   1.1 |
+|Tang: StedyGS solver |      80 |       0.1 |  45.5 |        0.6 |  41.8 |
 |Tang: Fastsim solver |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      35 |       0.2 |   7.8 |        0.2 |   7.8 |
-|Contact location     |      60 |       0.1 |   2.6 |        0.1 |   2.6 |
-|Undeformed distance  |      56 |       0.1 |   2.1 |        0.1 |   2.1 |
-|Influence coeffic.   |      74 |       0.1 |   4.1 |        0.1 |   4.1 |
-|Initial state/estim. |      76 |       0.0 |   0.3 |        0.0 |   0.4 |
-|Subsurf writing      |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |      35 |       0.0 |   9.1 |        0.1 |   6.9 |
+|Contact location     |      60 |       0.0 |   0.0 |        0.0 |   0.7 |
+|Undeformed distance  |      56 |       0.0 |   0.0 |        0.0 |   1.6 |
+|Influence coeffic.   |      74 |       0.0 |   9.1 |        0.0 |   0.9 |
+|Initial state/estim. |      76 |       0.0 |   0.0 |        0.0 |   0.2 |
+|Subsurf writing      |       6 |       0.0 |   0.0 |        0.0 |   0.1 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

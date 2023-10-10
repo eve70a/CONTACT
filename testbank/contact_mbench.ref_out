@@ -2,14 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
+   |  Version: trunk(win64), $Revision: 2427 $, $Date:: 2023-10-10$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
  **                cntc_calculate1(  1): calculating...
  Case      1 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
+         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   7.764E+05
          2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
          3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
          4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
@@ -91,7 +91,7 @@
  **                cntc_calculate1(  2): calculating...
  Case      1 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
+         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   7.764E+05
          2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
          3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
          4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
@@ -173,7 +173,7 @@
  **                cntc_calculate1(  1): calculating...
  Case      2 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1759       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1985   1.348E+04, dFz/dz:   8.934E+05
+         1, NR,  z_ws, Fz:       0.1985   1.348E+04, dFz/dz:   5.956E+05
          2, NR,  z_ws, Fz:       0.1946   1.011E+04, dFz/dz:   8.643E+05
          3, NR,  z_ws, Fz:       0.1945   1.001E+04, dFz/dz:   8.163E+05
          4, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   8.152E+05
@@ -255,7 +255,7 @@
  **                cntc_calculate1(  2): calculating...
  Case      2 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2016   1.860E+04, dFz/dz:   1.020E+06
+         1, NR,  z_ws, Fz:       0.2016   1.860E+04, dFz/dz:   6.797E+05
          2, NR,  z_ws, Fz:       0.1932       9375., dFz/dz:   1.094E+06
          3, NR,  z_ws, Fz:       0.1938       9945., dFz/dz:   9.973E+05
          4, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   1.001E+06
@@ -338,7 +338,7 @@
  **                cntc_calculate1(  1): calculating...
  Case      3 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1645       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1871   1.255E+04, dFz/dz:   8.319E+05
+         1, NR,  z_ws, Fz:       0.1871   1.255E+04, dFz/dz:   5.546E+05
          2, NR,  z_ws, Fz:       0.1841   1.008E+04, dFz/dz:   8.071E+05
          3, NR,  z_ws, Fz:       0.1840   1.000E+04, dFz/dz:   7.760E+05
          4, NR,  z_ws, Fz:       0.1840   1.000E+04, dFz/dz:   7.746E+05
@@ -420,7 +420,7 @@
  **                cntc_calculate1(  2): calculating...
  Case      3 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1593       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1865   1.179E+04, dFz/dz:   6.503E+05
+         1, NR,  z_ws, Fz:       0.1865   1.179E+04, dFz/dz:   4.335E+05
          2, NR,  z_ws, Fz:       0.1838       9920., dFz/dz:   6.795E+05
          3, NR,  z_ws, Fz:       0.1839       9996., dFz/dz:   6.497E+05
          4, NR,  z_ws, Fz:       0.1839   1.000E+04, dFz/dz:   6.503E+05
@@ -502,7 +502,7 @@
  **                cntc_calculate1(  1): calculating...
  Case      4 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1494       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1721   1.198E+04, dFz/dz:   7.940E+05
+         1, NR,  z_ws, Fz:       0.1721   1.198E+04, dFz/dz:   5.294E+05
          2, NR,  z_ws, Fz:       0.1696   1.005E+04, dFz/dz:   7.740E+05
          3, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.477E+05
          4, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.458E+05
@@ -584,7 +584,7 @@
  **                cntc_calculate1(  2): calculating...
  Case      4 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1444       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1717   1.143E+04, dFz/dz:   6.287E+05
+         1, NR,  z_ws, Fz:       0.1717   1.143E+04, dFz/dz:   4.191E+05
          2, NR,  z_ws, Fz:       0.1694   1.001E+04, dFz/dz:   6.238E+05
          3, NR,  z_ws, Fz:       0.1694   1.000E+04, dFz/dz:   6.056E+05
          4, NR,  z_ws, Fz:       0.1694   1.000E+04, dFz/dz:   6.058E+05
@@ -666,7 +666,7 @@
  **                cntc_calculate1(  1): calculating...
  Case      5 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1324       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1550   1.156E+04, dFz/dz:   7.664E+05
+         1, NR,  z_ws, Fz:       0.1550   1.156E+04, dFz/dz:   5.109E+05
          2, NR,  z_ws, Fz:       0.1530   1.003E+04, dFz/dz:   7.500E+05
          3, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.333E+05
          4, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.329E+05
@@ -748,7 +748,7 @@
  **                cntc_calculate1(  2): calculating...
  Case      5 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1280       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1553   1.147E+04, dFz/dz:   6.312E+05
+         1, NR,  z_ws, Fz:       0.1553   1.147E+04, dFz/dz:   4.208E+05
          2, NR,  z_ws, Fz:       0.1529   1.003E+04, dFz/dz:   6.169E+05
          3, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.041E+05
          4, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.030E+05
@@ -830,7 +830,7 @@
  **                cntc_calculate1(  1): calculating...
  Case      6 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1138       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1364   1.124E+04, dFz/dz:   7.447E+05
+         1, NR,  z_ws, Fz:       0.1364   1.124E+04, dFz/dz:   4.965E+05
          2, NR,  z_ws, Fz:       0.1347   1.002E+04, dFz/dz:   7.315E+05
          3, NR,  z_ws, Fz:       0.1347   1.000E+04, dFz/dz:   7.184E+05
          4, NR,  z_ws, Fz:       0.1347   1.000E+04, dFz/dz:   7.186E+05
@@ -912,7 +912,7 @@
  **                cntc_calculate1(  2): calculating...
  Case      6 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1097       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1370   1.160E+04, dFz/dz:   6.380E+05
+         1, NR,  z_ws, Fz:       0.1370   1.160E+04, dFz/dz:   4.254E+05
          2, NR,  z_ws, Fz:       0.1345   1.004E+04, dFz/dz:   6.229E+05
          3, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.060E+05
          4, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.058E+05
@@ -994,7 +994,7 @@
  **                cntc_calculate1(  1): calculating...
  Case      7 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.0932       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1159   1.096E+04, dFz/dz:   7.268E+05
+         1, NR,  z_ws, Fz:       0.1159   1.096E+04, dFz/dz:   4.845E+05
          2, NR,  z_ws, Fz:       0.1145   1.001E+04, dFz/dz:   7.174E+05
          3, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.042E+05
          4, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.038E+05
@@ -1076,7 +1076,7 @@
  **                cntc_calculate1(  2): calculating...
  Case      7 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.0898       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1171   1.177E+04, dFz/dz:   6.467E+05
+         1, NR,  z_ws, Fz:       0.1171   1.177E+04, dFz/dz:   4.311E+05
          2, NR,  z_ws, Fz:       0.1143   1.004E+04, dFz/dz:   6.309E+05
          3, NR,  z_ws, Fz:       0.1143   1.000E+04, dFz/dz:   6.157E+05
          4, NR,  z_ws, Fz:       0.1143   1.000E+04, dFz/dz:   6.157E+05
@@ -1158,7 +1158,7 @@
  **                cntc_calculate1(  1): calculating...
  Case      8 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.0708       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0934   1.073E+04, dFz/dz:   7.116E+05
+         1, NR,  z_ws, Fz:       0.0934   1.073E+04, dFz/dz:   4.744E+05
          2, NR,  z_ws, Fz:       0.0924   1.001E+04, dFz/dz:   7.050E+05
          3, NR,  z_ws, Fz:       0.0924   1.000E+04, dFz/dz:   6.962E+05
 
@@ -1239,7 +1239,7 @@
  **                cntc_calculate1(  2): calculating...
  Case      8 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.0678       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0952   1.198E+04, dFz/dz:   6.578E+05
+         1, NR,  z_ws, Fz:       0.0952   1.198E+04, dFz/dz:   4.386E+05
          2, NR,  z_ws, Fz:       0.0922   1.006E+04, dFz/dz:   6.390E+05
          3, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.207E+05
          4, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.206E+05
@@ -1321,7 +1321,7 @@
  **                cntc_calculate1(  1): calculating...
  Case      9 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.0462       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0688   1.053E+04, dFz/dz:   6.983E+05
+         1, NR,  z_ws, Fz:       0.0688   1.053E+04, dFz/dz:   4.655E+05
          2, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.923E+05
          3, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.857E+05
 
@@ -1402,7 +1402,7 @@
  **                cntc_calculate1(  2): calculating...
  Case      9 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.0437       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0711   1.229E+04, dFz/dz:   6.738E+05
+         1, NR,  z_ws, Fz:       0.0711   1.229E+04, dFz/dz:   4.492E+05
          2, NR,  z_ws, Fz:       0.0677   1.007E+04, dFz/dz:   6.528E+05
          3, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.285E+05
          4, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.277E+05
@@ -1484,7 +1484,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     10 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.0189       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0415   1.036E+04, dFz/dz:   6.866E+05
+         1, NR,  z_ws, Fz:       0.0415   1.036E+04, dFz/dz:   4.577E+05
          2, NR,  z_ws, Fz:       0.0410   1.000E+04, dFz/dz:   6.841E+05
          3, NR,  z_ws, Fz:       0.0410   1.000E+04, dFz/dz:   6.799E+05
 
@@ -1565,7 +1565,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     10 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.0171       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0445   1.278E+04, dFz/dz:   6.996E+05
+         1, NR,  z_ws, Fz:       0.0445   1.278E+04, dFz/dz:   4.664E+05
          2, NR,  z_ws, Fz:       0.0405   1.010E+04, dFz/dz:   6.742E+05
          3, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.479E+05
          4, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.473E+05
@@ -1647,7 +1647,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     11 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -0.0205       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0018       9961., dFz/dz:   6.707E+05
+         1, NR,  z_ws, Fz:       0.0018       9961., dFz/dz:   4.471E+05
          2, NR,  z_ws, Fz:       0.0019   1.000E+04, dFz/dz:   6.706E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
@@ -1727,7 +1727,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     11 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.0023       7420., dFz/dz:   4.501E+05
+         1, NR,  z_ws, Fz:      -0.0023       7420., dFz/dz:   3.001E+05
          2, NR,  z_ws, Fz:       0.0034   1.139E+04, dFz/dz:   6.932E+05
          3, NR,  z_ws, Fz:       0.0014       9914., dFz/dz:   7.359E+05
          4, NR,  z_ws, Fz:       0.0015       9997., dFz/dz:   7.068E+05
@@ -1810,7 +1810,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     12 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -0.1091       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.0858   1.048E+04, dFz/dz:   6.751E+05
+         1, NR,  z_ws, Fz:      -0.0858   1.048E+04, dFz/dz:   4.501E+05
          2, NR,  z_ws, Fz:      -0.0865   1.000E+04, dFz/dz:   6.693E+05
          3, NR,  z_ws, Fz:      -0.0865   1.000E+04, dFz/dz:   6.658E+05
 
@@ -1891,7 +1891,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     12 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -0.1176       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.0910       7944., dFz/dz:   4.487E+05
+         1, NR,  z_ws, Fz:      -0.0910       7944., dFz/dz:   2.991E+05
          2, NR,  z_ws, Fz:      -0.0864   1.009E+04, dFz/dz:   4.684E+05
          3, NR,  z_ws, Fz:      -0.0866       9997., dFz/dz:   4.846E+05
          4, NR,  z_ws, Fz:      -0.0866      10000., dFz/dz:   4.838E+05
@@ -1973,7 +1973,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     13 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -0.2185       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.1949   1.052E+04, dFz/dz:   6.695E+05
+         1, NR,  z_ws, Fz:      -0.1949   1.052E+04, dFz/dz:   4.464E+05
          2, NR,  z_ws, Fz:      -0.1957   1.000E+04, dFz/dz:   6.645E+05
          3, NR,  z_ws, Fz:      -0.1957   1.000E+04, dFz/dz:   6.560E+05
 
@@ -2054,7 +2054,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     13 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -0.2259       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2022       7117., dFz/dz:   4.503E+05
+         1, NR,  z_ws, Fz:      -0.2022       7117., dFz/dz:   3.002E+05
          2, NR,  z_ws, Fz:      -0.1958   1.017E+04, dFz/dz:   4.763E+05
          3, NR,  z_ws, Fz:      -0.1961       9991., dFz/dz:   5.012E+05
          4, NR,  z_ws, Fz:      -0.1961      10000., dFz/dz:   5.003E+05
@@ -2136,7 +2136,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     14 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -3.0696       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.0420   1.257E+04, dFz/dz:   6.831E+05
+         1, NR,  z_ws, Fz:      -3.0420   1.257E+04, dFz/dz:   4.554E+05
          2, NR,  z_ws, Fz:      -3.0458   1.009E+04, dFz/dz:   6.591E+05
          3, NR,  z_ws, Fz:      -3.0459   1.000E+04, dFz/dz:   6.330E+05
          4, NR,  z_ws, Fz:      -3.0459   1.000E+04, dFz/dz:   6.327E+05
@@ -2218,7 +2218,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     14 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -3.1382       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.0841       4593., dFz/dz:   1.274E+05
+         1, NR,  z_ws, Fz:      -3.0841       4593., dFz/dz:   8.493E+04
          2, NR,  z_ws, Fz:      -3.0570       8370., dFz/dz:   1.397E+05
          3, NR,  z_ws, Fz:      -3.0442   1.042E+04, dFz/dz:   1.603E+05
          4, NR,  z_ws, Fz:      -3.0469       9988., dFz/dz:   1.650E+05
@@ -2301,7 +2301,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     15 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -4.6045       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -4.5759   1.285E+04, dFz/dz:   6.760E+05
+         1, NR,  z_ws, Fz:      -4.5759   1.285E+04, dFz/dz:   4.507E+05
          2, NR,  z_ws, Fz:      -4.5802   1.011E+04, dFz/dz:   6.507E+05
          3, NR,  z_ws, Fz:      -4.5803   1.000E+04, dFz/dz:   6.219E+05
          4, NR,  z_ws, Fz:      -4.5803   1.000E+04, dFz/dz:   6.215E+05
@@ -2383,7 +2383,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     15 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -4.6549       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -4.5979       6765., dFz/dz:   1.783E+05
+         1, NR,  z_ws, Fz:      -4.5979       6765., dFz/dz:   1.189E+05
          2, NR,  z_ws, Fz:      -4.5798   1.022E+04, dFz/dz:   1.902E+05
          3, NR,  z_ws, Fz:      -4.5809       9985., dFz/dz:   2.033E+05
          4, NR,  z_ws, Fz:      -4.5809      10000., dFz/dz:   2.029E+05
@@ -2465,7 +2465,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     16 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -5.5537       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -5.5249   1.284E+04, dFz/dz:   6.687E+05
+         1, NR,  z_ws, Fz:      -5.5249   1.284E+04, dFz/dz:   4.458E+05
          2, NR,  z_ws, Fz:      -5.5291   1.011E+04, dFz/dz:   6.437E+05
          3, NR,  z_ws, Fz:      -5.5293   1.000E+04, dFz/dz:   6.163E+05
          4, NR,  z_ws, Fz:      -5.5293   1.000E+04, dFz/dz:   6.158E+05
@@ -2547,7 +2547,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     16 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -5.5956       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -5.5415       7474., dFz/dz:   2.071E+05
+         1, NR,  z_ws, Fz:      -5.5415       7474., dFz/dz:   1.381E+05
          2, NR,  z_ws, Fz:      -5.5293   1.012E+04, dFz/dz:   2.168E+05
          3, NR,  z_ws, Fz:      -5.5299       9994., dFz/dz:   2.279E+05
          4, NR,  z_ws, Fz:      -5.5298      10000., dFz/dz:   2.269E+05
@@ -2629,7 +2629,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     17 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -6.2851       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -6.2561   1.281E+04, dFz/dz:   6.627E+05
+         1, NR,  z_ws, Fz:      -6.2561   1.281E+04, dFz/dz:   4.418E+05
          2, NR,  z_ws, Fz:      -6.2604   1.011E+04, dFz/dz:   6.378E+05
          3, NR,  z_ws, Fz:      -6.2606   1.000E+04, dFz/dz:   6.128E+05
          4, NR,  z_ws, Fz:      -6.2606   1.000E+04, dFz/dz:   6.120E+05
@@ -2711,7 +2711,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     17 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -6.3220       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -6.2707       7825., dFz/dz:   2.287E+05
+         1, NR,  z_ws, Fz:      -6.2707       7825., dFz/dz:   1.524E+05
          2, NR,  z_ws, Fz:      -6.2612   1.008E+04, dFz/dz:   2.374E+05
          3, NR,  z_ws, Fz:      -6.2616       9996., dFz/dz:   2.485E+05
          4, NR,  z_ws, Fz:      -6.2615      10000., dFz/dz:   2.476E+05
@@ -2793,7 +2793,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     18 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -6.8925       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -6.8634   1.276E+04, dFz/dz:   6.574E+05
+         1, NR,  z_ws, Fz:      -6.8634   1.276E+04, dFz/dz:   4.383E+05
          2, NR,  z_ws, Fz:      -6.8676   1.010E+04, dFz/dz:   6.328E+05
          3, NR,  z_ws, Fz:      -6.8677   1.000E+04, dFz/dz:   6.095E+05
          4, NR,  z_ws, Fz:      -6.8677   1.000E+04, dFz/dz:   6.088E+05
@@ -2875,7 +2875,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     18 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -6.9252       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -6.8762       8097., dFz/dz:   2.476E+05
+         1, NR,  z_ws, Fz:      -6.8762       8097., dFz/dz:   1.650E+05
          2, NR,  z_ws, Fz:      -6.8685   1.006E+04, dFz/dz:   2.547E+05
          3, NR,  z_ws, Fz:      -6.8687       9998., dFz/dz:   2.648E+05
          4, NR,  z_ws, Fz:      -6.8687   1.000E+04, dFz/dz:   2.648E+05
@@ -2957,7 +2957,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     19 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -7.4161       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -7.3869   1.270E+04, dFz/dz:   6.528E+05
+         1, NR,  z_ws, Fz:      -7.3869   1.270E+04, dFz/dz:   4.352E+05
          2, NR,  z_ws, Fz:      -7.3911   1.010E+04, dFz/dz:   6.290E+05
          3, NR,  z_ws, Fz:      -7.3912   1.000E+04, dFz/dz:   6.050E+05
          4, NR,  z_ws, Fz:      -7.3913   1.000E+04, dFz/dz:   6.042E+05
@@ -3039,7 +3039,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     19 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -7.4455       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -7.3979       8366., dFz/dz:   2.637E+05
+         1, NR,  z_ws, Fz:      -7.3979       8366., dFz/dz:   1.758E+05
          2, NR,  z_ws, Fz:      -7.3917   1.004E+04, dFz/dz:   2.705E+05
          3, NR,  z_ws, Fz:      -7.3919       9999., dFz/dz:   2.797E+05
          4, NR,  z_ws, Fz:      -7.3919   1.000E+04, dFz/dz:   2.797E+05
@@ -3121,7 +3121,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     20 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -7.8778       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -7.8486   1.265E+04, dFz/dz:   6.486E+05
+         1, NR,  z_ws, Fz:      -7.8486   1.265E+04, dFz/dz:   4.324E+05
          2, NR,  z_ws, Fz:      -7.8527   1.009E+04, dFz/dz:   6.257E+05
          3, NR,  z_ws, Fz:      -7.8528   1.000E+04, dFz/dz:   6.001E+05
          4, NR,  z_ws, Fz:      -7.8528   1.000E+04, dFz/dz:   5.985E+05
@@ -3203,7 +3203,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     20 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -7.9046       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -7.8583       8603., dFz/dz:   2.789E+05
+         1, NR,  z_ws, Fz:      -7.8583       8603., dFz/dz:   1.859E+05
          2, NR,  z_ws, Fz:      -7.8533   1.003E+04, dFz/dz:   2.844E+05
          3, NR,  z_ws, Fz:      -7.8534       9999., dFz/dz:   2.913E+05
          4, NR,  z_ws, Fz:      -7.8534   1.000E+04, dFz/dz:   2.914E+05
@@ -3285,7 +3285,7 @@
  **                cntc_calculate1(  1): calculating...
  Case     21 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -8.2913       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -8.2620   1.261E+04, dFz/dz:   6.452E+05
+         1, NR,  z_ws, Fz:      -8.2620   1.261E+04, dFz/dz:   4.302E+05
          2, NR,  z_ws, Fz:      -8.2661   1.009E+04, dFz/dz:   6.226E+05
          3, NR,  z_ws, Fz:      -8.2662   1.000E+04, dFz/dz:   5.969E+05
          4, NR,  z_ws, Fz:      -8.2662   1.000E+04, dFz/dz:   5.963E+05
@@ -3367,7 +3367,7 @@
  **                cntc_calculate1(  2): calculating...
  Case     21 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -8.3159       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -8.2709       8774., dFz/dz:   2.922E+05
+         1, NR,  z_ws, Fz:      -8.2709       8774., dFz/dz:   1.948E+05
          2, NR,  z_ws, Fz:      -8.2667   1.002E+04, dFz/dz:   2.976E+05
          3, NR,  z_ws, Fz:      -8.2668       9999., dFz/dz:   3.055E+05
          4, NR,  z_ws, Fz:      -8.2668   1.000E+04, dFz/dz:   3.055E+05
@@ -3452,19 +3452,19 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       9.7 | 100.0 |        9.7 | 100.0 |
-|Wheel-rail cases     |      42 |       9.4 |  96.8 |        9.4 |  96.8 |
-|Subsurface points    |       1 |       0.3 |   2.8 |        0.3 |   2.8 |
-|W/r profiles         |       4 |       0.0 |   0.3 |        0.0 |   0.3 |
-|Geometric analysis   |     206 |       0.4 |   4.1 |        0.4 |   4.1 |
-|Panag.process        |     164 |       8.6 |  88.3 |        8.6 |  88.3 |
-|Algorithm Norm       |     164 |       0.9 |   9.7 |        0.9 |   9.7 |
-|Algorithm Tang       |     164 |       7.6 |  78.5 |        7.6 |  78.5 |
-|Output quantities    |     206 |       0.2 |   1.9 |        0.2 |   1.9 |
+|Total                |       1 |       3.0 | 100.0 |        4.5 | 100.0 |
+|Wheel-rail cases     |      42 |       2.9 |  96.8 |        4.4 |  97.4 |
+|Subsurface points    |       1 |       0.1 |   2.6 |        0.1 |   2.2 |
+|W/r profiles         |       4 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Geometric analysis   |     206 |       0.0 |   1.1 |        0.2 |   3.6 |
+|Panag.process        |     164 |       2.8 |  93.2 |        4.0 |  88.6 |
+|Algorithm Norm       |     164 |       0.3 |  10.0 |        0.5 |  10.7 |
+|Algorithm Tang       |     164 |       2.5 |  83.2 |        3.5 |  77.8 |
+|Output quantities    |     206 |       0.0 |   1.6 |        0.1 |   1.7 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     164 |       0.8 |   8.7 |        0.8 |   8.7 |
-|Tang: StedyGS solver |     164 |       7.5 |  77.7 |        7.5 |  77.7 |
+|Norm: ConjGrd solver |     164 |       0.2 |   8.4 |        0.4 |   9.2 |
+|Tang: StedyGS solver |     164 |       2.5 |  82.6 |        3.5 |  76.2 |
 |------------------------------------------------------------------------|
-|Result element  1    |      21 |       4.8 |  49.2 |        4.8 |  49.2 |
-|Result element  2    |      22 |       4.9 |  50.4 |        4.9 |  50.4 |
+|Result element  1    |      21 |       1.5 |  51.1 |        2.3 |  50.1 |
+|Result element  2    |      22 |       1.4 |  48.4 |        2.2 |  49.5 |
 |------------------------------------------------------------------------|
