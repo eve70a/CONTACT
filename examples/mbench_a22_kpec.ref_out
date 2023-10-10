@@ -2,9 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2392 $, $Date:: 2023-07-25$       |
+   |  Version: trunk(win64), $Revision: 2422 $, $Date:: 2023-09-26$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2392M, 26-Jul-2023 11:32)                      |
+   |  (Subversion revision 2422M, 29-Sep-2023 14:37)                      |
    |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
    ------------------------------------------------------------------------
 
@@ -211,7 +211,6 @@
          8, NR,  z_ws, Fz:       0.1944       9610., dFz/dz:   7.664E+06
          9, NR,  z_ws, Fz:       0.1945       9983., dFz/dz:   7.326E+06
         10, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   7.419E+06
-        11, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   7.073E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -251,11 +250,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -982.5      -1687.   1.000E+04      -984.5      -1686.      10000.
+      -982.5      -1687.   1.000E+04      -984.5      -1686.   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.7821    744.2666      0.4416       332.5       599.7      -3379.
+     -0.7821    744.2668      0.4416       332.5       599.8      -3380.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -281,9 +280,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9889.      -982.5      -2247.      -3895.   7.390E-02      -6.624
+         9890.      -982.5      -2247.      -3895.   7.390E-02      -6.624
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1206     -0.3312     -0.7573   2.017E-02       569.8
+        0.1206     -0.3311     -0.7573   2.017E-02       569.8
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -377,8 +376,6 @@
          4, NR,  z_ws, Fz:       0.0043       9991., dFz/dz:   5.448E+05
          5, NR,  z_ws, Fz:       0.0043   1.001E+04, dFz/dz:   1.196E+06
          6, NR,  z_ws, Fz:       0.0043       9999., dFz/dz:   1.038E+06
-         7, NR,  z_ws, Fz:       0.0043   1.000E+04, dFz/dz:   1.708E+06
-         8, NR,  z_ws, Fz:       0.0043   1.000E+04, dFz/dz:   1.522E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -418,20 +415,20 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -965.8       69.46   1.000E+04      -964.9       77.49   1.000E+04
+      -965.7       69.47       9999.      -964.8       77.50       9999.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -6.9402    726.5908      3.1452       6.155       31.21      -63.95
+     -6.9404    726.5909      3.1452       6.154       31.21      -63.94
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -7.0537    727.5827      2.8755     -0.2823    -32.9499      2.8755
+     -7.0537    727.5825      2.8756     -0.2823    -32.9500      2.8756
 
      XCP(W)      YCP(W)      ZCP(W)
-      1.6156    -27.5493      3.1280
+      1.6156    -27.5494      3.1281
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
@@ -448,9 +445,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9624.      -965.8      -2719.      -1354.      0.1224      -76.91
+         9622.      -965.7      -2719.      -1353.      0.1224      -76.89
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1174     -0.3345     -0.9418   2.993E-02       1625.
+        0.1173     -0.3345     -0.9418   2.993E-02       1625.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -807,8 +804,6 @@
          6, NR,  z_ws, Fz:       0.0034       9974., dFz/dz:   8.429E+05
          7, NR,  z_ws, Fz:       0.0034   1.001E+04, dFz/dz:   1.055E+06
          8, NR,  z_ws, Fz:       0.0034       9998., dFz/dz:   1.376E+06
-         9, NR,  z_ws, Fz:       0.0034   1.000E+04, dFz/dz:   2.027E+06
-        10, NR,  z_ws, Fz:       0.0034      10000., dFz/dz:   2.118E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -848,20 +843,20 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -963.5       95.65      10000.      -962.3       103.7      10000.
+      -963.3       95.66       9998.      -962.1       103.7       9998.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -6.9857    726.6018      3.1418       6.043       30.04      -63.01
+     -6.9857    726.6019      3.1418       6.041       30.04      -62.99
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -7.0359    727.4182      2.9177     -0.2850    -33.1144      2.9177
+     -7.0359    727.4180      2.9177     -0.2850    -33.1146      2.9177
 
      XCP(W)      YCP(W)      ZCP(W)
-      1.6314    -27.7139      3.1710
+      1.6314    -27.7141      3.1710
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
@@ -873,14 +868,14 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           2004.   3.987E-03   1.253E-02   6.075E-04
+     0.000      0.2000           2004.   3.988E-03   1.253E-02   6.075E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9623.      -963.5      -2720.      -1004.      0.1229      -76.69
+         9622.      -963.3      -2719.      -1004.      0.1228      -76.67
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1174     -0.3337     -0.9421   2.905E-02       1630.
+        0.1173     -0.3337     -0.9421   2.905E-02       1630.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1362,25 +1357,25 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.9 | 100.0 |        1.9 | 100.0 |
-|Wheel-rail cases     |       9 |       0.9 | 100.0 |        1.9 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.3 |
-|Geometric analysis   |      68 |       0.0 |   3.6 |        0.1 |   5.1 |
-|Panag.process        |      59 |       0.8 |  90.9 |        1.5 |  78.6 |
-|Algorithm Norm       |      14 |       0.0 |   1.8 |        0.1 |   4.2 |
-|Algorithm Tang       |      59 |       0.8 |  89.1 |        1.4 |  74.1 |
-|Output quantities    |      68 |       0.0 |   3.6 |        0.1 |   3.3 |
+|Total                |       1 |       1.0 | 100.0 |        1.8 | 100.0 |
+|Wheel-rail cases     |       9 |       1.0 | 100.0 |        1.8 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |      63 |       0.0 |   0.0 |        0.1 |   3.8 |
+|Panag.process        |      54 |       0.9 |  95.2 |        1.6 |  85.0 |
+|Algorithm Norm       |      14 |       0.0 |   1.6 |        0.1 |   5.6 |
+|Algorithm Tang       |      54 |       0.9 |  93.5 |        1.4 |  78.8 |
+|Output quantities    |      63 |       0.0 |   4.8 |        0.1 |   6.3 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      14 |       0.0 |   1.8 |        0.1 |   2.9 |
-|Norm: KPEC method    |      24 |       0.0 |   0.0 |        0.0 |   0.3 |
-|Norm: ANALYN method  |      21 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Tang: StedyGS solver |      14 |       0.7 |  85.5 |        1.4 |  72.4 |
-|Tang: Fastsim solver |      45 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Norm: ConjGrd solver |      14 |       0.0 |   1.6 |        0.1 |   4.8 |
+|Norm: KPEC method    |      21 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Norm: ANALYN method  |      19 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Tang: StedyGS solver |      14 |       0.9 |  93.5 |        1.4 |  78.5 |
+|Tang: Fastsim solver |      40 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       9 |       0.0 |   0.0 |        0.0 |   0.3 |
-|Contact location     |      68 |       0.0 |   1.8 |        0.1 |   3.6 |
-|Undeformed distance  |      59 |       0.0 |   0.0 |        0.0 |   1.4 |
-|Influence coeffic.   |      59 |       0.0 |   1.8 |        0.1 |   4.5 |
-|Initial state/estim. |      59 |       0.0 |   0.0 |        0.0 |   0.6 |
+|Reading input-file   |       9 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |      63 |       0.0 |   0.0 |        0.1 |   2.8 |
+|Undeformed distance  |      54 |       0.0 |   0.0 |        0.0 |   1.0 |
+|Influence coeffic.   |      54 |       0.0 |   0.0 |        0.1 |   3.7 |
+|Initial state/estim. |      54 |       0.0 |   0.0 |        0.0 |   0.4 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

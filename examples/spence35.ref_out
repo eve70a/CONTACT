@@ -2,10 +2,10 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
+   |  Version: trunk(win64), $Revision: 2422 $, $Date:: 2023-09-26$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
-   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   |  (Subversion revision 2422M, 29-Sep-2023 14:37)                      |
+   |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
    ------------------------------------------------------------------------
 
  Case     1
@@ -1285,24 +1285,24 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.1 | 100.0 |        1.8 | 100.0 |
-|Non-Hertzian cases   |      35 |       0.1 | 100.0 |        1.8 | 100.0 |
-|Subsurface points    |      35 |       0.0 |   0.0 |        0.1 |   5.5 |
-|Panag.process        |      35 |       0.0 |  50.0 |        0.8 |  43.5 |
-|Algorithm Norm       |     257 |       0.0 |  16.7 |        0.3 |  19.2 |
-|Algorithm Tang       |     257 |       0.0 |  33.3 |        0.4 |  21.4 |
-|Output quantities    |      35 |       0.0 |   0.0 |        0.0 |   1.1 |
+|Total                |       1 |       0.0 | 100.0 |        1.0 | 100.0 |
+|Non-Hertzian cases   |      35 |       0.0 | 100.0 |        1.0 | 100.0 |
+|Subsurface points    |      35 |       0.0 |   0.0 |        0.1 |   8.3 |
+|Panag.process        |      35 |       0.0 | 100.0 |        0.7 |  76.4 |
+|Algorithm Norm       |     257 |       0.0 |   0.0 |        0.3 |  32.2 |
+|Algorithm Tang       |     257 |       0.0 | 100.0 |        0.4 |  38.7 |
+|Output quantities    |      35 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     257 |       0.0 |   0.0 |        0.2 |  11.8 |
-|Tang: TangCG solver  |     257 |       0.0 |  16.7 |        0.3 |  16.4 |
+|Norm: ConjGrd solver |     257 |       0.0 |   0.0 |        0.2 |  19.6 |
+|Tang: TangCG solver  |     257 |       0.0 | 100.0 |        0.3 |  32.6 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      35 |       0.0 |   0.0 |        0.0 |   0.4 |
+|Reading input-file   |      35 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Initial state/estim. |      35 |       0.0 |  16.7 |        0.0 |   0.1 |
-|Writing output-files |      35 |       0.0 |  16.7 |        0.4 |  24.7 |
-|Subsurf infl.cf.     |      35 |       0.0 |   0.0 |        0.1 |   4.2 |
-|Subsurf FFTs         |      35 |       0.0 |   0.0 |        0.0 |   1.3 |
+|Initial state/estim. |      35 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |      35 |       0.0 |   0.0 |        0.1 |  11.3 |
+|Subsurf infl.cf.     |      35 |       0.0 |   0.0 |        0.0 |   2.8 |
+|Subsurf FFTs         |      35 |       0.0 |   0.0 |        0.1 |   5.5 |
 |Subsurf derived qnt  |      35 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Subsurf writing      |      70 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Subsurf writing      |      70 |       0.0 |   0.0 |        0.0 |   1.6 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

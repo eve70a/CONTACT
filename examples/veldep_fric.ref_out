@@ -2,10 +2,10 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2356 $, $Date:: 2023-05-10$       |
+   |  Version: trunk(win64), $Revision: 2422 $, $Date:: 2023-09-26$       |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2356M, 10-May-2023 16:58)                      |
-   |  Licensed to: Edwin Vollebregt, VTECH CMCC                           |
+   |  (Subversion revision 2422M, 29-Sep-2023 14:37)                      |
+   |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
    ------------------------------------------------------------------------
 
  Case     1
@@ -2482,20 +2482,20 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.2 | 100.0 |        0.8 | 100.0 |
-|Non-Hertzian cases   |      53 |       0.2 | 100.0 |        0.8 | 100.0 |
-|Panag.process        |      53 |       0.2 | 100.0 |        0.7 |  87.6 |
-|Algorithm Norm       |      53 |       0.0 |   0.0 |        0.0 |   3.2 |
-|Algorithm Tang       |      53 |       0.2 | 100.0 |        0.7 |  83.6 |
-|Output quantities    |      53 |       0.0 |   0.0 |        0.0 |   1.7 |
+|Total                |       1 |       0.2 | 100.0 |        0.7 | 100.0 |
+|Non-Hertzian cases   |      53 |       0.2 | 100.0 |        0.7 | 100.0 |
+|Panag.process        |      53 |       0.2 | 100.0 |        0.6 |  96.7 |
+|Algorithm Norm       |      53 |       0.0 |   0.0 |        0.0 |   1.9 |
+|Algorithm Tang       |      53 |       0.2 | 100.0 |        0.6 |  94.6 |
+|Output quantities    |      53 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      53 |       0.0 |   0.0 |        0.0 |   1.5 |
-|Tang: TangCG solver  |     789 |       0.1 |  80.0 |        0.4 |  48.8 |
-|Tang: ConvxGS solver |      12 |       0.0 |   0.0 |        0.0 |   4.6 |
+|Norm: ConjGrd solver |      53 |       0.0 |   0.0 |        0.0 |   1.9 |
+|Tang: TangCG solver  |     789 |       0.2 | 100.0 |        0.4 |  66.7 |
+|Tang: ConvxGS solver |      12 |       0.0 |   0.0 |        0.0 |   3.1 |
 |------------------------------------------------------------------------|
 |Reading input-file   |      53 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |      53 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       6 |       0.0 |   0.0 |        0.1 |   9.0 |
+|Writing output-files |       6 |       0.0 |   0.0 |        0.0 |   0.4 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
