@@ -72,7 +72,7 @@ endif
 
 # modules and object files needed for the main targets;
 # $(P) == object file path, separate directories per target & platform
-MODS_ALL = $(P)m_aijpj.$O           $(P)m_arcfit.$O          $(P)m_blas.$O            \
+MODS_ALL = $(P)m_aijpj.$O           $(P)m_blas.$O            \
            $(P)m_bspline_def.$O     $(P)m_bspline_get.$O     $(P)m_bspline_make.$O    \
            $(P)m_bspline_1seg.$O    $(P)m_errormsg.$O        $(P)m_friclaw.$O         \
            $(P)m_gridfunc.$O        $(P)m_grids.$O           $(P)m_hertz.$O           \

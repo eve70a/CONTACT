@@ -2705,13 +2705,12 @@ subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nre
 !                                   -1 = suppress warnings; 0: warn and continue (default);
 !                                    1 = signal errors and abort
 !                     6: ismooth   selection of smoothing method. 0 = original smoothing spline (default),
-!                                    1 = weighted PP smoothing spline, 2 = weighted smoothing B-spline (best),
-!                                    3 = arc-fit approach
+!                                    1 = weighted PP smoothing spline, 2 = weighted smoothing B-spline (best)
 !  rparam         - real configuration parameters
 !                     1: sclfac    scaling factor for conversion to [mm], e.g. 1e3 for data given in [m]
 !                                  default (sclfac<=0): using the active unit convention
 !                     2: smooth    smoothing parameter lambda for non-weighted spline or l_filt for
-!                                  weighted splines/arc-fit smoothing
+!                                  weighted spline smoothing
 !                     3: maxomit   fraction: signal error if more than maxomit of profile points are
 !                                  discarded after cleanup of profile. Default 0.5, use 1 to disable check.
 !                     4: zigthrs   angle threshold for zig-zag detection. Default 5/6*pi, >=pi to disable.
@@ -2801,13 +2800,12 @@ subroutine cntc_setProfileInputValues(ire, npoint, values, nints, iparam, nreals
 !                                   -1 = suppress warnings; 0: warn and continue (default);
 !                                    1 = signal errors and abort
 !                     6: ismooth   selection of smoothing method. 0 = original smoothing spline (default),
-!                                    1 = weighted PP smoothing spline, 2 = weighted smoothing B-spline (best),
-!                                    3 = arc-fit approach
+!                                    1 = weighted PP smoothing spline, 2 = weighted smoothing B-spline (best)
 !  rparam         - real configuration parameters
 !                     1: sclfac    scaling factor for conversion to [mm], e.g. 1e3 for data given in [m]
 !                                  default (sclfac<=0): using the active unit convention
 !                     2: smooth    smoothing parameter lambda for non-weighted spline or l_filt for
-!                                  weighted splines/arc-fit smoothing
+!                                  weighted spline smoothing
 !                     3: maxomit   fraction: signal error if more than maxomit of profile points are
 !                                  discarded after cleanup of profile. Default 0.5, use 1 to disable check.
 !                     4: zigthrs   angle threshold for zig-zag detection. Default 5/6*pi, >=pi to disable.

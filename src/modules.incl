@@ -1,8 +1,6 @@
 $(P)m_aijpj.mod           $(P)m_aijpj.$O:           \
                                                     $(P)m_hierarch_data.mod   \
                                                     $(P)mkl_dfti.mod         
-$(P)m_arcfit.mod          $(P)m_arcfit.$O:          \
-                                                    $(P)m_hierarch_data.mod  
 $(P)m_bspline_1seg.mod    $(P)m_bspline_1seg.$O:    \
                                                     $(P)m_globals.mod         \
                                                     $(P)m_bspline_def.mod    
@@ -105,8 +103,7 @@ $(P)m_nonhz.mod           $(P)m_nonhz.$O:           \
                                                     $(P)m_sinput.mod          \
                                                     $(P)m_soutpt.mod         
 $(P)m_profile.mod         $(P)m_profile.$O:         \
-                                                    $(P)m_hierarch_data.mod   \
-                                                    $(P)m_arcfit.mod         
+                                                    $(P)m_hierarch_data.mod
 $(P)m_ptrarray.mod        $(P)m_ptrarray.$O:        \
                                                     $(P)m_globals.mod         \
                                                     $(P)m_markers.mod        

@@ -8,12 +8,12 @@
 module m_profile
 
 use m_hierarch_data
-use m_arcfit
 
 implicit none
 private
 
    public  t_profile
+   public  profile_is_varprof
    public  profile_ini
    public  profile_copy
    public  profile_destroy
@@ -84,8 +84,8 @@ private
       integer,            dimension(:),   pointer :: kink_if     => NULL()
       integer,            dimension(:),   pointer :: accel_if    => NULL()
       type(t_bspline2d)                           :: spl2d
-   !contains
-   !   procedure :: xxx  => prf_xxx
+    contains
+       procedure :: is_varprof  => profile_is_varprof
 
       ! fname            file-name for profile file as given by user
       ! grd_data         profile data for the rail or wheel, w.r.t. profile datum (tape circle)
@@ -115,10 +115,9 @@ private
       !                        smoothing penalty on 2nd derivative, with kinks / no accelerations
       !                    2 = weighted smoothing B-spline with fewer #segments than input profile
       !                        smoothing penalty on 3rd derivative, with kinks and accelerations
-      !                    3 = arc-fit method, similar to PP-spline (1)
       ! smth             parameter lambda = (1-p)/p for non-weighted smoothing spline (ismooth=0),
       !                  with weight p for the data and weight (1-p) for the 2nd derivative, or 
-      !                  l_filt for weighted splines and arc-fit smoothing (ismooth=1,2,3)
+      !                  l_filt for weighted splines (ismooth=1,2)
 
       ! zig_thrs  [rad]  angle threshold for zig-zag pattern detection. Default pi/2. 
       !                  Set to pi to disable zig-zag detection.
@@ -151,6 +150,19 @@ private
    end type t_profile
 
 contains
+
+!------------------------------------------------------------------------------------------------------------
+
+   function profile_is_varprof(this)
+!--function: tell if profile has variation in running direction
+      implicit none
+!--result value
+      logical                      :: profile_is_varprof
+!--subroutine arguments
+      class(t_profile), intent(in) :: this
+
+      profile_is_varprof = (this%nslc.gt.0)
+   end function profile_is_varprof
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -337,13 +349,12 @@ contains
 !                                   -1 = suppress warnings; 0: warn and continue (default);
 !                                    1 = signal errors and abort
 !                     6: ismooth   selection of smoothing method. 0 = original smoothing spline (default),
-!                                    1 = weighted PP smoothing spline, 2 = weighted smoothing B-spline (best),
-!                                    3 = arc-fit approach
+!                                    1 = weighted PP smoothing spline, 2 = weighted smoothing B-spline (best)
 !  rparam         - real configuration parameters
 !                     1: sclfac    scaling factor for conversion to [mm], e.g. 1e3 for data given in [m]
 !                                  default (sclfac<=0): using the active unit convention
 !                     2: smooth    smoothing parameter lambda for non-weighted spline or l_filt for
-!                                  weighted splines/arc-fit smoothing
+!                                  weighted spline smoothing
 !                     3: maxomit   fraction: signal error if more than maxomit of profile points are
 !                                  discarded after cleanup of profile. Default 0.5, use 1 to disable check.
 !                     4: zigthrs   angle threshold for zig-zag detection. Default 5/6*pi, >=pi to disable.
@@ -378,7 +389,7 @@ contains
          prf%err_hnd  = 0
       endif
       if (nints.ge.6) then
-         prf%ismooth = iparam(6)  ! 0=original spline; 1=weighted PP-spline; 2=weighted B-spline, 3=arc-fit
+         prf%ismooth = iparam(6)  ! 0=original spline; 1=weighted PP-spline; 2=weighted B-spline
       else
          prf%ismooth = 0
       endif
@@ -391,7 +402,7 @@ contains
       endif
       if (nreals.ge.2) then
          prf%smth  = rparam(2)    ! non-weighted spline: lambda = (1-p)/p for profile smoothing
-                                  ! weighted spline & arc-fit method: wavelength l_filt
+                                  ! weighted spline: wavelength l_filt
          prf%smth  = max(0d0, prf%smth)
       else
          prf%smth  = 0d0          ! no smoothing
@@ -496,7 +507,7 @@ contains
          call readline(linp, ncase, linenr, descrp, 'iaaad', ints, dbles, flags, strngs, mxnval,        &
                         nval, idebug, ieof, lstop, sub_ierror)
 
-         ismooth    = max(  0, min(  3, ints(1)))
+         ismooth    = max(  0, min(  2, ints(1)))
          zig_thrs   = dbles(1)
          kink_high  = dbles(2)
          kink_low   = dbles(3)
@@ -529,8 +540,9 @@ contains
       type(t_profile)            :: prf
       integer,        intent(in) :: is_wheel
 !--local variables:
-      integer             :: len1
+      integer             :: len1, prfopt
       character(len=1)    :: namprf
+      character(len=6)    :: namsmth
       character(len=80)   :: spaces
 
       if (is_wheel.ge.1) then
@@ -538,19 +550,52 @@ contains
       else
          namprf = 'R'
       endif
+      if (prf%ismooth.eq.0) then
+         namsmth = 'LAMBDA'
+      else
+         namsmth = 'L_FILT'
+      endif
 
       spaces = ' '
       len1 = len(trim(prf%fname))
 
-      if     (len1.le.27) then
-         write(linp, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth, prf%mirror_z, &
-                spaces(1:28-len1), namprf
+      if (prf%ismooth.eq.0) then
+
+         ! original smoothing method - dont write detailed configuration
+
+         if     (len1.le.27) then
+            write(linp, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
+                   prf%mirror_z, spaces(1:28-len1), namprf, namsmth
+         else
+            write(linp, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
+                   prf%mirror_z, '  ', namprf, namsmth
+         endif
+
       else
-         write(linp, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth, prf%mirror_z, &
-                '  ', namprf
+
+         ! new smoothing method - write additional configuration used
+         ! ugly: repeat defaults err_hnd=0, max_omit=0.5d0
+
+         prfopt = 1
+         if (prf%err_hnd.ne.0 .or. prf%f_max_omit.ne.0.5d0) prfopt = 2
+
+         if     (len1.le.27) then
+            write(linp, 7200) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
+                   prf%mirror_z, prfopt, spaces(1:28-len1), namprf, namsmth
+         else
+            write(linp, 7200) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
+                   prf%mirror_z, prfopt, '  ', namprf, namsmth
+         endif
+         write(linp, 7300) prf%ismooth, prf%zig_thrs*180d0/pi, prf%kink_high*180d0/pi,                  &
+                   prf%kink_low*180d0/pi, prf%kink_wid
+         if (prfopt.ge.2) write(linp, 7400) prf%err_hnd, prf%f_max_omit
+
       endif
 
- 7100 format(1x, 3a, i4, 2g10.3, i3, a, a1, 'FNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ')
+ 7100 format(1x, 3a, i4, f9.3, g10.3,  i3, a, a1, 'FNAME, MIRRORY, SCALE, ', a, ', MIRRORZ')
+ 7200 format(1x, 3a, i3, f9.3,  f9.4, 2i3, a, a1, 'FNAME, MIRRORY, SCALE, ', a, ', MIRRORZ, PRFOPT')
+ 7300 format(1x, i7, 3(f8.1,'d'), f9.4, 14x, 'ISMOOTH, ZIGTHRS, KINKHIGH, KINKLOW, KINKWID')
+ 7400 format(1x, i7,   f9.4,       27x, 14x, 'ERRHND, MAXOMIT')
 
    end subroutine profile_write_config
 
@@ -687,7 +732,7 @@ contains
       integer              :: arrsiz, ncolpnt, ipnt, flip_data, nkink, naccel,                          &
                               ikinks(max_num_kinks), iaccel(max_num_accel)
       logical              :: use_wgt, use_minz
-      real(kind=8)         :: lambda, ds_bspl, ds_max
+      real(kind=8)         :: lambda, ds_bspl
 
       associate(mirror_y   => prf_opt%mirror_y,   mirror_z   => prf_opt%mirror_z,                       &
                 sclfac     => prf_opt%sclfac,     ismooth    => prf_opt%ismooth,                        &
@@ -834,7 +879,7 @@ contains
 
             use_wgt         = .true.
             lambda          = smooth**6 / (64d0 * pi**6)
-            ds_bspl         = 0.2d0
+            ds_bspl         = 0.001d0
             naccel          = 0
             iaccel(1)       = 0
             use_minz        = (is_wheel.eq.0)
@@ -860,24 +905,6 @@ contains
             ! write(bufout,'(3(a,g14.6))') ' y_out =',yout,' found at s_out =',sarr(1),' with z_out =',zarr(1)
             ! call write_log(1, bufout)
             ! call spline_set_debug(0)
-
-         elseif (ismooth.eq.3) then
-
-            ! ismooth = 3: using arc-fit approach for smoothing, ppspline for representation
-
-            ds_max = smooth
-
-            call make_arcfit(prf_grd, fname, ds_max)
-            if (idebug.ge.4) call grid_print(prf_grd, 'after arcfit', 5)
-
-            ! detect kinks in input profile, including overall start/end-points
-
-            call profile_find_kinks(prf_grd%ntot, prf_grd%y, prf_grd%z, is_wheel, kink_high, kink_low,  &
-                           kink_wid, 1d0, nkink, ikinks, idebug, ierror)
-
-            if (ierror.eq.0) then
-               call grid_make_ppspline(prf_grd, 0d0, .false., nkink, ikinks, ierror, k_chk=10)
-            endif
 
          else
 

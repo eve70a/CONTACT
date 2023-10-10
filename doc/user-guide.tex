@@ -1508,57 +1508,74 @@ Three different smoothing methods are currently provided:
 \begin{enumerate}\setcounter{enumi}{-1}
 \item An unweighted smoothing spline as presented in
         \cite{Vollebregt2020b-wrgeom}. This method is considered obsolete.
-        It is superseded by the weighted spline, and kept in the program 
+        It is superseded by the weighted splines, and kept in the program 
         chiefly for backward compatibility with earlier versions. 
 
         In this method, the required value of $\lambda$ depends on the
         number of points in the profile. If a five times higher sampling
         density is used, then $\lambda$ needs to be increased five times
-        to get the same level of smoothing.
-\item The weighted smoothing spline with parameter $L_{filt}$. Denoting the
-        input profile points as $\vec{x}_i$, at arc-length position $s_i$,
-        and the smoothing spline as $\vec{f}(s)$, this minimizes the
-        following function:
+        to get the same level of smoothing. For profiles with more or less
+        uniform spacing of the points, this method may be replaced by method 1
+        using
+\begin{equation}
+        \bar{\lambda}^{(2)}=\mathrm{mean}(\delta s_i)\cdot \lambda .
+\end{equation}
+\item The weighted smoothing spline with parameter $L_{filt}$ and second
+        order penalty. Denoting the input profile points as $\vec{x}_i$,
+        at arc-length position $s_i$, and the smoothing spline as
+        $\vec{f}(s)$, this minimizes the following function:
 \begin{equation}
    \sum_i w_i \left( \vec{x}_i - \vec{f}(s_i) \right)^2 + 
-                \bar{\lambda} \int \vec{f}''(s)^2 \, ds , \;\;
+                \bar{\lambda}^{(2)} \int \vec{f}''(s)^2 \, ds , \;\;
         w_i = \delta s_i = \frac{s_{i+1}-s_{i-1}}{2} .
 \end{equation}
         The first part describes the adjustments made to the input data,
         while the latter part places a penalty on the roughness (curvature)
         of the spline. 
 
-        The value of $\bar{\lambda}$ is computed from the input $L_{filt}$
-        as $\bar{\lambda}=L_{filt}^4/16\pi^4$. By this approach, the spline
+        The value of $\bar{\lambda}^{(2)}$ is computed from the input
+        $L_{filt}$ as 
+\begin{equation}
+        \bar{\lambda}^{(2)}=\left(\frac{L_{filt}}{2\pi}\right)^4 
+                \;\;\leftrightarrow\;\;
+                L_{filt} = 2\pi \left(\bar{\lambda}^{(2)}\right)^{1/4} .
+\end{equation}
+        By this approach, the spline
         acts like a low pass filter, diminishing fluctuations with
         wavelengths $L<L_{filt}$ and keeping fluctuations in the output
         with $L>L_{filt}$ \cite{Vollebregt2022b-cm2022}.
-\item (Reserved for weighted B-spline smoothing.)
-\item Arc-fit smoothing. This considers all points $i$ along the profile
-        one by one. For each $i$, it takes the input points $j$ in a window
-        $s_j\in s_i+[-\delta s_{max},\delta s_{max}]$, with $s$ the
-        arc-length parameter. Suitable weights $w_j$ are set, and a
-        circular arc is fitted using Karim\"aki's algorithm 
-        \cite{Karimaki1991}. The point $i$ is then projected on the
-        resulting circle.
+\item (Reserved for weighted B-spline smoothing with third order penalty.)
+\begin{equation}
+        \bar{\lambda}^{(3)}= \left(\frac{L_{filt}}{2\pi}\right)^6 
+                \;\;\leftrightarrow\;\;
+                L_{filt} = 2\pi \left(\bar{\lambda}^{(3)}\right)^{1/6} .
+\end{equation}
+%\item Arc-fit smoothing. This considers all points $i$ along the profile
+%        one by one. For each $i$, it takes the input points $j$ in a window
+%        $s_j\in s_i+[-\delta s_{max},\delta s_{max}]$, with $s$ the
+%        arc-length parameter. Suitable weights $w_j$ are set, and a
+%        circular arc is fitted using Karim\"aki's algorithm 
+%        \cite{Karimaki1991}. The point $i$ is then projected on the
+%        resulting circle.
 
-        The value of $\delta s_{max}$ is computed from the input as $\delta
-        s_{max}=0.8 L_{filt}$. This gives comparable smoothing performance
-        as the weighted spline, with slightly better results at sharp
-        curvature variations in the input profile \cite{Vollebregt2022b-cm2022}.
+%        The value of $\delta s_{max}$ is computed from the input as $\delta
+%        s_{max}=0.8 L_{filt}$. This gives comparable smoothing performance
+%        as the weighted spline, with slightly better results at sharp
+%        curvature variations in the input profile \cite{Vollebregt2022b-cm2022}.
 \end{enumerate}
 \begin{inputvars}
 \inpvar{ISMOOTH}{\bunit{-}}{Use smoothing method 0 (unweighted spline), 1
-        (weighted spline) or 3 (arc-fit approach).}
+        (weighted with 2nd order penalty) or 2 (weighted with 3rd order
+        penalty).}
 \inpvar{LAMBDA}{\bunit{-}}{Input parameter $\lambda$ for the unweighted
         smoothing spline (${\tt ismooth}=0$), using $\lambda\le 0$ to
         disable smoothing.}
-\inpvar{L\_FILT}{\bunit{mm}}{Wavelength $L$ for which fluctuations are
-        approximately halved by weighted spline and arc-fit approaches
-        (${\tt ismooth}=1, 3$). Set $L_{filt}\le 0$ to disable smoothing.}
+\inpvar{L\_FILT}{\bunit{mm}}{Wavelength $L_{filt}$ for which fluctuations
+        are approximately halved by the weighted spline approaches
+        (${\tt ismooth}=1, 2$). Set $L_{filt}\le 0$ to disable smoothing.}
 \inpvar{SMOOTH}{\bunit{-/mm}}{A single parameter {\tt smooth} is used in
         the input, with $\lambda={\tt smooth}$ when ${\tt ismooth}=0$ and
-        $L_{filt}={\tt smooth}$ when ${\tt ismooth}=1, 3$.}
+        $L_{filt}={\tt smooth}$ when ${\tt ismooth}=1, 2$.}
 \end{inputvars}
 
 \section{Track and roller geometry}
