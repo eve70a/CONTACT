@@ -9,7 +9,7 @@ module m_spline_get
    use m_globals
    use m_markers
    use m_ptrarray
-   use m_interp_1d
+   use m_interp
    use m_spline_def
    use m_spline_make
    use m_grids

@@ -9,7 +9,7 @@ module m_grids
    use m_globals
    use m_markers
    use m_ptrarray
-   use m_interp_1d
+   use m_interp
    use m_spline_def
    use m_spline_make
    use m_bspline_get
@@ -35,8 +35,6 @@ module m_grids
    public  grid_check_nan
 
    public  grid_create_uniform
-   public  grid_create_reg_cyl
-   public  grid_create_cylindr
    public  grid_create_curvil
 
    public  grid_has_spline
@@ -76,12 +74,13 @@ module m_grids
 
    public  unifgrid_mirror_y
 
-   public  cartgrid_shift
-   public  cartgrid_mirror_y
+   public  grid_shift
+   public  grid_mirror_y
    public  cartgrid_rotate
    public  cartgrid_roll
    public  cartgrid_yaw
    public  cartgrid_roll_yaw
+   public  cartgrid_pitch
    public  cartgrid_2glob
    public  cartgrid_2loc
 
@@ -94,58 +93,56 @@ module m_grids
       module procedure cartgrid_2loc_m
    end interface cartgrid_2loc
 
-   public convert_cyl2curv
+   public convert_cyl2cart
 
 !------------------------------------------------------------------------------------------------------------
 !  data with respect to the discretisation grid:
 
    type :: t_grid
-      logical      :: is_uniform, is_curvilin, is_cylindr, lies_in_oyz
-      integer      :: nx, ny, ntot, ivdir
+      logical      :: is_uniform, is_curvilin, cyl_coords, lies_in_oyz
+      integer      :: nx, ny, ntot
       real(kind=8) :: dx, dy, dxdy
       real(kind=8), dimension(:,:), pointer  :: coor  => NULL() ! ntot x 3
       real(kind=8), dimension(:),   pointer  :: x     => NULL()
       real(kind=8), dimension(:),   pointer  :: y     => NULL()
       real(kind=8), dimension(:),   pointer  :: z     => NULL()
-      real(kind=8), dimension(:),   pointer  :: r     => NULL()
-      real(kind=8), dimension(:),   pointer  :: th    => NULL()
-      real(kind=8), dimension(:),   pointer  :: v     => NULL()
+      real(kind=8), dimension(:),   pointer  :: th    => NULL() ! --> x column
+      real(kind=8), dimension(:),   pointer  :: r     => NULL() ! --> z column
 
       real(kind=8), dimension(:),   pointer  :: s_prf => NULL()
 
       type(t_spline)                         :: spl
 
    contains
-      procedure :: ix   => grid_get_ix4ii
-      procedure :: iy   => grid_get_iy4ii
+      procedure :: is_defined => grid_is_defined
+      procedure :: ix         => grid_get_ix4ii
+      procedure :: iy         => grid_get_iy4ii
 
-      ! is_uniform     indicating original uniform CONTACT grid, with fixed dx, dy
-      ! is_curvilin    indicating curvilinear surface grid, with [x(i,j), y(i,j), z(i,j)]
+      ! is_uniform     indicating original uniform CONTACT grid aligned with x-/y-axes with constant dx, dy
+      ! is_curvilin    indicating curvilinear surface grid (i,j) --> [x(i,j), y(i,j), z(i,j)]
       !                e.g. rail surface
-      ! is_cylindr     indicating cylindrical product grid [v(nv)] x [th(nth)] -> [r(nv,nth)]
-      !                stored as [r,theta,v], [r,v,theta] or [v,r,theta] depending on ivdir
+      ! cyl_coords     indicating use of cylindrical coordinates [theta,y,r] instead of cartesian [x,y,z].
       ! lies_in_oyz    indicating that x_ij == 0, esp. for wheel/rail profiles
-      ! ivdir          coordinate axis x=1, y=2 or z=3 to which the cylinder axis is aligned
       !
-      ! nx             number of points in grid in x-direction; cylindrical: v running fastest, nx == nv
-      ! ny             number of points in grid in y-direction; cylindrical: ny == nth
+      ! nx             number of points in grid in x-/th-direction; 
+      !                for cylindrical coordinates: th running fastest, nx == nth
+      ! ny             number of points in grid in y-direction
       ! ntot           total number of points nx * ny
       ! coor   [mm]    coordinate array (1:ntot,3): for each grid point a 3-vector with coordinates
-      !                uniform & curvilinear: [x,y,z]-coordinates,
-      !                cylindrical: [v,r,th], [r,v,th] or [r,th,v], depending on ivdir
+      !                cartesian: [x,y,z]-coordinates, cylindrical: [th,y,r].
       !
       ! - for uniform grids:
       !   dx, dy [mm]  constant grid step-sizes
       !   dxdy         area of each grid cell for uniform grids
       !
-      ! - for uniform & curvilinear grids:
+      ! - for cartesian coordinates:
       !   x    [mm]    pointer to the x-coordinates, that is, the first column of the coor array
       !   y    [mm]    pointer to the y-coordinates, that is, the second column of the coor array
       !   z    [mm]    pointer to the z-coordinates, that is, the third column of the coor array
-      ! - for cylindrical coordinate grids:
-      !   r    [mm]    pointer to the r-coordinates, stored in second (ivdir=1) or first column (2,3) of coor
-      !   th   [deg]   pointer to theta-coordinates, stored in second (ivdir=3) or third column (1,2) of coor
-      !   v    [mm]    pointer to the v-coordinates, stored in column 'ivdir' of the coor array
+      ! - for cylindrical coordinates:
+      !  x,th  [rad]   pointer to theta-coordinates, stored in first column of the coor array
+      !  y     [mm]    pointer to the v-coordinates, stored in second column of the coor array
+      !  z,r   [mm]    pointer to the r-coordinates, stored in third column of the coor array
       !
       ! - for 1d grids (curves):
       !   s_prf [mm]    arc length parameter in profile points
@@ -173,15 +170,28 @@ subroutine grid_nullify(g)
    g%x      => NULL()
    g%y      => NULL()
    g%z      => NULL()
-   g%r      => NULL()
    g%th     => NULL()
-   g%v      => NULL()
+   g%r      => NULL()
 
    g%s_prf  => NULL()
 
-   call spline_nullify(g%spl)
+   call spline_nullify(g%spl)   ! (re)initialize pointers in spline
 
 end subroutine grid_nullify
+
+!------------------------------------------------------------------------------------------------------------
+
+function grid_is_defined(this)
+!--purpose: determine if the grid is 'defined', has memory allocated
+   implicit none
+!--function return value:
+   logical             :: grid_is_defined
+!--function arguments:
+   class(t_grid)       :: this
+
+   grid_is_defined = (associated(this%coor))
+
+end function grid_is_defined
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -241,7 +251,7 @@ end subroutine grid_get_dimens
 !------------------------------------------------------------------------------------------------------------
 
 subroutine grid_get_xrange(g, xmin, xmax)
-!--purpose: Get the extent of the grid in x-direction
+!--purpose: Get the extent of the grid in x-direction or theta-direction
    implicit none
 !--subroutine parameters:
    type(t_grid)              :: g
@@ -252,12 +262,9 @@ subroutine grid_get_xrange(g, xmin, xmax)
    if (g%lies_in_oyz) then
       xmin =  0d0
       xmax =  0d0
-   elseif (g%is_cylindr) then
-      xmin =  1d10
-      xmax = -1d10
    elseif (g%is_uniform) then
       xmin = g%x( 1 )
-      xmax = g%x( g%ntot )
+      xmax = g%x(g%ntot)
    else
       xmin =  1d10
       xmax = -1d10
@@ -279,10 +286,7 @@ subroutine grid_get_yrange(g, ymin, ymax)
 !--local variables:
    integer    :: ii
 
-   if (g%is_cylindr) then
-      ymin =  1d10
-      ymax = -1d10
-   elseif (g%is_uniform) then
+   if (g%is_uniform) then
       ymin = g%y( 1 )
       ymax = g%y( g%ntot )
    else
@@ -298,7 +302,7 @@ end subroutine grid_get_yrange
 !------------------------------------------------------------------------------------------------------------
 
 subroutine grid_get_zrange(g, zmin, zmax)
-!--purpose: Get the extent of the grid in z-direction
+!--purpose: Get the extent of the grid in z-direction or r-direction
    implicit none
 !--subroutine parameters:
    type(t_grid)              :: g
@@ -306,32 +310,26 @@ subroutine grid_get_zrange(g, zmin, zmax)
 !--local variables:
    integer    :: ii
 
-   if (g%is_cylindr) then
-      zmin =  1d10
-      zmax = -1d10
-   else
-      zmin =  1d10
-      zmax = -1d10
-      do ii = 1, g%ntot
-         if (g%z(ii).lt.zmin) zmin = g%z(ii)
-         if (g%z(ii).gt.zmax) zmax = g%z(ii)
-      enddo
-   endif
+   zmin =  1d10
+   zmax = -1d10
+   do ii = 1, g%ntot
+      if (g%z(ii).lt.zmin) zmin = g%z(ii)
+      if (g%z(ii).gt.zmax) zmax = g%z(ii)
+   enddo
 end subroutine grid_get_zrange
 
 !------------------------------------------------------------------------------------------------------------
 
 subroutine grid_get_boundbox(g, bb)
 !--purpose: Get a grid that describes the bounding box of the input grid
-!           curvilinear: 8x1 grid with (1:nx,1:ny,1:nz), i.e. x running fastest
-!           cylindrical: 4x2 grid with ((1:nr,1:nv),1:nth), i.e. r running fastest
+!           8x1 grid with (1:nx,1:ny,1:nz), i.e. x/th running fastest, z/r running slowest
    implicit none
 !--subroutine parameters:
    type(t_grid)              :: g, bb
 !--local variables:
-   integer      :: ii, ik, iv, ir, ith, nx, ny, nv, nth
+   integer      :: ii, ik, nx, ny
    real(kind=8) :: vmin(3), vmax(3)
-   real(kind=8) :: bbx(8), bby(8), bbz(8), bbv(4), bbth(2), bbr(4,2)
+   real(kind=8) :: bbx(8), bby(8), bbz(8)
 
    ! get min/max values for all three coordinate directions
 
@@ -344,57 +342,17 @@ subroutine grid_get_boundbox(g, bb)
       enddo
    enddo
 
-   if (.not.g%is_cylindr) then
+   ! create curvilinear grid with 8 x 1 points, 1D version of 3D grid
+   !    bb%x(nx,ny,nz) -- ix running fastest, iz slowest
 
-      ! create curvilinear grid with 8 x 1 points, 1D version of 3D grid
-      !    bb%x(nx,ny,nz) -- ix running fastest, iz slowest
+   nx  = 8
+   ny  = 1
 
-      nx  = 8
-      ny  = 1
-
-      !        (1,1,1)  (2,1,1)  (1,2,1)  (2,2,1)  (1,1,2)  (2,1,2)  (1,2,2)  (2,2,2)
-      bbx = (/ vmin(1), vmax(1), vmin(1), vmax(1), vmin(1), vmax(1), vmin(1), vmax(1) /)
-      bby = (/ vmin(2), vmin(2), vmax(2), vmax(2), vmin(2), vmin(2), vmax(2), vmax(2) /)
-      bbz = (/ vmin(3), vmin(3), vmin(3), vmin(3), vmax(3), vmax(3), vmax(3), vmax(3) /)
-      call grid_create_curvil(bb, nx, ny, bbx, bby, bbz)
-
-   else
-
-      ! create cylindrical grid with 4 points in v-direction, 2 in theta
-      !              th0    th1
-      !            ---------------
-      !         v0 |  r0  |  r0  |
-      !         v0 |  r1  |  r1  |
-      !         v1 |  r0  |  r0  |
-      !         v1 |  r1  |  r1  |
-      !            ---------------
-
-      nv  = 4
-      nth = 2
-
-      ! r-coordinates are stored in second column if (ivdir=1) or first column if (ivdir=2,3)
-      ! th-coordinates are stored in second column if (ivdir=3) or third column if (ivdir=1,2)
-
-      iv  = g%ivdir
-      if (iv.eq.1) then
-         ir  = 2
-         ith = 3
-      elseif (iv.eq.2) then
-         ir  = 1
-         ith = 3
-      else
-         ir  = 1
-         ith = 2
-      endif
-
-      bbv  = (/ vmin(iv),  vmin(iv),  vmax(iv),  vmax(iv)  /)
-      bbth = (/ vmin(ith), vmax(ith) /) 
-      bbr  = reshape( (/ vmin(ir),  vmin(ir),  vmax(ir),  vmax(ir),                                      &
-                         vmin(ir),  vmin(ir),  vmax(ir),  vmax(ir)  /),  (/ nv, nth /) )
-
-      call grid_create_cylindr(bb, iv, nv, nth, bbv, bbth, bbr)
-
-   endif
+   !        (1,1,1)  (2,1,1)  (1,2,1)  (2,2,1)  (1,1,2)  (2,1,2)  (1,2,2)  (2,2,2)
+   bbx = (/ vmin(1), vmax(1), vmin(1), vmax(1), vmin(1), vmax(1), vmin(1), vmax(1) /)
+   bby = (/ vmin(2), vmin(2), vmax(2), vmax(2), vmin(2), vmin(2), vmax(2), vmax(2) /)
+   bbz = (/ vmin(3), vmin(3), vmin(3), vmin(3), vmax(3), vmax(3), vmax(3), vmax(3) /)
+   call grid_create_curvil(bb, nx, ny, bbx, bby, bbz)
 
 end subroutine grid_get_boundbox
 
@@ -457,13 +415,15 @@ end subroutine grid_check_nan
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine grid_create_uniform(g, nxarg, x0arg, dxarg, x1arg, nyarg, y0arg, dyarg, y1arg, zarg)
-!--purpose: Create a regular grid with cartesian coordinates from the specified parameters
+subroutine grid_create_uniform(g, nxarg, x0arg, dxarg, x1arg, nyarg, y0arg, dyarg, y1arg, zarg, cyl_coords)
+!--purpose: Create a regular grid from the specified parameters
+!           for cylindrical coordinates, x -> theta, y -> y, z -> r.
    implicit none
 !--subroutine parameters:
    type(t_grid)                        :: g
    integer,      intent(in), optional  :: nxarg, nyarg
    real(kind=8), intent(in), optional  :: x0arg, dxarg, x1arg, y0arg, dyarg, y1arg, zarg
+   logical,      intent(in), optional  :: cyl_coords
 !--local variables:
    integer      :: nx, ny, ii, ix, iy
    real(kind=8) :: x0, dx, x1, y0, dy, y1, yy, zz
@@ -548,9 +508,13 @@ subroutine grid_create_uniform(g, nxarg, x0arg, dxarg, x1arg, nyarg, y0arg, dyar
 
    g%is_uniform  = .true.
    g%is_curvilin = .false.
-   g%is_cylindr  = .false.
    g%lies_in_oyz = .false.
-   g%ivdir       = 0
+
+   if (.not.present(cyl_coords)) then
+      g%cyl_coords  = .false.
+   else
+      g%cyl_coords  = cyl_coords
+   endif
 
    ! store the number of points in the grid
 
@@ -573,9 +537,8 @@ subroutine grid_create_uniform(g, nxarg, x0arg, dxarg, x1arg, nyarg, y0arg, dyar
    g%x  => g%coor(:,1)
    g%y  => g%coor(:,2)
    g%z  => g%coor(:,3)
-   g%r  => NULL()
-   g%th => NULL()
-   g%v  => NULL()
+   g%th => g%x
+   g%r  => g%z
 
    ! compute the (x,y,z)-coordinates of all points of the grid
 
@@ -600,262 +563,16 @@ end subroutine grid_create_uniform
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine grid_create_reg_cyl(g, ivdir, nvarg, v0arg, dvarg, v1arg, ntharg, th0arg, dtharg, th1arg, rarg)
-!--purpose: Create a regular grid with cylindrical coordinates from the specified parameters
-   implicit none
-!--subroutine parameters:
-   type(t_grid)                        :: g
-   integer,      intent(in)            :: ivdir
-   integer,      intent(in), optional  :: nvarg, ntharg
-   real(kind=8), intent(in), optional  :: v0arg, dvarg, v1arg, th0arg, dtharg, th1arg, rarg
-!--local variables:
-   integer      :: nv, nth, ii, ith, iv
-   real(kind=8) :: v0, dv, v1, th0, dth, th1, r, th
-
-   ! check v-direction
-
-   if (ivdir.ne.ikXDIR .and. ivdir.ne.ikYDIR .and. ivdir.ne.ikZDIR) then
-      write(bufout,*) 'Internal error: create_reg_cyl: ivdir=',ivdir,' must be X,Y or Z'
-      call write_log(1, bufout)
-      call abort_run()
-   endif
-
-   ! get input-data for v-direction. Three out of four must be provided: nv, v0, dv, v1
-
-   if (present(nvarg) .and. present(v0arg) .and. present(dvarg)) then
-      nv = nvarg
-      v0 = v0arg
-      dv = dvarg
-      v1 = v0 + (nv-1) * dv
-   elseif (present(nvarg) .and. present(v0arg) .and. present(v1arg)) then
-      nv = nvarg
-      v0 = v0arg
-      v1 = v1arg
-      if (nv.le.1) then
-         dv = 1d0
-         v1 = v0
-      else
-         dv = (v1 - v0) / real(nv-1)
-      endif
-   elseif (present(nvarg) .and. present(dvarg) .and. present(v1arg)) then
-      nv = nvarg
-      dv = dvarg
-      v1 = v1arg
-      v0 = v1 - (nv-1) * dv
-   elseif (present(v0arg) .and. present(dvarg) .and. present(v1arg)) then
-      v0 = v0arg
-      dv = dvarg
-      v1 = v1arg
-      nv = nint( (v1-v0) / dv ) + 1
-      v1 = v0 + (nv-1) * dv
-   else
-      call write_log('cylgrid_create_reg_cyl: insufficient parameters for v-direction')
-      return
-   endif
-
-   ! get input-data for th-direction. Three out of four must be provided: nth, th0, dth, th1
-
-   if (present(ntharg) .and. present(th0arg) .and. present(dtharg)) then
-      nth = ntharg
-      th0 = th0arg
-      dth = dtharg
-      th1 = th0 + (nth-1) * dth
-   elseif (present(ntharg) .and. present(th0arg) .and. present(th1arg)) then
-      nth = ntharg
-      th0 = th0arg
-      th1 = th1arg
-      if (nth.le.1) then
-         dth = 1d0
-         th1 = th0
-      else
-         dth = (th1 - th0) / real(nth-1)
-      endif
-   elseif (present(ntharg) .and. present(dtharg) .and. present(th1arg)) then
-      nth = ntharg
-      dth = dtharg
-      th1 = th1arg
-      th0 = th1 - (nth-1) * dth
-   elseif (present(th0arg) .and. present(dtharg) .and. present(th1arg)) then
-      th0 = th0arg
-      dth = dtharg
-      th1 = th1arg
-      nth = nint( (th1-th0) / dth ) + 1
-      th1 = th0 + (nth-1) * dth
-   else
-      call write_log('cylgrid_create_reg_cyl: insufficient parameters for theta-direction')
-      return
-   endif
-
-   ! get input-data for r-direction / set default
-
-   if (present(rarg)) then
-      r = rarg
-   else
-      r = 1d0
-   endif
-
-   ! store the type of grid
-
-   g%is_uniform  = .false.
-   g%is_curvilin = .false.
-   g%is_cylindr  = .true.
-   g%lies_in_oyz = .false.
-   g%ivdir       = ivdir
-
-   ! store the number of points in the grid
-
-   g%nx   = nv
-   g%ny   = nth
-   g%ntot = nv * nth
-
-   ! store the grid sizes
-
-   g%dx   = dv
-   g%dy   = dth
-   g%dxdy = dv * dth
-
-   ! re-allocate coordinate array at the appropriate size
-
-   call reallocate_arr(g%coor, g%ntot, 3)
-
-   ! set pointers to r,th,v-coordinates
-
-   if (ivdir.eq.ikXDIR) then
-      g%v  => g%coor(:,1)
-      g%r  => g%coor(:,2)
-      g%th => g%coor(:,3)
-   elseif (ivdir.eq.ikYDIR) then
-      g%r  => g%coor(:,1)
-      g%v  => g%coor(:,2)
-      g%th => g%coor(:,3)
-   elseif (ivdir.eq.ikZDIR) then
-      g%r  => g%coor(:,1)
-      g%th => g%coor(:,2)
-      g%v  => g%coor(:,3)
-   else
-      call write_log(' Internal error: create_reg_cyl: incorrect ivdir')
-   endif
-   g%x  => NULL()
-   g%y  => NULL()
-   g%z  => NULL()
-
-   ! compute the (r,th,v)-coordinates of all points of the grid
-
-   do ith = 1, nth
-      th = th0 + (ith-1) * dth
-      do iv = 1, nv
-         ii = iv + (ith-1) * nv
-         g%r(ii)  = r
-         g%th(ii) = th
-         g%v(ii)  = v0 + (iv-1) * dv
-      enddo
-   enddo
-
-   ! clear previous arc-length s and spline data
-
-   if (associated(g%s_prf)) deallocate(g%s_prf)
-   g%s_prf  => NULL()
-
-   call grid_destroy_spline(g)
-
-end subroutine grid_create_reg_cyl
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine grid_create_cylindr(g, ivdir, nv, nth, v, th, rvth)
-!--purpose: Create a cylindr grid from the specified parameters
-   implicit none
-!--subroutine parameters:
-   type(t_grid)              :: g
-   integer,      intent(in)  :: ivdir, nv, nth
-   real(kind=8), intent(in)  :: v(nv), th(nth), rvth(nv,nth)
-!--local variables:
-   integer      :: iv, it, ii
-
-   ! check v-direction
-
-   if (ivdir.ne.ikXDIR .and. ivdir.ne.ikYDIR .and. ivdir.ne.ikZDIR) then
-      write(bufout,*) 'Internal error: create_reg_cyl: ivdir=',ivdir,' must be X,Y or Z'
-      call write_log(1, bufout)
-      return
-   endif
-
-   ! store the type of grid
-
-   g%is_uniform  = .false.
-   g%is_curvilin = .false.
-   g%is_cylindr  = .true.
-   g%lies_in_oyz = .false.
-   g%ivdir       = ivdir
-
-   ! store the number of points in the grid
-
-   g%nx   = nv
-   g%ny   = nth
-   g%ntot = nv * nth
-
-   ! store dummy grid sizes
-
-   g%dx   = -1d0
-   g%dy   = -1d0
-   g%dxdy =  1d0
-
-   ! re-allocate coordinate array at the appropriate size
-
-   call reallocate_arr(g%coor, g%ntot, 3)
-
-   ! set pointers to r,th,v-coordinates
-
-   if (ivdir.eq.ikXDIR) then
-      g%v  => g%coor(:,1)
-      g%r  => g%coor(:,2)
-      g%th => g%coor(:,3)
-   elseif (ivdir.eq.ikYDIR) then
-      g%r  => g%coor(:,1)
-      g%v  => g%coor(:,2)
-      g%th => g%coor(:,3)
-   elseif (ivdir.eq.ikZDIR) then
-      g%r  => g%coor(:,1)
-      g%th => g%coor(:,2)
-      g%v  => g%coor(:,3)
-   else
-      call write_log(' Internal error: create_cylindr: incorrect ivdir')
-   endif
-   g%x  => NULL()
-   g%y  => NULL()
-   g%z  => NULL()
-
-   ! store the (r,th,v)-coordinates of all points of the grid
-
-   do it = 1, nth
-      do iv = 1, nv
-         ii = iv + (it-1) * nv
-         g%r(ii)  = rvth(iv,it)
-         g%th(ii) = th(it)
-         g%v(ii)  = v(iv)
-      enddo
-   enddo
-
-   ! clear previous arc-length s and spline data
-
-   if (associated(g%s_prf)) deallocate(g%s_prf)
-   g%s_prf  => NULL()
-
-   call grid_destroy_spline(g)
-
-end subroutine grid_create_cylindr
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine grid_create_curvil(g, nx, ny, x, y, z, lies_in_oyz)
+subroutine grid_create_curvil(g, nx, ny, x, y, z, lies_in_oyz, cyl_coords)
 !--purpose: Create a curvilinear grid from the specified parameters
-!           note: x may be nx or nx*ny long; y may be ny or nx*ny elements; z may be scalar
+!           Note: x may be 1, nx or nx*ny long; y may be 1, ny or nx*ny elements; z may be 1 or nx*ny.
+!           for cylindrical coordinates, x -> theta, y -> y, z -> r.
    implicit none
 !--subroutine parameters:
    type(t_grid)                        :: g
    integer,      intent(in)            :: nx, ny
    real(kind=8), intent(in), optional  :: x(:), y(:), z(:)
-   logical,      intent(in), optional  :: lies_in_oyz
+   logical,      intent(in), optional  :: lies_in_oyz, cyl_coords
 !--local variables:
    integer      :: ntot, iy, ii0
 
@@ -863,13 +580,16 @@ subroutine grid_create_curvil(g, nx, ny, x, y, z, lies_in_oyz)
 
    g%is_uniform  = .false.
    g%is_curvilin = .true.
-   g%is_cylindr  = .false.
-   g%ivdir       = 0
 
    if (.not.present(lies_in_oyz)) then
       g%lies_in_oyz = .false.
    else
       g%lies_in_oyz = lies_in_oyz
+   endif
+   if (.not.present(cyl_coords)) then
+      g%cyl_coords  = .false.
+   else
+      g%cyl_coords  = cyl_coords
    endif
 
    ! store the number of points in the grid
@@ -893,13 +613,13 @@ subroutine grid_create_curvil(g, nx, ny, x, y, z, lies_in_oyz)
    g%x  => g%coor(:,1)
    g%y  => g%coor(:,2)
    g%z  => g%coor(:,3)
-   g%r  => NULL()
-   g%th => NULL()
-   g%v  => NULL()
-
-   ! optionally: store the (x,y,z)-coordinates of the grid points
+   g%th => g%x
+   g%r  => g%z
 
    ntot = g%ntot
+
+   ! optionally: store the (x,y,z)-coordinates of the grid points
+   !             expand scalar or 1D array to 2D field
 
    if (.not.g%lies_in_oyz .and. present(x)) then
       if (size(x).eq.1) then
@@ -1010,7 +730,6 @@ end subroutine grid_xspline_init
 
 subroutine grid_make_arclength(g, my_ierror)
 !--purpose: compute the arc-length s for a 1-d grid (wheel or rail profile)
-!  TODO: add options for length in (x,y), (x,z), (y,z)-planes or (x,y,z)-space
    implicit none
 !--subroutine arguments:
    type(t_grid)               :: g
@@ -1483,9 +1202,8 @@ subroutine grid_copy(gin, gout, with_spline)
 
    gout%is_uniform  = gin%is_uniform
    gout%is_curvilin = gin%is_curvilin
-   gout%is_cylindr  = gin%is_cylindr
+   gout%cyl_coords  = gin%cyl_coords
    gout%lies_in_oyz = gin%lies_in_oyz
-   gout%ivdir       = gin%ivdir
 
    ! copy the number of points in the grid
 
@@ -1503,35 +1221,13 @@ subroutine grid_copy(gin, gout, with_spline)
 
    call reallocate_arr(gout%coor, gout%ntot, 3)
 
-   ! set pointers to x,y,z- or r,th,z-coordinates
+   ! set pointers to x,y,z-coordinates
 
-   if (gout%is_cylindr) then
-      gout%x  => NULL()
-      gout%y  => NULL()
-      gout%z  => NULL()
-      if (gout%ivdir.eq.ikXDIR) then
-         gout%v  => gout%coor(:,1)
-         gout%r  => gout%coor(:,2)
-         gout%th => gout%coor(:,3)
-      elseif (gout%ivdir.eq.ikYDIR) then
-         gout%r  => gout%coor(:,1)
-         gout%v  => gout%coor(:,2)
-         gout%th => gout%coor(:,3)
-      elseif (gout%ivdir.eq.ikZDIR) then
-         gout%r  => gout%coor(:,1)
-         gout%th => gout%coor(:,2)
-         gout%v  => gout%coor(:,3)
-      else
-         call write_log(' Internal error: grid_copy: incorrect ivdir')
-      endif
-   else
-      gout%x  => gout%coor(:,1)
-      gout%y  => gout%coor(:,2)
-      gout%z  => gout%coor(:,3)
-      gout%r  => NULL()
-      gout%th => NULL()
-      gout%v  => NULL()
-   endif
+   gout%x  => gout%coor(:,1)
+   gout%y  => gout%coor(:,2)
+   gout%z  => gout%coor(:,3)
+   gout%th => gout%x
+   gout%r  => gout%z
 
    ! copy the coordinates of the grid points
 
@@ -1624,9 +1320,8 @@ subroutine grid_trim(gin, gout, ix_low_arg, ix_hig_arg, iy_low_arg, iy_hig_arg, 
 
    gout%is_uniform  = gin%is_uniform
    gout%is_curvilin = gin%is_curvilin
-   gout%is_cylindr  = gin%is_cylindr
+   gout%cyl_coords  = gin%cyl_coords
    gout%lies_in_oyz = gin%lies_in_oyz
-   gout%ivdir       = gin%ivdir
 
    ! set the number of points in the output grid
 
@@ -1650,35 +1345,13 @@ subroutine grid_trim(gin, gout, ix_low_arg, ix_hig_arg, iy_low_arg, iy_hig_arg, 
       call write_log(1, bufout)
    endif
 
-   ! set pointers to x,y,z- or r,th,z-coordinates
+   ! set pointers to x,y,z-coordinates
 
-   if (gout%is_cylindr) then
-      gout%x  => NULL()
-      gout%y  => NULL()
-      gout%z  => NULL()
-      if (gout%ivdir.eq.ikXDIR) then
-         gout%v  => gout%coor(:,1)
-         gout%r  => gout%coor(:,2)
-         gout%th => gout%coor(:,3)
-      elseif (gout%ivdir.eq.ikYDIR) then
-         gout%r  => gout%coor(:,1)
-         gout%v  => gout%coor(:,2)
-         gout%th => gout%coor(:,3)
-      elseif (gout%ivdir.eq.ikZDIR) then
-         gout%r  => gout%coor(:,1)
-         gout%th => gout%coor(:,2)
-         gout%v  => gout%coor(:,3)
-      else
-         call write_log(' Internal error: grid_trim: incorrect ivdir')
-      endif
-   else
-      gout%x  => gout%coor(:,1)
-      gout%y  => gout%coor(:,2)
-      gout%z  => gout%coor(:,3)
-      gout%r  => NULL()
-      gout%th => NULL()
-      gout%v  => NULL()
-   endif
+   gout%x  => gout%coor(:,1)
+   gout%y  => gout%coor(:,2)
+   gout%z  => gout%coor(:,3)
+   gout%th => gout%x
+   gout%z  => gout%z
 
    ! allocate s-array if present in input
 
@@ -1731,7 +1404,7 @@ subroutine grid_print(g, nam, idebug, ndigit)
 !--local variables
    character(len=1), parameter  :: cnams(1:3) = (/ 'x', 'y', 'z' /)
    integer              :: my_ndigit, my_len
-   integer              :: ix, iy, ii, j, nval, nline
+   integer              :: ix, iy, ii, j, nval, i12
    character(len=18)    :: strng(5)
 
    if (present(ndigit)) then
@@ -1757,14 +1430,14 @@ subroutine grid_print(g, nam, idebug, ndigit)
          if (g%nx.eq.1) then
             write(bufout,'(3a,i6,a)') ' profile "',trim(nam),'" has', g%ny,' points'
          else
-            write(bufout,'(3a,2(i4,a))') ' grid ',trim(nam),' is curvilinear with', g%nx,' x',g%ny,' points'
+            write(bufout,'(3a,2(i5,a))') ' grid ',trim(nam),' is curvilinear with', g%nx,' x',g%ny,' points'
          endif
-      elseif (g%is_cylindr) then
-         write(bufout,'(3a,2(i4,a))') ' grid ',trim(nam),' is cylindrical with', g%nx,' x',g%ny,' points'
-         call write_log(1, bufout)
-         write(bufout,'(3a)') ' the cylinder axis is aligned with the ',cnams(g%ivdir),'-axis'
       endif
       call write_log(1, bufout)
+      if (g%cyl_coords) then
+         write(bufout,'(3a,2(i4,a))') ' grid ',trim(nam),' has cylindrical coordinates (th,y,r).'
+         call write_log(1, bufout)
+      endif
       if (g%lies_in_oyz) then
          write(bufout,'(3a)') ' grid ',trim(nam),' lies in the oyz plane, x==0'
          call write_log(1, bufout)
@@ -1780,15 +1453,18 @@ subroutine grid_print(g, nam, idebug, ndigit)
          write(bufout,121) '  y = [', g%y(1), ' :', g%dy, ' :', g%y(g%ntot), ']'
          call write_log(1, bufout)
  121     format(a, 3(f11.6, a))
-      elseif (g%is_cylindr) then
-         nline = min(10, int( (g%nx-1)/10 ) + 1)
-         write(bufout,122) ' v  = ', (g%v(ii), ii=1, min(100,g%nx))
-         call write_log(nline, bufout)
-
-         nline = min(10, int( (g%ny-1)/10 ) + 1)
-         write(bufout,122) ' th = ', (g%th(ii), ii=1, min(100*g%nx,g%ntot), g%nx)
-         call write_log(nline, bufout)
- 122     format(a, 10(f9.3,:,','), /, 19( 6x, 10(f9.3,:,','), /) )
+      else
+         i12 = g%nx+1
+         write(bufout,122) ' x(1,1) =', g%x(1),', x(2,1) =',g%x(2),', x(1,2) =', g%x(i12),              &
+                ', x(m,n) =',g%x(g%ntot)
+         call write_log(1, bufout)
+         write(bufout,122) ' y(1,1) =', g%y(1),', y(2,1) =',g%y(2),', y(1,2) =', g%y(i12),              &
+                ', y(m,n) =',g%y(g%ntot)
+         call write_log(1, bufout)
+         write(bufout,122) ' z(1,1) =', g%z(1),', z(2,1) =',g%z(2),', z(1,2) =', g%z(i12),              &
+                ', z(m,n) =',g%z(g%ntot)
+         call write_log(1, bufout)
+ 122     format(4(a,f9.3))
       endif
    endif
 
@@ -1799,9 +1475,8 @@ subroutine grid_print(g, nam, idebug, ndigit)
       call print_array_size_1d(g%x, 'x')
       call print_array_size_1d(g%y, 'y')
       call print_array_size_1d(g%z, 'z')
-      call print_array_size_1d(g%r, 'r')
       call print_array_size_1d(g%th, 'th')
-      call print_array_size_1d(g%v, 'v')
+      call print_array_size_1d(g%r, 'r')
       call print_array_size_1d(g%s_prf, 's_prf')
    endif
 
@@ -1815,10 +1490,10 @@ subroutine grid_print(g, nam, idebug, ndigit)
       write(bufout,'(2a)') trim(nam), ' = ['
       call write_log(1, bufout)
 
-      if (g%is_cylindr) then
-         strng(1) = '(  iv, ith)'
-         strng(2) = '         r'
-         strng(3) = '        th'
+      if (g%cyl_coords) then
+         strng(1) = '( ith,  iy)'
+         strng(2) = '        th'
+         strng(3) = '         y'
          strng(4) = '         r'
       else
          strng(1) = '(  ix,  iy)'
@@ -1835,15 +1510,9 @@ subroutine grid_print(g, nam, idebug, ndigit)
          do ix = 1, g%nx
             ii = ix + (iy-1)*g%nx
 
-            if (g%is_cylindr) then
-               strng(1) = fmt_gs(my_len, my_ndigit, g%r(ii))
-               strng(2) = fmt_gs(my_len, my_ndigit, g%th(ii))
-               strng(3) = fmt_gs(my_len, my_ndigit, g%v(ii))
-            else
-               strng(1) = fmt_gs(my_len, my_ndigit, g%x(ii))
-               strng(2) = fmt_gs(my_len, my_ndigit, g%y(ii))
-               strng(3) = fmt_gs(my_len, my_ndigit, g%z(ii))
-            endif
+            strng(1) = fmt_gs(my_len, my_ndigit, g%x(ii))
+            strng(2) = fmt_gs(my_len, my_ndigit, g%y(ii))
+            strng(3) = fmt_gs(my_len, my_ndigit, g%z(ii))
             if (nval.ge.4) strng(4) = fmt_gs(my_len, my_ndigit, g%s_prf(ii))
 
             write(bufout,211) ii, ix, iy, (strng(j)(1:my_len), j=1,nval)
@@ -1877,26 +1546,19 @@ subroutine grid_destroy(g)
 !--subroutine parameters:
    type(t_grid)              :: g
 
-   if (associated(g%coor)) deallocate(g%coor)
-   g%coor => NULL()
-   g%x    => NULL()
-   g%y    => NULL()
-   g%z    => NULL()
-   g%r    => NULL()
-   g%th   => NULL()
-   g%v    => NULL()
+   call grid_destroy_spline(g)  ! destroy + nullify
 
-   if (associated(g%s_prf))    deallocate(g%s_prf)
-   g%s_prf    => NULL()
+   if (associated(g%coor))  deallocate(g%coor)
+   if (associated(g%s_prf)) deallocate(g%s_prf)
 
-   call grid_destroy_spline(g)
+   call grid_nullify(g)         ! note: calling spline_nullify
 
 end subroutine grid_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
 subroutine grid_destroy_spline(g)
-!--purpose: clean-up allocated arrays for splines, nullify alias-pointers
+!--purpose: clean-up allocated arrays for splines, nullify pointers
    implicit none
 !--subroutine parameters:
    type(t_grid)              :: g
@@ -1951,8 +1613,8 @@ end subroutine unifgrid_mirror_y
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cartgrid_shift(g, dx, dy, dz)
-!--function: shift a 2d surface in cartesian coordinates: g = g + [dx; dy; dz]
+subroutine grid_shift(g, dx, dy, dz)
+!--function: shift a 2d surface: g = g + [dx; dy; dz] or += [dth; dy; dr]
    implicit none
 !--subroutine arguments
    type(t_grid)    :: g
@@ -1960,26 +1622,22 @@ subroutine cartgrid_shift(g, dx, dy, dz)
 !--local variables
    integer         :: ntot
 
-   if (g%is_cylindr) then
-      call write_log(' Internal error: cartgrid_shift: g is in cylindrical coordinates')
-   else
-      ntot   = g%ntot
-      g%x(1:ntot) = g%x(1:ntot) + dx
-      g%y(1:ntot) = g%y(1:ntot) + dy
-      g%z(1:ntot) = g%z(1:ntot) + dz
-      if (g%lies_in_oyz .and. abs(dx).gt.1d-9) g%lies_in_oyz = .false.
-   endif
+   ntot   = g%ntot
+   g%x(1:ntot) = g%x(1:ntot) + dx
+   g%y(1:ntot) = g%y(1:ntot) + dy
+   g%z(1:ntot) = g%z(1:ntot) + dz
+   if (g%lies_in_oyz .and. abs(dx).gt.1d-9) g%lies_in_oyz = .false.
 
    ! apply shift to spline coefficients d
 
    if (grid_has_spline(g)) call spline_shift(g%spl, dx, dy, dz)
 
-end subroutine cartgrid_shift
+end subroutine grid_shift
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cartgrid_mirror_y(g)
-!--function: mirror a 2d surface in cartesian coordinates wrt plane Oxz: g.y = -g.y
+subroutine grid_mirror_y(g)
+!--function: mirror a 2d surface wrt plane Oxz: g.y = -g.y
 !            Note: no reordering of grid points here.
    implicit none
 !--subroutine arguments
@@ -1987,18 +1645,14 @@ subroutine cartgrid_mirror_y(g)
 !--local variables
    integer         :: ntot
 
-   if (g%is_cylindr) then
-      call write_log(' Internal error: cartgrid_mirror_y: g is in cylindrical coordinates')
-   else
-      ntot   = g%ntot
-      g%y(1:ntot) = - g%y(1:ntot)
-   endif
+   ntot   = g%ntot
+   g%y(1:ntot) = - g%y(1:ntot)
 
    ! apply mirroring to spline coefficients ay0, ay1, ay3
 
    if (grid_has_spline(g)) call spline_mirror_y(g%spl)
 
-end subroutine cartgrid_mirror_y
+end subroutine grid_mirror_y
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -2013,7 +1667,7 @@ subroutine cartgrid_rotate(g, rot, xc, yc, zc)
    integer      :: ii
    real(kind=8) :: xrel, yrel, zrel
 
-   if (g%is_cylindr) then
+   if (g%cyl_coords) then
       call write_log(' Internal error: cartgrid_rotate: g is in cylindrical coordinates')
    else
       do ii = 1, g%ntot
@@ -2046,7 +1700,7 @@ subroutine cartgrid_roll(g, roll, yc, zc)
    integer      :: ii
    real(kind=8) :: cs, sn, yrel, zrel
 
-   if (g%is_cylindr) then
+   if (g%cyl_coords) then
       call write_log(' Internal error: cartgrid_roll: g is in cylindrical coordinates')
    else
       cs = cos(roll)
@@ -2080,7 +1734,7 @@ subroutine cartgrid_yaw(g, yaw, xc, yc)
    integer      :: ii
    real(kind=8) :: cs, sn, xrel, yrel
 
-   if (g%is_cylindr) then
+   if (g%cyl_coords) then
       call write_log(' Internal error: cartgrid_yaw: g is in cylindrical coordinates')
    else
       cs = cos(yaw)
@@ -2124,6 +1778,44 @@ end subroutine cartgrid_roll_yaw
 
 !------------------------------------------------------------------------------------------------------------
 
+subroutine cartgrid_pitch(g, pitch, xc, zc)
+!--function: rotate a 2d surface in cartesian coordinates by pitch angle pitch [rad] (about y-axis/
+!            point [xc;zc])
+   implicit none
+!--subroutine arguments
+   type(t_grid)             :: g
+   real(kind=8), intent(in) :: pitch    ! rotation angle [rad]
+   real(kind=8), intent(in) :: xc, zc   ! rotation origin
+!--local variables
+   integer      :: ii
+   real(kind=8) :: cs, sn, xrel, zrel
+
+   if (g%cyl_coords) then
+      call write_log(' Internal error: cartgrid_pitch: g is in cylindrical coordinates')
+   else
+      cs = cos(pitch)
+      sn = sin(pitch)
+
+      do ii = 1, g%ntot
+         xrel = g%x(ii) - xc
+         zrel = g%z(ii) - zc
+         g%x(ii) = xc + cs * xrel + sn * zrel
+         g%z(ii) = zc - sn * xrel + cs * zrel
+      end do
+   endif
+
+   ! note: no action for spline coefficients (?)
+
+   if (grid_has_spline(g) .and. g%lies_in_oyz) then
+      call write_log(' Internal warning: cartgrid_pitch: spline coefficients not rotated')
+   elseif (grid_has_spline(g)) then
+      call write_log(' Internal error: cartgrid_pitch: spline with x-values not supported')
+   endif
+
+end subroutine cartgrid_pitch
+
+!------------------------------------------------------------------------------------------------------------
+
 subroutine cartgrid_2glob_or(g, o, R)
 !--function: compute local-to-global conversion for a surface defined with respect to local system (o, R)
 !            o = origin of local system w.r.t. global system
@@ -2141,7 +1833,7 @@ subroutine cartgrid_2glob_or(g, o, R)
 
    ! change origin to the global system o
 
-   call cartgrid_shift(g, o%v(1), o%v(2), o%v(3))
+   call grid_shift(g, o%v(1), o%v(2), o%v(3))
 
 end subroutine cartgrid_2glob_or
 
@@ -2163,7 +1855,7 @@ subroutine cartgrid_2glob_m(g, mref)
 
    ! change origin to the global system o
 
-   call cartgrid_shift(g, mref%o%v(1), mref%o%v(2), mref%o%v(3))
+   call grid_shift(g, mref%o%v(1), mref%o%v(2), mref%o%v(3))
 
 end subroutine cartgrid_2glob_m
 
@@ -2193,74 +1885,33 @@ end subroutine cartgrid_2loc_m
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine convert_cyl2curv(g)
-!--function: compute curvilinear cartesian coordinates (x,y,z) for cylindrical coordinates (r,th,v)
+subroutine convert_cyl2cart(g)
+!--function: compute cartesian coordinates (x,y,z) for cylindrical coordinates (th,y,r)
    implicit none
 !--subroutine arguments:
-   type(t_grid)              :: g                 ! in: grid with cylindrical (r,th,v) filled in
-                                                  ! out: grid with curvilinear (x,y,z) filled in
+   type(t_grid)              :: g                 ! in: grid with cylindrical (th,y,r) filled in
+                                                  ! out: grid with cartesian (x,y,z) filled in
 !--local variables:
-!  character(len=*), parameter  :: subnam = 'convert_cyl2curv'
+!  character(len=*), parameter  :: subnam = 'convert_cyl2cart'
    integer      :: ii
-   real(kind=8) :: x, y, z, r, th
-   real(kind=8), parameter :: pi     = 4d0*atan(1d0)
+   real(kind=8) :: x, z, r, th
 
-   if (g%ivdir.eq.ikXDIR) then
+   ! cylindrical grid with [th,y,r]-coordinates
 
-      ! cylindrical grid with [x,r,th]-coordinates
+   do ii = 1, g%ntot
+      th = g%coor(ii,1)
+      r  = g%coor(ii,3)
+      x  = r * sin(th)         ! th: rotation z --> x, counter-clockwise positive
+      z  = r * cos(th)         ! th=0 associated with positive z-axis
+      g%coor(ii,1) = x
+      g%coor(ii,3) = z
+   enddo
 
-      do ii = 1, g%ntot
-         r  = g%coor(ii,2)
-         th = g%coor(ii,3)
-         y  = r * cos(th*pi/180d0)
-         z  = r * sin(th*pi/180d0)
-         g%coor(ii,2) = y
-         g%coor(ii,3) = z
-      enddo
-
-   elseif (g%ivdir.eq.ikYDIR) then
-
-      ! cylindrical grid with [r,y,th]-coordinates
-
-      do ii = 1, g%ntot
-         r  = g%coor(ii,1)
-         th = g%coor(ii,3)
-         x  = r * cos(th*pi/180d0)
-         z  = r * sin(th*pi/180d0)
-         g%coor(ii,1) = x
-         g%coor(ii,3) = z
-      enddo
-
-   elseif (g%ivdir.eq.ikZDIR) then
-
-      ! cylindrical grid with [r,th,z]-coordinates
-
-      do ii = 1, g%ntot
-         r  = g%coor(ii,1)
-         th = g%coor(ii,2)
-         x  = r * cos(th*pi/180d0)
-         y  = r * sin(th*pi/180d0)
-         g%coor(ii,1) = x
-         g%coor(ii,2) = y
-      enddo
-
-   else
-      call write_log(' Internal error: cyl2curv: incorrect ivdir')
-   endif
-
-   g%is_cylindr  = .false.
+   g%cyl_coords  = .false.
    g%is_curvilin = .true.
    g%lies_in_oyz = .false.
-   g%ivdir       = 0
       
-   g%x  => g%coor(:,1)
-   g%y  => g%coor(:,2)
-   g%z  => g%coor(:,3)
-   g%r  => NULL()
-   g%th => NULL()
-   g%v  => NULL()
-
-end subroutine convert_cyl2curv
+end subroutine convert_cyl2cart
 
 !------------------------------------------------------------------------------------------------------------
 

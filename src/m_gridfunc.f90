@@ -150,6 +150,8 @@ module m_gridfunc
       real(kind=8), dimension(:),   pointer :: vt    => NULL()
       type(t_grid),                 pointer :: grid  => NULL()
       type(t_eldiv),                pointer :: eldiv => NULL()
+   contains
+      procedure :: is_defined  => gf3_is_defined
 
       ! name    name of the grid-function, for debugging purposes
       ! val     values array (1:ntot,3): for each grid point a 3-vector with values, associated with
@@ -825,6 +827,20 @@ end subroutine gf3_ikrange
 
 !------------------------------------------------------------------------------------------------------------
 
+function gf3_is_defined(this)
+!--purpose: determine if the gf3 is 'defined', has memory allocated
+   implicit none
+!--function return value:
+   logical                 :: gf3_is_defined
+!--function arguments:
+   class(t_gridfnc3)       :: this
+
+   gf3_is_defined = (associated(this%val) .and. associated(this%grid))
+
+end function gf3_is_defined
+
+!------------------------------------------------------------------------------------------------------------
+
 subroutine gf3_nullify(gf3)
 !--purpose: initialize/nullify all pointers for a grid function.
 !           used to signal that there's no memory allocated for the gf.
@@ -966,7 +982,6 @@ subroutine gf3_set(iigs, val, f, ikarg)
    real(kind=8)     :: val
 !--local variables:
    integer ik, ik0, ik1, ii
-
 
    ! determine range for coordinate directions ik
 
@@ -2244,19 +2259,10 @@ subroutine gf3_destroy(gf3)
 !--subroutine arguments:
    type(t_gridfnc3)        :: gf3
 
-   ! de-allocate values-array
+   ! de-allocate values-array, nullify pointers
 
    if (associated(gf3%val)) deallocate(gf3%val)
-
-   ! clear pointers
-
-   nullify(gf3%val)
-   nullify(gf3%vx)
-   nullify(gf3%vy)
-   nullify(gf3%vn)
-   nullify(gf3%vt)
-   nullify(gf3%grid)
-   nullify(gf3%eldiv)
+   call gf3_nullify(gf3)
 
 end subroutine gf3_destroy
 

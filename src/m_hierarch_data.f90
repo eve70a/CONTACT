@@ -14,7 +14,7 @@ use m_globals
 use m_readline
 use m_ptrarray
 use m_markers
-use m_interp_1d
+use m_interp
 use m_spline_def
 use m_grids
 use m_gridfunc
@@ -139,7 +139,6 @@ public
       procedure :: is_left_side     => ic_is_left_side
       procedure :: is_roller        => ic_is_roller
       procedure :: is_conformal     => ic_is_conformal
-      procedure :: use_brute        => ic_use_brute
       procedure :: use_initial_cp   => ic_use_initial_cp
       procedure :: use_oblique      => ic_use_oblique
       procedure :: use_steep_slopes => ic_use_steep_slopes
@@ -179,7 +178,6 @@ public
       !              1 = no rail deflection, total long. force fx_ws prescribed;
       !              2 = no rail deflection, total long. moment my_ws prescribed;
       !              3 = rail deflection with stiffness ky, kz and spring forces fy_rail, fz_rail given
-      !              4 = same model as 3, using nested outer-inner iteration instead of Broyden solver
       ! f3, force3, module 3: specifies the tangential problem:
       !              0 = creepages cksi, ceta prescribed;
       !              1 = relative force  fxrel1, creepage ceta prescribed;
@@ -826,7 +824,7 @@ public
       integer            :: actv_thrd
       integer            :: irun, iax, iside, ncase, itforc_out, itforc_inn
       integer            :: npatch, ipatch
-      real(kind=8)       :: tim, s_ws, ynom_whl, rnom_whl, rnom_rol
+      real(kind=8)       :: tim, s_ws, th_ws, ynom_whl, rnom_whl, rnom_rol
       real(kind=8)       :: x_rw, y_rw, z_rw, rollrw, yawrw
       real(kind=8)       :: y_rr, z_rr, rollrr
       real(kind=8)       :: xcp_tr, ycp_tr, zcp_tr, deltcp_tr
@@ -847,6 +845,7 @@ public
       ! ipatch            contact patch number, used by module 1
       ! tim        [s]    (SIMPACK) simulation time
       ! s_ws       [mm]   location of wheel-set CM along the track curve
+      ! th_ws      [rad]  pitch angle of wheel-set CM wrt track curve
       ! ynom_whl   [mm]   lateral position of wheel origin in wheelset coordinates
       ! rnom_whl   [mm]   nominal wheel radius == vertical position of wheel origin in wheelset coords
       ! rnom_rol   [mm]   nominal roller radius
@@ -954,7 +953,7 @@ contains
       ic%output_subs = 1
       ic%flow     = 4
       ic%xflow    = 0
-      ic%x_profil = 0
+      ic%x_profil = 1
       ic%x_smooth = 0
       ic%x_force  = 0
       ic%x_locate = 0
@@ -1009,20 +1008,6 @@ contains
       ic_is_conformal = (this%discns_eff.eq.4)
 
    end function ic_is_conformal
-
-!------------------------------------------------------------------------------------------------------------
-
-   function ic_use_brute(this)
-!--function: determine from the ic-struct whether to use the (brute force) grid-based contact search
-      implicit none
-!--result value
-      logical                   :: ic_use_brute
-!--subroutine arguments
-      class(t_ic),   intent(in) :: this
-
-      ic_use_brute = (this%discns_eff.eq.5 .or. this%discns_eff.eq.6 .or. this%discns_eff.eq.9)
-
-   end function ic_use_brute
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1276,6 +1261,7 @@ contains
 
    if (ilevel.ge.1) then
       m%s_ws      = 0d0
+      m%th_ws     = 0d0
       m%ynom_whl  = 0d0
       m%rnom_whl  = 0d0
       m%rnom_rol  = 0d0

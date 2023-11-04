@@ -9,7 +9,7 @@ module m_spline_def
    use m_globals
    use m_markers
    use m_ptrarray
-   use m_interp_1d
+   use m_interp
    implicit none
    private
 
@@ -166,7 +166,7 @@ subroutine spline_nullify(spl)
 !--subroutine parameters:
    type(t_spline)            :: spl
 
-   spl%npnt  =  0
+   spl%npnt      =  0
    spl%has_xdata = .false.
    spl%nsec_uniy =  0
    spl%nsec_top  =  0
@@ -586,47 +586,20 @@ end subroutine spline_print
 !------------------------------------------------------------------------------------------------------------
 
 subroutine spline_destroy(spl)
-!--purpose: clean-up allocated arrays for splines, nullify alias-pointers
+!--purpose: clean-up allocated arrays for splines, nullify pointers
    implicit none
 !--subroutine parameters:
    type(t_spline)  :: spl
 
-   spl%npnt = 0
-   spl%has_xdata = .false.
-   spl%nsec_uniy = 0
-   spl%nsec_top  = 0
-
-   if (associated(spl%s)) deallocate(spl%s)
-   spl%s     => NULL()
-
-   if (associated(spl%axspl)) deallocate(spl%axspl)
-   spl%axspl => NULL()
-   spl%ax0   => NULL()
-   spl%ax1   => NULL()
-   spl%ax2   => NULL()
-   spl%ax3   => NULL()
-
-   if (associated(spl%ayspl)) deallocate(spl%ayspl)
-   spl%ayspl => NULL()
-   spl%ay0   => NULL()
-   spl%ay1   => NULL()
-   spl%ay2   => NULL()
-   spl%ay3   => NULL()
-
-   if (associated(spl%azspl)) deallocate(spl%azspl)
-   spl%azspl => NULL()
-   spl%az0   => NULL()
-   spl%az1   => NULL()
-   spl%az2   => NULL()
-   spl%az3   => NULL()
-
+   if (associated(spl%s))         deallocate(spl%s)
+   if (associated(spl%axspl))     deallocate(spl%axspl)
+   if (associated(spl%ayspl))     deallocate(spl%ayspl)
+   if (associated(spl%azspl))     deallocate(spl%azspl)
    if (associated(spl%ipnt_uniy)) deallocate(spl%ipnt_uniy)
-   spl%ipnt_uniy => NULL()
-
-   if (associated(spl%ysec_top)) deallocate(spl%ysec_top)
-   if (associated(spl%iuni_top)) deallocate(spl%iuni_top)
-   spl%ysec_top => NULL()
-   spl%iuni_top => NULL()
+   if (associated(spl%ysec_top))  deallocate(spl%ysec_top)
+   if (associated(spl%iuni_top))  deallocate(spl%iuni_top)
+   
+   call spline_nullify(spl)
 
 end subroutine spline_destroy
 

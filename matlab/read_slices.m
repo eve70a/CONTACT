@@ -30,15 +30,27 @@ fig_ofs  = 4;
 % figs 1 - 4: resampling of slices
 % figs 5 - 6: slices before/after interruption
 
+% using '.slcs' for rails and '.slcw' for wheels
+
+[~,~,ext] = fileparts(fname);
+is_wheel  = strcmp(lower(ext), '.slcw');
+
+if (is_wheel)           % 1st surface parameter u == theta or u == s along track curve
+   nam_udir = 'theta';
+else
+   nam_udir = 'S';
+end
+
 % Initialize output structure
 
 slcs = struct;
 slcs.slc_file = fname;
+slcs.is_wheel = is_wheel;
 slcs.nslc     = 0;
-slcs.s_offset = 0;
-slcs.s_scale  = 1;
+slcs.u_offset = 0;
+slcs.u_scale  = 1;
+slcs.u        = [];
 slcs.fnames   = [];
-slcs.s        = [];
 
 % read file contents
 
@@ -48,19 +60,19 @@ if (~exist(fname,'file'))
 end
 
 f = fopen(fname,'r'); iline  = 0;
-[slcs, iline, ierror] = read_slices_header(slcs, f, iline, idebug);
+[slcs, iline, ierror] = read_slices_header(slcs, nam_udir, f, iline, idebug);
 if (ierror==0)
-   [slcs, iline, ierror] = read_slices_fnames(slcs, f, iline, idebug);
+   [slcs, iline, ierror] = read_slices_fnames(slcs, nam_udir, f, iline, idebug);
 end
 if (ierror==0)
-   [slcs, iline, ierror] = read_feature_info(slcs, f, iline, idebug);
+   [slcs, iline, ierror] = read_feature_info(slcs, nam_udir, f, iline, idebug);
 end
 fclose(f);
 if (ierror), return; end
 
-% apply s-offset and scaling
+% apply u-offset and scaling
 
-slcs.s = slcs.s_scale * (slcs.s + slcs.s_offset);
+slcs.u = slcs.u_scale * (slcs.u + slcs.u_offset);
 
 % read each of the profiles
 
@@ -72,21 +84,24 @@ if (ierror==0)
    [slcs, ierror] = resample_slices( slcs, dsmax_2d, idebug, show_fig, fig_ofs );
 end
 
-% add 2d spline representation
+% add 2d spline representation 
+% rails:  parameter (u,v) --> cartesian (x,y,z) with x==u.
+% wheels: parameter (u,v) --> cylindrical (th,y,dr) with th==u, basic interval [-pi,pi) + wrap-around
+% TODO: smoothing in x/theta-direction
 
 if (ierror==0 & exist('make_2dspline'))
-   use_approx = (slcs.s_method==2); use_insert = 1; idebug = 0;
-   slcs.spl2d = make_2dspline(slcs.s, slcs.vj, slcs.xsurf, slcs.ysurf, slcs.zsurf, slcs.mask_j, ...
-                                                                        use_approx, use_insert, idebug);
+   use_approx = (slcs.u_method==2); use_insert = 1; use_cylindr = is_wheel; idebug = 0;
+   slcs.spl2d = make_2dspline(slcs.u, slcs.vj, [], slcs.ysurf, slcs.zsurf, slcs.mask_j, ...
+                                                               use_approx, use_insert, use_cylindr, idebug);
 end
 
 end % function read_slices
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ slcs, iline, ierror ] = read_slices_header(slcs, f, iline, idebug)
+function [ slcs, iline, ierror ] = read_slices_header(slcs, nam_udir, f, iline, idebug)
 
-% function [ slcs, iline ] = read_slices_header(slcs, f, iline, [idebug])
+% function [ slcs, iline ] = read_slices_header(slcs, nam_udir, f, iline, [idebug])
 %
 % Lower-level routine for reading contents of slcs-file 
 
@@ -113,15 +128,16 @@ function [ slcs, iline, ierror ] = read_slices_header(slcs, f, iline, idebug)
 
          if (in_header==1)
 
-            % 1st line: S_OFFSET, S_SCALE
+            % 1st line: [S,TH]_OFFSET, [S,TH]_SCALE
 
             [tmp, nval] = sscanf(s, '%f %f');
             if (nval<2)
-               disp(sprintf('ERROR: first line should have two values, s_offset, s_scale, obtained %d',nval));
+               disp(sprintf('ERROR: first line should have two values, %s_OFFSET, %s_SCALE, obtained %d',...
+                        nam_udir, nam_udir, nval));
                ierror = 1;
             else
-               slcs.s_offset = tmp(1);
-               slcs.s_scale  = tmp(2);
+               slcs.u_offset = tmp(1);
+               slcs.u_scale  = tmp(2);
             end
             in_header = in_header + 1;
 
@@ -146,12 +162,12 @@ function [ slcs, iline, ierror ] = read_slices_header(slcs, f, iline, idebug)
 
          elseif (in_header==4)
 
-            % 4th line: S_METHOD
+            % 4th line: [S,TH]_METHOD
 
-            slcs.s_method = sscanf(s, '%f');
+            slcs.u_method = sscanf(s, '%f');
             in_header = in_header + 1;
-            if (~any(slcs.s_method==[1 2]))
-               disp(sprintf('ERROR: S_METHOD should be 1 or 2'));
+            if (~any(slcs.u_method==[1 2]))
+               disp(sprintf('ERROR: %s_METHOD should be 1 or 2', nam_udir));
                disp(['input: ', s]);
                ierror = 4;
             end
@@ -170,9 +186,9 @@ end % function read_slices_header
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ slcs, iline, nerror ] = read_slices_fnames(slcs, f, iline, idebug)
+function [ slcs, iline, nerror ] = read_slices_fnames(slcs, nam_udir, f, iline, idebug)
 
-% function [ slcs, iline, nerror ] = read_slices_fnames(slcs, f, iline, [idebug])
+% function [ slcs, iline, nerror ] = read_slices_fnames(slcs, nam_udir, f, iline, [idebug])
 %
 % Lower-level routine for reading filenames from slcs-file 
 
@@ -193,7 +209,7 @@ function [ slcs, iline, nerror ] = read_slices_fnames(slcs, f, iline, idebug)
 
       if (~isempty(s))
 
-         % NSLC lines: S_SLC, 'RFNAME' or S_SLC, "RFNAME"
+         % NSLC lines: S/TH_SLC, 'R/WFNAME' or S/TH_SLC, "R/WFNAME"
 
          ix = findstr(s, '''');
          if (length(ix)==0)
@@ -204,7 +220,7 @@ function [ slcs, iline, nerror ] = read_slices_fnames(slcs, f, iline, idebug)
             nslc = nslc + 1;
             val            = sscanf(s(1:ix(1)-1), '%f');
             if (length(val)==1)
-               slcs.s(nslc,1) = val;
+               slcs.u(nslc,1) = val;
             end
             nam            = s(ix(1)+1:ix(2)-1);
             if (~isempty(nam))
@@ -214,7 +230,7 @@ function [ slcs, iline, nerror ] = read_slices_fnames(slcs, f, iline, idebug)
          if (length(ix)~=2 | length(val)~=1 | isempty(nam))
             disp(sprintf('ERROR: could not interpret line %d:',iline));
             disp(sprintf('       "%s"',s));
-            disp(sprintf('       line should provide S_SLC, ''RFNAME'''));
+            disp(sprintf('       line should provide %s_SLC, ''RFNAME''', nam_udir));
             nerror = nerror + 1;
          end
 
@@ -226,14 +242,23 @@ function [ slcs, iline, nerror ] = read_slices_fnames(slcs, f, iline, idebug)
       nerror = nerror + 1;
    end
 
-   % check that s-positions are in strictly increasing order, ds >= 0.001 mm
+   % check that u-positions are in strictly increasing order, du >= 0.001 mm or >= 0.001 rad
 
-   tiny_ds = 0.001 / slcs.s_scale;
-   ds = diff(slcs.s);
-   if (any(ds<tiny_ds))
-      ix = find(ds<tiny_ds, 1, 'first');
-      disp(sprintf('ERROR: slice s-positions should be strictly increasing. islc= %d, %d: s=%8.3f, %8.3f',...
-                ix, ix+1, slcs.s(ix), slcs.s(ix+1)));
+   tiny_du = 0.001 / slcs.u_scale;
+   du = diff(slcs.u);
+   if (any(du<tiny_du))
+      ix = find(du<tiny_du, 1, 'first');
+      disp(sprintf('ERROR: slice %s-positions should be strictly increasing.', nam_udir));
+      disp(sprintf('       islc= %d, %d: %s=%8.3f, %8.3f', ix, ix+1, nam_udir, slcs.u(ix), slcs.u(ix+1)));
+      nerror = nerror + 1;
+   end
+
+   % for wheels, require that |u_end - u_1| < 2*pi
+
+   du = (slcs.u(end) - slcs.u(1)) * slcs.u_scale;
+   if (slcs.is_wheel & du>2*pi)
+      disp(sprintf('ERROR: slice %s-positions should be at most 2*pi apart.', nam_udir));
+      disp(sprintf('       islc= %d, %d: %s=%8.3f, %8.3f', 1, slcs.nslc, nam_udir, slcs.u(1), slcs.u(end)));
       nerror = nerror + 1;
    end
 
@@ -241,9 +266,9 @@ end % function read_slices_fnames
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ slcs, iline, nerror ] = read_feature_info(slcs, f, iline, idebug)
+function [ slcs, iline, nerror ] = read_feature_info(slcs, nam_udir, f, iline, idebug)
 
-% function [ slcs, iline, nerror ] = read_feature_info(slcs, f, iline, [idebug])
+% function [ slcs, iline, nerror ] = read_feature_info(slcs, nam_udir, f, iline, [idebug])
 %
 % Lower-level routine for reading feature information from a slcs-file 
 
@@ -288,23 +313,26 @@ function [ slcs, iline, nerror ] = read_feature_info(slcs, f, iline, idebug)
             [tmp, nval] = sscanf(s, '%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f');
    
             if (nval>=1)
-               s_slc = tmp(1);
-               i_slc = find(abs(slcs.s-s_slc)<1e-3);
+               u_slc = tmp(1);
+               i_slc = find(abs(slcs.u-u_slc)<1e-3);
 
                if (length(i_slc)<1)
                   is_ok = 0;
-                  disp(sprintf('ERROR: could not find slice at s_slc = %4.2f in list of slices', s_slc));
+                  disp(sprintf('ERROR: could not find slice at %s_slc = %4.2f in list of slices', ...
+                                                                                        nam_udir, u_slc));
                   nerror = nerror + 1;
                elseif (length(i_slc)>1)
                   is_ok = 0;
-                  disp(sprintf('ERROR: multiple slices with s_slc = %4.2f in list of slices', s_slc));
+                  disp(sprintf('ERROR: multiple slices with %s_slc = %4.2f in list of slices', ...
+                                                                                        nam_udir, u_slc));
                   if (~isempty(i_slc))
                      disp(sprintf('       possible slices i = %d %d %d %d %d', i_slc));
                   end
                   nerror = nerror + 1;
                elseif (any(slcs.s_feat(i_slc,:)))
                   is_ok = 0;
-                  disp(sprintf('ERROR: repeated definition of features for slice with s_slc = %4.2f', s_slc));
+                  disp(sprintf('ERROR: repeated definition of features for slice with %s_slc = %4.2f', ...
+                                                                                        nam_udir, u_slc));
                   nerror = nerror + 1;
                end
             end
@@ -312,7 +340,8 @@ function [ slcs, iline, nerror ] = read_feature_info(slcs, f, iline, idebug)
             nbreak = nval - 1;
 
             if (is_ok & nbreak~=slcs.nfeat)
-               disp(sprintf('ERROR: incorrect number of feature positions for slice at s_slc = %4.2f', s_slc));
+               disp(sprintf('ERROR: incorrect number of feature positions for slice at %s_slc = %4.2f', ...
+                                                                                        nam_udir, u_slc));
                disp(sprintf('       obtained %d values, expecting n_feat = %d', nbreak, slcs.nfeat));
                is_ok = 0;
                nerror = nerror + 1;
@@ -354,45 +383,44 @@ for is = 1 : nslc
       disp(sprintf('Slice %3d: read file "%s"', is, strtrim(slcs.fnames(is,:)) ));
    end
 
-   is_wheel = 0;
    slc_file = fullfile(filepath, strtrim(slcs.fnames(is,:)));
-   prr = read_profile(slc_file, is_wheel, mirror_y, mirror_z, scale_yz, [], idebug-1);
+   prf = read_profile(slc_file, slcs.is_wheel, mirror_y, mirror_z, scale_yz, [], idebug-1);
 
-   % in case of an error (missing file), prr will be a struct with empty members
+   % in case of an error (missing file), prf will be a struct with empty members
 
-   if (isempty(prr.ProfileY))
+   if (isempty(prf.ProfileY))
       ierror = 1;
    else
-      prr.npnt = length(prr.ProfileY);
-      prr.ltot = prr.ProfileS(end) - prr.ProfileS(1);
+      prf.npnt = length(prf.ProfileY);
+      prf.ltot = prf.ProfileS(end) - prf.ProfileS(1);
    end
 
-   if (is>1 & ~isempty(prr.ProfileY))
+   if (is>1 & ~isempty(prf.ProfileY))
  
-      % set empty for fields present in slcs.prr / missing in new prr
+      % set empty for fields present in slcs.prf / missing in new prf
 
-      slcs_fields = fieldnames(slcs.prr(1));
+      slcs_fields = fieldnames(slcs.prf(1));
       for i = 1:length(slcs_fields)
-         if (~isfield(prr, slcs_fields{i}))
-            % disp(sprintf('prr(%d) does not have field "%s", left empty', is, slcs_fields{i}));
-            prr = setfield(prr, slcs_fields{i}, []);
+         if (~isfield(prf, slcs_fields{i}))
+            % disp(sprintf('prf(%d) does not have field "%s", left empty', is, slcs_fields{i}));
+            prf = setfield(prf, slcs_fields{i}, []);
          end
       end
 
-      % set empty for fields present in prr / missing in previous slcs.prr
+      % set empty for fields present in prf / missing in previous slcs.prf
 
-      prr_fields = fieldnames(prr);
-      for i = 1:length(prr_fields)
-         if (~isfield(slcs.prr(1), prr_fields{i}))
-            % disp(sprintf('prr(%d) introduces field "%s", empty for previous slices', is, prr_fields{i}));
-            slcs.prr = setfield(slcs.prr, prr_fields{i}, []);
+      prf_fields = fieldnames(prf);
+      for i = 1:length(prf_fields)
+         if (~isfield(slcs.prf(1), prf_fields{i}))
+            % disp(sprintf('prf(%d) introduces field "%s", empty for previous slices', is, prf_fields{i}));
+            slcs.prf = setfield(slcs.prf, prf_fields{i}, []);
          end
       end
-   end % is>1 & prr
+   end % is>1 & prf
 
-   if (~isempty(prr.ProfileY))
-      % disp(sprintf('Adding prr(%2d) = "%s"', is, prr.Fname));
-      slcs.prr(is,1) = prr;
+   if (~isempty(prf.ProfileY))
+      % disp(sprintf('Adding prf(%2d) = "%s"', is, prf.Fname));
+      slcs.prf(is,1) = prf;
    end
 end % for is
 

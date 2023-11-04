@@ -18,6 +18,10 @@ function [ dx_out, dy_out, dz_out ] = eval_2dspline_deriv( spl2d, u_in, v_in, id
    if (nargin<5 | isempty(idebug))
       idebug = 0;
    end
+   if (min(size(u_in))>1 | min(size(v_in))>1)
+      disp('ERROR: u_in, v_in must be 1D arrays');
+      return;
+   end
 
    has_xij = isfield(spl2d, 'cij_x');
 
@@ -25,6 +29,12 @@ function [ dx_out, dy_out, dz_out ] = eval_2dspline_deriv( spl2d, u_in, v_in, id
       use_list = 1; typ_eval = 'list';
    else
       use_list = 0; typ_eval = 'tens.grid';
+   end
+   if (size(u_in,2)>size(u_in,1))
+      u_in = u_in';     % make column vector
+   end
+   if (size(v_in,1)>size(v_in,2))
+      v_in = v_in';     % make row vector
    end
    k = 4;
 
@@ -69,10 +79,12 @@ function [ dx_out, dy_out, dz_out ] = eval_2dspline_deriv( spl2d, u_in, v_in, id
       % y_out: [ noutu, noutv ], B3: [ noutu, nsplu+1 ], D3: [nsplu+1, nsplu], 
       %                                                  ci_y: [ nsplu, noutv ], u_in: [ noutu ]
 
+      dy_out = B3 * D3 * ci_y;
       if (has_xij)
          dx_out = B3 * D3 * ci_x;
+      else
+         dx_out = ones(size(dy_out));    % half-parametric spline: x==u
       end
-      dy_out = B3 * D3 * ci_y;
       dz_out = B3 * D3 * ci_z;
       mask   = B4 * mask;
 
@@ -108,10 +120,12 @@ function [ dx_out, dy_out, dz_out ] = eval_2dspline_deriv( spl2d, u_in, v_in, id
       % y_out: [ noutu, noutv ], B3: [ noutv, nsplv+1 ], D3: [nsplv+1, nsplv], 
       %                                                  cj_y: [ noutu, nsplv ], v_in: [ noutv ]
 
+      dy_out = (B3 * D3 * cj_y')';
       if (has_xij)
          dx_out = (B3 * D3 * cj_x')';
+      else
+         dx_out = zeros(size(dy_out));    % half-parametric spline: x==u
       end
-      dy_out = (B3 * D3 * cj_y')';
       dz_out = (B3 * D3 * cj_z')';
       mask   = (B4 * mask')';
 
@@ -127,7 +141,7 @@ function [ dx_out, dy_out, dz_out ] = eval_2dspline_deriv( spl2d, u_in, v_in, id
 
    % output a list when both inputs are of same size
 
-   if (all(size(u_in)==size(v_in)))
+   if (use_list)
       dx_out = diag(dx_out);
       dy_out = diag(dy_out);
       dz_out = diag(dz_out);

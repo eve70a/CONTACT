@@ -9,7 +9,7 @@ module m_bspline_def
    use m_globals
    use m_markers
    use m_ptrarray
-   use m_interp_1d
+   use m_interp
    use m_spline_def
    implicit none
    private
@@ -256,7 +256,7 @@ subroutine bspline2d_print(bspl, nam, idebug, ndigit)
       endif
       call print_2d_real(bspl%nsplu, bspl%nsplv, bspl%cij_y, trim(nam)//'.cij_y', 10, 'g12.4')
       call print_2d_real(bspl%nsplu, bspl%nsplv, bspl%cij_z, trim(nam)//'.cij_z', 10, 'g12.4')
-      call print_2d_int(bspl%nsplu, bspl%nsplv, bspl%mask, trim(nam)//'.mask', 40, 'i3')
+      call print_2d_int(bspl%nsplu, bspl%nsplv, bspl%mask, trim(nam)//'.mask_j', 40, 'i3')
 
    endif ! idebug >= 5
 

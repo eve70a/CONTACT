@@ -133,7 +133,7 @@ contains
                strng(2) = 'X-FORCE'
             elseif (ic%force1.eq.2) then
                strng(2) = 'X-MOMENT'
-            elseif (ic%force1.ge.3) then
+            elseif (ic%force1.eq.3) then
                strng(2) = strng(1)
             endif
 
@@ -321,7 +321,7 @@ contains
                    3x,'VROLLR',3x, /, 2x, 3f12.4, 3a,/)
          endif
 
-         if (ic%force1.ge.3) then
+         if (ic%force1.eq.3) then
             write(lout,4202)
             write(lout,4203) wtd%trk%ky_rail, sgn*wtd%trk%dy_defl, fmt_gs(12,4,wtd%trk%fy_rail),        &
                    wtd%trk%kz_rail, wtd%trk%dz_defl, fmt_gs(12,4,wtd%trk%fz_rail)

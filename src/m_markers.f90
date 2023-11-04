@@ -13,6 +13,7 @@ private
 public coordsys_create
 public coordsys_id
 public coordsys_name
+public wrap_around
 
 public vec
 public vec_zero
@@ -273,6 +274,19 @@ function coordsys_name(isys)
    endif
 
 end function coordsys_name
+
+!------------------------------------------------------------------------------------------------------------
+
+function wrap_around(th)
+!--function: map cylinder coordinates th to basic interval [-pi,pi)
+   implicit none
+!--result value
+   real(kind=8)             :: wrap_around
+!--subroutine argument
+   real(kind=8)             :: th
+
+   wrap_around = modulo(th+pi, 2*pi) - pi
+end function wrap_around
 
 !------------------------------------------------------------------------------------------------------------
 

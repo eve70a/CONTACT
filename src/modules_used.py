@@ -44,6 +44,16 @@ def parse_fortran_file( fname, f_out, idebug=3 ):
             # print('stripped:', line[m.start(1):m.end(1)])
             incl_used.append( line[m.start(1):m.end(1)] )
 
+        # search all lines starting with 'submodule'
+        if (re.search('^ *submodule', line)):
+            print('Line %4d:' % iline, line.strip('\n'))
+
+            # extract the module name
+            _, mod, sub = line.split()
+            mod = mod[1:-1] # discard parentheses
+            print('         module = %s, submodule = %s' % (mod, sub))
+            mods_used.append( mod )
+
         # search all lines starting with 'use ' or 'use, ', avoid 'use_plast ='
         if (re.search('^ *use[ ,]', line)):
 

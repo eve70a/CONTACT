@@ -28,8 +28,8 @@ if ($perl_platform =~ /.*win.*/i) {
 $ENV{OMP_NUM_THREADS} = 2;
 
 my $status = 0;
-my @list=( 'carter_plast', 'catt2d_plast', 'catt3d_plast', 'tractcurve_plast',
-           'plastic_one_shift', 'mbench_a22_left' );
+my @list=( 'carter_plast', 'catt2d_plast', 'catt3d_plast', 'plastic_one_shift', 
+           'mbench_a22_left', 'tractcurve_plast' );
 #  @list=( 'plastic_one_shift' );
 #  @list=( 'tractcurve_plast' );
 #  @list=( 'carter_plast' );

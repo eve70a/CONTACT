@@ -68,7 +68,7 @@ public
       real(kind=8)     :: gap_min, totgap, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap
       type(t_marker)   :: mref
       real(kind=8)     :: delttr
-      real(kind=8)     :: xsta, xend, ysta, yend, zsta, zend
+      real(kind=8)     :: xsta, xend, ysta, yend, zsta, zend, usta, uend, vsta, vend
       real(kind=8)     :: sr_ref, sp_sta, sp_end, sc_sta, sc_end
       real(kind=8)     :: dx_fac, ds_fac, dx_eff, ds_eff
       integer          :: nsub
@@ -88,6 +88,8 @@ public
       ! wgt_agap  [rad]  weighted average of alpha values for interpenetration area
       ! [xyz]sta  [mm]   start-position of (estimated) interpenetration area in track coordinates
       ! [xyz]end  [mm]   end-position of (estimated) interpenetration area in track coordinates
+      ! [uv]sta   [-]    start-position of (estimated) interpenetration area in surface (u,v) coordinates
+      ! [uv]end   [-]    end-position of (estimated) interpenetration area in surface (u,v) coordinates
       ! sr_ref    [mm]   sr-position of the contact reference in rail profile sr-coordinates
       !
       ! variables concerning the potential contact area:
@@ -295,6 +297,23 @@ public
    end type p_ws_track
 
 contains
+
+!------------------------------------------------------------------------------------------------------------
+
+   function use_brute(ic, prr, prw)
+!--function: determine from an ic-struct & profiles used whether to use the (brute force) grid-based
+!            contact search
+      implicit none
+!--result value
+      logical                     :: use_brute
+!--subroutine arguments
+      type(t_ic),      intent(in) :: ic
+      type(t_profile), intent(in) :: prr, prw
+
+      use_brute = (ic%discns_eff.eq.5 .or. ic%discns_eff.eq.6 .or. ic%discns_eff.eq.9)
+      use_brute = use_brute .or. prw%is_varprof()
+
+   end function use_brute
 
 !------------------------------------------------------------------------------------------------------------
 

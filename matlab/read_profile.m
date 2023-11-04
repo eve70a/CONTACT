@@ -21,8 +21,8 @@ function [ p ] = read_profile(fname, is_wheel, mirror_y, mirror_z, scale_yz, rgt
 [~,~,ext] = fileparts(fname);
 
 if (nargin<2 | isempty(is_wheel))
-   is_wheel = (strcmp(lower(ext), '.prw') | strcmp(lower(ext), '.whe') | ...
-                                                   strcmp(lower(ext), '.whl')); % default: rail
+   is_wheel = (strcmp(lower(ext), '.slcw') | strcmp(lower(ext), '.prw') | ...
+                               strcmp(lower(ext), '.whe') | strcmp(lower(ext), '.whl')); % default: rail
 end
 if (nargin<3 | isempty(mirror_y))
    mirror_y = 0;
@@ -32,6 +32,10 @@ if (nargin<4 | isempty(mirror_z))
 end
 if (nargin<5 | isempty(scale_yz))
    scale_yz = 1;
+end
+if (scale_yz<1e-11)
+   disp('ERROR(read_profile): scale_yz must be > 0');
+   return;
 end
 if (nargin<6 | isempty(rgt_side))
    rgt_side = 1;
@@ -45,11 +49,11 @@ end
 
 % switch to appropriate routine based on filename extension
 
-is_slices = 0; 
+is_slices  = 0; 
 is_simpack = 0; 
 is_vampire = 0; 
 
-if (any(strcmp(lower(ext), {'.slcs'}) ))
+if (any(strcmp(lower(ext), {'.slcs', '.slcw'}) ))
 
    p = read_slices(fname, mirror_y, mirror_z, scale_yz, idebug);
    is_slices  = 1;

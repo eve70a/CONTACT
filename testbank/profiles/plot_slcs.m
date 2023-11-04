@@ -7,7 +7,7 @@ if (any(show_fig==1))
    % slcs = read_profile('cross_nose.slcs', is_wheel, mirror_y, mirror_z, scale_yz);
    % slcs = read_profile('cross+wing.slcs', is_wheel, mirror_y, mirror_z, scale_yz);
    % slcs = read_profile('cross+wing_extd.slcs', is_wheel, mirror_y, mirror_z, scale_yz);
-   % slcs = read_profile('wing_rail.slcs', is_wheel, mirror_y, mirror_z, scale_yz);
+   slcs = read_profile('wing_rail.slcs', is_wheel, mirror_y, mirror_z, scale_yz);
 
    % 1: settings for cross_nose, cross+wing, cross+wing_extd, wing_rail
 
@@ -20,7 +20,7 @@ if (any(show_fig==1))
    opt.feat_color = [2:7]';
 
    figure(1); clf; hold on;
-   plot_2dspline([], slcs, opt);
+   plot_2dspline(slcs, opt);
 end
 
 if (any(show_fig==2))
@@ -39,7 +39,7 @@ if (any(show_fig==2))
    opt.feat_color = [2:7]';
 
    figure(2); clf; hold on;
-   plot_2dspline([], slcs, opt);
+   plot_2dspline(slcs, opt);
 
 end
 
@@ -60,7 +60,7 @@ if (any(show_fig==3))
    opt.view       = [60 20];
 
    figure(3); clf; hold on;
-   plot_2dspline([], slcs, opt);
+   plot_2dspline(slcs, opt);
    title(slcs.slc_file, 'interpreter','none');
 
 end

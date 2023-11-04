@@ -1,17 +1,18 @@
 
 function [ spl2d ] = make_2dspline( ui, vj, xij, yij, zij, mask_j, use_approx, use_insert, ...
-                                                                        idebug, show_fig, fig_ofs )
+                                                             use_cylindr, idebug, show_fig, fig_ofs )
 
 % function [ spl2d ] = make_2dspline( ui, vj, xij, yij, zij, [mask_j], [use_approx], [use_insert],
-%                                                                      [idebug], [show_fig], [fig_ofs] )
+%                                                            [use_cylindr], [idebug], [show_fig], [fig_ofs] )
 % can be used with ui==xi, xij==[]
 %
 % compute parametric 2D spline {tui, tvj, cij_x, cij_y, cij_z} (B-form) for data {xij,yij,zij},
 %   ui      = parameter (data) positions in longitudinal (u-) direction
 %   vj      = parameter (scaled data) positions in lateral (v-) direction
 %   mask_j  = mask for inactive points (0) esp. for 'sections' with shorter slices
-%   use_approx = select approximating spline (1, default) or interpolating spline (0) for x-direction
-%   use_insert = insert knots at not-a-knot positions (1, default) or not (0)
+%   use_approx  = select approximating spline (1, default) or interpolating spline (0) for x-direction
+%   use_insert  = insert knots at not-a-knot positions (1, default) or not (0)
+%   use_cylindr = define spline on u \in [-pi,pi), using wrap-around in evaluation
 
 % Copyright 2008-2023 by Vtech CMCC.
 %
@@ -30,13 +31,16 @@ function [ spl2d ] = make_2dspline( ui, vj, xij, yij, zij, mask_j, use_approx, u
    if (nargin<8 | isempty(use_insert))
       use_insert = 1;   % option for pure tensor splines: do not(0)/do(1) fill in not-a-knot positions
    end
-   if (nargin<9 | isempty(idebug))
+   if (nargin<9 | isempty(use_cylindr))
+      use_cylindr = 0;
+   end
+   if (nargin<10 | isempty(idebug))
       idebug = 0;
    end
-   if (nargin<10 | isempty(show_fig))
+   if (nargin<11 | isempty(show_fig))
       show_fig = [];
    end
-   if (nargin<11 | isempty(fig_ofs))
+   if (nargin<12 | isempty(fig_ofs))
       fig_ofs = 0;
    end
 
@@ -367,8 +371,8 @@ function [ spl2d ] = make_2dspline( ui, vj, xij, yij, zij, mask_j, use_approx, u
       spl_mask(i0:i1+n_ins, jt0:jt1) = 1;
    end
 
-   spl2d = struct('ui',ui, 'vj',vj, 'xij',xij, 'yij',yij, 'zij',zij, 'mask_j',spl_mask, ...
-                           'tui',tui_full, 'tvj',tvj_full);
+   spl2d = struct('ui',ui, 'vj',vj, 'use_cylindr',use_cylindr, 'xij',xij, 'yij',yij, 'zij',zij, ...
+                           'mask_j',spl_mask, 'tui',tui_full, 'tvj',tvj_full);
 
    if (~use_insert)
       spl2d.tui = spl2d.tui([1:k, k+2:end-k-1, end-k+1:end]);

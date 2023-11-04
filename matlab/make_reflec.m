@@ -26,6 +26,8 @@ end
 if (size(vec_v,2)>1)
    vec_v = vec_v';
 end
+vec_a = vec_a / norm(vec_a);
+vec_v = vec_v / norm(vec_v);
 
 % evaluate spline surface at positions ui x vj
 

@@ -37,7 +37,6 @@ contains
       character*16     :: types, namside
       character*256    :: strngs(mxnval)
       type(t_ic)       :: icold
-      type(t_gridfnc3) :: tmp3
 !--pointers to parts of problem structure:
       type(t_wheel),     pointer :: my_wheel
       type(t_rail),      pointer :: my_rail
@@ -45,9 +44,6 @@ contains
       associate( ic    => prob%ic,    meta  => prob%meta, mater => prob%mater, discr => prob%discr,     &
                  kin   => prob%kin,   fric  => prob%fric, solv  => prob%solv,  subs  => prob%subs,      &
                  ws    => prob%ws,    trk   => prob%trk)
-
-      ! initialize grid function
-      call gf3_nullify(tmp3)
 
       ldebug = 1
       ieof   = -1 ! eof=error
@@ -104,7 +100,7 @@ contains
       zerror = zerror .or. .not.check_2rng ('Control digit B',  ic%bound , 0, 1, 5, 6)
       zerror = zerror .or. .not.check_irng ('Control digit T',  ic%tang  , 0, 3)
       zerror = zerror .or. .not.check_irng ('Control digit N1', ic%norm  , 0, 1)
-      zerror = zerror .or. .not.check_2rng ('Control digit F1', ic%force1, 0, 1, 3, 4)
+      zerror = zerror .or. .not.check_2rng ('Control digit F1', ic%force1, 0, 1, 3, 3)
       zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress, 0, 3)
 
       zerror = zerror .or. .not.check_irng ('Control digit V',  ic%varfrc, 0, 1)
@@ -252,9 +248,9 @@ contains
                 15x, 'coefficients are required.  T=',i3,', C3=',i3,'.')
       endif
 
-      ! Check consistency between different control integers F=1 needs N=1, F=3/4 needs N=1
+      ! Check consistency between different control integers F=1 needs N=1, F=3 needs N=1
 
-      if ((ic%force1.eq.1 .or. ic%force1.eq.3 .or. ic%force1.eq.4) .and. ic%norm.ne.1) then
+      if ((ic%force1.eq.1 .or. ic%force1.eq.3) .and. ic%norm.ne.1) then
          zerror = .true.
          write(lout, 2051) ic%force1, ic%norm
          write(   *, 2051) ic%force1, ic%norm
@@ -733,7 +729,7 @@ contains
 
       endif
 
-      if (ic%ztrack.ge.2 .and. ic%ztrack.le.3 .and. (ic%force1.eq.3 .or. ic%force1.eq.4)) then
+      if (ic%ztrack.ge.2 .and. ic%ztrack.le.3 .and. ic%force1.eq.3) then
 
          ! read the track deflection parameters for current side of the track
 
@@ -778,6 +774,11 @@ contains
          call profile_read_file(ws%whl%prw, meta%dirnam, 1, ic%x_profil, ic%x_readln, lstop)
          zerror = zerror .or. (ws%whl%prw%ierror.ne.0)
 
+         if (.false. .and. ic%discns_eff.eq.5) then
+            call write_log(' D=5: converting wheel to variable profile...')
+            call profile_make_varprof(ws%whl%prw, 1, ic%x_profil)
+         endif
+
       endif
 
       ! get the wheel-set position and orientation
@@ -810,11 +811,11 @@ contains
 
       if (ic%ewheel.ge.2 .and. ic%ewheel.le.5) then
 
-         if     (ic%config.le.1 .and. (ic%force1.le.0 .or. ic%force1.ge.3)) then
+         if     (ic%config.le.1 .and. (ic%force1.le.0 .or. ic%force1.eq.3)) then
             types = 'dddaaa'    ! 1st VS_WS,      6th VPITCH_WS
          elseif (ic%config.le.1) then
             types = 'dddaad'    ! 1st VS_WS,      6th FX_WS/MY_WS
-         elseif (ic%config.ge.4 .and. (ic%force1.le.0 .or. ic%force1.ge.3)) then
+         elseif (ic%config.ge.4 .and. (ic%force1.le.0 .or. ic%force1.eq.3)) then
             types = 'addaaa'    ! 1st VPITCH_ROL, 6th VPITCH_WS
          elseif (ic%config.ge.4) then
             types = 'addaad'    ! 1st VPITCH_ROL, 6th FX_WS/MY_WS
@@ -834,7 +835,7 @@ contains
          ws%vz       = dbles(3)
          ws%vroll    = dbles(4)
          ws%vyaw     = dbles(5)
-         if (ic%force1.le.0 .or. ic%force1.ge.3) then
+         if (ic%force1.le.0 .or. ic%force1.eq.3) then
             ws%vpitch = dbles(6)
          elseif (ic%force1.eq.1) then
             ws%fx_inp = dbles(6)        ! F=1: FX_WS prescribed
@@ -883,10 +884,6 @@ contains
       if (ic%stress.ge.2) then
          call rdsubs(linp, ic, ncase, linenr, ldebug, subs)
       endif
-
-      ! cleanup
-
-      call gf3_destroy(tmp3)
 
       ! abort on errors
 
@@ -1070,7 +1067,7 @@ contains
 
       ! write massless rail deflection parameters
 
-      if (ic%ztrack.eq.3 .and. ic%force1.ge.3) then
+      if (ic%ztrack.eq.3 .and. ic%force1.eq.3) then
 
          write(linp, 7301) trk%ky_rail, trk%fy_rail, trk%kz_rail, trk%fz_rail
 
@@ -1119,7 +1116,7 @@ contains
          endif
  8301    format( 3(g14.7, 1x), 13x, '% ',a,', VY, VZ')
 
-         if (ic%force1.eq.0 .or. ic%force1.ge.3) then
+         if (ic%force1.eq.0 .or. ic%force1.eq.3) then
             write(linp, 8303) ws%vroll, ws%vyaw,   ws%vpitch, 'VPITCH'
          elseif (ic%force1.eq.1) then
             write(linp, 8303) ws%vroll, ws%vyaw,   ws%fx_inp, 'FX'

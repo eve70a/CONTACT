@@ -15,6 +15,10 @@ function [ B1, B2, B3, B4, B5, B6, B7, B8 ] = eval_bspline_basisfnc( tj, si, k, 
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
+if (min(size(si))>1)
+   disp('ERROR(eval_bspline_basisfnc): si must be 1d array');
+   return;
+end
 if (nargin<3 | isempty(k))
    k      = 4;
 end

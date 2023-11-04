@@ -803,24 +803,34 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
 
    open (unit=lmat, file=fname, action='readwrite', err=997)
 
+      ! All columns are 14 positions wide. Two leading integers combined into single column.
+      ! Descriptions start at 4th position in column.
+
       ! 1: write comment and meta-data. Last column: fmtmat, version number of mat-file
 
-      write(lmat,101, err=998) ('  -', j=11,ncol-1), 'FMT'
-      write(lmat,102) meta%tim, meta%s_ws, meta%x_rw, sgn*meta%y_rw, meta%z_rw, sgn*meta%rollrw,        &
-            sgn*meta%yawrw, sgn*meta%y_rr, meta%z_rr, sgn*meta%rollrr, (0, j=11,ncol-1), fmtmat
- 101  format('%  TIM',9x, 'S_WS(FC)',6x, 'X_W(TR)',7x, 'Y_W(TR)',7x, 'Z_W(TR)',7x, 'ROLL_W(TR)',4x,     &
-                'YAW_W(TR)',5x, 'Y_R(TR)',7x, 'Z_R(TR)',7x, 'ROLL_R(TR)',4x, 10(a3,:,11x))
- 102  format(f12.6, g14.6, g13.6, 4g14.6, g18.10, 2g14.6, 10(i6,:,8x))
+      write(lmat,101, err=998) ('  -', j=8,ncol-1), 'FMT'
+      write(lmat,102) meta%tim, meta%s_ws, meta%th_ws, sgn*meta%y_rr, meta%z_rr, sgn*meta%rollrr,       &
+                meta%rnom_rol, (0, j=8,ncol-1), fmtmat
+ 101  format('%  TIM',11x, 'S_WS(FC)',6x, 'TH_WS(FC)',5x, 'Y_R(TR)',7x, 'Z_R(TR)',7x, 'ROLL_R(TR)',4x,  &
+                'RNOM_ROL',6x, 10(a3,:,11x))
+ 102  format(7g14.6, 20(i6,:,8x))
+
+      write(lmat,103, err=998) ('  -', j=8,ncol)
+      write(lmat,104) meta%x_rw, sgn*meta%y_rw, meta%z_rw, sgn*meta%rollrw, sgn*meta%yawrw,             &
+                meta%rnom_whl, (0d0, j=7,ncol)
+ 103  format('%  X_W(TR)',7x, 'Y_W(TR)',7x, 'Z_W(TR)',7x, 'ROLL_W(TR)',4x, 'YAW_W(TR)',5x,              &
+                'RNOM_WHL',6x, 10(a3,:,11x))
+ 104  format(6g14.6, 20g14.6)
 
       ! 2: write comment and contact position
 
-      write(lmat,103, err=998) ('-', j=12,ncol)
-      write(lmat,104) meta%xcp_rr, sgn*meta%ycp_rr, meta%zcp_rr, sgn*meta%deltcp_rr, meta%xcp_rw,       &
-                sgn*meta%ycp_rw, meta%zcp_rw, meta%npatch, meta%ipatch, meta%rnom_whl, meta%rnom_rol,   &
-                (0., j=12,ncol)
- 103  format('%  X_CP(R)',5x,'Y_CP(R)',7x,'Z_CP(R)',5x,'DELT_CP(R)',5x,'X_CP(W)',7x,'Y_CP(W)',7x,       &
-                'Z_CP(W)',7x, 'NPATCH',8x,'IPATCH',8x,'RNOM_WHL',6x,'RNOM_ROL',6x, 20(a1,:,13x))
- 104  format(3f12.6, f13.6, 3f14.6, 2(i8,6x), 20f14.5)
+      write(lmat,105, err=998) ('-', j=10,ncol)
+      write(lmat,106) meta%xcp_rr, sgn*meta%ycp_rr, meta%zcp_rr, sgn*meta%deltcp_rr, meta%xcp_rw,       &
+                sgn*meta%ycp_rw, meta%zcp_rw, meta%npatch, meta%ipatch, &
+                (0., j=10,ncol)
+ 105  format('%  X_CP(R)',7x, 'Y_CP(R)',7x, 'Z_CP(R)',7x, 'DELT_CP(R)',4x, 'X_CP(W)',7x, 'Y_CP(W)',7x,  &
+                'Z_CP(W)',7x, 'NPATCH',8x, 'IPATCH',8x, 20(a3,:,11x))
+ 106  format(7g14.6, 2(i6,8x), 20g14.6)
 
       ! 3: write comment and parameters for the grid discretisation used
 
@@ -829,9 +839,9 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
       write(lmat,121, err=998) ('-', j=12,ncol)
       write(lmat,122) cgrid%nx, cgrid%ny, xl, yl, cgrid%dx, cgrid%dy, kin%chi, kin%dq, ic%config,       &
                 ic%discns_eff, meta%ynom_whl, (0., j=12,ncol)
- 121  format('%  MX', 3x,'MY',5x,'XL',12x,'YL',12x,'DX',12x,'DY',12x,'CHI',11x,'DQ',12x,'C1',12x,       &
-                'D', 13x,'YNOM_WHL',6x, 20(a1,:,13x))
- 122  format(i5, i5, 1x, 6g14.6, 2(i4,10x), 20g14.6)
+ 121  format('%   MX',4x, 'MY',5x, 'XL',12x, 'YL',12x, 'DX',12x, 'DY',12x, 'CHI',11x, 'DQ',12x,          &
+                'C1',12x, 'D',13x, 'YNOM_WHL',5x, 20(a3,:,11x))
+ 122  format(i7,1x,i4,2x, 6g14.6, 2(i6,8x), 20g14.6)
 
       ! 4: write comment and material parameters
 
@@ -839,35 +849,35 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
 
          write(lmat,161) ('-', j=7,ncol)
          write(lmat,162) ic%tang, ic%mater, (mater%gg(j), j=1,2), (mater%poiss(j), j=1,2), (0., j=7,ncol)
- 161     format('%   T',4x,'M',5x,'GG1',11x,'GG2',11x,'POISS1',8x, 'POISS2',8x,20(a1,:,13x))
- 162     format(i5, i5, 1x, 20g14.6)
+ 161     format('%    T',4x, 'M',6x, 'GG1',11x, 'GG2',11x, 'POISS1',8x, 'POISS2',8x, 20(a3,:,11x))
+ 162     format(i7,1x,i4,2x, 20g14.6)
 
       elseif (ic%mater.eq.1) then
 
          write(lmat,171) ('-', j=11,ncol)
          write(lmat,172) ic%tang, ic%mater, (mater%gg(j), j=1,2), (mater%poiss(j), j=1,2),              &
                (mater%fg(j), j=1,2), (mater%tc(j), j=1,2), (0., j=11,ncol)
- 171     format('%   T',4x,'M',5x,'GG1',11x,'GG2',11x,'POISS1',8x,'POISS2',8x,'FG1',11x,'FG2',11x,      &
-                'TC1',11x,'TC2',11x,20(a1,:,13x))
- 172     format(i5, i5, 1x, 20g14.6)
+ 171     format('%    T',4x, 'M',6x, 'GG1',11x, 'GG2',11x, 'POISS1',8x, 'POISS2',8x, 'FG1',11x,         &
+                'FG2',11x, 'TC1',11x, 'TC2',11x, 20(a3,:,11x))
+ 172     format(i7,1x,i4,2x, 20g14.6)
 
       elseif (ic%mater.eq.2 .or. ic%mater.eq.3) then
 
          write(lmat,181) ('-', j=12,ncol)
          write(lmat,182) ic%tang, ic%mater, (mater%gg(j), j=1,2), (mater%poiss(j), j=1,1),              &
                (mater%flx(j), j=1,3), mater%k0_mf, mater%alfamf, mater%betamf, (0., j=12,ncol)
- 181     format('%   T',4x,'M',5x,'GG1',11x,'GG2',11x,'POISS1',8x,'FLX1',10x,'FLX2',10x,'FLX3',10x,     &
-                'K0_MF',9x,'ALFAMF',8x,'BETAMF',8x,20(a1,:,13x))
- 182     format(i5, i5, 1x, 20g14.6)
+ 181     format('%    T',4x, 'M',6x, 'GG1',11x, 'GG2',11x, 'POISS1',8x, 'FLX1',10x, 'FLX2',10x,         &
+                'FLX3',10x, 'K0_MF',9x, 'ALFAMF',8x, 'BETAMF',8x, 20(a3,:,11x))
+ 182     format(i7,1x,i4,2x, 20g14.6)
 
       elseif (ic%mater.eq.4) then
 
          write(lmat,191) ('-', j=11,ncol)
          write(lmat,192) ic%tang, ic%mater, (mater%gg(j), j=1,2), (mater%poiss(j), j=1,2), mater%gg3,   &
                mater%laythk, mater%tau_c0, mater%k_tau, (0., j=11,ncol)
- 191     format('%   T',4x,'M',5x,'GG1',11x,'GG2',11x,'POISS1',8x,'POISS2',8x,'GG3',11x,'LAYTHK',8x,    &
-               'TAU_C0',8x,'K_TAU',9x,20(a1,:,13x))
- 192     format(i5, i5, 1x, 20g14.6)
+ 191     format('%    T',4x, 'M',6x, 'GG1',11x, 'GG2',11x, 'POISS1',8x, 'POISS2',8x, 'GG3',11x,         &
+                'LAYTHK',8x, 'TAU_C0',8x, 'K_TAU',9x, 20(a3,:,11x))
+ 192     format(i7,1x,i4,2x, 20g14.6)
 
       endif
 
@@ -878,44 +888,44 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
          write(lmat,201) ('-', j=6,ncol)
          write(lmat,202) fric%frclaw_eff, ic%heat, kin%veloc, fric%fstat_arr(1), fric%fkin_arr(1),      &
                 (0., j=6,ncol)
- 201     format('%   L',4x,'H',5x,'VELOC',9x,'FSTAT',9x,'FKIN',10x, 20(a1,:,13x))
- 202     format(i5, i5, 1x, 20g14.6)
+ 201     format('%    L',4x, 'H',6x, 'VELOC',9x, 'FSTAT',9x, 'FKIN',10x, 20(a3,:,11x))
+ 202     format(i7,1x,i4,2x, 20g14.6)
 
       elseif (fric%frclaw_eff.eq.2) then
 
          write(lmat,221) ('-', j=11,ncol)
          write(lmat,222) fric%frclaw_eff, ic%heat, kin%veloc, fric%fkin_arr(1), fric%flin1(1),          &
                fric%sabsh1(1), fric%flin2(1), fric%sabsh2(1), fric%memdst, fric%mem_s0, (0., j=11,ncol)
- 221     format('%   L',4x,'H',5x,'VELOC',9x,'FKIN',10x,'FLIN1',9x,'SABSH1',8x,'FLIN2',9x,'SABSH2',8x,  &
-               'MEMDST',8x, 'MEM_S0',8x,20(a1,:,13x))
- 222     format(i5, i5, 1x, 20g14.6)
+ 221     format('%    L',4x, 'H',6x, 'VELOC',9x, 'FKIN',10x, 'FLIN1',9x, 'SABSH1',8x, 'FLIN2',9x,       &
+                'SABSH2',8x, 'MEMDST',8x, 'MEM_S0',8x, 20(a3,:,11x))
+ 222     format(i7,1x,i4,2x, 20g14.6)
 
       elseif (fric%frclaw_eff.eq.3) then
 
          write(lmat,231) ('-', j=11,ncol)
          write(lmat,232) fric%frclaw_eff, ic%heat, kin%veloc, fric%fkin_arr(1), fric%frat1(1),          &
                fric%sabsh1(1), fric%frat2(1), fric%sabsh2(1), fric%memdst, fric%mem_s0, (0., j=11,ncol)
- 231     format('%   L',4x,'H',5x,'VELOC',9x,'FKIN',10x,'FRAT1',9x, 'SABSH1',8x,'FRAT2',9x,'SABSH2',8x, &
-               'MEMDST',8x, 'MEM_S0',8x,20(a1,:,13x))
- 232     format(i5, i5, 1x, 20g14.6)
+ 231     format('%    L',4x, 'H',6x, 'VELOC',9x, 'FKIN',10x, 'FRAT1',9x, 'SABSH1',8x, 'FRAT2',9x,       &
+                'SABSH2',8x, 'MEMDST',8x, 'MEM_S0',8x, 20(a3,:,11x))
+ 232     format(i7,1x,i4,2x, 20g14.6)
 
       elseif (fric%frclaw_eff.eq.4) then
 
          write(lmat,241) ('-', j=11,ncol)
          write(lmat,242) fric%frclaw_eff, ic%heat, kin%veloc, fric%fkin_arr(1), fric%fexp1(1),          &
                fric%sabsh1(1), fric%fexp2(1), fric%sabsh2(1), fric%memdst, fric%mem_s0, (0., j=11,ncol)
- 241     format('%   L',4x,'H',5x,'VELOC',9x,'FKIN',10x,'FEXP1',9x,'SABSH1',8x,'FEXP2',9x,'SABSH2',8x,  &
-               'MEMDST',8x,'MEM_S0',8x,20(a1,:,13x))
- 242     format(i5, i5, 1x, 20g14.6)
+ 241     format('%    L',4x, 'H',6x, 'VELOC',9x, 'FKIN',10x, 'FEXP1',9x, 'SABSH1',8x, 'FEXP2',9x,       &
+                'SABSH2',8x, 'MEMDST',8x, 'MEM_S0',8x, 20(a3,:,11x))
+ 242     format(i7,1x,i4,2x, 20g14.6)
 
       elseif (fric%frclaw_eff.eq.6) then
 
          write(lmat,261) ('-', j=11,ncol)
          write(lmat,262) fric%frclaw_eff, ic%heat, kin%veloc, fric%fref(1), fric%tref(1), fric%dfheat(1), &
                fric%dtheat(1), fric%memdst, fric%mem_s0, (0., j=10,ncol)
- 261     format('%   L',4x,'H',5x,'VELOC',9x,'FREF',10x,'TREF',10x,'DFHEAT',8x,'DTHEAT',8x,'MEMDST',8x, &
-                'MEM_S0',8x,20(a1,:,13x))
- 262     format(i5, i5, 1x, 20g14.6)
+ 261     format('%    L',4x, 'H',6x, 'VELOC',9x, 'FREF',10x, 'TREF',10x, 'DFHEAT',8x, 'DTHEAT',8x,      &
+                'MEMDST',8x, 'MEM_S0',8x, 20(a3,:,11x))
+ 262     format(i7,1x,i4,2x, 20g14.6)
 
       endif
 
@@ -951,8 +961,8 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
 
       write(lmat,301) (colnam(j), j=3,ncol)
 
- 301  format('%   I  E/H/S', 20(3x,a,:))
- 302  format(i7, 1x, i2, 1x, 20g14.6)
+ 301  format('%    I    IGS ', 20(3x,a,:))
+ 302  format(i7,1x, i4,2x, 20g14.6)
 
       do jy = 1, cgrid%ny
          do ix = 1, cgrid%nx

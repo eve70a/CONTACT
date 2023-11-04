@@ -8,7 +8,7 @@
 module m_interp_gf
    use m_globals
    use m_markers
-   use m_interp_1d
+   use m_interp
    use m_grids
    use m_gridfunc
    implicit none
@@ -108,6 +108,11 @@ subroutine interp_aply_surf2unif_gf3(nnode, gf_node, nout, gf_out, ii2iel, ii2no
 !  character(len=*), parameter  :: subnam = 'interp_aply_surf2unif_gf3'
    integer          :: ii, j, ik0, ik1, ik
    logical          :: set_defval
+
+   if (.not.gf_out%is_defined()) then
+      call write_log('Internal error (interp_aply_surf2unif_gf3): gf_out not initialized properly.')
+      call abort_run()
+   endif
 
    ierror = 0
    set_defval = .false.
@@ -227,7 +232,7 @@ end subroutine interp_aply_unif2surf
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval)
+subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval, bicubic)
 !--function: perform interpolation of z(x,y)-coordinates of a cartesian grid to a uniform (x,y)-grid
    implicit none
 !--subroutine arguments:
@@ -235,6 +240,7 @@ subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval)
    type(t_grid)              :: g_unif            ! regular output-grid with (x,y) filled in
    integer,      intent(out) :: my_ierror
    real(kind=8), optional    :: defval            ! default value
+   logical,      optional    :: bicubic           ! switch, default false
 !--local variables:
 !  character(len=*), parameter  :: subnam = 'interp_cartz2unif_grid'
    integer      :: nin, nout, sub_ierror
@@ -242,7 +248,17 @@ subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval)
    integer,      dimension(:),   allocatable :: ii2iel  ! input element number for output grid points
    integer,      dimension(:,:), allocatable :: ii2nod  ! input node numbers for output grid points
    real(kind=8), dimension(:,:), allocatable :: wii2nod ! interpolation weights per node per grid point
+   real(kind=8), dimension(:,:), allocatable :: fac_uv  ! relative (u,v) positions per grid point
    real(kind=8), dimension(:),   allocatable :: zdum
+   logical                                   :: use_bicubic
+
+   if (.not.g_unif%is_defined()) then
+      call write_log('Internal error (interp_cartz2unif_grid): g_unif not initialized properly.')
+      call abort_run()
+   endif
+
+   use_bicubic = .false.
+   if (present(bicubic)) use_bicubic = bicubic
 
    my_ierror = 0
    if (min(g_surf%nx, g_surf%ny).eq.1) then
@@ -252,6 +268,9 @@ subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval)
    endif
    if (ldebug.ge.2 .and. .not.g_unif%is_uniform) then
       call write_log(' interp_cartz2unif_grid: assuming the output grid is a cartesian product')
+   endif
+   if (ldebug.ge.1 .and. use_bicubic) then
+      call write_log('interp_cartz2unif_grid: using bicubic interpolation')
    endif
 
    nin  = g_surf%ntot
@@ -266,7 +285,7 @@ subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval)
    endif
 
    allocate(zdum(nin))
-   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout))
+   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
 
    ! calculate interpolation weights
 
@@ -274,20 +293,26 @@ subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval)
    zdum(1:nin) =  0d0
    call interp_wgt_surf2unif(g_surf%nx, g_surf%ny, nin, g_surf%x, g_surf%y, zdum, z_thrs,               &
                              g_unif%nx, g_unif%ny, nout, dx, dy, g_unif%x, g_unif%y,                    &
-                             ii2iel, ii2nod, wii2nod, sub_ierror)
+                             ii2iel, ii2nod, wii2nod, fac_uv, sub_ierror)
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
    ! calculate interpolation itself
 
-   if (present(defval)) then
+   if (present(defval) .and. use_bicubic) then
+      call interp_aply_surf2unif_1d_bicubic(g_surf%nx, g_surf%ny, nin, g_surf%z, nout, ii2nod, fac_uv,  &
+                            g_unif%z, defval)
+   elseif (present(defval)) then
       call interp_aply_surf2unif_1d(nin, g_surf%z, nout, g_unif%z, ii2iel, ii2nod, wii2nod, sub_ierror, &
                                 defval)
+   elseif (use_bicubic) then
+      call interp_aply_surf2unif_1d_bicubic(g_surf%nx, g_surf%ny, nin, g_surf%z, nout, ii2nod, fac_uv,  &
+                            g_unif%z)
    else
       call interp_aply_surf2unif_1d(nin, g_surf%z, nout, g_unif%z, ii2iel, ii2nod, wii2nod, sub_ierror)
    endif
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
-   deallocate(ii2iel, ii2nod, wii2nod)
+   deallocate(ii2iel, ii2nod, wii2nod, fac_uv)
 end subroutine interp_cartz2unif_grid
 
 !------------------------------------------------------------------------------------------------------------
@@ -308,12 +333,17 @@ subroutine interp_cartz2unif_gf3(g_surf, gf_unif, my_ierror, defval)
    integer,      dimension(:),   allocatable :: ii2iel  ! input element number for output grid points
    integer,      dimension(:,:), allocatable :: ii2nod  ! input node numbers for output grid points
    real(kind=8), dimension(:,:), allocatable :: wii2nod ! interpolation weights per node per grid point
+   real(kind=8), dimension(:,:), allocatable :: fac_uv  ! relative (u,v) positions per grid point
    real(kind=8), dimension(:),   allocatable :: zdum
    type(t_grid),                 pointer     :: g_unif
 
    my_ierror = 0
    g_unif => gf_unif%grid
 
+   if (.not.gf_unif%is_defined()) then
+      call write_log('Internal error (interp_cartz2unif_gf3): gf_unif not initialized properly.')
+      call abort_run()
+   endif
    if (min(g_surf%nx, g_surf%ny).eq.1) then
       write(bufout,'(2(a,i5),a)') ' Internal error: cartz2unif_gf3: 1-d grids (', g_surf%nx,' x',       &
              g_surf%ny,') are not supported.'
@@ -335,7 +365,7 @@ subroutine interp_cartz2unif_gf3(g_surf, gf_unif, my_ierror, defval)
    endif
 
    allocate(zdum(nin))
-   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout))
+   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
 
    ! calculate interpolation weights
 
@@ -343,7 +373,7 @@ subroutine interp_cartz2unif_gf3(g_surf, gf_unif, my_ierror, defval)
    zdum(1:nin) =  0d0
    call interp_wgt_surf2unif(g_surf%nx, g_surf%ny, nin, g_surf%x, g_surf%y, zdum, z_thrs,               &
                              g_unif%nx, g_unif%ny, nout, dx, dy, g_unif%x, g_unif%y,                    &
-                             ii2iel, ii2nod, wii2nod, sub_ierror)
+                             ii2iel, ii2nod, wii2nod, fac_uv, sub_ierror)
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
    ! calculate interpolation itself
@@ -356,7 +386,7 @@ subroutine interp_cartz2unif_gf3(g_surf, gf_unif, my_ierror, defval)
    endif
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
-   deallocate(ii2iel, ii2nod, wii2nod)
+   deallocate(ii2iel, ii2nod, wii2nod, fac_uv)
 end subroutine interp_cartz2unif_gf3
 
 !------------------------------------------------------------------------------------------------------------
@@ -377,6 +407,7 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
    integer,      dimension(:),   allocatable :: ii2iel  ! input element number for output grid points
    integer,      dimension(:,:), allocatable :: ii2nod  ! input node numbers for output grid points
    real(kind=8), dimension(:,:), allocatable :: wii2nod ! interpolation weights per node per grid point
+   real(kind=8), dimension(:,:), allocatable :: fac_uv  ! relative (u,v) positions per grid point
    real(kind=8), dimension(:),   allocatable :: zdum
    type(t_grid),                 pointer     :: g_curv, g_unif
 
@@ -384,6 +415,10 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
    g_curv => gf_curv%grid
    g_unif => gf_unif%grid
 
+   if (.not.gf_unif%is_defined()) then
+      call write_log('Internal error (interp_curvgf2unifgf): gf_unif not initialized properly.')
+      call abort_run()
+   endif
    if (min(g_curv%nx, g_curv%ny).eq.1) then
       write(bufout,'(2(a,i5),a)') ' Internal error: curvgf2unifgf: 1-d grids (', g_curv%nx,' x',        &
              g_curv%ny,') are not supported.'
@@ -405,7 +440,7 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
    endif
 
    allocate(zdum(nin))
-   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout))
+   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
 
    ! calculate interpolation weights
 
@@ -413,7 +448,7 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
    zdum(1:nin) =  0d0
    call interp_wgt_surf2unif(g_curv%nx, g_curv%ny, nin, g_curv%x, g_curv%y, zdum, z_thrs,               &
                              g_unif%nx, g_unif%ny, nout, dx, dy, g_unif%x, g_unif%y,                    &
-                             ii2iel, ii2nod, wii2nod, sub_ierror)
+                             ii2iel, ii2nod, wii2nod, fac_uv, sub_ierror)
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
    ! calculate interpolation itself
@@ -427,7 +462,7 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
    endif
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
-   deallocate(ii2iel, ii2nod, wii2nod)
+   deallocate(ii2iel, ii2nod, wii2nod, fac_uv)
 end subroutine interp_curvgf2unifgf
 
 !------------------------------------------------------------------------------------------------------------
@@ -449,12 +484,18 @@ subroutine interp_splgf2unifgf(gf_spl, gf_unif, sg_unif, ikarg, my_ierror, defva
    integer,      dimension(:),   allocatable :: ii2iel  ! input element number for output grid points
    integer,      dimension(:,:), allocatable :: ii2nod  ! input node numbers for output grid points
    real(kind=8), dimension(:,:), allocatable :: wii2nod ! interpolation weights per node per grid point
+   real(kind=8), dimension(:,:), allocatable :: fac_uv  ! relative (u,v) positions per grid point
    real(kind=8), dimension(:),   allocatable :: zdum, s_unif
    type(t_grid),                 pointer     :: g_spl, g_unif
 
    my_ierror = 0
    g_spl  => gf_spl%grid
    g_unif => gf_unif%grid
+
+   if (.not.gf_unif%is_defined()) then
+      call write_log('Internal error (interp_splgf2unifgf): gf_unif not initialized properly.')
+      call abort_run()
+   endif
 
    nin  = g_spl%ntot
    nout = g_unif%ntot
@@ -495,7 +536,7 @@ subroutine interp_splgf2unifgf(gf_spl, gf_unif, sg_unif, ikarg, my_ierror, defva
       endif
 
       allocate(zdum(nin))
-      allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout))
+      allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
 
       ! calculate interpolation weights using g_spl%s_prf <--> s_unif
 
@@ -503,7 +544,7 @@ subroutine interp_splgf2unifgf(gf_spl, gf_unif, sg_unif, ikarg, my_ierror, defva
       zdum(1:nin) =  0d0
       call interp_wgt_surf2unif(g_spl%nx,  g_spl%ny,  nin,  g_spl%x, g_spl%s_prf, zdum, z_thrs,         &
                                 g_unif%nx, g_unif%ny, nout, dx, dy, g_unif%x, s_unif,                   &
-                                ii2iel, ii2nod, wii2nod, sub_ierror)
+                                ii2iel, ii2nod, wii2nod, fac_uv, sub_ierror)
       if (my_ierror.eq.0) my_ierror = sub_ierror
 
       ! calculate interpolation itself
@@ -517,7 +558,7 @@ subroutine interp_splgf2unifgf(gf_spl, gf_unif, sg_unif, ikarg, my_ierror, defva
       endif
       if (my_ierror.eq.0) my_ierror = sub_ierror
 
-      deallocate(ii2iel, ii2nod, wii2nod, zdum)
+      deallocate(ii2iel, ii2nod, wii2nod, fac_uv, zdum)
    endif
    deallocate(s_unif)
 
@@ -547,15 +588,21 @@ subroutine interp_surf2unif_gf3(nnode_x, nnode_y, nnode, pos_node, gf_node, z_th
    integer,      dimension(:),   allocatable :: ii2iel  ! input element number for output grid points
    integer,      dimension(:,:), allocatable :: ii2nod  ! input node numbers for output grid points
    real(kind=8), dimension(:,:), allocatable :: wii2nod ! interpolation weights per node per grid point
+   real(kind=8), dimension(:,:), allocatable :: fac_uv  ! relative (u,v) positions per grid point
+
+   if (.not.gf_out%is_defined()) then
+      call write_log('Internal error (interp_surf2unif_gf3): gf_out not initialized properly.')
+      call abort_run()
+   endif
 
    my_ierror = 0
-   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout))
+   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
 
    ! calculate interpolation weights
 
    call interp_wgt_surf2unif(nnode_x, nnode_y, nnode, pos_node(:,1), pos_node(:,2), pos_node(:,3),      &
                              z_thrs, mx, my, nout, dx, dy, pos_out(:,1), pos_out(:,2), ii2iel, ii2nod,  &
-                             wii2nod, sub_ierror)
+                             wii2nod, fac_uv, sub_ierror)
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
    ! calculate interpolation itself
@@ -569,7 +616,7 @@ subroutine interp_surf2unif_gf3(nnode_x, nnode_y, nnode, pos_node, gf_node, z_th
    endif
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
-   deallocate(ii2iel, ii2nod, wii2nod)
+   deallocate(ii2iel, ii2nod, wii2nod, fac_uv)
 end subroutine interp_surf2unif_gf3
 
 !------------------------------------------------------------------------------------------------------------

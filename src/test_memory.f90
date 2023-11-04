@@ -81,6 +81,17 @@ program test_memory
       enddo
       call cntc_finalize(ire)
 
+   elseif (itest.eq.4) then
+
+      ! test 4: w/r CONTACT, Chalmers wheel flat
+
+      call test4_initialize(ire)
+      do itim = 1, ntim
+         if (ldebug.ge.1) write(*,'(a,i7)') '  test 4: time step itim=', itim
+         call test4_calculate(ire, ldebug)
+      enddo
+      call cntc_finalize(ire)
+
    endif
 
 end program test_memory
@@ -469,6 +480,205 @@ subroutine test3_calculate(iwhe, ldebug)
    call test_results(iwhe, ldebug)
 
 end subroutine test3_calculate
+
+!------------------------------------------------------------------------------------------------------------ 
+
+subroutine test4_initialize(iwhe)
+!--test 4: w/r CONTACT, chalmers wheel flat
+   use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
+   implicit none
+   include 'caddon_flags.inc'
+!--subroutine arguments:
+   integer                       :: iwhe
+!--local variables:
+   real(kind=8), parameter       :: pi     = 4d0*atan(1d0)
+   integer, parameter            :: mxflgs = 30
+   integer                       :: imodul, icp, iver, ierr, mdigit, ldigit, ipotcn
+   integer                       :: len_string, flags(mxflgs), values(mxflgs)
+   real(kind=8)                  :: gg, poiss, fstat, fkin, dx, ds, dqrel, rdum,                        &
+                                    a_sep, d_sep, d_comb, d_turn
+   integer                       :: itype, mirrory, mirrorz, ewheel, ztrack, len_fname, iparam(3)
+   real(kind=8)                  :: sclfac, smooth, rparam(2), rvalues(mxflgs)
+   character(len=256)             :: f_string, f_fname
+   character(len=256,kind=C_CHAR) :: c_string, c_fname
+!--external functions used:
+#include "contact_addon.ifc"
+
+   ! initialize result element
+
+   imodul     =  1
+   icp        = -1
+   !!! f_string   = 'tmp/'
+   f_string   = ' '
+   c_string   =     trim(f_string)  // C_NULL_CHAR
+   len_string = len(trim(f_string))
+   call cntc_initialize(iwhe, imodul, iver, ierr, c_string, len_string)
+
+   ! set flags: configure control digits & output
+
+   flags = 0 ; values = 0
+   flags(1) = CNTC_if_units  ; values(1) = CNTC_un_cntc  ! CONTACT unit convention: mm
+   flags(2) = CNTC_ic_config ; values(2) = 1             ! C1: 0=left wheel, 1=right
+   flags(3) = CNTC_ic_tang   ; values(3) = 3             ! T=3: steady state rolling
+   flags(4) = CNTC_ic_pvtime ; values(4) = 2             ! P=2: no previous time
+   flags(5) = CNTC_if_wrtinp ; values(5) = 0             !   0: no inp-file needed
+   flags(6) = CNTC_ic_matfil ; values(6) = 0             !   0: no mat-files needed
+   flags(7) = CNTC_ic_output ; values(7) = 0             ! O=1: little output to out-file
+   flags(8) = CNTC_ic_flow   ; values(8) = 0             ! W=1: little flow trace
+   call cntc_setFlags(iwhe, icp, mxflgs, flags, values)
+
+   ! set material parameters
+
+   mdigit = 0
+   gg     = 82000d0  ! CONTACT units: [N/mm2]
+   poiss  = 0.28d0   ! [-]
+   rvalues(1:4) = (/ poiss, poiss, gg, gg /)
+   call cntc_setMaterialParameters(iwhe, icp, mdigit, 4, rvalues)
+
+   ! set friction parameters: L=0, Coulomb friction
+
+   ldigit = 0
+   fstat   = 0.3d0  ! [-]
+   fkin    = fstat  ! [-]
+   rvalues(1:2) = (/ fstat, fkin /)
+   call cntc_setFrictionMethod(iwhe, icp, ldigit, 2, rvalues)
+
+   ! set rolling step size: ratio c = dq / dx
+
+   rdum   = 0d0     ! chi: ignored
+   dqrel  = 1d0     ! [-]
+   call cntc_setRollingStepsize(iwhe, icp, rdum, dqrel)
+
+   ! set track dimensions & deviations
+
+   ztrack = 3
+   rvalues(1:11) = (/ 14d0, 0d0, 1435d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0 /)
+   call cntc_setTrackDimensions_new(iwhe, ztrack, 11, rvalues)
+
+   ! set grid discretization
+
+   ipotcn = -1
+   dx     = 0.4d0   ! [mm]
+   ds     = 0.4d0   ! [mm]
+   a_sep  = pi/2d0  ! [rad]
+   d_sep  =  8.0d0  ! [mm]
+   d_comb =  4.0d0  ! [mm]
+   d_turn = 12.0d0  ! [mm]
+
+   rvalues(1:6) = (/ dx, ds, a_sep, d_sep, d_comb, d_turn /)
+   call cntc_setPotContact(iwhe, icp, ipotcn, 6, rvalues)
+
+   ! set constant rail profile UIC60
+
+   f_fname   = 'profiles/uic60_true.prr'
+   c_fname   =     trim(f_fname)  // C_NULL_CHAR
+   len_fname = len(trim(f_fname))
+
+   itype   = -1      ! using filename extension
+   mirrory =  0      ! no mirroring
+   mirrorz = -1      ! no mirroring
+   sclfac  = 1d0     ! data in [mm], no scaling
+   smooth  = 0d0     ! no smoothing
+   iparam(1:4) = (/ itype, 0, mirrory, mirrorz /)
+   rparam(1:2) = (/ sclfac, smooth /)
+
+   call cntc_setProfileInputFname(iwhe, c_fname, len_fname, 4, iparam, 2, rparam)
+
+   ! set wheelset dimensions
+
+   rvalues(1:3) = (/ 1360d0, -70d0, 490d0 /)
+   ewheel = 3
+   call cntc_setWheelsetDimensions(iwhe, ewheel, 3, rvalues)
+
+   ! set wheel profile
+
+   f_fname   = 'profiles/S1002_flat.slcw'
+   c_fname   =     trim(f_fname)  // C_NULL_CHAR
+   len_fname = len(trim(f_fname))
+
+   itype   = -1      ! using filename extension
+   mirrory =  0      ! no y-mirroring
+   mirrorz = -1      ! no z-mirroring
+   sclfac  = 1d0     ! already in [mm], no scaling
+   smooth  = 5d0     ! lambda smoothing
+   iparam(1:4) = (/ itype, 0, mirrory, mirrorz /)
+   rparam(1:2) = (/ sclfac, smooth /)
+
+   call cntc_setProfileInputFname(iwhe, c_fname, len_fname, 4, iparam, 2, rparam)
+
+end subroutine test4_initialize
+
+!------------------------------------------------------------------------------------------------------------ 
+
+subroutine test4_calculate(iwhe, ldebug)
+!--test 4: w/r CONTACT, Chalmers wheel flat
+   implicit none
+   include 'caddon_flags.inc'
+!--subroutine arguments:
+   integer                      :: iwhe, ldebug
+!--local variables:
+   real(kind=8), parameter      :: pi    = 4d0*atan(1d0)
+   integer,      parameter      :: ncase = 25
+   integer                      :: icp, icase, ierr
+   real(kind=8)                 :: s_ws(ncase), y_ws(ncase), fz_ws(ncase), pitch_ws(ncase),             &
+                                   yaw_ws(ncase), roll_ws(ncase), vpitch(ncase), rvalues(30)
+!--external functions used:
+#include "contact_addon.ifc"
+
+   icp     = -1
+
+   s_ws(1:ncase)     =       0.0d0
+   y_ws(1:ncase)     =       0.0d0
+   fz_ws(1:ncase)    =     125.0d3
+   pitch_ws(1:ncase) = (/ (-24.0d0 - 1.0d0 * icase, icase = 1, ncase) /) * pi/180d0
+   yaw_ws(1:ncase)   =       0.0d0
+   roll_ws(1:ncase)  =       0.0d0
+   vpitch(1:ncase)   =      -4.08190679d0
+
+   do icase = 1, ncase
+
+      ! set wheelset position & velocity
+
+      rvalues(1:6) = (/ s_ws(icase), y_ws(icase), 0d0, roll_ws(icase), yaw_ws(icase), pitch_ws(icase) /)
+      call cntc_setWheelsetPosition(iwhe, 1, 6, rvalues)
+
+      rvalues(1:6) = (/ 2000d0, 0d0, 0d0, 0d0, 0d0, vpitch(icase) /)
+      call cntc_setWheelsetVelocity(iwhe, 1, 6, rvalues)
+
+      ! set vertical force
+
+      call cntc_setVerticalForce(iwhe, fz_ws(icase))
+
+      if (ldebug.ge.4)  &
+         write(*,'(/,2(a,i3))') '  ...start processing of Result Element', iwhe,' case',icase
+
+      ! perform the actual calculation for this wheel
+
+      call cntc_calculate(iwhe, icp, ierr)
+
+      ! check/report error conditions
+
+      if (ierr.eq.CNTC_err_allow) then
+         write(*,'(a,i5,a)') '      ERROR: no valid license found'
+         stop
+      elseif (ierr.eq.CNTC_err_profil) then
+         write(*,'(a,i5,a)') '      ERROR: the rail and/or wheel profile files could not be ' //     &
+                             'found or processed'
+         stop
+      elseif (ierr.lt.0) then
+         write(*,'(a,i5,a)') '      ERROR: an error occured in the CONTACT library, ierr=',ierr,'.'
+      elseif (ierr.gt.0) then
+         write(*,'(a,i5,a)') '      ERROR: contact extends outside bounding box,',ierr,              &
+                             ' elements at boundary'
+      end if
+
+      ! retrieve & print results
+
+      call test_results(iwhe, ldebug)
+
+   enddo ! icase
+
+end subroutine test4_calculate
 
 !------------------------------------------------------------------------------------------------------------
 

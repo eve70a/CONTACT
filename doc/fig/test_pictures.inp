@@ -1,0 +1,23 @@
+
+% Test-case for making nice pictures of the approach
+
+%  1: wheelset and rail both rolled
+
+  1 MODULE
+ 1200100     C-P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM , FORCE , STRESS
+  022033       L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+  001221       G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+    999     100    30    1     1e-5  MAXGS , MAXIN , MAXNR , MAXOUT, EPS
+  0.300   0.300                                 FSTAT, FKIN
+  0.280   0.280   82000.  82000.                POISS 1,2,  GG 1,2
+  0.200   0.200   1.000    90d    8.0   4.0     DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+   14.0     0    1435.0   0.000                 GAUGHT, GAUGSQ, GAUGWD, CANT
+  '../../examples/MBench_UIC60_v3.prr' 0   1.0   0.0    RFNAME, MIRRORY, SCALE, SMOOTH
+     0.0    5.0   8.00d   0.0     0.0   0.0     DY, DZ, ROLL, VY, VZ, VROLL
+  1360.0  -70.0   460.0                         FBDIST, FBPOS, NOMRAD
+  '../../examples/MBench_S1002_v3.prw' 0   1.0   0.0    WFNAME, MIRRORY, SCALE, SMOOTH
+  0.0  -50.0 100000. -7.00d     0.000   0.0     S, Y, FZ, ROLL, YAW, PITCH
+ 2000.   0.0    0.0   0.0       0.0   -4.348176 VS,VY,VZ, VROLL,VYAW,VPITCH
+
+  0 MODULE
+

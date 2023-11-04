@@ -2,16 +2,16 @@
 icase      = 20;
 show_wheel = 0;
 show_patch = 1;
-show_fig   = [   3 4       ];
+show_fig   = [ 1 2 3 4 5 6 ];
 
 % expnam = 'cross_brute'; slc_file = '../profiles/cross_nose.slcs'; scale_yz = 1;
 % expnam = 'cross_locus'; slc_file = '../profiles/cross_nose.slcs'; scale_yz = 1;
-  expnam = 'wing_brute'; slc_file = '../profiles/wing_rail.slcs'; scale_yz = 1;
+% expnam = 'wing_brute'; slc_file = '../profiles/wing_rail.slcs'; scale_yz = 1;
 % expnam = 'cross+wing'; slc_file = '../profiles/cross+wing.slcs'; scale_yz = 1;
 % expnam = 'cw_interrupt'; slc_file = '../profiles/cross+wing_extd.slcs'; scale_yz = 1;
 % expnam = 'mbench_brute'; slc_file = '../profiles/uk_crossing.slcs'; scale_yz = 1000;
 % expnam = 'mbench_locus'; slc_file = '../profiles/uk_crossing.slcs'; scale_yz = 1000;
-% expnam = 'mbench_intrup'; slc_file = '../profiles/uk_interrupt_v2.slcs'; scale_yz = 1000;
+  expnam = 'mbench_intrup'; slc_file = '../profiles/uk_interrupt_v2.slcs'; scale_yz = 1000;
 % expnam = 'two_patches'; slc_file = '../profiles/uk_interrupt_v2.slcs'; scale_yz = 1000;
 
 if (~exist('slcs') | ~strcmp(slcs.slc_file, slc_file))
@@ -103,7 +103,7 @@ if (any(show_fig==4))
    set(gca,'dataaspectratio',[2 1 1])
 
    xlabel('x_{tr} [mm]'); ylabel('y_{tr} [mm]');
-   axis([-8 3 778 780.3]);
+   % axis([-8 3 778 780.3]);
 end
 
 % 5: plot load transfer
@@ -128,12 +128,12 @@ if (any(show_fig==6) & strcmp(expnam, 'mbench_intrup'))
    figure(6); clf; hold on;
    plot(sol.ws_pos.x, sol.tot_forc.fz_tr/1e3, '-o');
    for is = 1 : slcs.nslc
-      if (slcs.s(is)>110 & slcs.s(is)<130)
-         ic = find(sol.ws_pos.x>slcs.s(is), 1, 'first');
-         plot(slcs.s(is)*[1 1], sol.tot_forc.fz_tr(ic)/1e3+0.05*[-1 1], '--', 'color',matlab_color(2))
+      if (slcs.u(is)>110 & slcs.u(is)<130)
+         ic = find(sol.ws_pos.x>slcs.u(is), 1, 'first');
+         plot(slcs.u(is)*[1 1], sol.tot_forc.fz_tr(ic)/1e3+0.05*[-1 1], '--', 'color',matlab_color(2))
          if (slcs.slc_ib(is,1)<max(slcs.slc_ib([is-1,is+1],1)) | ...
              slcs.slc_ib(is,2)>min(slcs.slc_ib([is-1,is+1],2)) )
-            text(slcs.s(is), sol.tot_forc.fz_tr(ic)/1e3+0.06, 'interruption', ...
+            text(slcs.u(is), sol.tot_forc.fz_tr(ic)/1e3+0.06, 'interruption', ...
                                 'horizontalalignment','center', 'verticalalignment','bottom');
          end
       end

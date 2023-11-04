@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.151)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.155)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -62,7 +62,6 @@
 
 \magenta{
 \begin{vtlogsheet}
-\vtlogentry{1.122}{EV}{19-07-2021}{Version for release v21.1}{}
 \vtlogentry{1.135}{EV}{01-08-2022}{Version for release v22.1}{}
 \vtlogentry{1.136}{EV}{08-08-2022}{Added slcs-file for switches and crossings}{}
 \vtlogentry{1.137}{EV}{13-08-2022}{Added turning of contact reference angle}{}
@@ -83,6 +82,11 @@
         position}{}
 \vtlogentry{1.150}{EV}{16-08-2023}{Added comment on slice feature positions}{}
 \vtlogentry{1.151}{EV}{23-08-2023}{Clear out-file upon new initialization}{}
+\vtlogentry{1.152}{EV}{12-09-2023}{Delete arc-fit, add conversion formulas}{}
+\vtlogentry{1.153}{EV}{04-10-2023}{Added wheel slices file}{}
+\vtlogentry{1.154}{EV}{24-10-2023}{Add description of {\tt
+        cntc\_getcpresults}}{}
+\vtlogentry{1.155}{EV}{03-11-2023}{Version for release v23.2}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -128,7 +132,8 @@ in \cite{Kalker1979a} and are described in full detail in
 \cite{Kalker1990}. Extended introductions are given in \cite{Kalker2000}
 and \cite{Vollebregt2011a-assessm}. Extensions by Vollebregt concern the
 automated analysis of wheel/rail contacts \cite{Vollebregt2020b-wrgeom,
-Vollebregt2020c-distr-force, Vollebregt2022b-cm2022}, the effects of third
+Vollebregt2020c-distr-force,Vollebregt2022b-cm2022,
+Vollebregt2023a-iavsd2023}, the effects of third
 body layers \cite{Vollebregt2014c-tractcurv,Vollebregt2019a-fra} and
 falling friction \cite{Vollebregt2012a-quasistd}, together referred to as
 `Extended CONTACT', and speedup by dedicated iterative solvers, e.g.\
@@ -247,10 +252,11 @@ enhanced solvers on the basis of Conjugate Gradients and FFTs
 \cite{Vollebregt2014a-fftprec,Zhao_Jing2015a-tangcg}. 
 
 The software was transferred to the company Vtech CMCC in 2020, that now
-continues this development and distribution.  Research is being done that
-should result in further enhancement of the program's speed versus accuracy
-trade-off, and in its range of applicability. When such results are
-achieved, they will be included in future versions of this document.
+continues this development and distribution. Research is being done to
+extend CONTACT for rails and wheels with variable profile cross-section,
+i.e.\ switches and crossings \cite{Vollebregt2023a-iavsd2023} and wheel
+out-of-roundness. When such new functionality is achieved, this will be
+included in future versions of this document.
 
 \section{Structure of this report}
 
@@ -781,17 +787,15 @@ $^*$ Option ${\tt C}_3=9$ is not available in module 1.
 
 \end{description}
 
-The third control word `{\bf \magenta{X}HGIAOWR}' concerns the output of
+The third control word `{\bf XHGIAOWR}' concerns the output of
 the program and the flow of the calculations.
 \begin{description}
-\magenta{
 \item[X - XFLOW] \label{x-digit} : govers the extent of {\em extra
         (debug)\/} grid data printed to the output-file:
 \begin{description}
 \item[0] -- no additional debug output needed for this case;
 \item[1] -- read new input for configuration of debug outputs.
 \end{description}
-}
 
 \item[H - HEAT]\label{h-digit} : determines the calculation of surface
         temperatures:
@@ -911,11 +915,10 @@ give a sign that you do not want so. This sign can be given with the
 
 \end{description}
 
-\magenta{
-A fourth control word is used when ${\tt X}=1$, configuring the debug
-outputs from different parts of the code. This consists primarily of the
-level of output. Additional configuration may be added later on subsequent
-lines.
+A fourth control word `{\bf PSFLRIN}' is used when ${\tt X}=1$, configuring
+the debug outputs from different parts of the code. This consists primarily
+of the level of output. Additional configuration may be added later on
+subsequent lines.
 
 \begin{description}
 \item[XP - X\_PROFIL] : determines print-output from profile processing
@@ -948,7 +951,6 @@ lines.
 \end{description}
 
 \end{description}
-}
 
 \subsection{Module 3 -- basic Hertzian and non-Hertzian contact}
 
@@ -1048,11 +1050,12 @@ direction.
 \end{figure}
 
 Figure \ref{fig:fc_coords} shows a world-fixed global reference system
-`$isys$' with a track in top view. The track center line is indicated by
-$\vecGamma(s)$ and shown by the red curve. `Fixed curvilinear' track
-coordinates `$fc$' are introduced with respect to this track curve. On the
-curve we have $x_{fc}=s, y_{fc}=z_{fc}=0$, and the origin $O_{fc}$ is
-placed at $s=0$.
+`$isys$' with an arbitrary track section. The track center line is indicated by
+$\vecGamma(s)$ and shown by the red curve. Curvilinear coordinates are
+developed around this track curve. On the curve we have $x_{fc}=s, 
+y_{fc}=z_{fc}=0$, and the origin $O_{fc}$ is placed at $s=0$. These
+coordinates are fixed with respect to $isys$ and are called the
+`fixed curvilinear' coordinate system `$fc$'.
 
 A moving rectilinear `track coordinate system' `$tr$' is introduced for the
 contact computation. The track origin is placed on the track
@@ -1082,9 +1085,10 @@ that's considered is governed by the CONFIG control digit (${\tt C}_1$,
 page \pageref{c1-digit}).
 
 Inside the program, calculations for the left side are solved using
-an equivalent right side configuration. This shows up in the detailed
-outputs, especially the contact grid, that is given for this mirrored
-situation.
+an equivalent right side configuration. This shows up in print output for
+the flow of computations that is given for this mirrored situation. The
+mirroring is undone in the final print output and {\tt mat}-file showing
+the results of the computation.
 
 \paragraph{Gauge point computation}
 
@@ -1251,10 +1255,31 @@ the new vertical axis $z_{wset}$ and then pitched by $\theta_{ws}$ about
 the axle, i.e.\ the new $y_{wset}$-axis. After this the wheelset is shifted
 to its position $[0,y_{ws},z_{ws}-r_{nom,w}]^T$.
 
+\paragraph{Wheel out-of-roundness}
+
+\begin{figure}[bt]
+\centering
+\psfig{figure=fig/wheel_theta1,width=2.2in,trim=200 40 150 45,clip=}
+\hspace{10mm}
+\psfig{figure=fig/wheel_theta2,width=2.2in,trim=200 40 150 45,clip=}
+\caption{\em Left: definition of cylindrical coordinates $(\theta_{wc},
+        y_{wc},r_{wc})$ for wheel out-of-roundness. Right: rotation by the
+        wheelset pitch angle $\theta_{ws}$.}
+\label{fig:wheel_theta}
+\end{figure}
+
+Out-of-round wheels may be defined using cylindrical coordinates as
+illustrated in Figure \ref{fig:wheel_theta}, left, with radius
+$r_{wc}=r_{nom,w}+dr_{wc}$, with profile heights $dr$ given as a function
+$dr_{wc}(\theta_{wc},y_{wc})$. This is provided to
+CONTACT using multiple slices at different $\theta_{wc}$ positions
+around the circumference. CONTACT will read the slices and interpolate
+as needed to form a 3D surface for the contact calculation.
+
 \paragraph{Single wheel-rail configuration}
 
-Using the mechanisms as outlined above, it's possible to compute 
-single wheel/rail configurations also.
+Using the mechanisms outlined above, single wheel/rail configurations can
+be computed as well.
 \begin{itemize}
 \item The gauge width computation of Figures \ref{fig:track_coords} and
         \ref{fig:rail_coords} is disabled using a negative value for the
@@ -1263,7 +1288,7 @@ single wheel/rail configurations also.
         using absolute rail placement with $y_{r(tr)}=z_{r(tr)}=0$;
 \item Finally, the wheel profile marker is placed directly under the
         wheelset center (Figure \ref{fig:wheel_coord}), using
-        $d_{flng}=2 y_{fbpos}$, such that $y_{rw}=d_{flng}/2-y_{fbpos}=0$.
+        $d_{flng}=2 y_{fbpos}$, such that $y_{wheel}=d_{flng}/2-y_{fbpos}=0$.
 \end{itemize}
 
 \paragraph{Kinematic configuration}
@@ -1280,7 +1305,7 @@ stand-alone calculations.
 \label{sec:profiles}
 
 Wheel and rail profiles may be obtained from various sources, in different
-formats and using different conventions. A number of options is provided
+formats and using different conventions. Different options are provided
 to read existing files and transform into the form as needed by CONTACT.
 
 \paragraph{Supported formats}
@@ -1289,108 +1314,15 @@ Constant rail profiles may be provided in SIMPACK {\tt prr}-format or Miniprof
 {\tt ban}-format, with the format taken from the file extension, or as a
 2-column table with $(y_i,z_i)$-values if another file extension is used.
 Variable rail profiles may be provided in a slices-file with {\tt
-slcs} file extension. Wheel profiles may be provided in SIMPACK {\tt 
-prw}-format or Miniprof {\tt whl}-format, with the actual format taken
+slcs} file extension. Constant wheel profiles may be provided in SIMPACK
+{\tt prw}-format or Miniprof {\tt whl}-format, with the actual format taken
 from the file extension, or as a 2-column table if another file extension
-is used.
+is used. Out-of-round wheels may be provided in a slices-file with {\tt
+slcw} file extension.
 \begin{inputvars}
 \inpvar{RFNAME}{\bunit{-}}{Input filename for a rail profile.}
 \inpvar{WFNAME}{\bunit{-}}{Input filename for a wheel profile.}
 \end{inputvars}
-
-\paragraph{Slices-file}
-
-A slices-file starts with configuration data, and then gives a list of
-rail profiles with corresponding $s_{fc}$ positions along the track curve,
-and concludes with information on `features' and corresponding `parts'
-in lateral direction.
-\begin{alltt}\small
-% data for S+C benchmark, UK crossing '56E1-R245-1:9.25'
-
-   0.000    1000.0   S_OFFSET [m], S_SCALE [mm/m]
-     148             NSLC
-       7    0    0   NFEAT, NKINK, NACCEL
-       1             S_METHOD
-
-%  - slice positions S_SLC [m] and filenames RFNAME per slice
-
- -75.00000   '../switch-benchmark/DataSet1_56E1_v2/Crossing/Crossing_1.txt'
- -49.33684   '../switch-benchmark/DataSet1_56E1_v2/Crossing/Crossing_2.txt'
- -24.66842   '../switch-benchmark/DataSet1_56E1_v2/Crossing/Crossing_3.txt'
-  -0.99474   '../switch-benchmark/DataSet1_56E1_v2/Crossing/Crossing_4.txt'
-          ...
-\end{alltt}
-\begin{inputvars}
-\inpvar{S\_OFFSET}{\bunit{x}}{Offset $s_{ofs}$ added to input $s_{slc}$
-        positions to align with track $s_{fc}$-coordinates as used in
-        CONTACT, with dimension `$\unit{x}$' defined by the user.}
-\inpbreak
-\inpvar{S\_SCALE}{\bunit{mm/x}}{Multiplication factor to convert input
-        $s_{slc}$ positions to $\unit{mm}$.}
-\inpvar{S\_SLC}{\bunit{x}}{Input $s_{slc}$-position of a slice along the
-        track curve, converted to $fc$ coordinates as $s_{fc} = s_{scale}
-        \cdot (s_{ofs} + s_{slc})$.}
-\inpvar{S\_METHOD}{\bunit{-}}{Interpolation method used between successive
-        slices. Method 1 is to use an interpolating spline, whereas method
-        2 uses a more smooth approximation that does not pass through the
-        data positions.}
-\end{inputvars}
-Note that the example has $s_{slc}$-positions in meters, converted to
-millimeters using $s_{scale}=1000$. The slices must be given with
-$s_{slc}$-positions in increasing order and at least $0.001\unit{mm}$ apart.
-
-\begin{figure}[bt]
-\centering
-\psfig{figure=fig/uk_interrupt_v1,width=4.0in,trim=20 70 40 110,clip=}
-\caption{\em Successive profile slices defining the geometry for a crossing,
-        with geometrical features connected into `interpolation paths'.}
-\label{fig:slcs_features}
-\end{figure}
-
-The slices will each be resampled to a uniform spacing in order to define
-`interpolation paths' in longitudinal direction. To obtain a good 3D
-surface model, interpolation paths need to have smooth functions $y(s_{fc}),
-z(s_{fc})$, and should therefore not run across sharp geometrical features.
-This is steered by dividing slices laterally into different `parts' that are
-resampled separately as illustrated in Figure \ref{fig:slcs_features}. The
-break points in a slice, also called `features', are $s_f, f=1\cdots
-n_{feat}$, with $s_f$ the `summed chord length' to the start of the slice
-(see below) given in $\unit{mm}$.
-
-\begin{alltt}\small
-%  - S_F positions at geometrical features at start/end of each part per slice
-%  S_SLC    S_F [mm],  F = 1 .. NFEAT
-          ...
- 0.08076     -1      -1       -1       -1       0.      30.27   999.
- 0.11395     -1      -1       -1       -1       0.      29.93   999.
- 0.11894      0.    18.00    34.51    54.51   110.53   141.01   999.
- 0.12393      0.    22.00    36.99    60.49   116.98   147.21   999.
- 0.12892      0.    25.74    40.48    66.96   122.92   153.63   999.
-          ...
-\end{alltt}
-In cases where certain features do not occur in a slice, this is indicated
-using a negative value for the corresponding $s_f$. This implicitly defines
-`interruptions' of the profile in longitudinal direction.
-
-The start and end of the profile are included in the definition of features,
-permitting trimming of the input slices. No input is needed when
-$n_{feat}\le 1$, using default values $s_1=0$ and $s_2=10^6\unit{mm}$
-covering the whole profile. 
-
-For a profile with $n$ points $(y_i,z_i)$ the summed chord length is computed
-as
-\begin{eqnarray}
-    \delta y_i = y_{i+1}-y_i, \;
-    \delta z_i = z_{i+1}-z_i, \;
-    \delta s_i = \sqrt{ \delta y_i^2 + \delta z_i^2 }, \nonumber \\
-    s_1 = 0, \; s_{i+1} = s_i + \delta s_i , \;\;
-                i = 1 \cdots n-1.
-\end{eqnarray}
-This uses the numbering of the points as obtained after mirroring and
-reordering, with point $1$ at the track center side of the rail profile.
-
-The file-structure for slices files is specified in Appendix
-\ref{sec:spec_slcs}.
 
 \paragraph{Form as needed by CONTACT}
 
@@ -1414,9 +1346,9 @@ order.
 \inpvar{MIRROR\_Z}{\bunit{-}}{Auto-detect whether mirroring of $z$-values is
         needed (0, default), use the profile as is ($-1$), or mirror its
         $z$-values (1).}
-\inpvar{SCALE}{\bunit{-}}{Scale factor for unit conversion, e.g.\ 
-        ${\tt scale}=1000$ to convert profile values given in $\bunit{m}$ to
-        $\bunit{mm}$.} 
+\inpvar{SCALE\_YZ}{\bunit{-}}{Scale factor for unit conversion, e.g.\ 
+        ${\tt scale\_yz}=1000$ to convert profile values given in $\bunit{m}$
+        to $\bunit{mm}$.} 
 \end{inputvars}
 SIMPACK profiles are processed first according to the options that are
 specified in the {\tt prr}- or {\tt prw}-file (mirroring, reordering,
@@ -1578,6 +1510,150 @@ Three different smoothing methods are currently provided:
         $L_{filt}={\tt smooth}$ when ${\tt ismooth}=1, 2$.}
 \end{inputvars}
 
+\paragraph{Rail slices-file}
+
+A rail slices-file starts with configuration data, and then gives a list of
+rail profiles with corresponding $s_{fc}$ positions along the track curve,
+and concludes with information on `features' and corresponding `parts'
+in lateral direction.
+\begin{alltt}\small
+% data for S+C benchmark, UK crossing '56E1-R245-1:9.25'
+
+   0.000    1000.0   S_OFFSET [m], S_SCALE [mm/m]
+     148             NSLC
+       7    0    0   NFEAT, NKINK, NACCEL
+       1             S_METHOD
+
+%  - slice positions S_SLC [m] and filenames RFNAME per slice
+
+ -75.00000   '../switch-benchmark/DataSet1_56E1_v2/Crossing/Crossing_1.txt'
+ -49.33684   '../switch-benchmark/DataSet1_56E1_v2/Crossing/Crossing_2.txt'
+ -24.66842   '../switch-benchmark/DataSet1_56E1_v2/Crossing/Crossing_3.txt'
+  -0.99474   '../switch-benchmark/DataSet1_56E1_v2/Crossing/Crossing_4.txt'
+          ...
+\end{alltt}
+\begin{inputvars}
+\inpvar{S\_OFFSET}{\bunit{x}}{Offset $s_{ofs}$ added to input $s_{slc}$
+        positions to align with track $s_{fc}$-coordinates as used in
+        CONTACT, with dimension `$\unit{x}$' defined by the user.}
+% \inpbreak
+\inpvar{S\_SCALE}{\bunit{mm/x}}{Multiplication factor to convert input
+        $s_{slc}$ positions to $\unit{mm}$.}
+\inpvar{S\_SLC}{\bunit{x}}{Input $s_{slc}$-position of a slice along the
+        track curve, converted to $fc$ coordinates as $s_{fc} = s_{scale}
+        \cdot (s_{ofs} + s_{slc})$.}
+\inpvar{S\_METHOD}{\bunit{-}}{Interpolation method used between successive
+        slices. Method 1 is to use an interpolating spline, whereas method
+        2 uses a more smooth approximation that does not pass through the
+        data positions.}
+\end{inputvars}
+Note that the example has $s_{slc}$-positions in meters, converted to
+millimeters using $s_{scale}=1000$. The slices must be given with
+$s_{slc}$-positions in increasing order and at least $0.001\unit{mm}$ apart.
+
+\begin{figure}[bt]
+\centering
+\psfig{figure=fig/uk_interrupt_v1,width=4.0in,trim=20 70 40 110,clip=}
+\caption{\em Successive profile slices defining the geometry for a crossing,
+        with geometrical features connected into `interpolation paths'.}
+\label{fig:slcs_features}
+\end{figure}
+
+\paragraph{3D surface building}
+
+The slices will each be resampled to a uniform spacing in order to define
+`interpolation paths' in longitudinal direction. To obtain a good 3D
+surface model, interpolation paths need to have smooth functions $y(s_{fc}),
+z(s_{fc})$, and should therefore not run across sharp geometrical features.
+This is steered by dividing slices laterally into different `parts' that are
+resampled separately as illustrated in Figure \ref{fig:slcs_features}. The
+break points in a slice, also called `features', are $s_f, f=1\cdots
+n_{feat}$, with $s_f$ the `summed chord length' to the start of the slice
+(see below) given in $\unit{mm}$.
+
+\begin{alltt}\small
+%  - S_F positions at geometrical features at start/end of each part per slice
+%  S_SLC    S_F [mm],  F = 1 .. NFEAT
+          ...
+ 0.08076     -1      -1       -1       -1       0.      30.27   999.
+ 0.11395     -1      -1       -1       -1       0.      29.93   999.
+ 0.11894      0.    18.00    34.51    54.51   110.53   141.01   999.
+ 0.12393      0.    22.00    36.99    60.49   116.98   147.21   999.
+ 0.12892      0.    25.74    40.48    66.96   122.92   153.63   999.
+          ...
+\end{alltt}
+In cases where certain features do not occur in a slice, this is indicated
+using a negative value for the corresponding $s_f$. This implicitly defines
+`interruptions' of the profile in longitudinal direction.
+
+The start and end of the profile are included in the definition of features,
+permitting trimming of the input slices. No input is needed when
+$n_{feat}\le 1$, using default values $s_1=0$ and $s_2=10^6\unit{mm}$
+covering the whole profile. 
+
+For a profile with $n$ points $(y_i,z_i)$ the summed chord length is computed
+as
+\begin{eqnarray}
+    \delta y_i = y_{i+1}-y_i, \;
+    \delta z_i = z_{i+1}-z_i, \;
+    \delta s_i = \sqrt{ \delta y_i^2 + \delta z_i^2 }, \nonumber \\
+    s_1 = 0, \; s_{i+1} = s_i + \delta s_i , \;\;
+                i = 1 \cdots n-1.
+\end{eqnarray}
+This uses the numbering of the points as obtained after mirroring and
+reordering, with point $1$ at the track center side of a rail profile
+and at the field side of a wheel profile.
+
+The file-structure for slices files is specified in Appendix
+\ref{sec:spec_slcs}.
+
+\paragraph{Wheel slices-file}
+
+Wheel slices-files are structured similarly as rail slices files, except
+that longitudinal $s_{fc}$ positions along the track curve are replaced
+by angles $\theta_{wc}$ around the circumference of the wheel, and
+vertical heights $z$ are replaced by radial heights $dr$ with respect to
+the nominal radius.
+
+The wheel surface is defined on the domain $\theta_{wc}=[-\pi,\pi)
+\unit{rad}$ using periodical extension for evaluation at other values. The
+slices file does not need to cover the domain fully, especially for
+localized defects such as a wheel flat.  If data are given on a smaller
+interval $[\theta_0, \theta_1]$ fully contained in $[-\pi,\pi)$, constant
+extrapolation is used for $\theta_{wc}\in [-\pi,\theta_0)$ and
+$\theta_{wc}\in(\theta_1,\pi)$. This works best with small derivatives
+$\txtfpd{dr_{wc}}{\theta}$ at $\theta_0$ and $\theta_1$. 
+
+If out-of-roundness exists around the whole circumference of the wheel,
+as for polygonization, then the input data need to be extended periodically
+by the user in order to create a wheel surface with smooth wrap-around
+from $\pi$ to $-\pi$. Inputs should be given on a domain such as
+$[\theta_0,\theta_1]=[-3.2,3.2] \unit{rad}$, fully encompassing the range
+$[-\pi,\pi)$. Periodic extension means that $dr(\theta)=dr(\theta+2\pi)$ for
+$\theta\in[\theta_0,-\pi)$ and $dr(\theta)=dr(\theta-2\pi)$ for
+$\theta=[\pi,\theta_1)$.
+
+\begin{inputvars}
+\inpvar{TH\_OFFSET}{\bunit{x}}{Offset $\theta_{ofs}$ added to input 
+        $\theta_{slc}$ positions to align with wheel 
+        $\theta_{wc}$-coordinates as used in CONTACT, with dimension
+        `$\unit{x}$' defined by the user.}
+\inpvar{TH\_SCALE}{\bunit{rad/x}}{Multiplication factor to convert input
+        $\theta_{slc}$ positions to $\unit{rad}$.}
+\inpvar{TH\_SLC}{\bunit{x}}{Input $\theta_{slc}$-position of a slice along
+        the wheel circumference, converted as $\theta_{wc} = \theta_{scale}
+        \cdot (\theta_{ofs} + \theta_{slc})$.}
+\inpvar{TH\_METHOD}{\bunit{-}}{Interpolation method used between successive
+        slices. Method 1 is to use an interpolating spline, whereas method
+        2 uses a more smooth approximation that does not pass through the
+        data positions.}
+\end{inputvars}
+The slices must be given with $\theta_{slc}$-positions in increasing order
+and at least $0.001\unit{rad}$ apart. Slice positions can be given in
+degrees using $\theta_{scale}=\pi/180= 0.0174533$. 
+
+% $0\le\theta_1-\theta_0\le 2\pi$. Constant extrapolation is used
+
 \section{Track and roller geometry}
 \label{sec:track_geom}
 
@@ -1693,12 +1769,12 @@ and the wheelset roll, yaw and pitch angles.
         $z_{tr}=-r_{nom,w}$.}
 \inpvar{ROLL}{\bunit{rad}}{Wheelset roll angle $\phi_{ws}$ with respect to the
         track plane.}
-\inpbreak
+% \inpbreak
 \inpvar{YAW}{\bunit{rad}}{Wheelset yaw angle $\psi_{ws}$ with respect to the
         track center line $x_{track}$.}
 \inpvar{PITCH}{\bunit{rad}}{Wheelset pitch angle $\theta_{ws}$, i.e.\ rotation
-        about the wheelset axle. This is currently not used. It becomes of
-        relevance when out-of-round wheels need to be described.}
+        about the wheelset axle. This is of relevance primarily for
+        out-of-round wheels using a wheel slices file.}
 \end{inputvars}
 Using the ${\tt N}_1$-digit, the total vertical force $F_z$ may be given as
 part of the problem specification. In that case, the program will raise or
@@ -1758,7 +1834,7 @@ negative for forward rolling, whereas $\omega_{rol}$ is positive.
 
 Flexible wheelset deviations provide offsets from the initial (design)
 geometry to the actual (current) configuration. Wheelset coordinates are
-used, such that $\Delta y>0$ is towards the center of mass for a left
+used, such that $\Delta y>0$ is towards the wheelset center for a left
 wheel, but to the field side when the right wheel is considered.
 \begin{inputvars}
 \inpvar{DXWHL .. \mbox{\hspace{4mm}DZWHL}}{\bunit{mm}}{Displacements 
@@ -1933,7 +2009,7 @@ The forces are also rotated to the wheelset orientation:
 \inpvar{FX\_WS}{\bunit{N}}{Total force $F_{x_{ws}}$ on the rail in wheelset
         longitudinal direction $x_{wset}$. \magenta{Input when ${\tt
         F}_1=1$.}}
-\inpbreak
+%\inpbreak
 \inpvar{FY\_WS}{\bunit{N}}{Total force $F_{y_{ws}}$ on the rail in wheelset
         lateral direction $y_{wset}$.}
 \inpvar{FZ\_WS}{\bunit{N}}{Total force $F_{z_{ws}}$ on the rail in wheelset
@@ -2219,10 +2295,11 @@ parameter $L$.
 In Hertzian problems (Sections \ref{sec:hertz3d}--\ref{sec:sdec}),
 three different flexibilities $L'_\xi$, $L'_\eta$ and $L'_\phi$ may be
 used for longitudinal, lateral and spin creepage respectively. These
-flexibilities are computed automatically according to Kalker's
-FASTSIM when ${\tt M}=3$. For non-Hertzian problems (\S \ref{sec:nonhzvar}, 
-\ref{sec:ibase}), these flexibilities are based on an equivalent ellipse
-with semi-axes $a_{eqv}, b_{eqv}$, estimated for the actual contact area.
+flexibilities are computed automatically when ${\tt M}=3$, using the
+blending approach of \cite{Vollebregt2022a-1flex}. For non-Hertzian
+problems (\S \ref{sec:nonhzvar}, \ref{sec:ibase}), these flexibilities
+are based on an equivalent ellipse with semi-axes $a_{eqv}, b_{eqv}$,
+estimated for the actual contact area.
 
 The modifications proposed in \cite{Spiryagin2013} are based on a variable
 flexibility, increasing with the ratio of the slip area to the area
@@ -2255,7 +2332,8 @@ used as alternatives, by setting ${\tt B}=2$ or 3. Of these options the
 parabolical traction bound is advised. The elliptical traction bound and
 the half-space solution cannot predict the shapes of adhesion and slip
 areas well in cases with large spin, where there should be slipping near
-the leading edge of the contact area.
+the leading edge of the contact area. For non-Hertzian cases, two
+approximate methods provided are KPEC (${\tt B}=5$) or ANALYN (${\tt B}=6$).
 
 When using the simplified theory, the material parameters of Section
 \ref{sec:lin_elast} must still be specified. These are used in the normal
@@ -5352,7 +5430,7 @@ single case. For more information on the accuracy of the FASTSIM approach
 (and USETAB, Polach's method) when compared to CONTACT see
 \cite{Vollebregt2011a-assessm}. For a comparison of parabolical and elliptical
 traction bounds and one versus three flexibilities see
-\cite{Vollebregt2010b-fastsim2}.
+\cite{Vollebregt2010b-fastsim2,Vollebregt2022a-1flex}.
 
 \begin{figure}[bt]
 \centering
@@ -5422,7 +5500,7 @@ scripts.
 The Matlab search path must be adjusted such that our plotting programs can
 be found. This is done in Matlab with the {\tt addpath} command, e.g.
 \begin{verbatim}
->> addpath('C:\Program Files\Vtech CMCC\contact_v23.1\matlab');
+>> addpath('C:\Program Files\Vtech CMCC\contact_v23.2\matlab');
 \end{verbatim}
 This command may be put in a file `{\tt startup.m}' in your working
 directory, in your personal overall startup-file
@@ -5430,7 +5508,7 @@ directory, in your personal overall startup-file
 configuration-file (`\verb+<MAT-+ \verb+LAB>\toolbox\local\pathdef.m+').
 
 You can check whether the path is set correctly by typing
-\verb+ help contact_v23.1\matlab+. This should show the following output:
+\verb+ help contact_v23.2\matlab+. This should show the following output:
 \begin{alltt}\small
 Matlab scripts for visualisation of output of the CONTACT program (trunk).
 
@@ -5552,6 +5630,7 @@ to the case number.
 
 
 \subsection{Plotting results for the entire (3D) contact area}
+\label{sec:plot3d}
 
 Several standardised contour- and surface-plots are provided by the script
 {\tt plot3d}. This script works on the solution structure provided by {\tt
@@ -6300,8 +6379,8 @@ routines, providing appropriate options for their interpretation.
         (default); $1$ signal errors and abort.
 \item[\tt iparam(6) - ismooth]: selection of the smoothing
         method: $0$ for original smoothing spline (default, for now), $1$
-        for weighted smoothing spline, $2$ for weighted B-spline approach
-        (n.y.a.), $3$ for arc-fit method.
+        for weighted smoothing spline with 2nd order penalty, $2$ for
+        the weighted B-spline approach with 3rd order penalty.
 \item[\tt rparam(1) - sclfac]: scaling factor to convert input data
         to $\bunit{mm}$, e.g.\ $10^3$ for data given in $\bunit{m}$. If ${\tt
         sclfac}\le 0$ (default), this will be obtained from the active unit
@@ -6464,6 +6543,29 @@ calling {\tt cntc\_\-cal\-cu\-late}. This will solve the contact problem
 CONTACT's internal memory. Outputs may be written to the {\tt out}-file and
 one or more {\tt mat}-files will be created if so configured in the control
 digits.
+
+\subsection{Convencience function in Matlab}
+
+\begin{alltt}\small
+cntc_getcpresults             - get results of a single contact patch
+                                in the form used by loadcase and plot3d
+\end{alltt}
+
+A function {\tt cntc\_getcpresults.m} is provided in Matlab that currently
+has no counterpart in Fortran, C and Python. This function will retrieve
+inputs and outputs from a wheel/rail contact problem from the CONTACT
+library and create a structure that can be used directly with {\tt plot3d}
+(Section \ref{sec:plot3d}). The profiles {\tt prr} and {\tt prw} are
+included in the structure returned and can be omitted calling {\tt plot3d}.
+\begin{alltt}\small
+   sol = cntc_getcpresults(iwhe, icp);
+
+   opt = plot3d;
+   opt.typplot  = 'rw_rear';
+   opt.field    = 'pn';
+   opt.rw_surfc = 'both';
+   plot3d(sol, opt);
+\end{alltt}
 
 \subsection{Global outputs for wheel/rail contact (module 1)}
 \label{sec:global_output1}
@@ -7129,7 +7231,7 @@ if E=9: [ EXRHS(I,2), EXRHS(I,3), I=1,NPOT    ]
 if S=2,3: [ subsurface points (see below) ]
 \end{alltt}
 
-\section{Specification of the file {\tt <varprof>.slcs}}
+\section{Specification of the file {\tt <varprof>.slcs/.slcw}}
 \label{sec:spec_slcs}
 
 The input of variable rail profiles in so-called `slices files' ({\tt
@@ -7162,6 +7264,11 @@ by newlines as discussed in Section \ref{sec:inputfile}.
 The slices filenames and feature information use a group of values
 per slice. Newlines are optional within each slice and mandatory between
 consecutive slices. 
+
+The structure is the same for out-of-round wheels using `wheel slices'
+({\tt .slcw}) files, using {\tt TH\_\-OFF\-SET} instead of {\tt S\_OFFSET},
+{\tt TH\_SCALE} instead of {\tt S\_SCALE}, {\tt TH\_METHOD} instead of {\tt
+S\_METHOD}, and {\tt TH\_SLC} instead of {\tt S\_SLC}.
 
 \section{Specification of the file of numerical influence coefficients}
 \label{sec:spec_inflcf}

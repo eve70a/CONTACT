@@ -28,8 +28,6 @@ private secant_fx_print
 
 private wr_contact_fy_brent
 
-private wr_contact_fyz_broyden
-
 contains
 
 !------------------------------------------------------------------------------------------------------------
@@ -56,7 +54,7 @@ contains
 
       ! set rail deflections if not used in this case
 
-      if (wtd%ic%force1.ne.3 .and. wtd%ic%force1.ne.4) then
+      if (wtd%ic%force1.ne.3) then
          wtd%trk%dy_defl = 0d0
          wtd%trk%dz_defl = 0d0
       endif
@@ -88,14 +86,6 @@ contains
 
          if (idebug_cnt.ge.3) call write_log(' wr_contact: solving for given vert./long. forces (secant)...')
          call wr_contact_fx_secant(wtd, idebug_cnt, sub_ierror)
-         if (my_ierror.eq.0) my_ierror = sub_ierror
-
-      elseif (wtd%ic%force1.eq.4) then
-
-         ! N=1, F=3: solve w/r problem with prescribed vertical and lateral forces - Broyden method
-
-         if (idebug_cnt.ge.3) call write_log(' wr_contact: solving for given vert./lat. forces (Broyden)...')
-         call wr_contact_fyz_broyden(wtd, idebug_cnt, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
       elseif (wtd%ic%force1.eq.3) then
@@ -232,14 +222,6 @@ contains
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, idebug_br)
 
-      elseif (imeth.eq.IMETH_BROYDN) then
-
-         if (idebug_br.ge.2 .or. wtd%ic%flow.ge.1) then
-            write(bufout,7020) -1, x_0, -1d0
-            call write_log(1, bufout)
-         endif
- 7020    format(4x,i6,', NR,  z_ws, Fz: ',f16.6, f16.8)
-
       endif
 
       ! Use the Hertzian approach to get a sensible initial z-position
@@ -326,7 +308,7 @@ contains
       type(t_brent_its)        :: its
 
       my_ierror = 0
-      idebug_br = 1
+      idebug_br = wtd%ic%x_force
       ! if (wtd%meta%itforc_out.eq.2) idebug_br = 3
 
       if (idebug_cnt.ge.2) call write_log(' --- Start subroutine wr_contact_fz_brent ---')
@@ -506,8 +488,8 @@ contains
 
       my_ierror = 0
 
-      idebug_br = idebug_cnt
-      idebug_br = 0
+      ! idebug_br = 0
+      idebug_br = wtd%ic%x_force
       if (idebug_br.ge.2) call write_log(' --- Start subroutine wr_contact_fx_secant ---')
 
       has_fz    = (wtd%ic%norm.ge.1)
@@ -791,16 +773,16 @@ contains
       type(t_brent_its)        :: its
 
       my_ierror = 0
-      idebug_br = idebug_cnt
-      idebug_br = 1
+      ! idebug_br = idebug_cnt
+      idebug_br = wtd%ic%x_force
 
       if (idebug_br.ge.2) call write_log(' --- Start subroutine wr_contact_fy_brent ---')
 
       has_fz    = (wtd%ic%norm.ge.1)
-      has_fy    = (wtd%ic%tang.ge.1 .and. (wtd%ic%force1.eq.3 .or. wtd%ic%force1.eq.4))
+      has_fy    = (wtd%ic%tang.ge.1 .and. wtd%ic%force1.eq.3)
 
       if (.not.has_fz .or. .not.has_fy) then
-         call write_log(' INTERNAL ERROR: Brent method for Fy needs N=1, F=4')
+         call write_log(' INTERNAL ERROR: Brent method for Fy needs N=1, F=3')
          call abort_run()
       endif
 
@@ -932,358 +914,6 @@ contains
       endif
 
    end subroutine wr_contact_fy_brent
-
-!------------------------------------------------------------------------------------------------------------
-
-   subroutine wr_contact_init_broyden(wtd, dfn_dpen, idebug_br, idebug_cnt, my_ierror)
-!--purpose: determine initial position and Jacobian for the Broyden algorithm for massless rail deflection
-      implicit none
-!--subroutine arguments:
-      type(t_ws_track),  target        :: wtd
-      integer,           intent(in)    :: idebug_br, idebug_cnt
-      integer,           intent(out)   :: my_ierror
-      real(kind=8),      intent(out)   :: dfn_dpen
-!--local variables:
-      integer                  :: k, ic_norm, ipotcn, ic_return, sub_ierror
-      real(kind=8)             :: aa, bb, cp, rho, pen, e_star, epshz, azz, fn_inp
-
-      if (idebug_br.ge.3) call write_log(' --- Start subroutine wr_contact_init_broyden ---')
-
-      my_ierror = 0
-
-      ! initial estimate for z-position
-
-      k        = 0
-      wtd%meta%itforc_inn = k
-      wtd%ws%z = 0d0
-      wtd%ftrk = vec_zero()
-
-      ! analyze geometrical problem for the initial z-position, without actual solving
-
-      ic_return = wtd%ic%return
-      wtd%ic%return = 3
-
-      call wr_contact_pos(wtd, idebug_cnt, sub_ierror)
-      if (my_ierror.eq.0) my_ierror = sub_ierror
-
-      wtd%ic%return = ic_return
-
-      if (max(idebug_br,idebug_cnt).ge.3) then
-         write(bufout,'(4(a,g14.6))') ' Overall minimum gap=', wtd%ws%gap_min,', delta=',wtd%ws%delt_min, &
-                ', a1=',wtd%ws%a1, ', b1=',wtd%ws%b1
-         call write_log(1, bufout)
-      endif
-
-      ! Abort in case of an error
-
-      if (my_ierror.ne.0) then
-         wtd%numcps = 0
-         if (max(idebug_br,idebug_cnt).ge.1) then
-            write(bufout,'(a,i6,a)') ' An error occurred (',my_ierror,'), skipping computation.'
-            call write_log(1, bufout)
-         endif
-         return
-      endif
-
-      ! Abort if the profiles have no overlap at all
-
-      if (.not.wtd%ws%has_overlap) then
-         wtd%numcps = 0
-         if (max(idebug_br,idebug_cnt).ge.1) then
-            call write_log(' The profiles have no overlap at all, skipping computation.')
-         endif
-         return
-      endif
-         
-      ! Use the Hertzian approach to get a sensible initial z-position,
-      ! solve the Hertzian problem for estimated curvatures and initial contact angle
-
-      ic_norm =  1
-      ipotcn  = -1
-      e_star  = wtd%mater%ga / (1d0 - wtd%mater%nu)
-      epshz   = wtd%solv%eps
-         
-      if (wtd%ic%norm.eq.1) wtd%trk%fz_rail = -wtd%ws%fz_inp
-      fn_inp  = -wtd%trk%fz_rail / max(0.5d0,cos(wtd%ws%delt_min))
-
-      call hzcalc3d (e_star, epshz, ipotcn, wtd%ws%a1, wtd%ws%b1, aa, bb, ic_norm, pen,                 &
-                     fn_inp, cp, rho)
-
-      ! estimate derivative dFn/dpen
-
-      if (pen.gt.1d-6) then
-         dfn_dpen = 1.5d0 * wtd%ws%fz_inp / pen
-      else
-         ! no contact: using influence coefficient Azz(0,0) for 1 element in contact
-
-         call azz_one_element(wtd%ic, wtd%mater, wtd%discr%dx, wtd%discr%ds, azz)
-         dfn_dpen = wtd%discr%dx * wtd%discr%ds * wtd%mater%ga / azz 
-         write(bufout,*) 'gap_min=',wtd%ws%gap_min,', pen=',pen,', using dfn_dpen=',dfn_dpen
-         call write_log(1, bufout)
-      endif
-
-   end subroutine wr_contact_init_broyden
-
-!------------------------------------------------------------------------------------------------------------
-
-   subroutine wr_contact_fyz_broyden(wtd, idebug_cnt, my_ierror)
-!--purpose: process the w/r problem for a case with prescribed lat/vert forces (massless rail model)
-!           with Broyden algorithm, using estimated Jacobian Bk
-      implicit none
-!--subroutine arguments:
-      type(t_ws_track), target      :: wtd
-      integer,          intent(in)  :: idebug_cnt
-      integer,          intent(out) :: my_ierror
-!--local variables:
-      integer,       parameter :: neq = 2
-      logical                  :: use_findiff_1st, use_findiff, ldone, laccept
-      integer                  :: k, idebug_br, ntry, maxtry, sub_ierror
-      real(kind=8)             :: dfn_dpen
-      real(kind=8)             :: xk(neq), xkm1(neq), xchr(neq), dxk(neq), fk(neq), fkm1(neq), dfk(neq), &
-                                  ftarg(neq), res_fk(neq), tol_fk(neq), dfk_max(neq), bk(neq,neq),       &
-                                  bkm1(neq,neq)
-
-      my_ierror = 0
-      idebug_br = idebug_cnt
-      ! idebug_br = 2
-      if (idebug_br.ge.2) call write_log(' --- Start subroutine wr_contact_fyz ---')
-
-      use_findiff_1st = .true.
-      use_findiff     = .true.
-
-      ! if N=1: override vertical inputs
-
-      if (wtd%ic%norm.eq.1) then
-         wtd%trk%fz_rail = -wtd%ws%fz_inp
-         wtd%trk%kz_rail =  0d0
-      endif
-
-      ! set target forces -fy_rail, -fz_rail
-
-      ftarg(1) = -wtd%trk%fy_rail
-      ftarg(2) = -wtd%trk%fz_rail
-      if (wtd%ic%is_left_side()) ftarg(1) = -ftarg(1)  ! mirroring left-side input to right-side internal
-
-      ! relative tolerances. max. resolution for dy,dz \pm 1e-12, Fy,Fz \pm Jac * 1e-12
-
-      tol_fk(1:2) = wtd%solv%eps * max(ftarg(1), ftarg(2))
-
-      ! maximum change in forces per iteration
-
-      dfk_max(1:2) = 1.5d0 * max(abs(ftarg(1)),abs(ftarg(2)))
-
-      ! initial estimates for outputs dy, dz
-
-      wtd%trk%dy_defl = 0d0
-      wtd%trk%dz_defl = 0d0
-
-      ! characteristic sizes of outputs dy, dz
-
-      xchr(1:2) = 0.05d0
-
-      ! analyze geometry for overall minimum gap and curvatures, set initial estimates k=0
-
-      call wr_contact_init_broyden(wtd, dfn_dpen, idebug_br, idebug_cnt, sub_ierror)
-      if (my_ierror.eq.0) my_ierror = sub_ierror
-
-      ! Abort if the profiles have no overlap at all
-
-      if (.not.wtd%ws%has_overlap) return
-         
-      ! overwrite z_ws such that there's precise contact at dy = dz = 0
-
-      if (wtd%ic%norm.eq.1) then
-         wtd%ws%z = wtd%ws%z + wtd%ws%gap_min
-      endif
-
-      ! Broyden: solve equations F(xk) = fk = ftarg,  Fk : contact force on rail
-      !     vector xk    == [ dy ; dz ]; 
-      !     vector fk    == [ Fy(y_ws+dy, z_ws+dz) - ky*dy ; Fz(y_ws+dy, z_ws+dz) - kz*dz ]
-      !     vector ftarg == [ -Fy_rail ; -Fz_rail ],    F[yz]_rail: spring force on rail
-
-      ! initial estimate [ dy, dz ] = [ 0, 0 ]
-
-      k  = 0
-      xk = (/ 0d0 , 0d0 /)
-      fk = (/ 0d0 , 0d0 /)
-
-      ! solve contact problem for the initial estimate
-      !if (wtd%ic%norm.eq.0) then
-      !   call broyden_set_state(neq, xk, wtd, idebug_br)
-      !   call wr_contact_pos(wtd, idebug_cnt, sub_ierror)
-      !   if (my_ierror.eq.0) my_ierror = sub_ierror
-      !   call broyden_get_state(wtd, neq, fk, idebug_br)
-      !endif
-
-      ! set approximate Jacobian matrix B_0
-
-      bk      =  0d0
-      bk(1,1) =   sin(wtd%ws%delt_min) * dfn_dpen - wtd%trk%ky_rail
-      bk(2,2) =  -cos(wtd%ws%delt_min) * dfn_dpen - wtd%trk%ky_rail
-
-      ! lower the wheel-set by pen to get near the desired approach
-
-      ! k     = 1
-      ! wtd%meta%itforc_inn = k
-      ! wtd%trk%dy_defl = pen * sin(wtd%ws%delt_min)
-      ! wtd%trk%dz_defl = pen * cos(wtd%ws%delt_min)
-
-      ! check convergence
-
-      res_fk = fk - ftarg
-
-      ldone = (all(abs(res_fk).lt.tol_fk) .or. k.ge.wtd%solv%maxnr .or. wtd%ic%return.ge.2)
-
-      ! print output on Broyden process
-
-      ntry = 1
-      call broyden_print(neq, k, xk, fk, ftarg, bk, wtd%ic, ntry, idebug_br)
-
-      ! while not "done" do
-
-      do while (.not.ldone .and. my_ierror.eq.0)
-
-         ! increment iteration number
-
-         k = k + 1
-
-         if (k.eq.28) idebug_br = 3
-
-         if (idebug_br.ge.3) then
-            write(bufout,'(a,i3)')   ' wr_contact_fyz: starting iteration k=',k
-            call write_log(1, bufout)
-         endif
-
-         ! if (idebug_br.ge.2) stop
-
-         ! cycle previous values
-
-         xkm1 = xk
-         fkm1 = fk
-         bkm1 = bk
-
-         ! compute increment dxk and new iterand xk
-
-         call broyden_solve_dxk(neq, bkm1, ftarg, fk, res_fk, dxk, idebug_br, sub_ierror)
-         if (my_ierror.eq.0) my_ierror = sub_ierror
-
-         ! Solve contact problem, using backtracking for dy,dz if dF is too large or contact is lost
-
-         ntry =  0
-         maxtry = 10
-         laccept = .false.
-
-         do while(.not.laccept .and. my_ierror.eq.0)
-
-            ntry = ntry + 1
-
-            ! reduce step-size dx on consecutive inner iterations
-
-            if (ntry.gt.1) then
-               dxk = 0.5d0 * dxk
-               if (idebug_br.ge.2) then
-                  write(bufout,'(2(a,f8.4))') ' ...halved step dy_defl=',dxk(1),', dz_defl=',dxk(2)
-                  call write_log(1, bufout)
-               endif
-            endif
-
-            xk   = xkm1 + dxk
-
-            if (idebug_br.ge.3) then
-               write(bufout, '(2(a,f12.6),a)') ' Broyden: xk     = [', xk(1),    ',', xk(2),    ']^T'
-               call write_log(1, bufout)
-            endif
-
-            ! compute problem with new xk, get new fk
-
-            call broyden_set_state(neq, xk, wtd, idebug_br)
-
-            call wr_contact_pos(wtd, idebug_cnt, sub_ierror)
-            if (my_ierror.eq.0) my_ierror = sub_ierror
-
-            call broyden_get_state(wtd, neq, fk, idebug_br)
-
-            dfk   = fk - fkm1
-
-            ! check solution for fx
-
-            if (any(isnan(dfk))) my_ierror = -1
-            ! write(bufout,*) 'abs(dfk)=',abs(dfk),', dfk_max=',dfk_max,', test', (abs(dfk).lt.dfk_max)
-            ! call write_log(1, bufout)
-
-            laccept = ntry.ge.maxtry .or. (wtd%numcps.ge.1 .and. all(abs(dfk).lt.dfk_max))
-
-            if (any(isnan(dfk))) then
-
-               write(bufout,'(2(a,g12.4),a)') ' ...NaN-values found (', dfk(1), ',', dfk(2),            &
-                        '), aborting'
-               call write_log(1, bufout)
-
-            elseif (.not.laccept .and. wtd%numcps.le.0) then
-
-               call write_log(' ...update too large (loss of contact), rejecting step')
-               write(bufout,'(2(a,g12.4))') ' Fy=',wtd%ftrk%y(),', Fz=',wtd%ftrk%z()
-               call write_log(1, bufout)
-
-            elseif (.not.laccept) then
-
-               write(bufout,'(2(a,g12.4),a)') ' ...update too large (', dfk(1), ',', dfk(2),            &
-                     '), rejecting step'
-               call write_log(1, bufout)
-
-            endif
-         enddo
-
-         ! check convergence
-
-         res_fk = fk - ftarg
-         ldone  = (all(abs(res_fk).lt.tol_fk) .or. k.ge.wtd%solv%maxnr)
-
-         if (.not.ldone) then
-
-            ! compute/update approximate Jacobian matrix
-            ! Note: this overwrites the total forces, esp. wtd%ftrk
-
-            if (use_findiff) then
-
-               ! compute Jacobian using finite differences
-
-               call broyden_findiff_jac(neq, wtd, xchr, xk, fk, bk, idebug_br, idebug_cnt, sub_ierror)
-               if (my_ierror.eq.0) my_ierror = sub_ierror
-
-            elseif (any(abs(dfk).gt.10d0*tol_fk)) then
-
-               ! Broyden update: Bk = Bkm1 + (dfk - Bkm1 * dxk) * dxk^T / (dxk^T * dxk)
-
-               call broyden_jac_update(neq, dxk, dfk, bkm1, bk)
-
-            endif
-         endif
-
-         ! print output on Broyden process
-
-         call broyden_print(neq, k, xk, fk, ftarg, bk, wtd%ic, ntry, idebug_br)
-
-         if (my_ierror.lt.0) then
-            write(bufout,'(a,i3,a)') ' An error occurred the in Broyden algorithm (',my_ierror,         &
-                '), aborting contact solution'
-            call write_log(1, bufout)
-         endif
-
-      enddo  ! while not done: Broyden loop
-
-      ! N=1: subtract rail deflection from wheelset position z_ws
-
-      if (wtd%ic%norm.eq.1) then
-         wtd%ws%z = wtd%ws%z - wtd%trk%dz_defl
-         wtd%trk%dz_defl = 0d0
-      endif
-
-      ! no convergence is treated here as -1 'no solution' (error) rather than -2 'inaccurate' (warning)
-
-      if (my_ierror.eq.0 .and. any(abs(res_fk).ge.tol_fk)) my_ierror = -1
-
-   end subroutine wr_contact_fyz_broyden
 
 !------------------------------------------------------------------------------------------------------------
 

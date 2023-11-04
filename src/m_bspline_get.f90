@@ -9,7 +9,7 @@ module m_bspline_get
    use m_globals
    use m_markers
    use m_ptrarray
-   use m_interp_1d
+   use m_interp
    use m_spline_def
    use m_bspline_def
    use m_bspline_1seg
@@ -111,7 +111,7 @@ end subroutine bsplineget_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_list(spl2d, nout, uout, vout, xout, yout, zout, my_ierror, exterval)
+subroutine bspline_eval2d_list(spl2d, nout, uout, vout, xout, yout, zout, has_xout, my_ierror, exterval)
 !--function: evaluate 2D tensor B-spline at nout positions (uout,vout) producing (xout,yout,zout)
    implicit none
 !--subroutine arguments:
@@ -119,6 +119,7 @@ subroutine bspline_eval2d_list(spl2d, nout, uout, vout, xout, yout, zout, my_ier
    integer,      intent(in)                    :: nout
    real(kind=8), intent(in)                    :: uout(nout), vout(nout)
    real(kind=8), intent(out)                   :: xout(nout), yout(nout), zout(nout)
+   logical,      intent(in)                    :: has_xout         ! xout may be a dummy array
    integer,      intent(out)                   :: my_ierror
    real(kind=8), intent(in), optional          :: exterval
 !--local variables:
@@ -132,6 +133,11 @@ subroutine bspline_eval2d_list(spl2d, nout, uout, vout, xout, yout, zout, my_ier
 
    my_ierror = 0
    has_exter = present(exterval)
+
+   if (spl2d%has_xdata .and. .not.has_xout) then
+      call write_log('Internal error (eval2d_list): spline has xdata, xout is mandatory.')
+      call abort_run()
+   endif
 
    namvar = 'b1u-b4v'
    allocate(isegu(nout), b1u(nout,1), b2u(nout,2), b3u(nout,3), b4u(nout,4),                            &
@@ -163,10 +169,10 @@ subroutine bspline_eval2d_list(spl2d, nout, uout, vout, xout, yout, zout, my_ier
    if (my_ierror.eq.0) then
       do iout = 1, nout
 
-         if (.not.spl2d%has_xdata) then
-            xout(iout) = uout(iout)     ! half-parametric spline: x==u
-         else
+         if (spl2d%has_xdata) then
             xout(iout) = 0d0
+         elseif (has_xout) then      ! half-parametric spline: x==u
+            xout(iout) = uout(iout)
          endif
          yout(iout) = 0d0
          zout(iout) = 0d0
@@ -226,7 +232,8 @@ end subroutine bspline_eval2d_list
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout, my_ierror, exterval)
+subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout, has_xout, my_ierror,  &
+                        exterval)
 !--function: evaluate 2D tensor B-spline at nuout x nvout positions producing (xout,yout,zout)
    implicit none
 !--subroutine arguments:
@@ -234,6 +241,7 @@ subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout
    integer,      intent(in)           :: nuout, nvout
    real(kind=8), intent(in)           :: uout(nuout), vout(nvout)
    real(kind=8), intent(out)          :: xout(nuout,nvout), yout(nuout,nvout), zout(nuout,nvout)
+   logical,      intent(in)           :: has_xout         ! xout may be a dummy array
    integer,      intent(out)          :: my_ierror
    real(kind=8), intent(in), optional :: exterval
 !--local variables:
@@ -248,6 +256,19 @@ subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout
    my_ierror = 0
 
    has_exter = present(exterval)
+
+   if (spl2d%has_xdata .and. .not.has_xout) then
+      call write_log('Internal error (eval2d_list): spline has xdata, xout is mandatory.')
+      call abort_run()
+   endif
+
+   if (ldebug.ge.1) then
+      if (has_xout) then
+         call write_log('bspline_eval_prod: called with xout')
+      else
+         call write_log('bspline_eval_prod: dummy xout provided')
+      endif
+   endif
 
    namvar = 'b1u-b4v'
    allocate(isegu(nuout), b1u(nuout,1), b2u(nuout,2), b3u(nuout,3), b4u(nuout,4),                       &
@@ -299,10 +320,10 @@ subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout
       do iout = 1, nuout
          do jout = 1, nvout
 
-            if (.not.spl2d%has_xdata) then
-               xout(iout,jout) = uout(iout)     ! half-parametric spline: x==u
-            else
+            if (spl2d%has_xdata) then
                xout(iout,jout) = 0d0
+            elseif (has_xout) then      ! half-parametric spline: x==u
+               xout(iout,jout) = uout(iout)
             endif
             yout(iout,jout) = 0d0
             zout(iout,jout) = 0d0
@@ -356,9 +377,9 @@ subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout
                   call write_log(1, bufout)
                endif
             endif
-         enddo
-      enddo
-   endif
+         enddo ! jout
+      enddo ! iout
+   endif ! my_ierror.eq.0
 
    if (ldebug.ge.5) then
       iout = ii_debug
@@ -1154,7 +1175,7 @@ subroutine bspline_get_z_at_xy_list(spl2d, nout, xout, yout, zout, my_ierror, ex
    call bspline_eval2d_inverse_list(spl2d, nout, xout, yout, vout, my_ierror)
 
    if (my_ierror.eq.0) then
-      call bspline_eval2d_list(spl2d, nout, xout, vout, xdum2d, ytmp, zout, my_ierror, exterval)
+      call bspline_eval2d_list(spl2d, nout, xout, vout, xdum2d, ytmp, zout, .false., my_ierror, exterval)
    endif
 
    if (ldebug.ge.2) then
@@ -1197,7 +1218,7 @@ subroutine bspline_get_z_at_xy_prod(spl2d, nx, ny, xout, yout, zout, my_ierror, 
       do iu = 1, nx
          ui(1)    = xout(iu)
          vj(1:ny) = vij(iu,1:ny)
-         call bspline_eval2d_prod(spl2d, 1, ny, ui, vj, xdum2d, yj, zj, my_ierror, exterval)
+         call bspline_eval2d_prod(spl2d, 1, ny, ui, vj, xdum2d, yj, zj, .false., my_ierror, exterval)
          zout(iu,1:ny) = zj(1:ny)
       enddo
    endif
@@ -1226,7 +1247,7 @@ subroutine bspline_get_xz_at_uy_list(spl2d, nout, uout, yout, xout, zout, my_ier
    call bspline_eval2d_inverse_list(spl2d, nout, uout, yout, vout, my_ierror)
 
    if (my_ierror.eq.0) then
-      call bspline_eval2d_list(spl2d, nout, uout, vout, xout, ytmp, zout, my_ierror, exterval)
+      call bspline_eval2d_list(spl2d, nout, uout, vout, xout, ytmp, zout, .true., my_ierror, exterval)
    endif
 
    if (ldebug.ge.2) then
@@ -1264,7 +1285,7 @@ subroutine bspline_get_xz_at_uy_prod(spl2d, nu, ny, uout, yout, xout, zout, my_i
       do iu = 1, nu
          ui(1)    = uout(iu)
          vj(1:ny) = vij(iu,1:ny)
-         call bspline_eval2d_prod(spl2d, 1, ny, ui, vj, xj, yj, zj, my_ierror, exterval)
+         call bspline_eval2d_prod(spl2d, 1, ny, ui, vj, xj, yj, zj, .true., my_ierror, exterval)
          xout(iu,1:ny) = xj(1:ny)
          zout(iu,1:ny) = zj(1:ny)
       enddo

@@ -13,6 +13,10 @@ function [ v_out, x_out, y_out, z_out ] = eval_2dspline( spl2d, u_in, v_in, y_in
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
+   if (isstruct(spl2d) & isfield(spl2d, 'slc_file'))
+      slcs = spl2d;
+      spl2d = slcs.spl2d;
+   end
    if (nargin<3)
       v_in = [];
    end
@@ -25,6 +29,20 @@ function [ v_out, x_out, y_out, z_out ] = eval_2dspline( spl2d, u_in, v_in, y_in
    if ( (isempty(v_in) & isempty(y_in)) | (~isempty(v_in) & ~isempty(y_in)) )
       disp('ERROR: either v_in or y_in must be given');
       return;
+   end
+   if (min(size(u_in))>1 | min(size(v_in))>1 | min(size(y_in))>1)
+      disp('ERROR: u_in, v_in, y_in must be 1D arrays');
+      return;
+   end
+   if (size(u_in,2)>size(u_in,1))
+      u_in = u_in';     % make column vector
+   end
+   if (size(v_in,1)>size(v_in,2))
+      v_in = v_in';     % make row vector
+   end
+
+   if (spl2d.use_cylindr)
+      u_in = apply_wrap_around( spl2d, u_in );
    end
 
    if (~isempty(v_in))
@@ -42,11 +60,23 @@ function [ v_out, x_out, y_out, z_out ] = eval_2dspline( spl2d, u_in, v_in, y_in
       % disp('y_in specified, inverse (u,y) --> (v)')
       v_out = eval_2dspline_inverse( spl2d, u_in, y_in, idebug );
 
+      % for tensor grid nu x nv, reshape 2d v_out to 1d list
+      nu = length(u_in); ny = length(y_in);
+      if (nu~=ny)
+         u_in  = repmat(u_in, ny, 1);
+         v_out = reshape(v_out, nu*ny, 1);
+      end
+
       % forward calculation v_out --> x_out, z_out
 
       % disp('y_in specified, forward (u,v) --> (x,z)')
       y_out = y_in;
       [ x_out, ~, z_out ] = eval_2dspline_forward(spl2d, u_in, v_out, idebug);
+      if (nu~=ny)
+         x_out = reshape(x_out, nu, ny);
+         y_out = repmat(y_in, nu, 1);
+         z_out = reshape(z_out, nu, ny);
+      end
 
    end
 
@@ -122,7 +152,7 @@ function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug
    if (has_xij)
       x_out = Bmat * ci_x;
    else
-      x_out = u_in'*ones(1,length(v_in));       % half-parametric spline: x==u
+      x_out = u_in * ones(1,length(v_in));       % half-parametric spline: x==u
    end
    y_out = Bmat * ci_y;
    z_out = Bmat * ci_z;
@@ -137,7 +167,7 @@ function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug
 
    % output a list when both inputs are of same size
 
-   if (all(size(u_in)==size(v_in)))
+   if (use_list)
       x_out = diag(x_out);
       y_out = diag(y_out);
       z_out = diag(z_out);
@@ -303,6 +333,7 @@ function [ v_out ] = eval_2dspline_inverse(spl2d, u_in, y_in, idebug)
                   disp(sprintf('jj = %d: no solution',jj));
                end
 
+               found = 1;
                if (~found), jj = jj + 1; end
             end % jj
 
@@ -326,6 +357,21 @@ function [ v_out ] = eval_2dspline_inverse(spl2d, u_in, y_in, idebug)
    end % for iout
 
 end % function eval_2dspline_inverse
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [ th_ev ] = apply_wrap_around( spl2d, th_ev )
+
+% - apply wrap-around th_ev --> [-pi,pi)
+% - restrict th_ev \in spline range [th0,th1] to obtain constant extrapolation
+
+   th_ev = mod(th_ev+pi, 2*pi) - pi;
+
+   th0   = spl2d.tui(4);
+   th1   = spl2d.tui(end-3);
+   th_ev = max(th0, min(th1, th_ev));
+
+end % function apply_wrap_around
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

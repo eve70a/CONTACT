@@ -74,8 +74,8 @@ private
       real(kind=8)       :: f_max_omit, sclfac, smth, zig_thrs, kink_high, kink_low, kink_wid
 
       ! variable profiles: #slices, data per slice
-      integer                                     :: nslc, nfeat, nkink, naccel, s_method
-      real(kind=8),       dimension(:),   pointer :: slc_s       => NULL()
+      integer                                     :: nslc, nfeat, nkink, naccel, u_method
+      real(kind=8),       dimension(:),   pointer :: slc_u       => NULL()
       character(len=256), dimension(:),   pointer :: slc_nam     => NULL()
       type(p_grid),       dimension(:)            :: slc_grd(MAX_NUM_SLCS)
       real(kind=8),       dimension(:,:), pointer :: slc_s_f     => NULL()
@@ -130,10 +130,11 @@ private
 
       ! nslc             in case of slcs-files: number of slices (>=1);
       !                  -1 for regular profiles (prr, ban, txt)
-      ! slc_s     [mm]   s positions of slices along the track curve, after shifting+scaling
+      ! slc_u    [mm]    u-positions of slices, s_fc along the track curve or th_w on wheel, after
+      !         or [rad] shifting+scaling
       ! slc_nam          file-names of profile slices as given in a slcs-file
       ! slc_grd          grid-data for each of the profile slices
-      ! s_method         interpolation in longitudinal direction: SPL2D_APPROX, SPL2D_INTPOL
+      ! u_method         interpolation in longitudinal direction: SPL2D_APPROX, SPL2D_INTPOL
       !
       ! nfeat            number of feature positions in lateral direction (>= 2)
       ! nkink            number of kinks at feature positions
@@ -174,10 +175,11 @@ contains
 !--local variables:
       real(kind=8), parameter :: pi     = 4d0*atan(1d0)
 
+      ! clean up previous contents, deallocate memory
+      call profile_destroy( prf )
+
       prf%fname      = ' '
 
-      call grid_nullify( prf%grd_data )
-      call gf3_nullify( prf%ext_data )
       prf%has_kyield = .false.
 
       prf%err_hnd    = 0        ! warn and continue
@@ -196,10 +198,6 @@ contains
       prf%kink_high  =  30d0 * pi/180d0  ! kink detection: >= 30 deg at i,
       prf%kink_low   = prf%kink_high/5d0 !                 <=  6 deg at k=3 neighbouring points
       prf%kink_wid   = 2d0      ! mm
-
-      ! reset slices administration
-
-      call varprof_destroy_slices(prf)
 
    end subroutine profile_ini
 
@@ -254,27 +252,10 @@ contains
 !--subroutine parameters:
       type(t_profile) :: prf
 !--local variables:
-      integer         :: is
 
       call grid_destroy( prf%grd_data )
-      call gf3_destroy( prf%ext_data )
+      call gf3_destroy(  prf%ext_data )
       call varprof_destroy_slices( prf )
-
-      call destroy_arr( prf%slc_s )
-      call destroy_arr( prf%slc_nam )
-      call destroy_arr( prf%slc_s_f )
-      call destroy_arr( prf%slc_ib )
-      call destroy_arr( prf%iseg_p )
-      call destroy_arr( prf%kink_if )
-      call destroy_arr( prf%accel_if )
-      call bspline2d_destroy( prf%spl2d )
-
-      ! destroy varprof slices
-      do is = 1, prf%nslc
-         call grid_destroy( prf%slc_grd(is)%g )
-         deallocate( prf%slc_grd(is)%g )
-         nullify( prf%slc_grd(is)%g )
-      enddo
 
    end subroutine profile_destroy
 
@@ -292,46 +273,31 @@ contains
       vprf%nfeat    = 0
       vprf%nkink    = 0
       vprf%naccel   = 0
-      vprf%s_method = SPL2D_INTPOL
+      vprf%u_method = SPL2D_INTPOL
 
-      if (associated(vprf%slc_s)) then
-         deallocate(vprf%slc_s)
-         vprf%slc_s => NULL()
-      endif
+      ! destroy arrays
 
-      if (associated(vprf%slc_nam)) then
-         deallocate(vprf%slc_nam)
-         vprf%slc_nam => NULL()
-      endif
+      call destroy_arr(vprf%slc_u )
+      call destroy_arr(vprf%slc_nam )
+      call destroy_arr(vprf%slc_s_f )
+      call destroy_arr(vprf%slc_ib )
+      call destroy_arr(vprf%iseg_p )
+      call destroy_arr(vprf%kink_if )
+      call destroy_arr(vprf%accel_if )
+
+      ! destroy slices
 
       do islc = 1, MAX_NUM_SLCS
-         if (associated(vprf%slc_grd(islc)%g))  call grid_destroy(vprf%slc_grd(islc)%g)
+         if (associated(vprf%slc_grd(islc)%g)) then
+            call grid_destroy(vprf%slc_grd(islc)%g)
+            deallocate(vprf%slc_grd(islc)%g )
+            nullify(vprf%slc_grd(islc)%g )
+         endif
       enddo
 
-      if (associated(vprf%slc_s_f)) then
-         deallocate(vprf%slc_s_f)
-         vprf%slc_s_f => NULL()
-      endif
+      ! destroy spline
 
-      if (associated(vprf%slc_ib)) then
-         deallocate(vprf%slc_ib)
-         vprf%slc_ib => NULL()
-      endif
-
-      if (associated(vprf%iseg_p)) then
-         deallocate(vprf%iseg_p)
-         vprf%iseg_p => NULL()
-      endif
-
-      if (associated(vprf%kink_if)) then
-         deallocate(vprf%kink_if)
-         vprf%kink_if => NULL()
-      endif
-
-      if (associated(vprf%accel_if)) then
-         deallocate(vprf%accel_if)
-         vprf%accel_if => NULL()
-      endif
+      call bspline2d_destroy(vprf%spl2d )
 
    end subroutine varprof_destroy_slices
 

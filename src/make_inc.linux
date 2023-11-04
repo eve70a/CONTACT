@@ -111,7 +111,7 @@ CLIB_LIB    = -L$(DLL_PATH) -l:contact_addon_$(PLATF).so
 
 CLIB_EXE1   = $(DLL_PATH)/test_caddon_$(PLATF)
 CLIB_EXE2   = $(DLL_PATH)/test_mbench_$(PLATF)
-CLIB_EXE3   = $(DLL_PATH)/test_switch_$(PLATF)
+CLIB_EXE3   = $(DLL_PATH)/test_varprof_$(PLATF)
 CLIB_EXE4   = $(DLL_PATH)/test_table_$(PLATF)
 CLIB_EXE5   = $(DLL_PATH)/test_memory_$(PLATF)
 CLIB_EXE6   = $(DLL_PATH)/usetab_table_$(PLATF)

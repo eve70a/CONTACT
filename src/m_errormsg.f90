@@ -89,8 +89,9 @@ end module m_errormsg
 ! -------------- file m_varprof:
 ! profile_read_varprf:   151  == incorrect parameters nslc, nintrup, or npart
 ! profile_read_varprf:   152  == s-positions must be strictly increasing
-! profile_read_varprf:   153  == kink or acceleration out of range
-! profile_read_varprf:   154  == incorrect s_slc in parts-information
+! profile_read_varprf:   153  == incorrect s_slc in parts-information
+! profile_read_varprf:   154  == kink or acceleration out of range
+! profile_read_varprf:   155  == incorrect s_slc in parts-information
 ! profile_read_slice:    301  == incorrect file extension for profile file
 !
 ! -------------- file m_readline:

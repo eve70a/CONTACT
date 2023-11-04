@@ -9,7 +9,7 @@ module m_bspline_make
    use m_globals
    use m_markers
    use m_ptrarray
-   use m_interp_1d
+   use m_interp
    use m_bspline_def
    implicit none
    private

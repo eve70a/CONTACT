@@ -11,7 +11,7 @@ use m_globals
 use m_readline
 use m_ptrarray
 use m_grids
-use m_interp_1d
+use m_interp
 
 implicit none
 

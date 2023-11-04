@@ -34,15 +34,17 @@ contains
       type(t_cpatch)        :: cp
       type(t_probdata)      :: gd
 !--local variables:
-      logical                 :: is_prismatic, is_varprof
+      logical                 :: is_prismatic, use_bicubic
       type(t_rail),   pointer :: my_rail
       type(t_wheel),  pointer :: my_wheel
       character(len=5)        :: nam_side
       integer                 :: nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ixdbg, iydbg,    &
-                                 icount, ierror
-      real(kind=8)            :: xslc1, xmin, xmax, ymin, ymax, smin, smax, ds, swsta, swmid, swend,    &
-                                 dx, hmin, h_ii, zsta, zend, z_axle, xtr_sta, vy_ref, vz_ref, vy_iy,    &
-                                 vz_iy, delt_iy, vlen_inv
+                                 iu, iv, icount, ierror
+      real(kind=8)            :: xslc1, hmin, h_ii, xmin, xmax, ymin, ymax, zmin, zmax, smin, smax,     &
+                                 swsta, swmid, swend, ds, dx_cp, zsta, zend, z_axle, xtr_sta,           &
+                                 vy_ref, vz_ref, vy_iy, vz_iy, delt_iy, vlen_inv
+      real(kind=8)            :: rmin, rmax, th_min, th_max, dth, v_min, v_max, dv
+      real(kind=8),   dimension(:), allocatable :: u_out, v_out
       type(t_vec)             :: vtmp(4)
       type(t_marker)          :: mrw_trk, rail_mref, rw_mref, mcp_rw, mcp_rail
       type(t_grid),   pointer :: prw_grd
@@ -63,8 +65,7 @@ contains
          nam_side = 'right'
       endif
 
-      is_varprof    = (my_rail%prr%nslc.gt.0)
-      is_prismatic  = (.not.ic%is_roller() .and. .not.is_varprof)
+      is_prismatic  = (.not.ic%is_roller() .and. .not.my_rail%prr%is_varprof())
 
       associate(rail_srfc => cp%rail_srfc, whl_srfc => cp%whl_srfc)
 
@@ -76,7 +77,7 @@ contains
 
       ! 1. determine rail surface (x,s,n)_(cp) on potential contact grid
 
-      if (is_prismatic .or. is_varprof) then
+      if (is_prismatic .or. my_rail%prr%is_varprof()) then
 
          !  - mcp_rail: contact marker in terms of rail coordinates
     
@@ -103,7 +104,7 @@ contains
 
             ! call grid_print(rail_srfc, 'rail_srfc', 5)
 
-         elseif (is_varprof) then
+         elseif (my_rail%prr%is_varprof()) then
 
             ! convert and evaluate input rail profile 'vprf' at contact grid (x,s) coordinates
 
@@ -126,11 +127,11 @@ contains
 
          ! determine the xtr-positions of the contact grid
 
-         dx    = gd%cgrid%dx
-         nxlow = nint( (cp%mref%x() - cp%xsta) / dx ) + 1
-         nxhig = nint( (cp%xend - cp%mref%x()) / dx ) + 1
+         dx_cp = gd%cgrid%dx
+         nxlow = nint( (cp%mref%x() - cp%xsta) / dx_cp ) + 1
+         nxhig = nint( (cp%xend - cp%mref%x()) / dx_cp ) + 1
          nx    = nxlow + nxhig + 1
-         xtr_sta = cp%mref%x() - nxlow * dx
+         xtr_sta = cp%mref%x() - nxlow * dx_cp
 
          if (idebug.ge.3) then
             write(bufout,'(3(a,f12.6),a)') ' cref%x(tr)=',cp%mref%x(),', c.grid has x(tr) in [',        &
@@ -143,7 +144,7 @@ contains
          ! TODO: performance optimization; restrict to relevant points in master profile
 
          z_axle = trk%nom_radius
-         call grid_revolve_profile(my_rail%prr%grd_data, nx, xtr_sta, dx, z_axle, 999d0, rail_sn_full)
+         call grid_revolve_profile(my_rail%prr%grd_data, nx, xtr_sta, dx_cp, z_axle, 999d0, rail_sn_full)
 
          !  - rail_mref: rail marker in terms of contact reference coordinates, ignoring x-position
     
@@ -286,71 +287,190 @@ contains
       xmax = max(vtmp(1)%x(), vtmp(2)%x(), vtmp(3)%x(), vtmp(4)%x()) + 2*gd%cgrid%dx
       ymin = min(vtmp(1)%y(), vtmp(2)%y(), vtmp(3)%y(), vtmp(4)%y()) - 2*gd%cgrid%dy
       ymax = max(vtmp(1)%y(), vtmp(2)%y(), vtmp(3)%y(), vtmp(4)%y()) + 2*gd%cgrid%dy
+      zmin = min(vtmp(1)%z(), vtmp(2)%z(), vtmp(3)%z(), vtmp(4)%z()) -   gd%cgrid%dy * abs(sin(cp%delttr))
+      zmax = max(vtmp(1)%z(), vtmp(2)%z(), vtmp(3)%z(), vtmp(4)%z()) +   gd%cgrid%dy * abs(sin(cp%delttr))
 
       if (idebug.ge.2) then
-         zsta = min(vtmp(1)%z(), vtmp(2)%z(), vtmp(3)%z(), vtmp(4)%z())
-         zend = max(vtmp(1)%z(), vtmp(2)%z(), vtmp(3)%z(), vtmp(4)%z())
 
          call write_log(' potential contact area w.r.t. O_rw')
          write(bufout,'(3(a,f12.6))')   '     x(rw) = [',xmin,'--',xmax,'] on wheel, cp at ', mcp_rw%x()
          call write_log(1, bufout)
          write(bufout,'(3(a,f12.6))')   '     y(rw) = [',ymin,'--',ymax,'] on wheel, cp at ', mcp_rw%y()
          call write_log(1, bufout)
-         write(bufout,'(2(a,f12.6),a)') '     z(rw) = [',zsta,'--',zend,']'
+         write(bufout,'(2(a,f12.6),a)') '     z(rw) = [',zmin,'--',zmax,']'
          call write_log(1, bufout)
       endif
 
-      !  - the wheel profile prw_grd is given in wheel profile coordinates
+      ! compute wheel surface in wheel profile coordinate system
 
-      prw_grd => my_wheel%prw%grd_data
-      nw = prw_grd%ntot
+      if (.not.my_wheel%prw%is_varprof()) then
 
-      ! find range of sw on wheel that covers [ymin, ymax]
+         !  - the wheel profile prw_grd is given in wheel profile coordinates
 
-      if (grid_has_spline(prw_grd)) then
-         ! call write_log(' prw_grd has spline')
-         ! call grid_print(prw_grd, 'prw_grd', 5)
-         ! call spline_set_debug(4)
-         call spline_get_s_at_y( prw_grd%spl, ymin,       swsta, ierror )
-         call spline_get_s_at_y( prw_grd%spl, mcp_rw%y(), swmid, ierror )
-         call spline_get_s_at_y( prw_grd%spl, ymax,       swend, ierror )
-         ! call spline_set_debug(0)
-      else
-         call write_log(' Internal Error (undefdist): no spline available')
-         call abort_run()
-      endif
+         prw_grd => my_wheel%prw%grd_data
+         nw = prw_grd%ntot
 
-      ! swsta = swsta + 10d0 * gd%cgrid%dy
-      ! swend = swend - 10d0 * gd%cgrid%dy
+         ! find range of sw on wheel that covers [ymin, ymax]
 
-      if (idebug.ge.2) then
-         write(bufout,'(3(a,f12.6))') ' pot.contact  y(rw) = [',ymin ,'--',ymax ,'] on wheel, mid=',    &
-                mcp_rw%y()
-         call write_log(1, bufout)
-         write(bufout,'(3(a,f12.6))') ' search range s(rw) = [',swsta,'--',swend,'] on wheel, mid=',swmid
-         call write_log(1, bufout)
-      endif
+         if (grid_has_spline(prw_grd)) then
+            ! call write_log(' prw_grd has spline')
+            ! call grid_print(prw_grd, 'prw_grd', 5)
+            ! call spline_set_debug(4)
+            call spline_get_s_at_y( prw_grd%spl, ymin,       swsta, ierror )
+            call spline_get_s_at_y( prw_grd%spl, mcp_rw%y(), swmid, ierror )
+            call spline_get_s_at_y( prw_grd%spl, ymax,       swend, ierror )
+            ! call spline_set_debug(0)
+         else
+            call write_log(' Internal Error (undefdist): no spline available')
+            call abort_run()
+         endif
 
-      ! select points in [sw_sta, sw_end], refine using spline interpolation
+         ! swsta = swsta + 10d0 * gd%cgrid%dy
+         ! swend = swend - 10d0 * gd%cgrid%dy
 
-      call trim_wheel_profile(prw_grd, swsta, swmid, swend, gd%cgrid%dy, prw_trim, idebug)
+         if (idebug.ge.2) then
+            write(bufout,'(3(a,f12.6))') ' pot.contact  y(rw) = [',ymin ,'--',ymax ,'] on wheel, mid=',    &
+                   mcp_rw%y()
+            call write_log(1, bufout)
+            write(bufout,'(3(a,f12.6))') ' search range s(rw) = [',swsta,'--',swend,'] on wheel, mid=',swmid
+            call write_log(1, bufout)
+         endif
 
-      ! round to grid with step of dx centered at contact reference (should still encompass pot.contact?)
-      !  - define grid with xslc(i') = cp%x + i' * dx , for i' = -nslow : nshig
+         ! select points in [sw_sta, sw_end], refine using spline interpolation
 
-      dx    = gd%cgrid%dx
-      nslow = nint(  (mcp_rw%x() - xmin) / dx )
-      nshig = nint(  (xmax - mcp_rw%x()) / dx )
-      nslc  = nslow + nshig + 1
-      xslc1 = mcp_rw%x() - nslow * dx
+         call trim_wheel_profile(prw_grd, swsta, swmid, swend, gd%cgrid%dy, prw_trim, idebug)
 
-      !  3. form wheel mesh in wheel-set coordinates using nslc slices, with resolution dx
+         ! round to grid with step of dx centered at contact reference (should still encompass pot.contact?)
+         !  - define grid with xslc(i') = cp%x + i' * dx , for i' = -nslow : nshig
 
-      !  - initialize surface whl_srfw_full for the wheel height z_cntc above the contact plane
-      !  - form wheel mesh, selecting points from profile
+         dx_cp = gd%cgrid%dx
+         nslow = nint(  (mcp_rw%x() - xmin) / dx_cp )
+         nshig = nint(  (xmax - mcp_rw%x()) / dx_cp )
+         nslc  = nslow + nshig + 1
+         xslc1 = mcp_rw%x() - nslow * dx_cp
 
-      z_axle = -ws%nom_radius
-      call grid_revolve_profile(prw_trim, nslc, xslc1, dx, z_axle, -999d0, whl_srfw_full)
+         !  3. form wheel mesh in wheel-set coordinates using nslc slices, with resolution dx
+   
+         !  - initialize surface whl_srfw_full for the wheel height z_cntc above the contact plane
+         !  - form wheel mesh, selecting points from profile
+
+         z_axle = -ws%nom_radius
+         call grid_revolve_profile(prw_trim, nslc, xslc1, dx_cp, z_axle, -999d0, whl_srfw_full)
+
+      else ! my_wheel%prw%is_varprof()
+
+         if (ic%use_oblique()) then
+            call write_log(' Variable wheel (slcw) does not support oblique view direction.')
+            call abort_run()
+         endif
+
+         ! convert corners vtmp(1:4) into cylindrical wcyl coordinates
+
+         if (cp%usta.lt.cp%uend) then   ! [usta,uend] not provided: empty range [1,0]
+            th_min = cp%usta
+            th_max = cp%uend
+         else
+            rmin   = ws%nom_radius + zmin
+            rmax   = ws%nom_radius + zmax
+            th_min = -ws%pitch + atan(xmin/rmin)
+            th_max = -ws%pitch + atan(xmax/rmin)
+         endif
+
+         if (idebug.ge.2) then
+            write(bufout,'(3(a,f8.3))') ' xmin=',xmin,', th_min=',th_min,', u_min=',cp%usta
+            call write_log(1, bufout)
+            write(bufout,'(3(a,f8.3))') ' xmax=',xmin,', th_max=',th_max,', u_max=',cp%uend
+            call write_log(1, bufout)
+         endif
+
+         ! compute nslc such that dx_ws = O(dx_cntc), dx = r * dth
+
+         dx_cp = gd%cgrid%dx
+         nslc = nint( (th_max - th_min) * ws%nom_radius / (1d0 * dx_cp) ) + 2
+         if (mod(nslc,2).eq.0) nslc = nslc + 1
+         dth  = (th_max - th_min) / max(1d0, real(nslc - 1))
+
+         ! set spline u-parameter for rolling direction
+
+         allocate(u_out(nslc))
+         do iu = 1, nslc
+            u_out(iu) = wrap_around(th_min + (iu-1) * dth)
+         enddo
+         if (idebug.ge.2) then
+            write(bufout,'(a,i4,a,3f12.6)') ' u: u_out([1,2,',nslc,'])=',u_out(1), u_out(2), u_out(nslc)
+            call write_log(1, bufout)
+         endif
+
+         ! set spline v-parameter for lateral direction
+
+         associate( spl2d => my_wheel%prw%spl2d )
+
+         if (cp%vsta.lt.cp%vend) then   ! [vsta,vend] not provided: empty range [1,0]
+            v_min = cp%vsta
+            v_max = cp%vend
+            nw    = nint( (cp%yend - cp%ysta) / (gd%cgrid%dy*cos(cp%delttr)) )
+            if (idebug.ge.2) then
+               write(bufout,'(3(a,f10.3),2(a,f6.3),a,i4)') ' ysta=',cp%ysta,', yend=',cp%yend,' wid=', &
+                        cp%yend-cp%ysta,', dy=', gd%cgrid%dy,', cos=',cos(cp%delttr),', nw=',nw
+               call write_log(1, bufout)
+            endif
+         else
+            ! nw = my_wheel%prw%grd_data%ntot
+            nw    = spl2d%nknotv - 6
+            v_min = spl2d%tvj(4)
+            v_max = spl2d%tvj(spl2d%nknotv - 3)
+         endif
+         dv  = (v_max - v_min) / real(nw - 1)
+
+         allocate(v_out(nw))
+         do iv = 1, nw
+            v_out(iv) = v_min + (iv-1) * dv
+         enddo
+         if (idebug.ge.2) then
+            write(bufout,'(2(a,f12.6),a,i4,a,f12.6)') ' v=[',v_min,',',v_max,'], nw=',nw,', dv=',dv
+            call write_log(1, bufout)
+            !write(bufout,'(a,i4,a,3f12.6)') ' v: v_out([1,2,',nw,'])=',v_out(1), v_out(2), v_out(nw)
+            !call write_log(1, bufout)
+         endif
+
+         ! create storage for curvilinear grid with cylindrical coordinates
+
+         call grid_create_curvil(whl_srfw_full, nslc, nw, cyl_coords=.true.)
+         ! call grid_print(whl_srfw_full, 'cyl_grid', 2)
+
+         ! evaluate 2D spline at (u,v) to get (th, y, dr)
+
+         call bspline_eval2d_prod(spl2d, nslc, nw, u_out, v_out, whl_srfw_full%th, whl_srfw_full%y,     &
+                        whl_srfw_full%r, .true., ierror, -987d0)
+         deallocate(u_out, v_out)
+
+         ! add nominal radius r = rnom + dr
+
+         call grid_shift(whl_srfw_full, 0d0, 0d0, ws%nom_radius)
+
+         ! call grid_print(whl_srfw_full, 'cyl', 5)
+
+         ! convert (th, y, r) to (x, y, z) in wheel center coordinates
+
+         call convert_cyl2cart(whl_srfw_full)
+
+         ! bring -ws%pitch to the lowest point
+
+         call cartgrid_pitch(whl_srfw_full, ws%pitch, 0d0, 0d0)
+
+         ! shift to wheel profile coordinates (z=-rnom at height of axle)
+
+         call grid_shift(whl_srfw_full, 0d0, 0d0, -ws%nom_radius)
+
+         if (.false.) then
+            call marker_print( my_wheel%m_ws, 'm_ws', 5)
+            call grid_print(whl_srfw_full, 'whl_srfw_full', 5)
+            call abort_run()
+         endif
+
+         end associate
+
+      endif ! my_wheel%prw%is_varprof()
 
       ! express wheel profile marker in terms of contact reference coordinates
 
@@ -359,11 +479,13 @@ contains
 
       ! 4. convert wheel surface from wheel profile coordinates to planar contact coordinates
 
+      ! call grid_print(whl_srfw_full, 'curv', 5)
       call cartgrid_2glob( whl_srfw_full, rw_mref )
 
       ! TODO: create trimmed grid to avoid multi-valued function at large rotation angles
 
       call grid_copy(whl_srfw_full, whl_srfw)
+      ! call grid_print(whl_srfw, 'whl', 5)
 
       ! copy the rail mesh containing the [x,sp]-points of the contact grid
 
@@ -371,9 +493,12 @@ contains
 
       ! 5. interpolate the wheel n-coordinates to the [x,sp]-points of the contact grid
 
-      ! call interp_set_debug(5)
-      call interp_cartz2unif(whl_srfw, whl_srfc, ierror, -999d0)
-      ! call interp_set_debug(0)
+      use_bicubic = (.true. .and. my_wheel%prw%is_varprof())
+      ! call interp_set_debug(3, 1, 1)
+      call timer_start(itimer_interp9)
+      call interp_cartz2unif(whl_srfw, whl_srfc, ierror, -999d0, use_bicubic)
+      call timer_stop(itimer_interp9)
+      ! call interp_set_debug(0, 1, 1)
 
       ! check interpolation, warn if wheel grid was defined too small
 
@@ -500,7 +625,7 @@ contains
             endif
             do ix = 1, gd%cgrid%nx
                ii = ix + (iy-1) * gd%cgrid%nx
-               write(ltmp,'(2i5,7f13.6)') ix, iy, gd%cgrid%x(ii), gd%cgrid%y(ii), whl_srfc%y(ii),       &
+               write(ltmp,'(2i5,7g15.6)') ix, iy, gd%cgrid%x(ii), gd%cgrid%y(ii), whl_srfc%y(ii),       &
                         whl_srfc%z(ii), rail_srfc%z(ii), delt_iy, gd%geom%prmudf(ii)
             enddo
          enddo

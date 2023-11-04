@@ -30,7 +30,7 @@ public
    ! lsbs     logical unit number of .subs file for subsurface stresses
    ! ltmp     free logical unit for temporary use
 
-   integer,      parameter :: fmtmat =   2310
+   integer,      parameter :: fmtmat =   2320
    integer                 :: linp   =     11
    integer                 :: lout   =     12
    integer                 :: lmat   =     17

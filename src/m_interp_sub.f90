@@ -1,50 +1,14 @@
 !------------------------------------------------------------------------------------------------------------
-! m_interp_1d - linear 1D interpolation
+! m_interp_sub - implementation of linear 1D interpolation, bilinear 2D, bicubic 2D interpolation
 !
 ! Copyright 2016-2023 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
-module m_interp_1d
+submodule (m_interp) m_interp_sub
    use m_globals
    use m_markers
    implicit none
-   private
-
-   ! Debugging for module m_interp_1d
-
-   integer  :: ldebug    =  0    ! local level of debugging
-   integer  :: ii_debug  = -1    ! output point for which detailed info is requested (-1 = none)
-   integer  :: iel_debug = -1    ! input element for which detailed info is requested (-1 = none)
-
-   public  interp1d_set_debug
-
-   ! Generic helper routines
-
-   public  is_strictly_monotonic
-   public  check_monotone
-   public  locate_segment
-   public  locate_interval
-
-   ! Interpolation routines defined on 1d input data:
-
-   public  interp_1d
-   public  interp_1d_to_2d
-   public  interp_1d_to_1d
-   public  interp_1d_to_scalar
-
-   interface interp_1d
-      module procedure interp_1d_to_scalar
-      module procedure interp_1d_to_1d
-      module procedure interp_1d_to_2d
-   end interface interp_1d
-
-   ! Interpolation routines defined on 2d logically rectangular data:
-
-   public  interp_wgt_surf2unif
-   private compute_logical_st
-   public  interp_aply_surf2unif_1d
-   public  interp_aply_surf2unif_3d
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -52,7 +16,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine interp1d_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
+module subroutine interp1d_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
 !--function: enable/disable debug output of interpolation routines
    implicit none
 !--subroutine arguments:
@@ -79,7 +43,7 @@ end subroutine interp1d_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
-function is_strictly_monotonic( nin, xin )
+module function is_strictly_monotonic( nin, xin )
 !--function: determine whether array values are strictly increasing or decreasing
    implicit none
 !--result value
@@ -123,7 +87,7 @@ end function is_strictly_monotonic
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine check_monotone(npnt, xpnt, istrict, ierror)
+module subroutine check_monotone(npnt, xpnt, istrict, ierror)
 !--function: check whether array xpnt is monotonically increasing or decreasing
    implicit none
 !--subroutine arguments:
@@ -170,7 +134,7 @@ end subroutine check_monotone
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine locate_segment( np, vp, vi, iseg )
+module subroutine locate_segment( np, vp, vi, iseg )
 !--function: find segment 'iseg' in list of segments { vp(ip), ip=1,np } that contains position vi,
 !            starting with input iseg as initial estimate. 
 !            On output: iseg in { 0, .., np },  iseg=0 when vi < min(vp), iseg=np when vi >= max(vp).
@@ -300,7 +264,7 @@ end subroutine locate_segment
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine locate_interval(np, vp, v_low, v_hig, ilow, ihig)
+module subroutine locate_interval(np, vp, v_low, v_hig, ilow, ihig)
 !--purpose: determine ilow, ihig such that vp( [ilow:ihig] ) just encompasses [v_low, v_hig]
 !           return ilow=1 in case v_low < vp(1) and ihig=np in case v_hig > vp(np)
    implicit none
@@ -365,7 +329,7 @@ end subroutine locate_interval
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine interp_1d_to_2d( nin, xin, fin, nout1, nout2, xintp, fintp, ierror, exterval)
+module subroutine interp_1d_to_2d( nin, xin, fin, nout1, nout2, xintp, fintp, ierror, exterval)
 !--purpose: interpolate (non equidistant) 1d input data [xin, fin] to the points listed in xintp,
 !           which can be 2d. Using linear interpolation, constant extrapolation of first/last values.
    implicit none
@@ -473,7 +437,7 @@ end subroutine interp_1d_to_2d
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine interp_1d_to_1d( nin, xin, fin, nout1, xintp, fintp, my_ierror, exterval)
+module subroutine interp_1d_to_1d( nin, xin, fin, nout1, xintp, fintp, my_ierror, exterval)
 !--purpose: interpolate (non equidistant) 1d input data [xin, fin] to the points listed in xintp(:).
 !           Using linear interpolation, constant extrapolation of first/last values.
    implicit none
@@ -504,7 +468,7 @@ end subroutine interp_1d_to_1d
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine interp_1d_to_scalar( nin, xin, fin, xintp, fintp, my_ierror, exterval)
+module subroutine interp_1d_to_scalar( nin, xin, fin, xintp, fintp, my_ierror, exterval)
 !--purpose: interpolate (non equidistant) 1d input data [xin, fin] to the point xintp.
 !           Using linear interpolation, constant extrapolation of first/last values.
    implicit none
@@ -539,10 +503,12 @@ end subroutine interp_1d_to_scalar
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine interp_wgt_surf2unif(nnode_x, nnode_y, nnode, x_node, y_node, z_node, z_thrs, mx, my,        &
-                                nout, dx_arg, dy_arg, x_out, y_out, ii2iel, ii2nod, wii2nod, my_ierror)
-!--function: construct interpolation tables between a curvi-linear input grid (surface) and a
-!            uniform output-grid.
+module subroutine interp_wgt_surf2unif(nnode_x, nnode_y, nnode, x_node, y_node, z_node, z_thrs, mx, my,        &
+                                nout, dx_arg, dy_arg, x_out, y_out, ii2iel, ii2nod, wii2nod,            &
+                                fac_uv, my_ierror)
+!--function: construct interpolation tables between a curvi-linear input grid (surface) and a uniform
+!            output-grid.
+!            Returns weighting factors for bilinear and relative positions for bicubic interpolation
    implicit none
 !--subroutine arguments:
    integer,      intent(in)  :: nnode_x, nnode_y, nnode ! number of points in the input grid
@@ -555,6 +521,8 @@ subroutine interp_wgt_surf2unif(nnode_x, nnode_y, nnode, x_node, y_node, z_node,
    integer,      intent(out) :: ii2iel(nout)      ! input element number for output grid points
    integer,      intent(out) :: ii2nod(4,nout)    ! input node numbers for output grid points
    real(kind=8), intent(out) :: wii2nod(4,nout)   ! interpolation weights per input node per output grid point
+   real(kind=8), intent(out) :: fac_uv(2,nout)    ! relative position of output grid point in input element
+                                                  ! used for bicubic interpolation
    integer,      intent(out) :: my_ierror
 !--local variables:
 !  character(len=*), parameter  :: subnam = 'interp_wgt_surf2unif'
@@ -728,9 +696,9 @@ subroutine interp_wgt_surf2unif(nnode_x, nnode_y, nnode, x_node, y_node, z_node,
    i_ul = iel2node(4,iel)
 
    vec_x%v(1:3) = (/ x_node(i_lr), y_node(i_lr), z_node(i_lr) /) -                                      &
-                                                        (/ x_node(i_ll), y_node(i_ll), z_node(i_ll) /) 
+                                                        (/ x_node(i_ll), y_node(i_ll), z_node(i_ll) /)
    vec_y%v(1:3) = (/ x_node(i_ul), y_node(i_ul), z_node(i_ul) /) -                                      &
-                                                        (/ x_node(i_ll), y_node(i_ll), z_node(i_ll) /) 
+                                                        (/ x_node(i_ll), y_node(i_ll), z_node(i_ll) /)
    vec_z = vec_x .cross. vec_y
    if (vec_z%z().ge.0d0) then
       rgt_sense =  1d0
@@ -983,10 +951,17 @@ subroutine interp_wgt_surf2unif(nnode_x, nnode_y, nnode, x_node, y_node, z_node,
 
                      my_ldebug = 0
                      if (ldebug.ge.9 .and. ii.eq.ii_debug) my_ldebug = 9
-                     call compute_logical_st(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul,             &
+                     call compute_logical_uv(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul,             &
                                              x_out(ii), y_out(ii), ii, fac_long, fac_lat, my_ldebug,    &
                                              sub_ierror)
                      if (my_ierror.eq.0) my_ierror = sub_ierror
+
+                     ! relative positions needed for bicubic interpolation
+
+                     fac_uv(1,ii)  = fac_long
+                     fac_uv(2,ii)  = fac_lat
+
+                     ! weighting factors for bilinear interpolation
 
                      wii2nod(1,ii) = (1d0-fac_long) * (1d0-fac_lat) ! * f_node(i_ll)
                      wii2nod(2,ii) =      fac_long  * (1d0-fac_lat) ! * f_node(i_lr)
@@ -1019,9 +994,9 @@ end subroutine interp_wgt_surf2unif
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine compute_logical_st(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul, x_out, y_out, ii,          &
-                              s_out, t_out, loc_debug, ierror)
-!--function: compute relative [s,t] position within quadrilateral element for given physical [x,y]
+module subroutine compute_logical_uv(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul, x_out, y_out, ii,          &
+                              u_out, v_out, loc_debug, ierror)
+!--function: compute relative [u,v] position within quadrilateral element for given physical [x,y]
 !            coordinates for use in bilinear interpolation
    implicit none
 !--subroutine arguments:
@@ -1030,16 +1005,16 @@ subroutine compute_logical_st(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul, x_o
    integer,      intent(in)  :: i_ll, i_lr, i_ur, i_ul        ! corners of quadrilateral A-B-C-D
    real(kind=8), intent(in)  :: x_out, y_out                  ! physical position of output point P
    integer,      intent(in)  :: ii                            ! point number - for print output only
-   real(kind=8), intent(out) :: s_out, t_out                  ! logical position of output point P
+   real(kind=8), intent(out) :: u_out, v_out                  ! logical position of output point P
    integer,      intent(in)  :: loc_debug                     ! level of debug output for current point
    integer,      intent(out) :: ierror
 !--local variables:
    integer,      parameter :: maxit = 20    ! max.iterations for Newton algorithm
-   real(kind=8), parameter :: eps = 1d-8    ! absolute tolerance on (s,t)
+   real(kind=8), parameter :: eps = 1d-8    ! absolute tolerance on (u,v)
    integer,      save :: num_errors = 0
    real(kind=8), save :: max_dist   = 0d0
    integer       :: k
-   real(kind=8)  :: vk(2), fk(2), jac(2,2), dvk(2), det, upd
+   real(kind=8)  :: pk(2), fk(2), jac(2,2), dpk(2), det, upd
    real(kind=8)  :: tlow_x, tlow_y, trgt_x, trgt_y, tupp_x, tupp_y, tlft_x, tlft_y
    real(kind=8)  :: nlong_x, nlong_y, sq_long, ofs_long, fac_long,                      &
                     nlat_x, nlat_y, sq_lat, ofs_lat, fac_lat, dist
@@ -1047,7 +1022,7 @@ subroutine compute_logical_st(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul, x_o
    ierror = 0
    associate( xa => x_node(i_ll), xb => x_node(i_lr), xc => x_node(i_ur), xd => x_node(i_ul),        &
               ya => y_node(i_ll), yb => y_node(i_lr), yc => y_node(i_ur), yd => y_node(i_ul),        &
-              xp => x_out,        yp => y_out,        sk => vk(1),        tk => vk(2))
+              xp => x_out,        yp => y_out,        uk => pk(1),        vk => pk(2))
 
    ! Original ad-hoc linear calculation
 
@@ -1079,26 +1054,26 @@ subroutine compute_logical_st(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul, x_o
 !                 D         C
 !    ^             o <---- o
 !    |             |    p  ^
-!  t |             v       |
+!  v |             v       |
 !    ----->        o ----> o
-!      s          A         B
+!      u          A         B
 !
 ! solving the equations
-!       xp  = xa + (xb - xa) * s + (xd - xa) * t + ((xc - xb) - (xd - xa)) * s * t
-!       yp  = ya + (yb - ya) * s + (yd - ya) * t + ((yc - yb) - (yd - ya)) * s * t
+!       xp  = xa + (xb - xa) * u + (xd - xa) * v + ((xc - xb) - (xd - xa)) * u * v
+!       yp  = ya + (yb - ya) * u + (yd - ya) * v + ((yc - yb) - (yd - ya)) * u * v
 ! 
-!   fx(s,t) = xa + (xb - xa) * s + (xd - xa) * t + ((xc - xb) - (xd - xa)) * s * t - xp = 0
-!   fy(s,t) = ya + (yb - ya) * s + (yd - ya) * t + ((yc - yb) - (yd - ya)) * s * t - yp = 0
+!   fx(u,v) = xa + (xb - xa) * u + (xd - xa) * v + ((xc - xb) - (xd - xa)) * u * v - xp = 0
+!   fy(u,v) = ya + (yb - ya) * u + (yd - ya) * v + ((yc - yb) - (yd - ya)) * u * v - yp = 0
 !
-! using Newton,  fk = f( vk ) = (sk,tk), Jk = [ df / dv ] at vk,  
-!     fk1 \approx fk + Jk (vk1 - vk) = 0  
-!       -->  dvk = - Jk \ fk 
-!       -->  vk1 = vk - Jk \ fk
+! using Newton,  fk = f( pk ) = (uk,vk), Jk = [ df / dp ] at pk,  
+!     fk1 \approx fk + Jk (pk1 - pk) = 0  
+!       -->  dpk = - Jk \ fk 
+!       -->  pk1 = pk - Jk \ fk
 
    ! New implementation using bilinear model
 
    k     = 0
-   vk    = (/ 0.5d0, 0.5d0 /)
+   pk    = (/ 0.5d0, 0.5d0 /)
    upd   = 1d0
 
    do while(upd.gt.eps .and. k.le.maxit)
@@ -1107,23 +1082,23 @@ subroutine compute_logical_st(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul, x_o
 
       ! compute residual fk
 
-      fk(1) = xa + (xb - xa) * sk + (xd - xa) * tk + ((xc - xb) - (xd - xa)) * sk * tk - xp
-      fk(2) = ya + (yb - ya) * sk + (yd - ya) * tk + ((yc - yb) - (yd - ya)) * sk * tk - yp
+      fk(1) = xa + (xb - xa) * uk + (xd - xa) * vk + ((xc - xb) - (xd - xa)) * uk * vk - xp
+      fk(2) = ya + (yb - ya) * uk + (yd - ya) * vk + ((yc - yb) - (yd - ya)) * uk * vk - yp
 
       ! compute Jacobian Jk
 
-      jac(1,1) =   (xb - xa)                       + ((xc - xb) - (xd - xa))      * tk
-      jac(1,2) =                    (xd - xa)      + ((xc - xb) - (xd - xa)) * sk     
-      jac(2,1) =   (yb - ya)                       + ((yc - yb) - (yd - ya))      * tk
-      jac(2,2) =                    (yd - ya)      + ((yc - yb) - (yd - ya)) * sk     
+      jac(1,1) =   (xb - xa)                       + ((xc - xb) - (xd - xa))      * vk
+      jac(1,2) =                    (xd - xa)      + ((xc - xb) - (xd - xa)) * uk     
+      jac(2,1) =   (yb - ya)                       + ((yc - yb) - (yd - ya))      * vk
+      jac(2,2) =                    (yd - ya)      + ((yc - yb) - (yd - ya)) * uk     
 
-      ! solve update dvk
+      ! solve update dpk
 
       det = jac(1,1) * jac(2,2) - jac(2,1) * jac(1,2)
       if (abs(det).lt.1d-8 .and. num_errors.lt.10) then
          num_errors = num_errors + 1
          write(bufout, '(a,/, 2(a,f14.8),a,/, 3(a,f14.8))')                                             &
-                ' Internal error (s,t): matrix is near singular',                                       &
+                ' Internal error (u,v): matrix is near singular',                                       &
                 ' Jac= [', jac(1,1),',', jac(1,2),']',                                                  &
                 '      [', jac(2,1),',', jac(2,2),'], det=', det
          call write_log(3, bufout)
@@ -1138,19 +1113,19 @@ subroutine compute_logical_st(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul, x_o
       !   - --- |            |  * |    |
       !     det [ -j21   j11 ]    [ f2 ]
 
-      dvk(1) = - ( jac(2,2) * fk(1) - jac(1,2) * fk(2)) / det
-      dvk(2) = - (-jac(2,1) * fk(1) + jac(1,1) * fk(2)) / det
+      dpk(1) = - ( jac(2,2) * fk(1) - jac(1,2) * fk(2)) / det
+      dpk(2) = - (-jac(2,1) * fk(1) + jac(1,1) * fk(2)) / det
 
       ! compute max-norm of update
 
-      upd = max(abs(dvk(1)), abs(dvk(2)))
+      upd = max(abs(dpk(1)), abs(dpk(2)))
 
-      ! update vector vk = [sk; tk]
+      ! update vector pk = [uk; vk]
 
-      vk(1:2) = vk(1:2) + dvk(1:2)
+      pk(1:2) = pk(1:2) + dpk(1:2)
 
       if (loc_debug.ge.9 .or. (abs(det).lt.1d-8 .and. num_errors.le.10)) then
-         write(bufout, '(a,i3,3(a,f12.8))') ' k=', k,': s=', vk(1),', t=', vk(2),' dv=', upd
+         write(bufout, '(a,i3,3(a,f12.8))') ' k=', k,': u=', pk(1),', v=', pk(2),' dv=', upd
          call write_log(1, bufout)
       endif
 
@@ -1158,24 +1133,24 @@ subroutine compute_logical_st(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul, x_o
 
    if (num_errors.lt.20 .and. upd.gt.eps) then
       num_errors = num_errors + 1
-      write(bufout,*) 'ERROR in logical [s,t], no convergence for ii=',ii
+      write(bufout,*) 'ERROR in logical [u,v], no convergence for ii=',ii
       call write_log(1, bufout)
    endif
 
    if (.true.) then
-      s_out = vk(1)
-      t_out = vk(2)
+      u_out = pk(1)
+      v_out = pk(2)
    else
-      s_out = fac_long
-      t_out = fac_lat
+      u_out = fac_long
+      v_out = fac_lat
    endif
 
-   dist = sqrt( (s_out-fac_long)**2 + (t_out-fac_lat)**2 )
+   dist = sqrt( (u_out-fac_long)**2 + (v_out-fac_lat)**2 )
    if (.false. .and. dist.gt.max_dist+0.01) then
       max_dist = dist
 
-      write(bufout,'(a,i5,a,f6.3,/, 4(a,f7.3),a)') ' Wrong results for [s,t] for ii=',ii,', dist=',dist,   &
-                                          ' Orig: (', fac_long,',', fac_lat,'), new: (', s_out,',', t_out,')'
+      write(bufout,'(a,i5,a,f6.3,/, 4(a,f7.3),a)') ' Wrong results for [u,v] for ii=',ii,', dist=',dist,   &
+                                          ' Orig: (', fac_long,',', fac_lat,'), new: (', u_out,',', v_out,')'
       call write_log(2, bufout)
       write(bufout,'(5(a,i5,2(a,f12.6),a,:/))')                                                         &
                '   A(', i_ll,') = (', xa,',', ya,')', '   B(', i_lr,') = (', xb,',', yb,')',            &
@@ -1185,11 +1160,11 @@ subroutine compute_logical_st(nnode, x_node, y_node, i_ll, i_lr, i_ur, i_ul, x_o
    endif
 
    end associate
-end subroutine compute_logical_st
+end subroutine compute_logical_uv
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine interp_aply_surf2unif_1d(nnode, arr_node, nout, arr_out, ii2iel, ii2nod, wii2nod, ierror, defval)
+module subroutine interp_aply_surf2unif_1d(nnode, arr_node, nout, arr_out, ii2iel, ii2nod, wii2nod, ierror, defval)
 !--function: interpolate scalar (1d) data given at the nodes of an input surface to the points of the
 !            output grid
    implicit none
@@ -1254,7 +1229,342 @@ end subroutine interp_aply_surf2unif_1d
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine interp_aply_surf2unif_3d(nnode, arr_node, nout, arr_out, ii2iel, ii2nod, wii2nod, ierror, defval)
+module subroutine interp_aply_surf2unif_1d_bicubic(nnode_x, nnode_y, nnode, f_node, nout, ii2nod, &
+                                            fac_uv, f_out, defval)
+!--function: perform bicubic interpolation based on relative positions
+   implicit none
+!--subroutine arguments:
+   integer,      intent(in)  :: nnode_x, nnode_y, nnode ! number of points in the input grid
+   real(kind=8), intent(in)  :: f_node(nnode)           ! function values of input grid points
+   integer,      intent(in)  :: nout                    ! number of points in the output grid
+   integer,      intent(in)  :: ii2nod(4,nout)          ! input node numbers for output grid points
+   real(kind=8), intent(in)  :: fac_uv(2,nout)          ! relative pos. of output points in input elements
+   real(kind=8), intent(out) :: f_out(nout)             ! interpolated function values
+   real(kind=8), optional    :: defval                  ! default value
+!--local variables
+   integer,      parameter :: ll_ngb = 1, lr_ngb = 2, ul_ngb = 3, ur_ngb = 4 ! rows in deriv_ngb
+   integer,      parameter :: i_ngb  = 1, j_ngb  = 2, ij_ngb = 3             ! columns in deriv_ngb
+   real(kind=8), parameter :: bicubic_mat(4,4) = reshape( &
+                                             (/ 1d0, 0d0, -3d0,  2d0, &
+                                                0d0, 0d0,  3d0, -2d0, &
+                                                0d0, 1d0, -2d0,  1d0, &
+                                                0d0, 0d0, -1d0,  1d0 /), (/ 4, 4 /))
+   real(kind=8), parameter :: bicubic_mat_t(4,4) = transpose(bicubic_mat)
+   integer                 :: ii, i_ll, i_lr, i_ur, i_ul
+   integer                 :: deriv_ngb(4,3)
+   real(kind=8)            :: deriv_dist(4,2)
+   real(kind=8)            :: deriv_dist_ij(4,2)
+   real(kind=8)            :: fac_long, fac_lat
+   real(kind=8)            :: deriv_low, deriv_hgh
+   real(kind=8)            :: pow_u(4), pow_v(4)
+   real(kind=8)            :: bicubic_f_arr(4,4), alpha(4,4)
+   logical                 :: set_defval
+
+   set_defval = .false.
+   if (present(defval)) set_defval = .true.
+
+   ! initialize interpolation result
+
+   f_out(1:nout) = 0d0
+
+   ! loop over output positions
+
+   do ii = 1, nout
+
+      ! skip this node if it is not in an input element
+      if (ii2nod(1,ii).eq.0) then
+         if (set_defval) f_out(ii) = defval
+         if (ldebug.ge.3 .and. ii.eq.ii_debug) then
+            write(bufout,'(a,i6,a,i4,a,g12.4)') ' point ii=',ii,': ii2nod=',ii2nod(1,ii),', f_out=',f_out(ii)
+            call write_log(1, bufout)
+         endif
+         cycle
+      endif
+
+      ! get corners of element surrounding point ii, get relative position within element
+
+      i_ll = ii2nod(1,ii)
+      i_lr = ii2nod(2,ii)
+      i_ur = ii2nod(3,ii)
+      i_ul = ii2nod(4,ii)
+      fac_long = fac_uv(1,ii)
+      fac_lat  = fac_uv(2,ii)
+
+      ! determine derivative neighbors
+      ! TODO: These neighbors only have to be determined once per source element,
+      !       code should be added that stores the neighbors for re-use
+
+      ! determine neighbors below element
+
+      if (mod(i_ll-1, nnode_x).eq.0) then
+         ! nodes ll and ul have no neighbors with lower i index
+         deriv_ngb(ll_ngb, i_ngb) = i_ll
+         deriv_ngb(ul_ngb, i_ngb) = i_ul
+         deriv_dist(ll_ngb, i_ngb) = 1d0
+         deriv_dist(ul_ngb, i_ngb) = 1d0
+      else
+         deriv_ngb(ll_ngb, i_ngb) = i_ll - 1
+         deriv_ngb(ul_ngb, i_ngb) = i_ul - 1
+         deriv_dist(ll_ngb, i_ngb) = 2d0
+         deriv_dist(ul_ngb, i_ngb) = 2d0
+      endif
+
+      ! determine neighbors above element
+
+      if (mod(i_lr, nnode_x).eq.0) then
+         ! nodes lr and ur have no neighbors with higher i index
+         deriv_ngb(lr_ngb, i_ngb) = i_lr
+         deriv_ngb(ur_ngb, i_ngb) = i_ur
+         deriv_dist(lr_ngb, i_ngb) = 1d0
+         deriv_dist(ur_ngb, i_ngb) = 1d0
+      else
+         deriv_ngb(lr_ngb, i_ngb) = i_lr + 1
+         deriv_ngb(ur_ngb, i_ngb) = i_ur + 1
+         deriv_dist(lr_ngb, i_ngb) = 2d0
+         deriv_dist(ur_ngb, i_ngb) = 2d0
+      endif
+
+      ! determine neighbors left of element
+
+      if (i_ll.le.nnode_x) then
+         ! nodes ll and lr have no neighbors with lower j index
+         deriv_ngb(ll_ngb, j_ngb) = i_ll
+         deriv_ngb(lr_ngb, j_ngb) = i_lr
+         deriv_dist(ll_ngb, j_ngb) = 1d0
+         deriv_dist(lr_ngb, j_ngb) = 1d0
+      else
+         deriv_ngb(ll_ngb, j_ngb) = i_ll - nnode_x
+         deriv_ngb(lr_ngb, j_ngb) = i_lr - nnode_x
+         deriv_dist(ll_ngb, j_ngb) = 2d0
+         deriv_dist(lr_ngb, j_ngb) = 2d0
+      endif
+
+      ! determine neighbors right of element
+
+      if (i_ul.gt.nnode_x*(nnode_y-1)) then
+         ! nodes ul and ur have no neighbors with higher j index
+         deriv_ngb(ul_ngb, j_ngb) = i_ul
+         deriv_ngb(ur_ngb, j_ngb) = i_ur
+         deriv_dist(ul_ngb, j_ngb) = 1d0
+         deriv_dist(ur_ngb, j_ngb) = 1d0
+      else
+         deriv_ngb(ul_ngb, j_ngb) = i_ul + nnode_x
+         deriv_ngb(ur_ngb, j_ngb) = i_ur + nnode_x
+         deriv_dist(ul_ngb, j_ngb) = 2d0
+         deriv_dist(ur_ngb, j_ngb) = 2d0
+      endif
+
+      ! determine diagonal neighbor below left of element
+
+      if (mod(i_ll-1, nnode_x).eq.0) then
+         ! node ll has no neighbors with lower i index
+         if (i_ll.le.nnode_x) then
+            ! node ll has no neighbors with lower j index
+            deriv_ngb(ll_ngb, ij_ngb) = i_ll
+            deriv_dist_ij(ll_ngb, i_ngb) = 1d0
+            deriv_dist_ij(ll_ngb, j_ngb) = 1d0
+         else
+            ! node ll has neighbors with lower j index
+            deriv_ngb(ll_ngb, ij_ngb) = i_ll - nnode_x
+            deriv_dist_ij(ll_ngb, i_ngb) = 1d0
+            deriv_dist_ij(ll_ngb, j_ngb) = 2d0
+         endif
+      else
+         ! node ll has neighbors with lower i index
+         if (i_ll.le.nnode_x) then
+            ! node ll has no neighbors with lower j index
+            deriv_ngb(ll_ngb, ij_ngb) = i_ll - 1
+            deriv_dist_ij(ll_ngb, i_ngb) = 2d0
+            deriv_dist_ij(ll_ngb, j_ngb) = 1d0
+         else
+            ! node ll has neighbors with lower j index
+            deriv_ngb(ll_ngb, ij_ngb) = i_ll - 1 - nnode_x
+            deriv_dist_ij(ll_ngb, i_ngb) = 2d0
+            deriv_dist_ij(ll_ngb, j_ngb) = 2d0
+         endif
+      endif
+
+      ! determine diagonal neighbor below right of element
+
+      if (mod(i_lr, nnode_x).eq.0) then
+         ! node lr has no neighbors with higher i index
+         if (i_ll.le.nnode_x) then
+            ! node lr has no neighbors with lower j index
+            deriv_ngb(lr_ngb, ij_ngb) = i_lr
+            deriv_dist_ij(lr_ngb, i_ngb) = 1d0
+            deriv_dist_ij(lr_ngb, j_ngb) = 1d0
+         else
+            ! node lr has neighbors with lower j index
+            deriv_ngb(lr_ngb, ij_ngb) = i_lr - nnode_x
+            deriv_dist_ij(lr_ngb, i_ngb) = 1d0
+            deriv_dist_ij(lr_ngb, j_ngb) = 2d0
+         endif
+      else
+         ! node lr has neighbors with higher i index
+         if (i_ll.le.nnode_x) then
+            ! node lr has no neighbors with lower j index
+            deriv_ngb(lr_ngb, ij_ngb) = i_lr + 1
+            deriv_dist_ij(lr_ngb, i_ngb) = 2d0
+            deriv_dist_ij(lr_ngb, j_ngb) = 1d0
+         else
+            ! node lr has neighbors with lower j index
+            deriv_ngb(lr_ngb, ij_ngb) = i_lr + 1 - nnode_x
+            deriv_dist_ij(lr_ngb, i_ngb) = 2d0
+            deriv_dist_ij(lr_ngb, j_ngb) = 2d0
+         endif
+      endif
+
+      ! determine diagonal neighbor above left of element
+
+      if (mod(i_ll-1, nnode_x).eq.0) then
+         ! node ul has no neighbors with lower i index
+         if (i_ul.gt.nnode_x*(nnode_y-1)) then
+            ! node ul has no neighbors with higher j index
+            deriv_ngb(ul_ngb, ij_ngb) = i_ul
+            deriv_dist_ij(ul_ngb, i_ngb) = 1d0
+            deriv_dist_ij(ul_ngb, j_ngb) = 1d0
+         else
+            ! node ul has neighbors with higher j index
+            deriv_ngb(ul_ngb, ij_ngb) = i_ul + nnode_x
+            deriv_dist_ij(ul_ngb, i_ngb) = 1d0
+            deriv_dist_ij(ul_ngb, j_ngb) = 2d0
+         endif
+      else
+         ! node ul has neighbors with lower i index
+         if (i_ul.gt.nnode_x*(nnode_y-1)) then
+            ! node ul has no neighbors with higher j index
+            deriv_ngb(ul_ngb, ij_ngb) = i_ul - 1
+            deriv_dist_ij(ul_ngb, i_ngb) = 2d0
+            deriv_dist_ij(ul_ngb, j_ngb) = 1d0
+         else
+            ! node ul has neighbors with higher j index
+            deriv_ngb(ul_ngb, ij_ngb) = i_ul - 1 + nnode_x
+            deriv_dist_ij(ul_ngb, i_ngb) = 2d0
+            deriv_dist_ij(ul_ngb, j_ngb) = 2d0
+         endif
+      endif
+
+      ! determine diagonal neighbor above right of element
+
+      if (mod(i_lr, nnode_x).eq.0) then
+         ! node ur has no neighbors with higher i index
+         if (i_ur.gt.nnode_x*(nnode_y-1)) then
+            ! node ur has no neighbors with higher j index
+            deriv_ngb(ur_ngb, ij_ngb) = i_ur
+            deriv_dist_ij(ur_ngb, i_ngb) = 1d0
+            deriv_dist_ij(ur_ngb, j_ngb) = 1d0
+         else
+            ! node ur has neighbors with higher j index
+            deriv_ngb(ur_ngb, ij_ngb) = i_ur + nnode_x
+            deriv_dist_ij(ur_ngb, i_ngb) = 1d0
+            deriv_dist_ij(ur_ngb, j_ngb) = 2d0
+         endif
+      else
+         ! node ur has neighbors with higher i index
+         if (i_ur.gt.nnode_x*(nnode_y-1)) then
+            ! node ur has no neighbors with higher j index
+            deriv_ngb(ur_ngb, ij_ngb) = i_ur + 1
+            deriv_dist_ij(ur_ngb, i_ngb) = 2d0
+            deriv_dist_ij(ur_ngb, j_ngb) = 1d0
+         else
+            ! node ur has neighbors with higher j index
+            deriv_ngb(ur_ngb, ij_ngb) = i_ur + 1 + nnode_x
+            deriv_dist_ij(ur_ngb, i_ngb) = 2d0
+            deriv_dist_ij(ur_ngb, j_ngb) = 2d0
+         endif
+      endif
+
+      ! get function values at four nodes surrounding output position
+
+      bicubic_f_arr(1,1) = f_node(i_ll)
+      bicubic_f_arr(2,1) = f_node(i_lr)
+      bicubic_f_arr(1,2) = f_node(i_ul)
+      bicubic_f_arr(2,2) = f_node(i_ur)
+
+      ! get function derivatives in i direction
+
+      ! f_node derivative in i direction at ll node
+
+      bicubic_f_arr(3,1) = (f_node(i_lr) - f_node(deriv_ngb(ll_ngb, i_ngb))) / deriv_dist(ll_ngb, i_ngb)
+
+      ! f_node derivative in i direction at lr node
+
+      bicubic_f_arr(4,1) = (f_node(deriv_ngb(lr_ngb, i_ngb)) - f_node(i_ll)) / deriv_dist(lr_ngb, i_ngb)
+
+      ! f_node derivative in i direction at ul node
+
+      bicubic_f_arr(3,2) = (f_node(i_ur) - f_node(deriv_ngb(ul_ngb, i_ngb))) / deriv_dist(ul_ngb, i_ngb)
+
+      ! f_node derivative in i direction at ur node
+
+      bicubic_f_arr(4,2) = (f_node(deriv_ngb(ur_ngb, i_ngb)) - f_node(i_ul)) / deriv_dist(ur_ngb, i_ngb)
+
+      ! get function derivatives in j direction
+
+      ! f_node derivative in j direction at ll node
+
+      bicubic_f_arr(1,3) = (f_node(i_ul) - f_node(deriv_ngb(ll_ngb, j_ngb))) / deriv_dist(ll_ngb, j_ngb)
+
+      ! f_node derivative in j direction at lr node
+
+      bicubic_f_arr(2,3) = (f_node(i_ur) - f_node(deriv_ngb(lr_ngb, j_ngb))) / deriv_dist(lr_ngb, j_ngb)
+
+      ! f_node derivative in j direction at ul node
+
+      bicubic_f_arr(1,4) = (f_node(deriv_ngb(ul_ngb, j_ngb)) - f_node(i_ll)) / deriv_dist(ul_ngb, j_ngb)
+
+      ! f_node derivative in j direction at ur node
+
+      bicubic_f_arr(2,4) = (f_node(deriv_ngb(ur_ngb, j_ngb)) - f_node(i_lr)) / deriv_dist(ur_ngb, j_ngb)
+
+      ! get function cross derivatives in ij
+
+      ! f_node cross derivative in ij at ll node
+
+      deriv_low = (f_node(deriv_ngb(lr_ngb, j_ngb)) - f_node(deriv_ngb(ll_ngb, ij_ngb)))               &
+                                                                             / deriv_dist_ij(ll_ngb, i_ngb)
+      deriv_hgh = bicubic_f_arr(3,2)
+
+      bicubic_f_arr(3,3) = (deriv_hgh - deriv_low) / deriv_dist_ij(ll_ngb, j_ngb)
+
+      ! f_node cross derivative in ij at lr node
+
+      deriv_low = (f_node(deriv_ngb(lr_ngb, ij_ngb)) - f_node(deriv_ngb(ll_ngb, j_ngb)))               &
+                                                                             / deriv_dist_ij(lr_ngb, i_ngb)
+      deriv_hgh = bicubic_f_arr(4,2)
+
+      bicubic_f_arr(4,3) = (deriv_hgh - deriv_low) / deriv_dist_ij(lr_ngb, j_ngb)
+
+      ! f_node cross derivative in ij at ul node
+
+      deriv_low = bicubic_f_arr(3,1)
+      deriv_hgh = (f_node(deriv_ngb(ur_ngb, j_ngb)) - f_node(deriv_ngb(ul_ngb, ij_ngb)))                &
+                                                                             / deriv_dist_ij(ul_ngb, i_ngb)
+      bicubic_f_arr(3,4) = (deriv_hgh - deriv_low) / deriv_dist_ij(ul_ngb, j_ngb)
+
+      ! f_node cross derivative in ij at ur node
+
+      deriv_low = bicubic_f_arr(4,1)
+      deriv_hgh = (f_node(deriv_ngb(ur_ngb, ij_ngb)) - f_node(deriv_ngb(ul_ngb, j_ngb)))                &
+                                                                             / deriv_dist_ij(ur_ngb, i_ngb)
+      bicubic_f_arr(4,4) = (deriv_hgh - deriv_low) / deriv_dist_ij(ur_ngb, j_ngb)
+
+      ! compute coefficients as explained on wikipedia
+
+      alpha = matmul(matmul(bicubic_mat, bicubic_f_arr), bicubic_mat_t)
+
+      ! compute powers of u, v needed for evaluation
+
+      pow_u = (/ 1d0, fac_long, fac_long**2, fac_long**3 /)
+      pow_v = (/ 1d0, fac_lat,  fac_lat**2,  fac_lat**3 /)
+      f_out(ii) = dot_product(matmul(pow_u, alpha), pow_v)
+   end do
+
+end subroutine interp_aply_surf2unif_1d_bicubic
+
+!------------------------------------------------------------------------------------------------------------
+
+module subroutine interp_aply_surf2unif_3d(nnode, arr_node, nout, arr_out, ii2iel, ii2nod, wii2nod, ierror, defval)
 !--function: interpolate 3d data given at the nodes of an input surface to the points of the output grid
    implicit none
 !--subroutine arguments:
@@ -1319,4 +1629,4 @@ end subroutine interp_aply_surf2unif_3d
 
 !------------------------------------------------------------------------------------------------------------
 
-end module m_interp_1d
+end submodule m_interp_sub

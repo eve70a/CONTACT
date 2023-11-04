@@ -272,6 +272,7 @@ contains
       gd%meta%ipatch    = icp
       gd%meta%tim       = 0d0
       gd%meta%s_ws      = ws%s
+      gd%meta%th_ws     = ws%pitch
       gd%meta%ynom_whl  = ws%whl%m_ws%y()
       gd%meta%rnom_whl  = ws%nom_radius
       gd%meta%rnom_rol  = 0d0

@@ -52,7 +52,7 @@ include make_inc.linux
 
 TEST_LSHAPE = $(DLL_PATH)\test_lshape.exe
 OBJ_LSHP    = $(P)m_bspline.$O         $(P)m_print_output.$O     $(P)m_licensing.$O  \
-              $(P)m_markers.$O         $(P)m_blas.$O             $(P)m_interp_1d.$O  \
+              $(P)m_markers.$O         $(P)m_blas.$O             $(P)m_interp.$O     \
               $(P)m_spline_def.$O      $(P)m_spline_make.$O      $(P)m_spline_get.$O \
               $(P)m_errormsg.$O        $(P)m_ptrarray.$O
 
@@ -72,12 +72,12 @@ endif
 
 # modules and object files needed for the main targets;
 # $(P) == object file path, separate directories per target & platform
-MODS_ALL = $(P)m_aijpj.$O           $(P)m_blas.$O            \
-           $(P)m_bspline_def.$O     $(P)m_bspline_get.$O     $(P)m_bspline_make.$O    \
-           $(P)m_bspline_1seg.$O    $(P)m_errormsg.$O        $(P)m_friclaw.$O         \
-           $(P)m_gridfunc.$O        $(P)m_grids.$O           $(P)m_hertz.$O           \
-           $(P)m_hierarch_data.$O   $(P)m_inflcf.$O          $(P)m_interp_1d.$O       \
-           $(P)m_interp_gf.$O       $(P)m_leadedge.$O        $(P)m_licensing.$O       \
+MODS_ALL = $(P)m_aijpj.$O           $(P)m_blas.$O            $(P)m_bspline_def.$O     \
+           $(P)m_bspline_get.$O     $(P)m_bspline_make.$O    $(P)m_bspline_1seg.$O    \
+           $(P)m_errormsg.$O        $(P)m_friclaw.$O         $(P)m_gridfunc.$O        \
+           $(P)m_grids.$O           $(P)m_hertz.$O           $(P)m_hierarch_data.$O   \
+           $(P)m_inflcf.$O          $(P)m_interp.$O          $(P)m_interp_gf.$O       \
+           $(P)m_interp_sub.$O      $(P)m_leadedge.$O        $(P)m_licensing.$O       \
            $(P)m_markers.$O         $(P)m_nonhz.$O           $(P)m_print_output.$O    \
            $(P)m_profile.$O         $(P)m_ptrarray.$O        $(P)m_readline.$O        \
            $(P)m_scontc.$O          $(P)m_sdis.$O            $(P)m_sinput.$O          \
@@ -113,8 +113,8 @@ $(CLIB_EXE1):	test_caddon.f90 $(CLIB_DLL)
 $(CLIB_EXE2):	test_mbench.f90 $(CLIB_DLL)
 	$(F90) $(FFOPTS) -assume nounderscore test_mbench.f90 $(CLIB_LIB) $(LIB32) -o $(CLIB_EXE2)
 
-$(CLIB_EXE3):	test_switch.f90 $(CLIB_DLL)
-	$(F90) $(FFOPTS) -assume nounderscore test_switch.f90 $(CLIB_LIB) $(LIB32) -o $(CLIB_EXE3)
+$(CLIB_EXE3):	test_varprof.f90 $(CLIB_DLL)
+	$(F90) $(FFOPTS) -assume nounderscore test_varprof.f90 $(CLIB_LIB) $(LIB32) -o $(CLIB_EXE3)
 
 $(CLIB_EXE4):	test_table.f90 $(CLIB_DLL)
 	$(F90) $(FFOPTS) -assume nounderscore test_table.f90 $(CLIB_LIB) $(LIB32) -o $(CLIB_EXE4)
@@ -140,10 +140,10 @@ $(P)%.o:	%.c
 
 ifeq ($(TARGET), exe)
 clean:
-	$(RM) $(P)*.$O $(P)*.mod $(STND_EXE)
+	$(RM) $(P)*.$O $(P)*.mod $(P)*.smod $(STND_EXE)
 else ifeq ($(TARGET), clib)
 clean:
-	$(RM) $(P)*.$O $(P)*.mod $(CLIB_DLL) $(MANIF) $(EXPFILE)
+	$(RM) $(P)*.$O $(P)*.mod $(P)*.smod $(CLIB_DLL) $(MANIF) $(EXPFILE)
 	$(RM) $(CLIB_EXE1) $(CLIB_EXE2) $(CLIB_EXE3) $(CLIB_EXE4) $(CLIB_EXE5) $(CLIB_EXE6)
 else ifeq ($(TARGET),)
 clean:	all

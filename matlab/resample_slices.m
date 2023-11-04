@@ -3,10 +3,10 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
 % function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, [idebug], [show_fig], [fig_ofs] )
 %
-% resample the slices on the basis of the feature information, 
-% using the same number of points per part in each slice.
+% resample slices on the basis of feature information, using the same number of points per part in
+% each slice.
 %
-% in:  slcs.prr    - profiles per slice, with different #points(islc) and arc-length L(islc)
+% in:  slcs.prf    - profiles per slice, with different #points(islc) and arc-length L(islc)
 %      slcs.s_feat - break points per slice [ s0, s1, .., sn ] corresponding to 'geometric features'
 %      ds_max2d    - maximum step size ds after resampling
 %
@@ -15,6 +15,8 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 %         -->  for this slice 'islc', breaks 1, 2, 7, 8 are non-existent
 %         -->  break 3 == 5.0 means that 5 mm will be trimmed off from the start of the profile
 %         -->  break 6 == 999.0 will be changed to s(end), the end-point of the profile
+
+% variable naming focuses on the use of rail slices. Wheels use (x,y,z) to mean (th,y,dr).
  
 % method:
 %  - for this slice, len_part(islc,:) = [ NaN, NaN, 5.3, 9.7, s(end)-20.0, NaN, NaN ]
@@ -74,11 +76,11 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
       % - shift s_feat from [0, L] as used in the parts-file to [s_0, s_end] as used in the profile
 
-      s_feat(is,ib0:ib1) = s_feat(is,ib0:ib1) + slcs.prr(is).ProfileS(1);
+      s_feat(is,ib0:ib1) = s_feat(is,ib0:ib1) + slcs.prf(is).ProfileS(1);
 
       % - clip last value after s_end
 
-      s_feat(is,ib1) = min(s_feat(is,ib1), slcs.prr(is).ProfileS(end));
+      s_feat(is,ib1) = min(s_feat(is,ib1), slcs.prf(is).ProfileS(end));
 
       % - check that s_feat are in strictly increasing order and in range of profile
 
@@ -138,7 +140,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
    slcs.iseg_p = i_p;
    slcs.vj     = vj;
    slcs.mask_j =      zeros(slcs.nslc, n_pnt);
-   slcs.xsurf  = NaN * ones(slcs.nslc, n_pnt);
+   slcs.xsurf  = NaN * ones(slcs.nslc, n_pnt);  % Note: wheel (th,y,dr) stored in (x,y,z)
    slcs.ysurf  = NaN * ones(slcs.nslc, n_pnt);
    slcs.zsurf  = NaN * ones(slcs.nslc, n_pnt);
 
@@ -156,11 +158,11 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
    for is = 1 : slcs.nslc
 
-      slc = slcs.prr(is);
+      slc = slcs.prf(is);
       if (idebug>=3 & is==is_debug)
          disp(sprintf(['Slice %d: s=[%5.1f,%5.1f], s_p={%5.1f,',...
                        '%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f}'], ...
-                       is, slcs.prr(is).ProfileS([1,end]), s_feat(is,:)));
+                       is, slcs.prf(is).ProfileS([1,end]), s_feat(is,:)));
       end
 
       % - determine breaks [ib0:ib1] available for this slice
@@ -168,7 +170,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
       ib0 = find(~isnan(s_feat(is,:)), 1, 'first');
       ib1 = find(~isnan(s_feat(is,:)), 1, 'last');
 
-      % - set the positions s_j corresponding to u_j
+      % - set the positions s_j corresponding to v_j
 
       sj     = NaN * ones(n_pnt,1);
       for ipart = ib0 : ib1-1
@@ -193,20 +195,21 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
       if (exist('make_spline'))
 
-         % make spline for the slice using Vtech internal function, evaluate at positions sj
+         % make spline for the slice, evaluate at positions sj
 
-         lambda = 0; wgt = []; ikinks = []; iaccel = []; use_bspline = 0; ds_bspline = 1;
+         lambda = 0; wgt = []; ikinks = []; iaccel = []; use_bspline = 1; ds_bspline = 0.5;
+         if (length(slc.ProfileY)==7), ikinks = [2,3,4,5,6]; end    % hack for V-groove test-case
          spl = make_spline( slc.ProfileS, slc.ProfileY, slc.ProfileZ, lambda, wgt, ikinks, iaccel, ...
                                                                            use_bspline, ds_bspline);
          [~, yj, zj] = eval_spline(spl, sj(i0:i1));
-         slcs.xsurf(is,i0:i1) = slcs.s(is);
+         slcs.xsurf(is,i0:i1) = slcs.u(is);
          slcs.ysurf(is,i0:i1) = yj;
          slcs.zsurf(is,i0:i1) = zj;
 
       else
          % linear interpolation. Note: s_i(end) can be larger than ProfileS(end) by round-off error
 
-         slcs.xsurf(is,:) = slcs.s(is);
+         slcs.xsurf(is,:) = slcs.u(is);
          slcs.ysurf(is,:) = interp1( slc.ProfileS, slc.ProfileY, sj, 'linear', 'extrap' )';
          slcs.zsurf(is,:) = interp1( slc.ProfileS, slc.ProfileZ, sj, 'linear', 'extrap' )';
       end
@@ -243,12 +246,18 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
       figure(4+fig_ofs); clf;
       surf(slcs.xsurf', slcs.ysurf', slcs.zsurf');
       set(gca, 'ydir','reverse', 'zdir','reverse');
-      % v = axis; v(1:2) = slcs.s([5,end-4]); axis(v);
+      % v = axis; v(1:2) = slcs.u([5,end-4]); axis(v);
       v = get(gca,'dataaspectratio'); v(3) = v(2); set(gca,'dataaspectratio',v);
       shading flat; colorbar;
-      xlabel('s_{fc} [mm]');
-      ylabel('y_{r} [mm]');
-      zlabel('z_{r} [mm]');
+      if (slcs.is_wheel)
+         xlabel('\theta_{w} [rad]');
+         ylabel('y_{w} [mm]');
+         zlabel('\delta{}r_{w} [mm]');
+      else
+         xlabel('s_{fc} [mm]');
+         ylabel('y_{r} [mm]');
+         zlabel('z_{r} [mm]');
+      end
    end
 
 end % function resample_slices
