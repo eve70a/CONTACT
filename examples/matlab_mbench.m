@@ -9,7 +9,7 @@
 
 if (~exist('cntc_initlibrary.m','file'))
    % set location of CONTACT installation folder
-   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v23.1';
+   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v23.2';
    contactdir = '..';
    addpath([contactdir, '\matlab_intfc']);
    addpath([contactdir, '\matlab']);
@@ -140,12 +140,6 @@ for iwhe = 1 : 2 % "wheel number"
    sclfac = 1; smooth = 0; rparam = [sclfac, smooth];
 
    cntc_setprofileinputvalues(iwhe, values, iparam, rparam);
-
-   % read profiles for use in plot3d
-
-   mirror_y = 0;
-   prr = read_profile('MBench_UIC60_v3.prr', [], mirror_y);
-   prw = read_profile('MBench_S1002_v3.prw', [], mirror_y);
 
    % positions for subsurface stress calculation
 
@@ -317,7 +311,7 @@ for iwhe = 1 : 2 % wheel number
          end
 
          figure(3+iwhe); clf;
-         plot3d(sol, opt, prr, prw);
+         plot3d(sol, opt);
       end
 
    end % icase
@@ -503,4 +497,4 @@ if (make_tbl)
    end
 end
 
-% $Revision: 2372 $, $Date: 2023-06-15 16:58:45 +0200 (Thu, 15 Jun 2023) $
+% $Revision: 2447 $, $Date: 2023-11-04 15:03:17 +0100 (Sat, 04 Nov 2023) $

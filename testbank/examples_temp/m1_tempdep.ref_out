@@ -2,12 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
+   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
+ reading rail  profile "..\profiles\flat_plane.prr"
+ reading wheel profile "..\profiles\circ_r100.prw"
  v1: The effective radius ry seems unrealistically large (   6250.    ), truncating
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
  NORM
@@ -463,23 +465,24 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.2 | 100.0 |        0.2 | 100.0 |
-|Wheel-rail cases     |       3 |       0.2 |  99.8 |        0.2 |  99.9 |
-|W/r profiles         |       2 |       0.0 |   9.7 |        0.0 |   9.6 |
-|Geometric analysis   |       9 |       0.0 |   8.3 |        0.0 |   8.3 |
-|Panag.process        |       6 |       0.1 |  62.9 |        0.1 |  63.2 |
-|Algorithm Norm       |       6 |       0.0 |  11.4 |        0.0 |  11.7 |
-|Algorithm Tang       |       6 |       0.1 |  51.2 |        0.1 |  51.0 |
-|Output quantities    |       9 |       0.0 |   3.1 |        0.0 |   3.1 |
+|Total                |       1 |       0.0 |   0.0 |        0.1 | 100.0 |
+|Wheel-rail cases     |       3 |       0.0 |   0.0 |        0.1 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   3.6 |
+|Geometric analysis   |       9 |       0.0 |   0.0 |        0.0 |  20.5 |
+|Panag.process        |       6 |       0.0 |   0.0 |        0.1 |  52.7 |
+|Algorithm Norm       |       6 |       0.0 |   0.0 |        0.0 |  10.7 |
+|Algorithm Tang       |       6 |       0.0 |   0.0 |        0.0 |  42.0 |
+|Output quantities    |       9 |       0.0 |   0.0 |        0.0 |  16.1 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       6 |       0.0 |   8.4 |        0.0 |   8.3 |
-|Tang: StedyGS solver |      42 |       0.1 |  43.1 |        0.1 |  42.6 |
-|Temperature calc.    |      46 |       0.0 |   2.8 |        0.0 |   2.6 |
+|Norm: ConjGrd solver |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |      42 |       0.0 |   0.0 |        0.0 |  35.7 |
+|Temperature calc.    |      46 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       3 |       0.0 |  10.0 |        0.0 |   9.8 |
-|Contact location     |       9 |       0.0 |   6.9 |        0.0 |   6.9 |
-|Undeformed distance  |       6 |       0.0 |   1.1 |        0.0 |   1.1 |
-|Influence coeffic.   |       6 |       0.0 |   1.8 |        0.0 |   1.8 |
-|Initial state/estim. |       6 |       0.0 |   0.3 |        0.0 |   0.3 |
+|Reading input-file   |       3 |       0.0 |   0.0 |        0.0 |   3.6 |
+|Contact location     |       9 |       0.0 |   0.0 |        0.0 |  20.5 |
+|Undeformed distance  |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+| - Interp whl_srfc   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       6 |       0.0 |   0.0 |        0.0 |   0.9 |
+|Initial state/estim. |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

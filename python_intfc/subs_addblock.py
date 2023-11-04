@@ -39,23 +39,29 @@ def subs_addblock(ire, icp, iblk, isubs, xparam, yparam, zparam):
         icp = -1
     if (not isinstance(iblk, int)):
         iblk = 1
-
-    if (not isinstance(isubs, int) or not isinstance(zparam, int)):
-        sys.exit('ERROR in subs_addblock: isubs, zparam are mandatory.')
+    if (not isinstance(isubs, int)):
+        sys.exit('ERROR in subs_addblock: isubs is mandatory.')
 
     if (isubs in [1, 5]):
         xparam = np.array( [ -999 ], dtype=c_double)
         yparam = np.array( [ -999 ], dtype=c_double)
-    elif (not xparam or not yparam):
-        sys.exit('ERROR in subs_addblock: xparam, yparam are mandatory for isubs=%d.' % isubs)
 
     # convert xparam/yparam/zparam to NumPy ndarrays
     if (not isinstance(xparam, np.ndarray)):
-        xparam = np.array( xparam, dtype=c_double )
+        if (isinstance(xparam, list)):
+            xparam = np.array( xparam, dtype=c_double )
+        else:
+            sys.exit('ERROR in subs_addblock: xparam is mandatory for isubs=%d.' % isubs)
     if (not isinstance(yparam, np.ndarray)):
-        yparam = np.array( yparam, dtype=c_double )
+        if (isinstance(yparam, list)):
+            yparam = np.array( yparam, dtype=c_double )
+        else:
+            sys.exit('ERROR in subs_addblock: yparam is mandatory for isubs=%d.' % isubs)
     if (not isinstance(zparam, np.ndarray)):
-        zparam = np.array( zparam, dtype=c_double )
+        if (isinstance(zparam, list)):
+            zparam = np.array( zparam, dtype=c_double )
+        else:
+            sys.exit('ERROR in subs_addblock: invalid zparam provided.')
 
     npx = len(xparam)
     npy = len(yparam)

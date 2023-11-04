@@ -8,7 +8,7 @@
 
 if (~exist('cntc_initlibrary.m','file'))
    % set location of CONTACT installation folder
-   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v23.1';
+   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v23.2';
    contactdir = '..';
    addpath([contactdir, '\matlab_intfc']);
    addpath([contactdir, '\matlab']);
@@ -265,4 +265,4 @@ if (make_fig)
    text(4.8, 0.42, 'User guide, section 6.4','horizontalalignment','right');
 end
 
-% $Revision: 2372 $, $Date: 2023-06-15 16:58:45 +0200 (Thu, 15 Jun 2023) $
+% $Revision: 2447 $, $Date: 2023-11-04 15:03:17 +0100 (Sat, 04 Nov 2023) $

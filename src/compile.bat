@@ -7,7 +7,7 @@ rem "C:\Program Files (x86)\IntelSWTools\parallel_studio_xe_2020.1.086\bin\psxev
 set CNTC_LIB=..\bin\contact_addon_win64.lib
 set EXE1=..\bin\test_caddon_win64.exe
 set EXE2=..\bin\test_mbench_win64.exe
-set EXE3=..\bin\test_switch_win64.exe
+set EXE3=..\bin\test_varprof_win64.exe
 set EXE4=..\bin\test_table_win64.exe
 set EXE5=..\bin\caddon_license_win64.exe
 
@@ -17,6 +17,6 @@ set FFOPTS=/nologo /I. /fpp /O3 /MT /nodebug /names:lowercase /iface:nomixed_str
 echo ifort %FFOPTS% test_caddon.f90 %CNTC_LIB% -o %EXE1%
 ifort %FFOPTS% test_caddon.f90 %CNTC_LIB% -o %EXE1%
 ifort %FFOPTS% test_mbench.f90 %CNTC_LIB% -o %EXE2%
-ifort %FFOPTS% test_switch.f90 %CNTC_LIB% -o %EXE3%
+ifort %FFOPTS% test_varprof.f90 %CNTC_LIB% -o %EXE3%
 ifort %FFOPTS% test_table.f90 %CNTC_LIB% -o %EXE4%
 ifort %FFOPTS% caddon_license.f90 %CNTC_LIB% -o %EXE5%

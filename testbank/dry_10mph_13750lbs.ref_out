@@ -2,14 +2,16 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
+   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
+ reading rail  profile "profiles\left-roller-v1-pre-dry.ban"
  WARNING: found data at line   36 not preceded by blank line
  WARNING: profile spline deviates up to  0.201 mm from input profile
+ reading wheel profile "profiles\left-wheel-v1-pre-dry.whl"
 
  WHEEL-ROLLER CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -4543,7 +4545,9 @@
      X  -->        Chi=  0.00 degrees
 
  Case    38
+ reading rail  profile "profiles\right-roller-v1-pre-dry.ban"
  WARNING: profile spline deviates up to  0.321 mm from input profile
+ reading wheel profile "profiles\right-wheel-v1-pre-dry.whl"
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -8946,23 +8950,24 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       2.4 | 100.0 |        2.4 | 100.0 |
-|Wheel-rail cases     |      74 |       2.4 |  99.9 |        2.4 |  99.9 |
-|W/r profiles         |       4 |       0.0 |   1.3 |        0.0 |   1.3 |
-|Geometric analysis   |      74 |       0.2 |   7.2 |        0.2 |   7.2 |
-|Panag.process        |      87 |       2.0 |  82.8 |        2.0 |  82.8 |
-|Algorithm Norm       |      87 |       0.3 |  11.5 |        0.3 |  11.5 |
-|Algorithm Tang       |      87 |       1.7 |  71.1 |        1.7 |  71.1 |
-|Output quantities    |     161 |       0.1 |   5.1 |        0.1 |   5.1 |
+|Total                |       1 |       0.4 | 100.0 |        1.4 | 100.0 |
+|Wheel-rail cases     |      74 |       0.4 | 100.0 |        1.4 |  98.6 |
+|W/r profiles         |       4 |       0.0 |   0.0 |        0.1 |   4.2 |
+|Geometric analysis   |      74 |       0.0 |  12.5 |        0.1 |   6.7 |
+|Panag.process        |      87 |       0.3 |  79.2 |        1.0 |  68.1 |
+|Algorithm Norm       |      87 |       0.0 |   4.2 |        0.1 |   9.8 |
+|Algorithm Tang       |      87 |       0.3 |  75.0 |        0.8 |  58.2 |
+|Output quantities    |     161 |       0.0 |   4.2 |        0.2 |  16.9 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      87 |       0.2 |  10.2 |        0.2 |  10.1 |
-|Tang: StedyGS solver |      87 |       1.7 |  70.3 |        1.7 |  70.3 |
-|Temperature calc.    |      37 |       0.0 |   0.2 |        0.0 |   0.2 |
+|Norm: ConjGrd solver |      87 |       0.0 |   0.0 |        0.1 |   6.1 |
+|Tang: StedyGS solver |      87 |       0.3 |  75.0 |        0.8 |  57.3 |
+|Temperature calc.    |      37 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      74 |       0.0 |   1.5 |        0.0 |   1.5 |
-|Contact location     |      74 |       0.1 |   4.0 |        0.1 |   4.0 |
-|Undeformed distance  |      87 |       0.1 |   3.0 |        0.1 |   3.0 |
-|Influence coeffic.   |      87 |       0.1 |   2.4 |        0.1 |   2.5 |
-|Initial state/estim. |      87 |       0.0 |   0.2 |        0.0 |   0.2 |
+|Reading input-file   |      74 |       0.0 |   4.2 |        0.1 |   5.0 |
+|Contact location     |      74 |       0.0 |   8.3 |        0.1 |   3.9 |
+|Undeformed distance  |      87 |       0.0 |   4.2 |        0.0 |   2.8 |
+| - Interp whl_srfc   |      87 |       0.0 |   4.2 |        0.0 |   1.9 |
+|Influence coeffic.   |      87 |       0.0 |   0.0 |        0.0 |   1.0 |
+|Initial state/estim. |      87 |       0.0 |   0.0 |        0.0 |   0.7 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

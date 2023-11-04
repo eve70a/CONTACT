@@ -87,7 +87,7 @@ Visual Studio. Instead, he works with an editor (GVIM) and makefiles.
 \item CONTACT is programmed mostly using Fortran, with some bits in C and
         the CONTACT GUI programmed in Java.
 \item Vollebregt uses Matlab a lot, some scripting in Perl, and some
-        programming in Python.
+        programming in Python. Perl scripts could be replaced by Python.
 \item The main compiler used is the one from Intel, with the corresponding
         facilities of the Intel Math Kernel Library (MKL).
 \item Separate makefiles are maintained for Windows (using {\tt nmake}) and
@@ -97,9 +97,9 @@ Visual Studio. Instead, he works with an editor (GVIM) and makefiles.
 
 \section{Makefiles}
 
-Makefiles are used to automate compilation. This uses a specific (complex)
-language of ``targets'' and ``dependencies''. Only those targets are
-compiled (anew) that are ``out of date'', using the rules and commands
+Makefiles are used to automate compilation. This uses a specific
+language of `targets' and `dependencies'. Only those targets are
+compiled (anew) that are `out of date', using the rules and commands
 defined in the makefile.
 
 We use separate makefiles for Windows (using nmake) and Linux (GNU make).
@@ -176,6 +176,10 @@ source code.
 Some of the variables used are set automatically by the compiler ({\tt
 \_WIN32}, {\tt \_OPENMP}), others are set using compiler options ({\tt
 -DWITH\_MKLFFT}).
+
+Conditional compilation requires a compiler flag (Intel: {\tt -fpp}) to
+activate the preprocessor and requires \verb+#include+ instead of
+\verb+include+ to activate the preprocessor on included files.
 
 \section{(Semi-)automated testing}
 
@@ -289,7 +293,7 @@ used more and more throughout the code.
 \label{sec:lazy_implem}
 
 The modules/objects used in CONTACT are expanded using a strategy called
-``lazy implementation''. Only those parts are implemented that are actually
+`lazy implementation'. Only those parts are implemented that are actually
 needed or foreseen to be needed.
 
 An example concerns the construction of a rotation matrix from Euler angles
@@ -304,8 +308,8 @@ In principle, additional variants could be defined for {\tt roll\_pitch},
 {\tt yaw\_pitch}, and {\tt roll\_\-yaw\_\-pitch}. There has been no need for
 these functions (yet), so they have not (yet) been implemented.
 
-A typical error message in a generic function would be ``this functionality
-(variant, combination) is not yet supported''.
+A typical error message in a generic function would be `this functionality
+(variant, combination) is not yet supported'.
 
 Adding all variants that logically fit together creates ballast: additional
 time for compilation, and additional maintenance work.
@@ -334,14 +338,14 @@ on each other (best practice \ref{itm:design}, page \pageref{itm:design}).
         grids, grid functions, interpolation), and more specific facilities
         (friction, influence coefficients, w/r profiles).
 \item Next comes the aggregation in {\tt m\_hierarch\_data}. This provides
-        the data-type {\tt t\_probdata} that groups all the elements used
-        for a single ``contact problem'' in module 3.
+        the data type {\tt t\_probdata} that groups all the elements used
+        for a single `contact problem' in module 3.
 \item The layer above {\tt m\_hierarch\_data} shows the components used
         in the stand-alone program in module 3: I/O, preparations, solving,
         and specific computations.
-\item The layer {\tt m\_wrprof\_data} provides the data-type {\tt
+\item The layer {\tt m\_wrprof\_data} provides the data type {\tt
         t\_ws\_track} that groups all the elements used for a single
-        ``w/r contact problem'' in module 1. This uses many aspects of
+        `w/r contact problem' in module 1. This uses many aspects of
         {\tt m\_\-hierarch\_\-data}, and adds specific elements for the analysis
         of wheel/rail contact analysis.
 \item The layer above {\tt m\_wrprof\_data} shows the additional components
@@ -355,8 +359,8 @@ on each other (best practice \ref{itm:design}, page \pageref{itm:design}).
 \section{Scope of modules}
 
 Modules are used to group functionality that belongs together and separate
-from other functionality that is less related. ``High cohesion, loose
-coupling'' (best practice \ref{itm:design}, page \pageref{itm:design}).
+from other functionality that is less related. `High cohesion, loose
+coupling' (best practice \ref{itm:design}, page \pageref{itm:design}).
 
 Some modules are centered around a derived type. An example of this is {\tt
 m\_friclaw}, that hides the many facets of different friction laws from the
@@ -371,11 +375,11 @@ routines.
 
 \section{Hierarchical data-structure}
 
-The implementation of CONTACT revolves around ``hierarchical
-data-structures'' as defined in {\tt m\_\-hie\-rarch\_\-data.f90} and {\tt
+The implementation of CONTACT revolves around `hierarchical
+data-structures' as defined in {\tt m\_\-hie\-rarch\_\-data.f90} and {\tt
 m\_wrprof\_data.f90}.
 
-The main object in contact is a ``contact problem''. In module 1, this is
+The main object in contact is a `contact problem'. In module 1, this is
 encoded in the type {\tt t\_ws\_\-track}, in module 3 it is {\tt
 t\_probdata}. These types group together all the inputs, configuration,
 intermediate results, and outputs of a single contact problem. 
@@ -419,13 +423,13 @@ A number of these items are re-used in the contact problem central to module
                                   !     all contact problems of ws on trk
    end type t_ws_track
 \end{verbatim}}
-Module 1 uses an array of ``contact patches'', where each contact patch
-eventually contains the data for a ``contact problem'' as defined in module
+Module 1 uses an array of `contact patches', where each contact patch
+eventually contains the data for a `contact problem' as defined in module
 3.
 
-A central object in CONTACT is a ``contact patch''. This is defined
-primarily using a ``potential contact area'' and a corresponding ``CONTACT
-grid'' of $m_x\cdot m_y$ rectangular elements of size $\delta
+A central object in CONTACT is a `contact patch'. This is defined
+primarily using a `potential contact area' and a corresponding `CONTACT
+grid' of $m_x\cdot m_y$ rectangular elements of size $\delta
 x\times\delta y$. Module 1 identifies and defines contact patches, module 3
 performs the solution.
 
@@ -476,7 +480,7 @@ Module {\tt m\_grids} defines the derived type {\tt t\_grid} with
 corresponding functions. The main ideas behind this are presented in
 \cite{Vollebregt2020b-wrgeom}.
 
-There are actually three different types of grids that are squeezed into a
+There are actually different types of grids that are squeezed into a
 single derived type {\tt t\_grid}: curves, used to represent profiles,
 curvilinear grids, used to represent wheel and rail surfaces, and uniform
 grids, used for the potential contact area. Benefits of combining into one
@@ -484,13 +488,13 @@ type are that this avoids repetition (translating a profile, translating a
 surface), and that this facilitates conversion from one type to another
 (profile to surface).
 
-The module does not aim to provide a fully generic grid data-type. Only
+The module does not aim to provide a fully generic grid data type. Only
 those grids are supported that are needed by CONTACT. The operations
-provided came about by the process of ``lazy implementation'' (\S 
+provided came about by the process of `lazy implementation' (\S 
 \ref{sec:lazy_implem}). More functions can be added as needed in CONTACT.
 
-For profiles, the grid used may be complemented with a spline
-approximation (\S \ref{sec:m_interp}).
+For profiles and surfaces, the grid used are complemented with a 1D or 2D
+spline approximation (\S \ref{sec:m_interp}).
 
 \section{Interpolations: m\_interp, m\_spline\_*}
 \label{sec:m_interp}
@@ -498,14 +502,14 @@ approximation (\S \ref{sec:m_interp}).
 Interpolations are essential to CONTACT's analysis of the wheel/rail
 contact geometry problem. These are used in two different forms: 
 \begin{enumerate}
-\item subroutines for 2d bilinear interpolation on curvilinear grids,
-        provided in {\tt m\_interp},
+\item subroutines for 2d bilinear or bicubic interpolation on curvilinear
+        grids, provided in {\tt m\_interp},
 \item subroutines related to splines, for profile smoothing and
         interpolation.
 \end{enumerate}
 A lot of code has been developed for working with splines. This started
-with ``PP-splines'' to represent plane curves (profiles), adding smoothing,
-adding ``B-spline curves'', and finally adding ``B-spline surfaces''.
+with `PP-splines' to represent plane curves (profiles), adding smoothing,
+adding `B-spline curves', and finally adding `B-spline surfaces'.
 These are typically stored together with a grid definition. The original
 PP-form is implemented in {\tt m\_spline\_def}, {\tt make}, {\tt get};
 extensions for 1D/2D B-splines are implemented in {\tt m\_bspline\_def},

@@ -73,7 +73,7 @@ function [ CNTC ] = cntc_getmagicnumbers();
    CNTC.ic_heat   = 1982; % code for retrieving the control digit H, HEAT (cntc_getflags)
    CNTC.ic_iestim = 1983; % code for setting the control digit I, IESTIM:
                           %   0: start from zero initial estimate (default)
-                          %   3: use element division and tractions of previous case (n.y.a. in module 1)
+                          %   3: use el. division and tractions of previous case (n.y.a. in module 1)
    CNTC.ic_output = 1984; % code for setting the O-control digit O, OUTPUT:
                           %   0-4: amount of output on the results of the problem
    CNTC.ic_flow   = 1985; % code for setting the W-control digit W, FLOW:

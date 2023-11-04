@@ -30,6 +30,8 @@ function [ h ] = plot_axes(O, scl, theta, zpos, axnams, col, mrksiz, ...
 % no_orie  = option to suppress sense of rotation
 % no_head  = option to suppress arrow heads
 % left_hnd = option to use left-handed sense of rotation
+%
+% output h(1) = marker; h(2:4) = lines center; h(5:8) = arrows; h(9:12) = sense of rotation; h(13:15) = labels
 
 % Copyright 2008-2023 by Vtech CMCC.
 %
@@ -151,10 +153,11 @@ sn=sin(th); cs=cos(th);
 % put circle with cross or dot at origin O
 
 r = siz_o*scl;
-h(1) = plot(O(1)+r*cs, O(2)+r*sn,'-','color',col);
+h(4) = plot(O(1)+r*cs, O(2)+r*sn,'-','color',col);
+
 if (zpos>=0)
    % looking down x3-axis: dot
-   h(2) = plot(O(1)+0*scl, O(2)+0*scl, '.','color',col, 'markersize',mrksiz);
+   h(1) = plot(O(1)+0*scl, O(2)+0*scl, '.','color',col, 'markersize',mrksiz);
 else
    % looking up x3-axis: cross
    ij = (ivec+jvec) / sqrt(2);
@@ -171,10 +174,10 @@ end
 % plot first axis ivec
 
 O1 = O + r*ivec;
-h(4:5) = plot_arrow(O1, (scl-r)*ivec, col, scl_head);
+h(5:6) = plot_arrow(O1, (scl-r)*ivec, col, scl_head);
 
 l1 = O + pos_txt(1,1)*ivec + pos_txt(1,2)*jvec;
-h(6) = text(l1(1), l1(2), deblank(axnams(1,:)), 'rotation', th_txt, ...
+h(13) = text(l1(1), l1(2), deblank(axnams(1,:)), 'rotation', th_txt, ...
                    'horizontalalignment','center', 'interpreter', intrp, ...
                    'fontsize',fontsiz, 'color', txtcol);
 
@@ -184,14 +187,14 @@ O2 = O + r*jvec;
 h(7:8) = plot_arrow(O2, (scl-r)*jvec, col, scl_head);
 
 l2 = O + pos_txt(2,1)*ivec + pos_txt(2,2)*jvec;
-h(9) = text(l2(1), l2(2), deblank(axnams(2,:)), 'rotation', th_txt, ...
+h(14) = text(l2(1), l2(2), deblank(axnams(2,:)), 'rotation', th_txt, ...
                    'horizontalalignment','center', 'interpreter', intrp, ...
                    'fontsize',fontsiz, 'color', txtcol);
 
 % plot label for third axis kvec
 
 l3 = O + pos_txt(3,1)*ivec + pos_txt(3,2)*jvec;
-h(10) = text(l3(1), l3(2), deblank(axnams(3,:)), 'rotation',th_txt, ...
+h(15) = text(l3(1), l3(2), deblank(axnams(3,:)), 'rotation',th_txt, ...
                    'horizontalalignment','center', 'interpreter', intrp, ...
                    'fontsize',fontsiz, 'color', txtcol);
 
@@ -200,13 +203,13 @@ h(10) = text(l3(1), l3(2), deblank(axnams(3,:)), 'rotation',th_txt, ...
 if (no_orie<=0)
    Orot = O + 0.3*scl*ivec - 0.3*scl*jvec;
    f = 0.05*scl*[-1,1];
-   h(11) = plot(Orot(1)+ivec(1)*f, Orot(2)+ivec(2)*f, 'color',col);
-   h(12) = plot(Orot(1)+jvec(1)*f, Orot(2)+jvec(2)*f, 'color',col);
+   h( 9) = plot(Orot(1)+ivec(1)*f, Orot(2)+ivec(2)*f, 'color',col);
+   h(10) = plot(Orot(1)+jvec(1)*f, Orot(2)+jvec(2)*f, 'color',col);
    if (fac_ang*fac_y>0)
-      h(13:14) = circ_arrow(Orot, 0.15*scl, theta-120, theta+150, col, ...
+      h(11:12) = circ_arrow(Orot, 0.15*scl, theta-120, theta+150, col, ...
                                   0.7*scl_head, 0.8);
    else
-      h(13:14) = circ_arrow(Orot, 0.15*scl, theta+120, theta-150, col, ...
+      h(11:12) = circ_arrow(Orot, 0.15*scl, theta+120, theta-150, col, ...
                                   0.7*scl_head, 0.8);
    end
 end

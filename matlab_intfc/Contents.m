@@ -12,7 +12,7 @@
 %
 % cntc_setprofileinputfname     - set a wheel or rail profile filename for a w/r problem
 % cntc_setprofileinputvalues    - set a wheel or rail profile (table) for a w/r problem
-% *cntc_settrackdimensions      - set the track geometry for a w/r problem   Obsolete: use _new version
+% cntc_settrackdimensions       - set the track geometry for a w/r problem   New version
 % *cntc_settrackdimensions_old  - set the track geometry for a w/r problem   Obsolete: use _new version
 % cntc_settrackdimensions_new   - set the track geometry for a w/r problem
 % cntc_setwheelsetdimensions    - set wheelset geometry specification
@@ -48,7 +48,8 @@
 %
 % cntc_getwheelsetposition      - get wheelset position parameters
 % cntc_getwheelsetvelocity      - get wheelset velocity parameters
-% cntc_getprofilevalues         - retrieve wheel or rail profile after smoothing
+% *cntc_getprofilevalues        - retrieve wheel or rail profile after smoothing  Obsolete: use _new version
+% cntc_getprofilevalues_new     - retrieve wheel or rail profile after smoothing
 % cntc_getnumcontactpatches     - get the number of separate contact patches
 % cntc_getcontactlocation       - get the location of one contact patch
 % cntc_getglobalforces          - get total forces in track/wheelset coordinates

@@ -11,7 +11,7 @@ expnam = strvcat('cattaneo', 'carter2d', 'bentall', 'visc_cylindr', 'catt_to_car
                  'ertz_temperature', 'plastic_3bl', 'fastsim', 'veldep_fric');
 % expnam = strvcat('kpec');
 % expnam = strvcat('plastic_3bl');
-expnam = strvcat('mbench');
+% expnam = strvcat('mbench');
 
 pause_after_plot = 1 * (size(expnam,1)>1);
 print_figures = 0;

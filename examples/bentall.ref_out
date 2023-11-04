@@ -2,10 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2422 $, $Date:: 2023-09-26$       |
+   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2422M, 29-Sep-2023 14:37)                      |
-   |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
+   |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
@@ -543,19 +542,19 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.0 | 100.0 |        0.4 | 100.0 |
-|Non-Hertzian cases   |       6 |       0.0 | 100.0 |        0.4 | 100.0 |
-|Panag.process        |       6 |       0.0 | 100.0 |        0.3 |  90.7 |
-|Algorithm Norm       |      19 |       0.0 |   0.0 |        0.0 |   4.5 |
-|Algorithm Tang       |      19 |       0.0 | 100.0 |        0.3 |  86.1 |
-|Output quantities    |       6 |       0.0 |   0.0 |        0.0 |   6.5 |
+|Total                |       1 |       0.0 |   0.0 |        0.4 | 100.0 |
+|Non-Hertzian cases   |       6 |       0.0 |   0.0 |        0.4 | 100.0 |
+|Panag.process        |       6 |       0.0 |   0.0 |        0.3 |  93.0 |
+|Algorithm Norm       |      19 |       0.0 |   0.0 |        0.0 |   1.7 |
+|Algorithm Tang       |      19 |       0.0 |   0.0 |        0.3 |  89.4 |
+|Output quantities    |       6 |       0.0 |   0.0 |        0.0 |   0.6 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      19 |       0.0 |   0.0 |        0.0 |   1.4 |
-|Tang: StedyGS solver |      77 |       0.0 | 100.0 |        0.3 |  85.8 |
+|Norm: ConjGrd solver |      19 |       0.0 |   0.0 |        0.0 |   1.1 |
+|Tang: StedyGS solver |      77 |       0.0 |   0.0 |        0.3 |  81.8 |
 |------------------------------------------------------------------------|
 |Reading input-file   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       5 |       0.0 |   0.0 |        0.0 |   2.8 |
+|Writing output-files |       5 |       0.0 |   0.0 |        0.0 |   6.4 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

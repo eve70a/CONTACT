@@ -35,7 +35,7 @@ my $status = 0;
 my @list=( 'stand_alone', 'test_nonhz', 'test_mbench', 'test_table' );
 #  @list=( 'test_nonhz', 'test_mbench', 'test_table' );
 #  @list=( 'stand_alone' );
-   @list=( 'test_nonhz' );
+#  @list=( 'test_nonhz' );
 #  @list=( 'test_mbench' );
 #  @list=( 'test_table' );
 my @files;

@@ -2,28 +2,75 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
+   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
-Parallel run using  4 threads
+ Case     1 for contact problem  1 on result element  1
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 2, FLOW   2, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
+ CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:   1.000      0.2000    
+ THE CURVATURES A1,B1 ARE:                    1.000      0.8456E-01
+ BASIC SEMIAXES AA,BB, RATIO                 0.4053       2.027      0.2000    
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1.844      0.9064    
+ POTENTIAL CONTACT, SCALE:                  -0.6370      -3.185       1.571    
+ DISCRETISATION MX,MY, DX,DY:                  11    11  0.1158      0.5791    
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-05
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3000      0.3000    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.1158       3.000E+04       0.000       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+         1.000       0.000       0.000       0.000   2.038E-04       0.000
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+         1.000       0.000       0.000      0.5098      0.5828
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+     121     41     41      0      1      1
 Performance timers:
 |------------------------------------------------------------------------|
 |Timer name                     |   cpu time        |    wall clock      |
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       4.1 | 100.0 |        1.0 | 100.0 |
-|Panag.process        |    3220 |       2.8 |  67.7 |        0.7 |  67.5 | (*)
-|Algorithm Norm       |    3220 |       1.4 |  33.2 |        0.3 |  33.2 | (*)
-|Algorithm Tang       |    3220 |       1.4 |  33.8 |        0.3 |  33.7 | (*)
-|Output quantities    |    3220 |       0.3 |   7.6 |        0.1 |   7.5 | (*)
+|Total                |       1 |       1.1 | 100.0 |        1.6 | 100.0 |
+|Panag.process        |    3220 |       0.9 |  78.6 |        1.2 |  79.9 |
+|Algorithm Norm       |    3220 |       0.4 |  38.6 |        0.7 |  42.5 |
+|Algorithm Tang       |    3220 |       0.4 |  40.0 |        0.6 |  37.5 |
+|Output quantities    |    3220 |       0.2 |  14.3 |        0.1 |   6.5 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |    3220 |       1.2 |  28.5 |        0.3 |  28.4 | (*)
-|Tang: StedyGS solver |    3220 |       1.3 |  31.5 |        0.3 |  31.4 | (*)
+|Norm: ConjGrd solver |    3220 |       0.3 |  28.6 |        0.6 |  35.9 |
+|Tang: StedyGS solver |    3220 |       0.4 |  38.6 |        0.5 |  33.7 |
 |------------------------------------------------------------------------|
-|Cp. 1 on Res.el.  1  |     805 |       0.8 |  20.3 |        0.8 |  81.1 |
-|Cp. 1 on Res.el.  2  |     805 |       0.9 |  20.9 |        0.9 |  83.3 |
-|Cp. 1 on Res.el.  3  |     805 |       0.8 |  20.6 |        0.8 |  82.0 |
-|Cp. 1 on Res.el.  4  |     805 |       1.0 |  24.5 |        1.0 |  97.5 |
+|Cp. 1 on Res.el.  1  |    3220 |       1.1 | 100.0 |        1.5 |  99.0 |
 |------------------------------------------------------------------------|

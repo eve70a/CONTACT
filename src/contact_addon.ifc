@@ -724,6 +724,7 @@ end subroutine cntc_getProfileValues_new
 subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
    bind(c,name=CNAME_(cntc_getprofilevalues))
 !--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
+!            Old version provided for backward compatibility. Will be changed in v25.1.
 !  itask          - select type of outputs:
 !                     0: npnt   number of points used in profile
 !                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
@@ -817,6 +818,9 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !  26 - YR_TR     - y-position of rail profile marker in track coordinates
 !  27 - ZR_TR     - z-position of rail profile marker in track coordinates
 !  28 - ROLLR_TR  - roll angle of rail profile marker in track coordinates
+!
+!  31 - DY_DEFL   - lateral rail shift according to massless rail deflection
+!  32 - DZ_DEFL   - vertical rail shift according to massless rail deflection
 !
 !  The "contact reference point" is the origin of the contact local coordinate system. It is determined by
 !  a heuristic rule and is centered within the contact patch in a weighted sense.
@@ -1131,6 +1135,7 @@ subroutine cntc_getSensitivities(ire, icp, lenout, lenin, sens) &
 !
 !  the outputs are ordered  1: fn,  2: fx,   3: fy,   4: mz
 !  the units are fn [force], fx, fy [-], mz [force.length]
+!
 !--subroutine arguments:
    integer,      intent(in)  :: ire                ! result element ID
    integer,      intent(in)  :: icp                ! contact problem ID
@@ -1247,10 +1252,8 @@ end interface
 !dec$ attributes dllimport :: cntc_setTangentialForces
 !dec$ attributes dllimport :: cntc_setProfileInputFname
 !dec$ attributes dllimport :: cntc_setProfileInputValues
-!dec$ attributes dllimport :: cntc_setRailProfileFname
-!dec$ attributes dllimport :: cntc_setWheelProfileFname
-!dec$ attributes dllimport :: cntc_setRailProfileValues
-!dec$ attributes dllimport :: cntc_setWheelProfileValues
+!dec$ attributes dllimport :: cntc_setTrackDimensions_old
+!dec$ attributes dllimport :: cntc_setTrackDimensions_new
 !dec$ attributes dllimport :: cntc_setTrackDimensions
 !dec$ attributes dllimport :: cntc_setWheelsetDimensions
 !dec$ attributes dllimport :: cntc_setWheelsetPosition
@@ -1259,11 +1262,16 @@ end interface
 !dec$ attributes dllimport :: subs_addBlock
 !dec$ attributes dllimport :: cntc_calculate
 !dec$ attributes dllimport :: subs_calculate
+!dec$ attributes dllimport :: cntc_getFlags
+!dec$ attributes dllimport :: cntc_getParameters
+!dec$ attributes dllimport :: cntc_getProfileValues_new
+!dec$ attributes dllimport :: cntc_getProfileValues
 !dec$ attributes dllimport :: cntc_getWheelsetPosition
 !dec$ attributes dllimport :: cntc_getWheelsetVelocity
 !dec$ attributes dllimport :: cntc_getNumContactPatches
 !dec$ attributes dllimport :: cntc_getContactLocation
 !dec$ attributes dllimport :: cntc_getReferenceVelocity
+!dec$ attributes dllimport :: cntc_getHertzContact
 !dec$ attributes dllimport :: cntc_getNumElements
 !dec$ attributes dllimport :: cntc_getGridDiscretization
 !dec$ attributes dllimport :: cntc_getPotContact

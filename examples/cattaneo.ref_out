@@ -2,10 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2422 $, $Date:: 2023-09-26$       |
+   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2422M, 29-Sep-2023 14:37)                      |
-   |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
+   |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
@@ -416,7 +415,7 @@ Performance timers:
 |Panag.process        |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Algorithm Norm       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 | 100.0 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: TangCG solver  |      13 |       0.0 |   0.0 |        0.0 |   0.0 |
@@ -424,6 +423,6 @@ Performance timers:
 |Reading input-file   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
+|Writing output-files |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

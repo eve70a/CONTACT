@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
+   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -27030,18 +27030,18 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      47.8 | 100.0 |       47.8 | 100.0 |
-|Non-Hertzian cases   |     240 |      47.8 | 100.0 |       47.8 | 100.0 |
-|Panag.process        |     240 |      47.1 |  98.6 |       47.1 |  98.6 |
-|Algorithm Norm       |     240 |       1.1 |   2.3 |        1.1 |   2.3 |
-|Algorithm Tang       |     240 |      46.0 |  96.3 |       46.0 |  96.3 |
-|Output quantities    |     240 |       0.6 |   1.2 |        0.6 |   1.2 |
+|Total                |       1 |      17.9 | 100.0 |       28.9 | 100.0 |
+|Non-Hertzian cases   |     240 |      17.9 | 100.0 |       28.9 | 100.0 |
+|Panag.process        |     240 |      17.8 |  99.3 |       28.0 |  97.0 |
+|Algorithm Norm       |     240 |       0.2 |   1.1 |        0.5 |   1.8 |
+|Algorithm Tang       |     240 |      17.6 |  98.2 |       27.5 |  95.0 |
+|Output quantities    |     240 |       0.1 |   0.5 |        0.8 |   2.8 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     240 |       1.0 |   2.0 |        1.0 |   2.0 |
-|Tang: StedyGS solver |     240 |      45.8 |  95.9 |       45.8 |  95.8 |
+|Norm: ConjGrd solver |     240 |       0.2 |   1.0 |        0.4 |   1.5 |
+|Tang: StedyGS solver |     240 |      17.5 |  97.8 |       27.2 |  94.0 |
 |------------------------------------------------------------------------|
 |Reading input-file   |     240 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       8 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Initial state/estim. |     240 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |     240 |       0.0 |   0.1 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

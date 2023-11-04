@@ -23,8 +23,7 @@ open(STDERR, ">run_perfc.log");
 # prescribe which CONTACT version to use
 
 my $VER="contact-open";
-#  $VER="releases".$file_sep."contact_v22.2";
-#  $VER="meldingen".$file_sep."m17009-delete-gi".$file_sep."contact";
+#  $VER="releases".$file_sep."contact_v23.2";
 
 print " ----------------------------------------------------------------------\n";
 my $time_str = strftime("%d-%m-%Y %H:%M:%S", localtime);
@@ -48,7 +47,7 @@ my $test_parall=1;
 # including "1min":    about 20 min
 # including "10min":   about  1 hour
 
-# run tests that may take around one minute / 10 minuts / 1 hour to compute?
+# run tests that may take around one minute / 10 minutes to compute?
 my $test_1min=1;
 my $test_10min=1;
 

@@ -295,7 +295,7 @@ function [ u_out, found ] = solve_cubic_cardano(ppcoef, useg, yev, idebug, iout,
       disp(sprintf('  jseg = %d: a = %6.3e, b = %6.3e, c = %6.3e, d = %6.3e', jseg, a, b, c, d));
    end
 
-   tiny_a   = 1e-10;
+   tiny_a   = 1e-14;
    tiny_b   = 1e-10;
    tiny_cfc = 1e-20;
    u0     = 0;                  % interval [u0,u4] in local coordinates

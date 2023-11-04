@@ -2,45 +2,43 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
+   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
+ reading rail  profile "..\profiles\groove_r1025.prr"
  Kink in rail profile at ( -10.30, -10.25) (ip=  104): successive angles    0.0,   84.4 deg
  Kink in rail profile at (  10.30, -10.25) (ip=  310): successive angles  -84.4,    0.0 deg
+ reading wheel profile "..\profiles\circ_r10.prw"
  v1: Small or negative ry found (  -10.25    ), using positive value instead
  v1: Small or negative ry found (  -10.25    ), using positive value instead
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0352   1.955E+04, dFz/dz:   8.335E+05
          2, NR,  z_ws, Fz:       0.0237   1.090E+04, dFz/dz:   7.547E+05
          3, NR,  z_ws, Fz:       0.0225   1.010E+04, dFz/dz:   6.717E+05
-     0, SC, z, omg_ws:    0.022533  -1.00000007, res:    0.05959497, dFx/domg:  210.475276
+     0, SC, z, omg_ws:    0.022533  -1.00000007, res:    0.05959505, dFx/domg:  210.475276
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0225   1.011E+04, dFz/dz:   4.595E+05
-     1, SC, z, omg_ws:    0.022533  -1.00028322, res:   -0.01327997, dFx/domg:  257.376976
+         1, NR,  z_ws, Fz:       0.0225   1.011E+04, dFz/dz:   6.733E+05
+     1, SC, z, omg_ws:    0.022533  -1.00028322, res:   -0.01328000, dFx/domg:  257.377011
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0225   1.011E+04, dFz/dz:   4.489E+05
-         2, NR,  z_ws, Fz:       0.0223       9948., dFz/dz:   6.624E+05
-         3, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.627E+05
+         1, NR,  z_ws, Fz:       0.0225   1.011E+04, dFz/dz:   6.730E+05
+         2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.622E+05
+         3, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
          4, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     2, SC, z, omg_ws:    0.022367  -1.00023162, res:   -0.00040417, dFx/domg:  249.543877
+     2, SC, z, omg_ws:    0.022367  -1.00023162, res:   -0.00040417, dFx/domg:  249.543931
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0224      10000., dFz/dz:   6.627E+05
+         1, NR,  z_ws, Fz:       0.0224      10000., dFz/dz:   6.706E+05
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     3, SC, z, omg_ws:    0.022367  -1.00023000, res:    0.00001783, dFx/domg:  260.553939
+     3, SC, z, omg_ws:    0.022367  -1.00023000, res:    0.00001783, dFx/domg:  260.554964
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     4, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000001, dFx/domg:  260.409859
+         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.706E+05
+     4, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000001, dFx/domg:  260.409813
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   4.471E+05
+         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.706E+05
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     5, SC, z, omg_ws:    0.022367  -1.00023007, res:   -0.00000001, dFx/domg:  624.441992
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   4.471E+05
-         2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     6, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000000, dFx/domg:  698.749956
+     5, SC, z, omg_ws:    0.022367  -1.00023007, res:   -0.00000001, dFx/domg:  476.196483
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -90,11 +88,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   1.640E-05   5.915E-05   1.000E+04   1.640E-05   5.915E-05   1.000E+04
+  -8.232E-05   5.915E-05   1.000E+04  -8.232E-05   5.915E-05   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0099     -0.0000     -0.0000   7.910E-04   2.558E-13   4.084E-05
+      0.0099     -0.0000     -0.0000   7.910E-04   2.416E-13   4.084E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -116,7 +114,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000   6.520E-04   4.730E-05   8.958E-02  -8.395E-02
+     1.000E+04       0.000   6.520E-04   4.729E-05   8.958E-02  -8.395E-02
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000   2.173E-07   2.237E-02       530.2
 
@@ -165,7 +163,7 @@
      5    -3.4307    -0.5878     0.3457
      6    -3.1945    -0.5060     0.3210
      7    -2.9563    -0.4301     0.2963
-     8    -2.7163    -0.3600     0.2717
+     8    -2.7163    -0.3600     0.2716
      9    -2.4747    -0.2959     0.2470
     10    -2.2315    -0.2378     0.2223
     11    -1.9870    -0.1857     0.1976
@@ -187,7 +185,7 @@
     27     1.9870    -0.1857    -0.1976
     28     2.2315    -0.2378    -0.2223
     29     2.4747    -0.2959    -0.2470
-    30     2.7163    -0.3600    -0.2717
+    30     2.7163    -0.3600    -0.2716
     31     2.9563    -0.4301    -0.2963
     32     3.1945    -0.5060    -0.3210
     33     3.4307    -0.5878    -0.3457
@@ -197,6 +195,7 @@
     37     4.3533    -0.9726    -0.4445
 
  Case     2
+ reading rail  profile "..\profiles\groove_r1010.prr"
  Kink in rail profile at ( -10.10, -10.10) (ip=  101): successive angles    0.0,   86.0 deg
  Kink in rail profile at (  10.10, -10.10) (ip=  303): successive angles  -86.0,   -0.0 deg
  v1: Small or negative ry found (  -10.10    ), using positive value instead
@@ -206,23 +205,31 @@
          2, NR,  z_ws, Fz:       0.0100       3748., dFz/dz:   3.758E+05
          3, NR,  z_ws, Fz:       0.0266   1.575E+04, dFz/dz:   7.213E+05
          4, NR,  z_ws, Fz:       0.0186       9396., dFz/dz:   7.971E+05
-         5, NR,  z_ws, Fz:       0.0194       9958., dFz/dz:   7.416E+05
-     0, SC, z, omg_ws:    0.019399  -1.00000000, res:    0.10855167, dFx/domg:  210.475276
+     0, SC, z, omg_ws:    0.018641  -1.00000000, res:    0.10806040, dFx/domg:  210.475276
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0194   1.001E+04, dFz/dz:   7.971E+05
-     1, SC, z, omg_ws:    0.019399  -1.00051575, res:   -0.01836511, dFx/domg:  246.084135
+         1, NR,  z_ws, Fz:       0.0186       9447., dFz/dz:   7.602E+05
+     1, SC, z, omg_ws:    0.018641  -1.00051341, res:   -0.02177423, dFx/domg:  252.886155
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0194   1.001E+04, dFz/dz:   5.161E+05
-         2, NR,  z_ws, Fz:       0.0194       9998., dFz/dz:   7.532E+05
-         3, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
-     2, SC, z, omg_ws:    0.019392  -1.00044112, res:   -0.00001019, dFx/domg:  245.947636
+         1, NR,  z_ws, Fz:       0.0186       9440., dFz/dz:   7.596E+05
+         2, NR,  z_ws, Fz:       0.0194       9988., dFz/dz:   7.436E+05
+         3, NR,  z_ws, Fz:       0.0194      10000., dFz/dz:   7.530E+05
+         4, NR,  z_ws, Fz:       0.0204   1.074E+04, dFz/dz:   7.595E+05
+         5, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.530E+05
+     2, SC, z, omg_ws:    0.019394  -1.00042731, res:    0.00340936, dFx/domg:  292.482447
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
+     3, SC, z, omg_ws:    0.019394  -1.00043897, res:    0.00052578, dFx/domg:  247.376352
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
+         2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.528E+05
+     4, SC, z, omg_ws:    0.019392  -1.00044109, res:   -0.00000373, dFx/domg:  249.130065
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0194      10000., dFz/dz:   7.532E+05
+         1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
          2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
-     3, SC, z, omg_ws:    0.019392  -1.00044107, res:    0.00000007, dFx/domg:  247.541502
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
-     4, SC, z, omg_ws:    0.019392  -1.00044107, res:    0.00000000, dFx/domg:  247.065269
+     5, SC, z, omg_ws:    0.019392  -1.00044108, res:   -0.00000009, dFx/domg:  243.391648
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
+     6, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000000, dFx/domg:  247.065124
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -265,11 +272,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   1.270E-06  -3.209E-06   1.000E+04   1.270E-06  -3.209E-06   1.000E+04
+   1.296E-05  -3.209E-06   1.000E+04   1.296E-05  -3.209E-06   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0327     -0.0000     -0.0000  -2.892E-05       0.000   1.404E-05
+      0.0327     -0.0000      0.0000  -2.892E-05       0.000   1.404E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -398,6 +405,7 @@
     51     5.8549    -1.8719    -0.6219
 
  Case     3
+ reading rail  profile "..\profiles\groove_r1005.prr"
  Kink in rail profile at ( -10.10, -10.05) (ip=  100): successive angles    0.0,   84.3 deg
  Kink in rail profile at (  10.10, -10.05) (ip=  302): successive angles  -84.3,   -0.0 deg
  v1: Small or negative ry found (  -10.05    ), using positive value instead
@@ -407,36 +415,32 @@
          2, NR,  z_ws, Fz:       0.0089       3760., dFz/dz:   4.238E+05
          3, NR,  z_ws, Fz:       0.0236   1.519E+04, dFz/dz:   7.765E+05
          4, NR,  z_ws, Fz:       0.0169       9497., dFz/dz:   8.518E+05
-         5, NR,  z_ws, Fz:       0.0175       9971., dFz/dz:   8.027E+05
-     0, SC, z, omg_ws:    0.017498  -1.00000007, res:    0.14730721, dFx/domg:  210.475276
+     0, SC, z, omg_ws:    0.016907  -1.00000007, res:    0.14731115, dFx/domg:  210.475276
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0175   1.006E+04, dFz/dz:   8.518E+05
-     1, SC, z, omg_ws:    0.017498  -1.00069995, res:   -0.01080964, dFx/domg:  225.920295
+         1, NR,  z_ws, Fz:       0.0169       9584., dFz/dz:   8.503E+05
+     1, SC, z, omg_ws:    0.016907  -1.00069997, res:   -0.01407344, dFx/domg:  230.583126
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0175   1.006E+04, dFz/dz:   5.751E+05
-         2, NR,  z_ws, Fz:       0.0174       9976., dFz/dz:   8.132E+05
-         3, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.126E+05
-         4, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-     2, SC, z, omg_ws:    0.017427  -1.00065211, res:   -0.00058160, dFx/domg:  213.764967
+         1, NR,  z_ws, Fz:       0.0169       9579., dFz/dz:   8.498E+05
+         2, NR,  z_ws, Fz:       0.0174       9979., dFz/dz:   8.076E+05
+         3, NR,  z_ws, Fz:       0.0174       9999., dFz/dz:   8.124E+05
+         4, NR,  z_ws, Fz:       0.0183   1.071E+04, dFz/dz:   8.211E+05
+         5, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.124E+05
+         6, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.124E+05
+     2, SC, z, omg_ws:    0.017429  -1.00063894, res:    0.00236876, dFx/domg:  269.393584
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.135E+05
+         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.608E+05
+     3, SC, z, omg_ws:    0.017429  -1.00064773, res:    0.00040423, dFx/domg:  223.421631
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.608E+05
+         2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.130E+05
+     4, SC, z, omg_ws:    0.017427  -1.00064954, res:   -0.00000805, dFx/domg:  227.871152
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
          2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-     3, SC, z, omg_ws:    0.017427  -1.00064939, res:    0.00002653, dFx/domg:  223.514334
+     5, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000011, dFx/domg:  224.733203
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-     4, SC, z, omg_ws:    0.017427  -1.00064950, res:    0.00000006, dFx/domg:  222.982568
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   5.738E+05
-         2, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.126E+05
-     5, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000010, dFx/domg:  563.955808
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   5.738E+05
-         2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-     6, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000002, dFx/domg:  447.424622
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-         2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-     7, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000002, dFx/domg:  -29.575063
+         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
+     6, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000000, dFx/domg:  223.017436
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -479,11 +483,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -2.126E-04   8.117E-06   1.000E+04  -2.126E-04   8.117E-06   1.000E+04
+  -8.464E-06   8.106E-06   1.000E+04  -8.464E-06   8.106E-06   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0678     -0.0000     -0.0000   8.942E-05       0.000  -1.947E-05
+      0.0678     -0.0000     -0.0000   8.928E-05  -1.137E-13  -1.947E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -505,9 +509,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04  -2.126E-04   3.596E-04   4.896E-06   7.171E-02     -0.6444
+     1.000E+04       0.000   3.596E-04   4.894E-06   7.171E-02     -0.6444
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250  -7.086E-08   1.199E-07   1.743E-02       348.7
+        0.1250       0.000   1.199E-07   1.743E-02       348.7
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -634,6 +638,7 @@
     63     7.0008    -2.8407    -0.7731
 
  Case     4
+ reading rail  profile "..\profiles\groove_r1002.prr"
  Kink in rail profile at ( -10.04, -10.02) (ip=  100): successive angles    0.0,   85.5 deg
  Kink in rail profile at (  10.06, -10.02) (ip=  301): successive angles  -84.8,   -0.0 deg
  v1: Small or negative ry found (  -10.02    ), using positive value instead
@@ -641,30 +646,28 @@
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0139       8561., dFz/dz:   9.260E+05
          2, NR,  z_ws, Fz:       0.0154       9883., dFz/dz:   8.504E+05
-         3, NR,  z_ws, Fz:       0.0155       9993., dFz/dz:   8.694E+05
-     0, SC, z, omg_ws:    0.015549  -1.00000001, res:    0.19117642, dFx/domg:  512.598375
+     0, SC, z, omg_ws:    0.015422  -1.00000001, res:    0.19114617, dFx/domg:  512.598375
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0155   1.005E+04, dFz/dz:   8.694E+05
-     1, SC, z, omg_ws:    0.015549  -1.00037297, res:    0.11721068, dFx/domg:  198.323212
+         1, NR,  z_ws, Fz:       0.0154       9937., dFz/dz:   9.665E+05
+     1, SC, z, omg_ws:    0.015422  -1.00037291, res:    0.11686859, dFx/domg:  199.190851
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0155   1.013E+04, dFz/dz:   6.462E+05
-     2, SC, z, omg_ws:    0.015549  -1.00096398, res:    0.00277293, dFx/domg:  193.631344
+         1, NR,  z_ws, Fz:       0.0154   1.001E+04, dFz/dz:   9.739E+05
+     2, SC, z, omg_ws:    0.015422  -1.00095963, res:    0.00294496, dFx/domg:  194.171453
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0155   1.013E+04, dFz/dz:   6.512E+05
-         2, NR,  z_ws, Fz:       0.0154       9957., dFz/dz:   8.752E+05
-         3, NR,  z_ws, Fz:       0.0154      10000., dFz/dz:   8.705E+05
-     3, SC, z, omg_ws:    0.015406  -1.00097830, res:   -0.00038514, dFx/domg:  220.525436
+         1, NR,  z_ws, Fz:       0.0154   1.001E+04, dFz/dz:   9.740E+05
+         2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.888E+05
+     3, SC, z, omg_ws:    0.015408  -1.00097479, res:    0.00023806, dFx/domg:  178.475507
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0154      10000., dFz/dz:   8.752E+05
+         1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.737E+05
+         2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.739E+05
+     4, SC, z, omg_ws:    0.015406  -1.00097613, res:   -0.00000384, dFx/domg:  181.357131
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
          2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.733E+05
-     4, SC, z, omg_ws:    0.015406  -1.00097655, res:   -0.00007805, dFx/domg:  175.833966
+     5, SC, z, omg_ws:    0.015406  -1.00097610, res:    0.00000014, dFx/domg:  187.827220
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0154      10000., dFz/dz:   8.733E+05
-         2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.733E+05
-     5, SC, z, omg_ws:    0.015406  -1.00097611, res:   -0.00000017, dFx/domg:  175.442563
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.733E+05
-     6, SC, z, omg_ws:    0.015406  -1.00097611, res:   -0.00000000, dFx/domg:  174.945388
+         1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
+     6, SC, z, omg_ws:    0.015406  -1.00097611, res:    0.00000001, dFx/domg:  174.945418
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -707,7 +710,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -4.924E-06   1.147E-02   1.000E+04  -4.924E-06   1.147E-02   1.000E+04
+   9.404E-05   1.147E-02   1.000E+04   9.404E-05   1.147E-02   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -898,43 +901,39 @@
  Case     5
  Input: WARNING. With dissimilar shapes (C= 4), MAXOUT should be > 1,
         i.e. the Panag/outer iteration process should be used.
+ reading rail  profile "..\profiles\groove_r1025.prr"
  Kink in rail profile at ( -10.30, -10.25) (ip=  104): successive angles    0.0,   84.4 deg
  Kink in rail profile at (  10.30, -10.25) (ip=  310): successive angles  -84.4,    0.0 deg
+ reading wheel profile "..\profiles\circ_r10.prw"
  v1: Small or negative ry found (  -10.25    ), using positive value instead
  v1: Small or negative ry found (  -10.25    ), using positive value instead
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0352   1.986E+04, dFz/dz:   8.463E+05
          2, NR,  z_ws, Fz:       0.0235   1.088E+04, dFz/dz:   7.705E+05
          3, NR,  z_ws, Fz:       0.0224   1.010E+04, dFz/dz:   6.840E+05
-     0, SC, z, omg_ws:    0.022404  -1.00000007, res:    0.06135088, dFx/domg:  210.475276
+     0, SC, z, omg_ws:    0.022404  -1.00000007, res:    0.06135090, dFx/domg:  210.475276
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0224   1.011E+04, dFz/dz:   4.621E+05
-     1, SC, z, omg_ws:    0.022404  -1.00029156, res:   -0.01423112, dFx/domg:  259.297696
+         1, NR,  z_ws, Fz:       0.0224   1.011E+04, dFz/dz:   6.770E+05
+     1, SC, z, omg_ws:    0.022404  -1.00029156, res:   -0.01423113, dFx/domg:  259.297712
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0224   1.011E+04, dFz/dz:   4.514E+05
-         2, NR,  z_ws, Fz:       0.0222       9946., dFz/dz:   6.747E+05
-         3, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.748E+05
-         4, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     2, SC, z, omg_ws:    0.022242  -1.00023668, res:   -0.00065158, dFx/domg:  247.425689
+         1, NR,  z_ws, Fz:       0.0224   1.011E+04, dFz/dz:   6.768E+05
+         2, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.747E+05
+         3, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
+     2, SC, z, omg_ws:    0.022242  -1.00023668, res:   -0.00065158, dFx/domg:  247.425658
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0222      10000., dFz/dz:   6.748E+05
+         1, NR,  z_ws, Fz:       0.0222      10000., dFz/dz:   6.744E+05
          2, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     3, SC, z, omg_ws:    0.022243  -1.00023405, res:    0.00003588, dFx/domg:  261.051819
+     3, SC, z, omg_ws:    0.022243  -1.00023405, res:    0.00003588, dFx/domg:  261.051231
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     4, SC, z, omg_ws:    0.022243  -1.00023418, res:    0.00000004, dFx/domg:  260.789140
+         1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.744E+05
+     4, SC, z, omg_ws:    0.022243  -1.00023418, res:    0.00000004, dFx/domg:  260.789083
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   4.496E+05
-         2, NR,  z_ws, Fz:       0.0222      10000., dFz/dz:   6.731E+05
-     5, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000004, dFx/domg:  568.523297
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0222      10000., dFz/dz:   4.496E+05
+         1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.744E+05
          2, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     6, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000001, dFx/domg:  370.675578
+     5, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000004, dFx/domg:  533.406448
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-         2, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     7, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000001, dFx/domg:  192.821208
+         1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.744E+05
+     6, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000002, dFx/domg:  260.978253
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -985,11 +984,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -7.114E-05  -1.790E-06   1.000E+04  -7.114E-05  -1.790E-06   1.000E+04
+  -1.924E-04  -1.759E-06   1.000E+04  -1.924E-04  -1.759E-06   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0100      0.0000     -0.0000  -5.518E-05       0.000   5.523E-07
+      0.0100      0.0000     -0.0000  -5.491E-05  -1.421E-14   5.336E-07
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1011,9 +1010,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000   2.880E-04   3.435E-06   9.029E-02  -8.402E-02
+     1.000E+04  -1.924E-04   2.880E-04   3.417E-06   9.029E-02  -8.402E-02
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250       0.000   9.600E-08   2.224E-02       527.4
+        0.1250  -6.413E-08   9.601E-08   2.224E-02       527.4
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1060,7 +1059,7 @@
      5    -3.4307    -0.5879     0.3457
      6    -3.1945    -0.5061     0.3210
      7    -2.9563    -0.4301     0.2963
-     8    -2.7163    -0.3601     0.2717
+     8    -2.7163    -0.3601     0.2716
      9    -2.4747    -0.2960     0.2470
     10    -2.2315    -0.2379     0.2223
     11    -1.9870    -0.1858     0.1976
@@ -1082,7 +1081,7 @@
     27     1.9870    -0.1858    -0.1976
     28     2.2315    -0.2379    -0.2223
     29     2.4747    -0.2960    -0.2470
-    30     2.7163    -0.3601    -0.2717
+    30     2.7163    -0.3601    -0.2716
     31     2.9563    -0.4301    -0.2963
     32     3.1945    -0.5061    -0.3210
     33     3.4307    -0.5879    -0.3457
@@ -1094,6 +1093,7 @@
  Case     6
  Input: WARNING. With dissimilar shapes (C= 4), MAXOUT should be > 1,
         i.e. the Panag/outer iteration process should be used.
+ reading rail  profile "..\profiles\groove_r1010.prr"
  Kink in rail profile at ( -10.10, -10.10) (ip=  101): successive angles    0.0,   86.0 deg
  Kink in rail profile at (  10.10, -10.10) (ip=  303): successive angles  -86.0,   -0.0 deg
  v1: Small or negative ry found (  -10.10    ), using positive value instead
@@ -1103,20 +1103,37 @@
          2, NR,  z_ws, Fz:       0.0096       3591., dFz/dz:   3.736E+05
          3, NR,  z_ws, Fz:       0.0268   1.635E+04, dFz/dz:   7.439E+05
          4, NR,  z_ws, Fz:       0.0182       9286., dFz/dz:   8.275E+05
-         5, NR,  z_ws, Fz:       0.0191       9944., dFz/dz:   7.622E+05
-     0, SC, z, omg_ws:    0.019092  -1.00000000, res:    0.11301461, dFx/domg:  210.475276
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0191       9995., dFz/dz:   8.275E+05
-     1, SC, z, omg_ws:    0.019092  -1.00053695, res:   -0.01932568, dFx/domg:  246.466891
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0191       9984., dFz/dz:   5.235E+05
-         2, NR,  z_ws, Fz:       0.0191   1.001E+04, dFz/dz:   7.775E+05
-         3, NR,  z_ws, Fz:       0.0191      10000., dFz/dz:   7.778E+05
-         4, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.778E+05
-     2, SC, z, omg_ws:    0.019112  -1.00045854, res:    0.00000799, dFx/domg:  246.568772
+     0, SC, z, omg_ws:    0.018229  -1.00000000, res:    0.11194374, dFx/domg:  210.475276
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.778E+05
-     3, SC, z, omg_ws:    0.019112  -1.00045857, res:    0.00000001, dFx/domg:  246.331499
+         1, NR,  z_ws, Fz:       0.0182       9378., dFz/dz:   7.717E+05
+     1, SC, z, omg_ws:    0.018229  -1.00053186, res:   -0.02329424, dFx/domg:  254.272826
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0182       9324., dFz/dz:   7.672E+05
+         2, NR,  z_ws, Fz:       0.0191       9993., dFz/dz:   7.642E+05
+         3, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.776E+05
+         4, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.776E+05
+     2, SC, z, omg_ws:    0.019114  -1.00044025, res:    0.00453080, dFx/domg:  303.729657
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.848E+05
+     3, SC, z, omg_ws:    0.019114  -1.00045517, res:    0.00084076, dFx/domg:  247.367901
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
+     4, SC, z, omg_ws:    0.019114  -1.00045857, res:    0.00000984, dFx/domg:  244.472445
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
+         2, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.777E+05
+     5, SC, z, omg_ws:    0.019112  -1.00045861, res:   -0.00000867, dFx/domg:  459.889084
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
+         2, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.778E+05
+     6, SC, z, omg_ws:    0.019112  -1.00045859, res:   -0.00000414, dFx/domg:  240.325741
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
+         2, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.778E+05
+     7, SC, z, omg_ws:    0.019112  -1.00045857, res:    0.00000012, dFx/domg:  247.020093
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
+     8, SC, z, omg_ws:    0.019112  -1.00045857, res:    0.00000000, dFx/domg:  246.369942
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1160,11 +1177,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   7.687E-05  -1.942E-07   1.000E+04   7.687E-05  -1.942E-07   1.000E+04
+   3.035E-06  -1.138E-06   1.000E+04   3.035E-06  -1.138E-06   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0343     -0.0000     -0.0000   8.643E-06   5.684E-14   3.202E-05
+      0.0343     -0.0000     -0.0000  -4.406E-06       0.000   8.600E-06
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1186,7 +1203,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000       0.000   3.195E-05   7.887E-02     -0.3113
+     1.000E+04       0.000       0.000   8.498E-06   7.887E-02     -0.3113
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000       0.000   1.911E-02       405.9
 
@@ -1295,6 +1312,7 @@
  Case     7
  Input: WARNING. With dissimilar shapes (C= 4), MAXOUT should be > 1,
         i.e. the Panag/outer iteration process should be used.
+ reading rail  profile "..\profiles\groove_r1005.prr"
  Kink in rail profile at ( -10.10, -10.05) (ip=  100): successive angles    0.0,   84.3 deg
  Kink in rail profile at (  10.10, -10.05) (ip=  302): successive angles  -84.3,   -0.0 deg
  v1: Small or negative ry found (  -10.05    ), using positive value instead
@@ -1304,24 +1322,40 @@
          2, NR,  z_ws, Fz:       0.0084       3520., dFz/dz:   4.212E+05
          3, NR,  z_ws, Fz:       0.0237   1.604E+04, dFz/dz:   8.142E+05
          4, NR,  z_ws, Fz:       0.0163       9344., dFz/dz:   9.025E+05
-         5, NR,  z_ws, Fz:       0.0170       9954., dFz/dz:   8.393E+05
-     0, SC, z, omg_ws:    0.017042  -1.00000007, res:    0.15303014, dFx/domg:  210.475276
+     0, SC, z, omg_ws:    0.016315  -1.00000007, res:    0.15237258, dFx/domg:  210.475276
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170   1.005E+04, dFz/dz:   9.025E+05
-     1, SC, z, omg_ws:    0.017042  -1.00072714, res:   -0.00991165, dFx/domg:  224.107611
+         1, NR,  z_ws, Fz:       0.0163       9430., dFz/dz:   8.670E+05
+     1, SC, z, omg_ws:    0.016315  -1.00072402, res:   -0.01445059, dFx/domg:  230.436162
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170   1.004E+04, dFz/dz:   5.895E+05
-         2, NR,  z_ws, Fz:       0.0170       9985., dFz/dz:   8.474E+05
+         1, NR,  z_ws, Fz:       0.0163       9420., dFz/dz:   8.661E+05
+         2, NR,  z_ws, Fz:       0.0170       9984., dFz/dz:   8.431E+05
          3, NR,  z_ws, Fz:       0.0170      10000., dFz/dz:   8.447E+05
-         4, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.444E+05
-     2, SC, z, omg_ws:    0.017000  -1.00068292, res:   -0.00012265, dFx/domg:  221.334408
+         4, NR,  z_ws, Fz:       0.0179   1.073E+04, dFz/dz:   8.606E+05
+         5, NR,  z_ws, Fz:       0.0170      10000., dFz/dz:   8.478E+05
+         6, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.477E+05
+     2, SC, z, omg_ws:    0.017003  -1.00066131, res:    0.00466136, dFx/domg:  304.768487
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170      10000., dFz/dz:   8.486E+05
+         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
+     3, SC, z, omg_ws:    0.017003  -1.00067660, res:    0.00126022, dFx/domg:  222.372821
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
+     4, SC, z, omg_ws:    0.017003  -1.00068227, res:    0.00003573, dFx/domg:  216.068178
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
+         2, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.556E+05
+         3, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.399E+05
+     5, SC, z, omg_ws:    0.017000  -1.00068244, res:   -0.00001719, dFx/domg:  320.007429
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
          2, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.437E+05
-     3, SC, z, omg_ws:    0.017000  -1.00068236, res:   -0.00000046, dFx/domg:  220.511327
+     6, SC, z, omg_ws:    0.017000  -1.00068238, res:   -0.00000506, dFx/domg:  225.720926
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.437E+05
-     4, SC, z, omg_ws:    0.017000  -1.00068236, res:   -0.00000000, dFx/domg:  219.686453
+         1, NR,  z_ws, Fz:       0.0170      10000., dFz/dz:   8.824E+05
+         2, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.437E+05
+     7, SC, z, omg_ws:    0.017000  -1.00068236, res:   -0.00000011, dFx/domg:  220.726094
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
+     8, SC, z, omg_ws:    0.017000  -1.00068236, res:   -0.00000000, dFx/domg:  219.686390
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1365,11 +1399,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -1.706E-05  -3.245E-05   1.000E+04  -1.706E-05  -3.245E-05   1.000E+04
+  -5.278E-06  -3.184E-05   1.000E+04  -5.278E-06  -3.184E-05   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0722     -0.0000     -0.0000  -2.973E-04  -1.137E-13   5.416E-05
+      0.0722     -0.0000     -0.0000  -2.923E-04  -1.137E-13   5.261E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1391,9 +1425,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000  -1.698E-04   4.189E-05   7.146E-02     -0.6789
+     1.000E+04       0.000  -1.692E-04   4.039E-05   7.146E-02     -0.6789
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250       0.000  -5.661E-08   1.700E-02       344.9
+        0.1250       0.000  -5.641E-08   1.700E-02       344.9
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1524,6 +1558,7 @@
  Case     8
  Input: WARNING. With dissimilar shapes (C= 4), MAXOUT should be > 1,
         i.e. the Panag/outer iteration process should be used.
+ reading rail  profile "..\profiles\groove_r1002.prr"
  Kink in rail profile at ( -10.04, -10.02) (ip=  100): successive angles    0.0,   85.5 deg
  Kink in rail profile at (  10.06, -10.02) (ip=  301): successive angles  -84.8,   -0.0 deg
  v1: Small or negative ry found (  -10.02    ), using positive value instead
@@ -1531,32 +1566,32 @@
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0139       9051., dFz/dz:   9.790E+05
          2, NR,  z_ws, Fz:       0.0148       9940., dFz/dz:   9.171E+05
-     0, SC, z, omg_ws:    0.014837  -1.00000001, res:    0.19867510, dFx/domg:  512.598375
+     0, SC, z, omg_ws:    0.014837  -1.00000001, res:    0.19867511, dFx/domg:  512.598375
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148       9995., dFz/dz:   9.171E+05
-     1, SC, z, omg_ws:    0.014837  -1.00038760, res:    0.12346864, dFx/domg:  194.038951
+         1, NR,  z_ws, Fz:       0.0148       9995., dFz/dz:   1.010E+06
+     1, SC, z, omg_ws:    0.014837  -1.00038760, res:    0.12346865, dFx/domg:  194.038939
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.008E+04, dFz/dz:   6.737E+05
-     2, SC, z, omg_ws:    0.014837  -1.00102390, res:    0.00354301, dFx/domg:  188.470882
+         1, NR,  z_ws, Fz:       0.0148   1.008E+04, dFz/dz:   1.019E+06
+     2, SC, z, omg_ws:    0.014837  -1.00102390, res:    0.00354301, dFx/domg:  188.470868
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.007E+04, dFz/dz:   6.791E+05
-         2, NR,  z_ws, Fz:       0.0147       9974., dFz/dz:   9.202E+05
-         3, NR,  z_ws, Fz:       0.0148       9999., dFz/dz:   8.908E+05
-     3, SC, z, omg_ws:    0.014759  -1.00104270, res:   -0.00004537, dFx/domg:  190.884415
+         1, NR,  z_ws, Fz:       0.0148   1.007E+04, dFz/dz:   1.018E+06
+         2, NR,  z_ws, Fz:       0.0148   1.001E+04, dFz/dz:   9.383E+05
+     3, SC, z, omg_ws:    0.014766  -1.00104270, res:    0.00002026, dFx/domg:  187.393146
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148       9999., dFz/dz:   9.202E+05
-         2, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   9.364E+05
-     4, SC, z, omg_ws:    0.014760  -1.00104247, res:    0.00000312, dFx/domg:  204.014558
+         1, NR,  z_ws, Fz:       0.0148   1.001E+04, dFz/dz:   1.016E+06
+         2, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   9.352E+05
+     4, SC, z, omg_ws:    0.014760  -1.00104281, res:   -0.00005531, dFx/domg:  699.005865
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   9.364E+05
-         2, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   9.361E+05
-     5, SC, z, omg_ws:    0.014760  -1.00104248, res:    0.00000038, dFx/domg:  179.184891
+         1, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   1.016E+06
+         2, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   9.366E+05
+     5, SC, z, omg_ws:    0.014760  -1.00104273, res:   -0.00004210, dFx/domg:  166.921538
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   6.775E+05
-     6, SC, z, omg_ws:    0.014760  -1.00104248, res:    0.00000003, dFx/domg:  164.628532
+         1, NR,  z_ws, Fz:       0.0148      10000., dFz/dz:   1.016E+06
+         2, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   9.366E+05
+     6, SC, z, omg_ws:    0.014760  -1.00104248, res:    0.00000053, dFx/domg:  169.012640
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   6.775E+05
-     7, SC, z, omg_ws:    0.014760  -1.00104248, res:   -0.00000000, dFx/domg:  168.133543
+         1, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   1.016E+06
+     7, SC, z, omg_ws:    0.014760  -1.00104248, res:    0.00000000, dFx/domg:  168.130354
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1600,7 +1635,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -6.569E-06  -1.734E-02   1.000E+04  -6.569E-06  -1.734E-02   1.000E+04
+   2.753E-05  -1.734E-02   1.000E+04   2.753E-05  -1.734E-02   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -1626,9 +1661,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000  -9.601E-03   2.604E-02   6.398E-02      -1.519
+     1.000E+04       0.000  -9.602E-03   2.604E-02   6.398E-02      -1.519
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250       0.000  -3.200E-06   1.476E-02       292.0
+        0.1250       0.000  -3.201E-06   1.476E-02       292.0
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1799,22 +1834,23 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |     120.5 | 100.0 |      120.6 | 100.0 |
-|Wheel-rail cases     |       8 |     120.5 | 100.0 |      120.6 | 100.0 |
-|W/r profiles         |      10 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Geometric analysis   |     129 |       0.5 |   0.4 |        0.5 |   0.4 |
-|Panag.process        |     113 |     102.0 |  84.7 |      102.1 |  84.7 |
-|Algorithm Norm       |     113 |      31.5 |  26.2 |       31.6 |  26.2 |
-|Algorithm Tang       |     113 |      70.5 |  58.5 |       70.6 |  58.5 |
-|Output quantities    |     121 |       4.8 |   4.0 |        4.8 |   4.0 |
+|Total                |       1 |      44.3 | 100.0 |       78.3 | 100.0 |
+|Wheel-rail cases     |       8 |      44.3 | 100.0 |       78.3 | 100.0 |
+|W/r profiles         |      10 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Geometric analysis   |     138 |       0.1 |   0.1 |        0.3 |   0.4 |
+|Panag.process        |     122 |      40.1 |  90.5 |       68.8 |  87.8 |
+|Algorithm Norm       |     122 |      13.8 |  31.2 |       23.3 |  29.8 |
+|Algorithm Tang       |     122 |      26.3 |  59.3 |       45.4 |  58.0 |
+|Output quantities    |     130 |       1.7 |   3.8 |        3.4 |   4.3 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     113 |      29.8 |  24.8 |       29.8 |  24.7 |
-|Tang: StedyGS solver |     113 |      69.1 |  57.4 |       69.2 |  57.4 |
+|Norm: ConjGrd solver |     122 |      13.1 |  29.7 |       22.0 |  28.1 |
+|Tang: StedyGS solver |     122 |      25.7 |  58.0 |       44.5 |  56.8 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       8 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Contact location     |     129 |       0.1 |   0.1 |        0.1 |   0.1 |
-|Undeformed distance  |     113 |       0.3 |   0.3 |        0.3 |   0.3 |
-|Influence coeffic.   |     167 |      12.9 |  10.7 |       12.9 |  10.7 |
-|Initial state/estim. |     113 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       8 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Contact location     |     138 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Undeformed distance  |     122 |       0.0 |   0.1 |        0.3 |   0.3 |
+| - Interp whl_srfc   |     122 |       0.0 |   0.1 |        0.2 |   0.2 |
+|Influence coeffic.   |     187 |       2.4 |   5.4 |        5.6 |   7.2 |
+|Initial state/estim. |     122 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -27,7 +27,7 @@ if (not importlib.util.find_spec('python_intfc')):
             CONTACTDIR = '/v3/CMCC/contact'
         else:
             CONTACTDIR = 'C:\\CMCC\\contact'
-            # CONTACTDIR = 'C:\Program Files\Vtech CMCC\contact_v23.1'
+            # CONTACTDIR = 'C:\Program Files\Vtech CMCC\contact_v23.2'
         print('Setting CONTACTDIR as', CONTACTDIR)
     sys.path.append( CONTACTDIR )
 
@@ -36,7 +36,7 @@ if (not importlib.util.find_spec('python_intfc')):
 
 import python_intfc as cntc
 
-# $Revision: 2372 $, $Date: 2023-06-15 16:58:45 +0200 (Thu, 15 Jun 2023) $
+# $Revision: 2447 $, $Date: 2023-11-04 15:03:17 +0100 (Sat, 04 Nov 2023) $
 
 #------------------------------------------------------------------------------------------------------------
 # Part 1: Initialize the CONTACT library, register problem "iwhe = 1"

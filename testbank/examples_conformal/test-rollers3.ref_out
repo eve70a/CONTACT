@@ -2,12 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
+   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
+ reading rail  profile "..\profiles\flat_plane.prr"
+ reading wheel profile "..\profiles\circ_r100.prw"
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -642,6 +644,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case     6
+ reading rail  profile "..\profiles\circ_r100.prr"
+ reading wheel profile "..\profiles\flat_plane.prw"
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -695,7 +699,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0000    200.0000      0.0000  -1.585E-04  -5.178E-18  -4.634E-07
+     -0.0000    200.0000      0.0000  -1.585E-04  -5.177E-18  -4.634E-07
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -772,6 +776,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case     7
+ reading rail  profile "..\profiles\circ_r100.prr"
+ reading wheel profile "..\profiles\flat_plane.prw"
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1014,6 +1020,8 @@
      X  -->        Chi=180.00 degrees
 
  Case     9
+ reading rail  profile "..\profiles\circ_r100.prr"
+ reading wheel profile "..\profiles\flat_plane.prw"
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1148,6 +1156,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    10
+ reading rail  profile "..\profiles\flat_ang200.prr"
+ reading wheel profile "..\profiles\circ_r100.prw"
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1278,6 +1288,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    11
+ reading rail  profile "..\profiles\flat_plane.prr"
+ reading wheel profile "..\profiles\circ_r100.prw"
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1412,6 +1424,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    12
+ reading rail  profile "..\profiles\flat_ang200.prr"
+ reading wheel profile "..\profiles\circ_r100.prw"
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1548,22 +1562,23 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       6.1 | 100.0 |        6.1 | 100.0 |
-|Wheel-rail cases     |      12 |       6.1 | 100.0 |        6.1 | 100.0 |
-|W/r profiles         |      14 |       0.2 |   3.7 |        0.2 |   3.7 |
-|Geometric analysis   |      12 |       0.1 |   1.0 |        0.1 |   1.0 |
-|Panag.process        |      12 |       5.8 |  94.2 |        5.8 |  94.1 |
-|Algorithm Norm       |      12 |       0.1 |   2.3 |        0.1 |   2.3 |
-|Algorithm Tang       |      12 |       5.6 |  91.8 |        5.6 |  91.8 |
-|Output quantities    |      24 |       0.0 |   0.6 |        0.0 |   0.7 |
+|Total                |       1 |       1.0 | 100.0 |        3.5 | 100.0 |
+|Wheel-rail cases     |      12 |       1.0 | 100.0 |        3.5 | 100.0 |
+|W/r profiles         |      14 |       0.0 |   1.6 |        0.1 |   1.6 |
+|Geometric analysis   |      12 |       0.0 |   0.0 |        0.0 |   0.8 |
+|Panag.process        |      12 |       0.9 |  95.2 |        3.4 |  94.7 |
+|Algorithm Norm       |      12 |       0.0 |   3.2 |        0.1 |   2.3 |
+|Algorithm Tang       |      12 |       0.9 |  91.9 |        3.3 |  92.3 |
+|Output quantities    |      24 |       0.0 |   1.6 |        0.1 |   2.1 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      12 |       0.1 |   1.9 |        0.1 |   1.9 |
-|Tang: StedyGS solver |      12 |       5.6 |  91.7 |        5.6 |  91.6 |
+|Norm: ConjGrd solver |      12 |       0.0 |   1.6 |        0.1 |   1.4 |
+|Tang: StedyGS solver |      12 |       0.9 |  91.9 |        3.3 |  92.3 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      12 |       0.2 |   3.7 |        0.2 |   3.7 |
-|Contact location     |      12 |       0.0 |   0.4 |        0.0 |   0.4 |
-|Undeformed distance  |      12 |       0.0 |   0.6 |        0.0 |   0.6 |
-|Influence coeffic.   |      12 |       0.0 |   0.4 |        0.0 |   0.4 |
+|Reading input-file   |      12 |       0.0 |   1.6 |        0.1 |   1.7 |
+|Contact location     |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Undeformed distance  |      12 |       0.0 |   0.0 |        0.0 |   0.6 |
+| - Interp whl_srfc   |      12 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Influence coeffic.   |      12 |       0.0 |   1.6 |        0.0 |   0.6 |
 |Initial state/estim. |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

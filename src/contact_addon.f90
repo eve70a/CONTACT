@@ -685,13 +685,13 @@ end subroutine cntc_setGlobalFlags
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_getMaxNumThreads(lic_mxthrd) &
+subroutine cntc_getMaxNumThreads(mxthrd) &
    bind(c,name=CNAME_(cntc_getmaxnumthreads))
 !--function: used for retrieving the maximum number of active threads allowed by the current license
 !--category: 0, "m=any, glob":      not related to contact's modules 1 or 3, working on global data
    implicit none
 !--subroutine arguments:
-   integer,      intent(out) :: lic_mxthrd    ! maximum number of concurrently active threads allowed
+   integer,      intent(out) :: mxthrd    ! maximum number of concurrently active threads allowed
 !--local variables:
    character(len=*), parameter :: subnam = 'cntc_getMaxNumThreads'
 #ifdef _WIN32
@@ -701,9 +701,9 @@ subroutine cntc_getMaxNumThreads(lic_mxthrd) &
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
 
 #ifdef _OPENMP
-   lic_mxthrd = 999
+   mxthrd = 999
 #else
-   lic_mxthrd = 1
+   mxthrd = 1
 #endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -778,7 +778,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
             my_ic%force1  = 0
             my_ic%force3  = max(0, min(2, values(i)))
          else
-            my_ic%force1  = max(0, min(4, values(i)))
+            my_ic%force1  = max(0, min(3, values(i)))
             my_ic%force3  = 0
          endif
 
@@ -3016,9 +3016,9 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
       return
    endif
 
-   ! check number of parameters supplied, expecting 4 additional params when Z = 3, F = 3/4
+   ! check number of parameters supplied, expecting 4 additional params when Z = 3, F = 3
 
-   if (ztrack.eq.3 .and. wtd%ic%force1.ge.3 .and. wtd%ic%force1.le.4) then
+   if (ztrack.eq.3 .and. wtd%ic%force1.eq.3) then
       nparam_loc(1:3) = (/ 5, 6, 15 /)
    else
       nparam_loc(1:3) = (/ 5, 6, 11 /)
@@ -3080,7 +3080,7 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
       my_rail%vz              = params(10) * my_scl%veloc
       my_rail%vroll           = params(11) * my_scl%angle
 
-      if (wtd%ic%force1.eq.3 .or. wtd%ic%force1.eq.4) then
+      if (wtd%ic%force1.eq.3) then
          wtd%trk%ky_rail      = params(12) * my_scl%forc / my_scl%len
          wtd%trk%fy_rail      = params(13) * my_scl%forc
          wtd%trk%kz_rail      = params(14) * my_scl%forc / my_scl%len
@@ -4643,8 +4643,19 @@ end subroutine cntc_getProfileValues_new
 subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
    bind(c,name=CNAME_(cntc_getprofilevalues))
 !--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
-!  backward compatibility
-!
+!            Old version provided for backward compatibility. Will be changed in v25.1.
+!  itask          - select type of outputs:
+!                     0: npnt   number of points used in profile
+!                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
+!                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
+!                     3: gaug   get left-most point within gauge height, offset, point at gauge height
+!                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
+!                     4: arc    get arc-length parameter s along profile
+!                     5: angl   get surface inclination atan2(dz, dy) [angle]
+!  iparam         - integer configuration parameters
+!                     1: itype     0 = rail, 1 = wheel profile
+!                     2:  -      not used
+!  tasks 1,2,4: no unit conversion or scaling are applied for profile values
 !--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
    implicit none
 !--subroutine arguments:

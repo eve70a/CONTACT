@@ -159,7 +159,7 @@ function [ sol ] = fill_struct(tmp, fname)
 % check the file format
 
 fmtmat = tmp(1,end);
-if (fmtmat>2310)
+if (fmtmat>2320)
    disp('ERROR: the mat-file is created with a newer version of CONTACT.');
    disp('       Please use the corresponding version of this Matlab script.');
    sol=[];
@@ -172,9 +172,37 @@ irow = 1;
 sol = struct('config',[], 'h_digit',[], 'meta',struct(), 'mater',struct(), 'fric',struct(), ...
              'kincns',struct('t_digit',[]) );
 
-% extract the metadata from the first two rows
+% extract the metadata from the first three rows
 
-if (fmtmat>=1801)
+if (fmtmat>=2320)
+   sol.meta.tim      = tmp(irow,1);     % time: may be provided by calling program
+   sol.meta.s_ws     = tmp(irow,2);     % s-position along track curve, wrt. inertial reference
+   sol.meta.th_ws    = tmp(irow,3);
+   sol.meta.y_r      = tmp(irow,4);     % position of rail marker wrt track reference
+   sol.meta.z_r      = tmp(irow,5);
+   sol.meta.roll_r   = tmp(irow,6);     % orientation of rail marker wrt track reference
+   sol.meta.rnom_rol = tmp(irow,7);
+   irow = irow + 1;
+
+   sol.meta.x_w      = tmp(irow,1);     % position of wheel marker wrt track reference
+   sol.meta.y_w      = tmp(irow,2);
+   sol.meta.z_w      = tmp(irow,3);
+   sol.meta.roll_w   = tmp(irow,4);     % orientation of wheel marker wrt track reference
+   sol.meta.yaw_w    = tmp(irow,5);
+   sol.meta.rnom_whl = tmp(irow,6);
+   irow = irow + 1;
+
+   sol.meta.xcp_r    = tmp(irow,1);     % position of contact ref.point wrt rail marker
+   sol.meta.ycp_r    = tmp(irow,2);
+   sol.meta.zcp_r    = tmp(irow,3);
+   sol.meta.deltcp_r = tmp(irow,4);     % orientation of contact ref.point wrt rail marker
+   sol.meta.xcp_w    = tmp(irow,5);     % position of contact ref.point wrt wheel marker
+   sol.meta.ycp_w    = tmp(irow,6);
+   sol.meta.zcp_w    = tmp(irow,7);
+   sol.meta.npatch   = tmp(irow,8);
+   sol.meta.ipatch   = tmp(irow,9);
+   irow = irow + 1;
+elseif (fmtmat>=1801)
    sol.meta.tim      = tmp(irow,1);     % time: may be provided by calling program
    sol.meta.s_ws     = tmp(irow,2);     % s-position along track curve, wrt. inertial reference
    sol.meta.x_w      = tmp(irow,3);     % position of wheel marker wrt track reference
@@ -182,10 +210,12 @@ if (fmtmat>=1801)
    sol.meta.z_w      = tmp(irow,5);
    sol.meta.roll_w   = tmp(irow,6);     % orientation of wheel marker wrt track reference
    sol.meta.yaw_w    = tmp(irow,7);
+   sol.meta.pitch_w  = 0;
    sol.meta.y_r      = tmp(irow,8);     % position of rail marker wrt track reference
    sol.meta.z_r      = tmp(irow,9);
    sol.meta.roll_r   = tmp(irow,10);    % orientation of rail marker wrt track reference
    irow = irow + 1;
+
    sol.meta.xcp_r    = tmp(irow,1);     % position of contact ref.point wrt rail marker
    sol.meta.ycp_r    = tmp(irow,2);
    sol.meta.zcp_r    = tmp(irow,3);
@@ -206,6 +236,7 @@ else
    sol.meta.z_w      = 0;
    sol.meta.roll_w   = 0;
    sol.meta.yaw_w    = 0;
+   sol.meta.pitch_w  = 0;
    sol.meta.y_r      = 0;
    sol.meta.z_r      = 0;
    sol.meta.roll_r   = 0;

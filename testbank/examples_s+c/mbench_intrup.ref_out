@@ -2,15 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(linux64), $Revision: 2343 $, $Date:: 2023-04-14$     |
+   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
  Reading file "../profiles/uk_interrupt_v2.slcs" with profile slices
- s_offset =   0.000    , s_scale =   1000.
- obtained  20 slices
+ obtained  20 slices, s = [  -85.20    ,   178.8    ]
  feature information for  20 slices with  11 features per slice
    1    -1.00    -1.00    -1.00    -1.00    -1.00    -1.00     0.00    26.52    34.02   108.58   999.00
    2    -1.00    -1.00    -1.00    -1.00    -1.00    -1.00     0.00    26.50    33.99   107.48   999.00
@@ -32,7 +31,9 @@
   18     0.00    33.50    42.00    46.00    54.50    89.51   135.51   171.47   180.01   244.52   999.00
   19     0.00    33.49    42.48    46.48    55.47    89.95   135.93   172.37   180.91   244.88   999.00
   20     0.00    33.53    42.54    46.54    56.05    90.58   136.62   172.63   181.67   245.23   999.00
+ reading rail  profile "..\profiles\uk_crossing\Crossing_41.txt"
  make_2dspline: constructing interpolating spline surface
+ reading wheel profile "..\profiles\MBench_S1002_v3.prw"
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -67,7 +68,7 @@
 
  WHEEL PROFILE "../profiles/MBench_S1002_v3.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
-      0           0           0         0.0000
+      0          -1           0         0.0000
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
@@ -4252,22 +4253,23 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      11.3 | 100.0 |       11.2 | 100.0 |
-|Wheel-rail cases     |      43 |      11.3 | 100.0 |       11.2 | 100.0 |
-|W/r profiles         |       2 |       0.1 |   1.2 |        0.1 |   1.1 |
-|Geometric analysis   |      43 |       7.7 |  67.9 |        7.6 |  68.2 |
-|Panag.process        |      43 |       3.1 |  27.3 |        3.0 |  27.1 |
-|Algorithm Norm       |      43 |       0.2 |   2.0 |        0.2 |   2.0 |
-|Algorithm Tang       |      43 |       2.9 |  25.2 |        2.8 |  25.0 |
-|Output quantities    |      86 |       0.1 |   0.7 |        0.1 |   0.7 |
+|Total                |       1 |       2.4 | 100.0 |        4.1 | 100.0 |
+|Wheel-rail cases     |      43 |       2.4 | 100.0 |        4.1 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   1.3 |        0.0 |   1.2 |
+|Geometric analysis   |      43 |       1.4 |  58.9 |        2.4 |  56.9 |
+|Panag.process        |      43 |       0.9 |  37.1 |        1.4 |  33.6 |
+|Algorithm Norm       |      43 |       0.0 |   2.0 |        0.1 |   2.9 |
+|Algorithm Tang       |      43 |       0.8 |  34.4 |        1.3 |  30.7 |
+|Output quantities    |      86 |       0.0 |   0.7 |        0.2 |   4.1 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      43 |       0.2 |   1.8 |        0.2 |   1.8 |
-|Tang: StedyGS solver |      43 |       2.8 |  25.1 |        2.8 |  24.9 |
+|Norm: ConjGrd solver |      43 |       0.0 |   2.0 |        0.1 |   2.5 |
+|Tang: StedyGS solver |      43 |       0.8 |  34.4 |        1.3 |  30.7 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      43 |       0.1 |   1.2 |        0.1 |   1.1 |
-|Contact location     |      43 |       7.3 |  64.0 |        7.2 |  64.3 |
-|Undeformed distance  |      43 |       0.4 |   3.8 |        0.4 |   3.7 |
-|Influence coeffic.   |      43 |       0.1 |   0.5 |        0.1 |   0.5 |
+|Reading input-file   |      43 |       0.0 |   1.3 |        0.0 |   1.2 |
+|Contact location     |      43 |       1.2 |  51.0 |        2.1 |  51.8 |
+|Undeformed distance  |      43 |       0.2 |   7.9 |        0.2 |   4.1 |
+| - Interp whl_srfc   |      43 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |      43 |       0.0 |   0.0 |        0.0 |   0.3 |
 |Initial state/estim. |      43 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

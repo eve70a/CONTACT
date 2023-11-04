@@ -14,7 +14,7 @@ function [ opts3 ] = plot3d(sol, opt3, prr, prw, subs)
 %           no input arguments.
 %
 %  prr, prw == rail and wheel profiles (structs) or profile filenames. 
-%           prr may be a variable profile in slcs-format.
+%           prr may be a variable profile in slcs-format, prw may be in slcw-format.
 %
 %  subs   == structure with CONTACT results as returned by loadstrs.
 %            may be empty; may be array of subs structures (#patches>1, 1 block/patch).
@@ -114,12 +114,18 @@ end
 if (nargin<1)
    opts3 = myopt;
    return
+elseif (~isstruct(sol) | ~isfield(sol,'pn'))
+   disp('ERROR(plot3d): argument sol should be a structure as obtained from loadcase.');
+   return;
 end
 
 % If the user has not supplied an opt3-struct, use the default
 
 if (nargin<2 | isempty(opt3))
    opt3 = myopt;
+elseif (~isstruct(opt3))
+   disp('ERROR(plot3d): argument opt3 should be a structure as obtained from plot3d.');
+   return;
 end
 
 if (nargin<3)
@@ -230,7 +236,7 @@ if (ischar(prw))
    is_wheel = 1; mirror_y = 0;
    prw = read_profile(prw, is_wheel, mirror_y);
 end
-if (~isempty(prw))
+if (~isempty(prw) & ~isfield(prw,'nslc'))
    if (isempty(prw.ProfileY) | isempty(prw.ProfileZ))
       disp(sprintf('ERROR: wheel profile does not contain any data.'));
       prw = [];
@@ -385,7 +391,12 @@ if (any(strcmp(myopt.rw_surfc, {'prr','both'})))
    end
 end
 if (any(strcmp(myopt.rw_surfc, {'prw','both'})))
-   sol.prw = prw;
+   if (isfield(prw,'nslc')) % variable profile
+      sol.slcw = prw;
+      sol.prw = get_profile_slice(sol.slcw, -sol.meta.th_ws+sol.meta.xcp_r/sol.meta.rnom_whl);
+   else
+      sol.prw = prw;
+   end
 end
 clear prr prw;
 
@@ -436,11 +447,13 @@ end
 
 % start by plotting the rail and/or wheel surfaces
 
-if (myopt.addplot<=0 & ~strcmp(myopt.rw_surfc,'none'))
+show_slcs = (isfield(sol,'slcs') & any(strcmp(myopt.rw_surfc,{'prr','both'})));
+show_slcw = (isfield(sol,'slcw') & any(strcmp(myopt.rw_surfc,{'prw','both'})));
+
+if (myopt.addplot<=0 & ~strcmp(myopt.rw_surfc,'none'))  % create new plot
    show_profiles(sol, myopt);
-elseif (isfield(sol,'slcs') & any(strcmp(myopt.rw_surfc,{'prr','both'})) & ...
-                              any(strcmp(myopt.typplot,{'rw_side','rw_rear'})) )
-   show_profiles(sol, myopt);
+elseif ( any(strcmp(myopt.typplot,{'rw_side','rw_rear'})) & (show_slcs | show_slcw) )
+   show_profiles(sol, myopt);   % add new cross-section to existing plot
 end
 hold on;
 
@@ -758,6 +771,7 @@ function [ ] = show_profiles(sol, opt)
 
          xmax = max( abs(sol.meta.xcp_r) + 0.40 * sol.mx * sol.dx, 1.20 * sol.mx * sol.dx);
          if (isfield(sol,'slcs')), xmax = 3 * xmax; end
+         if (isfield(sol,'slcw')), xmax = sol.meta.rnom_whl; end
 
       else
 
@@ -919,12 +933,6 @@ function [ ] = show_profiles(sol, opt)
 
       % 3d view of wheel surface
 
-      % x-range a little larger than the potential contact area
-
-      xmax = max( abs(sol.meta.xcp_w) + 0.40 * sol.mx * sol.dx, ...
-                                            1.20 * sol.mx * sol.dx);
-      if (isfield(sol,'slcs')), xmax = 3 * xmax; end
-
       % form profile surface at given x, all s - fine sampling
 
       [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, opt.xrange, [], opt.xysteps(1)/10, ...
@@ -976,7 +984,8 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
                                                               xrange, dx_true, dx_appx, ...
                                                               srange, ds_true, ds_appx, idebug)
 
-% create 2D arrays (x,y,z) for a prismatic rail (prr), variable rail (slcs), or roller (nom_radius)
+% create 2D arrays (x,y,z) for a prismatic rail (prr), variable rail (slcs), roller (prr, nom_radius),
+%    round wheel (prw, nom_radius), or out-of-round wheel (slcw)
 %  - the profile will be plotted for xrange = [xmin, xmax] in track coordinates
 %  - fixed steps of size dx_true may be requested, or n-time fitting steps of approximately dx_appx
 %  - the whole profile will be used if srange = [smin, smax] is left empty
@@ -999,7 +1008,8 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
       prf = sol.prw;
       nom_radius = sol.meta.rnom_whl;
    end
-   has_slcs   = (want_rail & isfield(sol,'slcs'));
+   has_slcs   = ( want_rail & isfield(sol,'slcs'));
+   has_slcw   = (~want_rail & isfield(sol,'slcw'));
 
    % determine longitudinal positions xi (track coords) for evaluation of surface
 
@@ -1035,6 +1045,8 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
 
    if (has_slcs)
       profile_s = sol.slcs.vj;
+   elseif (has_slcw)
+      profile_s = sol.slcw.vj;
    else
       profile_s = prf.ProfileS;
    end
@@ -1059,6 +1071,9 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
 
       if (has_slcs)
          len = 1.3 * max(max(sol.slcs.ysurf)) - min(min(sol.slcs.ysurf));
+         nintv = floor ( len / ds_appx );
+      elseif (has_slcw)
+         len = 1.3 * max(max(sol.slcw.ysurf)) - min(min(sol.slcw.ysurf));
          nintv = floor ( len / ds_appx );
       else
          nintv = floor( (srange(2) - srange(1)) / ds_appx );
@@ -1131,14 +1146,35 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
       r_y   = nom_radius - prf.ProfileZ(js)';
       zsurf = nom_radius - sqrt( max(0, (ones(nx,1)*r_y).^2 - xsurf.^2) );
 
-   else
+   elseif (~want_rail & ~has_slcw)
 
-      % wheel surface: circle x^2 + (rnom + z)^2 = (rnom + z(0,y))^2
+      % round wheel surface: circle x^2 + (rnom + z)^2 = (rnom + z(0,y))^2
 
       xsurf = xi' * ones(1,ns);
       ysurf = ones(nx,1) * prf.ProfileY(js)';
       r_y   =  nom_radius + prf.ProfileZ(js)';
       zsurf = -nom_radius + sqrt( max(0, (ones(nx,1)*r_y).^2 - xsurf.^2) );
+
+   elseif (~want_rail & myisfield(sol, 'slcw.spl2d') & use_intern & exist('eval_2dspline'))
+
+      % variable wheel profile, using internal 2D spline algorithm
+
+      % form profile surface at given ui (==th_w) and vj
+
+      th_min = min(sol.slcw.spl2d.ui);
+      th_max = max(sol.slcw.spl2d.ui);
+      disp(sprintf('var wheel, th_w=[%5.1f,%5.1f], xi=[%5.1f,%5.1f]', th_min, th_max, min(xi), max(xi)));
+      ui     = max(th_min, min(th_max, -sol.meta.th_ws + xi/sol.meta.rnom_whl));
+      vj     = sj;
+
+      [ ~, thsurf, ysurf, drsurf ] = eval_2dspline( sol.slcw.spl2d, ui, vj );
+      [xsurf, ysurf, zsurf] = wcyl_to_wprof_coords(sol, thsurf, ysurf, drsurf);
+
+   else
+
+      disp('make_3d_surface: ERROR: case not supported.')
+      disp([want_rail, has_slcs, has_slcw, myisfield(sol,'slcw.spl2d'), use_intern, exist('eval_2dspline')])
+      return;
 
    end
 
@@ -2113,23 +2149,23 @@ end % function is_left_side
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ prr ] = get_profile_slice( slcs, s_i, make_plot )
+function [ prr ] = get_profile_slice( slcs, u_i, make_plot )
 
 if (nargin<3)
    make_plot = 0;
 end
-i0 = find(slcs.s <  s_i, 1, 'last');
-i1 = find(slcs.s >= s_i, 1, 'first');
-% disp([s_i, i0, i1])
+i0 = find(slcs.u <  u_i, 1, 'last');
+i1 = find(slcs.u >= u_i, 1, 'first');
+% disp([u_i, i0, i1])
 if (i0 >= slcs.nslc)
    yi = slcs.ysurf(end,:); zi = slcs.zsurf(end,:);
-   % disp(sprintf('s_i = %5.1f > s(end) = %5.1f, using slice %d', s_i, slcs.s(end), i1));
+   % disp(sprintf('u_i = %5.1f > u(end) = %5.1f, using slice %d', u_i, slcs.u(end), i1));
 elseif (i1 <= 1)
    yi = slcs.ysurf(1,:); zi = slcs.zsurf(1,:);
-   % disp(sprintf('s_i = %5.1f < s(1) = %5.1f, using slice %d', s_i, slcs.s(1), i0));
+   % disp(sprintf('u_i = %5.1f < u(1) = %5.1f, using slice %d', u_i, slcs.u(1), i0));
 else
-   fac0 = (slcs.s(i1) - s_i) / (slcs.s(i1) - slcs.s(i0));
-   fac1 = (s_i - slcs.s(i0)) / (slcs.s(i1) - slcs.s(i0));
+   fac0 = (slcs.u(i1) - u_i) / (slcs.u(i1) - slcs.u(i0));
+   fac1 = (u_i - slcs.u(i0)) / (slcs.u(i1) - slcs.u(i0));
    if (fac0>0.99 & nnz(slcs.mask_j(i0,:))>nnz(slcs.mask_j(i1,:)))
       % disp(sprintf('Using longer slice i0=%d', i0));
       yi = slcs.ysurf(i0,:); zi = slcs.zsurf(i0,:);
@@ -2147,8 +2183,8 @@ else
       figure(make_plot); clf; hold on;
       plot([slcs.ysurf([i0:i1],:);yi]', [slcs.zsurf([i0:i1],:);zi]');
       set(gca,'ydir','reverse'); grid on; axis equal;
-      legend(sprintf('slice %d, s=%6.2f',i0,slcs.s(i0)), sprintf('slice %d, s=%6.2f',i1,slcs.s(i1)), ...
-                sprintf('interpolated, s=%6.2f',s_i), 'location','southeast')
+      legend(sprintf('slice %d, u=%6.2f',i0,slcs.u(i0)), sprintf('slice %d, u=%6.2f',i1,slcs.u(i1)), ...
+                sprintf('interpolated, u=%6.2f',u_i), 'location','southeast')
       figure(tmpfig);
    end
 end
@@ -2479,6 +2515,36 @@ function [ xtr, ytr, ztr ] = rail_to_track_coords(sol, xr, yr, zr);
    ztr = reshape(coords(3,:), m, n);
 
 end % function rail_to_track_coords
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [ xw, yw, zw ] = wcyl_to_wprof_coords(sol, thw, yw, drw);
+
+% transform cylindrical wheel [thw,yw,drw]-coordinates to wheel profile [xw,yw,zw] coordinates
+
+   % reshape inputs to row vectors
+
+   m = size(thw,1); n = size(thw,2);
+   thw = reshape(thw, 1, m*n);
+   yw  = reshape(yw,  1, m*n);
+   drw = reshape(drw, 1, m*n);
+
+   % add nominal radius rnom to offset dr
+
+   rw  = sol.meta.rnom_whl + drw;
+
+   % convert cylindrical to cartesian wheel profile coordinates -- lowest point at -theta_ws
+
+   xw  =                      rw .* sin(thw+sol.meta.th_ws);
+   zw  = -sol.meta.rnom_whl + rw .* cos(thw+sol.meta.th_ws);
+
+   % reshape to the original array sizes
+
+   xw = reshape(xw, m, n);
+   yw = reshape(yw, m, n);
+   zw = reshape(zw, m, n);
+
+end % function wcyl_to_wprof_coords
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
