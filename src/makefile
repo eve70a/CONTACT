@@ -50,12 +50,6 @@ endif
 # include compiler settings, compiler flags etc. for the requested platform
 include make_inc.linux
 
-TEST_LSHAPE = $(DLL_PATH)\test_lshape.exe
-OBJ_LSHP    = $(P)m_bspline.$O         $(P)m_print_output.$O     $(P)m_licensing.$O  \
-              $(P)m_markers.$O         $(P)m_blas.$O             $(P)m_interp.$O     \
-              $(P)m_spline_def.$O      $(P)m_spline_make.$O      $(P)m_spline_get.$O \
-              $(P)m_errormsg.$O        $(P)m_ptrarray.$O
-
 # generic parts of the makefile:
 .SUFFIXES:
 .SUFFIXES:	.f .f90 .c .cpp .o .obj .mod
@@ -72,8 +66,8 @@ endif
 
 # modules and object files needed for the main targets;
 # $(P) == object file path, separate directories per target & platform
-MODS_ALL = $(P)m_aijpj.$O           $(P)m_blas.$O            $(P)m_bspline_def.$O     \
-           $(P)m_bspline_get.$O     $(P)m_bspline_make.$O    $(P)m_bspline_1seg.$O    \
+MODS_ALL = $(P)m_aijpj.$O           $(P)m_blas.$O            $(P)m_bspline.$O         \
+           $(P)m_bspline_def.$O     $(P)m_bspline_get.$O     $(P)m_bspline_make.$O    \
            $(P)m_errormsg.$O        $(P)m_friclaw.$O         $(P)m_gridfunc.$O        \
            $(P)m_grids.$O           $(P)m_hertz.$O           $(P)m_hierarch_data.$O   \
            $(P)m_inflcf.$O          $(P)m_interp.$O          $(P)m_interp_gf.$O       \
@@ -82,19 +76,16 @@ MODS_ALL = $(P)m_aijpj.$O           $(P)m_blas.$O            $(P)m_bspline_def.$
            $(P)m_profile.$O         $(P)m_ptrarray.$O        $(P)m_readline.$O        \
            $(P)m_scontc.$O          $(P)m_sdis.$O            $(P)m_sinput.$O          \
            $(P)m_snorm.$O           $(P)m_solvpn.$O          $(P)m_solvpt.$O          \
-           $(P)m_soutpt.$O          $(P)m_spline_def.$O      $(P)m_spline_get.$O      \
-           $(P)m_spline_make.$O     $(P)m_stang.$O           $(P)m_subsurf.$O         \
-           $(P)m_temperature.$O     $(P)m_timers_contact.$O  $(P)m_timings.$O         \
-           $(P)m_varprof.$O         $(P)m_visc.$O            $(P)m_wrprof.$O          \
-           $(P)m_wrprof_data.$O     $(P)m_wr_brentmeth.$O    $(P)m_wr_input.$O        \
-           $(P)m_wr_locatecp.$O     $(P)m_wr_profiles.$O     $(P)m_wr_output.$O       \
-           $(P)m_wr_rigslip.$O      $(P)m_wr_solvecp.$O      $(P)m_wr_totforce.$O     \
-           $(P)m_wr_undefdist.$O    $(P)mkl_dfti.$O          
+           $(P)m_soutpt.$O          $(P)m_spline.$O          $(P)m_spline_def.$O      \
+           $(P)m_spline_get.$O      $(P)m_spline_make.$O     $(P)m_stang.$O           \
+           $(P)m_subsurf.$O         $(P)m_temperature.$O     $(P)m_timers_contact.$O  \
+           $(P)m_timings.$O         $(P)m_varprof.$O         $(P)m_visc.$O            \
+           $(P)m_wrprof.$O          $(P)m_wrprof_data.$O     $(P)m_wr_brentmeth.$O    \
+           $(P)m_wr_input.$O        $(P)m_wr_locatecp.$O     $(P)m_wr_profiles.$O     \
+           $(P)m_wr_output.$O       $(P)m_wr_rigslip.$O      $(P)m_wr_solvecp.$O      \
+           $(P)m_wr_totforce.$O     $(P)m_wr_undefdist.$O    $(P)mkl_dfti.$O          
 MODS_CLIB= $(P)m_caddon_data.$O
 OBJS_ALL = 
-
-$(TEST_LSHAPE):	test_lshape.f90 $(OBJ_LSHP)
-	$(F90) $(FFOPTS) test_lshape.f90 $(OBJ_LSHP) $(MKLLIB) $(CRTLIB) -o $(TEST_LSHAPE) $(LICLIB)
 
 # make target for the CONTACT stand-alone executable
 

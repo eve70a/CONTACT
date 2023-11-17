@@ -31,8 +31,6 @@ contains
 
       lfirst = .true.
 
-      ! call interp_test()
-
       ! Repeat executing cases until R=1 or R=3
 
       do while(lfirst .or. wtd%ic%return.eq.0 .or. wtd%ic%return.eq.2)

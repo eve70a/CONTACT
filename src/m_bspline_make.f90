@@ -1,82 +1,26 @@
 !------------------------------------------------------------------------------------------------------------
-! m_bspline_make - 1D B-spline construction
+! m_bspline_make - implementation of B-spline construction
 !
 ! Copyright 2016-2023 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
-module m_bspline_make
+submodule (m_bspline) m_bspline_make
    use m_globals
    use m_markers
    use m_ptrarray
    use m_interp
-   use m_bspline_def
    implicit none
-   private
 
 #ifdef _WIN32
    !dir$ attributes c, reference  :: dpbsv, dgbsv    ! on IA-32: use C calling convention for LAPACK routines
 #endif
 
-   ! Debugging for module m_bspline_make
-
-   integer  :: ldebug    =  0    ! local level of debugging
-   integer  :: ii_debug  = -1    ! output point for which detailed info is requested (-1 = none)
-   integer  :: iel_debug = -1    ! input element for which detailed info is requested (-1 = none)
-   public  bsplinemake_set_debug
-
-   ! Functions for the creation & evaluation of 2D B-splines:
-
-   public  bspline_make_knot_vector_atmeas
-   public  bspline_make_knot_vector_simple
-   public  bspline_make_knot_vector_advanced
-   public  bspline_make_knot_vector
-
-   public  bspline_make_bt_w_b
-   public  bspline_make_bt_w_xyz
-   public  bspline_make_c_and_d
-   public  bspline_make_dt_c_d
-   public  bspline_reduce_bmat
-   public  bspline_reduce_dmat
-   public  bspline_expand_vector
-
-   public  bspline_solve_coef1d_smooth
-   public  bspline_solve_coef1d_intpol
-
-   public  bspline_make_2d_bspline
-
 contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bsplinemake_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-!--function: enable/disable debug output of spline routines
-   implicit none
-!--subroutine arguments:
-   integer, intent(in)           :: new_ldebug       ! level of debug output required
-   integer, intent(in), optional :: new_ii_debug     ! specific point of interest for debugging
-   integer, intent(in), optional :: new_iel_debug    ! specific point of interest for debugging
-
-   ldebug = new_ldebug
-
-   if (present(new_ii_debug)) then
-      ii_debug = new_ii_debug
-   endif
-   if (present(new_iel_debug)) then
-      iel_debug = new_iel_debug
-   endif
-
-   if (ldebug.ge.3) then
-      write(bufout,'(a,i3,2(a,i7))') ' bspline_make: debugging level =',ldebug,', ii_debug =', ii_debug, &
-                ', iel_debug =', iel_debug
-      call write_log(1, bufout)
-   endif
-
-end subroutine bsplinemake_set_debug
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine bspline_make_knot_vector_atmeas(nmeas, xi, use_insert, use_repl, nknot, tx, namcoor)
+module subroutine bspline_make_knot_vector_atmeas(nmeas, xi, use_insert, use_repl, nknot, tx, namcoor)
 !--function: make basic knot vector with knots at measurement sites
 !            .not.use_insert: skip 2nd and n-1th for not-a-knot b.c.
 !            use_repl: replicate 1st and nth knots, .not.use_repl: replicate 1st/last intervals
@@ -136,7 +80,7 @@ subroutine bspline_make_knot_vector_atmeas(nmeas, xi, use_insert, use_repl, nkno
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_knot_vector_simple(nprf, sprf, nkink, ikinks, naccel, iaccel, ds_out,           &
+module subroutine bspline_make_knot_vector_simple(nprf, sprf, nkink, ikinks, naccel, iaccel, ds_out,    &
                         maxknot, nknot, tj, idebug, my_ierror)
 !--function: determine knot-vector with target step ds_out and repeated knots at kinks and accelerations
 !            simple version that just applies ds_out as much as possible
@@ -285,7 +229,7 @@ end subroutine bspline_make_knot_vector_simple
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_knot_vector_advanced(nprf, sprf, nkink, ikinks, naccel, iaccel, ds_out,         &
+module subroutine bspline_make_knot_vector_advanced(nprf, sprf, nkink, ikinks, naccel, iaccel, ds_out,  &
                         maxknot, nknot, tj, idebug, my_ierror)
 !--function: determine knot-vector with target step ds_out and repeated knots at kinks and accelerations
 !            advanced knot-vector with at most one knot per data-interval, with measurements skipped for
@@ -509,8 +453,8 @@ end subroutine bspline_make_knot_vector_advanced
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_knot_vector(nprf, sprf, nkink, ikinks, naccel, iaccel, use_simple, ds_out,      &
-                        maxknot, nknot, tj, keepj, nreduc, idebug, my_ierror)
+module subroutine bspline_make_knot_vector(nprf, sprf, nkink, ikinks, naccel, iaccel, use_simple,       &
+                        ds_out, maxknot, nknot, tj, keepj, nreduc, idebug, my_ierror)
 !--function: determine knot-vector with target step ds_out and repeated knots at kinks and accelerations
    implicit none
 !--subroutine arguments:
@@ -587,7 +531,7 @@ end subroutine bspline_make_knot_vector
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_bt_w_b(nspl, nmeas, jseg, wgt, b4, btwb, idebug)
+module subroutine bspline_make_bt_w_b(nspl, nmeas, jseg, wgt, b4, btwb, idebug)
 !--function: compute matrix product B^T * W * B
    implicit none
 !--subroutine arguments:
@@ -648,7 +592,7 @@ end subroutine bspline_make_bt_w_b
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_bt_w_xyz(nspl_all, nspl_rdc, nmeas, jseg, wgt, b4, xi, yi, zi, has_xdata,       &
+module subroutine bspline_make_bt_w_xyz(nspl_all, nspl_rdc, nmeas, jseg, wgt, b4, xi, yi, zi, has_xdata, &
                 btw_xyz, idebug)
 !--function: compute matrix product B^T * W * [x,y,z]
 !            note: btw_xyz has space for all coefficients but is filled for reduced system
@@ -690,7 +634,7 @@ end subroutine bspline_make_bt_w_xyz
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_c_and_d(nknot, tj, tiny_dt, cmat, dmat)
+module subroutine bspline_make_c_and_d(nknot, tj, tiny_dt, cmat, dmat)
 !--function: form the matrices C and D
    implicit none
 !--subroutine arguments:
@@ -777,7 +721,7 @@ end subroutine bspline_make_c_and_d
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_dt_c_d(nknot, keepj, nspl_rdc, cmat, dmat, dtcd, idebug)
+module subroutine bspline_make_dt_c_d(nknot, keepj, nspl_rdc, cmat, dmat, dtcd, idebug)
 !--function: compute matrix product D^T * C * D
    implicit none
 !--subroutine arguments:
@@ -858,7 +802,7 @@ end subroutine bspline_make_dt_c_d
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_reduce_bmat(nknot, keepj, nmeas, jseg, b4)
+module subroutine bspline_reduce_bmat(nknot, keepj, nmeas, jseg, b4)
 !--function: compute matrix product B4 * R, combining columns for segments with reduced order,
 !            esp. for linear segments between double kinks
    implicit none
@@ -961,7 +905,7 @@ end subroutine bspline_reduce_bmat
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_reduce_dmat(nknot, keepj, dmat, idebug)
+module subroutine bspline_reduce_dmat(nknot, keepj, dmat, idebug)
 !--function: compute matrix product D * R, combining columns for segments with reduced order,
 !            esp. for linear segments between double kinks
    implicit none
@@ -994,7 +938,7 @@ end subroutine bspline_reduce_dmat
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_expand_vector(nknot, keepj, nreduc, nspl_all, coef, idebug)
+module subroutine bspline_expand_vector(nknot, keepj, nreduc, nspl_all, coef, idebug)
 !--function: expand input coefficients for reduced basisfunctions coef^* to full coefficients coef
    implicit none
 !--subroutine arguments:
@@ -1041,7 +985,8 @@ end subroutine bspline_expand_vector
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_solve_coef1d_smooth(nspl_all, nspl_rdc, btwb, lambda, dtcd, btw_xyz, idebug, my_ierror)
+module subroutine bspline_solve_coef1d_smooth(nspl_all, nspl_rdc, btwb, lambda, dtcd, btw_xyz, idebug,  &
+                                my_ierror)
 !--function: solve the linear systems (B^T W B + lambda D^T C D) [ coef_[xyz] ] = B^T W [x, y, z]
 !            note: btw_xyz has space for all coeff but is used for reduced system
    implicit none
@@ -1111,8 +1056,8 @@ end subroutine bspline_solve_coef1d_smooth
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_solve_coef1d_intpol(nsplx, jseg, b4, nrow, nsply, cx, cy, cz, has_xdata, idebug,     &
-                                                                                            my_ierror)
+module subroutine bspline_solve_coef1d_intpol(nsplx, jseg, b4, nrow, nsply, cx, cy, cz, has_xdata,      &
+                                                                                    idebug, my_ierror)
 !--function: solve the linear systems B [cx2d, cy2d, cz2d] = [cx1d, cy1d, cz1d]
    implicit none
 !--subroutine arguments:
@@ -1228,7 +1173,7 @@ end subroutine bspline_solve_coef1d_intpol
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine get_next_interval(n, mask, iofs, ix0, ix1)
+module subroutine get_next_interval(n, mask, iofs, ix0, ix1)
 !--function: locate a range ix0:ix1 of true-values in mask(iofs:n), if not found, set ix1 < ix0
    implicit none
 !--subroutine arguments:
@@ -1269,7 +1214,7 @@ end subroutine get_next_interval
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_2d_bspline(spl2d, nmeasu, nmeasv, ui, vj, x2d, y2d, z2d, has_xdata,             &
+module subroutine bspline_make_2d_bspline(spl2d, nmeasu, nmeasv, ui, vj, x2d, y2d, z2d, has_xdata,      &
                                                                   use_approx, my_ierror, mask)
 !--function: compute parametric 2D tensor interpolating B-spline for data (x2d, y2d, z2d),
 !            store in B-form (cij_x, cij_y, cij_z).
@@ -1727,4 +1672,4 @@ end subroutine bspline_make_2d_bspline
 
 !------------------------------------------------------------------------------------------------------------
 
-end module m_bspline_make
+end submodule m_bspline_make

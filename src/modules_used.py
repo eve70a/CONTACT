@@ -13,7 +13,7 @@ outfile      = 'modules.incl'
 ignore_files = ['contact.f90', 'contact_addon.f90', 'caddon_license.f90', 'mkl_dfti.f90', 
                 'test_caddon.f90', 'test_float.f90', 'test_mbench.f90', 'test_memory.f90',
                 'test_table.f90', 'usetab_table.f90' ]
-ignore_mods  = ['iso_c_binding', 'ifport', 'omp_lib' ]
+ignore_mods  = ['iso_c_binding', 'ifport', 'omp_lib', 'gsCApi/gsFInterface.ifc' ]
 
 # end global definitions
 
@@ -40,9 +40,19 @@ def parse_fortran_file( fname, f_out, idebug=3 ):
         if (re.search('^ *include ',line) or re.search('^# *include',line)):
             print('Line %4d:' % iline, line.strip('\n'))
             m = re.search('[\'"](.*)[\'"]',line)
-            # print('found include: i=[%d:%d]' % (m.start(1), m.end(1)))
-            # print('stripped:', line[m.start(1):m.end(1)])
-            incl_used.append( line[m.start(1):m.end(1)] )
+            inc = line[m.start(1):m.end(1)]
+            # print('found include: i=[%d:%d], inc=%s' % (m.start(1), m.end(1), inc))
+
+            # check if include should be ignored
+
+            if (inc in ignore_mods):
+                is_ignored = 1
+                # print('include-file %s is in ignore-list' % inc)
+            else:
+                is_ignored = 0
+
+            if (not is_ignored):
+                incl_used.append( line[m.start(1):m.end(1)] )
 
         # search all lines starting with 'submodule'
         if (re.search('^ *submodule', line)):

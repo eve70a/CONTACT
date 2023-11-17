@@ -1,117 +1,24 @@
 !------------------------------------------------------------------------------------------------------------
-! m_bspline_get - 1D B-spline evaluation functions
+! m_bspline_get - implementation of B-spline evaluation functions
 !
 ! Copyright 2016-2023 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
-module m_bspline_get
+submodule (m_bspline) m_bspline_get
    use m_globals
    use m_markers
    use m_ptrarray
    use m_interp
-   use m_spline_def
-   use m_bspline_def
-   use m_bspline_1seg
-   use m_bspline_make
+   use m_spline
    implicit none
-   private
-
-   ! Debugging for module m_bspline
-
-   integer  :: ldebug    =  0    ! local level of debugging
-   integer  :: ii_debug  = -1    ! output point for which detailed info is requested (-1 = none)
-   integer  :: iel_debug = -1    ! input element for which detailed info is requested (-1 = none)
-   public  bspline_set_debug
-   public  bsplineget_set_debug
-
-   ! Data type for 2D B-splines:
-
-   public t_bspline2d
-
-   ! Functions for the creation & evaluation of 2D B-splines:
-
-   public  bspline_eval2d_list
-   public  bspline_eval2d_prod
-   private bspline_eval2d_inverse
-   public  bspline_eval2d_inverse_list
-   public  bspline_eval2d_inverse_prod
-
-   private bspline_make_1d_ppspline_phase1
-   private bspline_make_1d_ppspline_phase2
-   private bspline_make_1d_ppspline_phase3
-   public  bspline_make_1d_ppspline
-
-   ! inverse for half-parametric spline x==u, (x,v) -> (y,z)
-
-   public  bspline_get_z_at_xy
-   public  bspline_get_z_at_xy_list
-   public  bspline_get_z_at_xy_prod
-
-   interface bspline_get_z_at_xy
-      module procedure bspline_get_z_at_xy_list
-      module procedure bspline_get_z_at_xy_prod
-   end interface bspline_get_z_at_xy
-
-   ! inverse for full-parametric spline (u,v) -> (x,y,z)
-
-   public  bspline_get_xz_at_uy
-   public  bspline_get_xz_at_uy_list
-   public  bspline_get_xz_at_uy_prod
-
-   interface bspline_get_xz_at_uy
-      module procedure bspline_get_xz_at_uy_list
-      module procedure bspline_get_xz_at_uy_prod
-   end interface bspline_get_xz_at_uy
 
 contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-!--function: enable/disable debug output of all bspline routines
-   implicit none
-!--subroutine arguments:
-   integer, intent(in)           :: new_ldebug       ! level of debug output required
-   integer, intent(in), optional :: new_ii_debug     ! specific point of interest for debugging
-   integer, intent(in), optional :: new_iel_debug    ! specific point of interest for debugging
-
-   call bsplinedef_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-   call bsplinemake_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-   call bsplineget_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-
-end subroutine bspline_set_debug
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine bsplineget_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-!--function: enable/disable debug output of spline routines
-   implicit none
-!--subroutine arguments:
-   integer, intent(in)           :: new_ldebug       ! level of debug output required
-   integer, intent(in), optional :: new_ii_debug     ! specific point of interest for debugging
-   integer, intent(in), optional :: new_iel_debug    ! specific point of interest for debugging
-
-   ldebug = new_ldebug
-
-   if (present(new_ii_debug)) then
-      ii_debug = new_ii_debug
-   endif
-   if (present(new_iel_debug)) then
-      iel_debug = new_iel_debug
-   endif
-
-   if (ldebug.ge.3) then
-      write(bufout,'(a,i3,2(a,i7))') ' bspline_get:  debugging level =',ldebug,', ii_debug =', ii_debug, &
-                ', iel_debug =', iel_debug
-      call write_log(1, bufout)
-   endif
-
-end subroutine bsplineget_set_debug
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine bspline_eval2d_list(spl2d, nout, uout, vout, xout, yout, zout, has_xout, my_ierror, exterval)
+module subroutine bspline_eval2d_list(spl2d, nout, uout, vout, xout, yout, zout, has_xout, my_ierror,   &
+                                exterval)
 !--function: evaluate 2D tensor B-spline at nout positions (uout,vout) producing (xout,yout,zout)
    implicit none
 !--subroutine arguments:
@@ -232,8 +139,8 @@ end subroutine bspline_eval2d_list
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout, has_xout, my_ierror,  &
-                        exterval)
+module subroutine bspline_eval2d_prod(spl2d, nuout, nvout, uout, vout, xout, yout, zout, has_xout,      &
+                        my_ierror, exterval)
 !--function: evaluate 2D tensor B-spline at nuout x nvout positions producing (xout,yout,zout)
    implicit none
 !--subroutine arguments:
@@ -405,7 +312,7 @@ end subroutine bspline_eval2d_prod
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_inverse(spl2d, noutu, nouty, noutv, uout, yout, vout, my_ierror)
+module subroutine bspline_eval2d_inverse(spl2d, noutu, nouty, noutv, uout, yout, vout, my_ierror)
 !--function: inverse evaluation of 2D tensor B-spline, determining vout at given (uout,yout)
    implicit none
 !--subroutine arguments:
@@ -661,7 +568,7 @@ end subroutine bspline_eval2d_inverse
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_inverse_list(spl2d, nout, uout, yout, vout, my_ierror)
+module subroutine bspline_eval2d_inverse_list(spl2d, nout, uout, yout, vout, my_ierror)
 !--function: inverse evaluation of 2D tensor B-spline, determining vout at given (uout,yout)
    implicit none
 !--subroutine arguments:
@@ -686,7 +593,7 @@ end subroutine bspline_eval2d_inverse_list
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_eval2d_inverse_prod(spl2d, noutu, nouty, uout, yout, vout, my_ierror)
+module subroutine bspline_eval2d_inverse_prod(spl2d, noutu, nouty, uout, yout, vout, my_ierror)
 !--function: inverse evaluation of 2D tensor B-spline, determining vout at given (uout,yout)
    implicit none
 !--subroutine arguments:
@@ -703,7 +610,7 @@ end subroutine bspline_eval2d_inverse_prod
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_1d_ppspline_phase1(bspl, nmeas, s_prf, ds_out, lambda, nkink, ikinks, naccel, &
+module subroutine bspline_make_1d_ppspline_phase1(bspl, nmeas, s_prf, ds_out, lambda, nkink, ikinks, naccel, &
                 iaccel, my_ierror)
 !--function: compute parametric least squares smoothing B-spline for 1-d grid (x(s),y(s),z(s)),
 !            stored in PP-form as used in t_spline.
@@ -853,7 +760,7 @@ end subroutine bspline_make_1d_ppspline_phase1
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_1d_ppspline_phase2(bspl, nspl_rdc, lambda, wgt, &
+module subroutine bspline_make_1d_ppspline_phase2(bspl, nspl_rdc, lambda, wgt,                          &
                         nmeas, s_prf, x_prf, y_prf, z_prf, has_xdata, btw_xyz, my_ierror)
 !--function: compute parametric least squares smoothing B-spline for 1-d grid (x(s),y(s),z(s)),
 !            stored in PP-form as used in t_spline.
@@ -986,7 +893,7 @@ end subroutine bspline_make_1d_ppspline_phase2
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_1d_ppspline_phase3(bspl, coef_xyz, ppspl, my_ierror)
+module subroutine bspline_make_1d_ppspline_phase3(bspl, coef_xyz, ppspl, my_ierror)
 !--function: compute parametric least squares smoothing B-spline for 1-d grid (x(s),y(s),z(s)),
 !            stored in PP-form as used in t_spline.
 !            phase 3: convert knots + B-spline coefficients to PP-form
@@ -1055,8 +962,8 @@ end subroutine bspline_make_1d_ppspline_phase3
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_make_1d_ppspline(ppspl, nmeas, s_prf, x_prf, y_prf, z_prf, has_xdata, ds_out_arg,    &
-                        lambda_arg, use_wgt, nkink, ikinks, naccel, iaccel, my_ierror, wgt_arg)
+module subroutine bspline_make_1d_ppspline(ppspl, nmeas, s_prf, x_prf, y_prf, z_prf, has_xdata,         &
+                        ds_out_arg, lambda_arg, use_wgt, nkink, ikinks, naccel, iaccel, my_ierror, wgt_arg)
 !--function: compute parametric least squares smoothing B-spline for 1-d grid (x(s),y(s),z(s)),
 !            stored in PP-form as used in t_spline.
 !            phase 3: convert knots + B-spline coefficients to PP-form
@@ -1150,7 +1057,286 @@ end subroutine bspline_make_1d_ppspline
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_get_z_at_xy_list(spl2d, nout, xout, yout, zout, my_ierror, exterval)
+module subroutine bspline_get_ppcoef_1seg_orig(nspl, tj, cj_y, jseg, c0, c1, c2, c3, idebug)
+!--function: determine PP-spline coefficients for one segment jseg
+   implicit none
+!--subroutine arguments:
+   integer,      intent(in)           :: nspl, jseg, idebug
+   real(kind=8), intent(in)           :: cj_y(nspl), tj(nspl+4)
+   real(kind=8), intent(out)          :: c0, c1, c2, c3
+!--local variables:
+   real(kind=8), parameter    :: small_dt = 1d-7
+   integer              :: jj
+   real(kind=8)         :: dtj, dtj_inv1(4), dtj_inv2(4), dtj_inv3(4), b1(4), b2(4), b3(4), b4(4),      &
+                           v, d1_cy(4), d2_cy(4), d3_cy(4)
+
+   ! average step sizes over 1/2/3 adjacent intervals
+
+   do jj = 3, 4         ! dtj_k1: used for jseg:jseg
+      dtj = tj(jseg-4+jj+1) - tj(jseg-4+jj)
+      dtj_inv1(jj) = 0d0
+      if (dtj.gt.small_dt) dtj_inv1(jj) = 1d0 / dtj
+   enddo
+
+   do jj = 2, 4         ! dtj_k2: used for jseg-1:jseg
+      dtj = (tj(jseg-4+jj+2) - tj(jseg-4+jj)) / 2d0
+      dtj_inv2(jj) = 0d0
+      if (dtj.gt.small_dt) dtj_inv2(jj) = 1d0 / dtj
+   enddo
+
+   do jj = 1, 4         ! dtj_k3: used for jseg-2:jseg
+      dtj = (tj(jseg-4+jj+3) - tj(jseg-4+jj)) / 3d0
+      dtj_inv3(jj) = 0d0
+      if (dtj.gt.small_dt) dtj_inv3(jj) = 1d0 / dtj
+   enddo
+
+   ! evaluate function and derivative values at position tj(jseg)
+
+   v = tj(jseg) + 1d-9
+   b1(3)   = 0d0
+   b1(4)   = 1d0
+   b2(2)   = 0d0
+   do jj = 3 , 4
+      b2(jj) =                       (v-tj(jseg-4+jj  )) * b1(jj  ) * dtj_inv1(jj  ) / 1d0
+      if (jj.lt.4) b2(jj) = b2(jj) + (tj(jseg-4+jj+2)-v) * b1(jj+1) * dtj_inv1(jj+1) / 1d0
+   enddo
+   b3(1)   = 0d0
+   do jj = 2 , 4
+      b3(jj) =                       (v-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
+      if (jj.lt.4) b3(jj) = b3(jj) + (tj(jseg-4+jj+3)-v) * b2(jj+1) * dtj_inv2(jj+1) / 2d0
+   enddo
+   do jj = 1 , 4
+      b4(jj) =                       (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+      if (jj.lt.4) b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-v) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
+   enddo
+
+   if (idebug.ge.5) then
+      write(bufout,'(a,36x, f12.4)') 'b1=', b1(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,24x,2f12.4)') 'b2=', b2(3), b2(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,12x,3f12.4)') 'b3=', b3(2), b3(3), b3(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,    4f12.4)') 'b4=', b4(1), b4(2), b4(3), b4(4)
+      call write_log(1, bufout)
+   endif
+
+   do jj = 2, 4
+      d1_cy(jj) = (cj_y(jseg-4+jj) - cj_y(jseg-4+jj-1)) * dtj_inv3(jj)
+   enddo
+   do jj = 3, 4
+      d2_cy(jj) = (d1_cy(jj) - d1_cy(jj-1)) * dtj_inv2(jj)
+   enddo
+   do jj = 4, 4
+      d3_cy(jj) = (d2_cy(jj) - d2_cy(jj-1)) * dtj_inv1(jj)
+   enddo
+
+   if (idebug.ge.5) then
+      write(bufout,'(a,12x,3f12.4)') 'd1_cy=', d1_cy(2), d1_cy(3), d1_cy(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,24x,2f12.4)') 'd2_cy=', d2_cy(3), d2_cy(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,36x, f12.4)') 'd3_cy=', d3_cy(4)
+      call write_log(1, bufout)
+   endif
+
+   c0  = 0d0
+   c1  = 0d0
+   c2  = 0d0
+   c3  = 0d0
+   do jj = 1, 4
+                   c0 = c0 + b4(jj) * cj_y(jseg-4+jj)
+      if (jj.ge.2) c1 = c1 + b3(jj) * d1_cy(jj)
+      if (jj.ge.3) c2 = c2 + b2(jj) * d2_cy(jj) / 2d0
+      if (jj.ge.4) c3 = c3 + b1(jj) * d3_cy(jj) / 6d0
+   enddo
+
+   if (idebug.ge.5) then
+      write(bufout,'(a,7f12.4)') 'c0-c3=',c0, c1, c2, c3
+      call write_log(1, bufout)
+   endif
+
+   if (.false. .and. abs(c0-cj_y(jseg)).gt.1d0) then
+      call write_log('orig:')
+      write(bufout,'(a,24x,4f12.4)') 'dt1  =', dtj_inv1(3),dtj_inv1(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,12x,4f12.4)') 'dt2  =', dtj_inv2(2),dtj_inv2(3),dtj_inv2(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,    4f12.4)') 'dt3  =', dtj_inv3(1),dtj_inv3(2),dtj_inv3(3),dtj_inv3(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,36x, f12.4)') 'b1   =', b1(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,24x,2f12.4)') 'b2   =', b2(3),b2(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,12x,3f12.4)') 'b3   =', b3(2),b3(3),b3(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,    4f12.4)') 'b4   =', b4(1),b4(2),b4(3),b4(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,12x,3f12.4)') 'd1_cy=', d1_cy(2),d1_cy(3),d1_cy(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,24x,2f12.4)') 'd2_cy=', d2_cy(3),d2_cy(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,36x, f12.4)') 'd3_cy=', d3_cy(4)
+      call write_log(1, bufout)
+   endif
+
+end subroutine bspline_get_ppcoef_1seg_orig
+
+!------------------------------------------------------------------------------------------------------------
+
+module subroutine bspline_get_ppcoef_1seg_modf(nspl, tj, cj_y, jseg, c0, c1, c2, c3, idebug)
+!--function: determine PP-spline coefficients for one segment jseg
+   implicit none
+!--subroutine arguments:
+   integer,      intent(in)           :: nspl, jseg, idebug
+   real(kind=8), intent(in)           :: cj_y(nspl), tj(nspl+4)
+   real(kind=8), intent(out)          :: c0, c1, c2, c3
+!--local variables:
+   real(kind=8), parameter    :: small_dt = 1d-7
+   integer              :: jj
+   real(kind=8)         :: dtj, dtj_inv1(4), dtj_inv2(4), dtj_inv3(4), b1(4), b2(4), b3(4), b4(4),      &
+                           v, d1_cy(4), d2_cy(4), d3_cy(4)
+
+   ! average step sizes over 1/2/3 adjacent intervals
+
+   jj = 3
+   dtj = tj(jseg-4+jj+1) - tj(jseg-4+jj)
+   dtj_inv1(jj) = 0d0
+   if (dtj.gt.small_dt) dtj_inv1(jj) = 1d0 / dtj
+   jj = 4
+   dtj = tj(jseg-4+jj+1) - tj(jseg-4+jj)
+   dtj_inv1(jj) = 0d0
+   if (dtj.gt.small_dt) dtj_inv1(jj) = 1d0 / dtj
+
+   jj = 2
+   dtj = (tj(jseg-4+jj+2) - tj(jseg-4+jj)) / 2d0
+   dtj_inv2(jj) = 0d0
+   if (dtj.gt.small_dt) dtj_inv2(jj) = 1d0 / dtj
+   jj = 3
+   dtj = (tj(jseg-4+jj+2) - tj(jseg-4+jj)) / 2d0
+   dtj_inv2(jj) = 0d0
+   if (dtj.gt.small_dt) dtj_inv2(jj) = 1d0 / dtj
+   jj = 4
+   dtj = (tj(jseg-4+jj+2) - tj(jseg-4+jj)) / 2d0
+   dtj_inv2(jj) = 0d0
+   if (dtj.gt.small_dt) dtj_inv2(jj) = 1d0 / dtj
+
+   jj = 1
+   dtj = (tj(jseg-4+jj+3) - tj(jseg-4+jj)) / 3d0
+   dtj_inv3(jj) = 0d0
+   if (dtj.gt.small_dt) dtj_inv3(jj) = 1d0 / dtj
+   jj = 2
+   dtj = (tj(jseg-4+jj+3) - tj(jseg-4+jj)) / 3d0
+   dtj_inv3(jj) = 0d0
+   if (dtj.gt.small_dt) dtj_inv3(jj) = 1d0 / dtj
+   jj = 3
+   dtj = (tj(jseg-4+jj+3) - tj(jseg-4+jj)) / 3d0
+   dtj_inv3(jj) = 0d0
+   if (dtj.gt.small_dt) dtj_inv3(jj) = 1d0 / dtj
+   jj = 4
+   dtj = (tj(jseg-4+jj+3) - tj(jseg-4+jj)) / 3d0
+   dtj_inv3(jj) = 0d0
+   if (dtj.gt.small_dt) dtj_inv3(jj) = 1d0 / dtj
+
+   ! evaluate function and derivative values at position tj(jseg)
+
+   v = tj(jseg) + 1d-9
+   b1(3)  = 0d0
+   b1(4)  = 1d0
+
+   b2(2)  = 0d0
+   jj = 3
+   b2(jj) =          (v-tj(jseg-4+jj  )) * b1(jj  ) * dtj_inv1(jj  ) / 1d0
+   b2(jj) = b2(jj) + (tj(jseg-4+jj+2)-v) * b1(jj+1) * dtj_inv1(jj+1) / 1d0
+   jj = 4
+   b2(jj) =          (v-tj(jseg-4+jj  )) * b1(jj  ) * dtj_inv1(jj  ) / 1d0
+
+   b3(1)  = 0d0
+   jj = 2
+   b3(jj) =          (v-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
+   b3(jj) = b3(jj) + (tj(jseg-4+jj+3)-v) * b2(jj+1) * dtj_inv2(jj+1) / 2d0
+   jj = 3
+   b3(jj) =          (v-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
+   b3(jj) = b3(jj) + (tj(jseg-4+jj+3)-v) * b2(jj+1) * dtj_inv2(jj+1) / 2d0
+   jj = 4
+   b3(jj) =          (v-tj(jseg-4+jj  )) * b2(jj  ) * dtj_inv2(jj  ) / 2d0
+
+   jj = 1
+   b4(jj) =          (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+   b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-v) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
+   jj = 2
+   b4(jj) =          (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+   b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-v) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
+   jj = 3
+   b4(jj) =          (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+   b4(jj) = b4(jj) + (tj(jseg-4+jj+4)-v) * b3(jj+1) * dtj_inv3(jj+1) / 3d0
+   jj = 4
+   b4(jj) =          (v-tj(jseg-4+jj  )) * b3(jj  ) * dtj_inv3(jj  ) / 3d0
+
+   jj = 2
+   d1_cy(jj) = (cj_y(jseg-4+jj) - cj_y(jseg-4+jj-1)) * dtj_inv3(jj)
+   jj = 3
+   d1_cy(jj) = (cj_y(jseg-4+jj) - cj_y(jseg-4+jj-1)) * dtj_inv3(jj)
+   jj = 4
+   d1_cy(jj) = (cj_y(jseg-4+jj) - cj_y(jseg-4+jj-1)) * dtj_inv3(jj)
+
+   jj = 3
+   d2_cy(jj) = (d1_cy(jj) - d1_cy(jj-1)) * dtj_inv2(jj)
+   jj = 4
+   d2_cy(jj) = (d1_cy(jj) - d1_cy(jj-1)) * dtj_inv2(jj)
+
+   jj = 4
+   d3_cy(jj) = (d2_cy(jj) - d2_cy(jj-1)) * dtj_inv1(jj)
+
+   c0  = 0d0
+   c1  = 0d0
+   c2  = 0d0
+   c3  = 0d0
+
+   jj = 1
+   c0 = c0 + b4(jj) * cj_y(jseg-4+jj)
+   jj = 2
+   c0 = c0 + b4(jj) * cj_y(jseg-4+jj)
+   c1 = c1 + b3(jj) * d1_cy(jj)
+   jj = 3
+   c0 = c0 + b4(jj) * cj_y(jseg-4+jj)
+   c1 = c1 + b3(jj) * d1_cy(jj)
+   c2 = c2 + b2(jj) * d2_cy(jj) / 2d0
+   jj = 4
+   c0 = c0 + b4(jj) * cj_y(jseg-4+jj)
+   c1 = c1 + b3(jj) * d1_cy(jj)
+   c2 = c2 + b2(jj) * d2_cy(jj) / 2d0
+   c3 = c3 + b1(jj) * d3_cy(jj) / 6d0
+
+   if (.false. .and. idebug.ge.0 .and. abs(c0-cj_y(jseg)).gt.1d0) then
+      call write_log('modf:')
+      write(bufout,'(a,24x,4f12.4)') 'dt1  =',dtj_inv1(3),dtj_inv1(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,12x,4f12.4)') 'dt2  =',dtj_inv2(2),dtj_inv2(3),dtj_inv2(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,    4f12.4)') 'dt3  =',dtj_inv3(1),dtj_inv3(2),dtj_inv3(3),dtj_inv3(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,36x, f12.4)') 'b1   =', b1(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,24x,2f12.4)') 'b2   =', b2(3),b2(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,12x,3f12.4)') 'b3   =', b3(2),b3(3),b3(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,    4f12.4)') 'b4   =',b4(1),b4(2),b4(3),b4(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,12x,3f12.4)') 'd1_cy=',d1_cy(2),d1_cy(3),d1_cy(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,24x,2f12.4)') 'd2_cy=',d2_cy(3),d2_cy(4)
+      call write_log(1, bufout)
+      write(bufout,'(a,36x, f12.4)') 'd3_cy=',d3_cy(4)
+      call write_log(1, bufout)
+   endif
+
+end subroutine bspline_get_ppcoef_1seg_modf
+
+!------------------------------------------------------------------------------------------------------------
+
+module subroutine bspline_get_z_at_xy_list(spl2d, nout, xout, yout, zout, my_ierror, exterval)
 !--function: for nout half-parametric positions (xout,yout), determine vout in the 2D tensor B-spline
 !            and produce (zout)
    implicit none
@@ -1190,7 +1376,7 @@ end subroutine bspline_get_z_at_xy_list
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_get_z_at_xy_prod(spl2d, nx, ny, xout, yout, zout, my_ierror, exterval)
+module subroutine bspline_get_z_at_xy_prod(spl2d, nx, ny, xout, yout, zout, my_ierror, exterval)
 !--function: for nx x ny half-parametric positions (xout) x (yout), determine vij in the 2D tensor
 !            B-spline and produce (zout)
    implicit none
@@ -1227,7 +1413,7 @@ end subroutine bspline_get_z_at_xy_prod
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_get_xz_at_uy_list(spl2d, nout, uout, yout, xout, zout, my_ierror, exterval)
+module subroutine bspline_get_xz_at_uy_list(spl2d, nout, uout, yout, xout, zout, my_ierror, exterval)
 !--function: for nout full-parametric positions (uout,yout), determine vout in the 2D tensor B-spline
 !            and produce (xout,zout)
    implicit none
@@ -1262,7 +1448,7 @@ end subroutine bspline_get_xz_at_uy_list
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine bspline_get_xz_at_uy_prod(spl2d, nu, ny, uout, yout, xout, zout, my_ierror, exterval)
+module subroutine bspline_get_xz_at_uy_prod(spl2d, nu, ny, uout, yout, xout, zout, my_ierror, exterval)
 !--function: for nu x ny full-parametric positions (uout) x (yout), determine vij in the 2D tensor
 !            B-spline and produce (xout,zout)
    implicit none
@@ -1295,7 +1481,7 @@ end subroutine bspline_get_xz_at_uy_prod
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine test_bspline(my_ierror)
+module subroutine test_bspline(my_ierror)
 !--function: compute least squares smoothing B-spline for flat+quadratic example
    implicit none
    integer,      intent(out)          :: my_ierror
@@ -1344,4 +1530,4 @@ end subroutine test_bspline
 
 !------------------------------------------------------------------------------------------------------------
 
-end module m_bspline_get
+end submodule m_bspline_get

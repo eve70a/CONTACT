@@ -1,5 +1,6 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_spline_get - evaluation routines for 1D spline in PP-form (piecewise polynomial)
+!                --> grid_spline combination
 !
 ! Copyright 2016-2023 by Vtech CMCC.
 !
@@ -10,8 +11,7 @@ module m_spline_get
    use m_markers
    use m_ptrarray
    use m_interp
-   use m_spline_def
-   use m_spline_make
+   use m_spline
    use m_grids
    use m_gridfunc
    implicit none
@@ -19,7 +19,6 @@ module m_spline_get
 
    ! Debugging for module m_spline_get
 
-   public  spline_set_debug
    public  splineget_set_debug
 
    integer  :: ldebug    =  0    ! local level of debugging
@@ -172,22 +171,6 @@ module m_spline_get
 !------------------------------------------------------------------------------------------------------------
 
 contains
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine spline_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-!--function: enable/disable debug output of all spline routines
-   implicit none
-!--subroutine arguments:
-   integer, intent(in)           :: new_ldebug       ! level of debug output required
-   integer, intent(in), optional :: new_ii_debug     ! specific point of interest for debugging
-   integer, intent(in), optional :: new_iel_debug    ! specific point of interest for debugging
-
-   call splinedef_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-   call splinemake_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-   call splineget_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-
-end subroutine spline_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 

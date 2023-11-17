@@ -15,15 +15,12 @@ use m_readline
 use m_ptrarray
 use m_markers
 use m_interp
-use m_spline_def
+use m_spline
 use m_grids
 use m_gridfunc
 use m_interp_gf
-use m_bspline_def
-use m_bspline_make
-use m_bspline_get
-use m_spline_make
 use m_spline_get
+use m_bspline
 use m_friclaw
 use m_inflcf
 

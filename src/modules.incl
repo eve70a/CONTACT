@@ -1,30 +1,29 @@
 $(P)m_aijpj.mod           $(P)m_aijpj.$O:           \
                                                     $(P)m_hierarch_data.mod   \
                                                     $(P)mkl_dfti.mod         
-$(P)m_bspline_1seg.mod    $(P)m_bspline_1seg.$O:    \
+$(P)m_bspline.mod         $(P)m_bspline.$O:         \
                                                     $(P)m_globals.mod         \
-                                                    $(P)m_bspline_def.mod    
+                                                    $(P)m_spline.mod         
 $(P)m_bspline_def.mod     $(P)m_bspline_def.$O:     \
+                                                    $(P)m_bspline.mod         \
                                                     $(P)m_globals.mod         \
                                                     $(P)m_markers.mod         \
                                                     $(P)m_ptrarray.mod        \
                                                     $(P)m_interp.mod          \
-                                                    $(P)m_spline_def.mod     
+                                                    $(P)m_spline.mod         
 $(P)m_bspline_get.mod     $(P)m_bspline_get.$O:     \
+                                                    $(P)m_bspline.mod         \
                                                     $(P)m_globals.mod         \
                                                     $(P)m_markers.mod         \
                                                     $(P)m_ptrarray.mod        \
                                                     $(P)m_interp.mod          \
-                                                    $(P)m_spline_def.mod      \
-                                                    $(P)m_bspline_def.mod     \
-                                                    $(P)m_bspline_1seg.mod    \
-                                                    $(P)m_bspline_make.mod   
+                                                    $(P)m_spline.mod         
 $(P)m_bspline_make.mod    $(P)m_bspline_make.$O:    \
+                                                    $(P)m_bspline.mod         \
                                                     $(P)m_globals.mod         \
                                                     $(P)m_markers.mod         \
                                                     $(P)m_ptrarray.mod        \
-                                                    $(P)m_interp.mod          \
-                                                    $(P)m_bspline_def.mod    
+                                                    $(P)m_interp.mod         
 $(P)m_caddon_data.mod     $(P)m_caddon_data.$O:     \
                                                     $(P)m_hierarch_data.mod   \
                                                     $(P)m_wrprof_data.mod     \
@@ -54,9 +53,8 @@ $(P)m_grids.mod           $(P)m_grids.$O:           \
                                                     $(P)m_markers.mod         \
                                                     $(P)m_ptrarray.mod        \
                                                     $(P)m_interp.mod          \
-                                                    $(P)m_spline_def.mod      \
-                                                    $(P)m_spline_make.mod     \
-                                                    $(P)m_bspline_get.mod    
+                                                    $(P)m_spline.mod          \
+                                                    $(P)m_bspline.mod        
 $(P)m_hertz.mod           $(P)m_hertz.$O:           \
                                                     $(P)m_hierarch_data.mod  
 $(P)m_hierarch_data.mod   $(P)m_hierarch_data.$O:   \
@@ -65,15 +63,12 @@ $(P)m_hierarch_data.mod   $(P)m_hierarch_data.$O:   \
                                                     $(P)m_ptrarray.mod        \
                                                     $(P)m_markers.mod         \
                                                     $(P)m_interp.mod          \
-                                                    $(P)m_spline_def.mod      \
+                                                    $(P)m_spline.mod          \
                                                     $(P)m_grids.mod           \
                                                     $(P)m_gridfunc.mod        \
                                                     $(P)m_interp_gf.mod       \
-                                                    $(P)m_bspline_def.mod     \
-                                                    $(P)m_bspline_make.mod    \
-                                                    $(P)m_bspline_get.mod     \
-                                                    $(P)m_spline_make.mod     \
                                                     $(P)m_spline_get.mod      \
+                                                    $(P)m_bspline.mod         \
                                                     $(P)m_friclaw.mod         \
                                                     $(P)m_inflcf.mod         
 $(P)m_inflcf.mod          $(P)m_inflcf.$O:          \
@@ -146,7 +141,13 @@ $(P)m_solvpt.mod          $(P)m_solvpt.$O:          \
 $(P)m_soutpt.mod          $(P)m_soutpt.$O:          \
                                                     $(P)m_hierarch_data.mod   \
                                                     $(P)m_aijpj.mod          
+$(P)m_spline.mod          $(P)m_spline.$O:          \
+                                                    $(P)m_globals.mod         \
+                                                    $(P)m_markers.mod         \
+                                                    $(P)m_ptrarray.mod        \
+                                                    $(P)m_interp.mod         
 $(P)m_spline_def.mod      $(P)m_spline_def.$O:      \
+                                                    $(P)m_spline.mod          \
                                                     $(P)m_globals.mod         \
                                                     $(P)m_markers.mod         \
                                                     $(P)m_ptrarray.mod        \
@@ -156,16 +157,15 @@ $(P)m_spline_get.mod      $(P)m_spline_get.$O:      \
                                                     $(P)m_markers.mod         \
                                                     $(P)m_ptrarray.mod        \
                                                     $(P)m_interp.mod          \
-                                                    $(P)m_spline_def.mod      \
-                                                    $(P)m_spline_make.mod     \
+                                                    $(P)m_spline.mod          \
                                                     $(P)m_grids.mod           \
                                                     $(P)m_gridfunc.mod       
 $(P)m_spline_make.mod     $(P)m_spline_make.$O:     \
+                                                    $(P)m_spline.mod          \
                                                     $(P)m_globals.mod         \
                                                     $(P)m_markers.mod         \
                                                     $(P)m_ptrarray.mod        \
-                                                    $(P)m_interp.mod          \
-                                                    $(P)m_spline_def.mod     
+                                                    $(P)m_interp.mod         
 $(P)m_stang.mod           $(P)m_stang.$O:           \
                                                     $(P)m_hierarch_data.mod   \
                                                     $(P)m_aijpj.mod           \
@@ -234,16 +234,6 @@ $(P)m_wrprof_data.mod     $(P)m_wrprof_data.$O:     \
                                                     $(P)m_hierarch_data.mod   \
                                                     $(P)m_profile.mod         \
                                                     $(P)m_varprof.mod        
-$(P)test_lic.mod          $(P)test_lic.$O:          \
-                                                    VERSION                   \
-                                                    $(P)m_print_output.mod    \
-                                                    $(P)m_licensing.mod       \
-                                                    $(P)m_print_output.mod   
-$(P)test_lshape.mod       $(P)test_lshape.$O:       \
-                                                    $(P)m_print_output.mod    \
-                                                    $(P)m_licensing.mod       \
-                                                    $(P)m_spline_def.mod      \
-                                                    $(P)m_bspline.mod        
-$(P)test_switch.mod       $(P)test_switch.$O:       \
+$(P)test_varprof.mod      $(P)test_varprof.$O:      \
                                                     caddon_flags.inc          \
                                                     contact_addon.ifc        

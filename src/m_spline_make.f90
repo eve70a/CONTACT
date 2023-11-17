@@ -1,78 +1,22 @@
 !------------------------------------------------------------------------------------------------------------
-! m_spline_make - construction of 1D spline in PP-form (piecewise polynomial)
+! m_spline_make - implementation of 1D spline construction in PP-form (piecewise polynomial)
 !
 ! Copyright 2016-2023 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
-module m_spline_make
+submodule (m_spline) m_spline_make
    use m_globals
    use m_markers
    use m_ptrarray
    use m_interp
-   use m_spline_def
    implicit none
-   private
-
-   ! Debugging for module m_spline_make
-
-   public  splinemake_set_debug
-
-   integer  :: ldebug    =  0    ! local level of debugging
-   integer  :: ii_debug  = -1    ! output point for which detailed info is requested (-1 = none)
-   integer  :: iel_debug = -1    ! input element for which detailed info is requested (-1 = none)
-
-   ! Additional functions defined on splines:
-
-   public  spline_check_updates
-
-   public  spline_add_topview
-
-   private ppspline_make_simple_sec_intpol
-   private ppspline_make_simple_sec_smoothing
-   public  ppspline_make_simple_kink
-
-   public  ppspline_make_spline
-   public  ppspline_make_spline_kink
-   public  ppspline_make_spline_nokink
-
-   interface ppspline_make_spline
-      module procedure ppspline_make_spline_kink
-      module procedure ppspline_make_spline_nokink
-   end interface ppspline_make_spline
 
 contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine splinemake_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-!--function: enable/disable debug output of spline routines
-   implicit none
-!--subroutine arguments:
-   integer, intent(in)           :: new_ldebug       ! level of debug output required
-   integer, intent(in), optional :: new_ii_debug     ! specific point of interest for debugging
-   integer, intent(in), optional :: new_iel_debug    ! specific point of interest for debugging
-
-   ldebug = new_ldebug
-
-   if (present(new_ii_debug)) then
-      ii_debug = new_ii_debug
-   endif
-   if (present(new_iel_debug)) then
-      iel_debug = new_iel_debug
-   endif
-
-   if (ldebug.ge.3) then
-      write(bufout,'(a,i3,2(a,i7))') ' spline-make: debugging level =',ldebug,', ii_debug =', ii_debug, &
-                ', iel_debug =', iel_debug
-      call write_log(1, bufout)
-   endif
-
-end subroutine splinemake_set_debug
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine spline_add_breaks(spl, nbrk, sbrk, ipbrk, my_ierror)
+module subroutine spline_add_breaks(spl, nbrk, sbrk, ipbrk, my_ierror)
 !--function: insert additional breaks at sbrk in PP-form of spline, except where sbrk coincides with
 !            existing breaks
    implicit none
@@ -294,7 +238,8 @@ end subroutine spline_add_breaks
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_set_topview_sections(spl, view_minz, max_ntop, nsec_top, ysec_top, iuni_top, my_ierror)
+module subroutine spline_set_topview_sections(spl, view_minz, max_ntop, nsec_top, ysec_top, iuni_top,   &
+                                my_ierror)
 !--function: determine the sections [ y_j, y_{j+1} ] of the top (rail) or bottom view (wheel) and
 !            set pointers to corresponding uni-valued sections in spline
    implicit none
@@ -487,7 +432,7 @@ end subroutine spline_set_topview_sections
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_add_topview(spl, view_minz, my_ierror)
+module subroutine spline_add_topview(spl, view_minz, my_ierror)
 !--function: determine sections in spline with uni-valued y(s) and table { ybrk } with pointers to
 !            visible parts of the surface
    implicit none
@@ -575,7 +520,7 @@ end subroutine spline_add_topview
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_check_updates(spl, nprf, s_prf, x_prf, y_prf, z_prf, k_chk, dist_max, my_ierror)
+module subroutine spline_check_updates(spl, nprf, s_prf, x_prf, y_prf, z_prf, k_chk, dist_max, my_ierror)
 !--function: determine max distance between parametric spline (x(s),y(s),z(s)) and original data
    implicit none
 !--subroutine arguments:
@@ -679,7 +624,7 @@ end subroutine spline_check_updates
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine ppspline_make_simple_sec_intpol(tot_pnt, ip0, ip1, s, y, a3, a2, a1, a0, ierror)
+module subroutine ppspline_make_simple_sec_intpol(tot_pnt, ip0, ip1, s, y, a3, a2, a1, a0, ierror)
 !--function: compute section [ip0:ip1] of simple cubic interpolating spline {a,b,c,d} for given data {s,y}
 !            using "free end" boundary conditions / natural spline.
    implicit none
@@ -834,7 +779,8 @@ end subroutine ppspline_make_simple_sec_intpol
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine ppspline_make_simple_sec_smoothing(tot_pnt, ip0, ip1, s, y, lambda, a3, a2, a1, a0, ierror, wgt)
+module subroutine ppspline_make_simple_sec_smoothing(tot_pnt, ip0, ip1, s, y, lambda, a3, a2, a1, a0,   &
+                                ierror, wgt)
 !--function: compute section [ip0:ip1] of simple cubic smoothing spline {a,b,c,d} for given data {s,y},
 !            weights wgt and parameter lambda, using "free end" boundary conditions / natural spline.
    implicit none
@@ -1022,7 +968,8 @@ end subroutine ppspline_make_simple_sec_smoothing
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine ppspline_make_simple_kink(npnt, s, y, lambda, a3, a2, a1, a0, nkink, ikinks, my_ierror, wgt)
+module subroutine ppspline_make_simple_kink(npnt, s, y, lambda, a3, a2, a1, a0, nkink, ikinks,          &
+                                my_ierror, wgt)
 !--function: compute simple cubic smoothing spline {a,b,c,d} for given data {s,y}, weights wgt and
 !            parameter lambda, using "free end" boundary conditions / natural spline.
    implicit none
@@ -1106,8 +1053,8 @@ end subroutine ppspline_make_simple_kink
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine ppspline_make_spline_kink(spl, nmeas, s_prf, x_prf, y_prf, z_prf, has_xdata, lambda, use_wgt, &
-                nkink, ikinks, my_ierror)
+module subroutine ppspline_make_spline_kink(spl, nmeas, s_prf, x_prf, y_prf, z_prf, has_xdata, lambda, &
+                                use_wgt, nkink, ikinks, my_ierror)
 !--function: compute parametric smoothing spline for 1-d grid (x(s),y(s),z(s))
    implicit none
 !--subroutine arguments:
@@ -1202,8 +1149,8 @@ end subroutine ppspline_make_spline_kink
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine ppspline_make_spline_nokink(spl, nmeas, s_prf, x_prf, y_prf, z_prf, has_xdata, lambda,       &
-                        use_wgt, my_ierror)
+module subroutine ppspline_make_spline_nokink(spl, nmeas, s_prf, x_prf, y_prf, z_prf, has_xdata,        &
+                                lambda, use_wgt, my_ierror)
 !--function: compute parametric smoothing spline for 1-d grid (x(s),y(s),z(s))
    implicit none
 !--subroutine arguments:
@@ -1227,4 +1174,4 @@ end subroutine ppspline_make_spline_nokink
 
 !------------------------------------------------------------------------------------------------------------
 
-end module m_spline_make
+end submodule m_spline_make

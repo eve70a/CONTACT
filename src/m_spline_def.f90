@@ -1,140 +1,23 @@
 !------------------------------------------------------------------------------------------------------------
-! m_spline_def - definitions and basic handling for 1D spline in PP-form (piecewise polynomial)
+! m_spline_def - implementation of basic handling for 1D spline in PP-form (piecewise polynomial)
 !
 ! Copyright 2016-2023 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
-module m_spline_def
+submodule (m_spline) m_spline_def
    use m_globals
    use m_markers
    use m_ptrarray
    use m_interp
    implicit none
-   private
-
-   ! Debugging for module m_spline_def
-
-   public  splinedef_set_debug
-
-   integer  :: ldebug    =  0    ! local level of debugging
-   integer  :: ii_debug  = -1    ! output point for which detailed info is requested (-1 = none)
-   integer  :: iel_debug = -1    ! input element for which detailed info is requested (-1 = none)
-
-   ! Data type for splines:
-
-   public t_spline
-
-   ! Functions defined on splines:
-
-   public  spline_nullify
-   public  spline_allocate
-   public  spline_initx
-   public  spline_copy
-   public  spline_trim
-   public  spline_print
-   public  spline_destroy
-
-   public  spline_eval
-   public  spline_eval_arr
-   public  spline_eval_spl
-
-   interface spline_eval
-      module procedure spline_eval_arr
-      module procedure spline_eval_spl
-   end interface spline_eval
-
-   public  solve_cubic_segm
-   public  solve_cubic_newton
-   public  solve_cubic_cardano
-   public  spline_get_s_at_f
-   public  spline_get_s_at_f_spl
-
-   interface spline_get_s_at_f
-      module procedure spline_get_s_at_f_spl
-   end interface spline_get_s_at_f
-
-   public  locate_one_extremum
-   public  locate_extremal_values
-
-   public spline_shift
-   public spline_mirror_y
-   public spline_rotate
-   public spline_roll
-   public spline_2glob
-   public spline_2glob_or
-   public spline_2glob_m
-   public spline_2loc
-   public spline_2loc_m
-
-   interface spline_2glob
-      module procedure spline_2glob_m
-      module procedure spline_2glob_or
-   end interface spline_2glob
-
-   interface spline_2loc
-      module procedure spline_2loc_m
-   end interface spline_2loc
-
-!------------------------------------------------------------------------------------------------------------
-!  data for a parametric spline (s, [x(s)], y(s), z(s)):
-
-   type :: t_spline
-      integer      :: npnt
-      logical      :: has_xdata
-
-      real(kind=8), dimension(:),   pointer  :: s     => NULL() ! (npnt)
-
-      real(kind=8), dimension(:,:), pointer  :: axspl => NULL() ! (npnt,4)
-      real(kind=8), dimension(:),   pointer  :: ax0   => NULL()
-      real(kind=8), dimension(:),   pointer  :: ax1   => NULL()
-      real(kind=8), dimension(:),   pointer  :: ax2   => NULL()
-      real(kind=8), dimension(:),   pointer  :: ax3   => NULL()
-
-      real(kind=8), dimension(:,:), pointer  :: ayspl => NULL() ! (npnt,4)
-      real(kind=8), dimension(:),   pointer  :: ay0   => NULL()
-      real(kind=8), dimension(:),   pointer  :: ay1   => NULL()
-      real(kind=8), dimension(:),   pointer  :: ay2   => NULL()
-      real(kind=8), dimension(:),   pointer  :: ay3   => NULL()
-
-      real(kind=8), dimension(:,:), pointer  :: azspl => NULL() ! (npnt,4)
-      real(kind=8), dimension(:),   pointer  :: az0   => NULL()
-      real(kind=8), dimension(:),   pointer  :: az1   => NULL()
-      real(kind=8), dimension(:),   pointer  :: az2   => NULL()
-      real(kind=8), dimension(:),   pointer  :: az3   => NULL()
-
-      integer      :: nsec_uniy
-      integer,      dimension(:),   pointer  :: ipnt_uniy => NULL() ! (nsec_uni+1)
-
-      integer      :: nsec_top
-      real(kind=8), dimension(:),   pointer  :: ysec_top  => NULL() ! (nsec_top+1)
-      integer,      dimension(:),   pointer  :: iuni_top  => NULL() ! (nsec_top)
-
-      ! npnt            number of points in spline
-      ! has_xdata       indicating that axspl is present, esp. for contact locus
-      !
-      ! s       [mm]    arc length parameter
-      ! axspl, ax0-ax3  simple spline coefficients for x(s), with ax0-3 pointers to columns of axspl
-      ! ayspl, ay0-ay3  simple spline coefficients for y(s), with ay0-3 pointers to columns of ayspl
-      ! azspl, az0-az3  simple spline coefficients for z(s), with az0-3 pointers to columns of azspl
-      !
-      ! nsec_uniy       number of sections with monotonous y(s), invertible, uni-valued s(y)
-      ! ipnt_uniy       start-index of each section with uni-valued y(s)
-      !
-      ! nsec_top        number of sections [y_j, y_{j+1}] used in 'top view'
-      ! ysec_top        start-position y_j of each section used in top view
-      ! iuni_top        iuni_top(j) = index of uni-valued section seen in top view section j
-      !
-      ! Note: uni-sections and top-sections are volatile -- discarded upon shift/rotate/trimming
-
-   end type t_spline
 
 contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine splinedef_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
-!--function: enable/disable debug output of spline routines
+module subroutine spline_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
+!--function: enable/disable debug output of all spline routines
    implicit none
 !--subroutine arguments:
    integer, intent(in)           :: new_ldebug       ! level of debug output required
@@ -151,16 +34,16 @@ subroutine splinedef_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
    endif
 
    if (ldebug.ge.3) then
-      write(bufout,'(a,i3,2(a,i7))') ' spline-def:  debugging level =',ldebug,', ii_debug =', ii_debug, &
-                ', iel_debug =', iel_debug
+      write(bufout,'(a,i3,2(a,i7))') ' spline:  debugging level =',ldebug,', ii_debug =',               &
+                ii_debug,', iel_debug =', iel_debug
       call write_log(1, bufout)
    endif
 
-end subroutine splinedef_set_debug
+end subroutine spline_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_nullify(spl)
+module subroutine spline_nullify(spl)
 !--purpose: initialize spline structure, nullify pointers
    implicit none
 !--subroutine parameters:
@@ -199,7 +82,7 @@ end subroutine spline_nullify
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_allocate(spl, npnt, nsec_uniy, nsec_top)
+module subroutine spline_allocate(spl, npnt, nsec_uniy, nsec_top)
 !--purpose: (re-)allocate the arrays needed for spline data
    implicit none
 !--subroutine parameters:
@@ -260,7 +143,7 @@ end subroutine spline_allocate
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_initx(spl)
+module subroutine spline_initx(spl)
 !--purpose: initialize the arrays needed for x-spline data, set x==0
    implicit none
 !--subroutine parameters:
@@ -300,7 +183,7 @@ end subroutine spline_initx
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_copy(spl_in, spl_out)
+module subroutine spline_copy(spl_in, spl_out)
 !--purpose: copy input spline spl_in to output spline spl_out
    implicit none
 !--subroutine parameters:
@@ -351,7 +234,7 @@ end subroutine spline_copy
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_trim(spl_in, spl_out, ilow_arg, ihig_arg, s_low, s_hig)
+module subroutine spline_trim(spl_in, spl_out, ilow_arg, ihig_arg, s_low, s_hig)
 !--purpose: create trimmed version of spline in output grid gout
    implicit none
 !--subroutine parameters:
@@ -417,7 +300,7 @@ end subroutine spline_trim
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_print(spl, nam, idebug, ndigit)
+module subroutine spline_print(spl, nam, idebug, ndigit)
 !--function: print information on spline spl
    implicit none
 !--subroutine arguments
@@ -585,7 +468,7 @@ end subroutine spline_print
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_destroy(spl)
+module subroutine spline_destroy(spl)
 !--purpose: clean-up allocated arrays for splines, nullify pointers
    implicit none
 !--subroutine parameters:
@@ -605,7 +488,7 @@ end subroutine spline_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_eval_arr(npnt, s_spl, nam_f, a3, a2, a1, a0, nout, s_eval, ierror, exterval,          &
+module subroutine spline_eval_arr(npnt, s_spl, nam_f, a3, a2, a1, a0, nout, s_eval, ierror, exterval,   &
                             f_eval, f1_eval, f2_eval, f3_eval)
 !--function: evaluate spline {s, a,b,c,d} at points s_eval, computing f_eval and its derivatives
 !             f1=f', f2=f'', f3=f'''
@@ -745,7 +628,8 @@ end subroutine spline_eval_arr
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_eval_spl(spl, ikarg, nout, s_eval, ierror, exterval, f_eval, f1_eval, f2_eval, f3_eval)
+module subroutine spline_eval_spl(spl, ikarg, nout, s_eval, ierror, exterval, f_eval, f1_eval, f2_eval, &
+                                f3_eval)
 !--function: evaluate parametric spline 'spl' in direction ikarg at points s_eval, computing f_eval and
 !            its derivatives f1=f', f2=f'', f3=f'''
    implicit none
@@ -775,7 +659,7 @@ subroutine spline_eval_spl(spl, ikarg, nout, s_eval, ierror, exterval, f_eval, f
    endif
 
    if (associated(coef)) then
-      call spline_eval_arr( spl%npnt, spl%s, nam_f, coef(:,4), coef(:,3), coef(:,2), coef(:,1),   &
+      call spline_eval_arr( spl%npnt, spl%s, nam_f, coef(:,4), coef(:,3), coef(:,2), coef(:,1),         &
                             nout, s_eval, ierror, exterval, f_eval, f1_eval, f2_eval, f3_eval)
    else
       if (.false.) call write_log('spline_eval_spl: coef not associated')
@@ -789,7 +673,7 @@ end subroutine spline_eval_spl
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine solve_cubic_segm( s_a, s_b, f_a, c1, c2, c3, f_b, fval, sl, ldebug, ierror)
+module subroutine solve_cubic_segm( s_a, s_b, f_a, c1, c2, c3, f_b, fval, sl, ldebug, ierror)
 !--function: solve f(s) = c3 sl^3 + c2 sl^2 + c1 sl + f_a - fval = 0 ,
 !            with sl the local coordinate in the segment.
    implicit none
@@ -817,7 +701,7 @@ end subroutine solve_cubic_segm
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine solve_cubic_cardano( s_a, s_b, f_a, c1, c2, c3, fval, sl, ldebug)
+module subroutine solve_cubic_cardano( s_a, s_b, f_a, c1, c2, c3, fval, sl, ldebug)
 !--function: solve f(s) = c3 sl^3 + c2 sl^2 + c1 sl + f_a - fval = 0 , using Cardano formulas,
 !            with sl the local coordinate in the segment.
 ! solve 3rd degree equation f(s) = y, returning one root in interval [s_a,s_b]
@@ -997,7 +881,7 @@ end subroutine solve_cubic_cardano
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine solve_cubic_newton( s_a, s_b, f_a, c1, c2, c3, f_b, fval, sl, ldebug, ierror)
+module subroutine solve_cubic_newton( s_a, s_b, f_a, c1, c2, c3, f_b, fval, sl, ldebug, ierror)
 !--function: solve f(s) = c3 sl^3 + c2 sl^2 + c1 sl + f_a - fval = 0 using Newton-Raphson,
 !            with sl the local coordinate in the segment.
    implicit none
@@ -1236,7 +1120,7 @@ end subroutine solve_cubic_newton
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_get_s_at_f_spl( spl, ikarg, nout, f_out, s_out, my_ierror )
+module subroutine spline_get_s_at_f_spl( spl, ikarg, nout, f_out, s_out, my_ierror )
 !--function: interpolate parametric spline 'spl' in direction ikarg, determine s_out at the requested
 !            f_out-positions
 !      Note: the s-values are not uniquely defined in case the inputs are non-monotonic,
@@ -1455,7 +1339,7 @@ end subroutine spline_get_s_at_f_spl
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, typ_xtrm, s_xtrm, ierror)
+module subroutine locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, typ_xtrm, s_xtrm, ierror)
 !--function: for a simple spline, determine the s-position of a locally extremal function value
 !            --> for segment iseg with f'(s0)*f'(s1)<0, solve f'(s) = 0 with quadratic f'
    implicit none
@@ -1624,7 +1508,7 @@ end subroutine locate_one_extremum
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine locate_extremal_values(npnt, s_spl, a3, a2, a1, a0, nxtrm, s_xtrm, my_ierror)
+module subroutine locate_extremal_values(npnt, s_spl, a3, a2, a1, a0, nxtrm, s_xtrm, my_ierror)
 !--function: for a simple spline, determine the s-position with locally extremal function values
 !            --> for all segments segments with f'(s0)*f'(s1)<0, solve f'(s) = 0 with quadratic f'
 !            NOTE: this subroutine overlaps with spline_get_s_at_minval_arr in m_spline_get.f90.
@@ -1660,7 +1544,7 @@ end subroutine locate_extremal_values
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_shift(spl, dx, dy, dz)
+module subroutine spline_shift(spl, dx, dy, dz)
 !--function: shift a spline in cartesian coordinates: spl = spl + [dx; dy; dz]
    implicit none
 !--subroutine arguments
@@ -1684,7 +1568,7 @@ end subroutine spline_shift
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_mirror_y(spl)
+module subroutine spline_mirror_y(spl)
 !--function: mirror a spline in cartesian coordinates wrt plane Oxz: spl.y = -spl.y
    implicit none
 !--subroutine arguments
@@ -1703,7 +1587,7 @@ end subroutine spline_mirror_y
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_rotate(spl, rot, xc, yc, zc)
+module subroutine spline_rotate(spl, rot, xc, yc, zc)
 !--function: rotate a spline in cartesian coordinates by rotation matrix about center-point [xc;yc;zc]
    implicit none
 !--subroutine arguments
@@ -1788,7 +1672,7 @@ end subroutine spline_rotate
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_roll(spl, roll, yc, zc)
+module subroutine spline_roll(spl, roll, yc, zc)
 !--function: rotate a spline in cartesian coordinates by roll angle roll [rad] (about x-axis/point [yc;zc])
    implicit none
 !--subroutine arguments
@@ -1839,7 +1723,7 @@ end subroutine spline_roll
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_2glob_or(spl, o, R)
+module subroutine spline_2glob_or(spl, o, R)
 !--function: compute local-to-global conversion for a spline defined with respect to local system (o, R)
 !            o = origin of local system w.r.t. global system
 !            R = orientation of local system w.r.t. global system
@@ -1862,7 +1746,7 @@ end subroutine spline_2glob_or
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_2glob_m(spl, mref)
+module subroutine spline_2glob_m(spl, mref)
 !--function: compute local-to-global conversion for a spline defined with respect to mref
 !            o = mref%o   == origin of reference w.r.t. global system
 !            R = mref%rot == orientation of reference w.r.t. global system
@@ -1884,7 +1768,7 @@ end subroutine spline_2glob_m
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine spline_2loc_m(spl, mref)
+module subroutine spline_2loc_m(spl, mref)
 !--function: convert spline spl defined in global coordinates to local coordinates according to mref
 !            o = mref%o   == origin of new reference w.r.t. global system
 !            R = mref%rot == orientation of new reference w.r.t. global system
@@ -1908,4 +1792,4 @@ end subroutine spline_2loc_m
 
 !------------------------------------------------------------------------------------------------------------
 
-end module m_spline_def
+end submodule m_spline_def

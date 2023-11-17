@@ -10,9 +10,8 @@ module m_grids
    use m_markers
    use m_ptrarray
    use m_interp
-   use m_spline_def
-   use m_spline_make
-   use m_bspline_get
+   use m_spline
+   use m_bspline
    implicit none
    private
 
