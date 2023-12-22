@@ -287,6 +287,11 @@ contains
                  2x, 2g12.4, 4a12, /)
  8307    format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 1x,'FX',a,    1x,'FY',a,    3x,'CPHI',/, &
                  2x, 2g12.4, 4a12, /)
+
+         if (max(abs(gd%kin%spinxo),abs(gd%kin%spinyo)).ge.tiny) then
+            write(lout, 8401) gd%kin%spinxo, gd%kin%spinyo
+         endif
+ 8401    format (2x, 3x,'SPINXO',3x,  3x,'SPINYO',/, 2x, 2g12.4, /)
       endif
 
       ! here starts the calculating module of output.

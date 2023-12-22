@@ -257,10 +257,6 @@ contains
 
       call ic_pack (3, pbtnfs, vldcmze, xgiaowr, ic)
 
-      ! Copy the effective D-digit
-
-      if (ic%discns3.ge.2) ic%discns3 = ic%discns3
-
       ! Copy the B- and M-digits to the material parameter data
 
       mater%bound_eff = ic%bound
@@ -358,7 +354,7 @@ contains
       ! read & check kinematic constants
       !------------------------------------------------------------------------------------------------------
 
-      call readline(linp, ncase, linenr, 'kinematic inputs', 'dddd',                                    &
+      call readline(linp, ncase, linenr, 'kinematic inputs', 'ddddDD',                                  &
                     ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
 
       if (ic%norm.eq.0) then
@@ -377,6 +373,14 @@ contains
          kin%fyrel1 = dbles(3)
       endif
       kin%cphi = dbles(4)
+      kin%spinxo = 0d0
+      kin%spinyo = 0d0
+      if (nval.eq.5) then
+         call write_log(' Warning: no SPINYO provided, setting SPINXO=0.')
+      elseif (nval.ge.6) then
+         kin%spinxo = dbles(5)
+         kin%spinyo = dbles(6)
+      endif
 
       ! Check total forces Fn, Fx, Fy
 
@@ -1217,13 +1221,27 @@ contains
 
       ! write kinematic constants
 
-      if (ic%norm.eq.0 .and. ic%force3.eq.0) write(linp, 2131) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.0 .and. ic%force3.eq.1) write(linp, 2132) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.0 .and. ic%force3.eq.2) write(linp, 2133) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.1 .and. ic%force3.eq.0) write(linp, 2134) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.1 .and. ic%force3.eq.1) write(linp, 2135) fun, fux, fuy, kin%cphi
-      if (ic%norm.eq.1 .and. ic%force3.eq.2) write(linp, 2136) fun, fux, fuy, kin%cphi
-      if (ic%varfrc.eq.0) call fric_wrtinp(linp, ic%varfrc, ic%frclaw_inp, fric)
+      if (max(abs(kin%spinxo),abs(kin%spinyo)).le.tiny) then
+         if (ic%norm.eq.0 .and. ic%force3.eq.0) write(linp, 2131) fun, fux, fuy, kin%cphi
+         if (ic%norm.eq.0 .and. ic%force3.eq.1) write(linp, 2132) fun, fux, fuy, kin%cphi
+         if (ic%norm.eq.0 .and. ic%force3.eq.2) write(linp, 2133) fun, fux, fuy, kin%cphi
+         if (ic%norm.eq.1 .and. ic%force3.eq.0) write(linp, 2134) fun, fux, fuy, kin%cphi
+         if (ic%norm.eq.1 .and. ic%force3.eq.1) write(linp, 2135) fun, fux, fuy, kin%cphi
+         if (ic%norm.eq.1 .and. ic%force3.eq.2) write(linp, 2136) fun, fux, fuy, kin%cphi
+      else
+         if (ic%norm.eq.0 .and. ic%force3.eq.0) write(linp, 2141) fun, fux, fuy, kin%cphi, kin%spinxo,  &
+                kin%spinyo
+         if (ic%norm.eq.0 .and. ic%force3.eq.1) write(linp, 2142) fun, fux, fuy, kin%cphi, kin%spinxo,  &
+                kin%spinyo
+         if (ic%norm.eq.0 .and. ic%force3.eq.2) write(linp, 2143) fun, fux, fuy, kin%cphi, kin%spinxo,  &
+                kin%spinyo
+         if (ic%norm.eq.1 .and. ic%force3.eq.0) write(linp, 2144) fun, fux, fuy, kin%cphi, kin%spinxo,  &
+                kin%spinyo
+         if (ic%norm.eq.1 .and. ic%force3.eq.1) write(linp, 2145) fun, fux, fuy, kin%cphi, kin%spinxo,  &
+                kin%spinyo
+         if (ic%norm.eq.1 .and. ic%force3.eq.2) write(linp, 2146) fun, fux, fuy, kin%cphi, kin%spinxo,  &
+                kin%spinyo
+      endif
 
  2131 format( 4g12.4, 10x, 'PEN, CKSI, CETA, CPHI')
  2132 format( 4g12.4, 10x, 'PEN, FX, CETA, CPHI')
@@ -1231,6 +1249,17 @@ contains
  2134 format( 4g12.4, 10x, 'FN, CKSI, CETA, CPHI')
  2135 format( 4g12.4, 10x, 'FN, FX, CETA, CPHI')
  2136 format( 4g12.4, 10x, 'FN, FX, FY, CPHI')
+
+ 2141 format( 6g12.4, 2x, 'PEN, CKSI, CETA, CPHI, SPINXO,YO')
+ 2142 format( 6g12.4, 2x, 'PEN, FX, CETA, CPHI, SPINXO,YO')
+ 2143 format( 6g12.4, 2x, 'PEN, FX, FY, CPHI, SPINXO,YO')
+ 2144 format( 6g12.4, 2x, 'FN, CKSI, CETA, CPHI, SPINXO,YO')
+ 2145 format( 6g12.4, 2x, 'FN, FX, CETA, CPHI, SPINXO,YO')
+ 2146 format( 6g12.4, 2x, 'FN, FX, FY, CPHI, SPINXO,YO')
+
+      ! write friction parameters
+
+      if (ic%varfrc.eq.0) call fric_wrtinp(linp, ic%varfrc, ic%frclaw_inp, fric)
 
       ! if new influence coefficients: write rolling step, material constants when C=2, 3, 4 or 9
 

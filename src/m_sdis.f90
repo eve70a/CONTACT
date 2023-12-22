@@ -898,9 +898,9 @@ contains
       real(kind=8)              :: cc, sc, facx, facy
 
       ! call timer_start(itimer_srztng)
-      associate(chi    => kin%chi,  dq     => kin%dq,   facphi => kin%facphi,                           &
-                cksi   => kin%cksi, ceta   => kin%ceta, cphi   => kin%cphi,                             &
-                hs1    => geom%hs1, exrhs  => geom%exrhs)
+      associate(chi    => kin%chi,    dq     => kin%dq,     facphi => kin%facphi,                       &
+                cksi   => kin%cksi,   ceta   => kin%ceta,   cphi   => kin%cphi,                         &
+                spinxo => kin%spinxo, spinyo => kin%spinyo, hs1    => geom%hs1, exrhs  => geom%exrhs)
 
       is_roll = ic%tang.eq.2 .or. ic%tang.eq.3
 
@@ -934,16 +934,16 @@ contains
          ! call write_log(1, bufout)
 
          do ii = 1, cgrid%ntot
-            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii) - sc*dq*facphi) + exrhs%vx(ii) ! below: * -dq 
-            hs1%vy(ii) = facy * cphi *( cgrid%x(ii) + cc*dq*facphi) + exrhs%vy(ii) !        * -dq
+            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii) + spinyo - sc*dq*facphi) + exrhs%vx(ii) ! below: * -dq 
+            hs1%vy(ii) = facy * cphi *( cgrid%x(ii) - spinxo + cc*dq*facphi) + exrhs%vy(ii) !        * -dq
          enddo
       else
 
          ! shift:
 
          do ii = 1, cgrid%ntot
-            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii)) + exrhs%vx(ii)
-            hs1%vy(ii) = facy * cphi *  cgrid%x(ii)  + exrhs%vy(ii)
+            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii) + spinyo) + exrhs%vx(ii)
+            hs1%vy(ii) = facy * cphi *( cgrid%x(ii) - spinxo) + exrhs%vy(ii)
          enddo
       endif
 

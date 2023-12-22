@@ -653,6 +653,8 @@ public
       real(kind=8) :: cksi
       real(kind=8) :: ceta
       real(kind=8) :: cphi
+      real(kind=8) :: spinxo
+      real(kind=8) :: spinyo
       real(kind=8) :: fntrue
       real(kind=8) :: fnscal
       real(kind=8) :: fxrel1
@@ -676,6 +678,8 @@ public
       ! ceta  [mm|-]   rigid shift (T=1) or creepage (T=2-3) in y-direction
       !                (prescribed when F<=1, computed when F=2)
       ! cphi [rad|rad/mm]  rigid spin shift (T=1, [rad]) or spin creepage (T=2-3, [rad/mm])
+      ! spinxo [mm]    x-component of 'spin center' (xo,yo), spin creepage linearization point
+      ! spinyo [mm]    y-component of 'spin center' (xo,yo), spin creepage linearization point
       ! TODO: it would be better to have separate variables for creep & shift
 
       ! fntrue [N]     total normal force, input when N=1, output when N=0
@@ -2073,6 +2077,8 @@ end subroutine potcon_get_overlap
       kin%cksi    =  0d0
       kin%ceta    =  0d0
       kin%cphi    =  0d0
+      kin%spinxo  =  0d0
+      kin%spinyo  =  0d0
       kin%fprev   = (/ kin%fxrel1, kin%fyrel1, kin%fntrue /)
       kin%use_muscal = ic%varfrc.eq.0
       kin%muscal  =  1d0

@@ -439,7 +439,7 @@ problems may be independent of each other or may form sequences.
 A single case may be viewed as a single time instance. In this respect it
 is important to know that CONTACT uses an elastostatic approach. The
 contacting bodies may be accelerating or decelerating as a whole, yet 
-the corresponding inertia terms are ignored from the stress balance
+the corresponding inertia terms are ignored from the stress balance.
 By this approximation, the stresses inside the bodies are locally in
 equilibrium at all times, and any stress waves inside the bodies will
 be neglected.
@@ -3217,8 +3217,10 @@ to characterize the relative motion of the two bodies:
 \inpvar{CKSI, CETA}{\bunit{mm}}{Rigid shift, i.e.\ the displacement of the two
         bodies' axles in $x$- and $y$-directions respectively in a time
         step $\delta t$.}
-\inpvar{CPHI}{\bunit{rad}}{Rotation shift, angular displacement of the two bodies
-        around the $z$-axis in a time step $\delta t$.}
+\inpvar{CPHI}{\bunit{rad}}{Rotation shift, angular displacement of the two
+        bodies around the $z$-axis in a time step $\delta t$.}
+\inpvar{SPINXO,YO}{\bunit{mm}}{Optional `spin center' $(x_o,y_o)$ cf.\
+        \cite{Vollebregt2018a-sdec}, default $(0,0)$.}
 \end{inputvars}
 When ${\tt E}_3=9$ an additional term is added:
 \begin{inputvars}
@@ -3229,13 +3231,14 @@ When ${\tt E}_3=9$ an additional term is added:
 \end{inputvars}
 The rigid shift of all elements is computed with
 \begin{equation}
-    \vec{W}_{It} = [{\tt CKSI} - {\tt CPHI} \cdot y_I + {\tt EXRHS}_{Ix},  \;\;
-     {\tt CETA} + {\tt CPHI} \cdot x_I + {\tt EXRHS}_{Iy}  ]^T
+    \vec{W}_{It} = [{\tt CKSI} - {\tt CPHI} \cdot (y_I-y_o) + 
+                                                {\tt EXRHS}_{Ix},  \;\;
+     {\tt CETA} + {\tt CPHI} \cdot (x_I-x_o) + {\tt EXRHS}_{Iy}  ]^T
 \end{equation}
-The true time step size $\delta t$ is unknown to the program. It is set to
-$1\unit{s}$, and the corresponding variables are set to ${\tt CHI}=0^\circ$,
-${\tt DQ}=1\unit{mm}$ and ${\tt VELOC}=1\unit{mm/s}$. This way, a shift of
-$3\unit{mm}$
+The true time step size $\delta t$ is unknown to the program. Calculations
+are done with a dummy value $\delta t^*=1\unit{s}$, and the corresponding
+variables are set to ${\tt CHI}=0^\circ$, ${\tt DQ}=1\unit{mm}$ and
+${\tt VELOC}=1\unit{mm/s}$. Internally in the program, a shift of $3\unit{mm}$
 corresponds to an absolute slip velocity of $3\unit{mm/s}$ and a relative
 slip velocity of $3$.
 
@@ -3253,14 +3256,18 @@ In rolling problems (${\tt T}=2,3$) the following variables are used.
 \inpvar{DQ}{\bunit{mm}}{Rolling distance traversed per timestep, i.e.\
         $\delta q=V\cdot\delta t$. This should preferrably be of the
         order of the grid size {\tt DX} \cite{Wekken2017a-wiggles}.}
-\inpvar{VELOC}{\bunit{mm/s}}{The rolling velocity $V$. This affects viscoelastic
-        material behaviour (${\tt M}=1$), velocity dependent friction laws
-        (${\tt L}=2-4$), and the frictional power dissipation {\tt FRIC}.}
+\inpvar{VELOC}{\bunit{mm/s}}{The rolling velocity $V$. This affects
+        viscoelastic material behaviour (${\tt M}=1$), velocity dependent
+        friction laws (${\tt L}=2-4$), and the frictional power dissipation
+        {\tt FRIC}.}
 \inpbreak
-\inpvar{CKSI, CETA}{\bunit{-}}{Creepages in $x$- and $y$-directions respectively,
-        rigid slip velocities relative to the rolling speed $V$.}
-\inpvar{CPHI}{\bunit{rad/mm}}{Spin creepage, angular velocity of the two bodies
-        around the $z$-axis relative to the rolling speed $V$.}
+\inpvar{CKSI, CETA}{\bunit{-}}{Creepages in $x$- and $y$-directions
+        respectively, rigid slip velocities relative to the rolling speed
+        $V$.}
+\inpvar{CPHI}{\bunit{rad/mm}}{Spin creepage, angular velocity of the two
+        bodies around the $z$-axis relative to the rolling speed $V$.}
+\inpvar{SPINXO,YO}{\bunit{mm}}{Optional `spin center' $(x_o,y_o)$ cf.\
+        \cite{Vollebregt2018a-sdec}, default $(0,0)$.}
 \end{inputvars}
 When ${\tt E}=9$ an additional term is added which is particularly relevant
 for conformal contact situations:
@@ -3273,9 +3280,9 @@ In this case the rigid shift is computed from the function
 \begin{equation}\label{eq:rig_shift_roll}
  \vec{W}_{It} = {\tt DQ} \cdot \left[
         \begin{array}{l}
-        {\tt CKSI} - {\tt CPHI} \cdot (y_I+sn\cdot\delta q/6)
+        {\tt CKSI} - {\tt CPHI} \cdot (y_I-y_o+sn\cdot\delta q/6)
                 + {\tt EXRHS}_{Ix}  \\
-        {\tt CETA} + {\tt CPHI} \cdot (x_I+cs\cdot\delta q/6)
+        {\tt CETA} + {\tt CPHI} \cdot (x_I-x_o+cs\cdot\delta q/6)
                 + {\tt EXRHS}_{Iy}
         \end{array} \right]
 \end{equation}
@@ -3408,7 +3415,7 @@ solvers described below at item \ref{itm:it_solvers}.
 \end{enumerate}
 
 \end{enumerate}
-These iterations are mosly bypassed when using the KPEC, ANALYN and FASTSIM
+These iterations are mostly bypassed when using the KPEC, ANALYN and FASTSIM
 approaches. 
 
 The nesting of algorithms is changed in the analysis of wheel/rail
@@ -4103,11 +4110,11 @@ The relevant control digits (Section \ref{sec:controldigits}) are
 \end{itemize}
 A tangential force is applied to the sphere of $(1-\theta^3)\,\mu F_n$,
 with $\theta=1/2$. According to Cattaneo this yields a circular adhesion
-area with radius $(1-\theta)$ concentric with the contact area \cite[sec.
+area with radius $(1-\theta)a$ concentric with the contact area \cite[sec.
 5.2.1.1]{Kalker1990}. The corresponding shift of the sphere with respect
 to the plane is given by
 \begin{equation}
-        W_x = (1-\theta^2) \, \frac{3\mu F_n}{2\pi G}
+        W_x = (1-\theta^2) \, \frac{3\mu F_n}{2\pi a G}
         \left( \frac{\pi}{2} - \nu \frac{\pi}{4} \right)
 \end{equation}
 In our case the sphere is the upper body, body 1. The tangential force $F_x$
@@ -4118,12 +4125,12 @@ hence $F_x=-7/8$. The shift is $W_x=0.00817\unit{mm}$, and the theoretical
 tangential traction is
 \begin{equation}
 \begin{array}{rll}
- p_x &= -\mu p_{n,max} \left( \sqrt{1-r^2} - \frac{1}{2}
-                \sqrt{1-4r^2} \right), &
-                \mbox{when } 0 \le r \le \frac{1}{2} \\[0.5ex]
-     &= -\mu p_{n,max} \, \sqrt{1-r^2} &
-                \mbox{when } \frac{1}{2} \le r \le 1 \\[0.5ex]
-     &= 0 & \mbox{when } r \ge 1.
+ p_x &= -\mu p_{n,max} \, \frac{1}{a} \left( \sqrt{a^2-r^2} - 
+                \sqrt{\theta^2 a^2-r^2} \right), &
+                \mbox{when } 0 \le r \le \theta a \\[0.5ex]
+     &= -\mu p_{n,max} \, \frac{1}{a} \sqrt{a^2-r^2} &
+                \mbox{when } \theta a \le r \le a \\[0.5ex]
+     &= 0 & \mbox{when } r \ge a.
 \end{array}
 \end{equation}
 This theoretical solution by Cattaneo is not altogether correct; there is a
@@ -4897,6 +4904,115 @@ The file {\tt matlab\_mbench.m} shows how this problem is computed
 using the CONTACT library version in Matlab (Section
 \ref{sec:clib_mbench}). The file {\tt test\_mbench.f90} shows a
 corresponding implementation in Fortran.
+
+\section{Simulation of wheel out-of-roundness}
+\label{sec:ex_wheelflat}
+
+CONTACT typically represent wheels using a 2-dimensional profile for a
+cross-section in lateral direction. A 3-dimensional surface is imagined
+using a uniform revolution about the axis of the wheel, thereby exluding
+wheel out-of-roundness. Out-of-roundness can be included using the
+so-called slices-file, using multiple 2-dimensional profiles at different
+positions along the circumference of the wheel. This is illustrated in
+the example {\tt wheelflat.inp}. The example is based on a damaged wheel
+for which geometry measurements were obtained by means of 3D laser scans
+\cite{Maglio2023a-phd,Maglio2023b}. The data are provided thanks to prof.\
+Nielsen of Chalmers University of Technology.
+
+\begin{figure}[bt]
+\centering
+\psfig{figure=fig/flat_1_lines2,height=2.1in,trim=80 0 100 30,clip=}
+\psfig{figure=fig/wheel_flat_1,height=2.1in,trim=150 0 180 30,clip=}
+\caption{\em 3D laser scan data for a wheel flat used in the {\tt
+        wheelflat} example \cite{Maglio2023b,Mattsson2023}.}
+\label{fig:chalmers_flat1}
+\end{figure}
+
+The laser scan data were provided as radial deviations $dr_{dev}$ with
+respect to the nominal profile as illustrated in Figure
+\ref{fig:chalmers_flat1}. An S1002 profile is used, resampling the tread
+region at $1\unit{mm}$ spacing, and adding the deviations to the profile
+data. 3075 samples were given along the circumference
+of the wheel, corresponding to $1\unit{mm}$ spacing at the tape circle
+line ($r_{nom}=490\unit{mm}$). They are thinned out by keeping 80
+samples on either side of the maximum depth and using every 30th sample
+along the remainder of the circumference. After this there are 258 slices
+remaining. Circumferential $x_w$ positions for the slices are converted
+to radians in the basic interval $[-\pi,\pi)$. This
+places the flat in the interval $\theta_{wc}=[0.486,0.812]\unit{rad}=
+[27.8^\circ,46.5^\circ]$ with center at $\theta_{wc}=0.649\unit{rad}=
+37.2^\circ$.
+
+The slices file {\tt S1002\_flat.slcw} used looks as follows:
+
+\begin{alltt}\small
+% wheel flat on S1002 profile, 
+% data courtesy M. Maglio / Chalmers University of Technology
+
+     0.0       \blue{1.0}   TH_OFFSET [x], TH_SCALE [rad/x], x=rad
+     \blue{258}             NSLC
+       0    0    0   NFEAT, NKINK, NACCEL
+       \blue{2}             S_METHOD (1=intpol, 2=approx)
+
+% slice positions TH_SLC [x] and filenames WFNAME per slice
+
+   -3.0995   'S1002_flat/Wheel_section_208.txt'
+              ...
+   -0.0383   'S1002_flat/Wheel_section_258.txt'
+    0.0000   'S1002_flat/Wheel_section_1.txt'
+    0.0612   'S1002_flat/Wheel_section_2.txt'
+              ...
+    0.4857   'S1002_flat/Wheel_section_9.txt'   % start of wheel flat
+    0.4878   'S1002_flat/Wheel_section_10.txt'
+              ...
+    3.1224   'S1002_flat/Wheel_section_207.txt'
+\end{alltt}
+
+Three values highlighted in blue are $\theta_{scale}=1$ indicating
+that the slice positions are given in radians such that no scaling is
+needed, $n_{slc}=258$ for the number of slice positions presented, and
+${\tt s\_method}=2$ to select the approximating spline method introducing a
+little smoothing. In the example, the slice filenames are obtained from the
+numbering after selecting every 30th slice, before wrap-around of
+$[\pi,2\pi)$ to $[-\pi,0)$. From this we see that the numbers in the
+filenames are ignored by CONTACT. In fact, it would be possible to
+repeat the same file (`{\tt Nominal\_profile.txt}') at different positions
+(all $\theta_{slc}$ outside $[0.485,0.813]$). The slices before number 6
+($\theta_{slc}=0.3061$) and after number 172 ($\theta_{slc}=0.9796$) could
+be deleted with no difference to the calculation.
+
+The calculations in {\tt wheelflat.inp} concern this wheel at 26 pitch
+positions $\theta_{ws}$. Negative values $\theta_{ws}$ are needed to bring
+a flat into contact that is located at positive $\theta_{wc}$ (see Figure
+\ref{fig:wheel_theta}). The pitch velocity $v_\theta$ is negative as well.
+So we find the flat approaching the contact zone at $\theta_{ws}=-25^\circ$
+and leaving the contact zone at $\theta_{ws}=-50^\circ$. Dynamic effects
+are excluded here using a constant prescribed vertical force
+$F_z=125\unit{kN}$. These would need to be computed by multibody dynamic
+simulation including the track stiffness and wheelset dynamic response.
+
+\begin{alltt}\small
+  'S1002_flat.slcw'   0   1.0   5.0               WFNAME, MIRRORY, SCALE, SMOOTH
+      0.0   0.0  125000.  0.0   0.0   -25.0d      S, Y, FZ, ROLL, YAW, PITCH
+   2000.0   0.0    0.0    0.0   0.0   -4.08191    VS,VY,VZ, VROLL,VYAW,VPITCH
+\end{alltt}
+
+\begin{figure}[bt]
+\centering
+\psfig{figure=fig/wheelflat_pn8x,width=5.4in,trim=100 5 120 30,clip=}
+\caption{\em Computed contact patch shapes and pressures $p_n$ for
+        Chalmers' measured wheel flat approaching, passing through and
+        leaving contact at constant vertical force. Contour: corresponding
+        contact patch on nominal wheel profile without out-of-roundness.}
+\label{fig:chalmers_pn8x}
+\end{figure}
+
+Results are shown in Figure \ref{fig:chalmers_pn8x} for eight wheelset
+pitch angles $\theta_{ws}$. The dark-red contour shows the outline of the
+contact patch for the nominal profile. From this we see how the contact
+patch shifts back at first, moves sideways and then advances ahead of the
+nominal patch, after which it finally comes back to the reference shape
+and position. 
 
 \section{Calculation of creep force curves}
 \label{sec:ex_tractcurv}
@@ -7140,7 +7256,7 @@ if G=4:       [ INISLP  OMGSLP                          ]
 %       CKSI is needed when F=0,      FX when F=1 or 2
 %       CETA is needed when F=0 or 1, FY when F=2
 
-PEN/FN  CKSI/FX  CETA/FY  CPHI
+PEN/FN  CKSI/FX  CETA/FY  CPHI   \{SPINXO   SPINYO\}
 
 % Friction description (section \ref{sec:fric_dscrp}):
 %      L=0 --> Coulomb friction with static/kinetic coefficients
@@ -7532,18 +7648,17 @@ schematised using the dashpot shown in Figure \ref{fig:dashpot}, {\em in
 series\/} with the tangential elasticity.
 
 Creepage and tangential force are related to another in a complex,
-non-linear way.
-In steady state rolling and at low creepage, the force and percentual
-creepage are related according to the linear theory of Kalker
-\cite{Kalker1967,Kalker1990}. At larger creepages the creep
-force saturates at the friction maximum, upon which full sliding occurs,
-leading to the well-known creep versus creep force curve (see for instance
-Figure \ref{fig:tractcurv}). Note that in steady state rolling, the
-tangential contact spring is held at constant elongation.  Hence the
-creep-force curve describes the variable dashpot of Figure
-\ref{fig:dashpot}. The tangential contact spring comes into play during
-non-steady scenarios, and may then lead to tangential {\em rocking\/} to
-occur \cite{Vollebregt2015b-iavsd2015,Vollebregt2017a-iavsd2017}.
+non-linear way. In steady state rolling and at low creepage, the force and
+percentual creepage are related according to the linear theory of Kalker
+\cite{Kalker1967,Kalker1990}. At larger creepages the creep force saturates
+at the friction maximum, upon which full sliding occurs, leading to the
+well-known creep versus creep force curve (see for instance Figure
+\ref{fig:tractcurv}). Note that in steady state rolling, the tangential
+contact spring is held at constant elongation.  Hence the creep-force curve
+describes the variable dashpot of Figure \ref{fig:dashpot}. The tangential
+contact spring comes into play during non-steady scenarios, and may then
+lead to tangential {\em rocking\/} to occur \cite{Vollebregt2015b-iavsd2015,
+Vollebregt2017a-iavsd2017}.
 
 \section{Overall problem versus the contact problem}
 
@@ -7563,11 +7678,10 @@ shown in this figure is referred to as the `undeformed state'.
 \centering
 \psfig{figure=fig/bent_rail,width=6.2in,clip=}
 \caption{\em Illustration of the wheel-rail contact problem 
-\cite{Vollebregt2012a-quasistd}. (a): overall
-geometry. (b): wheel and rail geometries in so-called undeformed states.
-(c): wheel and rail geometries in the deformed state and corresponding
-deformations and contact area. Note: graphs (b) and (c) are
-stretched vertically.}
+\cite{Vollebregt2012a-quasistd}. (a): overall geometry. (b): wheel and rail
+geometries in so-called undeformed states. (c): wheel and rail geometries
+in the deformed state with corresponding deformations and contact area.
+Note: graphs (b) and (c) are stretched vertically.}
 \label{fig:bent_rail}
 \end{figure}
 
@@ -7684,7 +7798,7 @@ but generally these may vary over time too. Particularly the $z$-axis is
 required to be normal to the two bodies' surfaces. An important aspect of
 this coordinate system is that particles of the bodies' surfaces move
 through the contact area with velocity $-V$. On the other hand, the
-bodies themselves appear to be fixed in space.
+bodies themselves appear to be fixed with respect to the coordinate system.
 
 An alternative approach is used in sliding or rolling with sliding
 circumstances. In such a case there need not be a rolling velocity $V$.
@@ -8042,7 +8156,7 @@ $\delta q$    & geometrical time step size: distance traversed per time
 
 In CONTACT, a calculation starts by defining a potential contact area that
 encompasses the true contact area. This potential contact area is
-discretised into $N=mx\cdot my$ rectangular elements of size $\delta x
+discretised into $N=m_x\cdot m_y$ rectangular elements of size $\delta x
 \cdot \delta y$ (see Figure \ref{fig:potcon_discr}). The surface tractions
 are approximated by piecewise constant functions per
 element.\footnote{Bilinear elements are provided also, with little benefit
@@ -8127,7 +8241,7 @@ specified completely with the following inputs:
         used (Section \ref{sec:coordsys});
 \item the potential contact region, a rectangular area in the plane $z=0$
         that encompasses the true contact region, and its discretisation
-        step sizes $\delta x,\delta y$ or number of elements $mx,my$
+        step sizes $\delta x,\delta y$ or number of elements $m_x,m_y$
         (Figure \ref{fig:potcon_discr});
 \item in rolling problems: the rolling velocity $V$, direction $\chi$
         (`{\tt chi}') and `time step size' $\delta q=V\,\delta t$.
