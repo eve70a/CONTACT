@@ -790,8 +790,8 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
          ! set D-digit in the RE-CP-data (only makes sense for module 1)
 
-         if (values(i).ge.2 .and. values(i).le.9) my_ic%discns_inp = values(i)
-         if (values(i).ge.2 .and. values(i).le.9) my_ic%discns_eff = values(i)
+         if (values(i).ge.2 .and. values(i).le.9) my_ic%discns1_inp = values(i)
+         if (values(i).ge.2 .and. values(i).le.9) my_ic%discns1_eff = values(i)
 
       elseif (params(i).eq.CNTC_ic_npomax) then         ! set max. #elements in potential contact (mod. 1)
 
@@ -1021,16 +1021,16 @@ subroutine cntc_setMetadata(ire, icp, lenmta, params, values) &
          my_meta%s_ws = my_scl%len * values(i)
       elseif (params(i).eq.CNTC_mt_xr) then
          ! TODO: the SIMPACK-interface is outdated !!!
-         ! [xyz]_rw [mm]  location of right wheel origin m_rw in terms of track coordinates
-         ! [yz]_rr  [mm]  location of right rail origin m_rr in terms of track coordinates
+         ! [xyz]_w [mm]    location of right wheel origin m_w in terms of track coordinates
+         ! [yz]_r  [mm]    location of right rail origin m_r in terms of track coordinates
          ! [xyz]_ref [mm]  location of contact reference point m_ref in terms of right rail coordinates
-         my_meta%xcp_rr = my_scl%len * values(i)
+         my_meta%xcp_r = my_scl%len * values(i)
       elseif (params(i).eq.CNTC_mt_yr) then
-         my_meta%ycp_rr = my_scl%len * values(i)
+         my_meta%ycp_r = my_scl%len * values(i)
       elseif (params(i).eq.CNTC_mt_xw) then
-         my_meta%xcp_rw = my_scl%len * values(i)
+         my_meta%xcp_w = my_scl%len * values(i)
       elseif (params(i).eq.CNTC_mt_yw) then
-         my_meta%ycp_rw = my_scl%len * values(i)
+         my_meta%ycp_w = my_scl%len * values(i)
       elseif (params(i).eq.CNTC_mt_run) then
          my_meta%irun   = nint(values(i))
       elseif (params(i).eq.CNTC_mt_axle) then
@@ -1594,8 +1594,8 @@ subroutine cntc_setRollingStepsize(ire, icp, chi, dq) &
       my_kin%dq  = dq  * my_scl%len
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1,a,f6.1,a,f6.3)') pfx,subnam,'(',ire,'.',icp,'): chi=',my_kin%chi, &
-                   ' [rad], dq=',my_kin%dq,' [mm]'
+         write(bufout,'(a,a30,a,i3,a,i1,a,f6.1,a,f6.3,a)') pfx,subnam,'(',ire,'.',icp,'): chi=',        &
+                   my_kin%chi,' [rad], dq=',my_kin%dq,' [mm]'
          call write_log(1, bufout)
       endif
    endif
@@ -2887,7 +2887,6 @@ subroutine cntc_setTrackDimensions_old(ire, ztrack, nparam, params) &
 !--local variables:
    integer, parameter  :: nparam_loc(1:3) = (/ 4, 6, 10 /)
    integer             :: ierror
-   type(t_rail),     pointer   :: my_rail
    character(len=*), parameter :: subnam = 'cntc_setTrackDimensions_old'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_setTrackDimensions_old
@@ -2912,9 +2911,9 @@ subroutine cntc_setTrackDimensions_old(ire, ztrack, nparam, params) &
       return
    endif
 
-   ! set pointer to the active rail in the current configuration
+   ! set reference to the active rail in the current configuration
 
-   my_rail  => wtd%trk%rai
+   associate(my_rail  => wtd%trk%rai)
 
    ! store the supplied values
 
@@ -2970,6 +2969,7 @@ subroutine cntc_setTrackDimensions_old(ire, ztrack, nparam, params) &
 !     call write_log(1, bufout)
 !  endif
 
+   end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setTrackDimensions_old
 
@@ -2998,7 +2998,6 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
 !--local variables:
    integer             :: nparam_loc(3)
    integer             :: ierror
-   type(t_rail),     pointer   :: my_rail
    character(len=*), parameter :: subnam = 'cntc_setTrackDimensions_new'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_setTrackDimensions_new
@@ -3031,9 +3030,9 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
       return
    endif
 
-   ! set pointer to the active rail in the current configuration
+   ! set reference to the active rail in the current configuration
 
-   my_rail  => wtd%trk%rai
+   associate(my_rail  => wtd%trk%rai)
 
    ! store the supplied values
 
@@ -3095,6 +3094,7 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
       call write_log(1, bufout)
    endif
 
+   end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setTrackDimensions_new
 
@@ -3368,7 +3368,6 @@ subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
 !--local variables:
    integer, parameter  :: nparam_loc(1:5) = (/ 0, 0, 0, 12, 12 /)
    integer             :: ierror
-   type(t_wheel),    pointer   :: my_wheel
    character(len=*), parameter :: subnam = 'cntc_setWheelsetFlexibility'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_setWheelsetFlexibility
@@ -3423,9 +3422,9 @@ subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
 
    ! store parameters provided
 
+   associate(my_wheel => wtd%ws%whl)
    if (ewheel.ge.1 .and. ewheel.le.3) then
 
-      my_wheel => wtd%ws%whl
       my_wheel%dx     = 0d0
       my_wheel%dy     = 0d0
       my_wheel%dz     = 0d0
@@ -3441,7 +3440,6 @@ subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
 
    elseif (ewheel.eq.4 .or. ewheel.eq.5) then
 
-      my_wheel => wtd%ws%whl
       my_wheel%dx     = params( 1) * my_scl%len
       my_wheel%dy     = params( 2) * my_scl%len
       my_wheel%dz     = params( 3) * my_scl%len
@@ -3456,6 +3454,7 @@ subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
       my_wheel%vpitch = params(12) * my_scl%angle
 
    endif
+   end associate
 
 !  if (idebug.ge.2) then
 !     write(bufout,'(a,a30,a,i3,a,i1,a,f7.4,a)') pfx,subnam,'(',ire,'.',icp,'): penetration=',       &
@@ -3497,7 +3496,6 @@ subroutine subs_addBlock(ire, icp, iblk, isubs, npx, npy, npz, xparam, yparam, z
                                   npz_loc(1:9) = (/ 3, 3,  3, 0, -1, -1, -1, 0, -1 /)
    integer                     :: ierror, imodul, jblk
    logical                     :: lchanged
-   type(t_subsblk),  pointer   :: b
    character(len=*), parameter :: subnam = 'subs_addBlock'
 #ifdef _WIN32
 !dec$ attributes dllexport :: subs_addBlock
@@ -3569,10 +3567,10 @@ subroutine subs_addBlock(ire, icp, iblk, isubs, npx, npy, npz, xparam, yparam, z
 
       if (imodul.eq.1 .and. icp.ge.1) wtd%allcps(icp)%cp%has_own_subs = .true.
 
-      ! increment number of blocks, set pointer to block data
+      ! increment number of blocks, set reference to block data
 
       my_subs%nblock = my_subs%nblock + 1
-      b => my_subs%blocks(my_subs%nblock)
+      associate(b => my_subs%blocks(my_subs%nblock))
 
       ! store data for block iblk
 
@@ -3651,6 +3649,7 @@ subroutine subs_addBlock(ire, icp, iblk, isubs, npx, npy, npz, xparam, yparam, z
 
       endif
 
+      end associate
    endif ! iblk<=0
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -3731,8 +3730,6 @@ subroutine cntc_calculate1(ire, ierror) &
 !--local variables:
    character(len=*),   parameter :: subnam = 'cntc_calculate1'
    integer                       :: is_wheel, i_ftype
-   type(t_wheel),      pointer   :: my_wheel
-   type(t_rail),       pointer   :: my_rail
    character(len=256)            :: fname
    character(len=len(bufout)-52) :: tmpbuf
    integer                       :: itimer
@@ -3744,10 +3741,9 @@ subroutine cntc_calculate1(ire, ierror) &
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
-   ! set pointer to the active wheel and rail in the current configuration
+   ! set reference to the active wheel and rail in the current configuration
 
-   my_wheel => wtd%ws%whl
-   my_rail  => wtd%trk%rai
+   associate(my_wheel => wtd%ws%whl, my_rail  => wtd%trk%rai)
 
    if (idebug.ge.2) then
       write(bufout,'(a,a30,a,i3,a)') pfx,subnam,'(',ire,'): checking problem specification...'
@@ -3897,6 +3893,7 @@ subroutine cntc_calculate1(ire, ierror) &
       write(bufout,'(a,a30,a,i3,a)')       pfx,subnam,'(',ire,'): done...'
       call write_log(1, bufout)
    endif
+   end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_calculate1
 
@@ -4079,7 +4076,6 @@ subroutine subs_calculate(ire, icp, ierror) &
 !--local variables:
    character(len=*), parameter   :: subnam = 'subs_calculate'
    integer                       :: imodul, itimer, lic_mxthrd, new_actv, jcp, jcp0, jcp1
-   type(t_cpatch), pointer       :: cp
 #ifdef _WIN32
 !dec$ attributes dllexport :: subs_calculate
 #endif
@@ -4130,7 +4126,7 @@ subroutine subs_calculate(ire, icp, ierror) &
 
       do jcp = jcp0, jcp1
 
-         cp => wtd%allcps(jcp)%cp
+         associate(cp => wtd%allcps(jcp)%cp)
 
          ! copy input for wtd to gd, except for cps that have gd%subs specified separately
 
@@ -4143,6 +4139,7 @@ subroutine subs_calculate(ire, icp, ierror) &
                           cp%gd%outpt1%ps, cp%gd%ic%is_left_side(), cp%gd%subs)
          cp%gd%meta%ncase = cp%gd%meta%ncase + 1
 
+         end associate
       enddo
    else
 
@@ -4237,7 +4234,7 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_ic_discns) then         ! get D-digit from the RE-CP-data
 
-         values(i) = my_ic%discns_inp
+         values(i) = my_ic%discns1_inp
 
       elseif (params(i).eq.CNTC_ic_npomax) then         ! get max. #elements in potential contact (mod. 1)
 
@@ -4387,8 +4384,6 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    type(t_grid)                :: g_wrk
    type(t_gridfnc3)            :: dxyz
    type(t_profile),  pointer   :: my_prf
-   type(t_rail),     pointer   :: my_rail
-   type(t_wheel),    pointer   :: my_wheel
    type(t_grid),     pointer   :: g
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_getProfileValues_new
@@ -4426,11 +4421,10 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 
    ! select rail or wheel, set pointer g to actual data
 
+   associate(my_rail  => wtd%trk%rai, my_wheel => wtd%ws%whl)
    if (itype.eq.0) then
-      my_rail  => wtd%trk%rai
       my_prf   => my_rail%prr
    else
-      my_wheel => wtd%ws%whl
       my_prf   => my_wheel%prw
    endif
 
@@ -4635,6 +4629,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    endif
    call grid_destroy(g_wrk)
 
+   end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getProfileValues_new
 
@@ -4825,9 +4820,6 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
    integer                     :: ierror, ii
    real(kind=8)                :: sgn, sum_pn, sum_xpn, sum_ypn
    type(t_marker)              :: m_pn
-   type(t_wheel),    pointer   :: my_wheel
-   type(t_cpatch),   pointer   :: cp
-   type(t_metadata), pointer   :: meta
    character(len=*), parameter :: subnam = 'cntc_getContactLocation'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_getContactLocation
@@ -4844,11 +4836,9 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       rvalues(1:lenarr) = 0d0
    else
 
-      ! set pointer to the active wheel in the current configuration
+      ! set reference to the active wheel in the current configuration
 
-      my_wheel => wtd%ws%whl
-      cp   => wtd%allcps(icp)%cp
-      meta => cp%gd%meta
+      associate(my_wheel => wtd%ws%whl, cp   => wtd%allcps(icp)%cp, meta => wtd%allcps(icp)%cp%gd%meta)
 
       ! set the sign to -1 for left and +1 for right rail/wheel combination
 
@@ -4860,17 +4850,17 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       if (lenarr.ge.3) rvalues(3)   =       meta%zcp_tr    / my_scl%len
       if (lenarr.ge.4) rvalues(4)   = sgn * meta%deltcp_tr / my_scl%angle
 
-      if (lenarr.ge.5) rvalues(5)   =       meta%xcp_rr    / my_scl%len
-      if (lenarr.ge.6) rvalues(6)   = sgn * meta%ycp_rr    / my_scl%len
-      if (lenarr.ge.7) rvalues(7)   =       meta%zcp_rr    / my_scl%len
-      if (lenarr.ge.8) rvalues(8)   =       meta%scp_rr    / my_scl%len
-      if (lenarr.ge.9) rvalues(9)   = sgn * meta%deltcp_rr / my_scl%angle
+      if (lenarr.ge.5) rvalues(5)   =       meta%xcp_r     / my_scl%len
+      if (lenarr.ge.6) rvalues(6)   = sgn * meta%ycp_r     / my_scl%len
+      if (lenarr.ge.7) rvalues(7)   =       meta%zcp_r     / my_scl%len
+      if (lenarr.ge.8) rvalues(8)   =       meta%scp_r     / my_scl%len
+      if (lenarr.ge.9) rvalues(9)   = sgn * meta%deltcp_r  / my_scl%angle
 
-      if (lenarr.ge.10) rvalues(10) =       meta%xcp_rw    / my_scl%len
-      if (lenarr.ge.11) rvalues(11) = sgn * meta%ycp_rw    / my_scl%len
-      if (lenarr.ge.12) rvalues(12) =       meta%zcp_rw    / my_scl%len
-      if (lenarr.ge.13) rvalues(13) =       meta%scp_rw    / my_scl%len
-      if (lenarr.ge.14) rvalues(14) = sgn * meta%deltcp_rw / my_scl%angle
+      if (lenarr.ge.10) rvalues(10) =       meta%xcp_w     / my_scl%len
+      if (lenarr.ge.11) rvalues(11) = sgn * meta%ycp_w     / my_scl%len
+      if (lenarr.ge.12) rvalues(12) =       meta%zcp_w     / my_scl%len
+      if (lenarr.ge.13) rvalues(13) =       meta%scp_w     / my_scl%len
+      if (lenarr.ge.14) rvalues(14) = sgn * meta%deltcp_w  / my_scl%angle
 
       if (lenarr.ge.15) then
 
@@ -4901,18 +4891,19 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       if (lenarr.ge.19) rvalues(19) = 0d0
       if (lenarr.ge.20) rvalues(20) = 0d0
 
-      if (lenarr.ge.21) rvalues(21) =       meta%x_rw      / my_scl%len
-      if (lenarr.ge.22) rvalues(22) = sgn * meta%y_rw      / my_scl%len
-      if (lenarr.ge.23) rvalues(23) =       meta%z_rw      / my_scl%len
-      if (lenarr.ge.24) rvalues(24) = sgn * meta%rollrw    / my_scl%angle
-      if (lenarr.ge.25) rvalues(25) = sgn * meta%yawrw     / my_scl%angle
+      if (lenarr.ge.21) rvalues(21) =       meta%x_w        / my_scl%len
+      if (lenarr.ge.22) rvalues(22) = sgn * meta%y_w        / my_scl%len
+      if (lenarr.ge.23) rvalues(23) =       meta%z_w        / my_scl%len
+      if (lenarr.ge.24) rvalues(24) = sgn * meta%roll_w     / my_scl%angle
+      if (lenarr.ge.25) rvalues(25) = sgn * meta%yaw_w      / my_scl%angle
 
-      if (lenarr.ge.26) rvalues(26) = sgn * meta%y_rr      / my_scl%len
-      if (lenarr.ge.27) rvalues(27) =       meta%z_rr      / my_scl%len
-      if (lenarr.ge.28) rvalues(28) = sgn * meta%rollrr    / my_scl%angle
+      if (lenarr.ge.26) rvalues(26) = sgn * meta%y_r        / my_scl%len
+      if (lenarr.ge.27) rvalues(27) =       meta%z_r        / my_scl%len
+      if (lenarr.ge.28) rvalues(28) = sgn * meta%roll_r     / my_scl%angle
 
       if (lenarr.ge.31) rvalues(31) = sgn * wtd%trk%dy_defl / my_scl%len
       if (lenarr.ge.32) rvalues(32) =       wtd%trk%dz_defl / my_scl%len
+      end associate
    endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5265,31 +5256,31 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 !   1 - FX_TR    - total force on the output body, component in track longitudinal x-direction
 !   2 - FY_TR    - total force on the output body, component in track lateral y-direction
 !   3 - FZ_TR    - total force on the output body, component in track vertical z-direction
-!   4 - MX_RR_TR - total moment on output body about rail profile marker, component in track x-direction
-!   5 - MY_RR_TR - total moment on output body about rail profile marker, component in track y-direction
-!   6 - MZ_RR_TR - total moment on output body about rail profile marker, component in track z-direction
+!   4 - MX_R_TR  - total moment on output body about rail profile marker, component in track x-direction
+!   5 - MY_R_TR  - total moment on output body about rail profile marker, component in track y-direction
+!   6 - MZ_R_TR  - total moment on output body about rail profile marker, component in track z-direction
 !
 !   7 - FX_WS    - total force on the output body, component in wheelset longitudinal x-direction
 !   8 - FY_WS    - total force on the output body, component in wheelset lateral y-direction
 !   9 - FZ_WS    - total force on the output body, component in wheelset vertical z-direction
-!  10 - MX_RW_WS - total moment on output body about wheel profile marker, component in wheelset x-direction
-!  11 - MY_RW_WS - total moment on output body about wheel profile marker, component in wheelset y-direction
-!  12 - MZ_RW_WS - total moment on output body about wheel profile marker, component in wheelset z-direction
+!  10 - MX_W_WS  - total moment on output body about wheel profile marker, component in wheelset x-direction
+!  11 - MY_W_WS  - total moment on output body about wheel profile marker, component in wheelset y-direction
+!  12 - MZ_W_WS  - total moment on output body about wheel profile marker, component in wheelset z-direction
 !                  Note that the 'output body' is the rail when using CONTACTs unit convention
 !
-!  13 - FX_RR    - total force on the output body, component in rail profile x-direction
-!  14 - FY_RR    - total force on the output body, component in rail profile y-direction
-!  15 - FZ_RR    - total force on the output body, component in rail profile z-direction
-!  16 - MX_RR_RR - total moment on output body about rail profile marker, component in rail x-direction
-!  17 - MY_RR_RR - total moment on output body about rail profile marker, component in rail y-direction
-!  18 - MZ_RR_RR - total moment on output body about rail profile marker, component in rail z-direction
+!  13 - FX_R     - total force on the output body, component in rail profile x-direction
+!  14 - FY_R     - total force on the output body, component in rail profile y-direction
+!  15 - FZ_R     - total force on the output body, component in rail profile z-direction
+!  16 - MX_R_R   - total moment on output body about rail profile marker, component in rail x-direction
+!  17 - MY_R_R   - total moment on output body about rail profile marker, component in rail y-direction
+!  18 - MZ_R_R   - total moment on output body about rail profile marker, component in rail z-direction
 !
-!  19 - FX_RW    - total force on the output body, component in wheel profile x-direction
-!  20 - FY_RW    - total force on the output body, component in wheel profile y-direction
-!  21 - FZ_RW    - total force on the output body, component in wheel profile z-direction
-!  22 - MX_RW_RW - total moment on output body about wheel profile marker, component in wheel x-direction
-!  23 - MY_RW_RW - total moment on output body about wheel profile marker, component in wheel y-direction
-!  24 - MZ_RW_RW - total moment on output body about wheel profile marker, component in wheel z-direction
+!  19 - FX_W     - total force on the output body, component in wheel profile x-direction
+!  20 - FY_W     - total force on the output body, component in wheel profile y-direction
+!  21 - FZ_W     - total force on the output body, component in wheel profile z-direction
+!  22 - MX_W_W   - total moment on output body about wheel profile marker, component in wheel x-direction
+!  23 - MY_W_W   - total moment on output body about wheel profile marker, component in wheel y-direction
+!  24 - MZ_W_W   - total moment on output body about wheel profile marker, component in wheel z-direction
 !
 !  25 - X_AVG    - average contact position (minimum total moment), track longitudinal x-direction
 !  26 - Y_AVG    - average contact position (minimum total moment), track lateral y-direction
@@ -5307,11 +5298,9 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 !--local variables:
    integer                     :: ierror
    real(kind=8)                :: sgn
-   type(t_vec),      pointer   :: ftot_tr, ttot_rr_tr, ftot_ws, ttot_rw_ws, xavg, ttot_avg
-   type(t_vec)                 :: ftot_rr, ttot_rr_rr, ftot_rw, ttot_rw_rw
+   type(t_vec),      pointer   :: ftot_tr, ttot_r_tr, ftot_ws, ttot_w_ws, xavg, ttot_avg
+   type(t_vec)                 :: ftot_r, ttot_r_r, ftot_w, ttot_w_w
    type(t_vec),      target    :: fzero
-   type(t_rail),     pointer   :: my_rail
-   type(t_wheel),    pointer   :: my_wheel
    character(len=*), parameter :: subnam = 'cntc_getGlobalForces'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_getGlobalForces
@@ -5321,10 +5310,9 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
    call cntc_activate(ire, icp, 1, 0, subnam, ierror)
    if (ierror.lt.0) return
 
-   ! set pointer to the active wheel in the current configuration
+   ! set reference to the active wheel in the current configuration
 
-   my_rail  => wtd%trk%rai
-   my_wheel => wtd%ws%whl
+   associate(my_rail  => wtd%trk%rai, my_wheel => wtd%ws%whl)
    fzero   = vec( 0d0, 0d0, 0d0 )
 
    ! set the sign to -1 for left and +1 for right rail/wheel combination
@@ -5338,8 +5326,8 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 
       ftot_tr     => wtd%ftrk
       ftot_ws     => wtd%fws
-      ttot_rr_tr  => wtd%ttrk
-      ttot_rw_ws  => wtd%tws
+      ttot_r_tr   => wtd%ttrk
+      ttot_w_ws   => wtd%tws
       xavg        => wtd%xavg
       ttot_avg    => wtd%tavg
 
@@ -5347,8 +5335,8 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 
       ftot_tr     => wtd%allcps(icp)%cp%ftrk
       ftot_ws     => wtd%allcps(icp)%cp%fws
-      ttot_rr_tr  => wtd%allcps(icp)%cp%ttrk
-      ttot_rw_ws  => wtd%allcps(icp)%cp%tws
+      ttot_r_tr   => wtd%allcps(icp)%cp%ttrk
+      ttot_w_ws   => wtd%allcps(icp)%cp%tws
       xavg        => fzero
       ttot_avg    => fzero
 
@@ -5356,8 +5344,8 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 
       ftot_tr     => fzero
       ftot_ws     => fzero
-      ttot_rr_tr  => fzero
-      ttot_rw_ws  => fzero
+      ttot_r_tr   => fzero
+      ttot_w_ws   => fzero
       xavg        => fzero
       ttot_avg    => fzero
 
@@ -5365,40 +5353,40 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 
    ! compute additional values in rail/wheel x,y,z-coordinates
 
-   ftot_rr     = my_rail%m_trk .transp. ftot_tr
-   ttot_rr_rr  = my_rail%m_trk .transp. ttot_rr_tr
-   ftot_rw     = my_wheel%m_ws .transp. ftot_ws
-   ttot_rw_rw  = my_wheel%m_ws .transp. ttot_rw_ws
+   ftot_r     = my_rail%m_trk .transp. ftot_tr
+   ttot_r_r   = my_rail%m_trk .transp. ttot_r_tr
+   ftot_w     = my_wheel%m_ws .transp. ftot_ws
+   ttot_w_w   = my_wheel%m_ws .transp. ttot_w_ws
 
    ! output of values
 
    if (lenarr.ge. 1) rvalues( 1) =       my_scl%body * ftot_tr%x()                 ! FX(TR)
    if (lenarr.ge. 2) rvalues( 2) = sgn * my_scl%body * ftot_tr%y()                 ! FY(TR)
    if (lenarr.ge. 3) rvalues( 3) =       my_scl%body * ftot_tr%z()                 ! FZ(TR)
-   if (lenarr.ge. 4) rvalues( 4) = sgn * my_scl%body * ttot_rr_tr%x() / my_scl%len ! MX_@RR(TR)
-   if (lenarr.ge. 5) rvalues( 5) =       my_scl%body * ttot_rr_tr%y() / my_scl%len ! MY_@RR(TR)
-   if (lenarr.ge. 6) rvalues( 6) = sgn * my_scl%body * ttot_rr_tr%z() / my_scl%len ! MZ_@RR(TR)
+   if (lenarr.ge. 4) rvalues( 4) = sgn * my_scl%body * ttot_r_tr%x() / my_scl%len  ! MX_@R(TR)
+   if (lenarr.ge. 5) rvalues( 5) =       my_scl%body * ttot_r_tr%y() / my_scl%len  ! MY_@R(TR)
+   if (lenarr.ge. 6) rvalues( 6) = sgn * my_scl%body * ttot_r_tr%z() / my_scl%len  ! MZ_@R(TR)
 
    if (lenarr.ge. 7) rvalues( 7) =       my_scl%body * ftot_ws%x()                 ! FX(WS)
    if (lenarr.ge. 8) rvalues( 8) = sgn * my_scl%body * ftot_ws%y()                 ! FY(WS)
    if (lenarr.ge. 9) rvalues( 9) =       my_scl%body * ftot_ws%z()                 ! FZ(WS)
-   if (lenarr.ge.10) rvalues(10) = sgn * my_scl%body * ttot_rw_ws%x() / my_scl%len ! MX_@RW(WS)
-   if (lenarr.ge.11) rvalues(11) =       my_scl%body * ttot_rw_ws%y() / my_scl%len ! MY_@RW(WS)
-   if (lenarr.ge.12) rvalues(12) = sgn * my_scl%body * ttot_rw_ws%z() / my_scl%len ! MZ_@RW(WS)
+   if (lenarr.ge.10) rvalues(10) = sgn * my_scl%body * ttot_w_ws%x() / my_scl%len  ! MX_@W(WS)
+   if (lenarr.ge.11) rvalues(11) =       my_scl%body * ttot_w_ws%y() / my_scl%len  ! MY_@W(WS)
+   if (lenarr.ge.12) rvalues(12) = sgn * my_scl%body * ttot_w_ws%z() / my_scl%len  ! MZ_@W(WS)
 
-   if (lenarr.ge.13) rvalues(13) =       my_scl%body * ftot_rr%x()                 ! FX(RR)
-   if (lenarr.ge.14) rvalues(14) = sgn * my_scl%body * ftot_rr%y()                 ! FY(RR)
-   if (lenarr.ge.15) rvalues(15) =       my_scl%body * ftot_rr%z()                 ! FZ(RR)
-   if (lenarr.ge.16) rvalues(16) = sgn * my_scl%body * ttot_rr_rr%x() / my_scl%len ! MX_@RR(RR)
-   if (lenarr.ge.17) rvalues(17) =       my_scl%body * ttot_rr_rr%y() / my_scl%len ! MY_@RR(RR)
-   if (lenarr.ge.18) rvalues(18) = sgn * my_scl%body * ttot_rr_rr%z() / my_scl%len ! MZ_@RR(RR)
+   if (lenarr.ge.13) rvalues(13) =       my_scl%body * ftot_r%x()                  ! FX(RR)
+   if (lenarr.ge.14) rvalues(14) = sgn * my_scl%body * ftot_r%y()                  ! FY(RR)
+   if (lenarr.ge.15) rvalues(15) =       my_scl%body * ftot_r%z()                  ! FZ(RR)
+   if (lenarr.ge.16) rvalues(16) = sgn * my_scl%body * ttot_r_r%x() / my_scl%len   ! MX_@R(RR)
+   if (lenarr.ge.17) rvalues(17) =       my_scl%body * ttot_r_r%y() / my_scl%len   ! MY_@R(RR)
+   if (lenarr.ge.18) rvalues(18) = sgn * my_scl%body * ttot_r_r%z() / my_scl%len   ! MZ_@R(RR)
 
-   if (lenarr.ge.19) rvalues(19) =       my_scl%body * ftot_rw%x()                 ! FX(RW)
-   if (lenarr.ge.20) rvalues(20) = sgn * my_scl%body * ftot_rw%y()                 ! FY(RW)
-   if (lenarr.ge.21) rvalues(21) =       my_scl%body * ftot_rw%z()                 ! FZ(RW)
-   if (lenarr.ge.22) rvalues(22) = sgn * my_scl%body * ttot_rw_rw%x() / my_scl%len ! MX_@RW(RW)
-   if (lenarr.ge.23) rvalues(23) =       my_scl%body * ttot_rw_rw%y() / my_scl%len ! MY_@RW(RW)
-   if (lenarr.ge.24) rvalues(24) = sgn * my_scl%body * ttot_rw_rw%z() / my_scl%len ! MZ_@RW(RW)
+   if (lenarr.ge.19) rvalues(19) =       my_scl%body * ftot_w%x()                  ! FX(RW)
+   if (lenarr.ge.20) rvalues(20) = sgn * my_scl%body * ftot_w%y()                  ! FY(RW)
+   if (lenarr.ge.21) rvalues(21) =       my_scl%body * ftot_w%z()                  ! FZ(RW)
+   if (lenarr.ge.22) rvalues(22) = sgn * my_scl%body * ttot_w_w%x() / my_scl%len   ! MX_@W(RW)
+   if (lenarr.ge.23) rvalues(23) =       my_scl%body * ttot_w_w%y() / my_scl%len   ! MY_@W(RW)
+   if (lenarr.ge.24) rvalues(24) = sgn * my_scl%body * ttot_w_w%z() / my_scl%len   ! MZ_@W(RW)
 
    if (lenarr.ge.25) rvalues(25) =       xavg%x() / my_scl%len                     ! XAVG(TR)
    if (lenarr.ge.26) rvalues(26) = sgn * xavg%y() / my_scl%len                     ! YAVG(TR)
@@ -5409,6 +5397,7 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 
    if (lenarr.ge.31) rvalues(31:) = 0d0
 
+   end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getGlobalForces
 
@@ -6095,7 +6084,6 @@ subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
 !--local variables:
    character(len=*), parameter :: subnam = 'subs_getResults'
    integer                  :: npnt, jcol, ii, ierror
-   type(t_subsblk), pointer :: b
 #ifdef _WIN32
 !dec$ attributes dllexport :: subs_getResults
 #endif
@@ -6110,7 +6098,7 @@ subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
       call write_log(1, bufout)
    endif
 
-   ! set pointer to requested block of subsurface data
+   ! set reference to requested block of subsurface data
 
    if (iblk.le.0 .or. iblk.gt.my_subs%nblock) then
       write(bufout,'(a,a30,a,i3,a,i3,a,i2)') pfx,subnam,'(',ire,'.',icp,'): no data for subsurf. block', iblk
@@ -6118,7 +6106,7 @@ subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
       return
    endif
 
-   b    => my_subs%blocks(iblk)
+   associate(b => my_subs%blocks(iblk))
    npnt = b%nx_eff * b%ny_eff * b%nz
 
    if (.not.associated(b%table)) then
@@ -6145,6 +6133,7 @@ subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
       enddo
    endif
 
+   end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine subs_getResults
 
