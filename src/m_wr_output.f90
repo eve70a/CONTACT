@@ -371,13 +371,13 @@ contains
          gd     => cp%gd
          meta   => gd%meta
 
-         associate(muscal => gd%kin%muscal,   pen    => gd%kin%pen,       cksi   => gd%kin%cksi,        &
-                   ceta   => gd%kin%ceta,     cphi   => gd%kin%cphi,      fntrue => gd%kin%fntrue,      &
-                   fnscal => gd%kin%fnscal,   fxrel1 => gd%kin%fxrel1,    fyrel1 => gd%kin%fyrel1,      &
-                   chi    => gd%kin%chi,      veloc  => gd%kin%veloc,     dq     => gd%kin%dq,          &
-                   mus1   => gd%outpt1%mus,   igs1   => gd%outpt1%igs,    ps1    => gd%outpt1%ps,       &
-                   shft1  => gd%outpt1%shft,  mztru1 => gd%outpt1%mztrue, elen1  => gd%outpt1%elen,     &
-                   temp1  => gd%outpt1%temp1, temp2  => gd%outpt1%temp2,                                &
+         associate(cgrid  => gd%cgrid_cur,    muscal => gd%kin%muscal,    pen    => gd%kin%pen,         &
+                   cksi   => gd%kin%cksi,     ceta   => gd%kin%ceta,      cphi   => gd%kin%cphi,        &
+                   fntrue => gd%kin%fntrue,   fnscal => gd%kin%fnscal,    fxrel1 => gd%kin%fxrel1,      &
+                   fyrel1 => gd%kin%fyrel1,   chi    => gd%kin%chi,       veloc  => gd%kin%veloc,       &
+                   dq     => gd%kin%dq,       mus1   => gd%outpt1%mus,    igs1   => gd%outpt1%igs,      &
+                   ps1    => gd%outpt1%ps,    shft1  => gd%outpt1%shft,   mztru1 => gd%outpt1%mztrue,   &
+                   elen1  => gd%outpt1%elen,  temp1  => gd%outpt1%temp1,  temp2  => gd%outpt1%temp2,    &
                    frpow1 => gd%outpt1%frpow, pmax1  => gd%outpt1%pmax,   eps    => gd%solv%eps,        &
                    hs1    => gd%geom%hs1,     subs   => gd%subs )
 
@@ -415,14 +415,14 @@ contains
             iy1 = igs1%iymax
 
             if (ic%is_conformal() .and. iy1.ge.iy0) then
-               ii0 = 1 + (iy0-1) * gd%cgrid%nx
-               ii1 = 1 + (iy1-1) * gd%cgrid%nx
-               sc0 = gd%cgrid%y( ii0 ) - 0.5d0*gd%cgrid%dy
-               sc1 = gd%cgrid%y( ii1 ) + 0.5d0*gd%cgrid%dy
+               ii0 = 1 + (iy0-1) * cgrid%nx
+               ii1 = 1 + (iy1-1) * cgrid%nx
+               sc0 = cgrid%y( ii0 ) - 0.5d0*cgrid%dy
+               sc1 = cgrid%y( ii1 ) + 0.5d0*cgrid%dy
                delt0 = atan( cp%curv_nrm%vy(iy0) / -cp%curv_nrm%vn(iy0) ) * 180d0 / pi
                delt1 = atan( cp%curv_nrm%vy(iy1) / -cp%curv_nrm%vn(iy1) ) * 180d0 / pi
                write(bufout,'(3(a,i3),2(a,f7.3),a)') ' Actual contact on columns iy = [',iy0,',',       &
-                            iy1,'] (my=',gd%cgrid%ny,'), sc = [', sc0,',', sc1,']'
+                            iy1,'] (my=',cgrid%ny,'), sc = [', sc0,',', sc1,']'
                call write_log(1, bufout)
                write(bufout,'(3(a,f7.2),a)') ' Reference contact angle delttr =', cp%delttr*180d0/pi,   &
                             ' deg, range = [',delt0,',',delt1,'] deg'
@@ -595,10 +595,10 @@ contains
             call eldiv_count(igs1, nadh, nslip, nplast, nexter)
             ncon = nadh + nslip + nplast
             if (use_plast) then
-               write(lout, 6601) '  NPLAST', gd%potcon%npot, ncon, nadh, nslip, nplast,                 &
+               write(lout, 6601) '  NPLAST', gd%potcon_cur%npot, ncon, nadh, nslip, nplast,             &
                         gd%solv%itnorm, gd%solv%ittang
             else
-               write(lout, 6601) ' ', gd%potcon%npot, ncon, nadh, nslip, gd%solv%itnorm, gd%solv%ittang
+               write(lout, 6601) ' ', gd%potcon_cur%npot, ncon, nadh, nslip, gd%solv%itnorm, gd%solv%ittang
             endif
  6601       format (/, ' CONTACT STATISTICS', /,                                                        &
                        ' N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,', /,                &
@@ -671,19 +671,19 @@ contains
             endif
 
             zNewLn = .true.
-            LstRow = gd%cgrid%iy(1)
+            LstRow = cgrid%iy(1)
 
             ! for all elements inside the contact area do
 
-            do ii = 1, gd%potcon%npot
-               if (gd%cgrid%iy(ii).ne.lstrow) znewln = .true.
-               lstrow = gd%cgrid%iy(ii)
+            do ii = 1, gd%potcon_cur%npot
+               if (cgrid%iy(ii).ne.lstrow) znewln = .true.
+               lstrow = cgrid%iy(ii)
                if (igs1%el(ii).ge.Adhes .or. ic%output_surf.ge.6) then
 
                   ! print header when starting a new row of the potential contact:
 
                   if (znewln) then
-                     write(lout, 6910) gd%cgrid%y(ii), gd%cgrid%iy(ii)
+                     write(lout, 6910) cgrid%y(ii), cgrid%iy(ii)
                      znewln = .false.
  6910                format (/, ' Y = ', g12.4, ' ROW', i3, ' OF THE POTENTIAL CONTACT', /)
                   endif
@@ -703,11 +703,11 @@ contains
                      rhsx = - hs1%vx(ii) / dq
                      rhsy = - hs1%vy(ii) / dq
 
-                     write(lout, 6920) gd%cgrid%x(ii), hmp, ps1%vn(ii), ps1%vn(ii)*mus1%vt(ii),          &
+                     write(lout, 6920) cgrid%x(ii), hmp, ps1%vn(ii), ps1%vn(ii)*mus1%vt(ii),          &
                                 ptabs, ptarg, shft1%vt(ii)/dq, rhsx, rhsy
  6920                format (1x, g12.4, 4g11.3, f10.1, 2x, 3g11.3)
                   else
-                     write(lout, 6930) gd%cgrid%x(ii), hmp, ps1%vn(ii), ptabs, ptarg
+                     write(lout, 6930) cgrid%x(ii), hmp, ps1%vn(ii), ptabs, ptarg
  6930                format (1x, 4g12.4, f10.1)
                   endif
                endif

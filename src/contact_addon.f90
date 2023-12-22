@@ -2061,14 +2061,16 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
       return
    endif
 
-   gd%potcon%ipotcn = ipotcn
+   ! new inputs are stored in potcon_inp, will be copied to potcon_cur in cntc_calculate
+
+   gd%potcon_inp%ipotcn = ipotcn
 
    if (ipotcn.eq.-6) then
 
       !   -6: SDEC approach, union of two half ellipses            params = [ mx, my, aa , bneg, bpos, scale ]
 
-      gd%potcon%mx   = max(1, nint(params(1)))
-      gd%potcon%my   = max(1, nint(params(2)))
+      gd%potcon_inp%mx   = max(1, nint(params(1)))
+      gd%potcon_inp%my   = max(1, nint(params(2)))
       gd%hertz%aa    = max(1d-6,params(3)) * my_scl%len
       gd%hertz%bneg  = max(1d-6,params(4)) * my_scl%len
       gd%hertz%bpos  = max(1d-6,params(5)) * my_scl%len
@@ -2079,8 +2081,8 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
       !   -5: Hertzian rectangular contact, half-sizes prescribed,       params = [ mx, my, aa , bb , scale ]
 
       gd%ic%bound    = 2        ! semi-elliptical pressure in x
-      gd%potcon%mx   = max(1, nint(params(1)))
-      gd%potcon%my   = max(1, nint(params(2)))
+      gd%potcon_inp%mx   = max(1, nint(params(1)))
+      gd%potcon_inp%my   = max(1, nint(params(2)))
       gd%hertz%aa    = max(1d-6,params(3)) * my_scl%len
       gd%hertz%bb    = max(1d-6,params(4)) * my_scl%len
       gd%hertz%scale = max(1d-6,params(5))
@@ -2090,8 +2092,8 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
       !   -4: Hertzian rectangular contact, curv+half width prescribed,  params = [ mx, my, a1 , bb , scale ]
 
       gd%ic%bound    = 2        ! semi-elliptical pressure in x
-      gd%potcon%mx   = max(1, nint(params(1)))
-      gd%potcon%my   = max(1, nint(params(2)))
+      gd%potcon_inp%mx = max(1, nint(params(1)))
+      gd%potcon_inp%my = max(1, nint(params(2)))
       gd%hertz%a1    = max(1d-6,params(3)) / my_scl%len
       gd%hertz%bb    = max(1d-6,params(4)) * my_scl%len
       gd%hertz%scale = max(1d-6,params(5))
@@ -2100,8 +2102,8 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
 
       !   -3: Hertzian elliptical contact, semi-axes prescribed,         params = [ mx, my, aa , bb , scale ]
 
-      gd%potcon%mx   = max(1, nint(params(1)))
-      gd%potcon%my   = max(1, nint(params(2)))
+      gd%potcon_inp%mx = max(1, nint(params(1)))
+      gd%potcon_inp%my = max(1, nint(params(2)))
       gd%hertz%aa    = max(1d-6,params(3)) * my_scl%len
       gd%hertz%bb    = max(1d-6,params(4)) * my_scl%len
       gd%hertz%scale = max(1d-6,params(5))
@@ -2110,8 +2112,8 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
 
       !   -2: Hertzian elliptical contact, ellipticity prescribed,       params = [ mx, my, a1 , aob, scale ]
 
-      gd%potcon%mx   = max(1, nint(params(1)))
-      gd%potcon%my   = max(1, nint(params(2)))
+      gd%potcon_inp%mx = max(1, nint(params(1)))
+      gd%potcon_inp%my = max(1, nint(params(2)))
       gd%hertz%a1    = max(1d-12,params(3)) / my_scl%len
       gd%hertz%aob   = max(1d-6 ,params(4))
       gd%hertz%scale = max(1d-6 ,params(5))
@@ -2120,13 +2122,21 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
 
       !   -1: Hertzian elliptical contact, curvatures prescribed,        params = [ mx, my, a1 , b1 , scale ]
 
-      gd%potcon%mx   = max(1, nint(params(1)))
-      gd%potcon%my   = max(1, nint(params(2)))
+      gd%potcon_inp%mx = max(1, nint(params(1)))
+      gd%potcon_inp%my = max(1, nint(params(2)))
       gd%hertz%a1    = max(1d-12,params(3)) / my_scl%len
       gd%hertz%b1    = max(1d-12,params(4)) / my_scl%len
       gd%hertz%scale = max(1d-6 ,params(5))
 
    endif ! ipotcn
+
+   gd%potcon_inp%npot  = gd%potcon_inp%mx * gd%potcon_inp%my
+
+   if (idebug.ge.2) then
+      write(bufout,'(a,a30,a,i3,a,i1,a,i3,a,2i5)') pfx,subnam,'(',ire,'.',icp,'): ipotcn=',             &
+                gd%potcon_inp%ipotcn, ', mx,my=',gd%potcon_inp%mx,gd%potcon_inp%my
+      call write_log(1, bufout)
+   endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setHertzContact
@@ -2229,22 +2239,24 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
          return
       endif
 
-      gd%potcon%ipotcn = ipotcn
+      ! new inputs are stored in potcon_inp, will be copied to potcon_cur in cntc_calculate
+
+      gd%potcon_inp%ipotcn = ipotcn
 
       if (ipotcn.eq.1) then
 
          !    1: lower-left + grid sizes,       params = [ mx, my, xl , yl , dx , dy ]
 
-         gd%potcon%mx   = max(1, nint(params(1)))
-         gd%potcon%my   = max(1, nint(params(2)))
-         gd%potcon%xl   =            params(3)  * my_scl%len
-         gd%potcon%yl   =            params(4)  * my_scl%len
-         gd%potcon%dx   = max(1d-12, params(5)) * my_scl%len
-         gd%potcon%dy   = max(1d-12, params(6)) * my_scl%len
+         gd%potcon_inp%mx   = max(1, nint(params(1)))
+         gd%potcon_inp%my   = max(1, nint(params(2)))
+         gd%potcon_inp%xl   =            params(3)  * my_scl%len
+         gd%potcon_inp%yl   =            params(4)  * my_scl%len
+         gd%potcon_inp%dx   = max(1d-12, params(5)) * my_scl%len
+         gd%potcon_inp%dy   = max(1d-12, params(6)) * my_scl%len
 
          if (idebug.ge.2) then
             write(bufout,'(a,a30,a,i3,a,i1,a,2f8.3,a)') pfx,subnam,'(',ire,'.',icp,'): coordinates xl,yl=', &
-                      gd%potcon%xl, gd%potcon%yl,' [mm]'
+                      gd%potcon_inp%xl, gd%potcon_inp%yl,' [mm]'
             call write_log(1, bufout)
          endif
 
@@ -2252,38 +2264,40 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
 
          !    2: lower-left + upper right,      params = [ mx, my, xl , yl , xh , yh ]
 
-         gd%potcon%mx   = max(1, nint(params(1)))
-         gd%potcon%my   = max(1, nint(params(2)))
-         gd%potcon%xl   = params(3) * my_scl%len
-         gd%potcon%yl   = params(4) * my_scl%len
-         gd%potcon%xh   = params(5) * my_scl%len
-         gd%potcon%yh   = params(6) * my_scl%len
+         gd%potcon_inp%mx   = max(1, nint(params(1)))
+         gd%potcon_inp%my   = max(1, nint(params(2)))
+         gd%potcon_inp%xl   = params(3) * my_scl%len
+         gd%potcon_inp%yl   = params(4) * my_scl%len
+         gd%potcon_inp%xh   = params(5) * my_scl%len
+         gd%potcon_inp%yh   = params(6) * my_scl%len
 
       elseif (ipotcn.eq.3) then
 
          !    3: 1st center + grid sizes,       params = [ mx, my, xc1, yc1, dx , dy ]
 
-         gd%potcon%mx   = max(1, nint(params(1)))
-         gd%potcon%my   = max(1, nint(params(2)))
-         gd%potcon%xc1  =            params(3)  * my_scl%len
-         gd%potcon%yc1  =            params(4)  * my_scl%len
-         gd%potcon%dx   = max(1d-12, params(5)) * my_scl%len
-         gd%potcon%dy   = max(1d-12, params(6)) * my_scl%len
+         gd%potcon_inp%mx   = max(1, nint(params(1)))
+         gd%potcon_inp%my   = max(1, nint(params(2)))
+         gd%potcon_inp%xc1  =            params(3)  * my_scl%len
+         gd%potcon_inp%yc1  =            params(4)  * my_scl%len
+         gd%potcon_inp%dx   = max(1d-12, params(5)) * my_scl%len
+         gd%potcon_inp%dy   = max(1d-12, params(6)) * my_scl%len
 
       elseif (ipotcn.eq.4) then
 
          !    4: 1st center + last center,      params = [ mx, my, xc1, yc1, xcm, ycm]
 
-         gd%potcon%mx   = max(1, nint(params(1)))
-         gd%potcon%my   = max(1, nint(params(2)))
-         gd%potcon%xc1  = params(3) * my_scl%len
-         gd%potcon%yc1  = params(4) * my_scl%len
-         gd%potcon%xcm  = params(5) * my_scl%len
-         gd%potcon%ycm  = params(6) * my_scl%len
-
-         gd%potcon%ipotcn = 1      ! non-Hertzian with xl,yl, dx,dy prescribed
+         gd%potcon_inp%mx   = max(1, nint(params(1)))
+         gd%potcon_inp%my   = max(1, nint(params(2)))
+         gd%potcon_inp%xc1  = params(3) * my_scl%len
+         gd%potcon_inp%yc1  = params(4) * my_scl%len
+         gd%potcon_inp%xcm  = params(5) * my_scl%len
+         gd%potcon_inp%ycm  = params(6) * my_scl%len
 
       endif ! ipotcn
+
+      ! complete remaining entries in potcon_inp including npot
+
+      call potcon_fill( gd%potcon_inp )
 
    endif ! module 1
 
@@ -2431,7 +2445,6 @@ subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
 
    ! check value of ibase and check corresponding number of parameters
 
-   gd%potcon%npot = gd%potcon%mx * gd%potcon%my
    if (ibase.eq.2) nn = nint(prmudf(1))
 
    if (ibase.eq.1) then
@@ -2441,7 +2454,7 @@ subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
    elseif (ibase.eq.3) then
       nparam_loc = 8
    elseif (ibase.eq.9) then
-      nparam_loc = gd%potcon%npot
+      nparam_loc = gd%potcon_inp%npot
    else
       write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): method', ibase,           &
          ' does not exist.'
@@ -2501,13 +2514,13 @@ subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
 
       ! re-allocate prmudf at the appropriate size
 
-      call reallocate_arr(gd%geom%prmudf, gd%potcon%npot+10)
+      call reallocate_arr(gd%geom%prmudf, gd%potcon_inp%npot+10)
 
       ! copy input-data, determine minimum/maximum undef.distc as well
 
       iimin = 1
       iimax = 1
-      do ii = 1, gd%potcon%npot
+      do ii = 1, gd%potcon_inp%npot
          if (ii.le.nparam) then
             if (prmudf(ii).lt.prmudf(iimin)) iimin = ii
             if (prmudf(ii).gt.prmudf(iimax)) iimax = ii
@@ -2605,15 +2618,15 @@ subroutine cntc_setExtraRigidSlip(ire, icp, lenarr, wx, wy) &
 
    ! re-allocate exrhs at the appropriate size
 
-   call grid_set_dimens(gd%cgrid, gd%potcon%mx, gd%potcon%my)
-   call gf3_new(gd%geom%exrhs, 'geom%exrhs', gd%cgrid)
+   call grid_set_dimens(gd%cgrid_inp, gd%potcon_inp%mx, gd%potcon_inp%my)
+   call gf3_new(gd%geom%exrhs, 'geom%exrhs', gd%cgrid_inp)
    call gf3_set(AllElm, 0d0, gd%geom%exrhs, ikTANG)
 
    ! copy input-data, determine minimum/maximum values as well
 
    iimax = 1
    wmax = 0d0
-   do ii = 1, gd%potcon%npot
+   do ii = 1, gd%potcon_inp%npot
       if (ii.le.lenarr) then
          wabs = sqrt(wx(ii)**2 + wy(ii)**2)
          if (wabs.gt.wmax) then
@@ -3934,21 +3947,19 @@ subroutine cntc_calculate3(ire, icp, ierror) &
       write(bufout,'(a,a30,a,i3,a,i1,a,i4,2f5.2)')  pfx,subnam,'(',ire,'.',icp,'): nvf, fstat, fkin =',  &
                 gd%fric%nvf, gd%fric%fstat_arr(1), gd%fric%fkin_arr(1)
       call write_log(1, bufout)
-      write(bufout,'(a,a30,a,i3,a,i1,a,f6.3,f8.3,f6.3)') pfx,subnam,'(',ire,'.',icp,'): step sizes=',  &
-                gd%potcon%dx, gd%potcon%dy, my_kin%dq
-      call write_log(1, bufout)
-      if (gd%potcon%ipotcn.lt.0) then
+      if (gd%potcon_inp%ipotcn.lt.0) then
          write(bufout,'(a,a30,a,i3,a,i1,a,2f6.2)')  pfx,subnam,'(',ire,'.',icp,'): semi-axes a,b=',   &
                 gd%hertz%aa, gd%hertz%bb
          call write_log(1, bufout)
       else
-         gd%potcon%xh = gd%potcon%xl + gd%potcon%mx * gd%potcon%dx
-         gd%potcon%yh = gd%potcon%yl + gd%potcon%my * gd%potcon%dy
+         write(bufout,'(a,a30,a,i3,a,i1,a,f6.3,f8.3,f6.3)') pfx,subnam,'(',ire,'.',icp,'): step sizes=', &
+                gd%potcon_inp%dx, gd%potcon_inp%dy, my_kin%dq
+         call write_log(1, bufout)
          write(bufout,'(a,a30,a,i3,a,i1,a,f7.2,f8.2)')  pfx,subnam,'(',ire,'.',icp,'): corner xl,yl=',&
-                gd%potcon%xl, gd%potcon%yl
+                gd%potcon_inp%xl, gd%potcon_inp%yl
          call write_log(1, bufout)
          write(bufout,'(a,a30,a,i3,a,i1,a,f7.2,f8.2)')  pfx,subnam,'(',ire,'.',icp,'): corner xh,yh=',&
-                gd%potcon%xh, gd%potcon%yh
+                gd%potcon_inp%xh, gd%potcon_inp%yh
          call write_log(1, bufout)
       endif
       if (my_ic%norm.eq.0) then
@@ -4020,8 +4031,9 @@ subroutine cntc_calculate3(ire, icp, ierror) &
    ! Optionally write description of the case to the .inp-file
 
    if (my_ic%wrtinp.ge.1 .and. inp_open.ge.0) then
-      write (linp,'(a,i6,2(a,i3))') ' 3  MODULE   % case',my_meta%ncase,' for result element',ire,', contact problem',icp
-      call wrtinp (-1, my_ic, gd%potcon, my_mater, gd%hertz, gd%geom, gd%fric, my_kin, my_solv,         &
+      write (linp,'(a,i6,2(a,i3))') ' 3  MODULE   % case', my_meta%ncase, ' for result element', ire,   &
+                ', contact problem',icp
+      call wrtinp (-1, my_ic, gd%potcon_cur, my_mater, gd%hertz, gd%geom, gd%fric, my_kin, my_solv,     &
                         gd%outpt1, gd%subs, .true.)
    endif
 
@@ -4135,7 +4147,7 @@ subroutine subs_calculate(ire, icp, ierror) &
          ! calculate subsurface stresses, using mirroring for left rail/wheel combination
 
          cp%gd%meta%ncase = cp%gd%meta%ncase - 1
-         call subsur(cp%gd%meta, cp%gd%ic, cp%gd%mater, cp%gd%cgrid, cp%gd%outpt1%igs,                  &
+         call subsur(cp%gd%meta, cp%gd%ic, cp%gd%mater, cp%gd%cgrid_cur, cp%gd%outpt1%igs,              &
                           cp%gd%outpt1%ps, cp%gd%ic%is_left_side(), cp%gd%subs)
          cp%gd%meta%ncase = cp%gd%meta%ncase + 1
 
@@ -4146,7 +4158,7 @@ subroutine subs_calculate(ire, icp, ierror) &
       ! module 3: plain call to subsur_calc, gd%subs already filled in
 
       gd%meta%ncase = gd%meta%ncase - 1
-      call subsur(gd%meta, gd%ic, gd%mater, gd%cgrid, gd%outpt1%igs, gd%outpt1%ps, .false., gd%subs)
+      call subsur(gd%meta, gd%ic, gd%mater, gd%cgrid_cur, gd%outpt1%igs, gd%outpt1%ps, .false., gd%subs)
       gd%meta%ncase = gd%meta%ncase + 1
    endif
    call timer_stop(itimer)
@@ -4871,9 +4883,9 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
          sum_ypn = 0d0
          sum_pn  = 1d-10
 
-         do ii = 1, cp%gd%cgrid%ntot
-            sum_xpn = sum_xpn + cp%gd%cgrid%x(ii) * cp%gd%outpt1%ps%vn(ii)
-            sum_ypn = sum_ypn + cp%gd%cgrid%y(ii) * cp%gd%outpt1%ps%vn(ii)
+         do ii = 1, cp%gd%cgrid_cur%ntot
+            sum_xpn = sum_xpn + cp%gd%cgrid_cur%x(ii) * cp%gd%outpt1%ps%vn(ii)
+            sum_ypn = sum_ypn + cp%gd%cgrid_cur%y(ii) * cp%gd%outpt1%ps%vn(ii)
             sum_pn  = sum_pn  + cp%gd%outpt1%ps%vn(ii)
          enddo
 
@@ -5015,8 +5027,8 @@ subroutine cntc_getNumElements(ire, icp, mx, my) &
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
-   mx = gd%potcon%mx
-   my = gd%potcon%my
+   mx = gd%potcon_cur%mx
+   my = gd%potcon_cur%my
 
    if (idebug.ge.2) then
       write(bufout,'(a,a30,a,i3,a,i1,a,2i4)')   pfx,subnam,'(',ire,'.',icp,'): #elements mx,my=', mx,my
@@ -5047,8 +5059,8 @@ subroutine cntc_getGridDiscretization(ire, icp, dx, dy) &
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
-   dx  = gd%potcon%dx / my_scl%len
-   dy  = gd%potcon%dy / my_scl%len
+   dx  = gd%potcon_cur%dx / my_scl%len
+   dy  = gd%potcon_cur%dy / my_scl%len
 
    if (idebug.ge.2) then
       write(bufout,'(a,a30,a,i3,a,i1,a,2f8.5,a)') pfx,subnam,'(',ire,'.',icp,'): step sizes dx,dy=',  &
@@ -5086,16 +5098,16 @@ subroutine cntc_getPotContact(ire, icp, lenarr, rvalues) &
 
    imodul = ire_module(ix_reid(ire))
 
-   if (lenarr.ge.1) rvalues(1) = real(gd%potcon%mx)
-   if (lenarr.ge.2) rvalues(2) = real(gd%potcon%my)
-   if (lenarr.ge.3) rvalues(3) = gd%potcon%xc1 / my_scl%len
+   if (lenarr.ge.1) rvalues(1) = real(gd%potcon_cur%mx)
+   if (lenarr.ge.2) rvalues(2) = real(gd%potcon_cur%my)
+   if (lenarr.ge.3) rvalues(3) = gd%potcon_cur%xc1 / my_scl%len
    if (lenarr.ge.4 .and. imodul.eq.1 .and. my_ic%is_left_side()) then
-      rvalues(4) = -gd%potcon%ycm / my_scl%len  ! renumber [my:-1:1] and mirror y:=-y
+      rvalues(4) = -gd%potcon_cur%ycm / my_scl%len  ! renumber [my:-1:1] and mirror y:=-y
    elseif (lenarr.ge.4) then
-      rvalues(4) =  gd%potcon%yc1 / my_scl%len
+      rvalues(4) =  gd%potcon_cur%yc1 / my_scl%len
    endif
-   if (lenarr.ge.5) rvalues(5) = gd%potcon%dx / my_scl%len
-   if (lenarr.ge.6) rvalues(6) = gd%potcon%dy / my_scl%len
+   if (lenarr.ge.5) rvalues(5) = gd%potcon_cur%dx / my_scl%len
+   if (lenarr.ge.6) rvalues(6) = gd%potcon_cur%dy / my_scl%len
    if (lenarr.ge.7) rvalues(7:lenarr) = 0d0
 
    !if (idebug.ge.2) then
@@ -5430,9 +5442,9 @@ subroutine cntc_getContactPatchAreas(ire, icp, carea, harea, sarea) &
 
    call eldiv_count(gd%outpt1%igs, nadh, nslip, nexter, nplast)
    ncon = nadh + nslip
-   carea = real(ncon) * gd%potcon%dxdy / my_scl%area
-   harea = real(nadh) * gd%potcon%dxdy / my_scl%area
-   sarea = real(nslip) * gd%potcon%dxdy / my_scl%area
+   carea = real(ncon)  * gd%potcon_cur%dxdy / my_scl%area
+   harea = real(nadh)  * gd%potcon_cur%dxdy / my_scl%area
+   sarea = real(nslip) * gd%potcon_cur%dxdy / my_scl%area
 
    if (idebug.ge.2) then
       write(bufout,'(a,a30,a,i3,a,i1,3(a,f9.6),a)') pfx,subnam,'(',ire,'.',icp,'): carea=',carea,     &
@@ -5481,15 +5493,15 @@ subroutine cntc_getElementDivision(ire, icp, lenarr, eldiv) &
       write(bufout,'(a,a30,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,'): element division not yet available'
       call write_log(1, bufout)
    else
-      do jy = 1, gd%cgrid%ny
-         do ix = 1, gd%cgrid%nx
+      do jy = 1, gd%cgrid_cur%ny
+         do ix = 1, gd%cgrid_cur%nx
             if (mirror_y) then
-               iy = gd%cgrid%ny + 1 - jy
+               iy = gd%cgrid_cur%ny + 1 - jy
             else
                iy = jy
             endif
-            jj = ix + gd%cgrid%nx * (jy-1)    ! external numbering jj == (ix,jy)
-            ii = ix + gd%cgrid%nx * (iy-1)    ! internal numbering ii == (ix,iy)
+            jj = ix + gd%cgrid_cur%nx * (jy-1)    ! external numbering jj == (ix,jy)
+            ii = ix + gd%cgrid_cur%nx * (iy-1)    ! internal numbering ii == (ix,iy)
             if (jj.le.lenarr) eldiv(jj) = gd%outpt1%igs%el(ii)
          enddo
       enddo
@@ -5520,7 +5532,7 @@ subroutine cntc_getMaximumPressure(ire, icp, pnmax) &
    if (ierror.lt.0) return
 
    iimax = 1
-   do ii = 1, gd%cgrid%ntot
+   do ii = 1, gd%cgrid_cur%ntot
       if (abs(gd%outpt1%ps%vn(ii)).gt.abs(gd%outpt1%ps%vn(iimax))) iimax = ii
    enddo
    pnmax = abs(gd%outpt1%ps%vn(iimax)) * my_scl%area
@@ -5557,7 +5569,7 @@ subroutine cntc_getMaximumTraction(ire, icp, ptmax) &
    if (ierror.lt.0) return
 
    ptmax = -1d0
-   do ii = 1, gd%cgrid%ntot
+   do ii = 1, gd%cgrid_cur%ntot
       ptabs = sqrt( gd%outpt1%ps%vx(ii)**2 + gd%outpt1%ps%vy(ii)**2 )
       if (ptabs.gt.ptmax) then
          ptmax = ptabs
@@ -5754,15 +5766,15 @@ subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
       write(bufout,'(a,a30,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,'): array ', fldnam,' not available'
       call write_log(1, bufout)
    else
-      do jy = 1, gd%cgrid%ny
-         do ix = 1, gd%cgrid%nx
+      do jy = 1, gd%cgrid_cur%ny
+         do ix = 1, gd%cgrid_cur%nx
             if (mirror_y) then
-               iy = gd%cgrid%ny + 1 - jy
+               iy = gd%cgrid_cur%ny + 1 - jy
             else
                iy = jy
             endif
-            jj = ix + gd%cgrid%nx * (jy-1)    ! external numbering jj == (ix,jy)
-            ii = ix + gd%cgrid%nx * (iy-1)    ! internal numbering ii == (ix,iy)
+            jj = ix + gd%cgrid_cur%nx * (jy-1)    ! external numbering jj == (ix,jy)
+            ii = ix + gd%cgrid_cur%nx * (iy-1)    ! internal numbering ii == (ix,iy)
             if (jj.le.lenarr) fld(jj) = sclfac * val(ii)
          enddo
       enddo

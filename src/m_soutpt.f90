@@ -34,10 +34,10 @@ contains
       type(t_gridfnc3) :: tmp
 
       call timer_start(itimer_output)
-      associate(ic     => gd%ic,                                                                        &
-                mx     => gd%potcon%mx,     my     => gd%potcon%my,     npot   => gd%potcon%npot,       &
-                dx     => gd%potcon%dx,     dxdy   => gd%potcon%dxdy,   x      => gd%cgrid%x,           &
-                y      => gd%cgrid%y,                                                                   &
+      associate(ic     => gd%ic,            pot    => gd%potcon_cur,                                    &
+                mx     => gd%potcon_cur%mx, my     => gd%potcon_cur%my, npot   => gd%potcon_cur%npot,   &
+                dx     => gd%potcon_cur%dx, dy     => gd%potcon_cur%dy, dxdy   => gd%potcon_cur%dxdy,   &
+                x      => gd%cgrid_cur%x,   y      => gd%cgrid_cur%y,                                   &
                 muscal => gd%kin%muscal,    pen    => gd%kin%pen,       cksi   => gd%kin%cksi,          &
                 ceta   => gd%kin%ceta,      cphi   => gd%kin%cphi,      fntrue => gd%kin%fntrue,        &
                 fnscal => gd%kin%fnscal,    fxrel1 => gd%kin%fxrel1,    fyrel1 => gd%kin%fyrel1,        &
@@ -52,7 +52,7 @@ contains
                 mxtru1 => gd%outpt1%mxtrue, mytru1 => gd%outpt1%mytrue, mztru1 => gd%outpt1%mztrue,     &
                 elen1  => gd%outpt1%elen,   frpow1 => gd%outpt1%frpow,  pmax1 => gd%outpt1%pmax)
 
-      call gf3_new(tmp, 'output:tmp', gd%cgrid, nulify=.true.)
+      call gf3_new(tmp, 'output:tmp', gd%cgrid_cur, nulify=.true.)
 
       is_roll  = ic%tang.eq.2 .or. ic%tang.eq.3
       is_ssrol = ic%tang.eq.3
@@ -124,11 +124,11 @@ contains
 
          ! print data of Hertzian problem
 
-         if (gd%potcon%ipotcn.lt.0) then
+         if (pot%ipotcn.lt.0) then
 
-            if (gd%potcon%ipotcn.le.-6) then
+            if (pot%ipotcn.le.-6) then
                strng(1) = 'SDEC'
-            elseif (gd%potcon%ipotcn.le.-4) then
+            elseif (pot%ipotcn.le.-4) then
                strng(1) = '2D HERTZIAN'
             else
                strng(1) = '3D HERTZIAN'
@@ -144,17 +144,17 @@ contains
 
  8051       format (/, 1x, a, ' GEOMETRY WITH PRESCRIBED ',a)
 
-            if (gd%potcon%ipotcn.eq.-1) then
+            if (pot%ipotcn.eq.-1) then
                write(lout, 8061) gd%hertz%a1, gd%hertz%b1
-            elseif (gd%potcon%ipotcn.eq.-2) then
+            elseif (pot%ipotcn.eq.-2) then
                write(lout, 8062) gd%hertz%a1, gd%hertz%aob
-            elseif (gd%potcon%ipotcn.eq.-3) then
+            elseif (pot%ipotcn.eq.-3) then
                write(lout, 8063) gd%hertz%aa, gd%hertz%bb
-            elseif (gd%potcon%ipotcn.eq.-4) then
+            elseif (pot%ipotcn.eq.-4) then
                write(lout, 8064) gd%hertz%a1, gd%hertz%bb
-            elseif (gd%potcon%ipotcn.eq.-5) then
+            elseif (pot%ipotcn.eq.-5) then
                write(lout, 8063) gd%hertz%aa, gd%hertz%bb
-            elseif (gd%potcon%ipotcn.eq.-6) then
+            elseif (pot%ipotcn.eq.-6) then
                write(lout, 8066) gd%hertz%aa, gd%hertz%bneg, gd%hertz%bpos
             endif
 
@@ -164,16 +164,15 @@ contains
  8064       format (' CURVATURE PRESCRIBED, A1,BB: ', 13x, 2g12.4)
  8066       format (' SEMIAXES PRESCRIBED, AA,BNEG,BPOS:', 8x, 3g12.4)
 
-            if (gd%potcon%ipotcn.ne.-1) write(lout, 8071) gd%hertz%a1, gd%hertz%b1
-            if (gd%potcon%ipotcn.ne.-3) write(lout, 8072) gd%hertz%aa, gd%hertz%bb, gd%hertz%aob
+            if (pot%ipotcn.ne.-1) write(lout, 8071) gd%hertz%a1, gd%hertz%b1
+            if (pot%ipotcn.ne.-3) write(lout, 8072) gd%hertz%aa, gd%hertz%bb, gd%hertz%aob
  8071       format (' THE CURVATURES A1,B1 ARE:    ', 13x, 2g12.4)
  8072       format (' BASIC SEMIAXES AA,BB, RATIO  ', 13x, 3g12.4)
 
             write(lout, 8081) gd%hertz%rho, gd%hertz%cp
  8081       format (' EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP', 6x, 2g12.4)
 
-            write(lout, 8091)  gd%potcon%xl, gd%potcon%yl, gd%hertz%scale, mx, my, gd%cgrid%dx,         &
-                gd%cgrid%dy
+            write(lout, 8091)  pot%xl, pot%yl, gd%hertz%scale, mx, my, dx, dy
  8091       format (' POTENTIAL CONTACT, SCALE:    ', 13x, 3g12.4,/,                                    &
                     ' DISCRETISATION MX,MY, DX,DY: ', 13x, 2i6,2g12.4)
 
@@ -401,7 +400,7 @@ contains
 
          ! Re-allocate shft-array at appropriate size
 
-         call gf3_new(shft1, 'output:shft1', gd%cgrid)
+         call gf3_new(shft1, 'output:shft1', gd%cgrid_cur)
 
          ! Compute the magnitude of the slip distance (shift),
          !    should only be <> 0 in the slip-area
@@ -633,19 +632,19 @@ contains
       endif
 
       zNewLn = .true.
-      LstRow = gd%cgrid%iy(1)
+      LstRow = gd%cgrid_cur%iy(1)
 
       ! for all elements inside the contact area do
 
       do 871 ii = 1, npot
-         if (gd%cgrid%iy(ii).ne.lstrow) znewln = .true.
-         lstrow = gd%cgrid%iy(ii)
+         if (gd%cgrid_cur%iy(ii).ne.lstrow) znewln = .true.
+         lstrow = gd%cgrid_cur%iy(ii)
          if (igs1%el(ii).ge.Adhes .or. ic%output_surf.ge.6) then
 
             ! print header when starting a new row of the potential contact:
 
             if (znewln) then
-               write(lout, 8710) y(ii), gd%cgrid%iy(ii)
+               write(lout, 8710) y(ii), gd%cgrid_cur%iy(ii)
                znewln = .false.
  8710          format (/, ' Y = ', g12.4, ' ROW', i3, ' OF THE POTENTIAL CONTACT', /)
             endif
@@ -709,7 +708,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mirror_y)
+subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror_y)
 !--purpose: writes variables into the output-file <EXPERIM>.<CASE>.MAT. This is a file that is used for
 !          communication with the plot-scripts written in MatLab. See User Guide (A.6) for a specification.
    implicit none
@@ -717,30 +716,31 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
    type(t_metadata)            :: meta
    type(t_ic)                  :: ic
    type(t_grid)                :: cgrid
+   type(t_potcon)              :: potcon
    type(t_material)            :: mater
    type(t_friclaw)             :: fric
    type(t_kincns)              :: kin
    type(t_output)              :: outpt1
    type(t_gridfnc3)            :: hs
-   real(kind=8)                :: xl, yl_arg
    logical,         intent(in) :: mirror_y
 !--local variables:
    integer, parameter      :: maxcol = 20
-   logical             :: lwrall, is_roll, use_plast, wxy_insteadof_uxy
+   logical             :: lwrall, is_roll, use_plast, wxy_insteadof_uxy, pv_insteadof_uxy
    integer             :: ncol, itauc, iuplx, iuply, itemp1, itemp2, j, ii, ix, iy, jj, jy
-   real(kind=8)        :: sgn, yl, values(maxcol)
+   real(kind=8)        :: sgn, xl, yl, values(maxcol)
    character(len=11)   :: colnam(maxcol)
    character(len=256)  :: fname
 
    is_roll    = ic%tang.eq.2 .or. ic%tang.eq.3
    use_plast  = ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10
    wxy_insteadof_uxy = .false.
+   pv_insteadof_uxy  = .true.
 
    sgn = 1d0
    if (mirror_y) sgn = -1d0
 
    associate(igs  => outpt1%igs, mus  => outpt1%mus, us   => outpt1%us, ps   => outpt1%ps,              &
-             shft => outpt1%shft)
+             pv   => outpt1%pv,  shft => outpt1%shft)
 
    ! check if the file unit-number is ok
 
@@ -834,12 +834,13 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
                 sgn*meta%ycp_w, meta%zcp_w, meta%npatch, meta%ipatch, meta%xo_spin, meta%yo_spin,     &
                 (0., j=12,ncol)
  105  format('%  X_CP(R)',7x, 'Y_CP(R)',7x, 'Z_CP(R)',7x, 'DELT_CP(R)',4x, 'X_CP(W)',7x, 'Y_CP(W)',7x,  &
-                'Z_CP(W)',7x, 'NPATCH',8x, 'IPATCH',8x, 20(a3,:,11x))
+                'Z_CP(W)',7x, 'NPATCH',8x, 'IPATCH',8x, 'XO_SPIN',7x, 'YO_SPIN',7x, 20(a3,:,11x))
  106  format(7g14.6, 2(i6,8x), 20g14.6)
 
       ! 3: write comment and parameters for the grid discretisation used
 
-      yl = yl_arg
+      xl = potcon%xl
+      yl = potcon%yl
       if (mirror_y) yl = -(yl + cgrid%ny * cgrid%dy)
       write(lmat,121, err=998) ('-', j=12,ncol)
       write(lmat,122) cgrid%nx, cgrid%ny, xl, yl, cgrid%dx, cgrid%dy, kin%chi, kin%dq, ic%config,       &
@@ -945,6 +946,9 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
       if (wxy_insteadof_uxy) then
          colnam( 9) = 'WX'
          colnam(10) = 'WY'
+      elseif (pv_insteadof_uxy) then
+         colnam( 9) = 'PVX'
+         colnam(10) = 'PVY'
       else
          colnam( 9) = 'UX'
          colnam(10) = 'UY'
@@ -992,6 +996,9 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
                if (wxy_insteadof_uxy) then
                   values( 9) =       hs%vx(ii)/kin%dt
                   values(10) = sgn * hs%vy(ii)/kin%dt
+               elseif (pv_insteadof_uxy) then
+                  values( 9) =       pv%vx(ii)
+                  values(10) = sgn * pv%vy(ii)
                else
                   values( 9) =       us%vx(ii)
                   values(10) = sgn * us%vy(ii)

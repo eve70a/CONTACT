@@ -51,8 +51,8 @@ subroutine nonhz (inp, gd, linenr)
       ! read and test new input quantities
 
       call timer_start(itimer_input)
-      call input (inp, linenr, gd%meta, gd%ic, gd%potcon, gd%mater, gd%hertz, gd%cgrid, gd%geom,        &
-                  gd%fric, gd%kin, gd%solv, gd%subs)
+      call input (inp, linenr, gd%meta, gd%ic, gd%potcon_inp, gd%potcon_cur, gd%mater, gd%hertz,        &
+                  gd%cgrid_inp, gd%geom, gd%influ, gd%fric, gd%kin, gd%solv, gd%subs)
       call timer_stop(itimer_input)
 
       ! call contac to solve this case

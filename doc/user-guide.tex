@@ -883,11 +883,12 @@ of the subsurface stress calculation, as described in Section
         trace\/} to the screen and the output-file:
 \begin{description}
 \item[0] -- no flow trace printed, except the case number;
-\item[1-5] -- number of iteration processes to show flow trace for: the
-        outer loop (Panagiotopoulos' process), the loop for obtaining a
-        slip velocity dependent traction bound, the NORM and
-        TANG algorithms, New\-ton-Raph\-son procedures, and iterative
-        procedures CG, ConvexGS and SteadyGS.
+\item[\hspace{-4mm}1-6] -- number of iteration processes to show flow trace for: 
+        (1) outer loop for total forces (module 1) and Panagiotopoulos'
+        process (module 3), (2) the loop for friction dependent on slip
+        velocity or temperature, (3) the NORM and TANG algorithms, 
+        (4) New\-ton-Raph\-son procedures, (5) iterative procedures
+        ConvexGS and SteadyGS, (6) iterative NormCG solver.
 \item[9] -- full flow trace, including intermediate pictures of the element
         divisions.
 \end{description}
@@ -2840,7 +2841,7 @@ interpolation.
 
 The potential contact area is a rectangular area aligned with the $x$- and
 $y$-axes, $(x,y)\in[x_l,x_h] \times[y_l,y_h]$. It is divided into
-$mx\times my$ rectangular elements of size $\delta x\times\delta y$, see
+$m_x\times m_y$ rectangular elements of size $\delta x\times\delta y$, see
 Figure~\ref{fig:potcon_discr}.
 \begin{inputvars}
 \inpvar{MX, MY}{\bunit{-}}{The number of discretisation elements in $x$- and
@@ -2849,33 +2850,48 @@ Figure~\ref{fig:potcon_discr}.
 \inpvar{NPOT}{\bunit{-}}{Total number of discretisation elements, ${\tt
         NPOT}={\tt MX}\cdot {\tt MY}$.}
 \end{inputvars}
-The elements are numbered using two-dimensional indices $(ix,iy)\in
-\{1\cdots mx\}\times\{1\cdots my\}$, as well as with a one-dimensional
+The elements are numbered using two-dimensional indices $(i_x,i_y)\in
+\{1\cdots m_x\}\times\{1\cdots m_y\}$, as well as with a one-dimensional
 index
 \begin{equation}\label{eq:1d_index}
-        I=ix+(iy-1)\cdot mx .
+        I=i_x+(i_y-1)\cdot m_x .
 \end{equation}
 The centers of the elements are given by:
 \begin{equation}\label{eq:x_i}
-   \vec{x}_I = \left[ x_l+(ix-\frac{1}{2})\cdot \delta x,
-                y_l+(iy-\frac{1}{2})\cdot \delta y \right]^T
+   \vec{x}_I = \left[ x_l+(i_x-\frac{1}{2})\cdot \delta x,
+                y_l+(i_y-\frac{1}{2})\cdot \delta y \right]^T
 \end{equation}
 Note: the potential contact area should be somewhat larger than the true
 contact area:
 \begin{enumerate}
 \item The solver SteadyGS for the steady state rolling problem requires one
         `exterior' element at the trailing edge of the contact area. If
-        there is an interior element in the first grid column ($ix=1$),
+        there is an interior element in the first grid column ($i_x=1$),
         SteadyGS will not be used, the slower and less robust ConvexGS will
         be used instead.
 \item To properly estimate the displacement difference $\vec{u}_t$ at the
         leading edge requires two `exterior' elements there too (last two
-        grid columns, $mx-1$ and $mx$). In grid rows where these
+        grid columns, $m_x-1$ and $m_x$). In grid rows where these
         elements are not available, the so called leading edge correction
         will be switched off.
 \end{enumerate}
 It is recommended to use two additional grid rows and columns around the
 actual contact area at all sides.
+
+In a sequence of cases (${\tt P}=0, 1$), the potential contact areas used
+need to be aligned between consecutive cases.
+\begin{itemize}
+\item Using equal step sizes $\delta x, \delta y$, within a tolerance of
+        $0.01\%$ of $\min(\delta x,\delta y)$;
+\item Using offsets $x_l-x'_l=k_x\,\delta x, y_l-y'_l=
+        k_y\,\delta y$ with integer $k_x, k_y$, within a tolerance of
+        $0.1\%$ of $\min(\delta x,\delta y)$;
+\item With the potential contact area for the new case large enough such
+        that all elements that were in contact at the previous time are
+        included in the new potential contact.
+\end{itemize}
+These requirements can be understood as using a constant, infinite `super
+grid' with a time-varying `active window'.
 
 The location and discretisation of the potential contact area can be
 specified in a number of ways.
@@ -2884,6 +2900,8 @@ specified in a number of ways.
         positive values: direct specification of potential contact area
         by the user.}
 \end{inputvars}
+The available options are discussed in Sections \ref{sec:hertz3d} to
+\ref{sec:nonhzvar}.
 
 \subsection{Elliptical contacts -- 3D Hertzian geometries}
 \label{sec:hertz3d}
@@ -3050,7 +3068,7 @@ are shown in Figure \ref{fig:potcon_discr}:
         the potential contact area.}
 \inpvar{XC1, YC1}{\bunit{mm}}{Coordinates of the center of element $(1,1)$
         of the potential contact area.}
-\inpvar{XCM, YCM}{\bunit{mm}}{Coordinates of the center of element $(mx,my)$
+\inpvar{XCM, YCM}{\bunit{mm}}{Coordinates of the center of element $(m_x,m_y)$
         of the potential contact area.}
 \end{inputvars}
 Different options are available, as indicated by variable {\tt IPOTCN}.
@@ -4516,9 +4534,9 @@ those in \cite{Kalker1990}, because of the higher resolution that can be
 used nowadays.
 
 One specific aspect of the input-file {\tt catt\_to\_cart.inp} is that it
-solves the same problem twice. The first sequence of 57 cases uses the
-moving coordinate system of option ${\tt T}=2$. In these cases the geometry
-is the same in all steps:
+solves the same problem in three different ways. The first sequence of 57
+cases uses the moving coordinate system of option ${\tt T}=2$. In these
+cases the geometry is the same in all steps:
 \begin{alltt}\small
     1   1                                                    IBASE, IPLAN
  0.002963   0.000    0.002963    0.000    0.000    0.000     B(I), I=1, 6
@@ -4529,43 +4547,42 @@ must be shifted to the right over a distance of $\delta q$ in each step:
 \begin{equation}
   h(x,y) = b_1 \cdot (x-k\cdot\delta q)^2 + b_3\cdot  y^2
 \end{equation}
-With $\delta q=0.25\unit{mm}$ this yields in step $k=4$ the following geometry:
+With $\delta q=0.25\unit{mm}$ this yields the following geometry in step $k=4$:
 \begin{alltt}\small
     1   1                                                    IBASE, IPLAN
  0.002963   0.000   0.002963 -0.0059260  0.000  0.0029630    B(I), I=1, 6
 \end{alltt}
-A larger grid is used ($90\times 33$ instead of $33\times 33$ elements) in
-order to accomodate for all time steps with a single grid. And in the
-output the value {\tt CKSI} is multiplied by ${\tt DQ}=0.25\unit{mm}$.
+A large grid is used ($90\times 33$ instead of $34\times 33$ elements) 
+that accomodates for all time steps with a single grid. In the output the
+value {\tt CKSI} is multiplied by $\delta q=0.25\unit{mm}$.
+
+The third sequence uses the world-fixed coordinate system (${\tt T}=1$),
+with a potential contact area of $34\times 33$ elements that is shifted
+$\delta x$ per time step, moving along with the actual contact area.
 
 The easiest way to create the corresponding input-file is via a small
 Matlab script that writes out the problem data per case.
 
-The two approaches give practically the same results. This is shown by the
-red (${\tt T}=2$) and blue lines (${\tt T}=1$) in Figure \ref{fig:catt_cart}
-(left). To create this figure is a bit intricate. Loading and plotting the
-data for the first sequence is similar as before (explained further in
-Section \ref{sec:plot_surf}):
+The different approaches give practically the same results. This is shown 
+in Figure \ref{fig:catt_cart} (left). To create this figure is a bit
+intricate. Loading and plotting the data for the first sequence is similar
+as before (Section \ref{sec:plot_surf}):
 \begin{alltt}\small
 r3=loadcase('catt_to_cart',13);  % "r3" = rolling, 3 units == case 13
-s3=loadcase('catt_to_cart',70);  % "s3" = shift, 3 units == case 70
+s3 = loadcase('catt_to_cart',70);  % "s3" = shift + fixed view, case 70
+v3 = loadcase('catt_to_cart',127); % "v3" = shift + moving view, case 127
 opt=plot2d; opt.yslc=0; opt.facpt=-1;
 plot2d(r3,opt);
 \end{alltt}
-Adding the data for the second sequence requires a specific Matlab command:
+Adding the data for the second and third sequences requires shifting the
+data by 12 grid spaces:
 \begin{alltt}\small
-plot(s3.x(1:end-12), -s3.px(13:end,17), 'b-*');  % row 17 == centerline y=0.
+plot(s3.x-12*s3.dx, -s3.px(17,:), '-*');  % row 17 == centerline y=0.
+plot(v3.x-12*v3.dx, -v3.px(17,:), '--o');
 \end{alltt}
-The reason for this is that this problem `{\tt s3}' for the shift uses a
-different (larger) grid than problem `{\tt r3}' (rolling). Using these
-specific indices for arrays {\tt x} and {\tt px} we shift the data 12 grid
-distances to the left.
-
-A nice feature of the element division in Figure \ref{fig:catt_cart} (right)
-is that the exterior area is not shown coloured in the picture. This is
-achieved using the Matlab commands:
+Figure \ref{fig:catt_cart} (right) shows the element division:
 \begin{alltt}\small
-opt=plot3d; opt.field='eldiv'; opt.exterval=NaN; plot3d(r3,opt);
+opt=plot3d; opt.field='eldiv'; plot3d(r3,opt);
 \end{alltt}
 
 \allexamp{

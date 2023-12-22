@@ -40,17 +40,16 @@ contains
       integer,          intent(out) :: my_ierror
 !--local variables:
       logical            :: lfound
-      integer            :: iestim_br, idebug_cnt, icp, i, sub_ierror, known_err(10)
+      integer            :: iestim_br, x_locate, icp, i, sub_ierror, known_err(10)
 
       my_ierror = 0
+      wtd%meta%itforce    = 0
+      wtd%meta%itforc_out = 0
+      wtd%meta%itforc_inn = 0
 
       ! idebug: 0 = errors/silent, 1 = warnings/info, >=2 = flow/debug
 
-      if (wtd%ic%x_locate.le.0) then
-         idebug_cnt = wtd%ic%ilvout
-      else
-         idebug_cnt = wtd%ic%x_locate
-      endif
+      x_locate = wtd%ic%x_locate
 
       ! set rail deflections if not used in this case
 
@@ -65,35 +64,36 @@ contains
 
          ! N=0, F=0: solve w/r problem with positions & velocities prescribed
 
-         if (idebug_cnt.ge.3) call write_log(' wr_contact: solving for given position...')
-         wtd%meta%itforc_out = 0
-         wtd%meta%itforc_inn = 0
-         call wr_contact_pos(wtd, idebug_cnt, sub_ierror)
+         if (x_locate.ge.3) call write_log(' wr_contact: solving for given position...')
+         call wr_contact_pos(wtd, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
       elseif (wtd%ic%force1.le.0) then
 
          ! N=1, F=0: solve w/r problem with prescribed vertical force
 
-         if (idebug_cnt.ge.3) call write_log(' wr_contact: solving for given vertical force...')
+         if (x_locate.ge.3) call write_log(' wr_contact: solving for given vertical force...')
+
          iestim_br = 0
-         call wr_contact_fz_brent(wtd, iestim_br, 0d0, idebug_cnt, sub_ierror)
+         if (wtd%ic%iestim.ge.1) iestim_br = 1
+
+         call wr_contact_fz_brent(wtd, iestim_br, 0d0, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
       elseif (wtd%ic%force1.eq.1 .or. wtd%ic%force1.eq.2) then
 
          ! N=1, F=1,2: solve w/r problem with prescribed vertical and longitudinal forces
 
-         if (idebug_cnt.ge.3) call write_log(' wr_contact: solving for given vert./long. forces (secant)...')
-         call wr_contact_fx_secant(wtd, idebug_cnt, sub_ierror)
+         if (x_locate.ge.3) call write_log(' wr_contact: solving for given vert./long. forces (secant)...')
+         call wr_contact_fx_secant(wtd, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
       elseif (wtd%ic%force1.eq.3) then
 
          ! N=1, F=3: solve w/r problem with prescribed vertical and lateral forces - Brent method
 
-         if (idebug_cnt.ge.3) call write_log(' wr_contact: solving for given vert./lat. forces (brent)...')
-         call wr_contact_fy_brent(wtd, idebug_cnt, sub_ierror)
+         if (x_locate.ge.3) call write_log(' wr_contact: solving for given vert./lat. forces (brent)...')
+         call wr_contact_fy_brent(wtd, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
       else
@@ -125,12 +125,12 @@ contains
       ! if requested: write mat-files for final solution
 
       if (wtd%ic%matfil_surf.ge.1) then
-         if (idebug_cnt.ge.5) call write_log(' ...wr_contact: calling writmt')
+         if (x_locate.ge.5) call write_log(' ...wr_contact: calling writmt')
          do icp = 1, wtd%numcps
             associate( gd => wtd%allcps(icp)%cp%gd )
             gd%ic%matfil_surf = wtd%ic%matfil_surf
-            call writmt (gd%meta, gd%ic, gd%cgrid, gd%potcon%xl, gd%potcon%yl, gd%geom%hs1, gd%mater,   &
-                         gd%fric, gd%kin, gd%outpt1, wtd%ic%is_left_side())
+            call writmt (gd%meta, gd%ic, gd%cgrid_cur, gd%potcon_cur, gd%geom%hs1, gd%mater, gd%fric,   &
+                gd%kin, gd%outpt1, wtd%ic%is_left_side())
             end associate
          enddo
       endif
@@ -138,7 +138,7 @@ contains
       ! compute subsurface stresses when requested
 
       if (wtd%ic%stress.ge.1) then
-         call wr_subsurf(wtd, idebug_cnt)
+         call wr_subsurf(wtd, x_locate)
       endif
 
       ! write output when R=0 or 1
@@ -149,13 +149,13 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_contact_init_hertz(wtd, its, dfz_dzws, aa, bb, imeth, idebug_br, idebug_cnt, my_ierror)
+   subroutine wr_contact_init_hertz(wtd, its, dfz_dzws, aa, bb, imeth, x_force, x_locate, my_ierror)
 !--purpose: determine an initial bracket for z_ws for starting the Brent algorithm
       implicit none
 !--subroutine arguments:
       type(t_ws_track)                 :: wtd
       integer,           intent(in)    :: imeth
-      integer,           intent(in)    :: idebug_br, idebug_cnt
+      integer,           intent(in)    :: x_force, x_locate
       integer,           intent(out)   :: my_ierror
       real(kind=8),      intent(out)   :: dfz_dzws, aa, bb
       type(t_brent_its), intent(inout) :: its
@@ -163,7 +163,7 @@ contains
       integer                  :: k, ic_norm, ipotcn, ic_return, sub_ierror
       real(kind=8)             :: cp, rho, pen, e_star, epshz, azz, x_0, x_new, r_new
 
-      if (idebug_br.ge.3) call write_log(' --- Start subroutine wr_contact_init_hertz ---')
+      if (x_force.ge.3) call write_log(' --- Start subroutine wr_contact_init_hertz ---')
 
       my_ierror = 0
 
@@ -178,12 +178,12 @@ contains
       ic_return = wtd%ic%return
       wtd%ic%return = 3
 
-      call wr_contact_pos(wtd, idebug_cnt, sub_ierror)
+      call wr_contact_pos(wtd, x_locate, sub_ierror)
       if (my_ierror.eq.0) my_ierror = sub_ierror
 
       wtd%ic%return = ic_return
 
-      if (max(idebug_br,idebug_cnt).ge.3) then
+      if (max(x_force,x_locate).ge.3) then
          write(bufout,'(3(a,g14.6))') ' z_ws =',wtd%ws%z
          call write_log(1, bufout)
          write(bufout,'(3(a,g14.6))') ' Overall minimum gap=', wtd%ws%gap_min,', a1=',wtd%ws%a1,     &
@@ -195,7 +195,7 @@ contains
 
       if (my_ierror.ne.0) then
          wtd%numcps = 0
-         if (max(idebug_br,idebug_cnt).ge.1) then
+         if (max(x_force,x_locate).ge.1) then
             write(bufout,'(a,i6,a)') ' An error occurred (',my_ierror,'), skipping computation.'
             call write_log(1, bufout)
          endif
@@ -206,7 +206,7 @@ contains
 
       if (.not.wtd%ws%has_overlap) then
          wtd%numcps = 0
-         if (max(idebug_br,idebug_cnt).ge.1) then
+         if (max(x_force,x_locate).ge.1) then
             call write_log(' The profiles have no overlap at all, skipping computation.')
          endif
          return
@@ -220,7 +220,7 @@ contains
 
          call brent_its_add_iterate(its, k, x_0, -wtd%ws%fz_inp, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
-         call brent_its_print(k, its, wtd%ic, idebug_br)
+         call brent_its_print(k, its, wtd%ic, x_force)
 
       endif
 
@@ -248,7 +248,7 @@ contains
       else
          dfz_dzws = (1.5d0 * wtd%ws%fz_inp / pen) * cos(wtd%ws%delt_min)
 
-         if (idebug_br.ge.3) then
+         if (x_force.ge.3) then
             write(bufout,'(a,f12.6,a,f8.4,a,f12.1)') ' pen=',pen,', delt=',wtd%ws%delt_min,             &
                                 ': est. dfz_dzws=',dfz_dzws
             call write_log(1, bufout)
@@ -273,7 +273,7 @@ contains
 
       if (imeth.eq.IMETH_BRENT) then
 
-         call wr_contact_pos(wtd, idebug_cnt, sub_ierror)
+         call wr_contact_pos(wtd, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
          r_new    = wtd%ftrk%z() - wtd%ws%fz_inp
@@ -284,7 +284,7 @@ contains
 
          call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
-         call brent_its_print(k, its, wtd%ic, idebug_br)
+         call brent_its_print(k, its, wtd%ic, x_force)
 
       endif
          
@@ -292,32 +292,33 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_contact_fz_brent(wtd, iestim_br, z_offset, idebug_cnt, my_ierror)
+   subroutine wr_contact_fz_brent(wtd, iestim_br, z_offset, my_ierror)
 !--purpose: process the w/r problem for a case with prescribed vertical force with Brents algorithm
       implicit none
 !--subroutine arguments:
       type(t_ws_track)              :: wtd
-      integer,          intent(in)  :: iestim_br, idebug_cnt
+      integer,          intent(in)  :: iestim_br
       real(kind=8),     intent(in)  :: z_offset
       integer,          intent(out) :: my_ierror
 !--local variables:
       integer, parameter       :: maxit = 100
       logical                  :: used_bisec, ldone
-      integer                  :: k, idebug_br, ic_return, sub_ierror
+      integer                  :: k, x_force, x_locate, ic_return, sub_ierror
       real(kind=8)             :: ftarg, res_fk, tol_fk, dfk, tol_xk, x_0, x_new, r_new, dfz_dzws, aa, bb
       type(t_brent_its)        :: its
 
       my_ierror = 0
-      idebug_br = wtd%ic%x_force
-      ! if (wtd%meta%itforc_out.eq.2) idebug_br = 3
+      x_force  = wtd%ic%x_force
+      x_locate = wtd%ic%x_locate
+      ! if (wtd%meta%itforc_out.eq.2) x_force = 3
 
-      if (idebug_cnt.ge.2) call write_log(' --- Start subroutine wr_contact_fz_brent ---')
+      if (max(x_force,x_locate).ge.2) call write_log(' --- Start subroutine wr_contact_fz_brent ---')
 
       ! Abort if a zero or negative total force is prescribed
 
       if (wtd%ws%fz_inp.lt.1d-9) then
          wtd%numcps = 0
-         if (idebug_cnt.ge.1) then  
+         if (x_locate.ge.1) then  
             call write_log(' Prescribed total force is zero or negative, skipping computation.')
          endif
          return
@@ -334,6 +335,10 @@ contains
       !   1 = continuation, using estimate z_ws from wtd%ws
       !   2 = continuation, using geometrical analysis + offset z_offset provided
 
+      if (iestim_br.eq.0) then
+         wtd%ws%z  = 0d0
+      endif
+
       if (iestim_br.eq.2) then
 
          ! analyze geometrical problem for the initial z-position, without actual solving
@@ -342,7 +347,7 @@ contains
          ic_return = wtd%ic%return
          wtd%ic%return = 3
 
-         call wr_contact_pos(wtd, idebug_cnt, sub_ierror)
+         call wr_contact_pos(wtd, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          wtd%ic%return = ic_return
 
@@ -353,8 +358,13 @@ contains
 
          ! methods 1, 2: use initial estimate from ws%z, wtd%dfz_dzws
 
+         if (x_force.ge.3) then
+            write(bufout,'(a,i3)')   ' wr_contact_fz_brent: starting iteration k=',1
+            call write_log(1, bufout)
+         endif
+
          wtd%meta%itforc_inn = 1
-         call wr_contact_pos(wtd, idebug_cnt, sub_ierror)
+         call wr_contact_pos(wtd, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
          ! store initial point { x_0, r_0 } at which initial contact occurs
@@ -363,7 +373,7 @@ contains
          x_0 = wtd%ws%z_cnt0
          call brent_its_add_iterate(its, k, x_0, -wtd%ws%fz_inp, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
-         call brent_its_print(k, its, wtd%ic, idebug_br)
+         call brent_its_print(k, its, wtd%ic, x_force)
 
          ! store first point { x_1, r_1 } for initial estimate ws%z
 
@@ -375,13 +385,13 @@ contains
 
          call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
-         call brent_its_print(k, its, wtd%ic, idebug_br)
+         call brent_its_print(k, its, wtd%ic, x_force)
 
       else
 
          ! analyze geometry for overall minimum gap and curvatures, set initial estimates k=0, k=1
 
-         call wr_contact_init_hertz(wtd, its, dfz_dzws, aa, bb, IMETH_BRENT, idebug_br, idebug_cnt,     &
+         call wr_contact_init_hertz(wtd, its, dfz_dzws, aa, bb, IMETH_BRENT, x_force, x_locate,     &
                         sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
@@ -391,7 +401,7 @@ contains
 
       if (my_ierror.ne.0 .or. .not.wtd%ws%has_overlap) then
          call write_log(' no overlap...')
-         call total_forces_moments(wtd, idebug_cnt)
+         call total_forces_moments(wtd, x_locate)
          return
       endif
 
@@ -421,32 +431,32 @@ contains
          k = k + 1
          wtd%meta%itforc_inn = k
 
-         if (idebug_br.ge.3) then
+         if (x_force.ge.3) then
             write(bufout,'(a,i3)')   ' wr_contact_fz_brent: starting iteration k=',k
             call write_log(1, bufout)
          endif
 
          ! determine new point x_new
 
-         call brent_set_xnew(k, its, dfz_dzws, used_bisec, tol_xk, x_new, idebug_br)
+         call brent_set_xnew(k, its, dfz_dzws, used_bisec, tol_xk, x_new, x_force)
 
          ! compute problem with new xk, get new fk
 
          wtd%ws%z = x_new
-         call wr_contact_pos(wtd, idebug_cnt, sub_ierror)
+         call wr_contact_pos(wtd, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
          r_new = wtd%ftrk%z() - ftarg
 
          call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
-         call brent_its_print(k, its, wtd%ic, idebug_br)
+         call brent_its_print(k, its, wtd%ic, x_force)
 
          ! check convergence
 
          res_fk = its%r_b
          ldone = (abs(res_fk).lt.tol_fk .or. abs(its%x_b-its%x_a).lt.tol_xk .or. k.ge.wtd%solv%maxnr    &
-                        .or. my_ierror.ne.0 .or. brent_its_has_jump(its, idebug_br) )
+                        .or. my_ierror.ne.0 .or. brent_its_has_jump(its, x_force) )
 
          if (my_ierror.lt.0) then
             write(bufout,'(a,i3,a)') ' An error occurred the in Brent algorithm (',my_ierror,           &
@@ -457,7 +467,7 @@ contains
 
       ! compute sensitivity at final solution
 
-      wtd%dfz_dzws = brent_sensitivity_k(k, its, idebug_br)
+      wtd%dfz_dzws = brent_sensitivity_k(k, its, x_force)
 
       if (my_ierror.eq.0 .and. abs(res_fk).ge.tol_fk .and. abs(its%x_b-its%x_a).ge.tol_xk) then
          write(bufout,'(a,i3,a)') ' Brent algorithm stopped with residual > tolerance.'
@@ -469,17 +479,16 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_contact_fx_secant(wtd, idebug_cnt, my_ierror)
+   subroutine wr_contact_fx_secant(wtd, my_ierror)
 !--purpose: process the w/r problem for a case with prescribed forces with Secant for Fx, Brent for Fz
       implicit none
 !--subroutine arguments:
       type(t_ws_track)              :: wtd
-      integer,          intent(in)  :: idebug_cnt
       integer,          intent(out) :: my_ierror
 !--local variables:
       integer,       parameter :: neq = 2
       logical                  :: has_fz, has_fx, ldone, laccept
-      integer                  :: k, iestim_br, idebug_br, itry, maxtry, sub_ierror
+      integer                  :: k, iestim_br, x_force, x_locate, itry, maxtry, sub_ierror
       real(kind=8)             :: aa, aob, bb, c11, c22, c23, dfx_domg, dfz_dzws, veloc, r_act, solv_eps
       real(kind=8)             :: xk(neq), xkm1(neq), xchr(neq), dxk(neq), fk(neq), fkm1(neq), dfk(neq), &
                                   ftarg(neq), res_fk(neq), tol_fk(neq), dfk_max(neq), bk(neq,neq),       &
@@ -488,9 +497,10 @@ contains
 
       my_ierror = 0
 
-      ! idebug_br = 0
-      idebug_br = wtd%ic%x_force
-      if (idebug_br.ge.2) call write_log(' --- Start subroutine wr_contact_fx_secant ---')
+      ! x_force = 0
+      x_force   = wtd%ic%x_force
+      x_locate  = wtd%ic%x_locate
+      if (max(x_force,x_locate).ge.2) call write_log(' --- Start subroutine wr_contact_fx_secant ---')
 
       has_fz    = (wtd%ic%norm.ge.1)
       has_fx    = (wtd%ic%tang.ge.1 .and. (wtd%ic%force1.eq.1 .or. wtd%ic%force1.eq.2))
@@ -500,13 +510,21 @@ contains
          call abort_run()
       endif
 
+      k = 0
+
       ! preparations for initial estimate for z-position
 
       if (has_fz) then
 
+         k = k + 1
+         if (x_force.ge.3) then
+            write(bufout,'(a,i3)')   ' wr_contact_fx_secant: starting iteration k=',k
+            call write_log(1, bufout)
+         endif
+
          ! analyze geometry for overall minimum gap and curvatures, set initial estimate k=0 for Fz
 
-         call wr_contact_init_hertz(wtd, its, dfz_dzws, aa, bb, IMETH_SECANT, idebug_br, idebug_cnt,    &
+         call wr_contact_init_hertz(wtd, its, dfz_dzws, aa, bb, IMETH_SECANT, x_force, x_locate,    &
                         sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
@@ -516,8 +534,8 @@ contains
          
       endif
 
-      if (idebug_br.ge.2) then
-         write(bufout,'(3(a,g14.6))') ' fz_inp=', wtd%ws%fz_inp, ', dfz_dzws=', dfz_dzws
+      if (x_force.ge.2) then
+         write(bufout,'(3(a,g16.8))') ' fz_inp=', wtd%ws%fz_inp, ', dfz_dzws=', dfz_dzws
          call write_log(1, bufout)
       endif
 
@@ -572,8 +590,8 @@ contains
       dfk_max(1) =  99d0
       dfk_max(2) = 1.0d0 * wtd%fric%fstat_min()
 
-      if (idebug_br.ge.2) then
-         write(bufout,'(2(a,g14.4))') ' tol_fk=',tol_fk(2),', dfk_max=',dfk_max(2)
+      if (x_force.ge.2) then
+         write(bufout,'(2(a,g16.6))') ' tol_fk=',tol_fk(2),', dfk_max=',dfk_max(2)
          call write_log(1, bufout)
       endif
 
@@ -581,7 +599,6 @@ contains
 
       ! initial estimate [ z_ws, omg_ws ]
 
-      k     = 0
       xk(1) = wtd%ws%z
       xk(2) = wtd%ws%vpitch
       solv_eps  = wtd%solv%eps
@@ -590,7 +607,8 @@ contains
 
       iestim_br = 0
       wtd%solv%eps = max(1d-2, solv_eps)
-      call wr_contact_fz_brent(wtd, iestim_br, 0d0, idebug_cnt, sub_ierror)
+      wtd%meta%itforc_out = k
+      call wr_contact_fz_brent(wtd, iestim_br, 0d0, sub_ierror)
       if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
       wtd%solv%eps = solv_eps
 
@@ -609,14 +627,14 @@ contains
 
       ldone = (all(abs(res_fk).lt.tol_fk) .or. k.ge.wtd%solv%maxnr .or. wtd%ic%return.ge.2)
 
-      if (idebug_br.ge.2) then
-         write(bufout, '(4(a,f11.3))') ' fk=',fk(2),', res=',res_fk(2), ', tol=',tol_fk(2)
+      if (x_force.ge.2) then
+         write(bufout, '(3(a,g16.8))') ' fk=',fk(2),', res=',res_fk(2), ', tol=',tol_fk(2)
          call write_log(1, bufout)
       endif
 
       ! print output on Secant process
 
-      call secant_fx_print(neq, k, xk, fk, ftarg, bk, wtd%ic, idebug_br)
+      call secant_fx_print(neq, k, xk, fk, ftarg, bk, wtd%ic, x_force)
 
       ! while not "done" do
 
@@ -626,14 +644,12 @@ contains
 
          k = k + 1
 
-         if (k.eq.28) idebug_br = 3
-
-         if (idebug_br.ge.3) then
+         if (x_force.ge.3) then
             write(bufout,'(a,i3)')   ' wr_contact_fx_secant: starting iteration k=',k
             call write_log(1, bufout)
          endif
 
-         ! if (idebug_br.ge.2) stop
+         ! if (x_force.ge.2) stop
 
          ! cycle previous values
 
@@ -661,7 +677,7 @@ contains
 
             if (itry.gt.1) then
                dxk = 0.5d0 * dxk
-               if (idebug_br.ge.2) then
+               if (x_force.ge.2) then
                   write(bufout,'(2(a,f9.4))') ' ...halved step dom_ws=',dxk(2)
                   call write_log(1, bufout)
                endif
@@ -675,8 +691,9 @@ contains
 
             iestim_br = 1
             wtd%solv%eps = max(res_fk(2)/5d0, solv_eps)
+            wtd%meta%itforc_out = k
 
-            call wr_contact_fz_brent(wtd, iestim_br, 0d0, idebug_cnt, sub_ierror)
+            call wr_contact_fz_brent(wtd, iestim_br, 0d0, sub_ierror)
             if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
             wtd%solv%eps = solv_eps
@@ -705,7 +722,9 @@ contains
 
          ! compute/update approximate Jacobian matrix
 
+         if (abs(fk(2)-fkm1(2)).gt.1d3*tol_fk(2)) then
          bk(2,2) = (fk(2) - fkm1(2)) / dxk(2)
+         endif
 
          ! check convergence
 
@@ -714,7 +733,7 @@ contains
 
          ! print output on Secant process
 
-         call secant_fx_print(neq, k, xk, fk, ftarg, bk, wtd%ic, idebug_br)
+         call secant_fx_print(neq, k, xk, fk, ftarg, bk, wtd%ic, x_force)
 
          if (my_ierror.lt.0) then
             write(bufout,'(a,i3,a)') ' An error occurred the in Secant algorithm (',my_ierror,          &
@@ -729,19 +748,19 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine secant_fx_print(neq, k, xk, fk, ftarg, bk, ic, idebug_br)
+   subroutine secant_fx_print(neq, k, xk, fk, ftarg, bk, ic, x_force)
 !--purpose: print information on Secant process for Fx
       implicit none
 !--subroutine arguments:
       type(t_ic)               :: ic
-      integer                  :: neq, k, idebug_br
+      integer                  :: neq, k, x_force
       real(kind=8)             :: xk(neq), fk(neq), ftarg(neq), bk(neq,neq)
 !--local variables:
       ! character(len=16)        :: str16((2+neq)*neq)
 
       ! horizontal and vertical forces prescribed: {F_z,F_x} = F( z_ws, omg_ws )
 
-      if (idebug_br.ge.2 .or. ic%flow.ge.1) then
+      if (x_force.ge.2 .or. ic%flow.ge.1) then
          ! str16(1) = fmt_gs(12,6, xk(1))
          ! str16(2) = fmt_gs(13,8, xk(2))
          ! write(str16(3), '(f13.8)') fk(1) - ftarg(1)
@@ -757,26 +776,25 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_contact_fy_brent(wtd, idebug_cnt, my_ierror)
+   subroutine wr_contact_fy_brent(wtd, my_ierror)
 !--purpose: process the w/r problem for a case with prescribed forces with Brent for Fy, Brent for Fz
       implicit none
 !--subroutine arguments:
       type(t_ws_track)              :: wtd
-      integer,          intent(in)  :: idebug_cnt
       integer,          intent(out) :: my_ierror
 !--local variables:
       integer, parameter       :: maxit = 100
       logical                  :: has_fz, has_fy, used_bisec, ldone
-      integer                  :: k, idebug_br, iestim_br, sub_ierror
+      integer                  :: k, x_force, x_locate, iestim_br, sub_ierror
       real(kind=8)             :: ftarg, fy_tot, dfy_dy, dz_ws, x_new, r_new, tol_xk, tol_fk, res_fk,   &
                                   eps_out, eps_inn
       type(t_brent_its)        :: its
 
       my_ierror = 0
-      ! idebug_br = idebug_cnt
-      idebug_br = wtd%ic%x_force
+      x_force  = wtd%ic%x_force
+      x_locate = wtd%ic%x_locate
 
-      if (idebug_br.ge.2) call write_log(' --- Start subroutine wr_contact_fy_brent ---')
+      if (x_force.ge.2) call write_log(' --- Start subroutine wr_contact_fy_brent ---')
 
       has_fz    = (wtd%ic%norm.ge.1)
       has_fy    = (wtd%ic%tang.ge.1 .and. wtd%ic%force1.eq.3)
@@ -816,7 +834,7 @@ contains
       eps_inn         = wtd%solv%eps
       wtd%solv%eps    = eps_inn
 
-      call wr_contact_fz_brent(wtd, iestim_br, 0d0, idebug_cnt, sub_ierror)
+      call wr_contact_fz_brent(wtd, iestim_br, 0d0, sub_ierror)
       if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
       x_new  = wtd%trk%dy_defl
@@ -825,7 +843,7 @@ contains
       dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
 
       call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
-      call brent_its_print(k, its, wtd%ic, idebug_br)
+      call brent_its_print(k, its, wtd%ic, x_force)
 
       ! set second guess dy = 1 and solve for z_ws using inner iteration
 
@@ -838,7 +856,7 @@ contains
       k         = 1
       wtd%meta%itforc_out = k
       iestim_br = 0
-      call wr_contact_fz_brent(wtd, iestim_br, dz_ws, idebug_cnt, sub_ierror)
+      call wr_contact_fz_brent(wtd, iestim_br, dz_ws, sub_ierror)
       if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
       x_new  = wtd%trk%dy_defl
@@ -847,13 +865,14 @@ contains
       dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
 
       call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
-      call brent_its_print(k, its, wtd%ic, idebug_br)
+      call brent_its_print(k, its, wtd%ic, x_force)
 
       ! while not "done" do
 
       ldone   = .false.
       tol_xk  = eps_out
       tol_fk  = max(1d-6, eps_out * abs(ftarg))
+      used_bisec = .false.
 
       do while (.not.ldone .and. my_ierror.eq.0)
 
@@ -862,16 +881,16 @@ contains
          k = k + 1
          wtd%meta%itforc_out = k
 
-         if (idebug_br.ge.3) then
+         if (x_force.ge.3) then
             write(bufout,'(a,i3)')   ' wr_contact_fy_brent: starting iteration k=',k
             call write_log(1, bufout)
          endif
 
          ! determine new point x_new
 
-         dfy_dy = brent_sensitivity_k(k-1, its, idebug_br)
+         dfy_dy = brent_sensitivity_k(k-1, its, x_force)
 
-         call brent_set_xnew(k, its, dfy_dy, used_bisec, tol_xk, x_new, idebug_br)
+         call brent_set_xnew(k, its, dfy_dy, used_bisec, tol_xk, x_new, x_force)
 
          ! solve for z_ws using inner iteration, get new fk
 
@@ -881,7 +900,7 @@ contains
          eps_inn         = eps_out
          wtd%solv%eps    = eps_inn
 
-         call wr_contact_fz_brent(wtd, iestim_br, dz_ws, idebug_cnt, sub_ierror)
+         call wr_contact_fz_brent(wtd, iestim_br, dz_ws, sub_ierror)
          if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
          fy_tot = wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
@@ -890,7 +909,7 @@ contains
 
          call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
-         call brent_its_print(k, its, wtd%ic, idebug_br)
+         call brent_its_print(k, its, wtd%ic, x_force)
          ! write(bufout,'(a,f12.4)') ' dz_ws=',dz_ws
          ! call write_log(1, bufout)
 
@@ -898,7 +917,7 @@ contains
 
          res_fk = its%r_b
          ldone = (abs(res_fk).lt.tol_fk .or. abs(its%x_b-its%x_a).lt.tol_xk .or. k.ge.wtd%solv%maxnr    &
-                        .or. my_ierror.ne.0 .or. brent_its_has_jump(its, idebug_br) )
+                        .or. my_ierror.ne.0 .or. brent_its_has_jump(its, x_force) )
 
          if (my_ierror.lt.0) then
             write(bufout,'(a,i3,a)') ' An error occurred the in Brent algorithm (',my_ierror,           &

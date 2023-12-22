@@ -339,7 +339,9 @@ contains
          endif
       endif
 
-      gd%kin%dq      =  dqrel * gd%cgrid%dx
+      gd%kin%dq      =  dqrel * gd%cgrid_inp%dx
+      gd%kin%spinxo  =  0d0
+      gd%kin%spinyo  =  0d0
 
       ! creepage = { velocity of rail/roller (1) - velocity of wheel (2) } / reference velocity
 
@@ -716,7 +718,7 @@ contains
 
       ! coordinate system moves along rail, even if the wheelset moves laterally
 
-      gd%kin%dq     =  dqrel * gd%cgrid%dx
+      gd%kin%dq     =  dqrel * gd%cgrid_inp%dx
 
       ! creepages are zero
 

@@ -31,28 +31,34 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_contact_pos(wtd, idebug, my_ierror)
+   subroutine wr_contact_pos(wtd, x_locate, my_ierror)
 !--purpose: process the w/r problem for a case with positions & velocities prescribed
       implicit none
 !--subroutine arguments:
       type(t_ws_track)              :: wtd
-      integer,          intent(in)  :: idebug
+      integer,          intent(in)  :: x_locate
       integer,          intent(out) :: my_ierror
 !--local variables:
       logical                   :: is_varprof
       integer                   :: icp, ldebug, sub_ierror
       type(t_grid)              :: sf_rai
-!--pointers to global data items:
-      type(t_cpatch),   pointer :: cp => NULL()
 
       my_ierror = 0
 
-      if (idebug.ge.2) call write_log(' ')
-      if (idebug.ge.2) call write_log(' --- Start subroutine wr_contact_pos ---')
+      if (x_locate.ge.2) call write_log(' ')
+      if (x_locate.ge.2) call write_log(' --- Start subroutine wr_contact_pos ---')
 
       ! suppress warnings for rail/wheel profiles in subsequent total force iterations (Brent, Secant)
 
-      ldebug = idebug
+      wtd%meta%itforce = wtd%meta%itforce + 1
+
+      if (wtd%ic%x_force.ge.2) then
+         write(bufout,'(3(a,i3))') ' itout =',wtd%meta%itforc_out,', itinn =',wtd%meta%itforc_inn,       &
+                   ', ittot =',wtd%meta%itforce
+         call write_log(1, bufout)
+      endif
+
+      ldebug = x_locate
       if (wtd%meta%itforc_out.ge.1 .or. wtd%meta%itforc_inn.ge.1) ldebug = ldebug - 1
 
       call timer_start(itimer_wrgeom)
@@ -64,7 +70,7 @@ contains
       if (wtd%meta%itforc_out.le.0 .and. wtd%meta%itforc_inn.le.0 .and. is_varprof) then
          ! call profile_select_slice(wtd%trk%rai%prr, wtd%ws%s, ldebug)
 
-         if (idebug.ge.2) call write_log(' setting up "current slice" for variable profile')
+         if (x_locate.ge.2) call write_log(' setting up "current slice" for variable profile')
          ! call bspline2d_print(wtd%trk%rai%prr%spl2d, 'vprf.spl2d', 5)
          ! call varprof_set_debug(3)
          ! call bspline_set_debug(3)
@@ -79,7 +85,7 @@ contains
 
       if (is_varprof .and. .false.) then
          ! test code for new varprof_intpol_grid, showing wrong resuls due to compiler bug(?)
-         call marker_print(wtd%trk%rai%m_trk, 'm_rr(tr)', 5)
+         call marker_print(wtd%trk%rai%m_trk, 'm_r(tr)', 5)
          call write_log(' ...varprof_intpol_grid')
          call grid_create_uniform(sf_rai, x0arg=0d0, dxarg=1d0, x1arg=0d0,                     &
                                          y0arg=10d0, dyarg=5d0, y1arg=20d0, zarg=0d0)
@@ -104,7 +110,7 @@ contains
       ! locate the contact patch(es), set potential contact areas
 
       if (my_ierror.eq.0) then
-         call wr_locatecp(wtd%ic, wtd%ws, wtd%trk, wtd%discr, wtd%numcps, wtd%allcps, idebug, sub_ierror)
+         call wr_locatecp(wtd%ic, wtd%ws, wtd%trk, wtd%discr, wtd%numcps, wtd%allcps, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
       endif
 
@@ -112,10 +118,10 @@ contains
 
       if (my_ierror.eq.0) then
          do icp = 1, wtd%numcps
-
-            cp => wtd%allcps(icp)%cp
+            associate( cp => wtd%allcps(icp)%cp )
             call wr_setup_cp(wtd%meta, wtd%ws, wtd%trk, wtd%numcps, icp, cp, wtd%ic, wtd%mater,         &
-                             wtd%discr, wtd%fric, wtd%kin, wtd%solv, idebug)
+                             wtd%discr, wtd%fric, wtd%kin, wtd%solv, x_locate)
+            end associate
          enddo
       endif
       call timer_stop(itimer_wrgeom)
@@ -128,8 +134,8 @@ contains
 
             ! solve contact problem for contact patch icp
 
-            cp => wtd%allcps(icp)%cp
-            call wr_solve_cp(wtd%ws, wtd%trk, icp, cp, wtd%ic, idebug, sub_ierror)
+            associate( cp => wtd%allcps(icp)%cp )
+            call wr_solve_cp(wtd%ws, wtd%trk, icp, cp, wtd%ic, x_locate, sub_ierror)
             if (my_ierror.eq.0) my_ierror = sub_ierror
 
             if (wtd%ic%x_nmdbg.ge.3) then
@@ -137,10 +143,11 @@ contains
                call write_log(1, bufout)
                call wrigs(cp%gd%outpt1%igs, .true., 0d0)
             endif
+            end associate
 
          enddo
 
-         call total_forces_moments(wtd, idebug)
+         call total_forces_moments(wtd, x_locate)
 
       endif
 
@@ -157,7 +164,6 @@ contains
 !--local variables:
       integer                  :: icp
 !--pointers to global data items:
-      type(t_cpatch),   pointer :: cp => NULL()
       type(t_probdata), pointer :: gd
 
       if (idebug.ge.2) call write_log(' --- Start subroutine wr_subsurf ---')
@@ -166,7 +172,7 @@ contains
 
       do icp = 1, wtd%numcps
 
-         cp => wtd%allcps(icp)%cp
+         associate(cp => wtd%allcps(icp)%cp)
          gd => cp%gd
 
          ! copy new input for subsurface stresses, except for cps that have gd%subs specified separately
@@ -175,13 +181,14 @@ contains
 
          ! compute subsurface stresses for contact patch, using mirroring for left rail/wheel combination
 
-         call subsur_calc(gd%ic, gd%mater, gd%cgrid, gd%outpt1%igs, gd%outpt1%ps, gd%ic%is_left_side(), &
+         call subsur_calc(gd%ic, gd%mater, gd%cgrid_cur, gd%outpt1%igs, gd%outpt1%ps, gd%ic%is_left_side(), &
                         gd%subs, idebug)
 
          ! write to subs-file if requested
 
          call subsur_matfil (gd%meta, gd%ic, gd%subs, idebug)
 
+         end associate
       enddo
 
    end subroutine wr_subsurf
@@ -329,64 +336,77 @@ contains
 
       !  - set parameters describing the potential contact area
 
-      gd%potcon%ipotcn =  1
-      gd%potcon%xl     = cp%xsta - cp%mref%x()
-      gd%potcon%dx     = cp%dx_eff
-      gd%potcon%mx     = nint((cp%xend-cp%xsta)/cp%dx_eff)
+      gd%potcon_inp%ipotcn =  1
+      gd%potcon_inp%xl     = cp%xsta - cp%mref%x()
+      gd%potcon_inp%dx     = cp%dx_eff
+      gd%potcon_inp%mx     = nint((cp%xend-cp%xsta)/cp%dx_eff)
 
       if (wtd_ic%is_conformal()) then
          ! conformal: curved surface
-         gd%potcon%dy  = cp%ds_eff
-         gd%potcon%yl  = cp%sc_sta
-         gd%potcon%my  = nint((cp%sc_end-cp%sc_sta)/cp%ds_eff)
+         gd%potcon_inp%dy  = cp%ds_eff
+         gd%potcon_inp%yl  = cp%sc_sta
+         gd%potcon_inp%my  = nint((cp%sc_end-cp%sc_sta)/cp%ds_eff)
          fac_warn      = 1.2d0          ! accomodate for fac_sc=1.2 in compute_curved_potcon
       else
          ! planar: tangent plane
-         gd%potcon%dy  = cp%ds_eff
-         gd%potcon%yl  = cp%sp_sta
-         gd%potcon%my  = nint((cp%sp_end-cp%sp_sta)/cp%ds_eff)
+         gd%potcon_inp%dy  = cp%ds_eff
+         gd%potcon_inp%yl  = cp%sp_sta
+         gd%potcon_inp%my  = nint((cp%sp_end-cp%sp_sta)/cp%ds_eff)
          fac_warn      = 1.0d0
       endif
 
-      npot = gd%potcon%mx * gd%potcon%my
+      ! complete remaining entries in potcon_inp including npot
+
+      call potcon_fill( gd%potcon_inp )
+
+      ! check that npot_max will not be exceeded
 
       if (wtd_ic%return.le.1 .and. discr%npot_max.ge.100 .and. npot.ge.fac_warn*discr%npot_max) then
          write(bufout,'(2(a,i6))') ' Internal error: npot=',npot,' >= NPOT_MAX=', discr%npot_max
          call write_log(1, bufout)
-         write(bufout,'(a,2i5,a,i6,a,2f7.3,a,2f10.3)') ' mx,my=', gd%potcon%mx, gd%potcon%my,           &
-             ', npot=',npot, ', dx,dy=', gd%potcon%dx,gd%potcon%dy, ', xl,yl=', gd%potcon%xl,gd%potcon%yl
+         write(bufout,'(a,2i5,a,i6,a,2f7.3,a,2f10.3)') ' mx,my=', gd%potcon_inp%mx, gd%potcon_inp%my,   &
+             ', npot=',npot, ', dx,dy=', gd%potcon_inp%dx, gd%potcon_inp%dy, ', xl,yl=',                &
+             gd%potcon_inp%xl, gd%potcon_inp%yl
          call write_log(1, bufout)
          call abort_run()
       endif
 
-      !  - call sdis to create the main grid "cgrid"
+      !  - create the main grid "cgrid"
 
-      if (idebug.ge.7) call write_log(' wr_setup_cp: calling sdis')
-      call sdis(gd%potcon, gd%hertz, gd%cgrid)
+      call potcon_cgrid(gd%potcon_inp, gd%cgrid_inp)
 
-      if (idebug.ge.3) then
-         mx   = gd%potcon%mx
-         npot = gd%potcon%npot
-         write(bufout,'(2(a,2f10.4))') ' x_cntc =', gd%cgrid%x(1), gd%cgrid%x(2),'...', &
-                        gd%cgrid%x(npot-1), gd%cgrid%x(npot)
+      if (idebug.ge.2) then
+         mx   = gd%potcon_inp%mx
+         npot = gd%potcon_inp%npot
+         write(bufout,'(2(a,2f10.4))') ' x_cntc =', gd%cgrid_inp%x(1), gd%cgrid_inp%x(2),'...',         &
+                        gd%cgrid_inp%x(npot-1), gd%cgrid_inp%x(npot)
          call write_log(1, bufout)
-         write(bufout,'(2(a,2f10.4))') ' y_cntc =', gd%cgrid%y(mx), gd%cgrid%y(2*mx),'...', &
-                        gd%cgrid%y(npot-mx), gd%cgrid%y(npot)
+         write(bufout,'(2(a,2f10.4))') ' y_cntc =', gd%cgrid_inp%y(mx), gd%cgrid_inp%y(2*mx),'...',     &
+                        gd%cgrid_inp%y(npot-mx), gd%cgrid_inp%y(npot)
          call write_log(1, bufout)
+      endif
+
+      if (wtd_ic%x_force.ge.2) then
+         associate(g1 => gd%cgrid_inp, g2 => gd%cgrid_cur)
+         write(bufout,'(2(a,i4),2(a,f8.3))') ' cgrid_inp: mx,my=',g1%nx,',',g1%ny,', dx,dy=', g1%dx,',',g1%dy
+         call write_log(1, bufout)
+         write(bufout,'(2(a,i4),2(a,f8.3))') ' cgrid_cur: mx,my=',g2%nx,',',g2%ny,', dx,dy=', g2%dx,',',g2%dy
+         call write_log(1, bufout)
+         end associate
       endif
 
       !  - fill in surface inclinations for conformal infl.cf (Blanco approach)
 
       if (mater%gencr_eff.eq.4) then
-         mx   = gd%potcon%mx
-         my   = gd%potcon%my
+         mx   = gd%potcon_inp%mx
+         my   = gd%potcon_inp%my
          gd%mater%ninclin = my
 
          if (allocated(gd%mater%surf_inclin)) deallocate(gd%mater%surf_inclin)
          allocate(gd%mater%surf_inclin(my,2))
          if (idebug.ge.3) call write_log('%   iy     si      ai');
          do iy = 1, my
-            gd%mater%surf_inclin(iy,1) = gd%cgrid%y(iy*mx)
+            gd%mater%surf_inclin(iy,1) = gd%cgrid_inp%y(iy*mx)
             gd%mater%surf_inclin(iy,2) = cp%curv_incln%vy(iy)
             if (idebug.ge.3) then
                write(bufout,'(i6,f8.3,f11.6)') iy, gd%mater%surf_inclin(iy,1), gd%mater%surf_inclin(iy,2)
@@ -402,14 +422,14 @@ contains
          call fric_copy(fric, gd%fric)
       elseif (wtd_ic%is_conformal()) then
          gd%ic%varfrc = 2
-         call fric_interp(fric, gd%potcon%my, cp%curv_incln%vy, gd%fric)
+         call fric_interp(fric, gd%potcon_inp%my, cp%curv_incln%vy, gd%fric)
       else
          gd%ic%varfrc = 0
          call fric_interp(fric, gd%meta%deltcp_w, gd%fric)
       endif
 
       if (idebug.ge.3) then
-         write(bufout,*) ' Using V = ', gd%ic%varfrc,' with NVF =', fric%nvf,' slices'
+         write(bufout,*) ' Using V = ', gd%ic%varfrc,' with NVF =', gd%fric%nvf,' slices'
          call write_log(1, bufout)
       endif
 
@@ -427,7 +447,7 @@ contains
 
       gd%ic%rznorm  = 1
       gd%geom%ibase = 9
-      call reallocate_arr(gd%geom%prmudf, gd%potcon%npot)
+      call reallocate_arr(gd%geom%prmudf, gd%potcon_inp%npot)
 
       gd%kin%pen     =  0d0
 
@@ -476,9 +496,9 @@ contains
                call write_log(1, bufout)
             enddo
 
-            mx   = gd%potcon%mx
-            my   = gd%potcon%my
-            ! write(bufout,*) 'my=',my,', sc1=',gd%cgrid%y(1),', scn=',gd%cgrid%y(mx*my)
+            mx   = gd%potcon_inp%mx
+            my   = gd%potcon_inp%my
+            ! write(bufout,*) 'my=',my,', sc1=',gd%cgrid_inp%y(1),', scn=',gd%cgrid_inp%y(mx*my)
             ! call write_log(1, bufout)
          endif
          end associate
@@ -563,7 +583,7 @@ contains
  800        format(4(a,g14.6))
          endif
 
-         call aggregate_forces(cp, gd%ic, gd%cgrid, gd%kin, gd%mater, gd%outpt1, idebug)
+         call aggregate_forces(cp, gd%ic, gd%cgrid_cur, gd%kin, gd%mater, gd%outpt1, idebug)
 
          if (idebug.ge.2) then
             write(bufout,800) ' total force(cp) =  [', gd%kin%fxrel1,',',gd%kin%fyrel1,',',gd%kin%fntrue,']'

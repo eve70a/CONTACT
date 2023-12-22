@@ -180,6 +180,7 @@ public
       procedure :: use_initial_cp   => ic_use_initial_cp
       procedure :: use_oblique      => ic_use_oblique
       procedure :: use_steep_slopes => ic_use_steep_slopes
+      procedure :: use_supergrid    => ic_use_supergrid
 
       ! c1, config  configuration or composition of wheel/rail problems
       !              0 = wheelset on track, left wheel,
@@ -821,7 +822,7 @@ public
       integer            :: CPid
       integer            :: whl_ver, rail_ver
       integer            :: actv_thrd
-      integer            :: irun, iax, iside, ncase, itforc_out, itforc_inn
+      integer            :: irun, iax, iside, ncase, itforce, itforc_out, itforc_inn
       integer            :: npatch, ipatch
       real(kind=8)       :: tim, s_ws, th_ws, ynom_whl, rnom_whl, rnom_rol
       real(kind=8)       :: x_w, y_w, z_w, roll_w, yaw_w
@@ -840,6 +841,7 @@ public
       ! iax               for Sentient: axle number
       ! iside             for Sentient: side number
       ! ncase             case number for the (REid,CPid)
+      ! itforce           total iteration number: reset in wr_contact, incremented in wr_contact_pos
       ! itforc_out        iteration number for total force outer iteration
       ! itforc_inn        iteration number for total force inner iteration
       ! npatch            number of contact patches, used by module 1
@@ -903,8 +905,10 @@ public
       type(t_scaling)  :: scl    ! scaling factors for the CONTACT library
       type(t_ic)       :: ic     ! integer control digits
       type(t_material) :: mater  ! material-description of the bodies
-      type(t_potcon)   :: potcon ! description of potential contact area
-      type(t_grid)     :: cgrid  ! main discretisation grid for CONTACT
+      type(t_potcon)   :: potcon_inp   ! input values for new potential contact area
+      type(t_potcon)   :: potcon_cur   ! description of potential contact area used at current time
+      type(t_grid)     :: cgrid_inp    ! discretisation grid used during input
+      type(t_grid)     :: cgrid_cur    ! main discretisation grid for CONTACT
       type(t_hertz)    :: hertz  ! Hertzian problem-description
       type(t_geomet)   :: geom   ! geometry-description of the bodies
       type(t_friclaw)  :: fric   ! input parameters of friction law used
@@ -1065,6 +1069,20 @@ contains
       ic_use_steep_slopes = (this%discns1_eff.eq.6)
 
    end function ic_use_steep_slopes
+
+!------------------------------------------------------------------------------------------------------------
+
+   function ic_use_supergrid(this)
+!--function: determine whether to snap the grid to rail profile s_r-coordinates
+      implicit none
+!--result value
+      logical                     :: ic_use_supergrid
+!--subroutine arguments
+      class(t_ic),     intent(in) :: this
+
+      ic_use_supergrid = (this%tang.eq.1 .or. this%tang.eq.2)
+
+   end function ic_use_supergrid
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1283,6 +1301,7 @@ contains
       m%iax        = 0
       m%iside      = 0
       m%ncase      = 0
+      m%itforce    = 0
       m%itforc_out = 0
       m%itforc_inn = 0
       m%npatch     = 0
@@ -2255,15 +2274,17 @@ end subroutine potcon_get_overlap
     ! call scaling_init ( gd%scl )
       call ic_init    ( gd%ic )
       call mater_init   ( gd%mater, gd%ic )
-      call potcon_init  ( gd%potcon )
-      call potcon_cgrid ( gd%potcon, gd%cgrid )
+      call potcon_init  ( gd%potcon_inp )
+      call potcon_init  ( gd%potcon_cur )
+      call potcon_cgrid ( gd%potcon_inp, gd%cgrid_inp )
+      call potcon_cgrid ( gd%potcon_cur, gd%cgrid_cur )
       call hertz_init   ( gd%hertz )
       call geom_init    ( gd%geom )
       call fric_init    ( gd%fric )
-      call kincns_init  ( gd%kin, gd%ic, gd%fric, gd%cgrid%dx )
+      call kincns_init  ( gd%kin, gd%ic, gd%fric, gd%cgrid_cur%dx )
     ! call influe_init  ( gd%influ )
       call solv_init  ( gd%solv )
-      call output_init  ( gd%outpt1, gd%cgrid )
+      call output_init  ( gd%outpt1, gd%cgrid_cur )
       call subsurf_init ( gd%subs )
 
    end subroutine gd_init
@@ -2280,14 +2301,17 @@ end subroutine potcon_get_overlap
       call scaling_copy ( gd_in%scl,    gd_out%scl )
       call ic_copy      ( gd_in%ic,     gd_out%ic )
       call mater_copy   ( gd_in%mater,  gd_out%mater )
-      call potcon_cgrid ( gd_out%potcon, gd_out%cgrid )
+      call potcon_copy  ( gd_in%potcon_inp,  gd_out%potcon_inp )
+      call potcon_copy  ( gd_in%potcon_cur,  gd_out%potcon_cur )
+      call potcon_cgrid ( gd_out%potcon_inp, gd_out%cgrid_inp )
+      call potcon_cgrid ( gd_out%potcon_cur, gd_out%cgrid_cur )
       call hertz_copy   ( gd_in%hertz,  gd_out%hertz )
-      call geom_copy    ( gd_in%geom,   gd_out%geom, gd_out%cgrid )
+      call geom_copy    ( gd_in%geom,   gd_out%geom, gd_out%cgrid_cur )
       call fric_copy    ( gd_in%fric,   gd_out%fric )
       call kincns_copy  ( gd_in%kin,    gd_out%kin )
       call influe_copy  ( gd_in%influ,  gd_out%influ )
       call solv_copy    ( gd_in%solv,   gd_out%solv )
-      call output_copy  ( gd_in%outpt1, gd_out%outpt1, gd_out%cgrid )
+      call output_copy  ( gd_in%outpt1, gd_out%outpt1, gd_out%cgrid_cur )
       call subsurf_copy ( gd_in%subs,   gd_out%subs )
 
    end subroutine gd_copy
@@ -2485,19 +2509,19 @@ end subroutine potcon_get_overlap
       type(t_potcon)   :: pot_new
       type(t_grid)     :: cgrid_new
 
-      call potcon_merge( gd_add%potcon, gd_tot%potcon, pot_new, idebug )
+      call potcon_merge( gd_add%potcon_cur, gd_tot%potcon_cur, pot_new, idebug )
       call potcon_cgrid(pot_new, cgrid_new)
 
       ! enlarge all grid-functions in gd_tot and gd_add to the size of cgrid_new
 
-      call potcon_copy(pot_new, gd_tot%potcon)
-      call potcon_copy(pot_new, gd_add%potcon)
+      call potcon_copy(pot_new, gd_tot%potcon_cur)
+      call potcon_copy(pot_new, gd_add%potcon_cur)
 
-      call gd_resize_gridfunc(gd_tot%ic, gd_tot%cgrid, cgrid_new, gd_tot%geom, gd_tot%outpt1, .true.)
-      call gd_resize_gridfunc(gd_add%ic, gd_add%cgrid, cgrid_new, gd_add%geom, gd_add%outpt1, .true.)
+      call gd_resize_gridfunc(gd_tot%ic, gd_tot%cgrid_cur, cgrid_new, gd_tot%geom, gd_tot%outpt1, .true.)
+      call gd_resize_gridfunc(gd_add%ic, gd_add%cgrid_cur, cgrid_new, gd_add%geom, gd_add%outpt1, .true.)
 
-      call grid_copy(cgrid_new, gd_tot%cgrid)
-      call grid_copy(cgrid_new, gd_add%cgrid)
+      call grid_copy(cgrid_new, gd_tot%cgrid_cur)
+      call grid_copy(cgrid_new, gd_add%cgrid_cur)
       call grid_destroy(cgrid_new)
 
       ! merge grid-functions in geom, outpt using gd_add on left side into gd_tot on right side
@@ -2518,8 +2542,10 @@ end subroutine potcon_get_overlap
    call scaling_destroy ( gd%scl )
    call ic_destroy      ( gd%ic )
    call mater_destroy   ( gd%mater )
-   call potcon_destroy  ( gd%potcon )
-   call grid_destroy    ( gd%cgrid )
+   call potcon_destroy  ( gd%potcon_inp )
+   call potcon_destroy  ( gd%potcon_cur )
+   call grid_destroy    ( gd%cgrid_inp )
+   call grid_destroy    ( gd%cgrid_cur )
    call hertz_destroy   ( gd%hertz )
    call geom_destroy    ( gd%geom )
    call fric_destroy    ( gd%fric )

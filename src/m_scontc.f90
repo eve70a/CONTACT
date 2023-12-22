@@ -32,8 +32,8 @@ private set_dummy_solution
 
 contains
 
-
 !------------------------------------------------------------------------------------------------------------
+
    subroutine contac (gd, ierror)
 !--purpose: Performs calculations for one case. Calls dis, rznorm, rztang, sgencr if this is requested,
 !           and if R=0,1 computes tractions ps and contact area igs.
@@ -46,9 +46,14 @@ contains
       integer  :: ihertz, nerror
       logical  :: is_fastsm, is_roll, is_ssrol
 
-      is_fastsm = gd%ic%mater.eq.2 .or. gd%ic%mater.eq.3
-      is_roll   = gd%ic%tang.eq.2 .or. gd%ic%tang.eq.3
-      is_ssrol  = gd%ic%tang.eq.3
+      associate( potcon_inp => gd%potcon_inp, potcon_cur => gd%potcon_cur, cgrid      => gd%cgrid_cur,  &
+                 meta   => gd%meta,   ic     => gd%ic,     mater  => gd%mater,  hertz  => gd%hertz,     &
+                 geom   => gd%geom,   fric   => gd%fric,   kin    => gd%kin,    influ  => gd%influ,     &
+                 solv   => gd%solv,   outpt1 => gd%outpt1, subs   => gd%subs)
+
+      is_fastsm = ic%mater.eq.2 .or. ic%mater.eq.3
+      is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3
+      is_ssrol  = ic%tang.eq.3
 
       ! check the input for the case
 
@@ -64,104 +69,46 @@ contains
 
       ! compute combined material constants
 
-      call combin_mater(gd%mater)
+      call combin_mater(mater)
 
       ! copy fntrue to fnscal when N=1, Fn prescribed
 
-      if (gd%ic%norm.eq.1) gd%kin%fnscal = gd%kin%fntrue / gd%mater%ga
+      if (ic%norm.eq.1) kin%fnscal = kin%fntrue / mater%ga
 
       ! (re)initialize penv when P=2
 
-      if (gd%ic%pvtime.eq.2) gd%kin%penv = 0d0
+      if (ic%pvtime.eq.2) kin%penv = 0d0
 
-      ! solve Hertzian problem when needed
+      ! solve Hertzian problem when needed, complete potcon_inp
 
-      if (gd%potcon%ipotcn.ge.-5 .and. gd%potcon%ipotcn.le.-1) then
+      if (potcon_inp%ipotcn.ge.-5 .and. potcon_inp%ipotcn.le.-1) then
          if (idebug.ge.5) call write_log('contac: calling hzsol')
-         call hzsol(gd%ic, gd%geom, gd%potcon, gd%hertz, gd%kin, gd%mater)
+         call hzsol(ic, geom, potcon_inp%ipotcn, hertz, kin, mater)
+         call potcon_hertz(hertz, potcon_inp)
       endif
 
       ! M=3: calculate flexibilities L1,L2,L3 from Hertzian contact ellipse
 
-      if (gd%ic%mater.eq.3 .and. gd%potcon%ipotcn.le.-1) then
+      if (ic%mater.eq.3 .and. potcon_inp%ipotcn.le.-1) then
          if (idebug.ge.5) call write_log('contac: calling simpflex')
-         call simpflex(gd%ic, gd%hertz%aa, gd%hertz%bb, gd%mater, gd%fric%fstat(), gd%kin, 0)
+         call simpflex(ic, hertz%aa, hertz%bb, mater, fric%fstat(), kin, 0)
       endif
 
-      ! make new discretisation
+      ! prepare potcon and grid for current time, resize grid-functions as needed
 
-      if (gd%ic%discns3.ge.1) then
-         if (idebug.ge.5) call write_log('contac: calling sdis')
-         call sdis(gd%potcon, gd%hertz, gd%cgrid)
+      if (ic%discns3.ge.1) then
+         if (idebug.ge.5) call write_log(' contac: calling init_curr_grid')
+         call init_curr_grid(ic, potcon_inp, potcon_cur, cgrid, geom, outpt1)
       endif
 
-      ! force CHI = 0 when using visco-elastic materials (T=3, M=1)
+      ! check/enforce requirements on rolling direction/step size
 
-      if (is_ssrol .and. gd%ic%mater.eq.1 .and. abs(gd%kin%chi).gt.0.001d0) then
-         write (bufout, 4002) gd%kin%chi, 'visco-elastic materials'
-         call write_log(2, bufout)
-         gd%kin%chi = 0d0
-      endif
+      call check_roll_stepsize(ic, solv, kin, cgrid)
 
-      if (is_ssrol .and. is_fastsm) then
+      ! cycle grid-functions from current to previous time
 
-         ! set DQ == DX when using steady rolling w. Fastsim (T=3, M=2/3)
-         ! force CHI = 0 or pi when using steady rolling w. Fastsim (T=3, M=2/3)
-
-         gd%kin%dq  = gd%cgrid%dx
-         if (abs(gd%kin%chi).gt.0.01d0 .and. abs(gd%kin%chi-pi).gt.0.01d0) then
-            write (bufout, 4002) gd%kin%chi, 'Fastsim'
-            call write_log(2, bufout)
-            gd%kin%chi = 0d0
-         endif
-
-      elseif ((gd%solv%gausei_eff.ne.2 .and. is_ssrol) .or. gd%ic%mater.eq.4) then
-
-         ! force CHI = 0 or pi when using steady rolling w. SteadyGS (T=3, G<>2) or when M=4 (T=1,3)
-         ! force DQ == DX when using steady rolling w. SteadyGS (T=3, G<>2), also when M=1 (visc.)
-
-         if (abs(gd%kin%chi).gt.0.01d0 .and. abs(gd%kin%chi-pi).gt.0.01d0) then
-            if (gd%ic%ilvout.ge.1) then
-               if (gd%solv%gausei_eff.ne.2 .and. is_ssrol) then
-                  write (bufout, 4002) gd%kin%chi, 'steady state rolling with solver SteadyGS'
-               else
-                  write (bufout, 4002) gd%kin%chi, 'solver ConvexGS with plasticity'
-               endif
-               call write_log(2, bufout)
-            endif
-            gd%kin%chi = 0d0
-         endif
-         if (abs(gd%kin%dq-gd%cgrid%dx).gt.0.01*gd%cgrid%dx) then
-            if (gd%ic%ilvout.ge.1) then
-               if (gd%solv%gausei_eff.ne.2 .and. is_ssrol) then
-                  write (bufout, 4003) gd%cgrid%dx,gd%kin%dq,'steady state rolling with solver SteadyGS'
-               else
-                  write (bufout, 4003) gd%cgrid%dx,gd%kin%dq,'solver ConvexGS with plasticity'
-               endif
-               call write_log(2, bufout)
-            endif
-         endif
-         gd%kin%dq  = gd%cgrid%dx
-      endif
-
- 4002 format (' Input: Warning: using CHI = 0 instead of',f6.1,' rad'/, 17x,                            &
-              'for steady state rolling with ',a,'.')
- 4003 format (' Input: Warning: Using DQ = DX =',g12.4, ' (instead of',g12.4,')', /, 17x,           &
-              'for ',a,'.')
-
-      ! set appropriate chi, dq, veloc for shifts
-
-      if (.not.is_roll) then
-         gd%kin%chi   = 0d0
-         gd%kin%dq    = 1d0
-         gd%kin%veloc = 1d0
-      endif
-
-      ! compute the time step size, with dq in [mm], veloc in [mm/s]
-
-      if (is_roll .or. gd%ic%mater.ne.5) then
-         gd%kin%dt = gd%kin%dq / max(1d-10, gd%kin%veloc)
-      endif
+      if (idebug.ge.5) call write_log(' contac: calling set_prev_time')
+      call set_prev_data(ic, geom, mater, fric, kin, outpt1)
 
       ! calculate influence functions cs, csv
       !  - compute standard infl.cf when C>=1
@@ -169,72 +116,73 @@ contains
       !  - load numerical influence coefficients when C=9
       !     --> overwrite cs,csv when format=0, fill cy when format=1
 
-      if (gd%ic%gencr_inp.ge.1) then
+      if (ic%gencr_inp.ge.1) then
          if (idebug.ge.5) call write_log('contac: calling sgencr')
-         call sgencr (gd%ic, gd%cgrid, gd%mater, gd%influ, gd%fric, gd%kin)
+         call sgencr (ic, cgrid, mater, influ, fric, kin)
       endif
 
-      if (gd%ic%gencr_inp.eq.4 .or. (gd%ic%gencr_inp.eq.1 .and. gd%mater%gencr_eff.eq.4)) then
+      if (ic%gencr_inp.eq.4 .or. (ic%gencr_inp.eq.1 .and. mater%gencr_eff.eq.4)) then
          if (idebug.ge.5) call write_log('contac: calling influe_blanco')
-         call influe_blanco (is_roll, gd%mater%if_meth, gd%mater%if_ver, gd%mater%ninclin,              &
-                             gd%mater%surf_inclin, gd%cgrid, gd%influ)
+         call influe_blanco (is_roll, mater%if_meth, mater%if_ver, mater%ninclin, mater%surf_inclin,    &
+                             cgrid, influ)
       endif
 
-      if (gd%ic%gencr_inp.eq.9 .or. (gd%ic%gencr_inp.eq.1 .and. gd%mater%gencr_eff.eq.9)) then
+      if (ic%gencr_inp.eq.9 .or. (ic%gencr_inp.eq.1 .and. mater%gencr_eff.eq.9)) then
          if (idebug.ge.5) call write_log('contac: calling influe_load')
 
-         call influe_load(gd%mater%fname_influe, gd%meta%dirnam, is_roll, gd%cgrid, gd%influ)
-         call influe_mater(gd%influ, gd%mater)
+         call influe_load(mater%fname_influe, meta%dirnam, is_roll, cgrid, influ)
+         call influe_mater(influ, mater)
 
-         if (gd%ic%x_inflcf.eq.6) then
+         if (ic%x_inflcf.eq.6) then
             write(lout,*) 'Printing influence coefficients cs (instat)'
-            call inflcf_print (gd%influ%cs, lout)
+            call inflcf_print (influ%cs, lout)
          endif
       endif
 
       ! form undeformed distance hs1
 
-      if (gd%ic%rznorm.gt.0) then
-         if (idebug.ge.5) call write_log('contac: calling srznrm')
-         call srznrm (gd%ic, gd%cgrid, gd%geom)
+      if (ic%rznorm.gt.0) then
+         if (idebug.ge.5) call write_log(' contac: calling set_norm_rhs')
+         call set_norm_rhs(cgrid, geom)
+      endif
+
+      ! compute the constant part in the rigid slip, i.e. excluding creepages that are unknown
+      ! note for Fastsim + 3 flexibilities + non-Hertzian: flexibilities not yet filled in
+
+      if (ic%mater.ne.3 .or. potcon_cur%ipotcn.lt.0) then
+         if (idebug.ge.5) call write_log(' contac: calling set_tang_rhs')
+         call set_tang_rhs(ic, mater, cgrid, kin, geom)
       endif
 
       ! set initial traction Ps and previous traction Pv :
 
       ihertz = 0
-      if (gd%potcon%ipotcn.lt.0) ihertz = abs(gd%potcon%ipotcn)
+      if (potcon_cur%ipotcn.lt.0) ihertz = abs(potcon_cur%ipotcn)
 
-      if (idebug.ge.5) call write_log('contac: calling filpvs(1)')
-      call filpvs (gd%ic, gd%hertz, gd%potcon, gd%cgrid, gd%geom, gd%mater, gd%fric, gd%kin,            &
-                gd%outpt1, ihertz)
-
-      ! compute the constant part in the rigid slip, i.e. excluding creepages that are unknown
-      ! note for Fastsim + 3 flexibilities + non-Hertzian: flexibilities not yet filled in
-
-      if (gd%ic%mater.ne.3 .or. gd%potcon%ipotcn.lt.0) then
-         if (idebug.ge.5) call write_log('contac: calling srztng')
-         call srztng (gd%ic, gd%mater, gd%cgrid, gd%kin, gd%geom)
-      endif
+      if (idebug.ge.5) call write_log(' contac: calling init_curr_data')
+      call init_curr_data (ic, hertz, potcon_cur, cgrid, geom, mater, kin, outpt1, ihertz)
 
       ! skip computing part?
 
-      if (gd%ic%return.ge.2) goto 90
+      if (ic%return.le.1) then
 
       ! the computing part :
 
       ! Start the actual solution: Panagiotopoulos process
 
+         ! call write_log('ps-z:')
+         ! call print_fld(outpt1%ps, ikZDIR)
+
       if (idebug.ge.5) call write_log('contac: calling panprc')
-      call panprc (gd%ic, ihertz, gd%mater, gd%potcon, gd%cgrid, gd%influ, gd%fric, gd%kin, gd%solv,    &
-                   gd%outpt1, gd%geom)
+         call panprc (ic, ihertz, mater, potcon_cur, cgrid, influ, fric, kin, solv, outpt1, geom)
 
       ! TODO: fill outputs uv, sv, uplv, taucv, etc. in steady rolling problems
 
       ! Compute surface temperatures
 
-      if (gd%ic%heat.ge.1 .and. gd%fric%frclaw_eff.ne.6) then
+         if (ic%heat.ge.1 .and. fric%frclaw_eff.ne.6) then
          if (idebug.ge.5) call write_log('contac: calling calc_temp')
-         call calc_temp (gd%ic, gd%mater, gd%kin, gd%cgrid, gd%outpt1)
+            call calc_temp (ic, mater, kin, cgrid, outpt1)
       endif
 
       ! Derive quantities like total forces and elastic energy, write output to out-file when O>=1.
@@ -244,25 +192,57 @@ contains
 
       ! Output results to .mat-file if requested
 
-      if (gd%ic%matfil_surf.ge.1) then
-         if (idebug.ge.5) call write_log(' ...scontc: calling writmt')
+         if (ic%matfil_surf.ge.1) then
+            if (idebug.ge.5) call write_log(' contac: calling writmt')
          call timer_start(itimer_files)
-         call writmt (gd%meta, gd%ic, gd%cgrid, gd%potcon%xl, gd%potcon%yl, gd%geom%hs1, gd%mater,      &
-                      gd%fric, gd%kin, gd%outpt1, .false.)
+            call writmt (meta, ic, cgrid, potcon_cur, geom%hs1, mater, fric, kin, outpt1, .false.)
          call timer_stop(itimer_files)
       endif
 
-      ! Compute the subsurface elastic field for points specified in Xb, write output to out-file and subs-file
+         ! Compute the subsurface elastic field for points specified in Xb, write output to out-file
+         ! and subs-file
 
-      if (gd%ic%stress.ge.1) then
+         if (ic%stress.ge.1) then
          if (idebug.ge.5) call write_log('contac: calling subsur')
-         call subsur(gd%meta, gd%ic, gd%mater, gd%cgrid, gd%outpt1%igs, gd%outpt1%ps, .false., gd%subs)
+            call subsur(meta, ic, mater, cgrid, outpt1%igs, outpt1%ps, .false., subs)
       endif
 
       if (idebug.ge.5) call write_log('contac: done, returning')
- 90   continue
 
+      endif ! RETURN <= 1
+
+      end associate
    end subroutine contac
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine print_fld(fld, ikarg)
+      implicit none
+!--subroutine arguments:
+      type(t_gridfnc3) :: fld
+      integer          :: ikarg
+!--local variables:
+      integer      :: ix, iy, ifac
+      real(kind=8) :: absmax, fac
+
+      absmax = gf3_maxabs(AllElm, fld, ikarg)
+      if (absmax.gt.1d-10) then
+         ifac   = int( log10( absmax )) - 1
+         fac    = 10d0**ifac
+      else
+         ifac   = 0
+         fac    = 1d0
+      endif
+      write(bufout,'(a,g12.4,a,i3,a,es9.1)') 'absmax=',absmax,', ifac=',ifac,', fac=',fac
+      call write_log(1, bufout)
+
+      associate(mx => fld%grid%nx, my => fld%grid%ny)
+      do iy = my, 1, -1
+         write(bufout,'(i3,a,20f7.3)') iy,':', (fld%val(ix+(iy-1)*mx,ikarg)/fac, ix=1,min(20,mx))
+         call write_log(1, bufout)
+      enddo
+      end associate
+   end subroutine print_fld
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -275,61 +255,100 @@ contains
       integer, intent(out) :: nerror    ! number of errors found
 !--local variables :
       integer, parameter :: idebug = 0
-      integer :: npot_old
       logical :: zerror
+      integer      :: kofs_x, kofs_y
+      real(kind=8) :: delt_x, delt_y
 
       nerror = 0
       ierror = 0
 
-      if (gd%meta%ncase.le.1 .and. gd%ic%pvtime.le.1) then
-         write(bufout, 2001) gd%ic%iestim
+      associate( ic => gd%ic, meta => gd%meta, geom => gd%geom, cgrid => gd%cgrid_inp, fric => gd%fric )
+
+      if (meta%ncase.le.1 .and. ic%pvtime.le.1) then
+         write(bufout, 2001) ic%iestim
          call write_log(2, bufout)
  2001    format (' WARNING. In the first case contact must be initiated.'/,                            &
                  '          Digit P=',i3,' is overruled, set to 2.')
-         gd%ic%pvtime = 2
+         ic%pvtime = 2
       endif
 
-      if (gd%meta%ncase.le.1 .and. gd%ic%iestim.ne.0 .and. gd%ic%iestim.ne.5) then
-         write (bufout, 2004) gd%ic%iestim
+!     if (meta%ncase.le.1 .and. ic%iestim.ne.0) then
+!        write (bufout, 2004) ic%iestim
+!        call write_log(2, bufout)
+!2004    format (' WARNING. In the first case contact must be initiated.'/,                            &
+!                '          Digit I=', i3,' is overruled, set to 0.')
+!        ic%iestim = 0
+!     endif
+
+      if (ic%pvtime.ne.2 .or. ic%iestim.ne.0) then
+         associate( p0 => gd%potcon_cur, p1 => gd%potcon_inp )
+
+         if (.false. .and. (p1%mx.ne.p0%mx .or. p1%my.ne.p0%my)) then
+            write(bufout, 3005) ic%pvtime, ic%iestim, p0%mx, p0%my, p1%mx, p1%my
          call write_log(2, bufout)
- 2004    format (' WARNING. In the first case contact must be initiated.'/,                            &
-                 '          Digit I=', i3,' is overruled, set to 0.')
-         gd%ic%iestim = 0
+ 3005       format (' WARNING: P=',i3,', I=',i3,', changing the number of elements MX, MY.',/,          &
+                    '                 Old:',2i5,', new:',2i5,'.')
       endif
 
-      if (gd%ic%pvtime.ne.2) then
-         npot_old = size(gd%outpt1%ps%val,1)
-         if (npot_old.ne.gd%cgrid%ntot) then
+         zerror = (abs(p0%dx-p1%dx).ge.1d-6*min(p0%dx, p1%dx) .or.                                      &
+                   abs(p0%dy-p1%dy).ge.1d-6*min(p0%dy, p0%dy))
+
+         if (zerror) then
             nerror = nerror + 1
-            if (ierror.eq.0) ierror = 3001
-            write(bufout, 3001) gd%ic%pvtime, npot_old, gd%cgrid%ntot
+            if (ierror.eq.0) ierror = 3006
+            write(bufout, 3006) ic%pvtime, ic%iestim, p0%dx, p0%dy, p1%dx, p1%dy
             call write_log(2, bufout)
- 3001       format (' ERROR. In the input for a sequence, the number of elements MX, MY',/,            &
-                    '        may not change. P=',i3,', old:',i6,', new:',i6,'.')
+ 3006       format (' ERROR: P=',i3,', I=',i3,', needs fixed grid sizes DX, DY.',/,                     &
+                    '          Old:',2g12.4,', new:',2g12.4,'.')
          endif
+
+         delt_x = p1%xc1 - p0%xc1
+         delt_y = p1%yc1 - p0%yc1
+         kofs_x = nint( delt_x / p1%dx )
+         kofs_y = nint( delt_y / p1%dy )
+         zerror = (abs(delt_x-kofs_x*p1%dx).ge.1d-6*p1%dx .or. abs(delt_y-kofs_y*p1%dy).ge.1d-6*p1%dy)
+
+         if (zerror) then
+            nerror = nerror + 1
+            if (ierror.eq.0) ierror = 3006
+            write(bufout, 3007) ic%pvtime, ic%iestim, delt_x, delt_y, p1%dx, p1%dy
+            call write_log(2, bufout)
+ 3007       format (' ERROR: P=',i3,', I=',i3,', grid offset DELTX =',g12.4,', DELTY =',g12.4, /,       &
+                    '        must be multiples of DX =',g12.4,', DY =',g12.4)
       endif
 
-      if (gd%ic%iestim.ne.0) then
-         npot_old = size(gd%outpt1%ps%val,1)
-         if (npot_old.ne.gd%cgrid%ntot) then
-            write(bufout, 3006) npot_old, gd%cgrid%ntot, gd%ic%iestim
-            call write_log(2, bufout)
- 3006       format (' WARNING. When the number of elements MX, MY changes (old:',i6,',',/,             &
-                    '          new:',i6,'), the initial estimate cannot be used.  I=',i3,'.')
-            gd%ic%iestim = 0
+         end associate
+      endif ! P<>2 or I>0
+
+      if (ic%discns3.ne.0 .and. ic%gencr_inp.eq.0 .and.                                                 &
+          (.not.check_equal('new DX', gd%potcon_inp%dx, 'old DX', gd%influ%cs%dx, 1d-4, .false.) .or.   &
+           .not.check_equal('new DY', gd%potcon_inp%dy, 'old DY', gd%influ%cs%dy, 1d-4, .false.))) then
+         nerror = nerror + 1
+         if (ierror.eq.0) ierror = 3010
+         write(bufout, 3010) ic%discns3, ic%gencr_inp
+         call write_log(1, bufout)
+ 3010    format (' ERROR. New DX, DY need new influence functions, digits D, C=', 2i3,'.')
          endif
+
+      if (ic%discns3.ne.0 .and. ic%gencr_inp.eq.0 .and.                                                 &
+          (gd%potcon_inp%mx.gt.gd%influ%cs%cf_mx .or. gd%potcon_inp%my.gt.gd%influ%cs%cf_my)) then
+         nerror = nerror + 1
+         if (ierror.eq.0) ierror = 3011
+         write(bufout, 3011) ic%discns3, ic%gencr_inp
+         call write_log(1, bufout)
+ 3011    format (' ERROR. A larger pot.contact needs new influence functions, digits D, C=', 2i3,'.')
       endif
 
-      if (gd%fric%nvf.ne.1 .and. gd%fric%nvf.ne.gd%cgrid%ny) then
+      if (fric%nvf.ne.1 .and. fric%nvf.ne.cgrid%ny) then
          nerror = nerror + 1
          if (ierror.eq.0) ierror = 4001
-         write(bufout, 4001) gd%fric%nvf, gd%cgrid%ny
+         write(bufout, 4001) fric%nvf, cgrid%ny
          call write_log(1, bufout)
  4001    format (' Internal ERROR. The number of friction values NVF =',i6,' must be 1 or MY = ', i6,'.')
       endif
 
-      if (gd%geom%iplan.eq.4) then
-         zerror = .not.check_sorted( 'YSEP', gd%geom%npatch-1, gd%geom%ysep, .true. )
+      if (geom%iplan.eq.4) then
+         zerror = .not.check_sorted( 'YSEP', geom%npatch-1, geom%ysep, .true. )
          if (zerror) then
             nerror = nerror + 1
             if (ierror.eq.0) ierror = 5001
@@ -337,6 +356,7 @@ contains
          endif
       endif
 
+      end associate
    end subroutine check_case
 
 !------------------------------------------------------------------------------------------------------------
@@ -427,8 +447,8 @@ contains
 
             ! fill the constant part in the rigid slip
 
-            if (idebug.ge.5) call write_log('panprc: calling srztng')
-            call srztng(ic, mater, cgrid, kin, geom)
+            if (idebug.ge.5) call write_log('panprc: calling set_tang_rhs')
+            call set_tang_rhs(ic, mater, cgrid, kin, geom)
          endif
 
          ! In steady state problems, copy element division igs to igv
@@ -548,14 +568,12 @@ contains
 !--subroutine arguments:
       type(t_probdata) :: gd
 
-      ! assuming that the grid data are ok
+      ! assuming that the potcon data are ok
 
-      call sdis(gd%potcon, gd%hertz, gd%cgrid)
+      call init_curr_grid(gd%ic, gd%potcon_inp, gd%potcon_cur, gd%cgrid_cur, gd%geom, gd%outpt1)
+      call set_prev_data(gd%ic, gd%geom, gd%mater, gd%fric, gd%kin, gd%outpt1)
 
-      call eldiv_new(gd%outpt1%igs, gd%cgrid)
       call eldiv_exter(gd%outpt1%igs)
-
-      call gf3_new(gd%outpt1%ps, 'outpt%ps', gd%cgrid, gd%outpt1%igs)
       call gf3_set(AllElm, 0d0, gd%outpt1%ps, ikALL)
 
    end subroutine set_dummy_solution

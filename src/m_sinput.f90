@@ -22,17 +22,19 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine input (inp, linenr, meta, ic, potcon, mater, hz, cgrid, geom, fric, kin, solv, subs)
+   subroutine input (inp, linenr, meta, ic, potcon_inp, potcon_eff, mater, hz, cgrid, geom, infl,       &
+                        fric, kin, solv, subs)
 !--purpose: Input-routine for the Non-Hertzian case. Read all problem variables, unpack, and test.
       implicit none
 !--subroutine parameters:
       integer          :: inp, linenr
       type(t_metadata) :: meta
       type(t_ic)       :: ic
-      type(t_potcon)   :: potcon
+      type(t_potcon)   :: potcon_inp, potcon_eff
       type(t_hertz)    :: hz
       type(t_grid)     :: cgrid
       type(t_geomet)   :: geom
+      type(t_influe)   :: infl
       type(t_material) :: mater
       type(t_friclaw)  :: fric
       type(t_kincns)   :: kin
@@ -43,9 +45,9 @@ contains
       logical, parameter :: lstop  = .true.
       type(t_ic)     :: icold
       integer        :: ncase, vldcmze, xgiaowr, pbtnfs, psflrin, nval, ieof, ierror
-      integer        :: ii, iof, ip, j, k, line0, idebug, mxold, myold, nn, npot
+      integer        :: ii, iof, ip, j, k, line0, idebug, nn, npot, kofs_x, kofs_y
       logical        :: z, zerror, is_roll, is_ssrol, was_roll, flags(mxnval)
-      real(kind=8)   :: akeff
+      real(kind=8)   :: akeff, delt_x, delt_y
       integer        :: ints(mxnval), idum(1)
       real(kind=8)   :: dbles(mxnval)
       real(kind=8), dimension(:), allocatable :: tmp
@@ -171,20 +173,11 @@ contains
 
       ! Check consistency between consecutive cases
 
-      if (ic%discns3.ne.0 .and. ic%gencr_inp.eq.0) then
-         zerror = .true.
-         write(lout, 2011) ic%discns3, ic%gencr_inp
-         write(   *, 2011) ic%discns3, ic%gencr_inp
- 2011    format (' Input: ERROR. A new discretisation needs new influence functions'/,                 &
-                 '               Digits D, C=', 2i3)
-      endif
-
       if (ic%discns3.ne.0 .and. ic%rznorm.eq.0) then
          zerror = .true.
          write(lout, 2012) ic%discns3, ic%rznorm
          write(   *, 2012) ic%discns3, ic%rznorm
- 2012    format (' Input: ERROR. A new discretisation needs new undef. distances'/,                    &
-                 '               Digits D, Z=', 2i3)
+ 2012    format (' Input: ERROR. A new discretisation needs new undeformed distances, digits D, Z=', 2i3,'.')
       endif
 
       if (is_ssrol .and. ic%pvtime.ne.2) then
@@ -674,140 +667,182 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if (ic%discns3.eq.2) then
-         mxold = potcon%mx
-         myold = potcon%my
          call readline(linp, ncase, linenr, 'specification method for potential contact area',          &
                        'i', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
-         potcon%ipotcn = ints(1)
+         potcon_inp%ipotcn = ints(1)
 
-         if (potcon%ipotcn.ge.-5 .and. potcon%ipotcn.le.-1) then
+         if (potcon_inp%ipotcn.ge.-5 .and. potcon_inp%ipotcn.le.-1) then
 
          ! Hertzian options for potential contact:
 
             call readline(linp, ncase, linenr, 'properties of potential contact area',                  &
                           'iiddd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
-            potcon%mx = ints(1)
-            potcon%my = ints(2)
-            if (potcon%ipotcn.eq.-1) then
+
+            potcon_inp%mx = ints(1)
+            potcon_inp%my = ints(2)
+            potcon_inp%npot = potcon_inp%mx * potcon_inp%my
+
+            if (potcon_inp%ipotcn.eq.-1) then
                hz%a1   = dbles(1)
                hz%b1   = dbles(2)
-            elseif (potcon%ipotcn.eq.-2) then
+            elseif (potcon_inp%ipotcn.eq.-2) then
                hz%a1   = dbles(1)
                hz%aob  = dbles(2)
-            elseif (potcon%ipotcn.eq.-3) then
+            elseif (potcon_inp%ipotcn.eq.-3) then
                hz%aa   = dbles(1)
                hz%bb   = dbles(2)
-            elseif (potcon%ipotcn.eq.-4) then
+            elseif (potcon_inp%ipotcn.eq.-4) then
                hz%a1   = dbles(1)
                hz%bb   = dbles(2)
-            elseif (potcon%ipotcn.eq.-5) then
+            elseif (potcon_inp%ipotcn.eq.-5) then
                hz%aa   = dbles(1)
                hz%bb   = dbles(2)
             endif
             hz%scale = dbles(3)
 
-         elseif (potcon%ipotcn.eq.-6) then
+         elseif (potcon_inp%ipotcn.eq.-6) then
 
          ! SDEC option for potential contact:
 
             call readline(linp, ncase, linenr, 'properties of SDEC contact area',                       &
                           'iidddd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
-            potcon%mx = ints(1)
-            potcon%my = ints(2)
+
+            potcon_inp%mx = ints(1)
+            potcon_inp%my = ints(2)
+            potcon_inp%npot = potcon_inp%mx * potcon_inp%my
             hz%aa     = dbles(1)
             hz%bpos   = dbles(2)
             hz%bneg   = dbles(3)
             hz%scale  = dbles(4)
 
-         elseif (potcon%ipotcn.ge.1 .and. potcon%ipotcn.le.4) then
+         elseif (potcon_inp%ipotcn.ge.1 .and. potcon_inp%ipotcn.le.4) then
 
          ! Non-Hertzian options for potential contact:
 
             call readline(linp, ncase, linenr, 'properties of potential contact area',                  &
                           'iidddd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
-            potcon%mx = ints(1)
-            potcon%my = ints(2)
-            if (potcon%ipotcn.eq.1 .or. potcon%ipotcn.eq.2) then
-               potcon%xl = dbles(1)
-               potcon%yl = dbles(2)
-            elseif (potcon%ipotcn.eq.3 .or. potcon%ipotcn.eq.4) then
-               potcon%xc1 = dbles(1)
-               potcon%yc1 = dbles(2)
+
+            potcon_inp%mx = ints(1)
+            potcon_inp%my = ints(2)
+            potcon_inp%npot = potcon_inp%mx * potcon_inp%my
+
+            if (potcon_inp%ipotcn.eq.1 .or. potcon_inp%ipotcn.eq.2) then
+               potcon_inp%xl = dbles(1)
+               potcon_inp%yl = dbles(2)
+            elseif (potcon_inp%ipotcn.eq.3 .or. potcon_inp%ipotcn.eq.4) then
+               potcon_inp%xc1 = dbles(1)
+               potcon_inp%yc1 = dbles(2)
             endif
-            if (potcon%ipotcn.eq.1 .or. potcon%ipotcn.eq.3) then
-               potcon%dx = dbles(3)
-               potcon%dy = dbles(4)
-            elseif (potcon%ipotcn.eq.2) then
-               potcon%xh = dbles(3)
-               potcon%yh = dbles(4)
-            elseif (potcon%ipotcn.eq.4) then
-               potcon%xcm = dbles(3)
-               potcon%ycm = dbles(4)
+            if (potcon_inp%ipotcn.eq.1 .or. potcon_inp%ipotcn.eq.3) then
+               potcon_inp%dx = dbles(3)
+               potcon_inp%dy = dbles(4)
+            elseif (potcon_inp%ipotcn.eq.2) then
+               potcon_inp%xh = dbles(3)
+               potcon_inp%yh = dbles(4)
+            elseif (potcon_inp%ipotcn.eq.4) then
+               potcon_inp%xcm = dbles(3)
+               potcon_inp%ycm = dbles(4)
             endif
          endif
 
-         potcon%npot = potcon%mx * potcon%my
+         zerror = zerror .or. .not.check_2rng('IPOTCN', potcon_inp%ipotcn, -6, -1, 1, 4)
 
-         zerror = zerror .or. .not.check_2rng('IPOTCN', potcon%ipotcn, -6, -1, 1, 4)
-
-         if (ic%pvtime.ne.2 .and. (potcon%mx.ne.mxold .or. potcon%my.ne.myold)) then
+         if (potcon_inp%mx.le.0 .or. potcon_inp%my.le.0 .or. potcon_inp%npot.gt.NPO) then
             zerror = .true.
-            write(lout, 3001) ic%pvtime, mxold, myold, potcon%mx, potcon%my
-            write(   *, 3001) ic%pvtime, mxold, myold, potcon%mx, potcon%my
- 3001       format (' Input: ERROR in the input for a sequence, the number of elements MX, MY',/,      &
-                    '              may not change.  P=',i3,', old:',2i5,', new:',2i5,'.')
-         endif
-
-         if (ic%iestim.ne.0 .and. (potcon%mx.ne.mxold .or. potcon%my.ne.myold)) then
-            zerror = .true.
-            write(lout, 3002) mxold, myold, potcon%mx, potcon%my, ic%iestim
-            write(   *, 3002) mxold, myold, potcon%mx, potcon%my, ic%iestim
- 3002       format (' Input: ERROR when the number of elements MX, MY changes (old:',2i5,',',/,        &
-                    '              new:',2i5,'), the initial estimate cannot be used.  I=',i3,'.')
-         endif
-
-         z = potcon%mx.le.0 .or. potcon%my.le.0 .or. potcon%npot.gt.NPO
-         if (z) then
-            zerror = .true.
-            write(lout, 3003) potcon%mx, potcon%my, NPO
-            write(   *, 3003) potcon%mx, potcon%my, NPO
+            write(lout, 3003) potcon_inp%mx, potcon_inp%my, NPO
+            write(   *, 3003) potcon_inp%mx, potcon_inp%my, NPO
  3003       format (' Input: ERROR in the input for Dis, pot.con. too large',/,                        &
                     '              Mx * My > NPO : ',2i5,i8)
          endif
 
-         if (potcon%ipotcn.eq.-6) then
+         if (potcon_inp%ipotcn.eq.-6) then
             zerror = zerror .or. .not.check_range ('BPOS', hz%bpos, 1d-8, 1d20)
             zerror = zerror .or. .not.check_range ('BNEG', hz%bneg, 1d-8, 1d20)
          endif
 
-         if (potcon%ipotcn.eq.1 .or. potcon%ipotcn.eq.3) then
-            zerror = zerror .or. .not.check_range ('DX', potcon%dx, 1d-8, 1d20)
-            zerror = zerror .or. .not.check_range ('DY', potcon%dy, 1d-8, 1d20)
+         if (potcon_inp%ipotcn.eq.1 .or. potcon_inp%ipotcn.eq.3) then
+            zerror = zerror .or. .not.check_range ('DX', potcon_inp%dx, 1d-8, 1d20)
+            zerror = zerror .or. .not.check_range ('DY', potcon_inp%dy, 1d-8, 1d20)
          endif
 
-         if (potcon%ipotcn.eq.2) then
-            zerror = zerror .or. .not.check_smaller ('XL', potcon%xl , 'XH', potcon%xh)
-            zerror = zerror .or. .not.check_smaller ('YL', potcon%yl , 'YH', potcon%yh)
+         if (potcon_inp%ipotcn.eq.2) then
+            zerror = zerror .or. .not.check_smaller ('XL', potcon_inp%xl , 'XH', potcon_inp%xh)
+            zerror = zerror .or. .not.check_smaller ('YL', potcon_inp%yl , 'YH', potcon_inp%yh)
          endif
 
-         if (potcon%ipotcn.eq.4) then
-            zerror = zerror .or. .not.check_smaller ('XC1', potcon%xc1, 'XCM', potcon%xcm)
-            zerror = zerror .or. .not.check_smaller ('YC1', potcon%yc1, 'YCM', potcon%ycm)
+         if (potcon_inp%ipotcn.eq.4) then
+            zerror = zerror .or. .not.check_smaller ('XC1', potcon_inp%xc1, 'XCM', potcon_inp%xcm)
+            zerror = zerror .or. .not.check_smaller ('YC1', potcon_inp%yc1, 'YCM', potcon_inp%ycm)
          endif
+
+         ! complete inputs for non-Hertzian cases
+
+         if (potcon_inp%ipotcn.ge.1 .and. .not.zerror) call potcon_fill( potcon_inp )
+
+         ! check whether previous and current grids are matching
+
+         if (.not.zerror .and. (ic%pvtime.ne.2 .or. ic%iestim.ne.0)) then
+
+            associate( p0 => potcon_eff, p1 => potcon_inp )
+
+            zerror = (abs(p0%dx-p1%dx).ge.1d-6*min(p0%dx, p1%dx) .or.                                   &
+                      abs(p0%dy-p1%dy).ge.1d-6*min(p0%dy, p0%dy))
+
+            if (zerror) then
+               write(lout, 3006) ic%pvtime, ic%iestim, p0%dx, p0%dy, p1%dx, p1%dy
+               write(   *, 3006) ic%pvtime, ic%iestim, p0%dx, p0%dy, p1%dx, p1%dy
+ 3006          format (' Input: ERROR: P=',i3,', I=',i3,', needs fixed grid sizes DX, DY.',/,           &
+                       '                 Old:',2g12.4,', new:',2g12.4,'.')
+            endif
+
+            delt_x = p1%xc1 - p0%xc1
+            delt_y = p1%yc1 - p0%yc1
+            kofs_x = nint( delt_x / p1%dx )
+            kofs_y = nint( delt_y / p1%dy )
+            zerror = (abs(delt_x-kofs_x*p1%dx).ge.1d-6*p1%dx .or. abs(delt_y-kofs_y*p1%dy).ge.1d-6*p1%dy)
+
+            if (zerror) then
+               write(lout, 3007) ic%pvtime, ic%iestim, delt_x, delt_y, p1%dx, p1%dy
+               write(   *, 3007) ic%pvtime, ic%iestim, delt_x, delt_y, p1%dx, p1%dy
+ 3007          format (' Input: ERROR: P=',i3,', I=',i3,', grid offsets DELTX =',g12.4,', DELTY =',g12.4, /, &
+                       '               must be integer multiples of DX  =',g12.4,', DY    =',g12.4)
+            endif
+
+            end associate
+         endif ! P<>2 or I>0
 
       endif ! ic%discns3.eq.2
 
+      ! re-use of influence coefficients
+
+      if (ic%discns3.ne.0 .and. ic%gencr_inp.eq.0 .and.                                                 &
+          (.not.check_equal('new DX', potcon_inp%dx, 'old DX', infl%cs%dx, 1d-4, .false.) .or.          &
+           .not.check_equal('new DY', potcon_inp%dy, 'old DY', infl%cs%dy, 1d-4, .false.))) then
+         zerror = .true.
+         write(lout, 3010) ic%discns3, ic%gencr_inp
+         write(   *, 3010) ic%discns3, ic%gencr_inp
+ 3010    format (' Input: ERROR. New DX, DY need new influence functions, digits D, C=', 2i3,'.')
+      endif
+
+      if (ic%discns3.ne.0 .and. ic%gencr_inp.eq.0 .and.                                                 &
+          (potcon_inp%mx.gt.infl%cs%cf_mx .or. potcon_inp%my.gt.infl%cs%cf_my)) then
+         zerror = .true.
+         write(lout, 3011) ic%discns3, ic%gencr_inp
+         write(   *, 3011) ic%discns3, ic%gencr_inp
+ 3011    format (' Input: ERROR. A larger pot.contact needs new influence functions, digits D, C=', 2i3,'.')
+      endif
+
       ! combinations of ipotcn and ibound
 
-      if (potcon%ipotcn.ge.1 .and. ic%bound.ge.2 .and. ic%bound.le.3) then
+      if (potcon_inp%ipotcn.ge.1 .and. ic%bound.ge.2 .and. ic%bound.le.3) then
          zerror = .true.
-         write(lout, 3012) ic%bound, potcon%ipotcn
-         write(   *, 3012) ic%bound, potcon%ipotcn
+         write(lout, 3012) ic%bound, potcon_inp%ipotcn
+         write(   *, 3012) ic%bound, potcon_inp%ipotcn
  3012    format (' Input: ERROR. Option BOUND=',i2,' requires that a Hertzian option for the geometry', &
                  ' is used (IPOTCN=',i3,').')
       endif
 
-      if (potcon%ipotcn.eq.-6 .and. ic%bound.ne.4) then
+      if (potcon_inp%ipotcn.eq.-6 .and. ic%bound.ne.4) then
          zerror = .true.
          write(lout, 3013) ic%bound
          write(   *, 3013) ic%bound
@@ -815,35 +850,35 @@ contains
                  '               is required (BOUND=',i3,').')
       endif
 
-      if (ic%bound.eq.4 .and. potcon%ipotcn.ne.-6) then
+      if (ic%bound.eq.4 .and. potcon_inp%ipotcn.ne.-6) then
          zerror = .true.
-         write(lout, 3014) potcon%ipotcn
-         write(   *, 3014) potcon%ipotcn
+         write(lout, 3014) potcon_inp%ipotcn
+         write(   *, 3014) potcon_inp%ipotcn
  3014    format (' Input: ERROR. If BOUND=4 is used, the SDEC option for the geometry is ',/,           &
                  '               required (IPOTCN=',i3,').')
       endif
 
       ! checks on ipotcn
 
-      if (potcon%ipotcn.ge.-5 .and. potcon%ipotcn.le.-4 .and. ic%norm.ne.1) then
+      if (potcon_inp%ipotcn.ge.-5 .and. potcon_inp%ipotcn.le.-4 .and. ic%norm.ne.1) then
          zerror = .true.
-         write(lout, 3021) potcon%ipotcn
-         write(   *, 3021) potcon%ipotcn
+         write(lout, 3021) potcon_inp%ipotcn
+         write(   *, 3021) potcon_inp%ipotcn
  3021    format (' Input: ERROR. Rectangular (2D) Hertzian contacts (IPOTCN=',i3,') require N=1.')
       endif
 
-      if (potcon%ipotcn.ge.-5 .and. potcon%ipotcn.le.-4 .and. ic%norm.eq.1 .and.                        &
+      if (potcon_inp%ipotcn.ge.-5 .and. potcon_inp%ipotcn.le.-4 .and. ic%norm.eq.1 .and.                        &
                                                              ic%bound.ge.2 .and. ic%bound.le.3) then
-         write(lout, 3022) potcon%ipotcn, ic%bound
-         write(   *, 3022) potcon%ipotcn, ic%bound
+         write(lout, 3022) potcon_inp%ipotcn, ic%bound
+         write(   *, 3022) potcon_inp%ipotcn, ic%bound
  3022    format (' Input: WARNING. Rectangular (2D) Hertzian contacts (IPOTCN=',i3,                     &
                 ') do not compute the approach when B=',i1,'.')
       endif
 
-      if (potcon%ipotcn.ge.-5 .and. potcon%ipotcn.le.-1 .and. ic%norm.eq.0 .and. kin%pen.lt.0d0) then
+      if (potcon_inp%ipotcn.ge.-5 .and. potcon_inp%ipotcn.le.-1 .and. ic%norm.eq.0 .and. kin%pen.lt.0d0) then
          zerror = .true.
-         write(lout, 3023) potcon%ipotcn, kin%pen
-         write(   *, 3023) potcon%ipotcn, kin%pen
+         write(lout, 3023) potcon_inp%ipotcn, kin%pen
+         write(   *, 3023) potcon_inp%ipotcn, kin%pen
  3023    format (' Input: ERROR. When using a Hertzian option for the geometry (IPOTCN=',i3,'),',/,     &
                  '               PEN must be positive (value=',g12.4,').')
       endif
@@ -875,13 +910,13 @@ contains
 
       ! update the dimensions mx,my of the contact grid, for use in grid-functions like exrhs below
 
-      call grid_set_dimens(cgrid, potcon%mx, potcon%my)
+      call grid_set_dimens(cgrid, potcon_inp%mx, potcon_inp%my)
 
       !------------------------------------------------------------------------------------------------------
       ! read parameters of the undeformed distance
       !------------------------------------------------------------------------------------------------------
 
-      if (ic%rznorm.eq.2 .and. potcon%ipotcn.lt.0) then
+      if (ic%rznorm.eq.2 .and. potcon_inp%ipotcn.lt.0) then
 
          ! Hertzian option: using quadratic undeformed distance,
          ! coeff. prmudf(1) and prmudf(3) determined from Hertz solution
@@ -932,7 +967,7 @@ contains
 
          elseif (geom%ibase.eq.9) then
 
-            npot = potcon%mx * potcon%my
+            npot = potcon_inp%npot
             call reallocate_arr(geom%prmudf, npot+10)
 
             call read1darr(linp, ncase, linenr, 'undeformed distance in all elements', 'd',             &
@@ -1051,7 +1086,7 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if (ic%frclaw_inp.ne.1 .and. ic%varfrc.eq.2) then
-         call fric_input(linp, ncase, linenr, ic%varfrc, ic%frclaw_inp, potcon%my, fric, idebug,        &
+         call fric_input(linp, ncase, linenr, ic%varfrc, ic%frclaw_inp, potcon_inp%my, fric, idebug,        &
                 ieof, lstop, zerror)
       endif
 
@@ -1069,12 +1104,12 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if (ic%rztang.eq.9) then
-         npot = potcon%mx * potcon%my
 
          ! re-allocate exrhs at the appropriate size
 
          call gf3_new(geom%exrhs, 'geom%exrhs', cgrid)
 
+         npot = potcon_inp%npot
          allocate(tmp(2*npot))
          call read1darr(linp, ncase, linenr, 'extra term in rigid slip of elements', 'd', 2*npot,       &
                            idum, tmp, idebug, lstop, ierror)

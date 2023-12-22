@@ -26,13 +26,13 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine hzsol(ic, geom, pot, hz, kin, mater)
+subroutine hzsol(ic, geom, ipotcn, hz, kin, mater)
 !--purpose: Driver-routine to compute the Hertz-solution, using hzcalc3d directly or through elliptic_to_curv
    implicit none
 !--subroutine arguments:
    type(t_ic)       :: ic
    type(t_geomet)   :: geom
-   type(t_potcon)   :: pot
+   integer          :: ipotcn
    type(t_hertz)    :: hz
    type(t_kincns)   :: kin
    type(t_material) :: mater
@@ -43,7 +43,7 @@ subroutine hzsol(ic, geom, pot, hz, kin, mater)
 
    e_star = mater%ga / (1d0 - mater%nu)
 
-   if (pot%ipotcn.eq.-4 .or. pot%ipotcn.eq.-5) then
+   if (ipotcn.eq.-4 .or. ipotcn.eq.-5) then
 
       ! Finite line contact: 2d Hertz calculation
 
@@ -52,9 +52,9 @@ subroutine hzsol(ic, geom, pot, hz, kin, mater)
          call abort_run()
       endif
 
-      call hzcalc2d (pot%ipotcn, hz%a1, hz%aa, hz%b1, hz%bb, hz%cp, hz%rho, kin%fntrue, e_star)
+      call hzcalc2d (ipotcn, hz%a1, hz%aa, hz%b1, hz%bb, hz%cp, hz%rho, kin%fntrue, e_star)
 
-   elseif (pot%ipotcn.eq.-2) then
+   elseif (ipotcn.eq.-2) then
 
       ! Curvature+ellipticity prescribed: use an iterative root-finding algorithm
 
@@ -66,14 +66,14 @@ subroutine hzsol(ic, geom, pot, hz, kin, mater)
 
       ! Point contact, curvatures or semi-axes prescribed: 3d Hertz calculation
 
-      call hzcalc3d (e_star, epshz, pot%ipotcn, hz%a1, hz%b1, hz%aa, hz%bb, ic%norm, kin%pen,           &
+      call hzcalc3d (e_star, epshz, ipotcn, hz%a1, hz%b1, hz%aa, hz%bb, ic%norm, kin%pen,           &
                      kin%fntrue, hz%cp, hz%rho)
 
    endif
 
    ! Compute aa/bb, allowing for aa, bb >= 0
 
-   if (pot%ipotcn.ne.-2) then
+   if (ipotcn.ne.-2) then
       if (hz%aa.le.tiny .and. hz%bb.le.tiny) then
          hz%aob = 1d0
       else
@@ -1106,15 +1106,16 @@ subroutine simpflex(ic, aa, bb, mater, fstat, kin, idebug)
       call write_log(1, bufout)
    endif
 
-   ! compute combined flexibility L_crss
-
    if (ic%force3.le.0) then
+
+      ! compute combined flexibility L_crss -- obtained setting cross terms \eta\phi = 0
+
       f3 = 8d0 * aa / 3d0
       f4 = pi * aa**2 / 4d0
       l_crss = (cksi**2 + ceta**2 + (cphi*f4/f3)**2) /                                                  &
                            (cksi**2/flx(1) + ceta**2/flx(2) + (cphi*f4/f3)**2/flx(3))
 
-      ! apply blending approach from 3 to 1 flexibilities
+      ! apply blending approach, gradually shifting from 3 flexibilities to 1 flexibility at large creepage
 
       f_crp  = sqrt( (cksi**2 + ceta**2 + cphi**2) / (ch_ksi**2 + ch_eta**2 + ch_phi**2) )
       f_wgt  = min(1d0, max(0d0, (f_crp - 0d0)/(3d0 - 0d0) ))

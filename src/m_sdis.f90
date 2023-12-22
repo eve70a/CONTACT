@@ -13,143 +13,316 @@ module m_sdis
    implicit none
    private
 
-   public  sdis
-   public  srznrm
-   public  filpvs
+   public  init_curr_grid
+   private create_gd_gridfunc
+   public  check_roll_stepsize
+   public  set_prev_data
+   public  set_norm_rhs
+   public  set_tang_rhs
+   public  init_curr_data
+   private sdec_pn
    private eldiv0
-   public  srztng
 
 contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine sdis(p, hz, cgrid)
-!--purpose: Initialize variables concerning the discretisation. Especially the coordinates of the points
-!           are computed, and the arrays Ix and Iy are formed, which tell on which column and row element
-!           ii lies.
+   subroutine init_curr_grid(ic, potcon_inp, potcon_cur, cgrid, geom, outpt)
+!--purpose: prepare potcon and grid for current time, resize grid-functions correspondingly
       implicit none
 !--subroutine arguments:
-      type(t_potcon) :: p
-      type(t_hertz)  :: hz
+      type(t_ic)       :: ic
+      type(t_potcon)   :: potcon_inp, potcon_cur
       type(t_grid)   :: cgrid
+      type(t_geomet)   :: geom
+      type(t_output)   :: outpt
 !--local variables :
-      integer mypotcn, n_int
+      type(t_grid)     :: cgrid_new
 
-      ! call timer_start(itimer_sdis)
+      ! if "previous time" won't be needed:
 
-      ! ipotcn = -6: the potential contact must be derived from the SDEC parameters
+      if (ic%pvtime.eq.2 .and. ic%iestim.eq.0) then
 
-      if (p%ipotcn.eq.-6) then
+         ! copy inputs, construct contact grid for current time (uniform grid for element centers)
 
-         hz%bb = 0.5d0 * (hz%bneg + hz%bpos)
-         p%xl = -hz%scale * max(1d-9, hz%aa)
-         p%yl = -hz%scale * max(1d-9, hz%bb)
-         p%xh = -p%xl
-         p%yh = -p%yl
-         mypotcn = 2
+         ! call write_log(' init_curr_grid: create new grid, gridfnc...')
+         call potcon_copy(potcon_inp, potcon_cur)
+         call potcon_cgrid(potcon_cur, cgrid)
 
-      ! ipotcn = -5..-4: potential contact derived from 2D Hertzian solution computed by hzsol.
+         ! create (reallocate) grid-functions used in hierarchical data-structure
 
-      elseif (p%ipotcn.le.-4) then
-
-         p%xl = -hz%scale * max(1d-9, hz%aa)
-         p%xh = -p%xl
-         p%dx = (p%xh - p%xl) / p%mx
-
-         ! let my == (n_int + n_ext) \approx scale * n_int
-         ! choose dy such that n_int * dy is precisely 2 * bb
-         ! when scale<1 set n_ext = 0
-         ! use even n_ext, avoid n_int<1 for large scale
-
-         if (hz%scale.le.1d0) then
-            n_int = p%my
-         else
-            n_int = max(1, nint(p%my / hz%scale))
-            if (mod(p%my-n_int,2).eq.1) n_int = n_int  + 1
-         endif
-
-         p%dy = 2d0*max(1d-9,hz%bb) / n_int 
-         p%yl = -p%my*p%dy / 2d0
-         p%yh = -p%yl
-         mypotcn = 2
-
-         if (.false.) then
-            write(bufout,'(a,i6,a,f6.3,a,2i4)') ' my=',p%my,', scale=',hz%scale,': n_int, n_ext=',n_int, &
-                           p%my-n_int
-            call write_log(1, bufout)
-            write(bufout,'(a,f6.3,a,f7.1,a,f6.1)') ' dy=',p%dy,', 2*bb=',2*hz%bb,', n_int*dy=', n_int*p%dy
-            call write_log(1, bufout)
-         endif
-
-      ! ipotcn = -3..-1: potential contact derived from 3D Hertzian solution computed by hzsol.
-
-      elseif (p%ipotcn.le.-1) then
-
-         p%xl = -hz%scale * max(1d-9, hz%aa)
-         p%yl = -hz%scale * max(1d-9, hz%bb)
-         p%xh = -p%xl
-         p%yh = -p%yl
-         mypotcn = 2
+         call create_gd_gridfunc(ic, cgrid, geom, outpt)
 
       else
 
-         mypotcn = p%ipotcn
+         ! copy inputs, construct contact grid for current time (uniform grid for element centers)
+
+         ! call write_log(' init_curr_grid: keep previous time, resize...')
+         call potcon_copy(potcon_inp, potcon_cur)
+         call potcon_cgrid(potcon_cur, cgrid_new)
+
+         ! resize grid-functions used in hierarchical data-structure, keeping existing data
+
+         call gd_resize_gridfunc(ic, cgrid, cgrid_new, geom, outpt, .true.)
+
+         ! copy new grid into gd
+
+         call grid_copy(cgrid_new, cgrid)
 
       endif
 
-      ! ipotcn == 1: the variables xl, yl, dx, dy, mx and my are read by Input
-      ! ipotcn == 2: the variables xl, yl, xh, yh, mx and my are read by Input
-      ! ipotcn == 3: the variables xc1, yc1, dx, dy, mx and my are read by Input
-      ! ipotcn == 4: the variables xc1, yc1, xcm, ycm, mx and my are read by Input
-
-      ! - fill in dx, dy if not specified
-
-      if (mypotcn.eq.2) then
-         p%dx = (p%xh - p%xl) / p%mx
-         p%dy = (p%yh - p%yl) / p%my
-      elseif (mypotcn.eq.4) then
-         p%dx = (p%xcm - p%xc1) / max(1,p%mx-1)
-         p%dy = (p%ycm - p%yc1) / max(1,p%my-1)
-      endif
-
-      ! - fill in xl, yl or xc1, yc1 if not specified
-
-      if (mypotcn.eq.3 .or. mypotcn.eq.4) then
-         p%xl = p%xc1 - 0.5d0 * p%dx
-         p%yl = p%yc1 - 0.5d0 * p%dy
-      else
-         p%xc1 = p%xl + 0.5d0 * p%dx
-         p%yc1 = p%yl + 0.5d0 * p%dy
-      endif
-
-      ! - fill in xh, yh and/or xcm, ycm if not specified
-
-      if (mypotcn.eq.1 .or. mypotcn.eq.3 .or. mypotcn.eq.4) then
-         p%xh = p%xl + p%mx * p%dx
-         p%yh = p%yl + p%my * p%dy
-      endif
-      if (mypotcn.ge.1 .and. mypotcn.le.3) then
-         p%xcm = p%xc1 + (p%mx - 1) * p%dx
-         p%ycm = p%yc1 + (p%my - 1) * p%dy
-      endif
-
-      ! - fill in npot and dxdy
-
-      p%npot = p%mx * p%my
-      p%dxdy = p%dx * p%dy
-
-      ! - construct a uniform grid for the centers of the elements
-
-      call grid_create_uniform(cgrid, nxarg=p%mx, x0arg=p%xc1, dxarg=p%dx,                      &
-                                      nyarg=p%my, y0arg=p%yc1, dyarg=p%dy, zarg=0d0)
-
-      ! call timer_stop(itimer_sdis)
-
-   end subroutine sdis
+   end subroutine init_curr_grid
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine srznrm (ic, cgrid, geom)
+   subroutine create_gd_gridfunc(ic, cgrid, geom, outpt)
+!--purpose: create or reallocate grid-functions used in hierarchical data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_ic)            :: ic
+      type(t_grid),  target :: cgrid
+      type(t_geomet)        :: geom
+      type(t_output)        :: outpt
+
+      ! (re-)allocate array for element division
+
+      call eldiv_new(outpt%igs, cgrid)
+
+      ! (re-)allocate hs1 at the appropriate size
+
+      call gf3_new(geom%hs1, 'geom%hs1', cgrid)
+
+      ! (re-)allocate arrays for friction coefficients, tractions, displacements and shift
+
+      call gf3_new(outpt%mus, 'outpt%mus', cgrid, outpt%igs)
+      call gf3_new(outpt%ps,  'outpt%ps',  cgrid, outpt%igs)
+      call gf3_new(outpt%us,  'outpt%us',  cgrid, outpt%igs)
+      call gf3_new(outpt%ss,  'outpt%ss',  cgrid, outpt%igs)
+
+      ! (re-)allocate arrays for plastic deformation, yield point, temperature
+
+      call gf3_new(outpt%taucs, 'outpt%taucs', cgrid, outpt%igs)
+      call gf3_new(outpt%upls,  'outpt%upls',  cgrid, outpt%igs)
+      if (ic%heat.ge.1) then
+         call gf3_new(outpt%temp1, 'outpt%temp1', cgrid, outpt%igs)
+         call gf3_new(outpt%temp2, 'outpt%temp2', cgrid, outpt%igs)
+         endif
+
+      ! (re-)allocate grid-functions for previous time
+
+      call eldiv_new(outpt%igv, cgrid)
+      call gf3_new(geom%hv1,    'geom%hv1',    cgrid)
+      call gf3_new(outpt%muv,   'outpt%muv',   cgrid, outpt%igv)
+      call gf3_new(outpt%pv,    'outpt%pv',    cgrid, outpt%igv)
+      call gf3_new(outpt%uv,    'outpt%uv',    cgrid, outpt%igv)
+      call gf3_new(outpt%sv,    'outpt%sv',    cgrid, outpt%igv)
+      call gf3_new(outpt%taucv, 'outpt%taucv', cgrid, outpt%igv)
+      call gf3_new(outpt%uplv,  'outpt%uplv',  cgrid, outpt%igv)
+
+   end subroutine create_gd_gridfunc
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine check_roll_stepsize(ic, solv, kin, cgrid)
+!--purpose: check and enforce restrictions the rolling direction chi and step size dq
+      implicit none
+!--subroutine arguments:
+      type(t_ic)       :: ic
+      type(t_solvers)  :: solv
+      type(t_kincns)   :: kin
+      type(t_grid)     :: cgrid
+!--local variables :
+      logical  :: is_fastsm, is_roll, is_ssrol
+
+      is_fastsm = ic%mater.eq.2 .or. ic%mater.eq.3
+      is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3
+      is_ssrol  = ic%tang.eq.3
+
+      ! force CHI = 0 when using visco-elastic materials (T=3, M=1)
+
+      if (is_ssrol .and. ic%mater.eq.1 .and. abs(kin%chi).gt.0.001d0) then
+         write (bufout, 4002) kin%chi, 'visco-elastic materials'
+         call write_log(2, bufout)
+         kin%chi = 0d0
+      endif
+
+      if (is_ssrol .and. is_fastsm) then
+
+         ! set DQ == DX when using steady rolling w. Fastsim (T=3, M=2/3)
+         ! force CHI = 0 or pi when using steady rolling w. Fastsim (T=3, M=2/3)
+
+         kin%dq  = cgrid%dx
+         if (abs(kin%chi).gt.0.01d0 .and. abs(kin%chi-pi).gt.0.01d0) then
+            write (bufout, 4002) kin%chi, 'Fastsim'
+            call write_log(2, bufout)
+            kin%chi = 0d0
+      endif
+
+      elseif ((solv%gausei_eff.ne.2 .and. is_ssrol) .or. ic%mater.eq.4) then
+
+         ! force CHI = 0 or pi when using steady rolling w. SteadyGS (T=3, G<>2) or when M=4 (T=1,3)
+         ! force DQ == DX when using steady rolling w. SteadyGS (T=3, G<>2), also when M=1 (visc.)
+
+         if (abs(kin%chi).gt.0.01d0 .and. abs(kin%chi-pi).gt.0.01d0) then
+            if (ic%ilvout.ge.1) then
+               if (solv%gausei_eff.ne.2 .and. is_ssrol) then
+                  write (bufout, 4002) kin%chi, 'steady state rolling with solver SteadyGS'
+               else
+                  write (bufout, 4002) kin%chi, 'solver ConvexGS with plasticity'
+               endif
+               call write_log(2, bufout)
+            endif
+            kin%chi = 0d0
+         endif
+         if (abs(kin%dq-cgrid%dx).gt.0.01*cgrid%dx) then
+            if (ic%ilvout.ge.1) then
+               if (solv%gausei_eff.ne.2 .and. is_ssrol) then
+                  write (bufout, 4003) cgrid%dx, kin%dq, 'steady state rolling with solver SteadyGS'
+      else
+                  write (bufout, 4003) cgrid%dx, kin%dq, 'solver ConvexGS with plasticity'
+      endif
+               call write_log(2, bufout)
+            endif
+         endif
+         kin%dq  = cgrid%dx
+      endif
+
+ 4002 format (' Warning: using CHI = 0 instead of',f6.1,' rad'/, 17x,                                   &
+              'for steady state rolling with ',a,'.')
+ 4003 format (' Warning: Using DQ = DX =',g12.4, ' (instead of',g12.4,')', /, 17x, 'for ',a,'.')
+
+      ! set appropriate chi, dq, veloc for shifts
+
+      if (.not.is_roll) then
+         kin%chi   = 0d0
+         kin%dq    = 1d0
+         kin%veloc = 1d0
+      endif
+
+      ! compute the time step size, with dq in [mm], veloc in [mm/s]
+
+      if (is_roll .or. ic%mater.ne.5) then
+         kin%dt = kin%dq / max(1d-10, kin%veloc)
+      endif
+
+   end subroutine check_roll_stepsize
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine set_prev_data(ic, geom, mater, fric, kin, outpt)
+!--purpose: copy/set variables concerning the previous time instance
+      implicit none
+!--subroutine arguments:
+      type(t_ic)       :: ic
+      type(t_geomet)   :: geom
+      type(t_material) :: mater
+      type(t_friclaw)  :: fric
+      type(t_kincns)   :: kin
+      type(t_output)   :: outpt
+!--local variables :
+      logical          :: is_roll
+
+      is_roll = (ic%tang.eq.2 .or. ic%tang.eq.3)
+
+      associate(hs1   => geom%hs1,    hv1   => geom%hv1,    igs   => outpt%igs,   igv   => outpt%igv,   &
+                mus   => outpt%mus,   muv   => outpt%muv,   ps    => outpt%ps,    pv    => outpt%pv,    &
+                us    => outpt%us,    uv    => outpt%uv,    ss    => outpt%ss,    sv    => outpt%sv,    &
+                upls  => outpt%upls,  uplv  => outpt%uplv,  taucs => outpt%taucs, taucv => outpt%taucv)
+
+      ! shift data from current time to previous time
+      !  P = 0: pure transient sequence, pv = ps
+      !  P = 1: sequence for Norm only, pv_n = ps_n, pv_t = 0
+      !  P = 2: initiation of contact, pv = 0
+      !  P = 3: obsolete? pv untouched
+
+      ! Element division igv:
+
+      if (ic%pvtime.eq.0) then
+         call eldiv_copy(igs, igv, ikALL)
+      elseif (ic%pvtime.eq.1) then
+         call eldiv_copy(igs, igv, ikZDIR)
+      elseif (ic%pvtime.eq.2) then
+         call eldiv_exter(igv)
+      endif
+      call areas(igv)
+
+      ! right-hand-side hv:
+
+      if (ic%pvtime.eq.0) then
+         call gf3_copy(AllElm, hs1, hv1, ikALL)
+      elseif (ic%pvtime.eq.1) then
+         call gf3_copy(AllElm, hs1, hv1, ikZDIR)
+      elseif (ic%pvtime.eq.2) then
+         call gf3_set (AllElm, 0d0, hv1, ikALL)
+      endif
+
+      ! Normal part of pv, fn:
+
+      if (ic%pvtime.le.1) then
+         call gf3_copy(AllElm, ps, pv, ikZDIR)
+         kin%fprev(ikZDIR) = kin%fntrue
+      elseif (ic%pvtime.eq.2) then
+         call gf3_set(AllElm, 0d0, pv, ikZDIR)
+         kin%fprev(ikZDIR) = 0d0
+      endif
+
+      ! Normal part of uv:
+
+      if (ic%pvtime.le.1 .and. .not.is_roll) then
+         call gf3_copy(AllElm, us, uv, ikZDIR)
+      elseif (ic%pvtime.le.1) then
+         call gf3_dq_shift(kin%chi, kin%dq, 0d0, us, uv, ikZDIR)
+      elseif (ic%pvtime.eq.2) then
+         call gf3_set(AllElm, 0d0, uv, ikZDIR)
+      endif
+
+      ! Tangential part of pv: copy from current to new grid:
+
+      if (ic%pvtime.eq.0) then
+         call gf3_copy(AllElm, ps, pv, ikTANG)
+         kin%fprev(ikXDIR) = kin%fxrel1
+         kin%fprev(ikYDIR) = kin%fyrel1
+      elseif (ic%pvtime.le.2) then
+         call gf3_set(AllElm, 0d0, pv, ikTANG)
+         kin%fprev(ikXDIR) = 0d0
+         kin%fprev(ikYDIR) = 0d0
+      endif
+
+      ! Friction coefficients muv of previous time instance, Tangential parts of sv, uv:
+      !    PvTime=0: pure transient sequence, muv=mus (interpolated).
+      !    PvTime=1: sequence for Norm only, muv=fstat
+      !    PvTime=2: new initiation of contact, muv=fstat.
+      !    PvTime=3: muv untouched.
+
+      if (ic%pvtime.eq.0 .and. .not.is_roll) then
+         ! Shift: copying from the current to the new grid
+         call gf3_copy(AllElm, mus,   muv,   ikXDIR)   ! scalar
+         call gf3_copy(AllElm, taucs, taucv, ikXDIR)   ! scalar
+         call gf3_copy(AllElm, ss,    sv,    ikTANG)
+         call gf3_copy(AllElm, us,    uv,    ikTANG)
+         call gf3_copy(AllElm, upls,  uplv,  ikTANG)
+      elseif (ic%pvtime.eq.0) then
+         ! Rolling: Interpolation from the current to the new grid, with b.c. at sides of pot.con
+         ! TODO: in T=3, uv, sv, etc. should be considered outputs of the previous step, filled in Panag.
+         call gf3_dq_shift(kin%chi, kin%dq, fric%nvf, fric%fstat_arr, mus, muv, ikXDIR)
+         call gf3_dq_shift(kin%chi, kin%dq, mater%tau_c0, taucs, taucv, ikXDIR)
+         call gf3_dq_shift(kin%chi, kin%dq, 0d0, ss,    sv,    ikTANG)
+         call gf3_dq_shift(kin%chi, kin%dq, 0d0, us,    uv,    ikTANG)
+         call gf3_dq_shift(kin%chi, kin%dq, 0d0, upls,  uplv,  ikTANG)
+      elseif (ic%pvtime.le.2) then
+         call gf3_copy_xdir(AllElm, fric%nvf, fric%fstat_arr, muv, ikTANG)
+         call gf3_set(AllElm, mater%tau_c0, taucv, ikTANG)
+         call gf3_set(AllElm, 0d0, sv,    ikTANG)
+         call gf3_set(AllElm, 0d0, uv,    ikTANG)
+         call gf3_set(AllElm, 0d0, uplv,  ikTANG)
+      endif
+
+      end associate
+   end subroutine set_prev_data
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine set_norm_rhs (cgrid, geom)
 !--purpose: construct the Undeformed Distances hs1(i,1) from ibase, iplan, prmudf, prmpln
 !           ibase = 1: Undeformed Distance Quadratic in x and y.
 !                   2: Undeformed Distance Circular in x, pointwise given in y.
@@ -162,38 +335,15 @@ contains
 !           prmudf describes the gap between the profiles (1) and (2)
       implicit none
 !--subroutine arguments:
-      type(t_ic)             :: ic
-      type(t_grid),   target :: cgrid
-      type(t_geomet), target :: geom
+      type(t_grid)           :: cgrid
+      type(t_geomet)         :: geom
 !--local variables:
       integer, parameter :: idebug = 0
       integer      :: ii, mleft, nplan
       logical      :: z1, z2
       real(kind=8) :: a, dy1, rm, xm, y1, yleft, yn, rc
-      real(kind=8), dimension(:), pointer :: prmudf, prmpln
-      type(t_gridfnc3),           pointer :: hs1, hv1
 
-      ! call timer_start(itimer_srznrm)
-      prmudf => geom%prmudf
-      prmpln => geom%prmpln
-      hs1    => geom%hs1
-      hv1    => geom%hv1
-
-      ! copy hs1 to hv1 in transient calculations
-      !  - re-allocate hs1, hv1 at the appropriate size
-
-      call gf3_new(hs1, 'geom%hs1', cgrid)
-      call gf3_new(hv1, 'geom%hv1', cgrid)
-
-      !  - initialize hv1 according to P-digit
-
-      if (ic%pvtime.eq.0) then
-         call gf3_copy(AllElm, hs1, hv1, ikZDIR)
-      elseif (ic%pvtime.eq.1) then
-         call gf3_copy(AllElm, hs1, hv1, ikALL)
-      elseif (ic%pvtime.eq.2) then
-         call gf3_set(AllElm, 0d0, hv1, ikALL)
-      endif
+      associate(prmudf => geom%prmudf, prmpln => geom%prmpln, hs1    => geom%hs1)
 
       if (geom%ibase.eq.1) then
 
@@ -332,15 +482,101 @@ contains
          endif
       endif
 
-      ! call timer_stop(itimer_srznrm)
-
-   end subroutine srznrm
+      end associate
+   end subroutine set_norm_rhs
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine filpvs (ic, hz, potcon, cgrid, geom, mater, fric, kin, outpt, ihertz)
-!--purpose: fill the tractions ps, pv and the contact area igs according to iestim and pvtime.
-!            1) cases 2,3,.. in a sequence: shift s-arrays to v-arrays
+   subroutine set_tang_rhs(ic, mater, cgrid, kin, geom)
+      implicit none
+!--purpose: set fixed part of the Right-hand-side of tangential problem.
+!           exrhs is the extra term in the right-hand-side, input by the user.
+!--subroutine arguments :
+      type(t_ic)              :: ic
+      type(t_material)        :: mater
+      type(t_grid)            :: cgrid
+      type(t_kincns)          :: kin
+      type(t_geomet)          :: geom
+!--local variables:
+      integer      :: ii
+      logical                   :: is_roll
+      real(kind=8)              :: cc, sc, facx, facy
+
+      associate(chi    => kin%chi,    dq     => kin%dq,     facphi => kin%facphi,                       &
+                cksi   => kin%cksi,   ceta   => kin%ceta,   cphi   => kin%cphi,                         &
+                spinxo => kin%spinxo, spinyo => kin%spinyo, hs1    => geom%hs1, exrhs  => geom%exrhs)
+
+      is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3
+
+      if (ic%rztang.eq.0) then
+         call gf3_new(exrhs, 'geom%exrhs', cgrid)
+         call gf3_set(AllElm, 0d0, exrhs, ikTANG)
+      endif
+
+      ! M=3, using FASTSIM approach with 3 flexibilities: scale spin creepage by factors L1/L3 and L2/L3
+
+      if (ic%mater.eq.3) then
+         facx = mater%flx(1) / mater%flx(3)
+         facy = mater%flx(2) / mater%flx(3)
+      else
+         facx = 1d0
+         facy = 1d0
+      endif
+
+      ! compute the rigid slip (wx,wy) of body (1) w.r.t. body (2) and place it in the tangential
+      !    right-hand side as hs1 = -dq w.
+
+      if (is_roll) then
+
+         ! rolling:
+
+         cc = cos(chi)
+         sc = sin(chi)
+         ! write(bufout,'(a,f6.3)') ' using f=',f
+         ! call write_log(1, bufout)
+
+         do ii = 1, cgrid%ntot
+            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii) + spinyo - sc*dq*facphi) + exrhs%vx(ii) ! below: * -dq 
+            hs1%vy(ii) = facy * cphi *( cgrid%x(ii) - spinxo + cc*dq*facphi) + exrhs%vy(ii) !        * -dq
+         enddo
+      else
+
+         ! shift:
+
+         do ii = 1, cgrid%ntot
+            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii) + spinyo) + exrhs%vx(ii)
+            hs1%vy(ii) = facy * cphi *( cgrid%x(ii) - spinxo) + exrhs%vy(ii)
+         enddo
+      endif
+
+      ! if x-creepage prescribed:
+
+      if (ic%force3.eq.0) then
+         do ii = 1, cgrid%ntot
+            hs1%vx(ii) = hs1%vx(ii) + cksi
+         enddo
+      endif
+
+      ! if y-creepage prescribed:
+
+      if (ic%force3.le.1) then
+         do ii = 1, cgrid%ntot
+            hs1%vy(ii) = hs1%vy(ii) + ceta
+         enddo
+      endif
+
+      ! change sign and multiply with dq (=1 in case of shifts)
+
+      call gf3_scal(AllElm, -dq, hs1, ikTANG)
+
+      end associate
+
+   end subroutine set_tang_rhs
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine init_curr_data(ic, hz, potcon, cgrid, geom, mater, kin, outpt, ihertz)
+!--purpose: initialize contact area, tractions and other arrays for the new case
 !            2) all cases: initialise s-arrays for new case
       implicit none
 !--subroutine parameters:
@@ -348,116 +584,22 @@ contains
       type(t_hertz)           :: hz
       type(t_potcon)          :: potcon
       type(t_grid)            :: cgrid
-      type(t_geomet), target  :: geom
+      type(t_geomet)          :: geom
       type(t_material)        :: mater
-      type(t_friclaw)         :: fric
       type(t_kincns)          :: kin
-      type(t_output),  target :: outpt
+      type(t_output)          :: outpt
       integer                 :: ihertz
 !--local variables:
       integer      :: ii
       real(kind=8) :: pabs, pnmax, pnfac
       logical      :: is_roll, use_iestim_hertz
 
-      associate(igs   => outpt%igs,    igv   => outpt%igv,    mus   => outpt%mus,               &
-                muv   => outpt%muv,    ps    => outpt%ps,     pv    => outpt%pv,                &
-                us    => outpt%us,     uv    => outpt%uv,     ss    => outpt%ss,                &
-                sv    => outpt%sv,                                                              &
-                upls  => outpt%upls,   uplv  => outpt%uplv,   taucs => outpt%taucs,             &
-                taucv => outpt%taucv,  temp1 => outpt%temp1,  temp2 => outpt%temp2,             &
-                sens  => outpt%sens,   aa    => hz%aa,        bb    => hz%bb)
+      associate(igs   => outpt%igs,   mus   => outpt%mus,  ps    => outpt%ps,    us    => outpt%us,     &
+                ss    => outpt%ss,    upls  => outpt%upls, taucs => outpt%taucs, temp1 => outpt%temp1,  &
+                temp2 => outpt%temp2, sens  => outpt%sens, aa    => hz%aa,       bb    => hz%bb)
       call timer_start(itimer_filpvs)
 
       is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3
-
-      !------------------------------------------------------------------------------------------------------
-      ! Phase 1) in cases 2,3,.. in a sequence: shift s-arrays to v-arrays
-      !------------------------------------------------------------------------------------------------------
-      ! Form the previous traction pv, under the control of PvTime:
-      !   PvTime=0: pure transient sequence, pv=ps.
-      !   PvTime=1: sequence for Norm only, pv_n = ps_n, Tang.Trac.=0.
-      !   PvTime=2: new initiation of contact, pv=0.
-      !   PvTime=3: pv untouched.
-
-      call eldiv_new(igv, cgrid)
-      call gf3_new(muv,   'outpt%muv',   cgrid, igv)
-      call gf3_new(pv,    'outpt%pv',    cgrid, igv)
-      call gf3_new(uv,    'outpt%uv',    cgrid, igv)
-      call gf3_new(sv,    'outpt%sv',    cgrid, igv)
-      call gf3_new(taucv, 'outpt%taucv', cgrid, igv)
-      call gf3_new(uplv,  'outpt%uplv',  cgrid, igv)
-
-      ! Element division igv:
-
-      if (ic%pvtime.eq.0) then
-         call eldiv_copy(igs, igv, ikALL)
-      elseif (ic%pvtime.eq.1) then
-         call eldiv_copy(igs, igv, ikZDIR)
-      elseif (ic%pvtime.eq.2) then
-         call eldiv_exter(igv)
-      endif
-      call areas(igv)
-
-      ! Normal part of pv:
-
-      if (ic%pvtime.le.1) then
-         call gf3_copy(AllElm, ps, pv, ikZDIR)
-         kin%fprev(  ikZDIR) = kin%fntrue
-      elseif (ic%pvtime.eq.2) then
-         call gf3_set(AllElm, 0d0, pv, ikZDIR)
-         kin%fprev(  ikZDIR) = 0d0
-      endif
-
-      ! Normal part of uv:
-
-      if (ic%pvtime.le.1 .and. .not.is_roll) then
-         call gf3_copy(AllElm, us, uv, ikZDIR)
-      elseif (ic%pvtime.le.1) then
-         call gf3_dq_shift(kin%chi, kin%dq, 0d0, us, uv, ikZDIR)
-      elseif (ic%pvtime.eq.2) then
-         call gf3_set(AllElm, 0d0, uv, ikZDIR)
-      endif
-
-      ! Tangential part of pv: copy from current to new grid:
-
-      if (ic%pvtime.eq.0) then
-         call gf3_copy(AllElm, ps, pv, ikTANG)
-         kin%fprev(  ikXDIR) = kin%fxrel1
-         kin%fprev(  ikYDIR) = kin%fyrel1
-      elseif (ic%pvtime.le.2) then
-         call gf3_set(AllElm, 0d0, pv, ikTANG)
-         kin%fprev(  ikXDIR) = 0d0
-         kin%fprev(  ikYDIR) = 0d0
-      endif
-
-      ! Friction coefficients muv of previous time instance, Tangential parts of sv, uv:
-      !    PvTime=0: pure transient sequence, muv=mus (interpolated).
-      !    PvTime=1: sequence for Norm only, muv=fstat
-      !    PvTime=2: new initiation of contact, muv=fstat.
-      !    PvTime=3: muv untouched.
-
-      if (ic%pvtime.eq.0 .and. .not.is_roll) then
-         ! Shift: copying from the current to the new grid
-         call gf3_copy(AllElm, mus,   muv,   ikXDIR)   ! scalar
-         call gf3_copy(AllElm, taucs, taucv, ikXDIR)   ! scalar
-         call gf3_copy(AllElm, ss,    sv,    ikTANG)
-         call gf3_copy(AllElm, us,    uv,    ikTANG)
-         call gf3_copy(AllElm, upls,  uplv,  ikTANG)
-      elseif (ic%pvtime.eq.0) then
-         ! Rolling: Interpolation from the current to the new grid, with b.c. at sides of pot.con
-         ! TODO: in T=3, uv, sv, etc. should be considered outputs of the previous step, filled in Panag.
-         call gf3_dq_shift(kin%chi, kin%dq, fric%nvf, fric%fstat_arr, mus, muv, ikXDIR)
-         call gf3_dq_shift(kin%chi, kin%dq, mater%tau_c0, taucs, taucv, ikXDIR)
-         call gf3_dq_shift(kin%chi, kin%dq, 0d0, ss,    sv,    ikTANG)
-         call gf3_dq_shift(kin%chi, kin%dq, 0d0, us,    uv,    ikTANG)
-         call gf3_dq_shift(kin%chi, kin%dq, 0d0, upls,  uplv,  ikTANG)
-      elseif (ic%pvtime.le.2) then
-         call gf3_copy_xdir(AllElm, fric%nvf, fric%fstat_arr, muv, ikTANG)
-         call gf3_set(AllElm, mater%tau_c0, taucv, ikTANG)
-         call gf3_set(AllElm, 0d0, sv,    ikTANG)
-         call gf3_set(AllElm, 0d0, uv,    ikTANG)
-         call gf3_set(AllElm, 0d0, uplv,  ikTANG)
-      endif
 
       !------------------------------------------------------------------------------------------------------
       ! Phase 2) in all cases: initialise s-arrays for new case
@@ -467,26 +609,6 @@ contains
       !   iestim=1 : init.est. according to igs, regularize ps
       !   iestim=2 : init.est. according to C,E,  set ps t = 0, i in Adhes
       !   iestim=3 : init.est. according to H,S,P,E  leave igs, ps untouched
-
-      ! iestim=0 : re-allocate arrays for element division
-
-      if (ic%iestim.eq.0) call eldiv_new(igs, cgrid)
-
-      ! re-allocate arrays for friction coefficients, tractions, displacements and shift
-
-      call gf3_new(mus, 'outpt%mus', cgrid, igs)
-      call gf3_new(ps, 'outpt%ps', cgrid, igs)
-      call gf3_new(us, 'outpt%us', cgrid, igs)
-      call gf3_new(ss, 'outpt%ss', cgrid, igs)
-
-      ! re-allocate arrays for plastic deformation, yield point, temperature
-
-      call gf3_new(taucs, 'outpt%taucs', cgrid, igs)
-      call gf3_new(upls,  'outpt%upls',  cgrid, igs)
-      if (ic%heat.ge.1) then
-         call gf3_new(temp1, 'outpt%temp1', cgrid, igs)
-         call gf3_new(temp2, 'outpt%temp2', cgrid, igs)
-      endif
 
       ! clear/initialize all displacement differences
 
@@ -634,7 +756,7 @@ contains
 
       call timer_stop(itimer_filpvs)
       end associate
-   end subroutine filpvs
+   end subroutine init_curr_data
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -692,21 +814,18 @@ contains
       type(t_ic)              :: ic
       type(t_potcon)          :: potcon
       type(t_grid)            :: cgrid
-      type(t_geomet), target  :: geom
+      type(t_geomet)          :: geom
       type(t_material)        :: mater
       type(t_kincns)          :: kin
-      type(t_output), target  :: outpt
+      type(t_output)          :: outpt
 !--local variables :
       integer,      parameter   :: maxit = 50, idebug = 0
       real(kind=8), parameter   :: facpen = 0.60, reltol = 0.01
       integer                   :: ii, iter, ncnmin, ncnmid, ncnmax
       real(kind=8)              :: hsmin, pentru, rm, cdy, rmn, fac, penmin, penmid, penmax,            &
                                    fnmin, fnmid, fnmax, fnscal
-      type(t_eldiv),    pointer :: igs
-      type(t_gridfnc3), pointer :: hs
 
-      igs  => outpt%igs
-      hs   => geom%hs1
+      associate(igs  => outpt%igs, hs   => geom%hs1)
 
       ! note: kin%fnscal is an output-variable, not yet filled in
 
@@ -877,100 +996,8 @@ contains
             igs%el(ii) = Exter
          endif
       enddo
-
-   end subroutine eldiv0
-
-!------------------------------------------------------------------------------------------------------------
-
-   subroutine srztng(ic, mater, cgrid, kin, geom)
-      implicit none
-!--purpose: set fixed part of the Right-hand-side of tangential problem, See SEC. 1.5
-!           exrhs is the extra term in the right-hand-side, input by the user.
-!--subroutine arguments :
-      type(t_ic)              :: ic
-      type(t_material)        :: mater
-      type(t_grid),    target :: cgrid
-      type(t_kincns),  target :: kin
-      type(t_geomet),  target :: geom
-!--local variables :
-      integer                   :: ii
-      logical                   :: is_roll
-      real(kind=8)              :: cc, sc, facx, facy
-
-      ! call timer_start(itimer_srztng)
-      associate(chi    => kin%chi,    dq     => kin%dq,     facphi => kin%facphi,                       &
-                cksi   => kin%cksi,   ceta   => kin%ceta,   cphi   => kin%cphi,                         &
-                spinxo => kin%spinxo, spinyo => kin%spinyo, hs1    => geom%hs1, exrhs  => geom%exrhs)
-
-      is_roll = ic%tang.eq.2 .or. ic%tang.eq.3
-
-      call gf3_new(hs1, 'geom%hs1', cgrid)
-
-      if (ic%rztang.eq.0) then
-         call gf3_new(exrhs, 'geom%exrhs', cgrid)
-         call gf3_set(AllElm, 0d0, exrhs, ikTANG)
-      endif
-
-      ! M=3, using FASTSIM approach with 3 flexibilities: scale spin creepage by factors L1/L3 and L2/L3
-
-      if (ic%mater.eq.3) then
-         facx = mater%flx(1) / mater%flx(3)
-         facy = mater%flx(2) / mater%flx(3)
-      else
-         facx = 1d0
-         facy = 1d0
-      endif
-
-      ! compute the rigid slip (wx,wy) of body (1) w.r.t. body (2) and place it in the tangential
-      !    right-hand side as hs1 = -dq w.
-
-      if (is_roll) then
-
-         ! rolling:
-
-         cc = cos(chi)
-         sc = sin(chi)
-         ! write(bufout,'(a,f6.3)') ' using f=',f
-         ! call write_log(1, bufout)
-
-         do ii = 1, cgrid%ntot
-            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii) + spinyo - sc*dq*facphi) + exrhs%vx(ii) ! below: * -dq 
-            hs1%vy(ii) = facy * cphi *( cgrid%x(ii) - spinxo + cc*dq*facphi) + exrhs%vy(ii) !        * -dq
-         enddo
-      else
-
-         ! shift:
-
-         do ii = 1, cgrid%ntot
-            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii) + spinyo) + exrhs%vx(ii)
-            hs1%vy(ii) = facy * cphi *( cgrid%x(ii) - spinxo) + exrhs%vy(ii)
-         enddo
-      endif
-
-      ! if x-creepage prescribed:
-
-      if (ic%force3.eq.0) then
-         do ii = 1, cgrid%ntot
-            hs1%vx(ii) = hs1%vx(ii) + cksi
-         enddo
-      endif
-
-      ! if y-creepage prescribed:
-
-      if (ic%force3.le.1) then
-         do ii = 1, cgrid%ntot
-            hs1%vy(ii) = hs1%vy(ii) + ceta
-         enddo
-      endif
-
-      ! change sign and multiply with dq (=1 in case of shifts)
-
-      call gf3_scal(AllElm, -dq, hs1, ikTANG)
-
       end associate
-      ! call timer_stop(itimer_srztng)
-
-   end subroutine srztng
+   end subroutine eldiv0
 
 !------------------------------------------------------------------------------------------------------------
 
