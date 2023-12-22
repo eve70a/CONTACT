@@ -23,7 +23,7 @@ contains
 !--purpose: driver routine for module 1. Performs input and controls Contac in the case of W/R contact.
       implicit none
 !--subroutine parameters:
-      type(t_ws_track), target :: wtd
+      type(t_ws_track)         :: wtd
       integer   :: inp, linenr
 !--local variables:
       integer   :: ierror

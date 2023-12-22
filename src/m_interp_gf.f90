@@ -180,12 +180,9 @@ subroutine interp_aply_unif2surf(nin, gf_unif, nnode, f_node, ii2iel, ii2nod, wi
    integer,      intent(out) :: ierror
 !--local variables:
 !  character(len=*), parameter  :: subnam = 'interp_aply_unif2surf'
-   integer,      pointer        :: mx, my
    integer                      :: ii, inod, j
 
    ierror = 0
-   mx   => gf_unif%grid%nx
-   my   => gf_unif%grid%ny
 
    ! initialize forces for all surface nodes
 
@@ -323,7 +320,7 @@ subroutine interp_cartz2unif_gf3(g_surf, gf_unif, my_ierror, defval)
    implicit none
 !--subroutine arguments:
    type(t_grid)                  :: g_surf            ! input-grid with z(x,y)-function filled in
-   type(t_gridfnc3), target      :: gf_unif           ! regular output-grid with (x,y) filled in
+   type(t_gridfnc3)              :: gf_unif           ! regular output-grid with (x,y) filled in
    integer,          intent(out) :: my_ierror
    real(kind=8),     optional    :: defval            ! default value
 !--local variables:
@@ -335,10 +332,9 @@ subroutine interp_cartz2unif_gf3(g_surf, gf_unif, my_ierror, defval)
    real(kind=8), dimension(:,:), allocatable :: wii2nod ! interpolation weights per node per grid point
    real(kind=8), dimension(:,:), allocatable :: fac_uv  ! relative (u,v) positions per grid point
    real(kind=8), dimension(:),   allocatable :: zdum
-   type(t_grid),                 pointer     :: g_unif
 
    my_ierror = 0
-   g_unif => gf_unif%grid
+   associate(g_unif => gf_unif%grid)
 
    if (.not.gf_unif%is_defined()) then
       call write_log('Internal error (interp_cartz2unif_gf3): gf_unif not initialized properly.')
@@ -387,6 +383,7 @@ subroutine interp_cartz2unif_gf3(g_surf, gf_unif, my_ierror, defval)
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
    deallocate(ii2iel, ii2nod, wii2nod, fac_uv)
+   end associate
 end subroutine interp_cartz2unif_gf3
 
 !------------------------------------------------------------------------------------------------------------
@@ -396,8 +393,8 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
 !            uniform (x,y)-grid
    implicit none
 !--subroutine arguments:
-   type(t_gridfnc3), target      :: gf_curv           ! gf3 on curvilinear input-grid
-   type(t_gridfnc3), target      :: gf_unif           ! gf3 on uniform output-grid
+   type(t_gridfnc3)              :: gf_curv           ! gf3 on curvilinear input-grid
+   type(t_gridfnc3)              :: gf_unif           ! gf3 on uniform output-grid
    integer,          intent(out) :: my_ierror
    real(kind=8),     optional    :: defval            ! default value
 !--local variables:
@@ -409,11 +406,9 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
    real(kind=8), dimension(:,:), allocatable :: wii2nod ! interpolation weights per node per grid point
    real(kind=8), dimension(:,:), allocatable :: fac_uv  ! relative (u,v) positions per grid point
    real(kind=8), dimension(:),   allocatable :: zdum
-   type(t_grid),                 pointer     :: g_curv, g_unif
 
    my_ierror = 0
-   g_curv => gf_curv%grid
-   g_unif => gf_unif%grid
+   associate(g_curv => gf_curv%grid, g_unif => gf_unif%grid)
 
    if (.not.gf_unif%is_defined()) then
       call write_log('Internal error (interp_curvgf2unifgf): gf_unif not initialized properly.')
@@ -463,6 +458,7 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
    deallocate(ii2iel, ii2nod, wii2nod, fac_uv)
+   end associate
 end subroutine interp_curvgf2unifgf
 
 !------------------------------------------------------------------------------------------------------------
@@ -472,8 +468,8 @@ subroutine interp_splgf2unifgf(gf_spl, gf_unif, sg_unif, ikarg, my_ierror, defva
 !            to a grid function defined with uniform (x, s_l) parametrization
    implicit none
 !--subroutine arguments:
-   type(t_gridfnc3), target      :: gf_spl            ! gf3 on input-grid with spline representation
-   type(t_gridfnc3), target      :: gf_unif           ! gf3 on uniform output-grid
+   type(t_gridfnc3)              :: gf_spl            ! gf3 on input-grid with spline representation
+   type(t_gridfnc3)              :: gf_unif           ! gf3 on uniform output-grid
    real(kind=8)                  :: sg_unif           ! s_g-value for the output grid ref. marker
    integer,          intent(in)  :: ikarg             ! coordinate direction(s) of gf3 to be interpolated
    integer,          intent(out) :: my_ierror
@@ -486,11 +482,9 @@ subroutine interp_splgf2unifgf(gf_spl, gf_unif, sg_unif, ikarg, my_ierror, defva
    real(kind=8), dimension(:,:), allocatable :: wii2nod ! interpolation weights per node per grid point
    real(kind=8), dimension(:,:), allocatable :: fac_uv  ! relative (u,v) positions per grid point
    real(kind=8), dimension(:),   allocatable :: zdum, s_unif
-   type(t_grid),                 pointer     :: g_spl, g_unif
 
    my_ierror = 0
-   g_spl  => gf_spl%grid
-   g_unif => gf_unif%grid
+   associate(g_spl  => gf_spl%grid, g_unif => gf_unif%grid)
 
    if (.not.gf_unif%is_defined()) then
       call write_log('Internal error (interp_splgf2unifgf): gf_unif not initialized properly.')
@@ -561,6 +555,7 @@ subroutine interp_splgf2unifgf(gf_spl, gf_unif, sg_unif, ikarg, my_ierror, defva
       deallocate(ii2iel, ii2nod, wii2nod, fac_uv, zdum)
    endif
    deallocate(s_unif)
+   end associate
 
 end subroutine interp_splgf2unifgf
 

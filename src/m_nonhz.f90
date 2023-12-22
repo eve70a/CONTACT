@@ -26,7 +26,7 @@ subroutine nonhz (inp, gd, linenr)
 !--purpose: Performs input and controls Contac in the case of Non-Hertzian contact.
    implicit none
 !--subroutine parameters
-   type(t_probdata), target :: gd
+   type(t_probdata)         :: gd
    integer                  :: inp, linenr
 !--local variables:
    logical       :: lfirst

@@ -88,14 +88,11 @@ contains
       type(t_vec)           :: ws_rvel_ws, ws_tvel_trk, ws_rvel_trk, whl_tvel_ws, whl_rvel_ws,          &
                                vq_tvel_ws, vq_rvel_ws, vq_tvel_trk, vq_rvel_trk, vq_tvel_cp,            &
                                vq_rvel_cp, pitch_tvel_trk
-      type(t_rail),   pointer :: my_rail
-      type(t_wheel),  pointer :: my_wheel
       character(len=5)        :: nam_side 
 
       if (idebug.ge.3) call write_log(' --- Start subroutine wr_creep_cref ---')
 
-      my_rail   => trk%rai
-      my_wheel  => ws%whl
+      associate(my_rail   => trk%rai, my_wheel  => ws%whl)
       if (ic%is_left_side()) then
          nam_side  = 'left'
          is_right  = 0
@@ -411,6 +408,7 @@ contains
          call write_log(1, bufout)
       endif
 
+      end associate
       if (idebug.ge.4) call write_log(' --- end subroutine wr_creep_cref ---')
 
    end subroutine wr_creep_cref
@@ -439,8 +437,6 @@ contains
                                ws_tvel_trk, ws_rvel_ws, ws_tvel_cp, ws_rvel_cp,                         &
                                whl_tvel_ws, whl_rvel_ws, whl_tvel_cp, whl_rvel_cp, nref
       type(t_gridfnc3)      :: gf_tvel_rail, gf_tvel_whl
-      type(t_rail),   pointer :: my_rail
-      type(t_wheel),  pointer :: my_wheel
       character(len=5)        :: nam_side 
 
       if (idebug.ge.3) call write_log(' --- Start subroutine wr_rigslip_wrsurf ---')
@@ -454,8 +450,7 @@ contains
          endif
       endif
 
-      my_rail   => trk%rai
-      my_wheel  => ws%whl
+      associate(my_rail   => trk%rai, my_wheel  => ws%whl)
       if (ic%is_left_side()) then
          nam_side  = 'left'
          is_right  = 0
@@ -785,6 +780,7 @@ contains
       call gf3_destroy(gf_tvel_rail)
       call gf3_destroy(gf_tvel_whl)
 
+      end associate
       if (idebug.ge.4) call write_log(' --- end subroutine wr_rigslip_wrsurf ---')
 
    end subroutine wr_rigslip_wrsurf

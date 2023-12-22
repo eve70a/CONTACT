@@ -422,7 +422,7 @@ contains
 !--purpose: Initialize a wheelset/track data-structure
       implicit none
 !--subroutine parameters:
-      type(t_ws_track), target :: wtd
+      type(t_ws_track)       :: wtd
 !--local variables:
       integer                :: icp
 
@@ -508,7 +508,7 @@ contains
 !--purpose: Cleanup a contact-patch data-structure
       implicit none
 !--subroutine parameters:
-      type(t_cpatch), target :: cp
+      type(t_cpatch)  :: cp
 !--local variables:
 
       call destroy_arr( cp%y_sep )
@@ -533,7 +533,7 @@ contains
 !--purpose: Cleanup a wheelset/track data-structure
       implicit none
 !--subroutine parameters:
-      type(t_ws_track), target :: wtd
+      type(t_ws_track)  :: wtd
 !--local variables:
       integer                :: icp, iblk
 

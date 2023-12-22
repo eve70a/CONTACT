@@ -61,7 +61,7 @@ contains
       implicit none
 !--subroutine arguments:
       type(t_ic)               :: ic
-      type(t_material), target :: mater
+      type(t_material)         :: mater
       real(kind=8)             :: fdg(2)
 !--local variables:
       integer,      parameter  :: idebug = 0
@@ -129,16 +129,15 @@ contains
       implicit none
 !--subroutine arguments:
       type(t_ic)               :: ic
-      type(t_grid),     target :: cgrid
-      type(t_material), target :: mater
-      type(t_friclaw),  target :: fric
-      type(t_kincns),   target :: kin
+      type(t_grid)             :: cgrid
+      type(t_material)         :: mater
+      type(t_friclaw)          :: fric
+      type(t_kincns)           :: kin
       type(t_influe),   target :: influ
 !--constants/parameters:
       integer,      parameter  :: idebug = 0
       real(kind=8), parameter  :: epsco  = 1d-15
       logical,      parameter  :: use_dq_scaling = .false.
-!--pointers to global data items:
       real(kind=8), dimension(:,:,:,:), pointer :: cs, cv, csv
 !--local variables:
       integer      :: ix, iy, ik, jk
@@ -336,7 +335,7 @@ contains
       implicit none
 !--subroutine arguments:
       type(t_ic)                    :: ic
-      type(t_material), target      :: mater
+      type(t_material)              :: mater
       real(kind=8),     intent(in)  :: dx, dy
       real(kind=8),     intent(out) :: azz
 !--constants/parameters:
@@ -773,22 +772,13 @@ contains
 !--function result:
       real(kind=8) :: Fklm
 !--subroutine arguments:
-      type(t_xyr),  target  :: xyr
+      type(t_xyr)           :: xyr
       integer               :: ix, iy, klm
-!--local variables:
-      real(kind=8), pointer :: x, y, r, xlog, ylog, rlog, xlogy, ylogx, xtanyx, ytanxy
 
-      x      => xyr%x(ix)
-      y      => xyr%y(iy)
-      r      => xyr%r(ix,iy)
-      xlog   => xyr%xlog(ix,iy)
-      ylog   => xyr%ylog(ix,iy)
-      rlog   => xyr%rlog(ix,iy)
-      xlogy  => xyr%xlogy(ix,iy)
-      ylogx  => xyr%ylogx(ix,iy)
-      xtanyx => xyr%xtanyx(ix,iy)
-      ytanxy => xyr%ytanxy(ix,iy)
-
+      associate(x      => xyr%x(ix),        y      => xyr%y(iy),        r      => xyr%r(ix,iy),         &
+                xlog   => xyr%xlog(ix,iy),  ylog   => xyr%ylog(ix,iy),  rlog   => xyr%rlog(ix,iy),      &
+                xlogy  => xyr%xlogy(ix,iy), ylogx  => xyr%ylogx(ix,iy), xtanyx => xyr%xtanyx(ix,iy),    &
+                ytanxy => xyr%ytanxy(ix,iy))
 
       if     (klm.eq.001) then
          Fklm = xlogy + ylogx
@@ -838,6 +828,7 @@ contains
          Fklm = 1d10
       endif
 
+      end associate
    end function Fklm
 
 !------------------------------------------------------------------------------------------------------------

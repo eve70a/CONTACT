@@ -38,17 +38,16 @@ private influe_yv_ysv
    type :: t_inflcf
       real(kind=8),    dimension(:,:,:,:),   allocatable :: cf
       real(kind=8),    dimension(:,:,:,:,:), allocatable :: cy
-      real(kind=8)                                       :: xoffs
-      real(kind=8)                                       :: yoffs
-      type(t_grid),                          pointer     :: grid   => NULL()
+      integer                                            :: cf_mx, cf_my
+      real(kind=8)                                       :: dx, dy
+      real(kind=8)                                       :: xoffs, yoffs
       integer                                            :: itypcf
       logical                                            :: nt_cpl
       real(kind=8)                                       :: ga, ga_inv
       logical                                            :: use_3bl, use_flxz
       real(kind=8)                                       :: flx_3bl, flx_z
       logical,         dimension(:,:)                    :: fft_ok(3,3)
-      integer                                            :: fft_mx
-      integer                                            :: fft_my
+      integer                                            :: fft_mx, fft_my
       complex(kind=8), dimension(:,:,:),     pointer     :: fft_cf => NULL()
 
       ! itypcf   type of influence matrix.
@@ -57,6 +56,9 @@ private influe_yv_ysv
       ! nt_cpl   coupling between normal and tangential problems
       !            false == no coupling, e.g. Ak==0.
       !            true  == coupling, Ak<>0 or num.infl.cf.
+      ! cf_mx    number of grid elements provided in x-direction, can be larger than actual contact grid 
+      ! cf_my    number of grid elements provided in y-direction, can be larger than actual contact grid
+      ! dx, dy   element grid sizes used in x-/y-direction
       ! ga       combined modulus of rigidity - scaling factor not included in coefficients themselves
       ! ga_inv   1/ga, scaling factor not included in coefficients themselves
       ! use_3bl  flag indicating whether a 3rd body/interfacial layer is included (h3>0) or not
@@ -71,8 +73,8 @@ private influe_yv_ysv
       !          tractions grid.
       !          If the two grids are the same, then element cf(ix,iy,ik,jk) is the displacement in (ix,iy)
       !          due to a unit load in the  element (0,0).
-      !          Cf has size (-mx+1:mx, -my+1:my, 3, 3). Grid column (mx,:) and row (:,my) are referenced
-      !          in the program but do not affect the calculations.
+      !          Cf has size (-cf_mx+1:cf_mx, -cf_my+1:cf_my, 3, 3). Grid column (cf_mx,:) and row (:,cf_my)
+      !          are referenced in the program but do not affect the calculations.
       !          The coefficients are scaled by GA (historical reasons(?))
       ! cy       same as cf, with separate influence matrices for all grid lines jy (3rd array dimension)
       ! xoffs    x-offset of the tractions grid with respect to the observation grid. Particularly used for
@@ -80,7 +82,7 @@ private influe_yv_ysv
       !          For rolling with chi=0, the coordinate system moves forward over distance Dq per step, such
       !          that tractions pv(jx,jy) should be located at (x(jx)-dq,y(jy)) instead of (x(jx),y(jy)).
       ! yoffs    y-offset between tractions and displacements grids, see xoffs.
-      ! grid     pointer to grid-data on which infl.coefficients are defined, particularly mx,my, dx,dy
+      ! grid     pointer to grid-data on which infl.coefficients are defined originally, particularly dx,dy
                  
       ! fft_ok   flag array, describing for which coordinate direction pairs (ik,jk) the fft transform of
       !          the influence coefficients is available in fft_cf.
@@ -119,19 +121,18 @@ contains
       implicit none
 !--subroutine arguments:
       integer         , intent(in)    :: itypcf
-      type(t_grid),     target        :: grid
+      type(t_grid)                    :: grid
       type(t_inflcf)  , intent(inout) :: inflcf
 !--local variables:
       integer    :: nmatrix
-!--pointers to member variables:
-      integer,                    pointer :: mx, my
 
-      mx    => grid%nx
-      my    => grid%ny
+      ! Copy grid properties used in influence matrix
 
-      ! Store pointer to grid in influence matrix
-
-      inflcf%grid  => grid
+      inflcf%cf_mx = grid%nx
+      inflcf%cf_my = grid%ny
+      inflcf%dx    = grid%dx
+      inflcf%dy    = grid%dy
+      associate( mx => inflcf%cf_mx, my => inflcf%cf_my )
 
       if (itypcf.eq.0) then
 
@@ -187,24 +188,25 @@ contains
       inflcf%fft_my = 2*my
       inflcf%fft_ok = .false.
 
+      end associate
    end subroutine inflcf_new
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine inflcf_copy(if_in, if_out, grid)
+   subroutine inflcf_copy(if_in, if_out)
 !--purpose: copy data of influence coefficients matrix if_in to if_out
       implicit none
 !--subroutine arguments:
       type(t_inflcf)  , intent(inout) :: if_in, if_out
-      type(t_grid),     target        :: grid
 !--local variables:
-      integer    :: nmatrix, mx, my, ik, jk, imat, iy
-
-      mx    = grid%nx
-      my    = grid%ny
+      integer    :: nmatrix, ik, jk, imat, iy
 
       ! copy basic parameters
 
+      if_out%cf_mx    = if_in%cf_mx
+      if_out%cf_my    = if_in%cf_my
+      if_out%dx       = if_in%dx
+      if_out%dy       = if_in%dy
       if_out%xoffs    = if_in%xoffs
       if_out%yoffs    = if_in%yoffs
       if_out%itypcf   = if_in%itypcf
@@ -216,9 +218,7 @@ contains
       if_out%use_flxz = if_in%use_flxz
       if_out%flx_z    = if_in%flx_z
 
-      ! copy grid pointer
-
-      if_out%grid    = if_in%grid
+      associate( mx => if_out%cf_mx, my => if_out%cf_my )
 
       ! Reset Fourier transform data
 
@@ -285,6 +285,7 @@ contains
          call abort_run()
 
       endif
+      end associate
 
    end subroutine inflcf_copy
 
@@ -303,8 +304,7 @@ contains
       real(kind=8)       :: smat, sy
       character(len=14)  :: strng(9)
 
-      associate(mx    => inflcf%grid%nx, my    => inflcf%grid%ny, dx    => inflcf%grid%dx,              &
-                dy    => inflcf%grid%dy)
+      associate(mx => inflcf%cf_mx, my => inflcf%cf_my, dx => inflcf%dx, dy => inflcf%dy)
 
       ! print influence coefficients to output-file
 
@@ -387,7 +387,7 @@ contains
             iy0 = max(iy0, -my+1)
 
             do iy = iy0, my-1
-               sy = iy * inflcf%grid%dy
+               sy = iy * dy
                write(lun,'(a,i3,a,f8.3,a)') '% offset is=',iy,' (s=', sy, ')'
                write(lun,1243)
                do ix = 0, mx-1                     ! zz, zx, zy,  xz, xx, xy,  yz, yx, yy
@@ -400,7 +400,7 @@ contains
                   strng(7) = fmt_gs(12, 5, inflcf%cf(ix,iy,2,3))
                   strng(8) = fmt_gs(12, 5, inflcf%cf(ix,iy,2,1))
                   strng(9) = fmt_gs(12, 5, inflcf%cf(ix,iy,2,2))
-                  write(lun,1244) ix, ix*inflcf%grid%dx, (strng(i)(1:12), i=1,9)
+                  write(lun,1244) ix, ix*dx, (strng(i)(1:12), i=1,9)
                enddo
             enddo
 
@@ -442,7 +442,7 @@ contains
             iy0 = max(iy0, -my+1)
 
             do imat = 1, my
-               smat = real(imat-my/2-1) * inflcf%grid%dy        ! ok for odd my??
+               smat = real(imat-my/2-1) * dy        ! ok for odd my??
                write(lun,1249)
                write(lun,'(a,i3)') '% starting data for matrix number',imat
                write(lun,1249)
@@ -450,7 +450,7 @@ contains
   1246         format(i4, f8.3, f9.3, '     0 0 0 0 0 0 0 0  % matrix number, loaded element (xc, sc)')
 
                do iy = iy0, my-1
-                  sy = smat + iy * inflcf%grid%dy
+                  sy = smat + iy * dy
                   write(lun,'(a,i3,a,f8.3,a,i4,a,2(f8.3,a))') '% offset is=',iy,' (s=', sy,             &
                                 ') for matrix', imat, ' (xc,sc)=(',0d0,',',smat,'),'
                   write(lun,1243)
@@ -464,7 +464,7 @@ contains
                      strng(7) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,2,3))
                      strng(8) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,2,1))
                      strng(9) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,2,2))
-                     write(lun,1244) ix, ix*inflcf%grid%dx, (strng(i)(1:12), i=1,9)
+                     write(lun,1244) ix, ix*dx, (strng(i)(1:12), i=1,9)
                   enddo
                enddo
             enddo
@@ -501,7 +501,6 @@ contains
       if (allocated(inflcf%cf)) deallocate(inflcf%cf)
       if (allocated(inflcf%cy)) deallocate(inflcf%cy)
       if (associated(inflcf%fft_cf)) deallocate(inflcf%fft_cf)
-      nullify(inflcf%grid)
       nullify(inflcf%fft_cf)
 
    end subroutine inflcf_destroy
@@ -516,12 +515,8 @@ contains
 !--subroutine arguments:
       logical                  :: is_roll
       character(len=*)         :: fname_influe, dirnam
-      type(t_grid),     target :: cgrid
-      type(t_influe),   target :: influ
-!--pointers to global data items:
-      integer,                    pointer :: mxarr, myarr
-      real(kind=8),               pointer :: dx, dy
-      real(kind=8), dimension(:,:,:,:,:), pointer :: ys, yv, ysv
+      type(t_grid)             :: cgrid
+      type(t_influe)           :: influ
 !--local variables:
       integer, parameter :: mxnval = 20
       logical, parameter :: lstop  = .true.
@@ -533,6 +528,7 @@ contains
       real(kind=8)  :: dbles(mxnval)
       character*256 :: strngs(mxnval), fulnam_influe
 
+      associate( mxarr => cgrid%nx, myarr => cgrid%ny, dx    => cgrid%dx, dy    => cgrid%dy)
       call timer_start(itimer_infload)
 
       ! determine full path-name, pre-pending dirname when necessary
@@ -546,13 +542,6 @@ contains
       ! use free unit number defined in m_print_output
 
       linfl  = ltmp
-
-      ! set pointers to frequently used global data items
-
-      mxarr => cgrid%nx
-      myarr => cgrid%ny
-      dx    => cgrid%dx
-      dy    => cgrid%dy
 
       ncase  = 1
       idebug = 1
@@ -683,10 +672,6 @@ contains
       influ%cv%nt_cpl = .true.
       influ%csv%nt_cpl = .true.
 
-      ys    => influ%cs%cy
-      yv    => influ%cv%cy
-      ysv   => influ%csv%cy
-
       if (itypcf.eq.0) then
          if (idebug.ge.5) write(*,*) 'starting influe_loadtyp0...'
          call influe_loadtyp0(is_roll, linfl, idebug, mxfile, myfile, mxarr, myarr, influ%cs%cf,     &
@@ -694,7 +679,8 @@ contains
          if (idebug.ge.5) write(*,*) 'returned influe_loadtyp0...'
       else
          if (idebug.ge.5) write(*,*) 'starting influe_loadtyp1...'
-         call influe_loadtyp1(is_roll, linfl, mxfile, myfile, nmatrix, mxarr, myarr, ys, yv, ysv)
+         call influe_loadtyp1(is_roll, linfl, mxfile, myfile, nmatrix, mxarr, myarr, influ%cs%cy,       &
+                        influ%cv%cy, influ%csv%cy)
       endif
       close(linfl)
 
@@ -711,6 +697,8 @@ contains
       endif
       if (idebug.ge.5) call write_log('infload: done, returning')
       call timer_stop(itimer_infload)
+
+      end associate
 
    end subroutine influe_load
 
@@ -923,8 +911,8 @@ contains
       logical                   :: is_roll
       integer,       intent(in) :: imethod, iversion, nincln
       real(kind=8),  intent(in) :: aincln(nincln,2)
-      type(t_grid),      target :: cgrid
-      type(t_influe),    target :: influ
+      type(t_grid)              :: cgrid
+      type(t_influe)            :: influ
 !--local variables:
       integer, parameter :: idebug = 0
       integer            :: iy, ii, j, mx, my, itypcf, nmatrix
@@ -1029,7 +1017,7 @@ contains
       ! copy halfspace influence coefficients to temporary storage
 
       call inflcf_new(aij, 0, cgrid)
-      call inflcf_copy(influ%cs, aij, cgrid)
+      call inflcf_copy(influ%cs, aij)
 
       ! (re-)allocate influence coefficient arrays at the appropriate size
 

@@ -23,7 +23,7 @@ contains
 !--purpose: compute derived quantities, print output to out-file
       implicit none
 !--subroutine arguments:
-      type(t_probdata), target :: gd
+      type(t_probdata)         :: gd
 !--local variables :
       integer, parameter       :: idebug = 3
       integer      :: ii, i, j, iin, iout, lstrow, ncon, nadh, nslip, nplast, nexter

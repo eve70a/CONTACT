@@ -26,7 +26,7 @@ contains
       implicit none
 !--subroutine arguments:
       integer                   :: inp, linenr, ncase
-      type(t_ws_track), target  :: prob
+      type(t_ws_track)          :: prob
 !--local variables:
       integer,      parameter :: mxnval = 20
       logical,      parameter :: lstop  = .true.
@@ -37,13 +37,11 @@ contains
       character*16     :: types, namside
       character*256    :: strngs(mxnval)
       type(t_ic)       :: icold
-!--pointers to parts of problem structure:
-      type(t_wheel),     pointer :: my_wheel
-      type(t_rail),      pointer :: my_rail
 
       associate( ic    => prob%ic,    meta  => prob%meta, mater => prob%mater, discr => prob%discr,     &
                  kin   => prob%kin,   fric  => prob%fric, solv  => prob%solv,  subs  => prob%subs,      &
-                 ws    => prob%ws,    trk   => prob%trk)
+                 ws    => prob%ws,    my_wheel => prob%ws%whl,                                          &
+                 trk   => prob%trk,   my_rail  => prob%trk%rai)
 
       ldebug = 1
       ieof   = -1 ! eof=error
@@ -123,8 +121,6 @@ contains
 
       ! Check requirements on profiles
 
-      my_rail   => trk%rai
-      my_wheel  => ws%whl
       if (ic%config.eq.0 .or. ic%config.eq.4) then
          namside   = 'left'
       else
@@ -849,7 +845,6 @@ contains
       if (ic%ewheel.eq.4 .or. ic%ewheel.eq.5) then
 
          namside = 'current'
-         my_wheel => ws%whl
 
          ! read the wheel position deviations for current side of wheel-set
 
@@ -904,7 +899,7 @@ contains
       implicit none
 !--subroutine arguments:
       integer                   :: ncase
-      type(t_ws_track), target  :: prob
+      type(t_ws_track)          :: prob
 !--local variables:
       integer                  :: vldcmze, xhgiaowr, cpbtnfs, psflrin
       real(kind=8)             :: dflt_turn

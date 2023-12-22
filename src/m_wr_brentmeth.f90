@@ -101,7 +101,7 @@ contains
 !--function result:
       integer                   :: brent_its_find_k
 !--subroutine arguments:
-      type(t_brent_its), target :: its
+      type(t_brent_its)         :: its
       integer                   :: k
 !--local variables:
       integer                   :: it
@@ -667,7 +667,7 @@ contains
       integer,           intent(in)    :: k, idebug_br
       logical,           intent(inout) :: used_bisec
       real(kind=8),      intent(in)    :: dfx_dx, tol_xk
-      type(t_brent_its), target        :: its
+      type(t_brent_its)                :: its
       real(kind=8),      intent(out)   :: x_new
 !--local variables:
       logical         :: use_inv_interp = .false.

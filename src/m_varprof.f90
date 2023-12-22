@@ -811,7 +811,7 @@ end subroutine varprof_set_debug
 !--purpose: for a variable profile, determine the knot-vector vj for resampling of slices
       implicit none
 !--subroutine arguments:
-      type(t_profile),            target      :: vprf
+      type(t_profile)                         :: vprf
       real(kind=8),               intent(in)  :: ds_max2d
       real(kind=8), dimension(:), allocatable :: vj
 !--local variables:
@@ -1331,7 +1331,7 @@ end subroutine varprof_set_debug
 !--purpose: interpolate between the slices of a variable profile as needed to fill the grid g_out.
       implicit none
 !--subroutine arguments:
-      type(t_profile), target      :: vprf
+      type(t_profile)              :: vprf
       type(t_marker),  intent(in)  :: m_trk
       real(kind=8),    intent(in)  :: s_ws      ! offset between slice s and track x_tr
       type(t_grid)                 :: g_out
@@ -1531,7 +1531,7 @@ end subroutine varprof_set_debug
 !--purpose: interpolate between the slices of a variable profile as needed to fill the grid g_out.
       implicit none
 !--subroutine arguments:
-      type(t_profile), target      :: vprf
+      type(t_profile)              :: vprf
       type(t_marker),  intent(in)  :: m_trk
       real(kind=8),    intent(in)  :: s_ws      ! offset between slice s and track x_tr
       type(t_grid)                 :: g_out

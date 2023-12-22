@@ -583,7 +583,7 @@ contains
 !--subroutine parameters:
       integer                  :: linp, ncase, ic_varfrc, ic_frclaw_inp, my, linenr, ieof, idebug
       logical                  :: lstop, zerror
-      type(t_friclaw), target  :: fric
+      type(t_friclaw)          :: fric
 !--local variables:
       integer, parameter :: mxnval = 20
       integer            :: ints(mxnval), ivf, ialpha, nval, ierror

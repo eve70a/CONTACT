@@ -349,13 +349,13 @@ contains
       type(t_ic)              :: ic
       type(t_material)        :: mater
       type(t_potcon)          :: potcon
-      type(t_grid),    target :: cgrid
-      type(t_geomet),  target :: geom
+      type(t_grid)            :: cgrid
+      type(t_geomet)          :: geom
       type(t_influe)          :: infl
       type(t_friclaw)         :: fric
       type(t_kincns)          :: kin
       type(t_solvers)         :: solv
-      type(t_output),  target :: outpt1
+      type(t_output)          :: outpt1
       integer                 :: ihertz
 !--local variables:
       integer,          parameter :: idebug = 0

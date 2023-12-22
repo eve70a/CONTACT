@@ -36,9 +36,9 @@ contains
 !--subroutine parameters :
       type(t_ic)             :: ic
       type(t_material)       :: mater
-      type(t_grid),   target :: cgrid
-      type(t_kincns), target :: kin
-      type(t_geomet), target :: geom
+      type(t_grid)           :: cgrid
+      type(t_kincns)         :: kin
+      type(t_geomet)         :: geom
       type(t_solvers)        :: solv
       type(t_inflcf)         :: cs, ms
       type(t_eldiv)          :: igs1
@@ -50,14 +50,13 @@ contains
       logical               :: zready, use_vecfft, use_fftprec
       integer               :: ii, ix, iy, npot, ncon, nconprev, newext, newcon, itcg, it, smllpn, smlldd
       real(kind=8)          :: dd, errpn, tol, dxdy
-      real(kind=8), pointer :: pen
       logical, parameter    :: writechg = .true.
       integer, parameter    :: iidbg = 34
 
+      associate(pen  => kin%pen)
       call gf3_nullify(tmp)
       npot =  cgrid%ntot
       dxdy =  cgrid%dxdy
-      pen  => kin%pen
 
       call timer_start(itimer_snorm)
 
@@ -375,6 +374,7 @@ contains
       call gf3_destroy(htang)
       call gf3_destroy(hstot) 
       
+      end associate
    end subroutine snorm
 
 !------------------------------------------------------------------------------------------------------------
@@ -383,7 +383,7 @@ contains
 !--purpose: Produce "nmdbg-output" for different phases in the NORM algorithm
       implicit none
 !--subroutine parameters :
-      type(t_grid),   target :: cgrid
+      type(t_grid)           :: cgrid
       type(t_eldiv)          :: igs
       type(t_gridfnc3)       :: hs, ps, htang, hstot, unn
       real(kind=8)           :: pen
@@ -479,9 +479,9 @@ contains
 !--subroutine parameters :
       type(t_ic)             :: ic
       type(t_material)       :: mater
-      type(t_grid),   target :: cgrid
-      type(t_kincns), target :: kin
-      type(t_geomet), target :: geom
+      type(t_grid)           :: cgrid
+      type(t_kincns)         :: kin
+      type(t_geomet)         :: geom
       type(t_solvers)        :: solv
       type(t_inflcf)         :: cs
       type(t_eldiv)          :: igs
@@ -612,7 +612,7 @@ contains
       implicit none
 !--subroutine parameters :
       type(t_material)       :: mater
-      type(t_grid),   target :: cgrid
+      type(t_grid)           :: cgrid
       integer                :: iimin
       real(kind=8)           :: pentot
       type(t_inflcf)         :: cs
@@ -774,7 +774,7 @@ contains
       implicit none
 !--subroutine parameters :
       type(t_material)       :: mater
-      type(t_grid),   target :: cgrid
+      type(t_grid)           :: cgrid
       type(t_gridfnc3)       :: hstot
       integer                :: idebug
       real(kind=8)           :: a1, b1, aa, bb, ymid, pentot

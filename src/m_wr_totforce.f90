@@ -36,7 +36,7 @@ contains
 !--purpose: process the whole w/r problem for a case, including NR-loops for prescribed forces
       implicit none
 !--subroutine arguments:
-      type(t_ws_track), target      :: wtd
+      type(t_ws_track)              :: wtd
       integer,          intent(out) :: my_ierror
 !--local variables:
       logical            :: lfound
@@ -153,7 +153,7 @@ contains
 !--purpose: determine an initial bracket for z_ws for starting the Brent algorithm
       implicit none
 !--subroutine arguments:
-      type(t_ws_track),  target        :: wtd
+      type(t_ws_track)                 :: wtd
       integer,           intent(in)    :: imeth
       integer,           intent(in)    :: idebug_br, idebug_cnt
       integer,           intent(out)   :: my_ierror
@@ -296,7 +296,7 @@ contains
 !--purpose: process the w/r problem for a case with prescribed vertical force with Brents algorithm
       implicit none
 !--subroutine arguments:
-      type(t_ws_track), target      :: wtd
+      type(t_ws_track)              :: wtd
       integer,          intent(in)  :: iestim_br, idebug_cnt
       real(kind=8),     intent(in)  :: z_offset
       integer,          intent(out) :: my_ierror
@@ -473,7 +473,7 @@ contains
 !--purpose: process the w/r problem for a case with prescribed forces with Secant for Fx, Brent for Fz
       implicit none
 !--subroutine arguments:
-      type(t_ws_track), target      :: wtd
+      type(t_ws_track)              :: wtd
       integer,          intent(in)  :: idebug_cnt
       integer,          intent(out) :: my_ierror
 !--local variables:
@@ -761,7 +761,7 @@ contains
 !--purpose: process the w/r problem for a case with prescribed forces with Brent for Fy, Brent for Fz
       implicit none
 !--subroutine arguments:
-      type(t_ws_track), target      :: wtd
+      type(t_ws_track)              :: wtd
       integer,          intent(in)  :: idebug_cnt
       integer,          intent(out) :: my_ierror
 !--local variables:

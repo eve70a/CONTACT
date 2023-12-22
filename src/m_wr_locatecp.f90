@@ -622,7 +622,7 @@ contains
       else ! my_wheel%prw%is_varprof()
 
          call timer_start(itimer_interp1)
-         call compute_oor_whl(ic, ws, region, dx_cp, nslc, whl_curv, whl_curv_uv, idebug)
+         call compute_oor_whl(ic, ws, dx_cp, nslc, whl_curv, whl_curv_uv, idebug)
          call timer_stop(itimer_interp1)
 
       endif ! prw%is_varprof()
@@ -929,7 +929,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine compute_oor_whl (ic, ws, region, dx_cp, nslc, whl_curv, whl_uv, idebug)
+   subroutine compute_oor_whl (ic, ws, dx_cp, nslc, whl_curv, whl_uv, idebug)
 !--purpose: compute 3d mesh for out-of-round wheel surface
       implicit none
 !--subroutine arguments:
@@ -940,7 +940,6 @@ contains
       integer,          intent(in)  :: idebug
       type(t_grid)                  :: whl_curv
       type(t_gridfnc3)              :: whl_uv
-      type(t_region)                :: region
 !--local variables:
       logical,        parameter  :: compute_uv = .false.
       integer                    :: iu, iv, ii, nw, sub_ierror

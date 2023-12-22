@@ -277,8 +277,6 @@ subroutine gf3_VecAijPj (Igs, iigs, U, ikarg, P, jkarg, C)
    integer                :: ik, ik0, ik1, ii, igs0, igs1
    integer                :: jk, jk0, jk1
    logical                :: usefft, ladd
-   integer,       pointer :: npot
-   type(t_grid),  pointer :: grid
 
    ! determine range for element division codes igs
 
@@ -304,8 +302,13 @@ subroutine gf3_VecAijPj (Igs, iigs, U, ikarg, P, jkarg, C)
       ik1 = 0
    endif
 
-   grid => p%grid
-   npot => grid%ntot
+   associate(npot => p%grid%ntot, mx => p%grid%nx, my => p%grid%ny)
+
+   if (mx.gt.c%cf_mx .or. my.gt.c%cf_my) then
+      write(*,*) 'Internal error: contact grid is larger than grid used for infl.coeff.'
+      write(*,*) '                mx,my=',mx,my,', cf_mx,my=',c%cf_mx, c%cf_my
+      call abort_run()
+   endif
 
    ! Switch depending on whether the FFT routine should be used or not
 
@@ -314,7 +317,6 @@ subroutine gf3_VecAijPj (Igs, iigs, U, ikarg, P, jkarg, C)
 #else
    usefft = .false.
 #endif
-
 
    ! determine range for traction directions jk
 
@@ -424,7 +426,7 @@ subroutine gf3_VecAijPj (Igs, iigs, U, ikarg, P, jkarg, C)
 
 !_INT_OMP parallel do if (omp_in_parallel().eq.0)                                                           &
 !_INT_OMP         default(none)                                                                             &
-!_INT_OMP         shared(c, p, u, igs, grid, npot, jkarg, igs0, igs1, ik0, ik1)                             &
+!_INT_OMP         shared(c, p, u, igs, npot, jkarg, igs0, igs1, ik0, ik1)                                   &
 !_INT_OMP         private(ii, ik)
 
       ! loop over all elements of potential contact area
@@ -444,6 +446,7 @@ subroutine gf3_VecAijPj (Igs, iigs, U, ikarg, P, jkarg, C)
 
    endif ! usefft
 
+   end associate
 end subroutine gf3_VecAijPj
 
 !------------------------------------------------------------------------------------------------------------
@@ -457,7 +460,7 @@ subroutine fft_makePrec (ik, c, jk, m)
 !           ik and jk must be a single coordinate direction "1".
    implicit none
 !--subroutine parameters:
-   type(t_inflcf),  target     :: c, m
+   type(t_inflcf)              :: c, m
    integer,         intent(in) :: ik, jk
 !--local variables:
    integer                :: idebug
@@ -468,7 +471,6 @@ subroutine fft_makePrec (ik, c, jk, m)
    integer                :: strides_spac(fft_ndim+1), strides_four(fft_ndim+1)
    integer(kind=4)        :: status
    real(kind=8)           :: scale
-   type(t_grid),  pointer :: grid
 !dir$attributes align : 16 :: cs, cf, ms, mf
    real(kind=8),    dimension(:), allocatable :: cs, ms
    complex(kind=8), dimension(:), pointer     :: cf, mf
@@ -495,15 +497,13 @@ subroutine fft_makePrec (ik, c, jk, m)
    endif
    m%nt_cpl = c%nt_cpl
 
-   grid  => c%grid
-
-   ! Get the selection of the input grid to be used in the Fourier transform
+   ! Get the selection of the input infl.coeff to be used in the Fourier transform
    ! Use full potential contact area (AllElm) 
 
    ix0    = 1
-   ix1    = grid%nx
+   ix1    = c%cf_mx
    iy0    = 1
-   iy1    = grid%ny
+   iy1    = c%cf_my
 
    ! Compute favourable data sizes for use in the FFT
    ! NOTE: Cannot be used in makePrec (?!!)
@@ -617,9 +617,9 @@ subroutine fft_makePrec (ik, c, jk, m)
 
       allocate(cs( 2*fft_mx  * 2*fft_my))
       cs = 0d0
-      do iy = -min(fft_my,grid%ny), min(fft_my,grid%ny)-1
+      do iy = -min(fft_my,c%cf_my), min(fft_my,c%cf_my)-1
          iof1 = (iy+fft_my)*2*fft_mx + fft_mx + 1
-         do ix = -min(fft_mx,grid%nx), min(fft_mx,grid%nx)-1
+         do ix = -min(fft_mx,c%cf_mx), min(fft_mx,c%cf_mx)-1
             cs(iof1+ix) = c%cf(ix,iy,ik,jk)
          enddo
       enddo
@@ -693,9 +693,9 @@ subroutine fft_makePrec (ik, c, jk, m)
 
    ! Copy spatial preconditioner coefficients from work array ms to M
 
-   do iy = -min(fft_my,grid%ny), min(fft_my,grid%ny)-1
+   do iy = -min(fft_my,c%cf_my), min(fft_my,c%cf_my)-1
       iof1 = (iy+fft_my)*2*fft_mx + fft_mx + 1
-      do ix = -min(fft_mx,grid%nx), min(fft_mx,grid%nx)-1
+      do ix = -min(fft_mx,c%cf_mx), min(fft_mx,c%cf_mx)-1
          m%cf(ix,iy,ik,jk) = c%ga**2 * ms(iof1+ix) 
       enddo
    enddo
@@ -736,7 +736,6 @@ subroutine fft_VecAijPj (Igs, ladd, iigs, U, ik, P, jk, C)
    integer                :: strides_spac(fft_ndim+1), strides_four(fft_ndim+1)
    integer(kind=4)        :: status
    real(kind=8)           :: scale
-   type(t_grid),  pointer :: grid
    real(kind=8),    dimension(:), allocatable :: ps, cs, us
    complex(kind=8), dimension(:), allocatable :: pf, uf
 
@@ -753,6 +752,8 @@ subroutine fft_VecAijPj (Igs, ladd, iigs, U, ik, P, jk, C)
       if (iigs.eq.AllInt) write(*,*) 'mkl_fft_vecaijpj: starting for AllInt ...'
    endif
 
+   associate( mx => p%grid%nx, my => p%grid%ny )
+
    ! Note: ik and jk must be 1, 2 or 3 (single matrix block).
    !       iigs must be AllElm or AllInt.
 
@@ -765,15 +766,13 @@ subroutine fft_VecAijPj (Igs, ladd, iigs, U, ik, P, jk, C)
       call abort_run()
    endif
 
-   grid  => p%grid
-
    ! Get the selection of the input grid to be used in the Fourier transform
    ! Note: include one column to the left and right of the actual contact area (ixmin-1, ixmax+1)
    !       for products with dp in SteadyGS.
 
    if (iigs.eq.AllInt) then
       ix0    = max(1, min(igs%ixmin-1, p%eldiv%ixmin-1))
-      ix1    = min(grid%nx, max(igs%ixmax+1, p%eldiv%ixmax+1))
+      ix1    = min(mx, max(igs%ixmax+1, p%eldiv%ixmax+1))
       iy0    = min(igs%iymin, p%eldiv%iymin)
       iy1    = max(igs%iymax, p%eldiv%iymax)
       iarea = (ix1-ix0+1)*(iy1-iy0+1)
@@ -785,11 +784,11 @@ subroutine fft_VecAijPj (Igs, ladd, iigs, U, ik, P, jk, C)
    ! much smaller (factor 1/2.5).
    ! Note: Norm+CG is faster with encompassing rectangle, NormGPCG with always using fullbox
 
-   if (iigs.ne.AllInt .or. 1.1*iarea.gt.grid%nx*grid%ny .or. .false.) then
+   if (iigs.ne.AllInt .or. 1.1*iarea.gt.mx*my .or. .false.) then
       ix0    = 1
-      ix1    = grid%nx
+      ix1    = mx
       iy0    = 1
-      iy1    = grid%ny
+      iy1    = my
    endif
 
    if (ix1.lt.ix0 .or. iy1.lt.iy0) then
@@ -893,9 +892,9 @@ subroutine fft_VecAijPj (Igs, ladd, iigs, U, ik, P, jk, C)
 
       allocate(cs( 2*fft_mx  * 2*fft_my))
       cs = 0d0
-      do iy = -min(fft_my,grid%ny), min(fft_my,grid%ny)-1
+      do iy = -min(fft_my,my), min(fft_my,my)-1
          iof1 = (iy+fft_my)*2*fft_mx + fft_mx + 1
-         do ix = -min(fft_mx,grid%nx), min(fft_mx,grid%nx)-1
+         do ix = -min(fft_mx,mx), min(fft_mx,mx)-1
             cs(iof1+ix) = c%cf(ix,iy,ik,jk)
          enddo
       enddo
@@ -932,7 +931,7 @@ subroutine fft_VecAijPj (Igs, ladd, iigs, U, ik, P, jk, C)
    ps = 0d0
    do iy = iy0, iy1
       iof1 = (iy-iy0)*2*fft_mx - ix0 + 1
-      iof2 = (iy-1)*grid%nx
+      iof2 = (iy-1)*mx
       do ix = ix0, ix1
          ps(iof1+ix) = p%val(iof2+ix,jk)
       enddo
@@ -982,7 +981,7 @@ subroutine fft_VecAijPj (Igs, ladd, iigs, U, ik, P, jk, C)
 
       do iy = iy0, iy1
          iof1 = (fft_my+iy-iy0)*2*fft_mx + fft_mx-ix0+1
-         iof2 =    (iy-1)*  grid%nx
+         iof2 =    (iy-1)*  mx
          if (idebug.ge.8) write(*,*) 'iy=',iy,': iof2=',iof2,', iof1=',iof1
          do ix = ix0, ix1
             ii = iof2 + ix
@@ -996,7 +995,7 @@ subroutine fft_VecAijPj (Igs, ladd, iigs, U, ik, P, jk, C)
 
       do iy = iy0, iy1
          iof1 = (fft_my+iy-iy0)*2*fft_mx + fft_mx-ix0+1
-         iof2 =    (iy-1)*  grid%nx
+         iof2 =    (iy-1)*  mx
          do ix = ix0, ix1
             ii = iof2 + ix
             if (igs%el(ii).ge.igs0 .and. igs%el(ii).le.igs1) u%val(ii,ik) = u%val(ii,ik) + us(iof1+ix)
@@ -1008,6 +1007,7 @@ subroutine fft_VecAijPj (Igs, ladd, iigs, U, ik, P, jk, C)
    ! Cleanup, destroy work-arrays
 
    deallocate(ps, us, pf, uf)
+   end associate
 
    if (time_fft) call timer_stop(itimer_ffttot)
    if (idebug.ge.1) write(*,*) 'mkl_fft_vecaijpj: done, returning...'

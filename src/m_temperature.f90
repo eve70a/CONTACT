@@ -55,7 +55,7 @@ contains
       type(t_ic),       intent(in)          :: ic
       type(t_material), intent(in)          :: mater
       type(t_kincns),   intent(in)          :: kin
-      type(t_grid),     intent(in),  target :: cgrid
+      type(t_grid),     intent(in)          :: cgrid
       type(t_output),   intent(inout)       :: outpt
 !--local variables:
       real(kind=8), parameter :: pi = 4d0 * atan(1d0)

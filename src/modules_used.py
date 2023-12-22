@@ -13,7 +13,7 @@ outfile      = 'modules.incl'
 ignore_files = ['contact.f90', 'contact_addon.f90', 'caddon_license.f90', 'mkl_dfti.f90', 
                 'test_caddon.f90', 'test_float.f90', 'test_mbench.f90', 'test_memory.f90',
                 'test_table.f90', 'usetab_table.f90' ]
-ignore_mods  = ['iso_c_binding', 'ifport', 'omp_lib', 'gsCApi/gsFInterface.ifc' ]
+ignore_mods  = ['iso_c_binding', 'ifport', 'omp_lib' ]
 
 # end global definitions
 

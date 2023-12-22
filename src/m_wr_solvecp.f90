@@ -35,7 +35,7 @@ contains
 !--purpose: process the w/r problem for a case with positions & velocities prescribed
       implicit none
 !--subroutine arguments:
-      type(t_ws_track), target      :: wtd
+      type(t_ws_track)              :: wtd
       integer,          intent(in)  :: idebug
       integer,          intent(out) :: my_ierror
 !--local variables:
@@ -152,7 +152,7 @@ contains
 !--purpose: compute subsurface stresses for all cps in the w/r problem
       implicit none
 !--subroutine arguments:
-      type(t_ws_track), target :: wtd
+      type(t_ws_track)  :: wtd
       integer                  :: idebug
 !--local variables:
       integer                  :: icp
@@ -750,7 +750,7 @@ contains
    implicit none
 !--subroutine arguments:
       integer,          intent(in)    :: idebug
-      type(t_ws_track), target        :: wtd
+      type(t_ws_track)             :: wtd
 !--local variables:
       integer                   :: icp, ierror
       real(kind=8)              :: sr, xr, yr, zr

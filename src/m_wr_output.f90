@@ -25,7 +25,7 @@ contains
 !--purpose: output routine for module 1: W/R contact
       implicit none
 !--subroutine arguments:
-      type(t_ws_track), target :: wtd
+      type(t_ws_track)         :: wtd
 !--local variables:
       integer, parameter       :: idebug = 0
       logical      :: znewln, is_roll, is_ssrol, use_plast
@@ -41,14 +41,12 @@ contains
       type(t_cpatch),    pointer :: cp
       type(t_probdata),  pointer :: gd
       type(t_metadata),  pointer :: meta
-      type(t_rail),      pointer :: my_rail
-      type(t_wheel),     pointer :: my_wheel
       character(len=5)           :: nam_side
 
       call timer_start(itimer_output)
 
       associate( ws    => wtd%ws,    trk   => wtd%trk, ic    => wtd%ic,    mater => wtd%mater,          &
-                 discr => wtd%discr  )
+                 discr => wtd%discr, my_rail => wtd%trk%rai, my_wheel => wtd%ws%whl)
 
       is_roll      = (ic%tang.eq.2 .or. ic%tang.eq.3)
       is_ssrol     = (ic%tang.eq.3)
@@ -56,8 +54,6 @@ contains
 
       ! set pointers to the active rail and wheel in the current configuration
 
-      my_rail  => trk%rai
-      my_wheel => ws%whl
       if (ic%is_left_side()) then
          nam_side = 'LEFT'
          is_right = 0

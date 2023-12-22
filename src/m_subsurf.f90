@@ -69,7 +69,7 @@ subroutine rdsubs (unitnm, ic, ncase, linenr, idebug, subs)
 !--subroutine arguments:
       integer                  :: unitnm, linenr, ncase, idebug
       type(t_ic)               :: ic
-      type(t_subsurf), target  :: subs
+      type(t_subsurf)          :: subs
 !--local variables:
       integer, parameter :: mxnval = 20
       logical, parameter :: lstop = .true.
@@ -77,7 +77,6 @@ subroutine rdsubs (unitnm, ic, ncase, linenr, idebug, subs)
       logical            :: flags(mxnval), zerror, lchanged
       real(kind=8)       :: dbles(mxnval)
       character(len=256) :: strngs(mxnval)
-      type(t_subsblk),            pointer :: b
       real(kind=8), dimension(:), pointer :: tmp
 
       ieof   = -1 ! eof=error
@@ -106,10 +105,10 @@ subroutine rdsubs (unitnm, ic, ncase, linenr, idebug, subs)
          subs%nblock = 0
          do while (isubs.ge.1 .and. subs%nblock.lt.MXBLCK)
 
-            ! increment number of blocks, set pointer to block data
+            ! increment number of blocks, set reference to block data
 
             subs%nblock = subs%nblock + 1
-            b       => subs%blocks(subs%nblock)
+            associate(b => subs%blocks(subs%nblock))
             b%isubs = isubs
 
             ! write(bufout,*) 'rdsubs: starting block',subs%nblock,', isubs=',isubs
@@ -285,6 +284,8 @@ subroutine rdsubs (unitnm, ic, ncase, linenr, idebug, subs)
                            flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
             isubs = ints(1)
 
+            end associate
+
          ! end while (more blocks)
 
          enddo
@@ -301,10 +302,9 @@ subroutine wrsubs (unitnm, ic, subs)
 !--subroutine arguments
       integer                      :: unitnm
       type(t_ic)                   :: ic
-      type(t_subsurf), target      :: subs
+      type(t_subsurf)              :: subs
 !--local variables
       integer                      :: iblock, i
-      type(t_subsblk), pointer     :: b
 
       if (ic%stress.ge.2) then
 
@@ -317,7 +317,7 @@ subroutine wrsubs (unitnm, ic, subs)
 
          do iblock = 1, subs%nblock
 
-            b => subs%blocks(iblock)
+            associate(b => subs%blocks(iblock))
 
             ! write comment line for 2nd and later blocks
 
@@ -390,6 +390,7 @@ subroutine wrsubs (unitnm, ic, subs)
 
             endif
 
+            end associate
          enddo ! blocks
 
          write(unitnm, 901) 0
@@ -407,12 +408,12 @@ subroutine subsur (meta, ic, mater, cgrid, igs, ps, mirror_y, subs)
 !--subroutine parameters:
    type(t_metadata)             :: meta
    type(t_ic)                   :: ic
-   type(t_material), target     :: mater
-   type(t_grid),     target     :: cgrid
-   type(t_eldiv),    target     :: igs
-   type(t_gridfnc3), target     :: ps
+   type(t_material)             :: mater
+   type(t_grid)                 :: cgrid
+   type(t_eldiv)                :: igs
+   type(t_gridfnc3)             :: ps
    logical,          intent(in) :: mirror_y
-   type(t_subsurf),  target     :: subs
+   type(t_subsurf)              :: subs
 !--local variables:
    integer,        parameter :: idebug = 0
 
@@ -641,16 +642,15 @@ subroutine subsur_calc (ic, mater, cgrid_arg, igs_arg, ps_arg, mirror_y, subs, i
    implicit none
 !--subroutine parameters:
    type(t_ic)                   :: ic
-   type(t_material), target     :: mater
+   type(t_material)             :: mater
    type(t_grid),     target     :: cgrid_arg
    type(t_eldiv),    target     :: igs_arg
    type(t_gridfnc3), target     :: ps_arg
    logical,          intent(in) :: mirror_y
-   type(t_subsurf),  target     :: subs
+   type(t_subsurf)              :: subs
    integer                      :: idebug
 !--local variables:
    integer,         parameter :: ncolum = 21
-   type(t_subsblk), pointer   :: b
    integer            :: ii, i, j, iz, kdb, npoint
    integer            :: iblock, iofs, mythrd, numthrd
    logical            :: usefft
@@ -700,7 +700,7 @@ subroutine subsur_calc (ic, mater, cgrid_arg, igs_arg, ps_arg, mirror_y, subs, i
 
    do iblock = 1, subs%nblock
 
-      b      => subs%blocks(iblock)
+      associate(b => subs%blocks(iblock))
       if (idebug.ge.3) then
          write(bufout,*) 'subsur_calc: starting block',iblock,', isubs=',b%isubs
          call write_log(1, bufout)
@@ -816,6 +816,7 @@ subroutine subsur_calc (ic, mater, cgrid_arg, igs_arg, ps_arg, mirror_y, subs, i
       endif ! usefft
       if (lscreen .and. idebug.eq.1) write(*,*)
 
+      end associate
    enddo ! all blocks of coordinates
 
    if (mirror_y) then
@@ -835,10 +836,9 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
 !--subroutine parameters:
    type(t_metadata)         :: meta
    type(t_ic)               :: ic
-   type(t_subsurf),  target :: subs
+   type(t_subsurf)          :: subs
    integer                  :: idebug
 !--local variables:
-   type(t_subsblk),  pointer :: b
    integer            :: lunmat, ncase, iblock, ii, i, j, k, npoint
    logical            :: lwrmat, full_tensor
    real(kind=8)       :: sighyd, sigvm, sigtr, sigmaj(3), sigma(3,3), uw(3), xw(3)
@@ -909,7 +909,7 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
    if (lwrmat) then
       do iblock = 1, subs%nblock
 
-         b      => subs%blocks(iblock)
+         associate(b => subs%blocks(iblock))
          npoint =  b%nx_eff * b%ny_eff * b%nz
 
          if (idebug.ge.3) then
@@ -962,6 +962,7 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
 
          enddo
 
+         end associate
       enddo ! all blocks of coordinates
 
       close(lunmat)
@@ -977,10 +978,9 @@ subroutine subsur_outfile (ic, subs, idebug)
    implicit none
 !--subroutine parameters:
    type(t_ic)                 :: ic
-   type(t_subsurf), target    :: subs
+   type(t_subsurf)            :: subs
    integer                    :: idebug
 !--local variables:
-   type(t_subsblk), pointer   :: b
    integer            :: iblock, ii, i, j, ii_max, npoint
    real(kind=8)       :: sighyd, sigvm, sigtr, sigmaj(3), sigma(3,3), uw(3), xw(3)
 
@@ -990,7 +990,7 @@ subroutine subsur_outfile (ic, subs, idebug)
 
    do iblock = 1, subs%nblock
 
-      b      => subs%blocks(iblock)
+      associate(b => subs%blocks(iblock))
       npoint =  b%nx_eff * b%ny_eff * b%nz
 
       if (idebug.ge.3) then
@@ -1079,6 +1079,7 @@ subroutine subsur_outfile (ic, subs, idebug)
 
    ! end do (all blocks of coordinates)
 
+      end associate
    enddo
    call timer_stop(itimer_subsfile)
 
@@ -1099,7 +1100,7 @@ subroutine sstres_fft(cgrid, mater, igs, ps, b, iz, iofs)
    type(t_material), intent(inout) :: mater
    type(t_eldiv),    intent(in)    :: igs
    type(t_gridfnc3), intent(in)    :: ps
-   type(t_subsblk),  pointer       :: b
+   type(t_subsblk)                 :: b
 !--local variables :
    integer          :: ia, ix, iy, itb, ii, ii_x, ii_y, i, j, k, ik, neg
    real(kind=8)     :: sigma(3,3), sighyd, sigvm, sigtr, sigmaj(3), xw(3), uw(3), vr_ii(3,0:3)
@@ -1411,7 +1412,7 @@ subroutine sstres(cgrid, mater, ps, uw, sighyd, sigvm, sigtr, sigmaj, sigma, xw)
       type(t_grid)     :: cgrid
       type(t_material) :: mater
       real(kind=8)     :: xw(3)
-      type(t_gridfnc3), target :: ps
+      type(t_gridfnc3) :: ps
 !--output parameters:
       real(kind=8)     :: uw(3), sighyd, sigvm, sigtr, sigmaj(3), sigma(3,3)
 
@@ -2069,12 +2070,9 @@ function Fw(xyzr, ix, iy, ij, mn, k, vn)
    type(t_xyzr),               target  :: xyzr
    integer                             :: ix, iy, ij, mn, k, vn
 !--local (pointer) variables:
-   real(kind=8),               pointer :: x, y, z
    real(kind=8), dimension(:), pointer :: r, r3, Lx, Ly, Lz, Kx, Ky, Kz
 
-   x      => xyzr%y(ix,iy,1)
-   y      => xyzr%y(ix,iy,2)
-   z      => xyzr%y(ix,iy,3)
+   associate(x => xyzr%y(ix,iy,1), y => xyzr%y(ix,iy,2), z => xyzr%y(ix,iy,3))
           
    r(0:)  => xyzr%r(ix,iy,0:3)
    r3(0:) => xyzr%r3(ix,iy,0:3)
@@ -2412,6 +2410,7 @@ function Fw(xyzr, ix, iy, ij, mn, k, vn)
       endif
    endif
 
+   end associate
 end function Fw
 
 !------------------------------------------------------------------------------------------------------------

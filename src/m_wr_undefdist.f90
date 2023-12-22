@@ -35,8 +35,6 @@ contains
       type(t_probdata)      :: gd
 !--local variables:
       logical                 :: is_prismatic, use_bicubic
-      type(t_rail),   pointer :: my_rail
-      type(t_wheel),  pointer :: my_wheel
       character(len=5)        :: nam_side
       integer                 :: nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ixdbg, iydbg,    &
                                  iu, iv, icount, ierror
@@ -47,7 +45,6 @@ contains
       real(kind=8),   dimension(:), allocatable :: u_out, v_out
       type(t_vec)             :: vtmp(4)
       type(t_marker)          :: mrw_trk, rail_mref, rw_mref, mcp_rw, mcp_rail
-      type(t_grid),   pointer :: prw_grd
       type(t_grid)            :: rail_sn_full, rail_sn, bbr, bbc
       type(t_grid)            :: prw_trim, whl_srfw_full, whl_srfw, bbw
       character(len=20)       :: tmp_fname
@@ -55,10 +52,9 @@ contains
       if (idebug.ge.2) call write_log(' --- Start subroutine wr_ud_planar ---')
       call timer_start(itimer_udist)
 
-      ! set pointer to the active rail and wheel in the current configuration
+      associate(my_rail   => trk%rai,      my_wheel => ws%whl,                                          &
+                rail_srfc => cp%rail_srfc, whl_srfc => cp%whl_srfc)
 
-      my_rail  => trk%rai
-      my_wheel => ws%whl
       if (ic%is_left_side()) then
          nam_side = 'left'
       else
@@ -67,7 +63,6 @@ contains
 
       is_prismatic  = (.not.ic%is_roller() .and. .not.my_rail%prr%is_varprof())
 
-      associate(rail_srfc => cp%rail_srfc, whl_srfc => cp%whl_srfc)
 
       if (idebug.ge.2) then
          write(bufout,'(a,i2,2(a,i4),a)') ' patch',icp,': pot.contact has',gd%cgrid%nx,' x',    &
@@ -307,7 +302,7 @@ contains
 
          !  - the wheel profile prw_grd is given in wheel profile coordinates
 
-         prw_grd => my_wheel%prw%grd_data
+         associate(prw_grd => my_wheel%prw%grd_data)
          nw = prw_grd%ntot
 
          ! find range of sw on wheel that covers [ymin, ymax]
@@ -339,6 +334,7 @@ contains
          ! select points in [sw_sta, sw_end], refine using spline interpolation
 
          call trim_wheel_profile(prw_grd, swsta, swmid, swend, gd%cgrid%dy, prw_trim, idebug)
+         end associate
 
          ! round to grid with step of dx centered at contact reference (should still encompass pot.contact?)
          !  - define grid with xslc(i') = cp%x + i' * dx , for i' = -nslow : nshig

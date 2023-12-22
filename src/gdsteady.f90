@@ -17,9 +17,9 @@
       type(t_material)                  :: mater
       real(kind=8),     intent(in)      :: eps
       type(t_gridfnc3), intent(in)      :: ws
-      type(t_influe),   target          :: infl
-      type(t_output),   target          :: outpt
-      type(t_solvers),  target          :: solv
+      type(t_influe)                    :: infl
+      type(t_output)                    :: outpt
+      type(t_solvers)                   :: solv
       integer,          intent(out)     :: itgd
       real(kind=8),     intent(out)     :: err
       logical,          intent(out)     :: lstagn
@@ -553,7 +553,7 @@
 !--purpose: compute traction increments dp from tractions ps
       implicit none
 !--subroutine arguments:
-      type(t_gridfnc3), target          :: ps, dp
+      type(t_gridfnc3)  :: ps, dp
 !--local variables:
       integer      :: ii, ix, iy, mx, my
 
@@ -583,7 +583,7 @@
       implicit none
 !--subroutine arguments:
       type(t_eldiv),    intent(in)      :: igs
-      type(t_gridfnc3), target          :: g, t, dv, v
+      type(t_gridfnc3)                  :: g, t, dv, v
       type(t_solvers),  intent(in)      :: solv
       integer,          intent(in)      :: itgd
       integer,          intent(inout)   :: it_fb        ! last iteration where fallback was used
@@ -751,7 +751,7 @@
       implicit none
 !--subroutine arguments:
       type(t_eldiv),    intent(in)      :: igs
-      type(t_gridfnc3), target          :: g, dp, ps
+      type(t_gridfnc3)             :: g, dp, ps
 !--local variables:
       integer      :: ii, ix, iy, mx, my
       real(kind=8) :: ptabs
@@ -850,7 +850,7 @@
       implicit none
 !--subroutine arguments:
       type(t_eldiv),    intent(in)      :: igs
-      type(t_gridfnc3), target          :: mus, taucv, taucs, ps, ss, dupl, dscl
+      type(t_gridfnc3)                  :: mus, taucv, taucs, ps, ss, dupl, dscl
       type(t_solvers),  intent(in)      :: solv
       real(kind=8),     intent(in)      :: tau_c0, k_tau, coefs(2,2)
       integer,          intent(in)      :: idebug, iidbg
@@ -1003,7 +1003,7 @@
       real(kind=8),     intent(in)      :: alpha0
       real(kind=8),     intent(inout)   :: alpha_j
       type(t_eldiv),    intent(in)      :: igs
-      type(t_gridfnc3), target          :: g, dscl, dp, ps, ss, r, dv, v, q, told
+      type(t_gridfnc3)                  :: g, dscl, dp, ps, ss, r, dv, v, q, told
 !--local variables:
       integer,      parameter :: max_j = 99
       real(kind=8), parameter :: tiny = 1d-12, eps_j = 0.001d0
