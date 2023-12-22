@@ -38,6 +38,9 @@
 #  27 - ZR_TR     - z-position of rail profile marker in track coordinates
 #  28 - ROLLR_TR  - roll angle of rail profile marker in track coordinates
 #
+#  31 - DY_DEFL   - lateral rail shift according to massless rail deflection
+#  32 - DZ_DEFL   - vertical rail shift according to massless rail deflection
+#
 #  The "contact reference point" is the origin of the contact local coordinate system. It is determined by
 #  a heuristic rule and is centered within the contact patch in a weighted sense.
 #------------------------------------------------------------------------------------------------------------
@@ -58,7 +61,7 @@ def cntc_getcontactlocation(ire=1, icp=1):
     if (icp<=0):
         sys.exit('ERROR in cntc_getcontactlocation: not available for icp=%d' % icp)
 
-    lenarr = 28
+    lenarr = 32
     values = np.zeros(lenarr, dtype=c_double)
 
     cntc_dll.cntc_getcontactlocation(c_int(ire), c_int(icp), c_int(lenarr),

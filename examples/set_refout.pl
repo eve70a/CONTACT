@@ -5,7 +5,8 @@ use File::Copy qw(move);
 
 my @list=( 'cattaneo', 'carter2d', 'bentall', 'visc_cylindr', 'tractcurv', 'fastsim', 'subsurf', 
            'mbench_a22_left', 'mbench_a22_right', 'mbench_a22_varfric', 'mbench_a22_kpec', 
-           'spence35', 'catt_to_cart', 'conformal', 'veldep_fric', 'ertz_temperature', 'plastic_3bl' );
+           'wheelflat', 'spence35', 'catt_to_cart', 'conformal', 'veldep_fric', 'ertz_temperature', 
+           'plastic_3bl' );
 foreach my $test ( @list ) {
 #foreach my $test ( 'cattaneo' ) {
    my $out = "$test.out";

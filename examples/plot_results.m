@@ -7,19 +7,16 @@ if (~exist('plot_arrow'))
 end
 
 expnam = strvcat('cattaneo', 'carter2d', 'bentall', 'visc_cylindr', 'catt_to_cart', ...
-                 'subsurf', 'spence35', 'mbench', 'kpec', 'tractcurv', 'conformal', ...
+                 'subsurf', 'spence35', 'mbench', 'kpec', 'wheelflat', 'tractcurv', 'conformal', ...
                  'ertz_temperature', 'plastic_3bl', 'fastsim', 'veldep_fric');
 % expnam = strvcat('kpec');
 % expnam = strvcat('plastic_3bl');
-% expnam = strvcat('mbench');
+expnam = strvcat('catt_to_cart');
 
 pause_after_plot = 1 * (size(expnam,1)>1);
 print_figures = 0;
 
 % determine version information on the Matlab graphics system
-
-old_graphics = verLessThan('matlab', '8.4.0');
-new_graphics = ~old_graphics;
 
 if (1==1);
    set(0,'defaultlinelinewidth',2);
@@ -175,25 +172,32 @@ end
 
 if (~isempty(strmatch('catt_to_cart',expnam)))
    figure(1); clf; hold on;
-   r3=loadcase('catt_to_cart',13);  % "r3" = rolling, 3 units == case 13
-   s3=loadcase('catt_to_cart',70);  % "s3" = shift, 3 units == case 70
+   r3 = loadcase('catt_to_cart',13);   % "r3" = rolling, 3 units == case 13
+   s3 = loadcase('catt_to_cart',70);   % "s3" = shift + fixed view, 3 units == case 70
+   v3 = loadcase('catt_to_cart',127);  % "v3" = shift + moving view, 3 units == case 127
    opt=plot2d; opt.yslc=0; opt.facpt=-1;
    plot2d(r3,opt);
-   if (new_graphics), set(gca,'ColorOrderIndex',4); end
-   l=plot(s3.x(1:end-12), -s3.px(17,13:end), '-*');  % row 17 == centerline y=0.
-   if (old_graphics), set(l,'color','r'); end
+   set(gca,'ColorOrderIndex',4);
+   l=plot(s3.x-12*s3.dx, -s3.px(17,:), '-*');  % row 17 == centerline y=0.
+   l=plot(v3.x-12*v3.dx, -v3.px(17,:), '--o');
    if (print_figures), print -djpeg75 catt_distc_12dx.jpg; end
 
    figure(2); clf; hold on;
-   opt=plot3d; opt.field='eldiv';
-   if (old_graphics), opt.colormap='cool'; end
-   % if (new_graphics), opt.exterval=NaN; end
+   opt=plot3d; opt.field='eldiv'; opt.ixrange = [1 999];
    plot3d(r3,opt);
-   title('');
+   title('T = 2, transient rolling');
    if (print_figures), print -djpeg75 catt_eldiv_3units.jpg; end
 
+   figure(3); clf; hold on;
+   plot3d(s3,opt);
+   title('T = 1, shift, constant grid');
+
+   figure(4); clf; hold on;
+   plot3d(v3,opt);
+   title('T = 1, shift, moving grid');
+
    if (pause_after_plot), pause; end
-   clear r3 s3 opt l;
+   % clear r3 s3 v3 opt l;
 end
 
 % 5.6 : The calculation of subsurface stresses
@@ -209,7 +213,6 @@ if (~isempty(strmatch('subsurf',expnam)))
    plot(s1a.z,  -squeeze(s1a.sighyd(1,1,:)), '-o');
    plot(s1a.z,   squeeze(s1a.sigvm(1,1,:)), '-*')
    l=plot(dif.z, squeeze(dif.sigvm(1,1,:)), '--*');
-   if (old_graphics), set(l,'color','r'); end
    axis([0 2.5 0 1.8]); grid; set(gca,'ytick',[0:0.2:1.8]);
    legend('-\sigma_{hyd} for p_z=1, p_x=p_y=0', ...
           '\sigma_{vm} for p_z=1, p_x=p_y=0', ...
@@ -221,8 +224,7 @@ if (~isempty(strmatch('subsurf',expnam)))
    xlabel('z [mm]')
    ylabel('stress [N/mm^2]');
    % set(gca,'position',[0.2 0.1 0.5 0.8])
-   if (old_graphics), set(gcf,'paperposition',[0.25 2.5 6 8]); end
-   if (new_graphics), set(gca,'dataaspectratio',[1.5 1 1]); end
+   set(gca,'dataaspectratio',[1.5 1 1]);
    if (print_figures), print -djpeg75 subsurf_zaxis.jpg; end
 
    figure(2); clf; hold on;
@@ -461,6 +463,68 @@ if (~isempty(strmatch('kpec',expnam)))
 
    if (pause_after_plot), pause; end
    clear sol cntc kpec anly prr prw opt icase bbox len wid nx ny  xc_lb yc_lb
+end
+
+% 5.8 : Wheel flat example
+
+if (~isempty(strmatch('wheelflat',expnam)))
+   opt = plot3d;
+   opt.field = 'pn';
+   opt.view  = 'rail';
+   opt.addeldiv = 0;
+   opt.addplot = 1;
+   opt.zrange  = [0 2500];
+ 
+   sol = parse_out1('wheelflat.out');
+
+   sref = loadcase('wheelflat', 1);
+   sref.x_offset = sref.meta.xcp_r;
+   sref.y_offset = sref.meta.ycp_r;
+
+   optel = opt;
+   optel.field = 'eldiv_contour';
+   optel.addplot = 1;
+
+   iver = 2;
+   if (iver==1)
+      ncol = 6;
+      nrow = 4;
+      show_cases = [2 : 25];
+   else
+      ncol = 4;
+      nrow = 2;
+      show_cases = [4 : 2 : 18];
+   end
+
+   figure(9); clf;
+   p = get(gcf,'position'); p(3) = 2.1*p(4); set(gcf,'position',p,'paperpositionmode','auto');
+   for isub = 1 : length(show_cases)
+      icase = show_cases(isub);
+      s = loadcase('wheelflat', icase);
+      for icp = 1 : length(s)
+         s(icp).x_offset = s(icp).meta.xcp_r;
+         s(icp).y_offset = s(icp).meta.ycp_r;
+      end
+
+      irow = floor( (isub-1) / ncol ) + 1;
+      icol = mod( (isub-1) , ncol ) + 1;
+      subplot(nrow, ncol, isub);
+
+      plot3d(s(1), opt);
+
+      plot3d(sref, optel);
+      c = get(gca,'children');
+      delete(c(3:4));
+
+      axis([-20 20 -15 20]);
+      shading flat;
+      % title(sprintf('$\\theta=%3d^\\circ$', round(sol.ws_pos.pitch(icase)*180/pi)), 'interpreter','latex');
+      title('');
+      if (icol==1), xlabel('x_r [mm]'); else, xlabel(''); end
+      if (irow==nrow), ylabel('y_r [mm]'); else, ylabel(''); end
+      text(-15, -13, sprintf('$\\theta_{ws}=%3d^\\circ$', round(sol.ws_pos.pitch(icase)*180/pi)), ...
+                                                                                'interpreter','latex');
+   end
 end
 
 % 5.8 : Calculation of traction curves, Eurosprinter test-case
@@ -822,23 +886,18 @@ if (~isempty(strmatch('veldep_fric',expnam)))
    % plot traction bound for s1
    plot(s1.x, s1.trcbnd/g, '--')
    % plot tractions p, slip s
-   if (new_graphics), set(gca,'ColorOrderIndex',3); end
+   set(gca,'ColorOrderIndex',3);
    plot(s1.x, [s1.px; s2.px; s4.px]/g, '-');
-   if (new_graphics), set(gca,'ColorOrderIndex',3); end
+   set(gca,'ColorOrderIndex',3);
    plot(s1.x, [s1.srel; s2.srel; s4.srel]*s1.kincns.veloc/1e6, '-.');
-   if (new_graphics), set(gca,'ColorOrderIndex',3); end
+   set(gca,'ColorOrderIndex',3);
    plot(s1.x(rg), s1.px(rg)/g, 'o');
    plot(s1.x(rg), s2.px(rg)/g, '*');
    plot(s1.x(rg), s4.px(rg)/g, 'v');
-   if (new_graphics), set(gca,'ColorOrderIndex',3); end
+   set(gca,'ColorOrderIndex',3);
    plot(s1.x(rg), s1.srel(rg)*s1.kincns.veloc/1e6, 'o');
    plot(s1.x(rg), s2.srel(rg)*s1.kincns.veloc/1e6, '*');
    plot(s1.x(rg), s4.srel(rg)*s1.kincns.veloc/1e6, 'v');
-   if (old_graphics)
-      l = flipud(get(gca,'children'));
-      set(l([3,6,9,12]),'color',[0 .5 0]);
-      set(l([4,7,10,13]),'color','r');
-   end
    % set labels, legend
    axis([-4.5 4.5 0 0.0020]); grid on
    set(gca,'ytick',0:0.0005:0.0020)
@@ -861,7 +920,6 @@ if (~isempty(strmatch('veldep_fric',expnam)))
    % plot tractions p, slip s
    plot(s52.x, s52.px/g, '-');
    l=plot(s52.x, s52.srel*s52.kincns.veloc/1e6, '-.');
-   if (old_graphics), set(l,'color','r'); end
    % set labels, legend
    axis([-4.5 4.5 0 0.0020]); grid on
    set(gca,'ytick',0:0.0005:0.0020)
@@ -882,5 +940,5 @@ if (~isempty(strmatch('veldep_fric',expnam)))
    clear t s1 s2 s4 s52 ix dp legh objh outh outm l g t grd rg;
 end
 
-clear old_graphics new_graphics pause_after_plot print_figures expnam;
+clear pause_after_plot print_figures expnam;
 

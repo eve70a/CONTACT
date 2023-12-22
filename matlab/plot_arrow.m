@@ -43,6 +43,10 @@ pln = pln / norm(pln);
 
 % use plot3 instead of plot when pos is a 3-vector
 
+if (length(pos0)~=length(vec))
+   disp('plot_arrow: Inconsistent lengths');
+   return;
+end
 is_3d = (length(pos0)==3);
 
 % adapt binormal pln if in direction of vec

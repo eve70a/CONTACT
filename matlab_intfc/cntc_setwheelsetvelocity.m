@@ -2,15 +2,18 @@
 %------------------------------------------------------------------------------------------------------------
 % function [ ] = cntc_setwheelsetvelocity(ire, ewheel, params) 
 %
-% continue the wheelset description for a wheel-rail contact problem
+% continue the wheelset description for a wheel-rail contact problem, set wheelset velocity data
 %  ewheel         - type of velocity specification (E-digit)
 %  nparam         - number of parameters provided
 %  params(nparam) - depending on method that is used
 %
 %  E=0-1: keep velocity settings from previous specification, ignore params provided
-%  E=2-8: new wheelset velocity   params = [vs, vy, vz, vroll, vyaw, vpitch]
+%  E=2-5: new wheelset velocity   params = [vs, vy, vz, vroll, vyaw, vpitch]
+%         for roller-rigs vs_ws is replaced by rpitch (C1=4,5)
+%         position increments v * dt are used in transient shifts (T=1)
 %
-%  dimensions:  vs_ws, vy_ws, vz_ws [veloc],     vroll, vyaw, vpitch [ang.veloc]
+%  dimensions:  vs_ws, vy_ws, vz_ws [veloc],  vroll, vyaw, vpitch, rpitch [ang.veloc]
+%               shft_sws-shft_zws   [length]  shft_rol, shft_yaw, shft_pit [angle]
 %------------------------------------------------------------------------------------------------------------
 
 % Copyright 2008-2023 by Vtech CMCC.

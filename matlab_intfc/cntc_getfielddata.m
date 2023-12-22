@@ -50,12 +50,17 @@ function [ fld ] = cntc_getfielddata(ire, icp, ifld)
    end
 
    [ mx, my ] = cntc_getnumelements(ire, icp);
-   lenarr = mx * my;
-   p_val = libpointer('doublePtr',zeros(lenarr,1));
 
-   calllib(libname,'cntc_getfielddata', ire, icp, ifld, lenarr, p_val);
+   if (mx*my <= 0)
+      fld = [0];
+   else
+      lenarr = mx * my;
+      p_val = libpointer('doublePtr',zeros(lenarr,1));
 
-   fld = reshape(p_val.value, mx, my)';
+      calllib(libname,'cntc_getfielddata', ire, icp, ifld, lenarr, p_val);
+
+      fld = reshape(p_val.value, mx, my)';
+   end
 
 end % cntc_getfielddata
 

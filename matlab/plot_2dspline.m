@@ -8,7 +8,7 @@ function [ myopt ] = plot_2dspline( slcs, opt )
 %   opt     - plot configuration; called without options, a struct is returned with default settings
 %
 % plot options:
-%   typplot:     type of plot: 'surf' (default), 'refl'
+%   typplot:     type of plot: 'surf' (default), 'refl', 'topol'
 %   urange:      range of surface parameter u for longitudinal direction
 %   vrange:      range of surface parameter v for lateral direction
 %   xysteps:     (approx) distance between drawn lines on surface
@@ -16,7 +16,7 @@ function [ myopt ] = plot_2dspline( slcs, opt )
 %   slc_color:   color-spec for slices that are highlighted
 %   show_feat:   list of feature numbers that are highlighted
 %   feat_color:  color-spec for features that are highlighted
-%   view:        matlab view direction, e.g. [50 25] (azimuth, elevation)
+%   view:        matlab view direction, e.g. [50 25] (azimuth, elevation), can be 'rail' or 'default'
 %   refl_avec:   light source direction for reflection plot, e.g. [0,1,0] or [100, 30] (az, el)
 %   refl_dth:    interval spacing d theta for reflection plot, e.g. 30 deg (default)
 %   zoom:        data aspect ratio, e.g. [1000 1 1] (rail) or [0.1 1 1] (wheel, theta)
@@ -44,7 +44,7 @@ function [ myopt ] = plot_2dspline( slcs, opt )
       'slc_color',  'r', ...
       'show_feat',  [],  ...
       'feat_color', 'r', ...
-      'view',       [110 20], ...
+      'view',       'default', ...
       'refl_avec',  [0,1,0], ...
       'refl_dth',   30, ...
       'zoom',       [], ...
@@ -95,6 +95,17 @@ function [ myopt ] = plot_2dspline( slcs, opt )
       myopt.feat_color = 'r';
    end
 
+   if (strcmp(myopt.view,'rail'))
+      % wheel-rail view: 2D, rolling direction == plot y-direction
+      myopt.view=[90 -90];
+   elseif (strcmp(myopt.view,'default'))
+      if (strcmp(myopt.typplot,'topol'))
+         myopt.view=[90 -90];
+      else
+         myopt.view=[110 20];
+      end
+   end 
+
    % start plotting
 
    if (~myopt.addplot)
@@ -115,8 +126,13 @@ function [ myopt ] = plot_2dspline( slcs, opt )
       myopt.xysteps = [xlen/4, ylen/10]; % using 4/10 intervals == 5/11 lines
    end
    if (isempty(myopt.zoom))
-      xlen = max(max(slcs.xsurf)) - min(min(slcs.xsurf));
-      ylen = max(max(slcs.ysurf)) - min(min(slcs.ysurf));
+      if (strcmp(myopt.typplot,'topol'))
+         xlen = max(max(slcs.u))  - min(min(slcs.u));
+         ylen = max(max(slcs.vj)) - min(min(slcs.vj));
+      else
+         xlen = max(max(slcs.xsurf)) - min(min(slcs.xsurf));
+         ylen = max(max(slcs.ysurf)) - min(min(slcs.ysurf));
+      end
       myopt.zoom = [ 0.5*xlen/ylen 1 1 ];       % wheel: data aspect ratio, e.g. [0.05 1 1]
       if (~slcs.is_wheel)
          myopt.zoom(1) = max(1, myopt.zoom(1)); % rail: data aspect ratio could be [1000 1 1]
@@ -133,7 +149,7 @@ function [ myopt ] = plot_2dspline( slcs, opt )
 
    % plot 90% transparent surface (alpha=0.1); color-value?
 
-   if (strcmp(myopt.typplot, 'surf'))
+   if (any(strcmp(myopt.typplot,{'surf','topol'})))
       csurf = -1 * ones(size(xsurf));
       l=surf(xsurf, ysurf, zsurf, csurf, 'EdgeAlpha',0.1, 'FaceAlpha',0.1);
    end
@@ -162,12 +178,17 @@ function [ myopt ] = plot_2dspline( slcs, opt )
 
    % set view appropriate for rails with z positive downwards
 
-   set(gca,'xdir','reverse', 'zdir','reverse');
+   if (~strcmp(myopt.typplot,'topol'))
+      set(gca,'xdir','reverse', 'zdir','reverse');
+   end
    axis equal;
    view(myopt.view);
    hold on
 
-   if (slcs.is_wheel)
+   if (strcmp(myopt.typplot,'topol'))
+      xlabel('u [-]');
+      ylabel('v [-]');
+   elseif (slcs.is_wheel)
       xlabel('\theta_{w} [rad]');
       ylabel('y_{w} [mm]');
       zlabel('dr_{w} [mm]');
@@ -215,8 +236,13 @@ function [ myopt ] = plot_2dspline( slcs, opt )
             icol = mod((i-1), ncol) + 1;
             col  = myopt.slc_color(icol,:);
             if (length(col)==1 & isnumeric(col)), col = matlab_color(col); end
-            plot3( slcs.xsurf(jslc,jv), slcs.ysurf(jslc,jv), slcs.zsurf(jslc,jv), 'color',col, ...
-                        'linewidth',1, 'Tag','slice');
+            if (1==1)
+               [ xcurv, ycurv, zcurv ] = make_3d_surface( slcs, myopt, slcs.u(jslc)*[1 1], [], 1, ...
+                                                                myopt.vrange, [], myopt.xysteps(2)/20);
+            else
+               xcurv = slcs.xsurf(jslc,jv); ycurv = slcs.ysurf(jslc,jv); zcurv = slcs.zsurf(jslc,jv);
+            end
+            plot3( xcurv, ycurv, zcurv, 'color',col, 'linewidth',1, 'Tag','slice');
          end
       end
    end
@@ -331,6 +357,17 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( slcs, opt, ...
    % form profile surface at given ui and vj
 
    [ ~, xsurf, ysurf, zsurf ] = eval_2dspline( slcs.spl2d, ui, vj );
+
+   % for a topology plot, output (usurf, vsurf, 1) instead of [xyz]surf
+
+   if (strcmp(opt.typplot,'topol'))
+      if (size(ui,2)>1), ui = ui'; end
+      if (size(vj,1)>1), vj = vj'; end
+      xsurf = ui * ones(1,length(vj));
+      ysurf = ones(length(ui),1) * vj;
+      ix = find(~isnan(zsurf));
+      zsurf(ix) = 1;
+   end
 
 end % function make_3d_surface
 

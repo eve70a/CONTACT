@@ -30,16 +30,23 @@ function [ pn, px, py ] = cntc_gettractions(ire, icp)
    end
 
    [ mx, my ] = cntc_getnumelements(ire, icp);
-   lenarr = mx * my;
-   p_pn = libpointer('doublePtr',zeros(lenarr,1));
-   p_px = libpointer('doublePtr',zeros(lenarr,1));
-   p_py = libpointer('doublePtr',zeros(lenarr,1));
 
-   calllib(libname,'cntc_gettractions', ire, icp, lenarr, p_pn, p_px, p_py);
+   if (mx*my <= 0)
+      pn = [ 0 ];
+      px = [ 0 ];
+      py = [ 0 ];
+   else
+      lenarr = mx * my;
+      p_pn = libpointer('doublePtr',zeros(lenarr,1));
+      p_px = libpointer('doublePtr',zeros(lenarr,1));
+      p_py = libpointer('doublePtr',zeros(lenarr,1));
 
-   pn = reshape(p_pn.value, mx, my)';
-   px = reshape(p_px.value, mx, my)';
-   py = reshape(p_py.value, mx, my)';
+      calllib(libname,'cntc_gettractions', ire, icp, lenarr, p_pn, p_px, p_py);
+
+      pn = reshape(p_pn.value, mx, my)';
+      px = reshape(p_px.value, mx, my)';
+      py = reshape(p_py.value, mx, my)';
+   end
 
 end % cntc_gettractions
 

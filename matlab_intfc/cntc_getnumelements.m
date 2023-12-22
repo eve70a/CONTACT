@@ -28,8 +28,8 @@ function [ mx, my ] = cntc_getnumelements(ire, icp)
       return
    end
 
-   p_mx = libpointer('int32Ptr',-1);
-   p_my = libpointer('int32Ptr',-1);
+   p_mx = libpointer('int32Ptr',0);
+   p_my = libpointer('int32Ptr',0);
 
    calllib(libname,'cntc_getnumelements', ire, icp, p_mx, p_my);
 

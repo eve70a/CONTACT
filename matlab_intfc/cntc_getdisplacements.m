@@ -28,16 +28,23 @@ function [ un, ux, uy ] = cntc_getdisplacements(ire, icp)
    end
 
    [ mx, my ] = cntc_getnumelements(ire, icp);
-   lenarr = mx * my;
-   p_un = libpointer('doublePtr',zeros(lenarr,1));
-   p_ux = libpointer('doublePtr',zeros(lenarr,1));
-   p_uy = libpointer('doublePtr',zeros(lenarr,1));
 
-   calllib(libname,'cntc_getdisplacements', ire, icp, lenarr, p_un, p_ux, p_uy);
+   if (mx*my <= 0)
+      un = [0];
+      ux = [0];
+      uy = [0];
+   else
+      lenarr = mx * my;
+      p_un = libpointer('doublePtr',zeros(lenarr,1));
+      p_ux = libpointer('doublePtr',zeros(lenarr,1));
+      p_uy = libpointer('doublePtr',zeros(lenarr,1));
 
-   un = reshape(p_un.value, mx, my)';
-   ux = reshape(p_ux.value, mx, my)';
-   uy = reshape(p_uy.value, mx, my)';
+      calllib(libname,'cntc_getdisplacements', ire, icp, lenarr, p_un, p_ux, p_uy);
+
+      un = reshape(p_un.value, mx, my)';
+      ux = reshape(p_ux.value, mx, my)';
+      uy = reshape(p_uy.value, mx, my)';
+   end
 
 end % cntc_getdisplacements
 

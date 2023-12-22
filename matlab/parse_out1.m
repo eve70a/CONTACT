@@ -12,7 +12,7 @@ function [npatch, ws_pos, tot_forc, cp_pos, cp_creep, cp_force] = parse_out1(fna
 %   tot_forc = total forces in track coordinates & wheelset coordinates
 %              struct with fx_tr, ... fz_ws, mx_tr, ... mz_ws, xavg, yavg, zavg, mx_av, my_av, mz_av
 %   cp_pos   = contact reference positions
-%              struct with xtr, ytr, ztr, delttr, yr, zr, xw, yw, zw, ncon, nadh, nslip, nplast,
+%              struct with xtr, ytr, ztr, delttr, yr, zr, xw, yw, zw, ncon, nadh, nslip, nplast, prev_icp,
 %              using npatch rows
 %   cp_creep = list of creepages   
 %              struct with pen, cksi, ceta, cphi, veloc - npatch rows
@@ -103,7 +103,7 @@ xcp_w  = []; ycp_w  = []; zcp_w  = [];
 pen    = []; cksi   = []; ceta   = []; cphi    = []; veloc  = [];
 fn_loc = []; fx_loc = []; fs_loc = []; mn_loc  = []; elen   = []; fric   = [];
 temp1  = []; temp2  = []; pmax   = []; 
-ncon   = []; nadh   = []; nslip  = []; nplast  = [];
+ncon   = []; nadh   = []; nslip  = []; nplast  = []; prevcp = [];
 subs_max = [];
 
 while (iline<f.nline)
@@ -156,7 +156,7 @@ while (iline<f.nline)
       mn_loc(al,icase) = NaN; elen(al,icase)   = NaN; fric(al,icase)   = NaN;
       temp1(al,icase)  = NaN; temp2(al,icase)  = NaN; pmax(al,icase)   = NaN;
       ncon(al,icase)   = NaN; nadh(al,icase)   = NaN; nslip(al,icase)  = NaN;
-      nplast(al,icase) = NaN;
+      nplast(al,icase) = NaN; prevcp(al,al,icase) = 0;
 
       if (~isempty(subs_max))
          subs_max(1:4, al, icase, 1:nsubs_keys) = NaN;
@@ -304,12 +304,20 @@ while (iline<f.nline)
 
    if (~isempty(strfind(s, 'DATA FOR CONTACT PATCH')))
 
-      % DATA FOR CONTACT PATCH  1
+      % DATA FOR CONTACT PATCH  1 (NEW PATCH)
+      % DATA FOR CONTACT PATCH  1 (PREV  1,  2)
 
       if (idebug>=5)
          disp(sprintf('...Found contact patch number at line %d',iline));
       end
       ipatch = sscanf(strtrim(s), '----- DATA FOR CONTACT PATCH %d');
+
+      if (~isempty(strfind(s, 'NEW PATCH')))
+         prevcp(ipatch,:,icase) = 0;
+      else
+         [tmp, nval] = sscanf(strtrim(s), '----- DATA FOR CONTACT PATCH %*d (PREV %d, %d, %d, %d)');
+         prevcp(ipatch,1:nval,icase) = tmp;
+      end
 
       % support for compact .out-files without 'WHEEL-RAIL CONTACT...'
       if (ipatch>npatch(icase))
@@ -346,10 +354,11 @@ while (iline<f.nline)
 
    if (~isempty(strfind(s, 'KINEMATIC CONSTANTS')))
 
-      %  KINEMATIC CONSTANTS, F=2:
-      %       CHI          DQ        VELOC     FX/FSTAT/FN  FY/FSTAT/FN  CPHI
-      %      0.000       1.000       1.000      0.2525E-01   0.000       0.000
-      % get the creepages or forces
+      % KINEMATIC CONSTANTS
+      %     CHI         DQ          VELOC       CKSI        CETA        CPHI
+      %     0.000       1.000           1.000   7.282E-04   7.938E-04  -1.736E-04
+
+      % get the creepages of a contact patch
 
       if (idebug>=5)
          disp(sprintf('...Found kinematic constants at line %d',iline));
@@ -357,18 +366,10 @@ while (iline<f.nline)
       [s1, iline] = read_line(f, iline, idebug);
       [s2, iline] = read_line(f, iline, idebug);
       tmp = sscanf(s2, '%f %f %f %f %f %f');
-      veloc(ipatch,icase)     = tmp(3);
-      if (strfind(s1, 'CKSI'))
-         cksi(ipatch,icase)   = tmp(4);
-      else
-         fx_loc(ipatch,icase) = tmp(4);
-      end
-      if (strfind(s1, 'CETA'))
-         ceta(ipatch,icase)   = tmp(5);
-      else
-         fs_loc(ipatch,icase) = tmp(5);
-      end
-      cphi(ipatch,icase)      = tmp(6);
+      veloc(ipatch,icase)  = tmp(3);
+      cksi(ipatch,icase)   = tmp(4);
+      ceta(ipatch,icase)   = tmp(5);
+      cphi(ipatch,icase)   = tmp(6);
    end
 
    if (~isempty(strfind(s, 'TOTAL FORCES, TORSIONAL')) | ...
@@ -527,15 +528,15 @@ cp_pos    = struct('xcp_tr', xcp_tr(al,:),  'ycp_tr',  ycp_tr(al,:),  ...
                    'zcp_tr', zcp_tr(al,:),  'delt_tr', delt_tr(al,:), ...
                    'ycp_r',  ycp_r(al,:),   'zcp_r',   zcp_r(al,:),   ...
                    'xcp_w',  xcp_w(al,:),   'ycp_w',   ycp_w(al,:),   ...
-                   'zcp_w',  zcp_w(al,:),   'ncon',   ncon(al,:),    ...
-                   'nadh',   nadh(al,:),    'nslip',  nslip(al,:),   ...
-                   'nplast', nplast(al,:));
-cp_creep  = struct('pen',    pen(al,:),     'cksi',   cksi(al,:),    ...
-                   'ceta',   ceta(al,:),    'cphi',   cphi(al,:),    ...
+                   'zcp_w',  zcp_w(al,:),   'ncon',    ncon(al,:),    ...
+                   'nadh',   nadh(al,:),    'nslip',   nslip(al,:),   ...
+                   'nplast', nplast(al,:),  'prev_icp', prevcp(al,al,:));
+cp_creep  = struct('pen',    pen(al,:),     'cksi',    cksi(al,:),    ...
+                   'ceta',   ceta(al,:),    'cphi',    cphi(al,:),    ...
                    'veloc',  veloc(al,:));
-cp_force  = struct('fn',     fn_loc(al,:),  'fx',     fx_loc(al,:),  ...
-                   'fs',     fs_loc(al,:),  'mn',     mn_loc(al,:),  ...
-                   'elen',   elen(al,:),    'fric',   fric(al,:));
+cp_force  = struct('fn',     fn_loc(al,:),  'fx',      fx_loc(al,:),  ...
+                   'fs',     fs_loc(al,:),  'mn',      mn_loc(al,:),  ...
+                   'elen',   elen(al,:),    'fric',    fric(al,:));
 if (~all(isnan(pmax(al,:))))
    cp_force.pmax  = pmax(al,:);
 end

@@ -1844,7 +1844,7 @@ function show_rw_rear_view(sol, field, opt)
    % plot contact reference point, origin of contact local coordinate system
 
    axlen = 0.1 * (sol.y(end) - sol.y(1));
-   yc = [0,0,1]*axlen; zc = [1,0,0]*axlen;
+   yc = sol.meta.yo_spin+[0,0,1]*axlen; zc = [1,0,0]*axlen;
    if (strcmp(opt.rw_surfc,'prr'))
       [ ~, yval, zval, delta ] = cntc_to_rail_coords(sol, [], yc, zc);
    elseif (strcmp(opt.rw_surfc,'prw'))
@@ -1930,7 +1930,7 @@ function show_rw_side_view(sol, field, opt)
 
    v = axis;
    axlen = 0.03 * (v(2) - v(1));
-   xc = [0,0,1]*axlen; zc = [1,0,0]*axlen;
+   xc = sol.meta.xo_spin+[0,0,1]*axlen; zc = [1,0,0]*axlen;
    if (strcmp(opt.rw_surfc,'prr'))
       [ xval, ~, zval ] = cntc_to_rail_coords(sol, xc, [], zc);
    elseif (strcmp(opt.rw_surfc,'prw'))
@@ -2202,15 +2202,12 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
 
 % transform contact [xc,yc/s]-coordinates to track [xtr,ytr,ztr] coordinates
 
-   if (isempty(xc))
-      xc = zeros(size(yc));
-   end
-   if (isempty(yc))
-      yc = zeros(size(zc));
-   end
-   if (nargin<4 | isempty(zc))
-      zc = zeros(size(yc));
-   end
+   if (nargin<3), yc = []; end
+   if (nargin<4), zc = []; end
+   sz = max( [ size(xc) ; size(yc) ; size(zc) ] );
+   if (isempty(xc)), xc = sol.meta.xo_spin*ones(sz); end
+   if (isempty(yc)), yc = sol.meta.yo_spin*ones(sz); end
+   if (isempty(zc)), zc = zeros(sz); end
 
    % reshape inputs to row vectors
 
@@ -2218,7 +2215,7 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
    xc = reshape(xc, 1, m*n);
    yc = reshape(yc, 1, m*n);
    zc = reshape(zc, 1, m*n);
-   coords = [xc; yc; zc];
+   coords = [xc - sol.meta.xo_spin; yc - sol.meta.yo_spin; zc];
 
    % form transformation matrices and vectors
 
@@ -2303,8 +2300,8 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
    if (nargin<3), yc = []; end
    if (nargin<4), zc = []; end
    sz = max( [ size(xc) ; size(yc) ; size(zc) ] );
-   if (isempty(xc)), xc = zeros(sz); end
-   if (isempty(yc)), yc = zeros(sz); end
+   if (isempty(xc)), xc = sol.meta.xo_spin*ones(sz); end
+   if (isempty(yc)), yc = sol.meta.yo_spin*ones(sz); end
    if (isempty(zc)), zc = zeros(sz); end
 
    % reshape inputs to row vectors
@@ -2313,7 +2310,7 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
    xc = reshape(xc, 1, m*n);
    yc = reshape(yc, 1, m*n);
    zc = reshape(zc, 1, m*n);
-   coords = [xc; yc; zc];
+   coords = [xc - sol.meta.xo_spin; yc - sol.meta.yo_spin; zc];
 
    % form transformation matrices and vectors
 
@@ -2392,8 +2389,8 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
    if (nargin<3), yc = []; end
    if (nargin<4), zc = []; end
    sz = max( [ size(xc) ; size(yc) ; size(zc) ] );
-   if (isempty(xc)), xc = zeros(sz); end
-   if (isempty(yc)), yc = zeros(sz); end
+   if (isempty(xc)), xc = sol.meta.xo_spin*ones(sz); end
+   if (isempty(yc)), yc = sol.meta.yo_spin*ones(sz); end
    if (isempty(zc)), zc = zeros(sz); end
 
    % reshape inputs to row vectors
@@ -2402,7 +2399,7 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
    xc = reshape(xc, 1, m*n);
    yc = reshape(yc, 1, m*n);
    zc = reshape(zc, 1, m*n);
-   coords = [xc; yc; zc];
+   coords = [xc - sol.meta.xo_spin; yc - sol.meta.yo_spin; zc];
 
    % form transformation matrices and vectors
 
@@ -2473,7 +2470,7 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
    yw = reshape(yw, m, n);
    zw = reshape(zw, m, n);
 
-   deltaw = sol.meta.deltcp_r;
+   deltaw = sol.meta.deltcp_r + sol.meta.roll_r - sol.meta.roll_w;
 
 end % function cntc_to_wheel_coords
 

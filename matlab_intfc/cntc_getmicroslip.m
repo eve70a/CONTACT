@@ -31,14 +31,20 @@ function [ sx, sy ] = cntc_getmicroslip(ire, icp)
    end
 
    [ mx, my ] = cntc_getnumelements(ire, icp);
-   lenarr = mx * my;
-   p_sx = libpointer('doublePtr',zeros(lenarr,1));
-   p_sy = libpointer('doublePtr',zeros(lenarr,1));
 
-   calllib(libname,'cntc_getmicroslip', ire, icp, lenarr, p_sx, p_sy);
+   if (mx*my <= 0)
+      sx = [ 0 ];
+      sy = [ 0 ];
+   else
+      lenarr = mx * my;
+      p_sx = libpointer('doublePtr',zeros(lenarr,1));
+      p_sy = libpointer('doublePtr',zeros(lenarr,1));
 
-   sx = reshape(p_sx.value, mx, my)';
-   sy = reshape(p_sy.value, mx, my)';
+      calllib(libname,'cntc_getmicroslip', ire, icp, lenarr, p_sx, p_sy);
+
+      sx = reshape(p_sx.value, mx, my)';
+      sy = reshape(p_sy.value, mx, my)';
+   end
 
 end % cntc_getmicroslip
 

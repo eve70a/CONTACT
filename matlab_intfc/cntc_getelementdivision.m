@@ -30,14 +30,19 @@ function [ eldiv ] = cntc_getelementdivision(ire, icp)
    end
 
    [ mx, my ] = cntc_getnumelements(ire, icp);
-   lenarr = mx * my;
-   p_eldiv = libpointer('int32Ptr',zeros(lenarr,1));
 
-   calllib(libname,'cntc_getelementdivision', ire, icp, lenarr, p_eldiv);
+   if (mx*my <= 0)
+      eldiv = [ 0 ];
+   else
+      lenarr = mx * my;
+      p_eldiv = libpointer('int32Ptr',zeros(lenarr,1));
 
-   % convert to double for consistency with loadcase.m
-   % note that for int32-arrays, NaN == 0
-   eldiv = double(reshape(p_eldiv.value, mx, my)');
+      calllib(libname,'cntc_getelementdivision', ire, icp, lenarr, p_eldiv);
+
+      % convert to double for consistency with loadcase.m
+      % note that for int32-arrays, NaN == 0
+      eldiv = double(reshape(p_eldiv.value, mx, my)');
+   end
 
 end % cntc_getelementdivision
 
