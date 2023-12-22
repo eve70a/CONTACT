@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2480 $, $Date:: 2023-12-22$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -1825,7 +1825,7 @@
          0, NR,  z_ws, Fz:     101.3834       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:     101.4203       8967., dFz/dz:   3.642E+05
          2, NR,  z_ws, Fz:     101.4232   1.000E+04, dFz/dz:   3.645E+05
-         3, NR,  z_ws, Fz:     101.4232      10000., dFz/dz:   3.709E+05
+         3, NR,  z_ws, Fz:     101.4232      10000., dFz/dz:   3.736E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1881,7 +1881,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0000    722.0375      0.4026   4.456E+04       0.000       0.000
+     -0.0000    722.0375      0.4026   4.456E+04      -0.000       0.000
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1931,7 +1931,7 @@
          0, NR,  z_ws, Fz:      -0.4534       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.4181       9933., dFz/dz:   4.221E+05
          2, NR,  z_ws, Fz:      -0.4180   1.000E+04, dFz/dz:   4.257E+05
-         3, NR,  z_ws, Fz:      -0.4180   1.000E+04, dFz/dz:   4.271E+05
+         3, NR,  z_ws, Fz:      -0.4180   1.000E+04, dFz/dz:   4.269E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1987,7 +1987,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-    -26.1745    759.4930     -0.9496       476.1   2.910E-11       0.000
+    -26.1745    759.4930     -0.9496       476.1  -5.821E-11       0.000
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2045,14 +2045,8 @@
  reading rail  profile "profiles\os_l.csv"
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
  reading wheel profile "profiles\fr_ol.csv"
- NORM
-       1, Norm: size of Contact, Exterior :   1241    984
       Norm: final element division: C, E=    755   1470  ItCG=    17
-
- TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :     755      0
       Tang: final element division: A, S=      0    755  ItGS=     3
-
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -2372,14 +2366,12 @@
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
  reading wheel profile "profiles\avg_wheel.whl"
  WARNING: found data while still in headers, ignoring line    7
- WARNING: unspecified ColumnDef with  3 values per line.
-          Assuming "X,Y,*", ignoring last column.
          0, NR,  z_ws, Fz:       0.1647       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.4113   2.371E+05, dFz/dz:   1.442E+06
          2, NR,  z_ws, Fz:       0.3331   1.312E+05, dFz/dz:   1.355E+06
          3, NR,  z_ws, Fz:       0.3281   1.252E+05, dFz/dz:   1.194E+06
          4, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.186E+06
-         5, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.184E+06
+         5, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.172E+06
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -2434,7 +2426,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.8530   -722.0954      7.0057      -9157.      -5630.   3.071E+04
+     -2.8530   -722.0954      7.0057      -9156.      -5630.   3.071E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2464,7 +2456,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   1173    374      0    374      1      1
+   1224    374      0    374      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     19  o......................................o
@@ -2493,11 +2485,10 @@
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
  Kink in rail profile at ( -22.00,  33.72) (ip=    2): successive angles   -1.3, -124.3 deg
  WARNING: profile spline deviates up to  0.429 mm from input profile
- INFO: left-most rail point found above gauge height: zr=  11.542 at yr=-25.247
          0, NR,  z_ws, Fz:       0.2139       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.2989   7.180E+04, dFz/dz:   1.266E+06
          2, NR,  z_ws, Fz:       0.2986   7.139E+04, dFz/dz:   1.259E+06
-         3, NR,  z_ws, Fz:       0.2986   7.139E+04, dFz/dz:   1.257E+06
+         3, NR,  z_ws, Fz:       0.2986   7.139E+04, dFz/dz:   1.263E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -2777,14 +2768,14 @@
  reading wheel profile "profiles\whl_left_iter288.whl"
  WARNING: profile spline deviates up to  0.184 mm from input profile
          0, NR,  z_ws, Fz:      -4.1702       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.8936   2.115E+04, dFz/dz:   1.147E+05
-         2, NR,  z_ws, Fz:      -3.7553   3.806E+04, dFz/dz:   1.222E+05
-         3, NR,  z_ws, Fz:      -3.5478   6.801E+04, dFz/dz:   1.444E+05
-         4, NR,  z_ws, Fz:      -3.4233   8.762E+04, dFz/dz:   1.575E+05
-         5, NR,  z_ws, Fz:      -3.2739   1.126E+05, dFz/dz:   1.670E+05
-         6, NR,  z_ws, Fz:      -3.0946   1.451E+05, dFz/dz:   1.813E+05
-         7, NR,  z_ws, Fz:      -3.1141   1.414E+05, dFz/dz:   1.888E+05
-         8, NR,  z_ws, Fz:      -3.1133   1.415E+05, dFz/dz:   1.888E+05
+         1, NR,  z_ws, Fz:      -3.8965   2.082E+04, dFz/dz:   1.141E+05
+         2, NR,  z_ws, Fz:      -3.7596   3.746E+04, dFz/dz:   1.216E+05
+         3, NR,  z_ws, Fz:      -3.5543   6.707E+04, dFz/dz:   1.442E+05
+         4, NR,  z_ws, Fz:      -3.4311   8.634E+04, dFz/dz:   1.564E+05
+         5, NR,  z_ws, Fz:      -3.2833   1.110E+05, dFz/dz:   1.667E+05
+         6, NR,  z_ws, Fz:      -3.1059   1.429E+05, dFz/dz:   1.802E+05
+         7, NR,  z_ws, Fz:      -3.1137   1.415E+05, dFz/dz:   1.889E+05
+         8, NR,  z_ws, Fz:      -3.1133   1.415E+05, dFz/dz:   1.887E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -2869,7 +2860,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   3225    433      0    433      1      1
+   3354    433      0    433      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     10  o.................................................................................................................o
@@ -2900,15 +2891,15 @@
  reading wheel profile "profiles\whl_left_iter288.whl"
  WARNING: profile spline deviates up to  0.184 mm from input profile
          0, NR,  z_ws, Fz:      -4.2101       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.9268   2.189E+04, dFz/dz:   1.159E+05
-         2, NR,  z_ws, Fz:      -3.7851   4.094E+04, dFz/dz:   1.345E+05
-         3, NR,  z_ws, Fz:      -3.5727   7.514E+04, dFz/dz:   1.610E+05
-         4, NR,  z_ws, Fz:      -3.4452   9.762E+04, dFz/dz:   1.764E+05
-         5, NR,  z_ws, Fz:      -3.2922   1.260E+05, dFz/dz:   1.855E+05
-         6, NR,  z_ws, Fz:      -3.1791   1.490E+05, dFz/dz:   2.031E+05
-         7, NR,  z_ws, Fz:      -3.2158   1.414E+05, dFz/dz:   2.065E+05
+         1, NR,  z_ws, Fz:      -3.9293   2.159E+04, dFz/dz:   1.154E+05
+         2, NR,  z_ws, Fz:      -3.7890   4.035E+04, dFz/dz:   1.337E+05
+         3, NR,  z_ws, Fz:      -3.5784   7.415E+04, dFz/dz:   1.605E+05
+         4, NR,  z_ws, Fz:      -3.4521   9.639E+04, dFz/dz:   1.760E+05
+         5, NR,  z_ws, Fz:      -3.3005   1.244E+05, dFz/dz:   1.846E+05
+         6, NR,  z_ws, Fz:      -3.1750   1.499E+05, dFz/dz:   2.029E+05
+         7, NR,  z_ws, Fz:      -3.2159   1.414E+05, dFz/dz:   2.067E+05
          8, NR,  z_ws, Fz:      -3.2152   1.415E+05, dFz/dz:   2.051E+05
-         9, NR,  z_ws, Fz:      -3.2152   1.415E+05, dFz/dz:   2.051E+05
+         9, NR,  z_ws, Fz:      -3.2152   1.415E+05, dFz/dz:   2.067E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -2993,7 +2984,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   3000    404      0    404      1      1
+   3125    404      0    404      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     10  o.............................................................................................................o
@@ -3013,21 +3004,21 @@
  reading wheel profile "profiles\whl_left_iter795.whl"
  WARNING: profile spline deviates up to  0.278 mm from input profile
          0, NR,  z_ws, Fz:      -1.0890       0.000, dFz/dz:       0.000
- WARNING: potential contact area too small;   64 elements next to boundary.
+ WARNING: potential contact area too small;   63 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         1, NR,  z_ws, Fz:      -0.8426   2.595E+05, dFz/dz:   1.580E+06
+         1, NR,  z_ws, Fz:      -0.8440   2.211E+05, dFz/dz:   1.354E+06
+ WARNING: potential contact area too small;   61 elements next to boundary.
+ WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
+         2, NR,  z_ws, Fz:      -0.8666   2.007E+05, dFz/dz:   9.054E+05
  WARNING: potential contact area too small;   59 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         2, NR,  z_ws, Fz:      -0.8863   2.142E+05, dFz/dz:   1.037E+06
- WARNING: potential contact area too small;   57 elements next to boundary.
+         3, NR,  z_ws, Fz:      -0.8777   1.906E+05, dFz/dz:   9.005E+05
+ WARNING: potential contact area too small;   59 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         3, NR,  z_ws, Fz:      -0.9091   1.913E+05, dFz/dz:   1.004E+06
- WARNING: potential contact area too small;   57 elements next to boundary.
+         4, NR,  z_ws, Fz:      -0.8778   1.906E+05, dFz/dz:   8.607E+05
+ WARNING: potential contact area too small;   59 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         4, NR,  z_ws, Fz:      -0.9098   1.906E+05, dFz/dz:   9.527E+05
- WARNING: potential contact area too small;   57 elements next to boundary.
- WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         5, NR,  z_ws, Fz:      -0.9099   1.906E+05, dFz/dz:   9.528E+05
+         5, NR,  z_ws, Fz:      -0.8778   1.906E+05, dFz/dz:   8.663E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -3070,7 +3061,7 @@
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000      -7.414     -0.9099  -1.980E-04   8.107E-04       0.000
+         0.000      -7.414     -0.8778  -1.980E-04   8.107E-04       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
      1.788E+04       0.000       0.000       0.000       0.000 -39.0226700
@@ -3078,52 +3069,51 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -6.336E+04  -7.651E+04   1.906E+05  -6.342E+04  -7.650E+04   1.905E+05
+  -6.337E+04  -7.640E+04   1.906E+05  -6.343E+04  -7.639E+04   1.905E+05
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0000   -740.0492     -6.0089   9.925E+06  -2.547E+06   2.310E+06
+      0.0000   -740.0492     -6.0089   9.846E+06  -2.537E+06   2.294E+06
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.3234   -704.7146     32.3939      0.3810     35.3347     38.4028
+      0.3213   -704.7380     32.3845      0.3807     35.3112     38.3934
 
      XCP(W)      YCP(W)      ZCP(W)
-     -0.2420    -23.6979     33.1657
+     -0.2441    -23.7213     33.1242
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
-    0.3094      0.3094    
+    0.3096      0.3096    
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.5000       1.851E+04   6.823E-02   9.680E-04  -7.842E-04
+     0.000      0.5000       1.851E+04   6.817E-02   9.695E-04  -7.836E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     2.053E+05  -6.336E+04      -168.9   1.086E+05       24.01  -8.137E+04
+     2.053E+05  -6.337E+04      -125.1   9.076E+04       25.38  -8.106E+04
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         2.504     -0.9973  -2.659E-03      0.2571   1.106E+04
+         2.504     -0.9970  -1.968E-03      0.2717   1.458E+04
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    385    147      0    147      1      1
+    354    104      0    104      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-     7  o.....................................................o
-     6  .......................................................
-     5  .......................................................
-     4  .......................................................
-     3  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.........
-     2  SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-     1  SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+     6  o.........................................................o
+     5  ...........................................................
+     4  ...........................................................
+     3  ...........................................................
+     2  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
+     1  SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
                  1         2         3         4         5
-        1234567890123456789012345678901234567890123456789012345
+        12345678901234567890123456789012345678901234567890123456789
      X  -->        Chi=  0.00 degrees
 
  Case    30
@@ -3393,15 +3383,15 @@
  reading wheel profile "profiles\Car7358_0001r.whl"
  WARNING: profile spline deviates up to  0.245 mm from input profile
          0, NR,  z_ws, Fz:      -5.3631       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -5.2312       5329., dFz/dz:   6.058E+04
-         2, NR,  z_ws, Fz:      -5.1652       9601., dFz/dz:   6.475E+04
-         3, NR,  z_ws, Fz:      -5.0662   1.783E+04, dFz/dz:   8.317E+04
-         4, NR,  z_ws, Fz:      -5.0069   2.344E+04, dFz/dz:   9.447E+04
-         5, NR,  z_ws, Fz:      -4.9356   3.150E+04, dFz/dz:   1.132E+05
-         6, NR,  z_ws, Fz:      -4.8501   4.208E+04, dFz/dz:   1.237E+05
-         7, NR,  z_ws, Fz:      -4.8670   3.993E+04, dFz/dz:   1.276E+05
+         1, NR,  z_ws, Fz:      -5.2314       5316., dFz/dz:   6.053E+04
+         2, NR,  z_ws, Fz:      -5.1655       9577., dFz/dz:   6.470E+04
+         3, NR,  z_ws, Fz:      -5.0667   1.779E+04, dFz/dz:   8.310E+04
+         4, NR,  z_ws, Fz:      -5.0075   2.338E+04, dFz/dz:   9.431E+04
+         5, NR,  z_ws, Fz:      -4.9363   3.142E+04, dFz/dz:   1.131E+05
+         6, NR,  z_ws, Fz:      -4.8510   4.197E+04, dFz/dz:   1.236E+05
+         7, NR,  z_ws, Fz:      -4.8669   3.994E+04, dFz/dz:   1.276E+05
          8, NR,  z_ws, Fz:      -4.8664   4.000E+04, dFz/dz:   1.257E+05
-         9, NR,  z_ws, Fz:      -4.8664   4.000E+04, dFz/dz:   1.257E+05
+         9, NR,  z_ws, Fz:      -4.8664   4.000E+04, dFz/dz:   1.258E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -3661,7 +3651,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   1705    526      0    526      1      1
+   1760    526      0    526      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     23  o........................................o
@@ -3891,24 +3881,25 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   7254   1252      0   1252      1      1
+   7812   1252      0   1252      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    71  o...........................................................................o
-    70  .................SSSSSSSSSS..................................................
-    69  ...........SSSSSSSSSSSSSSSSSSSSSS............................................
-    68  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS........................................
-    67  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....................................
+    72  o...........................................................................o
+    71  .................SSSSSSSSSS..................................................
+    70  ...........SSSSSSSSSSSSSSSSSSSSSS............................................
+    69  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS........................................
+    68  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....................................
+    67  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..................................
     66  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..................................
-    65  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..................................
-    64  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..................................
-    63  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..................................
-    62  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...................................
-    61  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...................................
-    60  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...................................
-    59  ..........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....................................
-    58  .............SSSSSSSSSSSSSSSSSSSSSSSSS.......................................
-    57  .........................SSS.................................................
+    65  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..................................
+    64  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..................................
+    63  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...................................
+    62  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...................................
+    61  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...................................
+    60  ..........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....................................
+    59  .............SSSSSSSSSSSSSSSSSSSSSSSSS.......................................
+    58  .........................SSS.................................................
+    57  .............................................................................
     56  .............................................................................
     55  .............................................................................
     54  .............................................................................
@@ -3945,23 +3936,22 @@
     23  .............................................................................
     22  .............................................................................
     21  .............................................................................
-    20  .............................................................................
-    19  .................................SSSSSSSSSSSSSSSSSSSSS.......................
-    18  ...........................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...................
-    17  ......................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS................
-    16  ..................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.............
-    15  ..............SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..........
-    14  ...........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-    13  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    12  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    11  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    10  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     9  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     8  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-     7  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
-     6  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.............
-     5  .................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...........................
-     4  o...........................................................................o
+    20  .................................SSSSSSSSSSSSSSSSSSSSS.......................
+    19  ...........................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...................
+    18  ......................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS................
+    17  ..................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.............
+    16  ..............SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..........
+    15  ...........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
+    14  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    13  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    11  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    10  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+     9  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+     8  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+     7  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.............
+     6  .................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...........................
+     5  o...........................................................................o
          1         2         3         4         5         6         7         8
         90123456789012345678901234567890123456789012345678901234567890123456789012345
      X  -->        Chi=  0.00 degrees
@@ -4397,31 +4387,31 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.3 | 100.0 |        1.4 | 100.0 |
-|Wheel-rail cases     |      15 |       0.2 |  72.2 |        0.9 |  64.8 |
-|Non-Hertzian cases   |      20 |       0.1 |  27.8 |        0.5 |  35.2 |
+|Total                |       1 |       0.4 | 100.0 |        1.7 | 100.0 |
+|Wheel-rail cases     |      15 |       0.3 |  60.7 |        1.0 |  57.9 |
+|Non-Hertzian cases   |      20 |       0.2 |  39.3 |        0.7 |  42.0 |
 |Subsurface points    |       3 |       0.0 |   0.0 |        0.0 |   0.0 |
-|W/r profiles         |      23 |       0.0 |   5.6 |        0.2 |  15.3 |
-|Geometric analysis   |      60 |       0.0 |   0.0 |        0.1 |   3.9 |
-|Panag.process        |      76 |       0.2 |  83.3 |        0.9 |  65.3 |
-|Algorithm Norm       |     117 |       0.0 |  11.1 |        0.1 |  10.0 |
-|Algorithm Tang       |     110 |       0.2 |  72.2 |        0.8 |  54.7 |
-|Output quantities    |      91 |       0.0 |   5.6 |        0.1 |   8.2 |
+|W/r profiles         |      23 |       0.0 |   0.0 |        0.1 |   3.5 |
+|Geometric analysis   |      60 |       0.0 |   0.0 |        0.1 |   5.4 |
+|Panag.process        |      76 |       0.4 |  89.3 |        1.3 |  74.2 |
+|Algorithm Norm       |     117 |       0.1 |  21.4 |        0.3 |  17.9 |
+|Algorithm Tang       |     110 |       0.3 |  67.9 |        0.9 |  54.8 |
+|Output quantities    |      91 |       0.0 |  10.7 |        0.1 |   8.4 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     117 |       0.0 |  11.1 |        0.1 |   9.1 |
-|Tang: TangCG solver  |      76 |       0.0 |   0.0 |        0.1 |   9.1 |
-|Tang: ConvxGS solver |       6 |       0.0 |   0.0 |        0.0 |   1.1 |
-|Tang: StedyGS solver |      80 |       0.2 |  72.2 |        0.6 |  42.2 |
+|Norm: ConjGrd solver |     117 |       0.1 |  17.9 |        0.2 |  12.8 |
+|Tang: TangCG solver  |      76 |       0.0 |   7.1 |        0.2 |  12.1 |
+|Tang: ConvxGS solver |       6 |       0.0 |   3.6 |        0.0 |   1.0 |
+|Tang: StedyGS solver |      80 |       0.2 |  57.1 |        0.7 |  38.2 |
 |Tang: Fastsim solver |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      35 |       0.0 |   5.6 |        0.2 |  15.3 |
-|Contact location     |      60 |       0.0 |   0.0 |        0.0 |   2.1 |
+|Reading input-file   |      35 |       0.0 |   0.0 |        0.1 |   3.5 |
+|Contact location     |      60 |       0.0 |   0.0 |        0.0 |   2.7 |
 | - Interp sf_whl     |       1 |       0.0 |   0.0 |        0.0 |   0.3 |
 | - Other calc.       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 | - Locate interpen   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |      56 |       0.0 |   0.0 |        0.0 |   1.8 |
-| - Interp whl_srfc   |      56 |       0.0 |   0.0 |        0.0 |   0.8 |
-|Influence coeffic.   |      74 |       0.0 |   0.0 |        0.0 |   2.2 |
+|Undeformed distance  |      56 |       0.0 |   0.0 |        0.0 |   2.3 |
+| - Interp whl_srfc   |      56 |       0.0 |   0.0 |        0.0 |   0.9 |
+|Influence coeffic.   |      74 |       0.0 |   0.0 |        0.0 |   1.9 |
 |Initial state/estim. |      76 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Subsurf writing      |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|

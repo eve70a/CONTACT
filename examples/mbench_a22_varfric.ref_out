@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2480 $, $Date:: 2023-12-22$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -65,11 +65,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      0.2774       36.24   1.000E+04      0.2774       36.24   1.000E+04
+      0.2776       36.24   1.000E+04      0.2776       36.24   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0117    751.4397      0.1380     -0.1277      -16.68      -4604.
+      0.0117    751.4397      0.1380     -0.1278      -16.68      -4604.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -91,15 +91,15 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9997.      0.2774      -253.7      -4605.   6.042E-02     -0.4677
+         9997.      0.2776      -253.7      -4605.   6.042E-02     -0.4677
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1219   9.249E-05  -8.458E-02   1.596E-02       338.3
+        0.1219   9.256E-05  -8.458E-02   1.596E-02       338.3
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   3956   1291    943    348      1      1
+   3999   1291    943    348      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     85   o . . . . . . . . . . . . . . . . . . . . . . . . . o
@@ -204,7 +204,7 @@
          2, NR,  z_ws, Fz:       0.1932       9375., dFz/dz:   1.094E+06
          3, NR,  z_ws, Fz:       0.1938       9945., dFz/dz:   9.973E+05
          4, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   1.001E+06
-         5, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   9.945E+05
+         5, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   9.982E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -359,8 +359,8 @@
          1, NR,  z_ws, Fz:       0.0032   1.158E+04, dFz/dz:   5.750E+05
          2, NR,  z_ws, Fz:       0.0004       9288., dFz/dz:   8.335E+05
          3, NR,  z_ws, Fz:       0.0013       9967., dFz/dz:   7.954E+05
-         4, NR,  z_ws, Fz:       0.0013   1.000E+04, dFz/dz:   8.117E+05
-         5, NR,  z_ws, Fz:       0.0013   1.000E+04, dFz/dz:   8.098E+05
+         4, NR,  z_ws, Fz:       0.0013   1.000E+04, dFz/dz:   8.118E+05
+         5, NR,  z_ws, Fz:       0.0013      10000., dFz/dz:   8.194E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -397,7 +397,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -637.5       646.3   1.000E+04      -629.7       650.4   1.000E+04
+      -637.4       646.3      10000.      -629.7       650.4   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -459,7 +459,7 @@
  ABSMAX SIGHYD =  -261.472 AT (X,Y,Z) = (   0.000,  -0.200,   0.000)
  MAX     SIGVM =   193.183 AT (X,Y,Z) = (   0.000,  -0.200,   0.500)
  MAX     SIGTR =   199.077 AT (X,Y,Z) = (   0.000,   0.000,   0.500)
- MAX    SIGMA1 =   134.359 AT (X,Y,Z) = (  -0.200,   1.400,   0.000)
+ MAX    SIGMA1 =   134.358 AT (X,Y,Z) = (  -0.200,   1.400,   0.000)
  MIN    SIGMA3 =  -360.361 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
  ABSMAX  SIGXX =  -228.563 AT (X,Y,Z) = (   0.000,   0.000,   0.000)
  ABSMAX  SIGYY =  -267.733 AT (X,Y,Z) = (   0.000,  -0.400,   0.000)
@@ -510,21 +510,21 @@
 
  SUBSURFACE STRESSES BLOCK  1:
  
- ABSMAX SIGHYD = -1353.162 AT (X,Y,Z) = (  -0.200,  -0.200,   0.000)
- MAX     SIGVM =   935.250 AT (X,Y,Z) = (  -0.200,  -0.200,   0.500)
- MAX     SIGTR =  1029.171 AT (X,Y,Z) = (  -0.200,  -0.200,   0.500)
+ ABSMAX SIGHYD = -1353.164 AT (X,Y,Z) = (  -0.200,  -0.200,   0.000)
+ MAX     SIGVM =   935.251 AT (X,Y,Z) = (  -0.200,  -0.200,   0.500)
+ MAX     SIGTR =  1029.172 AT (X,Y,Z) = (  -0.200,  -0.200,   0.500)
  MAX    SIGMA1 =   517.191 AT (X,Y,Z) = (   0.200,   0.600,   0.000)
- MIN    SIGMA3 = -1891.555 AT (X,Y,Z) = (  -0.000,  -0.200,   0.000)
- ABSMAX  SIGXX =  -964.733 AT (X,Y,Z) = (  -0.400,  -0.200,   0.000)
- ABSMAX  SIGYY = -1609.184 AT (X,Y,Z) = (  -0.000,  -0.200,   0.000)
- ABSMAX  SIGZZ = -1578.902 AT (X,Y,Z) = (  -0.000,   0.000,   0.000)
+ MIN    SIGMA3 = -1891.557 AT (X,Y,Z) = (  -0.000,  -0.200,   0.000)
+ ABSMAX  SIGXX =  -964.734 AT (X,Y,Z) = (  -0.400,  -0.200,   0.000)
+ ABSMAX  SIGYY = -1609.186 AT (X,Y,Z) = (  -0.000,  -0.200,   0.000)
+ ABSMAX  SIGZZ = -1578.904 AT (X,Y,Z) = (  -0.000,   0.000,   0.000)
 
  Case     4
          0, NR,  z_ws, Fz:      -0.1176       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.0910       7721., dFz/dz:   4.361E+05
          2, NR,  z_ws, Fz:      -0.0858   1.011E+04, dFz/dz:   4.571E+05
          3, NR,  z_ws, Fz:      -0.0860       9996., dFz/dz:   4.724E+05
-         4, NR,  z_ws, Fz:      -0.0860      10000., dFz/dz:   4.721E+05
+         4, NR,  z_ws, Fz:      -0.0860   1.000E+04, dFz/dz:   4.721E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -561,7 +561,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -608.6       1417.      10000.      -589.9       1420.   1.000E+04
+      -608.6       1417.   1.000E+04      -589.9       1420.   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -616,7 +616,7 @@
          1, NR,  z_ws, Fz:      -0.0910       7722., dFz/dz:   4.361E+05
          2, NR,  z_ws, Fz:      -0.0858   1.011E+04, dFz/dz:   4.573E+05
          3, NR,  z_ws, Fz:      -0.0860       9996., dFz/dz:   4.727E+05
-         4, NR,  z_ws, Fz:      -0.0860      10000., dFz/dz:   4.723E+05
+         4, NR,  z_ws, Fz:      -0.0860   1.000E+04, dFz/dz:   4.732E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -653,11 +653,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -613.9       1387.      10000.      -595.6       1390.   1.000E+04
+      -613.9       1387.   1.000E+04      -595.6       1390.   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -7.3772    726.1295      3.2963      -1.422      0.9014       23.11
+     -7.3772    726.1295      3.2963      -1.422      0.9015       23.11
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -738,28 +738,28 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.5 | 100.0 |        2.0 | 100.0 |
-|Wheel-rail cases     |       5 |       1.5 | 100.0 |        2.0 | 100.0 |
-|Subsurface points    |       3 |       0.1 |   7.5 |        0.1 |   5.8 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.4 |
-|Geometric analysis   |      27 |       0.0 |   0.0 |        0.0 |   0.6 |
-|Panag.process        |      27 |       1.2 |  83.9 |        1.6 |  77.1 |
-|Algorithm Norm       |      27 |       0.0 |   0.0 |        0.1 |   5.4 |
-|Algorithm Tang       |      27 |       1.2 |  83.9 |        1.4 |  71.7 |
-|Output quantities    |      32 |       0.0 |   2.2 |        0.0 |   1.7 |
+|Total                |       1 |       1.0 | 100.0 |        1.8 | 100.0 |
+|Wheel-rail cases     |       5 |       1.0 | 100.0 |        1.8 | 100.0 |
+|Subsurface points    |       3 |       0.1 |   9.8 |        0.1 |   7.8 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Geometric analysis   |      27 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Panag.process        |      27 |       0.8 |  80.3 |        1.3 |  70.3 |
+|Algorithm Norm       |      27 |       0.0 |   0.0 |        0.1 |   2.9 |
+|Algorithm Tang       |      27 |       0.8 |  80.3 |        1.2 |  67.4 |
+|Output quantities    |      32 |       0.0 |   1.6 |        0.0 |   0.3 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      27 |       0.0 |   0.0 |        0.1 |   3.5 |
-|Tang: StedyGS solver |      27 |       1.2 |  83.9 |        1.4 |  71.7 |
+|Norm: ConjGrd solver |      27 |       0.0 |   0.0 |        0.0 |   2.2 |
+|Tang: StedyGS solver |      27 |       0.8 |  80.3 |        1.2 |  65.5 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       5 |       0.0 |   0.0 |        0.0 |   0.4 |
-|Contact location     |      27 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Undeformed distance  |      27 |       0.0 |   0.0 |        0.0 |   0.5 |
+|Reading input-file   |       5 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Contact location     |      27 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Undeformed distance  |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |      27 |       0.0 |   0.0 |        0.0 |   0.5 |
+|Influence coeffic.   |      27 |       0.0 |   0.0 |        0.0 |   1.3 |
 |Initial state/estim. |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Subsurf infl.cf.     |      33 |       0.1 |   4.3 |        0.1 |   3.3 |
-|Subsurf FFTs         |      33 |       0.0 |   2.2 |        0.0 |   2.3 |
-|Subsurf derived qnt  |      33 |       0.0 |   1.1 |        0.0 |   0.2 |
-|Subsurf writing      |       6 |       0.1 |   5.4 |        0.3 |  13.6 |
+|Subsurf infl.cf.     |      33 |       0.0 |   0.0 |        0.1 |   4.5 |
+|Subsurf FFTs         |      33 |       0.1 |   8.2 |        0.0 |   1.8 |
+|Subsurf derived qnt  |      33 |       0.0 |   0.0 |        0.0 |   1.0 |
+|Subsurf writing      |       6 |       0.1 |   6.6 |        0.3 |  16.7 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

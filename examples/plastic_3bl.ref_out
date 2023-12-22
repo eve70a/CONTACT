@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2480 $, $Date:: 2023-12-22$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -3888,16 +3888,16 @@ Performance timers:
 |------------------------------------------------------------------------|
 |Total                |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
 |Non-Hertzian cases   |      57 |       0.0 |   0.0 |        0.0 | 100.0 |
-|Panag.process        |      57 |       0.0 |   0.0 |        0.0 |  37.8 |
-|Algorithm Norm       |      57 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |      57 |       0.0 |   0.0 |        0.0 |  37.8 |
-|Output quantities    |      57 |       0.0 |   0.0 |        0.0 |  21.6 |
+|Panag.process        |      57 |       0.0 |   0.0 |        0.0 |  14.3 |
+|Algorithm Norm       |      57 |       0.0 |   0.0 |        0.0 |  14.3 |
+|Algorithm Tang       |      57 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Output quantities    |      57 |       0.0 |   0.0 |        0.0 |  67.3 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |      57 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: TangCG solver  |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: ConvxGS solver |      56 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      57 |       0.0 |   0.0 |        0.0 |  10.8 |
+|Reading input-file   |      57 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       5 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |      57 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|

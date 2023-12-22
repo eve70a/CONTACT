@@ -2,15 +2,15 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2480 $, $Date:: 2023-12-22$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
  NORM
-       1, Norm: size of Contact, Exterior :    697    392
-      Norm: final element division: C, E=    621    468  ItCG=     9
+       1, Norm: size of Contact, Exterior :    697    425
+      Norm: final element division: C, E=    621    501  ItCG=     9
 
  TANG: SHIFT TRANSIENT
        1, Tang: size of Adhes, Slip area :     621      0
@@ -64,50 +64,50 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    1089    621    305    316      1      1
+    1122    621    305    316      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . .
-    30   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . .
-    29   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
-    28   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . .
-    27   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
-    26   . . . . . . S S S S S S * * * * * * * * * S S S S S S . . . . . .
-    25   . . . . . S S S S S S * * * * * * * * * * * S S S S S S . . . . .
-    24   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . .
-    23   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . .
-    22   . . . S S S S S * * * * * * * * * * * * * * * * * S S S S S . . .
-    21   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . .
-    20   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . .
-    19   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . .
-    18   . . S S S S S * * * * * * * * * * * * * * * * * * * S S S S S . .
-    17   . . S S S S S * * * * * * * * * * * * * * * * * * * S S S S S . .
-    16   . . S S S S S * * * * * * * * * * * * * * * * * * * S S S S S . .
-    15   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . .
-    14   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . .
-    13   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . .
-    12   . . . S S S S S * * * * * * * * * * * * * * * * * S S S S S . . .
-    11   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . .
-    10   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . .
-     9   . . . . . S S S S S S * * * * * * * * * * * S S S S S S . . . . .
-     8   . . . . . . S S S S S S * * * * * * * * * S S S S S S . . . . . .
-     7   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
-     6   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . .
-     5   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
-     4   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . .
-     3   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . .
-     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . .
+    28   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . .
+    27   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    26   . . . . . . S S S S S S * * * * * * * * * S S S S S S . . . . . . .
+    25   . . . . . S S S S S S * * * * * * * * * * * S S S S S S . . . . . .
+    24   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . . .
+    23   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . . .
+    22   . . . S S S S S * * * * * * * * * * * * * * * * * S S S S S . . . .
+    21   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    20   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    19   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    18   . . S S S S S * * * * * * * * * * * * * * * * * * * S S S S S . . .
+    17   . . S S S S S * * * * * * * * * * * * * * * * * * * S S S S S . . .
+    16   . . S S S S S * * * * * * * * * * * * * * * * * * * S S S S S . . .
+    15   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    14   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    13   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    12   . . . S S S S S * * * * * * * * * * * * * * * * * S S S S S . . . .
+    11   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . . .
+    10   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . . .
+     9   . . . . . S S S S S S * * * * * * * * * * * S S S S S S . . . . . .
+     8   . . . . . . S S S S S S * * * * * * * * * S S S S S S . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . .
+     6   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . .
+     5   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . .
+     4   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
                            1                   2                   3
-         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->
 
  Case     2
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     305    316
@@ -160,50 +160,50 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    1089    621    422    199      1      1
+    1122    621    422    199      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . .
-    30   . . . . . . . . . . . S S S S S S S S S * S . . . . . . . . . . .
-    29   . . . . . . . . . S S S S S S S S S S S * * * * . . . . . . . . .
-    28   . . . . . . . . S S S S S S S S S S S S * * * * * . . . . . . . .
-    27   . . . . . . . S S S S S S S S S S S S S * * * * * * . . . . . . .
-    26   . . . . . . S S S S S S S * * * * * * * * * * * * * * . . . . . .
-    25   . . . . . S S S S S S * * * * * * * * * * * * * * * * * . . . . .
-    24   . . . . S S S S S S * * * * * * * * * * * * * * * * * * * . . . .
-    23   . . . . S S S S S * * * * * * * * * * * * * * * * * * * * . . . .
-    22   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . .
-    21   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . .
-    20   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . .
-    19   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . .
-    18   . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . .
-    17   . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * * . .
-    16   . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . .
-    15   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . .
-    14   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . .
-    13   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . .
-    12   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . .
-    11   . . . . S S S S S * * * * * * * * * * * * * * * * * * * * . . . .
-    10   . . . . S S S S S S * * * * * * * * * * * * * * * * * * * . . . .
-     9   . . . . . S S S S S S * * * * * * * * * * * * * * * * * . . . . .
-     8   . . . . . . S S S S S S S * * * * * * * * * * * * * * . . . . . .
-     7   . . . . . . . S S S S S S S S S S S S S * * * * * * . . . . . . .
-     6   . . . . . . . . S S S S S S S S S S S S * * * * * . . . . . . . .
-     5   . . . . . . . . . S S S S S S S S S S S * * * * . . . . . . . . .
-     4   . . . . . . . . . . . S S S S S S S S S * S . . . . . . . . . . .
-     3   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . .
-     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . S S S S S S S S S * S . . . . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S S * * * * . . . . . . . . . .
+    28   . . . . . . . . S S S S S S S S S S S S * * * * * . . . . . . . . .
+    27   . . . . . . . S S S S S S S S S S S S S * * * * * * . . . . . . . .
+    26   . . . . . . S S S S S S S * * * * * * * * * * * * * * . . . . . . .
+    25   . . . . . S S S S S S * * * * * * * * * * * * * * * * * . . . . . .
+    24   . . . . S S S S S S * * * * * * * * * * * * * * * * * * * . . . . .
+    23   . . . . S S S S S * * * * * * * * * * * * * * * * * * * * . . . . .
+    22   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . . .
+    21   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . . .
+    20   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . . .
+    19   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . . .
+    18   . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    17   . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * * . . .
+    16   . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    15   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . . .
+    14   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . . .
+    13   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . . .
+    12   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . . .
+    11   . . . . S S S S S * * * * * * * * * * * * * * * * * * * * . . . . .
+    10   . . . . S S S S S S * * * * * * * * * * * * * * * * * * * . . . . .
+     9   . . . . . S S S S S S * * * * * * * * * * * * * * * * * . . . . . .
+     8   . . . . . . S S S S S S S * * * * * * * * * * * * * * . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S * * * * * * . . . . . . . .
+     6   . . . . . . . . S S S S S S S S S S S S * * * * * . . . . . . . . .
+     5   . . . . . . . . . S S S S S S S S S S S * * * * . . . . . . . . . .
+     4   . . . . . . . . . . . S S S S S S S S S * S . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
                            1                   2                   3
-         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  Case     3
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     422    199
@@ -219,8 +219,8 @@
 
  Case     4
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     420    201
@@ -236,8 +236,8 @@
 
  Case     5
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     416    205
@@ -253,8 +253,8 @@
 
  Case     6
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     406    215
@@ -270,8 +270,8 @@
 
  Case     7
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     405    216
@@ -287,8 +287,8 @@
 
  Case     8
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     395    226
@@ -304,8 +304,8 @@
 
  Case     9
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     390    231
@@ -321,8 +321,8 @@
 
  Case    10
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     382    239
@@ -338,8 +338,8 @@
 
  Case    11
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     375    246
@@ -355,8 +355,8 @@
 
  Case    12
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     365    256
@@ -372,8 +372,8 @@
 
  Case    13
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     352    269
@@ -389,8 +389,8 @@
 
  Case    14
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -406,8 +406,8 @@
 
  Case    15
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     323    298
@@ -423,8 +423,8 @@
 
  Case    16
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     319    302
@@ -439,8 +439,8 @@
 
  Case    17
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     330    291
@@ -456,8 +456,8 @@
 
  Case    18
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     328    293
@@ -473,8 +473,8 @@
 
  Case    19
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     341    280
@@ -490,8 +490,8 @@
 
  Case    20
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     341    280
@@ -507,8 +507,8 @@
 
  Case    21
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     343    278
@@ -524,8 +524,8 @@
 
  Case    22
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     348    273
@@ -541,8 +541,8 @@
 
  Case    23
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     348    273
@@ -558,8 +558,8 @@
 
  Case    24
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     350    271
@@ -574,8 +574,8 @@
 
  Case    25
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     350    271
@@ -590,8 +590,8 @@
 
  Case    26
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     350    271
@@ -606,8 +606,8 @@
 
  Case    27
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     348    273
@@ -622,8 +622,8 @@
 
  Case    28
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     348    273
@@ -638,8 +638,8 @@
 
  Case    29
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     348    273
@@ -655,8 +655,8 @@
 
  Case    30
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -671,8 +671,8 @@
 
  Case    31
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -687,8 +687,8 @@
 
  Case    32
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -703,8 +703,8 @@
 
  Case    33
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -719,8 +719,8 @@
 
  Case    34
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -735,8 +735,8 @@
 
  Case    35
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -751,8 +751,8 @@
 
  Case    36
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -767,8 +767,8 @@
 
  Case    37
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -783,8 +783,8 @@
 
  Case    38
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -799,8 +799,8 @@
 
  Case    39
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -815,8 +815,8 @@
 
  Case    40
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -831,8 +831,8 @@
 
  Case    41
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -847,8 +847,8 @@
 
  Case    42
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -863,8 +863,8 @@
 
  Case    43
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -879,8 +879,8 @@
 
  Case    44
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -895,8 +895,8 @@
 
  Case    45
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -911,8 +911,8 @@
 
  Case    46
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -927,8 +927,8 @@
 
  Case    47
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -943,8 +943,8 @@
 
  Case    48
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -959,8 +959,8 @@
 
  Case    49
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -975,8 +975,8 @@
 
  Case    50
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -991,8 +991,8 @@
 
  Case    51
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -1007,8 +1007,8 @@
 
  Case    52
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -1023,8 +1023,8 @@
 
  Case    53
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -1039,8 +1039,8 @@
 
  Case    54
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -1055,8 +1055,8 @@
 
  Case    55
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -1071,8 +1071,8 @@
 
  Case    56
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -1087,8 +1087,8 @@
 
  Case    57
  NORM
-       1, Norm: size of Contact, Exterior :    621    468
-      Norm: final element division: C, E=    621    468  ItCG=     1
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
 
  TANG: TRANSIENT ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :     346    275
@@ -1137,44 +1137,44 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    1089    621    346    275      1      1
+    1122    621    346    275      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . .
-    30   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . .
-    29   . . . . . . . . . S S S S S S S S S S * * * * S . . . . . . . . .
-    28   . . . . . . . . S S S S S S S S S * * * * * * * * . . . . . . . .
-    27   . . . . . . . S S S S S S S S S * * * * * * * * * * . . . . . . .
-    26   . . . . . . S S S S S S S S S * * * * * * * * * * * * . . . . . .
-    25   . . . . . S S S S S S S S S S * * * * * * * * * * * * * . . . . .
-    24   . . . . S S S S S S S S S S * * * * * * * * * * * * * * S . . . .
-    23   . . . . S S S S S S S S S * * * * * * * * * * * * * * * * . . . .
-    22   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * S . . .
-    21   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * * . . .
-    20   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . .
-    19   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . .
-    18   . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . .
-    17   . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . .
-    16   . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . .
-    15   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . .
-    14   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . .
-    13   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * * . . .
-    12   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * S . . .
-    11   . . . . S S S S S S S S S * * * * * * * * * * * * * * * * . . . .
-    10   . . . . S S S S S S S S S S * * * * * * * * * * * * * * S . . . .
-     9   . . . . . S S S S S S S S S S * * * * * * * * * * * * * . . . . .
-     8   . . . . . . S S S S S S S S S * * * * * * * * * * * * . . . . . .
-     7   . . . . . . . S S S S S S S S S * * * * * * * * * * . . . . . . .
-     6   . . . . . . . . S S S S S S S S S * * * * * * * * . . . . . . . .
-     5   . . . . . . . . . S S S S S S S S S S * * * * S . . . . . . . . .
-     4   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . .
-     3   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . .
-     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S * * * * S . . . . . . . . . .
+    28   . . . . . . . . S S S S S S S S S * * * * * * * * . . . . . . . . .
+    27   . . . . . . . S S S S S S S S S * * * * * * * * * * . . . . . . . .
+    26   . . . . . . S S S S S S S S S * * * * * * * * * * * * . . . . . . .
+    25   . . . . . S S S S S S S S S S * * * * * * * * * * * * * . . . . . .
+    24   . . . . S S S S S S S S S S * * * * * * * * * * * * * * S . . . . .
+    23   . . . . S S S S S S S S S * * * * * * * * * * * * * * * * . . . . .
+    22   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * S . . . .
+    21   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * * . . . .
+    20   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . . .
+    19   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . . .
+    18   . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . . .
+    17   . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . . .
+    16   . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . . .
+    15   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . . .
+    14   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . . .
+    13   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * * . . . .
+    12   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * S . . . .
+    11   . . . . S S S S S S S S S * * * * * * * * * * * * * * * * . . . . .
+    10   . . . . S S S S S S S S S S * * * * * * * * * * * * * * S . . . . .
+     9   . . . . . S S S S S S S S S S * * * * * * * * * * * * * . . . . . .
+     8   . . . . . . S S S S S S S S S * * * * * * * * * * * * . . . . . . .
+     7   . . . . . . . S S S S S S S S S * * * * * * * * * * . . . . . . . .
+     6   . . . . . . . . S S S S S S S S S * * * * * * * * . . . . . . . . .
+     5   . . . . . . . . . S S S S S S S S S S * * * * S . . . . . . . . . .
+     4   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
                            1                   2                   3
-         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  Case    58
@@ -2347,6 +2347,1176 @@
          8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8
      X  -->
 
+ Case   115
+ NORM
+       1, Norm: size of Contact, Exterior :    697    425
+      Norm: final element division: C, E=    621    501  ItCG=     9
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     621      0
+         0, NR_Fx,    Cksi, Fxk:    1.000E-06  -4.298E-05   ItCG:    9
+         1, NR_Fx,    Cksi, Fxk:    3.100E-05  -1.332E-03   ItCG:   10
+         2, NR_Fx,    Cksi, Fxk:    1.529E-02     -0.5802   ItCG:   22
+         3, NR_Fx,    Cksi, Fxk:    1.731E-02     -0.6441   ItCG:   16
+         4, NR_Fx,    Cksi, Fxk:    1.772E-02     -0.6565   ItCG:   15
+         5, NR_Fx,    Cksi, Fxk:    1.774E-02     -0.6570   ItCG:    9
+         6, NR_Fx,    Cksi, Fxk:    1.774E-02     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    305    316  ItCG=    86
+
+ 
+  PBTNFS.            PVTIME 2, BOUND  0, TANG   1, NORM   1, FORCE  1, STRESS 0
+  LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ SHIFT TRANSIENT
+ X-FORCE,  Y-CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-06
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.4013      0.4013    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC     FX/FSTAT/FN   CETA        CPHI
+     1.000           1.000     -0.6570       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.470E-05  -1.261E-07
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   1.774E-02       0.000   7.258E-02   1.834E-02
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -30.0        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    1122    621    305    316      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . .
+    28   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . .
+    27   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    26   . . . . . . S S S S S S * * * * * * * * * S S S S S S . . . . . . .
+    25   . . . . . S S S S S S * * * * * * * * * * * S S S S S S . . . . . .
+    24   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . . .
+    23   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . . .
+    22   . . . S S S S S * * * * * * * * * * * * * * * * * S S S S S . . . .
+    21   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    20   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    19   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    18   . . S S S S S * * * * * * * * * * * * * * * * * * * S S S S S . . .
+    17   . . S S S S S * * * * * * * * * * * * * * * * * * * S S S S S . . .
+    16   . . S S S S S * * * * * * * * * * * * * * * * * * * S S S S S . . .
+    15   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    14   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    13   . . . S S S S * * * * * * * * * * * * * * * * * * * S S S S . . . .
+    12   . . . S S S S S * * * * * * * * * * * * * * * * * S S S S S . . . .
+    11   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . . .
+    10   . . . . S S S S S * * * * * * * * * * * * * * * S S S S S . . . . .
+     9   . . . . . S S S S S S * * * * * * * * * * * S S S S S S . . . . . .
+     8   . . . . . . S S S S S S * * * * * * * * * S S S S S S . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . .
+     6   . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . .
+     5   . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . .
+     4   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
+     X  -->
+
+ Case   116
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     334    287
+         0, NR_Fx,    Cksi, Fxk:    1.774E-02     -0.9997   ItCG:   13
+         Warning: full sliding, A, S=      0    621
+         1, NR_Fx,    Cksi, Fxk:    6.326E-03     -0.8291   ItCG:   36
+         2, NR_Fx,    Cksi, Fxk:   -5.181E-03     -0.4366   ItCG:   17
+         3, NR_Fx,    Cksi, Fxk:    1.281E-03     -0.6861   ItCG:   19
+         4, NR_Fx,    Cksi, Fxk:    5.282E-04     -0.6596   ItCG:   13
+         5, NR_Fx,    Cksi, Fxk:    4.532E-04     -0.6569   ItCG:   10
+         6, NR_Fx,    Cksi, Fxk:    4.548E-04     -0.6570   ItCG:    6
+      Tang: final element division: A, S=    422    199  ItCG=   114
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   0, FORCE  1, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 2, INFLCF 1, MATER  0, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 1, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED APPROACH, FULL SOLUTION
+ SHIFT TRANSIENT
+ X-FORCE,  Y-CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-06
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.4013      0.4013    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC     FX/FSTAT/FN   CETA        CPHI
+     1.000           1.000     -0.6570       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.472E-05  -2.970E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   4.548E-04       0.000   7.258E-02   1.834E-02
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -35.9        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    1122    621    422    199      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . S S S S S S S S S * S . . . . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S S * * * * . . . . . . . . . .
+    28   . . . . . . . . S S S S S S S S S S S S * * * * * . . . . . . . . .
+    27   . . . . . . . S S S S S S S S S S S S S * * * * * * . . . . . . . .
+    26   . . . . . . S S S S S S S * * * * * * * * * * * * * * . . . . . . .
+    25   . . . . . S S S S S S * * * * * * * * * * * * * * * * * . . . . . .
+    24   . . . . S S S S S S * * * * * * * * * * * * * * * * * * * . . . . .
+    23   . . . . S S S S S * * * * * * * * * * * * * * * * * * * * . . . . .
+    22   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . . .
+    21   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . . .
+    20   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . . .
+    19   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . . .
+    18   . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    17   . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * * . . .
+    16   . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    15   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . . .
+    14   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * . . . .
+    13   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . . .
+    12   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * . . . .
+    11   . . . . S S S S S * * * * * * * * * * * * * * * * * * * * . . . . .
+    10   . . . . S S S S S S * * * * * * * * * * * * * * * * * * * . . . . .
+     9   . . . . . S S S S S S * * * * * * * * * * * * * * * * * . . . . . .
+     8   . . . . . . S S S S S S S * * * * * * * * * * * * * * . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S * * * * * * . . . . . . . .
+     6   . . . . . . . . S S S S S S S S S S S S * * * * * . . . . . . . . .
+     5   . . . . . . . . . S S S S S S S S S S S * * * * . . . . . . . . . .
+     4   . . . . . . . . . . . S S S S S S S S S * S . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
+     X  -->
+
+ Case   117
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     451    170
+         0, NR_Fx,    Cksi, Fxk:    4.548E-04     -0.6564   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    4.705E-04     -0.6570   ItCG:    9
+         2, NR_Fx,    Cksi, Fxk:    4.705E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    420    201  ItCG=    31
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.474E-05  -3.166E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   4.705E-04       0.000   7.258E-02   1.834E-02
+
+ Case   118
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     449    172
+         0, NR_Fx,    Cksi, Fxk:    4.705E-04     -0.6564   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    4.886E-04     -0.6570   ItCG:    9
+         2, NR_Fx,    Cksi, Fxk:    4.886E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    416    205  ItCG=    31
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.476E-05  -3.431E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   4.886E-04       0.000   7.258E-02   1.834E-02
+
+ Case   119
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     445    176
+         0, NR_Fx,    Cksi, Fxk:    4.886E-04     -0.6562   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    5.122E-04     -0.6570   ItCG:    9
+         2, NR_Fx,    Cksi, Fxk:    5.125E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    406    215  ItCG=    32
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.478E-05  -3.797E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   5.125E-04       0.000   7.258E-02   1.834E-02
+
+ Case   120
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     435    186
+         0, NR_Fx,    Cksi, Fxk:    5.125E-04     -0.6562   ItCG:   16
+         1, NR_Fx,    Cksi, Fxk:    5.348E-04     -0.6570   ItCG:    9
+         2, NR_Fx,    Cksi, Fxk:    5.349E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    405    216  ItCG=    29
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.480E-05  -4.137E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   5.349E-04       0.000   7.258E-02   1.834E-02
+
+ Case   121
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     434    187
+         0, NR_Fx,    Cksi, Fxk:    5.349E-04     -0.6563   ItCG:   16
+         1, NR_Fx,    Cksi, Fxk:    5.550E-04     -0.6570   ItCG:    9
+         2, NR_Fx,    Cksi, Fxk:    5.552E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    395    226  ItCG=    30
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.482E-05  -4.480E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   5.552E-04       0.000   7.258E-02   1.834E-02
+
+ Case   122
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     424    197
+         0, NR_Fx,    Cksi, Fxk:    5.552E-04     -0.6560   ItCG:   16
+         1, NR_Fx,    Cksi, Fxk:    5.835E-04     -0.6570   ItCG:   11
+         2, NR_Fx,    Cksi, Fxk:    5.835E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    390    231  ItCG=    31
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -4.966E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   5.835E-04       0.000   7.258E-02   1.834E-02
+
+ Case   123
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     419    202
+         0, NR_Fx,    Cksi, Fxk:    5.835E-04     -0.6562   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    6.068E-04     -0.6570   ItCG:   11
+         2, NR_Fx,    Cksi, Fxk:    6.069E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    382    239  ItCG=    34
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.484E-05  -5.386E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   6.069E-04       0.000   7.258E-02   1.834E-02
+
+ Case   124
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     411    210
+         0, NR_Fx,    Cksi, Fxk:    6.069E-04     -0.6559   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    6.375E-04     -0.6570   ItCG:   11
+         2, NR_Fx,    Cksi, Fxk:    6.377E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    375    246  ItCG=    33
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.486E-05  -5.963E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   6.377E-04       0.000   7.258E-02   1.834E-02
+
+ Case   125
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     404    217
+         0, NR_Fx,    Cksi, Fxk:    6.377E-04     -0.6559   ItCG:   19
+         1, NR_Fx,    Cksi, Fxk:    6.686E-04     -0.6570   ItCG:   11
+         2, NR_Fx,    Cksi, Fxk:    6.690E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    365    256  ItCG=    35
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.487E-05  -6.577E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   6.690E-04       0.000   7.258E-02   1.834E-02
+
+ Case   126
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     394    227
+         0, NR_Fx,    Cksi, Fxk:    6.690E-04     -0.6560   ItCG:   16
+         1, NR_Fx,    Cksi, Fxk:    7.000E-04     -0.6570   ItCG:   10
+         2, NR_Fx,    Cksi, Fxk:    7.003E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    350    271  ItCG=    31
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.487E-05  -7.228E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.003E-04       0.000   7.258E-02   1.834E-02
+
+ Case   127
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     379    242
+         0, NR_Fx,    Cksi, Fxk:    7.003E-04     -0.6556   ItCG:   16
+         1, NR_Fx,    Cksi, Fxk:    7.417E-04     -0.6570   ItCG:   10
+         2, NR_Fx,    Cksi, Fxk:    7.419E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    346    275  ItCG=    31
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.487E-05  -8.100E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.419E-04       0.000   7.258E-02   1.834E-02
+
+ Case   128
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.419E-04     -0.6553   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.946E-04     -0.6570   ItCG:   12
+         2, NR_Fx,    Cksi, Fxk:    7.960E-04     -0.6570   ItCG:    7
+      Tang: final element division: A, S=    323    298  ItCG=    37
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.487E-05  -9.347E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.960E-04       0.000   7.258E-02   1.834E-02
+
+ Case   129
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     352    269
+         0, NR_Fx,    Cksi, Fxk:    7.960E-04     -0.6553   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    8.503E-04     -0.6570   ItCG:   12
+         2, NR_Fx,    Cksi, Fxk:    8.508E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    319    302  ItCG=    34
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.486E-05  -1.069E-07
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   8.508E-04       0.000   7.258E-02   1.834E-02
+
+ Case   130
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     348    273
+         0, NR_Fx,    Cksi, Fxk:    8.508E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    8.505E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    330    291  ItCG=    22
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.485E-05  -1.062E-07
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   8.505E-04       0.000   7.258E-02   1.834E-02
+
+ Case   131
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     359    262
+         0, NR_Fx,    Cksi, Fxk:    8.505E-04     -0.6575   ItCG:   16
+         1, NR_Fx,    Cksi, Fxk:    8.335E-04     -0.6570   ItCG:    9
+         2, NR_Fx,    Cksi, Fxk:    8.334E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    328    293  ItCG=    29
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.484E-05  -1.019E-07
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   8.334E-04       0.000   7.258E-02   1.834E-02
+
+ Case   132
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     357    264
+         0, NR_Fx,    Cksi, Fxk:    8.334E-04     -0.6577   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    8.100E-04     -0.6570   ItCG:    9
+         2, NR_Fx,    Cksi, Fxk:    8.103E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    341    280  ItCG=    31
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -9.565E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   8.103E-04       0.000   7.258E-02   1.834E-02
+
+ Case   133
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     370    251
+         0, NR_Fx,    Cksi, Fxk:    8.103E-04     -0.6574   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.980E-04     -0.6570   ItCG:    9
+         2, NR_Fx,    Cksi, Fxk:    7.980E-04     -0.6570   ItCG:    3
+      Tang: final element division: A, S=    341    280  ItCG=    29
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -9.247E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.980E-04       0.000   7.258E-02   1.834E-02
+
+ Case   134
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     370    251
+         0, NR_Fx,    Cksi, Fxk:    7.980E-04     -0.6576   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.806E-04     -0.6570   ItCG:    9
+         2, NR_Fx,    Cksi, Fxk:    7.808E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    343    278  ItCG=    32
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.819E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.808E-04       0.000   7.258E-02   1.834E-02
+
+ Case   135
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     372    249
+         0, NR_Fx,    Cksi, Fxk:    7.808E-04     -0.6571   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.779E-04     -0.6570   ItCG:    7
+         2, NR_Fx,    Cksi, Fxk:    7.779E-04     -0.6570   ItCG:    3
+      Tang: final element division: A, S=    348    273  ItCG=    28
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.742E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.779E-04       0.000   7.258E-02   1.834E-02
+
+ Case   136
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     377    244
+         0, NR_Fx,    Cksi, Fxk:    7.779E-04     -0.6572   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.719E-04     -0.6570   ItCG:    8
+         2, NR_Fx,    Cksi, Fxk:    7.719E-04     -0.6570   ItCG:    3
+      Tang: final element division: A, S=    348    273  ItCG=    29
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.593E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.719E-04       0.000   7.258E-02   1.834E-02
+
+ Case   137
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     377    244
+         0, NR_Fx,    Cksi, Fxk:    7.719E-04     -0.6571   ItCG:   20
+         1, NR_Fx,    Cksi, Fxk:    7.681E-04     -0.6570   ItCG:   10
+      Tang: final element division: A, S=    350    271  ItCG=    30
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.498E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.681E-04       0.000   7.258E-02   1.834E-02
+
+ Case   138
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     379    242
+         0, NR_Fx,    Cksi, Fxk:    7.681E-04     -0.6571   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.661E-04     -0.6570   ItCG:    6
+      Tang: final element division: A, S=    350    271  ItCG=    24
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.447E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.661E-04       0.000   7.258E-02   1.834E-02
+
+ Case   139
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     379    242
+         0, NR_Fx,    Cksi, Fxk:    7.661E-04     -0.6570   ItCG:   16
+         1, NR_Fx,    Cksi, Fxk:    7.655E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    350    271  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.430E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.655E-04       0.000   7.258E-02   1.834E-02
+
+ Case   140
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     379    242
+         0, NR_Fx,    Cksi, Fxk:    7.655E-04     -0.6570   ItCG:   16
+         1, NR_Fx,    Cksi, Fxk:    7.660E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    348    273  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.440E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.660E-04       0.000   7.258E-02   1.834E-02
+
+ Case   141
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     377    244
+         0, NR_Fx,    Cksi, Fxk:    7.660E-04     -0.6569   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.676E-04     -0.6570   ItCG:    6
+      Tang: final element division: A, S=    348    273  ItCG=    23
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.474E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.676E-04       0.000   7.258E-02   1.834E-02
+
+ Case   142
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     377    244
+         0, NR_Fx,    Cksi, Fxk:    7.676E-04     -0.6569   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.693E-04     -0.6570   ItCG:    6
+      Tang: final element division: A, S=    348    273  ItCG=    24
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.513E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.693E-04       0.000   7.258E-02   1.834E-02
+
+ Case   143
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     377    244
+         0, NR_Fx,    Cksi, Fxk:    7.693E-04     -0.6569   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.712E-04     -0.6570   ItCG:    6
+         2, NR_Fx,    Cksi, Fxk:    7.712E-04     -0.6570   ItCG:    2
+      Tang: final element division: A, S=    346    275  ItCG=    26
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.556E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.712E-04       0.000   7.258E-02   1.834E-02
+
+ Case   144
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.712E-04     -0.6569   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.733E-04     -0.6570   ItCG:    6
+      Tang: final element division: A, S=    346    275  ItCG=    24
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.606E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.733E-04       0.000   7.258E-02   1.834E-02
+
+ Case   145
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.733E-04     -0.6569   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:    6
+      Tang: final element division: A, S=    346    275  ItCG=    23
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.649E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.752E-04       0.000   7.258E-02   1.834E-02
+
+ Case   146
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.767E-04     -0.6570   ItCG:    6
+      Tang: final element division: A, S=    346    275  ItCG=    23
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.684E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.767E-04       0.000   7.258E-02   1.834E-02
+
+ Case   147
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.767E-04     -0.6570   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.776E-04     -0.6570   ItCG:    6
+      Tang: final element division: A, S=    346    275  ItCG=    24
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.707E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.776E-04       0.000   7.258E-02   1.834E-02
+
+ Case   148
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.776E-04     -0.6570   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.777E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    22
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.710E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.777E-04       0.000   7.258E-02   1.834E-02
+
+ Case   149
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.777E-04     -0.6570   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.774E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    346    275  ItCG=    23
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.701E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.774E-04       0.000   7.258E-02   1.834E-02
+
+ Case   150
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.774E-04     -0.6570   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.767E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    346    275  ItCG=    23
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.687E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.767E-04       0.000   7.258E-02   1.834E-02
+
+ Case   151
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.767E-04     -0.6570   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.762E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    346    275  ItCG=    23
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.673E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.762E-04       0.000   7.258E-02   1.834E-02
+
+ Case   152
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.762E-04     -0.6570   ItCG:   18
+         1, NR_Fx,    Cksi, Fxk:    7.757E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    346    275  ItCG=    23
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.661E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.757E-04       0.000   7.258E-02   1.834E-02
+
+ Case   153
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.757E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.753E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    346    275  ItCG=    22
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.652E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.753E-04       0.000   7.258E-02   1.834E-02
+
+ Case   154
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.753E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.750E-04     -0.6570   ItCG:    5
+      Tang: final element division: A, S=    346    275  ItCG=    22
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.645E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.750E-04       0.000   7.258E-02   1.834E-02
+
+ Case   155
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.750E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.748E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.641E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.748E-04       0.000   7.258E-02   1.834E-02
+
+ Case   156
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.748E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.747E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.638E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.747E-04       0.000   7.258E-02   1.834E-02
+
+ Case   157
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.747E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.747E-04     -0.6570   ItCG:    3
+      Tang: final element division: A, S=    346    275  ItCG=    20
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.638E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.747E-04       0.000   7.258E-02   1.834E-02
+
+ Case   158
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.747E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.747E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.638E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.747E-04       0.000   7.258E-02   1.834E-02
+
+ Case   159
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.747E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.748E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.640E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.748E-04       0.000   7.258E-02   1.834E-02
+
+ Case   160
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.748E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.749E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.642E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.749E-04       0.000   7.258E-02   1.834E-02
+
+ Case   161
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.749E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.750E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.644E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.750E-04       0.000   7.258E-02   1.834E-02
+
+ Case   162
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.750E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.750E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.646E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.750E-04       0.000   7.258E-02   1.834E-02
+
+ Case   163
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.750E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.751E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.648E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.751E-04       0.000   7.258E-02   1.834E-02
+
+ Case   164
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.751E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.649E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.752E-04       0.000   7.258E-02   1.834E-02
+
+ Case   165
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.650E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.752E-04       0.000   7.258E-02   1.834E-02
+
+ Case   166
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:    3
+      Tang: final element division: A, S=    346    275  ItCG=    20
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.650E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.752E-04       0.000   7.258E-02   1.834E-02
+
+ Case   167
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:    3
+      Tang: final element division: A, S=    346    275  ItCG=    20
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.650E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.752E-04       0.000   7.258E-02   1.834E-02
+
+ Case   168
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:    3
+      Tang: final element division: A, S=    346    275  ItCG=    20
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.649E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.752E-04       0.000   7.258E-02   1.834E-02
+
+ Case   169
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:   17
+      Tang: final element division: A, S=    346    275  ItCG=    17
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.649E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.752E-04       0.000   7.258E-02   1.834E-02
+
+ Case   170
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.752E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.751E-04     -0.6570   ItCG:    4
+      Tang: final element division: A, S=    346    275  ItCG=    21
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.648E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.751E-04       0.000   7.258E-02   1.834E-02
+
+ Case   171
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=    13
+
+ TANG: SHIFT TRANSIENT
+       1, Tang: size of Adhes, Slip area :     375    246
+         0, NR_Fx,    Cksi, Fxk:    7.751E-04     -0.6570   ItCG:   17
+         1, NR_Fx,    Cksi, Fxk:    7.751E-04     -0.6570   ItCG:    3
+      Tang: final element division: A, S=    346    275  ItCG=    20
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   1, NORM   0, FORCE  1, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 2, INFLCF 1, MATER  0, RZNORM 2, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 1, MATFIL 1, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED APPROACH, FULL SOLUTION
+ SHIFT TRANSIENT
+ X-FORCE,  Y-CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-06
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.4013      0.4013    
+ 
+ KINEMATIC CONSTANTS
+     DT          VELOC     FX/FSTAT/FN   CETA        CPHI
+     1.000           1.000     -0.6570       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
+        0.4705     -0.1240       0.000       0.000   1.483E-05  -8.648E-08
+     FN/G       SHIFT X     FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705   7.751E-04       0.000   7.258E-02   1.834E-02
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00       -33.1        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    1122    621    346    275      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S * * * * S . . . . . . . . . .
+    28   . . . . . . . . S S S S S S S S S * * * * * * * * . . . . . . . . .
+    27   . . . . . . . S S S S S S S S S * * * * * * * * * * . . . . . . . .
+    26   . . . . . . S S S S S S S S S * * * * * * * * * * * * . . . . . . .
+    25   . . . . . S S S S S S S S S S * * * * * * * * * * * * * . . . . . .
+    24   . . . . S S S S S S S S S S * * * * * * * * * * * * * * S . . . . .
+    23   . . . . S S S S S S S S S * * * * * * * * * * * * * * * * . . . . .
+    22   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * S . . . .
+    21   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * * . . . .
+    20   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . . .
+    19   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . . .
+    18   . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . . .
+    17   . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . . .
+    16   . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . . .
+    15   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . . .
+    14   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * . . . .
+    13   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * * . . . .
+    12   . . . S S S S S S S S S S * * * * * * * * * * * * * * * * S . . . .
+    11   . . . . S S S S S S S S S * * * * * * * * * * * * * * * * . . . . .
+    10   . . . . S S S S S S S S S S * * * * * * * * * * * * * * S . . . . .
+     9   . . . . . S S S S S S S S S S * * * * * * * * * * * * * . . . . . .
+     8   . . . . . . S S S S S S S S S * * * * * * * * * * * * . . . . . . .
+     7   . . . . . . . S S S S S S S S S * * * * * * * * * * . . . . . . . .
+     6   . . . . . . . . S S S S S S S S S * * * * * * * * . . . . . . . . .
+     5   . . . . . . . . . S S S S S S S S S S * * * * S . . . . . . . . . .
+     4   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
+     X  -->
+
 Parallel run using  2 threads
 Performance timers:
 |------------------------------------------------------------------------|
@@ -2354,19 +3524,19 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.2 | 100.0 |        1.1 | 100.0 |
-|Non-Hertzian cases   |     114 |       0.2 | 100.0 |        1.1 | 100.0 |
-|Panag.process        |     114 |       0.2 |  81.2 |        0.9 |  86.7 |
-|Algorithm Norm       |     114 |       0.0 |  18.8 |        0.3 |  26.8 |
-|Algorithm Tang       |     114 |       0.2 |  62.5 |        0.6 |  58.8 |
-|Output quantities    |     114 |       0.0 |  18.8 |        0.1 |   6.1 |
+|Total                |       1 |       0.2 | 100.0 |        2.4 | 100.0 |
+|Non-Hertzian cases   |     171 |       0.2 | 100.0 |        2.4 | 100.0 |
+|Panag.process        |     171 |       0.2 |  92.3 |        2.0 |  86.1 |
+|Algorithm Norm       |     171 |       0.0 |  23.1 |        0.5 |  21.0 |
+|Algorithm Tang       |     171 |       0.1 |  69.2 |        1.5 |  62.6 |
+|Output quantities    |     171 |       0.0 |   0.0 |        0.1 |   6.1 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     114 |       0.0 |  12.5 |        0.2 |  18.3 |
-|Tang: TangCG solver  |     287 |       0.1 |  50.0 |        0.5 |  47.5 |
+|Norm: ConjGrd solver |     171 |       0.0 |  23.1 |        0.4 |  15.0 |
+|Tang: TangCG solver  |     430 |       0.1 |  61.5 |        1.2 |  51.1 |
 |------------------------------------------------------------------------|
-|Reading input-file   |     114 |       0.0 |   0.0 |        0.0 |   0.6 |
-|Influence coeffic.   |       3 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Initial state/estim. |     114 |       0.0 |   0.0 |        0.0 |   0.6 |
-|Writing output-files |      16 |       0.0 |   0.0 |        0.0 |   4.1 |
+|Reading input-file   |     171 |       0.0 |   0.0 |        0.0 |   0.7 |
+|Influence coeffic.   |      60 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Initial state/estim. |     171 |       0.0 |   0.0 |        0.0 |   0.6 |
+|Writing output-files |      24 |       0.0 |   0.0 |        0.1 |   4.4 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

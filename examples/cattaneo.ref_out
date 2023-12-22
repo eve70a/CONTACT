@@ -2,16 +2,13 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2480 $, $Date:: 2023-12-22$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- NORM
-       1, Norm: size of Contact, Exterior :    177    184
       Norm: final element division: C, E=    177    184  ItCG=     4
-
  
   PBTNFS.            PVTIME 2, BOUND  0, TANG   0, NORM   1, FORCE  0, STRESS 0
   LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
@@ -412,10 +409,10 @@ Performance timers:
 |------------------------------------------------------------------------|
 |Total                |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
 |Non-Hertzian cases   |       2 |       0.0 |   0.0 |        0.0 | 100.0 |
-|Panag.process        |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Panag.process        |       2 |       0.0 |   0.0 |        0.0 |  47.8 |
 |Algorithm Norm       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Output quantities    |       2 |       0.0 |   0.0 |        0.0 | 100.0 |
+|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |  47.8 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |  21.7 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: TangCG solver  |      13 |       0.0 |   0.0 |        0.0 |   0.0 |
@@ -423,6 +420,6 @@ Performance timers:
 |Reading input-file   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |       1 |       0.0 |   0.0 |        0.0 |  26.1 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

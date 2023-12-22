@@ -2,29 +2,20 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2480 $, $Date:: 2023-12-22$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        59.29   5.929E-02
-       2, Tang: size of Adhes, Slip area :      49     32
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.879   5.982E-02
-       3, Tang: size of Adhes, Slip area :      46     35
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.710   5.936E-02
-       4, Tang: size of Adhes, Slip area :      45     36
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8002   5.928E-02
-       5, Tang: size of Adhes, Slip area :      45     36
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2116   5.928E-02
-       6, Tang: size of Adhes, Slip area :      45     36
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.070E-02   5.928E-02
+    1, Vel-dep: A, S=    49    32, |Sk-Sk-1|, .001 |Sk| :        59.29   5.929E-02
+    2, Vel-dep: A, S=    46    35, |Sk-Sk-1|, .001 |Sk| :        9.879   5.982E-02
+    3, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :        2.710   5.936E-02
+    4, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :       0.8002   5.928E-02
+    5, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :       0.2116   5.928E-02
+    6, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :    5.070E-02   5.928E-02
       Tang: final element division: A, S=     45     36  ItGS=   687
 
  
@@ -77,21 +68,13 @@
      X  -->        Chi=  0.00 degrees
 
  Case     2
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.807   3.807E-03
-       2, Tang: size of Adhes, Slip area :      77      4
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4460   4.201E-03
-       3, Tang: size of Adhes, Slip area :      77      4
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.617E-02   4.277E-03
-       4, Tang: size of Adhes, Slip area :      77      4
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.638E-03   4.285E-03
-       5, Tang: size of Adhes, Slip area :      77      4
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.312E-04   4.286E-03
+    1, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        3.807   3.807E-03
+    2, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.4460   4.201E-03
+    3, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    4.617E-02   4.277E-03
+    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    5.638E-03   4.285E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    6.312E-04   4.286E-03
       Tang: final element division: A, S=     77      4  ItCG=    47
 
  
@@ -144,23 +127,14 @@
      X  -->        Chi=  0.00 degrees
 
  Case     3
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        59.29   5.929E-02
-       2, Tang: size of Adhes, Slip area :      49     32
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.879   5.982E-02
-       3, Tang: size of Adhes, Slip area :      46     35
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.710   5.936E-02
-       4, Tang: size of Adhes, Slip area :      45     36
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8002   5.928E-02
-       5, Tang: size of Adhes, Slip area :      45     36
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2116   5.928E-02
-       6, Tang: size of Adhes, Slip area :      45     36
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.070E-02   5.928E-02
+    1, Vel-dep: A, S=    49    32, |Sk-Sk-1|, .001 |Sk| :        59.29   5.929E-02
+    2, Vel-dep: A, S=    46    35, |Sk-Sk-1|, .001 |Sk| :        9.879   5.982E-02
+    3, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :        2.710   5.936E-02
+    4, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :       0.8002   5.928E-02
+    5, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :       0.2116   5.928E-02
+    6, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :    5.070E-02   5.928E-02
       Tang: final element division: A, S=     45     36  ItGS=   687
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -169,33 +143,19 @@
          7.588      0.5941       0.000   8.879E-02       495.3
 
  Case     4
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.460E+04      0.5424
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        55.45      0.5008
-       3, Tang: size of Adhes, Slip area :      30     51
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        23.39      0.4836
-       4, Tang: size of Adhes, Slip area :      32     49
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        12.44      0.4745
-       5, Tang: size of Adhes, Slip area :      33     48
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.615      0.4690
-       6, Tang: size of Adhes, Slip area :      33     48
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.280      0.4658
-       7, Tang: size of Adhes, Slip area :      34     47
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.527      0.4640
-       8, Tang: size of Adhes, Slip area :      34     47
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.562      0.4628
-       9, Tang: size of Adhes, Slip area :      34     47
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.9940      0.4621
-      10, Tang: size of Adhes, Slip area :      34     47
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6449      0.4616
-      11, Tang: size of Adhes, Slip area :      34     47
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4239      0.4613
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.460E+04      0.5424
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        55.45      0.5008
+    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        23.39      0.4836
+    4, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        12.44      0.4745
+    5, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        7.615      0.4690
+    6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        4.280      0.4658
+    7, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        2.527      0.4640
+    8, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        1.562      0.4628
+    9, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.9940      0.4621
+   10, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.6449      0.4616
+   11, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.4239      0.4613
       Tang: final element division: A, S=     34     47  ItCG=   126
 
  
@@ -248,23 +208,14 @@
      X  -->        Chi=  0.00 degrees
 
  Case     5
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.488E+04      0.1555
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        143.1   2.344E-02
-       3, Tang: size of Adhes, Slip area :      61     20
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        19.41   4.231E-03
-       4, Tang: size of Adhes, Slip area :      75      6
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.446   1.925E-03
-       5, Tang: size of Adhes, Slip area :      78      3
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2988   1.901E-03
-       6, Tang: size of Adhes, Slip area :      79      2
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.112E-04   1.901E-03
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.488E+04      0.1555
+    2, Vel-dep: A, S=    61    20, |Sk-Sk-1|, .001 |Sk| :        143.1   2.344E-02
+    3, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        19.41   4.231E-03
+    4, Vel-dep: A, S=    78     3, |Sk-Sk-1|, .001 |Sk| :        3.446   1.925E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.2988   1.901E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    2.112E-04   1.901E-03
       Tang: final element division: A, S=     79      2  ItCG=    90
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -273,27 +224,16 @@
          7.588      0.5739       0.000   8.879E-02       495.3
 
  Case     6
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.484E+04      0.2085
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        174.3   4.609E-02
-       3, Tang: size of Adhes, Slip area :      37     44
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        38.36   1.127E-02
-       4, Tang: size of Adhes, Slip area :      69     12
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.543   6.619E-03
-       5, Tang: size of Adhes, Slip area :      76      5
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7841   6.093E-03
-       6, Tang: size of Adhes, Slip area :      77      4
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1185   5.997E-03
-       7, Tang: size of Adhes, Slip area :      77      4
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.268E-02   5.979E-03
-       8, Tang: size of Adhes, Slip area :      77      4
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.342E-03   5.976E-03
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.484E+04      0.2085
+    2, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        174.3   4.609E-02
+    3, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        38.36   1.127E-02
+    4, Vel-dep: A, S=    76     5, |Sk-Sk-1|, .001 |Sk| :        6.543   6.619E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.7841   6.093E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.1185   5.997E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.268E-02   5.979E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    4.342E-03   5.976E-03
       Tang: final element division: A, S=     77      4  ItCG=   120
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -302,33 +242,19 @@
          7.588      0.5774       0.000   8.879E-02       495.3
 
  Case     7
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.480E+04      0.2619
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        124.6      0.1429
-       3, Tang: size of Adhes, Slip area :      32     49
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        109.2   4.673E-02
-       4, Tang: size of Adhes, Slip area :      50     31
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        30.35   2.085E-02
-       5, Tang: size of Adhes, Slip area :      67     14
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        8.146   1.401E-02
-       6, Tang: size of Adhes, Slip area :      73      8
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.487   1.191E-02
-       7, Tang: size of Adhes, Slip area :      75      6
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7698   1.124E-02
-       8, Tang: size of Adhes, Slip area :      75      6
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2536   1.103E-02
-       9, Tang: size of Adhes, Slip area :      75      6
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    8.427E-02   1.095E-02
-      10, Tang: size of Adhes, Slip area :      75      6
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.807E-02   1.093E-02
-      11, Tang: size of Adhes, Slip area :      75      6
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    9.380E-03   1.092E-02
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.480E+04      0.2619
+    2, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        124.6      0.1429
+    3, Vel-dep: A, S=    50    31, |Sk-Sk-1|, .001 |Sk| :        109.2   4.673E-02
+    4, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        30.35   2.085E-02
+    5, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        8.146   1.401E-02
+    6, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.487   1.191E-02
+    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.7698   1.124E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2536   1.103E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    8.427E-02   1.095E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.807E-02   1.093E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.380E-03   1.092E-02
       Tang: final element division: A, S=     75      6  ItCG=   169
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -337,43 +263,24 @@
          7.588      0.5806       0.000   8.879E-02       495.3
 
  Case     8
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.476E+04      0.3130
-       2, Tang: size of Adhes, Slip area :      22     59
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        94.21      0.2259
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        81.83      0.1505
-       4, Tang: size of Adhes, Slip area :      34     47
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        90.84   7.499E-02
-       5, Tang: size of Adhes, Slip area :      48     33
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        37.94   4.300E-02
-       6, Tang: size of Adhes, Slip area :      63     18
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        16.45   2.884E-02
-       7, Tang: size of Adhes, Slip area :      69     12
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.632   2.220E-02
-       8, Tang: size of Adhes, Slip area :      72      9
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.588   1.904E-02
-       9, Tang: size of Adhes, Slip area :      72      9
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.616   1.759E-02
-      10, Tang: size of Adhes, Slip area :      73      8
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7374   1.693E-02
-      11, Tang: size of Adhes, Slip area :      73      8
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3439   1.662E-02
-      12, Tang: size of Adhes, Slip area :      73      8
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1619   1.647E-02
-      13, Tang: size of Adhes, Slip area :      73      8
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.651E-02   1.640E-02
-      14, Tang: size of Adhes, Slip area :      73      8
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    3.625E-02   1.637E-02
-      15, Tang: size of Adhes, Slip area :      73      8
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.719E-02   1.635E-02
-      16, Tang: size of Adhes, Slip area :      73      8
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    8.176E-03   1.634E-02
+    1, Vel-dep: A, S=    22    59, |Sk-Sk-1|, .001 |Sk| :    4.476E+04      0.3130
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        94.21      0.2259
+    3, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        81.83      0.1505
+    4, Vel-dep: A, S=    48    33, |Sk-Sk-1|, .001 |Sk| :        90.84   7.499E-02
+    5, Vel-dep: A, S=    63    18, |Sk-Sk-1|, .001 |Sk| :        37.94   4.300E-02
+    6, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        16.45   2.884E-02
+    7, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        7.632   2.220E-02
+    8, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        3.588   1.904E-02
+    9, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.616   1.759E-02
+   10, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.7374   1.693E-02
+   11, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.3439   1.662E-02
+   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1619   1.647E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    7.651E-02   1.640E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.625E-02   1.637E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.719E-02   1.635E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    8.176E-03   1.634E-02
       Tang: final element division: A, S=     73      8  ItCG=   234
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -382,57 +289,31 @@
          7.588      0.5835       0.000   8.879E-02       495.3
 
  Case     9
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3610
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        77.12      0.2928
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        47.94      0.2497
-       4, Tang: size of Adhes, Slip area :      34     47
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        42.80      0.2110
-       5, Tang: size of Adhes, Slip area :      35     46
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        52.98      0.1645
-       6, Tang: size of Adhes, Slip area :      37     44
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        72.08      0.1076
-       7, Tang: size of Adhes, Slip area :      45     36
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        39.71   7.464E-02
-       8, Tang: size of Adhes, Slip area :      58     23
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        23.17   5.480E-02
-       9, Tang: size of Adhes, Slip area :      63     18
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        14.05   4.253E-02
-      10, Tang: size of Adhes, Slip area :      67     14
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        8.673   3.482E-02
-      11, Tang: size of Adhes, Slip area :      69     12
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.464   2.993E-02
-      12, Tang: size of Adhes, Slip area :      70     11
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.256   2.694E-02
-      13, Tang: size of Adhes, Slip area :      70     11
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.128   2.500E-02
-      14, Tang: size of Adhes, Slip area :      70     11
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.359   2.376E-02
-      15, Tang: size of Adhes, Slip area :      71     10
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7928   2.302E-02
-      16, Tang: size of Adhes, Slip area :      71     10
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4723   2.257E-02
-      17, Tang: size of Adhes, Slip area :      71     10
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2838   2.231E-02
-      18, Tang: size of Adhes, Slip area :      71     10
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1716   2.215E-02
-      19, Tang: size of Adhes, Slip area :      71     10
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1042   2.205E-02
-      20, Tang: size of Adhes, Slip area :      71     10
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.337E-02   2.199E-02
-      21, Tang: size of Adhes, Slip area :      71     10
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    3.863E-02   2.195E-02
-      22, Tang: size of Adhes, Slip area :      71     10
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.358E-02   2.193E-02
-      23, Tang: size of Adhes, Slip area :      71     10
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.439E-02   2.192E-02
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3610
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        77.12      0.2928
+    3, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        47.94      0.2497
+    4, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        42.80      0.2110
+    5, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        52.98      0.1645
+    6, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :        72.08      0.1076
+    7, Vel-dep: A, S=    58    23, |Sk-Sk-1|, .001 |Sk| :        39.71   7.464E-02
+    8, Vel-dep: A, S=    63    18, |Sk-Sk-1|, .001 |Sk| :        23.17   5.480E-02
+    9, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        14.05   4.253E-02
+   10, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        8.673   3.482E-02
+   11, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        5.464   2.993E-02
+   12, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        3.256   2.694E-02
+   13, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.128   2.500E-02
+   14, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :        1.359   2.376E-02
+   15, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.7928   2.302E-02
+   16, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.4723   2.257E-02
+   17, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.2838   2.231E-02
+   18, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1716   2.215E-02
+   19, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1042   2.205E-02
+   20, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    6.337E-02   2.199E-02
+   21, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    3.863E-02   2.195E-02
+   22, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.358E-02   2.193E-02
+   23, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.439E-02   2.192E-02
       Tang: final element division: A, S=     71     10  ItCG=   325
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -441,93 +322,49 @@
          7.588      0.5860       0.000   8.879E-02       495.3
 
  Case    10
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.469E+04      0.4050
-       2, Tang: size of Adhes, Slip area :      22     59
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        67.49      0.3481
-       3, Tang: size of Adhes, Slip area :      30     51
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        34.40      0.3187
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        23.01      0.2988
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.24      0.2837
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        14.40      0.2709
-       7, Tang: size of Adhes, Slip area :      36     45
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.04      0.2594
-       8, Tang: size of Adhes, Slip area :      36     45
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.06      0.2478
-       9, Tang: size of Adhes, Slip area :      37     44
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.68      0.2357
-      10, Tang: size of Adhes, Slip area :      37     44
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        16.24      0.2215
-      11, Tang: size of Adhes, Slip area :      37     44
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        21.28      0.2032
-      12, Tang: size of Adhes, Slip area :      38     43
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        33.10      0.1759
-      13, Tang: size of Adhes, Slip area :      39     42
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        51.51      0.1370
-      14, Tang: size of Adhes, Slip area :      45     36
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        34.01      0.1091
-      15, Tang: size of Adhes, Slip area :      54     27
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        23.78   8.900E-02
-      16, Tang: size of Adhes, Slip area :      58     23
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.24   7.416E-02
-      17, Tang: size of Adhes, Slip area :      60     21
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        12.46   6.320E-02
-      18, Tang: size of Adhes, Slip area :      62     19
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.230   5.495E-02
-      19, Tang: size of Adhes, Slip area :      64     17
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.870   4.872E-02
-      20, Tang: size of Adhes, Slip area :      65     16
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.301   4.389E-02
-      21, Tang: size of Adhes, Slip area :      67     14
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.924   4.025E-02
-      22, Tang: size of Adhes, Slip area :      67     14
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.135   3.735E-02
-      23, Tang: size of Adhes, Slip area :      67     14
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.338   3.516E-02
-      24, Tang: size of Adhes, Slip area :      68     13
-   24, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.759   3.349E-02
-      25, Tang: size of Adhes, Slip area :      68     13
-   25, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.363   3.221E-02
-      26, Tang: size of Adhes, Slip area :      68     13
-   26, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.083   3.119E-02
-      27, Tang: size of Adhes, Slip area :      68     13
-   27, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8785   3.036E-02
-      28, Tang: size of Adhes, Slip area :      68     13
-   28, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7249   2.969E-02
-      29, Tang: size of Adhes, Slip area :      68     13
-   29, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6067   2.912E-02
-      30, Tang: size of Adhes, Slip area :      68     13
-   30, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5138   2.864E-02
-      31, Tang: size of Adhes, Slip area :      68     13
-   31, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4094   2.826E-02
-      32, Tang: size of Adhes, Slip area :      69     12
-   32, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3016   2.797E-02
-      33, Tang: size of Adhes, Slip area :      69     12
-   33, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2228   2.776E-02
-      34, Tang: size of Adhes, Slip area :      69     12
-   34, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1648   2.760E-02
-      35, Tang: size of Adhes, Slip area :      69     12
-   35, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1222   2.748E-02
-      36, Tang: size of Adhes, Slip area :      69     12
-   36, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    9.078E-02   2.739E-02
-      37, Tang: size of Adhes, Slip area :      69     12
-   37, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.756E-02   2.733E-02
-      38, Tang: size of Adhes, Slip area :      69     12
-   38, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.036E-02   2.728E-02
-      39, Tang: size of Adhes, Slip area :      69     12
-   39, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    3.758E-02   2.724E-02
-      40, Tang: size of Adhes, Slip area :      69     12
-   40, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.807E-02   2.722E-02
-      41, Tang: size of Adhes, Slip area :      69     12
-   41, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.098E-02   2.720E-02
+    1, Vel-dep: A, S=    22    59, |Sk-Sk-1|, .001 |Sk| :    4.469E+04      0.4050
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        67.49      0.3481
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        34.40      0.3187
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        23.01      0.2988
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        17.24      0.2837
+    6, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        14.40      0.2709
+    7, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        13.04      0.2594
+    8, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        13.06      0.2478
+    9, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        13.68      0.2357
+   10, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        16.24      0.2215
+   11, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        21.28      0.2032
+   12, Vel-dep: A, S=    39    42, |Sk-Sk-1|, .001 |Sk| :        33.10      0.1759
+   13, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :        51.51      0.1370
+   14, Vel-dep: A, S=    54    27, |Sk-Sk-1|, .001 |Sk| :        34.01      0.1091
+   15, Vel-dep: A, S=    58    23, |Sk-Sk-1|, .001 |Sk| :        23.78   8.900E-02
+   16, Vel-dep: A, S=    60    21, |Sk-Sk-1|, .001 |Sk| :        17.24   7.416E-02
+   17, Vel-dep: A, S=    62    19, |Sk-Sk-1|, .001 |Sk| :        12.46   6.320E-02
+   18, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        9.230   5.495E-02
+   19, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        6.870   4.872E-02
+   20, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        5.301   4.389E-02
+   21, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        3.924   4.025E-02
+   22, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        3.135   3.735E-02
+   23, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        2.338   3.516E-02
+   24, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        1.759   3.349E-02
+   25, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        1.363   3.221E-02
+   26, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        1.083   3.119E-02
+   27, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :       0.8785   3.036E-02
+   28, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :       0.7249   2.969E-02
+   29, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :       0.6067   2.912E-02
+   30, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :       0.5138   2.864E-02
+   31, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.4094   2.826E-02
+   32, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.3016   2.797E-02
+   33, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.2228   2.776E-02
+   34, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.1648   2.760E-02
+   35, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.1222   2.748E-02
+   36, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    9.078E-02   2.739E-02
+   37, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    6.756E-02   2.733E-02
+   38, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    5.036E-02   2.728E-02
+   39, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    3.758E-02   2.724E-02
+   40, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    2.807E-02   2.722E-02
+   41, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    2.098E-02   2.720E-02
       Tang: final element division: A, S=     69     12  ItCG=   548
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -536,41 +373,23 @@
          7.588      0.5882       0.000   8.879E-02       495.3
 
  Case    11
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.466E+04      0.4447
-       2, Tang: size of Adhes, Slip area :      22     59
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        62.00      0.3945
-       3, Tang: size of Adhes, Slip area :      30     51
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        28.64      0.3713
-       4, Tang: size of Adhes, Slip area :      32     49
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        16.68      0.3577
-       5, Tang: size of Adhes, Slip area :      33     48
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        10.80      0.3488
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.131      0.3429
-       7, Tang: size of Adhes, Slip area :      35     46
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.163      0.3387
-       8, Tang: size of Adhes, Slip area :      35     46
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.750      0.3355
-       9, Tang: size of Adhes, Slip area :      36     45
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.479      0.3334
-      10, Tang: size of Adhes, Slip area :      36     45
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.664      0.3320
-      11, Tang: size of Adhes, Slip area :      36     45
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.129      0.3311
-      12, Tang: size of Adhes, Slip area :      36     45
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7742      0.3304
-      13, Tang: size of Adhes, Slip area :      36     45
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5353      0.3299
-      14, Tang: size of Adhes, Slip area :      36     45
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3726      0.3296
-      15, Tang: size of Adhes, Slip area :      36     45
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2607      0.3294
+    1, Vel-dep: A, S=    22    59, |Sk-Sk-1|, .001 |Sk| :    4.466E+04      0.4447
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        62.00      0.3945
+    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        28.64      0.3713
+    4, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        16.68      0.3577
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        10.80      0.3488
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        7.131      0.3429
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        5.163      0.3387
+    8, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        3.750      0.3355
+    9, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        2.479      0.3334
+   10, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.664      0.3320
+   11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.129      0.3311
+   12, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7742      0.3304
+   13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.5353      0.3299
+   14, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3726      0.3296
+   15, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2607      0.3294
       Tang: final element division: A, S=     36     45  ItCG=   254
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -579,23 +398,14 @@
          7.588      0.5714       0.000   8.879E-02       495.3
 
  Case    12
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1889
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        171.4   3.043E-02
-       3, Tang: size of Adhes, Slip area :      51     30
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        24.84   5.470E-03
-       4, Tang: size of Adhes, Slip area :      74      7
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.776   1.962E-03
-       5, Tang: size of Adhes, Slip area :      78      3
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2690   1.944E-03
-       6, Tang: size of Adhes, Slip area :      79      2
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.602E-04   1.944E-03
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1889
+    2, Vel-dep: A, S=    51    30, |Sk-Sk-1|, .001 |Sk| :        171.4   3.043E-02
+    3, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        24.84   5.470E-03
+    4, Vel-dep: A, S=    78     3, |Sk-Sk-1|, .001 |Sk| :        4.776   1.962E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.2690   1.944E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    1.602E-04   1.944E-03
       Tang: final element division: A, S=     79      2  ItCG=    97
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -604,29 +414,17 @@
          7.588      0.5751       0.000   8.879E-02       495.3
 
  Case    13
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.481E+04      0.2426
-       2, Tang: size of Adhes, Slip area :      22     59
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        137.8      0.1081
-       3, Tang: size of Adhes, Slip area :      32     49
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        95.66   2.056E-02
-       4, Tang: size of Adhes, Slip area :      61     20
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        15.03   7.953E-03
-       5, Tang: size of Adhes, Slip area :      73      8
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.300   6.430E-03
-       6, Tang: size of Adhes, Slip area :      77      4
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2988   6.187E-03
-       7, Tang: size of Adhes, Slip area :      77      4
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.684E-02   6.141E-03
-       8, Tang: size of Adhes, Slip area :      77      4
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.082E-02   6.132E-03
-       9, Tang: size of Adhes, Slip area :      77      4
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.074E-03   6.130E-03
+    1, Vel-dep: A, S=    22    59, |Sk-Sk-1|, .001 |Sk| :    4.481E+04      0.2426
+    2, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        137.8      0.1081
+    3, Vel-dep: A, S=    61    20, |Sk-Sk-1|, .001 |Sk| :        95.66   2.056E-02
+    4, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        15.03   7.953E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        2.300   6.430E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.2988   6.187E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    5.684E-02   6.141E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.082E-02   6.132E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.074E-03   6.130E-03
       Tang: final element division: A, S=     77      4  ItCG=   118
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -635,35 +433,20 @@
          7.588      0.5786       0.000   8.879E-02       495.3
 
  Case    14
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.477E+04      0.2959
-       2, Tang: size of Adhes, Slip area :      22     59
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        100.8      0.2005
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        97.51      0.1083
-       4, Tang: size of Adhes, Slip area :      34     47
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        81.46   3.785E-02
-       5, Tang: size of Adhes, Slip area :      57     24
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        22.16   1.913E-02
-       6, Tang: size of Adhes, Slip area :      69     12
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.332   1.376E-02
-       7, Tang: size of Adhes, Slip area :      74      7
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.064   1.201E-02
-       8, Tang: size of Adhes, Slip area :      75      6
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6414   1.145E-02
-       9, Tang: size of Adhes, Slip area :      75      6
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2100   1.127E-02
-      10, Tang: size of Adhes, Slip area :      75      6
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.921E-02   1.121E-02
-      11, Tang: size of Adhes, Slip area :      75      6
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.283E-02   1.119E-02
-      12, Tang: size of Adhes, Slip area :      75      6
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.552E-03   1.118E-02
+    1, Vel-dep: A, S=    22    59, |Sk-Sk-1|, .001 |Sk| :    4.477E+04      0.2959
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        100.8      0.2005
+    3, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        97.51      0.1083
+    4, Vel-dep: A, S=    57    24, |Sk-Sk-1|, .001 |Sk| :        81.46   3.785E-02
+    5, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        22.16   1.913E-02
+    6, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        6.332   1.376E-02
+    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.064   1.201E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.6414   1.145E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2100   1.127E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    6.921E-02   1.121E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.283E-02   1.119E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.552E-03   1.118E-02
       Tang: final element division: A, S=     75      6  ItCG=   185
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -672,45 +455,25 @@
          7.588      0.5817       0.000   8.879E-02       495.3
 
  Case    15
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.473E+04      0.3471
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        80.61      0.2745
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        52.78      0.2258
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        51.80      0.1779
-       5, Tang: size of Adhes, Slip area :      35     46
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        74.57      0.1129
-       6, Tang: size of Adhes, Slip area :      37     44
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        61.05   6.252E-02
-       7, Tang: size of Adhes, Slip area :      55     26
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        27.98   3.876E-02
-       8, Tang: size of Adhes, Slip area :      66     15
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.14   2.740E-02
-       9, Tang: size of Adhes, Slip area :      70     11
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.339   2.186E-02
-      10, Tang: size of Adhes, Slip area :      72      9
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.062   1.916E-02
-      11, Tang: size of Adhes, Slip area :      72      9
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.486   1.783E-02
-      12, Tang: size of Adhes, Slip area :      73      8
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6701   1.722E-02
-      13, Tang: size of Adhes, Slip area :      73      8
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3099   1.694E-02
-      14, Tang: size of Adhes, Slip area :      73      8
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1443   1.681E-02
-      15, Tang: size of Adhes, Slip area :      73      8
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.745E-02   1.675E-02
-      16, Tang: size of Adhes, Slip area :      73      8
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    3.158E-02   1.672E-02
-      17, Tang: size of Adhes, Slip area :      73      8
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.479E-02   1.670E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.473E+04      0.3471
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        80.61      0.2745
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        52.78      0.2258
+    4, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        51.80      0.1779
+    5, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        74.57      0.1129
+    6, Vel-dep: A, S=    55    26, |Sk-Sk-1|, .001 |Sk| :        61.05   6.252E-02
+    7, Vel-dep: A, S=    66    15, |Sk-Sk-1|, .001 |Sk| :        27.98   3.876E-02
+    8, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        13.14   2.740E-02
+    9, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        6.339   2.186E-02
+   10, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        3.062   1.916E-02
+   11, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.486   1.783E-02
+   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.6701   1.722E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.3099   1.694E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1443   1.681E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    6.745E-02   1.675E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.158E-02   1.672E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.479E-02   1.670E-02
       Tang: final element division: A, S=     73      8  ItCG=   242
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -719,69 +482,37 @@
          7.588      0.5846       0.000   8.879E-02       495.3
 
  Case    16
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.470E+04      0.3950
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        69.60      0.3355
-       3, Tang: size of Adhes, Slip area :      30     51
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        36.15      0.3041
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        24.97      0.2821
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        19.76      0.2644
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.67      0.2484
-       7, Tang: size of Adhes, Slip area :      36     45
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.79      0.2324
-       8, Tang: size of Adhes, Slip area :      36     45
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        19.78      0.2147
-       9, Tang: size of Adhes, Slip area :      37     44
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        25.75      0.1920
-      10, Tang: size of Adhes, Slip area :      37     44
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        39.49      0.1587
-      11, Tang: size of Adhes, Slip area :      38     43
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        55.89      0.1150
-      12, Tang: size of Adhes, Slip area :      47     34
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        37.54   8.397E-02
-      13, Tang: size of Adhes, Slip area :      55     26
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        24.84   6.292E-02
-      14, Tang: size of Adhes, Slip area :      62     19
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        16.08   4.900E-02
-      15, Tang: size of Adhes, Slip area :      65     16
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        10.45   3.981E-02
-      16, Tang: size of Adhes, Slip area :      68     13
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.696   3.382E-02
-      17, Tang: size of Adhes, Slip area :      69     12
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.416   2.984E-02
-      18, Tang: size of Adhes, Slip area :      69     12
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.736   2.732E-02
-      19, Tang: size of Adhes, Slip area :      70     11
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.775   2.569E-02
-      20, Tang: size of Adhes, Slip area :      70     11
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.195   2.460E-02
-      21, Tang: size of Adhes, Slip area :      70     11
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8258   2.384E-02
-      22, Tang: size of Adhes, Slip area :      70     11
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5814   2.332E-02
-      23, Tang: size of Adhes, Slip area :      70     11
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3439   2.299E-02
-      24, Tang: size of Adhes, Slip area :      71     10
-   24, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2053   2.280E-02
-      25, Tang: size of Adhes, Slip area :      71     10
-   25, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1226   2.268E-02
-      26, Tang: size of Adhes, Slip area :      71     10
-   26, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.330E-02   2.261E-02
-      27, Tang: size of Adhes, Slip area :      71     10
-   27, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.388E-02   2.257E-02
-      28, Tang: size of Adhes, Slip area :      71     10
-   28, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.631E-02   2.255E-02
-      29, Tang: size of Adhes, Slip area :      71     10
-   29, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.577E-02   2.253E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.470E+04      0.3950
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        69.60      0.3355
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        36.15      0.3041
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        24.97      0.2821
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        19.76      0.2644
+    6, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        17.67      0.2484
+    7, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        17.79      0.2324
+    8, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        19.78      0.2147
+    9, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        25.75      0.1920
+   10, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        39.49      0.1587
+   11, Vel-dep: A, S=    47    34, |Sk-Sk-1|, .001 |Sk| :        55.89      0.1150
+   12, Vel-dep: A, S=    55    26, |Sk-Sk-1|, .001 |Sk| :        37.54   8.397E-02
+   13, Vel-dep: A, S=    62    19, |Sk-Sk-1|, .001 |Sk| :        24.84   6.292E-02
+   14, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        16.08   4.900E-02
+   15, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        10.45   3.981E-02
+   16, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        6.696   3.382E-02
+   17, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        4.416   2.984E-02
+   18, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.736   2.732E-02
+   19, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.775   2.569E-02
+   20, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.195   2.460E-02
+   21, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.8258   2.384E-02
+   22, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.5814   2.332E-02
+   23, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.3439   2.299E-02
+   24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.2053   2.280E-02
+   25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1226   2.268E-02
+   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    7.330E-02   2.261E-02
+   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.388E-02   2.257E-02
+   28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.631E-02   2.255E-02
+   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.577E-02   2.253E-02
       Tang: final element division: A, S=     71     10  ItCG=   408
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -790,43 +521,24 @@
          7.588      0.5871       0.000   8.879E-02       495.3
 
  Case    17
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.467E+04      0.4388
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        63.32      0.3872
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        29.59      0.3630
-       4, Tang: size of Adhes, Slip area :      32     49
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.38      0.3486
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        11.56      0.3390
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.651      0.3326
-       7, Tang: size of Adhes, Slip area :      35     46
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.567      0.3279
-       8, Tang: size of Adhes, Slip area :      35     46
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.308      0.3243
-       9, Tang: size of Adhes, Slip area :      36     45
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.919      0.3218
-      10, Tang: size of Adhes, Slip area :      36     45
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.017      0.3200
-      11, Tang: size of Adhes, Slip area :      36     45
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.411      0.3188
-      12, Tang: size of Adhes, Slip area :      36     45
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.9994      0.3179
-      13, Tang: size of Adhes, Slip area :      36     45
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7152      0.3173
-      14, Tang: size of Adhes, Slip area :      36     45
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5159      0.3169
-      15, Tang: size of Adhes, Slip area :      36     45
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3746      0.3165
-      16, Tang: size of Adhes, Slip area :      36     45
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2732      0.3163
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.467E+04      0.4388
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        63.32      0.3872
+    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        29.59      0.3630
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        17.38      0.3486
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        11.56      0.3390
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        7.651      0.3326
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        5.567      0.3279
+    8, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        4.308      0.3243
+    9, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        2.919      0.3218
+   10, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        2.017      0.3200
+   11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.411      0.3188
+   12, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.9994      0.3179
+   13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7152      0.3173
+   14, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.5159      0.3169
+   15, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3746      0.3165
+   16, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2732      0.3163
       Tang: final element division: A, S=     36     45  ItCG=   234
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -835,23 +547,14 @@
          7.588      0.5710       0.000   8.879E-02       495.3
 
  Case    18
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.484E+04      0.1962
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        176.1   3.323E-02
-       3, Tang: size of Adhes, Slip area :      46     35
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        26.65   6.022E-03
-       4, Tang: size of Adhes, Slip area :      73      8
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.443   1.979E-03
-       5, Tang: size of Adhes, Slip area :      78      3
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3352   1.951E-03
-       6, Tang: size of Adhes, Slip area :      79      2
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.222E-04   1.951E-03
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.484E+04      0.1962
+    2, Vel-dep: A, S=    46    35, |Sk-Sk-1|, .001 |Sk| :        176.1   3.323E-02
+    3, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        26.65   6.022E-03
+    4, Vel-dep: A, S=    78     3, |Sk-Sk-1|, .001 |Sk| :        5.443   1.979E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.3352   1.951E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    1.222E-04   1.951E-03
       Tang: final element division: A, S=     79      2  ItCG=   106
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -860,29 +563,17 @@
          7.588      0.5747       0.000   8.879E-02       495.3
 
  Case    19
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.480E+04      0.2502
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        132.6      0.1209
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        106.8   2.311E-02
-       4, Tang: size of Adhes, Slip area :      60     21
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.36   8.298E-03
-       5, Tang: size of Adhes, Slip area :      73      8
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.741   6.495E-03
-       6, Tang: size of Adhes, Slip area :      77      4
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3383   6.219E-03
-       7, Tang: size of Adhes, Slip area :      77      4
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.424E-02   6.167E-03
-       8, Tang: size of Adhes, Slip area :      77      4
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.223E-02   6.157E-03
-       9, Tang: size of Adhes, Slip area :      77      4
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.332E-03   6.155E-03
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.480E+04      0.2502
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        132.6      0.1209
+    3, Vel-dep: A, S=    60    21, |Sk-Sk-1|, .001 |Sk| :        106.8   2.311E-02
+    4, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        17.36   8.298E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        2.741   6.495E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.3383   6.219E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    6.424E-02   6.167E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.223E-02   6.157E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.332E-03   6.155E-03
       Tang: final element division: A, S=     77      4  ItCG=   123
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -891,35 +582,20 @@
          7.588      0.5781       0.000   8.879E-02       495.3
 
  Case    20
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.476E+04      0.3039
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        98.25      0.2113
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        88.55      0.1270
-       4, Tang: size of Adhes, Slip area :      34     47
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        95.05   4.462E-02
-       5, Tang: size of Adhes, Slip area :      53     28
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        27.59   2.114E-02
-       6, Tang: size of Adhes, Slip area :      68     13
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.969   1.441E-02
-       7, Tang: size of Adhes, Slip area :      74      7
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.584   1.223E-02
-       8, Tang: size of Adhes, Slip area :      75      6
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7828   1.155E-02
-       9, Tang: size of Adhes, Slip area :      75      6
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2552   1.133E-02
-      10, Tang: size of Adhes, Slip area :      75      6
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    8.390E-02   1.126E-02
-      11, Tang: size of Adhes, Slip area :      75      6
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.765E-02   1.123E-02
-      12, Tang: size of Adhes, Slip area :      75      6
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    9.111E-03   1.122E-02
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.476E+04      0.3039
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        98.25      0.2113
+    3, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        88.55      0.1270
+    4, Vel-dep: A, S=    53    28, |Sk-Sk-1|, .001 |Sk| :        95.05   4.462E-02
+    5, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        27.59   2.114E-02
+    6, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        7.969   1.441E-02
+    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.584   1.223E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.7828   1.155E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2552   1.133E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    8.390E-02   1.126E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.765E-02   1.123E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.111E-03   1.122E-02
       Tang: final element division: A, S=     75      6  ItCG=   186
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -928,47 +604,26 @@
          7.588      0.5813       0.000   8.879E-02       495.3
 
  Case    21
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.473E+04      0.3554
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        79.70      0.2841
-       3, Tang: size of Adhes, Slip area :      30     51
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        49.58      0.2385
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        45.44      0.1964
-       5, Tang: size of Adhes, Slip area :      35     46
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        57.91      0.1440
-       6, Tang: size of Adhes, Slip area :      36     45
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        77.79   8.051E-02
-       7, Tang: size of Adhes, Slip area :      47     34
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        38.76   4.791E-02
-       8, Tang: size of Adhes, Slip area :      61     20
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        18.44   3.208E-02
-       9, Tang: size of Adhes, Slip area :      69     12
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        8.887   2.434E-02
-      10, Tang: size of Adhes, Slip area :      71     10
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.324   2.053E-02
-      11, Tang: size of Adhes, Slip area :      72      9
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.241   1.856E-02
-      12, Tang: size of Adhes, Slip area :      72      9
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.039   1.763E-02
-      13, Tang: size of Adhes, Slip area :      73      8
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4747   1.719E-02
-      14, Tang: size of Adhes, Slip area :      73      8
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2197   1.699E-02
-      15, Tang: size of Adhes, Slip area :      73      8
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1021   1.690E-02
-      16, Tang: size of Adhes, Slip area :      73      8
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.759E-02   1.686E-02
-      17, Tang: size of Adhes, Slip area :      73      8
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.221E-02   1.684E-02
-      18, Tang: size of Adhes, Slip area :      73      8
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.037E-02   1.683E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.473E+04      0.3554
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        79.70      0.2841
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        49.58      0.2385
+    4, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        45.44      0.1964
+    5, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        57.91      0.1440
+    6, Vel-dep: A, S=    47    34, |Sk-Sk-1|, .001 |Sk| :        77.79   8.051E-02
+    7, Vel-dep: A, S=    61    20, |Sk-Sk-1|, .001 |Sk| :        38.76   4.791E-02
+    8, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        18.44   3.208E-02
+    9, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :        8.887   2.434E-02
+   10, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        4.324   2.053E-02
+   11, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        2.241   1.856E-02
+   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.039   1.763E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.4747   1.719E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2197   1.699E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1021   1.690E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    4.759E-02   1.686E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    2.221E-02   1.684E-02
+   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.037E-02   1.683E-02
       Tang: final element division: A, S=     73      8  ItCG=   272
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -977,75 +632,40 @@
          7.588      0.5841       0.000   8.879E-02       495.3
 
  Case    22
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.469E+04      0.4036
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        69.36      0.3448
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        35.47      0.3142
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        23.41      0.2937
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.81      0.2779
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        15.31      0.2642
-       7, Tang: size of Adhes, Slip area :      35     46
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.65      0.2519
-       8, Tang: size of Adhes, Slip area :      36     45
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.70      0.2396
-       9, Tang: size of Adhes, Slip area :      36     45
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        14.80      0.2263
-      10, Tang: size of Adhes, Slip area :      37     44
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.61      0.2106
-      11, Tang: size of Adhes, Slip area :      37     44
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        23.99      0.1896
-      12, Tang: size of Adhes, Slip area :      38     43
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        38.62      0.1574
-      13, Tang: size of Adhes, Slip area :      38     43
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        53.07      0.1159
-      14, Tang: size of Adhes, Slip area :      47     34
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        36.58   8.562E-02
-      15, Tang: size of Adhes, Slip area :      56     25
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        24.63   6.476E-02
-      16, Tang: size of Adhes, Slip area :      62     19
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        16.35   5.066E-02
-      17, Tang: size of Adhes, Slip area :      65     16
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        10.73   4.124E-02
-      18, Tang: size of Adhes, Slip area :      67     14
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.073   3.494E-02
-      19, Tang: size of Adhes, Slip area :      69     12
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.506   3.086E-02
-      20, Tang: size of Adhes, Slip area :      69     12
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.965   2.815E-02
-      21, Tang: size of Adhes, Slip area :      70     11
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.880   2.642E-02
-      22, Tang: size of Adhes, Slip area :      70     11
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.246   2.527E-02
-      23, Tang: size of Adhes, Slip area :      70     11
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8470   2.449E-02
-      24, Tang: size of Adhes, Slip area :      70     11
-   24, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5869   2.395E-02
-      25, Tang: size of Adhes, Slip area :      70     11
-   25, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4121   2.358E-02
-      26, Tang: size of Adhes, Slip area :      70     11
-   26, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2922   2.331E-02
-      27, Tang: size of Adhes, Slip area :      70     11
-   27, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2085   2.312E-02
-      28, Tang: size of Adhes, Slip area :      70     11
-   28, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1433   2.299E-02
-      29, Tang: size of Adhes, Slip area :      71     10
-   29, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    8.537E-02   2.291E-02
-      30, Tang: size of Adhes, Slip area :      71     10
-   30, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.104E-02   2.286E-02
-      31, Tang: size of Adhes, Slip area :      71     10
-   31, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    3.041E-02   2.283E-02
-      32, Tang: size of Adhes, Slip area :      71     10
-   32, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.812E-02   2.282E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.469E+04      0.4036
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        69.36      0.3448
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        35.47      0.3142
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        23.41      0.2937
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        17.81      0.2779
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        15.31      0.2642
+    7, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        13.65      0.2519
+    8, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        13.70      0.2396
+    9, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        14.80      0.2263
+   10, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        17.61      0.2106
+   11, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        23.99      0.1896
+   12, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        38.62      0.1574
+   13, Vel-dep: A, S=    47    34, |Sk-Sk-1|, .001 |Sk| :        53.07      0.1159
+   14, Vel-dep: A, S=    56    25, |Sk-Sk-1|, .001 |Sk| :        36.58   8.562E-02
+   15, Vel-dep: A, S=    62    19, |Sk-Sk-1|, .001 |Sk| :        24.63   6.476E-02
+   16, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        16.35   5.066E-02
+   17, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        10.73   4.124E-02
+   18, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        7.073   3.494E-02
+   19, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        4.506   3.086E-02
+   20, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.965   2.815E-02
+   21, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.880   2.642E-02
+   22, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.246   2.527E-02
+   23, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.8470   2.449E-02
+   24, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.5869   2.395E-02
+   25, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.4121   2.358E-02
+   26, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.2922   2.331E-02
+   27, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.2085   2.312E-02
+   28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1433   2.299E-02
+   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    8.537E-02   2.291E-02
+   30, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    5.104E-02   2.286E-02
+   31, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    3.041E-02   2.283E-02
+   32, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.812E-02   2.282E-02
       Tang: final element division: A, S=     71     10  ItCG=   450
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1054,41 +674,23 @@
          7.588      0.5866       0.000   8.879E-02       495.3
 
  Case    23
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.466E+04      0.4478
-       2, Tang: size of Adhes, Slip area :      18     63
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        63.89      0.3961
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        30.02      0.3719
-       4, Tang: size of Adhes, Slip area :      31     50
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.27      0.3578
-       5, Tang: size of Adhes, Slip area :      33     48
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        11.22      0.3486
-       6, Tang: size of Adhes, Slip area :      34     47
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.325      0.3424
-       7, Tang: size of Adhes, Slip area :      35     46
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.990      0.3383
-       8, Tang: size of Adhes, Slip area :      35     46
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.599      0.3352
-       9, Tang: size of Adhes, Slip area :      35     46
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.715      0.3330
-      10, Tang: size of Adhes, Slip area :      35     46
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.122      0.3312
-      11, Tang: size of Adhes, Slip area :      35     46
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.583      0.3299
-      12, Tang: size of Adhes, Slip area :      36     45
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.062      0.3290
-      13, Tang: size of Adhes, Slip area :      36     45
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7069      0.3283
-      14, Tang: size of Adhes, Slip area :      36     45
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4693      0.3279
-      15, Tang: size of Adhes, Slip area :      36     45
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3117      0.3277
+    1, Vel-dep: A, S=    18    63, |Sk-Sk-1|, .001 |Sk| :    4.466E+04      0.4478
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        63.89      0.3961
+    3, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        30.02      0.3719
+    4, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        17.27      0.3578
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        11.22      0.3486
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        7.325      0.3424
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        4.990      0.3383
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        3.599      0.3352
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.715      0.3330
+   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.122      0.3312
+   11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.583      0.3299
+   12, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.062      0.3290
+   13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7069      0.3283
+   14, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.4693      0.3279
+   15, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3117      0.3277
       Tang: final element division: A, S=     36     45  ItCG=   223
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1097,23 +699,14 @@
          7.588      0.5698       0.000   8.879E-02       495.3
 
  Case    24
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.484E+04      0.1966
-       2, Tang: size of Adhes, Slip area :      17     64
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        176.9   3.326E-02
-       3, Tang: size of Adhes, Slip area :      49     32
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        26.61   6.488E-03
-       4, Tang: size of Adhes, Slip area :      74      7
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.490   2.056E-03
-       5, Tang: size of Adhes, Slip area :      77      4
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6677   1.944E-03
-       6, Tang: size of Adhes, Slip area :      79      2
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    9.363E-05   1.943E-03
+    1, Vel-dep: A, S=    17    64, |Sk-Sk-1|, .001 |Sk| :    4.484E+04      0.1966
+    2, Vel-dep: A, S=    49    32, |Sk-Sk-1|, .001 |Sk| :        176.9   3.326E-02
+    3, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        26.61   6.488E-03
+    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        5.490   2.056E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.6677   1.944E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    9.363E-05   1.943E-03
       Tang: final element division: A, S=     79      2  ItCG=    98
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1122,29 +715,17 @@
          7.588      0.5735       0.000   8.879E-02       495.3
 
  Case    25
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.480E+04      0.2521
-       2, Tang: size of Adhes, Slip area :      18     63
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        137.8      0.1179
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        103.9   2.286E-02
-       4, Tang: size of Adhes, Slip area :      60     21
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.02   8.291E-03
-       5, Tang: size of Adhes, Slip area :      73      8
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.958   6.455E-03
-       6, Tang: size of Adhes, Slip area :      76      5
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3264   6.189E-03
-       7, Tang: size of Adhes, Slip area :      77      4
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.195E-02   6.139E-03
-       8, Tang: size of Adhes, Slip area :      77      4
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.180E-02   6.129E-03
-       9, Tang: size of Adhes, Slip area :      77      4
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.248E-03   6.127E-03
+    1, Vel-dep: A, S=    18    63, |Sk-Sk-1|, .001 |Sk| :    4.480E+04      0.2521
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        137.8      0.1179
+    3, Vel-dep: A, S=    60    21, |Sk-Sk-1|, .001 |Sk| :        103.9   2.286E-02
+    4, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        17.02   8.291E-03
+    5, Vel-dep: A, S=    76     5, |Sk-Sk-1|, .001 |Sk| :        2.958   6.455E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.3264   6.189E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    6.195E-02   6.139E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.180E-02   6.129E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.248E-03   6.127E-03
       Tang: final element division: A, S=     77      4  ItCG=   123
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1153,35 +734,20 @@
          7.588      0.5770       0.000   8.879E-02       495.3
 
  Case    26
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.476E+04      0.3067
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        103.3      0.2096
-       3, Tang: size of Adhes, Slip area :      30     51
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        94.27      0.1201
-       4, Tang: size of Adhes, Slip area :      34     47
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        90.23   4.186E-02
-       5, Tang: size of Adhes, Slip area :      54     27
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        25.46   2.021E-02
-       6, Tang: size of Adhes, Slip area :      68     13
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.295   1.408E-02
-       7, Tang: size of Adhes, Slip area :      74      7
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.340   1.210E-02
-       8, Tang: size of Adhes, Slip area :      75      6
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7185   1.147E-02
-       9, Tang: size of Adhes, Slip area :      75      6
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2349   1.127E-02
-      10, Tang: size of Adhes, Slip area :      75      6
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.741E-02   1.120E-02
-      11, Tang: size of Adhes, Slip area :      75      6
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.557E-02   1.118E-02
-      12, Tang: size of Adhes, Slip area :      75      6
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    8.443E-03   1.117E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.476E+04      0.3067
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        103.3      0.2096
+    3, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        94.27      0.1201
+    4, Vel-dep: A, S=    54    27, |Sk-Sk-1|, .001 |Sk| :        90.23   4.186E-02
+    5, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        25.46   2.021E-02
+    6, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        7.295   1.408E-02
+    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.340   1.210E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.7185   1.147E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2349   1.127E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.741E-02   1.120E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.557E-02   1.118E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    8.443E-03   1.117E-02
       Tang: final element division: A, S=     75      6  ItCG=   178
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1190,47 +756,26 @@
          7.588      0.5802       0.000   8.879E-02       495.3
 
  Case    27
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3589
-       2, Tang: size of Adhes, Slip area :      19     62
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        84.60      0.2835
-       3, Tang: size of Adhes, Slip area :      30     51
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        52.88      0.2348
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        50.09      0.1885
-       5, Tang: size of Adhes, Slip area :      35     46
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        67.70      0.1282
-       6, Tang: size of Adhes, Slip area :      36     45
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        70.40   7.042E-02
-       7, Tang: size of Adhes, Slip area :      51     30
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        32.72   4.272E-02
-       8, Tang: size of Adhes, Slip area :      64     17
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        15.52   2.937E-02
-       9, Tang: size of Adhes, Slip area :      70     11
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.469   2.287E-02
-      10, Tang: size of Adhes, Slip area :      71     10
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.556   1.972E-02
-      11, Tang: size of Adhes, Slip area :      72      9
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.829   1.811E-02
-      12, Tang: size of Adhes, Slip area :      73      8
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8087   1.737E-02
-      13, Tang: size of Adhes, Slip area :      73      8
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3725   1.703E-02
-      14, Tang: size of Adhes, Slip area :      73      8
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1730   1.688E-02
-      15, Tang: size of Adhes, Slip area :      73      8
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    8.071E-02   1.680E-02
-      16, Tang: size of Adhes, Slip area :      73      8
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    3.771E-02   1.677E-02
-      17, Tang: size of Adhes, Slip area :      73      8
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.765E-02   1.675E-02
-      18, Tang: size of Adhes, Slip area :      73      8
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    8.261E-03   1.675E-02
+    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3589
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        84.60      0.2835
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        52.88      0.2348
+    4, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        50.09      0.1885
+    5, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        67.70      0.1282
+    6, Vel-dep: A, S=    51    30, |Sk-Sk-1|, .001 |Sk| :        70.40   7.042E-02
+    7, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        32.72   4.272E-02
+    8, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        15.52   2.937E-02
+    9, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :        7.469   2.287E-02
+   10, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        3.556   1.972E-02
+   11, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.829   1.811E-02
+   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.8087   1.737E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.3725   1.703E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1730   1.688E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    8.071E-02   1.680E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.771E-02   1.677E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.765E-02   1.675E-02
+   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    8.261E-03   1.675E-02
       Tang: final element division: A, S=     73      8  ItCG=   250
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1239,71 +784,38 @@
          7.588      0.5830       0.000   8.879E-02       495.3
 
  Case    28
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.468E+04      0.4072
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        74.24      0.3446
-       3, Tang: size of Adhes, Slip area :      28     53
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        37.82      0.3120
-       4, Tang: size of Adhes, Slip area :      32     49
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        25.43      0.2896
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        19.98      0.2718
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.34      0.2562
-       7, Tang: size of Adhes, Slip area :      35     46
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        16.67      0.2412
-       8, Tang: size of Adhes, Slip area :      36     45
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.98      0.2250
-       9, Tang: size of Adhes, Slip area :      36     45
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        21.67      0.2057
-      10, Tang: size of Adhes, Slip area :      37     44
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        30.88      0.1790
-      11, Tang: size of Adhes, Slip area :      37     44
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        53.74      0.1361
-      12, Tang: size of Adhes, Slip area :      39     42
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        46.29   9.869E-02
-      13, Tang: size of Adhes, Slip area :      52     29
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        30.62   7.302E-02
-      14, Tang: size of Adhes, Slip area :      58     23
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        20.07   5.583E-02
-      15, Tang: size of Adhes, Slip area :      64     17
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        12.98   4.450E-02
-      16, Tang: size of Adhes, Slip area :      67     14
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        8.397   3.704E-02
-      17, Tang: size of Adhes, Slip area :      68     13
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.420   3.215E-02
-      18, Tang: size of Adhes, Slip area :      69     12
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.640   2.886E-02
-      19, Tang: size of Adhes, Slip area :      70     11
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.253   2.678E-02
-      20, Tang: size of Adhes, Slip area :      70     11
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.480   2.542E-02
-      21, Tang: size of Adhes, Slip area :      70     11
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.003   2.450E-02
-      22, Tang: size of Adhes, Slip area :      70     11
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6948   2.387E-02
-      23, Tang: size of Adhes, Slip area :      70     11
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4890   2.342E-02
-      24, Tang: size of Adhes, Slip area :      70     11
-   24, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3302   2.312E-02
-      25, Tang: size of Adhes, Slip area :      71     10
-   25, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1961   2.294E-02
-      26, Tang: size of Adhes, Slip area :      71     10
-   26, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1171   2.283E-02
-      27, Tang: size of Adhes, Slip area :      71     10
-   27, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.987E-02   2.276E-02
-      28, Tang: size of Adhes, Slip area :      71     10
-   28, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.169E-02   2.272E-02
-      29, Tang: size of Adhes, Slip area :      71     10
-   29, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.490E-02   2.270E-02
-      30, Tang: size of Adhes, Slip area :      71     10
-   30, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.488E-02   2.268E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.468E+04      0.4072
+    2, Vel-dep: A, S=    28    53, |Sk-Sk-1|, .001 |Sk| :        74.24      0.3446
+    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        37.82      0.3120
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        25.43      0.2896
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        19.98      0.2718
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        17.34      0.2562
+    7, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        16.67      0.2412
+    8, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        17.98      0.2250
+    9, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        21.67      0.2057
+   10, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        30.88      0.1790
+   11, Vel-dep: A, S=    39    42, |Sk-Sk-1|, .001 |Sk| :        53.74      0.1361
+   12, Vel-dep: A, S=    52    29, |Sk-Sk-1|, .001 |Sk| :        46.29   9.869E-02
+   13, Vel-dep: A, S=    58    23, |Sk-Sk-1|, .001 |Sk| :        30.62   7.302E-02
+   14, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        20.07   5.583E-02
+   15, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        12.98   4.450E-02
+   16, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        8.397   3.704E-02
+   17, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        5.420   3.215E-02
+   18, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        3.640   2.886E-02
+   19, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.253   2.678E-02
+   20, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.480   2.542E-02
+   21, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.003   2.450E-02
+   22, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.6948   2.387E-02
+   23, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.4890   2.342E-02
+   24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.3302   2.312E-02
+   25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1961   2.294E-02
+   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1171   2.283E-02
+   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    6.987E-02   2.276E-02
+   28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.169E-02   2.272E-02
+   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.490E-02   2.270E-02
+   30, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.488E-02   2.268E-02
       Tang: final element division: A, S=     71     10  ItCG=   423
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1312,47 +824,26 @@
          7.588      0.5855       0.000   8.879E-02       495.3
 
  Case    29
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.465E+04      0.4511
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        67.61      0.3967
-       3, Tang: size of Adhes, Slip area :      28     53
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        31.47      0.3711
-       4, Tang: size of Adhes, Slip area :      31     50
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        18.65      0.3558
-       5, Tang: size of Adhes, Slip area :      32     49
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        11.93      0.3459
-       6, Tang: size of Adhes, Slip area :      34     47
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        8.608      0.3388
-       7, Tang: size of Adhes, Slip area :      34     47
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.687      0.3340
-       8, Tang: size of Adhes, Slip area :      35     46
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.981      0.3306
-       9, Tang: size of Adhes, Slip area :      35     46
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.904      0.3281
-      10, Tang: size of Adhes, Slip area :      35     46
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.192      0.3263
-      11, Tang: size of Adhes, Slip area :      35     46
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.701      0.3248
-      12, Tang: size of Adhes, Slip area :      35     46
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.349      0.3237
-      13, Tang: size of Adhes, Slip area :      35     46
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.089      0.3228
-      14, Tang: size of Adhes, Slip area :      35     46
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8925      0.3220
-      15, Tang: size of Adhes, Slip area :      35     46
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7400      0.3214
-      16, Tang: size of Adhes, Slip area :      35     46
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6018      0.3209
-      17, Tang: size of Adhes, Slip area :      36     45
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4213      0.3205
-      18, Tang: size of Adhes, Slip area :      36     45
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2898      0.3203
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.465E+04      0.4511
+    2, Vel-dep: A, S=    28    53, |Sk-Sk-1|, .001 |Sk| :        67.61      0.3967
+    3, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        31.47      0.3711
+    4, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        18.65      0.3558
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        11.93      0.3459
+    6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        8.608      0.3388
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        5.687      0.3340
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        3.981      0.3306
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.904      0.3281
+   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.192      0.3263
+   11, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.701      0.3248
+   12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.349      0.3237
+   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.089      0.3228
+   14, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.8925      0.3220
+   15, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.7400      0.3214
+   16, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.6018      0.3209
+   17, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.4213      0.3205
+   18, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2898      0.3203
       Tang: final element division: A, S=     36     45  ItCG=   241
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1361,25 +852,15 @@
          7.588      0.5691       0.000   8.879E-02       495.3
 
  Case    30
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.483E+04      0.2061
-       2, Tang: size of Adhes, Slip area :      19     62
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        182.2   3.794E-02
-       3, Tang: size of Adhes, Slip area :      42     39
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        29.80   7.679E-03
-       4, Tang: size of Adhes, Slip area :      73      8
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.322   2.260E-03
-       5, Tang: size of Adhes, Slip area :      77      4
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.045   1.952E-03
-       6, Tang: size of Adhes, Slip area :      78      3
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1165   1.948E-03
-       7, Tang: size of Adhes, Slip area :      79      2
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.933E-05   1.948E-03
+    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.483E+04      0.2061
+    2, Vel-dep: A, S=    42    39, |Sk-Sk-1|, .001 |Sk| :        182.2   3.794E-02
+    3, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        29.80   7.679E-03
+    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        6.322   2.260E-03
+    5, Vel-dep: A, S=    78     3, |Sk-Sk-1|, .001 |Sk| :        1.045   1.952E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.1165   1.948E-03
+    7, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    7.933E-05   1.948E-03
       Tang: final element division: A, S=     79      2  ItCG=   123
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1388,29 +869,17 @@
          7.588      0.5729       0.000   8.879E-02       495.3
 
  Case    31
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.479E+04      0.2594
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        132.3      0.1305
-       3, Tang: size of Adhes, Slip area :      30     51
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        114.5   2.589E-02
-       4, Tang: size of Adhes, Slip area :      57     24
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        19.77   8.732E-03
-       5, Tang: size of Adhes, Slip area :      73      8
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.455   6.520E-03
-       6, Tang: size of Adhes, Slip area :      76      5
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4955   6.215E-03
-       7, Tang: size of Adhes, Slip area :      76      5
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.891E-02   6.159E-03
-       8, Tang: size of Adhes, Slip area :      77      4
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.312E-02   6.148E-03
-       9, Tang: size of Adhes, Slip area :      77      4
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.496E-03   6.146E-03
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.479E+04      0.2594
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        132.3      0.1305
+    3, Vel-dep: A, S=    57    24, |Sk-Sk-1|, .001 |Sk| :        114.5   2.589E-02
+    4, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        19.77   8.732E-03
+    5, Vel-dep: A, S=    76     5, |Sk-Sk-1|, .001 |Sk| :        3.455   6.520E-03
+    6, Vel-dep: A, S=    76     5, |Sk-Sk-1|, .001 |Sk| :       0.4955   6.215E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    6.891E-02   6.159E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.312E-02   6.148E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.496E-03   6.146E-03
       Tang: final element division: A, S=     77      4  ItCG=   140
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1419,35 +888,20 @@
          7.588      0.5763       0.000   8.879E-02       495.3
 
  Case    32
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.475E+04      0.3125
-       2, Tang: size of Adhes, Slip area :      19     62
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        96.38      0.2215
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        86.40      0.1391
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        103.3   4.926E-02
-       5, Tang: size of Adhes, Slip area :      50     31
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        31.51   2.232E-02
-       6, Tang: size of Adhes, Slip area :      68     13
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.088   1.471E-02
-       7, Tang: size of Adhes, Slip area :      73      8
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.862   1.231E-02
-       8, Tang: size of Adhes, Slip area :      74      7
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8544   1.156E-02
-       9, Tang: size of Adhes, Slip area :      75      6
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2782   1.132E-02
-      10, Tang: size of Adhes, Slip area :      75      6
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    9.145E-02   1.124E-02
-      11, Tang: size of Adhes, Slip area :      75      6
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    3.016E-02   1.122E-02
-      12, Tang: size of Adhes, Slip area :      75      6
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    9.940E-03   1.121E-02
+    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.475E+04      0.3125
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        96.38      0.2215
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        86.40      0.1391
+    4, Vel-dep: A, S=    50    31, |Sk-Sk-1|, .001 |Sk| :        103.3   4.926E-02
+    5, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        31.51   2.232E-02
+    6, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        9.088   1.471E-02
+    7, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        2.862   1.231E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.8544   1.156E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2782   1.132E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.145E-02   1.124E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    3.016E-02   1.122E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.940E-03   1.121E-02
       Tang: final element division: A, S=     75      6  ItCG=   191
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1456,47 +910,26 @@
          7.588      0.5795       0.000   8.879E-02       495.3
 
  Case    33
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3643
-       2, Tang: size of Adhes, Slip area :      19     62
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        74.67      0.2967
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        50.07      0.2513
-       4, Tang: size of Adhes, Slip area :      32     49
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        44.02      0.2106
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        52.01      0.1629
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        84.69   9.317E-02
-       7, Tang: size of Adhes, Slip area :      40     41
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        46.75   5.401E-02
-       8, Tang: size of Adhes, Slip area :      59     22
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        22.29   3.497E-02
-       9, Tang: size of Adhes, Slip area :      66     15
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        10.74   2.568E-02
-      10, Tang: size of Adhes, Slip area :      70     11
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.146   2.115E-02
-      11, Tang: size of Adhes, Slip area :      71     10
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.589   1.887E-02
-      12, Tang: size of Adhes, Slip area :      72      9
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.249   1.775E-02
-      13, Tang: size of Adhes, Slip area :      73      8
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5663   1.724E-02
-      14, Tang: size of Adhes, Slip area :      73      8
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2619   1.700E-02
-      15, Tang: size of Adhes, Slip area :      73      8
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1217   1.689E-02
-      16, Tang: size of Adhes, Slip area :      73      8
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.674E-02   1.684E-02
-      17, Tang: size of Adhes, Slip area :      73      8
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.650E-02   1.681E-02
-      18, Tang: size of Adhes, Slip area :      73      8
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.237E-02   1.680E-02
+    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3643
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        74.67      0.2967
+    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        50.07      0.2513
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        44.02      0.2106
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        52.01      0.1629
+    6, Vel-dep: A, S=    40    41, |Sk-Sk-1|, .001 |Sk| :        84.69   9.317E-02
+    7, Vel-dep: A, S=    59    22, |Sk-Sk-1|, .001 |Sk| :        46.75   5.401E-02
+    8, Vel-dep: A, S=    66    15, |Sk-Sk-1|, .001 |Sk| :        22.29   3.497E-02
+    9, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        10.74   2.568E-02
+   10, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :        5.146   2.115E-02
+   11, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        2.589   1.887E-02
+   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.249   1.775E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.5663   1.724E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2619   1.700E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1217   1.689E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    5.674E-02   1.684E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    2.650E-02   1.681E-02
+   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.237E-02   1.680E-02
       Tang: final element division: A, S=     73      8  ItCG=   273
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1505,77 +938,41 @@
          7.588      0.5823       0.000   8.879E-02       495.3
 
  Case    34
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.468E+04      0.4126
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        63.51      0.3579
-       3, Tang: size of Adhes, Slip area :      28     53
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        35.20      0.3279
-       4, Tang: size of Adhes, Slip area :      31     50
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        24.60      0.3067
-       5, Tang: size of Adhes, Slip area :      33     48
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        18.50      0.2905
-       6, Tang: size of Adhes, Slip area :      34     47
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        15.37      0.2769
-       7, Tang: size of Adhes, Slip area :      34     47
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.23      0.2650
-       8, Tang: size of Adhes, Slip area :      35     46
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        12.69      0.2536
-       9, Tang: size of Adhes, Slip area :      35     46
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        12.76      0.2420
-      10, Tang: size of Adhes, Slip area :      36     45
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.93      0.2295
-      11, Tang: size of Adhes, Slip area :      36     45
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.10      0.2143
-      12, Tang: size of Adhes, Slip area :      37     44
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        22.79      0.1942
-      13, Tang: size of Adhes, Slip area :      37     44
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        36.14      0.1637
-      14, Tang: size of Adhes, Slip area :      38     43
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        55.56      0.1205
-      15, Tang: size of Adhes, Slip area :      45     36
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        38.66   8.858E-02
-      16, Tang: size of Adhes, Slip area :      54     27
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        26.09   6.656E-02
-      17, Tang: size of Adhes, Slip area :      61     20
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.23   5.173E-02
-      18, Tang: size of Adhes, Slip area :      63     18
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        11.17   4.192E-02
-      19, Tang: size of Adhes, Slip area :      66     15
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.373   3.537E-02
-      20, Tang: size of Adhes, Slip area :      67     14
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.700   3.111E-02
-      21, Tang: size of Adhes, Slip area :      68     13
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.106   2.828E-02
-      22, Tang: size of Adhes, Slip area :      69     12
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.961   2.647E-02
-      23, Tang: size of Adhes, Slip area :      69     12
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.298   2.527E-02
-      24, Tang: size of Adhes, Slip area :      69     12
-   24, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8826   2.446E-02
-      25, Tang: size of Adhes, Slip area :      69     12
-   25, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6120   2.390E-02
-      26, Tang: size of Adhes, Slip area :      69     12
-   26, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4303   2.351E-02
-      27, Tang: size of Adhes, Slip area :      69     12
-   27, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3056   2.324E-02
-      28, Tang: size of Adhes, Slip area :      69     12
-   28, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2115   2.304E-02
-      29, Tang: size of Adhes, Slip area :      70     11
-   29, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1257   2.292E-02
-      30, Tang: size of Adhes, Slip area :      70     11
-   30, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.512E-02   2.285E-02
-      31, Tang: size of Adhes, Slip area :      70     11
-   31, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.478E-02   2.281E-02
-      32, Tang: size of Adhes, Slip area :      70     11
-   32, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.670E-02   2.279E-02
-      33, Tang: size of Adhes, Slip area :      70     11
-   33, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.590E-02   2.277E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.468E+04      0.4126
+    2, Vel-dep: A, S=    28    53, |Sk-Sk-1|, .001 |Sk| :        63.51      0.3579
+    3, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        35.20      0.3279
+    4, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        24.60      0.3067
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        18.50      0.2905
+    6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        15.37      0.2769
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        13.23      0.2650
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        12.69      0.2536
+    9, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        12.76      0.2420
+   10, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        13.93      0.2295
+   11, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        17.10      0.2143
+   12, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        22.79      0.1942
+   13, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        36.14      0.1637
+   14, Vel-dep: A, S=    45    36, |Sk-Sk-1|, .001 |Sk| :        55.56      0.1205
+   15, Vel-dep: A, S=    54    27, |Sk-Sk-1|, .001 |Sk| :        38.66   8.858E-02
+   16, Vel-dep: A, S=    61    20, |Sk-Sk-1|, .001 |Sk| :        26.09   6.656E-02
+   17, Vel-dep: A, S=    63    18, |Sk-Sk-1|, .001 |Sk| :        17.23   5.173E-02
+   18, Vel-dep: A, S=    66    15, |Sk-Sk-1|, .001 |Sk| :        11.17   4.192E-02
+   19, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        7.373   3.537E-02
+   20, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        4.700   3.111E-02
+   21, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        3.106   2.828E-02
+   22, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        1.961   2.647E-02
+   23, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        1.298   2.527E-02
+   24, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.8826   2.446E-02
+   25, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.6120   2.390E-02
+   26, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.4303   2.351E-02
+   27, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.3056   2.324E-02
+   28, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.2115   2.304E-02
+   29, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.1257   2.292E-02
+   30, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    7.512E-02   2.285E-02
+   31, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    4.478E-02   2.281E-02
+   32, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    2.670E-02   2.279E-02
+   33, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    1.590E-02   2.277E-02
       Tang: final element division: A, S=     70     11  ItCG=   473
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1584,43 +981,24 @@
          7.588      0.5848       0.000   8.879E-02       495.3
 
  Case    35
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.465E+04      0.4564
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        57.85      0.4089
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        26.33      0.3874
-       4, Tang: size of Adhes, Slip area :      30     51
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.69      0.3733
-       5, Tang: size of Adhes, Slip area :      31     50
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        12.59      0.3632
-       6, Tang: size of Adhes, Slip area :      32     49
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.162      0.3557
-       7, Tang: size of Adhes, Slip area :      32     49
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.176      0.3506
-       8, Tang: size of Adhes, Slip area :      33     48
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.423      0.3470
-       9, Tang: size of Adhes, Slip area :      34     47
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.331      0.3442
-      10, Tang: size of Adhes, Slip area :      34     47
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.618      0.3420
-      11, Tang: size of Adhes, Slip area :      34     47
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.983      0.3404
-      12, Tang: size of Adhes, Slip area :      35     46
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.350      0.3392
-      13, Tang: size of Adhes, Slip area :      35     46
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.9179      0.3385
-      14, Tang: size of Adhes, Slip area :      35     46
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6242      0.3379
-      15, Tang: size of Adhes, Slip area :      35     46
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4257      0.3376
-      16, Tang: size of Adhes, Slip area :      35     46
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2915      0.3373
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.465E+04      0.4564
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        57.85      0.4089
+    3, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        26.33      0.3874
+    4, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        17.69      0.3733
+    5, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        12.59      0.3632
+    6, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        9.162      0.3557
+    7, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        6.176      0.3506
+    8, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        4.423      0.3470
+    9, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        3.331      0.3442
+   10, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        2.618      0.3420
+   11, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.983      0.3404
+   12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.350      0.3392
+   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.9179      0.3385
+   14, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.6242      0.3379
+   15, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.4257      0.3376
+   16, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.2915      0.3373
       Tang: final element division: A, S=     35     46  ItCG=   206
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1629,23 +1007,14 @@
          7.588      0.5673       0.000   8.879E-02       495.3
 
  Case    36
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1931
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        172.6   3.581E-02
-       3, Tang: size of Adhes, Slip area :      49     32
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        27.99   7.889E-03
-       4, Tang: size of Adhes, Slip area :      72      9
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.929   2.119E-03
-       5, Tang: size of Adhes, Slip area :      77      4
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8541   1.938E-03
-       6, Tang: size of Adhes, Slip area :      79      2
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.071E-04   1.938E-03
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1931
+    2, Vel-dep: A, S=    49    32, |Sk-Sk-1|, .001 |Sk| :        172.6   3.581E-02
+    3, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        27.99   7.889E-03
+    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        6.929   2.119E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.8541   1.938E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    1.071E-04   1.938E-03
       Tang: final element division: A, S=     79      2  ItCG=   104
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1654,29 +1023,17 @@
          7.588      0.5711       0.000   8.879E-02       495.3
 
  Case    37
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.481E+04      0.2463
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        137.9      0.1117
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        97.16   2.344E-02
-       4, Tang: size of Adhes, Slip area :      60     21
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.73   8.266E-03
-       5, Tang: size of Adhes, Slip area :      73      8
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.199   6.414E-03
-       6, Tang: size of Adhes, Slip area :      77      4
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3055   6.165E-03
-       7, Tang: size of Adhes, Slip area :      77      4
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.816E-02   6.118E-03
-       8, Tang: size of Adhes, Slip area :      77      4
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.106E-02   6.109E-03
-       9, Tang: size of Adhes, Slip area :      77      4
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.125E-03   6.107E-03
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.481E+04      0.2463
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        137.9      0.1117
+    3, Vel-dep: A, S=    60    21, |Sk-Sk-1|, .001 |Sk| :        97.16   2.344E-02
+    4, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        17.73   8.266E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        3.199   6.414E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.3055   6.165E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    5.816E-02   6.118E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.106E-02   6.109E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.125E-03   6.107E-03
       Tang: final element division: A, S=     77      4  ItCG=   131
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1685,35 +1042,20 @@
          7.588      0.5745       0.000   8.879E-02       495.3
 
  Case    38
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.477E+04      0.2992
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        100.6      0.2036
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        97.98      0.1108
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        82.63   3.901E-02
-       5, Tang: size of Adhes, Slip area :      55     26
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        23.30   1.929E-02
-       6, Tang: size of Adhes, Slip area :      69     12
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.635   1.375E-02
-       7, Tang: size of Adhes, Slip area :      74      7
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.090   1.197E-02
-       8, Tang: size of Adhes, Slip area :      75      6
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6504   1.141E-02
-       9, Tang: size of Adhes, Slip area :      75      6
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2132   1.123E-02
-      10, Tang: size of Adhes, Slip area :      75      6
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.036E-02   1.117E-02
-      11, Tang: size of Adhes, Slip area :      75      6
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.326E-02   1.115E-02
-      12, Tang: size of Adhes, Slip area :      75      6
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.695E-03   1.114E-02
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.477E+04      0.2992
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        100.6      0.2036
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        97.98      0.1108
+    4, Vel-dep: A, S=    55    26, |Sk-Sk-1|, .001 |Sk| :        82.63   3.901E-02
+    5, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        23.30   1.929E-02
+    6, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        6.635   1.375E-02
+    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.090   1.197E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.6504   1.141E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2132   1.123E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.036E-02   1.117E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.326E-02   1.115E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.695E-03   1.114E-02
       Tang: final element division: A, S=     75      6  ItCG=   172
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1722,45 +1064,25 @@
          7.588      0.5777       0.000   8.879E-02       495.3
 
  Case    39
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.473E+04      0.3504
-       2, Tang: size of Adhes, Slip area :      19     62
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        80.19      0.2777
-       3, Tang: size of Adhes, Slip area :      30     51
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        50.68      0.2303
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        50.05      0.1836
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        74.59      0.1181
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        64.54   6.481E-02
-       7, Tang: size of Adhes, Slip area :      53     28
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        29.50   3.982E-02
-       8, Tang: size of Adhes, Slip area :      65     16
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.77   2.793E-02
-       9, Tang: size of Adhes, Slip area :      70     11
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.694   2.210E-02
-      10, Tang: size of Adhes, Slip area :      72      9
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.187   1.928E-02
-      11, Tang: size of Adhes, Slip area :      72      9
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.570   1.789E-02
-      12, Tang: size of Adhes, Slip area :      73      8
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7050   1.725E-02
-      13, Tang: size of Adhes, Slip area :      73      8
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3260   1.695E-02
-      14, Tang: size of Adhes, Slip area :      73      8
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1518   1.681E-02
-      15, Tang: size of Adhes, Slip area :      73      8
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.096E-02   1.675E-02
-      16, Tang: size of Adhes, Slip area :      73      8
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    3.323E-02   1.672E-02
-      17, Tang: size of Adhes, Slip area :      73      8
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.556E-02   1.670E-02
+    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.473E+04      0.3504
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        80.19      0.2777
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        50.68      0.2303
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        50.05      0.1836
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        74.59      0.1181
+    6, Vel-dep: A, S=    53    28, |Sk-Sk-1|, .001 |Sk| :        64.54   6.481E-02
+    7, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        29.50   3.982E-02
+    8, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        13.77   2.793E-02
+    9, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        6.694   2.210E-02
+   10, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        3.187   1.928E-02
+   11, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.570   1.789E-02
+   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.7050   1.725E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.3260   1.695E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1518   1.681E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    7.096E-02   1.675E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.323E-02   1.672E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.556E-02   1.670E-02
       Tang: final element division: A, S=     73      8  ItCG=   246
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1769,71 +1091,38 @@
          7.588      0.5805       0.000   8.879E-02       495.3
 
  Case    40
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.469E+04      0.3988
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        68.34      0.3399
-       3, Tang: size of Adhes, Slip area :      28     53
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        35.28      0.3090
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        22.77      0.2885
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.30      0.2727
-       6, Tang: size of Adhes, Slip area :      34     47
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        14.84      0.2591
-       7, Tang: size of Adhes, Slip area :      35     46
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.93      0.2463
-       8, Tang: size of Adhes, Slip area :      35     46
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        14.87      0.2328
-       9, Tang: size of Adhes, Slip area :      35     46
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        18.21      0.2164
-      10, Tang: size of Adhes, Slip area :      35     46
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        24.58      0.1946
-      11, Tang: size of Adhes, Slip area :      36     45
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        41.15      0.1599
-      12, Tang: size of Adhes, Slip area :      36     45
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        58.12      0.1145
-      13, Tang: size of Adhes, Slip area :      46     35
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        37.81   8.317E-02
-      14, Tang: size of Adhes, Slip area :      55     26
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        24.64   6.228E-02
-      15, Tang: size of Adhes, Slip area :      62     19
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        15.78   4.860E-02
-      16, Tang: size of Adhes, Slip area :      65     16
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        10.22   3.959E-02
-      17, Tang: size of Adhes, Slip area :      68     13
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.564   3.371E-02
-      18, Tang: size of Adhes, Slip area :      69     12
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.346   2.980E-02
-      19, Tang: size of Adhes, Slip area :      69     12
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.688   2.733E-02
-      20, Tang: size of Adhes, Slip area :      70     11
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.744   2.572E-02
-      21, Tang: size of Adhes, Slip area :      70     11
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.174   2.465E-02
-      22, Tang: size of Adhes, Slip area :      70     11
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8104   2.391E-02
-      23, Tang: size of Adhes, Slip area :      70     11
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5698   2.339E-02
-      24, Tang: size of Adhes, Slip area :      70     11
-   24, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3517   2.306E-02
-      25, Tang: size of Adhes, Slip area :      71     10
-   25, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2099   2.286E-02
-      26, Tang: size of Adhes, Slip area :      71     10
-   26, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1253   2.275E-02
-      27, Tang: size of Adhes, Slip area :      71     10
-   27, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.488E-02   2.267E-02
-      28, Tang: size of Adhes, Slip area :      71     10
-   28, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.477E-02   2.263E-02
-      29, Tang: size of Adhes, Slip area :      71     10
-   29, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.679E-02   2.261E-02
-      30, Tang: size of Adhes, Slip area :      71     10
-   30, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.603E-02   2.259E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.469E+04      0.3988
+    2, Vel-dep: A, S=    28    53, |Sk-Sk-1|, .001 |Sk| :        68.34      0.3399
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        35.28      0.3090
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        22.77      0.2885
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        17.30      0.2727
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        14.84      0.2591
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        13.93      0.2463
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        14.87      0.2328
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        18.21      0.2164
+   10, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        24.58      0.1946
+   11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        41.15      0.1599
+   12, Vel-dep: A, S=    46    35, |Sk-Sk-1|, .001 |Sk| :        58.12      0.1145
+   13, Vel-dep: A, S=    55    26, |Sk-Sk-1|, .001 |Sk| :        37.81   8.317E-02
+   14, Vel-dep: A, S=    62    19, |Sk-Sk-1|, .001 |Sk| :        24.64   6.228E-02
+   15, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        15.78   4.860E-02
+   16, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        10.22   3.959E-02
+   17, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        6.564   3.371E-02
+   18, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        4.346   2.980E-02
+   19, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.688   2.733E-02
+   20, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.744   2.572E-02
+   21, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.174   2.465E-02
+   22, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.8104   2.391E-02
+   23, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.5698   2.339E-02
+   24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.3517   2.306E-02
+   25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.2099   2.286E-02
+   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1253   2.275E-02
+   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    7.488E-02   2.267E-02
+   28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.477E-02   2.263E-02
+   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.679E-02   2.261E-02
+   30, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.603E-02   2.259E-02
       Tang: final element division: A, S=     71     10  ItCG=   397
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1842,37 +1131,21 @@
          7.588      0.5830       0.000   8.879E-02       495.3
 
  Case    41
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.466E+04      0.4425
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        60.50      0.3926
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        29.72      0.3684
-       4, Tang: size of Adhes, Slip area :      31     50
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        16.73      0.3544
-       5, Tang: size of Adhes, Slip area :      32     49
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.696      0.3462
-       6, Tang: size of Adhes, Slip area :      34     47
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.359      0.3407
-       7, Tang: size of Adhes, Slip area :      34     47
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.251      0.3371
-       8, Tang: size of Adhes, Slip area :      35     46
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.588      0.3348
-       9, Tang: size of Adhes, Slip area :      35     46
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.595      0.3334
-      10, Tang: size of Adhes, Slip area :      35     46
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.9896      0.3325
-      11, Tang: size of Adhes, Slip area :      35     46
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6178      0.3320
-      12, Tang: size of Adhes, Slip area :      35     46
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3875      0.3316
-      13, Tang: size of Adhes, Slip area :      35     46
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2440      0.3314
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.466E+04      0.4425
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        60.50      0.3926
+    3, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        29.72      0.3684
+    4, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        16.73      0.3544
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        9.696      0.3462
+    6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        6.359      0.3407
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        4.251      0.3371
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.588      0.3348
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.595      0.3334
+   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.9896      0.3325
+   11, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.6178      0.3320
+   12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.3875      0.3316
+   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.2440      0.3314
       Tang: final element division: A, S=     35     46  ItCG=   166
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1881,23 +1154,14 @@
          7.588      0.5659       0.000   8.879E-02       495.3
 
  Case    42
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1822
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        169.5   2.380E-02
-       3, Tang: size of Adhes, Slip area :      54     27
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        20.08   3.619E-03
-       4, Tang: size of Adhes, Slip area :      76      5
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.017   1.941E-03
-       5, Tang: size of Adhes, Slip area :      79      2
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.051E-03   1.942E-03
-       6, Tang: size of Adhes, Slip area :      79      2
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.979E-04   1.942E-03
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1822
+    2, Vel-dep: A, S=    54    27, |Sk-Sk-1|, .001 |Sk| :        169.5   2.380E-02
+    3, Vel-dep: A, S=    76     5, |Sk-Sk-1|, .001 |Sk| :        20.08   3.619E-03
+    4, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :        3.017   1.941E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    2.051E-03   1.942E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    1.979E-04   1.942E-03
       Tang: final element division: A, S=     79      2  ItCG=    88
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1906,29 +1170,17 @@
          7.588      0.5696       0.000   8.879E-02       495.3
 
  Case    43
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.481E+04      0.2358
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        146.6   9.267E-02
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        83.07   1.663E-02
-       4, Tang: size of Adhes, Slip area :      65     16
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        11.18   7.569E-03
-       5, Tang: size of Adhes, Slip area :      74      7
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.516   6.383E-03
-       6, Tang: size of Adhes, Slip area :      77      4
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2604   6.171E-03
-       7, Tang: size of Adhes, Slip area :      77      4
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.958E-02   6.131E-03
-       8, Tang: size of Adhes, Slip area :      77      4
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    9.451E-03   6.123E-03
-       9, Tang: size of Adhes, Slip area :      77      4
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.796E-03   6.122E-03
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.481E+04      0.2358
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        146.6   9.267E-02
+    3, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        83.07   1.663E-02
+    4, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        11.18   7.569E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        1.516   6.383E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.2604   6.171E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    4.958E-02   6.131E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    9.451E-03   6.123E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.796E-03   6.122E-03
       Tang: final element division: A, S=     77      4  ItCG=   133
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1937,35 +1189,20 @@
          7.588      0.5731       0.000   8.879E-02       495.3
 
  Case    44
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.477E+04      0.2889
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        106.0      0.1881
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        116.7   8.152E-02
-       4, Tang: size of Adhes, Slip area :      34     47
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        58.85   3.093E-02
-       5, Tang: size of Adhes, Slip area :      64     17
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        16.12   1.726E-02
-       6, Tang: size of Adhes, Slip area :      73      8
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.869   1.313E-02
-       7, Tang: size of Adhes, Slip area :      74      7
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.546   1.180E-02
-       8, Tang: size of Adhes, Slip area :      75      6
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4929   1.137E-02
-       9, Tang: size of Adhes, Slip area :      75      6
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1619   1.123E-02
-      10, Tang: size of Adhes, Slip area :      75      6
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.342E-02   1.119E-02
-      11, Tang: size of Adhes, Slip area :      75      6
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.764E-02   1.117E-02
-      12, Tang: size of Adhes, Slip area :      75      6
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.829E-03   1.117E-02
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.477E+04      0.2889
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        106.0      0.1881
+    3, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        116.7   8.152E-02
+    4, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        58.85   3.093E-02
+    5, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        16.12   1.726E-02
+    6, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        4.869   1.313E-02
+    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        1.546   1.180E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.4929   1.137E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.1619   1.123E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    5.342E-02   1.119E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    1.764E-02   1.117E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    5.829E-03   1.117E-02
       Tang: final element division: A, S=     75      6  ItCG=   164
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1974,45 +1211,25 @@
          7.588      0.5762       0.000   8.879E-02       495.3
 
  Case    45
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.474E+04      0.3399
-       2, Tang: size of Adhes, Slip area :      19     62
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        83.77      0.2639
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        58.17      0.2100
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        68.78      0.1482
-       5, Tang: size of Adhes, Slip area :      35     46
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        81.48   8.154E-02
-       6, Tang: size of Adhes, Slip area :      48     33
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        39.62   4.814E-02
-       7, Tang: size of Adhes, Slip area :      62     19
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        18.75   3.204E-02
-       8, Tang: size of Adhes, Slip area :      69     12
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        8.971   2.422E-02
-       9, Tang: size of Adhes, Slip area :      71     10
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.333   2.040E-02
-      10, Tang: size of Adhes, Slip area :      72      9
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.256   1.843E-02
-      11, Tang: size of Adhes, Slip area :      72      9
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.003   1.752E-02
-      12, Tang: size of Adhes, Slip area :      73      8
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4601   1.710E-02
-      13, Tang: size of Adhes, Slip area :      73      8
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2134   1.691E-02
-      14, Tang: size of Adhes, Slip area :      73      8
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    9.946E-02   1.682E-02
-      15, Tang: size of Adhes, Slip area :      73      8
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.647E-02   1.677E-02
-      16, Tang: size of Adhes, Slip area :      73      8
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.176E-02   1.675E-02
-      17, Tang: size of Adhes, Slip area :      73      8
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.017E-02   1.674E-02
+    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.474E+04      0.3399
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        83.77      0.2639
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        58.17      0.2100
+    4, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        68.78      0.1482
+    5, Vel-dep: A, S=    48    33, |Sk-Sk-1|, .001 |Sk| :        81.48   8.154E-02
+    6, Vel-dep: A, S=    62    19, |Sk-Sk-1|, .001 |Sk| :        39.62   4.814E-02
+    7, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        18.75   3.204E-02
+    8, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :        8.971   2.422E-02
+    9, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        4.333   2.040E-02
+   10, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        2.256   1.843E-02
+   11, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.003   1.752E-02
+   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.4601   1.710E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2134   1.691E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    9.946E-02   1.682E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    4.647E-02   1.677E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    2.176E-02   1.675E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.017E-02   1.674E-02
       Tang: final element division: A, S=     73      8  ItCG=   248
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -2021,65 +1238,35 @@
          7.588      0.5791       0.000   8.879E-02       495.3
 
  Case    46
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.470E+04      0.3884
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        71.75      0.3266
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        37.96      0.2931
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        27.48      0.2685
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        24.84      0.2462
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        26.83      0.2225
-       7, Tang: size of Adhes, Slip area :      35     46
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        35.56      0.1918
-       8, Tang: size of Adhes, Slip area :      36     45
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        56.85      0.1464
-       9, Tang: size of Adhes, Slip area :      38     43
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        49.67      0.1062
-      10, Tang: size of Adhes, Slip area :      51     30
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        33.57   7.816E-02
-      11, Tang: size of Adhes, Slip area :      58     23
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        22.11   5.930E-02
-      12, Tang: size of Adhes, Slip area :      63     18
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        14.48   4.674E-02
-      13, Tang: size of Adhes, Slip area :      66     15
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.275   3.852E-02
-      14, Tang: size of Adhes, Slip area :      68     13
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.017   3.311E-02
-      15, Tang: size of Adhes, Slip area :      69     12
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.059   2.946E-02
-      16, Tang: size of Adhes, Slip area :      69     12
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.490   2.717E-02
-      17, Tang: size of Adhes, Slip area :      70     11
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.622   2.567E-02
-      18, Tang: size of Adhes, Slip area :      70     11
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.092   2.467E-02
-      19, Tang: size of Adhes, Slip area :      70     11
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7536   2.398E-02
-      20, Tang: size of Adhes, Slip area :      70     11
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5289   2.350E-02
-      21, Tang: size of Adhes, Slip area :      70     11
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3680   2.317E-02
-      22, Tang: size of Adhes, Slip area :      71     10
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2177   2.296E-02
-      23, Tang: size of Adhes, Slip area :      71     10
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1300   2.284E-02
-      24, Tang: size of Adhes, Slip area :      71     10
-   24, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    7.755E-02   2.276E-02
-      25, Tang: size of Adhes, Slip area :      71     10
-   25, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.628E-02   2.272E-02
-      26, Tang: size of Adhes, Slip area :      71     10
-   26, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.764E-02   2.269E-02
-      27, Tang: size of Adhes, Slip area :      71     10
-   27, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.650E-02   2.268E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.470E+04      0.3884
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        71.75      0.3266
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        37.96      0.2931
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        27.48      0.2685
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        24.84      0.2462
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        26.83      0.2225
+    7, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        35.56      0.1918
+    8, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        56.85      0.1464
+    9, Vel-dep: A, S=    51    30, |Sk-Sk-1|, .001 |Sk| :        49.67      0.1062
+   10, Vel-dep: A, S=    58    23, |Sk-Sk-1|, .001 |Sk| :        33.57   7.816E-02
+   11, Vel-dep: A, S=    63    18, |Sk-Sk-1|, .001 |Sk| :        22.11   5.930E-02
+   12, Vel-dep: A, S=    66    15, |Sk-Sk-1|, .001 |Sk| :        14.48   4.674E-02
+   13, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        9.275   3.852E-02
+   14, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        6.017   3.311E-02
+   15, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        4.059   2.946E-02
+   16, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.490   2.717E-02
+   17, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.622   2.567E-02
+   18, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.092   2.467E-02
+   19, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.7536   2.398E-02
+   20, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.5289   2.350E-02
+   21, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.3680   2.317E-02
+   22, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.2177   2.296E-02
+   23, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1300   2.284E-02
+   24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    7.755E-02   2.276E-02
+   25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.628E-02   2.272E-02
+   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.764E-02   2.269E-02
+   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.650E-02   2.268E-02
       Tang: final element division: A, S=     71     10  ItCG=   392
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -2088,57 +1275,31 @@
          7.588      0.5816       0.000   8.879E-02       495.3
 
  Case    47
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.467E+04      0.4321
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        62.64      0.3803
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        31.34      0.3544
-       4, Tang: size of Adhes, Slip area :      32     49
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.99      0.3393
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        11.96      0.3291
-       6, Tang: size of Adhes, Slip area :      34     47
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        8.063      0.3222
-       7, Tang: size of Adhes, Slip area :      35     46
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.691      0.3172
-       8, Tang: size of Adhes, Slip area :      35     46
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.243      0.3135
-       9, Tang: size of Adhes, Slip area :      35     46
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.306      0.3106
-      10, Tang: size of Adhes, Slip area :      35     46
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.670      0.3083
-      11, Tang: size of Adhes, Slip area :      35     46
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.223      0.3064
-      12, Tang: size of Adhes, Slip area :      35     46
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.898      0.3048
-      13, Tang: size of Adhes, Slip area :      35     46
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.656      0.3033
-      14, Tang: size of Adhes, Slip area :      35     46
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.473      0.3021
-      15, Tang: size of Adhes, Slip area :      35     46
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.332      0.3009
-      16, Tang: size of Adhes, Slip area :      35     46
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.178      0.2999
-      17, Tang: size of Adhes, Slip area :      36     45
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.9500      0.2991
-      18, Tang: size of Adhes, Slip area :      36     45
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7605      0.2984
-      19, Tang: size of Adhes, Slip area :      36     45
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.6076      0.2979
-      20, Tang: size of Adhes, Slip area :      36     45
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4864      0.2974
-      21, Tang: size of Adhes, Slip area :      36     45
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3908      0.2971
-      22, Tang: size of Adhes, Slip area :      36     45
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3150      0.2968
-      23, Tang: size of Adhes, Slip area :      36     45
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2548      0.2966
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.467E+04      0.4321
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        62.64      0.3803
+    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        31.34      0.3544
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        17.99      0.3393
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        11.96      0.3291
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        8.063      0.3222
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        5.691      0.3172
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        4.243      0.3135
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        3.306      0.3106
+   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.670      0.3083
+   11, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.223      0.3064
+   12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.898      0.3048
+   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.656      0.3033
+   14, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.473      0.3021
+   15, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.332      0.3009
+   16, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.178      0.2999
+   17, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.9500      0.2991
+   18, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7605      0.2984
+   19, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.6076      0.2979
+   20, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.4864      0.2974
+   21, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3908      0.2971
+   22, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3150      0.2968
+   23, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2548      0.2966
       Tang: final element division: A, S=     36     45  ItCG=   330
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -2147,23 +1308,14 @@
          7.588      0.5666       0.000   8.879E-02       495.3
 
  Case    48
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.483E+04      0.2089
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        176.0   4.246E-02
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        35.39   6.381E-03
-       4, Tang: size of Adhes, Slip area :      73      8
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.680   2.012E-03
-       5, Tang: size of Adhes, Slip area :      77      4
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4321   1.965E-03
-       6, Tang: size of Adhes, Slip area :      79      2
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.506E-04   1.964E-03
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.483E+04      0.2089
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        176.0   4.246E-02
+    3, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        35.39   6.381E-03
+    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        5.680   2.012E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.4321   1.965E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    2.506E-04   1.964E-03
       Tang: final element division: A, S=     79      2  ItCG=   107
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -2172,29 +1324,17 @@
          7.588      0.5703       0.000   8.879E-02       495.3
 
  Case    49
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.479E+04      0.2622
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        120.1      0.1449
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        127.6   2.752E-02
-       4, Tang: size of Adhes, Slip area :      52     29
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        21.42   8.962E-03
-       5, Tang: size of Adhes, Slip area :      72      9
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.301   6.638E-03
-       6, Tang: size of Adhes, Slip area :      76      5
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4304   6.287E-03
-       7, Tang: size of Adhes, Slip area :      77      4
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    8.087E-02   6.221E-03
-       8, Tang: size of Adhes, Slip area :      77      4
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.536E-02   6.209E-03
-       9, Tang: size of Adhes, Slip area :      77      4
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.920E-03   6.206E-03
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.479E+04      0.2622
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        120.1      0.1449
+    3, Vel-dep: A, S=    52    29, |Sk-Sk-1|, .001 |Sk| :        127.6   2.752E-02
+    4, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        21.42   8.962E-03
+    5, Vel-dep: A, S=    76     5, |Sk-Sk-1|, .001 |Sk| :        3.301   6.638E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.4304   6.287E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    8.087E-02   6.221E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.536E-02   6.209E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.920E-03   6.206E-03
       Tang: final element division: A, S=     77      4  ItCG=   135
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -2203,37 +1343,21 @@
          7.588      0.5738       0.000   8.879E-02       495.3
 
  Case    50
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.476E+04      0.3149
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        90.22      0.2303
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        72.76      0.1606
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        105.6   6.613E-02
-       5, Tang: size of Adhes, Slip area :      36     45
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        45.46   2.727E-02
-       6, Tang: size of Adhes, Slip area :      66     15
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        12.80   1.642E-02
-       7, Tang: size of Adhes, Slip area :      72      9
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        4.080   1.296E-02
-       8, Tang: size of Adhes, Slip area :      74      7
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.297   1.185E-02
-       9, Tang: size of Adhes, Slip area :      75      6
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.4148   1.148E-02
-      10, Tang: size of Adhes, Slip area :      75      6
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1357   1.137E-02
-      11, Tang: size of Adhes, Slip area :      75      6
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.457E-02   1.133E-02
-      12, Tang: size of Adhes, Slip area :      75      6
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.466E-02   1.132E-02
-      13, Tang: size of Adhes, Slip area :      75      6
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.816E-03   1.131E-02
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.476E+04      0.3149
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        90.22      0.2303
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        72.76      0.1606
+    4, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        105.6   6.613E-02
+    5, Vel-dep: A, S=    66    15, |Sk-Sk-1|, .001 |Sk| :        45.46   2.727E-02
+    6, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        12.80   1.642E-02
+    7, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        4.080   1.296E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        1.297   1.185E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.4148   1.148E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.1357   1.137E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    4.457E-02   1.133E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    1.466E-02   1.132E-02
+   13, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    4.816E-03   1.131E-02
       Tang: final element division: A, S=     75      6  ItCG=   187
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -2242,49 +1366,27 @@
          7.588      0.5769       0.000   8.879E-02       495.3
 
  Case    51
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3654
-       2, Tang: size of Adhes, Slip area :      20     61
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        74.36      0.2995
-       3, Tang: size of Adhes, Slip area :      31     50
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        41.88      0.2611
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        34.45      0.2293
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        37.18      0.1951
-       6, Tang: size of Adhes, Slip area :      35     46
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        48.57      0.1512
-       7, Tang: size of Adhes, Slip area :      37     44
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        77.09   8.868E-02
-       8, Tang: size of Adhes, Slip area :      44     37
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        42.76   5.286E-02
-       9, Tang: size of Adhes, Slip area :      60     21
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        21.11   3.480E-02
-      10, Tang: size of Adhes, Slip area :      68     13
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        10.41   2.579E-02
-      11, Tang: size of Adhes, Slip area :      71     10
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.063   2.134E-02
-      12, Tang: size of Adhes, Slip area :      72      9
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.530   1.910E-02
-      13, Tang: size of Adhes, Slip area :      72      9
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.306   1.795E-02
-      14, Tang: size of Adhes, Slip area :      73      8
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5842   1.741E-02
-      15, Tang: size of Adhes, Slip area :      73      8
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2689   1.717E-02
-      16, Tang: size of Adhes, Slip area :      73      8
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1244   1.705E-02
-      17, Tang: size of Adhes, Slip area :      73      8
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    5.769E-02   1.700E-02
-      18, Tang: size of Adhes, Slip area :      73      8
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.679E-02   1.698E-02
-      19, Tang: size of Adhes, Slip area :      73      8
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    1.245E-02   1.696E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3654
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        74.36      0.2995
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        41.88      0.2611
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        34.45      0.2293
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        37.18      0.1951
+    6, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        48.57      0.1512
+    7, Vel-dep: A, S=    44    37, |Sk-Sk-1|, .001 |Sk| :        77.09   8.868E-02
+    8, Vel-dep: A, S=    60    21, |Sk-Sk-1|, .001 |Sk| :        42.76   5.286E-02
+    9, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        21.11   3.480E-02
+   10, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :        10.41   2.579E-02
+   11, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        5.063   2.134E-02
+   12, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        2.530   1.910E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.306   1.795E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.5842   1.741E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2689   1.717E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1244   1.705E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    5.769E-02   1.700E-02
+   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    2.679E-02   1.698E-02
+   19, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.245E-02   1.696E-02
       Tang: final element division: A, S=     73      8  ItCG=   276
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -2293,97 +1395,51 @@
          7.588      0.5797       0.000   8.879E-02       495.3
 
  Case    52
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.468E+04      0.4135
-       2, Tang: size of Adhes, Slip area :      21     60
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        66.21      0.3580
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        31.15      0.3313
-       4, Tang: size of Adhes, Slip area :      33     48
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        18.86      0.3149
-       5, Tang: size of Adhes, Slip area :      34     47
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.58      0.3030
-       6, Tang: size of Adhes, Slip area :      34     47
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        10.05      0.2941
-       7, Tang: size of Adhes, Slip area :      35     46
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        8.028      0.2870
-       8, Tang: size of Adhes, Slip area :      35     46
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.934      0.2809
-       9, Tang: size of Adhes, Slip area :      35     46
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.424      0.2752
-      10, Tang: size of Adhes, Slip area :      35     46
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.360      0.2696
-      11, Tang: size of Adhes, Slip area :      35     46
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.163      0.2642
-      12, Tang: size of Adhes, Slip area :      36     45
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.065      0.2588
-      13, Tang: size of Adhes, Slip area :      36     45
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.263      0.2532
-      14, Tang: size of Adhes, Slip area :      36     45
-   14, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.147      0.2477
-      15, Tang: size of Adhes, Slip area :      37     44
-   15, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.314      0.2420
-      16, Tang: size of Adhes, Slip area :      37     44
-   16, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.848      0.2359
-      17, Tang: size of Adhes, Slip area :      37     44
-   17, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        7.914      0.2288
-      18, Tang: size of Adhes, Slip area :      37     44
-   18, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.829      0.2201
-      19, Tang: size of Adhes, Slip area :      38     43
-   19, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        12.34      0.2092
-      20, Tang: size of Adhes, Slip area :      38     43
-   20, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        17.27      0.1943
-      21, Tang: size of Adhes, Slip area :      38     43
-   21, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        27.38      0.1713
-      22, Tang: size of Adhes, Slip area :      39     42
-   22, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        48.68      0.1337
-      23, Tang: size of Adhes, Slip area :      43     38
-   23, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        40.01      0.1011
-      24, Tang: size of Adhes, Slip area :      53     28
-   24, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        29.33   7.660E-02
-      25, Tang: size of Adhes, Slip area :      59     22
-   25, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        20.19   5.938E-02
-      26, Tang: size of Adhes, Slip area :      63     18
-   26, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        13.60   4.756E-02
-      27, Tang: size of Adhes, Slip area :      65     16
-   27, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.081   3.954E-02
-      28, Tang: size of Adhes, Slip area :      68     13
-   28, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        6.047   3.413E-02
-      29, Tang: size of Adhes, Slip area :      69     12
-   29, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.964   3.053E-02
-      30, Tang: size of Adhes, Slip area :      69     12
-   30, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.655   2.811E-02
-      31, Tang: size of Adhes, Slip area :      70     11
-   31, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.686   2.654E-02
-      32, Tang: size of Adhes, Slip area :      70     11
-   32, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.114   2.551E-02
-      33, Tang: size of Adhes, Slip area :      70     11
-   33, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.7529   2.482E-02
-      34, Tang: size of Adhes, Slip area :      70     11
-   34, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5173   2.434E-02
-      35, Tang: size of Adhes, Slip area :      70     11
-   35, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3597   2.401E-02
-      36, Tang: size of Adhes, Slip area :      70     11
-   36, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2521   2.378E-02
-      37, Tang: size of Adhes, Slip area :      70     11
-   37, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1778   2.362E-02
-      38, Tang: size of Adhes, Slip area :      70     11
-   38, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.1259   2.350E-02
-      39, Tang: size of Adhes, Slip area :      70     11
-   39, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    8.941E-02   2.342E-02
-      40, Tang: size of Adhes, Slip area :      70     11
-   40, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    6.363E-02   2.336E-02
-      41, Tang: size of Adhes, Slip area :      70     11
-   41, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.535E-02   2.332E-02
-      42, Tang: size of Adhes, Slip area :      70     11
-   42, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    3.237E-02   2.329E-02
-      43, Tang: size of Adhes, Slip area :      70     11
-   43, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    2.311E-02   2.327E-02
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.468E+04      0.4135
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        66.21      0.3580
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        31.15      0.3313
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        18.86      0.3149
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        13.58      0.3030
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        10.05      0.2941
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        8.028      0.2870
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        6.934      0.2809
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        6.424      0.2752
+   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        6.360      0.2696
+   11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        6.163      0.2642
+   12, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        6.065      0.2588
+   13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        6.263      0.2532
+   14, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        6.147      0.2477
+   15, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        6.314      0.2420
+   16, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        6.848      0.2359
+   17, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        7.914      0.2288
+   18, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        9.829      0.2201
+   19, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        12.34      0.2092
+   20, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        17.27      0.1943
+   21, Vel-dep: A, S=    39    42, |Sk-Sk-1|, .001 |Sk| :        27.38      0.1713
+   22, Vel-dep: A, S=    43    38, |Sk-Sk-1|, .001 |Sk| :        48.68      0.1337
+   23, Vel-dep: A, S=    53    28, |Sk-Sk-1|, .001 |Sk| :        40.01      0.1011
+   24, Vel-dep: A, S=    59    22, |Sk-Sk-1|, .001 |Sk| :        29.33   7.660E-02
+   25, Vel-dep: A, S=    63    18, |Sk-Sk-1|, .001 |Sk| :        20.19   5.938E-02
+   26, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        13.60   4.756E-02
+   27, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        9.081   3.954E-02
+   28, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        6.047   3.413E-02
+   29, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        3.964   3.053E-02
+   30, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.655   2.811E-02
+   31, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.686   2.654E-02
+   32, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.114   2.551E-02
+   33, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.7529   2.482E-02
+   34, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.5173   2.434E-02
+   35, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.3597   2.401E-02
+   36, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.2521   2.378E-02
+   37, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.1778   2.362E-02
+   38, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.1259   2.350E-02
+   39, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    8.941E-02   2.342E-02
+   40, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    6.363E-02   2.336E-02
+   41, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    4.535E-02   2.332E-02
+   42, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    3.237E-02   2.329E-02
+   43, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    2.311E-02   2.327E-02
       Tang: final element division: A, S=     70     11  ItCG=   552
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -2392,37 +1448,21 @@
          7.588      0.5822       0.000   8.879E-02       495.3
 
  Case    53
- NORM
-       1, Norm: size of Contact, Exterior :     92      0
       Norm: final element division: C, E=     81     11  ItCG=    16
-
  TANG: TRANSIENT ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :      81      0
-    1, Vel-dep: |Sk-Sk-1|, .001 |Sk| :    4.465E+04      0.4566
-       2, Tang: size of Adhes, Slip area :      22     59
-    2, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        59.23      0.4088
-       3, Tang: size of Adhes, Slip area :      29     52
-    3, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        28.21      0.3863
-       4, Tang: size of Adhes, Slip area :      32     49
-    4, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        15.02      0.3741
-       5, Tang: size of Adhes, Slip area :      33     48
-    5, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        9.120      0.3667
-       6, Tang: size of Adhes, Slip area :      33     48
-    6, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        5.598      0.3621
-       7, Tang: size of Adhes, Slip area :      34     47
-    7, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        3.364      0.3593
-       8, Tang: size of Adhes, Slip area :      34     47
-    8, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        2.095      0.3575
-       9, Tang: size of Adhes, Slip area :      34     47
-    9, Vel-dep: |Sk-Sk-1|, .001 |Sk| :        1.337      0.3564
-      10, Tang: size of Adhes, Slip area :      34     47
-   10, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.8678      0.3557
-      11, Tang: size of Adhes, Slip area :      34     47
-   11, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.5705      0.3552
-      12, Tang: size of Adhes, Slip area :      34     47
-   12, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.3782      0.3549
-      13, Tang: size of Adhes, Slip area :      34     47
-   13, Vel-dep: |Sk-Sk-1|, .001 |Sk| :       0.2522      0.3547
+    1, Vel-dep: A, S=    22    59, |Sk-Sk-1|, .001 |Sk| :    4.465E+04      0.4566
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        59.23      0.4088
+    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        28.21      0.3863
+    4, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        15.02      0.3741
+    5, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        9.120      0.3667
+    6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        5.598      0.3621
+    7, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        3.364      0.3593
+    8, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        2.095      0.3575
+    9, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        1.337      0.3564
+   10, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.8678      0.3557
+   11, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.5705      0.3552
+   12, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.3782      0.3549
+   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.2522      0.3547
       Tang: final element division: A, S=     35     46  ItCG=   195
 
  
@@ -2481,20 +1521,20 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.0 | 100.0 |        0.6 | 100.0 |
-|Non-Hertzian cases   |      53 |       0.0 | 100.0 |        0.6 | 100.0 |
-|Panag.process        |      53 |       0.0 | 100.0 |        0.6 |  92.5 |
-|Algorithm Norm       |      53 |       0.0 |   0.0 |        0.0 |   0.2 |
-|Algorithm Tang       |      53 |       0.0 | 100.0 |        0.6 |  92.3 |
-|Output quantities    |      53 |       0.0 |   0.0 |        0.0 |   2.5 |
+|Total                |       1 |       0.0 | 100.0 |        0.8 | 100.0 |
+|Non-Hertzian cases   |      53 |       0.0 | 100.0 |        0.8 | 100.0 |
+|Panag.process        |      53 |       0.0 | 100.0 |        0.7 |  97.5 |
+|Algorithm Norm       |      53 |       0.0 |   0.0 |        0.0 |   4.0 |
+|Algorithm Tang       |      53 |       0.0 | 100.0 |        0.7 |  92.8 |
+|Output quantities    |      53 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      53 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: TangCG solver  |     789 |       0.0 | 100.0 |        0.4 |  70.9 |
-|Tang: ConvxGS solver |      12 |       0.0 |   0.0 |        0.0 |   4.9 |
+|Norm: ConjGrd solver |      53 |       0.0 |   0.0 |        0.0 |   3.1 |
+|Tang: TangCG solver  |     789 |       0.0 | 100.0 |        0.5 |  62.7 |
+|Tang: ConvxGS solver |      12 |       0.0 |   0.0 |        0.0 |   4.7 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      53 |       0.0 |   0.0 |        0.0 |   2.5 |
+|Reading input-file   |      53 |       0.0 |   0.0 |        0.0 |   0.1 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |      53 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       6 |       0.0 |   0.0 |        0.0 |   1.0 |
+|Writing output-files |       6 |       0.0 |   0.0 |        0.0 |   0.8 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
