@@ -33,17 +33,18 @@ contains
 !--subroutine parameters :
       type(t_ic)               :: ic
       type(t_material)         :: mater
-      type(t_grid),     target :: cgrid
+      type(t_grid)             :: cgrid
       type(t_friclaw)          :: fric
       type(t_kincns)           :: kin
       type(t_solvers)          :: solv
-      type(t_output),   target :: outpt1
-      type(t_influe),   target :: infl
+      type(t_output)           :: outpt1
+      type(t_influe)           :: infl
       type(t_gridfnc3)         :: hs1
       integer                  :: ittang
 !--local variables :
       type(t_gridfnc3)            :: musted, slpvel, slpprv, tmpprv, tmp, wsfix1, wsfix2
       type(t_eldiv)               :: igsprv
+      type(t_leadedge)            :: ledg
       integer, allocatable        :: iel(:)
       logical                     :: zready, zreasl, is_roll, is_ssrol, use_plast
       integer                     :: i, ii, ix, ixsta, ixinc, ixend, iy, j, k, icount, info, it,        &
@@ -57,8 +58,8 @@ contains
 
       call timer_start(itimer_stang)
       associate( mx   => cgrid%nx,   my   => cgrid%ny,    npot => cgrid%ntot, cs    => infl%cs,         &
-                 cv   => infl%cv,    ledg => outpt1%ledg, igs1 => outpt1%igs, mus1  => outpt1%mus,      &
-                 muv1 => outpt1%muv, ps1  => outpt1%ps,   ss1  => outpt1%ss,  temp1 => outpt1%temp1)
+                 cv   => infl%cv,    igs1  => outpt1%igs, mus1  => outpt1%mus, muv1  => outpt1%muv,     &
+                 ps1  => outpt1%ps,  ss1   => outpt1%ss,  temp1 => outpt1%temp1)
 
       is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3 
       is_ssrol  = ic%tang.eq.3
@@ -389,8 +390,8 @@ contains
                                  wsfix1, tmp, tmp, tmp, ss1)
             endif
 
-            call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, outpt1, imeth,   &
-                        info, it, errpt)
+            call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg, outpt1,    &
+                        imeth, info, it, errpt)
             itgs = itgs + it
 
             if (ic%x_nmdbg.ge.5) then
@@ -696,7 +697,7 @@ contains
       if (ic%sens.ge.3) then
          call timer_start(itimer_sens)
          ! call write_log(' starting sens_tang...')
-         call sens_tang (ic, cgrid, mater, fric, kin, solv, infl, outpt1, npot, k, iel, wsfix1)
+         call sens_tang (ic, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, npot, k, iel, wsfix1)
          call timer_stop(itimer_sens)
       endif
 
@@ -710,6 +711,7 @@ contains
       call gf3_destroy(slpprv)
       call gf3_destroy(tmpprv)
       call eldiv_destroy(igsprv)
+      call leadedge_destroy(ledg)
       deallocate(iel)
       end associate
 
@@ -721,16 +723,15 @@ contains
       implicit none
 !--subroutine parameters :
       type(t_ic)               :: ic
-      type(t_grid),     target :: cgrid
+      type(t_grid)             :: cgrid
       type(t_eldiv)            :: igs
-      type(t_leadedge), target :: ledg
+      type(t_leadedge)         :: ledg
       type(t_inflcf)           :: cs, cv
       type(t_gridfnc3)         :: tmp, hs, ps, pv, wsfix
       integer                  :: k
       integer, dimension(:)    :: iel(k)
 !--local variables :
       type(t_gridfnc3)          :: wsrig, usn, ust, uvn, uvt
-      type(t_gridfnc3), pointer :: facdt
       integer                   :: i, ii, iy, ik, j, iidum
       logical                   :: is_ssrol
       character(len=100)        :: namdbg
@@ -742,12 +743,12 @@ contains
 
       ! Initializations:
 
+      associate(facdt => ledg%facdt)
       call gf3_new(wsrig, 'tang:wsrig', cgrid, igs, .true.)
       call gf3_new(uvn,   'tang:uvn',   cgrid, igs, .true.)
       call gf3_new(uvt,   'tang:uvt',   cgrid, igs, .true.)
       call gf3_new(usn,   'tang:usn',   cgrid, igs, .true.)
       call gf3_new(ust,   'tang:ust',   cgrid, igs, .true.)
-      facdt => ledg%facdt
 
       is_ssrol = ic%tang.eq.3
 
@@ -916,6 +917,7 @@ contains
       call gf3_destroy(ust)
       call gf3_destroy(uvn)
       call gf3_destroy(uvt)
+      end associate
 
    end subroutine stang_rhs
 
@@ -926,7 +928,7 @@ contains
       implicit none
 !--subroutine parameters :
       type(t_ic)             :: ic
-      type(t_grid),   target :: cgrid
+      type(t_grid)           :: cgrid
       type(t_eldiv)          :: igs
       type(t_gridfnc3)       :: ps, mus, wsrig, wsfix, usn, uvn, uvt, ss
       type(t_leadedge)       :: ledg
@@ -1143,35 +1145,29 @@ contains
 !--subroutine parameters :
       type(t_ic)               :: ic
       type(t_material)         :: mater
-      type(t_grid),     target :: cgrid
+      type(t_grid)             :: cgrid
       type(t_friclaw)          :: fric
       type(t_kincns)           :: kin
       type(t_solvers)          :: solv
-      type(t_output),   target :: outpt1
-      type(t_influe),   target :: infl
+      type(t_output)           :: outpt1
+      type(t_influe)           :: infl
       type(t_gridfnc3)         :: hs1
       integer                  :: ittang
 !--local variables :
       type(t_gridfnc3)            :: tmp, wsfix1
+      type(t_leadedge)            :: ledg
       integer, allocatable        :: iel(:)
       logical                     :: is_roll, is_ssrol
       integer                     :: ii, k, info, it, nadh, nslip, nplast, nexter, imeth, itgs
       real(kind=8)                :: errpt
-      type(t_gridfnc3), pointer   :: mus1, ps1, ss1
-      type(t_leadedge), pointer   :: ledg
-      type(t_eldiv),    pointer   :: igs1
-      integer,          pointer   :: npot
       character(len=4), parameter :: namits(1:2) = (/ 'ItGS', 'ItCG' /)
 
       ! Initializations:
 
       call timer_start(itimer_stang)
-      npot => cgrid%ntot
-      ledg => outpt1%ledg
-      igs1 => outpt1%igs
-      mus1 => outpt1%mus
-      ps1  => outpt1%ps
-      ss1  => outpt1%ss
+
+      associate(npot => cgrid%ntot, igs1 => outpt1%igs, mus1 => outpt1%mus, ps1  => outpt1%ps,  &
+                ss1  => outpt1%ss)
 
       is_roll  = ic%tang.eq.2 .or. ic%tang.eq.3
       is_ssrol = ic%tang.eq.3
@@ -1252,8 +1248,8 @@ contains
                            tmp, tmp, tmp, ss1)
       endif
 
-      call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, outpt1, imeth, info,   &
-                  it, errpt)
+      call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg, outpt1, imeth,   &
+                  info, it, errpt)
 
       if (ic%x_nmdbg.ge.5) then
          call stang_nmdbg ('solution of solvpt:', 6, ic, cgrid, igs1, ledg, ps1, mus1, tmp, wsfix1,     &
@@ -1275,11 +1271,13 @@ contains
  8900 format (6x, 'Tang: final element division: A, S=', 2i7, 2x,a,'=', i6)
       solv%itgs = itgs
 
-      call timer_stop(itimer_stang)
-
       call gf3_destroy(wsfix1)
       call gf3_destroy(tmp)
+      call leadedge_destroy(ledg)
       deallocate(iel)
+
+      end associate
+      call timer_stop(itimer_stang)
 
    end subroutine stang_fastsim
 
@@ -1291,23 +1289,23 @@ contains
 !--subroutine parameters :
       type(t_ic)               :: ic
       type(t_material)         :: mater
-      type(t_grid),     target :: cgrid
+      type(t_grid)             :: cgrid
       type(t_friclaw)          :: fric
       type(t_solvers)          :: solv
-      type(t_output),   target :: outpt1
+      type(t_output)           :: outpt1
       type(t_influe)           :: infl
       type(t_gridfnc3)         :: hs1
       integer                  :: ittang
 !--local variables :
       integer                   :: nadh, nslip, itgs
       real(kind=8), save        :: rdum
-      type(t_eldiv), pointer    :: igs1
+
+      associate(igs1 => outpt1%igs)
 
       ! avoid compiler warning wrt unused variables
 
-      igs1 => outpt1%igs
       if (allocated(infl%cs%cf) .and. associated(hs1%vn) .and. associated(igs1%el)) then
-         rdum = mater%ga + hs1%vn(1) + real(igs1%el(1))
+         rdum = mater%ga + hs1%vn(1) + real(igs1%el(1)) + real(cgrid%nx)
       endif
 
       ! write type of problem to trace output
@@ -1342,6 +1340,7 @@ contains
  8900 format (6x, 'Tang: final element division: A, S=', 2i7,'  ItGS=', i6, /)
       solv%itgs = itgs
 
+      end associate
    end subroutine stang_empty
 
 !------------------------------------------------------------------------------------------------------------

@@ -47,7 +47,6 @@ public
 
    public  t_kincns
    public  t_solvers
-   public  t_leadedge
    public  t_output
 
    public  t_subsblk
@@ -718,55 +717,10 @@ public
 
    !---------------------------------------------------------------------------------------------------------
 
-   ! data with respect to the position of the leading edge of the contact area:
-
-   type :: t_leadedge
-
-      integer                               :: ixinc
-      integer                               :: npos
-      integer,      dimension(:),   pointer :: jbnd  => NULL()
-      integer,      dimension(:),   pointer :: ixbnd => NULL()
-      type(t_igrdfnc1)                      :: ii2j
-      real(kind=8), dimension(:),   pointer :: xbnd  => NULL()
-      real(kind=8), dimension(:),   pointer :: facdx => NULL()
-      real(kind=8), dimension(:,:), pointer :: ubnd  => NULL()
-      type(t_gridfnc3)                      :: facdt
-
-      ! Note: we assume rolling in either positive (chi=0) or negative x-direction (chi=pi). In
-      !       the former case, a leading edge position has x_interior <= x_bnd <= x_exterior, in the
-      !       latter case int&ext are reversed. There may be 0, 1 or a few leading edge positions per
-      !       grid row iy.
-
-      ! ixinc   increment +1 or -1 for resp. rolling in positive (0) or negative x-direction (pi)
-      ! npos    number of leading edge positions in whole grid, size of arrays ixbnd, xbnd, facdx, etc.
-      ! jbnd    for each grid row iy, the first corresponding position j in arrays ixbnd, xbnd.
-      !         Note: the number of positions occupied for row iy is jbnd(iy+1)-jbnd(iy).
-      !         The array-size is my+1. Total number of positions is npos = jbnd(my+1)
-      ! ixbnd   for each leading edge position, the element coordinate ix for the interior element
-      !         adjacent to an exterior element at ix+1 (0) or ix-1 (pi). Array-size is given by npos.
-      ! ii2j    for each element ii of the potential contact area, the corresponding index j in the leading
-      !         edge arrays or 0 if ii is not a leading edge boundary.
-      ! xbnd    for each leading edge position, the estimated x-coordinate. Array-size is given by npos.
-      ! facdx   for each leading edge position, the relative position in terms of the step dx between ix
-      !         and ix+1 (0) or ix-1 (pi). Array-size is given by npos.
-      !         Note: facdx = 0 for center of ix, facdx = 1 at center of ix+1 or ix-1.
-      ! facdt   for each element of the potential contact area, the fraction of the time-step that it is
-      !         inside the actual contact area.
-      !         facdt=0 for elements in the Exterior.
-      !         facdt=1 for elements that were already in the contact area at the previous time instance.
-      !         0 <= facdt <= 1 for elements entering the contact area in the current step.
-      ! ubnd    for each leading edge position, the estimated displacement difference in tangential
-      !         directions (2,3). Array-size is given by (npos,3).
-
-   end type t_leadedge
-
-   !---------------------------------------------------------------------------------------------------------
-
    ! data with respect to the solution and derived quantities:
 
    type :: t_output
       type(t_eldiv)    :: igs, igv
-      type(t_leadedge) :: ledg
       type(t_gridfnc3) :: mus, muv, shft
       type(t_gridfnc3) :: ps, pv, us, uv, ss, sv
       type(t_gridfnc3) :: taucs, taucv, upls, uplv
@@ -778,7 +732,6 @@ public
 
       ! igs            element division for current solution, see t_eldiv.
       ! igv            element division for previous solution.
-      ! ledg           administration w.r.t. position of leading edge of the contact area
 
       ! ps     [N/mm2] current surface tractions in normal and tangential directions
       ! mus    [-]     friction coefficient per element for current time step
@@ -1677,13 +1630,6 @@ contains
 
    call eldiv_destroy(gd%outpt1%igs)
    call eldiv_destroy(gd%outpt1%igv)
-   call destroy_arr(gd%outpt1%ledg%jbnd)
-   call destroy_arr(gd%outpt1%ledg%ixbnd)
-   call if1_destroy(gd%outpt1%ledg%ii2j)
-   call destroy_arr(gd%outpt1%ledg%xbnd)
-   call destroy_arr(gd%outpt1%ledg%facdx)
-   call destroy_arr(gd%outpt1%ledg%ubnd)
-   call gf3_destroy(gd%outpt1%ledg%facdt)
    call gf3_destroy(gd%outpt1%mus)
    call gf3_destroy(gd%outpt1%muv)
    call gf3_destroy(gd%outpt1%shft)

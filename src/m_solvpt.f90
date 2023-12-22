@@ -45,8 +45,8 @@ contains
 
 !============================================================================================================
 
-      subroutine solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, outpt1, imeth,   &
-                        info1, itgs, err)
+      subroutine solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg, outpt1,    &
+                        imeth, info1, itgs, err)
 !--purpose: Compute the tangential tractions with fixed Slip- and Adhesion-Area.
 !           On exit: info1 = 0  o.k.
 !                    1  maxgs reached
@@ -55,14 +55,15 @@ contains
       implicit none
 !--subroutine parameters:
       type(t_ic)                  :: ic
-      type(t_grid),        target :: cgrid
+      type(t_grid)                :: cgrid
       type(t_material)            :: mater
       type(t_friclaw)             :: fric
       type(t_kincns)              :: kin
       type(t_solvers)             :: solv
       type(t_gridfnc3)            :: wsfix1
-      type(t_influe),      target :: infl
-      type(t_output),      target :: outpt1
+      type(t_influe)              :: infl
+      type(t_leadedge)            :: ledg
+      type(t_output)              :: outpt1
       integer,      intent(in)    :: npot, k, iel(npot)
       integer,      intent(out)   :: info1, imeth, itgs
       real(kind=8), intent(out)   :: err
@@ -79,7 +80,7 @@ contains
       ! initialize, determine number of elements in slip
 
       associate(dxdy  => cgrid%dxdy,  igs1  => outpt1%igs, ps1   => outpt1%ps, ss1   => outpt1%ss,      &
-                sens  => outpt1%sens, facdt => outpt1%ledg%facdt)
+                sens  => outpt1%sens, facdt => ledg%facdt)
 
       call gf3_new(wstot, 'solvpt:wstot', cgrid, nulify=.true.)
       call gf3_dup(tmp,   'solvpt:tmp', ps1, .true.)
@@ -119,7 +120,7 @@ contains
 
       ! solve equations with initial cksi and ceta
 
-      call tang_solver(npot, ic, cgrid, mater, fric, kin, solv, infl, outpt1, k, iel,                   &
+      call tang_solver(npot, ic, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, k, iel,             &
                          wstot, .false., info1, imeth, it, err, conv)
 
       fxkp1 = dxdy * gf3_sum(AllElm, ps1,1) / (kin%muscal * kin%fntrue)
@@ -243,7 +244,7 @@ contains
 
                ! solve equations for new cksi or new ceta
 
-               call tang_solver(npot, ic, cgrid, mater, fric, kin, solv, infl, outpt1, k, iel,          &
+               call tang_solver(npot, ic, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, k, iel,    &
                          wstot, .false., info1, imeth, it, err, conv)
 
                fxkp1 = dxdy * gf3_sum(AllElm, ps1, 1) / (kin%muscal*kin%fntrue)
@@ -372,18 +373,19 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-      subroutine tang_solver(npot, ic, cgrid, mater, fric, kin, solv, infl, outpt1, k, iel,             &
+      subroutine tang_solver(npot, ic, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, k, iel,       &
                          wstot, is_sens, info1, imeth, it, err, conv)
 !--purpose: select the appropriate solver for the case
       implicit none
 !--subroutine parameters:
       type(t_ic)               :: ic
-      type(t_grid),     target :: cgrid
+      type(t_grid)             :: cgrid
       type(t_material)         :: mater
       type(t_friclaw)          :: fric
       type(t_kincns)           :: kin
       type(t_solvers)          :: solv
       type(t_influe)           :: infl
+      type(t_leadedge)         :: ledg
       type(t_output)           :: outpt1
       type(t_gridfnc3)         :: wstot
       integer                  :: npot, k, iel(npot), info1, imeth, it
@@ -414,7 +416,7 @@ contains
       elseif (solv%solver_eff.eq.isolv_cnvxgs) then
          imeth = 1
          call timer_start(itimer_cnvxgs)
-         call cnvxgs(ic, cgrid, mater, kin, wstot, infl, outpt1, k, iel, eps_loc,                       &
+         call cnvxgs(ic, cgrid, mater, kin, wstot, infl, ledg, outpt1, k, iel, eps_loc,                 &
                      maxit_loc, solv%omegah, solv%omegas, is_sens, info1, it, err, conv)
          call timer_stop(itimer_cnvxgs)
       elseif (solv%solver_eff.eq.isolv_tangcg) then
@@ -514,18 +516,19 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-      subroutine sens_tang (ic, cgrid, mater, fric, kin, solv, infl, outpt1, npot, k, iel, wsfix1)
+      subroutine sens_tang (ic, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, npot, k, iel, wsfix1)
 !--purpose: quickly compute senstitivity d F{x,y}/d {xi,eta,phi} with < 1% accuracy
       implicit none
 !--subroutine arguments:
       type(t_ic)               :: ic
-      type(t_grid),     target :: cgrid
+      type(t_grid)             :: cgrid
       type(t_material)         :: mater
       type(t_friclaw)          :: fric
       type(t_kincns)           :: kin
       type(t_solvers)          :: solv
       type(t_influe)           :: infl
-      type(t_output),   target :: outpt1
+      type(t_leadedge)         :: ledg
+      type(t_output)           :: outpt1
       type(t_gridfnc3)         :: wsfix1
       integer                  :: npot, k, iel(npot)
 !--local variables:
@@ -540,7 +543,7 @@ contains
       character(len= 4), parameter :: namits(1:3) = (/ 'ItGS', 'ItCG', 'ItGD' /)
       character(len= 3)  :: namcrp
 
-      associate(igs1 => outpt1%igs, ps1 => outpt1%ps, sens => outpt1%sens, facdt => outpt1%ledg%facdt)
+      associate(igs1 => outpt1%igs, ps1 => outpt1%ps, sens => outpt1%sens, facdt => ledg%facdt)
 
       call gf3_dup(wstot, 'wstot', ps1, .true.)
       call gf3_dup(psloc, 'psloc', ps1, .true.)
@@ -677,7 +680,7 @@ contains
             !    solv%mxsens = 12 - itry
             ! endif
 
-            call tang_solver(npot, icloc, cgrid, mater, fric, kin, solv, infl, outpt1, k, iel,          &
+            call tang_solver(npot, icloc, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, k, iel,    &
                          wsloc, .true., info1, imeth, it, err, conv)
 
             itgs = itgs + it
@@ -880,33 +883,20 @@ contains
       implicit none
 !--subroutine arguments:
       type(t_ic)               :: ic
-      type(t_grid),     target :: cgrid
-      type(t_material), target :: mater
+      type(t_grid)             :: cgrid
+      type(t_material)         :: mater
       type(t_friclaw)          :: fric
       type(t_kincns)           :: kin
       type(t_gridfnc3)         :: ws
-      type(t_output),   target :: outpt
+      type(t_output)           :: outpt
 !--local variables :
       integer      :: ii, ix, ixsta, ixinc, ixend, iy, ixdbg, iydbg
       logical      :: is_ssrol
       real(kind=8) :: ptabs
-      integer,          pointer :: mx, my
-      real(kind=8),     pointer :: flx(:), k_eff
-      type(t_gridfnc3), pointer :: mus, ps, ss, us, uv
-      type(t_eldiv),    pointer :: igs
 
-      ! set pointers to frequently used variables
-
-      mx    => cgrid%nx
-      my    => cgrid%ny
-      flx   => mater%flx
-      k_eff => mater%k_eff
-      igs   => outpt%igs
-      mus   => outpt%mus
-      ps    => outpt%ps
-      us    => outpt%us
-      uv    => outpt%uv
-      ss    => outpt%ss
+      associate(mx    => cgrid%nx,  my    => cgrid%ny,  flx   => mater%flx, k_eff => mater%k_eff,       &
+                igs   => outpt%igs, mus   => outpt%mus, ps    => outpt%ps,  us    => outpt%us,          &
+                uv    => outpt%uv,  ss    => outpt%ss)
 
       is_ssrol = ic%tang.eq.3
 
@@ -1040,6 +1030,7 @@ contains
          enddo
       enddo
 
+      end associate
       end subroutine modif_fastsim
 
 !------------------------------------------------------------------------------------------------------------
@@ -1059,8 +1050,8 @@ contains
       logical,          intent(in)      :: is_sens
       real(kind=8),     intent(in)      :: eps
       type(t_gridfnc3), intent(in)      :: ws
-      type(t_influe),   target          :: infl
-      type(t_output),   target          :: outpt
+      type(t_influe),   intent(in)      :: infl
+      type(t_output)                    :: outpt
       integer,          intent(out)     :: itcg
       real(kind=8),     intent(out)     :: err
 !--local variables:
@@ -1073,16 +1064,9 @@ contains
                             iidbgy, ic_nmdbg
       real(kind=8)       :: alpha, beta, rv, zq, vq, snrm, perp, ga, ptabs, facnel, dif, dif1, difid,   &
                             difinn, ptang, trsinn, conv
-      type(t_inflcf),   pointer :: cs, ms
-      type(t_eldiv),    pointer :: igs
-      type(t_gridfnc3), pointer :: mu, ps, ss
 
-      cs   => infl%cs
-      ms   => infl%ms
-      igs  => outpt%igs
-      mu   => outpt%mus
-      ps   => outpt%ps
-      ss   => outpt%ss
+      associate(cs   => infl%cs,  ms   => infl%ms, igs  => outpt%igs, mu   => outpt%mus,                &
+                ps   => outpt%ps, ss   => outpt%ss)
 
       mx = ps%grid%nx
       my = ps%grid%ny
@@ -1621,12 +1605,13 @@ contains
          call gf3_destroy(ps0)
          call gf3_destroy(tmp)
       endif
+      end associate
 
       end subroutine tangcg
 
 !------------------------------------------------------------------------------------------------------------
 
-      subroutine cnvxgs(ic, cgrid, mater, kin, ws, infl, outpt1, k, iel, eps,                   &
+      subroutine cnvxgs(ic, cgrid, mater, kin, ws, infl, ledg, outpt1, k, iel, eps,                     &
                         maxgs, omegah, omegas, is_sens, info, itgs, err, conv)
 !--purpose: Solves the equations in TANG with a non-linear block variant of the Gauss-Seidel, that takes
 !           into account the non-linear constraints. This subroutine uses the function AijPj instead of
@@ -1637,8 +1622,9 @@ contains
       type(t_grid)              :: cgrid
       type(t_material)          :: mater
       type(t_kincns)            :: kin
-      type(t_influe),    target :: infl
-      type(t_output),    target :: outpt1
+      type(t_influe)            :: infl
+      type(t_leadedge)          :: ledg
+      type(t_output)            :: outpt1
       type(t_gridfnc3)          :: ws
       integer,      intent(in)  :: iel(cgrid%ntot), k, maxgs
       logical,      intent(in)  :: is_sens
@@ -1648,7 +1634,8 @@ contains
 !--local variables :
       integer, parameter :: itsedg = 1
       integer            :: i, ista, iinc, iend, ii, ix, iy, ixinc, iym, mx, my, npot, nadh, nslip,     &
-                            nplst, nexter, idebug, difmax_i, nadh_th, nslip_th, nplst_th, difmax_i_th
+                            nplst, nexter, elprv, idebug, difmax_i, nadh_th, nslip_th, nplst_th,        &
+                            difmax_i_th
       real(kind=8)       :: coefs(2,2), coefsv(2,2), tau_c0, k_tau, dif1, difid, pr(3), s(2), dupl(2),  &
                             tauc, tauv, facnel, flx, dif, difmax, dif_th, difmax_th
       logical            :: is_ssrol, use_plast, zledge
@@ -1658,8 +1645,7 @@ contains
       associate( cs    => infl%cs,     csv  => infl%csv,    igs   => outpt1%igs,                        &
                  mus   => outpt1%mus,  ps   => outpt1%ps,   ss    => outpt1%ss,                         &
                  upls  => outpt1%upls, uplv => outpt1%uplv, taucs => outpt1%taucs,                      &
-                 taucv => outpt1%taucv,                                                                 &
-                 ledg  => outpt1%ledg, ubnd => ledg%ubnd,   ii2j  => ledg%ii2j%val)
+                 taucv => outpt1%taucv, ubnd => ledg%ubnd,   ii2j  => ledg%ii2j%val)
 
       mx     = cgrid%nx
       my     = cgrid%ny
@@ -1777,7 +1763,7 @@ contains
 !_INT_OMP                 ws, ss, upls, uplv, taucs, taucv, cs, csv, coefs, coefsv, k_tau, tau_c0,      &
 !_INT_OMP                 omegah, omegas, eps, ii2j, ubnd, dif, difmax, difmax_i, nadh, nslip, nplst,   &
 !_INT_OMP                 aset, is_ssrol)                                                               &
-!_INT_OMP          private(i, ii, ix, iy, pr, s, zledge, idebug, nadh_th, nslip_th, nplst_th,           &
+!_INT_OMP          private(i, ii, ix, iy, elprv, pr, s, zledge, idebug, nadh_th, nslip_th, nplst_th,    &
 !_INT_OMP                  dif_th, difmax_th, difmax_i_th)
 
          dif_th    = 0d0
@@ -1843,6 +1829,7 @@ contains
 
                idebug = 0
                ! if (ii.eq.15) idebug = 5
+               elprv = igs%el(ii)
 
                if (.not.is_ssrol .or. zledge) then
                   call plstrc(ii, ix, iy, igs%el(ii), coefs,  eps, omegah, omegas, pr, mus%vt(ii),      &
@@ -1850,6 +1837,12 @@ contains
                else
                   call plstrc(ii, ix, iy, igs%el(ii), coefsv, eps, omegah, omegas, pr, mus%vt(ii),      &
                                 tau_c0, k_tau, tauv, tauc, s, dupl, idebug)
+               endif
+
+               if (igs%el(ii).ne.elprv .and. (ic%x_nmdbg.ge.4 .or. ic%flow.ge.7)) then
+                  write(bufout,'(a,i4,2(a,i3),4a)') ' it=',itgs,': moving element (',cgrid%ix(ii),      &
+                        ',',cgrid%iy(ii),') from ', aset(elprv),' to ', aset(igs%el(ii))
+                  call write_log(1,bufout)
                endif
 
                ! Add update to residual (2-norm), store new tractions
@@ -2009,8 +2002,8 @@ contains
       type(t_grid)              :: cgrid
       type(t_material)          :: mater
       type(t_kincns)            :: kin
-      type(t_influe),    target :: infl
-      type(t_output),    target :: outpt1
+      type(t_influe)            :: infl
+      type(t_output)            :: outpt1
       type(t_gridfnc3)          :: ws
       integer,      intent(in)  :: k, maxgs
       logical,      intent(in)  :: is_sens
