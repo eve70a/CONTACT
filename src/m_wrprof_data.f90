@@ -300,7 +300,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   function use_brute(ic, prr, prw)
+   function use_brute(ic, prw)
 !--function: determine from an ic-struct & profiles used whether to use the (brute force) grid-based
 !            contact search
       implicit none
@@ -308,7 +308,7 @@ contains
       logical                     :: use_brute
 !--subroutine arguments
       type(t_ic),      intent(in) :: ic
-      type(t_profile), intent(in) :: prr, prw
+      type(t_profile), intent(in) :: prw
 
       use_brute = (ic%discns_eff.eq.5 .or. ic%discns_eff.eq.6 .or. ic%discns_eff.eq.9)
       use_brute = use_brute .or. prw%is_varprof()

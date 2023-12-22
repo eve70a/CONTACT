@@ -15,6 +15,7 @@ private
 public  readline
 public  read1darr
 public  readkeywordvalues
+public  readplainvalues
 public  getnonemptyline
 private splitlinetowords
 
@@ -24,6 +25,7 @@ public check_2rng
 public check_2int
 public check_3rng
 public check_range
+public check_equal
 public check_smaller
 public check_sorted
 
@@ -46,16 +48,16 @@ contains
       logical,       intent(in)    :: lstop
       logical,       intent(out)   :: flags(mxnval)
       real(kind=8),  intent(out)   :: dbles(mxnval)
-      character*(*), intent(in)    :: descrip, types
-      character*(*), intent(out)   :: strngs(mxnval)
+      character(len=*), intent(in)    :: descrip, types
+      character(len=*), intent(out)   :: strngs(mxnval)
 !--local variables:
       integer,      parameter :: mxitem = 20
       real(kind=8), parameter :: pi     = 4d0*atan(1d0)
       integer            :: nblank, ncmtln, nval_tot, nval_req, nval_opt, ieof, iint, idbl, iflg,       &
                             istr, ilen, nitem, ii, iostat
       logical            :: is_deg
-      character*256      :: inptxt, words(1:mxitem)
-      character*1        :: squote = ''''
+      character(len=1)   :: squote = ''''
+      character(len=MAX_CHAR_INP) :: inptxt, words(1:mxitem)
 
       if (idebug.ge.5) then
          write(bufout,'(/,2a)') '--- readLine: ',trim(descrip)
@@ -291,14 +293,14 @@ contains
       logical,      intent(in)    :: lstop
       integer                     :: ints(nval)   ! output when types = 'i'
       real(kind=8)                :: dbles(nval)  ! output when types = 'd' or 'a'
-      character*(*), intent(in)   :: descrip, types
+      character(len=*), intent(in)    :: descrip, types
 !--local variables:
       integer,      parameter :: mxitem = 50         ! max #values per input-line
       real(kind=8), parameter :: pi     = 4d0*atan(1d0)
       integer            :: nblank, ncmtln, iostat, ieof, ilen, ii, ival, nitem
       logical            :: use_ints, use_angles, is_deg
       character(len= 1 ) :: ext
-      character(len=256) :: inptxt, words(mxitem)
+      character(len=MAX_CHAR_INP) :: inptxt, words(mxitem)
 
       if (idebug.ge.5) then
          write(bufout,'(/,3a,i5,3a)') '--- read1darr: ', trim(descrip),',', nval,' values of type "', &
@@ -438,30 +440,31 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-      subroutine readkeywordvalues(inptxt, commnt, mxitem, idebug, has_key, keywrd,             &
-                        has_str, valstr, nitem, values)
-!--purpose: Split a line of input-file: 1) keyword=value, keyword=<empty>, 2) plain keyword w.o. '=',
-!                       3) only numeric values, with trailing comments indicated e.g. by commnt='!%' 
+      subroutine readkeywordvalues(inptxt, commnt, mxitem, idebug, has_key, keywrd, has_str, valstr,    &
+                        nitem, values)
+!--purpose: Split a line of input-file: 1) keyword='string', keyword=real1, or keyword=<empty>, 
+!                                       2) plain keyword w.o. '=',
+!                                       3) numeric values real1 [real2...]
 !           Detect keywords and values, ignoring comma's and comments but honouring single quotes
       implicit none
 !--subroutine arguments:
-      character*256, intent(in)  :: inptxt              ! a complete line of input, not a comment line
-      character*(*), intent(in)  :: commnt              ! comment character(s)
+      character(len=*), intent(in)  :: inptxt              ! a complete line of input, not a comment line
+      character(len=*), intent(in)  :: commnt              ! comment character(s)
       integer,       intent(in)  :: mxitem              ! length of output-array
       integer,       intent(in)  :: idebug              ! level of debug output
       logical,       intent(out) :: has_key             ! T/F there's a keyword present
-      character*256, intent(out) :: keywrd              ! keyword (if found)
+      character(len=*), intent(out) :: keywrd              ! keyword (if found)
       logical,       intent(out) :: has_str             ! T/F there's a value string present
-      character*256, intent(out) :: valstr              ! value (if not numeric)
+      character(len=*), intent(out) :: valstr              ! value (if not numeric)
       integer,       intent(out) :: nitem               ! number of numeric values
       real(kind=8),  intent(out) :: values(1:mxitem)    ! numeric output values
 !--local variables:
       integer, parameter :: itabvl = ichar('\t')
-      character*1        :: squote = '''', dquote = '"'
+      character(len=1)   :: squote = '''', dquote = '"'
       integer            :: ncmt_char, ic, ipos, ios, ix, k, nval
       logical            :: in_str, in_cmt, in_val, has_equals
-      character*256      :: mytext
       real(kind=8)       :: tmpval(mxitem)
+      character(len=len(inptxt)) :: mytext
 
       if (idebug.ge.8) call write_log('   ...starting keyVal for str=' // trim(inptxt) // '.')
 
@@ -589,6 +592,9 @@ contains
 
          ! 2), 3): No '='-sign, can be plain keyword or list of plain values
 
+         has_str = .false.
+         valstr  = ' '
+
          ! Count the number of numeric values in mytext
 
          nval = 0
@@ -612,8 +618,6 @@ contains
             read(mytext,*) (values(k), k=1,nval)
             nitem = nval
             has_key = .false.
-            valstr  = adjustl(mytext)
-            has_str = .true.
             keywrd = ' '
             if (idebug.ge.6) then
                write(bufout,'(a,20(10g12.4,:,/,10x))') '   ...values=',(values(k),k=1,nitem)
@@ -621,9 +625,7 @@ contains
             endif
          else
             keywrd  = adjustl(mytext)
-            valstr  = ' '
             has_key = .true.
-            has_str = .false.
             nitem   = 0
             if (idebug.ge.6) call write_log('   ...key "' // trim(keywrd) // '"')
          endif
@@ -631,6 +633,89 @@ contains
       endif ! has_equals
 
       end subroutine readkeywordvalues
+
+!------------------------------------------------------------------------------------------------------------
+
+      subroutine readplainvalues(inptxt, commnt, nexpct, idebug, nitem, values)
+!--purpose: Read nexpct numeric values from inptxt, with trailing comments indicated e.g. by commnt='!%' 
+      implicit none
+!--subroutine arguments:
+      character(len=*), intent(in)  :: inptxt              ! a complete line of input, not a comment line
+      character(len=*), intent(in)  :: commnt              ! comment character(s)
+      integer,          intent(in)  :: nexpct              ! #expected values, length of output-array
+      integer,          intent(in)  :: idebug              ! level of debug output
+      integer,          intent(out) :: nitem               ! number of numeric values
+      real(kind=8),     intent(out) :: values(1:nexpct)    ! numeric output values
+!--local variables:
+      integer            :: ncmt_char, ic, ipos, ios, iend, k, nval
+      real(kind=8)       :: tmpval(nexpct)
+      character(len=len(inptxt)) :: mytext
+
+      ! Try to read the expected number of numeric values from inptxt
+
+      read(inptxt,*,iostat=ios) (values(k), k=1,nexpct)
+
+      ! If successful, return
+
+      if (ios.eq.0) then
+
+         nitem = nexpct
+
+      ! Else start extended processing
+
+      else
+
+         ! Locate comments, everything after first comment-sign (disregarding quotes in inptxt)
+
+         ncmt_char = len(commnt)
+         iend = len(inptxt)
+
+         do ic = 1, ncmt_char
+            ipos = index(inptxt(1:iend), commnt(ic:ic))
+            if (ipos.gt.0) iend = ipos-1
+         enddo
+
+         ! Copy non-comment part of line
+
+         if (iend.le.0) then
+            mytext = inptxt
+         elseif (iend.eq.1) then
+            mytext = ' '
+         else
+            mytext = inptxt(1:iend)
+         endif
+         if (idebug.ge.7) call write_log('   ...removed comment, mytext=' // trim(mytext) // '.')
+
+         ! Determine number of values available
+
+         nval = 0
+         ios = 0
+         do while (nval.lt.nexpct .and. ios.eq.0)
+            ! attempt to read nval+1 values
+            read(mytext,*,iostat=ios,err=999) (tmpval(k), k=1,nval+1)
+            ! if ok, increment nval, else jump out of loop (err=)
+            if (ios.eq.0) nval = nval + 1
+         enddo
+ 999     continue
+
+         if (idebug.ge.7) then
+            write(bufout,'(3a,i4,a)') '   ...mytext="',trim(mytext),'" has',nval,' values'
+            call write_log(1, bufout)
+         endif
+
+         ! Store available values
+
+         nitem = nval
+         read(mytext,*) (values(k), k=1,nval)
+
+         if (idebug.ge.6) then
+            write(bufout,'(a,20(10g12.4,:,/,10x))') '   ...values=',(values(k),k=1,nitem)
+            call write_log(1, bufout)
+         endif
+
+      endif ! ios=0, shortcut processing
+
+      end subroutine readplainvalues
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -642,15 +727,15 @@ contains
 !--subroutine arguments:
       integer,       intent(in)    :: unitnm, ncase, idebug
       logical,       intent(in)    :: lstop
-      character*(*), intent(in)    :: descrip
-      character*(*), intent(in)    :: commnt
+      character(len=*), intent(in)    :: descrip
+      character(len=*), intent(in)    :: commnt
       integer,       intent(inout) :: ieof, linenr
                                         ! on input,  ieof<0  means end-of-file is considered an error,
                                         !            ieof>=0 means end-of-file is ok
                                         ! on output, ieof=1 means that end-of-file is encountered
       integer,       intent(out)   :: nblank, ncmtln
                                         ! count number of blank lines & comment lines skipped over
-      character*(*), intent(out)   :: line
+      character(len=*), intent(out)   :: line
 !--local variables:
       integer iostat, ipos, ncmt_char, ic, ix
       logical lcomment
@@ -758,17 +843,17 @@ contains
 !           but honouring single quotes, return in array of character strings.
       implicit none
 !--subroutine arguments:
-      character*256, intent(in)  :: inptxt
-      character*(*), intent(in)  :: commnt
+      character(len=*), intent(in)  :: inptxt
+      character(len=*), intent(in)  :: commnt
       integer,       intent(in)  :: mxitem
-      character*256, intent(out) :: words(1:mxitem)
+      character(len=*), intent(out) :: words(1:mxitem)
       integer,       intent(out) :: nitem
 !--local variables:
       integer, parameter :: itabvl = ichar('\t')
-      character*1        :: squote = ''''
+      character(len=1)   :: squote = ''''
       integer            :: ncmt_char, ipos, ii, ic
       logical            :: in_str, in_cmt
-      character*256      :: mytext
+      character(len=len(inptxt)) :: mytext
 
       ncmt_char = len(commnt)
 
@@ -963,6 +1048,31 @@ contains
       endif
       check_range = .not.zerror
    end function check_range
+
+!------------------------------------------------------------------------------------------------------------
+
+   logical function check_equal (descrp1, dval1, descrp2, dval2, reltol, lprint)
+!--purpose: perform check on input-values dval1 == dval2
+      implicit none
+      character(len=*)  :: descrp1, descrp2
+      real(kind=8)      :: dval1, dval2, reltol
+      logical, optional :: lprint
+      logical           :: zerror, my_lprint
+
+      my_lprint = .false.
+      if (present(lprint)) my_lprint = lprint
+
+      zerror = .false.
+      if (abs(dval1-dval2).gt.reltol*min(abs(dval1),abs(dval2))) then
+         zerror = .true.
+         if (my_lprint) then
+            write(lout, 1000) descrp1, dval1, descrp2, dval2
+            write(   *, 1000) descrp1, dval1, descrp2, dval2
+ 1000       format (' Input: ERROR. ',a,'=',g12.4,' must be equal to ',a,'=',g12.4,'.')
+         endif
+      endif
+      check_equal = .not.zerror
+   end function check_equal
 
 !------------------------------------------------------------------------------------------------------------
 

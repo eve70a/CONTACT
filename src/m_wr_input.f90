@@ -1048,7 +1048,7 @@ contains
 
       ! write rail profile filename(s)
 
-      if (ic%ztrack.eq.3) call profile_write_config(trk%rai%prr, 0)
+      if (ic%ztrack.eq.3) call profile_write_config(prob%meta, trk%rai%prr, 0)
 
       ! write rail deviations
 
@@ -1082,7 +1082,7 @@ contains
       ! write wheel profile filename
 
       if (ic%ewheel.eq.3 .or. ic%ewheel.eq.5) then
-         call profile_write_config(ws%whl%prw, 1)
+         call profile_write_config(prob%meta, ws%whl%prw, 1)
       endif
 
       ! write information on the wheelset position and velocity

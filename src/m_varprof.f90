@@ -697,8 +697,17 @@ end subroutine varprof_set_debug
             write(bufout,*) 'Opening plain ',trim(nam_rw),' profile "',trim(fname),'"...'
             call write_log(1, bufout)
          endif
-         call read_miniprof_profile(fname, fulnam, i_ftype, npoint, points, is_wheel_arg, mirror_y,     &
-                        mirror_z, sclfac, zig_thrs, icol_kyield, x_profil, x_readln, lstop, ierror)
+
+         ! read_ascii_profile == fast version with no comments/reduced error checking
+
+         if (.false.) then
+            call read_ascii_profile(fname, fulnam, npoint, points, is_wheel_arg, mirror_y, mirror_z,    &
+                           sclfac, zig_thrs, x_profil, ierror)
+            icol_kyield = 0
+         else
+            call read_miniprof_profile(fname, fulnam, i_ftype, npoint, points, is_wheel_arg, mirror_y,  &
+                           mirror_z, sclfac, zig_thrs, icol_kyield, x_profil, x_readln, lstop, ierror)
+         endif
 
       else
 
@@ -951,7 +960,7 @@ end subroutine varprof_set_debug
 
       associate(ierror => vprf%ierror)
 
-      if (vprf%nslc.le.0) then
+      if (.not.vprf%is_varprof()) then
 
          if (ldebug.ge.2) call write_log(' varprof_make_2dspline: no slices, nothing to do')
 
@@ -1152,7 +1161,7 @@ end subroutine varprof_set_debug
       nx = g_out%nx
       allocate(xi(nx))
 
-      if (vprf%nslc.le.0) then
+      if (.not.vprf%is_varprof()) then
 
          call write_log(' Internal Error: (varprof_get_loc_z): not a variable profile.')
          call abort_run()
@@ -1344,7 +1353,7 @@ end subroutine varprof_set_debug
       real(kind=8), dimension(:), allocatable :: xi
 
       my_ierror = 0
-      if (vprf%nslc.le.0) then
+      if (.not.vprf%is_varprof()) then
 
          call write_log(' Internal Error: (varprof_intpol_grid_old): not a variable profile.')
          call abort_run()
@@ -1543,7 +1552,7 @@ end subroutine varprof_set_debug
       real(kind=8), dimension(:,:), allocatable :: zij
 
       my_ierror = 0
-      if (vprf%nslc.le.0) then
+      if (.not.vprf%is_varprof()) then
          call write_log(' Internal Error: (varprof_intpol_grid): not a variable profile.')
          call abort_run()
       endif
@@ -1652,7 +1661,7 @@ end subroutine varprof_set_debug
 
       my_ierror = 0
 
-      if (vprf%nslc.le.0) then
+      if (.not.vprf%is_varprof()) then
 
          call write_log(' Internal Error: (intpol_xunif2): not a variable profile.')
          call abort_run()

@@ -345,7 +345,7 @@ contains
       ! define the 'gap_mesh' and compute sf_whl, sf_rai accordingly
 
       if (my_ierror.eq.0) then
-         if (.not.use_brute(ic, trk%rai%prr, ws%whl%prw)) then
+         if (.not.use_brute(ic, ws%whl%prw)) then
             if (idebug.ge.2) call write_log(' --- calling compute_wr_locus ---')
             call compute_wr_locus (ic, ws, trk, prr_rgn, region, discr%ds, sf_whl, sf_rai, idebug,      &
                         rgn_has_overlap, sub_ierror)
@@ -368,7 +368,7 @@ contains
 
          numcp0 = numcps
 
-         if (.not.use_brute(ic, trk%rai%prr, ws%whl%prw)) then
+         if (.not.use_brute(ic, ws%whl%prw)) then
             if (idebug.ge.2) call write_log(' --- calling locate_interpen_1d ---')
             call locate_interpen_1d(ic, sf_whl, sf_rai, sf_incl, region%mview, sgn, ws%nom_radius,      &
                         trk%nom_radius, rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, numcps,      &

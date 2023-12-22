@@ -49,6 +49,11 @@ public
    integer                 :: out_open = 0
    public  inp_open, out_open
 
+   ! MAX_CHAR_INP  length of character variables for reading input, max. length of input lines
+
+   integer,      parameter :: MAX_CHAR_INP = 256
+   public  MAX_CHAR_INP
+
    ! platform  integer indicating the platform used
    ! path_sep  direction/file separation character
 

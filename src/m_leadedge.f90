@@ -7,10 +7,10 @@
 !------------------------------------------------------------------------------------------------------------
 
 module m_leadedge
-use m_hierarch_data
-use m_aijpj
-implicit none
-private
+   use m_hierarch_data
+   use m_aijpj
+   implicit none
+   private
 
    ! data-type for administration of leading edge position of contact area:
 
@@ -19,8 +19,8 @@ private
 
    ! subroutines for estimating the boundary position and boundary value:
 
-public sxbnd
-public subnd
+   public sxbnd
+   public subnd
 
 !------------------------------------------------------------------------------------------------------------
 !  data with respect to the position of the leading edge of the contact area:

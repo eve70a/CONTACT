@@ -771,6 +771,7 @@ public
    type :: t_metadata
       integer            :: REid
       integer            :: CPid
+      integer            :: whl_ver, rail_ver
       integer            :: actv_thrd
       integer            :: irun, iax, iside, ncase, itforc_out, itforc_inn
       integer            :: npatch, ipatch
@@ -784,6 +785,7 @@ public
 
       ! REid              result element ID, used by CONTACT add-on
       ! CPid              contact patch ID, used by CONTACT add-on
+      ! whl/rail_ver      counter for wheel/rail profile versions written to file
       ! actv_thrd         OpenMP thread number working on this gd, -1=none, used for locking
       ! irun              for Sentient: run number
       ! iax               for Sentient: axle number

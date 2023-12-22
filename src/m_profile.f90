@@ -22,12 +22,14 @@ private
    public  profile_setopt
    public  profile_read_config
    public  profile_write_config
+   public  write_simpack_profile
 
    public  profile_store_values
    public  profile_finish_grid
 
    public  read_simpack_profile
    public  read_miniprof_profile
+   public  read_ascii_profile
 
    private delete_outside_boundbox
    private filter_close_points
@@ -499,10 +501,49 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine profile_write_config(prf, is_wheel)
+   subroutine write_simpack_profile(prf, is_wheel)
+!--purpose: write profile in Simpack format
+      implicit none
+!--subroutine arguments:
+      type(t_profile)            :: prf
+      integer,        intent(in) :: is_wheel
+!--local variables:
+      integer             :: ios, ip
+
+      open(ltmp, file=trim(prf%fname), action='write', iostat=ios)
+
+      if (ios.ne.0) then
+         write(bufout,'(3a,i4,a)') ' ERROR: cannot open file "',trim(prf%fname),'" for writing (',ios,')'
+         call write_log(1, bufout)
+      else
+         write(ltmp,'(a)')    'header.begin'
+         write(ltmp,'(a)')    '  version  = 1'
+         write(ltmp,'(a,i2)') '  type     =', is_wheel
+         write(ltmp,'(a)')    'header.end'
+         write(ltmp,'(a)')    'spline.begin'
+         write(ltmp,'(a)')    '  approx.smooth = 0.0'
+         write(ltmp,'(a)')    '  comment       = ''stored by CONTACT library version'''
+         write(ltmp,'(a)')    '  units.len.f   = 1000.0    ! mm/m'
+         write(ltmp,'(a)')    '  units.ang.f   = 1.0'
+         write(ltmp,'(a)')    '  point.begin'
+         do ip = 1, prf%grd_data%ntot
+            write(ltmp,'(3x,2f12.6)') prf%grd_data%y(ip), prf%grd_data%z(ip)
+         enddo
+         write(ltmp,'(a)')    '  point.end'
+         write(ltmp,'(a)')    'spline.end'
+
+         close(ltmp)
+      endif
+
+   end subroutine write_simpack_profile
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine profile_write_config(meta, prf, is_wheel)
 !--purpose: write profile filename and configuration to inp-file
       implicit none
 !--subroutine arguments:
+      type(t_metadata)           :: meta
       type(t_profile)            :: prf
       integer,        intent(in) :: is_wheel
 !--local variables:
@@ -510,6 +551,30 @@ contains
       character(len=1)    :: namprf
       character(len=6)    :: namsmth
       character(len=80)   :: spaces
+
+      if (trim(prf%fname).eq.'<values>') then
+
+         ! write profile obtained from cntc_setprofileinputvalues after normalization
+
+         if (is_wheel.eq.1) then
+            meta%whl_ver = meta%whl_ver + 1
+            write(prf%fname, '(a,i3.3,a,i1,a)') 'caddon_wr', meta%reid, '_whl', mod(meta%whl_ver,10), '.prw'
+            write(bufout,'(3a)') ' write wheel profile to "',trim(prf%fname),'"'
+         else
+            meta%rail_ver = meta%rail_ver + 1
+            write(prf%fname, '(a,i3.3,a,i1,a)') 'caddon_wr', meta%reid, '_rail', mod(meta%rail_ver,10), '.prr'
+            write(bufout,'(3a)') ' write rail profile to "',trim(prf%fname),'"'
+         endif
+         call write_log(1, bufout)
+         call write_simpack_profile(prf, is_wheel)
+
+         ! profile was normalized, reset corrections
+
+         prf%mirror_y = -1
+         prf%mirror_z = -1
+         prf%sclfac   = 1d0
+         prf%smth     = 0d0
+      endif
 
       if (is_wheel.ge.1) then
          namprf = 'W'
@@ -529,9 +594,9 @@ contains
 
          ! original smoothing method - dont write detailed configuration
 
-         if     (len1.le.27) then
+         if     (len1.le.28) then
             write(linp, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
-                   prf%mirror_z, spaces(1:28-len1), namprf, namsmth
+                   prf%mirror_z, spaces(1:29-len1), namprf, namsmth
          else
             write(linp, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
                    prf%mirror_z, '  ', namprf, namsmth
@@ -545,9 +610,9 @@ contains
          prfopt = 1
          if (prf%err_hnd.ne.0 .or. prf%f_max_omit.ne.0.5d0) prfopt = 2
 
-         if     (len1.le.27) then
+         if     (len1.le.28) then
             write(linp, 7200) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
-                   prf%mirror_z, prfopt, spaces(1:28-len1), namprf, namsmth
+                   prf%mirror_z, prfopt, spaces(1:29-len1), namprf, namsmth
          else
             write(linp, 7200) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
                    prf%mirror_z, prfopt, '  ', namprf, namsmth
@@ -997,7 +1062,7 @@ contains
          !       spline
          !       spline - point
 
-         if (has_key .and. .not.has_str) then
+         if (has_key .and. .not.has_str .and. nitem.le.0) then
             has_match = .true.
             if (keywrd.eq.'header.begin') then
                if (in_header  .or. in_spline .or. in_point) ierror = 101
@@ -1038,7 +1103,7 @@ contains
 
          ! process keywords of section 'header':
 
-         if (has_key .and. has_str .and. in_header) then
+         if (has_key .and. (has_str .or. nitem.ge.1) .and. in_header) then
             if (nitem.ne.1) then
                ierror = 111
                write(bufout,'(3a,i3,3a)') ' ERROR 111: Keyword ',trim(keywrd),                          &
@@ -1076,7 +1141,7 @@ contains
 
          ! process keywords of section 'spline', excluding 'point':
 
-         if (has_key .and. has_str .and. in_spline .and. .not.in_point) then
+         if (has_key .and. (has_str .or. nitem.ge.1) .and. in_spline .and. .not.in_point) then
             if (keywrd.eq.'approx.smooth') then
                if (nitem.ne.1) then
                   ierror = 131
@@ -1133,14 +1198,14 @@ contains
 
          ! process keywords of section 'spline' - 'point':
 
-         if (has_key .and. has_str .and. in_spline .and. in_point) then
+         if (has_key .and. in_spline .and. in_point .and. keywrd.ne.'point.begin') then
             write(bufout,*) 'unknown keyword "',trim(keywrd),'" in point section, ignored.'
             call write_log(1, bufout)
          endif
 
          ! process values of section 'spline' - 'point':
 
-         if (.not.has_key .and. has_str .and. in_spline .and. in_point) then
+         if (.not.has_key .and. in_spline .and. in_point) then
             if (nitem.lt.1) then
                write(bufout,*) 'too few data values',nitem
                call write_log(1, bufout)
@@ -1296,7 +1361,7 @@ contains
 !--purpose: Read a wheel or rail profile from a Miniprof ban or whl file
       implicit none
 !--subroutine arguments:
-      character*(*)             :: fname, fulnam
+      character(len=*)          :: fname, fulnam
       integer,      intent(out) :: npoint
       real(kind=8), dimension(:,:), pointer :: points ! npoint x 6: [y, z, angle, curvature, wgt, kyield]
       integer,      intent(in)  :: iftype, is_wheel, mirror_y, inp_mirror_z, x_profil, x_readln
@@ -1306,15 +1371,15 @@ contains
       integer                   :: ierror
 !--local variables:
       integer,      parameter :: mxitem = 20, ncolpnt = 6, mxwarn_coldef = 4
-      character*4,  parameter :: commnt = '!"%#'
+      character(len=4), parameter :: commnt = '!"%#'
       real(kind=8), parameter :: point_dist_min = 1d-4
       integer             :: unitnm, ios, linenr, line_prv, nblank, ncmtln, in_headers, old_style,      &
                              ieof, nwarn_coldef, nitem, i, ipnt
       logical             :: has_key, has_str
-      character*256       :: inptxt, keywrd, valstr, columndef
       real(kind=8)        :: values(1:mxitem)
       integer             :: arrsiz, xypoints, mirror_z, flip_data, ncolfile, icolfile, ipnt2file(ncolpnt)
       real(kind=8)        :: xoffset, yoffset, grade, superelevation, gauge
+      character(len=MAX_CHAR_INP) :: inptxt, keywrd, valstr, columndef
 
       if (x_profil.ge.2) then
          write(bufout,'(/,2a)') '--- read_miniprof: file ',trim(fulnam)
@@ -1340,7 +1405,7 @@ contains
 
       xypoints  = -1                            ! number of points according to file
       columndef = 'X,Y,*'                       ! identifiers X,Y,A,C,N,K for the columns
-      ncolfile  = 2                             ! number of columns in file
+      ncolfile  = 2                             ! default number of columns in file
       ipnt2file = (/  1,  2, -1, -1, -1, -1 /)  ! for each column in points: column number in file
       xoffset        =  0d0
       yoffset        =  0d0
@@ -1364,6 +1429,8 @@ contains
 
          if (nblank.ge.1) in_headers = 0
 
+         if (in_headers.eq.1) then
+
          ! Split the input at '=' sign, get keyword, string-value, numerical value(s)
          !    case 1: keyword = value (string/numeric)
          !    case 2: keyword, or keyword = <empty>
@@ -1371,6 +1438,14 @@ contains
 
          call readKeywordValues(inptxt, commnt, mxitem, x_readln, has_key, keywrd, has_str, valstr,       &
                         nitem, values)
+         else
+
+            !    case 3: read up to 'ncolfile' numerical value(s)
+
+            call readPlainValues(inptxt, commnt, ncolfile, x_readln, nitem, values)
+            has_key = .false.
+            has_str = .false.
+         endif
 
          ! Provide support for basic 2-column X,Y values and for miniprof files with missing blank line
 
@@ -1800,6 +1875,182 @@ contains
       ! call write_log('...done miniprof')
 
    end subroutine read_miniprof_profile
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine read_ascii_profile(fname, fulnam, npoint, points, is_wheel, mirror_y, inp_mirror_z,       &
+                        inp_sclfac, inp_zig_thrs, x_profil, ierror)
+!--purpose: Read a wheel or rail profile from a 2-column ascii file (no support for comments)
+      implicit none
+!--subroutine arguments:
+      character(len=*)          :: fname, fulnam
+      integer,      intent(out) :: npoint
+      real(kind=8), dimension(:,:), pointer :: points ! npoint x 2: [y, z]
+      integer,      intent(in)  :: is_wheel, mirror_y, inp_mirror_z, x_profil
+      real(kind=8), intent(in)  :: inp_sclfac, inp_zig_thrs
+      integer                   :: ierror
+!--local variables:
+      integer,          parameter :: ncol = 2, mxwarn = 5
+      real(kind=8),     parameter :: point_dist_min = 1d-4
+      integer             :: unitnm, ios, linenr, nwarn, ieof, ipnt
+      integer             :: arrsiz, mirror_z, flip_data
+
+      if (x_profil.ge.2) then
+         write(bufout,'(/,2a)') '--- read_ascii_profile: file ',trim(fulnam)
+         call write_log(2, bufout)
+      endif
+
+      unitnm = ltmp
+      ierror = 0
+      open(unitnm, file=fulnam, status='old', iostat=ios)
+      if (ios.ne.0) then
+         write(bufout,'(3a,i4,a)') ' ERROR: cannot open file "',trim(fulnam),'" (',ios,')'
+         call write_log(1, bufout)
+         ierror = ios
+      endif
+      linenr = 0
+
+      ! allocate points-array at initial size
+
+      npoint         =  0                       ! number of points in points array
+      arrsiz         = 1000                     ! length of points array
+      call reallocate_arr(points, arrsiz, ncol)
+
+      nwarn = 0
+      ieof = 0
+      do while(ieof.eq.0 .and. ierror.eq.0)
+
+         ! Increment line number and read input, no support for comments and empty lines
+
+         linenr = linenr + 1
+         npoint = npoint + 1
+
+         ! enlarge array if more points found than current arrsiz
+
+         if (npoint.gt.arrsiz) then
+            arrsiz = int(1.5d0 * arrsiz)
+            call reallocate_arr(points, arrsiz, ncol, keep=.true.)
+         endif
+
+         read(unitnm,*,iostat=ieof) points(npoint,1:2)
+
+         if (ieof.ne.0) npoint = npoint - 1
+
+      enddo ! while (more data, error==0)
+      close(unitnm)
+
+      if (x_profil.ge.3) then
+         write(bufout,'(a,i6,a)') ' Obtained',npoint,' profile points'
+         call write_log(1, bufout)
+      endif
+      if (x_profil.ge.4) then
+         do ipnt = 1, npoint
+            write(bufout, '(i5,2(a,f9.3))') ipnt,': y=',points(ipnt,1),', z=',points(ipnt,2)
+            call write_log(1, bufout)
+         enddo
+      endif
+
+      if (ierror.eq.0) then
+
+         ! Check that any points are obtained
+
+         if (npoint.le.1) then
+            ierror = 190
+            write(bufout,'(2a,i4,a)') ' ERROR 190: invalid profile. At least 2 points are needed, ',    &
+                   'obtained', npoint,' points.'
+            call write_log(1, bufout)
+         endif
+
+         if (is_wheel.ne.0 .and. is_wheel.ne.1) then
+            ierror = 191
+            write(bufout,'(3a)') ' ERROR 191: incorrect value for flag header - type ("',trim(fname),'")'
+            call write_log(1, bufout)
+         endif
+
+      endif
+
+      if (ierror.ne.0) then
+
+         if (x_profil.ge.1) call write_log(' Errors found, skipping profile processing.')
+
+      else
+
+         ! Copy data points to either the wheel or the rail profile arrays
+
+         !  - modification 1: point.dist.min - remove points too close together
+
+         ! call write_log('...filter_close_points')
+         call filter_close_points(points, arrsiz, npoint, ncol, point_dist_min, is_wheel, x_profil)
+
+         !  - modification 1': remove zig-zag-patterns with double kink
+
+         call filter_double_kinks(points, arrsiz, npoint, ncol, is_wheel, inp_zig_thrs, x_profil)
+
+         !  - modification 7: mirror y if requested in input-file
+
+         ! call write_log('...mirroring')
+         if (mirror_y.ge.1) then
+            do ipnt = 1, npoint
+               points(ipnt,1) = -points(ipnt,1)
+            enddo
+         endif
+
+         !  - modification 8: mirror z if necessary to get z positive downwards
+
+         ! call write_log('...check_z_pos_down')
+         if (inp_mirror_z.ne.0) then
+            mirror_z = inp_mirror_z
+         else
+            call check_z_pos_down(fname, npoint, points, is_wheel, x_profil, mirror_z)
+         endif
+
+         if (mirror_z.eq.1) then
+            ! call write_log('...mirror_z')
+            do ipnt = 1, npoint
+               points(ipnt,2) = -points(ipnt,2)
+            enddo
+            if (x_profil.ge.4) then
+               call write_log(' after mirror_z:')
+               do ipnt = 1, npoint
+                  write(bufout, '(i5,2(a,f9.3))') ipnt,': y=',points(ipnt,1),', z=',points(ipnt,2)
+                  call write_log(1, bufout)
+               enddo
+            endif
+         endif
+
+         !  - modification 10: length scaling factor: Miniprof data are in [mm]
+         !    apply scaling factor as specified in the inp-file
+
+         do ipnt = 1, npoint
+            points(ipnt,1) = inp_sclfac * points(ipnt,1)
+            points(ipnt,2) = inp_sclfac * points(ipnt,2)
+         enddo
+
+         !  - modification 9: inversion
+
+         call check_inversion(fname, npoint, points, 1, 2, is_wheel, x_profil, 0, flip_data, ierror)
+
+         if (flip_data.eq.1) then
+            call invert_points(npoint, points, is_wheel, x_profil)
+
+            if (x_profil.ge.4) then
+               call write_log(' after flip_data:')
+               do ipnt = 1, npoint
+                  write(bufout, '(i5,2(a,f9.3))') ipnt,': y=',points(ipnt,1),', z=',points(ipnt,2)
+                  call write_log(1, bufout)
+               enddo
+            endif
+         endif
+
+         !  - first/last points should now be in appropriate order
+
+         call check_overall_order(npoint, points, is_wheel, x_profil, ierror)
+
+      endif ! ierror<>0
+
+      ! call write_log('...done miniprof')
+
+   end subroutine read_ascii_profile
 
 !------------------------------------------------------------------------------------------------------------
 
