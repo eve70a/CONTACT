@@ -35,7 +35,7 @@ contains
                       sc0, sc1, delt0, delt1, tmp1mx, tmp2mx, fac_in(nsens_in), fac_out(nsens_out)
       character(len= 9) :: str_muscal
       character(len=20) :: strng(max(20, nsens_in*nsens_out))
-      type(t_marker)    :: rw_trk
+      type(t_marker)    :: whl_trk
       type(t_grid)      :: prr_glb, prw_glb
 !--pointers to global data items:
       type(t_cpatch),    pointer :: cp
@@ -82,9 +82,9 @@ contains
  1001    format(/,' WHEEL-',a,' CONTACT, ',a,' WHEEL,', i3,' CONTACT ',a,/)
 
          if (ic%gapwgt.eq.0) then
-            ic_discns = ic%discns_inp
+            ic_discns = ic%discns1_inp
          else
-            ic_discns = ic%discns_inp + 10*ic%gapwgt
+            ic_discns = ic%discns1_inp + 10*ic%gapwgt
          endif
          write(lout, 1101) ic%config, ic%pvtime, ic%bound, ic%tang, ic%norm, ic%force1, ic%stress
          write(lout, 1102) ic%varfrc, ic%frclaw_inp, ic_discns, ic%gencr_inp, ic%mater, ic%ztrack,      &
@@ -396,12 +396,12 @@ contains
             write(lout, 6100)
             ! write(lout, 6101) 'RAIL'
             write(lout, 6102) meta%xcp_tr, sgn*meta%ycp_tr, meta%zcp_tr, sgn*meta%deltcp_tr,            &
-                sgn*meta%ycp_rr, meta%zcp_rr
+                sgn*meta%ycp_r, meta%zcp_r
 
             ! write output for contact reference position on wheelset / wheel profile
 
             ! write(lout, 6101) 'WHEEL'
-            write(lout, 6103) meta%xcp_rw, sgn*meta%ycp_rw, meta%zcp_rw
+            write(lout, 6103) meta%xcp_w, sgn*meta%ycp_w, meta%zcp_w
 
  6100       format(1x,'CONTACT REFERENCE LOCATION')
  6101       format(1x,'CONTACT POINT LOCATION ON ',a)
@@ -740,9 +740,9 @@ contains
 
          ! get the wheel profile in track coordinates
 
-         rw_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
+         whl_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
          call grid_copy(my_wheel%prw%grd_data, prw_glb, with_spline=.true.)
-         call cartgrid_2glob(prw_glb, rw_trk)
+         call cartgrid_2glob(prw_glb, whl_trk)
 
          write(lout, '(/,a,i5,a)') ' PRINCIPAL WHEEL PROFILE, TRACK COORDINATES,', prw_glb%ny,' POINTS:'
          write(lout, '(a)') '    I        S(I)       X(I)       Y(I)       Z(I)'

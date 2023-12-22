@@ -105,7 +105,7 @@ contains
 
       zerror = zerror .or.           .not.check_2int ('Control digit V',  ic%varfrc, 0, 2)
       zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp, 0, 4, 6, 6)
-      zerror = zerror .or.       .not.check_irng ('Control digit D',  ic%discns_inp, 0, 2)
+      zerror = zerror .or.           .not.check_irng ('Control digit D', ic%discns3, 0, 2)
       zerror = zerror .or.           .not.check_irng ('gap weighting',    ic%gapwgt, 0, 2)
       zerror = zerror .or. .not.check_2rng ('Control digit C3', ic%gencr_inp , 0, 4, 9, 9)
       zerror = zerror .or.           .not.check_irng ('Control digit M',  ic%mater , 0, 4)
@@ -139,10 +139,10 @@ contains
                  '               Digit L=', i3)
       endif
 
-      if (ncase.eq.1 .and. ic%discns_inp.eq.0) then
+      if (ncase.eq.1 .and. ic%discns3.eq.0) then
          zerror = .true.
-         write(lout, 2003) ic%discns_inp
-         write(   *, 2003) ic%discns_inp
+         write(lout, 2003) ic%discns3
+         write(   *, 2003) ic%discns3
  2003    format (' Input: ERROR. In the first case D must be.ne.0'/,                                   &
                  '               Digit D=', i3)
       endif
@@ -171,18 +171,18 @@ contains
 
       ! Check consistency between consecutive cases
 
-      if (ic%discns_inp.ne.0 .and. ic%gencr_inp.eq.0) then
+      if (ic%discns3.ne.0 .and. ic%gencr_inp.eq.0) then
          zerror = .true.
-         write(lout, 2011) ic%discns_inp, ic%gencr_inp
-         write(   *, 2011) ic%discns_inp, ic%gencr_inp
+         write(lout, 2011) ic%discns3, ic%gencr_inp
+         write(   *, 2011) ic%discns3, ic%gencr_inp
  2011    format (' Input: ERROR. A new discretisation needs new influence functions'/,                 &
                  '               Digits D, C=', 2i3)
       endif
 
-      if (ic%discns_inp.ne.0 .and. ic%rznorm.eq.0) then
+      if (ic%discns3.ne.0 .and. ic%rznorm.eq.0) then
          zerror = .true.
-         write(lout, 2012) ic%discns_inp, ic%rznorm
-         write(   *, 2012) ic%discns_inp, ic%rznorm
+         write(lout, 2012) ic%discns3, ic%rznorm
+         write(   *, 2012) ic%discns3, ic%rznorm
  2012    format (' Input: ERROR. A new discretisation needs new undef. distances'/,                    &
                  '               Digits D, Z=', 2i3)
       endif
@@ -259,7 +259,7 @@ contains
 
       ! Copy the effective D-digit
 
-      if (ic%discns_inp.ge.2) ic%discns_eff = ic%discns_inp
+      if (ic%discns3.ge.2) ic%discns3 = ic%discns3
 
       ! Copy the B- and M-digits to the material parameter data
 
@@ -669,7 +669,7 @@ contains
       ! read discretisation parameters
       !------------------------------------------------------------------------------------------------------
 
-      if (ic%discns_inp.eq.2) then
+      if (ic%discns3.eq.2) then
          mxold = potcon%mx
          myold = potcon%my
          call readline(linp, ncase, linenr, 'specification method for potential contact area',          &
@@ -791,7 +791,7 @@ contains
             zerror = zerror .or. .not.check_smaller ('YC1', potcon%yc1, 'YCM', potcon%ycm)
          endif
 
-      endif ! ic%discns_inp.eq.2
+      endif ! ic%discns3.eq.2
 
       ! combinations of ipotcn and ibound
 
@@ -1313,7 +1313,7 @@ contains
 
       ! write discretisation parameters
 
-      if (ic%discns_inp.eq.2) then
+      if (ic%discns3.eq.2) then
          associate(dx => potcon%dx, dy => potcon%dy)
          write(linp, 6300)  potcon%ipotcn
          if (potcon%ipotcn.eq.-1) then

@@ -90,7 +90,7 @@ contains
 
       ! make new discretisation
 
-      if (gd%ic%discns_inp.ge.1) then
+      if (gd%ic%discns3.ge.1) then
          if (idebug.ge.5) call write_log('contac: calling sdis')
          call sdis(gd%potcon, gd%hertz, gd%cgrid)
       endif

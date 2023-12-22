@@ -143,8 +143,9 @@ public
       integer :: sens
       integer :: varfrc
       integer :: frclaw_inp
-      integer :: discns_inp
-      integer :: discns_eff
+      integer :: discns1_inp
+      integer :: discns1_eff
+      integer :: discns3
       integer :: gapwgt
       integer :: gencr_inp
       integer :: mater
@@ -250,9 +251,8 @@ public
       !              7 = reserved
       !             Note: the variable ic%frclaw_inp contains the value obtained from (and written to) the
       !                   input-file, whereas fric%frclaw_eff is the effective law used in the program (<>1).
-      ! d, discns   concerns the potential contact area and discretisation:
-      !              0 = maintain the discretisation of the previous case;
-      !              1 = form the discretisation from parameters in storage;
+      ! d1, discns1 concerns the potential contact area and discretisation for module 1:
+      !              0, 1 = maintain the same approach and parameters as used in the previous case
       !              2 = "wgt-wgt-2" planar contact with contact locus, weighed center and weighted angle,
       !                  read new input parameters and form the discretisation
       !              3 = "wx-surf",    same as 2, with extended rigid slip computation
@@ -263,8 +263,12 @@ public
       !                                           using the local contact angle instead of a weighted value
       !              8 = "locus+view"  same as 2, using a hard-coded oblique view direction
       !              9 = "brute+view"  same as 5, using a hard-coded oblique view direction
-      !             Note: the variable ic%discns_inp contains the value obtained from (and written to) the
-      !                   input-file, whereas ic%discns_eff is the effective method used (2 -- 9).
+      !             Note: the variable ic%discns1_inp contains the value obtained from (and written to) the
+      !                   input-file, whereas ic%discns1_eff is the effective method used (2 -- 9).
+      ! d3, discns3 concerns the potential contact area and discretisation for module 3:
+      !              0 = maintain the discretisation grid of the previous case;
+      !              1 = form the discretisation grid from parameters in storage;
+      !              2 = read new parameters from input-file and form the discretisation
       !     gapwgt  variations of weighted center method: 0 == default, 1 == linear weighting, 2 == quadratic
       ! c3, gencr   concerns the material parameters and influence coefficients
       !              0 = maintain inluence coefficients;
@@ -816,11 +820,12 @@ public
       integer            :: irun, iax, iside, ncase, itforc_out, itforc_inn
       integer            :: npatch, ipatch
       real(kind=8)       :: tim, s_ws, th_ws, ynom_whl, rnom_whl, rnom_rol
-      real(kind=8)       :: x_rw, y_rw, z_rw, rollrw, yawrw
-      real(kind=8)       :: y_rr, z_rr, rollrr
+      real(kind=8)       :: x_w, y_w, z_w, roll_w, yaw_w
+      real(kind=8)       :: y_r, z_r, roll_r
       real(kind=8)       :: xcp_tr, ycp_tr, zcp_tr, deltcp_tr
-      real(kind=8)       :: xcp_rr, ycp_rr, zcp_rr, scp_rr, deltcp_rr
-      real(kind=8)       :: xcp_rw, ycp_rw, zcp_rw, scp_rw, deltcp_rw
+      real(kind=8)       :: xcp_r, ycp_r, zcp_r, scp_r, deltcp_r
+      real(kind=8)       :: xcp_w, ycp_w, zcp_w, scp_w, deltcp_w
+      real(kind=8)       :: xo_spin, yo_spin
       character(len=256) :: dirnam, expnam
 
       ! REid              result element ID, used by CONTACT add-on
@@ -841,19 +846,20 @@ public
       ! ynom_whl   [mm]   lateral position of wheel origin in wheelset coordinates
       ! rnom_whl   [mm]   nominal wheel radius == vertical position of wheel origin in wheelset coords
       ! rnom_rol   [mm]   nominal roller radius
-      ! [xyz]_rw   [mm]   location of right wheel origin m_rw in terms of track coordinates
-      ! roll_rw    [rad]  roll angle of right wheel (marker m_rw) with respect to track coordinates
-      ! yaw_rw     [rad]  yaw angle of right wheel (marker m_rw) with respect to track coordinates
-      ! [yz]_rr    [mm]   location of right rail origin m_rr in terms of track coordinates
-      ! roll_rr    [rad]  roll angle of right rail marker m_rr with respect to track coordinates
+      ! [xyz]_w    [mm]   location of right wheel origin m_w in terms of track coordinates
+      ! roll_w     [rad]  roll angle of right wheel (marker m_w) with respect to track coordinates
+      ! yaw_w      [rad]  yaw angle of right wheel (marker m_w) with respect to track coordinates
+      ! [yz]_r     [mm]   location of right rail origin m_r in terms of track coordinates
+      ! roll_r     [rad]  roll angle of right rail marker m_r with respect to track coordinates
       ! [xyz]cp_tr [mm]   location of contact reference point m_ref (m_cp) in terms of track coordinates
       ! deltcp_tr  [rad]  contact angle: roll angle from track vertical to contact reference normal direction
-      ! [xyz]cp_rr [mm]   location of contact reference point m_ref (m_cp) in terms of right rail coordinates
-      ! scp_rr     [mm]   position of the contact reference point measured along the curved rail surface
-      ! deltcp_rr  [rad]  roll angle from right rail vertical to contact reference normal direction
-      ! [xyz]cp_rw [mm]   location of contact reference point m_ref (m_cp) in terms of right wheel coordinates
-      ! scp_rw     [mm]   position of the contact reference point measured along the curved wheel surface
-      ! deltcp_rw  [rad]  roll angle from right wheel vertical to contact reference normal direction
+      ! [xyz]cp_r  [mm]   location of contact reference point m_ref (m_cp) in terms of right rail coordinates
+      ! scp_r      [mm]   position of the contact reference point measured along the curved rail surface
+      ! deltcp_r   [rad]  roll angle from right rail vertical to contact reference normal direction
+      ! [xyz]cp_w  [mm]   location of contact reference point m_ref (m_cp) in terms of right wheel coordinates
+      ! scp_w      [mm]   position of the contact reference point measured along the curved wheel surface
+      ! deltcp_w   [rad]  roll angle from right wheel vertical to contact reference normal direction
+      ! [xy]o_spin [mm]   offset from super-grid pot.contact origin to contact reference position
       ! dirnam            optional working folder for experiment relative to the program's working
       !                   folder (set in contact.f90)
       ! expnam            experiment name, stand-alone program: excluding the working directory
@@ -929,8 +935,9 @@ contains
       ic%heat   = 0
       ic%stress = 0
       ic%sens   = 1
-      ic%discns_inp  = 2
-      ic%discns_eff  = ic%discns_inp
+      ic%discns1_inp = 2
+      ic%discns1_eff = ic%discns1_inp
+      ic%discns3     = 2
       ic%gapwgt      = 0
       ic%frclaw_inp  = 0
       ic%gencr_inp   = 2
@@ -1009,7 +1016,7 @@ contains
 !--subroutine arguments
       class(t_ic),   intent(in) :: this
 
-      ic_is_conformal = (this%discns_eff.eq.4)
+      ic_is_conformal = (this%discns1_eff.eq.4)
 
    end function ic_is_conformal
 
@@ -1023,7 +1030,7 @@ contains
 !--subroutine arguments
       class(t_ic),   intent(in) :: this
 
-      ic_use_initial_cp = (this%discns_eff.eq.7)
+      ic_use_initial_cp = (this%discns1_eff.eq.7)
 
    end function ic_use_initial_cp
 
@@ -1037,7 +1044,7 @@ contains
 !--subroutine arguments
       class(t_ic),   intent(in) :: this
 
-      ic_use_oblique = (this%discns_eff.eq.8 .or. this%discns_eff.eq.9)
+      ic_use_oblique = (this%discns1_eff.eq.8 .or. this%discns1_eff.eq.9)
 
    end function ic_use_oblique
 
@@ -1051,7 +1058,7 @@ contains
 !--subroutine arguments
       class(t_ic),   intent(in) :: this
 
-      ic_use_steep_slopes = (this%discns_eff.eq.6)
+      ic_use_steep_slopes = (this%discns1_eff.eq.6)
 
    end function ic_use_steep_slopes
 
@@ -1065,7 +1072,7 @@ contains
       integer    :: modul, cpbtnfs, vldcmze, xhgiaowr
 !--local variables:
       integer, parameter :: idebug = 0
-      integer            :: ihulp, fdigit, zdigit, edigit
+      integer            :: ihulp, fdigit, ddigit, zdigit, edigit
 
       ihulp         = 0
       ic%config     = (cpbtnfs - ihulp) / 1000000
@@ -1097,8 +1104,8 @@ contains
          ihulp      = ihulp + 1000000 * ic%varfrc
       ic%frclaw_inp = (vldcmze - ihulp) / 100000
          ihulp      = ihulp +  100000 * ic%frclaw_inp
-      ic%discns_inp = (vldcmze - ihulp) / 10000
-         ihulp      = ihulp +   10000 * ic%discns_inp
+      ddigit        = (vldcmze - ihulp) / 10000
+         ihulp      = ihulp +   10000 * ddigit
       ic%gencr_inp  = (vldcmze - ihulp) / 1000
          ihulp      = ihulp +    1000 * ic%gencr_inp
       ic%mater      = (vldcmze - ihulp) / 100
@@ -1107,14 +1114,18 @@ contains
          ihulp      = ihulp +      10 * zdigit
       edigit        = (vldcmze - ihulp) / 1
       if (idebug.ge.2) write(*,'(7(a,i2))') 'unpack: V=',ic%varfrc,', L=',ic%frclaw_inp,                &
-         ', D=',ic%discns_inp, ', C=',ic%gencr_inp,', M=',ic%mater, ', Z=',zdigit,', E=',edigit
+         ', D=',ddigit, ', C=',ic%gencr_inp,', M=',ic%mater, ', Z=',zdigit,', E=',edigit
 
       if (modul.eq.1) then
+         ic%discns1_inp = ddigit
+         ic%discns3 = 0
          ic%ztrack = zdigit
          ic%ewheel = edigit
          ic%rztang = 0
          ic%rznorm = 0
       else
+         ic%discns1_inp = 0
+         ic%discns3 = ddigit
          ic%ztrack = 0
          ic%ewheel = 0
          ic%rznorm = zdigit
@@ -1165,11 +1176,11 @@ contains
 
       if (modul.eq.1) then
          vldcmze =                                                    1000000*ic%varfrc      +          &
-                    100000*ic%frclaw_inp  +    10000*ic%discns_inp  +    1000*ic%gencr_inp   +          &
+                    100000*ic%frclaw_inp  +    10000*ic%discns1_inp +    1000*ic%gencr_inp   +          &
                        100*ic%mater       +       10*ic%ztrack      +       1*ic%ewheel
 
       else
-         vldcmze =  100000*ic%frclaw_inp  +    10000*ic%discns_inp  +    1000*ic%gencr_inp   +          &
+         vldcmze =  100000*ic%frclaw_inp  +    10000*ic%discns3     +    1000*ic%gencr_inp   +          &
                        100*ic%mater       +       10*ic%rznorm      +       1*ic%rztang
       endif
 
@@ -1284,32 +1295,35 @@ contains
       m%rnom_whl  = 0d0
       m%rnom_rol  = 0d0
 
-      m%x_rw      = 0d0
-      m%y_rw      = 0d0
-      m%z_rw      = 0d0
-      m%rollrw    = 0d0
-      m%yawrw     = 0d0
+      m%x_w       = 0d0
+      m%y_w       = 0d0
+      m%z_w       = 0d0
+      m%roll_w    = 0d0
+      m%yaw_w     = 0d0
 
-      m%y_rr      = 0d0
-      m%z_rr      = 0d0
-      m%rollrr    = 0d0
+      m%y_r       = 0d0
+      m%z_r       = 0d0
+      m%roll_r    = 0d0
 
       m%xcp_tr    = 0d0
       m%ycp_tr    = 0d0
       m%zcp_tr    = 0d0
       m%deltcp_tr = 0d0
 
-      m%xcp_rr    = 0d0
-      m%ycp_rr    = 0d0
-      m%zcp_rr    = 0d0
-      m%scp_rr    = 0d0
-      m%deltcp_rr = 0d0
+      m%xcp_r     = 0d0
+      m%ycp_r     = 0d0
+      m%zcp_r     = 0d0
+      m%scp_r     = 0d0
+      m%deltcp_r  = 0d0
 
-      m%xcp_rw    = 0d0
-      m%ycp_rw    = 0d0
-      m%zcp_rw    = 0d0
-      m%scp_rw    = 0d0
-      m%deltcp_rw = 0d0
+      m%xcp_w     = 0d0
+      m%ycp_w     = 0d0
+      m%zcp_w     = 0d0
+      m%scp_w     = 0d0
+      m%deltcp_w  = 0d0
+
+      m%xo_spin   = 0d0
+      m%yo_spin   = 0d0
    endif
 
    end subroutine meta_init

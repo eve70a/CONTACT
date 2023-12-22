@@ -204,8 +204,6 @@ contains
       type(t_kincns)    :: kin
       type(t_solvers)   :: solv
 !--local variables:
-      type(t_rail),     pointer :: my_rail
-      type(t_wheel),    pointer :: my_wheel
       character(len=5)          :: nam_side
       integer                   :: ip, ii, iy, mx, my, npot, ierror
       real(kind=8)              :: sw_ref, fac_warn
@@ -219,8 +217,7 @@ contains
 
       ! set pointer to the active rail and wheel in the current configuration
 
-      my_rail     => trk%rai
-      my_wheel    => ws%whl
+      associate(my_rail     => trk%rai, my_wheel    => ws%whl)
       if (wtd_ic%is_left_side()) then
          nam_side = 'left'
       else
@@ -279,16 +276,16 @@ contains
       if (wtd_ic%is_roller()) gd%meta%rnom_rol  = trk%nom_radius
 
       !  - position of wheel profile origin w.r.t. track origin
-      gd%meta%x_rw      = whl_trk%x()
-      gd%meta%y_rw      = whl_trk%y()
-      gd%meta%z_rw      = whl_trk%z()
-      gd%meta%rollrw    = whl_trk%roll()
-      gd%meta%yawrw     = whl_trk%yaw()
+      gd%meta%x_w      = whl_trk%x()
+      gd%meta%y_w      = whl_trk%y()
+      gd%meta%z_w      = whl_trk%z()
+      gd%meta%roll_w    = whl_trk%roll()
+      gd%meta%yaw_w     = whl_trk%yaw()
 
       !  - position of rail profile origin w.r.t. track origin
-      gd%meta%y_rr      = my_rail%m_trk%y()
-      gd%meta%z_rr      = my_rail%m_trk%z()
-      gd%meta%rollrr    = my_rail%m_trk%roll()
+      gd%meta%y_r       = my_rail%m_trk%y()
+      gd%meta%z_r       = my_rail%m_trk%z()
+      gd%meta%roll_r    = my_rail%m_trk%roll()
 
       !  - position of contact reference w.r.t. track origin
       gd%meta%xcp_tr    = cp%mref%x()
@@ -297,24 +294,25 @@ contains
       gd%meta%deltcp_tr = cp%mref%roll()
 
       !  - position of contact reference w.r.t. rail origin
-      gd%meta%xcp_rr    = mref_rai%x()
-      gd%meta%ycp_rr    = mref_rai%y()
-      gd%meta%zcp_rr    = mref_rai%z()
-      gd%meta%scp_rr    = cp%sr_ref
-      gd%meta%deltcp_rr = mref_rai%roll()
+      gd%meta%xcp_r     = mref_rai%x()
+      gd%meta%ycp_r     = mref_rai%y()
+      gd%meta%zcp_r     = mref_rai%z()
+      gd%meta%scp_r     = cp%sr_ref
+      gd%meta%deltcp_r  = mref_rai%roll()
 
       !  - position of contact reference w.r.t. wheel origin
-      gd%meta%xcp_rw    = mref_whl%x()
-      gd%meta%ycp_rw    = mref_whl%y()
-      gd%meta%zcp_rw    = mref_whl%z()
-      gd%meta%scp_rw    = sw_ref
-      gd%meta%deltcp_rw = mref_whl%roll()
+      gd%meta%xcp_w    = mref_whl%x()
+      gd%meta%ycp_w    = mref_whl%y()
+      gd%meta%zcp_w    = mref_whl%z()
+      gd%meta%scp_w    = sw_ref
+      gd%meta%deltcp_w = mref_whl%roll()
 
       ! copy control digits, override some of them
 
       gd%ic        = wtd_ic
       gd%ic%norm   = 0
       gd%ic%force3 = 0
+      gd%ic%discns3     = 1
       gd%ic%matfil_surf = 0
 
       ! copy solver settings
@@ -407,7 +405,7 @@ contains
          call fric_interp(fric, gd%potcon%my, cp%curv_incln%vy, gd%fric)
       else
          gd%ic%varfrc = 0
-         call fric_interp(fric, gd%meta%deltcp_rw, gd%fric)
+         call fric_interp(fric, gd%meta%deltcp_w, gd%fric)
       endif
 
       if (idebug.ge.3) then
@@ -511,6 +509,7 @@ contains
       gd%ic%stress = 0
 
       if (idebug.ge.4) call write_log('--- end subroutine wr_setup_cp ---')
+      end associate
 
    end subroutine wr_setup_cp
 
@@ -679,7 +678,7 @@ contains
       type(t_cpatch)    :: cp
 !--local variables:
       type(t_vec)               :: fcntc, tcntc
-      type(t_marker)            :: mrw_trk
+      type(t_marker)            :: mwhl_trk
       type(t_probdata), pointer :: gd
       type(t_rail),     pointer :: my_rail
       type(t_wheel),    pointer :: my_wheel
@@ -709,15 +708,15 @@ contains
       cp%ftrk = cp%mref%rot * fcntc
       tcntc   = cp%mref%rot * tcntc             ! T_@cp(cp) --> T_@cp(tr)
 
-      ! compute moment T_@rr(tr) = (m_cp(tr) - m_rr(tr)) x F_(tr)  +  T_@cp(tr)
+      ! compute moment T_@rr(tr) = (m_cp(tr) - m_r(tr)) x F_(tr)  +  T_@cp(tr)
 
       cp%ttrk = ((cp%mref%o - my_rail%m_trk%o) .cross. cp%ftrk) + tcntc
 
       if (idebug.ge.2) then
-         call marker_print(my_rail%m_trk, 'rr(trk)', 2)
+         call marker_print(my_rail%m_trk, 'r(trk)', 2)
          write(bufout,800) ' result:  F_(tr)=    [',cp%ftrk%x(),',',cp%ftrk%y(),',',cp%ftrk%z(),'].'
          call write_log(1, bufout)
-         write(bufout,800) '          M_@rr(tr)= [',cp%ttrk%x(),',',cp%ttrk%y(),',',cp%ttrk%z(),'].'
+         write(bufout,800) '          M_@r(tr)=  [',cp%ttrk%x(),',',cp%ttrk%y(),',',cp%ttrk%z(),'].'
          call write_log(1, bufout)
       endif
 
@@ -726,18 +725,18 @@ contains
       cp%fws  = ws%m_trk .transp. cp%ftrk
       ! tcntc   = ws%m_trk .transp. tcntc         ! T_@cp(tr) --> T_@cp(ws)
 
-      ! compute moment T_@rw(ws) = R_rw(tr)^T * { (m_rw(tr) - m_cp(tr)) x F_(tr)  +  T_@cp(tr) }
+      ! compute moment T_@w(ws) = R_w(tr)^T * { (m_w(tr) - m_cp(tr)) x F_(tr)  +  T_@cp(tr) }
 
-      mrw_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
+      mwhl_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
 
-      cp%tws  = ws%m_trk .transp. (((cp%mref%o - mrw_trk%o ) .cross. cp%ftrk) + tcntc)
+      cp%tws  = ws%m_trk .transp. (((cp%mref%o - mwhl_trk%o ) .cross. cp%ftrk) + tcntc)
 
       if (idebug.ge.2) then
          call marker_print(ws%m_trk, 'ws(trk)', 2)
-         call marker_print(mrw_trk, 'rw(trk)', 2)
+         call marker_print(mwhl_trk, 'whl(trk)', 2)
          write(bufout,800) '          F_(ws)=    [',cp%fws%x(),',',cp%fws%y(),',',cp%fws%z(),'].'
          call write_log(1, bufout)
-         write(bufout,800) '          M_@rw(ws)= [',cp%tws%x(),',',cp%tws%y(),',',cp%tws%z(),'].'
+         write(bufout,800) '          M_@w(ws)=  [',cp%tws%x(),',',cp%tws%y(),',',cp%tws%z(),'].'
          call write_log(1, bufout)
       endif
 
@@ -754,7 +753,7 @@ contains
 !--local variables:
       integer                   :: icp, ierror
       real(kind=8)              :: sr, xr, yr, zr
-      type(t_vec)               :: xavg_rr, fdir
+      type(t_vec)               :: xavg_r, fdir
 !--pointers to global data items:
       type(t_rail),     pointer :: my_rail
       type(t_cpatch),   pointer :: cp => NULL()
@@ -763,7 +762,7 @@ contains
 
       my_rail     => wtd%trk%rai
 
-      ! accumulate total forces and moments F_(trk), M_@rr(trk), F_(ws) and M_@rw(ws)
+      ! accumulate total forces and moments F_(trk), M_@r(trk), F_(ws) and M_@w(ws)
 
       wtd%ftrk = vec( 0d0, 0d0, 0d0 )
       wtd%ttrk = vec( 0d0, 0d0, 0d0 )
@@ -790,29 +789,29 @@ contains
 
       else
          fdir    =   (my_rail%m_trk .transp. wtd%ftrk) / wtd%ftrk%norm()
-         xavg_rr = -((my_rail%m_trk .transp. wtd%ttrk) .cross. fdir) / (wtd%ftrk%norm())
+         xavg_r = -((my_rail%m_trk .transp. wtd%ttrk) .cross. fdir) / (wtd%ftrk%norm())
 
          if (idebug.ge.3) then
-            call vec_print(fdir, 'fdir(rr)', 2)
-            call vec_print(xavg_rr, 'xavg(rr)', 2)
+            call vec_print(fdir, 'fdir(r)', 2)
+            call vec_print(xavg_r, 'xavg(r)', 2)
          endif
 
          ! shift force in total force direction onto the rail profile
 
-         call spline_get_pt_at_line_oyz(my_rail%prr%grd_data%spl, xavg_rr, fdir, sr, xr, yr, zr, ierror)
-         xavg_rr = vec( xr, yr, zr )
+         call spline_get_pt_at_line_oyz(my_rail%prr%grd_data%spl, xavg_r, fdir, sr, xr, yr, zr, ierror)
+         xavg_r = vec( xr, yr, zr )
 
          if (idebug.ge.2) then
-            call vec_print(xavg_rr, 'xavg(rr)', 2)
+            call vec_print(xavg_r, 'xavg(r)', 2)
          endif
 
          ! compute 'true contact position' in (tr) coordinates
 
-         wtd%xavg = vec_2glob(xavg_rr, my_rail%m_trk)
+         wtd%xavg = vec_2glob(xavg_r, my_rail%m_trk)
 
-         ! compute moment T_@avg(tr) = (m_avg(tr) - m_rr(tr)) x F_(tr)  +  M_@rr(tr)
+         ! compute moment T_@avg(tr) = (m_avg(tr) - m_r(tr)) x F_(tr)  +  M_@r(tr)
 
-         wtd%tavg = -(xavg_rr .cross. wtd%ftrk) + wtd%ttrk
+         wtd%tavg = -(xavg_r .cross. wtd%ftrk) + wtd%ttrk
       endif
 
    end subroutine total_forces_moments

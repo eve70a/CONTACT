@@ -310,7 +310,7 @@ contains
       type(t_ic),      intent(in) :: ic
       type(t_profile), intent(in) :: prw
 
-      use_brute = (ic%discns_eff.eq.5 .or. ic%discns_eff.eq.6 .or. ic%discns_eff.eq.9)
+      use_brute = (ic%discns1_eff.eq.5 .or. ic%discns1_eff.eq.6 .or. ic%discns1_eff.eq.9)
       use_brute = use_brute .or. prw%is_varprof()
 
    end function use_brute

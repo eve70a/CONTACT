@@ -103,7 +103,7 @@ contains
 
       zerror = zerror .or. .not.check_irng ('Control digit V',  ic%varfrc, 0, 1)
       zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp, 0, 4, 6, 6)
-      zerror = zerror .or. .not.check_irng ('Control digit D',  ic%discns_inp, 0, 9)
+      zerror = zerror .or. .not.check_irng ('Control digit D',  ic%discns1_inp, 0, 9)
       zerror = zerror .or. .not.check_irng ('gap weighting',    ic%gapwgt, 0, 2)
       zerror = zerror .or. .not.check_irng ('Control digit C3', ic%gencr_inp , 0, 4)
       zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater , 0, 4)
@@ -159,10 +159,10 @@ contains
  2002    format (' Input: ERROR. In the first case L must be.ne.1',/, ' Digit L=', i3)
       endif
 
-      if (ncase.eq.1 .and. ic%discns_inp.eq.0) then
+      if (ncase.eq.1 .and. ic%discns1_inp.eq.0) then
          zerror = .true.
-         write(lout, 2003) ic%discns_inp
-         write(   *, 2003) ic%discns_inp
+         write(lout, 2003) ic%discns1_inp
+         write(   *, 2003) ic%discns1_inp
  2003    format (' Input: ERROR. In the first case D must be.ne.0',/, ' Digit D=', i3)
       endif
 
@@ -205,10 +205,10 @@ contains
  2010    format (' Input: WARNING. Module 1 requires new influence functions, setting C3 :=', i3)
       endif
 
-      if (ic%discns_inp.ne.0 .and. ic%gencr_inp.eq.0) then
+      if (ic%discns1_inp.ne.0 .and. ic%gencr_inp.eq.0) then
          zerror = .true.
-         write(lout, 2011) ic%discns_inp, ic%gencr_inp
-         write(   *, 2011) ic%discns_inp, ic%gencr_inp
+         write(lout, 2011) ic%discns1_inp, ic%gencr_inp
+         write(   *, 2011) ic%discns1_inp, ic%gencr_inp
  2011    format (' Input: ERROR. A new discretisation needs new influence functions'/, &
                 ' Digits D, C3=', 2i3)
       endif
@@ -299,7 +299,7 @@ contains
 
       ! Copy the effective D-digit
 
-      if (ic%discns_inp.ge.2) ic%discns_eff = ic%discns_inp
+      if (ic%discns1_inp.ge.2) ic%discns1_eff = ic%discns1_inp
 
       ! Copy the B- and M-digits to the material parameter data
 
@@ -599,7 +599,7 @@ contains
       ! Read input for D-digit: potential contact, discretisation parameters
       !------------------------------------------------------------------------------------------------------
 
-      if (ic%discns_inp.ge.2 .and. ic%discns_inp.le.9) then
+      if (ic%discns1_inp.ge.2 .and. ic%discns1_inp.le.9) then
 
          call readline(linp, ncase, linenr, 'discretisation parameters', 'dddaddD', ints, dbles,        &
                         flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
@@ -770,7 +770,7 @@ contains
          call profile_read_file(ws%whl%prw, meta%dirnam, 1, ic%x_profil, ic%x_readln, lstop)
          zerror = zerror .or. (ws%whl%prw%ierror.ne.0)
 
-         if (.false. .and. ic%discns_eff.eq.5) then
+         if (.false. .and. ic%discns1_eff.eq.5) then
             call write_log(' D=5: converting wheel to variable profile...')
             call profile_make_varprof(ws%whl%prw, 1, ic%x_profil)
          endif
@@ -1014,7 +1014,7 @@ contains
 
       ! write information needed for the grid discretization
 
-      if (ic%discns_inp.ge.2 .and. ic%discns_inp.le.9) then
+      if (ic%discns1_inp.ge.2 .and. ic%discns1_inp.le.9) then
          ! write dist_turn only if different from default value
          dflt_turn = 2d0 * discr%dist_sep - 1d0 * discr%dist_comb
          if (abs(discr%dist_turn-dflt_turn).le.1d-3) then

@@ -65,10 +65,10 @@ contains
          write(lout, 8000)
          write(lout, 8001) ic%pvtime, ic%bound, ic%tang, ic%norm, ic%force3, ic%stress
          if (ic%varfrc.eq.0) then
-            write(lout, 8002) ic%frclaw_inp, ic%discns_inp, ic%gencr_inp, ic%mater, ic%rznorm, ic%rztang
+            write(lout, 8002) ic%frclaw_inp, ic%discns3, ic%gencr_inp, ic%mater, ic%rznorm, ic%rztang
          else
-            write(lout, 8003) ic%varfrc, ic%frclaw_inp, ic%discns_inp, ic%gencr_inp, ic%mater, &
-                                ic%rznorm, ic%rztang
+            write(lout, 8003) ic%varfrc, ic%frclaw_inp, ic%discns3, ic%gencr_inp, ic%mater, ic%rznorm,  &
+                        ic%rztang
          endif
          write(lout, 8004) ic%heat, ic%gausei_inp, ic%iestim, ic%matfil_surf, ic%output_surf,           &
                                 ic%flow, ic%return
@@ -809,15 +809,15 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
       ! 1: write comment and meta-data. Last column: fmtmat, version number of mat-file
 
       write(lmat,101, err=998) ('  -', j=8,ncol-1), 'FMT'
-      write(lmat,102) meta%tim, meta%s_ws, meta%th_ws, sgn*meta%y_rr, meta%z_rr, sgn*meta%rollrr,       &
+      write(lmat,102) meta%tim, meta%s_ws, meta%th_ws, sgn*meta%y_r, meta%z_r, sgn*meta%roll_r,         &
                 meta%rnom_rol, (0, j=8,ncol-1), fmtmat
  101  format('%  TIM',11x, 'S_WS(FC)',6x, 'TH_WS(FC)',5x, 'Y_R(TR)',7x, 'Z_R(TR)',7x, 'ROLL_R(TR)',4x,  &
                 'RNOM_ROL',6x, 10(a3,:,11x))
  102  format(7g14.6, 20(i6,:,8x))
 
       write(lmat,103, err=998) ('  -', j=8,ncol)
-      write(lmat,104) meta%x_rw, sgn*meta%y_rw, meta%z_rw, sgn*meta%rollrw, sgn*meta%yawrw,             &
-                meta%rnom_whl, (0d0, j=7,ncol)
+      write(lmat,104) meta%x_w, sgn*meta%y_w, meta%z_w, sgn*meta%roll_w, sgn*meta%yaw_w, meta%rnom_whl, &
+                (0d0, j=7,ncol)
  103  format('%  X_W(TR)',7x, 'Y_W(TR)',7x, 'Z_W(TR)',7x, 'ROLL_W(TR)',4x, 'YAW_W(TR)',5x,              &
                 'RNOM_WHL',6x, 10(a3,:,11x))
  104  format(6g14.6, 20g14.6)
@@ -825,9 +825,9 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
       ! 2: write comment and contact position
 
       write(lmat,105, err=998) ('-', j=10,ncol)
-      write(lmat,106) meta%xcp_rr, sgn*meta%ycp_rr, meta%zcp_rr, sgn*meta%deltcp_rr, meta%xcp_rw,       &
-                sgn*meta%ycp_rw, meta%zcp_rw, meta%npatch, meta%ipatch, &
-                (0., j=10,ncol)
+      write(lmat,106) meta%xcp_r, sgn*meta%ycp_r, meta%zcp_r, sgn*meta%deltcp_r, meta%xcp_w,            &
+                sgn*meta%ycp_w, meta%zcp_w, meta%npatch, meta%ipatch, meta%xo_spin, meta%yo_spin,     &
+                (0., j=12,ncol)
  105  format('%  X_CP(R)',7x, 'Y_CP(R)',7x, 'Z_CP(R)',7x, 'DELT_CP(R)',4x, 'X_CP(W)',7x, 'Y_CP(W)',7x,  &
                 'Z_CP(W)',7x, 'NPATCH',8x, 'IPATCH',8x, 20(a3,:,11x))
  106  format(7g14.6, 2(i6,8x), 20g14.6)
@@ -838,7 +838,7 @@ subroutine writmt (meta, ic, cgrid, xl, yl_arg, hs, mater, fric, kin, outpt1, mi
       if (mirror_y) yl = -(yl + cgrid%ny * cgrid%dy)
       write(lmat,121, err=998) ('-', j=12,ncol)
       write(lmat,122) cgrid%nx, cgrid%ny, xl, yl, cgrid%dx, cgrid%dy, kin%chi, kin%dq, ic%config,       &
-                ic%discns_eff, meta%ynom_whl, (0., j=12,ncol)
+                ic%discns1_eff, meta%ynom_whl, (0., j=12,ncol)
  121  format('%   MX',4x, 'MY',5x, 'XL',12x, 'YL',12x, 'DX',12x, 'DY',12x, 'CHI',11x, 'DQ',12x,          &
                 'C1',12x, 'D',13x, 'YNOM_WHL',5x, 20(a3,:,11x))
  122  format(i7,1x,i4,2x, 6g14.6, 2(i6,8x), 20g14.6)

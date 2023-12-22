@@ -37,7 +37,7 @@ contains
 
       if (idebug.ge.2) call write_log(' --- Start subroutine wr_rigid_slip ---')
 
-      use_creep_cref = (ic%discns_eff.le.2 .or. (ic%discns_eff.ge.5 .and. ic%discns_eff.le.9))
+      use_creep_cref = (ic%discns1_eff.le.2 .or. (ic%discns1_eff.ge.5 .and. ic%discns1_eff.le.9))
 
       ! compute the rigid slip according to the method of choice
 
@@ -443,7 +443,7 @@ contains
       if (idebug.ge.2) then
          if (project_on_cref) then
             call write_log(' computing rigid slip with projection on contact reference plane')
-         elseif (ic%discns_eff.le.3) then
+         elseif (ic%discns1_eff.le.3) then
             call write_log(' planar contact, with rigid slip on actual surfaces in planar (s,n)')
          elseif (ic%is_conformal()) then
             call write_log(' conformal contact, with rigid slip on actual surfaces, curved (s,n)')
