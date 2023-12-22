@@ -29,12 +29,13 @@ contains
 !--local variables:
       integer, parameter       :: idebug = 0
       logical      :: znewln, is_roll, is_ssrol, use_plast
-      integer      :: icp, i, j, ii, iin, iout, iy0, iy1, ii0, ii1, lstrow, ncon, nadh, nslip,          &
-                      nplast, nexter, ic_discns, is_right
+      integer      :: icp, icpo, n_old, i, j, ii, iin, iout, iy0, iy1, ii0, ii1, lstrow, ncon, nadh,    &
+                      nslip, nplast, nexter, ic_discns, is_right
       real(kind=8) :: def_turn, hmp, ptabs, ptarg, rhsx, rhsy, fxtru1, fytru1, sgn, rdum(20),           &
                       sc0, sc1, delt0, delt1, tmp1mx, tmp2mx, fac_in(nsens_in), fac_out(nsens_out)
       character(len= 9) :: str_muscal
       character(len=20) :: strng(max(20, nsens_in*nsens_out))
+      character(len=80) :: str_prev
       type(t_marker)    :: whl_trk
       type(t_grid)      :: prr_glb, prw_glb
 !--pointers to global data items:
@@ -382,8 +383,22 @@ contains
                    hs1    => gd%geom%hs1,     subs   => gd%subs )
 
          if (ic%output_surf.ge.1 .and. out_open.eq.1) then
-            write(lout, 6000) icp
+            n_old = 0
+            do icpo = 1, MAX_NUM_CPS
+               if (cp%prev_icp(icpo).ge.1) n_old = n_old + 1
+            enddo
+            if (n_old.le.0) then
+               str_prev = 'NEW PATCH'
+            else
+               write(str_prev, '(a,10(i3,:,'',''))') 'PREV', (cp%prev_icp(icpo), icpo=1,n_old)
+            endif
+            if (ic%pvtime.eq.2 .and. ic%iestim.eq.0) then
+               write(lout, 6000) icp                    ! no sequence, no initial estimate
+            else
+               write(lout, 6001) icp, trim(str_prev)    ! sequence or initial estimate used
+            endif
  6000       format(/,' ----- DATA FOR CONTACT PATCH',i3,' -----',/)
+ 6001       format(/,' ----- DATA FOR CONTACT PATCH',i3,' (',a,') -----',/)
          endif
 
          ! Print additional input data for the contact patch if "output" >= 2.

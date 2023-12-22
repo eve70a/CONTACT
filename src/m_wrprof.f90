@@ -41,9 +41,12 @@ contains
          wtd%meta%ncase = wtd%meta%ncase + 1
          lfirst = .false.
 
-         write(bufout,1001) wtd%meta%ncase
+         if (wtd%meta%ncase.le.99999) then
+            write(bufout,'(/,a,i6)') ' Case',wtd%meta%ncase
+         else
+            write(bufout,'(/,a,i8)') ' Case',wtd%meta%ncase
+         endif
          call write_log(2, bufout)
- 1001    format (/' Case',i6)
 
          ! read and test new input quantities
 

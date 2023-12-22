@@ -751,14 +751,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_ic_pvtime) then         ! set P-digit in the RE-CP-data
 
-         if (imodul.eq.1 .and. values(i).ne.2) then
-            write(bufout,'(a,i3,a)') 'ERROR: module 1 does not support PVTIME =', values(i),            &
-                ', setting PVTIME := 2'
-            call write_log(1, bufout)
-            my_ic%pvtime = 2
-         else
             my_ic%pvtime = max(0, min(3, values(i)))
-         endif
 
       elseif (params(i).eq.CNTC_ic_bound) then          ! set B-digit in the RE-CP-data
 
@@ -3281,8 +3274,10 @@ subroutine cntc_setWheelsetVelocity(ire, ewheel, nparam, params) &
 !--function: set the wheelset velocity data for a wheel-rail contact problem
 !      1: no new wheelset velocity    params = [ ]
 !    2-5:    new wheelset velocity    params = [ vx, vy, vz, vroll, vyaw, vpitch ]
-!       vx, vy, vz : [veloc]     vroll, vyaw, vpitch : [ang.veloc]
-!       z_ws is ignored when N=1. vx is replaced by rpitch when C1=4,5.
+!            for roller-rigs vx is replaced by rpitch (C1=4,5)
+!            position increments v * dt are used in transient shifts (T=1)
+!       vx, vy, vz    : [veloc]   vroll, vyaw, vpitch, rpitch  : [ang.veloc]
+!       shft_sws--zws : [length]  shft_rol, shft_yaw, shft_pit : [angle]
 !--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
    implicit none
 !--subroutine arguments:

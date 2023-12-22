@@ -235,7 +235,7 @@ program test_varprof
 
    elseif (trim(f_expnam).eq.'cw_interrupt') then
 
-      flags(1) = CNTC_ic_discns ; values(1) = 5             ! D=2: contact locus method (default)
+      flags(1) = CNTC_ic_discns ; values(1) = 2             ! D=2: contact locus method (default)
       call cntc_setFlags(iwhe, icp, 1, flags, values)
 
       ! set grid discretization
@@ -591,7 +591,7 @@ program test_varprof
    ! set wheel profile
 
    if     (trim(f_expnam).eq.'chalmers_flat_fz125') then
-      f_fname   = '../profiles/S1002_flat.slcw'
+      f_fname   = '../../examples/S1002_flat.slcw'
       smooth    = 5d0     ! lambda smoothing
    elseif (trim(f_expnam).eq.'rounded_flat_d09') then
       f_fname   = '../profiles/flat_d09.slcw'
@@ -620,6 +620,13 @@ program test_varprof
       if (nrep.gt.1) write(*,*) ' starting repetition irep=',irep,' of',nrep
    
       do icase = 1, ncase
+
+         ! adjust discretisation settings for cw_interrupt
+
+         if (icase.eq.2 .and. trim(f_expnam).eq.'cw_interrupt') then
+            flags(1) = CNTC_ic_discns ; values(1) = 5          ! D=5: brute force method
+            call cntc_setFlags(iwhe, icp, 1, flags, values)
+         endif
 
          ! set wheelset position & velocity
 

@@ -44,7 +44,7 @@ contains
       real(kind=8)            :: rmin, rmax, th_min, th_max, dth, v_min, v_max, dv
       real(kind=8),   dimension(:), allocatable :: u_out, v_out
       type(t_vec)             :: vtmp(4)
-      type(t_marker)          :: mwhl_trk, rail_mref, whl_mref, mcp_whl, mcp_rail
+      type(t_marker)          :: mwhl_trk, mrai_pot, mwhl_pot, mpot_whl, mpot_rail
       type(t_grid)            :: rail_sn_full, rail_sn, bbr, bbc
       type(t_grid)            :: prw_trim, whl_srfw_full, whl_srfw, bbw
       character(len=20)       :: tmp_fname
@@ -69,15 +69,15 @@ contains
          call write_log(1, bufout)
       endif
 
-      ! 1. determine rail surface (x,s,n)_(cp) on potential contact grid
+      ! 1. determine rail surface (x,s,n)_(pot) on potential contact grid
 
       if (is_prismatic .or. my_rail%prr%is_varprof()) then
 
-         !  - mcp_rail: contact marker in terms of rail coordinates
+         !  - mpot_rail: pot.con marker in terms of rail coordinates
     
-         mcp_rail = marker_2loc(cp%mref, my_rail%m_trk)
-         if (is_prismatic) mcp_rail%o%v(1) = 0d0
-         if (idebug.ge.4) call marker_print(mcp_rail, 'm_cp(r)',  2)
+         mpot_rail = marker_2loc(cp%mpot, my_rail%m_trk)
+         if (is_prismatic) mpot_rail%o%v(1) = 0d0
+         if (idebug.ge.4) call marker_print(mpot_rail, 'm_pot(r)',  2)
       
          ! define planar contact (x,sp)-positions in rail_srfc
     
@@ -86,7 +86,7 @@ contains
          ! conformal approach: cgrid has curved sc-coordinates, convert to sp.
 
          if (ic%is_conformal()) then
-            call curved_sc_to_planar_sp(cp%mref, rail_srfc, cp%curv_ref, idebug)
+            call curved_sc_to_planar_sp(cp%mpot, rail_srfc, cp%curv_ref, idebug)
          endif
 
          if (is_prismatic) then
@@ -94,7 +94,7 @@ contains
             ! convert and evaluate input rail profile 'prr_grd' at contact grid (x,s) coordinates
             ! evaluate local z values at local y values
 
-            call spline_get_loc_xz_at_y( my_rail%prr%grd_data%spl, mcp_rail, rail_srfc, ierror )
+            call spline_get_loc_xz_at_y( my_rail%prr%grd_data%spl, mpot_rail, rail_srfc, ierror )
 
             ! call grid_print(rail_srfc, 'rail_srfc', 5)
 
@@ -106,7 +106,7 @@ contains
 
             ! call write_log(' varprof_get_loc_z_at_xy...')
             ! call varprof_set_debug(5)
-            call varprof_get_loc_z_at_xy( my_rail%prr, ws%s, mcp_rail, rail_srfc, ierror )
+            call varprof_get_loc_z_at_xy( my_rail%prr, ws%s, mpot_rail, rail_srfc, ierror )
             call varprof_set_debug(0)
 
             ! call grid_print(rail_srfc, 'rail_srfc', 5)
@@ -116,19 +116,19 @@ contains
 
       if (ic%is_roller()) then
 
-         ! convert input rail profile 'prr_grd' to planar contact reference coordinates
-         !  1. form rail profile 'rail_sn' in planar contact reference (s,n) coordinates
+         ! convert input rail profile 'prr_grd' to planar pot.contact coordinates
+         !  1. form rail profile 'rail_sn' in planar pot.contact (s,n) coordinates
 
          ! determine the xtr-positions of the contact grid
 
          dx_cp = cgrid%dx
-         nxlow = nint( (cp%mref%x() - cp%xsta) / dx_cp ) + 1
-         nxhig = nint( (cp%xend - cp%mref%x()) / dx_cp ) + 1
+         nxlow = nint( (cp%mpot%x() - cp%xsta) / dx_cp ) + 1
+         nxhig = nint( (cp%xend - cp%mpot%x()) / dx_cp ) + 1
          nx    = nxlow + nxhig + 1
-         xtr_sta = cp%mref%x() - nxlow * dx_cp
+         xtr_sta = cp%mpot%x() - nxlow * dx_cp
 
          if (idebug.ge.3) then
-            write(bufout,'(3(a,f12.6),a)') ' cref%x(tr)=',cp%mref%x(),', c.grid has x(tr) in [',        &
+            write(bufout,'(3(a,f12.6),a)') ' cref%x(tr)=',cp%mpot%x(),', c.grid has x(tr) in [',        &
                         cp%xsta, ',', cp%xend,']'
             call write_log(1,bufout)
          endif
@@ -140,22 +140,22 @@ contains
          z_axle = trk%nom_radius
          call grid_revolve_profile(my_rail%prr%grd_data, nx, xtr_sta, dx_cp, z_axle, 999d0, rail_sn_full)
 
-         !  - rail_mref: rail marker in terms of contact reference coordinates, ignoring x-position
+         !  - mrai_pot: rail marker in terms of pot.contact coordinates, ignoring x-position
     
-         rail_mref = marker_2loc(my_rail%m_trk, cp%mref)
+         mrai_pot = marker_2loc(my_rail%m_trk, cp%mpot)
     
          if (idebug.ge.4) then
             call marker_print(my_rail%m_trk, 'm_rail(trk)', 2)
-            call marker_print(cp%mref,       'm_cp(trk)',   2)
-            call marker_print(rail_mref,     'm_rail(cp)',  2)
+            call marker_print(cp%mpot,       'm_pot(trk)',  2)
+            call marker_print(mrai_pot,      'm_rail(pot)', 2)
          endif
       
          ! call grid_print(rail_sn_full,'rail_sn_full',5)
-         call cartgrid_2glob(rail_sn_full, rail_mref)
+         call cartgrid_2glob(rail_sn_full, mrai_pot)
     
          if (idebug.ge.7) then
-            call write_log('rail surface in contact-coordinates:')
-            call grid_print(rail_sn_full, 'rail_sn_full(cp)', 5)
+            call write_log('rail surface in pot.contact-coordinates:')
+            call grid_print(rail_sn_full, 'rail_sn_full(pot)', 5)
          endif
     
          ! create trimmed grid to avoid multi-valued function at large rotation angles
@@ -172,8 +172,8 @@ contains
          call trim_rail_mesh (rail_sn_full, smin, smax, ds, rail_sn, idebug)
     
          if (idebug.ge.3) then
-            call write_log('rail surface in contact-coordinates:')
-            call grid_print(rail_sn, 'rail_sn(cp)', 5)
+            call write_log('rail surface in pot.contact-coordinates:')
+            call grid_print(rail_sn, 'rail_sn(pot)', 5)
          endif
     
          ! define planar contact (x,sp)-positions in rail_srfc
@@ -182,7 +182,7 @@ contains
 
          if (ic%is_conformal()) then
             ! conformal approach: gd%grid has curved sc-coordinates, convert to sp.
-            call curved_sc_to_planar_sp(cp%mref, rail_srfc, cp%curv_ref, idebug)
+            call curved_sc_to_planar_sp(cp%mpot, rail_srfc, cp%curv_ref, idebug)
          endif
     
          ! interpolate rail height 'n' from surface rail_sn to the contact grid sp-locations in rail_srfc
@@ -219,15 +219,15 @@ contains
 
             if (idebug.ge.7) then
                call grid_print(rail_sn, 'rail_sn', 5)
-               call grid_print(rail_srfc, 'rail_srfc(cp)', 5)
+               call grid_print(rail_srfc, 'rail_srfc(pot)', 5)
             endif
          endif
 
       endif ! is_roller
 
       if (idebug.ge.7) then
-         call write_log('interpolated to contact-grid:')
-         call grid_print(rail_srfc, 'rail_srfc(cp)', 5)
+         call write_log('interpolated to pot.contact-grid:')
+         call grid_print(rail_srfc, 'rail_srfc(pot)', 5)
       endif
     
       if (idebug.ge.6) then
@@ -241,25 +241,25 @@ contains
 
       !  2. compute the extent of the potential contact area in wheel-set coordinates
 
-      ! express contact reference in terms of wheel profile coordinates
+      ! express pot.contact reference in terms of wheel profile coordinates
 
       mwhl_trk  = marker_2glob( my_wheel%m_ws, ws%m_trk )
-      mcp_whl   = marker_2loc( cp%mref, mwhl_trk )
+      mpot_whl   = marker_2loc( cp%mpot, mwhl_trk )
 
       if (idebug.ge.2) then
-         call write_log(' contact reference position w.r.t. O_trk')
-         call marker_print(cp%mref, 'm_cp(trk)', 5)
-         call write_log(' contact reference position w.r.t. O_rw')
-         call marker_print(mcp_whl, 'm_cp(w)',   5)
+         call write_log(' pot.contact origin w.r.t. O_trk')
+         call marker_print(cp%mpot, 'm_pot(trk)', 5)
+         call write_log(' pot.contact origin w.r.t. O_whl')
+         call marker_print(mpot_whl,  'm_pot(whl)',  5)
       endif
 
       ! the potential contact area is at [xsta,xend] x [ysta,yend] in track coordinates
 
-      zsta = cp%mref%z() + cp%sp_sta * sin(cp%delttr)
-      zend = cp%mref%z() + cp%sp_end * sin(cp%delttr)
+      zsta = cp%mpot%z() + cp%sp_sta * sin(cp%delttr)
+      zend = cp%mpot%z() + cp%sp_end * sin(cp%delttr)
 
       if (idebug.ge.2) then
-         write(bufout,'(5(a,:,f12.6))') ' zsta=',cp%mref%z(),' + ',cp%sp_sta, ' * sin(',cp%delttr,')'
+         write(bufout,'(5(a,:,f12.6))') ' zsta=',cp%mpot%z(),' + ',cp%sp_sta, ' * sin(',cp%delttr,')'
          call write_log(1, bufout)
          call write_log(' potential contact area w.r.t. O_trk')
          write(bufout,'(2(a,f12.6),a)') '     x(tr) = [',cp%xsta,'--',cp%xend,']'
@@ -287,9 +287,9 @@ contains
       if (idebug.ge.2) then
 
          call write_log(' potential contact area w.r.t. O_whl')
-         write(bufout,'(3(a,f12.6))')   '     x(whl) = [',xmin,'--',xmax,'] on wheel, pot at ', mcp_whl%x()
+         write(bufout,'(3(a,f12.6))')   '     x(whl) = [',xmin,'--',xmax,'] on wheel, pot at ', mpot_whl%x()
          call write_log(1, bufout)
-         write(bufout,'(3(a,f12.6))')   '     y(whl) = [',ymin,'--',ymax,'] on wheel, pot at ', mcp_whl%y()
+         write(bufout,'(3(a,f12.6))')   '     y(whl) = [',ymin,'--',ymax,'] on wheel, pot at ', mpot_whl%y()
          call write_log(1, bufout)
          write(bufout,'(2(a,f12.6),a)') '     z(whl) = [',zmin,'--',zmax,']'
          call write_log(1, bufout)
@@ -311,7 +311,7 @@ contains
             ! call grid_print(prw_grd, 'prw_grd', 5)
             ! call spline_set_debug(4)
             call spline_get_s_at_y( prw_grd%spl, ymin,        swsta, ierror )
-            call spline_get_s_at_y( prw_grd%spl, mcp_whl%y(), swmid, ierror )
+            call spline_get_s_at_y( prw_grd%spl, mpot_whl%y(), swmid, ierror )
             call spline_get_s_at_y( prw_grd%spl, ymax,        swend, ierror )
             ! call spline_set_debug(0)
          else
@@ -324,7 +324,7 @@ contains
 
          if (idebug.ge.2) then
             write(bufout,'(3(a,f12.6))') ' pot.contact  y(whl) = [',ymin ,'--',ymax ,'] on wheel, mid=', &
-                   mcp_whl%y()
+                   mpot_whl%y()
             call write_log(1, bufout)
             write(bufout,'(3(a,f12.6))') ' search range s(whl) = [',swsta,'--',swend,'] on wheel, mid=',swmid
             call write_log(1, bufout)
@@ -335,14 +335,14 @@ contains
          call trim_wheel_profile(prw_grd, swsta, swmid, swend, cgrid%dy, prw_trim, idebug)
          end associate
 
-         ! round to grid with step of dx centered at contact reference (should still encompass pot.contact?)
+         ! round to grid with step of dx centered at m_pot (should still encompass pot.contact?)
          !  - define grid with xslc(i') = cp%x + i' * dx , for i' = -nslow : nshig
 
          dx_cp = cgrid%dx
-         nslow = nint(  (mcp_whl%x() - xmin) / dx_cp )
-         nshig = nint(  (xmax - mcp_whl%x()) / dx_cp )
+         nslow = nint(  (mpot_whl%x() - xmin) / dx_cp )
+         nshig = nint(  (xmax - mpot_whl%x()) / dx_cp )
          nslc  = nslow + nshig + 1
-         xslc1 = mcp_whl%x() - nslow * dx_cp
+         xslc1 = mpot_whl%x() - nslow * dx_cp
 
          !  3. form wheel mesh in wheel-set coordinates using nslc slices, with resolution dx
    
@@ -467,26 +467,26 @@ contains
 
       endif ! my_wheel%prw%is_varprof()
 
-      ! express wheel profile marker in terms of contact reference coordinates
+      ! express wheel profile marker in terms of pot.contact coordinates
 
       mwhl_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
-      whl_mref = marker_2loc( mwhl_trk, cp%mref )
+      mwhl_pot = marker_2loc( mwhl_trk, cp%mpot )
 
-      ! 4. convert wheel surface from wheel profile coordinates to planar contact coordinates
+      ! 4. convert wheel surface from wheel profile coordinates to planar pot.contact coordinates
 
       ! call grid_print(whl_srfw_full, 'curv', 5)
-      call cartgrid_2glob( whl_srfw_full, whl_mref )
+      call cartgrid_2glob( whl_srfw_full, mwhl_pot )
 
       ! TODO: create trimmed grid to avoid multi-valued function at large rotation angles
 
       call grid_copy(whl_srfw_full, whl_srfw)
       ! call grid_print(whl_srfw, 'whl', 5)
 
-      ! copy the rail mesh containing the [x,sp]-points of the contact grid
+      ! copy the rail mesh containing the [x,sp]-points of the pot.contact grid
 
       call grid_copy(rail_srfc, whl_srfc)
 
-      ! 5. interpolate the wheel n-coordinates to the [x,sp]-points of the contact grid
+      ! 5. interpolate the wheel n-coordinates to the [x,sp]-points of the pot.contact grid
 
       use_bicubic = (.true. .and. my_wheel%prw%is_varprof())
       ! call interp_set_debug(3, 1, 1)
@@ -523,9 +523,9 @@ contains
 
          if (idebug.ge.4) then
             call write_log(' Data input to interpolation:')
-            call grid_print(whl_srfw, 'whl_srfw(cp)', 5)
+            call grid_print(whl_srfw, 'whl_srfw(pot)', 5)
             call write_log(' Interpolation result:')
-            call grid_print(whl_srfc, 'whl_srfc(cp)', 5)
+            call grid_print(whl_srfc, 'whl_srfc(pot)', 5)
          endif
       endif
 
@@ -539,7 +539,7 @@ contains
          enddo
       endif
 
-      ! the rail and wheel meshes are both computed on the planar potential contact grid
+      ! the rail and wheel meshes are both computed on the planar pot.contact grid
 
       ! 6. subtract rail - wheel to get the gap, negative == interpenetration
 
@@ -655,16 +655,16 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine curved_sc_to_planar_sp (mref, cgrid, curv_ref, idebug)
+   subroutine curved_sc_to_planar_sp (mpot, cgrid, curv_ref, idebug)
 !--purpose: convert curved sc-coordinates in cgrid to planar sp-coordinates
       implicit none
 !--subroutine arguments:
       integer                   :: idebug
-      type(t_marker)            :: mref
+      type(t_marker)            :: mpot
       type(t_grid)              :: cgrid, curv_ref
 !--local variables:
       integer                   :: ix, iy, ii
-      type(t_grid)              :: csrf_cp
+      type(t_grid)              :: csrf_pot
 
       if (cgrid%ny.ne.curv_ref%ny) then
          write(bufout,'(a,2i5)') ' Internal ERROR: curved_to_planar: grids dont match, ny=', cgrid%ny,  &
@@ -673,16 +673,16 @@ contains
          call abort_run()
       endif
 
-      ! input curv_ref is given in trk-coordinates. Copy and convert to planar cp-coords
+      ! input curv_ref is given in trk-coordinates. Copy and convert to planar pot.con-coords
 
-      call grid_copy(curv_ref, csrf_cp)
-      call cartgrid_2loc(csrf_cp, mref)
+      call grid_copy(curv_ref, csrf_pot)
+      call cartgrid_2loc(csrf_pot, mpot)
 
       if (idebug.ge.2) call write_log(' converting sc-coordinates of contact grid to sp-values')
       if (idebug.ge.3) then
          do iy = 1, cgrid%ny
             ii = 1 + (iy-1) * cgrid%nx
-            write(bufout,'(a,i3,2(a,f12.4))') ' iy=',iy,': sc=',cgrid%y(ii),' - sp=',csrf_cp%y(iy)
+            write(bufout,'(a,i3,2(a,f12.4))') ' iy=',iy,': sc=',cgrid%y(ii),' - sp=',csrf_pot%y(iy)
             call write_log(1, bufout)
          enddo
       endif
@@ -692,7 +692,7 @@ contains
       do iy = 1, cgrid%ny
          do ix = 1, cgrid%nx
             ii = ix + (iy-1) * cgrid%nx
-            cgrid%y(ii) = csrf_cp%y(iy)
+            cgrid%y(ii) = csrf_pot%y(iy)
          enddo
       enddo
 
@@ -701,7 +701,7 @@ contains
       cgrid%is_uniform  = .false.
       cgrid%is_curvilin = .true.
 
-      call grid_destroy(csrf_cp)
+      call grid_destroy(csrf_pot)
 
    end subroutine curved_sc_to_planar_sp
 

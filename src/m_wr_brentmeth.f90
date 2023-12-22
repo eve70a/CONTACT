@@ -789,7 +789,7 @@ contains
 
             x_new = its%x_b - its%r_b / dfx_dx
             if (idebug_br.ge.3) then
-               write(bufout,'(a,g12.4,10x,a,f12.4)') ' dfx_dx=', dfx_dx,                                &
+               write(bufout,'(a,g12.4,10x,a,f12.6)') ' dfx_dx=', dfx_dx,                                &
                                       ', secant method: x_new =', x_new
                call write_log(1, bufout)
             endif
@@ -800,7 +800,7 @@ contains
 
             x_new = its%x_b - its%r_b * (its%x_b-its%x_c) / (its%r_b-its%r_c)
             if (idebug_br.ge.3) then
-               write(bufout,'(a,2g12.4,a,f12.4)') ' dfk=', abs(its%r_a-its%r_c), abs(its%r_b-its%r_c),  &
+               write(bufout,'(a,2g12.4,a,f12.6)') ' dfk=', abs(its%r_a-its%r_c), abs(its%r_b-its%r_c),  &
                                       ', secant method: x_new =', x_new
                call write_log(1, bufout)
             endif
@@ -825,20 +825,20 @@ contains
 
          if (idebug_br.ge.4) then
             if (ztest(1)) then
-               write(bufout,*) ' 1: x_new=',x_new,' not in [', (3d0*its%x_a+its%x_b)/4d0, ',', its%x_b, ']'
+               write(bufout,*) ' 1: |x_new=',x_new,' not in [', (3d0*its%x_a+its%x_b)/4d0, ',', its%x_b, ']'
                call write_log(1, bufout)
             elseif (ztest(2)) then
                ! call brent_its_print(k, its, ic, idebug_br+2)
-               write(bufout,*) ' 2: x_new-its%x_b=',x_new-its%x_b,' >= ', 0.5d0*abs(its%x_k-its%x_km1)
+               write(bufout,*) ' 2: |x_new-its%x_b|=',abs(x_new-its%x_b),' >= ',0.5d0*abs(its%x_k-its%x_km1)
                call write_log(1, bufout)
             elseif (ztest(3)) then
-               write(bufout,*) ' 3: x_new-its%x_b=',x_new-its%x_b,' >= ', 0.5d0*abs(its%x_km1-its%x_km2)
+               write(bufout,*) ' 3: |x_new-its%x_b|=',abs(x_new-its%x_b),' >= ',0.5d0*abs(its%x_km1-its%x_km2)
                call write_log(1, bufout)
             elseif (ztest(4)) then
-               write(bufout,*) ' 4: x_k  -its%x_km1=',its%x_k  -its%x_km1,' <= tol=', tol_xk
+               write(bufout,*) ' 4: |x_k  -its%x_km1|=',abs(its%x_k  -its%x_km1),' <= tol=', tol_xk
                call write_log(1, bufout)
             elseif (ztest(5)) then
-               write(bufout,*) ' 5: x_km1-its%x_km2=',its%x_km1-its%x_km2,' <= tol=', tol_xk
+               write(bufout,*) ' 5: |x_km1-its%x_km2|=',abs(its%x_km1-its%x_km2),' <= tol=', tol_xk
                call write_log(1, bufout)
             endif
          endif

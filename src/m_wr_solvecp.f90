@@ -110,7 +110,12 @@ contains
       ! locate the contact patch(es), set potential contact areas
 
       if (my_ierror.eq.0) then
-         call wr_locatecp(wtd%ic, wtd%ws, wtd%trk, wtd%discr, wtd%numcps, wtd%allcps, x_locate, sub_ierror)
+         if (wtd%ic%x_force.ge.1) then
+            write(bufout,'(a,f9.4)') ' z_ws=',wtd%ws%z
+            call write_log(1, bufout)
+         endif
+         call wr_locatecp(wtd%meta, wtd%ic, wtd%ws, wtd%trk, wtd%discr, wtd%numcps, wtd%numtot,         &
+                        wtd%allcps, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
       endif
 
@@ -118,6 +123,11 @@ contains
 
       if (my_ierror.eq.0) then
          do icp = 1, wtd%numcps
+            if (.not.associated(wtd%allcps(icp)%cp)) then
+               write(bufout,'(a,i3,a)') ' Internal error: allcps(',icp,') not associated.'
+               call write_log(1, bufout)
+               call abort_run()
+            endif
             associate( cp => wtd%allcps(icp)%cp )
             call wr_setup_cp(wtd%meta, wtd%ws, wtd%trk, wtd%numcps, icp, cp, wtd%ic, wtd%mater,         &
                              wtd%discr, wtd%fric, wtd%kin, wtd%solv, x_locate)
@@ -135,7 +145,7 @@ contains
             ! solve contact problem for contact patch icp
 
             associate( cp => wtd%allcps(icp)%cp )
-            call wr_solve_cp(wtd%ws, wtd%trk, icp, cp, wtd%ic, x_locate, sub_ierror)
+            call wr_solve_cp(wtd%meta, wtd%ws, wtd%trk, icp, cp, wtd%ic, x_locate, sub_ierror)
             if (my_ierror.eq.0) my_ierror = sub_ierror
 
             if (wtd%ic%x_nmdbg.ge.3) then
@@ -195,6 +205,71 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine merge_prev_potcon(icp, gd, idebug)
+!--purpose: extend gd%potcon_inp to cover previous contact area
+      implicit none
+!--subroutine arguments:
+      integer           :: icp, idebug
+      type(t_probdata)  :: gd
+!--local variables:
+      type(t_potcon)    :: potcon_prv, potcon_tot
+
+      ! determine potential contact area tight around contact area for previous time
+ 
+      associate(igv => gd%outpt1%igv)
+      call areas(igv)
+
+      potcon_prv = gd%potcon_cur
+      potcon_prv%ipotcn = 1
+
+      if (igv%ixmax.ge.igv%ixmin) then
+         potcon_prv%mx = igv%ixmax - igv%ixmin + 1
+         potcon_prv%xl = potcon_prv%xl + (igv%ixmin-1) * potcon_prv%dx
+      else
+         potcon_prv%mx = 1
+      endif
+
+      if (igv%iymax.ge.igv%iymin) then
+         potcon_prv%my = igv%iymax - igv%iymin + 1
+         potcon_prv%yl = potcon_prv%yl + (igv%iymin-1) * potcon_prv%dy
+      else
+         potcon_prv%my = 1
+      endif
+
+      call potcon_fill( potcon_prv )
+      end associate
+
+      ! merge proposed potcon_inp with potcon_prv for previous time
+
+      call potcon_merge( gd%potcon_inp, potcon_prv, potcon_tot, idebug )
+
+      if (idebug.ge.1) then
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') ' patch',icp,': x=[',gd%potcon_inp%xl,',',            &
+                gd%potcon_inp%xh,'], mx=',gd%potcon_inp%mx,', y=[',gd%potcon_inp%yl,',',                &
+                gd%potcon_inp%yh,'], my=',gd%potcon_inp%my
+         call write_log(1, bufout)
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '  prev',icp,': x=[',gd%potcon_cur%xl,',',            &
+                gd%potcon_cur%xh,'], mx=',gd%potcon_cur%mx,', y=[',gd%potcon_cur%yl,',',                &
+                gd%potcon_cur%yh,'], my=',gd%potcon_cur%my
+         call write_log(1, bufout)
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') ' tight',icp,': x=[',potcon_prv%xl,',',               &
+                potcon_prv%xh,'], mx=',potcon_prv%mx,', y=[',potcon_prv%yl,',',                         &
+                potcon_prv%yh,'], my=',potcon_prv%my
+         call write_log(1, bufout)
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') 'merged',icp,': x=[',potcon_tot%xl,',',               &
+                potcon_tot%xh,'], mx=',potcon_tot%mx,', y=[',potcon_tot%yl,',',                         &
+                potcon_tot%yh,'], my=',potcon_tot%my
+         call write_log(1, bufout)
+      endif
+
+      ! store extended potcon for new time instance
+
+      gd%potcon_inp = potcon_tot
+
+   end subroutine merge_prev_potcon
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine wr_setup_cp(meta, ws, trk, numcps, icp, cp, wtd_ic, mater, discr, fric, kin, solv, idebug)
 !--purpose: define the contact problem for an initial contact point for a W/R contact case. 
       implicit none
@@ -212,9 +287,10 @@ contains
       type(t_solvers)   :: solv
 !--local variables:
       character(len=5)          :: nam_side
+      logical                   :: new_gd
       integer                   :: ip, ii, iy, mx, my, npot, ierror
       real(kind=8)              :: sw_ref, fac_warn
-      type(t_marker)            :: mref_rai, mref_whl, whl_trk
+      type(t_marker)            :: mref_pot, mref_rai, mref_whl, whl_trk
       type(t_probdata), pointer :: gd
 
       if (idebug.ge.3) then
@@ -231,14 +307,6 @@ contains
          nam_side = 'right'
       endif
 
-      ! allocate the hierarchical data-structure (TODO: already allocated?)
-
-      if (.not.associated(cp%gd)) then
-         allocate(cp%gd)
-         call gd_init(cp%gd)
-      endif
-      gd => cp%gd
-
       ! convert wheel-marker from wheel-set coords to track-coords
 
       whl_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
@@ -247,33 +315,58 @@ contains
 
       mref_rai = marker_2loc( cp%mref, my_rail%m_trk )
 
+      ! convert contact reference from track-coords to potcon-coords
+
+      if (wtd_ic%use_supergrid()) then
+         mref_pot = marker_2loc( cp%mref, cp%mpot )
+      else
+         call marker_init(mref_pot)
+      endif
+
       ! convert contact reference from track-coords to wheel coords
 
       mref_whl = marker_2loc( cp%mref, whl_trk )
+
+      ! get sw-position of mref on wheel profile
+
+      call spline_get_s_at_y( my_wheel%prw%grd_data%spl, mref_whl%y(), sw_ref, ierror )
 
       if (idebug.ge.3) then
          call marker_print( ws%m_trk,      'm_ws(trk)', 2 )
          call marker_print( my_wheel%m_ws, 'm_whl(ws)', 2 )
          call marker_print( whl_trk,       'm_whl(trk)', 2 )
          call marker_print( mref_whl,      'm_cp(whl)', 2 )
-         call marker_print( cp%mref,       'm_cp(trk)', 2 )
          call marker_print( mref_rai,      'm_cp(rai)', 2 )
          call marker_print( my_rail%m_trk, 'm_rai(trk)', 2 )
+         call marker_print( cp%mref,       'm_cp(trk)', 2 )
+         call marker_print( mref_pot,      'm_cp(pot)', 2 )
       endif
 
-      ! get s-position of mref on wheel profile
+      ! allocate the hierarchical data-structure (TODO: already allocated?)
 
-      call spline_get_s_at_y( my_wheel%prw%grd_data%spl, mref_whl%y(), sw_ref, ierror )
-
-      ! copy wheel and rail position data to meta-data
-      ! note: mirrorring for left wheel is ignored, internal data written to gd%meta
+      new_gd = .false.
+      if (.not.associated(cp%gd)) then
+         if (wtd_ic%x_force.ge.1) then
+            write(bufout,'(a,i3)') ' wr_setup_cp: allocate gd for icp=',icp
+            call write_log(1, bufout)
+         endif
+         new_gd = .true.
+         allocate(cp%gd)
+         call gd_init(cp%gd)
+      endif
+      gd => cp%gd
 
       !  - general metadata:
       gd%meta%expnam    = meta%expnam
       gd%meta%dirnam    = meta%dirnam
-      gd%meta%ncase     = meta%ncase
       gd%meta%npatch    = numcps
       gd%meta%ipatch    = icp
+
+      !  - iteration-related metadata are set at the actual solution in wr_solve_cp
+
+      ! copy wheel and rail position data to meta-data
+      ! note: mirrorring for left wheel is ignored, internal data written to gd%meta
+
       gd%meta%tim       = 0d0
       gd%meta%s_ws      = ws%s
       gd%meta%th_ws     = ws%pitch
@@ -314,6 +407,10 @@ contains
       gd%meta%scp_w    = sw_ref
       gd%meta%deltcp_w = mref_whl%roll()
 
+      !  - position of contact reference within super-grid used when T=1 or 2
+      gd%meta%xo_spin   = mref_pot%x()
+      gd%meta%yo_spin   = mref_pot%y()
+
       ! copy control digits, override some of them
 
       gd%ic        = wtd_ic
@@ -334,12 +431,12 @@ contains
 
       gd%kin       = kin
 
-      !  - set parameters describing the potential contact area
+      !  - set parameters describing the potential contact area as needed in undef.dist calculation
 
       gd%potcon_inp%ipotcn =  1
-      gd%potcon_inp%xl     = cp%xsta - cp%mref%x()
       gd%potcon_inp%dx     = cp%dx_eff
       gd%potcon_inp%mx     = nint((cp%xend-cp%xsta)/cp%dx_eff)
+      gd%potcon_inp%xl     = cp%xsta - cp%mpot%x()
 
       if (wtd_ic%is_conformal()) then
          ! conformal: curved surface
@@ -358,6 +455,10 @@ contains
       ! complete remaining entries in potcon_inp including npot
 
       call potcon_fill( gd%potcon_inp )
+
+      ! update potcon_inp to cover the contact area of the previous time
+ 
+      if (wtd_ic%pvtime.ne.2) call merge_prev_potcon(icp, cp%gd, wtd_ic%x_force)
 
       ! check that npot_max will not be exceeded
 
@@ -393,6 +494,47 @@ contains
          write(bufout,'(2(a,i4),2(a,f8.3))') ' cgrid_cur: mx,my=',g2%nx,',',g2%ny,', dx,dy=', g2%dx,',',g2%dy
          call write_log(1, bufout)
          end associate
+      endif
+
+      ! set P-digit for this gd
+      !  - zero previous tractions (P=2) for new contact patches
+      !  - leave previous tractions untouched (P=3) if gd has been used already in case ncase
+
+      if (new_gd .or. wtd_ic%pvtime.eq.2) then
+         gd%ic%pvtime = 2
+      elseif (gd%meta%ncase.ge.meta%ncase) then
+         gd%ic%pvtime = 3
+      else
+         gd%ic%pvtime = wtd_ic%pvtime
+      endif
+
+      ! set I-digit for this gd
+      !  - no initial estimate for new contact patches
+      !  - no initial estimate in case of large change in potential contact area (npot)
+      !  - user setting I from wtd when a new case is started
+      !  - use initial estimate if this gd was used in previous iteration
+      !  - no initial estimate if this gd was inactive in previous iteration
+
+      if (new_gd) then
+         gd%ic%iestim = 0
+         if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (new patch)...')
+      elseif (abs(gd%potcon_inp%npot - gd%potcon_cur%npot).gt.                                          &
+                0.4d0 * min(gd%potcon_inp%npot, gd%potcon_cur%npot)) then
+         gd%ic%iestim = 0
+         if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (large change npot)...')
+      elseif (gd%meta%ncase.lt.meta%ncase) then
+         gd%ic%iestim = wtd_ic%iestim
+         if (gd%ic%iestim.ge.1) then
+            if (wtd_ic%x_force.ge.1) call write_log(' using initial estimate (new case, user setting)...')
+         else
+            if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (new case, user setting)...')
+         endif
+      elseif (gd%meta%itforce.eq.meta%itforce-1) then
+         gd%ic%iestim = 1
+         if (wtd_ic%x_force.ge.1) call write_log(' using initial estimate (prev.iteration)...')
+      else
+         gd%ic%iestim = 0
+         if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (cp skipped iteration)...')
       endif
 
       !  - fill in surface inclinations for conformal infl.cf (Blanco approach)
@@ -518,10 +660,14 @@ contains
 
       else
 
-         ! compute the creepages or the rigid slip function
+         ! compute the creepages or the rigid slip function w.r.t. reference marker
 
          call wr_rigid_slip(wtd_ic, ws, trk, discr%dqrel, cp, gd, idebug)
 
+         ! set spin center using offset reference marker -- pot.contact
+
+         gd%kin%spinxo = mref_pot%x()
+         gd%kin%spinyo = mref_pot%y()
       endif
 
       ! subsurface stress computation is performed separately, if needed
@@ -535,10 +681,11 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_solve_cp(ws, trk, icp, cp, ic, idebug, ierror)
+   subroutine wr_solve_cp(meta, ws, trk, icp, cp, ic, idebug, ierror)
 !--purpose: solve the contact problem for an initial contact point for a W/R contact case. 
       implicit none
 !--subroutine arguments:
+      type(t_metadata)  :: meta
       type(t_wheelset)  :: ws
       type(t_trackdata) :: trk
       integer           :: icp, idebug
@@ -555,6 +702,11 @@ contains
       endif
 
       gd => cp%gd
+
+      ! set iteration-related metadata -- 'last calculated time+iteration'
+
+      gd%meta%ncase   = meta%ncase
+      gd%meta%itforce = meta%itforce
 
       ! solve the contact problem
 

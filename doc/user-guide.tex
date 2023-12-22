@@ -62,17 +62,12 @@
 
 \magenta{
 \begin{vtlogsheet}
-\vtlogentry{1.135}{EV}{01-08-2022}{Version for release v22.1}{}
-\vtlogentry{1.136}{EV}{08-08-2022}{Added slcs-file for switches and crossings}{}
-\vtlogentry{1.137}{EV}{13-08-2022}{Added turning of contact reference angle}{}
-\vtlogentry{1.138}{EV}{27-10-2022}{Added xrange and xysteps to plot3d}{}
-\vtlogentry{1.139}{EV}{17-11-2022}{Extended slcs-file for parts-information}{}
 \vtlogentry{1.140}{EV}{15-12-2022}{Version for release v22.2}{}
-\vtlogentry{1.141}{EV}{02-03-2023}{Added {\tt S\_METHOD} for approximating
-        spline}{}
-\vtlogentry{1.142}{EV}{20-03-2023}{Correction format {\tt slcs}-file}{}
-\vtlogentry{1.143}{EV}{20-03-2023}{Added {\tt NPOT\_MAX}}{}
-\vtlogentry{1.144}{EV}{23-03-2023}{Added ${\tt D}=6,8,9$}{}
+%\vtlogentry{1.141}{EV}{02-03-2023}{Added {\tt S\_METHOD} for approximating
+%        spline}{}
+%\vtlogentry{1.142}{EV}{20-03-2023}{Correction format {\tt slcs}-file}{}
+%\vtlogentry{1.143}{EV}{20-03-2023}{Added {\tt NPOT\_MAX}}{}
+%\vtlogentry{1.144}{EV}{23-03-2023}{Added ${\tt D}=6,8,9$}{}
 \vtlogentry{1.145}{EV}{14-04-2023}{Version for release v23.1}{}
 \vtlogentry{1.146}{EV}{10-05-2023}{Added massless rail deflection ${\tt 
         F}_1=3$}{}
@@ -87,6 +82,13 @@
 \vtlogentry{1.154}{EV}{24-10-2023}{Add description of {\tt
         cntc\_getcpresults}}{}
 \vtlogentry{1.155}{EV}{03-11-2023}{Version for release v23.2}{}
+\vtlogentry{1.156}{EV}{10-11-2023}{Added wheel flat example}{}
+\vtlogentry{1.157}{EV}{21-11-2023}{Added super grid with active window}{}
+\vtlogentry{1.158}{EV}{28-11-2023}{Permit {\tt I}-digit in module 1}{}
+\vtlogentry{1.159}{EV}{30-11-2023}{Extension of Cattaneo solution for
+        radius $a$}{}
+\vtlogentry{1.160}{EV}{01-12-2023}{Added spin center}{}
+\vtlogentry{1.161}{EV}{11-12-2023}{Permit ${\tt T}=1,2$ in module 1}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -569,11 +571,13 @@ wheel.
 \item[2] -- no continuation; in transient cases (${\tt T}=1, 2$), the
         previous tractions vanish entirely (initiation of contact), in
         other cases (${\tt T}=0, 3$), they will not be used.
+\magenta{
+\item[3] -- leave previous tractions untouched. Used internally in the
+        program to avoid copying in the total-force iteration.
+}
 \end{description}
 $^*$ The {\tt P}-digit is relevant only in transient shifting or rolling,
-${\tt T}=1$ or $2$, which are not yet provided in module 1.
-Frictionless cases and steady rolling use ${\tt P}=2$, which is the only
-option available in module 1.
+${\tt T}=1$ or $2$. ${\tt P}=2$ is used in other cases.
 
 \item[B - BOUND]  \label{b-digit}  : selects the approach to be
         used for the normal problem, the {\em traction bound\/}:
@@ -606,14 +610,13 @@ $^*$ Options ${\tt B}=2$ to 4 are not yet available in module 1.
 \begin{description}
 \item[0] -- frictionless compression: no tangential tractions
         required, normal problem only;
-\item[1$^*$] -- frictional compression, or shift, or transient rolling, with
+\item[1] -- frictional compression, shift, or transient rolling with
         material-fixed coordinates. One-step (initiation) or multi-step
         (continuation) depending on the {\tt P}-digit;
-\item[2$^*$] -- transient rolling, using moving (contact-fixed) coordinates,
-        also refer to the {\tt P}-digit;
+\item[2] -- transient rolling using moving (contact-fixed) coordinates,
+        using the {\tt P}-digit to set the previous tractions;
 \item[3] -- steady state rolling, using the so-called direct method.
 \end{description}
-$^*$ Module 1 does not yet provide for transient computations.
 
 \item[N$_1$ - NORM]  \label{n1-digit}  : specifies whether the {\em vertical\/}
         wheelset {\em position\/} or vertical {\em force\/} is prescribed:
@@ -828,17 +831,16 @@ the program and the flow of the calculations.
         from zero tractions and fill element division with a rough guess,
         based on the undeformed distance;
 \magenta{
-\item[1$^*$] -- use previous solution, regularize tractions. The element
+\item[1] -- use previous solution, regularize tractions. The element
         division of the previous case is used as initial estimate, and the
         tractions are adjusted to this state;
-\item[2$^*$] -- use normal part of previous case only. The normal tractions are
+\item[2] -- use normal part of previous case only. The normal tractions are
         maintained, but all elements start with zero tangential tractions,
         in the adhesion area;
 }
-\item[3$^*$] -- previous case gives a good initial estimate. Use its tractions
+\item[3] -- previous case gives a good initial estimate. Use its tractions
         and element division (not touched).
 \end{description}
-$^*$ The only option that is provided in module 1 is ${\tt I}=0$.
 
 \item[A - MATFIL, surface tractions] \label{a-digit} : governs the use of
         the {\em Matlab-file\/} {\tt <experim>.\-<case>\-.mat}:
@@ -1856,6 +1858,28 @@ wheel, but to the field side when the right wheel is considered.
         \Delta v_\psi^{whl}, \Delta v_\theta^{whl}$ of the wheel profile
         origin with respect to the design orientation in wheelset
         coordinates, positive using the right-hand rule.}
+\end{inputvars}
+In transient calculations using the world-fixed (material-fixed) coordinate
+system, ${\tt T}=1$, no reference is made to the actual time in the
+simulation. CONTACT internally uses $\delta t^*=1\unit{s}$ irrespective of
+the actual time step $\delta t$ used in the multibody simulation. The
+velocities $v_x, v_y, \cdots \omega_{ws}$ are replaced by the moved
+distance per time step.
+\begin{inputvars}
+\inpvar{SHFT\_SWS}{\bunit{mm}}{Wheelset forward position increment $\Delta
+        s_1=v_x\delta t$ along the track center line.}
+\inpvar{SHFT\_YWS}{\bunit{mm}}{Wheelset lateral position increment $\Delta
+        y_{ws}=v_y\delta t$ with respect to track coordinates.}
+\inpvar{SHFT\_ZWS}{\bunit{mm}}{Wheelset vertical position increment $\Delta
+        z_{ws}=v_z\delta t$ in terms of track coor\-di\-nates.}
+\inpvar{SHFT\_ROL}{\bunit{rad}}{Wheelset roll increment $\Delta\phi_{ws}=
+        \dot{\phi}_{ws}\delta t$.}
+\inpvar{SHFT\_YAW}{\bunit{rad}}{Wheelset yaw increment rate $\Delta\psi_{ws}=
+        \dot{\psi}_{ws}\delta t$.}
+\inpvar{SHFT\_WPIT}{\bunit{rad}}{Wheelset pitch increment $\Delta\theta_{ws}=
+        \omega_{ws}\delta t$. \magenta{Output when ${\tt F}_1=1$ or $2$.}}
+\inpvar{SHFT\_RPIT}{\bunit{rad}}{Roller pitch increment $\Delta\theta_{rol}=
+        \omega_{rol}\delta t$.}
 \end{inputvars}
  
 \section{Identification of contact patches}
@@ -7227,10 +7251,16 @@ if PRFOPT>=1:  [  ISMOOTH  ZIGTHRS   KINKHIGH  KINKLOW  KINKWID ]
 
 if CONFIG=0,1, E>=1: [ S\_WS    Y\_WS    Z\_INP  ROLL    YAW    PITCH    ]
 if CONFIG=4,5, E>=1: [ X\_WS    Y\_WS    Z\_INP  ROLL    YAW    PITCH    ]
+   with  N=0:\magenta{  } Z\_INP = Z\_WS,   N=1: Z\_INP = FZ\_WS
+
+if T=0,2,3:
 if CONFIG=0,1, E>=2: [ VS\_WS   VY\_WS   VZ\_WS  VROLL   VYAW   V\_INP    ]
 if CONFIG=4,5, E>=2: [ RPITCH  VY\_WS   VZ\_WS  VROLL   VYAW   V\_INP    ]
-   with  N=0:\magenta{  } Z\_INP = Z\_WS,   N=1: Z\_INP = FZ\_WS
-         F=0\magenta{,3}: V\_INP = VPITCH, \magenta{F=1: V\_INP = FX\_WS, F=2: V\_INP = MY\_WS}
+   with  F=0\magenta{,3}: V\_INP = VPITCH, \magenta{F=1: V\_INP = FX\_WS, F=2: V\_INP = MY\_WS}
+if T=1, CONFIG=0,1, E>=2: 
+          [ SHFT\_SWS   SHFT\_YWS  SHFT\_ZWS  SHFT\_ROL  SHFT\_YAW  SHFT\_WPIT ]
+if T=1, CONFIG=4,5, E>=2: 
+          [ SHFT\_RPIT  SHFT\_YWS  SHFT\_ZWS  SHFT\_ROL  SHFT\_YAW  SHFT\_WPIT ]
 
 % Information on flexible wheelset deviations (section \ref{sec:wheelset_geom}):
 

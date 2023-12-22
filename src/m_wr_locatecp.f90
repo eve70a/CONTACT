@@ -16,6 +16,8 @@ public  wr_locatecp
 private locate_regions
 private locate_patches
 private complete_patches
+private wr_connect_cps
+private wr_update_allcps
 private compute_wr_surfc
 private compute_round_whl
 private compute_oor_whl
@@ -46,20 +48,22 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_locatecp (ic, ws, trk, discr, numcps, allcps, idebug, my_ierror)
+   subroutine wr_locatecp (meta, ic, ws, trk, discr, numcps, numtot, allcps, idebug, my_ierror)
 !--purpose: locate the initial contact point(s) for a W/R contact case.
       implicit none
 !--subroutine arguments:
+      type(t_metadata)              :: meta
       type(t_ic)                    :: ic
       type(t_wheelset)              :: ws
       type(t_trackdata)             :: trk
       type(t_discret)               :: discr
-      integer                       :: numcps, idebug
+      integer                       :: numcps, numtot, idebug
       type(p_cpatch)                :: allcps(MAX_NUM_CPS)
       integer,          intent(out) :: my_ierror
 !--local variables:
-      integer                  :: is_right, sub_ierror, irgn, num_rgn
+      integer                  :: is_right, sub_ierror, icp, irgn, numnew, num_rgn
       real(kind=8)             :: sgn
+      type(p_cpatch)           :: newcps(MAX_NUM_CPS) ! work variable to build list of contact problems
       type(t_region)           :: all_rgn(MAX_NUM_RGN)
       type(t_rail),    pointer :: my_rail
       type(t_wheel),   pointer :: my_wheel
@@ -104,7 +108,13 @@ contains
       ! phase 2: for each region, determine contact patches
       !--------------------------------------------------------------------------------------------------
 
-      numcps     = 0
+      ! initialize t_cpatch-es used during contact search
+
+      numnew = 0
+      do icp = 1, MAX_NUM_CPS
+         newcps(icp)%cp => NULL()
+      enddo
+
       ws%has_overlap = .false.
       ws%gap_min = 1d10
       ws%z_cnt0  = 1d10
@@ -114,7 +124,7 @@ contains
             write(bufout,'(/,2(a,i3))') ' --- calling locate_patches for region',irgn,', #regions =',num_rgn
             call write_log(2, bufout)
          endif
-         call locate_patches(ic, ws, trk, discr, all_rgn(irgn), numcps, allcps, idebug, my_ierror)
+         call locate_patches(ic, ws, trk, discr, all_rgn(irgn), numnew, newcps, idebug, my_ierror)
       enddo
 
       !--------------------------------------------------------------------------------------------------
@@ -123,10 +133,23 @@ contains
 
       if (ws%has_overlap .and. my_ierror.eq.0) then
 
-         call complete_patches( ic, ws, trk, discr, numcps, allcps, idebug, sub_ierror )
+         call complete_patches( ic, ws, trk, discr, numnew, newcps, idebug, sub_ierror )
          my_ierror = sub_ierror
 
       endif
+
+      if (ws%has_overlap .and. my_ierror.eq.0) then
+
+         ! connect new contact patches in newcps to patches allcps of previous time
+
+         call wr_connect_cps(meta, ic, numnew, newcps, numcps, numtot, allcps)
+
+         ! move data from newcps to allcps, clean-up newcps
+
+         call wr_update_allcps(meta, ic, numnew, newcps, numcps, numtot, allcps, ic%x_force)
+
+      endif
+
       call timer_stop(itimer_locatecp)
 
    end subroutine wr_locatecp
@@ -540,7 +563,8 @@ contains
          ! fill in the contact angle and reference marker
 
          ! call write_log(' --- calling set_cpatch_reference ---')
-         call set_cpatch_reference( ic, icp, cp, prr_trk, my_rail%m_trk, sgn, trk%nom_radius, idebug)
+         call set_cpatch_reference( ic, icp, cp, prr_trk, my_rail%m_trk, ws%s, sgn, trk%nom_radius,     &
+                        idebug)
 
          ! compute potential contact area for planar contact approach
 
@@ -567,6 +591,340 @@ contains
       call grid_destroy(prr_trk)
 
    end subroutine complete_patches
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine wr_connect_cps(meta, ic, numnew, newcps, numcps, numtot, allcps)
+!--purpose: determine connection between numtot existing contact patches and numnew new contact patches
+      implicit none
+!--subroutine arguments:
+      type(t_metadata)         :: meta
+      type(t_ic)               :: ic
+      integer                  :: numnew, numcps, numtot
+      type(p_cpatch)           :: newcps(numnew), allcps(numtot)
+!--local variables:
+      integer                  :: iestim, icpo, icpn
+      logical                  :: has_overlap(numnew,numtot)
+      integer                  :: n_old(numnew), n_new(numtot)
+      character(len=30)        :: fmtstr
+
+      iestim = ic%iestim
+      if (meta%itforce.ge.2) iestim = 1
+
+      if (ic%pvtime.eq.2 .and. iestim.eq.0) then
+
+         ! P=2 and I=0: no connection to previous time
+
+         if (ic%x_force.ge.1) then
+            write(bufout,'(3(a,i3),a)') ' wr_connect_cps: There are', numnew,' new contact patches'
+            call write_log(1, bufout)
+         endif
+
+         do icpn = 1, numnew
+            newcps(icpn)%cp%prev_icp(1:MAX_NUM_CPS) = 0
+         enddo
+
+      else
+
+         ! P<>2 or I<>0: establish connection to previous time
+
+         if (ic%x_force.ge.1) then
+            if (ic%norm.ge.1 .and. (meta%itforc_out.ge.1 .or. meta%itforc_inn.ge.1)) then
+               write(bufout,'(3(a,i3),a)') ' wr_connect_cps: There are', numnew,' new patches and',     &
+                           numcps,' patches for prev.iteration +', numtot-numcps,' other for prev.time'
+               call write_log(1, bufout)
+            else
+               ! N=0 or 1st force iteration: numtot == numcps, numrem = 0
+               write(bufout,'(2(a,i3),a)') ' wr_connect_cps: There are', numnew,' new patches and',     &
+                           numtot,' patches for the previous time'
+               call write_log(1, bufout)
+            endif
+         endif
+
+         if (ic%x_force.ge.3) then
+            do icpo = 1, min(numnew, numtot)
+               associate( cp0 => allcps(icpo)%cp, cp1 => newcps(icpo)%cp )
+               write(bufout,'(a,i3,4(a,f9.3),a)') ' icp=',icpo,': old y=[', cp0%ysta,',', cp0%yend,     &
+                              '], new y=[', cp1%ysta,',', cp1%yend,']'
+               call write_log(1, bufout)
+               end associate
+            enddo
+            do icpo = numnew+1, numtot
+               associate( cp0 => allcps(icpo)%cp )
+               write(bufout,'(a,i3,2(a,f9.3),a)') ' icp=',icpo,': old y=[', cp0%ysta,',', cp0%yend, ']'
+               call write_log(1, bufout)
+               end associate
+            enddo
+            do icpn = numtot+1, numnew
+               associate( cp1 => newcps(icpn)%cp )
+               write(bufout,'(a,i3,a,30x,2(a,f9.3),a)') ' icp=',icpn,':','new y=[', cp1%ysta,',',cp1%yend,']'
+               call write_log(1, bufout)
+               end associate
+            enddo
+         endif
+   
+         has_overlap(1:numnew,1:numtot) = .false.
+         n_old(1:numnew) = 0
+         n_new(1:numtot) = 0
+   
+         do icpn = 1, numnew
+            newcps(icpn)%cp%prev_icp(1:MAX_NUM_CPS) = 0
+            do icpo = 1, numtot
+               associate( cp0 => allcps(icpo)%cp, cp1 => newcps(icpn)%cp )
+               if (cp1%ysta.le.cp0%yend .and. cp1%yend.ge.cp0%ysta) then
+                  has_overlap(icpn,icpo) = .true.
+                  n_old(icpn) = n_old(icpn) + 1
+                  n_new(icpo) = n_new(icpo) + 1
+                  cp1%prev_icp(n_old(icpn)) = icpo
+                  if (ic%x_force.ge.4) then
+                     write(bufout,'(2(a,i3))') ' old icp=',icpo,' overlaps with new icp=',icpn
+                     call write_log(1, bufout)
+                  endif
+               endif
+               end associate
+            enddo
+         enddo
+   
+         if (ic%x_force.ge.3 .and. numtot.ge.1 .and. numnew.ge.1) then
+            call write_log(' matrix has_overlap(new,old):')
+            write(fmtstr,'(a,i2,a)') '(a,', numtot, 'i3,a,i3)'
+            write(bufout, fmtstr) '         i_old=', (icpo, icpo=1, numtot),',  n_old'
+            call write_log(1, bufout)
+            write(fmtstr,'(a,i2,a)') '(a,i3,a,', numtot, 'l3,a,i3)'
+            do icpn = 1, numnew
+               write(bufout,fmtstr) '     inew= ',icpn,':',(has_overlap(icpn,icpo), icpo=1,numtot),     &
+                   ',  ',n_old(icpn)
+               call write_log(1, bufout)
+            enddo
+            write(bufout,'(a,10i3)') '  n_new(iold) =', (n_new(icpo), icpo=1, numtot)
+            call write_log(1, bufout)
+         endif
+   
+         if (ic%x_force.ge.1 .and. numtot.ge.1 .and. numnew.ge.1) then
+            do icpn = 1, numnew
+               associate( cp1 => newcps(icpn)%cp )
+               if (n_old(icpn).le.0) then
+                  write(bufout,'(a,i3,2a)')      ' wr_connect_cps: new icp=',icpn,': not connected to', &
+                        ' any previous patches.'
+               else
+                  write(bufout,'(a,i3,2a,10i3)') ' wr_connect_cps: new icp=',icpn,': connected to old', &
+                           ' icp=', (cp1%prev_icp(icpo), icpo=1, n_old(icpn))
+               endif
+               call write_log(1, bufout)
+               end associate
+            enddo
+         endif
+      endif ! P=2, I=0
+
+   end subroutine wr_connect_cps
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine wr_update_allcps(meta, ic, numnew, newcps, numcps, numtot, allcps, x_force)
+!--purpose: merge data from old contact patches with new patches and store in allcps
+      implicit none
+!--subroutine arguments:
+      type(t_metadata)         :: meta
+      type(t_ic)               :: ic
+      integer                  :: numnew, numcps, numtot, x_force
+      type(p_cpatch)           :: newcps(MAX_NUM_CPS), allcps(MAX_NUM_CPS)
+!--local variables:
+      integer                  :: iestim, i, icpx, icpo, icpn, i_old, n_old, n_new(numtot)
+      integer                  :: numrem, numtot_new
+
+      ! count number of new patches per old patch icpo
+
+      n_new(1:numtot) = 0
+
+      do icpn = 1, numnew
+         do i = 1, MAX_NUM_CPS
+            icpo = newcps(icpn)%cp%prev_icp(i)
+            if (icpo.ge.1) n_new(icpo) = n_new(icpo) + 1
+         enddo
+      enddo
+
+      if (x_force.ge.3) then
+         write(bufout,'(a,10i3)') ' initial n_new=',(n_new(icpo), icpo=1, numtot)
+         call write_log(1, bufout)
+      endif
+   
+      ! shift gds from old patches (allcps) to corresponding new patches (newcps)
+      !  - merge old patches together that are combined at the new time
+      !    delete old patches that are merged into other old patches
+      !  - copy gds to newcps that are used multiple times
+      !  - clean up entries in allcps after shifting
+
+      do icpn = 1, numnew
+
+         ! count #old patches connected to icpn
+
+         n_old = 0
+         do i = 1, MAX_NUM_CPS
+            if (newcps(icpn)%cp%prev_icp(i).ge.1) n_old = n_old + 1
+         enddo
+
+         ! merge second+higher old patches into first old patch
+
+         if (n_old.ge.2 .and. ic%use_supergrid()) then
+
+            icpo = newcps(icpn)%cp%prev_icp(1)
+
+            do i_old = 2, n_old
+
+               ! merge old patch icpx into first old patch icpo
+
+               icpx = newcps(icpn)%cp%prev_icp(i_old)
+               if (x_force.ge.1) then
+                  write(bufout,'(2(a,i3))') ' wr_update_allcps: merge gd for icpo=',icpx,               &
+                        ' into gd for icpo=',icpo
+                  call write_log(1, bufout)
+               endif
+
+               call gd_merge( allcps(icpx)%cp%gd, allcps(icpo)%cp%gd, x_force )
+
+               ! delete old patch icpx after merging
+
+               if (x_force.ge.1) then
+                  write(bufout,'(a,i3)') ' wr_update_allcps: destroy gd for icpo=',icpx
+                  call write_log(1, bufout)
+               endif
+
+               call cp_destroy(allcps(icpx))
+
+            enddo 
+
+         endif ! n_old>=2
+
+         ! create n_new-1 copies of old patch icpo, shift pointer for last new patch using icpo
+
+         if (n_old.ge.1) then
+
+            ! using gd for 1st old patch icpo
+
+            icpo = newcps(icpn)%cp%prev_icp(1)
+
+            if (n_new(icpo).gt.1) then
+
+               ! more patches remaining: copy gd
+
+               if (x_force.ge.1) then
+                  write(bufout,'(2(a,i3))') ' wr_update_allcps: copy gd from icpo=',icpo,' to icpn=',icpn
+                  call write_log(1, bufout)
+               endif
+
+               if (associated(newcps(icpn)%cp%gd)) then
+                  call write_log(' Internal ERROR: newcps%gd may not be allocated')
+                  call abort_run()
+               endif
+
+               allocate( newcps(icpn)%cp%gd )
+               call gd_copy( allcps(icpo)%cp%gd, newcps(icpn)%cp%gd )
+
+            else
+
+               ! last patch for icpo: shift pointer
+
+               if (x_force.ge.1) then
+                  write(bufout,'(2(a,i3))') ' wr_update_allcps: move gd from icpo=',icpo,' to icpn=',icpn
+                  call write_log(1, bufout)
+               endif
+
+               newcps(icpn)%cp%gd => allcps(icpo)%cp%gd
+               allcps(icpo)%cp%gd => NULL()
+
+               ! destroy cp from allcps after shifting
+
+               call cp_destroy(allcps(icpo))
+
+            endif
+
+            ! decrement n_new, number of patches remaining
+
+            n_new(icpo) = n_new(icpo) - 1
+
+         endif ! n_old>=1
+
+      enddo ! for icpn
+
+      ! shift remaining gds for unconnected old patches from allcps to newcps
+
+      numtot_new = numnew
+      iestim = ic%iestim
+      if (meta%itforce.ge.1) iestim = 1
+
+      if (ic%pvtime.eq.2 .and. iestim.eq.0) then
+
+         ! destroy remaining contact patches (gds) of the previous iteration
+
+         do icpo = 1, numtot
+            if (associated(allcps(icpo)%cp)) then
+               if (x_force.ge.1 .and. associated(allcps(icpo)%cp%gd)) then
+                  write(bufout,'(a,i3)') ' wr_contact: destroy gd for icpo=',icpo
+                  call write_log(1, bufout)
+               elseif (x_force.ge.3) then
+                  write(bufout,'(a,i3)') ' wr_contact: destroy allcps cp=',icpo
+                  call write_log(1, bufout)
+               endif
+               call cp_destroy(allcps(icpo))
+            endif
+         enddo
+
+      else
+
+         numrem = 0
+         do icpo = 1, numtot
+            if (associated(allcps(icpo)%cp) .and. associated(allcps(icpo)%cp%gd)) numrem = numrem + 1
+         enddo
+
+         if (x_force.ge.2 .and. numrem.gt.0) then
+            write(bufout,'(3(a,i2),a)') ' wr_update_allcps: There are ',numrem,                            &
+                ' old patches remaining, move to newcps(',numnew+1,':',numnew+numrem,')'
+            call write_log(1, bufout)
+         endif
+
+         do icpo = 1, numcps
+            if (associated(allcps(icpo)%cp)) then
+               numtot_new = numtot_new + 1
+               icpn       = numtot_new
+
+               if (x_force.ge.1 .and. associated(allcps(icpo)%cp%gd)) then
+                  write(bufout,'(2(a,i3))') ' wr_update_allcps: move unused gd from icpo=',icpo,' to icpn=',icpn
+                  call write_log(1, bufout)
+               endif
+
+               newcps(icpn)%cp => allcps(icpo)%cp
+               allcps(icpo)%cp => NULL()
+            endif
+         enddo
+      endif ! P=2 and I=0
+
+      ! shift all contact patches from newcps to allcps
+
+      do icpn = 1, numtot_new
+         if (x_force.ge.3) then
+            write(bufout,'(a,i3,a)') ' wr_update_allcps: move icp=',icpn,' from newcps to allcps'
+            call write_log(1, bufout)
+         endif
+         allcps(icpn)%cp => newcps(icpn)%cp
+         newcps(icpn)%cp => NULL()
+      enddo
+
+      numcps = numnew
+      numtot = numtot_new
+
+      ! destroy remaining t_cpatch-es used during contact search (avoid memory leaking)
+
+      do icpn = 1, MAX_NUM_CPS
+         if (associated(newcps(icpn)%cp)) then
+            if (x_force.ge.3) then
+               write(bufout,'(a,i3)') ' wr_update_allcps: destroy newcps cp=',icpn
+               call write_log(1, bufout)
+            endif
+            call cp_destroy(newcps(icpn))
+         endif
+      enddo
+
+   end subroutine wr_update_allcps
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1971,7 +2329,7 @@ contains
 !--local variables:
       integer,      parameter :: MAX_NUM_MIN = 1000
       logical        :: has_zero
-      integer        :: ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0
+      integer        :: ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0, numcps_all
       integer        :: ii_n, ii_s, ilm, ixmin, nummin, numrem
       integer        :: locmin(2,MAX_NUM_MIN)
       real(kind=8)   :: gap_locmin, xmin, ymin, gmin, zrmin, curv_y, xmax, dgap, ysta, yend, zsta, zend
@@ -2067,14 +2425,19 @@ contains
 
       numcp0 = numcps
       numrem = nummin
+      numcps_all = numcps
       do while(numrem.gt.0)
 
          ! 5.a increment the number of contact patches
 
-         numcps = numcps + 1
-         if (numcps.gt.MAX_NUM_CPS) then
-            call write_log('ERROR: MAX_NUM_CPS exceeded.')
-            call abort_run()
+         numcps_all = numcps_all + 1
+         numcps     = min(MAX_NUM_CPS, numcps_all)
+         if (.not.associated(allcps(numcps)%cp)) then
+            if (idebug.ge.3) then
+               write(bufout,'(a,i3)') ' locate_interpen_1d: allocate newcps icp=',numcps
+               call write_log(1, bufout)
+            endif
+            allocate(allcps(numcps)%cp)
          endif
          cp => allcps(numcps)%cp
 
@@ -2246,6 +2609,12 @@ contains
                 numcps-numcp0, ' contact problems'
          call write_log(1, bufout)
       endif
+      if (numcps_all.gt.MAX_NUM_CPS) then
+         write(bufout,'(a,i4,a,/,2(a,i4),a)') ' Warning: contact search identified', numcps_all,        &
+                ' separate contact patches',  '          Exceeding max. #patches=',MAX_NUM_CPS,', ',    &
+                numcps_all-MAX_NUM_CPS,' patches ignored.'
+         call write_log(2, bufout)
+      endif
 
       deallocate(gap, mask)
       end associate
@@ -2382,6 +2751,13 @@ contains
          if (numcps.gt.MAX_NUM_CPS) then
             call write_log('ERROR: MAX_NUM_CPS exceeded.')
             call abort_run()
+         endif
+         if (.not.associated(allcps(numcps)%cp)) then
+            if (idebug.ge.3) then
+               write(bufout,'(a,i3)') ' locate_interpen_2d: allocate newcps icp=',numcps
+               call write_log(1, bufout)
+            endif
+            allocate(allcps(numcps)%cp)
          endif
          cp => allcps(numcps)%cp
 
@@ -3189,7 +3565,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine set_cpatch_reference( ic, icp, cp, prr, mtrk, sgn, nom_radius, idebug)
+   subroutine set_cpatch_reference( ic, icp, cp, prr, mtrk, s_ws, sgn, nom_radius, idebug)
 !--purpose: determine the contact angle and reference marker for one contact patch
       implicit none
 !--subroutine arguments:
@@ -3200,11 +3576,12 @@ contains
       type(t_marker)            :: mtrk                 ! roller profile marker
       real(kind=8), intent(in)  :: sgn                  ! +1/-1 for right/left w/r-combination
       real(kind=8), intent(in)  :: nom_radius           ! radius in case of a roller
+      real(kind=8), intent(in)  :: s_ws
       integer,      intent(in)  :: idebug
 !--local variables:
       logical                   :: use_wgt_angle
       integer                   :: sub_ierror
-      real(kind=8)              :: cref_x, cref_y, cref_z, zc_rol, r_y
+      real(kind=8)              :: cref_x, cref_y, cref_z, xref_pot, yref_pot, zc_rol, r_y
 
       use_wgt_angle  = .true.
 
@@ -3216,13 +3593,14 @@ contains
          cref_y = cp%wgt_ygap
       endif
 
-      ! 5.f interpolate rail profile to get sr and zr at reference y-position
+      ! 5.f interpolate rail profile to get sr at the reference y-position
 
       call spline_get_s_at_y( prr%spl, cref_y, cp%sr_ref, sub_ierror )
-      call spline_get_xz_at_y( prr%spl, cref_y, sub_ierror, zout=cref_z )
 
-      ! write(bufout,'(3(a,f12.4))') ' cref_s=',cp%sr_ref,', cref_y=',cref_y,', cref_z=',cref_z
-      ! call write_log(1, bufout)
+      ! 5.f get (y,z) coordinates at sr_ref
+
+      call spline_eval(prr%spl, ikYDIR, cp%sr_ref, sub_ierror, 999d0, cref_y)
+      call spline_eval(prr%spl, ikZDIR, cp%sr_ref, sub_ierror, 999d0, cref_z)
 
       if (ic%is_roller()) then
          ! cref_z as computed above lies in the principal profile, x==0, in track coordinates
@@ -3253,11 +3631,37 @@ contains
  129     format(a,f10.6,a,f12.6,a)
       endif
 
-      ! 5.h create a marker for contact local coordinates w.r.t. track coordinates
+      ! 5.h create a marker for contact reference coordinates w.r.t. track coordinates
 
       call marker_init(cp%mref)
       call marker_roll(cp%mref, cp%delttr, 0d0, 0d0)
       call marker_shift(cp%mref, cref_x, cref_y, cref_z )
+
+      ! 5.h set position of contact reference in terms of super-grid coordinates
+
+      if (ic%tang.eq.1) then            ! transient shift: world/material-fixed super-grid
+         xref_pot  = s_ws + cref_x
+         yref_pot  = cp%sr_ref
+      elseif (ic%tang.eq.2) then        ! transient rolling: super-grid fixed in lateral direction
+         xref_pot  = 0d0
+         yref_pot  = cp%sr_ref
+      else                              ! steady rolling: contact grid centered at contact reference marker
+         xref_pot  = 0d0
+         yref_pot  = 0d0
+      endif
+
+      ! 5.h create a marker for potential contact grid w.r.t. track coordinates
+
+      if (ic%use_supergrid()) then
+         if (.false.) then
+            cp%mpot = cp%mref
+            call marker_shift(cp%mpot, -xref_pot, -yref_pot, 0d0)
+         else
+            cp%mpot = marker_2glob( marker(-xref_pot, -yref_pot, 0d0), cp%mref )
+         endif
+      else
+         cp%mpot = cp%mref
+      endif
 
       if (idebug.ge.2) then
          write(bufout,127) 'storing cp', icp,                                                        &
@@ -3265,6 +3669,12 @@ contains
                      '(x,y,z)_icp = (',cp%micp%x(),',', sgn*cp%micp%y(),',', cp%micp%z(),')'
          call write_log(2, bufout)
  127     format(1x,a,i2,a,3(f12.6,a)/, 15x,a,3(f12.6,a))
+ 128     format(                       15x,a,3(f12.6,a))
+
+         if (ic%use_supergrid()) then
+            write(bufout,128) '(x,y,z)_pot = (',cp%mpot%x(),',', sgn*cp%mpot%y(),',', cp%mpot%z(),')'        
+            call write_log(1, bufout)
+         endif
       endif
 
    end subroutine set_cpatch_reference
@@ -3318,13 +3728,17 @@ contains
       real(kind=8), intent(in)  :: sgn, dx_in, ds_in    ! dx, ds: user input
 !--local variables:
       integer        :: sub_ierror, mx, my, ix_l, ix_h, iy_l, iy_h
-      real(kind=8)   :: cref_x, zc_rol, rsta, rend, zsta, zend, xp_l, xp_h, sp_l, sp_h, fac, du, dv, tmp
+      real(kind=8)   :: cref_x, zc_rol, sr_sta, sr_end, rsta, rend, zsta, zend, xp_l, xp_h,             &
+                        sp_l, sp_h, fac, du, dv, tmp
       type(t_marker) :: msta, mend
 
-      ! compute positions [ssta,send] and [zsta_tr,zend_tr] on rail profile for [ysta_tr, yend_tr],
+      ! compute positions [sr_sta,sr_end] and [zsta_tr,zend_tr] on rail profile for [ysta_tr, yend_tr],
 
-      call spline_get_xz_at_y( prr%spl, cp%ysta, sub_ierror, zout=zsta )
-      call spline_get_xz_at_y( prr%spl, cp%yend, sub_ierror, zout=zend )
+      call spline_get_s_at_y( prr%spl, cp%ysta, sr_sta, sub_ierror )
+      call spline_get_s_at_y( prr%spl, cp%yend, sr_end, sub_ierror )
+
+      call spline_eval(prr%spl, ikZDIR, sr_sta, sub_ierror, 999d0, zsta)
+      call spline_eval(prr%spl, ikZDIR, sr_end, sub_ierror, 999d0, zend)
 
       if (ic%is_roller()) then
          ! msta/end as computed above lie in the principal profile, x==0, in track coordinates
@@ -3351,23 +3765,34 @@ contains
          call write_log(1, bufout)
       endif
 
-      ! transform [ysta,zsta] to contact coordinates, store sp_sta-position
+      ! get start/end position sp on contact plane as needed for potential contact area
 
-      msta = marker_2loc( marker(0d0, cp%ysta, zsta), cp%mref )
-      mend = marker_2loc( marker(0d0, cp%yend, zend), cp%mref )
+      if (ic%use_supergrid()) then
+         cp%sp_sta = sr_sta     ! using super-grid with sr <--> y_pot
+         cp%sp_end = sr_end
+      elseif (.true.) then
+         cp%sp_sta = sr_sta - cp%sr_ref
+         cp%sp_end = sr_end - cp%sr_ref
+      else
+
+         ! old: transform [ysta,zsta] to contact coordinates, store sp_sta-position
+
+         msta = marker_2loc( marker(0d0, cp%ysta, zsta), cp%mpot )
+         mend = marker_2loc( marker(0d0, cp%yend, zend), cp%mpot )
       cp%sp_sta = msta%y()
       cp%sp_end = mend%y()
 
       if (idebug.ge.2) then
          call marker_print( msta, 'msta(cp)', 1)
          call marker_print( mend, 'mend(cp)', 1)
-         call marker_print( cp%mref, 'mref(tr)', 1)
+            call marker_print( cp%mpot, 'mpot(tr)', 1)
+         endif
       endif
 
       ! define planar potential contact area for [xsta_tr,xend_tr] x [sp_sta,sp_end]
-      !  - there is an element with center at the contact reference position, (0,0) in local coords
+      !  - the contact reference position is placed at (xsg,ysg) in local coordinates
+      !  - grid points are placed at (ix*dx, iy*dy)
       !  - elements are numbered here as [ ix_l : ix_h ] x [ iy_l : iy_h ],
-      !             with ix_l and iy0 <= 0, ix_h and iy_h >= 0.
       !  - we get mx = ix_h - ix_l + 1, my = iy_h - iy_l + 1
       !  - element sizes are repeatedly doubled as needed to bring mx * my below npot_max.
       !  - effective element sizes are dx_eff = dx_fac * dx_in, ds_eff = ds_fac * ds_in
@@ -3375,14 +3800,15 @@ contains
       !  - one element +/-dx_eff and +/-ds_eff is added as safety, guard band
       !  - +/- 0.5 * dx_eff is added for the corners of the elements
 
-      xp_l = cp%xsta - cp%mref%x()
-      xp_h = cp%xend - cp%mref%x()
+      xp_l = cp%xsta - cp%mpot%x()
+      xp_h = cp%xend - cp%mpot%x()
 
-      if (xp_l.gt.0d0 .or. xp_h.lt.0d0) then
+      if (xp_l.gt.xp_h) then
          write(bufout,'(a,2g12.4)') ' Internal error: negative size for potential contact, xl/h=',xp_l,xp_h
          call write_log(1, bufout)
-         xp_l = min(0d0, xp_l)
-         xp_h = max(0d0, xp_h)
+         tmp  = xp_l
+         xp_l = xp_h
+         xp_h = tmp
       endif
 
       if (cp%sp_sta.gt.cp%sp_end) then
@@ -3453,10 +3879,10 @@ contains
       sp_h = (iy_h + 0.5d0) * cp%ds_eff
 
       if (idebug.ge.3) then
-         write(bufout,128) 'range x =',     cp%mref%x(),' + [', xp_l, ',', xp_h, '], mx=',mx
+         write(bufout,128) 'range x =',     cp%mpot%x(),' + [', xp_l, ',', xp_h, '], mx=',mx
          call write_log(1, bufout)
-         write(bufout,128) 'range y =', sgn*cp%mref%y(),' + [', sgn*(cp%ysta-cp%mref%y()), ',',         &
-                                                                sgn*(cp%yend-cp%mref%y()), ']'
+         write(bufout,128) 'range y =', sgn*cp%mpot%y(),' + [', sgn*(cp%ysta-cp%mpot%y()), ',',         &
+                                                                sgn*(cp%yend-cp%mpot%y()), ']'
          call write_log(1, bufout)
          write(bufout,128) 'range sr=',     cp%sr_ref,  ' + [', sp_l, ',', sp_h, '], my=',my
          call write_log(1, bufout)
@@ -3486,8 +3912,8 @@ contains
 
       ! overwrite [xsta,xend]_tr (extent of interpen.area) with [xp_l,xp_h]+xref (extent of pot.con)
 
-      cp%xsta = cp%mref%x() + xp_l
-      cp%xend = cp%mref%x() + xp_h
+      cp%xsta = cp%mpot%x() + xp_l
+      cp%xend = cp%mpot%x() + xp_h
 
       ! store sp_l, sp_h in [sp_sta,sp_end]
 

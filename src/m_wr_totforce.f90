@@ -40,7 +40,7 @@ contains
       integer,          intent(out) :: my_ierror
 !--local variables:
       logical            :: lfound
-      integer            :: iestim_br, x_locate, icp, i, sub_ierror, known_err(10)
+      integer            :: iestim_br, x_locate, icp, icpo, i, sub_ierror, known_err(10)
 
       my_ierror = 0
       wtd%meta%itforce    = 0
@@ -144,6 +144,27 @@ contains
       ! write output when R=0 or 1
 
       if (wtd%ic%return.le.1) call wr_output(wtd)
+
+      ! destroy remaining contact patches (gds) of the previous time
+
+      do icpo = wtd%numcps+1, wtd%numtot
+         if (x_locate.ge.1) then
+            write(bufout,'(2(a,i3),a)') ' There are',wtd%numcps,' contact patches and',         &
+                wtd%numtot-wtd%numcps,' unconnected patches for previous time'
+            call write_log(1, bufout)
+         endif
+         if (associated(wtd%allcps(icpo)%cp)) then
+            if (x_locate.ge.1 .and. associated(wtd%allcps(icpo)%cp%gd)) then
+               write(bufout,'(a,i3)') ' wr_contact: destroy gd for icpo=',icpo
+               call write_log(1, bufout)
+            elseif (x_locate.ge.3) then
+               write(bufout,'(a,i3)') ' wr_contact: destroy allcps cp=',icpo
+               call write_log(1, bufout)
+            endif
+            call cp_destroy(wtd%allcps(icpo))
+         endif
+      enddo
+      wtd%numtot = wtd%numcps
 
    end subroutine wr_contact
 

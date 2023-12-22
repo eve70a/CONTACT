@@ -315,7 +315,12 @@ contains
       ! set rolling direction on basis of sign(VS) or -sign(OMEGA)
       ! chi = 0 or 180: coordinate system moves along rail, even if the wheelset moves laterally
 
-      if (.not.ic%is_roller()) then
+      if (ic%tang.eq.1) then
+         ! in shifts, set dummy V = 1, dt = 1, dq = V*dt
+         gd%kin%veloc   = 1d0
+         gd%kin%chi     = 0d0
+         gd%kin%dq      = 1d0
+      elseif (.not.ic%is_roller()) then
          ! gd%kin%veloc =   ws%vs
          ! gd%kin%veloc =  (ws%vs - ws%vpitch * ws%nom_radius) / 2d0
          vs_est = vq_tvel_trk%x() - pitch_tvel_trk%x()
@@ -327,6 +332,7 @@ contains
          else
             gd%kin%chi  = pi
          endif
+         gd%kin%dq      =  dqrel * gd%cgrid_inp%dx
       else
          vs_est = -vp_tvel_cp%x()
          gd%kin%veloc   =  abs(vp_tvel_cp%x() + vq_tvel_cp%x()) / 2d0
@@ -337,20 +343,20 @@ contains
          else
             gd%kin%chi  = pi
          endif
+         gd%kin%dq      =  dqrel * gd%cgrid_inp%dx
       endif
-
-      gd%kin%dq      =  dqrel * gd%cgrid_inp%dx
       gd%kin%spinxo  =  0d0
       gd%kin%spinyo  =  0d0
 
       ! creepage = { velocity of rail/roller (1) - velocity of wheel (2) } / reference velocity
 
       if (abs(gd%kin%veloc).lt.1d-6) then
-         ! creepages +/- 1 for pos/neg velocity difference
+         ! rolling at V=0: creepages +/- 1 for pos/neg velocity difference
          gd%kin%cksi = 1d0 * sign(1d0, vp_tvel_cp%x() - vq_tvel_cp%x())
          gd%kin%ceta = 1d0 * sign(1d0, vp_tvel_cp%y() - vq_tvel_cp%y())
          gd%kin%cphi = 1d0 * sign(1d0, vp_rvel_cp%z() - vq_rvel_cp%z())
       else
+         ! rolling: compute creepage; shift: V=dt=1, cksi--cphi = shift distance
          gd%kin%cksi = (vp_tvel_cp%x() - vq_tvel_cp%x()) / gd%kin%veloc
          gd%kin%ceta = (vp_tvel_cp%y() - vq_tvel_cp%y()) / gd%kin%veloc
          gd%kin%cphi = (vp_rvel_cp%z() - vq_rvel_cp%z()) / gd%kin%veloc

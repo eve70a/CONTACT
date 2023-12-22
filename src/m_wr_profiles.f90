@@ -41,7 +41,7 @@ contains
       ! set pointer to the active rail in the current configuration
 
       my_rail     => trk%rai
-      if (ic%config.eq.0 .or. ic%config.eq.4) then
+      if (ic%is_left_side()) then
          nam_rail = 'left'
          is_right = 0
       else
@@ -112,7 +112,7 @@ contains
          ! wheelset on track: shift vertically to put highest point on z=0 + deviations
          ! wheelset on roller rig: no vertical shifting
 
-         if (ic%config.le.1) then
+         if (.not.ic%is_roller()) then
             rail_z =                      - zmin   +       my_rail%dz + trk%dz_defl
          else
             rail_z =                                       my_rail%dz + trk%dz_defl
@@ -155,7 +155,7 @@ contains
       ! set pointer to the active wheel in the current configuration
 
       my_wheel    => ws%whl
-      if (ic%config.eq.0 .or. ic%config.eq.4) then
+      if (ic%is_left_side()) then
          nam_wheel = 'left'
          is_right  = 0
       else

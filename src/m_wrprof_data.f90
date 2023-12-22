@@ -13,17 +13,40 @@ use m_varprof
 implicit none
 public
 
-   public  wheel_ini
-   public  rail_ini
-   public  wrprof_ini
+   public  t_discret
+
+   public  t_region
+
+   public  t_cpatch
+   public  p_cpatch
+   public  cp_init
    public  cp_destroy
+   interface cp_destroy
+      module procedure tpatch_destroy
+      module procedure ppatch_destroy
+   end interface cp_destroy
+
+   public  t_wheel
+   public  wheel_ini
+
+   public  t_wheelset
+   public  wheelset_ini
+
+   public  t_rail
+   public  rail_ini
+
+   public  t_trackdata
+
+   public  t_ws_track
+   public  p_ws_track
+   public  wrprof_ini
    public  wrprof_destroy
 
    !---------------------------------------------------------------------------------------------------------
    ! dimensions and parameters
 
-   integer,      parameter :: MAX_NUM_RGN = 10          ! max 10 per wheel
-   integer,      parameter :: MAX_NUM_CPS = 10          ! max 10 per wheel
+   integer,      parameter :: MAX_NUM_RGN = 10          ! max 10 regions with possible contact per wheel
+   integer,      parameter :: MAX_NUM_CPS = 10          ! max 10 contact patches per wheel
 
    !---------------------------------------------------------------------------------------------------------
    ! data with respect to the grid discretisation, potential contact area:
@@ -66,13 +89,14 @@ public
    type :: t_cpatch
       type(t_vec)      :: micp
       real(kind=8)     :: gap_min, totgap, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap
-      type(t_marker)   :: mref
+      type(t_marker)   :: mref, mpot
       real(kind=8)     :: delttr
       real(kind=8)     :: xsta, xend, ysta, yend, zsta, zend, usta, uend, vsta, vend
       real(kind=8)     :: sr_ref, sp_sta, sp_end, sc_sta, sc_end
       real(kind=8)     :: dx_fac, ds_fac, dx_eff, ds_eff
       integer          :: nsub
       real(kind=8), dimension(:), pointer :: y_sep => NULL(), f_sep => NULL()
+      integer          :: prev_icp(MAX_NUM_CPS)
       type(t_vec)      :: ftrk, ttrk, fws, tws
       type(t_grid)     :: rail_srfc, whl_srfc, curv_ref
       type(t_gridfnc3) :: curv_nrm, curv_incln
@@ -93,7 +117,8 @@ public
       ! sr_ref    [mm]   sr-position of the contact reference in rail profile sr-coordinates
       !
       ! variables concerning the potential contact area:
-      ! mref             reference marker for the contact local coordinates w.r.t. track coordinates
+      ! mref             contact reference marker w.r.t. track coordinates
+      ! mpot             potential contact marker w.r.t. track coordinates (origin of local coordinates)
       ! delttr    [rad]  contact angle in track coordinates, rotation from track z-axis to contact n-axis
       ! sp_sta    [mm]   start-position of (estimated) interpenetration area in planar contact sp-coordinate
       ! sp_end    [mm]   end-position of (estimated) interpenetration area in planar contact sp-coordinate
@@ -108,6 +133,9 @@ public
       ! nsub             number of sub-patches with reduced interaction
       ! y_sep     [mm]   track y-positions between neighbouring sub-patches in increasing order
       ! f_sep     [-]    weighting factors for interactions between neighbouring sub-patches
+      !
+      ! connection between this patch and patches at previous time instance
+      ! prev_icp  [-]    contact patch numbers at previous time connected to this icp, 0 in unused positions
       !
       ! for pot.contact in conformal method:
       ! curv_ref  [mm]   curved reference [0,y,z]_c(tr) (1 x my) for conformal contact approach (trk coord)
@@ -181,14 +209,20 @@ public
       ! y            [mm]   lateral position (shift) of wheel-set cm
       ! z            [mm]   vertical position (shift) of wheel-set cm; downwards positive
       ! vs          [mm/s]  longitudinal translational velocity of wheel-set cm along track curve
+      !              [mm]   when T=1, vs stores the position increment vs = shft_sws / dt* with dt* = 1
       ! vy          [mm/s]  lateral translational velocity of wheel-set cm 
+      !              [mm]   when T=1, vy stores the position increment vy = shft_yws / dt* with dt* = 1
       ! vz          [mm/s]  vertical translational velocity of wheel-set cm
+      !              [mm]   when T=1, vz stores the position increment vz = shft_zws / dt* with dt* = 1
       ! roll         [rad]  roll angle \phi of wheel-set
       ! yaw          [rad]  yaw angle \psi of wheel-set
       ! pitch        [rad]  pitch angle \theta of wheel-set
       ! vroll       [rad/s] roll angular velocity \dot{\phi} of wheel-set
+      !              [rad]  when T=1, vroll stores the angle increment vroll = shft_rol / dt* with dt* = 1
       ! vyaw        [rad/s] yaw angular velocity \dot{\psi} of wheel-set
+      !              [rad]  when T=1, vyaw stores the angle increment vyaw = shft_yaw / dt* with dt* = 1
       ! vpitch      [rad/s] pitch angular velocity \omega=\dot{\theta} of wheel-set
+      !              [rad]  when T=1, vpitch stores the angle increment vpitch = shft_wpit / dt*, dt* = 1
       ! fx_inp        [N]   prescribed total force "on rail" in "wheelset" longitudinal direction (F=1)
       ! fy_inp        [N]   prescribed total force on rail in track lateral direction (n.y.a.)
       ! fz_inp        [N]   prescribed total force in track vertical direction (N>=1)
@@ -254,6 +288,7 @@ public
       ! fz_rail      [N]    vertical spring force on rail at zero deflection for rail deflection model (F=3)
       ! nom_radius   [rad]  nominal radius of rollers, in case of roller rigs (config>=4)
       ! vpitch_rol  [rad/s] pitch angular velocity \omega=\dot{\theta} of rollers
+      !              [rad]  when T=1, this stores the angle increment vpitch_rol = shft_rpit / dt*, dt* = 1
       ! rai                 data structure for rail
 
    end type t_trackdata
@@ -288,8 +323,10 @@ public
 
       type(t_wheelset) :: ws      ! half wheel-set data, including wheel profile
       type(t_trackdata):: trk     ! half track/roller data, including rail profile
-      integer          :: numcps  ! number of contact problems
+      integer          :: numcps  ! number of contact problems at current time
+      integer          :: numtot  ! total number of contact problems held in allcps
       type(p_cpatch)   :: allcps(MAX_NUM_CPS) ! pointers to the data for all contact problems of ws on trk
+                                  ! first numcps == current time, remainder == unconnected of prev.time
    end type t_ws_track
 
    type :: p_ws_track
@@ -317,27 +354,6 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine rail_ini(rail)
-!--purpose: Initialize a rail data-structure
-      implicit none
-!--subroutine parameters:
-      type(t_rail)  :: rail
-
-      call marker_init( rail%m_trk )
-
-      rail%dy         = 0d0
-      rail%dz         = 0d0
-      rail%roll       = 0d0
-      rail%vy         = 0d0
-      rail%vz         = 0d0
-      rail%vroll      = 0d0
-
-      call profile_ini(rail%prr)
-
-   end subroutine rail_ini
-
-!------------------------------------------------------------------------------------------------------------
-
    subroutine wheel_ini(whl)
 !--purpose: Initialize a wheel data-structure
       implicit none
@@ -362,6 +378,27 @@ contains
       call profile_ini(whl%prw)
 
    end subroutine wheel_ini
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine rail_ini(rail)
+!--purpose: Initialize a rail data-structure
+      implicit none
+!--subroutine parameters:
+      type(t_rail)  :: rail
+
+      call marker_init( rail%m_trk )
+
+      rail%dy         = 0d0
+      rail%dz         = 0d0
+      rail%roll       = 0d0
+      rail%vy         = 0d0
+      rail%vz         = 0d0
+      rail%vroll      = 0d0
+
+      call profile_ini(rail%prr)
+
+   end subroutine rail_ini
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -426,14 +463,12 @@ contains
 !--local variables:
       integer                :: icp
 
-      ! allocate initial contact point structures
+      ! initialize contact patch data-structures
 
+      wtd%numtot = 0
+      wtd%numcps = 0
       do icp = 1, MAX_NUM_CPS
-         allocate(wtd%allcps(icp)%cp)
-         wtd%allcps(icp)%cp%has_own_subs = .false.
-         ! For testing purposes: make sure that all gd's are properly initialized
-         ! allocate(wtd%allcps(icp)%cp%gd)
-         ! call setini(wtd%allcps(icp)%cp%gd)
+         wtd%allcps(icp)%cp => NULL()
       enddo
 
       call meta_init( wtd%meta, 2 )
@@ -504,7 +539,34 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine cp_destroy(cp)
+   subroutine cp_init(cp)
+!--purpose: Initialize a contact-patch data-structure
+      implicit none
+!--subroutine parameters:
+      type(t_cpatch)    :: cp
+
+      cp%micp = vec_zero()
+      call marker_init(cp%mref)
+      call marker_init(cp%mpot)
+      cp%nsub = 0
+      cp%y_sep => NULL()
+      cp%f_sep => NULL()
+      call grid_nullify(cp%rail_srfc)
+      call grid_nullify(cp%whl_srfc)
+      call grid_nullify(cp%curv_ref)
+      call gf3_nullify(cp%curv_nrm)
+      call gf3_nullify(cp%curv_incln)
+      cp%gd => NULL()
+      cp%prev_icp(1:MAX_NUM_CPS) = 0
+
+!     real(kind=8)     :: gap_min, totgap, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap
+!     real(kind=8)     :: delttr ...
+
+   end subroutine cp_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine tpatch_destroy(cp)
 !--purpose: Cleanup a contact-patch data-structure
       implicit none
 !--subroutine parameters:
@@ -525,7 +587,23 @@ contains
          nullify( cp%gd )
       endif
 
-   end subroutine cp_destroy
+   end subroutine tpatch_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine ppatch_destroy(pp)
+!--purpose: Cleanup a pointer to contact-patch data-structure
+      implicit none
+!--subroutine parameters:
+      type(p_cpatch)  :: pp
+
+      if (associated(pp%cp)) then
+         call tpatch_destroy(pp%cp)
+         deallocate(pp%cp)
+         pp%cp => NULL()
+      endif
+
+   end subroutine ppatch_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -559,9 +637,11 @@ contains
       ! clean up contact patch data (grids, gd)
 
       do icp = 1, MAX_NUM_CPS
+         if (associated(wtd%allcps(icp)%cp)) then
          call cp_destroy( wtd%allcps(icp)%cp )
          deallocate( wtd%allcps(icp)%cp )
          nullify( wtd%allcps(icp)%cp )
+         endif
       enddo
 
    end subroutine wrprof_destroy

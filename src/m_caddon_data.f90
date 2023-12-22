@@ -335,7 +335,7 @@ subroutine cntc_activate_wtd(REid, CPid, ierror)
    ! if the calling subroutine works on cp-data, activate contact patch CPid
 
    if (CPid.ge.1 .and. CPid.le.MAX_CPids) then
-      if (.not.associated(wtd%allcps(CPid)%cp%gd)) then
+      if (.not.associated(wtd%allcps(CPid)%cp) .or. .not.associated(wtd%allcps(CPid)%cp%gd)) then
          write(bufout,'(a,i2,a,i4,a)') ' ERROR: contact patch',CPid,' of wheel-rail problem',REid,      &
                 ' hasnt been initialized yet.'
          call write_log(1, bufout)
@@ -597,11 +597,10 @@ subroutine cntc_destroy_gd(REid, CPid)
 
    call gd_destroy( allgds(ixre,CPid)%gd )
 
-   ! destroy the whole structure t_probdata
+   ! destroy the gd structure itself
 
    deallocate(allgds(ixre,CPid)%gd)
    nullify(allgds(ixre,CPid)%gd)
-   nullify(gd)
 
    if (idebug.ge.5) call cntc_log_start(subnam, .false.)
 end subroutine cntc_destroy_gd

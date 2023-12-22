@@ -94,7 +94,7 @@ contains
       zerror = .false.
 
       zerror = zerror .or. .not.check_2rng ('Control digit C1', ic%config, 0, 1, 4, 5)
-      zerror = zerror .or. .not.check_irng ('Control digit P',  ic%pvtime, 2, 2)
+      zerror = zerror .or. .not.check_irng ('Control digit P',  ic%pvtime, 0, 2)
       zerror = zerror .or. .not.check_2rng ('Control digit B',  ic%bound , 0, 1, 5, 6)
       zerror = zerror .or. .not.check_irng ('Control digit T',  ic%tang  , 0, 3)
       zerror = zerror .or. .not.check_irng ('Control digit N1', ic%norm  , 0, 1)
@@ -113,7 +113,7 @@ contains
       zerror = zerror .or. .not.check_irng ('Control digit X',  ic%xflow , 0, 1)
       zerror = zerror .or. .not.check_2rng ('Control digit H',  ic%heat  , 0, 1, 3, 3)
       zerror = zerror .or. .not.check_irng ('Control digit G',  ic%gausei_inp, 0, 5)
-      zerror = zerror .or. .not.check_irng ('Control digit I',  ic%iestim, 0, 0)
+      zerror = zerror .or. .not.check_irng ('Control digit I',  ic%iestim, 0, 3)
       zerror = zerror .or. .not.check_irng ('Control digit A',  ic%matfil_surf, 0, 2)
       zerror = zerror .or. .not.check_irng ('Control digit O',  ic%output_surf, 0, 5)
       zerror = zerror .or. .not.check_irng ('Control digit W',  ic%flow  , 0, 9)
@@ -795,8 +795,7 @@ contains
             ws%z      = dbles(3)
             ws%fz_inp = 0d0
          else
-            ws%z      = 0d0             ! N=1: FZ_TR prescribed
-            ws%fz_inp = dbles(3)
+            ws%fz_inp = dbles(3)        ! N=1: FZ_TR prescribed
          endif
          ws%roll     = dbles(4)
          ws%yaw      = dbles(5)

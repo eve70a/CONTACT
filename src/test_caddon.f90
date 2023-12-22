@@ -51,8 +51,8 @@ program test_caddon
    integer               :: ifcver, ierror, ioutput
    integer, parameter    :: mxflgs = CNTC_FLAGS_DIM
    integer               :: flags(mxflgs), values(mxflgs)
-   real(kind=8)          :: g1, nu1, g3, laythk, tau_c0, k_tau, mu, veloc, a, b, rvalues(mxflgs)
-   real(kind=8)          :: xl, yl, dx, dy, scale
+   real(kind=8)          :: g1, nu1, g3, laythk, tau_c0, k_tau, mu, a, b, rvalues(mxflgs)
+   real(kind=8)          :: veloc, chi, dq, xl, yl, dx, dy, scale
    real(kind=8)          :: a1, b1, xi, yi
    real(kind=8)          :: pen, fn, vx, vy, phi
    integer               :: mx, my, lenarr, len_string
@@ -134,6 +134,10 @@ program test_caddon
 
       veloc = 24d0
       call cntc_setReferenceVelocity(ire, icp, veloc)
+
+      chi   = 0d0
+      dq    = 0.0005d0
+      call cntc_setRollingStepsize(ire, icp, chi, dq)
 
       vx  = 0.001d0
       vy  = 0d0
