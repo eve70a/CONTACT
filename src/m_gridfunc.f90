@@ -48,12 +48,16 @@ module m_gridfunc
 
    ! Functions defined on the data types:
 
+   public eldiv_is_defined
    public eldiv_nullify
    public eldiv_new
    public eldiv_exter
-   public eldiv_copy
+   public eldiv_copy       ! copy contents of element division
+ ! public eldiv_copy_full  ! copy structure and values from one eldiv to another
+   public eldiv_resize     ! resize to new matching grid, keeping data
    public eldiv_count
    public eldiv_count_atbnd
+   public eldiv_cpatches   ! create mask for gf3_msk_copy
    public eldiv_print
    public areas 
    public wrigs 
@@ -63,15 +67,18 @@ module m_gridfunc
    public if1_new
    public if1_destroy
 
+   public gf3_is_defined
    public gf3_ikrange
    public gf3_nullify
    public gf3_new          ! (re-)initialize structure of grid-func
-   public gf3_dup          ! duplicate structure, optionally initialize at 0
+   public gf3_copy_struc   ! duplicate structure, optionally initialize at 0
+   public gf3_copy_full    ! copy structure and values from one gf to another
    public gf3_eldiv
    public gf3_set
    public gf3_copy_xdir    ! copy plain val(ny) to grid.func
-   public gf3_copy
+   public gf3_copy         ! copy values from one gf to another
    public gf3_msk_copy
+   public gf3_resize       ! resize to new matching grid, keeping data
    public gf3_scal
    public gf3_msk_scal
    public gf3_axpy
@@ -111,6 +118,8 @@ module m_gridfunc
       integer                        :: iymin
       integer                        :: iymax
       type(t_grid),          pointer :: grid   => NULL()
+   contains
+      procedure :: is_defined => eldiv_is_defined
 
       ! el      element division array (1:ntot): for each element a code Exter, Adhes, Slip or Plast.
       ! row1st  for each row iy of the grid, smallest ix for which el>=Adhes,
@@ -170,7 +179,47 @@ module m_gridfunc
       type(t_gridfnc3), pointer :: gf => NULL()      ! pointer to a gridfnc3 data-structure
    end type p_gridfnc3
 
+   interface
+
+      module subroutine eldiv_resize(e1, g_new)
+      !--purpose: resize element division to the new (matching) grid provided
+      !--subroutine arguments:
+         type(t_eldiv)           :: e1
+         type(t_grid),  target   :: g_new
+      end subroutine eldiv_resize
+
+      module subroutine gf3_resize(gf, g_new, defval)
+      !--purpose: resize grid function to the new (matching) grid provided
+      !--subroutine arguments:
+         type(t_gridfnc3)          :: gf
+         type(t_grid),    target   :: g_new
+         real(kind=8),    optional :: defval
+      end subroutine gf3_resize
+
+      module subroutine WrIgs (igs, is_roll, chi)
+      !--subroutine arguments:
+         type(t_eldiv) :: igs
+         logical       :: is_roll
+         real(kind=8)  :: chi
+      end subroutine wrigs
+
+   end interface
+
 contains
+
+!------------------------------------------------------------------------------------------------------------
+
+function eldiv_is_defined(this)
+!--purpose: determine if the element division is 'defined', has memory allocated
+   implicit none
+!--function return value:
+   logical             :: eldiv_is_defined
+!--function arguments:
+   class(t_eldiv)      :: this
+
+   eldiv_is_defined = (associated(this%el))
+
+end function eldiv_is_defined
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -259,7 +308,7 @@ end subroutine eldiv_exter
 !------------------------------------------------------------------------------------------------------------
 
 subroutine eldiv_copy(e1, e2, imode)
-!--purpose: copy first element division to second element division
+!--purpose: copy contents of first element division to second element division
 !          imode=1: normal part only, Slip->Adhesion
 !          imode=2: full copy
    implicit none
@@ -316,10 +365,6 @@ subroutine eldiv_copy(e1, e2, imode)
       call abort_run()
 
    endif
-
-   ! copy grid reference
-
-   e2%grid => e1%grid
 
    ! copy row1st and rowlst arrays as well
    ! Note: may need to check size of arrays of e2?
@@ -425,6 +470,82 @@ end function eldiv_count_atbnd
 
 !------------------------------------------------------------------------------------------------------------
 
+subroutine eldiv_cpatches(eldiv, npatch, ysep, idebug)
+!--function: fill element division (mask) with sub-patch numbers 1:npatch on the basis of y-values ysep
+!            used in gf3_msk_copy
+   implicit none
+!--subroutine arguments
+   type(t_eldiv)             :: eldiv
+   integer,      intent(in)  :: npatch, idebug
+   real(kind=8), intent(in)  :: ysep(npatch-1)
+!--local variables
+   integer      :: ip, ii, ix, iy, iy0, iy1
+   logical      :: ldone
+
+   associate( mx => eldiv%grid%nx, my => eldiv%grid%ny, y1 => eldiv%grid%y(1), yn => eldiv%grid%y(mx*my))
+
+   if (idebug.ge.2) then
+      write(bufout,'(a,i4,2(a,f7.3),a,i2,a,4f7.3)') ' my=',my,', y1=',y1,', yn=', yn, ', npatch=',      &
+             npatch,', ysep=',(ysep(ip), ip=1,npatch-1)
+      call write_log(1, bufout)
+   endif
+
+   do ip = 1, npatch
+
+      ! ysep-values are given in increasing order: determine range [iy0 : iy1)
+      ! patch  1: y-values (-\infty   , ysep( 1))
+      ! patch ip: y-values [ysep(ip-1), ysep(ip))
+      ! patch np: y-values [ysep(np-1),   \infty)
+
+      if (ip.le.1) then
+         iy0 = 1
+      else
+         iy0 = iy1 + 1
+      endif
+
+      if (ip.ge.npatch) then
+         iy1 = my            ! last segment: use all remaining iy
+      elseif (iy0.gt.my) then
+         iy1 = my            ! no points remaining: set empty interval
+      elseif (eldiv%grid%y(iy0*mx).ge.ysep(ip)) then
+         iy1 = iy0 - 1       ! first possible y already beyond upper bound ysep(ip): set empty
+      else
+         iy1 = iy0
+         ldone = .false.
+         do while (iy1.lt.my .and. .not.ldone)
+            if (eldiv%grid%y((iy1+1)*mx).lt.ysep(ip)) then
+               iy1 = iy1 + 1
+            else
+               ldone = .true.
+            endif
+         enddo
+      endif
+
+      if (iy1.lt.iy0 .and. idebug.ge.-1) then
+         write(bufout,'(3(a,i3),a)') ' WARNING: sub-patch',ip,': empty range iy = [', iy0,',',iy1, '].'
+         call write_log(1, bufout)
+      elseif (idebug.ge.2) then
+         ! if (min(iy0,iy1).ge.1 .and. max(iy0,iy1).le.my) then
+         write(bufout,'(3(a,i3),2(a,f7.3),a)') ' sub-patch',ip,': selecting range [', iy0,',',       &
+                iy1,'], y=[', eldiv%grid%y(iy0*mx),',', eldiv%grid%y(iy1*mx),']'
+         call write_log(1, bufout)
+      endif
+
+      ! set patch number in element division
+
+      do iy = iy0, iy1
+         do ix = 1, mx
+            ii = ix + (iy-1)*mx
+            eldiv%el(ii) = ip
+         enddo
+      enddo
+   enddo
+
+   end associate
+end subroutine eldiv_cpatches
+
+!------------------------------------------------------------------------------------------------------------
+
 subroutine eldiv_print(e1, nam)
 !--purpose: print debug-output for an element division
    implicit none
@@ -444,18 +565,19 @@ subroutine eldiv_print(e1, nam)
    if (.not.associated(e1%el)) then
       call write_log(' ..el-array is not associated')
    else
-      write(bufout,*) '..el-array has size',size(e1%el)
+      write(bufout,'(a,i6)') ' ..el-array has size',size(e1%el)
       call write_log(1, bufout)
    endif
-   write(bufout,*) '..encompassing rectangle: [',e1%ixmin,',',e1%ixmax, '] x [',e1%iymin,',',e1%iymax,']'
+   write(bufout,'(4(a,i4),a)') ' ..encompassing rectangle: [',e1%ixmin,',',e1%ixmax, '] x [',e1%iymin,   &
+        ',',e1%iymax,']'
    call write_log(1, bufout)
    if (.not.associated(e1%row1st) .or. .not.associated(e1%rowlst)) then
       call write_log(' ..row1st or rowlst-array is not associated')
    else
-      write(bufout,*) ' ..row1st/lst-arrays have size',size(e1%row1st),size(e1%rowlst)
+      write(bufout,'(2(a,i6))') ' ..row1st/lst-arrays have size',size(e1%row1st), ',', size(e1%rowlst)
       call write_log(1, bufout)
       do iy = 1, min(size(e1%row1st), size(e1%rowlst))
-         write(bufout,*) 'row',iy,': ix=',e1%row1st(iy),' to',e1%rowlst(iy)
+         write(bufout,'(3(a,i4))') '   row',iy,': ix=',e1%row1st(iy),' to',e1%rowlst(iy)
          call write_log(1, bufout)
       enddo
    endif
@@ -520,210 +642,6 @@ subroutine Areas (eldiv)
    enddo
 
 end subroutine areas
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine WrIgs (igs, is_roll, chi)
-   implicit none
-!--subroutine arguments:
-   type(t_eldiv) :: igs
-   logical       :: is_roll
-   real(kind=8)  :: chi
-!--local variables:
-   integer, parameter :: ScrRow = 800
-   integer, parameter :: ScrCol = 800
-   integer, parameter :: ArrLen = max(ScrRow, ScrCol)
-        ! note that ArrLen is also hard-coded in the format strings below
-   integer, parameter :: HlfCol =  36
-   logical, parameter :: ltight = .true.
-   integer          :: nx, ny, nxloc, nyloc, ix, ix0, ix1, iy, iy0, iy1, i, ii
-   character        :: str(ArrLen), nums(ArrLen), tens(ArrLen), hundr(ArrLen)
-   real(kind=8),     parameter :: pi = 4d0*atan(1d0)
-   character(len=1), parameter :: aset(Exter:Plast) = (/ '.', '*', 'S', '|' /)
-   character(len=1), parameter :: dig(10) = (/ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' /)
-   character(len=1000) :: bufloc(1)
-
-   ! initialize strings nums, tens and str
-   ! TODO: only on first call, save variables
-
-   do ix = 1, ArrLen
-      i = mod(ix-1, 10) + 1
-      nums(ix) = dig(i)
-      if (mod(ix,10).eq.0) then
-         i = mod(ix/10-1, 10) + 1
-         tens(ix) = dig(i)
-      else
-         tens(ix) = ' '
-      endif
-      if (mod(ix,100).eq.0) then
-         i = mod(ix/100-1, 10) + 1
-         hundr(ix) = dig(i)
-      else
-         hundr(ix) = ' '
-      endif
-   enddo
-   do ix = 1, ArrLen
-      str(ix) = ' '
-   enddo
-
-   ! determine range to be displayed
-
-   nx = igs%grid%nx
-   ny = igs%grid%ny
-
-   if (ltight) then
-      call areas(igs)
-      if (igs%ixmin.gt.igs%ixmax) then
-         ! empty contact area
-         ix0 = max( 1, nx/2-5)
-         ix1 = min(nx, nx/2+5)
-      elseif (igs%ixmin.le.5 .and. igs%ixmax.ge.nx-4) then
-         ! contact close to edges of pot.con
-         ix0 = 1
-         ix1 = nx
-      else
-         ! remove white-space
-         ix0 = max( 1, igs%ixmin-1)
-         ix1 = min(nx, igs%ixmax+1)
-      endif
-      if (igs%iymin.gt.igs%iymax) then
-         iy0 = max( 1, ny/2-5)
-         iy1 = min(ny, ny/2+5)
-      elseif (igs%iymin.le.5 .and. igs%iymax.ge.ny-4) then
-         iy0 = 1
-         iy1 = ny
-      else
-         iy0 = max( 1, igs%iymin-1)
-         iy1 = min(ny, igs%iymax+1)
-      endif
-   else
-      ix0 = 1
-      ix1 = nx
-      iy0 = 1
-      iy1 = ny
-   endif
-   nxloc = ix1 - ix0 + 1
-   nyloc = iy1 - iy0 + 1
-
-   if (nxloc.le.HlfCol .and. nyloc.le.ScrRow) then
-
-      ! If nxloc is relatively small, print the picture in the normal orientation and add spaces between
-      ! the consecutive points
-
-      do iy = iy1, iy0, -1
-         do ix = ix0, ix1
-            ii = ix + nx * (iy-1)
-            str(ix) = aset(igs%el(ii))
-            if (igs%el(ii).le.Exter .and. (ix.eq.ix0 .or. ix.eq.ix1) &
-                                    .and. (iy.eq.iy0 .or. iy.eq.iy1)) str(ix) = 'o'
-         enddo
-         write (bufloc, 2200) iy, (str(ix), ix=ix0,ix1)
-         call write_log(1, bufloc)
- 2200    format (i6, 2x, 900(' ',a,:))
-      enddo
-
-      if (nxloc.ge.200) then
-         write (bufloc, 2300) (hundr(ix), ix=ix0,ix1)
-         call write_log(1, bufloc)
-      endif
-      if (nxloc.ge.10) then
-         write (bufloc, 2300) (tens(ix), ix=ix0,ix1)
-         call write_log(1, bufloc)
-      endif
-      write (bufloc, 2300) (nums(ix), ix=ix0,ix1)
-      call write_log(1, bufloc)
- 2300 format (8x, 900(' ',a,:))
-
-      if (.not.is_roll) then
-         call write_log('     X  -->')
-      elseif (chi.gt.-998d0) then
-         write (bufloc, 2400) chi * 180d0/pi
-         call write_log(1, bufloc)
- 2400    format ('     X  -->        Chi=', f6.2, ' degrees')
-      endif
-
-   elseif (nxloc.le.ScrCol .and. nyloc.le.ScrRow) then
-
-      ! Elseif nxloc is small enough w.r.t. the max number of columns, print the picture in normal
-      ! orientation without the spaces
-
-      do iy = iy1, iy0, -1
-         do ix = ix0, ix1
-            ii = ix + nx * (iy-1)
-            str(ix) = aset(igs%el(ii))
-            if (igs%el(ii).le.Exter .and. (ix.eq.ix0 .or. ix.eq.ix1) &
-                                    .and. (iy.eq.iy0 .or. iy.eq.iy1)) str(ix) = 'o'
-         enddo
-
-         ! write row number and row
-
-         write (bufloc, 5200) iy, (str(ix), ix=ix0,ix1)
-         call write_log(1, bufloc)
- 5200    format (i6, 2x, 900a)
-      enddo
-
-      ! Display digits under figure
-
-      if (nxloc.ge.200) then
-         write (bufloc, 5300) (hundr(ix), ix=ix0,ix1)
-         call write_log(1, bufloc)
-      endif
-      if (nxloc.ge.10) then
-         write (bufloc, 5300) (tens(ix), ix=ix0,ix1)
-         call write_log(1, bufloc)
-      endif
-      write (bufloc, 5300) (nums(ix), ix=ix0,ix1)
-      call write_log(1, bufloc)
- 5300 format (8x, 900a)
-
-      if (.not.is_roll) then
-         call write_log('     X  -->')
-      elseif (chi.gt.-998d0) then
-         write (bufloc, 2400) chi * 180d0/pi
-         call write_log(1, bufloc)
-      endif
-
-   elseif (nyloc.gt.ScrRow .and. nyloc.le.ScrCol .and. nxloc.le.ScrRow) then
-
-   ! If nyloc is the limiting factor and ScrCol > ScrRow, then the picture
-   !    may be rotated over 90 deg counter-clockwise.
-   !    Here no spaces are added in between consecutive points.
-
-      do ix = ix1, ix0, -1
-         do iy = iy1, iy0, -1
-            ii = ix + nx * (iy-1)
-            str(ny-iy+1) = aset(igs%el(ii))
-            if (igs%el(ii).le.Exter .and. (ix.eq.ix0 .or. ix.eq.ix1) &
-                                    .and. (iy.eq.iy0 .or. iy.eq.iy1)) str(ny-iy+1) = 'o'
-         enddo
-         str(iy1+1) = ' '
-         str(iy1+2) = ' '
-         str(iy1+3) = nums(ix)
-         write (bufloc, 7200) (str(iy), iy=iy0,iy1+3)
-         call write_log(1, bufloc)
- 7200    format (8x, 903a)
-      enddo
-
-      if (nyloc.ge.200) then
-         write (bufloc, 5300) (hundr(iy), iy=iy1,iy0,-1)
-         call write_log(1, bufloc)
-      endif
-      if (nyloc.ge.10) then
-         write (bufloc, 5300) (tens(iy), iy=iy1,iy0,-1)
-         call write_log(1, bufloc)
-      endif
-      write (bufloc, 5300) (nums(iy), iy=iy1,iy0,-1)
-      call write_log(1, bufloc)
-      if (.not.is_roll) then
-         call write_log('     <--  Y')
-      elseif (chi.gt.-998d0) then
-         write (bufloc, 7300) chi * 180d0/pi
-         call write_log(1, bufloc)
- 7300    format ('     <--  Y        Chi=', f6.2, ' degrees')
-      endif
-   endif
-
-end subroutine wrigs
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -924,15 +842,14 @@ end subroutine gf3_new
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine gf3_dup(new_gf, gf_name, old_gf, lzero)
-!--purpose: nullify & optionally initialize a grid function
-!          by duplicating the structure of an existing grid function
+subroutine gf3_copy_struc(old_gf, new_gf, gf_name, lzero)
+!--purpose: copy the structure of an existing grid function to a new grid function
+!           nullify & optionally initialize to zero
    implicit none
 !--subroutine arguments:
+   type(t_gridfnc3)          :: old_gf, new_gf
    character(len=*)          :: gf_name
-   type(t_gridfnc3)          :: new_gf, old_gf
    logical,         optional :: lzero
-
 
    ! assume that "new_gf" has not been used before, else the allocated space is lost (memory leak?)
 
@@ -952,7 +869,41 @@ subroutine gf3_dup(new_gf, gf_name, old_gf, lzero)
       if (lzero) call gf3_set(AllElm, 0d0, new_gf, ikALL)
    endif
 
-end subroutine gf3_dup
+end subroutine gf3_copy_struc
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine gf3_copy_full(old_gf, new_gf, grid, eldiv)
+!--purpose: copy the structure and values of an existing grid function to a new grid function
+!           optionally provide existing copies of grid and eldiv replacing the internal pointers
+   implicit none
+!--subroutine arguments:
+   type(t_gridfnc3)                 :: old_gf, new_gf
+   type(t_grid),   optional, target :: grid
+   type(t_eldiv),  optional, target :: eldiv
+
+   if (.not.old_gf%is_defined()) then
+
+      call gf3_nullify(new_gf)
+
+   else
+
+      ! copy structure of old_gf to new_gf
+
+      call gf3_copy_struc(old_gf, new_gf, old_gf%name)
+
+      ! replace pointers to grid, eldiv if provided
+
+      if (present(grid)) new_gf%grid => grid
+
+      if (present(eldiv)) new_gf%eldiv => eldiv
+
+      ! copy values from old to new
+
+      call gf3_copy( AllElm, old_gf, new_gf, ikALL )
+   endif
+
+end subroutine gf3_copy_full
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1086,7 +1037,7 @@ end subroutine gf3_copy_xdir
 !------------------------------------------------------------------------------------------------------------
 
 subroutine gf3_copy(iigs, f1, f2, ikarg)
-!--purpose: copy first grid function to second grid function
+!--purpose: copy values from first grid function to second grid function
 !          ik == coordinate direction(s) of copy.
 !          iigs: Select elements for the computation: AllElm or AllInt.
    implicit none
@@ -1098,18 +1049,19 @@ subroutine gf3_copy(iigs, f1, f2, ikarg)
 
    ! check input arguments
 
-   if (.not.associated(f1%val)) then
-      call write_log(' gf3_copy: Internal error: values-array not available in input grid-func ' //     &
-                       trim(f1%name))
+   if (.not.f1%is_defined()) then
+      call write_log(' gf3_copy: Internal error: input grid-func not initialized properly.')
       call abort_run()
-   elseif (.not.associated(f2%val)) then
-      call write_log(' gf3_copy: Internal error: values-array not available in output grid-func ' //    &
-                       trim(f2%name))
+   elseif (.not.f2%is_defined()) then
+      call write_log(' gf3_copy: Internal error: output grid-func not initialized properly.')
       call abort_run()
    elseif (size(f1%val,1).ne.size(f2%val,1)) then
       write(bufout,*) ' gf3_copy: Internal error: incompatible sizes in grid-funcs ', trim(f1%name),    &
           ' and ',trim(f2%name), size(f1%val,1),size(f2%val,1)
       call write_log(1, bufout)
+      call abort_run()
+   elseif (iigs.eq.AllInt .and. .not.associated(f1%eldiv)) then
+      call write_log(' gf3_copy: Internal error: no eldiv, cannot use AllInt for grid-func '//trim(f1%name))
       call abort_run()
    endif
 
@@ -1138,32 +1090,35 @@ end subroutine gf3_copy
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine gf3_msk_copy(iigs, mask, f1, f2, ikarg)
-!--purpose: copy first grid function to second grid function at elements where mask(iel)==iigs
+subroutine gf3_msk_copy(imsk, mask, f1, f2, ikarg)
+!--purpose: copy first grid function to second grid function at elements where mask(iel)==imsk
 !          ik == coordinate direction(s) of copy.
    implicit none
 !--subroutine arguments:
    type(t_gridfnc3) :: f1, f2
    type(t_eldiv)    :: mask
-   integer          :: ikarg, iigs
+   integer          :: ikarg, imsk
 !--local variables:
    integer ik, ik0, ik1, ii
 
    ! check input arguments
 
-   if (.not.associated(f1%val)) then
-      call write_log(' gf3_copy: Internal error: values-array not available in grid-func ' // trim(f1%name))
+   if (.not.f1%is_defined()) then
+      call write_log(' gf3_msk_copy: Internal error: input grid-func not initialized properly.')
       call abort_run()
-   elseif (.not.associated(f2%val)) then
-      call write_log(' gf3_copy: Internal error: values-array not available in grid-func ' // trim(f2%name))
+   elseif (.not.f2%is_defined()) then
+      call write_log(' gf3_msk_copy: Internal error: output grid-func not initialized properly.')
+      call abort_run()
+   elseif (.not.mask%is_defined()) then
+      call write_log(' gf3_msk_copy: Internal error: mask not initialized properly.')
       call abort_run()
    elseif (size(f1%val,1).ne.size(f2%val,1)) then
-      write(bufout,*) ' gf3_copy: Internal error: incompatible sizes in grid-funcs ', trim(f1%name),      &
+      write(bufout,*) ' gf3_msk_copy: Internal error: incompatible sizes in grid-funcs ',trim(f1%name),   &
           ' and ',trim(f2%name), size(f1%val,1), size(f2%val,1)
       call write_log(1, bufout)
       call abort_run()
    elseif (size(f1%val,1).ne.size(mask%el,1)) then
-      write(bufout,*) ' gf3_copy: Internal error: incompatible sizes in grid-func ', trim(f1%name),       &
+      write(bufout,*) ' gf3_msk_copy: Internal error: incompatible sizes in grid-func ',trim(f1%name),    &
           ' and mask ', size(f1%val,1), size(mask%el,1)
       call write_log(1, bufout)
       call abort_run()
@@ -1177,7 +1132,7 @@ subroutine gf3_msk_copy(iigs, mask, f1, f2, ikarg)
 
    do ik = ik0, ik1
       do ii = 1, f1%grid%ntot
-         if (mask%el(ii).eq.iigs) then
+         if (mask%el(ii).eq.imsk) then
             f2%val(ii,ik) = f1%val(ii,ik)
          endif
       enddo
@@ -2204,7 +2159,7 @@ subroutine gf3_print(f, nam, ikarg, idebug, ndigit)
 
    ! print information on the grid, depending on idebug-level
 
-   call grid_print(f%grid, ' ', idebug)
+   call grid_print(f%grid, trim(nam)//'_grid', idebug)
 
    ! idebug>=3: full details: full list of values
 

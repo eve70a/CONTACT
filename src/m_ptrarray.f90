@@ -18,8 +18,10 @@ module m_ptrarray
    public  reallocate_1d_bool
    public  reallocate_1d_int
    public  reallocate_2d_int
-   public  reallocate_1d_real
-   public  reallocate_2d_real
+   public  reallocate_1d_real_ptr
+   public  reallocate_1d_real_alloc
+   public  reallocate_2d_real_ptr
+   public  reallocate_2d_real_alloc
    public  reallocate_3d_cmplx
    public  reallocate_1d_char
    public  reallocate_1d_tvec
@@ -29,8 +31,10 @@ module m_ptrarray
       module procedure reallocate_1d_bool
       module procedure reallocate_1d_int
       module procedure reallocate_2d_int
-      module procedure reallocate_1d_real
-      module procedure reallocate_2d_real
+      module procedure reallocate_1d_real_ptr
+      module procedure reallocate_1d_real_alloc
+      module procedure reallocate_2d_real_ptr
+      module procedure reallocate_2d_real_alloc
       module procedure reallocate_3d_cmplx
       module procedure reallocate_1d_char
       module procedure reallocate_1d_tvec
@@ -251,8 +255,8 @@ end subroutine reallocate_2d_int
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine reallocate_1d_real(rarr, n1, keep)
-!--purpose: Allocate array if not allocated before, else reallocate with the requested size,
+subroutine reallocate_1d_real_ptr(rarr, n1, keep)
+!--purpose: Allocate pointer-array if not allocated before, else reallocate with the requested size,
 !           optionally preserving the data if keep=.true.
    implicit none
 !--subroutine parameters:
@@ -297,12 +301,38 @@ subroutine reallocate_1d_real(rarr, n1, keep)
       endif
    endif
 
-end subroutine reallocate_1d_real
+end subroutine reallocate_1d_real_ptr
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine reallocate_2d_real(rarr, n1, n2, keep)
-!--purpose: Allocate array if not allocated before, else reallocate with the requested size,
+subroutine reallocate_1d_real_alloc(rarr, n1)
+!--purpose: Allocate allocatable array if not allocated before, else reallocate with the requested size,
+   implicit none
+!--subroutine parameters:
+   integer                                 :: n1
+   real(kind=8), dimension(:), allocatable :: rarr
+!--local variables
+   integer      :: istat
+
+   if (.not.allocated(rarr)) then
+      allocate(rarr(n1), stat=istat)
+      if (istat.ne.0) call allocate_error('1d_real', n1, istat)
+   endif
+
+   ! re-allocate without preserving data
+
+   if (size(rarr,1).ne.n1) then
+      deallocate(rarr)
+      allocate(rarr(n1), stat=istat)
+      if (istat.ne.0) call allocate_error('1d_real', n1, istat)
+   endif
+
+end subroutine reallocate_1d_real_alloc
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine reallocate_2d_real_ptr(rarr, n1, n2, keep)
+!--purpose: Allocate pointer-array if not allocated before, else reallocate with the requested size,
 !           optionally preserving the data if keep=.true.
    implicit none
 !--subroutine parameters:
@@ -351,7 +381,33 @@ subroutine reallocate_2d_real(rarr, n1, n2, keep)
       endif
    endif
 
-end subroutine reallocate_2d_real
+end subroutine reallocate_2d_real_ptr
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine reallocate_2d_real_alloc(rarr, n1, n2)
+!--purpose: Allocate allocatable array if not allocated before, else reallocate with the requested size
+   implicit none
+!--subroutine parameters:
+   integer                                   :: n1, n2
+   real(kind=8), dimension(:,:), allocatable :: rarr
+!--local variables
+   integer   :: istat
+
+   if (.not.allocated(rarr)) then
+      allocate(rarr(n1,n2), stat=istat)
+      if (istat.ne.0) call allocate_error('2d_real', n1*n2, istat)
+   endif
+
+   ! re-allocate without preserving data
+
+   if (size(rarr,1).ne.n1 .or. size(rarr,2).ne.n2) then
+      deallocate(rarr)
+      allocate(rarr(n1,n2), stat=istat)
+      if (istat.ne.0) call allocate_error('2d_real', n1*n2, istat)
+   endif
+
+end subroutine reallocate_2d_real_alloc
 
 !------------------------------------------------------------------------------------------------------------
 

@@ -46,7 +46,7 @@ program contact
    ! initialize with a sensible default problem
 
    allocate(gd)
-   call setini(gd)
+   call gd_init(gd)
 
    allocate(wtd)
    call wrprof_ini(wtd)

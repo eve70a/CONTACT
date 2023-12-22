@@ -79,20 +79,20 @@ contains
       !       res should be up-to-date in the exterior area at all times.
       !       v is the search direction, which should be zero in the exterior area. q = A * v.
 
-      call gf3_dup(rhs,   'normcg:rhs', ps, .true.)
-      call gf3_dup(res,   'normcg:res', ps, .true.)
-      call gf3_dup(r_prv, 'normcg:r_prv', ps, .true.)
-      call gf3_dup(dd,    'normcg:dd',  ps, .true.)
-      call gf3_dup(z,     'normcg:z',   ps, .true.)
-      call gf3_dup(v,     'normcg:v',   ps, .true.)
-      call gf3_dup(q,     'normcg:q',   ps, .true.)
-      call gf3_dup(tmp1,  'normcg:tmp1', ps, .true.)
-      call gf3_dup(tmp2,  'normcg:tmp2', ps, .true.)
+      call gf3_copy_struc(ps, rhs,   'normcg:rhs',   .true.)
+      call gf3_copy_struc(ps, res,   'normcg:res',   .true.)
+      call gf3_copy_struc(ps, r_prv, 'normcg:r_prv', .true.)
+      call gf3_copy_struc(ps, dd,    'normcg:dd',    .true.)
+      call gf3_copy_struc(ps, z,     'normcg:z',     .true.)
+      call gf3_copy_struc(ps, v,     'normcg:v',     .true.)
+      call gf3_copy_struc(ps, q,     'normcg:q',     .true.)
+      call gf3_copy_struc(ps, tmp1,  'normcg:tmp1',  .true.)
+      call gf3_copy_struc(ps, tmp2,  'normcg:tmp2',  .true.)
 
       ! Save initial estimate for modified stopping criterion
 
       if (is_sens) then
-         call gf3_dup(ps0, 'normcg:ps0', ps, .true.)
+         call gf3_copy_struc(ps, ps0, 'normcg:ps0', .true.)
          call gf3_copy(AllElm, ps, ps0, ikZDIR)
       endif
 
@@ -210,10 +210,16 @@ contains
 
          if (ic%norm.eq.1) call gf3_proj_avg(AllInt, z, ikZDIR)
 
+         ! cycle previous (r,z), compute new (r,z)
+
          rz1 = rz2
          rz2 = gf3_dot(AllInt, z, res, ikZDIR)
          if (rz2.lt.0d0) then
-            write(bufout,*) 'WARNING: (r,z)=',rz2,' < 0!'
+            if (is_sens) then
+               write(bufout,'(a,i4,a,g12.4)') ' WARNING: itcg',itcg, ' (sens): (r,z)=',rz2,' < 0!'
+            else
+               write(bufout,'(a,i4,a,g12.4)') ' WARNING: itcg',itcg, ': (r,z)=',rz2,' < 0!'
+            endif
             call write_log(1, bufout)
          endif
 
@@ -523,84 +529,6 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine eldiv_cpatches(eldiv, npatch, ysep, idebug)
-!--function: fill element division with sub-patch numbers on the basis of y-ranges
-      implicit none
-!--subroutine arguments
-      type(t_eldiv)             :: eldiv
-      integer,      intent(in)  :: npatch, idebug
-      real(kind=8), intent(in)  :: ysep(npatch-1)
-!--local variables
-      integer      :: mx, my, ip, ii, ix, iy, iy0, iy1
-      logical      :: ldone
-      real(kind=8) :: y1, yn
-
-      mx = eldiv%grid%nx
-      my = eldiv%grid%ny
-      y1 = eldiv%grid%y(1)
-      yn = eldiv%grid%y(mx*my)
-
-      if (idebug.ge.2) then
-         write(bufout,'(a,i4,2(a,f7.3),a,i2,a,4f7.3)') ' my=',my,', y1=',y1,', yn=', yn, ', npatch=',   &
-                npatch,', ysep=',(ysep(ip), ip=1,npatch-1)
-         call write_log(1, bufout)
-      endif
-
-      do ip = 1, npatch
-
-         ! ysep-values are given in increasing order: determine range [iy0 : iy1)
-         ! patch  1: y-values (-\infty   , ysep( 1))
-         ! patch ip: y-values [ysep(ip-1), ysep(ip))
-         ! patch np: y-values [ysep(np-1),   \infty)
-
-         if (ip.le.1) then
-            iy0 = 1
-         else
-            iy0 = iy1 + 1
-         endif
-
-         if (ip.ge.npatch) then
-            iy1 = my            ! last segment: use all remaining iy
-         elseif (iy0.gt.my) then
-            iy1 = my            ! no points remaining: set empty interval
-         elseif (eldiv%grid%y(iy0*mx).ge.ysep(ip)) then
-            iy1 = iy0 - 1       ! first possible y already beyond upper bound ysep(ip): set empty
-         else
-            iy1 = iy0
-            ldone = .false.
-            do while (iy1.lt.my .and. .not.ldone)
-               if (eldiv%grid%y((iy1+1)*mx).lt.ysep(ip)) then
-                  iy1 = iy1 + 1
-               else
-                  ldone = .true.
-               endif
-            enddo
-         endif
-
-         if (iy1.lt.iy0 .and. idebug.ge.-1) then
-            write(bufout,'(3(a,i3),a)') ' WARNING: sub-patch',ip,': empty range iy = [', iy0,',',iy1, '].'
-            call write_log(1, bufout)
-         elseif (idebug.ge.2) then
-            ! if (min(iy0,iy1).ge.1 .and. max(iy0,iy1).le.my) then
-            write(bufout,'(3(a,i3),2(a,f7.3),a)') ' sub-patch',ip,': selecting range [', iy0,',',       &
-                   iy1,'], y=[', eldiv%grid%y(iy0*mx),',', eldiv%grid%y(iy1*mx),']'
-            call write_log(1, bufout)
-         endif
-
-         ! set patch number in element division
-
-         do iy = iy0, iy1
-            do ix = 1, mx
-               ii = ix + (iy-1)*mx
-               eldiv%el(ii) = ip
-            enddo
-         enddo
-      enddo
-
-   end subroutine eldiv_cpatches
-
-!------------------------------------------------------------------------------------------------------------
-
    subroutine sens_norm(ic, geom, npot, dxdy, use_fftprec, mxsens, epsens, cs, ms, hstot, pen,          &
                            fntrue, igs, ps, unn, sens, itcg)
 !--purpose: quickly compute senstitivity d Fn/d pen with < 1% accuracy
@@ -627,10 +555,8 @@ contains
       real(kind=8)       :: pentru, dpen, penloc, fnloc, err, sens_loc, sens_true
       character(len=12)  :: strng
 
-      call gf3_nullify(psloc)
-      call gf3_dup(psloc, 'psloc', ps, .true.)
-      call eldiv_nullify(igsloc)
-      call eldiv_new(igsloc, ps%grid)
+      call eldiv_new(igsloc, ps%grid, nulify=.true.)
+      call gf3_new(psloc, 'psloc', ps%grid, igsloc, nulify=.true.)
 
       ! copy control digits, set N = 0
 

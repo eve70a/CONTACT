@@ -30,39 +30,80 @@ public
 
    public  t_ic
    public  ic_init
+   public  ic_copy
    public  ic_unpack
    public  ic_pack
-   public  dbg_unpack
-   public  dbg_pack
+   public  ic_unpack_dbg
+   public  ic_pack_dbg
+   public  ic_destroy
 
    public  t_material
    public  mater_init
+   public  mater_copy
    public  combin_mater
    public  inflcf_mater
    public  influe_mater
+   public  mater_destroy
 
    public  t_potcon
+   public  potcon_copy
+   public  potcon_fill
+   public  potcon_cgrid
+   public  potcon_hertz
+   public  potcon_get_overlap
+   public  potcon_merge
+   public  potcon_destroy
+
    public  t_hertz
+   public  hertz_init
+   public  hertz_copy
+   public  hertz_destroy
+
    public  t_geomet
+   public  geom_init
+   public  geom_copy
+   public  geom_destroy
 
    public  t_kincns
+   public  kincns_init
+   public  kincns_copy
+   public  kincns_destroy
+
    public  t_solvers
+   public  solv_init
+   public  solv_copy
+   public  solv_destroy
+
    public  t_output
+   public  output_init
+   public  output_copy
+   public  output_destroy
 
    public  t_subsblk
-   public  t_subsurf
-   public  subsurf_copy
    public  subsblk_copy
    public  subsblk_destroy
 
+   public  t_subsurf
+   public  subsurf_init
+   public  subsurf_copy
+   public  subsurf_destroy
+
    public  t_metadata
    public  meta_init
+   public  meta_copy
+   public  meta_destroy
 
    public  t_scaling
+   public  scaling_copy
+   public  scaling_destroy
 
    public  t_probdata
    public  p_probdata
-   public  setini
+   public  gd_init
+   public  gd_copy
+   public  gd_resize_gridfunc
+   public  gd_merge_gridfunc
+   public  gd_merge
    public  gd_destroy
 
    !---------------------------------------------------------------------------------------------------------
@@ -195,7 +236,7 @@ public
       ! v1, varfrc  concerns variation of friction across width/rail profile (module 1)
       !              0 = constant inputs, no variation
       !              1 = multiple inputs with linear interpolation
-      !              2 = multiple sets of inputs are used, per row of the potential contact
+      !              2 = multiple sets of inputs are used, per row (iy) of the potential contact
       !                  used internally in module 3 for conformal contacts
       ! l, frclaw   concerns the friction law to be used:
       !              0 = Coulomb friction with static and kinetic friction coefficients;
@@ -281,7 +322,6 @@ public
       !              1 = use previous solution, regularize tractions;
       !              2 = use normal part of solution only;
       !              3 = previous case gives a good initial estimate.
-      !              5 = keep initial estimate as set, obtained from coarse grid.
       ! a, matfil_surf   governs the use of the matlab-file <experim>.<case>.mat per case:
       !              0 = the mat-files is not created;
       !              1 = the detailed results of the case are written to a mat-file, for points inside
@@ -562,10 +602,10 @@ public
    type :: t_geomet
       integer                                      :: ibase, iplan
       integer                                      :: nn, npatch
-      real(kind=8),    dimension(:),   pointer     :: prmudf => NULL()
-      real(kind=8),    dimension(:),   pointer     :: prmpln => NULL()
-      real(kind=8),    dimension(:),   pointer     :: ysep   => NULL()
-      real(kind=8),    dimension(:,:), pointer     :: facsep => NULL()
+      real(kind=8),    dimension(:),   allocatable :: prmudf 
+      real(kind=8),    dimension(:),   allocatable :: prmpln 
+      real(kind=8),    dimension(:),   allocatable :: ysep   
+      real(kind=8),    dimension(:,:), allocatable :: facsep 
       type(t_gridfnc3)                             :: exrhs
       type(t_gridfnc3)                             :: hs1, hv1
 
@@ -921,6 +961,18 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine ic_copy( ic_in, ic_out )
+!--purpose: Copy control digits 
+      implicit none
+!--subroutine arguments:
+      type(t_ic) :: ic_in, ic_out
+
+      ic_out = ic_in                 ! plain structure, intrinsic copying
+
+   end subroutine ic_copy
+
+!------------------------------------------------------------------------------------------------------------
+
    function ic_is_left_side(this)
 !--function: determine from the ic-struct whether a left-side configuration is used
       implicit none
@@ -1129,7 +1181,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine dbg_unpack (modul, psflrin, ic)
+   subroutine ic_unpack_dbg (modul, psflrin, ic)
 !--purpose: unpack the debug flags into array ic
       implicit none
 !--subroutine parameters:
@@ -1168,11 +1220,11 @@ contains
          ic%x_locate = 0
       endif
 
-   end subroutine dbg_unpack
+   end subroutine ic_unpack_dbg
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine dbg_pack(psflrin, ic)
+   subroutine ic_pack_dbg(psflrin, ic)
 !--purpose: pack the debug flags in ic together in a control-word
       implicit none
 !--subroutine parameters:
@@ -1183,7 +1235,19 @@ contains
                  100000*ic%x_smooth    +    10000*ic%x_force     +    1000*ic%x_locate    +             &
                     100*ic%x_readln    +       10*ic%x_inflcf    +       1*ic%x_nmdbg
 
-   end subroutine dbg_pack
+   end subroutine ic_pack_dbg
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine ic_destroy( ic )
+!--purpose: Destroy control digits 
+      implicit none
+!--subroutine arguments:
+      type(t_ic) :: ic
+
+      if (.false.) ic%config = 0    ! plain structure, no action needed
+
+   end subroutine ic_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1197,6 +1261,8 @@ contains
    if (ilevel.ge.2) then
       m%REid       = 0
       m%CPid       = 0
+      m%whl_ver    = 0
+      m%rail_ver   = 0
       m%actv_thrd  = -1
       m%irun       = 0
       m%iax        = 0
@@ -1250,6 +1316,54 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine meta_copy( m_in, m_out )
+!--purpose: Copy meta-data data-structure
+   implicit none
+!--subroutine arguments:
+   type(t_metadata) :: m_in, m_out
+
+   m_out = m_in                     ! plain structure, intrinsic copying
+
+   end subroutine meta_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine meta_destroy( meta )
+!--purpose: Destroy meta-data data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_metadata) :: meta
+
+      if (.false.) meta%REid = 0    ! plain structure, no action needed
+
+   end subroutine meta_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine scaling_copy( s_in, s_out )
+!--purpose: Copy scaling parameter data-structure
+   implicit none
+!--subroutine arguments:
+   type(t_scaling) :: s_in, s_out
+
+   s_out = s_in                     ! plain structure, intrinsic copying
+
+   end subroutine scaling_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine scaling_destroy( scl )
+!--purpose: Destroy scaling parameter data-structure
+   implicit none
+!--subroutine arguments:
+   type(t_scaling) :: scl
+
+      if (.false.) scl%len = 1d0    ! plain structure, no action needed
+
+   end subroutine scaling_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine mater_init( m, ic )
 !--purpose: Initialize material-data to sensible default values
    implicit none
@@ -1257,7 +1371,7 @@ contains
    type(t_material) :: m
    type(t_ic)       :: ic
 
-   m%gg      = (/  82000.d0, 82000.d0 /)
+   m%gg      = (/    1.00d0,   1.00d0 /)
    m%poiss   = (/    0.28d0,   0.28d0 /)
    m%flx_z   = 0d0
    m%flx     = (/ 0.00001d0, 0.00001d0, 0d0 /)
@@ -1269,7 +1383,7 @@ contains
    m%k0_mf   = 1d0
    m%alfamf  = 1d0
    m%betamf  = 1d0
-   m%gg3     = 82000.d0
+   m%gg3     = 1d0
    m%laythk  = 0d0
    m%tau_c0  = 1d20
    m%k_tau   = 0d0
@@ -1282,6 +1396,63 @@ contains
    m%ninclin = 0
 
    end subroutine mater_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine mater_copy( m_in, m_out )
+!--purpose: copy material-data 
+   implicit none
+!--subroutine arguments:
+   type(t_material) :: m_in, m_out
+
+   m_out%gg                 = m_in%gg              
+   m_out%poiss              = m_in%poiss   
+   m_out%ak                 = m_in%ak      
+   m_out%ga                 = m_in%ga      
+   m_out%nu                 = m_in%nu
+   m_out%bktemp             = m_in%bktemp  
+   m_out%heatcp             = m_in%heatcp  
+   m_out%lambda             = m_in%lambda  
+   m_out%dens               = m_in%dens    
+   m_out%betapl             = m_in%betapl  
+   m_out%fg                 = m_in%fg
+   m_out%tc                 = m_in%tc
+   m_out%vt                 = m_in%vt
+   m_out%akv                = m_in%akv
+   m_out%gav                = m_in%gav
+   m_out%nuv                = m_in%nuv
+   m_out%flx_z              = m_in%flx_z   
+   m_out%flx                = m_in%flx     
+   m_out%k0_mf              = m_in%k0_mf   
+   m_out%alfamf             = m_in%alfamf  
+   m_out%betamf             = m_in%betamf  
+   m_out%k_eff              = m_in%k_eff
+   m_out%gg3                = m_in%gg3     
+   m_out%laythk             = m_in%laythk  
+   m_out%tau_c0             = m_in%tau_c0  
+   m_out%k_tau              = m_in%k_tau   
+   m_out%bound_eff          = m_in%bound_eff 
+   m_out%mater_eff          = m_in%mater_eff 
+   m_out%gencr_eff          = m_in%gencr_eff 
+   m_out%if_meth            = m_in%if_meth 
+   m_out%if_ver             = m_in%if_ver  
+   m_out%ninclin            = m_in%ninclin 
+   m_out%surf_inclin        = m_in%surf_inclin    ! Fortran2003: automatic allocation
+   m_out%fname_influe       = m_in%fname_influe  
+
+   end subroutine mater_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine mater_destroy( mater )
+!--purpose: Destroy material parameter data-structure
+   implicit none
+!--subroutine arguments:
+   type(t_material) :: mater
+
+   if (allocated(mater%surf_inclin)) deallocate(mater%surf_inclin)
+
+   end subroutine mater_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1328,44 +1499,6 @@ contains
       call inflcf_mater(influe%csv, mater)
       call inflcf_mater(influe%ms,  mater)
    end subroutine influe_mater
-
-!------------------------------------------------------------------------------------------------------------
-
-   subroutine subsurf_copy(s_in, s_out)
-!--purpose: copy input data for the subsurface stress calculation
-      implicit none
-!--subroutine arguments:
-      type(t_subsurf)  , intent(in)    :: s_in
-      type(t_subsurf)  , intent(inout) :: s_out
-!--local variables:
-      integer, parameter :: idebug = 0
-      integer            :: iblk
-
-      if (idebug.ge.1 .and. s_out%nblock.ge.1) then
-         write(bufout,*) 's_out has',s_out%nblock,' blocks of points, discarding'
-         call write_log(1, bufout)
-      endif
-
-      ! clean-up contents of s_out
-
-      do iblk = 1, s_out%nblock
-         call subsblk_destroy(s_out%blocks(iblk))
-      enddo
-
-      ! copy contents of s_in
-
-      if (idebug.ge.1 .and. s_in%nblock.ge.1) then
-         write(bufout,*) 's_in has',s_in%nblock,' blocks of points, copying'
-         call write_log(1, bufout)
-      endif
-
-      do iblk = 1, s_in%nblock
-         call subsblk_copy(s_in%blocks(iblk), s_out%blocks(iblk))
-      enddo
-
-      s_out%nblock = s_in%nblock
-
-   end subroutine subsurf_copy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1439,6 +1572,69 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine subsurf_init(subs)
+!--purpose: initialize data structure for subsurface stress calculation
+      implicit none
+!--subroutine arguments:
+      type(t_subsurf)  :: subs
+
+      subs%nblock = 0
+
+   end subroutine subsurf_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine subsurf_copy(s_in, s_out)
+!--purpose: copy input data for the subsurface stress calculation
+      implicit none
+!--subroutine arguments:
+      type(t_subsurf)  , intent(in)    :: s_in
+      type(t_subsurf)  , intent(inout) :: s_out
+!--local variables:
+      integer, parameter :: idebug = 0
+      integer            :: iblk
+
+      if (idebug.ge.1 .and. s_out%nblock.ge.1) then
+         write(bufout,*) 's_out has',s_out%nblock,' blocks of points, discarding'
+         call write_log(1, bufout)
+      endif
+
+      call subsurf_destroy(s_out)
+
+      ! copy contents of s_in
+
+      if (idebug.ge.1 .and. s_in%nblock.ge.1) then
+         write(bufout,*) 's_in has',s_in%nblock,' blocks of points, copying'
+         call write_log(1, bufout)
+      endif
+
+      do iblk = 1, s_in%nblock
+         call subsblk_copy(s_in%blocks(iblk), s_out%blocks(iblk))
+      enddo
+
+      s_out%nblock = s_in%nblock
+
+   end subroutine subsurf_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine subsurf_destroy(subs)
+!--purpose: initialize data structure for subsurface stress calculation
+      implicit none
+!--subroutine arguments:
+      type(t_subsurf)  :: subs
+!--local variables:
+      integer          :: iblk
+
+      do iblk = 1, subs%nblock
+         call subsblk_destroy(subs%blocks(iblk))
+      enddo
+      subs%nblock = 0
+
+   end subroutine subsurf_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine solv_init ( solv )
 !--purpose: Set appropriate initial values for the solver settings
       implicit none
@@ -1472,6 +1668,30 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine solv_copy ( solv_in, solv_out )
+!--purpose: Copy solver setting data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_solvers) :: solv_in, solv_out
+
+      solv_out = solv_in                ! plain structure, intrinsic copying
+
+   end subroutine solv_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine solv_destroy( solv )
+!--purpose: Destroy solver setting data-structure
+   implicit none
+!--subroutine arguments:
+   type(t_solvers) :: solv
+
+      if (.false.) solv%maxgs = 999    ! plain structure, no action needed
+
+   end subroutine solv_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine potcon_init ( potcon )
 !--purpose: Set appropriate initial values for the potential contact area
       implicit none
@@ -1479,15 +1699,272 @@ contains
       type(t_potcon) :: potcon
 
       potcon%ipotcn = 1
-      potcon%mx   = 22
-      potcon%my   = 20
-      potcon%npot = potcon%mx * potcon%my
-      potcon%dx   = 0.5d0
-      potcon%dy   = 0.5d0
-      potcon%xl   = -5.0d0
-      potcon%yl   = -5.0d0
+      potcon%mx     =  1
+      potcon%my     =  1
+      potcon%dx     =  2d0
+      potcon%dy     =  2d0
+      potcon%xl     = -1d0
+      potcon%yl     = -1d0
+
+      ! compute other parameters like npot, dxdy, xc1, and so on.
+
+      call potcon_fill( potcon )
 
    end subroutine potcon_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine potcon_fill ( p, ipot_arg )
+!--purpose: Complete data for the potential contact area based on non-Hertzian inputs
+      implicit none
+!--subroutine arguments:
+      type(t_potcon)          :: p
+      integer,       optional :: ipot_arg
+!--local variables
+      integer                 :: mypotcn
+
+      mypotcn = p%ipotcn
+      if (present(ipot_arg)) mypotcn = ipot_arg
+
+      if (mypotcn.lt.1 .or. mypotcn.gt.4) then
+         call write_log('Internal error(potcon_fill): invalid ipotcn')
+         call abort_run()
+      endif
+
+      ! ipotcn == 1: the variables xl,  yl,  dx,  dy,  mx and my are given
+      ! ipotcn == 2: the variables xl,  yl,  xh,  yh,  mx and my are given
+      ! ipotcn == 3: the variables xc1, yc1, dx,  dy,  mx and my are given
+      ! ipotcn == 4: the variables xc1, yc1, xcm, ycm, mx and my are given
+
+      ! - fill in dx, dy if not specified
+
+      if (mypotcn.eq.2) then
+         p%dx = (p%xh - p%xl) / p%mx
+         p%dy = (p%yh - p%yl) / p%my
+      elseif (mypotcn.eq.4) then
+         p%dx = (p%xcm - p%xc1) / max(1,p%mx-1)
+         p%dy = (p%ycm - p%yc1) / max(1,p%my-1)
+      endif
+
+      ! - fill in xl, yl or xc1, yc1 if not specified
+
+      if (mypotcn.eq.3 .or. mypotcn.eq.4) then
+         p%xl = p%xc1 - 0.5d0 * p%dx
+         p%yl = p%yc1 - 0.5d0 * p%dy
+      else
+         p%xc1 = p%xl + 0.5d0 * p%dx
+         p%yc1 = p%yl + 0.5d0 * p%dy
+      endif
+
+      ! - fill in xh, yh and/or xcm, ycm if not specified
+
+      if (mypotcn.eq.1 .or. mypotcn.eq.3 .or. mypotcn.eq.4) then
+         p%xh = p%xl + p%mx * p%dx
+         p%yh = p%yl + p%my * p%dy
+      endif
+      if (mypotcn.ge.1 .and. mypotcn.le.3) then
+         p%xcm = p%xc1 + (p%mx - 1) * p%dx
+         p%ycm = p%yc1 + (p%my - 1) * p%dy
+      endif
+
+      ! - fill in npot and dxdy
+
+      p%npot = p%mx * p%my
+      p%dxdy = p%dx * p%dy
+
+   end subroutine potcon_fill
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine potcon_copy ( potcon_in, potcon_out )
+!--purpose: Copy potential contact area description
+      implicit none
+!--subroutine arguments:
+      type(t_potcon) :: potcon_in, potcon_out
+
+      potcon_out = potcon_in            ! plain structure, intrinsic copying
+
+   end subroutine potcon_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine potcon_cgrid ( p, cgrid )
+!--purpose: determine contact grid based for given potential contact area description
+      implicit none
+!--subroutine arguments:
+      type(t_potcon) :: p
+      type(t_grid)   :: cgrid
+
+      call grid_create_uniform(cgrid, nxarg=p%mx, x0arg=p%xc1, dxarg=p%dx,                              &
+                                      nyarg=p%my, y0arg=p%yc1, dyarg=p%dy, zarg=0d0)
+
+   end subroutine potcon_cgrid
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine potcon_hertz(hz, pot)
+!--purpose: Complete the potcon specification for a Hertzian problem (mx, my filled in)
+      implicit none
+!--subroutine arguments:
+      type(t_hertz)  :: hz
+      type(t_potcon) :: pot
+!--local variables :
+      integer mypotcn, n_int
+
+      ! ipotcn = -6: the potential contact must be derived from the SDEC parameters
+
+      if (pot%ipotcn.eq.-6) then
+
+         hz%bb  = 0.5d0 * (hz%bneg + hz%bpos)
+         pot%xl = -hz%scale * max(1d-9, hz%aa)
+         pot%yl = -hz%scale * max(1d-9, hz%bb)
+         pot%xh = -pot%xl
+         pot%yh = -pot%yl
+         mypotcn = 2
+
+      ! ipotcn = -5..-4: potential contact derived from 2D Hertzian solution computed by hzsol.
+
+      elseif (pot%ipotcn.le.-4) then
+
+         pot%xl = -hz%scale * max(1d-9, hz%aa)
+         pot%xh = -pot%xl
+         pot%dx = (pot%xh - pot%xl) / pot%mx
+
+         ! let my == (n_int + n_ext) \approx scale * n_int
+         ! choose dy such that n_int * dy is precisely 2 * bb
+         ! when scale<1 set n_ext = 0
+         ! use even n_ext, avoid n_int<1 for large scale
+
+         if (hz%scale.le.1d0) then
+            n_int = pot%my
+         else
+            n_int = max(1, nint(pot%my / hz%scale))
+            if (mod(pot%my-n_int,2).eq.1) n_int = n_int  + 1
+         endif
+
+         pot%dy = 2d0*max(1d-9,hz%bb) / n_int 
+         pot%yl = -pot%my*pot%dy / 2d0
+         pot%yh = -pot%yl
+         mypotcn = 2
+
+         if (.false.) then
+            write(bufout,'(a,i6,a,f6.3,a,2i4)') ' my=',pot%my,', scale=',hz%scale,': n_int, n_ext=',    &
+                        n_int, pot%my-n_int
+            call write_log(1, bufout)
+            write(bufout,'(a,f6.3,a,f7.1,a,f6.1)') ' dy=',pot%dy,', 2*bb=',2*hz%bb,', n_int*dy=',       &
+                        n_int*pot%dy
+            call write_log(1, bufout)
+         endif
+
+      ! ipotcn = -3..-1: potential contact derived from 3D Hertzian solution computed by hzsol.
+
+      elseif (pot%ipotcn.le.-1) then
+
+         pot%xl = -hz%scale * max(1d-9, hz%aa)
+         pot%yl = -hz%scale * max(1d-9, hz%bb)
+         pot%xh = -pot%xl
+         pot%yh = -pot%yl
+         mypotcn = 2
+
+      endif
+
+      ! complete entries in potcon description
+
+      call potcon_fill ( pot, mypotcn )
+
+   end subroutine potcon_hertz
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine potcon_get_overlap(p_old, p_new, kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
+!--purpose: check if potential contact grids are matching (subset of same super-grid) and 
+!           determine overlap [ix0:ix1] x [iy0:iy1] within p_new
+   implicit none
+!--subroutine arguments:
+   type(t_potcon)            :: p_old, p_new
+   integer,     intent(out)  :: kofs_x, kofs_y, ix0, ix1, iy0, iy1
+   logical,     intent(out)  :: is_ok, is_equal
+!--local variables:
+
+   call grid_overlap(p_old%xl, p_old%dx, p_old%mx, p_old%yl, p_old%dy, p_old%my,                        &
+                     p_new%xl, p_new%dx, p_new%mx, p_new%yl, p_new%dy, p_new%my,                        &
+                     kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
+
+end subroutine potcon_get_overlap
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine potcon_merge( pot1, pot2, pot_tot, idebug )
+!--purpose: Create new potential contact encompassing two existing pot.contact areas
+   implicit none
+!--subroutine arguments:
+   type(t_potcon) :: pot1, pot2, pot_tot
+   integer        :: idebug
+!--local variables:
+   logical        :: is_ok, is_equal
+   integer        :: ix0, ix1, iy0, iy1, kofs_x, kofs_y
+
+   if (idebug.ge.2) then
+      write(bufout,'(2(a,f8.3),2(a,i4),2(a,f8.3))') ' pot1: xl,yl=',pot1%xl,',',pot1%yl,                &
+                ', mx,my=',pot1%mx,',',pot1%my,', xh,yh=',pot1%xh,',',pot1%yh
+      call write_log(1, bufout)
+      write(bufout,'(2(a,f8.3),2(a,i4),2(a,f8.3))') ' pot2: xl,yl=',pot2%xl,',',pot2%yl,                &
+                ', mx,my=',pot2%mx,',',pot2%my,', xh,yh=',pot2%xh,',',pot2%yh
+      call write_log(1, bufout)
+   endif
+
+   ! check that the two grids have matching (dx,dy) and determine offsets (kx,ky)
+
+   call potcon_get_overlap(pot1, pot2, kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
+
+   if (idebug.ge.2) then
+      write(bufout,'(2(a,i3))') ' offset k_x=',kofs_x,', k_y=',kofs_y
+      call write_log(1, bufout)
+   endif
+
+   ! determine extent of new grid. kx,ky == #extra columns/rows at start of pot1 wrt pot2
+
+   if (kofs_x.ge.0) then
+      pot_tot%xl = pot1%xl
+      pot_tot%mx = max(pot1%mx, pot2%mx+kofs_x)
+   else
+      pot_tot%xl = pot2%xl
+      pot_tot%mx = max(pot2%mx, pot1%mx-kofs_x)
+   endif
+   if (kofs_y.gt.0) then
+      pot_tot%yl = pot1%yl
+      pot_tot%my = max(pot1%my, pot2%my+kofs_y)
+   else
+      pot_tot%yl = pot2%yl
+      pot_tot%my = max(pot2%my, pot1%my-kofs_y)
+   endif
+   pot_tot%ipotcn = 1
+   pot_tot%dx  = pot2%dx
+   pot_tot%dy  = pot2%dy
+
+   ! complete pot.con specification
+
+   call potcon_fill(pot_tot)
+
+   if (idebug.ge.2) then
+      write(bufout,'(2(a,f8.3),2(a,i4),2(a,f8.3))') '  pot: xl,yl=',pot_tot%xl,',',pot_tot%yl,          &
+                ', mx,my=',pot_tot%mx,',',pot_tot%my,', xh,yh=',pot_tot%xh,',',pot_tot%yh
+      call write_log(1, bufout)
+   endif
+
+   end subroutine potcon_merge
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine potcon_destroy( pot )
+!--purpose: Destroy potential contact data-structure
+   implicit none
+!--subroutine arguments:
+   type(t_potcon) :: pot
+
+      if (.false.) pot%mx = 1    ! plain structure, no action needed
+
+   end subroutine potcon_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1501,12 +1978,61 @@ contains
 
       geom%ibase  = 1
       geom%iplan  = 1
-      allocate(geom%prmudf(10))
-      geom%prmudf(1:10)= (/ 0.0056566, 0.0, 0.0056566, (0.0, j=4,10) /)
-      allocate(geom%prmpln(10))
-      geom%prmpln(1:10)= (/ (0.0, j=1,10) /)
+      geom%nn     = 0
+      geom%npatch = 0
+      geom%prmudf = (/ 1d0, 0d0, 1d0, (0d0, j=4,10) /)  ! automatic allocation
+      geom%prmpln = (/ (0d0, j=1,10) /)                 ! automatic allocation
+      ! ysep, facsep
+      ! exrhs, hs1, hv1
 
    end subroutine geom_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine geom_copy ( geom_in, geom_out, cgrid )
+!--purpose: Copy a geometry description
+      implicit none
+!--subroutine arguments:
+      type(t_geomet) :: geom_in, geom_out
+      type(t_grid)   :: cgrid
+
+      geom_out%ibase  = geom_in%ibase
+      geom_out%iplan  = geom_in%ibase
+      geom_out%nn     = geom_in%nn   
+      geom_out%npatch = geom_in%npatch
+
+      geom_out%prmudf = geom_in%prmudf  ! automatic (re)allocation
+      geom_out%prmpln = geom_in%prmpln  ! automatic (re)allocation
+      geom_out%ysep   = geom_in%ysep    ! automatic (re)allocation
+      geom_out%facsep = geom_in%facsep  ! automatic (re)allocation
+
+      call gf3_new( geom_out%exrhs, 'geom%exrhs', cgrid, nulify=.true. )
+      call gf3_new( geom_out%hs1,   'geom%hs1'  , cgrid, nulify=.true. )
+      call gf3_new( geom_out%hv1,   'geom%hv1'  , cgrid, nulify=.true. )
+
+      call gf3_copy( AllElm, geom_in%exrhs, geom_out%exrhs, ikALL )
+      call gf3_copy( AllElm, geom_in%hs1,   geom_out%hs1,   ikALL )
+      call gf3_copy( AllElm, geom_in%hv1,   geom_out%hv1,   ikALL )
+
+   end subroutine geom_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine geom_destroy ( geom )
+!--purpose: Destroy a geometry description
+      implicit none
+!--subroutine arguments:
+      type(t_geomet) :: geom
+
+      if (allocated(geom%prmudf)) deallocate(geom%prmudf)
+      if (allocated(geom%prmpln)) deallocate(geom%prmpln)
+      if (allocated(geom%ysep))   deallocate(geom%ysep)
+      if (allocated(geom%facsep)) deallocate(geom%facsep)
+      call gf3_destroy(geom%exrhs)
+      call gf3_destroy(geom%hs1)
+      call gf3_destroy(geom%hv1)
+
+   end subroutine geom_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1520,25 +2046,49 @@ contains
       real(kind=8)    :: dx
 
       kin%dt      =  1d0             ! for shifts
-      kin%veloc   =  30000d0         ! 30 m/s
+      kin%veloc   =  1d3
       kin%dq      =  dx
       kin%facphi  =  1d0 / 6d0
-      kin%chi     =  0.0d0
-      kin%fntrue  =  100000d0
-      kin%fnscal  =  1.2195d0        ! 100kN / 82kN/mm2
-      kin%pen     =  0.1035d0        ! Rx=500, Ry=300mm
-      kin%penv    =  0.0d0
-      kin%fxrel1  = -0.875d0
-      kin%fyrel1  =  0.0d0
-      kin%cksi    =  0.0025d0
-      kin%ceta    =  0.0d0
-      kin%cphi    =  0.0d0
+      kin%chi     =  0d0
+      kin%fntrue  =  1d5
+      kin%fnscal  =  1d0
+      kin%pen     =  0d0
+      kin%penv    =  0d0
+      kin%fxrel1  =  0d0
+      kin%fyrel1  =  0d0
+      kin%cksi    =  0d0
+      kin%ceta    =  0d0
+      kin%cphi    =  0d0
       kin%fprev   = (/ kin%fxrel1, kin%fyrel1, kin%fntrue /)
       kin%use_muscal = ic%varfrc.eq.0
-      kin%muscal  =  1.0d0
+      kin%muscal  =  1d0
       if (kin%use_muscal) kin%muscal = fric%fstat()
 
    end subroutine kincns_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine kincns_copy ( kin_in, kin_out )
+!--purpose: Copy the kinematic data
+      implicit none
+!--subroutine arguments:
+      type(t_kincns)  :: kin_in, kin_out
+
+      kin_out = kin_in             ! plain structure, intrinsic copying
+
+   end subroutine kincns_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine kincns_destroy( kin )
+!--purpose: Destroy kinematic data data-structure
+   implicit none
+!--subroutine arguments:
+   type(t_kincns) :: kin
+
+      if (.false.) kin%dq = 1d0   ! plain structure, no action needed
+
+   end subroutine kincns_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1548,49 +2098,393 @@ contains
 !--subroutine arguments:
       type(t_hertz) :: hertz
 
-      hertz%aa    =  7.5d0
-      hertz%bb    =  5.3d0
+      hertz%aa    =  5d0
+      hertz%bb    =  5d0
       hertz%bneg  =  hertz%bb
       hertz%bpos  =  hertz%bb
-      hertz%a1    =  0.001           ! Rx=500mm
-      hertz%b1    =  0.001667        ! Ry=300mm
-      hertz%aob   =  1.4d0
-      hertz%scale =  1.1d0
+      hertz%a1    =  0.001d0   ! Rx=500mm
+      hertz%b1    =  0.001d0
+      hertz%aob   =  1d0
+      hertz%scale =  1d0
 
    end subroutine hertz_init
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine setini ( gd )
+   subroutine hertz_copy ( hz_in, hz_out )
+!--purpose: Copy Hertzian data data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_hertz) :: hz_in, hz_out
+
+      hz_out = hz_in               ! plain structure, intrinsic copying
+
+   end subroutine hertz_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine hertz_destroy( hz )
+!--purpose: Destroy Hertzian data data-structure
+   implicit none
+!--subroutine arguments:
+   type(t_hertz) :: hz
+
+      if (.false.) hz%aa = 1d0    ! plain structure, no action needed
+
+   end subroutine hertz_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine output_init ( outp, cgrid )
+!--purpose: Initialize output-data data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_output) :: outp
+      type(t_grid)   :: cgrid
+
+      call eldiv_new( outp%igs, cgrid, nulify=.true. )
+      call gf3_new(outp%ps, 'outpt1%ps', cgrid, nulify=.true.)
+      call gf3_new(outp%pv, 'outpt1%pv', cgrid, nulify=.true.)
+
+   end subroutine output_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine output_copy ( outp_in, outp_out, cgrid )
+!--purpose: Copy output-data data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_output)         :: outp_in, outp_out
+      type(t_grid),  target  :: cgrid
+
+      outp_out%sens   = outp_in%sens
+      outp_out%mxtrue = outp_in%mxtrue
+      outp_out%mytrue = outp_in%mytrue
+      outp_out%mztrue = outp_in%mztrue
+      outp_out%elen   = outp_in%elen  
+      outp_out%frpow  = outp_in%frpow 
+      outp_out%pmax   = outp_in%pmax  
+
+      ! create new element division linking to new grid 'cgrid', copy values
+
+      call eldiv_new( outp_out%igs, cgrid, nulify=.true. )
+      call eldiv_new( outp_out%igv, cgrid, nulify=.true. )
+      call eldiv_copy( outp_in%igs, outp_out%igs, ikALL )
+      call eldiv_copy( outp_in%igv, outp_out%igv, ikALL )
+
+      ! create new grid functions linking to new grid 'cgrid', new igs/igv, copy values
+
+      call gf3_copy_full( outp_in%mus,   outp_out%mus,   cgrid, outp_out%igs )
+      call gf3_copy_full( outp_in%shft,  outp_out%shft,  cgrid, outp_out%igs )
+      call gf3_copy_full( outp_in%ps,    outp_out%ps,    cgrid, outp_out%igs )
+      call gf3_copy_full( outp_in%us,    outp_out%us,    cgrid, outp_out%igs )
+      call gf3_copy_full( outp_in%ss,    outp_out%ss,    cgrid, outp_out%igs )
+      call gf3_copy_full( outp_in%taucs, outp_out%taucs, cgrid, outp_out%igs )
+      call gf3_copy_full( outp_in%upls,  outp_out%upls,  cgrid, outp_out%igs )
+      call gf3_copy_full( outp_in%temp1, outp_out%temp1, cgrid, outp_out%igs )
+      call gf3_copy_full( outp_in%temp2, outp_out%temp2, cgrid, outp_out%igs )
+
+      call gf3_copy_full( outp_in%muv,   outp_out%muv,   cgrid, outp_out%igv )
+      call gf3_copy_full( outp_in%pv,    outp_out%pv,    cgrid, outp_out%igv )
+      call gf3_copy_full( outp_in%uv,    outp_out%uv,    cgrid, outp_out%igv )
+      call gf3_copy_full( outp_in%sv,    outp_out%sv,    cgrid, outp_out%igv )
+      call gf3_copy_full( outp_in%taucv, outp_out%taucv, cgrid, outp_out%igv )
+      call gf3_copy_full( outp_in%uplv,  outp_out%uplv,  cgrid, outp_out%igv )
+
+   end subroutine output_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine output_destroy ( outp )
+!--purpose: Destroy output-data data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_output) :: outp
+
+      call eldiv_destroy(outp%igs)
+      call eldiv_destroy(outp%igv)
+
+      call gf3_destroy( outp%mus )
+      call gf3_destroy( outp%shft )
+      call gf3_destroy( outp%ps )
+      call gf3_destroy( outp%us )
+      call gf3_destroy( outp%ss )
+      call gf3_destroy( outp%taucs )
+      call gf3_destroy( outp%upls )
+      call gf3_destroy( outp%temp1 )
+      call gf3_destroy( outp%temp2 )
+
+      call gf3_destroy( outp%muv )
+      call gf3_destroy( outp%pv )
+      call gf3_destroy( outp%uv )
+      call gf3_destroy( outp%sv )
+      call gf3_destroy( outp%taucv )
+      call gf3_destroy( outp%uplv )
+
+   end subroutine output_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine gd_init ( gd )
 !--purpose: Set appropriate initial values for the control/input-variables
       implicit none
 !--subroutine arguments:
       type(t_probdata) :: gd
-!--local variables:
-      real(kind=8) :: xc1, yc1
 
       call meta_init  ( gd%meta, 2 )
+    ! call scaling_init ( gd%scl )
       call ic_init    ( gd%ic )
+      call mater_init   ( gd%mater, gd%ic )
+      call potcon_init  ( gd%potcon )
+      call potcon_cgrid ( gd%potcon, gd%cgrid )
+      call hertz_init   ( gd%hertz )
+      call geom_init    ( gd%geom )
+      call fric_init    ( gd%fric )
+      call kincns_init  ( gd%kin, gd%ic, gd%fric, gd%cgrid%dx )
+    ! call influe_init  ( gd%influ )
       call solv_init  ( gd%solv )
-      call mater_init ( gd%mater, gd%ic )
-      call potcon_init( gd%potcon )
+      call output_init  ( gd%outpt1, gd%cgrid )
+      call subsurf_init ( gd%subs )
 
-      xc1 = gd%potcon%xl + 0.5d0*gd%potcon%dx
-      yc1 = gd%potcon%yl + 0.5d0*gd%potcon%dy
-      call grid_create_uniform(gd%cgrid, nxarg=gd%potcon%mx, x0arg=xc1, dxarg=gd%potcon%dx,             &
-                               nyarg=gd%potcon%my, y0arg=yc1, dyarg=gd%potcon%dy, zarg=0d0)
+   end subroutine gd_init
 
-      call geom_init  ( gd%geom )
-      call fric_init  ( gd%fric )
-      call kincns_init( gd%kin, gd%ic, gd%fric, gd%cgrid%dx )
-      call hertz_init ( gd%hertz )
+!------------------------------------------------------------------------------------------------------------
 
-      call gf3_new(gd%outpt1%ps, 'outpt1%ps', gd%cgrid)
-      call gf3_new(gd%outpt1%pv, 'outpt1%pv', gd%cgrid)
+   subroutine gd_copy ( gd_in, gd_out )
+!--purpose: Full copy of a gd data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_probdata) :: gd_in, gd_out
 
-      gd%subs%nblock = 0
+      call meta_copy    ( gd_in%meta,   gd_out%meta )
+      call scaling_copy ( gd_in%scl,    gd_out%scl )
+      call ic_copy      ( gd_in%ic,     gd_out%ic )
+      call mater_copy   ( gd_in%mater,  gd_out%mater )
+      call potcon_cgrid ( gd_out%potcon, gd_out%cgrid )
+      call hertz_copy   ( gd_in%hertz,  gd_out%hertz )
+      call geom_copy    ( gd_in%geom,   gd_out%geom, gd_out%cgrid )
+      call fric_copy    ( gd_in%fric,   gd_out%fric )
+      call kincns_copy  ( gd_in%kin,    gd_out%kin )
+      call influe_copy  ( gd_in%influ,  gd_out%influ )
+      call solv_copy    ( gd_in%solv,   gd_out%solv )
+      call output_copy  ( gd_in%outpt1, gd_out%outpt1, gd_out%cgrid )
+      call subsurf_copy ( gd_in%subs,   gd_out%subs )
 
-   end subroutine setini
+   end subroutine gd_copy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine gd_resize_gridfunc(ic, cgrid, cgrid_new, geom, outpt, keep_grid_ptr)
+!--purpose: resize grid-functions used in hierarchical data-structure, shifting data
+      implicit none
+!--subroutine arguments:
+      type(t_ic)              :: ic
+      type(t_grid),  target   :: cgrid, cgrid_new
+      type(t_geomet)          :: geom
+      type(t_output)          :: outpt
+      logical,       optional :: keep_grid_ptr
+!--local variables:
+      logical                 :: keep_ptr
+
+      keep_ptr = .false.
+      if (present(keep_grid_ptr)) keep_ptr = keep_grid_ptr
+
+      ! resize arrays for element division
+
+      call eldiv_resize(outpt%igs, cgrid_new)
+      call eldiv_resize(outpt%igv, cgrid_new)
+      if (keep_ptr) outpt%igs%grid => cgrid
+      if (keep_ptr) outpt%igv%grid => cgrid
+
+      ! resize hs1 for right-hand side
+
+      call gf3_resize(geom%hs1, cgrid_new, 1d0)
+      call gf3_resize(geom%hv1, cgrid_new, 1d0)
+      if (keep_ptr) geom%hs1%grid  => cgrid
+      if (keep_ptr) geom%hv1%grid  => cgrid
+
+      ! resize arrays for friction coefficients, tractions, displacements and shift
+
+      call gf3_resize(outpt%mus, cgrid_new)
+      call gf3_resize(outpt%ps,  cgrid_new, 0d0)
+      call gf3_resize(outpt%us,  cgrid_new)
+      call gf3_resize(outpt%ss,  cgrid_new)
+      if (keep_ptr) outpt%mus%grid => cgrid
+      if (keep_ptr) outpt%ps%grid  => cgrid
+      if (keep_ptr) outpt%us%grid  => cgrid
+      if (keep_ptr) outpt%ss%grid  => cgrid
+
+      call gf3_resize(outpt%muv, cgrid_new)
+      call gf3_resize(outpt%pv,  cgrid_new, 0d0)
+      call gf3_resize(outpt%uv,  cgrid_new)
+      call gf3_resize(outpt%sv,  cgrid_new)
+      if (keep_ptr) outpt%muv%grid => cgrid
+      if (keep_ptr) outpt%pv%grid  => cgrid
+      if (keep_ptr) outpt%uv%grid  => cgrid
+      if (keep_ptr) outpt%sv%grid  => cgrid
+
+      ! resize arrays for plastic deformation, yield point, temperature
+
+      call gf3_resize(outpt%taucs, cgrid_new)
+      call gf3_resize(outpt%upls,  cgrid_new)
+      call gf3_resize(outpt%taucv, cgrid_new)
+      call gf3_resize(outpt%uplv,  cgrid_new)
+      if (keep_ptr) outpt%taucs%grid => cgrid
+      if (keep_ptr) outpt%upls%grid  => cgrid
+      if (keep_ptr) outpt%taucv%grid => cgrid
+      if (keep_ptr) outpt%uplv%grid  => cgrid
+
+      if (ic%heat.ge.1) then
+         call gf3_resize(outpt%temp1, cgrid_new)
+         call gf3_resize(outpt%temp2, cgrid_new)
+         if (keep_ptr) outpt%temp1%grid => cgrid
+         if (keep_ptr) outpt%temp2%grid => cgrid
+      endif
+
+   end subroutine gd_resize_gridfunc
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine gd_merge_gridfunc(ic, geom_add, geom_tot, outpt_add, outpt_tot, idebug)
+!--purpose: merge grid-functions from gd data-structure gd_add into gd data-structure gd_tot
+!           requires matching grids; contact regions must not overlap in y-direction.
+!           gd_add must lie to left of gd_tot: y-range [y0_add,y1_add] < [y0_tot,y1_tot].
+!--purpose: resize grid-functions used in hierarchical data-structure, shifting data
+   implicit none
+!--subroutine arguments:
+      type(t_ic)              :: ic
+      type(t_geomet)          :: geom_add, geom_tot
+      type(t_output)          :: outpt_add, outpt_tot
+      integer                 :: idebug
+!--local variables:
+      integer        :: ii
+      real(kind=8)   :: ysep(1)
+      type(t_eldiv)  :: mask
+
+      associate(cgrid_add => outpt_add%ps%grid, cgrid_tot => outpt_tot%ps%grid,                         &
+                ix0_add => outpt_add%igs%ixmin, ix1_add => outpt_add%igs%ixmax,                         &
+                iy0_add => outpt_add%igs%iymin, iy1_add => outpt_add%igs%iymax,                         &
+                ix0_tot => outpt_tot%igs%ixmin, ix1_tot => outpt_tot%igs%ixmax,                         &
+                iy0_tot => outpt_tot%igs%iymin, iy1_tot => outpt_tot%igs%iymax)
+
+      ! check that grids are equal
+
+      if (cgrid_add%ntot.ne.cgrid_tot%ntot) then
+         call write_log(' Internal error(gd_merge_gridfunc): grids not equal.')
+         call abort_run()
+      endif
+
+      ! check that actual contact areas are not overlapping
+
+      call areas(outpt_add%igs)
+      call areas(outpt_tot%igs)
+      ! call wrigs(outpt_add%igs, .true., 0d0)
+      ! call wrigs(outpt_tot%igs, .true., 0d0)
+
+      if (iy1_tot.ge.iy0_add .and. iy0_tot.le.iy1_add) then
+         call write_log(' ERROR(gd_merge_gridfunc): contact areas overlap in y-direction.')
+      elseif (iy0_tot.le.iy1_add) then
+         call write_log(' ERROR(gd_merge_gridfunc): contact area in1 lies to right of contact area in2.')
+      endif
+ 
+      if (idebug.ge.2) then
+         write(bufout,'(4(a,i3),a)') ' gd_in1: actual contact on ix=[',ix0_add,',',ix1_add,             &
+                '], iy=[',iy0_add,',',iy1_add,']'
+         call write_log(1, bufout)
+         write(bufout,'(4(a,i3),a)') ' gd_in2: actual contact on ix=[',ix0_tot,',',ix1_tot,             &
+                '], iy=[',iy0_tot,',',iy1_tot,']'
+         call write_log(1, bufout)
+      endif
+
+      ysep(1) = 0.5d0 * (cgrid_tot%y(1) + (iy1_add-1) * cgrid_tot%dy + cgrid_tot%dy/2d0 +               &
+                         cgrid_tot%y(1) + (iy0_tot-1) * cgrid_tot%dy - cgrid_tot%dy/2d0 )
+
+      if (idebug.ge.2) then
+         write(bufout,'(a,f8.3)') ' new grid split at ysep=',ysep(1)
+         call write_log(1, bufout)
+      endif
+
+      ! create mask-array for sub-patches within pot.contact
+
+      call eldiv_new(mask, cgrid_tot)
+      call eldiv_cpatches(mask, 2, ysep, idebug)
+
+      ! merge hs1, hv1 for right-hand side using gd_add on left and gd_tot on right side
+
+      call gf3_msk_copy(1, mask, geom_add%hs1, geom_tot%hs1, ikALL)
+      call gf3_msk_copy(1, mask, geom_add%hv1, geom_tot%hv1, ikALL)
+
+      ! merge arrays for friction coefficients, tractions, displacements and shift
+
+      call gf3_msk_copy(1, mask, outpt_add%mus, outpt_tot%mus, ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%ps,  outpt_tot%ps,  ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%us,  outpt_tot%us,  ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%ss,  outpt_tot%ss,  ikALL)
+
+      call gf3_msk_copy(1, mask, outpt_add%muv, outpt_tot%muv, ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%pv,  outpt_tot%pv,  ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%uv,  outpt_tot%uv,  ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%sv,  outpt_tot%sv,  ikALL)
+
+      ! merge arrays for plastic deformation, yield point, temperature
+
+      call gf3_msk_copy(1, mask, outpt_add%taucs, outpt_tot%taucs, ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%upls,  outpt_tot%upls,  ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%taucv, outpt_tot%taucv, ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%uplv,  outpt_tot%uplv,  ikALL)
+
+      if (ic%heat.ge.1) then
+         call gf3_msk_copy(1, mask, outpt_add%temp1, outpt_tot%temp1, ikALL)
+         call gf3_msk_copy(1, mask, outpt_add%temp2, outpt_tot%temp2, ikALL)
+      endif
+
+      ! merge arrays for element division
+
+      do ii = 1, cgrid_tot%ntot
+         outpt_tot%igs%el(ii) = max(outpt_tot%igs%el(ii), outpt_add%igs%el(ii))
+         outpt_tot%igv%el(ii) = max(outpt_tot%igv%el(ii), outpt_add%igv%el(ii))
+      enddo
+
+      call eldiv_destroy(mask)
+
+      end associate
+
+   end subroutine gd_merge_gridfunc
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine gd_merge ( gd_add, gd_tot, idebug )
+!--purpose: merge gd data-structure gd_add into gd data-structure gd_tot
+!           requires matching grids; contact regions must not overlap in y-direction.
+!           gd_add must lie to left of gd_tot: y-range [y0_add,y1_add] < [y0_tot,y1_tot].
+      implicit none
+!--subroutine arguments:
+      type(t_probdata) :: gd_add, gd_tot
+      integer          :: idebug
+!--local variables:
+      type(t_potcon)   :: pot_new
+      type(t_grid)     :: cgrid_new
+
+      call potcon_merge( gd_add%potcon, gd_tot%potcon, pot_new, idebug )
+      call potcon_cgrid(pot_new, cgrid_new)
+
+      ! enlarge all grid-functions in gd_tot and gd_add to the size of cgrid_new
+
+      call potcon_copy(pot_new, gd_tot%potcon)
+      call potcon_copy(pot_new, gd_add%potcon)
+
+      call gd_resize_gridfunc(gd_tot%ic, gd_tot%cgrid, cgrid_new, gd_tot%geom, gd_tot%outpt1, .true.)
+      call gd_resize_gridfunc(gd_add%ic, gd_add%cgrid, cgrid_new, gd_add%geom, gd_add%outpt1, .true.)
+
+      call grid_copy(cgrid_new, gd_tot%cgrid)
+      call grid_copy(cgrid_new, gd_add%cgrid)
+      call grid_destroy(cgrid_new)
+
+      ! merge grid-functions in geom, outpt using gd_add on left side into gd_tot on right side
+
+      call gd_merge_gridfunc(gd_tot%ic, gd_add%geom, gd_tot%geom, gd_add%outpt1, gd_tot%outpt1, idebug)
+
+   end subroutine gd_merge
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1599,60 +2493,21 @@ contains
    implicit none
 !--subroutine arguments:
    type(t_probdata) :: gd
-!--local variables:
-   integer          :: iblk
 
-   ! cleanup of grid:
-
-   call grid_destroy(gd%cgrid)
-
-   ! allocatable & pointer arrays of t_geomet:
-
-   call destroy_arr(gd%geom%prmudf)
-   call destroy_arr(gd%geom%prmpln)
-   call destroy_arr(gd%geom%ysep)
-   call destroy_arr(gd%geom%facsep)
-   call gf3_destroy(gd%geom%exrhs)
-   call gf3_destroy(gd%geom%hs1)
-   call gf3_destroy(gd%geom%hv1)
-
-   ! TODO: cleanup subsurf.input
-   !! call destroy_arr(gd%geom%xb)
-
-   call fric_destroy( gd%fric )
-
-   ! cleanup of influence coefficients influ:
-
-   call inflcf_destroy(gd%influ%cs)
-   call inflcf_destroy(gd%influ%cv)
-   call inflcf_destroy(gd%influ%csv)
-   call inflcf_destroy(gd%influ%ms)
-
-   ! cleanup of output arrays outpt1:
-
-   call eldiv_destroy(gd%outpt1%igs)
-   call eldiv_destroy(gd%outpt1%igv)
-   call gf3_destroy(gd%outpt1%mus)
-   call gf3_destroy(gd%outpt1%muv)
-   call gf3_destroy(gd%outpt1%shft)
-   call gf3_destroy(gd%outpt1%ps)
-   call gf3_destroy(gd%outpt1%pv)
-   call gf3_destroy(gd%outpt1%us)
-   call gf3_destroy(gd%outpt1%uv)
-   call gf3_destroy(gd%outpt1%ss)
-   call gf3_destroy(gd%outpt1%sv)
-   call gf3_destroy(gd%outpt1%taucs)
-   call gf3_destroy(gd%outpt1%taucv)
-   call gf3_destroy(gd%outpt1%upls)
-   call gf3_destroy(gd%outpt1%uplv)
-   call gf3_destroy(gd%outpt1%temp1)
-   call gf3_destroy(gd%outpt1%temp2)
-
-   ! cleanup subsurf data
-
-   do iblk = 1, gd%subs%nblock
-      call subsblk_destroy( gd%subs%blocks(iblk) )
-   enddo
+   call meta_destroy    ( gd%meta )
+   call scaling_destroy ( gd%scl )
+   call ic_destroy      ( gd%ic )
+   call mater_destroy   ( gd%mater )
+   call potcon_destroy  ( gd%potcon )
+   call grid_destroy    ( gd%cgrid )
+   call hertz_destroy   ( gd%hertz )
+   call geom_destroy    ( gd%geom )
+   call fric_destroy    ( gd%fric )
+   call kincns_destroy  ( gd%kin )
+   call influe_destroy  ( gd%influ )
+   call solv_destroy    ( gd%solv )
+   call output_destroy  ( gd%outpt1 )
+   call subsurf_destroy ( gd%subs )
 
    end subroutine gd_destroy
 

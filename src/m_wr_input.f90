@@ -322,7 +322,7 @@ contains
          psflrin = 1000000
       endif
 
-      call dbg_unpack (1, psflrin, ic)
+      call ic_unpack_dbg (1, psflrin, ic)
 
       !------------------------------------------------------------------------------------------------------
       ! Read input for G-digit
@@ -924,7 +924,7 @@ contains
       ! write debug parameters
 
       if (ic%xflow.ge.1) then
-         call dbg_pack(psflrin, ic)
+         call ic_pack_dbg(psflrin, ic)
          write(linp, 1103) psflrin
       endif
 

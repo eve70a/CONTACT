@@ -419,9 +419,9 @@ subroutine cntc_activate_gd(REid, CPid)
          call write_log(1, bufout)
       endif
 
-      ! first get defaults from setini
+      ! first get defaults from gd_init
 
-      call setini(gd)
+      call gd_init(gd)
 
       ! then overwrite selected values as needed
 
@@ -570,7 +570,6 @@ subroutine cntc_destroy_gd(REid, CPid)
    integer,      intent(in) :: CPid           ! contact patch ID
 !--local variables:
    integer                  :: ixre           ! position in list of REids
-   integer                  :: iblk
    character(len=*), parameter :: subnam = 'cntc_destroy_gd'
 
    if (idebug.ge.5) call cntc_log_start(subnam, .true.)
@@ -594,49 +593,9 @@ subroutine cntc_destroy_gd(REid, CPid)
    ixre = ix_reid(REid)
    if (.not.associated(allgds(ixre,CPid)%gd)) return
 
-   ! clean up all space allocated for the hierarchical data-structure gd for (REid,CPid)
+   ! clean up all space allocated in the hierarchical data-structure gd for (REid,CPid)
 
-   gd => allgds(ixre,CPid)%gd
-
-   ! cleanup of grid:
-
-   call grid_destroy(gd%cgrid)
-
-   ! allocatable & pointer arrays of t_geomet:
-
-   call destroy_arr(gd%geom%prmudf)
-   call destroy_arr(gd%geom%prmpln)
-   call destroy_arr(gd%geom%ysep)
-   call destroy_arr(gd%geom%facsep)
-   ! TODO: cleanup subsurf.input
-   !! call destroy_arr(gd%geom%xb)
-
-   ! cleanup of influence coefficients influ:
-
-   call inflcf_destroy(gd%influ%cs)
-   call inflcf_destroy(gd%influ%cv)
-   call inflcf_destroy(gd%influ%csv)
-   call inflcf_destroy(gd%influ%ms)
-
-   ! cleanup of output arrays outpt1:
-
-   call eldiv_destroy(gd%outpt1%igs)
-   call eldiv_destroy(gd%outpt1%igv)
-   call gf3_destroy(gd%outpt1%mus)
-   call gf3_destroy(gd%outpt1%muv)
-   call gf3_destroy(gd%outpt1%shft)
-   call gf3_destroy(gd%outpt1%ps)
-   call gf3_destroy(gd%outpt1%pv)
-   call gf3_destroy(gd%outpt1%us)
-   call gf3_destroy(gd%outpt1%uv)
-   call gf3_destroy(gd%outpt1%ss)
-   call gf3_destroy(gd%outpt1%sv)
-
-   ! cleanup subsurf data
-
-   do iblk = 1, gd%subs%nblock
-      call subsblk_destroy( gd%subs%blocks(iblk) )
-   enddo
+   call gd_destroy( allgds(ixre,CPid)%gd )
 
    ! destroy the whole structure t_probdata
 

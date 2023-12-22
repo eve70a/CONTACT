@@ -31,6 +31,8 @@ module m_grids
    public  grid_get_yrange
    public  grid_get_zrange
    public  grid_get_boundbox
+   public  grid_overlap         ! scalar inputs
+   public  grid_get_overlap     ! t_grid inputs
    public  grid_check_nan
 
    public  grid_create_uniform
@@ -204,6 +206,8 @@ subroutine grid_set_dimens(g, nx, ny)
    g%nx = nx
    g%ny = ny
    g%ntot = nx * ny
+
+   ! TODO: invalidate existing coor-array?  spline?
 end subroutine grid_set_dimens
 
 !------------------------------------------------------------------------------------------------------------
@@ -354,6 +358,109 @@ subroutine grid_get_boundbox(g, bb)
    call grid_create_curvil(bb, nx, ny, bbx, bby, bbz)
 
 end subroutine grid_get_boundbox
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine grid_overlap(old_xl, old_dx, old_nx, old_yl, old_dy, old_ny,                                 &
+                        new_xl, new_dx, new_nx, new_yl, new_dy, new_ny,                                 &
+                        kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
+!--purpose: check if uniform grids are matching (subset of same super-grid) and 
+!           determine overlap [ix0:ix1] x [iy0:iy1] within g_new
+   implicit none
+!--subroutine arguments:
+   integer,      intent(in)   :: old_nx, old_ny, new_nx, new_ny
+   real(kind=8), intent(in)   :: old_xl, old_dx, old_yl, old_dy, new_xl, new_dx, new_yl, new_dy
+   integer,      intent(out)  :: kofs_x, kofs_y, ix0, ix1, iy0, iy1
+   logical,      intent(out)  :: is_ok, is_equal
+!--local variables:
+   integer, parameter :: idebug = 0
+   real(kind=8)       :: delt_x, delt_y
+
+   ! check input grids
+
+   is_equal = .false.
+   is_ok = (old_dx.ge.1d-10 .and. abs(old_dx-new_dx).lt.1d-4*min(old_dx, new_dx) .and.                  &
+            new_dx.ge.1d-10 .and. abs(old_dy-new_dy).lt.1d-4*min(old_dy, new_dy))
+
+   if (.not.is_ok) then
+      call write_log(' grid_overlap: Internal error: need equal grid sizes.')
+      write(bufout,'(2(a,2f8.3))') ' dx_old/new=', old_dx, new_dx,', dy_old/new=', old_dy, new_dy
+      call write_log(1, bufout)
+      write(bufout,'(a,2es12.3)') ' dif=', old_dx-new_dx, old_dy-new_dy
+      call write_log(1, bufout)
+      return
+   endif
+   
+   delt_x = new_xl - old_xl
+   delt_y = new_yl - old_yl
+   kofs_x = nint( delt_x / old_dx )
+   kofs_y = nint( delt_y / old_dy )
+   is_ok  = (abs(delt_x-kofs_x*old_dx).lt.1d-3*old_dx .and. abs(delt_y-kofs_y*old_dy).lt.1d-3*old_dy)
+   is_equal = (new_nx.eq.old_nx .and. kofs_x.eq.0 .and. new_ny.eq.old_ny .and. kofs_y.eq.0)
+
+   if (.not.is_ok) then
+      call write_log(' grid_overlap: Internal error: offsets must be multiples of dx, dy')
+      write(bufout,'(2(3(a,g12.4),a,:/))')                                                              &
+                ' x_offset=',new_xl,' -', old_xl,' =', delt_x/old_dx,'* dx',                            &
+                ' y_offset=',new_yl,' -', old_yl,' =', delt_y/old_dy,'* dy'
+      call write_log(1, bufout)
+      return
+   endif
+
+   ! determine ranges ix0:ix1, iy0:iy1 in overlap on output grid
+
+   ix0 = max(    1,     1-kofs_x)
+   ix1 = min(new_nx, old_nx-kofs_x)
+   iy0 = max(    1,     1-kofs_y)
+   iy1 = min(new_ny, old_ny-kofs_y)
+
+   if (idebug.ge.2) then
+      write(bufout,'(2(a,i4,a,f6.3,a,f8.3))') ' old grid: mx=',old_nx,', dx=',old_dx,                   &
+                        ', xl=',old_xl, ', ny=',old_ny,', dy=',old_dy, ', yl=',old_yl
+      call write_log(1, bufout)
+      write(bufout,'(2(a,i4,a,f6.3,a,f8.3))') ' new grid: mx=',new_nx,', dx=',new_dx,                   &
+                        ', xl=',new_xl, ', ny=',new_ny,', dy=',new_dy, ', yl=',new_yl
+      call write_log(1, bufout)
+      write(bufout,'(2(a,i4))') ' offset kx=',kofs_x,', ky=',kofs_y
+      call write_log(1, bufout)
+   endif
+   if (idebug.ge.1) then
+      write(bufout,'(4(a,i4),a)') '   using old grid ix = [',ix0+kofs_x,',',ix1+kofs_x,'], iy = [',     &
+                        iy0+kofs_y,',',iy1+kofs_y,']'
+      call write_log(1, bufout)
+      write(bufout,'(4(a,i4),a)') ' copy to new grid ix = [',ix0,',',ix1,'], iy = [',iy0,',',iy1,']'
+      call write_log(1, bufout)
+      if (is_ok .and. is_equal) call write_log(' old and new grids are equal.')
+   endif
+
+end subroutine grid_overlap
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine grid_get_overlap(g_old, g_new, kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
+!--purpose: check if uniform grids are matching (subset of same super-grid) and 
+!           determine overlap [ix0:ix1] x [iy0:iy1] within g_new
+   implicit none
+!--subroutine arguments:
+   type(t_grid)              :: g_old, g_new
+   integer,     intent(out)  :: kofs_x, kofs_y, ix0, ix1, iy0, iy1
+   logical,     intent(out)  :: is_ok, is_equal
+!--local variables:
+
+   ! check input grids
+
+   is_ok = (g_old%is_defined() .and. g_new%is_defined() .and. g_old%is_uniform .and. g_new%is_uniform)
+
+   if (.not.is_ok) then
+      call write_log(' grid_overlap: Internal error: grids must be uniform and allocated.')
+      return
+   endif
+
+   call grid_overlap(g_old%x(1), g_old%dx, g_old%nx, g_old%y(1), g_old%dy, g_old%ny,                    &
+                     g_new%x(1), g_new%dx, g_new%nx, g_new%y(1), g_new%dy, g_new%ny,                    &
+                     kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
+
+end subroutine grid_get_overlap
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1533,7 +1640,7 @@ subroutine grid_print(g, nam, idebug, ndigit)
 
    ! idebug>=3: spline top-view, idebug>=5: print spline data
 
-   call spline_print(g%spl, nam, idebug, ndigit)
+   if (idebug.ge.3) call spline_print(g%spl, nam, idebug, ndigit)
 
 end subroutine grid_print
 

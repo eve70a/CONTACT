@@ -861,7 +861,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
          my_ic%xflow  = 1
          psflrin      = max(0, values(i))
-         call dbg_unpack(imodul, psflrin, my_ic)
+         call ic_unpack_dbg(imodul, psflrin, my_ic)
 
       elseif (params(i).eq.CNTC_ic_return) then         ! set R-digit in the RE-CP-data
 

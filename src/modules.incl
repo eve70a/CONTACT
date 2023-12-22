@@ -48,6 +48,12 @@ $(P)m_gridfunc.mod        $(P)m_gridfunc.$O:        \
                                                     $(P)m_markers.mod         \
                                                     $(P)m_ptrarray.mod        \
                                                     $(P)m_grids.mod          
+$(P)m_gridfunc_sub.mod    $(P)m_gridfunc_sub.$O:    \
+                                                    $(P)m_gridfunc.mod        \
+                                                    $(P)m_globals.mod         \
+                                                    $(P)m_markers.mod         \
+                                                    $(P)m_ptrarray.mod        \
+                                                    $(P)m_grids.mod          
 $(P)m_grids.mod           $(P)m_grids.$O:           \
                                                     $(P)m_globals.mod         \
                                                     $(P)m_markers.mod         \

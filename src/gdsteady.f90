@@ -88,20 +88,20 @@
 
       call eldiv_new(igsold, ps%grid, nulify=.true.)
       call eldiv_new(igsopt, ps%grid, nulify=.true.)
-      call gf3_dup(g    , 'gdstdy:g'    , ps, lzero=.true.)
-      call gf3_dup(dp   , 'gdstdy:dp'   , ps, lzero=.true.)
-      call gf3_dup(dupl , 'gdstdy:dupl' , ps, lzero=.true.)
-      call gf3_dup(dscl , 'gdstdy:dscl' , ps, lzero=.true.)
-      call gf3_dup(n    , 'gdstdy:n'    , ps, lzero=.true.)
-      call gf3_dup(t    , 'gdstdy:t'    , ps, lzero=.true.)
-      call gf3_dup(r    , 'gdstdy:r'    , ps, lzero=.true.)
-      call gf3_dup(dv   , 'gdstdy:dv'   , ps, lzero=.true.)
-      call gf3_dup(v    , 'gdstdy:v'    , ps, lzero=.true.)
-      call gf3_dup(q    , 'gdstdy:q'    , ps, lzero=.true.)
-      call gf3_dup(D_q  , 'gdstdy:D_q'  , ps, lzero=.true.)
-      call gf3_dup(psopt, 'gdstdy:psopt', ps, lzero=.true.)
-      call gf3_dup(ssopt, 'gdstdy:ssopt', ps, lzero=.true.)
-      call gf3_dup(pold , 'gdstdy:pold' , ps, lzero=.true.)
+      call gf3_copy_struc(ps, g    , 'gdstdy:g'    , lzero=.true.)
+      call gf3_copy_struc(ps, dp   , 'gdstdy:dp'   , lzero=.true.)
+      call gf3_copy_struc(ps, dupl , 'gdstdy:dupl' , lzero=.true.)
+      call gf3_copy_struc(ps, dscl , 'gdstdy:dscl' , lzero=.true.)
+      call gf3_copy_struc(ps, n    , 'gdstdy:n'    , lzero=.true.)
+      call gf3_copy_struc(ps, t    , 'gdstdy:t'    , lzero=.true.)
+      call gf3_copy_struc(ps, r    , 'gdstdy:r'    , lzero=.true.)
+      call gf3_copy_struc(ps, dv   , 'gdstdy:dv'   , lzero=.true.)
+      call gf3_copy_struc(ps, v    , 'gdstdy:v'    , lzero=.true.)
+      call gf3_copy_struc(ps, q    , 'gdstdy:q'    , lzero=.true.)
+      call gf3_copy_struc(ps, D_q  , 'gdstdy:D_q'  , lzero=.true.)
+      call gf3_copy_struc(ps, psopt, 'gdstdy:psopt', lzero=.true.)
+      call gf3_copy_struc(ps, ssopt, 'gdstdy:ssopt', lzero=.true.)
+      call gf3_copy_struc(ps, pold , 'gdstdy:pold' , lzero=.true.)
 
       associate(eldiv  => igs%el,  nx  => n%vx,   ny  => n%vy,   theta => n%vn, tx  => t%vx,   &
                 trcbnd => g%vt,    px  => ps%vx,  py  => ps%vy,  pn  => ps%vn,  ty  => t%vy,   &
@@ -750,7 +750,7 @@
 !--purpose: integrate traction increments and apply traction bound/project onto feasible area
       implicit none
 !--subroutine arguments:
-      type(t_eldiv),    intent(in)      :: igs
+      type(t_eldiv),    intent(in) :: igs
       type(t_gridfnc3)             :: g, dp, ps
 !--local variables:
       integer      :: ii, ix, iy, mx, my
@@ -1024,8 +1024,8 @@
 
       npot = ps%grid%ntot
 
-      call gf3_dup(dpnew, 'linsrch:dpnew', ps, .true.)
-      call gf3_dup(psnew, 'linsrch:psnew', ps, .true.)
+      call gf3_copy_struc(ps, dpnew, 'linsrch:dpnew', .true.)
+      call gf3_copy_struc(ps, psnew, 'linsrch:psnew', .true.)
 
       idebug    = 0
       if (itgd.eq.-1) idebug = 5

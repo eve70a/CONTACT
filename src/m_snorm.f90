@@ -98,10 +98,10 @@ contains
       ! Create grid functions htang, hstot, tmp, unn
       ! dup: nullify, copy structure and el.div from ps1, initialize at 0:
 
-      call gf3_dup(htang, 'snorm:htang', ps1, .true.)
-      call gf3_dup(hstot, 'snorm:hstot', ps1, .true.)
-      call gf3_dup(tmp,   'snorm:tmp',   ps1, .true.)
-      call gf3_dup(unn,   'snorm:unn',   ps1, .true.)
+      call gf3_copy_struc(ps1, htang, 'snorm:htang', .true.)
+      call gf3_copy_struc(ps1, hstot, 'snorm:hstot', .true.)
+      call gf3_copy_struc(ps1, tmp,   'snorm:tmp',   .true.)
+      call gf3_copy_struc(ps1, unn,   'snorm:unn',   .true.)
 
       ! Initialize fixed part of deformed distance:
       !   hs    == undeformed distance, negative for interpenetration
@@ -470,7 +470,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine snorm_kpec_wrapper (ic, mater, cgrid, kin, geom, solv, hs, cs, itnorm, igs, ps)
+   subroutine snorm_kpec_wrapper (ic, mater, cgrid, kin, solv, hs, cs, itnorm, igs, ps)
 !--purpose: Normal problem. Norm calculates the normal pressure ps%vn(ii), for given tangential traction
 !           and undeformed distance hs. If ic%norm = 1, the normal displacement is modified by a rigid
 !           displacement pen in the z-direction so that the total normal force equals fn.
@@ -481,7 +481,6 @@ contains
       type(t_material)       :: mater
       type(t_grid)           :: cgrid
       type(t_kincns)         :: kin
-      type(t_geomet)         :: geom
       type(t_solvers)        :: solv
       type(t_inflcf)         :: cs
       type(t_eldiv)          :: igs
@@ -504,7 +503,7 @@ contains
       call timer_start(my_timer)
 
       if (ic%flow.ge.3) call write_log(' NORM-KPEC')
-      if (ic%sens.ge.2  .and. ic%flow.ge.-1) call write_log(' Kpec: Sensitivities will not be computed.')
+      if (ic%sens.ge.2  .and. ic%flow.ge.3) call write_log(' Kpec: Sensitivities will not be computed.')
       if (ic%norm.ne.0) then
          call write_log(' ERROR: Kpec: N=1 not supported.')
          call abort_run()
@@ -513,8 +512,8 @@ contains
       ! Create grid functions htang, hstot
       ! dup: nullify, copy structure and el.div from ps, initialize at 0:
 
-      call gf3_dup(htang, 'snorm:htang', ps, .true.)
-      call gf3_dup(hstot, 'snorm:hstot', ps, .true.)
+      call gf3_copy_struc(ps, htang, 'snorm:htang', .true.)
+      call gf3_copy_struc(ps, hstot, 'snorm:hstot', .true.)
 
       ! update the element divisions in row1st, rowlst for use in aijpj
 
@@ -626,6 +625,10 @@ contains
 
       associate(mx    => cgrid%nx,    my    => cgrid%ny,    npot  => cgrid%ntot,  dxdy  => cgrid%dxdy,  &
                 dx    => cgrid%dx,    dy    => cgrid%dy,    x     => cgrid%x,     y     => cgrid%y   )
+
+      ! initialize: clear pressures pn
+
+      call gf3_set(AllElm, 0d0, ps, ikZDIR)
 
       ! some interpenetration exists
 
@@ -1110,7 +1113,7 @@ contains
 
       ! Compute product
 
-      call gf3_dup(unn, 'unn', ps, .true.)
+      call gf3_copy_struc(ps, unn, 'unn', .true.)
       call fft_VecAijPj(igs, .false., AllElm, unn, ikZDIR, ps, jkZDIR, cs)
 
       ! Report result

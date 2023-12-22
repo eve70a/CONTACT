@@ -282,7 +282,7 @@ contains
          psflrin = 0
       endif
 
-      call dbg_unpack (3, psflrin, ic)
+      call ic_unpack_dbg (3, psflrin, ic)
       idebug = ic%x_readln
 
       !------------------------------------------------------------------------------------------------------
@@ -1184,7 +1184,7 @@ contains
       if (ic%xflow.le.0) then
          write(linp, 1101) pbtnfs, vldcmze, xgiaowr
       else
-         call dbg_pack(psflrin, ic)
+         call ic_pack_dbg(psflrin, ic)
          write(linp, 1102) pbtnfs, vldcmze, xgiaowr
          write(linp, 1103) psflrin
       endif

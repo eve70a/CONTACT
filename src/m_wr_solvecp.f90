@@ -231,7 +231,7 @@ contains
 
       if (.not.associated(cp%gd)) then
          allocate(cp%gd)
-         call setini(cp%gd)
+         call gd_init(cp%gd)
       endif
       gd => cp%gd
 
@@ -622,7 +622,7 @@ contains
          call write_log(1, bufout)
       endif
 
-      call gf3_dup(ps_cp, 'ps(cp)', outpt1%ps)
+      call gf3_copy_struc(outpt1%ps, ps_cp, 'ps(cp)')
       call gf3_copy(AllElm, outpt1%ps, ps_cp, ikALL)
 
       if (idebug.ge.4) call gf3_print(ps_cp, 'ps(curved)', ikZDIR, 4)

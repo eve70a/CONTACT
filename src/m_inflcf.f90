@@ -22,6 +22,8 @@ public  inflcf_new
 public  inflcf_copy
 public  inflcf_print
 public  inflcf_destroy
+
+public  influe_copy
 public  influe_load
 private influe_loadtyp0
 private influe_loadtyp1
@@ -30,6 +32,7 @@ private influe_blanco0
 private influe_blanco1
 private influe_cv_csv
 private influe_yv_ysv
+public  influe_destroy
 
 !------------------------------------------------------------------------------------------------------------
 ! data-type for a single influence coefficients matrix:
@@ -504,6 +507,21 @@ contains
       nullify(inflcf%fft_cf)
 
    end subroutine inflcf_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine influe_copy (infl_in, infl_out)
+!--purpose: Copy influence coefficients data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_influe) :: infl_in, infl_out
+
+      call inflcf_copy( infl_in%cs,  infl_out%cs )
+      call inflcf_copy( infl_in%cv,  infl_out%cv )
+      call inflcf_copy( infl_in%csv, infl_out%csv )
+      call inflcf_copy( infl_in%ms,  infl_out%ms )
+
+   end subroutine influe_copy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1522,6 +1540,21 @@ contains
       endif
 
    end subroutine influe_yv_ysv
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine influe_destroy (infl)
+!--purpose: Destroy influence coefficients data-structure
+      implicit none
+!--subroutine arguments:
+      type(t_influe) :: infl
+
+      call inflcf_destroy( infl%cs )
+      call inflcf_destroy( infl%cv )
+      call inflcf_destroy( infl%csv )
+      call inflcf_destroy( infl%ms )
+
+   end subroutine influe_destroy
 
 !------------------------------------------------------------------------------------------------------------
 

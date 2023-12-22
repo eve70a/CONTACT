@@ -673,6 +673,57 @@ end subroutine spline_eval_spl
 
 !------------------------------------------------------------------------------------------------------------
 
+module subroutine spline_eval_scalar(spl, ikarg, s_eval, ierror, exterval, f_eval, f1_eval, f2_eval,    &
+                                f3_eval)
+!--function: evaluate parametric spline 'spl' in direction ikarg at point s_eval, computing f_eval and
+!            its derivatives f1=f', f2=f'', f3=f'''
+   implicit none
+!--subroutine arguments:
+   type(t_spline)                 :: spl
+   integer,          intent(in)   :: ikarg
+   real(kind=8),     intent(in)   :: s_eval
+   integer,          intent(out)  :: ierror
+   real(kind=8),     intent(in),  optional :: exterval
+   real(kind=8),     intent(out), optional :: f_eval, f1_eval, f2_eval, f3_eval
+!--local variables:
+   character(len=1)              :: nam_f
+   real(kind=8)                  :: s_arr(1), f_arr(1), f1_arr(1), f2_arr(1), f3_arr(1)
+   real(kind=8), dimension(:,:), pointer :: coef
+
+   if (ikarg.eq.ikXDIR) then
+      nam_f = 'x'
+      coef  => spl%axspl
+   elseif (ikarg.eq.ikYDIR) then
+      nam_f = 'y'
+      coef  => spl%ayspl
+   elseif (ikarg.eq.ikZDIR) then
+      nam_f = 'z'
+      coef  => spl%azspl
+   else
+      call write_log('INTERNAL ERROR (spline_eval_scalar): ikarg invalid.')
+      call abort_run()
+   endif
+
+   if (associated(coef)) then
+      s_arr(1) = s_eval
+      call spline_eval_arr( spl%npnt, spl%s, nam_f, coef(:,4), coef(:,3), coef(:,2), coef(:,1),         &
+                            1, s_arr, ierror, exterval, f_arr, f1_arr, f2_arr, f3_arr)
+      if (present(f_eval))  f_eval  = f_arr(1)
+      if (present(f1_eval)) f1_eval = f1_arr(1)
+      if (present(f2_eval)) f2_eval = f2_arr(1)
+      if (present(f3_eval)) f3_eval = f3_arr(1)
+   else
+      if (.false.) call write_log('spline_eval_scalar: coef not associated')
+      if (present(f_eval))  f_eval  = 0d0
+      if (present(f1_eval)) f1_eval = 0d0
+      if (present(f2_eval)) f2_eval = 0d0
+      if (present(f3_eval)) f3_eval = 0d0
+   endif
+
+end subroutine spline_eval_scalar
+
+!------------------------------------------------------------------------------------------------------------
+
 module subroutine solve_cubic_segm( s_a, s_b, f_a, c1, c2, c3, f_b, fval, sl, ldebug, ierror)
 !--function: solve f(s) = c3 sl^3 + c2 sl^2 + c1 sl + f_a - fval = 0 ,
 !            with sl the local coordinate in the segment.

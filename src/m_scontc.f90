@@ -396,7 +396,7 @@ contains
             it = 0
          elseif (ic%bound.ge.5 .and. ic%bound.le.6) then
             if (idebug.ge.5) call write_log('panprc: call snorm_kpec...')
-            call snorm_kpec_wrapper(ic, mater, cgrid, kin, geom, solv, hs1, infl%cs, it, igs1, ps1)
+            call snorm_kpec_wrapper(ic, mater, cgrid, kin, solv, hs1, infl%cs, it, igs1, ps1)
             if (idebug.ge.5) call write_log('panprc: returned from snorm_kpec...')
             it = 0
          else

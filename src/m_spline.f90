@@ -40,10 +40,12 @@ module m_spline
    public  spline_eval
    public  spline_eval_arr
    public  spline_eval_spl
+   public  spline_eval_scalar
 
    interface spline_eval
       module procedure spline_eval_arr
       module procedure spline_eval_spl
+      module procedure spline_eval_scalar
    end interface spline_eval
 
    public  solve_cubic_segm
@@ -260,6 +262,21 @@ module m_spline
          real(kind=8),     intent(in),  optional :: exterval
          real(kind=8),     intent(out), optional :: f_eval(nout), f1_eval(nout), f2_eval(nout), f3_eval(nout)
       end subroutine spline_eval_spl
+      
+      !------------------------------------------------------------------------------------------------------
+      
+      module subroutine spline_eval_scalar(spl, ikarg, s_eval, ierror, exterval, f_eval, f1_eval,       &
+                                f2_eval, f3_eval)
+      !--function: evaluate parametric spline 'spl' in direction ikarg at point s_eval, computing f_eval
+      !            and its derivatives f1=f', f2=f'', f3=f'''
+      !--subroutine arguments:
+         type(t_spline)                 :: spl
+         integer,          intent(in)   :: ikarg
+         real(kind=8),     intent(in)   :: s_eval
+         integer,          intent(out)  :: ierror
+         real(kind=8),     intent(in),  optional :: exterval
+         real(kind=8),     intent(out), optional :: f_eval, f1_eval, f2_eval, f3_eval
+      end subroutine spline_eval_scalar
       
       !------------------------------------------------------------------------------------------------------
       

@@ -83,7 +83,7 @@ contains
                 sens  => outpt1%sens, facdt => ledg%facdt)
 
       call gf3_new(wstot, 'solvpt:wstot', cgrid, nulify=.true.)
-      call gf3_dup(tmp,   'solvpt:tmp', ps1, .true.)
+      call gf3_copy_struc(ps1, tmp, 'solvpt:tmp', .true.)
 
       is_roll  = ic%tang.eq.2 .or. ic%tang.eq.3
       is_ssrol = ic%tang.eq.3
@@ -545,11 +545,11 @@ contains
 
       associate(igs1 => outpt1%igs, ps1 => outpt1%ps, sens => outpt1%sens, facdt => ledg%facdt)
 
-      call gf3_dup(wstot, 'wstot', ps1, .true.)
-      call gf3_dup(psloc, 'psloc', ps1, .true.)
-      call gf3_dup(wsloc, 'wsloc', ps1, .true.)
-      call gf3_dup(ssloc, 'ssloc', ps1, .true.)
-      call gf3_dup(usloc, 'usloc', ps1, .true.)
+      call gf3_copy_struc(ps1, wstot, 'wstot', .true.)
+      call gf3_copy_struc(ps1, psloc, 'psloc', .true.)
+      call gf3_copy_struc(ps1, wsloc, 'wsloc', .true.)
+      call gf3_copy_struc(ps1, ssloc, 'ssloc', .true.)
+      call gf3_copy_struc(ps1, usloc, 'usloc', .true.)
       call eldiv_nullify(igsloc)
       call eldiv_new(igsloc, ps1%grid)
 
@@ -1096,20 +1096,20 @@ contains
       !       r is the residual, z the preconditioned residual,
       !       v is the search direction, q = A * v.
 
-      call gf3_dup(g   , 'tangcg:g'   , ps, .true.)
-      call gf3_dup(n   , 'tangcg:n'   , ps, .true.)
-      call gf3_dup(t   , 'tangcg:t'   , ps, .true.)
-      call gf3_dup(r   , 'tangcg:r'   , ps, .true.)
-      call gf3_dup(z   , 'tangcg:z'   , ps, .true.)
-      call gf3_dup(v   , 'tangcg:v'   , ps, .true.)
-      call gf3_dup(q   , 'tangcg:q'   , ps, .true.)
-      call gf3_dup(pold, 'tangcg:pold', ps, .true.)
+      call gf3_copy_struc(ps, g   , 'tangcg:g'   , .true.)
+      call gf3_copy_struc(ps, n   , 'tangcg:n'   , .true.)
+      call gf3_copy_struc(ps, t   , 'tangcg:t'   , .true.)
+      call gf3_copy_struc(ps, r   , 'tangcg:r'   , .true.)
+      call gf3_copy_struc(ps, z   , 'tangcg:z'   , .true.)
+      call gf3_copy_struc(ps, v   , 'tangcg:v'   , .true.)
+      call gf3_copy_struc(ps, q   , 'tangcg:q'   , .true.)
+      call gf3_copy_struc(ps, pold, 'tangcg:pold', .true.)
 
       ! save initial estimate for modified stopping criterion
 
       if (is_sens) then
-         call gf3_dup(ps0, 'tangcg:ps0', ps, .true.)
-         call gf3_dup(tmp, 'tangcg:tmp', ps, .true.)
+         call gf3_copy_struc(ps, ps0, 'tangcg:ps0', .true.)
+         call gf3_copy_struc(ps, tmp, 'tangcg:tmp', .true.)
          call gf3_copy(AllElm, ps, ps0, ikTANG)
       endif
 
@@ -1660,8 +1660,8 @@ contains
       ! save initial estimate for modified stopping criterion
 
       if (is_sens) then
-         call gf3_dup(ps0, 'cnvxgs:ps0', ps, .true.)
-         call gf3_dup(tmp, 'cnvxgs:tmp', ps, .true.)
+         call gf3_copy_struc(ps, ps0, 'cnvxgs:ps0', .true.)
+         call gf3_copy_struc(ps, tmp, 'cnvxgs:tmp', .true.)
          call gf3_copy(AllElm, ps, ps0, ikTANG)
       endif
 
@@ -2063,8 +2063,8 @@ contains
       ! save initial estimate for modified stopping criterion
 
       if (is_sens) then
-         call gf3_dup(ps0, 'stdygs:ps0', ps, .true.)
-         call gf3_dup(tmp, 'stdygs:tmp', ps, .true.)
+         call gf3_copy_struc(ps, ps0, 'stdygs:ps0', .true.)
+         call gf3_copy_struc(ps, tmp, 'stdygs:tmp', .true.)
          call gf3_copy(AllElm, ps, ps0, ikTANG)
       endif
 

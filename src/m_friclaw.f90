@@ -139,7 +139,7 @@ contains
       nvf = 1
       call fric_resize(fric, nvf)
 
-      ! store sensibel default values
+      ! store sensible default values
 
       fric%frclaw_eff =  0
 

@@ -133,7 +133,7 @@ contains
       type(t_material)         :: mater
       type(t_friclaw)          :: fric
       type(t_kincns)           :: kin
-      type(t_influe),   target :: influ
+      type(t_influe),  target  :: influ
 !--constants/parameters:
       integer,      parameter  :: idebug = 0
       real(kind=8), parameter  :: epsco  = 1d-15

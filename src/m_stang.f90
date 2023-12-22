@@ -68,13 +68,13 @@ contains
 
       ! dup: nullify, copy structure and el.div from ps1, initialize at 0:
 
-      call gf3_dup(wsfix1, 'tang:wsfix1', ps1, .true.)
-      call gf3_dup(wsfix2, 'tang:wsfix2', ps1, .true.)
-      call gf3_dup(tmp,    'tang:tmp',    ps1, .true.)
-      call gf3_dup(musted, 'tang:musted', ps1, .true.)
-      call gf3_dup(slpvel, 'tang:slpvel', ps1, .true.)
-      call gf3_dup(slpprv, 'tang:slpprv', ps1, .true.)
-      call gf3_dup(tmpprv, 'tang:tmpprv', ps1, .true.)
+      call gf3_copy_struc(ps1, wsfix1, 'tang:wsfix1', .true.)
+      call gf3_copy_struc(ps1, wsfix2, 'tang:wsfix2', .true.)
+      call gf3_copy_struc(ps1, tmp,    'tang:tmp',    .true.)
+      call gf3_copy_struc(ps1, musted, 'tang:musted', .true.)
+      call gf3_copy_struc(ps1, slpvel, 'tang:slpvel', .true.)
+      call gf3_copy_struc(ps1, slpprv, 'tang:slpprv', .true.)
+      call gf3_copy_struc(ps1, tmpprv, 'tang:tmpprv', .true.)
 
       call eldiv_new(igsprv, cgrid, nulify=.true.)
       allocate(iel(npot))
@@ -1174,8 +1174,8 @@ contains
 
       ! dup: nullify, copy structure and el.div from ps1, initialize at 0:
 
-      call gf3_dup(wsfix1, 'tang:wsfix1', ps1, .true.)
-      call gf3_dup(tmp,    'tang:tmp',    ps1, .true.)
+      call gf3_copy_struc(ps1, wsfix1, 'tang:wsfix1', .true.)
+      call gf3_copy_struc(ps1, tmp,    'tang:tmp',    .true.)
 
       allocate(iel(npot))
 
