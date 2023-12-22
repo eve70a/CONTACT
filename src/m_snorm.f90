@@ -60,7 +60,7 @@ contains
 
       call timer_start(itimer_snorm)
 
-      if (ic%flow.ge.3) call write_log(' NORM')
+      if (ic%flow.ge.4) call write_log(' NORM')
 
       ! update the element divisions in row1st, rowlst for use in aijpj
 
@@ -153,9 +153,11 @@ contains
             endif
          enddo
 
-         if (ic%flow.ge.3) write(bufout, 2200) itnorm, ncon, npot-ncon
-         if (ic%flow.ge.3) call write_log(1, bufout)
+         if (ic%flow.ge.4 .or. (ic%flow.ge.3 .and. itnorm.ge.2)) then
+            write(bufout, 2200) itnorm, ncon, npot-ncon
+            call write_log(1, bufout)
  2200    format (4x,i4, ', Norm: size of Contact, Exterior :', 2i7)
+         endif
          if (ic%flow.ge.9) call wrigs (igs1, .false., 0d0)
          call areas (igs1)
 
@@ -367,7 +369,7 @@ contains
          sens(iout_fn, iin_dpen) = 0d0
       endif
 
-      if (ic%flow.ge.3) call write_log(' ')
+      if (ic%flow.ge.4 .or. (ic%flow.ge.3 .and. itnorm.ge.2)) call write_log(' ')
 
       call gf3_destroy(unn)
       call gf3_destroy(tmp)

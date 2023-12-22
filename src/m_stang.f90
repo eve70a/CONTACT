@@ -46,7 +46,7 @@ contains
       type(t_eldiv)               :: igsprv
       type(t_leadedge)            :: ledg
       integer, allocatable        :: iel(:)
-      logical                     :: zready, zreasl, is_roll, is_ssrol, use_plast
+      logical                     :: zready, zreasl, is_roll, is_ssrol, use_plast, use_out_it
       integer                     :: i, ii, ix, ixsta, ixinc, ixend, iy, j, k, icount, info, it,        &
                                      itslp, nadh, nslip, nplast, nexter, newins,    &
                                      newadh, smller, smllww, imeth, itgs, frclaw
@@ -65,6 +65,7 @@ contains
       is_ssrol  = ic%tang.eq.3
       use_plast = ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10
       frclaw    = fric%frclaw_eff
+      use_out_it = ((frclaw.ge.2 .and. frclaw.le.4) .or. frclaw.eq.6)
 
       ! dup: nullify, copy structure and el.div from ps1, initialize at 0:
 
@@ -93,7 +94,7 @@ contains
 
       ! write type of problem to trace output
 
-      if (ic%flow.ge.3) then
+      if (ic%flow.ge.4 .or. (ic%flow.ge.2 .and. use_out_it)) then
          if (ic%mater.ge.2 .and. ic%mater.le.3) then
             call write_log(' TANG: STEADY STATE ROLLING BY THE FASTSIM APPROACH')
          elseif (ic%tang.eq.1) then
@@ -368,7 +369,7 @@ contains
             zready = .true.
 
             call eldiv_count(igs1, nadh, nslip, nplast, nexter)
-            if (ic%flow.ge.3) then
+            if (ic%flow.ge.4 .or. (ic%flow.ge.3 .and. .not.use_out_it .and. ittang.ge.2)) then
                if (use_plast) then
                   write(bufout,5102) ittang, nadh, nslip, nplast
                else
@@ -524,7 +525,13 @@ contains
          !---------------------------------------------------------------------------------------------------
          ! Outer iteration for velocity-dependent friction:
 
-         if (frclaw.ge.2 .and. frclaw.le.4) then
+         if (.not.use_out_it) then
+
+            ! No iteration required, friction law is not dependent on slip velocity nor temperature
+
+            zreasl = .true.
+
+         elseif (frclaw.ge.2 .and. frclaw.le.4) then
 
             !  - Count the number of changes to the element division
 
@@ -576,9 +583,17 @@ contains
 
             strng(1) = fmt_gs(12,4, dif)
             strng(2) = fmt_gs(12,4, difid)
-            if (ic%flow.ge.2) write(bufout,8700) itslp, (strng(j),j=1,2)
+            if (ic%flow.ge.4) then
+               write(bufout,8601) itslp, (strng(j), j=1,2)
+            elseif (ic%flow.ge.2 .and. .not.use_plast) then
+               write(bufout,8602) itslp, nadh, nslip, (strng(j), j=1,2)
+            elseif (ic%flow.ge.2) then
+               write(bufout,8603) itslp, nadh, nslip, nplast, (strng(j), j=1,2)
+            endif
             if (ic%flow.ge.2) call write_log(1, bufout)
- 8700       format (i5, ', Vel-dep: |Sk-Sk-1|, .001 |Sk| : ', 2a12)
+ 8601       format (i5, ', Vel-dep: |Sk-Sk-1|, .001 |Sk| : ', 2a12)
+ 8602       format (i5, ', Vel-dep: A, S=',   2i6,', |Sk-Sk-1|, .001 |Sk| : ', 2a12)
+ 8603       format (i5, ', Vel-dep: A, S, P=',3i6,', |Sk-Sk-1|, .001 |Sk| : ', 2a12)
 
             !  - Set convergence flag
 
@@ -636,9 +651,17 @@ contains
 
             strng(1) = fmt_gs(12,4, dif)
             strng(2) = fmt_gs(12,4, difid)
-            if (ic%flow.ge.2) write(bufout,8701) itslp, (strng(j), j=1,2)
+            if (ic%flow.ge.4) then
+               write(bufout,8701) itslp, (strng(j), j=1,2)
+            elseif (ic%flow.ge.2 .and. .not.use_plast) then
+               write(bufout,8702) itslp, nadh, nslip, (strng(j), j=1,2)
+            elseif (ic%flow.ge.2) then
+               write(bufout,8703) itslp, nadh, nslip, nplast, (strng(j), j=1,2)
+            endif
             if (ic%flow.ge.2) call write_log(1, bufout)
  8701       format (i5, ', Temp-dep: |Tk-Tk-1|, .001 |Tk| : ', 2a12)
+ 8702       format (i5, ', Temp-dep: A, S=',   2i6,', |Tk-Tk-1|, .001 |Tk| : ', 2a12)
+ 8703       format (i5, ', Temp-dep: A, S, P=',3i6,', |Tk-Tk-1|, .001 |Tk| : ', 2a12)
 
             !  - Set convergence flag
 
@@ -651,12 +674,6 @@ contains
                write(bufout,'(a,f8.4)') 'Reducing OmgSlp to',omgslp
                call write_log(1, bufout)
             endif
-
-         else
-
-            ! No iteration required, friction law is not dependent on slip velocity nor temperature
-
-            zreasl = .true.
 
          endif
 
@@ -696,12 +713,11 @@ contains
 
       if (ic%sens.ge.3) then
          call timer_start(itimer_sens)
-         ! call write_log(' starting sens_tang...')
          call sens_tang (ic, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, npot, k, iel, wsfix1)
          call timer_stop(itimer_sens)
       endif
 
-      if (ic%flow.ge.3) call write_log(' ')
+      if (ic%flow.ge.4 .or. (ic%flow.ge.3 .and. (use_out_it .or. ittang.ge.2))) call write_log(' ')
 
       call gf3_destroy(wsfix1)
       call gf3_destroy(wsfix2)
@@ -1270,6 +1286,14 @@ contains
       endif
  8900 format (6x, 'Tang: final element division: A, S=', 2i7, 2x,a,'=', i6)
       solv%itgs = itgs
+
+      ! compute sensitivity w.r.t. creepages
+
+      if (ic%sens.ge.3) then
+         call timer_start(itimer_sens)
+         call sens_tang (ic, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, npot, k, iel, wsfix1)
+         call timer_stop(itimer_sens)
+      endif
 
       call gf3_destroy(wsfix1)
       call gf3_destroy(tmp)
