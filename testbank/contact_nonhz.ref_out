@@ -2,17 +2,17 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2480 $, $Date:: 2023-12-22$        |
+   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
- **            cntc_setGlobalFlags       : i= 1, set flag CNTC_if_idebug to value    2
- **            cntc_setGlobalFlags       : i= 2, set flag CNTC_if_openmp to value    1
+ **            cntc_setGlobalFlags     : i= 1, set flag CNTC_if_idebug to value       2
+ **            cntc_setGlobalFlags     : i= 2, set flag CNTC_if_openmp to value       1
  **                  cntc_setFlags(  1.2): i= 1, set flag CNTC_if_units  to value CNTC_un_spck
- **                  cntc_setFlags(  1.2): i= 2, set flag CNTC_if_wrtinp to value    1
- **                  cntc_setFlags(  1.2): i= 3, set flag CNTC_ic_matfil to value    0
- **                  cntc_setFlags(  1.2): i= 4, set flag CNTC_ic_output to value    3
- **                  cntc_setFlags(  1.2): i= 5, set flag CNTC_ic_flow   to value    4
+ **                  cntc_setFlags(  1.2): i= 2, set flag CNTC_if_wrtinp to value       1
+ **                  cntc_setFlags(  1.2): i= 3, set flag CNTC_ic_matfil to value       0
+ **                  cntc_setFlags(  1.2): i= 4, set flag CNTC_ic_output to value       3
+ **                  cntc_setFlags(  1.2): i= 5, set flag CNTC_ic_flow   to value       4
  **               cntc_setMetadata(  1.2): i= 1, set metadata 2011 to value   1.100
  **               cntc_setMetadata(  1.2): i= 2, set metadata 2014 to value   12.00
  **               cntc_setMetadata(  1.2): i= 3, set metadata 2015 to value  0.5000E-01
@@ -22,10 +22,10 @@
  **        cntc_setRollingStepsize(  1.2): chi=   0.0 [rad], dq= 0.500 [mm]
  **              cntc_setCreepages(  1.2): creepages Cksi,Ceta= 0.0010 0.0000 [-], Phi= 0.0004 [rad/mm]
  **                  cntc_setFlags(  2.2): i= 1, set flag CNTC_if_units  to value CNTC_un_spck
- **                  cntc_setFlags(  2.2): i= 2, set flag CNTC_if_wrtinp to value    1
- **                  cntc_setFlags(  2.2): i= 3, set flag CNTC_ic_matfil to value    0
- **                  cntc_setFlags(  2.2): i= 4, set flag CNTC_ic_output to value    3
- **                  cntc_setFlags(  2.2): i= 5, set flag CNTC_ic_flow   to value    4
+ **                  cntc_setFlags(  2.2): i= 2, set flag CNTC_if_wrtinp to value       1
+ **                  cntc_setFlags(  2.2): i= 3, set flag CNTC_ic_matfil to value       0
+ **                  cntc_setFlags(  2.2): i= 4, set flag CNTC_ic_output to value       3
+ **                  cntc_setFlags(  2.2): i= 5, set flag CNTC_ic_flow   to value       4
  **               cntc_setMetadata(  2.2): i= 1, set metadata 2011 to value   2.100
  **               cntc_setMetadata(  2.2): i= 2, set metadata 2014 to value   12.00
  **               cntc_setMetadata(  2.2): i= 3, set metadata 2015 to value  0.5000E-01
@@ -35,18 +35,18 @@
  **        cntc_setRollingStepsize(  2.2): chi=   0.0 [rad], dq= 0.500 [mm]
  **              cntc_setCreepages(  2.2): creepages Cksi,Ceta= 0.0010 0.0000 [-], Phi= 0.0004 [rad/mm]
  **     cntc_setMaterialParameters(  1.2): G=82000.0 [N/mm2], Nu= 0.28, K= 0.00 [-]
- **         cntc_setFrictionMethod(  1.2): L=0, Fstat= 0.300, Fkin= 0.300 [-]
+ **         cntc_setFrictionMethod(  1.2): L= 0, Fstat= 0.300, Fkin= 0.300 [-]
  **            cntc_setPenetration(  1.2): penetration= 0.0500 [mm]
  **           cntc_setHertzContact(  1.2): ipotcn= -3, mx,my=   21   33
- **            cntc_setSolverFlags(  1.2): G=0, MaxGS=   999, MaxIN=    30, MaxNR=    30, MaxOUT=     1
- **         cntc_setFrictionMethod(  2.2): L=5, Fkin= 0.18, Fexp1= 0.12 [-],
+ **            cntc_setSolverFlags(  1.2): G= 0, MaxGS=   999, MaxIN=    30, MaxNR=    30, MaxOUT=     1
+ **         cntc_setFrictionMethod(  2.2): L= 5, Fkin= 0.18, Fexp1= 0.12 [-],
                                            Sabsh1= 1250.0, Mem_s0=   10.0 [mm/s], Memdst= 0.00 [mm]
  **     cntc_setMaterialParameters(  2.2): M=4, Gg3=  100.0 [N/mm2], Laythk= 0.010 [mm]
                                              Tau_c0=  0.1E+21 [N/mm2], K_tau=    0.0 [N/mm3]
  **     cntc_setMaterialParameters(  2.2): G=82000.0 [N/mm2], Nu= 0.28, K= 0.00 [-]
  **            cntc_setNormalForce(  2.2): normal force= 42083.00 [N]
  **             cntc_setPotContact(  2.2): coordinates xl,yl=  -7.250  -7.250 [mm]
- **        cntc_setUndeformedDistc(  2.2): set undeformed distance ibase=9,   759 parameters
+ **        cntc_setUndeformedDistc(  2.2): set undeformed distance ibase= 9,   759 parameters
  **        cntc_setUndeformedDistc(  2.2): max separation= 0.1059, max penetration= 0.0000 [mm]
  **                cntc_calculate3(  1.2): g,nu1=  82000.0 0.280
  **                cntc_calculate3(  1.2): g,nu2=  82000.0 0.280
@@ -508,14 +508,14 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
-|Panag.process        |       4 |       0.0 | 100.0 |        0.0 |  67.2 |
-|Algorithm Norm       |       4 |       0.0 |   0.0 |        0.0 |  17.9 |
-|Algorithm Tang       |       4 |       0.0 | 100.0 |        0.0 |  49.3 |
+|Total                |       1 |       0.0 | 100.0 |        0.0 | 100.0 |
+|Panag.process        |       4 |       0.0 | 100.0 |        0.0 |  77.1 |
+|Algorithm Norm       |       4 |       0.0 |  50.0 |        0.0 |  31.2 |
+|Algorithm Tang       |       4 |       0.0 |  50.0 |        0.0 |  45.8 |
 |Output quantities    |       4 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       4 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      10 |       0.0 | 100.0 |        0.0 |  49.3 |
+|Norm: ConjGrd solver |       4 |       0.0 |   0.0 |        0.0 |  22.9 |
+|Tang: StedyGS solver |      10 |       0.0 |  50.0 |        0.0 |  45.8 |
 |------------------------------------------------------------------------|
-|Cp. 2 on Res.el.  2  |       2 |       0.0 |   0.0 |        0.0 |  34.3 |
+|Cp. 2 on Res.el.  2  |       2 |       0.0 |  50.0 |        0.0 |  58.3 |
 |------------------------------------------------------------------------|

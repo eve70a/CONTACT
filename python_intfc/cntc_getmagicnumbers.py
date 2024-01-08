@@ -161,6 +161,7 @@ def cntc_getmagicnumbers():
     CNTC['err_icp']    =  -31; # invalid ire/icp combination
     CNTC['err_profil'] =  -32; # error reading w/r profile file(s)
     CNTC['err_frclaw'] =  -33; # invalid friction parameters
+    CNTC['err_discr']  =  -34; # invalid discretisation parameters
     CNTC['err_other']  =  -99; # other error, unspecified
     CNTC['err_broydn'] =  CNTC['err_ftot']; # obsolete, kept for backward compatibility
   

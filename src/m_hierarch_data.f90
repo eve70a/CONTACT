@@ -830,7 +830,6 @@ public
       real(kind=8)       :: xcp_tr, ycp_tr, zcp_tr, deltcp_tr
       real(kind=8)       :: xcp_r, ycp_r, zcp_r, scp_r, deltcp_r
       real(kind=8)       :: xcp_w, ycp_w, zcp_w, scp_w, deltcp_w
-      real(kind=8)       :: xo_spin, yo_spin
       character(len=256) :: dirnam, expnam
 
       ! REid              result element ID, used by CONTACT add-on
@@ -1141,17 +1140,17 @@ contains
       if (modul.eq.1) then
          ic%discns1_inp = ddigit
          ic%discns3 = 0
-         ic%ztrack = zdigit
-         ic%ewheel = edigit
-         ic%rztang = 0
-         ic%rznorm = 0
+         ic%ztrack  = zdigit
+         ic%ewheel  = edigit
+         ic%rztang  = 0
+         ic%rznorm  = 0
       else
          ic%discns1_inp = 0
          ic%discns3 = ddigit
-         ic%ztrack = 0
-         ic%ewheel = 0
-         ic%rznorm = zdigit
-         ic%rztang = edigit
+         ic%ztrack  = 0
+         ic%ewheel  = 0
+         ic%rznorm  = zdigit
+         ic%rztang  = edigit
       endif
 
       ihulp          = 0
@@ -1344,9 +1343,6 @@ contains
       m%zcp_w     = 0d0
       m%scp_w     = 0d0
       m%deltcp_w  = 0d0
-
-      m%xo_spin   = 0d0
-      m%yo_spin   = 0d0
    endif
 
    end subroutine meta_init
@@ -1735,7 +1731,7 @@ contains
 !--subroutine arguments:
       type(t_potcon) :: potcon
 
-      potcon%ipotcn = 1
+      potcon%ipotcn =  1
       potcon%mx     =  1
       potcon%my     =  1
       potcon%dx     =  2d0
@@ -1931,12 +1927,12 @@ end subroutine potcon_get_overlap
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine potcon_merge( pot1, pot2, pot_tot, idebug )
+   subroutine potcon_merge( pot1, pot2, pot_tot, idebug, ierror )
 !--purpose: Create new potential contact encompassing two existing pot.contact areas
    implicit none
 !--subroutine arguments:
    type(t_potcon) :: pot1, pot2, pot_tot
-   integer        :: idebug
+   integer        :: idebug, ierror
 !--local variables:
    logical        :: is_ok, is_equal
    integer        :: ix0, ix1, iy0, iy1, kofs_x, kofs_y
@@ -1953,6 +1949,9 @@ end subroutine potcon_get_overlap
    ! check that the two grids have matching (dx,dy) and determine offsets (kx,ky)
 
    call potcon_get_overlap(pot1, pot2, kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
+
+   ierror = 0
+   if (.not.is_ok) ierror = 1
 
    if (idebug.ge.2) then
       write(bufout,'(2(a,i3))') ' offset k_x=',kofs_x,', k_y=',kofs_y
@@ -2270,9 +2269,9 @@ end subroutine potcon_get_overlap
 !--subroutine arguments:
       type(t_probdata) :: gd
 
-      call meta_init  ( gd%meta, 2 )
+      call meta_init    ( gd%meta, 2 )
     ! call scaling_init ( gd%scl )
-      call ic_init    ( gd%ic )
+      call ic_init      ( gd%ic )
       call mater_init   ( gd%mater, gd%ic )
       call potcon_init  ( gd%potcon_inp )
       call potcon_init  ( gd%potcon_cur )
@@ -2283,7 +2282,7 @@ end subroutine potcon_get_overlap
       call fric_init    ( gd%fric )
       call kincns_init  ( gd%kin, gd%ic, gd%fric, gd%cgrid_cur%dx )
     ! call influe_init  ( gd%influ )
-      call solv_init  ( gd%solv )
+      call solv_init    ( gd%solv )
       call output_init  ( gd%outpt1, gd%cgrid_cur )
       call subsurf_init ( gd%subs )
 
@@ -2394,7 +2393,7 @@ end subroutine potcon_get_overlap
 !           requires matching grids; contact regions must not overlap in y-direction.
 !           gd_add must lie to left of gd_tot: y-range [y0_add,y1_add] < [y0_tot,y1_tot].
 !--purpose: resize grid-functions used in hierarchical data-structure, shifting data
-   implicit none
+      implicit none
 !--subroutine arguments:
       type(t_ic)              :: ic
       type(t_geomet)          :: geom_add, geom_tot
@@ -2508,9 +2507,15 @@ end subroutine potcon_get_overlap
 !--local variables:
       type(t_potcon)   :: pot_new
       type(t_grid)     :: cgrid_new
+      integer          :: ierror
 
-      call potcon_merge( gd_add%potcon_cur, gd_tot%potcon_cur, pot_new, idebug )
+      call potcon_merge( gd_add%potcon_cur, gd_tot%potcon_cur, pot_new, idebug, ierror )
       call potcon_cgrid(pot_new, cgrid_new)
+
+      if (ierror.ne.0) then
+         call write_log(' Internal error(gd_merge): grids cannot be merged')
+         call abort_run()
+      endif
 
       ! enlarge all grid-functions in gd_tot and gd_add to the size of cgrid_new
 

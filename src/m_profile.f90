@@ -14,7 +14,7 @@ private
 
    public  t_profile
    public  profile_is_varprof
-   public  profile_ini
+   public  profile_init
    public  profile_copy
    public  profile_destroy
    public  varprof_destroy_slices
@@ -169,7 +169,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine profile_ini(prf)
+   subroutine profile_init(prf)
 !--purpose: initialize a profile data-structure
       implicit none
 !--subroutine parameters:
@@ -201,7 +201,7 @@ contains
       prf%kink_low   = prf%kink_high/5d0 !                 <=  6 deg at k=3 neighbouring points
       prf%kink_wid   = 2d0      ! mm
 
-   end subroutine profile_ini
+   end subroutine profile_init
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -502,7 +502,7 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine write_simpack_profile(prf, is_wheel)
-!--purpose: write profile in Simpack format
+!--purpose: write profile filename and configuration to inp-file
       implicit none
 !--subroutine arguments:
       type(t_profile)            :: prf
@@ -1370,9 +1370,9 @@ contains
       logical,      intent(in)  :: lstop
       integer                   :: ierror
 !--local variables:
-      integer,      parameter :: mxitem = 20, ncolpnt = 6, mxwarn_coldef = 4
+      integer,          parameter :: mxitem = 20, ncolpnt = 6, mxwarn_coldef = 4
       character(len=4), parameter :: commnt = '!"%#'
-      real(kind=8), parameter :: point_dist_min = 1d-4
+      real(kind=8),     parameter :: point_dist_min = 1d-4
       integer             :: unitnm, ios, linenr, line_prv, nblank, ncmtln, in_headers, old_style,      &
                              ieof, nwarn_coldef, nitem, i, ipnt
       logical             :: has_key, has_str
@@ -1431,12 +1431,12 @@ contains
 
          if (in_headers.eq.1) then
 
-         ! Split the input at '=' sign, get keyword, string-value, numerical value(s)
-         !    case 1: keyword = value (string/numeric)
-         !    case 2: keyword, or keyword = <empty>
-         !    case 3: numerical value(s)
+            ! Split the input at '=' sign, get keyword, string-value, numerical value(s)
+            !    case 1: keyword = value (string/numeric)
+            !    case 2: keyword, or keyword = <empty>
+            !    case 3: numerical value(s)
 
-         call readKeywordValues(inptxt, commnt, mxitem, x_readln, has_key, keywrd, has_str, valstr,       &
+            call readKeywordValues(inptxt, commnt, mxitem, x_readln, has_key, keywrd, has_str, valstr,       &
                         nitem, values)
          else
 

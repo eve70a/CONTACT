@@ -58,6 +58,10 @@ contains
          wtd%trk%dz_defl = 0d0
       endif
 
+      ! adjust contact grid when switching from T=0 or 3 to T=1 or 2
+
+      if (wtd%meta%ncase.gt.1) call shift_grid_super(wtd)
+
       ! switch between solvers dependent on prescribed total forces
 
       if (wtd%ic%norm.le.0) then
@@ -166,7 +170,78 @@ contains
       enddo
       wtd%numtot = wtd%numcps
 
+      ! set ic_prv for next case
+
+      wtd%ic_prv = wtd%ic
+
    end subroutine wr_contact
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine shift_grid_super(wtd)
+!--purpose: add supergrid offset to contact grid when switching from T=0 or 3 to T=1 or 2
+      implicit none
+!--subroutine arguments:
+      type(t_ws_track)                 :: wtd
+!--local variables:
+      logical           :: use_super_prv, use_super_new
+      integer           :: icp
+      real(kind=8)      :: s_ws, cref_x, sr_ref, xref_pot, yref_pot
+
+      use_super_prv = wtd%ic_prv%tang.eq.1 .or. wtd%ic_prv%tang.eq.2
+      use_super_new = wtd%ic%tang.eq.1 .or. wtd%ic%tang.eq.2
+
+      if (.not.use_super_prv .and. use_super_new) then
+
+         ! no supergrid used in previous case / using supergrid in new case
+
+         if (wtd%ic%x_force.ge.1) call write_log(' shift_grid_super: adding supergrid offset')
+
+         do icp = 1, wtd%numcps
+            associate( gd => wtd%allcps(icp)%cp%gd )
+
+            ! get s_ws, cref_x, sr_ref from previous case
+
+            s_ws   = gd%meta%s_ws
+            cref_x = gd%meta%xcp_tr
+            sr_ref = gd%meta%scp_r
+
+            ! set position of contact reference in terms of super-grid coordinates
+
+            if (wtd%ic%tang.eq.1) then     ! transient shift: world/material-fixed super-grid
+               xref_pot  = s_ws + cref_x
+               yref_pot  = sr_ref
+            elseif (wtd%ic%tang.eq.2) then ! transient rolling: super-grid fixed in lateral direction
+               xref_pot  = 0d0
+               yref_pot  = sr_ref
+            else                           ! steady rolling: contact grid centered at contact reference marker
+               xref_pot  = 0d0
+               yref_pot  = 0d0
+            endif
+
+            ! snap contact reference to nearest supergrid location
+
+            if (wtd%ic%x_force.ge.1) then
+               write(bufout,'(2(a,f12.6),a)') ' yref =', yref_pot,' =', yref_pot/gd%cgrid_cur%dy,' * dy'
+               call write_log(1, bufout)
+            endif
+
+            xref_pot = nint(xref_pot / gd%cgrid_cur%dx) * gd%cgrid_cur%dx
+            yref_pot = nint(yref_pot / gd%cgrid_cur%dy) * gd%cgrid_cur%dy
+
+            ! shift grid from contact reference to supergrid coordinate reference
+
+            gd%potcon_cur%xl = gd%potcon_cur%xl + xref_pot
+            gd%potcon_cur%yl = gd%potcon_cur%yl + yref_pot
+            call potcon_fill(  gd%potcon_cur )
+            call potcon_cgrid( gd%potcon_cur, gd%cgrid_cur)
+
+            end associate
+         enddo ! icp
+
+      endif ! add offset
+
+   end subroutine shift_grid_super
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -665,6 +740,8 @@ contains
 
          k = k + 1
 
+         if (k.eq.28) x_force = 3
+
          if (x_force.ge.3) then
             write(bufout,'(a,i3)')   ' wr_contact_fx_secant: starting iteration k=',k
             call write_log(1, bufout)
@@ -744,7 +821,7 @@ contains
          ! compute/update approximate Jacobian matrix
 
          if (abs(fk(2)-fkm1(2)).gt.1d3*tol_fk(2)) then
-         bk(2,2) = (fk(2) - fkm1(2)) / dxk(2)
+            bk(2,2) = (fk(2) - fkm1(2)) / dxk(2)
          endif
 
          ! check convergence

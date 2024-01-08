@@ -1642,9 +1642,9 @@ contains
       type(t_gridfnc3)   :: ps0, tmp
       character(len=1), parameter :: aset(0:3) = (/ 'E', 'H', 'S', 'P' /)
 
-      associate( cs    => infl%cs,     csv  => infl%csv,    igs   => outpt1%igs,                        &
-                 mus   => outpt1%mus,  ps   => outpt1%ps,   ss    => outpt1%ss,                         &
-                 upls  => outpt1%upls, uplv => outpt1%uplv, taucs => outpt1%taucs,                      &
+      associate( cs    => infl%cs,      csv  => infl%csv,    igs   => outpt1%igs,                       &
+                 mus   => outpt1%mus,   ps   => outpt1%ps,   ss    => outpt1%ss,                        &
+                 upls  => outpt1%upls,  uplv => outpt1%uplv, taucs => outpt1%taucs,                     &
                  taucv => outpt1%taucv, ubnd => ledg%ubnd,   ii2j  => ledg%ii2j%val)
 
       mx     = cgrid%nx

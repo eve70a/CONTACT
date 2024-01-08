@@ -380,14 +380,14 @@ subroutine grid_overlap(old_xl, old_dx, old_nx, old_yl, old_dy, old_ny,         
 
    is_equal = .false.
    is_ok = (old_dx.ge.1d-10 .and. abs(old_dx-new_dx).lt.1d-4*min(old_dx, new_dx) .and.                  &
-            new_dx.ge.1d-10 .and. abs(old_dy-new_dy).lt.1d-4*min(old_dy, new_dy))
+            old_dy.ge.1d-10 .and. abs(old_dy-new_dy).lt.1d-4*min(old_dy, new_dy))
 
    if (.not.is_ok) then
       call write_log(' grid_overlap: Internal error: need equal grid sizes.')
       write(bufout,'(2(a,2f8.3))') ' dx_old/new=', old_dx, new_dx,', dy_old/new=', old_dy, new_dy
       call write_log(1, bufout)
-      write(bufout,'(a,2es12.3)') ' dif=', old_dx-new_dx, old_dy-new_dy
-      call write_log(1, bufout)
+      ! write(bufout,'(a,2es12.3)') ' dif=', old_dx-new_dx, old_dy-new_dy
+      ! call write_log(1, bufout)
       return
    endif
    
@@ -403,7 +403,7 @@ subroutine grid_overlap(old_xl, old_dx, old_nx, old_yl, old_dy, old_ny,         
       write(bufout,'(2(3(a,g12.4),a,:/))')                                                              &
                 ' x_offset=',new_xl,' -', old_xl,' =', delt_x/old_dx,'* dx',                            &
                 ' y_offset=',new_yl,' -', old_yl,' =', delt_y/old_dy,'* dy'
-      call write_log(1, bufout)
+      call write_log(2, bufout)
       return
    endif
 

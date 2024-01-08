@@ -46,7 +46,7 @@ contains
 
       call timer_start(itimer_output)
 
-      associate( ws    => wtd%ws,    trk   => wtd%trk, ic    => wtd%ic,    mater => wtd%mater,          &
+      associate( ws    => wtd%ws,    trk  => wtd%trk, ic  => wtd%ic, mater => wtd%mater,                &
                  discr => wtd%discr, my_rail => wtd%trk%rai, my_wheel => wtd%ws%whl)
 
       is_roll      = (ic%tang.eq.2 .or. ic%tang.eq.3)
@@ -189,19 +189,20 @@ contains
             2x, 3x,'FG(R)',4x, 3x,'FG(W)',4x, 3x,'TC(R)',4x, 3x,'TC(W)',4x, 3x,'VT(R)',4x, 3x,'VT(W)',/, &
             2x, 6g12.4,/)
 
-         if (ic%mater.eq.2) write(lout,2121) mater%flx(1)
+         if (ic%tang.gt.0 .and. ic%mater.eq.2) write(lout,2121) mater%flx(1)
  2121    format (1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/, 2x, 3x,'FLX',/, 2x, g12.4,/)
 
-         if (ic%mater.eq.2 .or. ic%mater.eq.3) write(lout,2135) mater%k0_mf, mater%alfamf,              &
-                mater%betamf
+         if (ic%tang.gt.0 .and. (ic%mater.eq.2 .or. ic%mater.eq.3))                                     &
+                write(lout,2135) mater%k0_mf, mater%alfamf, mater%betamf
  2135    format (1x,'MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS',/,                                    &
                  2x, 3x,'K0_MF',4x, 3x,'ALFAMF',3x, 3x,'BETAMF', /, 2x, 3g12.4,/)
 
-         if (ic%mater.eq.4) write(lout,2141) mater%gg3, mater%laythk, mater%tau_c0, mater%k_tau
+         if (ic%tang.gt.0 .and. ic%mater.eq.4)                                                          &
+                write(lout,2141) mater%gg3, mater%laythk, mater%tau_c0, mater%k_tau
  2141    format (1x,'INTERFACIAL LAYER PARAMETERS',/,                                                   &
             2x, 3x,'GG3',6x, 3x,'LAYTHK',3x, 3x,'TAU_C0',3x, 3x,'K_TAU',/, 2x, 4g12.4,/)
 
-         call fric_output(lout, ic%varfrc, ic%output_surf, wtd%fric)
+         if (ic%tang.gt.0) call fric_output(lout, ic%varfrc, ic%output_surf, wtd%fric)
 
          def_turn = 2d0 * discr%dist_sep - discr%dist_comb
          if (abs(discr%dist_turn-def_turn).lt.1d-6) then
@@ -451,7 +452,7 @@ contains
 
             ! V = 1: report on actual friction parameters used, converted to struct with NVF = 1
 
-            if (wtd%ic%varfrc.eq.1) then
+            if (ic%tang.gt.0 .and. wtd%ic%varfrc.eq.1) then
 
                call fric_output(lout, gd%ic%varfrc, wtd%ic%output_surf, gd%fric)
                write(lout,'(1x)')
@@ -460,30 +461,36 @@ contains
 
             !  M = 3: report actual flexibilities, M = 2, 3: report on actual K_EFF
 
-            if (ic%mater.eq.3) write(lout,6231) gd%mater%flx(1), gd%mater%flx(2), gd%mater%flx(3)
- 6231       format (1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/,                                        &
+            if (ic%tang.gt.0 .and. ic%mater.eq.3) then
+               write(lout,6231) gd%mater%flx(1), gd%mater%flx(2), gd%mater%flx(3)
+ 6231          format (1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/,                                     &
                  2x, 3x,'FLX1',5x, 3x,'FLX2',5x, 3x,'FLX3',/, 2x, 3g12.4,/)
+            endif
 
-            if (ic%mater.eq.2 .or. ic%mater.eq.3) write(lout,6251) gd%mater%k_eff
- 6251       format (1x,'MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS',/,                                 &
+            if (ic%tang.gt.0 .and. (ic%mater.eq.2 .or. ic%mater.eq.3)) then
+               write(lout,6251) gd%mater%k_eff
+ 6251          format (1x,'MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS',/,                              &
                  2x, 3x,'K0_EFF',4x, /, 2x, 1g12.4,/)
+            endif
 
             ! report on creepages
 
-            strng(1) = fmt_gs(12, 4,     veloc)
-            strng(2) = fmt_gs(12, 4,     cksi)
-            strng(3) = fmt_gs(12, 4, sgn*ceta)
-            strng(4) = fmt_gs(12, 4, sgn*cphi)
-            write(lout, 6301)
-            write(lout, 6305) sgn*chi, dq, strng(1), strng(2), strng(3), strng(4)
- 6301       format (' KINEMATIC CONSTANTS')
- 6305       format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 3x,'CKSI',5x, 3x,'CETA',5x, 3x,'CPHI',/, &
-                    2x, 2g12.4, 4a12, /)
+            if (ic%tang.gt.0) then
+               strng(1) = fmt_gs(12, 4,     veloc)
+               strng(2) = fmt_gs(12, 4,     cksi)
+               strng(3) = fmt_gs(12, 4, sgn*ceta)
+               strng(4) = fmt_gs(12, 4, sgn*cphi)
+               write(lout, 6301)
+               write(lout, 6305) sgn*chi, dq, strng(1), strng(2), strng(3), strng(4)
+ 6301          format (' KINEMATIC CONSTANTS')
+ 6305          format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 3x,'CKSI',5x, 3x,'CETA',5x,       &
+                    3x,'CPHI',/, 2x, 2g12.4, 4a12, /)
 
-            if (max(abs(gd%kin%spinxo),abs(gd%kin%spinyo)).ge.tiny) then
-               write(lout, 6311) gd%kin%spinxo, gd%kin%spinyo
+               if (max(abs(gd%kin%spinxo),abs(gd%kin%spinyo)).ge.tiny) then
+                  write(lout, 6311) gd%kin%spinxo, gd%kin%spinyo
+               endif
+ 6311          format (2x, 3x,'SPINXO',3x,  3x,'SPINYO',/, 2x, 2g12.4, /)
             endif
- 6311       format (2x, 3x,'SPINXO',3x,  3x,'SPINYO',/, 2x, 2g12.4, /)
          endif
 
          ! Print the main results for the patch: total forces, creepages

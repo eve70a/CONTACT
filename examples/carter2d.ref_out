@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2480 $, $Date:: 2023-12-22$        |
+   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -636,14 +636,14 @@ Performance timers:
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
 |Total                |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
-|Non-Hertzian cases   |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
-|Panag.process        |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
+|Non-Hertzian cases   |       1 |       0.0 |   0.0 |        0.0 |  62.5 |
+|Panag.process        |       1 |       0.0 |   0.0 |        0.0 |  62.5 |
 |Algorithm Norm       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
+|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |  62.5 |
 |Output quantities    |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |  62.5 |
 |------------------------------------------------------------------------|
 |Reading input-file   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |

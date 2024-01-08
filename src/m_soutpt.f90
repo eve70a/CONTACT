@@ -734,7 +734,7 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
    is_roll    = ic%tang.eq.2 .or. ic%tang.eq.3
    use_plast  = ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10
    wxy_insteadof_uxy = .false.
-   pv_insteadof_uxy  = .true.
+   pv_insteadof_uxy  = .false.
 
    sgn = 1d0
    if (mirror_y) sgn = -1d0
@@ -831,10 +831,10 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
 
       write(lmat,105, err=998) ('-', j=10,ncol)
       write(lmat,106) meta%xcp_r, sgn*meta%ycp_r, meta%zcp_r, sgn*meta%deltcp_r, meta%xcp_w,            &
-                sgn*meta%ycp_w, meta%zcp_w, meta%npatch, meta%ipatch, meta%xo_spin, meta%yo_spin,     &
+                sgn*meta%ycp_w, meta%zcp_w, meta%npatch, meta%ipatch, kin%spinxo, kin%spinyo,           &
                 (0., j=12,ncol)
  105  format('%  X_CP(R)',7x, 'Y_CP(R)',7x, 'Z_CP(R)',7x, 'DELT_CP(R)',4x, 'X_CP(W)',7x, 'Y_CP(W)',7x,  &
-                'Z_CP(W)',7x, 'NPATCH',8x, 'IPATCH',8x, 'XO_SPIN',7x, 'YO_SPIN',7x, 20(a3,:,11x))
+                'Z_CP(W)',7x, 'NPATCH',8x, 'IPATCH',8x, 'SPINXO',8x, 'SPINYO',8x, 20(a3,:,11x))
  106  format(7g14.6, 2(i6,8x), 20g14.6)
 
       ! 3: write comment and parameters for the grid discretisation used

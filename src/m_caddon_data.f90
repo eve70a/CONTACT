@@ -295,9 +295,9 @@ subroutine cntc_activate_wtd(REid, CPid, ierror)
          call write_log(1, bufout)
       endif
 
-      ! first get the basic settings from wrprof_ini
+      ! first get the basic settings from wrprof_init
 
-      call wrprof_ini(wtd)
+      call wrprof_init(wtd)
 
       ! then overwrite values as needed
 

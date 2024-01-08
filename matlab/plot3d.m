@@ -410,7 +410,7 @@ end
 
 if (~isfield(sol, 'x_offset')), sol.x_offset = []; end
 if (~isfield(sol, 'y_offset')), sol.y_offset = []; end
-if (~isfield(sol, 'kincns.t_digit')), sol.kincns.t_digit = 3; end
+if (~myisfield(sol, 'kincns.t_digit')), sol.kincns.t_digit = 3; end
 if (~isfield(sol, 'x'))
    sol.x = sol.xl + ([1:sol.mx]-0.5)*sol.dx;
 end
@@ -1844,7 +1844,7 @@ function show_rw_rear_view(sol, field, opt)
    % plot contact reference point, origin of contact local coordinate system
 
    axlen = 0.1 * (sol.y(end) - sol.y(1));
-   yc = sol.meta.yo_spin+[0,0,1]*axlen; zc = [1,0,0]*axlen;
+   yc = sol.meta.spinyo+[0,0,1]*axlen; zc = [1,0,0]*axlen;
    if (strcmp(opt.rw_surfc,'prr'))
       [ ~, yval, zval, delta ] = cntc_to_rail_coords(sol, [], yc, zc);
    elseif (strcmp(opt.rw_surfc,'prw'))
@@ -1930,7 +1930,7 @@ function show_rw_side_view(sol, field, opt)
 
    v = axis;
    axlen = 0.03 * (v(2) - v(1));
-   xc = sol.meta.xo_spin+[0,0,1]*axlen; zc = [1,0,0]*axlen;
+   xc = sol.meta.spinxo+[0,0,1]*axlen; zc = [1,0,0]*axlen;
    if (strcmp(opt.rw_surfc,'prr'))
       [ xval, ~, zval ] = cntc_to_rail_coords(sol, xc, [], zc);
    elseif (strcmp(opt.rw_surfc,'prw'))
@@ -2205,8 +2205,8 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
    if (nargin<3), yc = []; end
    if (nargin<4), zc = []; end
    sz = max( [ size(xc) ; size(yc) ; size(zc) ] );
-   if (isempty(xc)), xc = sol.meta.xo_spin*ones(sz); end
-   if (isempty(yc)), yc = sol.meta.yo_spin*ones(sz); end
+   if (isempty(xc)), xc = sol.meta.spinxo*ones(sz); end
+   if (isempty(yc)), yc = sol.meta.spinyo*ones(sz); end
    if (isempty(zc)), zc = zeros(sz); end
 
    % reshape inputs to row vectors
@@ -2215,7 +2215,7 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
    xc = reshape(xc, 1, m*n);
    yc = reshape(yc, 1, m*n);
    zc = reshape(zc, 1, m*n);
-   coords = [xc - sol.meta.xo_spin; yc - sol.meta.yo_spin; zc];
+   coords = [xc - sol.meta.spinxo; yc - sol.meta.spinyo; zc];
 
    % form transformation matrices and vectors
 
@@ -2258,7 +2258,11 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
       % find grid points in the rail profile
 
       sc = yc;
-      sr = sref + sc;
+      if (any(sol.kincns.t_digit==[1 2]))
+         sr =        sc;
+      else
+         sr = sref + sc;
+      end
       yr_at_s = interp1(prf_s, prf_y, sr);
       zr_at_s = interp1(prf_s, prf_z, sr);
 
@@ -2300,8 +2304,8 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
    if (nargin<3), yc = []; end
    if (nargin<4), zc = []; end
    sz = max( [ size(xc) ; size(yc) ; size(zc) ] );
-   if (isempty(xc)), xc = sol.meta.xo_spin*ones(sz); end
-   if (isempty(yc)), yc = sol.meta.yo_spin*ones(sz); end
+   if (isempty(xc)), xc = sol.meta.spinxo*ones(sz); end
+   if (isempty(yc)), yc = sol.meta.spinyo*ones(sz); end
    if (isempty(zc)), zc = zeros(sz); end
 
    % reshape inputs to row vectors
@@ -2310,7 +2314,7 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
    xc = reshape(xc, 1, m*n);
    yc = reshape(yc, 1, m*n);
    zc = reshape(zc, 1, m*n);
-   coords = [xc - sol.meta.xo_spin; yc - sol.meta.yo_spin; zc];
+   coords = [xc - sol.meta.spinxo; yc - sol.meta.spinyo; zc];
 
    % form transformation matrices and vectors
 
@@ -2356,7 +2360,11 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
       % find grid points in the rail profile
 
       sc = yc;
-      sr = sref + sc;
+      if (any(sol.kincns.t_digit==[1 2]))
+         sr =        sc;
+      else
+         sr = sref + sc;
+      end
       yr_at_s = interp1(prf_s, prf_y, sr);
       zr_at_s = interp1(prf_s, prf_z, sr);
 
@@ -2389,8 +2397,8 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
    if (nargin<3), yc = []; end
    if (nargin<4), zc = []; end
    sz = max( [ size(xc) ; size(yc) ; size(zc) ] );
-   if (isempty(xc)), xc = sol.meta.xo_spin*ones(sz); end
-   if (isempty(yc)), yc = sol.meta.yo_spin*ones(sz); end
+   if (isempty(xc)), xc = sol.meta.spinxo*ones(sz); end
+   if (isempty(yc)), yc = sol.meta.spinyo*ones(sz); end
    if (isempty(zc)), zc = zeros(sz); end
 
    % reshape inputs to row vectors
@@ -2399,7 +2407,7 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
    xc = reshape(xc, 1, m*n);
    yc = reshape(yc, 1, m*n);
    zc = reshape(zc, 1, m*n);
-   coords = [xc - sol.meta.xo_spin; yc - sol.meta.yo_spin; zc];
+   coords = [xc - sol.meta.spinxo; yc - sol.meta.spinyo; zc];
 
    % form transformation matrices and vectors
 
@@ -2443,7 +2451,11 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
       % find grid points in the wheel profile
 
       sc = yc;
-      sw = sref - sc;    % sw increasing to the left
+      if (any(sol.kincns.t_digit==[1 2]))
+         sw =       -sc;
+      else
+         sw = sref - sc;    % sw increasing to the left
+      end
       yw_at_s = interp1(prf_s, prf_y, sw);
       zw_at_s = interp1(prf_s, prf_z, sw);
 

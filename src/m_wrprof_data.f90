@@ -27,26 +27,27 @@ public
    end interface cp_destroy
 
    public  t_wheel
-   public  wheel_ini
+   public  wheel_init
 
    public  t_wheelset
-   public  wheelset_ini
+   public  wheelset_init
 
    public  t_rail
-   public  rail_ini
+   public  rail_init
 
    public  t_trackdata
 
    public  t_ws_track
    public  p_ws_track
-   public  wrprof_ini
+   public  wrprof_init
    public  wrprof_destroy
 
    !---------------------------------------------------------------------------------------------------------
    ! dimensions and parameters
 
-   integer,      parameter :: MAX_NUM_RGN = 10          ! max 10 regions with possible contact per wheel
-   integer,      parameter :: MAX_NUM_CPS = 10          ! max 10 contact patches per wheel
+   integer,      parameter :: MAX_NUM_RGN  =   10       ! max # regions with possible contact per wheel
+   integer,      parameter :: MAX_NUM_CPS  =   10       ! max # contact patches per wheel
+   integer,      parameter :: MAX_LOC_MIN  = 1000       ! max # separate interpen.regions per wheel
 
    !---------------------------------------------------------------------------------------------------------
    ! data with respect to the grid discretisation, potential contact area:
@@ -92,7 +93,7 @@ public
       type(t_marker)   :: mref, mpot
       real(kind=8)     :: delttr
       real(kind=8)     :: xsta, xend, ysta, yend, zsta, zend, usta, uend, vsta, vend
-      real(kind=8)     :: sr_ref, sp_sta, sp_end, sc_sta, sc_end
+      real(kind=8)     :: sr_ref, sr_pot, sp_sta, sp_end, sc_sta, sc_end
       real(kind=8)     :: dx_fac, ds_fac, dx_eff, ds_eff
       integer          :: nsub
       real(kind=8), dimension(:), pointer :: y_sep => NULL(), f_sep => NULL()
@@ -115,6 +116,7 @@ public
       ! [uv]sta   [-]    start-position of (estimated) interpenetration area in surface (u,v) coordinates
       ! [uv]end   [-]    end-position of (estimated) interpenetration area in surface (u,v) coordinates
       ! sr_ref    [mm]   sr-position of the contact reference in rail profile sr-coordinates
+      ! sr_pot    [mm]   sr-position of the potential contact marker in rail profile sr-coordinates
       !
       ! variables concerning the potential contact area:
       ! mref             contact reference marker w.r.t. track coordinates
@@ -311,6 +313,7 @@ public
       type(t_metadata) :: meta    ! meta-data describing the calculation
       type(t_scaling)  :: scl     ! scaling factors for the CONTACT library
       type(t_ic)       :: ic      ! integer control digits
+      type(t_ic)       :: ic_prv  ! integer control digits of previous case, filled after contact solution
       type(t_material) :: mater   ! material-description of the bodies
       type(t_discret)  :: discr   ! parameters used to form potential contact areas and discretization
       type(t_subsurf)  :: subs    ! data for subsurface stresses
@@ -354,7 +357,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wheel_ini(whl)
+   subroutine wheel_init(whl)
 !--purpose: Initialize a wheel data-structure
       implicit none
 !--subroutine parameters:
@@ -375,13 +378,13 @@ contains
       whl%vyaw       = 0d0
       whl%vpitch     = 0d0
 
-      call profile_ini(whl%prw)
+      call profile_init(whl%prw)
 
-   end subroutine wheel_ini
+   end subroutine wheel_init
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine rail_ini(rail)
+   subroutine rail_init(rail)
 !--purpose: Initialize a rail data-structure
       implicit none
 !--subroutine parameters:
@@ -396,13 +399,13 @@ contains
       rail%vz         = 0d0
       rail%vroll      = 0d0
 
-      call profile_ini(rail%prr)
+      call profile_init(rail%prr)
 
-   end subroutine rail_ini
+   end subroutine rail_init
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wheelset_ini(ws)
+   subroutine wheelset_init(ws)
 !--purpose: Initialize a wheelset data-structure
       implicit none
 !--subroutine parameters:
@@ -449,13 +452,13 @@ contains
       ! initialize data for left and right wheels
 
       allocate(ws%whl)
-      call wheel_ini(ws%whl)
+      call wheel_init(ws%whl)
 
-   end subroutine wheelset_ini
+   end subroutine wheelset_init
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wrprof_ini(wtd)
+   subroutine wrprof_init(wtd)
 !--purpose: Initialize a wheelset/track data-structure
       implicit none
 !--subroutine parameters:
@@ -477,6 +480,8 @@ contains
       ! see additional initializations for C.library in m_caddon_data: cntc_activate_wtd
 
       call ic_init( wtd%ic )
+      call ic_init( wtd%ic_prv )
+      wtd%ic_prv%tang = -1
 
       ! initialize material data
 
@@ -484,7 +489,7 @@ contains
 
       ! initialize wheel-set geometry, position
 
-      call wheelset_ini(wtd%ws)
+      call wheelset_init(wtd%ws)
 
       ! initialize track geometry
 
@@ -504,7 +509,7 @@ contains
       ! initialize data for left and right rails
 
       allocate(wtd%trk%rai)
-      call rail_ini(wtd%trk%rai)
+      call rail_init(wtd%trk%rai)
 
       ! initialize friction data
 
@@ -535,7 +540,7 @@ contains
 
       ! initialize other data in the wtd structure
 
-   end subroutine wrprof_ini
+   end subroutine wrprof_init
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -638,9 +643,9 @@ contains
 
       do icp = 1, MAX_NUM_CPS
          if (associated(wtd%allcps(icp)%cp)) then
-         call cp_destroy( wtd%allcps(icp)%cp )
-         deallocate( wtd%allcps(icp)%cp )
-         nullify( wtd%allcps(icp)%cp )
+            call cp_destroy( wtd%allcps(icp)%cp )
+            deallocate( wtd%allcps(icp)%cp )
+            nullify( wtd%allcps(icp)%cp )
          endif
       enddo
 

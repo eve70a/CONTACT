@@ -51,10 +51,13 @@ function [ sol ] = cntc_getcpresults(ire, icp)
    % get material / kinematic parameters needed
 
    values = cntc_getparameters(ire, icp);
-   sol.kincns.veloc = values.veloc;
-   sol.kincns.chi   = values.chi;
-   sol.kincns.dq    = values.dq;
-   sol.mater.tau_c0 = values.tau_c0;
+   sol.kincns.veloc  = values.veloc;
+   sol.kincns.chi    = values.chi;
+   sol.kincns.dq     = values.dq;
+   sol.meta          = struct();
+   sol.meta.spinxo   = values.spinxo;
+   sol.meta.spinyo   = values.spinyo;
+   sol.mater.tau_c0  = values.tau_c0;
    use_plast = (sol.mater.m_digit==4 & (sol.mater.tau_c0>1e-10 & sol.mater.tau_c0<1e10));
 
    % retrieve wheel and rail profile data
@@ -81,7 +84,6 @@ function [ sol ] = cntc_getcpresults(ire, icp)
 
    ws_pos = cntc_getwheelsetposition(ire);
    cp_pos = cntc_getcontactlocation(ire, icp);
-   sol.meta          = struct();
    sol.meta.s_ws     = ws_pos( 1);
    sol.meta.x_w      = cp_pos(21);
    sol.meta.y_w      = cp_pos(22);

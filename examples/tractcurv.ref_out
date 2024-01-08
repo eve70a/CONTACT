@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2480 $, $Date:: 2023-12-22$        |
+   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -13616,18 +13616,18 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       6.6 | 100.0 |       12.4 | 100.0 |
-|Non-Hertzian cases   |     120 |       6.6 | 100.0 |       12.4 | 100.0 |
-|Panag.process        |     120 |       6.5 |  99.0 |       11.9 |  96.0 |
-|Algorithm Norm       |      60 |       0.0 |   0.0 |        0.1 |   0.8 |
-|Algorithm Tang       |     120 |       6.5 |  99.0 |       11.8 |  95.1 |
-|Output quantities    |     120 |       0.1 |   1.0 |        0.5 |   3.8 |
+|Total                |       1 |       7.4 | 100.0 |       11.7 | 100.0 |
+|Non-Hertzian cases   |     120 |       7.4 | 100.0 |       11.7 | 100.0 |
+|Panag.process        |     120 |       7.4 |  99.8 |       11.2 |  95.6 |
+|Algorithm Norm       |      60 |       0.0 |   0.0 |        0.1 |   1.1 |
+|Algorithm Tang       |     120 |       7.4 |  99.8 |       11.0 |  94.6 |
+|Output quantities    |     120 |       0.0 |   0.2 |        0.5 |   4.1 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      60 |       0.0 |   0.0 |        0.1 |   0.7 |
-|Tang: StedyGS solver |     154 |       6.5 |  98.8 |       11.7 |  94.1 |
+|Norm: ConjGrd solver |      60 |       0.0 |   0.0 |        0.1 |   0.8 |
+|Tang: StedyGS solver |     154 |       7.4 |  99.4 |       10.9 |  93.2 |
 |Tang: Fastsim solver |      60 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |     120 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |     120 |       0.0 |   0.0 |        0.0 |   0.1 |
 |Influence coeffic.   |       4 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |     120 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|

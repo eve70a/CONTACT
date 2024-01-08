@@ -16,6 +16,7 @@ use m_wr_profiles
 use m_wr_locatecp
 use m_wr_undefdist
 use m_wr_rigslip
+use m_wr_output
 implicit none
 private
 
@@ -39,9 +40,10 @@ contains
       integer,          intent(in)  :: x_locate
       integer,          intent(out) :: my_ierror
 !--local variables:
-      logical                   :: is_varprof
-      integer                   :: icp, ldebug, sub_ierror
-      type(t_grid)              :: sf_rai
+      integer,     parameter  :: check_nan = 1
+      logical                 :: is_varprof
+      integer                 :: icp, ldebug, sub_ierror
+      type(t_grid)            :: sf_rai
 
       my_ierror = 0
 
@@ -159,9 +161,52 @@ contains
 
          call total_forces_moments(wtd, x_locate)
 
+         ! if requested: check for NaNs, write diagnostic information
+
+         if (check_nan.ge.1) then
+            if (x_locate.ge.5) call write_log(' ...wr_contact: calling checknan')
+            call wtd_check_nan(wtd)
+         endif
+
       endif
 
    end subroutine wr_contact_pos
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine wtd_check_nan(wtd)
+!--purpose: check solution of a w/r contact problem
+      implicit none
+!--subroutine arguments:
+      type(t_ws_track)  :: wtd
+!--local variables:
+      integer           :: icp
+
+      if (any(isnan(wtd%ftrk%v)) .or. any(isnan(wtd%ttrk%v))) then
+
+         ! write error-message
+
+         write(bufout,'(a,i8,4(a,i4),a)') ' check_nan: found NaN-values for case', wtd%meta%ncase,      &
+                ' on result element', wtd%meta%reid,', it', wtd%meta%itforce,' (',wtd%meta%itforc_out,  &
+                  '/', wtd%meta%itforc_inn,')'
+         call write_log(1, bufout)
+
+         ! write out-file for the case
+
+         call wr_output(wtd)
+
+         ! write mat-files for each contact patch
+
+         do icp = 1, wtd%numcps
+            associate( gd => wtd%allcps(icp)%cp%gd )
+            gd%ic%matfil_surf = 2
+            call writmt (gd%meta, gd%ic, gd%cgrid_cur, gd%potcon_cur, gd%geom%hs1, gd%mater, gd%fric,   &
+                gd%kin, gd%outpt1, wtd%ic%is_left_side())
+            end associate
+         enddo
+      endif
+         
+   end subroutine wtd_check_nan
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -170,9 +215,9 @@ contains
       implicit none
 !--subroutine arguments:
       type(t_ws_track)  :: wtd
-      integer                  :: idebug
+      integer           :: idebug
 !--local variables:
-      integer                  :: icp
+      integer           :: icp
 !--pointers to global data items:
       type(t_probdata), pointer :: gd
 
@@ -212,6 +257,7 @@ contains
       integer           :: icp, idebug
       type(t_probdata)  :: gd
 !--local variables:
+      integer           :: ierror
       type(t_potcon)    :: potcon_prv, potcon_tot
 
       ! determine potential contact area tight around contact area for previous time
@@ -241,22 +287,26 @@ contains
 
       ! merge proposed potcon_inp with potcon_prv for previous time
 
-      call potcon_merge( gd%potcon_inp, potcon_prv, potcon_tot, idebug )
+      call potcon_merge( potcon_prv, gd%potcon_inp, potcon_tot, idebug, ierror )
+      if (ierror.ne.0) then
+         call write_log(' Internal error(merge_prev_potcon): previous/current grids cannot be merged.')
+         call abort_run()
+      endif
 
       if (idebug.ge.1) then
-         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') ' patch',icp,': x=[',gd%potcon_inp%xl,',',            &
-                gd%potcon_inp%xh,'], mx=',gd%potcon_inp%mx,', y=[',gd%potcon_inp%yl,',',                &
-                gd%potcon_inp%yh,'], my=',gd%potcon_inp%my
-         call write_log(1, bufout)
-         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '  prev',icp,': x=[',gd%potcon_cur%xl,',',            &
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '   prev',icp,': x=[',gd%potcon_cur%xl,',',           &
                 gd%potcon_cur%xh,'], mx=',gd%potcon_cur%mx,', y=[',gd%potcon_cur%yl,',',                &
                 gd%potcon_cur%yh,'], my=',gd%potcon_cur%my
          call write_log(1, bufout)
-         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') ' tight',icp,': x=[',potcon_prv%xl,',',               &
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '  tight',icp,': x=[',potcon_prv%xl,',',              &
                 potcon_prv%xh,'], mx=',potcon_prv%mx,', y=[',potcon_prv%yl,',',                         &
                 potcon_prv%yh,'], my=',potcon_prv%my
          call write_log(1, bufout)
-         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') 'merged',icp,': x=[',potcon_tot%xl,',',               &
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '    new',icp,': x=[',gd%potcon_inp%xl,',',           &
+                gd%potcon_inp%xh,'], mx=',gd%potcon_inp%mx,', y=[',gd%potcon_inp%yl,',',                &
+                gd%potcon_inp%yh,'], my=',gd%potcon_inp%my
+         call write_log(1, bufout)
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') ' merged',icp,': x=[',potcon_tot%xl,',',              &
                 potcon_tot%xh,'], mx=',potcon_tot%mx,', y=[',potcon_tot%yl,',',                         &
                 potcon_tot%yh,'], my=',potcon_tot%my
          call write_log(1, bufout)
@@ -376,9 +426,9 @@ contains
       if (wtd_ic%is_roller()) gd%meta%rnom_rol  = trk%nom_radius
 
       !  - position of wheel profile origin w.r.t. track origin
-      gd%meta%x_w      = whl_trk%x()
-      gd%meta%y_w      = whl_trk%y()
-      gd%meta%z_w      = whl_trk%z()
+      gd%meta%x_w       = whl_trk%x()
+      gd%meta%y_w       = whl_trk%y()
+      gd%meta%z_w       = whl_trk%z()
       gd%meta%roll_w    = whl_trk%roll()
       gd%meta%yaw_w     = whl_trk%yaw()
 
@@ -401,21 +451,17 @@ contains
       gd%meta%deltcp_r  = mref_rai%roll()
 
       !  - position of contact reference w.r.t. wheel origin
-      gd%meta%xcp_w    = mref_whl%x()
-      gd%meta%ycp_w    = mref_whl%y()
-      gd%meta%zcp_w    = mref_whl%z()
-      gd%meta%scp_w    = sw_ref
-      gd%meta%deltcp_w = mref_whl%roll()
-
-      !  - position of contact reference within super-grid used when T=1 or 2
-      gd%meta%xo_spin   = mref_pot%x()
-      gd%meta%yo_spin   = mref_pot%y()
+      gd%meta%xcp_w     = mref_whl%x()
+      gd%meta%ycp_w     = mref_whl%y()
+      gd%meta%zcp_w     = mref_whl%z()
+      gd%meta%scp_w     = sw_ref
+      gd%meta%deltcp_w  = mref_whl%roll()
 
       ! copy control digits, override some of them
 
-      gd%ic        = wtd_ic
-      gd%ic%norm   = 0
-      gd%ic%force3 = 0
+      gd%ic             = wtd_ic
+      gd%ic%norm        = 0
+      gd%ic%force3      = 0
       gd%ic%discns3     = 1
       gd%ic%matfil_surf = 0
 
@@ -462,7 +508,9 @@ contains
 
       ! check that npot_max will not be exceeded
 
-      if (wtd_ic%return.le.1 .and. discr%npot_max.ge.100 .and. npot.ge.fac_warn*discr%npot_max) then
+      npot = gd%potcon_inp%npot
+      if (wtd_ic%return.le.1 .and. .not.wtd_ic%use_supergrid() .and. discr%npot_max.ge.100 .and.        &
+          npot.ge.fac_warn*discr%npot_max) then
          write(bufout,'(2(a,i6))') ' Internal error: npot=',npot,' >= NPOT_MAX=', discr%npot_max
          call write_log(1, bufout)
          write(bufout,'(a,2i5,a,i6,a,2f7.3,a,2f10.3)') ' mx,my=', gd%potcon_inp%mx, gd%potcon_inp%my,   &
@@ -657,6 +705,8 @@ contains
          gd%kin%cksi    =  0d0
          gd%kin%ceta    =  0d0
          gd%kin%cphi    =  0d0
+         gd%kin%spinxo  = mref_pot%x()
+         gd%kin%spinyo  = mref_pot%y()
 
       else
 
@@ -669,7 +719,7 @@ contains
          gd%kin%spinxo = mref_pot%x()
          gd%kin%spinyo = mref_pot%y()
       endif
-
+ 
       ! subsurface stress computation is performed separately, if needed
 
       gd%ic%stress = 0
@@ -920,7 +970,7 @@ contains
 !--purpose: compute total forces and moments, location of minimum moment
    implicit none
 !--subroutine arguments:
-      integer,          intent(in)    :: idebug
+      integer,          intent(in) :: idebug
       type(t_ws_track)             :: wtd
 !--local variables:
       integer                   :: icp, ierror

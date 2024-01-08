@@ -49,7 +49,7 @@ program contact
    call gd_init(gd)
 
    allocate(wtd)
-   call wrprof_ini(wtd)
+   call wrprof_init(wtd)
 
    ! Obtain mode of operation and experiment name, open file-units linp, lout
 

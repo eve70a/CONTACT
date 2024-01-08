@@ -82,7 +82,7 @@ contains
       ! solve Hertzian problem when needed, complete potcon_inp
 
       if (potcon_inp%ipotcn.ge.-5 .and. potcon_inp%ipotcn.le.-1) then
-         if (idebug.ge.5) call write_log('contac: calling hzsol')
+         if (idebug.ge.5) call write_log(' contac: calling hzsol')
          call hzsol(ic, geom, potcon_inp%ipotcn, hertz, kin, mater)
          call potcon_hertz(hertz, potcon_inp)
       endif
@@ -90,7 +90,7 @@ contains
       ! M=3: calculate flexibilities L1,L2,L3 from Hertzian contact ellipse
 
       if (ic%mater.eq.3 .and. potcon_inp%ipotcn.le.-1) then
-         if (idebug.ge.5) call write_log('contac: calling simpflex')
+         if (idebug.ge.5) call write_log(' contac: calling simpflex')
          call simpflex(ic, hertz%aa, hertz%bb, mater, fric%fstat(), kin, 0)
       endif
 
@@ -117,18 +117,18 @@ contains
       !     --> overwrite cs,csv when format=0, fill cy when format=1
 
       if (ic%gencr_inp.ge.1) then
-         if (idebug.ge.5) call write_log('contac: calling sgencr')
+         if (idebug.ge.5) call write_log(' contac: calling sgencr')
          call sgencr (ic, cgrid, mater, influ, fric, kin)
       endif
 
       if (ic%gencr_inp.eq.4 .or. (ic%gencr_inp.eq.1 .and. mater%gencr_eff.eq.4)) then
-         if (idebug.ge.5) call write_log('contac: calling influe_blanco')
+         if (idebug.ge.5) call write_log(' contac: calling influe_blanco')
          call influe_blanco (is_roll, mater%if_meth, mater%if_ver, mater%ninclin, mater%surf_inclin,    &
                              cgrid, influ)
       endif
 
       if (ic%gencr_inp.eq.9 .or. (ic%gencr_inp.eq.1 .and. mater%gencr_eff.eq.9)) then
-         if (idebug.ge.5) call write_log('contac: calling influe_load')
+         if (idebug.ge.5) call write_log(' contac: calling influe_load')
 
          call influe_load(mater%fname_influe, meta%dirnam, is_roll, cgrid, influ)
          call influe_mater(influ, mater)
@@ -166,48 +166,48 @@ contains
 
       if (ic%return.le.1) then
 
-      ! the computing part :
+         ! the computing part :
 
-      ! Start the actual solution: Panagiotopoulos process
+         ! Start the actual solution: Panagiotopoulos process
 
          ! call write_log('ps-z:')
          ! call print_fld(outpt1%ps, ikZDIR)
 
-      if (idebug.ge.5) call write_log('contac: calling panprc')
+         if (idebug.ge.5) call write_log(' contac: calling panprc')
          call panprc (ic, ihertz, mater, potcon_cur, cgrid, influ, fric, kin, solv, outpt1, geom)
 
-      ! TODO: fill outputs uv, sv, uplv, taucv, etc. in steady rolling problems
+         ! TODO: fill outputs uv, sv, uplv, taucv, etc. in steady rolling problems
 
-      ! Compute surface temperatures
+         ! Compute surface temperatures
 
          if (ic%heat.ge.1 .and. fric%frclaw_eff.ne.6) then
-         if (idebug.ge.5) call write_log('contac: calling calc_temp')
+            if (idebug.ge.5) call write_log(' contac: calling calc_temp')
             call calc_temp (ic, mater, kin, cgrid, outpt1)
-      endif
+         endif
 
-      ! Derive quantities like total forces and elastic energy, write output to out-file when O>=1.
+         ! Derive quantities like total forces and elastic energy, write output to out-file when O>=1.
 
-      if (idebug.ge.5) call write_log('contac: calling soutpt')
-      call soutpt (gd)
+         if (idebug.ge.5) call write_log(' contac: calling soutpt')
+         call soutpt (gd)
 
-      ! Output results to .mat-file if requested
+         ! Output results to .mat-file if requested
 
          if (ic%matfil_surf.ge.1) then
             if (idebug.ge.5) call write_log(' contac: calling writmt')
-         call timer_start(itimer_files)
+            call timer_start(itimer_files)
             call writmt (meta, ic, cgrid, potcon_cur, geom%hs1, mater, fric, kin, outpt1, .false.)
-         call timer_stop(itimer_files)
-      endif
+            call timer_stop(itimer_files)
+         endif
 
          ! Compute the subsurface elastic field for points specified in Xb, write output to out-file
          ! and subs-file
 
          if (ic%stress.ge.1) then
-         if (idebug.ge.5) call write_log('contac: calling subsur')
+            if (idebug.ge.5) call write_log(' contac: calling subsur')
             call subsur(meta, ic, mater, cgrid, outpt1%igs, outpt1%ps, .false., subs)
-      endif
+         endif
 
-      if (idebug.ge.5) call write_log('contac: done, returning')
+         if (idebug.ge.5) call write_log(' contac: done, returning')
 
       endif ! RETURN <= 1
 
@@ -255,7 +255,7 @@ contains
       integer, intent(out) :: nerror    ! number of errors found
 !--local variables :
       integer, parameter :: idebug = 0
-      logical :: zerror
+      logical      :: zerror
       integer      :: kofs_x, kofs_y
       real(kind=8) :: delt_x, delt_y
 
@@ -285,10 +285,10 @@ contains
 
          if (.false. .and. (p1%mx.ne.p0%mx .or. p1%my.ne.p0%my)) then
             write(bufout, 3005) ic%pvtime, ic%iestim, p0%mx, p0%my, p1%mx, p1%my
-         call write_log(2, bufout)
- 3005       format (' WARNING: P=',i3,', I=',i3,', changing the number of elements MX, MY.',/,          &
+            call write_log(2, bufout)
+ 3005       format (' WARNING: P=',i3,', I=',i3,': changing the number of elements MX, MY.',/,          &
                     '                 Old:',2i5,', new:',2i5,'.')
-      endif
+         endif
 
          zerror = (abs(p0%dx-p1%dx).ge.1d-6*min(p0%dx, p1%dx) .or.                                      &
                    abs(p0%dy-p1%dy).ge.1d-6*min(p0%dy, p0%dy))
@@ -298,7 +298,7 @@ contains
             if (ierror.eq.0) ierror = 3006
             write(bufout, 3006) ic%pvtime, ic%iestim, p0%dx, p0%dy, p1%dx, p1%dy
             call write_log(2, bufout)
- 3006       format (' ERROR: P=',i3,', I=',i3,', needs fixed grid sizes DX, DY.',/,                     &
+ 3006       format (' ERROR: P=',i3,', I=',i3,': needs fixed grid sizes DX, DY.',/,                     &
                     '          Old:',2g12.4,', new:',2g12.4,'.')
          endif
 
@@ -313,9 +313,9 @@ contains
             if (ierror.eq.0) ierror = 3006
             write(bufout, 3007) ic%pvtime, ic%iestim, delt_x, delt_y, p1%dx, p1%dy
             call write_log(2, bufout)
- 3007       format (' ERROR: P=',i3,', I=',i3,', grid offset DELTX =',g12.4,', DELTY =',g12.4, /,       &
+ 3007       format (' ERROR: P=',i3,', I=',i3,': grid offsets DELTX =',g12.4,', DELTY =',g12.4, /,      &
                     '        must be multiples of DX =',g12.4,', DY =',g12.4)
-      endif
+         endif
 
          end associate
       endif ! P<>2 or I>0
@@ -328,7 +328,7 @@ contains
          write(bufout, 3010) ic%discns3, ic%gencr_inp
          call write_log(1, bufout)
  3010    format (' ERROR. New DX, DY need new influence functions, digits D, C=', 2i3,'.')
-         endif
+      endif
 
       if (ic%discns3.ne.0 .and. ic%gencr_inp.eq.0 .and.                                                 &
           (gd%potcon_inp%mx.gt.gd%influ%cs%cf_mx .or. gd%potcon_inp%my.gt.gd%influ%cs%cf_my)) then

@@ -34,7 +34,9 @@ function [ values ] = cntc_getparameters(ire, icp)
    values.veloc  = tmp(1);
    values.chi    = tmp(2);
    values.dq     = tmp(3);
-   values.tau_c0 = tmp(4);
+   values.spinxo = tmp(4);
+   values.spinyo = tmp(5);
+   values.tau_c0 = tmp(6);
 
 end % cntc_getparameters
 

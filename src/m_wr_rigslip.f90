@@ -345,8 +345,8 @@ contains
          endif
          gd%kin%dq      =  dqrel * gd%cgrid_inp%dx
       endif
-      gd%kin%spinxo  =  0d0
-      gd%kin%spinyo  =  0d0
+      gd%kin%spinxo = 0d0
+      gd%kin%spinyo = 0d0
 
       ! creepage = { velocity of rail/roller (1) - velocity of wheel (2) } / reference velocity
 
@@ -481,8 +481,8 @@ contains
          ! convert rail profile origin to contact coordinates
 
          ! call marker_print(my_rail%m_trk, 'mrr_trk', 2)
-         ! call marker_print(cp%mref,       'mcp_trk', 2)
-         mrr_cp = marker_2loc(my_rail%m_trk, cp%mref)
+         ! call marker_print(cp%mpot,       'mcp_trk', 2)
+         mrr_cp = marker_2loc(my_rail%m_trk, cp%mpot)
          ! call marker_print(mrr_cp,        'mrr_cp', 2)
 
          ! define velocity vectors 'tvel' and 'rvel' for rail profile (origin O) w.r.t track coordinates
@@ -492,8 +492,8 @@ contains
 
          ! convert velocity vectors 'tvel' and 'rvel' to contact coordinates
 
-         rail_rvel_cp = cp%mref%rot .transp. rail_rvel_trk
-         rail_tvel_cp = cp%mref%rot .transp. rail_tvel_trk + rail_rvel_cp .cross. mrr_cp%o 
+         rail_rvel_cp = cp%mpot%rot .transp. rail_rvel_trk
+         rail_tvel_cp = cp%mpot%rot .transp. rail_tvel_trk + rail_rvel_cp .cross. mrr_cp%o 
          ! call vec_print(rail_tvel_cp, 'vrr_cp', 2)
          ! call vec_print(rail_rvel_cp, 'wrr_cp', 2)
 
@@ -522,13 +522,13 @@ contains
          m_rol%o   = vec( 0d0, 0d0, trk%nom_radius )
          m_rol%rot = rotmat_identity()
          mrr_rol   = marker_2loc( my_rail%m_trk, m_rol )
-         mrr_cp    = marker_2loc( my_rail%m_trk, cp%mref )
-         mrol_cp   = marker_2loc( m_rol, cp%mref )
+         mrr_cp    = marker_2loc( my_rail%m_trk, cp%mpot )
+         mrol_cp   = marker_2loc( m_rol, cp%mpot )
 
          if (idebug.ge.2) then
             call marker_print(m_rol, 'm_rol', 2)
             call marker_print(my_rail%m_trk, 'm_rr', 2)
-            call marker_print(cp%mref, 'm_cp', 2)
+            call marker_print(cp%mpot, 'm_cp', 2)
             call marker_print(mrr_rol, 'mrr_rol', 2)
             call marker_print(mrr_cp, 'mrr_cp', 2)
             call marker_print(mrol_cp, 'mrol_cp', 2)
@@ -542,7 +542,7 @@ contains
 
          ! convert wheelset velocity to contact coordinates
 
-         rol_tvel_cp   = cp%mref%rot .transp. rol_tvel_trk
+         rol_tvel_cp   = cp%mpot%rot .transp. rol_tvel_trk
          rol_rvel_cp   = mrol_cp%rot * rol_rvel_rol
 
          ! define velocity vectors 'tvel' and 'rvel' for roller profile origin O w.r.t. roller coordinates
@@ -594,8 +594,8 @@ contains
       ! convert wheel-marker from wheel-set coords to track-coords and contact coordinates
 
       mrw_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
-      mrw_cp  = marker_2loc( mrw_trk, cp%mref )
-      mws_cp  = marker_2loc( ws%m_trk, cp%mref )
+      mrw_cp  = marker_2loc( mrw_trk, cp%mpot )
+      mws_cp  = marker_2loc( ws%m_trk, cp%mpot )
 
       if (idebug.ge.2) then
          call marker_print(ws%m_trk, 'm_ws', 2)
@@ -613,7 +613,7 @@ contains
 
       ! convert wheelset velocity to contact coordinates
 
-      ws_tvel_cp   = cp%mref%rot .transp. ws_tvel_trk
+      ws_tvel_cp   = cp%mpot%rot .transp. ws_tvel_trk
       ws_rvel_cp   = mws_cp%rot * ws_rvel_ws
 
       ! define velocity vectors 'tvel' and 'rvel' for flexibilities (vx,vy,vz, vroll,vyaw,vpitch):
@@ -710,7 +710,10 @@ contains
       ! set the velocity, rolling direction and rolling step size
 
       gd%kin%chi    =  0d0
-      if (.not.ic%is_roller()) then
+      if (ic%tang.eq.1) then
+         ! in shifts, set dummy V = 1, dt = 1, dq = V*dt
+         gd%kin%veloc   = 1d0
+      elseif (.not.ic%is_roller()) then
          ! gd%kin%veloc =  (ws%vs - ws%vpitch * ws%nom_radius) / 2d0
          gd%kin%veloc  =  ws%vs
       else

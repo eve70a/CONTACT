@@ -21,27 +21,27 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_input (inp, ncase, linenr, prob)
+   subroutine wr_input (inp, ncase, linenr, wtd)
 !--purpose: Input-routine for a W/R contact case. 
       implicit none
 !--subroutine arguments:
       integer                   :: inp, linenr, ncase
-      type(t_ws_track)          :: prob
+      type(t_ws_track)          :: wtd
 !--local variables:
       integer,      parameter :: mxnval = 20
       logical,      parameter :: lstop  = .true.
       integer          :: ints(mxnval), line0, nval, is_wheel, i_ftype, ldebug, ieof, ierror,           &
                           cpbtnfs, vldcmze, xhgiaowr, psflrin
       logical          :: flags(mxnval), is_roll, is_ssrol, was_roll, zerror
-      real(kind=8)     :: dbles(mxnval)
+      real(kind=8)     :: dbles(mxnval), dx_prv, ds_prv
       character*16     :: types, namside
       character*256    :: strngs(mxnval)
       type(t_ic)       :: icold
 
-      associate( ic    => prob%ic,    meta  => prob%meta, mater => prob%mater, discr => prob%discr,     &
-                 kin   => prob%kin,   fric  => prob%fric, solv  => prob%solv,  subs  => prob%subs,      &
-                 ws    => prob%ws,    my_wheel => prob%ws%whl,                                          &
-                 trk   => prob%trk,   my_rail  => prob%trk%rai)
+      associate( ic    => wtd%ic,    meta  => wtd%meta, mater => wtd%mater, discr => wtd%discr,         &
+                 kin   => wtd%kin,   fric  => wtd%fric, solv  => wtd%solv,  subs  => wtd%subs,          &
+                 ws    => wtd%ws,    my_wheel => wtd%ws%whl,                                            &
+                 trk   => wtd%trk,   my_rail  => wtd%trk%rai)
 
       ldebug = 1
       ieof   = -1 ! eof=error
@@ -619,6 +619,23 @@ contains
          zerror = zerror .or. .not.check_range ('DS', discr%ds, 1d-8, 1d20)
          zerror = zerror .or. .not.check_range ('DQREL', discr%dqrel, 1d-3, 10d0)
 
+         ! in transient cases, check element sizes of new/previous case
+
+         if (ncase.gt.1 .and. wtd%numcps.ge.1 .and. ic%use_supergrid()) then
+            associate(cp => wtd%allcps(1)%cp)
+            dx_prv = cp%gd%cgrid_cur%dx
+            ds_prv = cp%gd%cgrid_cur%dy
+            if (abs(dx_prv-discr%dx).ge.1d-4*min(dx_prv, discr%dx) .or.                                 &
+                abs(ds_prv-discr%ds).ge.1d-4*min(ds_prv, discr%ds)) then
+               zerror = .true.
+               write(lout,5001) ic%tang, dx_prv, ds_prv
+               write(   *,5001) ic%tang, dx_prv, ds_prv
+            endif
+            end associate
+ 5001       format(' Input: ERROR. Transient contact (T=',i1,') needs constant DX, DY (',f6.3,',',f6.3, &
+                   ') in subsequent cases')
+         endif
+
          if (discr%dist_sep.lt.discr%dist_comb) then
             zerror = .true.
             write(lout, 5011) discr%dist_sep, discr%dist_comb
@@ -893,20 +910,20 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_write_inp(ncase, prob)
+   subroutine wr_write_inp(ncase, wtd)
 !--purpose: Write input for the current W/R contact case to the inp-file, unit linp. 
       implicit none
 !--subroutine arguments:
       integer                   :: ncase
-      type(t_ws_track)          :: prob
+      type(t_ws_track)          :: wtd
 !--local variables:
       integer                  :: vldcmze, xhgiaowr, cpbtnfs, psflrin
       real(kind=8)             :: dflt_turn
       character(len=1)         :: namside
       type(t_wheel),   pointer :: my_wheel
 
-      associate(ic    => prob%ic,   mater => prob%mater, discr => prob%discr, kin   => prob%kin,        &
-                fric  => prob%fric, solv  => prob%solv,  ws    => prob%ws,    trk   => prob%trk  )
+      associate(ic    => wtd%ic,   mater => wtd%mater, discr => wtd%discr, kin   => wtd%kin,        &
+                fric  => wtd%fric, solv  => wtd%solv,  ws    => wtd%ws,    trk   => wtd%trk  )
 
       if (ncase.gt.0) write(linp,'(a,i8)') '% Next case', ncase
 
@@ -1047,7 +1064,7 @@ contains
 
       ! write rail profile filename(s)
 
-      if (ic%ztrack.eq.3) call profile_write_config(prob%meta, trk%rai%prr, 0)
+      if (ic%ztrack.eq.3) call profile_write_config(wtd%meta, trk%rai%prr, 0)
 
       ! write rail deviations
 
@@ -1081,7 +1098,7 @@ contains
       ! write wheel profile filename
 
       if (ic%ewheel.eq.3 .or. ic%ewheel.eq.5) then
-         call profile_write_config(prob%meta, ws%whl%prw, 1)
+         call profile_write_config(wtd%meta, ws%whl%prw, 1)
       endif
 
       ! write information on the wheelset position and velocity
@@ -1136,7 +1153,7 @@ contains
 
       ! write the points in which the subsurface elastic field must be calculated. 
 
-      if (ic%stress.ge.2) call wrsubs(linp, ic, prob%subs)
+      if (ic%stress.ge.2) call wrsubs(linp, ic, wtd%subs)
 
       ! write empty line to separate from next case
 

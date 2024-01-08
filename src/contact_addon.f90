@@ -3702,6 +3702,8 @@ subroutine cntc_calculate1(ire, ierror) &
    character(len=256)            :: fname
    character(len=len(bufout)-52) :: tmpbuf
    integer                       :: itimer
+   logical                       :: is_ok
+   real(kind=8)                  :: dx_prv, ds_prv, dx_inp, ds_inp
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_calculate1
 #endif
@@ -3758,6 +3760,26 @@ subroutine cntc_calculate1(ire, ierror) &
       return
    endif
 
+   ! in transient cases, check element sizes of new/previous case
+
+   if (wtd%meta%ncase.gt.1 .and. wtd%numcps.ge.1 .and. (wtd%ic%tang.eq.1 .or. wtd%ic%tang.eq.2)) then
+      associate(cp => wtd%allcps(1)%cp)
+      dx_prv = cp%gd%cgrid_cur%dx
+      ds_prv = cp%gd%cgrid_cur%dy
+      dx_inp = wtd%discr%dx
+      ds_inp = wtd%discr%ds
+      is_ok = (dx_inp.ge.1d-10 .and. abs(dx_prv-dx_inp).lt.1d-4*min(dx_prv, dx_inp) .and.               &
+               ds_inp.ge.1d-10 .and. abs(ds_prv-ds_inp).lt.1d-4*min(ds_prv, ds_inp))
+      if (.not.is_ok) then
+         ierror = CNTC_err_discr
+         write(bufout,'(a,i3,a,i1,2(a,f6.3),a)') ' ERROR ',ierror,': transient contact (T=',            &
+                wtd%ic%tang,') needs constant DX, DY (',dx_prv,',',ds_prv,') during the simulation'
+         call write_log(1, bufout)
+         return
+      endif
+      end associate
+   endif
+ 
    if (idebug.ge.5) then
       write(bufout,'(a,i3,3(a,f6.3))') 'rail profile:  err_hnd=',my_rail%prr%err_hnd,', max_omit=',     &
          my_rail%prr%f_max_omit,', zig_thrs=',my_rail%prr%zig_thrs,', kink_high=',my_rail%prr%kink_high
@@ -4302,7 +4324,9 @@ subroutine cntc_getParameters(ire, icp, lenarr, values) &
    if (lenarr.ge.1) values(1) = gd%kin%veloc    / my_scl%veloc
    if (lenarr.ge.2) values(2) = gd%kin%chi      / my_scl%angle
    if (lenarr.ge.3) values(3) = gd%kin%dq       / my_scl%len
-   if (lenarr.ge.4) values(4) = gd%mater%tau_c0 * my_scl%area
+   if (lenarr.ge.4) values(4) = gd%kin%spinxo   / my_scl%len
+   if (lenarr.ge.5) values(5) = gd%kin%spinyo   / my_scl%len
+   if (lenarr.ge.6) values(6) = gd%mater%tau_c0 * my_scl%area
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getParameters

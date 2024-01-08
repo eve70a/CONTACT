@@ -163,8 +163,9 @@
       CNTC_err_icp    =  -31, & ! invalid ire/icp combination
       CNTC_err_profil =  -32, & ! error reading w/r profile file(s)
       CNTC_err_frclaw =  -33, & ! invalid friction parameters
+      CNTC_err_discr  =  -34, & ! invalid discretisation parameters
       CNTC_err_other  =  -99, & ! other error, unspecified
       CNTC_err_broydn =  CNTC_err_ftot  ! obsolete, kept for backward compatibility
 
-! $Revision: 2447 $, $Date: 2023-11-04 15:03:17 +0100 (Sat, 04 Nov 2023) $
+! $Revision: 2485 $, $Date: 2024-01-08 15:27:32 +0100 (Mon, 08 Jan 2024) $
 !------------------------------------------------------------------------------------------------------------

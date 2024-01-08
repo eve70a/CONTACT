@@ -1266,8 +1266,8 @@ to its position $[0,y_{ws},z_{ws}-r_{nom,w}]^T$.
 \hspace{10mm}
 \psfig{figure=fig/wheel_theta2,width=2.2in,trim=200 40 150 45,clip=}
 \caption{\em Left: definition of cylindrical coordinates $(\theta_{wc},
-        y_{wc},r_{wc})$ for wheel out-of-roundness. Right: rotation by the
-        wheelset pitch angle $\theta_{ws}$.}
+        y_{wc},r_{wc})$ on a wheel for wheel out-of-roundness. Right:
+        rotation by the wheelset pitch angle $\theta_{ws}$.}
 \label{fig:wheel_theta}
 \end{figure}
 
@@ -1835,6 +1835,29 @@ be negligible, and is replaced by the angular velocity of the rollers:
 According to the right hand rule, the pitch velocity $\omega_{ws}$ is
 negative for forward rolling, whereas $\omega_{rol}$ is positive.
 
+% CONTACT internally uses $\delta t^*=1\unit{s}$ irrespective of
+% the actual time step $\delta t$ used in the multibody simulation. 
+% No reference is made to the actual time in the simulation. 
+In the computations using ${\tt T}=1$, transient contact using a
+`material-fixed' contact grid, the velocities are replaced by the moved
+distance per time step:
+\begin{inputvars}
+\inpvar{SHFT\_SWS}{\bunit{mm}}{Wheelset forward position increment
+        $\Delta s_{ws}= v_x\delta t$.}
+\inpvar{SHFT\_YWS}{\bunit{mm}}{Wheelset lateral position increment
+        $\Delta y_{ws}= v_y\delta t$.}
+\inpvar{SHFT\_ZWS}{\bunit{mm}}{Wheelset vertical position increment
+        $\Delta z_{ws}=v_z\delta t$.}
+\inpvar{SHFT\_ROL}{\bunit{rad}}{Wheelset roll angle increment
+        $\Delta\phi_{ws}=\dot{\phi}_{ws}\delta t$.}
+\inpvar{SHFT\_YAW}{\bunit{rad}}{Wheelset yaw angle increment
+        $\Delta\psi_{ws}=\dot{\psi}_{ws}\delta t$.}
+\inpvar{SHFT\_WPIT}{\bunit{rad}}{Wheelset pitch angle icrement
+        $\Delta\theta_{ws}=\omega_{ws}\delta t$. \magenta{Output when 
+        ${\tt F}_1=1$ or $2$.}}
+\inpvar{SHFT\_RPIT}{\bunit{rad}}{Roller pitch angle increment
+        $\Delta\theta_{rol}= \omega_{rol}\delta t$.}
+\end{inputvars}
 Flexible wheelset deviations provide offsets from the initial (design)
 geometry to the actual (current) configuration. Wheelset coordinates are
 used, such that $\Delta y>0$ is towards the wheelset center for a left
@@ -1858,28 +1881,6 @@ wheel, but to the field side when the right wheel is considered.
         \Delta v_\psi^{whl}, \Delta v_\theta^{whl}$ of the wheel profile
         origin with respect to the design orientation in wheelset
         coordinates, positive using the right-hand rule.}
-\end{inputvars}
-In transient calculations using the world-fixed (material-fixed) coordinate
-system, ${\tt T}=1$, no reference is made to the actual time in the
-simulation. CONTACT internally uses $\delta t^*=1\unit{s}$ irrespective of
-the actual time step $\delta t$ used in the multibody simulation. The
-velocities $v_x, v_y, \cdots \omega_{ws}$ are replaced by the moved
-distance per time step.
-\begin{inputvars}
-\inpvar{SHFT\_SWS}{\bunit{mm}}{Wheelset forward position increment $\Delta
-        s_1=v_x\delta t$ along the track center line.}
-\inpvar{SHFT\_YWS}{\bunit{mm}}{Wheelset lateral position increment $\Delta
-        y_{ws}=v_y\delta t$ with respect to track coordinates.}
-\inpvar{SHFT\_ZWS}{\bunit{mm}}{Wheelset vertical position increment $\Delta
-        z_{ws}=v_z\delta t$ in terms of track coor\-di\-nates.}
-\inpvar{SHFT\_ROL}{\bunit{rad}}{Wheelset roll increment $\Delta\phi_{ws}=
-        \dot{\phi}_{ws}\delta t$.}
-\inpvar{SHFT\_YAW}{\bunit{rad}}{Wheelset yaw increment rate $\Delta\psi_{ws}=
-        \dot{\psi}_{ws}\delta t$.}
-\inpvar{SHFT\_WPIT}{\bunit{rad}}{Wheelset pitch increment $\Delta\theta_{ws}=
-        \omega_{ws}\delta t$. \magenta{Output when ${\tt F}_1=1$ or $2$.}}
-\inpvar{SHFT\_RPIT}{\bunit{rad}}{Roller pitch increment $\Delta\theta_{rol}=
-        \omega_{rol}\delta t$.}
 \end{inputvars}
  
 \section{Identification of contact patches}
@@ -1936,12 +1937,18 @@ changes in the input positions.
         separately. Default $2 d_{sep}-d_{comb}$.}
 \end{inputvars}
 For each contact patch that remains after combination, CONTACT determines a
-so-called {\em contact reference position\/}. This is the origin of the
-local coordinates used for solving the contact problem
-\cite{Vollebregt2020b-wrgeom}. It is determined by a heuristic rule to be
-centered within the contact patch in a weighted sense. This may be
-different from the {\em initial contact point\/} where the undeformed
-distance is minimum. 
+so-called {\em contact reference position\/}. In steady rolling (${\tt
+T}=3$), this is the origin of the local coordinates used for solving the
+contact problem \cite{Vollebregt2020b-wrgeom}. The contact reference is
+determined by a heuristic rule to be centered within the contact patch in
+a weighted sense. This may be different from the {\em initial contact
+point\/} where the undeformed distance is minimum. 
+
+In transient contact, the local coordinate system is based off the rail
+profile reference $s_r=0$ in lateral direction. Longitudinally, a fixed
+super-grid is used when ${\tt T}=1$, based at the start of the track curve
+$s_{fc}=0$. For ${\tt T}=2$, the contact grid is based at the track
+coordinate system $x_{tr}=0$.
 
 In Figure \ref{fig:site_b_cpatch}, the contact reference position of each
 contact patch is indicated by a black marker. In the output it is presented
