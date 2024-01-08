@@ -3,7 +3,7 @@
 export show_norm=1
 export show_tang=1
 export show_mbench=1
-export show_switch=1
+export show_varprof=1
 export show_subsurf=1
 export show_2dcases=1
 export show_parall=1
@@ -379,7 +379,7 @@ fi
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 # retrieve and print speedup for the normal problem
 
-if [ $show_parall -gt 0 -a $show_norm -gt 0 ]; then
+if [ $show_parall -gt 1 -a $show_norm -gt 0 ]; then
    for t in 1s 2s 4s 8s ; do
       file=tang_problm_$t.out ; sub_getdata
       if [ $is_ok -gt 0 ]; then
@@ -407,7 +407,7 @@ fi
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 # retrieve and print speedup for the tangential problem
 
-if [ $show_parall -gt 0 -a $show_tang -gt 0 ]; then
+if [ $show_parall -gt 1 -a $show_tang -gt 0 ]; then
    for t in 1s 2s 4s 8s 1c 2c 4c ; do
       file=tang_problm_$t.out ; sub_getdata
       if [ $is_ok -gt 0 ]; then
@@ -454,12 +454,13 @@ if [ $show_mbench -gt 0 ]; then
 fi
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-# retrieve and print times for switch-and-crossing calculations
+# retrieve and print times for calculations with variable profile
 
-if [ $show_switch -gt 0 ]; then
+if [ $show_varprof -gt 0 ]; then
    test=mbench_intrup ; file=$test.out ; sub_getdata ; sub_print_mbench
    test=mbench_locus  ; file=$test.out ; sub_getdata ; sub_print_mbench
    test=mbench_brute  ; file=$test.out ; sub_getdata ; sub_print_mbench
+   test=chalmers_flat ; file=$test.out ; sub_getdata ; sub_print_mbench
    sub_header
 fi
 

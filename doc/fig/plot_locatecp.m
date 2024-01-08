@@ -1,6 +1,6 @@
 
 print_fig = 1;
-show_figs = [  6:13 ];
+show_figs = [  31:34 ];
 % set(0,'defaultlinelinewidth',2);
 % set(0,'defaultaxeslinewidth',2);
 % set(0,'defaulttextfontsize',15);
@@ -262,7 +262,7 @@ for ifig = 1 : 14
       if (ifig>=6 & ifig<=9)
          for ix = ix_ud(5:13)
             dy = 0.45*cos(ar_ud(ix)); dz = 0.45*sin(ar_ud(ix));
-            plot(y_ud(ix)+dy*[-1 1], zr_ud(ix)-0.1+dz*[-1 1], '-', 'color',matlab_color(2));
+            plot(y_ud(ix)+dy*[-1 1], zr_ud(ix)-0.2+dz*[-1 1], '-', 'color',matlab_color(6));
          end
       end
       if (ifig==6)
@@ -511,13 +511,13 @@ for ifig = 31 : 33
       % plot vertical search lines
 
       if (iver==3)
-         plot([1;1]*sp_grid, [-0.3;5]*ones(size(sp_grid)), ':', 'color',matlab_color(2), 'linewidth',1);
+         plot([1;1]*sp_cgrid, [-0.3;5]*ones(size(sp_cgrid)), ':', 'color',matlab_color(2), 'linewidth',1);
       end
 
       % plot contact grid
 
       if (iver>=2)
-         plot(sp_grid, zeros(size(sp_grid)), 'k.', 'markersize', 9);
+         plot(sp_cgrid, zeros(size(sp_cgrid)), 'k.', 'markersize', 9);
       end
       if (iver==2)
          text(-9, -0.3, 'contact grid', 'interpreter','latex', 'verticalalignment','bottom');
@@ -526,9 +526,9 @@ for ifig = 31 : 33
       % plot step size ds
 
       if (iver==2)
-         sp_lbl = mean(sp_grid(15:16));
-         plot(sp_grid(15)*[1 1], [0,-0.8], 'k-', 'linewidth',1);
-         plot(sp_grid(16)*[1 1], [0,-0.8], 'k-', 'linewidth',1);
+         sp_lbl = mean(sp_cgrid(15:16));
+         plot(sp_cgrid(15)*[1 1], [0,-0.8], 'k-', 'linewidth',1);
+         plot(sp_cgrid(16)*[1 1], [0,-0.8], 'k-', 'linewidth',1);
          text(sp_lbl, -1, '$\delta{}s$', 'interpreter','latex', 'horizontalalignment','center', ...
                                    'verticalalignment','bottom')
       end
@@ -541,8 +541,8 @@ for ifig = 31 : 33
       if (iver>=3)
          ix = 7;
          n_i = [nr_cgrid(ix), nw_cgrid(ix)];
-         plot(sp_grid(ix)+[0,2], mean(n_i)+[0,1.5], '-', 'color',matlab_color(2), 'linewidth',1);
-         text(sp_grid(ix)+2.2, mean(n_i)+1.5, '$h_{ij} = n^r_{ij} - n^w_{ij}$', 'interpreter','latex');
+         plot(sp_cgrid(ix)+[0,2], mean(n_i)+[0,1.5], '-', 'color',matlab_color(2), 'linewidth',1);
+         text(sp_cgrid(ix)+2.2, mean(n_i)+1.5, '$h_{ij} = n^r_{ij} - n^w_{ij}$', 'interpreter','latex');
       end
 
       % plot contact reference point

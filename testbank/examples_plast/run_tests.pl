@@ -31,7 +31,7 @@ my $status = 0;
 my @list=( 'carter_plast', 'catt2d_plast', 'catt3d_plast', 'plastic_one_shift', 
            'mbench_a22_left', 'tractcurve_plast' );
 #  @list=( 'plastic_one_shift' );
-#  @list=( 'tractcurve_plast' );
+#  @list=( 'catt3d_plast' );
 #  @list=( 'carter_plast' );
 
 foreach my $test ( @list ) {

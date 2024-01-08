@@ -37,7 +37,7 @@ print " ----------------------------------------------------------------------\n
 my $test_norm=1;
 my $test_tang=1;
 my $test_mbench=1;
-my $test_switch=1;
+my $test_varprof=1;
 my $test_subsurf=1;
 my $test_clib=1;
 my $test_2dcases=1;
@@ -132,10 +132,10 @@ if ( $test_mbench == 1 ) {
    }
 }
 
-# run tests for switches and crossings
+# run tests for variable profiles
 
-if ( $test_switch == 1 ) {
-   my @list=("mbench_intrup" );
+if ( $test_varprof == 1 ) {
+   my @list=("mbench_intrup", "chalmers_flat" );
    if ( $test_1min > 0 ) {
       @list=(@list, "mbench_locus", "mbench_brute" );
    }
@@ -175,7 +175,7 @@ if ( $test_clib == 1 ) {
 
 delete $ENV{OMP_NUM_THREADS};
 
-if ( $test_parall == 1 && $test_tang == 1 ) {
+if ( $test_parall == 2 && $test_tang == 1 ) {
 
    my @list=("1c", "2c", "1s", "2s", "4s");
    if ( $test_1min > 0 ) {
