@@ -421,7 +421,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
       ierror = 0
    endif
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,6x,a,i4)') pfx,subnam,': version=',ifcver
+      write(bufout,'(2a,i6)') trim(pfx_str(subnam,-1,-1)),' version=',ifcver
       call write_log(1, bufout)
    endif
 
@@ -512,7 +512,7 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) 
       enddo
 
       if (idebug.ge.3) then
-         write(bufout,'(a,a30,7x,a,i3)') pfx,subnam,': number of active result elements=',num_reids
+         write(bufout,'(2a,i3)') trim(pfx_str(subnam,-1,-1)),' number of active result elements=',num_reids
          call write_log(1, bufout)
       endif
    endif
@@ -527,7 +527,7 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) 
    endif
 
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,a,i3,2x,a,i3)') pfx,subnam,'(',ire,'): version=',ifcver
+      write(bufout,'(2a,i6)') trim(pfx_str(subnam,ire,-1)),' version=',ifcver
       call write_log(1, bufout)
    endif
 
@@ -673,7 +673,7 @@ subroutine cntc_setGlobalFlags(lenflg, params, values) &
    if (caddon_initialized.ge.0 .and. idebug.ge.2) then
       do i = 1, lenflg
          if (params(i).ne.0) then
-            write(bufout,'(a,a30,7x,a,i2,3a,i5)') pfx,subnam,': i=',i, ', set flag ',                   &
+            write(bufout,'(2a,i2,3a,i8)') trim(pfx_str(subnam,-1,-1)),' i=',i, ', set flag ',           &
                 cntc_flagName(params(i)),' to value',values(i)
             call write_log(1, bufout)
          endif
@@ -751,7 +751,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_ic_pvtime) then         ! set P-digit in the RE-CP-data
 
-            my_ic%pvtime = max(0, min(3, values(i)))
+         my_ic%pvtime = max(0, min(3, values(i)))
 
       elseif (params(i).eq.CNTC_ic_bound) then          ! set B-digit in the RE-CP-data
 
@@ -888,11 +888,11 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
       do i = 1, lenflg
          if (params(i).ne.0) then
             if (params(i).eq.CNTC_if_units) then
-               write(bufout,'(a,a30,a,i3,a,i1,a,i2,4a)') pfx,subnam,'(',ire,'.',icp,'): i=',i,          &
-                   ', set flag ', cntc_flagName(params(i)),' to value ', trim(cntc_flagName(values(i)))
+               write(bufout,'(2a,i2,4a)') trim(pfx_str(subnam,ire,icp)), ' i=',i,', set flag ',         &
+                        cntc_flagName(params(i)),' to value ', trim(cntc_flagName(values(i)))
             else
-               write(bufout,'(a,a30,a,i3,a,i1,a,i2,3a,i5)') pfx,subnam,'(',ire,'.',icp,'): i=',i,       &
-                   ', set flag ', cntc_flagName(params(i)),' to value',values(i)
+               write(bufout,'(2a,i2,3a,i8)') trim(pfx_str(subnam,ire,icp)), ' i=',i,', set flag ',      &
+                        cntc_flagName(params(i)),' to value',values(i)
             endif
             call write_log(1, bufout)
          endif
@@ -939,6 +939,8 @@ function cntc_flagName(iflag)
       cntc_flagName = 'CNTC_ic_inflcf'
    elseif (iflag.eq.CNTC_ic_mater) then
       cntc_flagName = 'CNTC_ic_mater'
+   elseif (iflag.eq.CNTC_ic_xflow) then
+      cntc_flagName = 'CNTC_ic_xflow'
    elseif (iflag.eq.CNTC_ic_iestim) then
       cntc_flagName = 'CNTC_ic_iestim'
    elseif (iflag.eq.CNTC_ic_output) then
@@ -1039,8 +1041,8 @@ subroutine cntc_setMetadata(ire, icp, lenmta, params, values) &
    if (idebug.ge.2) then
       do i = 1, lenmta
          if (params(i).ne.0) then
-            write(bufout,'(a,a30,a,i3,a,i1,a,i2,a,i5,a,g12.4)') pfx,subnam,'(',ire,'.',icp,'): i=',i,      &
-                ', set metadata',params(i),' to value',values(i)
+            write(bufout,'(2a,i2,a,i5,a,g12.4)') trim(pfx_str(subnam,ire,icp)),' i=',i,', set metadata', &
+                params(i),' to value',values(i)
             call write_log(1, bufout)
          endif
       enddo
@@ -1086,16 +1088,14 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
    if (ierror.lt.0) return
 
    if (gdigit.lt.0 .or. gdigit.gt.6) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,                              &
-        '): setSolverFlags: method G=', gdigit,' does not exist.'
+      write(bufout,'(2a,i2,a)') trim(pfx_str(subnam,ire,icp)),' method G=',gdigit,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
    if (nints.ne.nints_loc(gdigit) .or. nreals.ne.nreals_loc(gdigit)) then
-      write(bufout,'(a,a30,a,i3,a,i1,3(a,i1),a)') pfx,subnam,'(',ire,'.',icp,                           &
-        '): setSolverFlags: method G=', gdigit,' needs ', nints_loc(gdigit),' integer and ',            &
-        nreals_loc(gdigit),' real parameters.'
+      write(bufout,'(a,3(a,i2),a)') trim(pfx_str(subnam,ire,icp)),' method G=',gdigit,' needs',        &
+                nints_loc(gdigit),' integer and',nreals_loc(gdigit),' real parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -1119,9 +1119,8 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
       my_solv%maxout = max(1,     iparam(4))
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i1,4(a,i6),a)') pfx,subnam,'(',ire,'.',icp,                  &
-            '): G=',gdigit, ', MaxGS=',my_solv%maxgs,', MaxIN=',my_solv%maxin,', MaxNR=',               &
-            my_solv%maxnr, ', MaxOUT=',my_solv%maxout
+         write(bufout,'(2a,i2,4(a,i6),a)') trim(pfx_str(subnam,ire,icp)),' G=',gdigit, ', MaxGS=',      &
+             my_solv%maxgs,', MaxIN=',my_solv%maxin,', MaxNR=', my_solv%maxnr,', MaxOUT=',my_solv%maxout
          call write_log(1, bufout)
       endif
 
@@ -1134,9 +1133,9 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
          my_solv%omgslp = max(1d-20, rparam(4))
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1, a,i1,3(a,f7.4),a,i4,a)') pfx,subnam,'(',ire,'.',icp,        &
-               '): G=',gdigit,', OmegaH=',my_solv%omegah,', OmegaS=',my_solv%omegas,', OmgSlp=',        &
-                   my_solv%omgslp, ', IniSlp=',my_solv%inislp
+            write(bufout,'(2a,i2,3(a,f7.4),a,i4,a)') trim(pfx_str(subnam,ire,icp)),' G=',gdigit,        &
+                ', OmegaH=',my_solv%omegah,', OmegaS=',my_solv%omegas,', OmgSlp=',my_solv%omgslp,       &
+                ', IniSlp=',my_solv%inislp
             call write_log(1, bufout)
          endif
       endif
@@ -1148,8 +1147,8 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
          my_solv%omgslp = max(1d-20, rparam(2))
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1, a,i1,a,f7.4,a,i4,a)') pfx,subnam,'(',ire,'.',icp,           &
-               '): G=',gdigit,', OmgSlp=', my_solv%omgslp, ', IniSlp=',my_solv%inislp
+            write(bufout,'(2a,i2,a,f7.4,a,i4,a)') trim(pfx_str(subnam,ire,icp)),' G=',gdigit,           &
+                ', OmgSlp=', my_solv%omgslp, ', IniSlp=',my_solv%inislp
             call write_log(1, bufout)
          endif
       endif
@@ -1186,8 +1185,8 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
          endif
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1, a,i1,3(a,f7.4))') pfx,subnam,'(',ire,'.',icp,               &
-               '): G=',gdigit,', f=', my_solv%fdecay, ', d_ifc=',my_solv%d_ifc,', pow_s=',my_solv%pow_s
+            write(bufout,'(2a,i2,3(a,f7.4))') trim(pfx_str(subnam,ire,icp)),' G=',gdigit,', f=',        &
+                my_solv%fdecay, ', d_ifc=',my_solv%d_ifc,', pow_s=',my_solv%pow_s
             call write_log(1, bufout)
          endif
       endif
@@ -1200,8 +1199,8 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
       my_solv%epsens = max(1d-20, rparam(1))
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i4,a,es8.1)') pfx,subnam,'(',ire,'.',icp,                    &
-            '): set MxSENS=', my_solv%mxsens,', Epsens=', my_solv%epsens
+         write(bufout,'(2a,i4,a,es8.1)') trim(pfx_str(subnam,ire,icp)),' set MxSENS=',my_solv%mxsens,   &
+                ', Epsens=', my_solv%epsens
          call write_log(1, bufout)
       endif
 
@@ -1248,8 +1247,8 @@ subroutine cntc_setMaterialProperties(ire, icp, g1, nu1, g2, nu2) &
    if (my_solv%maxout.le.1 .and. abs(my_mater%ak).ge.1d-4) my_solv%maxout = 10
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f7.1,2(a,f5.2),a)') pfx,subnam,'(',ire,'.',icp,'): G=',        &
-                my_mater%ga,' [N/mm2], Nu=',my_mater%nu,', K=',my_mater%ak, ' [-]'
+      write(bufout,'(2a,f7.1,2(a,f5.2),a)') trim(pfx_str(subnam,ire,icp)),' G=',my_mater%ga,            &
+                ' [N/mm2], Nu=',my_mater%nu,', K=',my_mater%ak, ' [-]'
       call write_log(1, bufout)
    endif
 
@@ -1294,8 +1293,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    ! check value of M-digit. 
 
    if (imeth.lt.0 .or. imeth.gt.4) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp, '): method', imeth,          &
-                ' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)), ' method',imeth,' does not exist.'
       call write_log(1, bufout)
       return
    endif
@@ -1304,8 +1302,8 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 
    if ((nparam_loc(imeth).eq.0 .and. nparam.ge.2) .or.                                                  &
        (nparam_loc(imeth).ne.0 .and. nparam.ne.nparam_loc(imeth))) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,2(i1,a))') pfx,subnam,'(',ire,'.',icp,'): method', imeth,        &
-                ' needs ', nparam_loc(imeth),' parameters.'
+      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,icp)),' method',imeth,' needs ',             &
+                nparam_loc(imeth),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -1343,7 +1341,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
       my_mater%betamf   = max(1d-6, rparam(8))
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i1,4(a,f7.4))') pfx,subnam,'(',ire,'.',icp, '): M=',my_ic%mater, &
+         write(bufout,'(2a,i1,4(a,f7.4))') trim(pfx_str(subnam,ire,icp)), ' M=',my_ic%mater,            &
                 ', flx=',my_mater%flx(1),', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf,      &
                 ', betamf=', my_mater%betamf
          call write_log(1, bufout)
@@ -1358,7 +1356,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
       my_mater%betamf   = max(1d-6, rparam(7))
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i1,3(a,f7.4))') pfx,subnam,'(',ire,'.',icp, '): M=',my_ic%mater, &
+         write(bufout,'(2a,i1,3(a,f7.4))') trim(pfx_str(subnam,ire,icp)), ' M=',my_ic%mater,            &
             ', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf, ', betamf=', my_mater%betamf
          call write_log(1, bufout)
       endif
@@ -1374,9 +1372,8 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
       if (my_mater%tau_c0.le.1d-10) my_mater%tau_c0 = 1d20
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i1,a,f7.1,a,f6.3,a,/, 43x,a,g9.1,a,f7.1,a)')                 &
-                pfx,subnam,'(',ire, '.',icp, '): M=', my_ic%mater, ', Gg3=',my_mater%gg3,               &
-                        ' [N/mm2], Laythk=',my_mater%laythk, ' [mm]',                                   &
+         write(bufout,'(2a,i1,a,f7.1,a,f6.3,a,/, 43x,a,g9.1,a,f7.1,a)') trim(pfx_str(subnam,ire,icp)),  &
+                ' M=', my_ic%mater,', Gg3=',my_mater%gg3,' [N/mm2], Laythk=',my_mater%laythk, ' [mm]',  &
                 '  Tau_c0=', my_mater%tau_c0,' [N/mm2], K_tau=', my_mater%k_tau,' [N/mm3]'
          call write_log(2, bufout)
       endif
@@ -1397,8 +1394,8 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    if (my_solv%maxout.le.1 .and. abs(my_mater%ak).ge.1d-4) my_solv%maxout = 10
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f7.1,2(a,f5.2),a)') pfx,subnam,'(',ire,'.',icp,'): G=',        &
-                my_mater%ga,' [N/mm2], Nu=',my_mater%nu,', K=',my_mater%ak, ' [-]'
+      write(bufout,'(2a,f7.1,2(a,f5.2),a)') trim(pfx_str(subnam,ire,icp)),' G=',my_mater%ga,            &
+                ' [N/mm2], Nu=',my_mater%nu,', K=',my_mater%ak, ' [-]'
       call write_log(1, bufout)
    endif
 
@@ -1439,16 +1436,15 @@ subroutine cntc_setTemperatureData(ire, icp, imeth, nparam, params) &
    ! Check H-digit, number of values provided
 
    if (imeth.lt.0 .or. imeth.eq.2 .or. imeth.gt.3) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): method', imeth,           &
-         ' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' method H=',imeth,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
    if ((nparam_loc(imeth).eq.0 .and. nparam.ge.2) .or.                                                  &
        (nparam_loc(imeth).ne.0 .and. nparam.ne.nparam_loc(imeth))) then
-      write(bufout,'(a,a30,a,i3,a,i1,2(a,i1),a)') pfx,subnam,'(',ire,'.',icp,                           &
-        '): setTemperatureData: method H=', imeth,' needs ', nparam_loc(imeth),' parameters.'
+      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,icp)),' method H=',imeth,' needs ',          &
+                nparam_loc(imeth),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -1467,8 +1463,8 @@ subroutine cntc_setTemperatureData(ire, icp, imeth, nparam, params) &
       my_mater%dens(1:2)   = (/ params(4), params(8) /) / my_scl%len**3
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i1,2(a,f6.1),a,/, 2(a,39x, 3(a,g10.3),:,a,/))')              &
-            pfx, subnam, '(', ire,'.',icp, '): H=', my_ic%heat, ', BkTemp(1)=', my_mater%bktemp(1),     &
+         write(bufout,'(2a,i1,2(a,f6.1),a,/, 2(a,39x, 3(a,g10.3),:,a,/))')                              &
+            trim(pfx_str(subnam,ire,icp)), ' H=', my_ic%heat, ', BkTemp(1)=', my_mater%bktemp(1),       &
                 ', BkTemp(2)=', my_mater%bktemp(2), ',',                                                &
             pfx, 'HeatCp(1)=', my_mater%heatcp(1), ', Lambda(1)=', my_mater%lambda(1), ', Dens(1)=',    &
                 my_mater%dens(1), ',',                                                                  &
@@ -1506,7 +1502,7 @@ subroutine cntc_setTimestep(ire, icp, dt) &
    my_kin%dt  = dt
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f9.6)') pfx,subnam,'(',ire,'.',icp,'): dt=',my_kin%dt,' [s]'
+      write(bufout,'(2a,f9.6,a)') trim(pfx_str(subnam,ire,icp)),' dt=',my_kin%dt,' [s]'
       call write_log(1, bufout)
    endif
 
@@ -1538,7 +1534,7 @@ subroutine cntc_setReferenceVelocity(ire, icp, veloc) &
    my_kin%veloc = max(1d-9, abs(veloc) * my_scl%veloc)
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f9.1,a)') pfx,subnam,'(',ire,'.',icp,'): V=',my_kin%veloc,' [mm/s]'
+      write(bufout,'(2a,f9.1,a)') trim(pfx_str(subnam,ire,icp)),' V=',my_kin%veloc,' [mm/s]'
       call write_log(1, bufout)
    endif
 
@@ -1587,8 +1583,8 @@ subroutine cntc_setRollingStepsize(ire, icp, chi, dq) &
       my_kin%dq  = dq  * my_scl%len
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1,a,f6.1,a,f6.3,a)') pfx,subnam,'(',ire,'.',icp,'): chi=',        &
-                   my_kin%chi,' [rad], dq=',my_kin%dq,' [mm]'
+         write(bufout,'(2a,f6.1,a,f6.3,a)') trim(pfx_str(subnam,ire,icp)),' chi=',my_kin%chi,           &
+                ' [rad], dq=',my_kin%dq,' [mm]'
          call write_log(1, bufout)
       endif
    endif
@@ -1648,15 +1644,14 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
    ldigit = imeth - 10*vdigit
 
    if (vdigit.lt.0 .or. vdigit.gt.1 .or. ldigit.lt.0 .or. ldigit.eq.1 .or. ldigit.gt.6) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): method', imeth,           &
-         ' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' method',imeth,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
    if (vdigit.eq.1 .and. imodul.ne.1) then
-      write(bufout,'(a,a30,a,i3,a,i1,2(a,i1))') pfx,subnam,'(',ire,'.',icp,'): V=', vdigit,             &
-         ' is not allowed in module', imodul
+      write(bufout,'(a,2(a,i1))') trim(pfx_str(subnam,ire,icp)),' V=',vdigit,' is not allowed in module', &
+                imodul
       call write_log(1, bufout)
       return
    endif
@@ -1680,11 +1675,11 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
 
    if (nparam.ne.nexpct) then
       if (vdigit.eq.1) then
-         write(bufout,'(a,a30,a,i3,a,i1,a,i1,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,                 &
-           '): setFrictionMethod: with L=', ldigit,', NVF=',nvf,' needs ', nexpct,' parameters.'
+         write(bufout,'(2a,i2,a,2(i3,a))') trim(pfx_str(subnam,ire,icp)),' with L=',ldigit,', NVF=',    &
+                nvf,' needs', nexpct,' parameters.'
       else
-         write(bufout,'(a,a30,a,i3,a,i1,2(a,i1),a)') pfx,subnam,'(',ire,'.',icp,                        &
-           '): setFrictionMethod: method L=', imeth,' needs ', nexpct,' parameters.'
+         write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,icp)),' method L=',imeth,' needs',        &
+                nexpct,' parameters.'
       endif
       call write_log(1, bufout)
       return
@@ -1737,8 +1732,8 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
          my_fric%fstat_arr(ivf)  = my_fric%fkin_arr(ivf)
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1, a,i1,2(a,f6.3),a)') pfx,subnam,'(',ire,'.',icp,             &
-               '): L=',ldigit,', Fstat=',my_fric%fstat_arr(ivf),', Fkin=',my_fric%fkin_arr(ivf), ' [-]'
+            write(bufout,'(2a,i2,2(a,f6.3),a)') trim(pfx_str(subnam,ire,icp)),' L=',ldigit,             &
+                ', Fstat=',my_fric%fstat_arr(ivf),', Fkin=',my_fric%fkin_arr(ivf), ' [-]'
             call write_log(1, bufout)
          endif
 
@@ -1757,8 +1752,8 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
          my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%flin1(ivf) + my_fric%flin2(ivf)
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1, a,i1,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')    &
-                pfx,subnam,'(',ire,'.', icp, '): L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
+            write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')                    &
+                trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
                              ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
                 'Flin1=',my_fric%flin1(ivf), ' [-], Sabsh1=',my_fric%sabsh1(ivf), ' [mm/s], Flin2=',    &
                          my_fric%flin2(ivf), ' [-], Sabsh2=',my_fric%sabsh2(ivf), ' [mm/s]'
@@ -1779,8 +1774,8 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
          my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%frat1(ivf) + my_fric%frat2(ivf)
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1, a,i1,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')    &
-                pfx,subnam,'(',ire,'.', icp, '): L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
+            write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')                    &
+                trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
                              ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
                 'Frat1=',my_fric%frat1(ivf), ' [-], Sabsh1=',my_fric%sabsh1(ivf), ' [mm/s], Frat2=',    &
                          my_fric%frat2(ivf), ' [-], Sabsh2=',my_fric%sabsh2(ivf), ' [mm/s]'
@@ -1801,8 +1796,8 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
          my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%fexp1(ivf) + my_fric%fexp2(ivf)    
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1, a,i1,a,f6.3,a,f7.1,a,f6.3,a,/, 2(48x,a,f5.2,a,f7.1,a,:,/))') &
-                pfx,subnam,'(',ire,'.', icp, '): L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
+            write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 2(48x,a,f5.2,a,f7.1,a,:,/))')                &
+                trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
                              ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
                 'Fexp1=',my_fric%fexp1(ivf), ' [-], Sabsh1=',my_fric%sabsh1(ivf), ' [mm/s],',           &
                 'Fexp2=',my_fric%fexp2(ivf), ' [-], Sabsh2=',my_fric%sabsh2(ivf), ' [mm/s]'
@@ -1832,8 +1827,8 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
          my_fric%mem_s0         =    10d0   ! 10 mm/s
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1, a,i1,2(a,f5.2),a,/, 42x,2(a,f7.1),a,f5.2,a)')               &
-                pfx,subnam,'(',ire,'.', icp, '): L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
+            write(bufout,'(2a,i2,2(a,f5.2),a,/, 42x,2(a,f7.1),a,f5.2,a)')                               &
+                trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
                         ', Fexp1=',my_fric%fexp1,' [-],', ' Sabsh1=',my_fric%sabsh1,                    &
                         ', Mem_s0=',my_fric%mem_s0, ' [mm/s], Memdst=',my_fric%memdst,' [mm]'
             call write_log(2, bufout)
@@ -1853,8 +1848,8 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
          my_fric%fkin_arr(ivf)  = my_fric%fref(ivf) + my_fric%dfheat(ivf)
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1, a,i1,a,f6.3,a,f7.1,a,/, a,40x,a,f6.3,a,f7.1,a)')            &
-                pfx,subnam,'(',ire,'.', icp, '): L=',my_fric%frclaw_eff, ', Fref=',my_fric%fref(ivf),   &
+            write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,/, a,40x,a,f6.3,a,f7.1,a)')                            &
+                trim(pfx_str(subnam,ire,icp)), ' L=',my_fric%frclaw_eff, ', Fref=',my_fric%fref(ivf),   &
                         ' [-], Tref=',my_fric%tref(ivf),' [C],',                                        &
                 pfx,' Dfheat =',my_fric%dfheat(ivf),' [-], Dtheat =',my_fric%dtheat(ivf),' [C]'
             call write_log(2, bufout)
@@ -1916,8 +1911,7 @@ subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
    ! check value of M-digit: 0, 2, 3, or 4.
 
    if (imeth.ne.0 .and. .not.(imeth.ge.2 .and. imeth.le.4)) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): : method', imeth,         &
-                ' does not exist.'
+      write(bufout,'(2a,i2,a)') trim(pfx_str(subnam,ire,icp)),' method M=',imeth,' does not exist.'
       call write_log(1, bufout)
       return
    endif
@@ -1926,8 +1920,8 @@ subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
 
    if ((nparam_loc(imeth).eq.0 .and. nparam.ge.2) .or.                                                  &
        (nparam_loc(imeth).ne.0 .and. nparam.ne.nparam_loc(imeth))) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,2(i1,a))') pfx,subnam,'(',ire,'.',icp,'): method', imeth,        &
-                ' needs ', nparam_loc(imeth),' parameters.'
+      write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,icp)),' method M=',imeth,' needs',           &
+                nparam_loc(imeth),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -1939,8 +1933,7 @@ subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
       my_ic%mater  = 0
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i1,a)') pfx,subnam,'(',ire,'.',icp, '): M=',my_ic%mater,      &
-            ', no interfacial layer'
+         write(bufout,'(2a,i2,a)') trim(pfx_str(subnam,ire,icp)),' M=',my_ic%mater,', no interfacial layer'
          call write_log(1, bufout)
       endif
 
@@ -1955,7 +1948,7 @@ subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
       my_mater%betamf = max(1d-6, params(4))
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i1,4(a,f7.4))') pfx,subnam,'(',ire,'.',icp, '): M=',my_ic%mater, &
+         write(bufout,'(2a,i2,4(a,f7.4))') trim(pfx_str(subnam,ire,icp)),' M=',my_ic%mater,             &
                 ', flx=',my_mater%flx(1),', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf,      &
                 ', betamf=', my_mater%betamf
          call write_log(1, bufout)
@@ -1971,7 +1964,7 @@ subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
       my_mater%betamf = max(1d-6, params(3))
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i1,3(a,f7.4))') pfx,subnam,'(',ire,'.',icp, '): M=',my_ic%mater, &
+         write(bufout,'(2a,i2,3(a,f7.4))') trim(pfx_str(subnam,ire,icp)),' M=',my_ic%mater,             &
             ', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf, ', betamf=', my_mater%betamf
          call write_log(1, bufout)
       endif
@@ -1993,8 +1986,8 @@ subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
       my_mater%k_tau  = k_tau
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1, a,i1,a,f7.1,a,f6.3,a,/, 43x,a,g9.1,a,f7.1,a)')                 &
-                pfx,subnam,'(',ire, '.',icp, '): M=', my_ic%mater, ', Gg3=',my_mater%gg3,               &
+         write(bufout,'(2a,i2,a,f7.1,a,f6.3,a,/, 43x,a,g9.1,a,f7.1,a)')                                 &
+                trim(pfx_str(subnam,ire,icp)), ' M=', my_ic%mater, ', Gg3=',my_mater%gg3,               &
                         ' [N/mm2], Laythk=',my_mater%laythk, ' [mm]',                                   &
                 '  Tau_c0=', my_mater%tau_c0,' [N/mm2], K_tau=', my_mater%k_tau,' [N/mm3]'
          call write_log(2, bufout)
@@ -2042,14 +2035,13 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
    if (ierror.lt.0) return
 
    if (ipotcn.lt.-6 .or. ipotcn.gt.-1) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): method', ipotcn,          &
-         ' does not exist.'
+      write(bufout,'(2a,i2,a)') trim(pfx_str(subnam,ire,icp)),' method IPOTCN=',ipotcn,' does not exist.'
       call write_log(1, bufout)
       return
    endif
    if (nparam.ne.nparam_loc(ipotcn)) then
-      write(bufout,'(a,a30,a,i3,a,i1,2(a,i1),a)') pfx,subnam,'(',ire,'.',icp,                           &
-        '): setHertzContact: method IPOTCN=', ipotcn,' needs ', nparam_loc(ipotcn),' parameters.'
+      write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,icp)),' method IPOTCN=',ipotcn,' needs',     &
+                nparam_loc(ipotcn),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -2087,9 +2079,9 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
       gd%ic%bound    = 2        ! semi-elliptical pressure in x
       gd%potcon_inp%mx = max(1, nint(params(1)))
       gd%potcon_inp%my = max(1, nint(params(2)))
-      gd%hertz%a1    = max(1d-6,params(3)) / my_scl%len
-      gd%hertz%bb    = max(1d-6,params(4)) * my_scl%len
-      gd%hertz%scale = max(1d-6,params(5))
+      gd%hertz%a1      = max(1d-6,params(3)) / my_scl%len
+      gd%hertz%bb      = max(1d-6,params(4)) * my_scl%len
+      gd%hertz%scale   = max(1d-6,params(5))
 
    elseif (ipotcn.eq.-3) then
 
@@ -2097,9 +2089,9 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
 
       gd%potcon_inp%mx = max(1, nint(params(1)))
       gd%potcon_inp%my = max(1, nint(params(2)))
-      gd%hertz%aa    = max(1d-6,params(3)) * my_scl%len
-      gd%hertz%bb    = max(1d-6,params(4)) * my_scl%len
-      gd%hertz%scale = max(1d-6,params(5))
+      gd%hertz%aa      = max(1d-6,params(3)) * my_scl%len
+      gd%hertz%bb      = max(1d-6,params(4)) * my_scl%len
+      gd%hertz%scale   = max(1d-6,params(5))
 
    elseif (ipotcn.eq.-2) then
 
@@ -2107,9 +2099,9 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
 
       gd%potcon_inp%mx = max(1, nint(params(1)))
       gd%potcon_inp%my = max(1, nint(params(2)))
-      gd%hertz%a1    = max(1d-12,params(3)) / my_scl%len
-      gd%hertz%aob   = max(1d-6 ,params(4))
-      gd%hertz%scale = max(1d-6 ,params(5))
+      gd%hertz%a1      = max(1d-12,params(3)) / my_scl%len
+      gd%hertz%aob     = max(1d-6 ,params(4))
+      gd%hertz%scale   = max(1d-6 ,params(5))
 
    elseif (ipotcn.eq.-1) then
 
@@ -2117,17 +2109,17 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
 
       gd%potcon_inp%mx = max(1, nint(params(1)))
       gd%potcon_inp%my = max(1, nint(params(2)))
-      gd%hertz%a1    = max(1d-12,params(3)) / my_scl%len
-      gd%hertz%b1    = max(1d-12,params(4)) / my_scl%len
-      gd%hertz%scale = max(1d-6 ,params(5))
+      gd%hertz%a1      = max(1d-12,params(3)) / my_scl%len
+      gd%hertz%b1      = max(1d-12,params(4)) / my_scl%len
+      gd%hertz%scale   = max(1d-6 ,params(5))
 
    endif ! ipotcn
 
    gd%potcon_inp%npot  = gd%potcon_inp%mx * gd%potcon_inp%my
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i3,a,2i5)') pfx,subnam,'(',ire,'.',icp,'): ipotcn=',             &
-                gd%potcon_inp%ipotcn, ', mx,my=',gd%potcon_inp%mx,gd%potcon_inp%my
+      write(bufout,'(2a,i3,a,2i5)') trim(pfx_str(subnam,ire,icp)),' ipotcn=',gd%potcon_inp%ipotcn,      &
+                ', mx,my=',gd%potcon_inp%mx,gd%potcon_inp%my
       call write_log(1, bufout)
    endif
 
@@ -2177,23 +2169,22 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
       ! w/r contact: always using grid sizes, params = [ dx, dy, n.a. ]
 
       if (ipotcn.lt.-1 .or. ipotcn.gt.0) then
-         write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): method', ipotcn,       &
-            ' does not exist.'
+         write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' method',ipotcn,' does not exist.'
          call write_log(1, bufout)
          return
       endif
 
       if (ipotcn.eq.-1) then
          if (nparam.ne.5 .and. nparam.ne.6) then
-            write(bufout,'(a,a30,a,i3,a,i1,a,i2,a)') pfx,subnam,'(',ire,'.',icp,                        &
-              '): setPotContact: method IPOTCN=', ipotcn,' needs 5 or 6 parameters.'
+            write(bufout,'(2a,i2,a)') trim(pfx_str(subnam,ire,icp)),' method IPOTCN=',ipotcn,           &
+                ' needs 5 or 6 parameters.'
             call write_log(1, bufout)
             return
          endif
       else
          if (nparam.ne.nparam_loc(ipotcn)) then
-            write(bufout,'(a,a30,a,i3,a,i1,a,i2,a,i1,a)') pfx,subnam,'(',ire,'.',icp,                   &
-              '): setPotContact: method IPOTCN=', ipotcn,' needs ', nparam_loc(ipotcn),' parameters.'
+            write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,icp)),' method IPOTCN=',ipotcn,        &
+                ' needs', nparam_loc(ipotcn),' parameters.'
             call write_log(1, bufout)
             return
          endif
@@ -2220,14 +2211,13 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
       ! module 3: various non-Hertzian options
 
       if (ipotcn.lt.1 .or. ipotcn.gt.4) then
-         write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): method', ipotcn,       &
-            ' does not exist.'
+         write(bufout,'(2a,i2,a)') trim(pfx_str(subnam,ire,icp)),' method',ipotcn,' does not exist.'
          call write_log(1, bufout)
          return
       endif
       if (nparam.ne.nparam_loc(ipotcn)) then
-         write(bufout,'(a,a30,a,i3,a,i1,2(a,i1),a)') pfx,subnam,'(',ire,'.',icp,                        &
-           '): setPotContact: method IPOTCN=', ipotcn,' needs ', nparam_loc(ipotcn),' parameters.'
+         write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,icp)),' method IPOTCN=',ipotcn,' needs',  &
+                nparam_loc(ipotcn),' parameters.'
          call write_log(1, bufout)
          return
       endif
@@ -2248,7 +2238,7 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
          gd%potcon_inp%dy   = max(1d-12, params(6)) * my_scl%len
 
          if (idebug.ge.2) then
-            write(bufout,'(a,a30,a,i3,a,i1,a,2f8.3,a)') pfx,subnam,'(',ire,'.',icp,'): coordinates xl,yl=', &
+            write(bufout,'(2a,2f8.3,a)') trim(pfx_str(subnam,ire,icp)),' coordinates xl,yl=',           &
                       gd%potcon_inp%xl, gd%potcon_inp%yl,' [mm]'
             call write_log(1, bufout)
          endif
@@ -2323,7 +2313,7 @@ subroutine cntc_setVerticalForce(ire, fz) &
    wtd%ws%fz_inp = fz
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,f9.2,a)') pfx,subnam,'(',ire,'): vertical force=', wtd%ws%fz_inp, ' [N]'
+      write(bufout,'(2a,f9.2,a)') trim(pfx_str(subnam,ire,-1)),' vertical force=', wtd%ws%fz_inp, ' [N]'
       call write_log(1, bufout)
    endif
 
@@ -2357,8 +2347,7 @@ subroutine cntc_setPenetration(ire, icp, pen) &
    my_kin%pen = pen * my_scl%len
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f7.4,a)') pfx,subnam,'(',ire,'.',icp,'): penetration=',       &
-                my_kin%pen, ' [mm]'
+      write(bufout,'(2a,f7.4,a)') trim(pfx_str(subnam,ire,icp)),' penetration=',my_kin%pen, ' [mm]'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -2392,8 +2381,7 @@ subroutine cntc_setNormalForce(ire, icp, fn) &
    my_kin%fnscal = fn / my_mater%ga
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f9.2,a)') pfx,subnam,'(',ire,'.',icp,'): normal force=',       &
-                my_kin%fntrue, ' [N]'
+      write(bufout,'(2a,f9.2,a)') trim(pfx_str(subnam,ire,icp)),' normal force=',my_kin%fntrue, ' [N]'
       call write_log(1, bufout)
    endif
 
@@ -2431,8 +2419,8 @@ subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
    if (ierror.lt.0) return
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,2a,i1,a,i6,a)') pfx,subnam,'(',ire,'.',icp,'): set undeformed distance',  &
-                ' ibase=',ibase,',', nparam,' parameters'
+      write(bufout,'(2a,i2,a,i6,a)') trim(pfx_str(subnam,ire,icp)),' set undeformed distance ibase=', &
+                ibase,',', nparam,' parameters'
       call write_log(1, bufout)
    endif
 
@@ -2449,15 +2437,14 @@ subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
    elseif (ibase.eq.9) then
       nparam_loc = gd%potcon_inp%npot
    else
-      write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): method', ibase,           &
-         ' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' method',ibase,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
    if (nparam.ne.nparam_loc) then
-      write(bufout,'(a,a30,a,i3,a,i1,2a,i1,a,i6,a)') pfx,subnam,'(',ire,'.',icp,'): setUndeformedDistc: ',    &
-        'method IBASE=', ibase,' needs ', nparam_loc,' parameters.'
+      write(bufout,'(2a,i1,a,i6,a)') trim(pfx_str(subnam,ire,icp)),' method IBASE=',ibase,' needs ',    &
+                nparam_loc,' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -2521,7 +2508,7 @@ subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
          endif
       enddo
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1,2(a,f7.4),a)') pfx,subnam,'(',ire,'.',icp,'): max separation=', &
+         write(bufout,'(2a,2(f7.4,a))') trim(pfx_str(subnam,ire,icp)),' max separation=',               &
                    min(99.9d0,gd%geom%prmudf(iimax)), ', max penetration=', gd%geom%prmudf(iimin),' [mm]'
          call write_log(1, bufout)
       endif
@@ -2567,8 +2554,8 @@ subroutine cntc_setCreepages(ire, icp, vx, vy, phi) &
    endif
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,2f7.4,a,f7.4,a)') pfx,subnam,'(',ire,'.',icp,          &
-                '): creepages Cksi,Ceta=', my_kin%cksi, my_kin%ceta, ' [-], Phi=',my_kin%cphi, ' [rad/mm]'
+      write(bufout,'(2a,2f7.4,a,f7.4,a)') trim(pfx_str(subnam,ire,icp)),' creepages Cksi,Ceta=',        &
+                my_kin%cksi, my_kin%ceta, ' [-], Phi=',my_kin%cphi, ' [rad/mm]'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -2600,8 +2587,7 @@ subroutine cntc_setExtraRigidSlip(ire, icp, lenarr, wx, wy) &
    if (ierror.lt.0) return
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,2a)') pfx,subnam,'(',ire,'.',icp,'): set extra rigid slip',  &
-                ' array exrhs [-]'
+      write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' set extra rigid slip array exrhs [-]'
       call write_log(1, bufout)
    endif
 
@@ -2631,7 +2617,7 @@ subroutine cntc_setExtraRigidSlip(ire, icp, lenarr, wx, wy) &
       endif
    enddo
    if (idebug.ge.-2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f7.4,a,i5,a)') pfx,subnam,'(',ire,'.',icp,'): max extra rigid slip=', &
+      write(bufout,'(2a,f7.4,a,i5,a)') trim(pfx_str(subnam,ire,icp)),' max extra rigid slip=',          &
                 min(9.9d0,wmax), ' at element ii=',iimax
       call write_log(1, bufout)
    endif
@@ -2685,8 +2671,8 @@ subroutine cntc_setTangentialForces(ire, icp, fx, fy) &
       endif
 
       if (idebug.ge.2) then
-         write(bufout,'(a,a30,a,i3,a,i1,a,2f8.4,a)') pfx,subnam,'(',ire,'.',icp,                   &
-                   '): total forces Fx,Fy=', my_kin%fxrel1, my_kin%fyrel1, ' [-]'
+         write(bufout,'(2a,2f8.4,a)') trim(pfx_str(subnam,ire,icp)),' total forces Fx,Fy=',             &
+                my_kin%fxrel1, my_kin%fyrel1, ' [-]'
          call write_log(1, bufout)
       endif
 
@@ -2905,13 +2891,13 @@ subroutine cntc_setTrackDimensions_old(ire, ztrack, nparam, params) &
    ! check value of ZTRACK digit, check number of parameters supplied
 
    if (ztrack.lt.1 .or. ztrack.gt.3) then
-      write(bufout,'(a,a30,a,i3,a,i4,a)') pfx,subnam,'(',ire,'): method', ztrack,' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
    if (nparam.ne.nparam_loc(ztrack)) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i2,a)') pfx,subnam,'(',ire, '): method ZTRACK=', ztrack,' needs ', &
+      write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' needs ',         &
          nparam_loc(ztrack),' parameters.'
       call write_log(1, bufout)
       return
@@ -2969,12 +2955,6 @@ subroutine cntc_setTrackDimensions_old(ire, ztrack, nparam, params) &
       wtd%trk%rail_z0    = 0d0
    endif
 
-!  if (idebug.ge.2) then
-!     write(bufout,'(a,a30,a,i3,a,i1,a,f7.4,a)') pfx,subnam,'(',ire,'.',icp,'): penetration=',       &
-!               my_kin%pen, ' [mm]'
-!     call write_log(1, bufout)
-!  endif
-
    end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setTrackDimensions_old
@@ -3016,7 +2996,7 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
    ! check value of ZTRACK digit
 
    if (ztrack.lt.1 .or. ztrack.gt.3) then
-      write(bufout,'(a,a30,a,i3,a,i4,a)') pfx,subnam,'(',ire,'): method', ztrack,' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' does not exist.'
       call write_log(1, bufout)
       return
    endif
@@ -3030,8 +3010,8 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
    endif
 
    if (nparam.ne.nparam_loc(ztrack)) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i2,a)') pfx,subnam,'(',ire, '): method ZTRACK=', ztrack,' needs ', &
-         nparam_loc(ztrack),' parameters.'
+      write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' needs ',         &
+                nparam_loc(ztrack),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -3095,7 +3075,7 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
    endif
 
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,a,i3,a,i2,2(a,g12.4),a)') pfx,subnam,'(',ire,'): Z=',ztrack, ', ky=',        &
+      write(bufout,'(2a,i2,2(a,g12.4),a)') trim(pfx_str(subnam,ire,-1)),' Z=',ztrack, ', ky=',          &
                 wtd%trk%ky_rail,' [N/mm], fy_rail=',wtd%trk%fy_rail, ' [N]'
       call write_log(1, bufout)
    endif
@@ -3158,14 +3138,14 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
    if (ierror.lt.0) return
 
    if (ewheel.lt.0 .or. ewheel.gt.5) then
-      write(bufout,'(a,a30,a,i3,a,i4,a)') pfx,subnam,'(',ire,'): method E=', ewheel,' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method E=', ewheel,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
    if (nparam.ne.nparam_loc(ewheel)) then
-      write(bufout,'(a,a30,a,i3,2(a,i1),a)') pfx,subnam,'(',ire, '): method E=', ewheel,' needs ',      &
-         nparam_loc(ewheel),' parameters.'
+      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,-1)), ' method E=', ewheel,' needs ',        &
+                nparam_loc(ewheel),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -3188,12 +3168,6 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
       wtd%ws%nom_radius   = max(1d-3, min(1d20, wtd%ws%nom_radius))
 
    endif
-
-!  if (idebug.ge.2) then
-!     write(bufout,'(a,a30,a,i3,a,i1,a,f7.4,a)') pfx,subnam,'(',ire,'.',icp,'): penetration=',       &
-!               my_kin%pen, ' [mm]'
-!     call write_log(1, bufout)
-!  endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setWheelsetDimensions
@@ -3226,14 +3200,14 @@ subroutine cntc_setWheelsetPosition(ire, ewheel, nparam, params) &
    if (ierror.lt.0) return
 
    if (ewheel.lt.1 .or. ewheel.gt.5) then
-      write(bufout,'(a,a30,a,i3,a,i4,a)') pfx,subnam,'(',ire,'): method', ewheel,' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method',ewheel,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
    if (nparam.ne.nparam_loc(ewheel)) then
-      write(bufout,'(a,a30,a,i3,2(a,i1),a)') pfx,subnam,'(',ire, '): method E=', ewheel,' needs ',      &
-         nparam_loc(ewheel),' parameters.'
+      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,-1)),' method E=',ewheel,' needs ',          &
+                nparam_loc(ewheel),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -3256,10 +3230,10 @@ subroutine cntc_setWheelsetPosition(ire, ewheel, nparam, params) &
    endif
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,3f8.3,a)') pfx,subnam,'(',ire,'): position=', wtd%ws%s, wtd%ws%y,     &
+      write(bufout,'(2a,3f8.3,a)') trim(pfx_str(subnam,ire,-1)),' position=', wtd%ws%s, wtd%ws%y,       &
                 wtd%ws%z, ' [mm]'
       call write_log(1, bufout)
-      write(bufout,'(a,a30,a,i3,a,3f10.6,a)') pfx,subnam,'(',ire,'): orientation=', wtd%ws%roll,         &
+      write(bufout,'(2a,3f10.6,a)') trim(pfx_str(subnam,ire,-1)),' orientation=', wtd%ws%roll,          &
                 wtd%ws%yaw, wtd%ws%pitch, ' [rad]'
       call write_log(1, bufout)
    endif
@@ -3303,21 +3277,21 @@ subroutine cntc_setWheelsetVelocity(ire, ewheel, nparam, params) &
    ewheel_loc = ewheel
 
    if (ewheel.eq.1 .and. nparam.eq.nparam_loc(2)) then
-      write(bufout,'(a,a30,a,i3,a,i4,a)') pfx,subnam,'(',ire,'): method E=', ewheel,                    &
-         ' is obsolete for setting velocity data. Using E=2 instead.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method E=', ewheel,                      &
+                ' is obsolete for setting velocity data. Using E=2 instead.'
       call write_log(1, bufout)
       ewheel_loc = 2
    endif
 
    if (ewheel_loc.lt.2 .or. ewheel_loc.gt.5) then
-      write(bufout,'(a,a30,a,i3,a,i4,a)') pfx,subnam,'(',ire,'): method E=', ewheel_loc,' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method E=', ewheel_loc,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
    if (nparam.ne.nparam_loc(ewheel_loc)) then
-      write(bufout,'(a,a30,a,i3,2(a,i1),a)') pfx,subnam,'(',ire, '): method ewheel=', ewheel_loc,' needs ', &
-         nparam_loc(ewheel_loc),' parameters.'
+      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,-1)),' method ewheel=',ewheel_loc,' needs ', &
+                nparam_loc(ewheel_loc),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -3345,12 +3319,6 @@ subroutine cntc_setWheelsetVelocity(ire, ewheel, nparam, params) &
       wtd%ws%vpitch = params(6) * my_scl%angle ! angle/time
 
    endif
-
-!  if (idebug.ge.2) then
-!     write(bufout,'(a,a30,a,i3,a,i1,a,f7.4,a)') pfx,subnam,'(',ire,'.',icp,'): penetration=',       &
-!               my_kin%pen, ' [mm]'
-!     call write_log(1, bufout)
-!  endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setWheelsetVelocity
@@ -3388,7 +3356,7 @@ subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
    ! check value of E-digit
 
    if (ewheel.lt.1 .or. ewheel.gt.5) then
-      write(bufout,'(a,a30,a,i3,a,i4,a)') pfx,subnam,'(',ire,'): method E=', ewheel,' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method E=', ewheel,' does not exist.'
       call write_log(1, bufout)
       return
    endif
@@ -3397,8 +3365,8 @@ subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
 
    if ((nparam_loc(ewheel).eq.0 .and. nparam.ge.2) .or.                                                 &
        (nparam_loc(ewheel).ne.0 .and. nparam.ne.nparam_loc(ewheel))) then
-      write(bufout,'(a,a30,a,i3,a,2(i1,a))') pfx,subnam,'(',ire, '): method E=', ewheel,' needs ',      &
-         nparam_loc(ewheel),' parameters.'
+      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,-1)), ' method E=', ewheel,' needs ',        &
+                nparam_loc(ewheel),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -3464,12 +3432,6 @@ subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
    endif
    end associate
 
-!  if (idebug.ge.2) then
-!     write(bufout,'(a,a30,a,i3,a,i1,a,f7.4,a)') pfx,subnam,'(',ire,'.',icp,'): penetration=',       &
-!               my_kin%pen, ' [mm]'
-!     call write_log(1, bufout)
-!  endif
-
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setWheelsetFlexibility
 
@@ -3516,8 +3478,8 @@ subroutine subs_addBlock(ire, icp, iblk, isubs, npx, npy, npz, xparam, yparam, z
    ! check 0 <= iblk <= min(max_block, nblock+1)
 
    if (iblk.lt.0 .or. iblk.gt.min(MXBLCK, my_subs%nblock+1)) then
-      write(bufout,'(a,a30,a,i3,a,i1,2a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): subs_addBlock: ',        &
-        'invalid block', iblk,', must be 0 <= IBLK <= NBLOCK+1.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' invalid block', iblk,                   &
+                ', must be 0 <= IBLK <= NBLOCK+1.'
       call write_log(1, bufout)
       return
    endif
@@ -3525,8 +3487,7 @@ subroutine subs_addBlock(ire, icp, iblk, isubs, npx, npy, npz, xparam, yparam, z
    ! check isubs = 1,2,3, 5,6,7 or 9
 
    if (isubs.lt.1 .or. isubs.eq.4 .or. isubs.eq.8 .or. isubs.gt.9) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): method', isubs,           &
-         ' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' method',isubs,' does not exist.'
       call write_log(1, bufout)
       return
    endif
@@ -3534,20 +3495,20 @@ subroutine subs_addBlock(ire, icp, iblk, isubs, npx, npy, npz, xparam, yparam, z
    ! check number of parameters npx, npy, npz needed for isubs
 
    if (npx_loc(isubs).gt.0 .and. npx.ne.npx_loc(isubs)) then
-      write(bufout,'(a,a30,a,i3,a,i1,2(a,i1),a)') pfx,subnam,'(',ire,'.',icp,                           &
-           '): method ISUBS=', isubs,' needs NPX=', npx_loc(isubs),' parameters.'
+      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,icp)),' method ISUBS=',isubs,' needs NPX=', &
+                npx_loc(isubs),' parameters.'
       call write_log(1, bufout)
       return
    endif
    if (npy_loc(isubs).gt.0 .and. npy.ne.npy_loc(isubs)) then
-      write(bufout,'(a,a30,a,i3,a,i1,2(a,i1),a)') pfx,subnam,'(',ire,'.',icp,                           &
-           '): method ISUBS=', isubs,' needs NPY=', npy_loc(isubs),' parameters.'
+      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,icp)),' method ISUBS=',isubs,' needs NPY=', &
+                npy_loc(isubs),' parameters.'
       call write_log(1, bufout)
       return
    endif
    if (npz_loc(isubs).gt.0 .and. npz.ne.npz_loc(isubs)) then
-      write(bufout,'(a,a30,a,i3,a,i1,2(a,i1),a)') pfx,subnam,'(',ire,'.',icp,                           &
-           '): method ISUBS=', isubs,' needs NPZ=', npz_loc(isubs),' parameters.'
+      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,icp)),' method ISUBS=',isubs,' needs NPZ=', &
+                npz_loc(isubs),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -3754,7 +3715,7 @@ subroutine cntc_calculate1(ire, ierror) &
    associate(my_wheel => wtd%ws%whl, my_rail  => wtd%trk%rai)
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a)') pfx,subnam,'(',ire,'): checking problem specification...'
+      write(bufout,'(2a)') trim(pfx_str(subnam,ire,-1)),' checking problem specification...'
       call write_log(1, bufout)
    endif
 
@@ -3796,7 +3757,7 @@ subroutine cntc_calculate1(ire, ierror) &
       ierror = CNTC_err_frclaw
       return
    endif
- 
+
    if (idebug.ge.5) then
       write(bufout,'(a,i3,3(a,f6.3))') 'rail profile:  err_hnd=',my_rail%prr%err_hnd,', max_omit=',     &
          my_rail%prr%f_max_omit,', zig_thrs=',my_rail%prr%zig_thrs,', kink_high=',my_rail%prr%kink_high
@@ -3807,7 +3768,7 @@ subroutine cntc_calculate1(ire, ierror) &
    endif
 
    if (idebug.ge.1) then
-      write(bufout,'(a,a30,a,i3,a)') pfx,subnam,'(',ire,'): calculating...'
+      write(bufout,'(2a)') trim(pfx_str(subnam,ire,-1)),' calculating...'
       call write_log(1, bufout)
    endif
 
@@ -3841,8 +3802,8 @@ subroutine cntc_calculate1(ire, ierror) &
          inp_open = -1
          if (idebug.ge.1) then
             tmpbuf = fname ! avoid potential overflow of bufout
-            write(bufout,'(/,a,a30,a,i3,4x,a,/,36x,3a)') pfx,subnam,'(',ire,                            &
-                '): ERROR: could not open file', '"',trim(tmpbuf), '" for writing.'
+            write(bufout,'(/,2a,/,36x,3a)') trim(pfx_str(subnam,ire,-1)),                               &
+                ' ERROR: could not open file', '"',trim(tmpbuf), '" for writing.'
             call write_log(3, bufout)
          endif
  999  continue
@@ -3881,7 +3842,7 @@ subroutine cntc_calculate1(ire, ierror) &
 
    if (ierror.lt.0) then
       if (idebug.ge.0) then
-         write(bufout,'(a,a30,a,i3,a,i3,a)') pfx,subnam,'(',ire,'): no solution for contact problem (', &
+         write(bufout,'(2a,i3,a)') trim(pfx_str(subnam,ire,-1)),' no solution for contact problem (', &
                 ierror,').'
          call write_log(1, bufout)
       endif
@@ -3898,7 +3859,7 @@ subroutine cntc_calculate1(ire, ierror) &
    my_meta%ncase = my_meta%ncase + 1
 
    if (idebug.ge.1) then
-      write(bufout,'(a,a30,a,i3,a)')       pfx,subnam,'(',ire,'): done...'
+      write(bufout,'(2a)')       trim(pfx_str(subnam,ire,-1)),' done...'
       call write_log(1, bufout)
    endif
    end associate
@@ -3933,45 +3894,43 @@ subroutine cntc_calculate3(ire, icp, ierror) &
    ! report on the settings for the contact patch
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f9.1,f6.3)') pfx,subnam,'(',ire,'.',icp,'): g,nu1=',   &
+      write(bufout,'(2a,f9.1,f6.3)') trim(pfx_str(subnam,ire,icp)),' g,nu1=',                           &
                 my_mater%gg(1), my_mater%poiss(1)
       call write_log(1, bufout)
-      write(bufout,'(a,a30,a,i3,a,i1,a,f9.1,f6.3)') pfx,subnam,'(',ire,'.',icp,'): g,nu2=',   &
+      write(bufout,'(2a,f9.1,f6.3)') trim(pfx_str(subnam,ire,icp)),' g,nu2=',                           &
                 my_mater%gg(2), my_mater%poiss(2)
       call write_log(1, bufout)
-      write(bufout,'(a,a30,a,i3,a,i1,a,i4,2f5.2)')  pfx,subnam,'(',ire,'.',icp,'): nvf, fstat, fkin =',  &
+      write(bufout,'(2a,i4,2f5.2)')  trim(pfx_str(subnam,ire,icp)),' nvf, fstat, fkin =',               &
                 gd%fric%nvf, gd%fric%fstat_arr(1), gd%fric%fkin_arr(1)
       call write_log(1, bufout)
       if (gd%potcon_inp%ipotcn.lt.0) then
-         write(bufout,'(a,a30,a,i3,a,i1,a,2f6.2)')  pfx,subnam,'(',ire,'.',icp,'): semi-axes a,b=',   &
+         write(bufout,'(2a,2f6.2)')  trim(pfx_str(subnam,ire,icp)),' semi-axes a,b=',                   &
                 gd%hertz%aa, gd%hertz%bb
          call write_log(1, bufout)
       else
-         write(bufout,'(a,a30,a,i3,a,i1,a,f6.3,f8.3,f6.3)') pfx,subnam,'(',ire,'.',icp,'): step sizes=', &
+         write(bufout,'(2a,f6.3,f8.3,f6.3)') trim(pfx_str(subnam,ire,icp)),' step sizes=',              &
                 gd%potcon_inp%dx, gd%potcon_inp%dy, my_kin%dq
          call write_log(1, bufout)
-         write(bufout,'(a,a30,a,i3,a,i1,a,f7.2,f8.2)')  pfx,subnam,'(',ire,'.',icp,'): corner xl,yl=',&
+         write(bufout,'(2a,f7.2,f8.2)')  trim(pfx_str(subnam,ire,icp)),' corner xl,yl=',                &
                 gd%potcon_inp%xl, gd%potcon_inp%yl
          call write_log(1, bufout)
-         write(bufout,'(a,a30,a,i3,a,i1,a,f7.2,f8.2)')  pfx,subnam,'(',ire,'.',icp,'): corner xh,yh=',&
+         write(bufout,'(2a,f7.2,f8.2)')  trim(pfx_str(subnam,ire,icp)),' corner xh,yh=',              &
                 gd%potcon_inp%xh, gd%potcon_inp%yh
          call write_log(1, bufout)
       endif
       if (my_ic%norm.eq.0) then
-         write(bufout,'(a,a30,a,i3,a,i1,a,f7.4)')   pfx,subnam,'(',ire,'.',icp,'): penetration=',     &
-                my_kin%pen
+         write(bufout,'(2a,f7.4)')   trim(pfx_str(subnam,ire,icp)),' penetration=', my_kin%pen
          call write_log(1, bufout)
       else
-         write(bufout,'(a,a30,a,i3,a,i1,a,f9.1)')   pfx,subnam,'(',ire,'.',icp,'): normal force=',    &
-                my_kin%fntrue
+         write(bufout,'(2a,f9.1)')   trim(pfx_str(subnam,ire,icp)),' normal force=', my_kin%fntrue
          call write_log(1, bufout)
       endif
-      write(bufout,'(a,a30,a,i3,a,i1,a,3f9.5)')     pfx,subnam,'(',ire,'.',icp,'): creepages vx,vy,phi=', &
+      write(bufout,'(2a,3f9.5)')     trim(pfx_str(subnam,ire,icp)),' creepages vx,vy,phi=',           &
                 my_kin%cksi, my_kin%ceta, my_kin%cphi
       call write_log(1, bufout)
    endif
    if (idebug.ge.1) then
-      write(bufout,'(a,a30,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,'): calculating...'
+      write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' calculating...'
       call write_log(1, bufout)
    endif
 
@@ -3990,8 +3949,8 @@ subroutine cntc_calculate3(ire, icp, ierror) &
          inp_open = -1
          if (idebug.ge.1) then
             tmpbuf = fname ! avoid potential overflow of bufout
-            write(bufout,'(/,a,a30,a,i3,a,i1,a,/,36x,3a)') pfx,subnam,'(',ire,'.',icp,                   &
-                '): ERROR: could not open file', '"',trim(tmpbuf), '" for writing.'
+            write(bufout,'(/,2a,/,36x,3a)') trim(pfx_str(subnam,ire,icp)),                              &
+                ' ERROR: could not open file', '"',trim(tmpbuf), '" for writing.'
             call write_log(3, bufout)
          endif
  999  continue
@@ -4042,28 +4001,28 @@ subroutine cntc_calculate3(ire, icp, ierror) &
       if (my_solv%itnorm.lt.0) then
          ierror = CNTC_err_norm
          if (idebug.ge.0) then
-            write(bufout,'(a,a30,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,'): no convergence in NORM algorithm.'
+            write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' no convergence in NORM algorithm.'
             call write_log(1, bufout)
          endif
       elseif (my_solv%ittang.lt.0) then
          ierror = CNTC_err_tang
          if (idebug.ge.0) then
-            write(bufout,'(a,a30,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,'): no convergence in TANG algorithm.'
+            write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' no convergence in TANG algorithm.'
             call write_log(1, bufout)
          endif
       else
          ! Count the number of interior elements at the boundaries of the potential contact
          ierror = eldiv_count_atbnd(gd%outpt1%igs, 0, idebug)
          if (ierror.ge.1 .and. idebug.ge.1) then
-            write(bufout,'(a,a30,a,i3,a,i1,2a,i5,2a)') pfx,subnam,'(',ire,'.',icp,'): potential contact ',  &
-                   'area too small;',ierror,' elements next to boundary...'
+            write(bufout,'(2a,i5,2a)') trim(pfx_str(subnam,ire,icp)),' potential contact area too small;', &
+                   ierror,' elements next to boundary...'
             call write_log(1, bufout)
          endif
       endif
    endif
 
    if (idebug.ge.1) then
-      write(bufout,'(a,a30,a,i3,a,i1,a)')       pfx,subnam,'(',ire,'.',icp,'): done...'
+      write(bufout,'(2a)')       trim(pfx_str(subnam,ire,icp)),' done...'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -4112,7 +4071,7 @@ subroutine subs_calculate(ire, icp, ierror) &
    imodul = ire_module(ix_reid(ire))
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,'): calculating...'
+      write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' calculating...'
       call write_log(1, bufout)
    endif
 
@@ -4159,7 +4118,7 @@ subroutine subs_calculate(ire, icp, ierror) &
    call timer_stop(itimer)
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a)')       pfx,subnam,'(',ire,'.',icp,'): done...'
+      write(bufout,'(2a)')       trim(pfx_str(subnam,ire,icp)),' done...'
       call write_log(1, bufout)
    endif
 
@@ -4327,7 +4286,7 @@ subroutine cntc_getParameters(ire, icp, lenarr, values) &
    integer,      intent(in)  :: ire            ! result element ID
    integer,      intent(in)  :: icp            ! contact problem ID
    integer,      intent(in)  :: lenarr         ! length of values array
-   integer,      intent(out) :: values(lenarr) ! values of the parameters obtained from CONTACT
+   real(kind=8), intent(out) :: values(lenarr) ! values of the parameters obtained from CONTACT
 !--local variables:
    character(len=*), parameter :: subnam = 'cntc_getParameters'
    integer  :: ierror
@@ -4340,9 +4299,9 @@ subroutine cntc_getParameters(ire, icp, lenarr, values) &
 
    if (ierror.lt.0) return
 
-   if (lenarr.ge.1) values(1) = gd%kin%veloc / my_scl%veloc
-   if (lenarr.ge.2) values(2) = gd%kin%chi / my_scl%angle
-   if (lenarr.ge.3) values(3) = gd%kin%dq / my_scl%len
+   if (lenarr.ge.1) values(1) = gd%kin%veloc    / my_scl%veloc
+   if (lenarr.ge.2) values(2) = gd%kin%chi      / my_scl%angle
+   if (lenarr.ge.3) values(3) = gd%kin%dq       / my_scl%len
    if (lenarr.ge.4) values(4) = gd%mater%tau_c0 * my_scl%area
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -4412,7 +4371,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    if (nreals.ge.1) ds_out = rparam(1)
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,3(a,i2),a,g12.4)') pfx,subnam,'(',ire,'): task=',itask,', itype=',itype, &
+      write(bufout,'(2a,3(i2,a),g12.4)') trim(pfx_str(subnam,ire,-1)),' task=',itask,', itype=',itype,  &
                 ', isampl=',isampl,', ds_out=',ds_out
       call write_log(1, bufout)
    endif
@@ -4421,7 +4380,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 
    if (isampl.eq.1 .and. ds_out.lt.1d-4 .and. itask.ge.0) then
       isampl = 0
-      write(bufout,'(a,a30,a,i3,a,g12.4,a)') pfx,subnam,'(',ire,'): ds_out=',ds_out,                    &
+      write(bufout,'(2a,g12.4,a)') trim(pfx_str(subnam,ire,-1)),' ds_out=',ds_out,                      &
                 ' too small, using default sampling'
       call write_log(1, bufout)
    endif
@@ -4439,7 +4398,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    ierror = my_prf%ierror
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,3a)') pfx,subnam,'(',ire,'): fname="', trim(my_prf%fname),'"'
+      write(bufout,'(4a)') trim(pfx_str(subnam,ire,-1)),' fname="', trim(my_prf%fname),'"'
       call write_log(1, bufout)
    endif
 
@@ -4457,7 +4416,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    ! check availability of profile
 
    if (.not.is_ok .or. .not.associated(g%coor) .or. (itask.eq.4 .and. .not.associated(g%s_prf))) then
-      write(bufout,'(a,a30,a,i3,2a)') pfx,subnam,'(',ire,'): no data found for ',trim(namtyp(itype))
+      write(bufout,'(3a)') trim(pfx_str(subnam,ire,-1)),' no data found for ',trim(namtyp(itype))
       call write_log(1, bufout)
 
       if (lenarr.ge.1) val(1) = CNTC_err_profil
@@ -4491,14 +4450,14 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 
    else
 
-      write(bufout,'(a,a30,a,i3,a,i9)') pfx,subnam,'(',ire,'): invalid isampl =',isampl
+      write(bufout,'(2a,i9)') trim(pfx_str(subnam,ire,-1)),' invalid isampl =',isampl
       call write_log(1, bufout)
       return
 
    endif
       
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,a,i3,a,i6)') pfx,subnam,'(',ire,'): npnt=',npnt
+      write(bufout,'(2a,i6)') trim(pfx_str(subnam,ire,-1)),' npnt=',npnt
       call write_log(1, bufout)
    endif
 
@@ -4943,7 +4902,7 @@ subroutine cntc_getReferenceVelocity(ire, icp, veloc) &
    veloc = gd%kin%veloc / my_scl%veloc
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f9.1,a)') pfx,subnam,'(',ire,'.',icp,'): V=',gd%kin%veloc,' [mm/s]'
+      write(bufout,'(2a,f9.1,a)') trim(pfx_str(subnam,ire,icp)),' V=',gd%kin%veloc,' [mm/s]'
       call write_log(1, bufout)
    endif
 
@@ -5026,7 +4985,7 @@ subroutine cntc_getNumElements(ire, icp, mx, my) &
    my = gd%potcon_cur%my
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,2i4)')   pfx,subnam,'(',ire,'.',icp,'): #elements mx,my=', mx,my
+      write(bufout,'(2a,2i4)')   trim(pfx_str(subnam,ire,icp)),' #elements mx,my=', mx,my
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5058,8 +5017,7 @@ subroutine cntc_getGridDiscretization(ire, icp, dx, dy) &
    dy  = gd%potcon_cur%dy / my_scl%len
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,2f8.5,a)') pfx,subnam,'(',ire,'.',icp,'): step sizes dx,dy=',  &
-                dx, dy,' [length]'
+      write(bufout,'(2a,2f8.5,a)') trim(pfx_str(subnam,ire,icp)),' step sizes dx,dy=',dx, dy,' [length]'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5106,8 +5064,7 @@ subroutine cntc_getPotContact(ire, icp, lenarr, rvalues) &
    if (lenarr.ge.7) rvalues(7:lenarr) = 0d0
 
    !if (idebug.ge.2) then
-   !   write(bufout,'(a,a30,a,i3,a,i1,a,2f8.5,a)') pfx,subnam,'(',ire,'.',icp,'): step sizes dx,dy=',  &
-   !             dx, dy,' [length]'
+   !   write(bufout,'(2a,2f8.5,a)') trim(pfx_str(subnam,ire,icp)),' step sizes dx,dy=',dx, dy,' [length]'
    !   call write_log(1, bufout)
    !endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5140,8 +5097,7 @@ subroutine cntc_getPenetration(ire, icp, pen) &
    pen = gd%kin%pen / my_scl%len
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f9.6,a)') pfx,subnam,'(',ire,'.',icp,'): penetration pen=',    &
-                pen, ' [length]'
+      write(bufout,'(2a,f9.6,a)') trim(pfx_str(subnam,ire,icp)),' penetration pen=',pen,' [length]'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5191,8 +5147,8 @@ subroutine cntc_getCreepages(ire, icp, vx, vy, phi) &
    endif
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,2f7.4,a,f7.4,a)') pfx,subnam,'(',ire,'.',icp,          &
-                '): creepages Cksi,Ceta=', gd%kin%cksi, gd%kin%ceta, ' [-], Phi=',gd%kin%cphi, ' [rad/mm]'
+      write(bufout,'(2a,2f7.4,a,f7.4,a)') trim(pfx_str(subnam,ire,icp)),' creepages Cksi,Ceta=',        &
+                gd%kin%cksi, gd%kin%ceta, ' [-], Phi=',gd%kin%cphi, ' [rad/mm]'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5235,16 +5191,14 @@ subroutine cntc_getContactForces(ire, icp, fn, tx, ty, mz) &
    mz = sgn * my_scl%body * gd%outpt1%mztrue / my_scl%len
 
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,f9.1)') pfx,subnam,'(',ire,'.',icp,'): scaling: muscal=', &
-                my_kin%muscal
+      write(bufout,'(2a,f9.1)') trim(pfx_str(subnam,ire,icp)),' scaling: muscal=',my_kin%muscal
       call write_log(1, bufout)
    endif
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,2f9.1,a)') pfx,subnam,'(',ire,'.',icp,'): total forces fn,mz=', &
-                fn,mz, ' [force], [force.length]'
+      write(bufout,'(2a,2f9.1,a)') trim(pfx_str(subnam,ire,icp)),' total forces fn,mz=',fn,mz,          &
+                ' [force], [force.length]'
       call write_log(1, bufout)
-      write(bufout,'(a,a30,a,i3,a,i1,a,2f9.1,a)') pfx,subnam,'(',ire,'.',icp,'): total forces tx,ty=', &
-                tx,ty, ' [force]'
+      write(bufout,'(2a,2f9.1,a)') trim(pfx_str(subnam,ire,icp)),' total forces tx,ty=',tx,ty,' [force]'
       call write_log(1, bufout)
    endif
 
@@ -5442,8 +5396,8 @@ subroutine cntc_getContactPatchAreas(ire, icp, carea, harea, sarea) &
    sarea = real(nslip) * gd%potcon_cur%dxdy / my_scl%area
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,3(a,f9.6),a)') pfx,subnam,'(',ire,'.',icp,'): carea=',carea,     &
-                ', harea=',harea,', sarea=',sarea,' [area]'
+      write(bufout,'(2a,3(f9.6,a))') trim(pfx_str(subnam,ire,icp)),' carea=',carea,', harea=',harea,    &
+                ', sarea=',sarea,' [area]'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5480,12 +5434,12 @@ subroutine cntc_getElementDivision(ire, icp, lenarr, eldiv) &
    mirror_y = (imodul.eq.1 .and. (my_ic%config.eq.0 .or. my_ic%config.eq.4))
 
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,'): return element division array'
+      write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' return element division array'
       call write_log(1, bufout)
    endif
 
    if (.not.associated(gd%outpt1%igs%el)) then
-      write(bufout,'(a,a30,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,'): element division not yet available'
+      write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' element division not yet available'
       call write_log(1, bufout)
    else
       do jy = 1, gd%cgrid_cur%ny
@@ -5533,8 +5487,7 @@ subroutine cntc_getMaximumPressure(ire, icp, pnmax) &
    pnmax = abs(gd%outpt1%ps%vn(iimax)) * my_scl%area
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,g10.3,a)') pfx,subnam,'(',ire,'.',icp,'): maximum pressure=',   &
-                pnmax, ' [force/area]'
+      write(bufout,'(2a,g10.3,a)') trim(pfx_str(subnam,ire,icp)),' maximum pressure=',pnmax,' [force/area]'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5573,8 +5526,7 @@ subroutine cntc_getMaximumTraction(ire, icp, ptmax) &
    ptmax = ptmax * my_scl%area
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,g10.3,a)') pfx,subnam,'(',ire,'.',icp,'): maximum traction=',   &
-                ptmax, ' [force/area]'
+      write(bufout,'(2a,g10.3,a)') trim(pfx_str(subnam,ire,icp)),' maximum traction=',ptmax,' [force/area]'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5605,7 +5557,7 @@ subroutine cntc_getMaximumTemperature(ire, icp, t1max, t2max) &
    if (my_ic%heat.eq.0 .or. .not.associated(gd%outpt1%temp1%vn)) then
       t1max = 0d0
       t2max = 0d0
-      write(bufout,'(a,a30,a,i3,a,i1, a)') pfx,subnam,'(',ire,'.',icp,'): temperature not available'
+      write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' temperature not available'
       call write_log(1, bufout)
       return
    endif
@@ -5614,8 +5566,8 @@ subroutine cntc_getMaximumTemperature(ire, icp, t1max, t2max) &
    t2max = gf3_max(AllElm, gd%outpt1%temp2, ikZDIR)
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a, 2(a,g10.3),a)') pfx,subnam,'(',ire,'.',icp,'): maximum ',       &
-                'temperatures=', t1max,',', t2max, ' [C]'
+      write(bufout,'(2a,2(g10.3,a))') trim(pfx_str(subnam,ire,icp)),' maximum temperatures=',t1max,',', &
+                t2max,' [C]'
       call write_log(1, bufout)
    endif
 
@@ -5745,20 +5697,19 @@ subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
       sclfac =       1d0
       val    => gd%outpt1%temp2%vn
    else
-      write(bufout,'(a,a30,a,i3,a,i1, a,i4,a)') pfx,subnam,'(',ire,'.',icp,'): getFieldData: field',    &
-                ifld,' does not exist.'
+      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' field',ifld,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,a,i3,a,i1, 3a,g12.4)') pfx,subnam,'(',ire,'.',icp,'): return field-array ',  &
-                fldnam, ' sclfac=', sclfac
+      write(bufout,'(4a,g12.4)') trim(pfx_str(subnam,ire,icp)),' return field-array ',fldnam,         &
+                ', sclfac=', sclfac
       call write_log(1, bufout)
    endif
 
    if (.not.associated(val)) then
-      write(bufout,'(a,a30,a,i3,a,i1,a)') pfx,subnam,'(',ire,'.',icp,'): array ', fldnam,' not available'
+      write(bufout,'(4a)') trim(pfx_str(subnam,ire,icp)),' array ', fldnam,' not available'
       call write_log(1, bufout)
    else
       do jy = 1, gd%cgrid_cur%ny
@@ -5918,8 +5869,8 @@ subroutine cntc_getSensitivities(ire, icp, lenout, lenin, sens) &
    if (mirror_y) sgn = -1d0
 
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,a,i3,a,i1, 2(a,i2),a)') pfx,subnam,'(',ire,'.',icp,                          &
-                        '): return sensitivities(nout=', lenout,', nin=',lenin,')'
+      write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,icp)),' return sensitivities(nout=',         &
+                lenout,', nin=',lenin,')'
       call write_log(1, bufout)
    endif
 
@@ -5989,8 +5940,7 @@ subroutine cntc_getCalculationTime(ire, icp, tcpu, twall) &
    call timer_read(itimer, 1, -1, namtmr, numtms, tcpu, twall, ncontrb)
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,2(a,f7.1),a)') pfx,subnam,'(',ire,'.',icp,'): tcpu=',tcpu,     &
-                ', twall=',twall,' [s]'
+      write(bufout,'(2a,2(f7.1,a))') trim(pfx_str(subnam,ire,icp)),' tcpu=',tcpu,', twall=',twall,' [s]'
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -6058,8 +6008,8 @@ subroutine subs_getBlocksize(ire, icp, iblk, nx, ny, nz) &
    endif
 
    if (idebug.ge.2) then
-      write(bufout,'(a,a30,a,i3,a,i1,a,i3,a,3i4)')   pfx,subnam,'(',ire,'.',icp,'): block',iblk,        &
-                ' #points nx,y,z=', nx, ny, nz
+      write(bufout,'(2a,i3,a,3i4)') trim(pfx_str(subnam,ire,icp)),' block',iblk,' #points nx,y,z=',     &
+                nx, ny, nz
       call write_log(1, bufout)
    endif
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -6100,7 +6050,7 @@ subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
    if (ierror.lt.0) return
 
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,a,i3,a,i3,a,i2)') pfx,subnam,'(',ire,'.',icp,'): return',ncol,               &
+      write(bufout,'(a,2(a,i3))') trim(pfx_str(subnam,ire,icp)),' return',ncol,                       &
                 ' outputs for subs. block',iblk
       call write_log(1, bufout)
    endif
@@ -6108,7 +6058,7 @@ subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
    ! set reference to requested block of subsurface data
 
    if (iblk.le.0 .or. iblk.gt.my_subs%nblock) then
-      write(bufout,'(a,a30,a,i3,a,i3,a,i2)') pfx,subnam,'(',ire,'.',icp,'): no data for subsurf. block', iblk
+      write(bufout,'(2a,i3)') trim(pfx_str(subnam,ire,icp)),' no data for subsurf. block',iblk
       call write_log(1, bufout)
       return
    endif
@@ -6117,8 +6067,7 @@ subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
    npnt = b%nx_eff * b%ny_eff * b%nz
 
    if (.not.associated(b%table)) then
-      write(bufout,'(a,a30,a,i3,a,i1,2a,i2)') pfx,subnam,'(',ire,'.',icp,'): no results available for', &
-                ' block', iblk
+      write(bufout,'(2a,i2)') trim(pfx_str(subnam,ire,icp)),' no results available for block',iblk
       call write_log(1, bufout)
    else
       do jcol = 1, ncol
@@ -6179,7 +6128,7 @@ subroutine finalize_helper(ire)
       num_reids = num_reids - 1
 
       if (idebug.ge.3) then
-         write(bufout,'(a,a30,a,i3,2x,a,i3)') pfx,subnam,'(',ire,'): number of active result elements=', &
+         write(bufout,'(2a,i3)') trim(pfx_str(subnam,ire,-1)),' number of active result elements=',   &
                 num_reids
          call write_log(1, bufout)
       endif
@@ -6223,7 +6172,7 @@ subroutine cntc_finalize(ire) &
 #endif
 
    if (idebug.ge.3) then
-      write(bufout,'(a,a30,a,i3,2x,a)') pfx,subnam,'(',ire,'): finalizing...'
+      write(bufout,'(2a)') trim(pfx_str(subnam,ire,-1)),' finalizing...'
       call write_log(1, bufout)
    endif
 
@@ -6281,7 +6230,7 @@ subroutine cntc_finalizeLast() &
    call set_print_thread(-1)
 
    if (idebug.ge.3) then
-      write(bufout,'(a,a37,a)') pfx,subnam,': finalizing entirely...'
+      write(bufout,'(2a)') trim(pfx_str(subnam,-1,-1)),': finalizing entirely...'
       call write_log(1, bufout)
    endif
 

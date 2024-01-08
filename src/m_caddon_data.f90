@@ -693,6 +693,29 @@ end subroutine cntc_select_units
 
 !------------------------------------------------------------------------------------------------------------
 
+function pfx_str(subnam, ire, icp)
+!--function: create prefix for log-message: '** subnam( ire.icp):'
+   implicit none
+!--function result:
+   character(len=60)            :: pfx_str
+!--function arguments:
+   character(len=*), intent(in) :: subnam
+   integer,          intent(in) :: ire, icp
+!--local variables:
+
+   pfx_str = ' '
+   if (ire.gt.0 .and. icp.gt.0) then
+      write(pfx_str,'(a,a30,a,i3,a,i1,a)') pfx, subnam, '(', ire, '.', icp, '):'
+   elseif (ire.gt.0) then
+      write(pfx_str,'(a,a30,a,i3,a)') pfx, subnam, '(', ire, '):'
+   else
+      write(pfx_str,'(a,a30,5x,a)') pfx, subnam, ':'
+   endif
+
+end function pfx_str
+
+!------------------------------------------------------------------------------------------------------------
+
 subroutine cntc_log_start(subnam, lstart)
 !--function: print log-message for starting/returning of interface function
    implicit none
