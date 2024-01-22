@@ -38,11 +38,11 @@ function [ rvalues ] = cntc_gethertzcontact(ire, icp)
    end
 
    lenarr = 10;
-   p_values = libpointer('doublePtr',zeros(lenarr,1));
+   p_rvalues = libpointer('doublePtr',zeros(lenarr,1));
 
-   calllib(libname,'cntc_gethertzcontact', ire, icp, lenarr, p_values);
+   calllib(libname,'cntc_gethertzcontact', ire, icp, lenarr, p_rvalues);
 
-   values = p_values.value;
+   rvalues = p_rvalues.value;
 
 end % cntc_gethertzcontact
 
