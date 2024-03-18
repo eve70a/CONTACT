@@ -26,6 +26,7 @@ private cntc_initializeFirst
 private cntc_initialize
 private cntc_setGlobalFlags
 private cntc_getMaxNumThreads
+private cntc_readInpFile
 private cntc_setFlags
 private cntc_setMetadata
 private cntc_setSolverFlags
@@ -708,6 +709,54 @@ subroutine cntc_getMaxNumThreads(mxthrd) &
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getMaxNumThreads
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
+   bind(c,name=CNAME_(cntc_readinpfile))
+!--function: used for configuring multiple data items at once using the inp-file format
+!--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
+   implicit none
+!--subroutine arguments:
+   integer,                intent(in)  :: ire        ! result element ID
+   integer,                intent(in)  :: inp_type   ! select one of available input-routines
+   character(kind=C_CHAR), intent(in)  :: c_fname(*) ! C-string: full path of inp-file
+   integer,                intent(in)  :: len_fname  ! length of C-string
+   integer,                intent(out) :: ierror     ! error code
+!--local variables:
+   character(len=*), parameter :: subnam = 'cntc_readInpFile'
+   character(len=256)       :: f_fname
+#ifdef _WIN32
+!dec$ attributes dllexport :: cntc_readInpFile
+#endif
+
+   call write_log('readinpfile...')
+   ierror = 0
+!  open(12, file='test.out')
+!  write(12,*) ' starting cntc_readInpFile'
+!  close(12)
+!  if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+!  call cntc_activate(ire, -1, 1, -1, subnam, ierror)
+!  if (ierror.lt.0) return
+
+!  ! Store name of output directory (note: only the value of the first call is memorized)
+
+!  call c_to_f_string(c_fname, f_fname, len_fname)
+
+!  if (inp_type.eq.CNTC_inp_spck) then
+
+!     call wr_input_spck(f_fname, wtd, ierror)
+
+!  else
+
+!     ierror = 21
+!     write(bufout,'(a,i3,a,i8,a)') ' ERROR(',ierror,'): unknown inp-file code=',inp_type,' is ignored.'
+!     call write_log(1, bufout)
+
+!  endif
+
+!  if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+end subroutine cntc_readInpFile
 
 !------------------------------------------------------------------------------------------------------------
 

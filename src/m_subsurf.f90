@@ -23,8 +23,8 @@ use m_aijpj
 implicit none
 private
 
-public  rdsubs
-public  wrsubs
+public  subsurf_input
+public  subsurf_wrtinp
 public  subsur
 public  subsur_calc
 public  subsur_matfil
@@ -62,7 +62,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine rdsubs (unitnm, ic, ncase, linenr, idebug, subs)
+subroutine subsurf_input(unitnm, ic, ncase, linenr, idebug, subs)
 !--purpose: read points in which the subsurface elastic field must be computed.
 !           UnitNm gives the Unit-number of the input-file.
       implicit none
@@ -111,7 +111,7 @@ subroutine rdsubs (unitnm, ic, ncase, linenr, idebug, subs)
             associate(b => subs%blocks(subs%nblock))
             b%isubs = isubs
 
-            ! write(bufout,*) 'rdsubs: starting block',subs%nblock,', isubs=',isubs
+            ! write(bufout,*) 'subsurf_input: starting block',subs%nblock,', isubs=',isubs
             ! call write_log(1, bufout)
 
             ! isubs = 1 - 7: read horizontal part
@@ -239,7 +239,7 @@ subroutine rdsubs (unitnm, ic, ncase, linenr, idebug, subs)
                b%ny_inp = max(1, min(MXSUBS, ints(2)))
                b%nz     = max(1, min(MXSUBS, ints(3)))
 
-               ! write(bufout,*) 'rdsubs: nx=',b%nx_inp,', ny=',b%ny_inp,', nz=',b%nz
+               ! write(bufout,*) 'subsurf_input: nx=',b%nx_inp,', ny=',b%ny_inp,', nz=',b%nz
                ! call write_log(1, bufout)
 
                ! allocate arrays x, y, z at appropriate size
@@ -292,11 +292,11 @@ subroutine rdsubs (unitnm, ic, ncase, linenr, idebug, subs)
 
       endif ! ic%stress.ge.3
 
-end subroutine rdsubs
+end subroutine subsurf_input
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine wrsubs (unitnm, ic, subs)
+subroutine subsurf_wrtinp (unitnm, ic, subs)
 !--purpose: create input for points in which the subsurface elastic field must be calculated.
       implicit none
 !--subroutine arguments
@@ -398,7 +398,7 @@ subroutine wrsubs (unitnm, ic, subs)
 
       endif ! ic%stress.ge.3
 
-end subroutine wrsubs
+end subroutine subsurf_wrtinp
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -666,7 +666,7 @@ subroutine subsur_calc (ic, mater, cgrid_arg, igs_arg, ps_arg, mirror_y, subs, i
 
    if (idebug.ge.10) then
       open(unit=ltmp, file='subsurf.tmp', action='write')
-      call wrsubs (ltmp, ic, subs)
+      call subsurf_wrtinp (ltmp, ic, subs)
       close(ltmp)
    endif
 

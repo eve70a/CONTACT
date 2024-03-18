@@ -9,12 +9,17 @@
 module m_wr_input
 
 use m_hierarch_data
+use m_sinput
 use m_wrprof_data
-use m_subsurf       , only : rdsubs, wrsubs
+use m_subsurf       , only : subsurf_input, subsurf_wrtinp
 implicit none
 private
 
 public  wr_input
+public  wr_input_spck
+public  discret_input
+public  trackdata_input
+public  wheelset_input
 public  wr_write_inp
 
 contains
@@ -30,18 +35,17 @@ contains
 !--local variables:
       integer,      parameter :: mxnval = 20
       logical,      parameter :: lstop  = .true.
-      integer          :: ints(mxnval), line0, nval, is_wheel, i_ftype, ldebug, ieof, ierror,           &
+      integer          :: ints(mxnval), line0, nval, ldebug, ieof, ierror,                              &
                           cpbtnfs, vldcmze, xhgiaowr, psflcin
-      logical          :: flags(mxnval), is_roll, is_ssrol, was_roll, zerror
-      real(kind=8)     :: dbles(mxnval), dx_prv, ds_prv
-      character*16     :: types, namside
-      character*256    :: strngs(mxnval)
-      type(t_ic)       :: icold
+      logical            :: flags(mxnval), zerror
+      real(kind=8)       :: dbles(mxnval)
+      character(len=16)  :: namside
+      character(len=256) :: strngs(mxnval)
 
       associate( ic    => wtd%ic,    meta  => wtd%meta, mater => wtd%mater, discr => wtd%discr,         &
                  kin   => wtd%kin,   fric  => wtd%fric, solv  => wtd%solv,  subs  => wtd%subs,          &
-                 ws    => wtd%ws,    my_wheel => wtd%ws%whl,                                            &
-                 trk   => wtd%trk,   my_rail  => wtd%trk%rai)
+                 ws    => wtd%ws,    trk   => wtd%trk,  my_wheel => wtd%ws%whl,                         &
+                 my_rail => wtd%trk%rai)
 
       ldebug = 1
       ieof   = -1 ! eof=error
@@ -54,26 +58,10 @@ contains
          call abort_run()
       endif
 
-      ! save old ic for checks:
+      ! read and check control digits
 
-      icold = ic
-
-      ! read control digits
-
-      call readLine(linp, ncase, linenr, 'control integers cpbtnfs', 'i', ints, dbles, flags,           &
-                strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-      cpbtnfs = ints(1)
-
-      call readline(linp, ncase, linenr, 'control integers vldcmze', 'iI', ints, dbles, flags,          &
-                strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-      vldcmze = ints(1)
-      if (nval.ge.2) ic%gapwgt = ints(2)
-
-      call readline(linp, ncase, linenr, 'control integers hgiaowr', 'i', ints, dbles, flags,           &
-                strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-      xhgiaowr = ints(1)
-
-      call ic_unpack (1, cpbtnfs, vldcmze, xhgiaowr, ic)
+      zerror = .false.
+      call ic_input(linp, ncase, linenr, 1, ic, subs, ldebug, ieof, lstop, zerror)
 
       ! set level of debug-output of input-routines. 0 = errors, 1 = warnings/info, >=2 = flow/debug
 
@@ -83,209 +71,10 @@ contains
          ldebug = ic%x_readln
       endif
 
-      ! Determine whether T describes rolling or not
-
-      is_roll  = ic%tang.eq.2 .or. ic%tang.eq.3
-      is_ssrol = ic%tang.eq.3
-      was_roll = icold%tang.eq.2 .or. icold%tang.eq.3
-
-      ! TEST  the input quantities (control integers)
-
-      zerror = .false.
-
-      zerror = zerror .or. .not.check_2rng ('Control digit C1', ic%config, 0, 1, 4, 5)
-      zerror = zerror .or. .not.check_irng ('Control digit P',  ic%pvtime, 0, 2)
-      zerror = zerror .or. .not.check_2rng ('Control digit B',  ic%bound , 0, 1, 5, 6)
-      zerror = zerror .or. .not.check_irng ('Control digit T',  ic%tang  , 0, 3)
-      zerror = zerror .or. .not.check_irng ('Control digit N1', ic%norm  , 0, 1)
-      zerror = zerror .or. .not.check_2rng ('Control digit F1', ic%force1, 0, 1, 3, 3)
-      zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress, 0, 3)
-
-      zerror = zerror .or. .not.check_irng ('Control digit V',  ic%varfrc, 0, 1)
-      zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp, 0, 4, 6, 6)
-      zerror = zerror .or. .not.check_irng ('Control digit D',  ic%discns1_inp, 0, 9)
-      zerror = zerror .or. .not.check_irng ('gap weighting',    ic%gapwgt, 0, 2)
-      zerror = zerror .or. .not.check_irng ('Control digit C3', ic%gencr_inp , 0, 4)
-      zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater , 0, 4)
-      zerror = zerror .or. .not.check_irng ('Control digit Z1', ic%ztrack, 0, 3)
-      zerror = zerror .or. .not.check_irng ('Control digit E1', ic%ewheel, 0, 5)
-
-      zerror = zerror .or. .not.check_irng ('Control digit X',  ic%xflow , 0, 1)
-      zerror = zerror .or. .not.check_2rng ('Control digit H',  ic%heat  , 0, 1, 3, 3)
-      zerror = zerror .or. .not.check_irng ('Control digit G',  ic%gausei_inp, 0, 5)
-      zerror = zerror .or. .not.check_irng ('Control digit I',  ic%iestim, 0, 3)
-      zerror = zerror .or. .not.check_irng ('Control digit A',  ic%matfil_surf, 0, 2)
-      zerror = zerror .or. .not.check_irng ('Control digit O',  ic%output_surf, 0, 5)
-      zerror = zerror .or. .not.check_irng ('Control digit W',  ic%flow  , 0, 9)
-      zerror = zerror .or. .not.check_irng ('Control digit R',  ic%return, 0, 3)
-
-      ! Check requirements on profiles
-
       if (ic%config.eq.0 .or. ic%config.eq.4) then
          namside   = 'left'
       else
          namside   = 'right'
-      endif
-
-      if (my_rail%prr%fname.eq.' ' .and. (ic%ztrack.eq.0 .or. ic%ztrack.eq.2)) then
-         zerror = .true.
-         write(lout, 1901) trim(namside), ic%ztrack
-         write(   *, 1901) trim(namside), ic%ztrack
- 1901    format (' Input: ERROR. No profile has been given for the ', a, ' rail, Z1 =',i2,'.')
-      endif
-
-      if (my_wheel%prw%fname.eq.' ' .and.                                                               &
-          (ic%ewheel.eq.1 .or. ic%ewheel.eq.2 .or. ic%ewheel.eq.4)) then
-         zerror = .true.
-         write(lout, 1902) trim(namside), ic%ewheel
-         write(   *, 1902) trim(namside), ic%ewheel
- 1902    format (' Input: ERROR. No profile has been given for the ', a, ' wheel, E1 =',i2,'.')
-      endif
-
-      ! Check requirements for first case
-
-      if (ncase.eq.1 .and. ic%pvtime.le.1) then
-         write(lout, 2001) ic%pvtime
-         write(   *, 2001) ic%pvtime
- 2001    format (' Input: WARNING. In the first case contact must be initiated.', /, &
-                 16x,' Digit P=', i3,' is overruled, set to 2.')
-         ic%pvtime = 2
-      endif
-
-      if (ncase.eq.1 .and. ic%frclaw_inp.eq.1) then
-         zerror = .true.
-         write(lout, 2002) ic%frclaw_inp
-         write(   *, 2002) ic%frclaw_inp
- 2002    format (' Input: ERROR. In the first case L must be.ne.1',/, ' Digit L=', i3)
-      endif
-
-      if (ncase.eq.1 .and. ic%discns1_inp.eq.0) then
-         zerror = .true.
-         write(lout, 2003) ic%discns1_inp
-         write(   *, 2003) ic%discns1_inp
- 2003    format (' Input: ERROR. In the first case D must be.ne.0',/, ' Digit D=', i3)
-      endif
-
-      if (ncase.eq.1 .and. ic%iestim.ne.0) then
-         write(lout, 2004) ic%iestim
-         write(   *, 2004) ic%iestim
- 2004    format (' Input: WARNING. In the first case contact must be initiated.',/,     &
-                 16x,' Digit I=', i3,' is overruled, set to 0.')
-         ic%iestim = 0
-      endif
-
-      if (ncase.eq.1 .and. (ic%stress.eq.1 .or. ic%stress.eq.2)) then
-         zerror = .true.
-         write(lout, 2005) ic%stress
-         write(   *, 2005) ic%stress
- 2005    format (' Input: ERROR. In the first case S cannot be 1 or 2.'/,                              &
-                 '               Digit S=', i3)
-      elseif ((ic%stress.eq.1 .or. ic%stress.eq.2) .and. subs%nblock.le.0) then
-         zerror = .true.
-         write(lout, 2006) ic%stress, subs%nblock
-         write(   *, 2006) ic%stress, subs%nblock
- 2006    format (' Input: ERROR. No blocks are given for subsurface stresses; S cannot be 1 or 2.'/,   &
-                 '               Digit S=', i3,', Nblock=',i3)
-      endif
-
-      ! Check consistency between consecutive cases
-
-      if (ic%frclaw_inp.eq.1 .and. ic%varfrc.ne.icold%varfrc) then
-         zerror = .true.
-         write(lout, 2007) icold%varfrc, ic%varfrc, ic%frclaw_inp
-         write(   *, 2007) icold%varfrc, ic%varfrc, ic%frclaw_inp
- 2007    format (' Input: ERROR. When activating/deactivating variable friction (V=',i1,' ->',i2,')',/   &
-                 '               new friction parameters are needed (L=',i1,').')
-      endif
-
-      if (ic%gencr_inp.eq.0) then
-         ic%gencr_inp = 1
-         write(lout, 2010) ic%gencr_inp
-         write(   *, 2010) ic%gencr_inp
- 2010    format (' Input: WARNING. Module 1 requires new influence functions, setting C3 :=', i3)
-      endif
-
-      if (ic%discns1_inp.ne.0 .and. ic%gencr_inp.eq.0) then
-         zerror = .true.
-         write(lout, 2011) ic%discns1_inp, ic%gencr_inp
-         write(   *, 2011) ic%discns1_inp, ic%gencr_inp
- 2011    format (' Input: ERROR. A new discretisation needs new influence functions'/, &
-                ' Digits D, C3=', 2i3)
-      endif
-
-      if (is_ssrol .and. ic%pvtime.ne.2) then
-         ic%pvtime = 2
-         write(lout, 2021) ic%pvtime
-         write(   *, 2021) ic%pvtime
- 2021    format (' Input: WARNING. In steady state rolling previous Pv is ignored: digit P :=', i3)
-      endif
-
-      if (ic%ewheel.le.0 .and. (ic%norm.ne.icold%norm)) then
-         zerror = .true.
-         write(lout, 2031) ic%norm, icold%norm, ic%ewheel
-         write(   *, 2031) ic%norm, icold%norm, ic%ewheel
- 2031    format (' Input: ERROR. Switching between position and total force, new wheelset', /, &
-                 '               position input is needed.  N=',i2,' /',i2,', E=',i2,'.')
-      endif
-
-      if (ic%gencr_inp.eq.0 .and. is_roll .and. .not.was_roll) then
-         zerror = .true.
-         write(lout, 2041) ic%tang, ic%gencr_inp
-         write(   *, 2041) ic%tang, ic%gencr_inp
- 2041    format (' Input: ERROR. In the first rolling case, new influence coefficients',/, &
-                  15x,'are required.  T=',i3, ', C3=',i3,'.')
-      endif
-
-      if (ic%gencr_inp.eq.0 .and. .not.is_roll .and. was_roll) then
-         zerror = .true.
-         write(lout, 2042) ic%tang, ic%gencr_inp
-         write(   *, 2042) ic%tang, ic%gencr_inp
- 2042    format (' Input: ERROR. When changing from rolling to shifting, new influence',/, &
-                15x, 'coefficients are required.  T=',i3,', C3=',i3,'.')
-      endif
-
-      ! Check consistency between different control integers F=1 needs N=1
-
-      if (ic%force1.eq.1 .and. ic%norm.ne.1) then
-         zerror = .true.
-         write(lout, 2051) ic%force1, ic%norm
-         write(   *, 2051) ic%force1, ic%norm
- 2051    format (' Input: ERROR. Total force F=',i2,' requires N=1 (',i2,').')
-      endif
-
-      ! check limitations of material model
-
-      if (ic%mater.eq.1 .and. .not.is_ssrol) then
-         zerror = .true.
-         write(lout, 2061) ic%tang
-         write(   *, 2061) ic%tang
- 2061    format (' Input: ERROR. Visco-elastic materials require steady state rolling. T=',i3,'.')
-      endif
-
-      ! Check limitations of temperature model
-
-      if (ic%heat.ge.1 .and. ic%tang.ne.3) then
-         zerror = .true.
-         write(lout, 2071) ic%heat, ic%tang
-         write(   *, 2071) ic%heat, ic%tang
- 2071    format (' Input: ERROR. Temperature calculation requires steady state rolling.',/,            &
-                 '               H=',i3,', T='i3,'.')
-      endif
-
-      if (ic%frclaw_inp.eq.6 .and. ic%heat.eq.0) then
-         zerror = .true.
-         write(lout, 2073) ic%frclaw_inp, ic%heat
-         write(   *, 2073) ic%frclaw_inp, ic%heat
- 2073    format (' Input: ERROR. Temperature dep. friction requires that temperature is calculated.',/, &
-                 '               L=',i3,', H='i3,'.')
-      endif
-
-      if (ic%frclaw_inp.eq.6 .and. (ic%mater.eq.2 .or. ic%mater.eq.3)) then
-         zerror = .true.
-         write(lout, 2074) ic%frclaw_inp, ic%mater
-         write(   *, 2074) ic%frclaw_inp, ic%mater
- 2074    format (' Input: ERROR. Temperature dep. friction not supported for FASTSIM.',/, &
-                 '               L=',i3,', M='i3,'.')
       endif
 
       if (zerror) then
@@ -327,75 +116,12 @@ contains
       call ic_unpack_dbg (1, psflcin, ic)
 
       !------------------------------------------------------------------------------------------------------
-      ! Read input for G-digit
+      ! read & check input for G-digit: iteration parameters
       !------------------------------------------------------------------------------------------------------
 
       if (ic%gausei_inp.ne.1) then
-         solv%gausei_eff = ic%gausei_inp
-
-         call readline(linp, ncase, linenr, 'iteration constants', 'iiiidI', ints, dbles, flags,        &
-                        strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-         solv%maxgs  = ints(1)  ! note: ordered alphabetically instead of inner-->outer
-         solv%maxin  = ints(2)
-         solv%maxnr  = ints(3)
-         solv%maxout = ints(4)
-         solv%eps    = dbles(1)
-         if (nval.ge.6) discr%npot_max = min(1000000, max(100, ints(5)))
-
-         if (ic%gausei_inp.eq.2 .or. ic%gausei_inp.eq.3) then
-            call readline(linp, ncase, linenr, 'iteration (relaxation) parameters', 'ddid', ints,       &
-                        dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-            solv%omegah = dbles(1)
-            solv%omegas = dbles(2)
-            solv%inislp = ints(1)
-            solv%omgslp = dbles(3)
-         endif
-
-         if (ic%gausei_inp.eq.4) then
-            call readline(linp, ncase, linenr, 'iteration (relaxation) parameters', 'id', ints,         &
-                        dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-            solv%inislp = ints(1)
-            solv%omgslp = dbles(1)
-         endif
-
-         if (ic%gausei_inp.eq.5) then
-            call readline(linp, ncase, linenr, 'parameters for gdsteady', 'ddiddddd',                   &
-                          ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-            solv%fdecay = dbles(1)   ! <0.001 or >0.999 used for E_down / E_trl
-            solv%betath = dbles(2)
-            solv%kdowfb = ints(1)
-            solv%d_ifc  = max(0.01d0, dbles(3))
-            solv%d_lin  = dbles(4)
-            solv%d_cns  = max(0.01d0, dbles(5))
-            solv%d_slp  = max(0.01d0, dbles(6))
-            solv%pow_s  = max(0.01d0, min(10d0, dbles(7)))
-
-            ! check parameters diagonal scaling
-
-            if (solv%d_lin*(solv%d_cns-solv%d_ifc).lt.0d0) then
-               call write_log('ERROR: D_LIN and D_CNS-D_IFC should have same sign.')
-               solv%d_lin = 0d0
-               solv%d_cns = solv%d_ifc
-            endif
-
-            ! set variant used for GDsteady
-
-            if (solv%fdecay.gt.0.999d0) then
-               solv%gd_meth = 1     ! E_trl
-            elseif (solv%fdecay.lt.0.001d0) then
-               solv%gd_meth = 2     ! E_down(k)
-               solv%kdown   = max(1, nint(-solv%fdecay))
-            else
-               solv%gd_meth = 3     ! E_keep(f)
-            endif
-         endif
-
-         ! test the input quantities
-
-         zerror = zerror .or. .not.check_irng ('MAXGS',  solv%maxgs , 1,   9999)
-         zerror = zerror .or. .not.check_irng ('MAXIN',  solv%maxin , 1, 999999)
-         zerror = zerror .or. .not.check_irng ('MAXNR',  solv%maxnr , 1,   9999)
-         zerror = zerror .or. .not.check_irng ('MAXOUT', solv%maxout, 1,   9999)
+         call solv_input(linp, ncase, linenr, ic%gausei_inp, solv, discr%npot_max, ldebug, ieof,        &
+                         lstop, zerror)
       endif
 
       !------------------------------------------------------------------------------------------------------
@@ -423,143 +149,7 @@ contains
       ! Read elastic material constants when C3=2, 3 or 4
 
       if (ic%gencr_inp.eq.2 .or. ic%gencr_inp.eq.3 .or. ic%gencr_inp.eq.4) then
-
-         if (ic%gencr_inp.eq.4) then
-            call readline(linp, ncase, linenr, 'if-correction method', 'ii', ints ,dbles, flags,        &
-                           strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-            mater%if_meth  = ints(1)
-            mater%if_ver   = ints(2)
-         endif
-
-         call readline(linp, ncase, linenr, 'material properties', 'dddd', ints ,dbles, flags,          &
-                        strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-         mater%poiss(1) = dbles(1)
-         mater%poiss(2) = dbles(2)
-         mater%gg(1)    = dbles(3)
-         mater%gg(2)    = dbles(4)
-
-         ! B=1: read flexibility for vertical compression of thin sheet
-
-         if (ic%bound.eq.1) then
-            call readline(linp, ncase, linenr, 'thin sheet compressibility',                            &
-                          'd', ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-            mater%flx_z = dbles(1)
-         endif
-
-         ! M=1: read viscoelastic material constants (Experimental; not tested)
-
-         if (ic%mater.eq.1) then
-            call readline(linp, ncase, linenr, 'viscoelastic material constants',                       &
-                          'dddd', ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-            mater%fg(1) = dbles(1)
-            mater%fg(2) = dbles(2)
-            mater%tc(1) = dbles(3)
-            mater%tc(2) = dbles(4)
-         endif
-
-         ! M=2: read flexibility L1=L2=L for simplified theory and parameters of slope reduction
-
-         if (ic%mater.eq.2) then
-            call readline(linp, ncase, linenr, 'simplified theory flexibility + slope reduction',       &
-                          'dddd', ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-            mater%flx(1:3) = dbles(1)
-            mater%k0_mf    = dbles(2)
-            mater%alfamf   = dbles(3)
-            mater%betamf   = dbles(4)
-         endif
-
-         ! M=3: read parameters of slope reduction for modified Fastsim algorithm
-
-         if (ic%mater.eq.3) then
-            call readline(linp, ncase, linenr, 'slope reduction parameters', 'ddd', ints, dbles,        &
-                          flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-            mater%k0_mf    = dbles(1)
-            mater%alfamf   = dbles(2)
-            mater%betamf   = dbles(3)
-         endif
-
-         ! M=4: read parameters of elasto-plastic third body layer
-
-         if (ic%mater.eq.4) then
-            call readline(linp, ncase, linenr, 'third body layer parameters', 'dddd', ints, dbles,      &
-                        flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-            mater%gg3    = dbles(1)
-            mater%laythk = dbles(2)
-            mater%tau_c0 = dbles(3)
-            mater%k_tau  = dbles(4)
-            if (mater%tau_c0.le.1d-10) mater%tau_c0 = 1d20
-         endif
-         if (ic%mater.eq.4) mater%flx(1:3) = mater%laythk / mater%gg3
-
-         ! Check inputs for IF-correction
-
-         if (ic%gencr_inp.eq.4) then
-            zerror = zerror .or. .not.check_irng ('IF_METH', mater%if_meth, 0,   1)
-            zerror = zerror .or. .not.check_irng ('VARIANT', mater%if_ver , 1,   4)
-         endif
-
-         ! Check material properties
-
-         zerror = zerror .or. .not.check_range ('POISS1', mater%poiss(1), 0d0, 0.5d0)
-         zerror = zerror .or. .not.check_range ('POISS2', mater%poiss(2), 0d0, 0.5d0)
-         zerror = zerror .or. .not.check_range ('GG1', mater%gg(1), 1d-5, 1d20)
-         zerror = zerror .or. .not.check_range ('GG2', mater%gg(2), 1d-5, 1d20)
-         if (ic%bound.eq.1) then
-            zerror = zerror .or. .not.check_range ('FLXZ', mater%flx_z, 1d-10, 1d20)
-         endif
-         if (ic%mater.eq.1) then
-            zerror = zerror .or. .not.check_range ('FG1', mater%fg(1), 0d0, 1d20)
-            zerror = zerror .or. .not.check_range ('FG2', mater%fg(2), 0d0, 1d20)
-            zerror = zerror .or. .not.check_range ('TC1', mater%tc(1), 0d0, 1d20)
-            zerror = zerror .or. .not.check_range ('TC2', mater%tc(2), 0d0, 1d20)
-         endif
-         if (ic%mater.eq.2) then
-            zerror = zerror .or. .not.check_range ('FLX', mater%flx(1), 1d-10, 1d20)
-         endif
-         if (ic%mater.eq.2 .or. ic%mater.eq.3) then
-            zerror = zerror .or. .not.check_range ('K0_MF', mater%k0_mf, 1d-10, 1d0)
-            zerror = zerror .or. .not.check_range ('ALFAMF', mater%alfamf, 0d0, 1d0)
-            zerror = zerror .or. .not.check_range ('BETAMF', mater%betamf, 0d0, 1d20)
-         endif
-         if (ic%mater.eq.4) then
-            zerror = zerror .or. .not.check_range ('GG3',    mater%gg3, 1d-5, 1d20)
-            zerror = zerror .or. .not.check_range ('LAYTHK', mater%gg3, 1d-10, 1d20)
-         endif
-
-         ! Compute combined material constants
-
-         call combin_mater(mater)
-         if (ic%mater.eq.1) then
-            mater%vt(1) = mater%tc(1) * kin%veloc
-            mater%vt(2) = mater%tc(2) * kin%veloc
-         endif
-
-      endif
-
-      if (ic%tang.ne.0 .and. mater%gencr_eff.ne.4 .and. mater%gencr_eff.ne.9 .and. solv%maxout.ge.2     &
-                                                                      .and. abs(mater%ak).lt.1d-4) then
-         if (ic%gencr_inp.ne.0) then
-            write(lout, 4011) mater%ak
-            write(   *, 4011) mater%ak
-         endif
- 4011    format (' Input: WARNING. With equal material constants (Ak=',f7.4,'), MAXOUT is',/,           &
-                 8x,'set to 1, i.e. the Panag/outer iteration process is skipped.')
-         solv%maxout = 1
-      endif
-
-      if (ic%tang.ne.0 .and. solv%maxout.le.1 .and. (mater%gencr_eff.eq.4 .or. mater%gencr_eff.eq.9     &
-                                                                      .or. abs(mater%ak).ge.1d-4)) then
-         if (abs(mater%ak).ge.1d-4) then
-            write(lout, 4013) mater%ak
-            write(   *, 4013) mater%ak
- 4013       format (' Input: WARNING. With dissimilar materials (Ak=',f7.4,'), MAXOUT should be > 1,',/, &
-                    '        i.e. the Panag/outer iteration process should be used.')
-         else
-            write(lout, 4014) mater%gencr_eff
-            write(   *, 4014) mater%gencr_eff
- 4014       format (' Input: WARNING. With dissimilar shapes (C=',i2,'), MAXOUT should be > 1,',/,      &
-                    '        i.e. the Panag/outer iteration process should be used.')
-         endif
+         call mater_input(linp, ncase, linenr, ic, kin, mater, solv, ldebug, ieof, lstop, zerror)
       endif
 
       !------------------------------------------------------------------------------------------------------
@@ -567,34 +157,7 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if (ic%heat.eq.3) then
-         call readline(linp, ncase, linenr, 'temperature inputs for body 1', 'dddd', ints, dbles,       &
-                        flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-         mater%bktemp(1) = dbles(1)
-         mater%heatcp(1) = dbles(2)
-         mater%lambda(1) = dbles(3)
-         mater%dens(1)   = dbles(4)
-
-         call readline(linp, ncase, linenr, 'temperature inputs for body 2', 'dddd', ints, dbles,       &
-                        flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-         mater%bktemp(2) = dbles(1)
-         mater%heatcp(2) = dbles(2)
-         mater%lambda(2) = dbles(3)
-         mater%dens(2)   = dbles(4)
-
-         zerror = zerror .or. .not.check_range ('HEATCP1', mater%heatcp(1), 1d-5, 1d20)
-         zerror = zerror .or. .not.check_range ('LAMBDA1', mater%lambda(1), 1d-5, 1d20)
-         zerror = zerror .or. .not.check_range ('DENS1',   mater%dens(1),  1d-12, 1d20)
-         zerror = zerror .or. .not.check_range ('HEATCP2', mater%heatcp(2), 1d-5, 1d20)
-         zerror = zerror .or. .not.check_range ('LAMBDA2', mater%lambda(2), 1d-5, 1d20)
-         zerror = zerror .or. .not.check_range ('DENS2',   mater%dens(2),  1d-12, 1d20)
-      endif
-
-      if (ic%heat.eq.3 .and. ic%mater.eq.4) then
-         call readline(linp, ncase, linenr, 'partitioning of plastic work', 'd', ints, dbles,           &
-                        flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-         mater%betapl = dbles(1)
-
-         zerror = zerror .or. .not.check_range ('BETAPL', mater%betapl, 0d0, 1d0)
+         call heat_input(linp, ncase, linenr, ic, mater, ldebug, ieof, lstop, zerror)
       endif
 
       !------------------------------------------------------------------------------------------------------
@@ -602,64 +165,195 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if (ic%discns1_inp.ge.2 .and. ic%discns1_inp.le.9) then
-
-         call readline(linp, ncase, linenr, 'discretisation parameters', 'dddaddD', ints, dbles,        &
-                        flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
-         discr%dx        = dbles(1)
-         discr%ds        = dbles(2)
-         discr%dqrel     = dbles(3)
-         discr%angl_sep  = max(0d0, dbles(4))
-         discr%dist_sep  = max(0d0, dbles(5))
-         discr%dist_comb = dbles(6)
-         if (nval.ge.7) then
-            discr%dist_turn = dbles(7)
-         else
-            discr%dist_turn = 2d0 * discr%dist_sep - 1d0 * discr%dist_comb
-         endif
-
-         zerror = zerror .or. .not.check_range ('DX', discr%dx, 1d-8, 1d20)
-         zerror = zerror .or. .not.check_range ('DS', discr%ds, 1d-8, 1d20)
-         zerror = zerror .or. .not.check_range ('DQREL', discr%dqrel, 1d-3, 10d0)
-
-         ! in transient cases, check element sizes of new/previous case
-
-         if (ncase.gt.1 .and. wtd%numcps.ge.1 .and. ic%use_supergrid()) then
-            associate(cp => wtd%allcps(1)%cp)
-            dx_prv = cp%gd%cgrid_cur%dx
-            ds_prv = cp%gd%cgrid_cur%dy
-            if (abs(dx_prv-discr%dx).ge.1d-4*min(dx_prv, discr%dx) .or.                                 &
-                abs(ds_prv-discr%ds).ge.1d-4*min(ds_prv, discr%ds)) then
-               zerror = .true.
-               write(lout,5001) ic%tang, dx_prv, ds_prv
-               write(   *,5001) ic%tang, dx_prv, ds_prv
-            endif
-            end associate
- 5001       format(' Input: ERROR. Transient contact (T=',i1,') needs constant DX, DY (',f6.3,',',f6.3, &
-                   ') in subsequent cases')
-         endif
-
-         if (discr%dist_sep.lt.discr%dist_comb) then
-            zerror = .true.
-            write(lout, 5011) discr%dist_sep, discr%dist_comb
-            write(   *, 5011) discr%dist_sep, discr%dist_comb
-         endif
- 5011    format (' Input: ERROR. D_SEP =',f8.2,' MUST BE >= D_COMB =',f8.2,'.')
-!        if (discr%dist_sep.gt.2d0*discr%dist_comb) then
-!           zerror = .true.
-!           write(lout, 5012) discr%dist_sep, 2d0*discr%dist_comb
-!           write(   *, 5012) discr%dist_sep, 2d0*discr%dist_comb
-!        endif
-!5012    format (' Input: ERROR. D_SEP =',f8.2,' MUST BE <= 2*D_COMB =',f8.2,'.')
+         call discret_input(linp, ncase, linenr, wtd, ic, discr, ldebug, ieof, lstop, zerror)
       endif
-
-      ! Set appropriate dq for shifts
-
-      if (.not.is_roll) kin%dq    = 1d0
-      if (.not.is_roll) kin%veloc = 1d0
 
       !------------------------------------------------------------------------------------------------------
       ! Read input for Z1-digit: track/roller rig design dimensions, profile(s), deviation
       !------------------------------------------------------------------------------------------------------
+
+      call trackdata_input(linp, ncase, linenr, meta, ic, trk, ldebug, ieof, lstop, zerror)
+
+      if (my_rail%prr%fname.eq.' ' .and. (ic%ztrack.eq.0 .or. ic%ztrack.eq.2)) then
+         zerror = .true.
+         write(lout, 1901) trim(namside), ic%ztrack
+         write(   *, 1901) trim(namside), ic%ztrack
+ 1901    format (' Input: ERROR. No profile has been given for the ', a, ' rail, Z1 =',i2,'.')
+      endif
+
+      !------------------------------------------------------------------------------------------------------
+      ! Read input for E-digit: wheel-set dimensions, profile, position and velocity
+      !------------------------------------------------------------------------------------------------------
+
+      call wheelset_input(linp, ncase, linenr, meta, ic, ws, trk, ldebug, ieof, lstop, zerror)
+
+      if (my_wheel%prw%fname.eq.' ' .and.                                                               &
+          (ic%ewheel.eq.1 .or. ic%ewheel.eq.2 .or. ic%ewheel.eq.4)) then
+         zerror = .true.
+         write(lout, 1902) trim(namside), ic%ewheel
+         write(   *, 1902) trim(namside), ic%ewheel
+ 1902    format (' Input: ERROR. No profile has been given for the ', a, ' wheel, E1 =',i2,'.')
+      endif
+
+      !------------------------------------------------------------------------------------------------------
+      ! read subsurface points
+      !------------------------------------------------------------------------------------------------------
+
+      if (ic%stress.ge.2) then
+         call subsurf_input(linp, ic, ncase, linenr, ldebug, subs)
+      endif
+
+      ! abort on errors
+
+      if (zerror) then
+         call write_log(' Errors found. Aborting.')
+         call abort_run()
+      endif
+
+      if (ldebug.ge.3) call write_log('--- end subroutine wr_input ---')
+      end associate
+
+   end subroutine wr_input
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine wr_input_spck (fname, wtd, ierror)
+!--purpose: Input-routine for a rail-wheel pair in the user-subroutine to SIMPACK
+      implicit none
+!--subroutine arguments:
+      character(len=*)          :: fname
+      type(t_ws_track)          :: wtd
+      integer,      intent(out) :: ierror
+!--local variables:
+      integer,      parameter :: mxnval = 20
+      logical,      parameter :: lstop  = .false.
+      integer          :: ints(mxnval), nval, ldebug, ieof, my_ierror, ncase, linenr, cpbtnfs
+      logical          :: flags(mxnval), zerror
+      real(kind=8)     :: dbles(mxnval)
+      character*256    :: strngs(mxnval)
+
+      ierror = 0
+      zerror = .false.
+      ldebug = 1
+      if (ldebug.ge.2) call write_log('--- Start subroutine wr_input_spck ---')
+
+      ieof   = -1 ! eof is considered an error
+      linenr =  0
+      ncase  =  1
+
+      if (.false.) wtd%meta%ncase = 0
+
+      open(ltmp, file=fname, status='old', err=985)
+
+      ! read control digits
+
+      call readLine(ltmp, ncase, linenr, 'control integers cpbtnfs', 'i', ints, dbles, flags,           &
+                strngs, mxnval, nval, ldebug, ieof, lstop, my_ierror)
+      cpbtnfs = ints(1)
+
+      write(lout,*) 'wr_input_spck: got control digits', cpbtnfs
+
+      close(ltmp)
+
+      return
+
+ 985  continue
+         ierror = 0
+         write(lout,*) 'ERROR: cannot open input-file: ', trim(fname)
+         return
+
+   end subroutine wr_input_spck
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine discret_input(linp, ncase, linenr, wtd, ic, discr, ldebug, ieof, lstop, zerror)
+!--purpose: read input for D1-digit: discretisation parameters
+      implicit none
+!--subroutine arguments:
+      integer, intent(in)      :: linp, ncase, ldebug
+      integer, intent(inout)   :: linenr, ieof
+      type(t_ws_track)         :: wtd
+      type(t_ic)               :: ic
+      type(t_discret)          :: discr
+      logical, intent(in)      :: lstop
+      logical, intent(inout)   :: zerror
+!--local variables:
+      integer, parameter :: mxnval = 10
+      integer            :: ints(mxnval), nval, ierror
+      logical            :: flags(mxnval)
+      real(kind=8)       :: dbles(mxnval), dx_prv, ds_prv
+      character(len=256) :: strngs(mxnval)
+
+      call readline(linp, ncase, linenr, 'discretisation parameters', 'dddaddD', ints, dbles,        &
+                     flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+      discr%dx        = dbles(1)
+      discr%ds        = dbles(2)
+      discr%dqrel     = dbles(3)
+      discr%angl_sep  = max(0d0, dbles(4))
+      discr%dist_sep  = max(0d0, dbles(5))
+      discr%dist_comb = dbles(6)
+      if (nval.ge.7) then
+         discr%dist_turn = dbles(7)
+      else
+         discr%dist_turn = 2d0 * discr%dist_sep - 1d0 * discr%dist_comb
+      endif
+
+      zerror = zerror .or. .not.check_range ('DX', discr%dx, 1d-8, 1d20)
+      zerror = zerror .or. .not.check_range ('DS', discr%ds, 1d-8, 1d20)
+      zerror = zerror .or. .not.check_range ('DQREL', discr%dqrel, 1d-3, 10d0)
+
+      ! in transient cases, check element sizes of new/previous case
+
+      if (ncase.gt.1 .and. wtd%numcps.ge.1 .and. ic%use_supergrid()) then
+         associate(cp => wtd%allcps(1)%cp)
+         dx_prv = cp%gd%cgrid_cur%dx
+         ds_prv = cp%gd%cgrid_cur%dy
+         if (abs(dx_prv-discr%dx).ge.1d-4*min(dx_prv, discr%dx) .or.                                 &
+             abs(ds_prv-discr%ds).ge.1d-4*min(ds_prv, discr%ds)) then
+            zerror = .true.
+            write(lout,5001) ic%tang, dx_prv, ds_prv
+            write(   *,5001) ic%tang, dx_prv, ds_prv
+         endif
+         end associate
+ 5001    format(' Input: ERROR. Transient contact (T=',i1,') needs constant DX, DY (',f6.3,',',f6.3, &
+                ') in subsequent cases')
+      endif
+
+      if (discr%dist_sep.lt.discr%dist_comb) then
+         zerror = .true.
+         write(lout, 5011) discr%dist_sep, discr%dist_comb
+         write(   *, 5011) discr%dist_sep, discr%dist_comb
+      endif
+ 5011 format (' Input: ERROR. D_SEP =',f8.2,' MUST BE >= D_COMB =',f8.2,'.')
+
+!     if (discr%dist_sep.gt.2d0*discr%dist_comb) then
+!        zerror = .true.
+!        write(lout, 5012) discr%dist_sep, 2d0*discr%dist_comb
+!        write(   *, 5012) discr%dist_sep, 2d0*discr%dist_comb
+!     endif
+!5012 format (' Input: ERROR. D_SEP =',f8.2,' MUST BE <= 2*D_COMB =',f8.2,'.')
+
+   end subroutine discret_input
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine trackdata_input(linp, ncase, linenr, meta, ic, trk, ldebug, ieof, lstop, zerror)
+!--purpose: read material parameters for temperature calculation
+      implicit none
+!--subroutine arguments:
+      integer, intent(in)      :: linp, ncase, ldebug
+      integer, intent(inout)   :: linenr, ieof
+      type(t_metadata)         :: meta
+      type(t_ic)               :: ic
+      type(t_trackdata)        :: trk
+      logical, intent(in)      :: lstop
+      logical, intent(inout)   :: zerror
+!--local variables:
+      integer, parameter :: mxnval = 10
+      integer            :: ints(mxnval), nval, ierror, is_wheel, i_ftype
+      logical            :: flags(mxnval)
+      real(kind=8)       :: dbles(mxnval)
+      character(len=256) :: strngs(mxnval)
 
       if (ic%ztrack.eq.1 .or. ic%ztrack.eq.3) then
 
@@ -758,9 +452,29 @@ contains
 
       endif
 
-      !------------------------------------------------------------------------------------------------------
-      ! Read input for E-digit: wheel-set dimensions, profile, position and velocity
-      !------------------------------------------------------------------------------------------------------
+   end subroutine trackdata_input
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine wheelset_input(linp, ncase, linenr, meta, ic, ws, trk, ldebug, ieof, lstop, zerror)
+!--purpose: read input for E-digit: wheel-set dimensions, profile, position and velocity
+      implicit none
+!--subroutine arguments:
+      integer, intent(in)      :: linp, ncase, ldebug
+      integer, intent(inout)   :: linenr, ieof
+      type(t_metadata)         :: meta
+      type(t_ic)               :: ic
+      type(t_wheelset)         :: ws
+      type(t_trackdata)        :: trk
+      logical, intent(in)      :: lstop
+      logical, intent(inout)   :: zerror
+!--local variables:
+      integer, parameter :: mxnval = 10
+      integer            :: ints(mxnval), nval, ierror
+      logical            :: flags(mxnval)
+      real(kind=8)       :: dbles(mxnval)
+      character(len=16)  :: types, namside
+      character(len=256) :: strngs(mxnval)
 
       ! get the wheel-set dimensions
 
@@ -869,46 +583,28 @@ contains
          call readline(linp, ncase, linenr, trim(namside) // ' wheel position deviations', 'dddaaa',    &
                        ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
 
-         my_wheel%dx     = dbles(1)
-         my_wheel%dy     = dbles(2)
-         my_wheel%dz     = dbles(3)
-         my_wheel%droll  = dbles(4)
-         my_wheel%dyaw   = dbles(5)
-         my_wheel%dpitch = dbles(6)
+         ws%whl%dx     = dbles(1)
+         ws%whl%dy     = dbles(2)
+         ws%whl%dz     = dbles(3)
+         ws%whl%droll  = dbles(4)
+         ws%whl%dyaw   = dbles(5)
+         ws%whl%dpitch = dbles(6)
 
          ! read the wheel velocity deviations for current side of wheel-set
 
          call readline(linp, ncase, linenr, trim(namside) // ' wheel velocity deviations', 'dddaaa',    &
                        ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
 
-         my_wheel%vx     = dbles(1)
-         my_wheel%vy     = dbles(2)
-         my_wheel%vz     = dbles(3)
-         my_wheel%vroll  = dbles(4)
-         my_wheel%vyaw   = dbles(5)
-         my_wheel%vpitch = dbles(6)
+         ws%whl%vx     = dbles(1)
+         ws%whl%vy     = dbles(2)
+         ws%whl%vz     = dbles(3)
+         ws%whl%vroll  = dbles(4)
+         ws%whl%vyaw   = dbles(5)
+         ws%whl%vpitch = dbles(6)
       
       endif ! E=5,7
 
-      !------------------------------------------------------------------------------------------------------
-      ! read subsurface points
-      !------------------------------------------------------------------------------------------------------
-
-      if (ic%stress.ge.2) then
-         call rdsubs(linp, ic, ncase, linenr, ldebug, subs)
-      endif
-
-      ! abort on errors
-
-      if (zerror) then
-         call write_log(' Errors found. Aborting.')
-         call abort_run()
-      endif
-
-      if (ldebug.ge.3) call write_log('--- end subroutine wr_input ---')
-      end associate
-
-   end subroutine wr_input
+   end subroutine wheelset_input
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1155,7 +851,7 @@ contains
 
       ! write the points in which the subsurface elastic field must be calculated. 
 
-      if (ic%stress.ge.2) call wrsubs(linp, ic, wtd%subs)
+      if (ic%stress.ge.2) call subsurf_wrtinp(linp, ic, wtd%subs)
 
       ! write empty line to separate from next case
 

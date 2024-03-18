@@ -21,6 +21,10 @@
                                  ! length in [m], veloc in [m/s], force in [N], acting on body 1
       CNTC_un_imper   = 1937, &  ! code for selecting imperial units (n.y.a.),
                                  ! length in [in], veloc in [???], force in [lbf], on body 1
+
+      CNTC_inp_vamp   = 1984, &  ! code for cntc_readinpfile for input to CONTACT add-on to Vampire (n.y.a.)
+      CNTC_inp_spck   = 1990, &  ! code for cntc_readinpfile for input to Simpack user-subroutine
+      CNTC_inp_gensys = 1992, &  ! code for cntc_readinpfile for input to CONTACT add-on to GENSYS (n.y.a.)
                      
       CNTC_ic_config  = 1967, &  ! code for setting the control digit C1, CONFIG:
                                  !   0: wheelset on track, left rail

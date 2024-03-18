@@ -92,6 +92,20 @@ end subroutine cntc_getMaxNumThreads
 
 !------------------------------------------------------------------------------------------------------------
 
+subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
+   bind(c,name=CNAME_(cntc_readInpFile))
+!--function: used for configuring multiple data items at once using the inp-file format
+   use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
+!--subroutine arguments:
+   integer,                intent(in)  :: ire        ! result element ID
+   integer,                intent(in)  :: inp_type   ! select one of available input-routines
+   character(kind=C_CHAR), intent(in)  :: c_fname(*) ! C-string: full path of inp-file
+   integer,                intent(in)  :: len_fname  ! length of C-string
+   integer,                intent(out) :: ierror     ! error code
+end subroutine cntc_readInpFile
+
+!------------------------------------------------------------------------------------------------------------
+
 subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
    bind(c,name=CNAME_(cntc_setflags))
 !--function: used for configuring various flags for a contact problem
@@ -1232,6 +1246,7 @@ end interface
 !dec$ attributes dllimport :: cntc_manageLicense
 !dec$ attributes dllimport :: cntc_setGlobalFlags
 !dec$ attributes dllimport :: cntc_getMaxNumThreads
+!dec$ attributes dllimport :: cntc_readInpFile
 !dec$ attributes dllimport :: cntc_setFlags
 !dec$ attributes dllimport :: cntc_setMetadata
 !dec$ attributes dllimport :: cntc_setSolverFlags
