@@ -50,7 +50,8 @@ private
       real(kind=8), pointer     :: x_0 => NULL(), r_0 => NULL(), x_1 => NULL(), r_1 => NULL()
       real(kind=8), pointer     :: x_k => NULL(), x_km1 => NULL(), x_km2 => NULL()
 
-      ! ikarg       meta-information for printing: ikarg==ikYDIR for solving Fy, ikZDIR when solving Fz
+      ! ikarg       meta-information on type of problem: ikarg==ikYDIR for solving Fy, 
+      !                ikZDIR when solving Fz vs. z_ws, -ikZDIR when solving Fz vs. dz_defl
       ! maxit       size of arrays used, max. #iterates
       ! numit       actual #iterates stored
       ! ftarg       target force value
@@ -402,13 +403,19 @@ contains
          str12(3) = fmt_gs(12, 4, 4, dfdx)
          if (its%ikarg.eq.ikYDIR) then
             write(bufout,1020) its%k_all(it), (str12(j),j=1,3), its%np_all(it)
-         else
+         elseif (its%ikarg.eq. ikZDIR) then
             write(bufout,1030) its%k_all(it), (str12(j),j=1,3)
+         elseif (its%ikarg.eq.-ikZDIR) then
+            write(bufout,1040) its%k_all(it), (str12(j),j=1,3)
+         else
+            call write_log(' Internal error (Brent): invalid ikarg')
+            call abort_run()
          endif
          call write_log(1, bufout)
 
  1020    format(2x, i4,', BR,  dyrail, Fy: ',2a,', dFy/dy:',a,',',i3,' patches')
  1030    format(4x, i6,', NR,  z_ws, Fz: ',2a,', dFz/dz:',a)
+ 1040    format(4x, i6,', NR,  dz_defl, Ftot: ',2a,', dFz/dz:',a)
 
       endif
 
@@ -426,8 +433,10 @@ contains
 
          if (its%ikarg.eq.ikYDIR) then
             write(bufout,2020) its%k_all(it), (str12(j),j=1,4), its%np_all(it)
-         else
+         elseif (its%ikarg.eq. ikZDIR) then
             write(bufout,2030) its%k_all(it), (str12(j),j=1,4)
+         elseif (its%ikarg.eq.-ikZDIR) then
+            write(bufout,2040) its%k_all(it), (str12(j),j=1,4)
          endif
          call write_log(1, bufout)
       endif
@@ -459,9 +468,11 @@ contains
                str16(3) = fmt_gs(16, 8, 8, its%rk_all(it))
                str16(4) = fmt_gs(16, 8, 8, dfdx)
                if (its%ikarg.eq.ikYDIR) then
-                  write(bufout,2020) its%k_all(it), (str16(j),j=1,4), strptr(1:ilen-1), its%np_all(it)
-               else
+                  write(bufout,2020) its%k_all(it), (str16(j),j=1,4), its%np_all(it), strptr(1:ilen-1)
+               elseif (its%ikarg.eq. ikZDIR) then
                   write(bufout,2030) its%k_all(it), (str16(j),j=1,4), strptr(1:ilen-1)
+               elseif (its%ikarg.eq.-ikZDIR) then
+                  write(bufout,2040) its%k_all(it), (str16(j),j=1,4), strptr(1:ilen-1)
                endif
             else
                write(str12(1), '(f12.4)') its%xk_all(it)
@@ -469,16 +480,19 @@ contains
                str12(3) = fmt_gs(12, 4, 4, its%rk_all(it))
                str12(4) = fmt_gs(12, 4, 4, dfdx)
                if (its%ikarg.eq.ikYDIR) then
-                  write(bufout,2020) its%k_all(it), (str12(j),j=1,4), strptr(1:ilen-1), its%np_all(it)
-               else
+                  write(bufout,2020) its%k_all(it), (str12(j),j=1,4), its%np_all(it), strptr(1:ilen-1)
+               elseif (its%ikarg.eq. ikZDIR) then
                   write(bufout,2030) its%k_all(it), (str12(j),j=1,4), strptr(1:ilen-1)
+               elseif (its%ikarg.eq.-ikZDIR) then
+                  write(bufout,2040) its%k_all(it), (str12(j),j=1,4), strptr(1:ilen-1)
                endif
             endif
             call write_log(1, bufout)
          enddo
 
- 2020    format(2x, i4,', BR,  dy, Fy, res:',3a,', dFy/dy:',2a,',',i3,' patches')
+ 2020    format(2x, i4,', BR,  dy, Fy, res:',3a,', dFy/dy:',a,',',i3,' patches',a)
  2030    format(4x, i6,', NR,  z_ws, Fz:',2a,', res: ',a,', dFz/dz:',2a)
+ 2040    format(4x, i6,', NR,  dz_defl, Ftot:',2a,', res: ',a,', dFz/dz:',2a)
 
          call write_log(' --- end of brent iteration table -----------------------' //                  &
                                                    '------------------------------------------------')
@@ -676,24 +690,30 @@ contains
 !--local variables:
       logical         :: use_inv_interp = .false.
       logical         :: ztest(5)
-      real(kind=8)    :: dx, dr, dx_est, dx_max, dx_new
+      real(kind=8)    :: dx, dr, dx_est, dx_max, dx_new, sgn
+
+      ! vertical problem Fz = Fz(z_ws) has positive slope, Fz = Fz(dz_defl) has negative slope
+
+      sgn = 1d0
+      if (its%ikarg.eq.-ikZDIR) sgn = -1d0
 
       !------------------------------------------------------------------------------------------------
-      ! case 1: searching a bracket for solving z_ws - Fz
+      ! case 1: searching a bracket for solving Fz(z_ws) or Ftot(dz_defl)
       !------------------------------------------------------------------------------------------------
 
-      if (.not.brent_its_has_bracket(its) .and. its%ikarg.eq.ikZDIR) then
+      if (.not.brent_its_has_bracket(its) .and. abs(its%ikarg).eq.ikZDIR) then
 
          ! search bracket -- solving Fz
 
-         dr = its%rk_all(its%numit) - its%rk_all(1)
+         dr = sgn * (its%rk_all(its%numit) - its%rk_all(1))
 
          if (dr.lt.0d0 .and. k.le.5) then
 
-            ! case 1.a: Fz decreasing across brent-table: double the step to reach positive dFz/dz
+            ! case 1.a: Fz decreasing (Ftot increasing) across brent-table: 
+            !                               double the step to reach positive sgn*dFz/dz
 
             x_new = its%xk_all(1) + 2d0 * (its%xk_all(its%numit) - its%xk_all(1))
-            if (idebug_br.ge.2) call write_log(' negative force Fz, double step x(0)->x(k)')
+            if (idebug_br.ge.2) call write_log(' negative slope Fz, double step x(0)->x(k)')
 
          elseif (k.le.3) then
 
@@ -701,7 +721,7 @@ contains
             !                               add factor 1.05 to favour overshoot, to get a bracket
             !                               maximum step: dpen <= 0.5 * pen, new pen <= 1.5 * pen
 
-            x_new  = its%x_b - 1.05d0 * its%r_b / dfx_dx
+            x_new  = its%x_b - 1.00d0 * its%r_b / dfx_dx
             dx_max = 0.5d0 * (its%x_b - its%xk_all(1))
 
             if (idebug_br.ge.3 .and. x_new.gt.its%x_b+dx_max) then
@@ -713,15 +733,21 @@ contains
 
          else
 
-            ! after some iterations: extrapolate at end of table, using full table [x_0, x_n]
+            ! after some iterations: extrapolate at end/start of table, using full table [x_0, x_n]
             !                        maximum step: new x in range [1.05, 1.2] * current interval
 
             dx     = its%xk_all(its%numit) - its%xk_all(1)
             dr     = its%rk_all(its%numit) - its%rk_all(1)
 
-            dx_new = - its%rk_all(its%numit) * dx / dr
-            dx_new = max(0.05d0*dx, min(0.2d0*dx, dx_new))
-            x_new  = its%xk_all(its%numit) + dx_new
+            if (its%ikarg.eq.ikZDIR) then
+               dx_new = - its%rk_all(its%numit) * dx / dr
+               dx_new = max(0.05d0*dx, min(0.2d0*dx, dx_new))
+               x_new  = its%xk_all(its%numit) + dx_new
+            else        ! dx>0, dx_new<0
+               dx_new = - its%rk_all(1) * dx / dr
+               dx_new = min(-0.05d0*dx, max(-0.2d0*dx, dx_new))
+               x_new  = its%xk_all(1) + dx_new
+            endif
 
             ! write(bufout,*) 'dx_new=',dx_new,', x_new=',x_new
             ! call write_log(1, bufout)

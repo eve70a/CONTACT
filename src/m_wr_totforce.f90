@@ -64,7 +64,7 @@ contains
 
       ! switch between solvers dependent on prescribed total forces
 
-      if (wtd%ic%norm.le.0) then
+      if (wtd%ic%norm.le.0 .and. wtd%ic%force1.le.0) then
 
          ! N=0, F=0: solve w/r problem with positions & velocities prescribed
 
@@ -94,7 +94,7 @@ contains
 
       elseif (wtd%ic%force1.eq.3) then
 
-         ! N=1, F=3: solve w/r problem with prescribed vertical and lateral forces - Brent method
+         ! N=0/1, F=3: solve w/r problem with prescribed vertical and lateral forces - Brent method
 
          if (x_locate.ge.3) call write_log(' wr_contact: solving for given vert./lat. forces (brent)...')
          call wr_contact_fy_brent(wtd, sub_ierror)
@@ -195,7 +195,7 @@ contains
 
          ! no supergrid used in previous case / using supergrid in new case
 
-         if (wtd%ic%x_force.ge.1) call write_log(' shift_grid_super: adding supergrid offset')
+         if (wtd%ic%x_cpatch.ge.1) call write_log(' shift_grid_super: adding supergrid offset')
 
          do icp = 1, wtd%numcps
             associate( gd => wtd%allcps(icp)%cp%gd )
@@ -221,7 +221,7 @@ contains
 
             ! snap contact reference to nearest supergrid location
 
-            if (wtd%ic%x_force.ge.1) then
+            if (wtd%ic%x_cpatch.ge.1) then
                write(bufout,'(2(a,f12.6),a)') ' yref =', yref_pot,' =', yref_pot/gd%cgrid_cur%dy,' * dy'
                call write_log(1, bufout)
             endif
@@ -245,31 +245,38 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_contact_init_hertz(wtd, its, dfz_dzws, aa, bb, imeth, x_force, x_locate, my_ierror)
-!--purpose: determine an initial bracket for z_ws for starting the Brent algorithm
+   subroutine wr_contact_init_hertz(wtd, its, ftarg, dfz_dz, aa, bb, imeth, x_force, x_locate, my_ierror)
+!--purpose: determine an initial bracket for vertical position for starting the Brent algorithm
       implicit none
 !--subroutine arguments:
       type(t_ws_track)                 :: wtd
+      real(kind=8),      intent(in)    :: ftarg
       integer,           intent(in)    :: imeth
       integer,           intent(in)    :: x_force, x_locate
       integer,           intent(out)   :: my_ierror
-      real(kind=8),      intent(out)   :: dfz_dzws, aa, bb
+      real(kind=8),      intent(out)   :: dfz_dz, aa, bb
       type(t_brent_its), intent(inout) :: its
 !--local variables:
       integer                  :: k, ic_norm, ipotcn, ic_return, sub_ierror
-      real(kind=8)             :: cp, rho, pen, e_star, epshz, azz, x_0, x_new, r_new
+      real(kind=8)             :: cp, rho, pen, e_star, epshz, azz, x_0, x_new, ftot, fz_hz, r_new, sgn
 
       if (x_force.ge.3) call write_log(' --- Start subroutine wr_contact_init_hertz ---')
 
       my_ierror = 0
 
-      ! initial estimate for z-position
+      if (wtd%ic%norm.eq.1) then
+         sgn =  1d0
+      else
+         sgn = -1d0
+      endif
+
+      ! initial estimate for z-position: z_ws=0 (N=1) or dz_defl=0 (N=0)
 
       k   = 0
       wtd%meta%itforc_inn = k
-      wtd%ws%z = 0d0
+      call set_z_state(wtd, 0d0)
 
-      ! analyze geometrical problem for the initial z-position, without actual solving
+      ! analyze geometrical problem for the initial z-position without actual solving
 
       ic_return = wtd%ic%return
       wtd%ic%return = 3
@@ -279,8 +286,8 @@ contains
 
       wtd%ic%return = ic_return
 
-      if (max(x_force,x_locate).ge.3) then
-         write(bufout,'(3(a,g14.6))') ' z_ws =',wtd%ws%z
+      if (x_force.ge.3) then
+         write(bufout,'(2(a,g14.6))') ' z_ws =',wtd%ws%z,', dz_defl =',wtd%trk%dz_defl
          call write_log(1, bufout)
          write(bufout,'(3(a,g14.6))') ' Overall minimum gap=', wtd%ws%gap_min,', a1=',wtd%ws%a1,     &
                 ', b1=',wtd%ws%b1
@@ -310,11 +317,16 @@ contains
          
       ! store initial point { x_0, r_0 }, print output
 
-      x_0 = wtd%ws%z + wtd%ws%gap_min
+      x_0    = sgn * wtd%ws%gap_min
+      call set_z_state(wtd, x_0)
+      ftot   = get_z_force(wtd, 0d0)
+      r_new  = ftot - ftarg
+      ! write(bufout,'(4(a,g12.4))') ' x_0=',x_0,', ftot=',ftot,', ftarg=',ftarg,', res=',r_new
+      ! call write_log(1, bufout)
 
       if (imeth.eq.IMETH_BRENT) then
 
-         call brent_its_add_iterate(its, k, wtd%numcps, x_0, -wtd%ws%fz_inp, sub_ierror)
+         call brent_its_add_iterate(its, k, wtd%numcps, x_0, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
 
@@ -329,8 +341,8 @@ contains
       e_star  = wtd%mater%ga / (1d0 - wtd%mater%nu)
       epshz   = wtd%solv%eps
          
-      call hzcalc3d (e_star, epshz, ipotcn, wtd%ws%a1, wtd%ws%b1, aa, bb, ic_norm, pen,                 &
-                     wtd%ws%fz_inp, cp, rho)
+      fz_hz   = -r_new
+      call hzcalc3d (e_star, epshz, ipotcn, wtd%ws%a1, wtd%ws%b1, aa, bb, ic_norm, pen, fz_hz, cp, rho)
 
       ! estimate derivative dFz/dzws ~=~ dFn/dpen
 
@@ -338,32 +350,34 @@ contains
          ! no contact: using influence coefficient Azz(0,0) for 1 element in contact
 
          call azz_one_element(wtd%ic, wtd%mater, wtd%discr%dx, wtd%discr%ds, azz)
-         dfz_dzws = wtd%discr%dx * wtd%discr%ds * wtd%mater%ga / azz 
-         write(bufout,*) 'gap_min=',wtd%ws%gap_min,', pen=',pen,', using dfz_dzws=',dfz_dzws
+         dfz_dz = wtd%discr%dx * wtd%discr%ds * wtd%mater%ga / azz 
+         write(bufout,*) 'gap_min=',wtd%ws%gap_min,', pen=',pen,', using dfz_dz=',dfz_dz
          call write_log(1, bufout)
       else
-         dfz_dzws = (1.5d0 * wtd%ws%fz_inp / pen) * cos(wtd%ws%delt_min)
+         dfz_dz = (1.5d0 * wtd%ws%fz_inp / pen) * cos(wtd%ws%delt_min)
 
          if (x_force.ge.3) then
             write(bufout,'(a,f12.6,a,f8.4,a,f12.1)') ' pen=',pen,', delt=',wtd%ws%delt_min,             &
-                                ': est. dfz_dzws=',dfz_dzws
+                                ': est. dfz_dz=',dfz_dz
             call write_log(1, bufout)
             write(bufout,'(a,f12.3,a,f12.6,a,f8.4,a,f12.1)') '    1.5 * ',wtd%ws%fz_inp,' /',pen,' *',  &
-                                cos(wtd%ws%delt_min),' =', dfz_dzws
+                                cos(wtd%ws%delt_min),' =', dfz_dz
             call write_log(1, bufout)
          endif
       endif
 
-      ! lower the wheel-set by gap_min and pen to get near the desired approach
+      if (wtd%ic%norm.eq.0) dfz_dz = dfz_dz - wtd%trk%kz_rail
+
+      ! lower the wheel-set/raise rail by gap_min and pen to get near the desired approach
 
       ! write(bufout,*) ' x_1=', x_0, ' +', pen, ' /', cos(wtd%ws%delt_min)
       ! call write_log(1, bufout)
 
       k     = 1
       wtd%meta%itforc_inn = k
-      x_new = x_0 + pen / max(0.5d0, cos(wtd%ws%delt_min))
+      x_new = x_0 + sgn * pen / max(0.5d0, cos(wtd%ws%delt_min))
 
-      wtd%ws%z = x_new
+      call set_z_state(wtd, x_new)
 
       ! Brent: solve contact problem for the current estimate
 
@@ -372,10 +386,14 @@ contains
          call wr_contact_pos(wtd, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
-         r_new    = wtd%ftrk%z() - wtd%ws%fz_inp
-         dfz_dzws = 1.5d0 * wtd%ftrk%z() / (x_new - x_0)
+         ftot   = get_z_force(wtd)
+         r_new  = ftot - ftarg
+         dfz_dz = 1.5d0 * wtd%ftrk%z() / (x_new - x_0)
 
-         ! write(bufout,*) 'dfz_dzws= =', dfz_dzws
+         ! write(bufout,'(4(a,g12.4))') ' x_1=',x_new,', ftot=',ftot,', ftarg=',ftarg,', res=',r_new
+         ! call write_log(1, bufout)
+
+         ! write(bufout,*) 'dfz_dz= =', dfz_dz
          ! call write_log(1, bufout)
 
          call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
@@ -385,6 +403,70 @@ contains
       endif
          
    end subroutine wr_contact_init_hertz
+
+!------------------------------------------------------------------------------------------------------------
+
+   function get_z_state(wtd)
+!--purpose: get the unknown z_pos for the vertical problem from the contact datastructure: z_ws or dz_defl
+      implicit none
+!--function result:
+      real(kind=8)      :: get_z_state
+!--subroutine arguments:
+      type(t_ws_track)  :: wtd
+
+      if (wtd%ic%norm.eq.1) then
+         get_z_state = wtd%ws%z
+      else
+         get_z_state = wtd%trk%dz_defl
+      endif
+
+   end function get_z_state
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine set_z_state(wtd, z_pos)
+!--purpose: copy the unknown z_pos for the vertical problem into the contact problem: z_ws or dz_defl
+      implicit none
+!--subroutine arguments:
+      type(t_ws_track)              :: wtd
+      real(kind=8),     intent(in)  :: z_pos
+
+      if (wtd%ic%norm.eq.1) then
+         wtd%ws%z        = z_pos
+      else
+         wtd%trk%dz_defl = z_pos
+      endif
+
+   end subroutine set_z_state
+
+!------------------------------------------------------------------------------------------------------------
+
+   function get_z_force(wtd, fz_arg)
+!--purpose: get the vertical force on the rail for the vertical problem: contact force + spring force
+      implicit none
+!--function result:
+      real(kind=8)           :: get_z_force
+!--subroutine arguments:
+      type(t_ws_track)       :: wtd
+      real(kind=8), optional :: fz_arg
+!--local variables:
+      real(kind=8)           :: fz
+
+      ! N=1: iteration on Fz = contact force F_z(tr) on rail
+
+      if (present(fz_arg)) then
+         fz = fz_arg    ! Fz may be specified without going through the contact calculation
+      else
+         fz = wtd%ftrk%z()
+      endif
+
+      ! N=0: iteration on Ftot = contact force + spring force from ground on rail
+
+      if (wtd%ic%norm.eq.0) fz = fz - wtd%trk%kz_rail * wtd%trk%dz_defl
+
+      get_z_force = fz
+
+   end function get_z_force
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -400,7 +482,8 @@ contains
       integer, parameter       :: maxit = 100
       logical                  :: used_bisec, ldone
       integer                  :: k, x_force, x_locate, ic_return, sub_ierror
-      real(kind=8)             :: ftarg, res_fk, tol_fk, dfk, tol_xk, x_0, x_new, r_new, dfz_dzws, aa, bb
+      real(kind=8)             :: ftot, ftarg, res_fk, tol_fk, dfk, tol_xk, x_0, x_new, r_new,          &
+                                  dfz_dzws, aa, bb, sgn
       type(t_brent_its)        :: its
 
       my_ierror = 0
@@ -412,7 +495,7 @@ contains
 
       ! Abort if a zero or negative total force is prescribed
 
-      if (wtd%ws%fz_inp.lt.1d-9) then
+      if (wtd%ic%norm.eq.1 .and. wtd%ws%fz_inp.lt.1d-9) then
          wtd%numcps = 0
          if (x_locate.ge.1) then  
             call write_log(' Prescribed total force is zero or negative, skipping computation.')
@@ -420,39 +503,54 @@ contains
          return
       endif
 
+      ! F=3, N=1: massless rail with known forces: solve vertical deflection directly
+
+      if (wtd%ic%force1.eq.3 .and. wtd%ic%norm.eq.1) then
+         if (abs(wtd%trk%kz_rail).gt.1d-10) then
+            wtd%trk%dz_defl = (wtd%ws%fz_inp + wtd%trk%fz_rail) / wtd%trk%kz_rail
+         else
+            wtd%trk%dz_defl = 0d0
+         endif
+      endif
+
       ! prepare structure to hold iterates
 
-      ftarg = wtd%ws%fz_inp
-      call brent_its_init(its, ikZDIR, maxit, ftarg)
+      if (wtd%ic%norm.eq.1) then
+
+         ! N=1: determine z_ws for prescribed dz_defl and Fz_inp
+         !      equation: Fz_cntc(z_ws; dz_defl) = Fz_inp
+
+         sgn   =  1d0
+         ftarg =  wtd%ws%fz_inp
+         call brent_its_init(its,  ikZDIR, maxit, ftarg)
+      else
+
+         ! N=0: determine dz_defl for prescribed z_ws using massless rail model
+         !      equation: F_tot = Fz_cntc(dz_defl; z_ws) - kz * dz_defl = -Fz_rail*
+         ! Fz_cntc: contact force; Fz_rail*: spring force on rail at zero deflection
+
+         sgn   = -1d0
+         ftarg = -wtd%trk%fz_rail
+         call brent_its_init(its, -ikZDIR, maxit, ftarg)
+      endif
 
       ! initialize iteration; set zero point and initial estimate
 
-      !   0 = full initialization - using geometrical analysis + Hertz approximation
+      !   0 = full initialization, using geometrical analysis + Hertz approximation
       !   1 = continuation, using estimate z_ws from wtd%ws
       !   2 = continuation, using geometrical analysis + offset z_offset provided
 
-      if (iestim_br.eq.0) then
-         wtd%ws%z  = 0d0
-      endif
+      if (iestim_br.le.0) then
 
-      if (iestim_br.eq.2) then
+         ! method 0: analyze geometry for overall minimum gap and curvatures, set initial estimates k=0, k=1
 
-         ! analyze geometrical problem for the initial z-position, without actual solving
-
-         wtd%ws%z  = 0d0
-         ic_return = wtd%ic%return
-         wtd%ic%return = 3
-
-         call wr_contact_pos(wtd, x_locate, sub_ierror)
+         call wr_contact_init_hertz(wtd, its, ftarg, dfz_dzws, aa, bb, IMETH_BRENT, x_force, x_locate,  &
+                        sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
-         wtd%ic%return = ic_return
 
-         wtd%ws%z  = wtd%ws%z_cnt0 + z_offset
-      endif
+      elseif (iestim_br.eq.1) then
 
-      if (iestim_br.ge.1) then
-
-         ! methods 1, 2: use initial estimate from ws%z, wtd%dfz_dzws
+         ! method 1: use initial estimate from ws%z, wtd%dfz_dzws
 
          if (x_force.ge.3) then
             write(bufout,'(a,i3)')   ' wr_contact_fz_brent: starting iteration k=',1
@@ -465,31 +563,81 @@ contains
 
          ! store initial point { x_0, r_0 } at which initial contact occurs
 
-         k   = 0
-         x_0 = wtd%ws%z_cnt0
-         call brent_its_add_iterate(its, k, wtd%numcps, x_0, -wtd%ws%fz_inp, sub_ierror)
+         k     = 0
+         x_0   = get_z_state(wtd) + sgn * wtd%ws%gap_min
+         ftot  = get_z_force(wtd, 0d0)
+         r_new = ftot - ftarg
+         call brent_its_add_iterate(its, k, wtd%numcps, x_0, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
 
-         ! store first point { x_1, r_1 } for initial estimate ws%z
+         ! store first point { x_1, r_1 } for initial estimate ws%z, trk%dz_defl
 
          k   = 1
          wtd%meta%itforc_inn = k
-         x_new    = wtd%ws%z
-         r_new    = wtd%ftrk%z() - wtd%ws%fz_inp
+         x_new    = get_z_state(wtd)
+         ftot     = get_z_force(wtd)
+         r_new    = ftot - ftarg
          dfz_dzws = wtd%dfz_dzws
 
          call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
 
-      else
+      elseif (iestim_br.eq.2) then
 
-         ! analyze geometry for overall minimum gap and curvatures, set initial estimates k=0, k=1
+         ! method 2: use initial estimate from gap_min + z_offset, wtd%dfz_dzws
 
-         call wr_contact_init_hertz(wtd, its, dfz_dzws, aa, bb, IMETH_BRENT, x_force, x_locate,     &
-                        sub_ierror)
+         ! analyze geometrical problem for the initial z-position, without actual solving
+
+         if (x_force.ge.3) then
+            write(bufout,'(a,i3)')   ' wr_contact_fz_brent: starting iteration k=', 0
+            call write_log(1, bufout)
+         endif
+
+         call set_z_state(wtd, 0d0)
+         ic_return = wtd%ic%return
+         wtd%ic%return = 3
+
+         call wr_contact_pos(wtd, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
+         wtd%ic%return = ic_return
+
+         ! store initial point { x_0, r_0 } at which initial contact occurs
+
+         k     = 0
+         x_0   = sgn * wtd%ws%gap_min
+         ftot  = get_z_force(wtd, 0d0)
+         r_new = ftot - ftarg
+         call brent_its_add_iterate(its, k, wtd%numcps, x_0, r_new, sub_ierror)
+         if (my_ierror.eq.0) my_ierror = sub_ierror
+         call brent_its_print(k, its, wtd%ic, x_force)
+
+         if (x_force.ge.3) then
+            write(bufout,'(a,i3)')   ' wr_contact_fz_brent: starting iteration k=', 1
+            call write_log(1, bufout)
+         endif
+
+         ! add vertical offset z_offset provided
+
+         x_0 = sgn * (wtd%ws%gap_min + z_offset)
+         call set_z_state(wtd, x_0)
+
+         k   = 1
+         wtd%meta%itforc_inn = k
+         call wr_contact_pos(wtd, x_locate, sub_ierror)
+         if (my_ierror.eq.0) my_ierror = sub_ierror
+
+         ! store first point { x_1, r_1 } for initial estimate ws%z / -trk%dz_defl
+
+         x_new    = get_z_state(wtd)
+         ftot     = get_z_force(wtd)
+         r_new    = ftot - ftarg
+         dfz_dzws = wtd%dfz_dzws
+
+         call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
+         if (my_ierror.eq.0) my_ierror = sub_ierror
+         call brent_its_print(k, its, wtd%ic, x_force)
 
       endif
 
@@ -538,11 +686,12 @@ contains
 
          ! compute problem with new xk, get new fk
 
-         wtd%ws%z = x_new
+         call set_z_state(wtd, x_new)
          call wr_contact_pos(wtd, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
-         r_new = wtd%ftrk%z() - ftarg
+         ftot = get_z_force(wtd)
+         r_new = ftot - ftarg
 
          call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
@@ -620,8 +769,8 @@ contains
 
          ! analyze geometry for overall minimum gap and curvatures, set initial estimate k=0 for Fz
 
-         call wr_contact_init_hertz(wtd, its, dfz_dzws, aa, bb, IMETH_SECANT, x_force, x_locate,    &
-                        sub_ierror)
+         call wr_contact_init_hertz(wtd, its, wtd%ws%fz_inp, dfz_dzws, aa, bb, IMETH_SECANT, x_force, &
+                        x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
 
          ! Abort if the profiles have no overlap at all
@@ -905,8 +1054,8 @@ contains
       has_fz    = (wtd%ic%norm.ge.1)
       has_fy    = (wtd%ic%tang.ge.1 .and. wtd%ic%force1.eq.3)
 
-      if (.not.has_fz .or. .not.has_fy) then
-         call write_log(' INTERNAL ERROR: Brent method for Fy needs N=1, F=3')
+      if (.not.has_fy) then
+         call write_log(' INTERNAL ERROR: Brent method for Fy needs T>=1, F=3')
          call abort_run()
       endif
 
@@ -917,11 +1066,10 @@ contains
       ! y_ws is considered a fixed parameter, unknowns are the rail deflection dy and offset z_ws-dz
       ! Equation (1) is not subjected to mirroring, to get print-output in true orientation
 
-      ! if N=1: override vertical inputs
+      ! if N=1: kz=0 needs compatible Fz_rail = -Fz_cntc, override vertical inputs
 
-      if (wtd%ic%norm.eq.1) then
+      if (wtd%ic%norm.eq.1 .and. abs(wtd%trk%kz_rail).le.1d-10) then
          wtd%trk%fz_rail = -wtd%ws%fz_inp
-         wtd%trk%kz_rail =  0d0
       endif
 
       ! prepare structure to hold iterates with target force -fy_rail (not subjected to mirroring)
@@ -946,7 +1094,7 @@ contains
       x_new  = wtd%trk%dy_defl
       fy_tot = sgn*wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
       r_new  = fy_tot - ftarg
-      dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
+      dz_ws  = -wtd%ws%gap_min
 
       call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
       call brent_its_print(k, its, wtd%ic, x_force)
@@ -968,7 +1116,7 @@ contains
       x_new  = wtd%trk%dy_defl
       fy_tot = sgn*wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
       r_new  = fy_tot - ftarg
-      dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
+      dz_ws  = -wtd%ws%gap_min
 
       call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
       call brent_its_print(k, its, wtd%ic, x_force)
@@ -1011,7 +1159,7 @@ contains
 
          fy_tot = sgn*wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
          r_new  = fy_tot - ftarg
-         dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
+         dz_ws  = -wtd%ws%gap_min
 
          call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
