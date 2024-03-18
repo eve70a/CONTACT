@@ -710,7 +710,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 !  itask          - select type of outputs:
 !                    -1: ierr   <0: error codes, 0=profile loaded ok, 1=not set
 !                     0: npnt   number of points used in requested sampling method
-!                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
+!                     1: r/w    get (yr,zr) values for rail or (yw,zw) for wheel profile
 !                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
 !                     3: gaug   get left-most point within gauge height, offset, point at gauge height
 !                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
@@ -724,6 +724,8 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 !                            kchk>=2 = sampling cf. spline representation with integer refinement factor
 !  rparam         - real configuration parameters
 !                     1: ds_out  step-size ds used with sampling method isampl=1, default 1mm
+!                     2: x_out   for variable profiles: longitudinal position x_r [mm] (task=1) or
+!                                x_tr [mm] (task=2) or circumferential position th_w [rad] on wheel
 !  tasks 1,2,4: no unit conversion or scaling are applied for profile values
 !--subroutine arguments:
    integer,      intent(in)  :: ire           ! result element ID

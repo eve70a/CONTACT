@@ -4418,7 +4418,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 !  itask          - select type of outputs:
 !                    -1: ierr   <0: error codes, 0=profile loaded ok, 1=not set
 !                     0: npnt   number of points used in requested sampling method
-!                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
+!                     1: r/w    get (yr,zr) values for rail or (yw,zw) for wheel profile
 !                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
 !                     3: gaug   get left-most point within gauge height, offset, point at gauge height
 !                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
@@ -4432,6 +4432,8 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 !                            kchk>=2 = sampling cf. spline representation with integer refinement factor
 !  rparam         - real configuration parameters
 !                     1: ds_out  step-size ds used with sampling method isampl=1, default 1mm
+!                     2: x_out   for variable profiles: longitudinal position x_r [mm] (task=1) or
+!                                x_tr [mm] (task=2) or circumferential position th_w [rad] on wheel
 !  tasks 1,2,4: no unit conversion or scaling are applied for profile values
 !--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
    implicit none
@@ -4448,9 +4450,9 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    character(len=5)            :: namtyp(0:1) = (/ 'rail ', 'wheel' /)
    integer                     :: itype, isampl, npnt, ip, j, jp, ldebug, ierror, sub_ierror
    logical                     :: is_ok
-   real(kind=8)                :: s0, s1, ds, ds_out, sgn, ygauge, yvampr, zgauge, zmin
+   real(kind=8)                :: s0, s1, ds, ds_out, x_out, sgn, ygauge, yvampr, zgauge, zmin
    type(t_marker)              :: rw_trk
-   type(t_grid)                :: g_wrk
+   type(t_grid),     target    :: g_wrk, g_slc
    type(t_gridfnc3)            :: dxyz
    type(t_profile),  pointer   :: my_prf
    type(t_grid),     pointer   :: g
@@ -4473,9 +4475,12 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    ds_out  = 1d0
    if (nreals.ge.1) ds_out = rparam(1)
 
+   x_out   = 0d0
+   if (nreals.ge.2) x_out  = rparam(2)
+
    if (idebug.ge.2) then
-      write(bufout,'(2a,3(i2,a),g12.4)') trim(pfx_str(subnam,ire,-1)),' task=',itask,', itype=',itype,  &
-                ', isampl=',isampl,', ds_out=',ds_out
+      write(bufout,'(a,3(a,i2),2(a,g12.4))') trim(pfx_str(subnam,ire,-1)),' task=',itask,               &
+                ', itype=',itype,', isampl=',isampl,', ds_out=',ds_out,', x_out=',x_out
       call write_log(1, bufout)
    endif
 
@@ -4488,17 +4493,48 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
       call write_log(1, bufout)
    endif
 
-   ! select rail or wheel, set pointer g to actual data
+   ! interpolate variable profile to requested x_out, create profile g_slc
 
    associate(my_rail  => wtd%trk%rai, my_wheel => wtd%ws%whl)
+   if (itype.eq.0 .and. my_rail%prr%is_varprof()) then
+
+      ! task 2: interpret x_out as track coordinate, add s_ws to get rail coordinate
+      if (itask.eq.2) x_out = x_out + wtd%ws%s
+
+      if (idebug.ge.3) then
+         write(bufout,'(a,g12.4)') ' setting up "current slice" for variable rail at x_out=',x_out
+         call write_log(1, bufout)
+      endif
+
+      call varprof_intpol_xunif(my_rail%prr, 0d0, 1, x_out, 0d0, g_slc, sub_ierror)
+      ierror = sub_ierror
+
+   elseif (itype.eq.1 .and. my_wheel%prw%is_varprof()) then
+
+      if (idebug.ge.3) then
+         write(bufout,'(a,g12.4)') ' setting up "current slice" for out-of-round wheel at th_out=',x_out
+         call write_log(1, bufout)
+      endif
+
+      call varprof_intpol_xunif(my_wheel%prw, 0d0, 1, x_out, 0d0, g_slc, sub_ierror)
+      ierror = sub_ierror
+
+   endif
+
+   ! select rail or wheel, set pointer g to actual data
+
    if (itype.eq.0) then
       my_prf   => my_rail%prr
    else
       my_prf   => my_wheel%prw
    endif
 
-   g     => my_prf%grd_data
-   ierror = my_prf%ierror
+   if (.not.my_prf%is_varprof()) then
+      g     => my_prf%grd_data
+      ierror = my_prf%ierror
+   else
+      g     => g_slc
+   endif
 
    if (idebug.ge.2) then
       write(bufout,'(4a)') trim(pfx_str(subnam,ire,-1)),' fname="', trim(my_prf%fname),'"'
@@ -4697,6 +4733,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 
    endif
    call grid_destroy(g_wrk)
+   if (my_prf%is_varprof()) call grid_destroy(g_slc)
 
    end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)

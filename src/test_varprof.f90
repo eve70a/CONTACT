@@ -491,9 +491,9 @@ program test_varprof
       rvalues(1:6) = (/ dx, ds, a_sep, d_sep, d_comb, d_turn /)
       call cntc_setPotContact(iwhe, icp, ipotcn, 6, rvalues)
 
-      ! set constant rail profile UIC60
+      ! set constant rail profile
 
-      f_fname   = '../profiles/uic60_true.prr'
+      f_fname   = '../../examples/r300_wide.prr'
       c_fname   =     trim(f_fname)  // C_NULL_CHAR
       len_fname = len(trim(f_fname))
 
@@ -542,7 +542,7 @@ program test_varprof
       rvalues(1:6) = (/ dx, ds, a_sep, d_sep, d_comb, d_turn /)
       call cntc_setPotContact(iwhe, icp, ipotcn, 6, rvalues)
 
-      ! set constant rail profile UIC60
+      ! set constant rail profile
 
       f_fname   = '../profiles/circ_r300.prr'
       c_fname   =     trim(f_fname)  // C_NULL_CHAR
