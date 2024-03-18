@@ -321,7 +321,7 @@ contains
 
          if (ic%force1.eq.3) then
             write(lout,4202)
-            write(lout,4203) wtd%trk%ky_rail, sgn*wtd%trk%dy_defl, fmt_gs(12,4,4,wtd%trk%fy_rail),      &
+            write(lout,4203) wtd%trk%ky_rail, wtd%trk%dy_defl, fmt_gs(12,4,4,wtd%trk%fy_rail),          &
                    wtd%trk%kz_rail, wtd%trk%dz_defl, fmt_gs(12,4,4,wtd%trk%fz_rail)
  4202       format (1x,'MASSLESS RAIL DEFLECTION')
  4203       format (2x, 3x,'KY_RAIL',2x, 3x,'DY_DEFL',2x, 3x,'FY_RAIL',2x, 3x,'KZ_RAIL',2x,             &

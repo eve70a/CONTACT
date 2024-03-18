@@ -4891,7 +4891,7 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       if (lenarr.ge.27) rvalues(27) =       meta%z_r        / my_scl%len
       if (lenarr.ge.28) rvalues(28) = sgn * meta%roll_r     / my_scl%angle
 
-      if (lenarr.ge.31) rvalues(31) = sgn * wtd%trk%dy_defl / my_scl%len
+      if (lenarr.ge.31) rvalues(31) =       wtd%trk%dy_defl / my_scl%len
       if (lenarr.ge.32) rvalues(32) =       wtd%trk%dz_defl / my_scl%len
       end associate
    endif

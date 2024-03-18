@@ -903,15 +903,10 @@ contains
       integer           :: idebug
       type(t_cpatch)    :: cp
 !--local variables:
-      type(t_vec)               :: fcntc, tcntc
-      type(t_marker)            :: mwhl_trk
-      type(t_probdata), pointer :: gd
-      type(t_rail),     pointer :: my_rail
-      type(t_wheel),    pointer :: my_wheel
+      type(t_vec)       :: fcntc, tcntc
+      type(t_marker)    :: mwhl_trk
 
-      my_rail   => trk%rai
-      my_wheel  => ws%whl
-      gd        => cp%gd
+      associate(my_rail => trk%rai, my_wheel => ws%whl, gd => cp%gd)
 
       ! rotate forces from contact-reference coordinates to global coordinates
 
@@ -965,6 +960,7 @@ contains
          write(bufout,800) '          M_@w(ws)=  [',cp%tws%x(),',',cp%tws%y(),',',cp%tws%z(),'].'
          call write_log(1, bufout)
       endif
+      end associate
 
    end subroutine cpatch_forces_moments
 

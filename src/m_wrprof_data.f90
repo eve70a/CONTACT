@@ -283,8 +283,9 @@ public
       ! rail_z0      [mm]   vertical position of rail origin in track system, e.g. +/-0.5 mm
       ! ky_rail     [N/mm]  track stiffness in lateral direction for massless rail deflection model (F=3)
       ! kz_rail     [N/mm]  track stiffness in vertical direction for massless rail deflection model (F=3)
-      ! dy_defl      [mm]   lateral rail deflection (F=3, right rail, mirrored view)
-      ! dz_defl      [mm]   vertical rail deflection (F=3, right rail, mirrored view)
+      ! dy_defl      [mm]   lateral rail deflection for massless rail model (F=3) 
+      !                     (left/right rail, non-mirrored)
+      ! dz_defl      [mm]   vertical rail deflection for massless rail model (F=3)
       ! fy_rail      [N]    lateral spring force on rail at zero deflection for rail deflection model (F=3)
       !                     (left/right rail, non-mirrored)
       ! fz_rail      [N]    vertical spring force on rail at zero deflection for rail deflection model (F=3)

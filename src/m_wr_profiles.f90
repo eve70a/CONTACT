@@ -94,20 +94,20 @@ contains
          call write_log(1, bufout)
       endif
 
-      ! shift the marker according to the rail position (deflections: computed for right rail config)
+      ! shift the marker according to the rail position
 
       if (trk%gauge_height.le.0d0) then
 
-         ! gauge_height <= 0: absolute rail placement + track deviations
+         ! gauge_height <= 0: absolute rail placement + track deviations, subject to mirroring
 
-         rail_y    =  trk%rail_y0 + sgn * my_rail%dy + trk%dy_defl
-         rail_z    =  trk%rail_z0 +       my_rail%dz + trk%dz_defl
+         rail_y    =  trk%rail_y0 + sgn * (my_rail%dy + trk%dy_defl)
+         rail_z    =  trk%rail_z0 +        my_rail%dz + trk%dz_defl
 
       else
 
          ! gauge_height >  0: rail placement using half gauge width + deviations, subject to mirroring
 
-         rail_y    =  trk%track_gauge/2d0 - ygauge + sgn * my_rail%dy + trk%dy_defl
+         rail_y    =  trk%track_gauge/2d0 - ygauge + sgn * (my_rail%dy + trk%dy_defl)
 
          ! wheelset on track: shift vertically to put highest point on z=0 + deviations
          ! wheelset on roller rig: no vertical shifting

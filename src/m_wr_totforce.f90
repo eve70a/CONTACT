@@ -532,7 +532,7 @@ contains
             call write_log(1, bufout)
          endif
 
-         ! determine new point x_new
+         ! determine new point x_new using Brent update
 
          call brent_set_xnew(k, its, dfz_dzws, used_bisec, tol_xk, x_new, x_force)
 
@@ -884,8 +884,8 @@ contains
       integer, parameter       :: maxit = 100
       logical                  :: has_fz, has_fy, used_bisec, ldone
       integer                  :: k, x_force, x_locate, iestim_br, sub_ierror
-      real(kind=8)             :: ftarg, fy_tot, dfy_dy, dz_ws, x_new, r_new, tol_xk, tol_fk, res_fk,   &
-                                  eps_out, eps_inn
+      real(kind=8)             :: sgn, ftarg, fy_tot, dfy_dy, dz_ws, x_new, r_new, tol_xk, tol_fk,      &
+                                  res_fk, eps_out, eps_inn
       type(t_brent_its)        :: its
 
       my_ierror = 0
@@ -893,6 +893,14 @@ contains
       x_locate = wtd%ic%x_locate
 
       if (x_force.ge.2) call write_log(' --- Start subroutine wr_contact_fy_brent ---')
+
+      ! set the sign to -1 for left and +1 for right rail/wheel combination
+
+      if (wtd%ic%is_left_side()) then
+         sgn = -1
+      else
+         sgn =  1
+      endif
 
       has_fz    = (wtd%ic%norm.ge.1)
       has_fy    = (wtd%ic%tang.ge.1 .and. wtd%ic%force1.eq.3)
@@ -902,11 +910,12 @@ contains
          call abort_run()
       endif
 
-      ! Solve equations F(xk) = fk = ftarg,  Fk : contact force on rail
-      !    (1)   Fy(y_ws+dy, z_ws+dz) - ky * dy = -Fy_rail   -- outer iteration solving dy (this sub)
-      !    (2)   Fz(y_ws+dy, z_ws+dz) - kz * dz = -Fz_rail   -- inner iteration solving dz (fz_brent)
-      ! y_ws, z_ws considered fixed parameters, unknowns are the rail deflections dy, dz
-      ! F[yz]_rail: spring force on rail
+      ! Solve equations Ftot(xk) = 0,  forces exerted on rail sum to zero, massless rail model
+      !    (1)   Fy(y_ws-dy, z_ws-dz) - ky * dy + Fy_rail = 0  -- outer iteration solving dy (this sub)
+      !    (2)   Fz(y_ws-dy, z_ws-dz) - kz * dz + Fz_rail = 0  -- inner iteration solving dz (fz_brent)
+      ! Fy, Fz: contact forces; Fy_rail, Fz_rail: opposite spring force from previous time step
+      ! y_ws is considered a fixed parameter, unknowns are the rail deflection dy and offset z_ws-dz
+      ! Equation (1) is not subjected to mirroring, to get print-output in true orientation
 
       ! if N=1: override vertical inputs
 
@@ -915,10 +924,9 @@ contains
          wtd%trk%kz_rail =  0d0
       endif
 
-      ! prepare structure to hold iterates with target force -fy_rail
+      ! prepare structure to hold iterates with target force -fy_rail (not subjected to mirroring)
 
       ftarg = -wtd%trk%fy_rail
-      if (wtd%ic%is_left_side()) ftarg = -ftarg      ! mirroring left-side input to right-side internal
 
       call brent_its_init(its, ikYDIR, maxit, ftarg)
 
@@ -936,7 +944,7 @@ contains
       if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
       x_new  = wtd%trk%dy_defl
-      fy_tot = wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
+      fy_tot = sgn*wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
       r_new  = fy_tot - ftarg
       dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
 
@@ -958,7 +966,7 @@ contains
       if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
       x_new  = wtd%trk%dy_defl
-      fy_tot = wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
+      fy_tot = sgn*wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
       r_new  = fy_tot - ftarg
       dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
 
@@ -1001,7 +1009,7 @@ contains
          call wr_contact_fz_brent(wtd, iestim_br, dz_ws, sub_ierror)
          if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
-         fy_tot = wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
+         fy_tot = sgn*wtd%ftrk%y() - wtd%trk%ky_rail * wtd%trk%dy_defl
          r_new  = fy_tot - ftarg
          dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
 
