@@ -2354,7 +2354,7 @@ subroutine cntc_setVerticalForce(ire, fz) &
    if (ierror.lt.0) return
 
    my_ic%norm    = 1
-   wtd%ws%fz_inp = fz
+   wtd%ws%fz_inp = fz * my_scl%forc
 
    if (idebug.ge.2) then
       write(bufout,'(2a,f9.2,a)') trim(pfx_str(subnam,ire,-1)),' vertical force=', wtd%ws%fz_inp, ' [N]'
@@ -2991,7 +2991,7 @@ subroutine cntc_setTrackDimensions_old(ire, ztrack, nparam, params) &
    ! for gaught <= 0: convert old 'gaugwd' input to new (raily0,railz0) values
 
    if ((ztrack.eq.1 .or. ztrack.eq.3) .and. wtd%trk%gauge_height.le.0d0) then
-      if (my_ic%config.eq.0 .or. my_ic%config.eq.4) then
+      if (my_ic%is_left_side()) then
          wtd%trk%rail_y0 = -wtd%trk%track_gauge / 2
       else
          wtd%trk%rail_y0 =  wtd%trk%track_gauge / 2
@@ -3839,10 +3839,13 @@ subroutine cntc_calculate1(ire, ierror) &
    endif
 
    if ((my_ic%output_surf.ge.1 .or. my_ic%flow.ge.1) .and. out_open.eq.1) then
-      if (my_meta%irun.eq.0) then
-         write (lout,'(a,i7,a,i3)') ' Case',my_meta%ncase,' for w/r contact on result element',ire
+      if (my_meta%irun.eq.0 .and. my_meta%tim.eq.0d0) then
+         write (lout,'(/,a,i7,a,i3)') ' Case',my_meta%ncase,' for w/r contact on result element',ire
+      elseif (my_meta%irun.eq.0) then
+         write (lout,'(/,a,i7,a,i3,a,f16.8)') ' Case',my_meta%ncase,' for w/r contact on result element', &
+                ire,', t=',my_meta%tim
       else
-         write (lout,'(a,i7,4(a,i4))') ' Case',my_meta%ncase,' for w/r contact on result element', ire, &
+         write (lout,'(/,a,i7,4(a,i4))') ' Case',my_meta%ncase,' for w/r contact on result element', ire, &
                 ', run',my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
       endif
    endif
@@ -5203,15 +5206,15 @@ subroutine cntc_getCreepages(ire, icp, vx, vy, phi) &
    ! note: retrieving data from gd%kin instead of my_kin (=> wtd%kin)
 
    if (my_ic%tang.eq.1) then
-      ! retrieving the rigid shift [mm], [rad]
-      vx  =       gd%kin%cksi / my_scl%len
-      vy  = sgn * gd%kin%ceta / my_scl%len
-      phi = sgn * gd%kin%cphi
+      ! retrieving the rigid shift [mm], [rad]          ! in simpack, output body == body 2
+      vx  =       my_scl%body * gd%kin%cksi / my_scl%len
+      vy  = sgn * my_scl%body * gd%kin%ceta / my_scl%len
+      phi = sgn * my_scl%body * gd%kin%cphi
    else
       ! retrieving the creepages [-], [rad/mm]
-      vx  =       gd%kin%cksi
-      vy  = sgn * gd%kin%ceta
-      phi = sgn * gd%kin%cphi * my_scl%len
+      vx  =       my_scl%body * gd%kin%cksi
+      vy  = sgn * my_scl%body * gd%kin%ceta
+      phi = sgn * my_scl%body * gd%kin%cphi * my_scl%len
    endif
 
    if (idebug.ge.2) then

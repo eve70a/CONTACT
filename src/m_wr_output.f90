@@ -398,8 +398,8 @@ contains
             else
                write(lout, 6001) icp, trim(str_prev)    ! sequence or initial estimate used
             endif
- 6000       format(/,' ----- DATA FOR CONTACT PATCH',i3,' -----',/)
- 6001       format(/,' ----- DATA FOR CONTACT PATCH',i3,' (',a,') -----',/)
+ 6000       format(/,' ----- DATA FOR CONTACT PATCH',i3,' -----')
+ 6001       format(/,' ----- DATA FOR CONTACT PATCH',i3,' (',a,') -----')
          endif
 
          ! Print additional input data for the contact patch if "output" >= 2.
@@ -419,7 +419,7 @@ contains
             ! write(lout, 6101) 'WHEEL'
             write(lout, 6103) meta%xcp_w, sgn*meta%ycp_w, meta%zcp_w
 
- 6100       format(1x,'CONTACT REFERENCE LOCATION')
+ 6100       format(/,1x,'CONTACT REFERENCE LOCATION')
  6101       format(1x,'CONTACT POINT LOCATION ON ',a)
  6102       format(2x, 3x,'XCP(TR)',2x, 3x,'YCP(TR)',2x, 3x,'ZCP(TR)',2x, 2x,'DELTCP(TR)',1x,           &
                    2x,'YCP(R)',3x, 3x,'ZCP(R)', /, 6f12.4, /)

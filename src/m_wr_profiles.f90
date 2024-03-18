@@ -100,8 +100,8 @@ contains
 
          ! gauge_height <= 0: absolute rail placement + track deviations, subject to mirroring
 
-         rail_y    =  trk%rail_y0 + sgn * (my_rail%dy + trk%dy_defl)
-         rail_z    =  trk%rail_z0 +        my_rail%dz + trk%dz_defl
+         rail_y    = sgn * trk%rail_y0 + sgn * (my_rail%dy + trk%dy_defl)
+         rail_z    =       trk%rail_z0 +        my_rail%dz + trk%dz_defl
 
       else
 

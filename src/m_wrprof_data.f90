@@ -193,7 +193,6 @@ public
    ! data for the wheel-set:
 
    type :: t_wheelset
-      integer       :: spck_ver
       real(kind=8)  :: flback_dist, flback_pos, nom_radius
       real(kind=8)  :: s, x, y, z
       real(kind=8)  :: vs, vy, vz
@@ -208,7 +207,6 @@ public
       ! flback_dist  [mm]   flange-back distance, e.g. 1360 mm
       ! flback_pos   [mm]   y-position of flange-back in wheel profile coordinates, e.g. -70 mm
       ! nom_radius   [mm]   wheel radius at the tape circle line, e.g. 460 mm
-      ! spck_ver       -    counter for wheelset versions used in Simpack user subroutine
       ! s            [mm]   longitudinal position of wheel-set cm along the track curve - used on tracks
       ! x            [mm]   longitudinal position (shift) of wheel-set cm - used on roller rigs
       ! y            [mm]   lateral position (shift) of wheel-set cm
@@ -267,7 +265,7 @@ public
    ! data for the track or rollerset geometry:
 
    type :: t_trackdata
-      integer               :: gauge_seqnum, spck_ver
+      integer               :: gauge_seqnum
       real(kind=8)          :: gauge_height, track_gauge, cant_angle
       real(kind=8)          :: rail_y0, rail_z0
       real(kind=8)          :: ky_rail, kz_rail, dy_defl, dz_defl, fy_rail, fz_rail
@@ -278,7 +276,6 @@ public
       !                     The gauge computation is disabled when gauge_height <= 0.
       ! gauge_seqnum   -    sequence number of gauge face used: 0, 1 = inner-most face, 
       !                      2 = second inside face, particularly for situation with guard rail
-      ! spck_ver       -    counter for trackdata versions used in Simpack user subroutine
       ! track_gauge  [mm]   lateral distance between inner sides of rails, e.g. 1435 mm
       ! cant_angle   [rad]  rail rotation towards track center, if not included in rail profile(s)
       !                     should not be used for roller rigs
@@ -326,6 +323,7 @@ public
       type(t_solvers)  :: solv    ! variables related to solution algorithms
       ! type(t_output) :: outpt   ! solution and derived quantities
       type(t_vec)      :: ftrk, ttrk, fws, tws, xavg, tavg   ! F_(tr), T_@r(tr), F_(ws), T@w(ws)
+                                                             ! (right rail, mirrored view)
       real(kind=8)     :: dfz_dzws ! sensitivity of fz_tr to z_ws
 
       type(t_wheelset) :: ws      ! half wheel-set data, including wheel profile
@@ -420,7 +418,6 @@ contains
       ws%flback_dist   = 1360d0
       ws%flback_pos    =  -70d0
       ws%nom_radius    =  460d0
-      ws%spck_ver      =    0
 
       ! position & orientation
       ws%s             =    0d0
@@ -474,7 +471,6 @@ contains
 
       trk%gauge_height =   14d0
       trk%gauge_seqnum =    0
-      trk%spck_ver     =    0
       trk%track_gauge  = 1435d0
       trk%cant_angle   =    0d0
       trk%rail_y0      =    0d0
