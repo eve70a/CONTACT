@@ -76,18 +76,18 @@ for iwhe = 1 : 2 % "wheel number"
 
    % friction data using L = 0: Coulomb friction
 
-   imeth = 0;      % L-digit 0: Coulomb friction
+   ldigit = 0;      % L-digit 0: Coulomb friction
    fstat = 0.30;   % [-]
-   cntc_setfrictionmethod(iwhe, [], imeth, [fstat,fstat]);
+   cntc_setfrictionmethod(iwhe, [], ldigit, [fstat,fstat]);
 
    % friction variation across rail profile:
 
-   % imeth = 10;     % V-digit 1, L-digit 0: Coulomb friction, variable across rail
+   % ldigit = 10;     % V-digit 1, L-digit 0: Coulomb friction, variable across rail
    % nvf = 2;        % 2 control points with linear interpolation, constant extrapolation
    % params = [ nvf, ...
    %            -20*pi/180, 0.20, 0.20, ...     % constant [0.2,0.2] for surface inclination <= -20deg
    %            -10*pi/180, 0.30, 0.30 ];       % linear [0.2,0.2] - [0.3,0.3] for inclin. -20 -- -10 deg
-   % cntc_setfrictionmethod(iwhe, [], imeth, params);
+   % cntc_setfrictionmethod(iwhe, [], ldigit, params);
 
    % total vertical force specified, setting the N-digit to 1
 

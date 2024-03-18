@@ -490,7 +490,7 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) 
    ! Increment the number of active ire's (if ire is not initialized yet)
 
    if (ix_reid(ire).ge.0) then
-      write(bufout,'(a,i6,a,i6,a)') 'WARNING: Initialize: ire=',ire,' already initialized.'
+      write(bufout,'(a,i6,a,i6,a)') ' Warning: Initialize: ire=',ire,' already initialized.'
       call write_log(1, bufout)
    else
       num_reids = num_reids + 1
@@ -734,7 +734,6 @@ subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
-   call write_log('readinpfile...')
    ierror = 0
 
    call c_to_f_string(c_fname, f_fname, len_fname)
@@ -769,7 +768,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
    integer,      intent(in) :: values(lenflg) ! values of the parameters to be communicated to CONTACT
 !--local variables:
    character(len=*), parameter :: subnam = 'cntc_setFlags'
-   integer  :: i, imodul, ierror, psflrin
+   integer  :: i, imodul, ierror, psflcin
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_setFlags
 #endif
@@ -898,8 +897,8 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
          ! note: usage is different from other flags; we could introduce a subroutine setdebugflags
 
          my_ic%xflow  = 1
-         psflrin      = max(0, values(i))
-         call ic_unpack_dbg(imodul, psflrin, my_ic)
+         psflcin      = max(0, values(i))
+         call ic_unpack_dbg(imodul, psflcin, my_ic)
 
       elseif (params(i).eq.CNTC_ic_return) then         ! set R-digit in the RE-CP-data
 
@@ -4291,7 +4290,7 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_ic_xflow) then          ! get X-digit from the RE-CP-data
 
-         ! note: usage is inconsistent with setflags; we could return psflrin
+         ! note: usage is inconsistent with setflags; we could return psflcin
 
          values(i) = my_ic%xflow
 

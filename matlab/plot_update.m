@@ -1,7 +1,9 @@
 
-function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, norm_dist, show_angl, add_plot)
+function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, norm_dist, show_angl, ...
+                                                        add_plot, force_spline)
 
-% function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, norm_dist, show_angl, add_plot)
+% function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, norm_dist, show_angl,
+%                                                       add_plot, force_spline)
 %
 % show difference of two profiles at magnification 'fac'
 %
@@ -11,6 +13,7 @@ function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, nor
 % norm_dist == plot tangential updates (<0), full updates (0) or normal updates (>0)
 % show_angl == add markers at specified surface inclinations [ show_angl ] (deg)
 % add_plot  == clear current figure (0) or add plot to figure (1)
+% force_spline == assume different s parameterization even if #points is equal
 
 % Copyright 2008-2023 by Vtech CMCC.
 %
@@ -34,6 +37,9 @@ end
 if (nargin<8 | isempty(add_plot))
    add_plot  = 0;
 end
+if (nargin<9 | isempty(force_spline))
+   force_spline = 0;
+end
 
 % get (y,z)-data for the two profiles
 
@@ -53,7 +59,7 @@ end
 
 % different #points: resample using spline interpolation
 
-if (n1~=n2)
+if (n1~=n2 | force_spline)
    % form spline for profile 1
    lambda = 0; use_bspline = 0; wgt = []; ikinks = []; iaccel = [];
    spl  = make_spline([], y1_in, z1_in, lambda, wgt, ikinks, iaccel, use_bspline);

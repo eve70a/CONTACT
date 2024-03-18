@@ -215,8 +215,8 @@ contains
       if (ic1.ne.ic2) then
          zwarn = .true.
          if (my_lprint) then
-            write(lout, 1000) descrp, ic1
-            write(   *, 1000) descrp, ic1
+            write(bufout, 1000) descrp, ic1
+            call write_log(1, bufout)
  1000       format (' Warning: Control digit ',a,' =',i2,' cannot be changed through the spck inp-file.')
          endif
       endif
@@ -383,8 +383,9 @@ contains
       return
 
  985  continue
-         ierror = 0
-         write(lout,*) 'ERROR: cannot open input-file: ', trim(fname)
+         ierror = -2
+         write(bufout,'(3a)') ' ERROR: cannot open input-file: "', trim(fname),'"'
+         call write_log(1, bufout)
          return
 
       end associate
