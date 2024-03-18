@@ -314,7 +314,7 @@ contains
 
       if (imeth.eq.IMETH_BRENT) then
 
-         call brent_its_add_iterate(its, k, x_0, -wtd%ws%fz_inp, sub_ierror)
+         call brent_its_add_iterate(its, k, wtd%numcps, x_0, -wtd%ws%fz_inp, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
 
@@ -378,7 +378,7 @@ contains
          ! write(bufout,*) 'dfz_dzws= =', dfz_dzws
          ! call write_log(1, bufout)
 
-         call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
+         call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
 
@@ -467,7 +467,7 @@ contains
 
          k   = 0
          x_0 = wtd%ws%z_cnt0
-         call brent_its_add_iterate(its, k, x_0, -wtd%ws%fz_inp, sub_ierror)
+         call brent_its_add_iterate(its, k, wtd%numcps, x_0, -wtd%ws%fz_inp, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
 
@@ -479,7 +479,7 @@ contains
          r_new    = wtd%ftrk%z() - wtd%ws%fz_inp
          dfz_dzws = wtd%dfz_dzws
 
-         call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
+         call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
 
@@ -544,7 +544,7 @@ contains
 
          r_new = wtd%ftrk%z() - ftarg
 
-         call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
+         call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
 
@@ -859,8 +859,8 @@ contains
       ! horizontal and vertical forces prescribed: {F_z,F_x} = F( z_ws, omg_ws )
 
       if (x_force.ge.2 .or. ic%flow.ge.1) then
-         ! str16(1) = fmt_gs(12,6, xk(1))
-         ! str16(2) = fmt_gs(13,8, xk(2))
+         ! str16(1) = fmt_gs(12,6,6, xk(1))
+         ! str16(2) = fmt_gs(13,8,8, xk(2))
          ! write(str16(3), '(f13.8)') fk(1) - ftarg(1)
          ! write(str16(4), '(f13.8)') fk(2) - ftarg(2)
          ! write(str16(5), '(f11.6)') bk(2,2)
@@ -940,7 +940,7 @@ contains
       r_new  = fy_tot - ftarg
       dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
 
-      call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
+      call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
       call brent_its_print(k, its, wtd%ic, x_force)
 
       ! set second guess dy = 1 and solve for z_ws using inner iteration
@@ -962,7 +962,7 @@ contains
       r_new  = fy_tot - ftarg
       dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
 
-      call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
+      call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
       call brent_its_print(k, its, wtd%ic, x_force)
 
       ! while not "done" do
@@ -1005,7 +1005,7 @@ contains
          r_new  = fy_tot - ftarg
          dz_ws  = wtd%ws%z - wtd%ws%z_cnt0
 
-         call brent_its_add_iterate(its, k, x_new, r_new, sub_ierror)
+         call brent_its_add_iterate(its, k, wtd%numcps, x_new, r_new, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
          ! write(bufout,'(a,f12.4)') ' dz_ws=',dz_ws

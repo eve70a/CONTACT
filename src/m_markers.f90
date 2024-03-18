@@ -682,9 +682,9 @@ subroutine vec_print(v, nam, idebug, ndigit)
    my_ndigit = max(2, min(8, my_ndigit))
    my_len    = 8 + my_ndigit
 
-   strng(1) = fmt_gs(my_len, my_ndigit, v%v(1))
-   strng(2) = fmt_gs(my_len, my_ndigit, v%v(2))
-   strng(3) = fmt_gs(my_len, my_ndigit, v%v(3))
+   strng(1) = fmt_gs(my_len, my_ndigit, my_ndigit, v%v(1))
+   strng(2) = fmt_gs(my_len, my_ndigit, my_ndigit, v%v(2))
+   strng(3) = fmt_gs(my_len, my_ndigit, my_ndigit, v%v(3))
 
    if (idebug.eq.3) then
       ! RecurDyn format:

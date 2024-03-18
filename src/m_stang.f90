@@ -581,8 +581,8 @@ contains
             endif
             ! write(*,*) 'relaxation in',icnt,' points'
 
-            strng(1) = fmt_gs(12,4, dif)
-            strng(2) = fmt_gs(12,4, difid)
+            strng(1) = fmt_gs(12, 4, 4, dif)
+            strng(2) = fmt_gs(12, 4, 4, difid)
             if (ic%flow.ge.4) then
                write(bufout,8601) itslp, (strng(j), j=1,2)
             elseif (ic%flow.ge.2 .and. .not.use_plast) then
@@ -649,8 +649,8 @@ contains
             endif
             !  write(*,*) 'relaxation in',icnt,' points'
 
-            strng(1) = fmt_gs(12,4, dif)
-            strng(2) = fmt_gs(12,4, difid)
+            strng(1) = fmt_gs(12, 4, 4, dif)
+            strng(2) = fmt_gs(12, 4, 4, difid)
             if (ic%flow.ge.4) then
                write(bufout,8701) itslp, (strng(j), j=1,2)
             elseif (ic%flow.ge.2 .and. .not.use_plast) then

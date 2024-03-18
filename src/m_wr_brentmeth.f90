@@ -42,7 +42,7 @@ private
    type :: t_brent_its
       integer                                 :: ikarg, maxit, numit
       real(kind=8)                            :: ftarg
-      integer,      dimension(:), allocatable :: k_all
+      integer,      dimension(:), allocatable :: k_all, np_all
       real(kind=8), dimension(:), allocatable :: xk_all, rk_all
       integer                                 :: k_0, k_1, k_a, k_b, k_c, k_d
       real(kind=8), pointer     :: x_a => NULL(), x_b => NULL(), x_c => NULL(), x_d => NULL(),          &
@@ -57,6 +57,7 @@ private
       ! xk_all      x-values used sorted in ascending order
       ! rk_all      residual values corresponding to x-values used
       ! k_all       iteration numbers corresponding to x-values used (starting at k=0?)
+      ! np_all      number of contact patches in each iteration
       ! k_0, k_1    iteration numbers of current bracket points
       ! x_0, r_0    lower side of current bracket
       ! k_a--k_d    iteration numbers of current/previous best guesses
@@ -86,6 +87,7 @@ contains
       its%numit = 0
       its%ftarg = ftarg
       allocate(its%k_all(its%maxit))
+      allocate(its%np_all(its%maxit))
       allocate(its%xk_all(its%maxit))
       allocate(its%rk_all(its%maxit))
 
@@ -269,12 +271,12 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine brent_its_add_iterate(its, k, xk, rk, my_ierror)
+   subroutine brent_its_add_iterate(its, k, npatch, xk, rk, my_ierror)
 !--purpose: insert an iterate in the sorted structure for Brent's algorithm
       implicit none
 !--subroutine arguments:
       type(t_brent_its)      :: its
-      integer                :: k, my_ierror
+      integer                :: k, npatch, my_ierror
       real(kind=8)           :: xk, rk
 !--local variables
       integer           :: i, j
@@ -301,6 +303,7 @@ contains
 
       do j = its%numit, max(i,1), -1
          its%k_all(j+1)  = its%k_all(j)
+         its%np_all(j+1) = its%np_all(j)
          its%xk_all(j+1) = its%xk_all(j)
          its%rk_all(j+1) = its%rk_all(j)
       enddo
@@ -311,6 +314,7 @@ contains
 
       its%numit     = its%numit + 1
       its%k_all(i)  = k
+      its%np_all(i) = npatch
       its%xk_all(i) = xk
       its%rk_all(i) = rk
 
@@ -394,16 +398,16 @@ contains
          dfdx = brent_sensitivity_k(k, its, idebug_br)
 
          write(str12(1), '(f12.4)') its%xk_all(it)
-         str12(2) = fmt_gs(12,4, its%rk_all(it)+its%ftarg)
-         str12(3) = fmt_gs(12,4, dfdx)
+         str12(2) = fmt_gs(12, 4, 4, its%rk_all(it)+its%ftarg)
+         str12(3) = fmt_gs(12, 4, 4, dfdx)
          if (its%ikarg.eq.ikYDIR) then
-            write(bufout,1020) its%k_all(it), (str12(j),j=1,3)
+            write(bufout,1020) its%k_all(it), (str12(j),j=1,3), its%np_all(it)
          else
             write(bufout,1030) its%k_all(it), (str12(j),j=1,3)
          endif
          call write_log(1, bufout)
 
- 1020    format(2x, i4,', BR,  dyrail, Fy: ',2a,', dFy/dy:',a)
+ 1020    format(2x, i4,', BR,  dyrail, Fy: ',2a,', dFy/dy:',a,',',i3,' patches')
  1030    format(4x, i6,', NR,  z_ws, Fz: ',2a,', dFz/dz:',a)
 
       endif
@@ -416,12 +420,12 @@ contains
          dfdx = brent_sensitivity_k(k, its, idebug_br)
 
          write(str12(1), '(f12.4)') its%xk_all(it)
-         str12(2) = fmt_gs(12,4, its%rk_all(it)+its%ftarg)
-         str12(3) = fmt_gs(12,4, its%rk_all(it))
-         str12(4) = fmt_gs(12,4, dfdx)
+         str12(2) = fmt_gs(12, 4, 4, its%rk_all(it)+its%ftarg)
+         str12(3) = fmt_gs(12, 4, 4, its%rk_all(it))
+         str12(4) = fmt_gs(12, 4, 4, dfdx)
 
          if (its%ikarg.eq.ikYDIR) then
-            write(bufout,2020) its%k_all(it), (str12(j),j=1,4)
+            write(bufout,2020) its%k_all(it), (str12(j),j=1,4), its%np_all(it)
          else
             write(bufout,2030) its%k_all(it), (str12(j),j=1,4)
          endif
@@ -450,22 +454,22 @@ contains
             ilen = max(1, len(trim(strptr)))
 
             if (idebug_br.ge.6 .or. .true.) then
-               str16(1) = fmt_gs(16,8, its%xk_all(it))
-               str16(2) = fmt_gs(16,8, its%rk_all(it)+its%ftarg)
-               str16(3) = fmt_gs(16,8, its%rk_all(it))
-               str16(4) = fmt_gs(16,8, dfdx)
+               str16(1) = fmt_gs(16, 8, 8, its%xk_all(it))
+               str16(2) = fmt_gs(16, 8, 8, its%rk_all(it)+its%ftarg)
+               str16(3) = fmt_gs(16, 8, 8, its%rk_all(it))
+               str16(4) = fmt_gs(16, 8, 8, dfdx)
                if (its%ikarg.eq.ikYDIR) then
-                  write(bufout,2020) its%k_all(it), (str16(j),j=1,4), strptr(1:ilen-1)
+                  write(bufout,2020) its%k_all(it), (str16(j),j=1,4), strptr(1:ilen-1), its%np_all(it)
                else
                   write(bufout,2030) its%k_all(it), (str16(j),j=1,4), strptr(1:ilen-1)
                endif
             else
                write(str12(1), '(f12.4)') its%xk_all(it)
-               str12(2) = fmt_gs(12,4, its%rk_all(it)+its%ftarg)
-               str12(3) = fmt_gs(12,4, its%rk_all(it))
-               str12(4) = fmt_gs(12,4, dfdx)
+               str12(2) = fmt_gs(12, 4, 4, its%rk_all(it)+its%ftarg)
+               str12(3) = fmt_gs(12, 4, 4, its%rk_all(it))
+               str12(4) = fmt_gs(12, 4, 4, dfdx)
                if (its%ikarg.eq.ikYDIR) then
-                  write(bufout,2020) its%k_all(it), (str12(j),j=1,4), strptr(1:ilen-1)
+                  write(bufout,2020) its%k_all(it), (str12(j),j=1,4), strptr(1:ilen-1), its%np_all(it)
                else
                   write(bufout,2030) its%k_all(it), (str12(j),j=1,4), strptr(1:ilen-1)
                endif
@@ -473,7 +477,7 @@ contains
             call write_log(1, bufout)
          enddo
 
- 2020    format(2x, i4,', BR,  dy, Fy, res:',3a,', dFy/dy:',2a)
+ 2020    format(2x, i4,', BR,  dy, Fy, res:',3a,', dFy/dy:',2a,',',i3,' patches')
  2030    format(4x, i6,', NR,  z_ws, Fz:',2a,', res: ',a,', dFz/dz:',2a)
 
          call write_log(' --- end of brent iteration table -----------------------' //                  &

@@ -604,7 +604,7 @@ contains
                 ', err=', f7.4,' %')
       endif
       if (icloc%flow.ge.3) then
-         strng = fmt_gs(11, 3, sens_loc)
+         strng = fmt_gs(11, 3, 3, sens_loc)
          write(bufout,120) strng, itcg
          call write_log(1, bufout)
  120     format('      Norm: estimated sensitivity: dFn/dpen=',a11, '  ItCG=',i6)

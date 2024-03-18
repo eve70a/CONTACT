@@ -1722,10 +1722,10 @@ contains
          if (maxval(abs(bbw%z)).gt.9999. .or. maxval(abs(bbr%z)).gt.9999.) then
             write(bufout,'(2a,/,2(5a,:,/))') ' WARNING: the wheel and rail are vertically in ',         &
                         'different places.',                                                            &
-                        '          the wheel grid has z=[', fmt_gs(8,3,minval(bbw%z)),',',              &
-                                                            fmt_gs(8,3,maxval(bbw%z)),'],',             &
-                        '          the  rail grid has z=[', fmt_gs(8,3,minval(bbr%z)),',',              &
-                                                            fmt_gs(8,3,maxval(bbr%z)),'].'
+                        '          the wheel grid has z=[', fmt_gs(8,3,3,minval(bbw%z)),',',            &
+                                                            fmt_gs(8,3,3,maxval(bbw%z)),'],',           &
+                        '          the  rail grid has z=[', fmt_gs(8,3,3,minval(bbr%z)),',',            &
+                                                            fmt_gs(8,3,3,maxval(bbr%z)),'].'
          else
             write(bufout,'(2a,/,2(2(a,f8.3),a,:,/))') ' WARNING: the wheel and rail are vertically ',   &
                         'in different places.',                                                         &

@@ -359,17 +359,25 @@ end subroutine write_log_msg
 
 !------------------------------------------------------------------------------------------------------------
 
-function fmt_gs(iw, id, value)
-!--purpose: Print a value with "GS"-format descriptor: switch between F and ES depending on size of value.
+function fmt_gs(iw, idf, ides, value)
+!--purpose: Print a value with "GS"-format descriptor: switch between Fiw.idf and ESiw.ides depending
+!           on size of value. Output string of iw characters with idf/ides significant digits. 
+!           examples: fmt_gs(12, 6, 6, -12345678.9)   --> '-1.23457E+07'
+!                     fmt_gs(12, 8, 6, -12345678.9)   --> '  -12345679.'
+!                     fmt_gs(12, 6, 6, -123.456789)   --> '    -123.457'
+!                     fmt_gs(12, 6, 6, -0.123456789)  --> '   -0.123457'
+!                     fmt_gs(12, 6, 6, -0.0123456789) --> '-1.23457E-02'
+!           F iw.idf: 3 characters for minus + leading zero + dot, so idef <= iw-3
+!           ES iw.ides: 6 characters for minus + dot + exponent, so ides <= iw-6.
    implicit none
 !--subroutine arguments:
-   integer,          intent(in)  :: iw, id
+   integer,          intent(in)  :: iw, idf, ides
    real(kind=8),     intent(in)  :: value
 !--return value:
-   character(len=iw)   :: fmt_gs
+   character(len=iw)  :: fmt_gs
 !--local variables :
-   integer, parameter :: ie = 2
-   integer            :: lg
+   integer, parameter :: ie = 2  ! #digits used for exponent e.g. E+07, E-02
+   integer            :: lg      ! 10-log of input value
    character(len=12)  :: fmtstr
    character(len=iw)  :: strng
 
@@ -378,11 +386,11 @@ function fmt_gs(iw, id, value)
    else
       lg = floor( log(abs(value)) / log(10d0) + 1d-7) 
    endif
-   if (lg.ge.id .or. lg.le.-2) then
-      write(fmtstr,'(3(a,i2),a)') '(ES',iw,'.',id-1,'E',ie,')'
+   if (lg.ge.idf .or. lg.le.-2) then
+      write(fmtstr,'(3(a,i2),a)') '(ES',iw,'.',ides-1,'E',ie,')'
       write(strng,fmtstr) value
    else
-      write(fmtstr,'(2(a,i2),a)') '(F',iw,'.',max(0,id-lg-1),')'
+      write(fmtstr,'(2(a,i2),a)') '(F',iw,'.',max(0,idf-lg-1),')' ! idf-lg-1 digits for fraction
       write(strng,fmtstr) value
    endif
    fmt_gs = strng

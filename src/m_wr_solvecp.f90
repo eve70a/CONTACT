@@ -566,6 +566,10 @@ contains
       if (new_gd) then
          gd%ic%iestim = 0
          if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (new patch)...')
+      elseif (abs(gd%potcon_inp%dx - gd%potcon_cur%dx).gt.1d-4*gd%potcon_inp%dx .or.                    &
+              abs(gd%potcon_inp%dy - gd%potcon_cur%dy).gt.1d-4*gd%potcon_inp%dy) then
+         gd%ic%iestim = 0
+         if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (change dx or dy)...')
       elseif (abs(gd%potcon_inp%npot - gd%potcon_cur%npot).gt.                                          &
                 0.4d0 * min(gd%potcon_inp%npot, gd%potcon_cur%npot)) then
          gd%ic%iestim = 0

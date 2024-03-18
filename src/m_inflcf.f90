@@ -394,15 +394,15 @@ contains
                write(lun,'(a,i3,a,f8.3,a)') '% offset is=',iy,' (s=', sy, ')'
                write(lun,1243)
                do ix = 0, mx-1                     ! zz, zx, zy,  xz, xx, xy,  yz, yx, yy
-                  strng(1) = fmt_gs(12, 5, inflcf%cf(ix,iy,3,3))
-                  strng(2) = fmt_gs(12, 5, inflcf%cf(ix,iy,3,1))
-                  strng(3) = fmt_gs(12, 5, inflcf%cf(ix,iy,3,2))
-                  strng(4) = fmt_gs(12, 5, inflcf%cf(ix,iy,1,3))
-                  strng(5) = fmt_gs(12, 5, inflcf%cf(ix,iy,1,1))
-                  strng(6) = fmt_gs(12, 5, inflcf%cf(ix,iy,1,2))
-                  strng(7) = fmt_gs(12, 5, inflcf%cf(ix,iy,2,3))
-                  strng(8) = fmt_gs(12, 5, inflcf%cf(ix,iy,2,1))
-                  strng(9) = fmt_gs(12, 5, inflcf%cf(ix,iy,2,2))
+                  strng(1) = fmt_gs(12, 5, 5, inflcf%cf(ix,iy,3,3))
+                  strng(2) = fmt_gs(12, 5, 5, inflcf%cf(ix,iy,3,1))
+                  strng(3) = fmt_gs(12, 5, 5, inflcf%cf(ix,iy,3,2))
+                  strng(4) = fmt_gs(12, 5, 5, inflcf%cf(ix,iy,1,3))
+                  strng(5) = fmt_gs(12, 5, 5, inflcf%cf(ix,iy,1,1))
+                  strng(6) = fmt_gs(12, 5, 5, inflcf%cf(ix,iy,1,2))
+                  strng(7) = fmt_gs(12, 5, 5, inflcf%cf(ix,iy,2,3))
+                  strng(8) = fmt_gs(12, 5, 5, inflcf%cf(ix,iy,2,1))
+                  strng(9) = fmt_gs(12, 5, 5, inflcf%cf(ix,iy,2,2))
                   write(lun,1244) ix, ix*dx, (strng(i)(1:12), i=1,9)
                enddo
             enddo
@@ -458,15 +458,15 @@ contains
                                 ') for matrix', imat, ' (xc,sc)=(',0d0,',',smat,'),'
                   write(lun,1243)
                   do ix = 0, mx-1                     ! zz, zx, zy,  xz, xx, xy,  yz, yx, yy
-                     strng(1) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,3,3))
-                     strng(2) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,3,1))
-                     strng(3) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,3,2))
-                     strng(4) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,1,3))
-                     strng(5) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,1,1))
-                     strng(6) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,1,2))
-                     strng(7) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,2,3))
-                     strng(8) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,2,1))
-                     strng(9) = fmt_gs(12, 5, inflcf%cy(ix,iy,imat,2,2))
+                     strng(1) = fmt_gs(12, 5, 5, inflcf%cy(ix,iy,imat,3,3))
+                     strng(2) = fmt_gs(12, 5, 5, inflcf%cy(ix,iy,imat,3,1))
+                     strng(3) = fmt_gs(12, 5, 5, inflcf%cy(ix,iy,imat,3,2))
+                     strng(4) = fmt_gs(12, 5, 5, inflcf%cy(ix,iy,imat,1,3))
+                     strng(5) = fmt_gs(12, 5, 5, inflcf%cy(ix,iy,imat,1,1))
+                     strng(6) = fmt_gs(12, 5, 5, inflcf%cy(ix,iy,imat,1,2))
+                     strng(7) = fmt_gs(12, 5, 5, inflcf%cy(ix,iy,imat,2,3))
+                     strng(8) = fmt_gs(12, 5, 5, inflcf%cy(ix,iy,imat,2,1))
+                     strng(9) = fmt_gs(12, 5, 5, inflcf%cy(ix,iy,imat,2,2))
                      write(lun,1244) ix, ix*dx, (strng(i)(1:12), i=1,9)
                   enddo
                enddo

@@ -2192,7 +2192,7 @@ subroutine gf3_print(f, nam, ikarg, idebug, ndigit)
          do ix = 1, nx
             ii = ix + (iy-1)*nx
             do ik = ik0, ik1
-               strng(ik) = fmt_gs(my_len, my_ndigit, f%val(ii,ik))
+               strng(ik) = fmt_gs(my_len, my_ndigit, my_ndigit, f%val(ii,ik))
             enddo
             write(bufout, '(a,i6,a,i4,a,i4,a,3a)') ' ii=',ii,' (',ix,',',iy,'):',                       &
                                                                  (strng(ik)(1:my_len), ik=ik0, ik1)

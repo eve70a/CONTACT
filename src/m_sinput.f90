@@ -187,12 +187,12 @@ contains
  2021    format (' Input: WARNING. In steady state rolling previous Pv is ignored: digit P :=', i3)
       endif
 
-      if (ic%gencr_inp.eq.0 .and. is_roll .and. .not.was_roll) then
+      if (ic%gencr_inp.le.1 .and. is_roll .and. .not.was_roll) then
          zerror = .true.
          write(lout, 2041) ic%tang, ic%gencr_inp
          write(   *, 2041) ic%tang, ic%gencr_inp
- 2041    format (' Input: ERROR. In the first rolling case, new influence coefficients',/,              &
-                 '               are required.  T=',i3,', C=',i3,'.')
+ 2041    format (' Input: ERROR. New material parameters are required in the first rolling case,',      &
+                 ' T=',i3,', C=',i3,'.')
       endif
 
       if (ic%gencr_inp.eq.0 .and. .not.is_roll .and. was_roll) then

@@ -164,11 +164,11 @@ contains
 
          ! header per row: 2 spaces + [ 3 spaces + 9 characters ]*
 
-         write(lout, 2100) mater%nu, fmt_gs(12,4,mater%ga), mater%ak, fmt_gs(12,4,wtd%solv%eps)
+         write(lout, 2100) mater%nu, fmt_gs(12,4,4,mater%ga), mater%ak, fmt_gs(12,4,4,wtd%solv%eps)
  2100    format (1x, /, ' MATERIAL CONSTANTS', /,                                                       &
             2x, 3x,'NU',7x, 3x,'G',8x, 3x,'AK',7x, 3x,'EPS',/, 2x, g12.4,a,g12.4,a,/)
 
-         write(lout, 2101) mater%poiss, fmt_gs(12,4,mater%gg(1)), fmt_gs(12,4,mater%gg(2))
+         write(lout, 2101) mater%poiss, fmt_gs(12,4,4,mater%gg(1)), fmt_gs(12,4,4,mater%gg(2))
  2101    format ( 2x, 2x,'POISS(R)',2x, 2x,'POISS(W)',2x, 3x,'GG(R)',4x, 3x,'GG(W)',/, 2x, 2g12.4, 2a, /)
 
          if (ic%heat.ge.1 .and. ic%mater.ne.4) then
@@ -271,22 +271,22 @@ contains
  4000    format (/, 1x,'WHEEL-SET POSITION AND VELOCITY')
 
          if (.false.) then
-            strng(1) = fmt_gs(18,10,ws%z)
+            strng(1) = fmt_gs(18,10,10,ws%z)
          else
             write(strng(1), '(f12.4)') ws%z
          endif
          if (ic%config.le.1) then
             ! wheelset on track: print S_WS, VX_WS
-            write(lout, 4001) 'S', fmt_gs(12,4,ws%s), fmt_gs(12,4,ws%y), trim(strng(1)),                &
-                   fmt_gs(12,4,ws%roll), fmt_gs(12,4,ws%yaw), fmt_gs(12,4,ws%pitch)
-            write(lout, 4002) fmt_gs(12,4,ws%vs), fmt_gs(12,4,ws%vy), fmt_gs(12,4,ws%vz),               &
-                   fmt_gs(12,4,ws%vroll), fmt_gs(12,4,ws%vyaw), ws%vpitch
+            write(lout, 4001) 'S', fmt_gs(12,4,4,ws%s), fmt_gs(12,4,4,ws%y), trim(strng(1)),            &
+                   fmt_gs(12,4,4,ws%roll), fmt_gs(12,4,4,ws%yaw), fmt_gs(12,4,4,ws%pitch)
+            write(lout, 4002) fmt_gs(12,4,4,ws%vs), fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),               &
+                   fmt_gs(12,4,4,ws%vroll), fmt_gs(12,4,4,ws%vyaw), ws%vpitch
          else
             ! wheelset on roller rig: print X_WS, VPITCH_ROL
-            write(lout, 4001) 'X', fmt_gs(12,4,ws%x), fmt_gs(12,4,ws%y), trim(strng(1)),                &
-                   fmt_gs(12,4,ws%roll), fmt_gs(12,4,ws%yaw), fmt_gs(12,4,ws%pitch)
-            write(lout, 4003) trk%vpitch_rol, fmt_gs(12,4,ws%vy), fmt_gs(12,4,ws%vz),                   &
-                  fmt_gs(12,4,ws%vroll), fmt_gs(12,4,ws%vyaw), ws%vpitch
+            write(lout, 4001) 'X', fmt_gs(12,4,4,ws%x), fmt_gs(12,4,4,ws%y), trim(strng(1)),            &
+                   fmt_gs(12,4,4,ws%roll), fmt_gs(12,4,4,ws%yaw), fmt_gs(12,4,4,ws%pitch)
+            write(lout, 4003) trk%vpitch_rol, fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),               &
+                  fmt_gs(12,4,4,ws%vroll), fmt_gs(12,4,4,ws%vyaw), ws%vpitch
          endif
  4001    format (2x, 3x,a1,'_WS',5x, 3x,'Y_WS',5x, 3x,'Z_WS',5x, 3x,'ROLL_WS',2x, 3x,'YAW_WS',3x,       &
             3x,'PITCH_WS',1x,/, 2x, 6a /)
@@ -298,11 +298,11 @@ contains
          rdum(1:12) =  (/ my_wheel%dx, my_wheel%dy, my_wheel%dz, my_wheel%droll, my_wheel%dyaw,         &
                           my_wheel%dpitch, my_wheel%vx, my_wheel%vy, my_wheel%vz, my_wheel%vroll,       &
                           my_wheel%vyaw, my_wheel%vpitch /)
-         if (maxval(abs(rdum(1:12))).gt.1d-6) then
-            write(lout, 4101) fmt_gs(12,4,rdum( 1)), fmt_gs(12,4,rdum( 2)), fmt_gs(12,4,rdum( 3)),      &
-                              fmt_gs(12,4,rdum( 4)), fmt_gs(12,4,rdum( 5)), fmt_gs(12,4,rdum( 6)),      &
-                              fmt_gs(12,4,rdum( 7)), fmt_gs(12,4,rdum( 8)), fmt_gs(12,4,rdum( 9)),      &
-                              fmt_gs(12,4,rdum(10)), fmt_gs(12,4,rdum(11)), fmt_gs(12,4,rdum(12))
+         if (maxval(abs(rdum(1:12))).gt.1d-10) then
+            write(lout, 4101) fmt_gs(12,4,4,rdum( 1)), fmt_gs(12,4,4,rdum( 2)), fmt_gs(12,4,4,rdum( 3)), &
+                              fmt_gs(12,4,4,rdum( 4)), fmt_gs(12,4,4,rdum( 5)), fmt_gs(12,4,4,rdum( 6)), &
+                              fmt_gs(12,4,4,rdum( 7)), fmt_gs(12,4,4,rdum( 8)), fmt_gs(12,4,4,rdum( 9)), &
+                              fmt_gs(12,4,4,rdum(10)), fmt_gs(12,4,4,rdum(11)), fmt_gs(12,4,4,rdum(12))
  4101       format (1x,'FLEXIBLE WHEEL-SET DEVIATIONS',/,                                               &
                2x, 3x,'DXWHL',4x, 3x,'DYWHL',4x, 3x,'DZWHL',4x, 3x,'DROLLW',3x, 3x,'DYAWW',4x,          &
                    3x,'DPITCHW',2x, /, 2x, 6a, /,                                                       &
@@ -311,9 +311,9 @@ contains
          endif
 
          if (max(abs(my_rail%dy), abs(my_rail%dz), abs(my_rail%roll), abs(my_rail%vy), abs(my_rail%vz), &
-                 abs(my_rail%vroll)).gt.1d-6) then
-            write(lout, 4102) my_rail%dy, my_rail%dz, my_rail%roll, fmt_gs(12,4,my_rail%vy),            &
-                              fmt_gs(12,4,my_rail%vz), fmt_gs(12,4,my_rail%vroll)
+                 abs(my_rail%vroll)).gt.1d-10) then
+            write(lout, 4102) my_rail%dy, my_rail%dz, my_rail%roll, fmt_gs(12,4,4,my_rail%vy),          &
+                              fmt_gs(12,4,4,my_rail%vz), fmt_gs(12,4,4,my_rail%vroll)
  4102       format (1x,'RAIL IRREGULARITY',/,                                                           &
                2x, 3x,'DYRAIL',3x, 3x,'DZRAIL',3x, 3x,'DROLLR',3x, 3x,'VYRAIL',3x, 3x,'VZRAIL',3x,      &
                    3x,'VROLLR',3x, /, 2x, 3f12.4, 3a,/)
@@ -321,8 +321,8 @@ contains
 
          if (ic%force1.eq.3) then
             write(lout,4202)
-            write(lout,4203) wtd%trk%ky_rail, sgn*wtd%trk%dy_defl, fmt_gs(12,4,wtd%trk%fy_rail),        &
-                   wtd%trk%kz_rail, wtd%trk%dz_defl, fmt_gs(12,4,wtd%trk%fz_rail)
+            write(lout,4203) wtd%trk%ky_rail, sgn*wtd%trk%dy_defl, fmt_gs(12,4,4,wtd%trk%fy_rail),      &
+                   wtd%trk%kz_rail, wtd%trk%dz_defl, fmt_gs(12,4,4,wtd%trk%fz_rail)
  4202       format (1x,'MASSLESS RAIL DEFLECTION')
  4203       format (2x, 3x,'KY_RAIL',2x, 3x,'DY_DEFL',2x, 3x,'FY_RAIL',2x, 3x,'KZ_RAIL',2x,             &
                    3x,'DZ_DEFL',2x, 3x,'FZ_RAIL',2x, /, 2x, 2f12.4,a, 2f12.4,a,/)
@@ -345,10 +345,10 @@ contains
             write(lout,5010) 'ROLLER'
          endif
          write(lout,5011)
-         write(lout,5012) fmt_gs(12,4,wtd%ftrk%x()), fmt_gs(12,4,sgn*wtd%ftrk%y()),                     &
-                fmt_gs(12,4,wtd%ftrk%z()), fmt_gs(12,4,wtd%fws%x()), fmt_gs(12,4,sgn*wtd%fws%y()),      &
-                fmt_gs(12,4,wtd%fws%z())
-!               fmt_gs(16,8,wtd%ftrk%z()), fmt_gs(16,8,wtd%fws%x()), fmt_gs(12,4,sgn*wtd%fws%y()),      &
+         write(lout,5012) fmt_gs(12,4,4,wtd%ftrk%x()), fmt_gs(12,4,4,sgn*wtd%ftrk%y()),                 &
+                fmt_gs(12,4,4,wtd%ftrk%z()), fmt_gs(12,4,4,wtd%fws%x()), fmt_gs(12,4,4,sgn*wtd%fws%y()), &
+                fmt_gs(12,4,4,wtd%fws%z())
+!               fmt_gs(16,8,8,wtd%ftrk%z()), fmt_gs(16,8,8,wtd%fws%x()), fmt_gs(12,4,4,sgn*wtd%fws%y()), &
  5010    format (1x, /, ' TOTAL FORCES AND MOMENTS ON ',a)
  5011    format (2x, 3x,'FX(TR)',3x, 3x,'FY(TR)',3x, 3x,'FZ(TR)',3x, 3x,'FX(WS)',3x, 3x,'FY(WS)',3x,    &
                      3x,'FZ(WS)')
@@ -357,8 +357,8 @@ contains
 
       if (ic%output_surf.ge.2 .and. out_open.eq.1) then
          write(lout,5102)
-         write(lout,5103) wtd%xavg%x(), sgn*wtd%xavg%y(), wtd%xavg%z(), fmt_gs(12,4,sgn*wtd%tavg%x()),  &
-                fmt_gs(12,4,wtd%tavg%y()), fmt_gs(12,4,sgn*wtd%tavg%z())
+         write(lout,5103) wtd%xavg%x(), sgn*wtd%xavg%y(), wtd%xavg%z(), fmt_gs(12,4,4,sgn*wtd%tavg%x()), &
+                fmt_gs(12,4,4,wtd%tavg%y()), fmt_gs(12,4,4,sgn*wtd%tavg%z())
  5102    format (1x, /, ' AVERAGE CONTACT POSITION')
  5103    format (2x, 3x,'XAV(TR)',2x, 3x,'YAV(TR)',2x, 3x,'ZAV(TR)',2x, 3x,'MX(AV)',3x,                 &
                      3x,'MY(AV)',3x, 3x,'MZ(AV)', /, 3f12.4, 3a)
@@ -476,10 +476,10 @@ contains
             ! report on creepages
 
             if (ic%tang.gt.0) then
-               strng(1) = fmt_gs(12, 4,     veloc)
-               strng(2) = fmt_gs(12, 4,     cksi)
-               strng(3) = fmt_gs(12, 4, sgn*ceta)
-               strng(4) = fmt_gs(12, 4, sgn*cphi)
+               strng(1) = fmt_gs(12, 4, 4,     veloc)
+               strng(2) = fmt_gs(12, 4, 4,     cksi)
+               strng(3) = fmt_gs(12, 4, 4, sgn*ceta)
+               strng(4) = fmt_gs(12, 4, 4, sgn*cphi)
                write(lout, 6301)
                write(lout, 6305) sgn*chi, dq, strng(1), strng(2), strng(3), strng(4)
  6301          format (' KINEMATIC CONSTANTS')
@@ -502,12 +502,12 @@ contains
             fxtru1 = fxrel1 * (fntrue*muscal+tiny)
             fytru1 = fyrel1 * (fntrue*muscal+tiny)
 
-            strng(1) = fmt_gs(12, 4, fntrue)
-            strng(2) = fmt_gs(12, 4, filt_sml(    fxtru1,0.5d0*eps*fntrue*muscal))
-            strng(3) = fmt_gs(12, 4, filt_sml(sgn*fytru1,0.5d0*eps*fntrue*muscal))
-            strng(4) = fmt_gs(12, 4, sgn*mztru1)
-            strng(5) = fmt_gs(12, 4, elen1)
-            strng(6) = fmt_gs(12, 4, frpow1)
+            strng(1) = fmt_gs(12, 4, 4, fntrue)
+            strng(2) = fmt_gs(12, 4, 4, filt_sml(    fxtru1,0.5d0*eps*fntrue*muscal))
+            strng(3) = fmt_gs(12, 4, 4, filt_sml(sgn*fytru1,0.5d0*eps*fntrue*muscal))
+            strng(4) = fmt_gs(12, 4, 4, sgn*mztru1)
+            strng(5) = fmt_gs(12, 4, 4, elen1)
+            strng(6) = fmt_gs(12, 4, 4, frpow1)
 
             if (ic%output_surf.ge.2) write(lout,6400)
             write(lout,6401)
@@ -521,14 +521,14 @@ contains
             if (.not.gd%kin%use_muscal) strng(1) = '  FX/FN'
             if (.not.gd%kin%use_muscal) strng(2) = ' FS/FN'
 
-            strng(3) = fmt_gs(12, 4, fnscal)
-            strng(4) = fmt_gs(12, 4, filt_sml(fxrel1,0.5d0*eps))
-            strng(5) = fmt_gs(12, 4, filt_sml(sgn*fyrel1,0.5d0*eps))
-            strng(6) = fmt_gs(12, 4, gd%kin%pen)
+            strng(3) = fmt_gs(12, 4, 4, fnscal)
+            strng(4) = fmt_gs(12, 4, 4, filt_sml(fxrel1,0.5d0*eps))
+            strng(5) = fmt_gs(12, 4, 4, filt_sml(sgn*fyrel1,0.5d0*eps))
+            strng(6) = fmt_gs(12, 4, 4, gd%kin%pen)
 
             if (ic%print_pmax) then
                strng(7)  = '    PMAX    '
-               strng(9)  = fmt_gs(12, 4, pmax1)
+               strng(9)  = fmt_gs(12, 4, 4, pmax1)
             endif
             if (ic%heat.ge.1) then
                tmp1mx = gf3_max(AllElm, temp1, ikZDIR)
@@ -536,11 +536,11 @@ contains
                if (.not.ic%print_pmax) then
                   strng(7)  = '     MAX(T1)'
                   strng(8)  = '     MAX(T2)'
-                  strng(9)  = fmt_gs(12, 4, tmp1mx)
-                  strng(10) = fmt_gs(12, 4, tmp2mx)
+                  strng(9)  = fmt_gs(12, 4, 4, tmp1mx)
+                  strng(10) = fmt_gs(12, 4, 4, tmp2mx)
                else
                   strng(8)  = '  MAX(T1,T2)'
-                  strng(10) = fmt_gs(12, 4, max(tmp1mx,tmp2mx))
+                  strng(10) = fmt_gs(12, 4, 4, max(tmp1mx,tmp2mx))
                endif
             endif
 
@@ -578,7 +578,7 @@ contains
             do iout = 1, nsens_out
                do iin = 1, nsens_in
                   i = nsens_in*(iout-1) + iin
-                  strng(i) = fmt_gs(12, 3, fac_in(iin) * fac_out(iout) * gd%outpt1%sens(iout,iin))
+                  strng(i) = fmt_gs(12, 3, 3, fac_in(iin) * fac_out(iout) * gd%outpt1%sens(iout,iin))
                enddo
             enddo
 

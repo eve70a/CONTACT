@@ -524,8 +524,8 @@ contains
                ! In case of non-quasiidentity: write convergence
 
                if (ic%flow.ge.1 .or. itout.ge.solv%maxout-4) then
-                  strng(1) = fmt_gs(12,4, dif)
-                  strng(2) = fmt_gs(12,4, difid)
+                  strng(1) = fmt_gs(12,4,4, dif)
+                  strng(2) = fmt_gs(12,4,4, difid)
                   write (bufout, 6000) itout, (strng(j),j=1,2)
                   call write_log(1, bufout)
                   if (ic%flow.ge.2) call write_log(' ')
@@ -542,8 +542,8 @@ contains
  7001    format (' Panag: Outer Loop Diverges. MaxOut = ',i3)
 
          if (.true.) then
-            strng(1) = fmt_gs(12,4, dif)
-            strng(2) = fmt_gs(12,4, difid)
+            strng(1) = fmt_gs(12,4,4, dif)
+            strng(2) = fmt_gs(12,4,4, difid)
             write (bufout, 6000) itout, (strng(j),j=1,2)
             call write_log(1, bufout)
 

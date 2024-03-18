@@ -297,7 +297,7 @@ end subroutine rdsubs
 !------------------------------------------------------------------------------------------------------------
 
 subroutine wrsubs (unitnm, ic, subs)
-!--purpose: write the points in which the subsurface elastic field must be calculated.
+!--purpose: create input for points in which the subsurface elastic field must be calculated.
       implicit none
 !--subroutine arguments
       integer                      :: unitnm
@@ -831,7 +831,7 @@ end subroutine subsur_calc
 !------------------------------------------------------------------------------------------------------------
 
 subroutine subsur_matfil (meta, ic, subs, idebug)
-!--purpose: compute the subsurface elastic field in the points given in  blocks(:)
+!--purpose: write the subsurface elastic field to a .subs-file for importing in Matlab
    implicit none
 !--subroutine parameters:
    type(t_metadata)         :: meta
@@ -951,14 +951,17 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
             sigma  = reshape(b%table(ii,13:21), (/ 3, 3 /) )
 
             if (.not.full_tensor) then
-               write (lunmat, 2251) xw, (uw(i), i=1,3), sighyd, sigvm
+               write (lunmat, 2251) (fmt_gs(12,6,5,xw(i)), i=1,3), (fmt_gs(12,6,5,uw(i)), i=1,3),       &
+                                    fmt_gs(12,6,5,sighyd), fmt_gs(12,6,5,sigvm)
             else
-               write (lunmat, 2252) xw, (uw(i), i=1,3), sighyd, sigvm, (sigma(1,j), j=1,3),             &
-                        (sigma(2,j), j=2,3), sigma(3,3)
+               write (lunmat, 2252) (fmt_gs(12,6,5,xw(i)), i=1,3), (fmt_gs(12,6,5,uw(i)), i=1,3),       &
+                                    fmt_gs(12,6,5,sighyd), fmt_gs(12,6,5,sigvm),                        &
+                                    (fmt_gs(12,6,5,sigma(1,j)), j=1,3),                                 &
+                                    (fmt_gs(12,6,5,sigma(2,j)), j=2,3), fmt_gs(12,6,5,sigma(3,3))
             endif
 
- 2251       format ( 8g12.4)
- 2252       format (14g12.4)
+ 2251       format ( 8a)
+ 2252       format (14a)
 
          enddo
 

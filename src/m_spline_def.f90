@@ -416,9 +416,9 @@ module subroutine spline_print(spl, nam, idebug, ndigit)
          call write_log(1, bufout)
 
          do ii = 1, spl%npnt
-            strng(1) = fmt_gs(my_len, my_ndigit, spl%s(ii))
+            strng(1) = fmt_gs(my_len, my_ndigit, my_ndigit, spl%s(ii))
             do j = 1, 4
-               strng(1+j) = fmt_gs(my_len, my_ndigit, spl%axspl(ii,j))
+               strng(1+j) = fmt_gs(my_len, my_ndigit, my_ndigit, spl%axspl(ii,j))
             enddo
 
             write(bufout,311) ii, (strng(j)(1:my_len), j=1,5)
@@ -436,9 +436,9 @@ module subroutine spline_print(spl, nam, idebug, ndigit)
       call write_log(1, bufout)
 
       do ii = 1, spl%npnt
-         strng(1) = fmt_gs(my_len, my_ndigit, spl%s(ii))
+         strng(1) = fmt_gs(my_len, my_ndigit, my_ndigit, spl%s(ii))
          do j = 1, 4
-            strng(1+j) = fmt_gs(my_len, my_ndigit, spl%ayspl(ii,j))
+            strng(1+j) = fmt_gs(my_len, my_ndigit, my_ndigit, spl%ayspl(ii,j))
          enddo
          write(bufout,311) ii, (strng(j)(1:my_len), j=1,5)
          call write_log(1, bufout)
@@ -453,9 +453,9 @@ module subroutine spline_print(spl, nam, idebug, ndigit)
       call write_log(1, bufout)
 
       do ii = 1, spl%npnt
-         strng(1) = fmt_gs(my_len, my_ndigit, spl%s(ii))
+         strng(1) = fmt_gs(my_len, my_ndigit, my_ndigit, spl%s(ii))
          do j = 1, 4
-            strng(1+j) = fmt_gs(my_len, my_ndigit, spl%azspl(ii,j))
+            strng(1+j) = fmt_gs(my_len, my_ndigit, my_ndigit, spl%azspl(ii,j))
          enddo
          write(bufout,311) ii, (strng(j)(1:my_len), j=1,5)
          call write_log(1, bufout)

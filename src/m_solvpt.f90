@@ -137,10 +137,10 @@ contains
          ! Print output on initial solution
 
          itnr = 0
-         strng(1) = fmt_gs(12,4, kin%cksi)
-         strng(2) = fmt_gs(12,4, fxkp1)
-         strng(3) = fmt_gs(12,4, kin%ceta)
-         strng(4) = fmt_gs(12,4, fykp1)
+         strng(1) = fmt_gs(12, 4, 4, kin%cksi)
+         strng(2) = fmt_gs(12, 4, 4, fxkp1)
+         strng(3) = fmt_gs(12, 4, 4, kin%ceta)
+         strng(4) = fmt_gs(12, 4, 4, fykp1)
          if (ic%force3.eq.1) then
             if (ic%flow.ge.4) write(bufout,7000) itnr, (strng(j),j=1,2), namits(imeth), it
             if (ic%flow.ge.4) call write_log(1, bufout)
@@ -167,7 +167,7 @@ contains
 
             if (.false. .and. (ic%flow.ge.5 .or. ic%x_nmdbg.ge.5)) then
                if (ic%force3.eq.1) then
-                  strng(1) = fmt_gs(12,4, sens(iout_fx1,iin_dksi1))
+                  strng(1) = fmt_gs(12, 4, 4, sens(iout_fx1,iin_dksi1))
                   write(bufout,'(18x,2a)') 'Sens:',strng(1)
                   call write_log(1, bufout)
                else
@@ -315,10 +315,10 @@ contains
                ! print progress report for half iteration
 
                if (ic%force3.eq.2 .and. .false.) then
-                  strng(1) = fmt_gs(12,4, kin%cksi)
-                  strng(2) = fmt_gs(12,4, fxkp1)
-                  strng(3) = fmt_gs(12,4, kin%ceta)
-                  strng(4) = fmt_gs(12,4, fykp1)
+                  strng(1) = fmt_gs(12, 4, 4, kin%cksi)
+                  strng(2) = fmt_gs(12, 4, 4, fxkp1)
+                  strng(3) = fmt_gs(12, 4, 4, kin%ceta)
+                  strng(4) = fmt_gs(12, 4, 4, fykp1)
                   write(bufout,8000) itnr, (strng(j),j=1,4), namits(imeth), it
                   call write_log(2, bufout)
                endif
@@ -329,10 +329,10 @@ contains
 
             ! print progress report for full iteration
 
-            strng(1) = fmt_gs(12,4, kin%cksi)
-            strng(2) = fmt_gs(12,4, fxkp1)
-            strng(3) = fmt_gs(12,4, kin%ceta)
-            strng(4) = fmt_gs(12,4, fykp1)
+            strng(1) = fmt_gs(12, 4, 4, kin%cksi)
+            strng(2) = fmt_gs(12, 4, 4, fxkp1)
+            strng(3) = fmt_gs(12, 4, 4, kin%ceta)
+            strng(4) = fmt_gs(12, 4, 4, fykp1)
             if (ic%force3.eq.1 .and. ic%flow.ge.4) then
                write(bufout,7000) itnr, (strng(j), j=1,2), namits(imeth), it1hlf
                call write_log(1, bufout)

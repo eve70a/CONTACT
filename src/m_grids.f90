@@ -1616,10 +1616,10 @@ subroutine grid_print(g, nam, idebug, ndigit)
          do ix = 1, g%nx
             ii = ix + (iy-1)*g%nx
 
-            strng(1) = fmt_gs(my_len, my_ndigit, g%x(ii))
-            strng(2) = fmt_gs(my_len, my_ndigit, g%y(ii))
-            strng(3) = fmt_gs(my_len, my_ndigit, g%z(ii))
-            if (nval.ge.4) strng(4) = fmt_gs(my_len, my_ndigit, g%s_prf(ii))
+            strng(1) = fmt_gs(my_len, my_ndigit, my_ndigit, g%x(ii))
+            strng(2) = fmt_gs(my_len, my_ndigit, my_ndigit, g%y(ii))
+            strng(3) = fmt_gs(my_len, my_ndigit, my_ndigit, g%z(ii))
+            if (nval.ge.4) strng(4) = fmt_gs(my_len, my_ndigit, my_ndigit, g%s_prf(ii))
 
             write(bufout,211) ii, ix, iy, (strng(j)(1:my_len), j=1,nval)
  211        format(' ii=',i6,' (',i4,',',i4,'):',4(a,1x))

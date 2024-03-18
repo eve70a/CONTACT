@@ -214,10 +214,10 @@ contains
  8108    format (/, 2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, :, /))
 
          if (ic%mater.eq.1) then
-            strng(1) = fmt_gs(12, 4, gd%mater%tc(1))
-            strng(2) = fmt_gs(12, 4, gd%mater%tc(2))
-            strng(3) = fmt_gs(12, 4, gd%mater%vt(1))
-            strng(4) = fmt_gs(12, 4, gd%mater%vt(2))
+            strng(1) = fmt_gs(12, 4, 4, gd%mater%tc(1))
+            strng(2) = fmt_gs(12, 4, 4, gd%mater%tc(2))
+            strng(3) = fmt_gs(12, 4, 4, gd%mater%vt(1))
+            strng(4) = fmt_gs(12, 4, 4, gd%mater%vt(2))
             write(lout,8111) gd%mater%nuv, gd%mater%gav, gd%mater%akv, gd%mater%fg, (strng(j),j=1,4)
  8111    format (/, 1x,'VISCOELASTIC MATERIAL CONSTANTS',/,                                             & 
             2x, 3x,'NUV',6x, 3x,'GV',7x, 3x,'AKV', /, 2x, 3g12.4,/,/,                                   &
@@ -252,12 +252,12 @@ contains
          else
             str_muscal = '/FN      '
          endif
-         strng(1) = fmt_gs(12, 4, veloc)
-         strng(2) = fmt_gs(12, 4, cksi)
-         strng(3) = fmt_gs(12, 4, ceta)
-         strng(4) = fmt_gs(12, 4, cphi)
-         strng(5) = fmt_gs(12, 4, fxrel1)
-         strng(6) = fmt_gs(12, 4, fyrel1)
+         strng(1) = fmt_gs(12, 4, 4, veloc)
+         strng(2) = fmt_gs(12, 4, 4, cksi)
+         strng(3) = fmt_gs(12, 4, 4, ceta)
+         strng(4) = fmt_gs(12, 4, 4, cphi)
+         strng(5) = fmt_gs(12, 4, 4, fxrel1)
+         strng(6) = fmt_gs(12, 4, 4, fyrel1)
          write(lout, 8301)
          if (.not.is_roll) then
             if (ic%force3.eq.0) write(lout, 8302)             gd%kin%dt, strng(1), strng(2), strng(3),  &
@@ -441,12 +441,12 @@ contains
       ! header per row: 2 spaces + [ 3 spaces + 9 characters ]*
       ! Filter values that are dominated by noise using filt_sml()
 
-      strng(1) = fmt_gs(12, 4, fntrue)
-      strng(2) = fmt_gs(12, 4, filt_sml(fxtru1,0.5d0*eps*fntrue*muscal))
-      strng(3) = fmt_gs(12, 4, filt_sml(fytru1,0.5d0*eps*fntrue*muscal))
-      strng(4) = fmt_gs(12, 4, mztru1)
-      strng(5) = fmt_gs(12, 4, elen1)
-      strng(6) = fmt_gs(12, 4, frpow1)
+      strng(1) = fmt_gs(12, 4, 4, fntrue)
+      strng(2) = fmt_gs(12, 4, 4, filt_sml(fxtru1,0.5d0*eps*fntrue*muscal))
+      strng(3) = fmt_gs(12, 4, 4, filt_sml(fytru1,0.5d0*eps*fntrue*muscal))
+      strng(4) = fmt_gs(12, 4, 4, mztru1)
+      strng(5) = fmt_gs(12, 4, 4, elen1)
+      strng(6) = fmt_gs(12, 4, 4, frpow1)
 
       if (ic%output_surf.ge.2) write(lout,8500)
       if (.not.is_roll) then
@@ -459,34 +459,34 @@ contains
  8501 format (2x, 3x,'FN',7x, 3x,'FX',7x, 3x,'FY',7x, 3x,'MZ',7x, 2x,'ELAST.EN.',1x, 2x,'FRIC.',a)
  8502 format (2x, 6a12)
 
-      strng(3) = fmt_gs(12, 4, fnscal)
+      strng(3) = fmt_gs(12, 4, 4, fnscal)
       if (ic%force3.eq.0) then
          strng(1) = 'FX/FSTAT/FN'
          if (.not.gd%kin%use_muscal) strng(1) = '  FX/FN'
-         strng(4) = fmt_gs(12, 4, filt_sml(fxrel1,0.5d0*eps))
+         strng(4) = fmt_gs(12, 4, 4, filt_sml(fxrel1,0.5d0*eps))
       elseif (is_roll) then
          strng(1) = ' CREEP X'
-         strng(4) = fmt_gs(12, 4, filt_sml(cksi, ceta*eps))
+         strng(4) = fmt_gs(12, 4, 4, filt_sml(cksi, ceta*eps))
       else
          strng(1) = ' SHIFT X'
-         strng(4) = fmt_gs(12, 4, filt_sml(cksi, ceta*eps))
+         strng(4) = fmt_gs(12, 4, 4, filt_sml(cksi, ceta*eps))
       endif
       if (ic%force3.le.1) then
          strng(2) = 'FY/FSTAT/FN'
          if (.not.gd%kin%use_muscal) strng(2) = ' FY/FN'
-         strng(5) = fmt_gs(12, 4, filt_sml(fyrel1,0.5d0*eps))
+         strng(5) = fmt_gs(12, 4, 4, filt_sml(fyrel1,0.5d0*eps))
       elseif (is_roll) then
          strng(2) = ' CREEP Y'
-         strng(5) = fmt_gs(12, 4, filt_sml(ceta, cksi*eps))
+         strng(5) = fmt_gs(12, 4, 4, filt_sml(ceta, cksi*eps))
       else
          strng(2) = ' SHIFT Y'
-         strng(5) = fmt_gs(12, 4, filt_sml(ceta, cksi*eps))
+         strng(5) = fmt_gs(12, 4, 4, filt_sml(ceta, cksi*eps))
       endif
-      strng(6) = fmt_gs(12, 4, pen)
+      strng(6) = fmt_gs(12, 4, 4, pen)
 
       if (ic%print_pmax) then
          strng(7)  = '    PMAX    '
-         strng(9)  = fmt_gs(12, 4, pmax1)
+         strng(9)  = fmt_gs(12, 4, 4, pmax1)
          ! write(strng(9),'(f12.8)') pmax1
       endif
       if (ic%heat.ge.1) then
@@ -495,11 +495,11 @@ contains
          if (.not.ic%print_pmax) then
             strng(7)  = '     MAX(T1)'
             strng(8)  = '     MAX(T2)'
-            strng(9)  = fmt_gs(12, 4, tmp1mx)
-            strng(10) = fmt_gs(12, 4, tmp2mx)
+            strng(9)  = fmt_gs(12, 4, 4, tmp1mx)
+            strng(10) = fmt_gs(12, 4, 4, tmp2mx)
          else
             strng(8)  = '  MAX(T1,T2)'
-            strng(10) = fmt_gs(12, 4, max(tmp1mx,tmp2mx))
+            strng(10) = fmt_gs(12, 4, 4, max(tmp1mx,tmp2mx))
          endif
       endif
 
@@ -525,7 +525,7 @@ contains
          do iout = 1, nsens_out
             do iin = 1, nsens_in
                i = nsens_in*(iout-1) + iin
-               strng(i) = fmt_gs(12, 3, gd%outpt1%sens(iout,iin))
+               strng(i) = fmt_gs(12, 3, 3, gd%outpt1%sens(iout,iin))
             enddo
          enddo
 
