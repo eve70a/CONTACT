@@ -10,8 +10,8 @@ expnam = strvcat('cattaneo', 'carter2d', 'bentall', 'visc_cylindr', 'catt_to_car
                  'subsurf', 'spence35', 'mbench', 'kpec', 'wheelflat', 'tractcurv', 'conformal', ...
                  'ertz_temperature', 'plastic_3bl', 'fastsim', 'veldep_fric');
 % expnam = strvcat('kpec');
-% expnam = strvcat('plastic_3bl');
-expnam = strvcat('mbench');
+expnam = strvcat('plastic_3bl');
+% expnam = strvcat('mbench');
 
 pause_after_plot = 1 * (size(expnam,1)>1);
 print_figures = 0;
@@ -782,8 +782,9 @@ if (~isempty(strmatch('plastic_3bl',expnam)))
 
    figure(1); clf; hold on;
    plot(1000*shft, px, '.-', 'markersize',12);
-   xlabel('applied displacement [\mu m]');
-   ylabel('shear stress \tau [N/mm^2]');
+   xlabel('applied displacement [$\mathrm{\mu{}m}$]', 'interpreter','latex');
+   ylabel('shear stress $\tau$ [$\mathrm{N/mm^2}$]', 'interpreter','latex');
+   set(gca,'ticklabelinterpreter','latex');
    axis([0 600 0 620]); grid on
    legend('"magnetite"','"clay"','"sand"','"MoS2"', 'location', 'southeast');
    text(110, 255, '\rightarrow', 'rotation', 18);
