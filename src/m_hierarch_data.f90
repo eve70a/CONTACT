@@ -2007,11 +2007,12 @@ end subroutine potcon_get_overlap
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine geom_init ( geom )
+   subroutine geom_init ( geom, cgrid )
 !--purpose: Set appropriate initial values for the geometry description
       implicit none
 !--subroutine arguments:
       type(t_geomet) :: geom
+      type(t_grid)   :: cgrid
 !--local variables:
       integer j
 
@@ -2022,7 +2023,10 @@ end subroutine potcon_get_overlap
       geom%prmudf = (/ 1d0, 0d0, 1d0, (0d0, j=4,10) /)  ! automatic allocation
       geom%prmpln = (/ (0d0, j=1,10) /)                 ! automatic allocation
       ! ysep, facsep
-      ! exrhs, hs1, hv1
+
+      call gf3_new( geom%exrhs, 'geom%exrhs', cgrid, nulify=.true. )
+      call gf3_new( geom%hs1, 'geom%hs1', cgrid, nulify=.true. )
+      call gf3_new( geom%hv1, 'geom%hv1', cgrid, nulify=.true. )
 
    end subroutine geom_init
 
@@ -2184,8 +2188,23 @@ end subroutine potcon_get_overlap
       type(t_grid)   :: cgrid
 
       call eldiv_new( outp%igs, cgrid, nulify=.true. )
-      call gf3_new(outp%ps, 'outpt1%ps', cgrid, nulify=.true.)
-      call gf3_new(outp%pv, 'outpt1%pv', cgrid, nulify=.true.)
+      call eldiv_new( outp%igv, cgrid, nulify=.true. )
+      call gf3_new(outp%mus,   'outpt1%mus',   cgrid, nulify=.true.)
+      call gf3_new(outp%shft,  'outpt1%shft',  cgrid, nulify=.true.)
+      call gf3_new(outp%ps,    'outpt1%ps',    cgrid, nulify=.true.)
+      call gf3_new(outp%us,    'outpt1%us',    cgrid, nulify=.true.)
+      call gf3_new(outp%ss,    'outpt1%ss',    cgrid, nulify=.true.)
+      call gf3_new(outp%taucs, 'outpt1%taucs', cgrid, nulify=.true.)
+      call gf3_new(outp%upls,  'outpt1%upls',  cgrid, nulify=.true.)
+      call gf3_new(outp%temp1, 'outpt1%temp1', cgrid, nulify=.true.)
+      call gf3_new(outp%temp2, 'outpt1%temp2', cgrid, nulify=.true.)
+
+      call gf3_new(outp%muv,   'outpt1%muv',   cgrid, nulify=.true.)
+      call gf3_new(outp%pv,    'outpt1%pv',    cgrid, nulify=.true.)
+      call gf3_new(outp%uv,    'outpt1%uv',    cgrid, nulify=.true.)
+      call gf3_new(outp%sv,    'outpt1%sv',    cgrid, nulify=.true.)
+      call gf3_new(outp%taucv, 'outpt1%taucv', cgrid, nulify=.true.)
+      call gf3_new(outp%uplv,  'outpt1%uplv',  cgrid, nulify=.true.)
 
    end subroutine output_init
 
@@ -2281,7 +2300,7 @@ end subroutine potcon_get_overlap
       call potcon_cgrid ( gd%potcon_inp, gd%cgrid_inp )
       call potcon_cgrid ( gd%potcon_cur, gd%cgrid_cur )
       call hertz_init   ( gd%hertz )
-      call geom_init    ( gd%geom )
+      call geom_init    ( gd%geom, gd%cgrid_cur )
       call fric_init    ( gd%fric )
       call kincns_init  ( gd%kin, gd%ic, gd%fric, gd%cgrid_cur%dx )
     ! call influe_init  ( gd%influ )
