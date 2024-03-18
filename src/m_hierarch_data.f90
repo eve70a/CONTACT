@@ -296,16 +296,14 @@ public
       !              0 = maintain track dimensions, profile, deviations, and deflection parameters;
       !              1 = read new dimensions and profile;
       !              2 = read new track deviations and deflection parameters (if F=3);
-      !              3 = read new dimensions, one profile for current side of track, track deviations,
-      !                  and deflection parameters if F=3
+      !              3 = read new dimensions, profile, track deviations, and deflection parameters if F=3
       ! e1, ewheel   concerns the wheel-set geometry, profile, position and velocity (module 1)
       !              0 = maintain wheel-set geometry, profile, position and velocity;
       !              1 = read new position data;
       !              2 = read new position and velocity data;
-      !              3 = read new position and velocity data, geometry, profile for current side of wheelset
+      !              3 = read new position and velocity data, geometry, wheel profile
       !              4 = read new position and velocity data, including flexible wheelset deviations
-      !                  for current side of wheelset
-      !              5 = as 3, including flexible wheelset deviations for current side of wheelset
+      !              5 = as 3, including flexible wheelset deviations
       ! z3, rznorm   concerns the right hand side of the normal problem (module 3)
       !              0 = maintain undeformed distance and planform;
       !              1 = form undeformed distance from parameters in storage;

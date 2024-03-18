@@ -226,7 +226,7 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine wr_input_spck (fname, wtd, ierror)
-!--purpose: Input-routine for a rail-wheel pair in the user-subroutine to SIMPACK
+!--purpose: Input-routine for a rail-wheel pair in the user-subroutine to Simpack
       implicit none
 !--subroutine arguments:
       character(len=*)          :: fname
@@ -520,6 +520,8 @@ contains
 
          endif
 
+         if (modul.eq.11) trk%spck_ver = trk%spck_ver + 1
+
       endif
 
       if (ic%ztrack.eq.3) then
@@ -614,6 +616,8 @@ contains
          ws%nom_radius   = dbles(3)
 
          zerror = zerror .or. .not.check_range ('NOMRAD', ws%nom_radius, 1d-3, 1d20)
+
+         if (modul.eq.11) ws%spck_ver = ws%spck_ver + 1
 
       endif
 

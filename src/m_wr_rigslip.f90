@@ -80,8 +80,8 @@ contains
       real(kind=8)          :: dqrel
 !--local variables:
       integer               :: is_right
-      real(kind=8)          :: rr_loc, rw_loc, sgn, vs_est
-      type(t_marker)        :: m_rol, mref_rr, mref_rol, mrw_trk, mq_rw, mq_ws, mq_cp, mq_trk
+      real(kind=8)          :: r_loc, w_loc, sgn, vs_est
+      type(t_marker)        :: m_rol, mref_r, mref_rol, mw_trk, mq_w, mq_ws, mq_cp, mq_trk
       type(t_vec)           :: rol_tvel_trk, rol_rvel_trk, rail_tvel_rol, rail_rvel_rol, rail_tvel_trk, &
                                rail_rvel_trk, vp_tvel_rol, vp_rvel_rol, vp_tvel_trk, vp_rvel_trk,       &
                                vp_tvel_cp, vp_rvel_cp
@@ -112,7 +112,7 @@ contains
 
          ! convert position of contact point P on rail from track to rail profile coordinates
 
-         mref_rr   = marker_2loc(cp%mref, my_rail%m_trk)
+         mref_r   = marker_2loc(cp%mref, my_rail%m_trk)
 
          ! define velocity vectors 'tvel' and 'rvel' for rail profile (origin O) w.r.t track coordinates
 
@@ -125,7 +125,7 @@ contains
 
          ! compute velocity vectors 'tvel' and 'rvel' of the contact point P in track coordinates
 
-         vp_tvel_trk = vec_veloc2glob(rail_tvel_trk, rail_rvel_trk, my_rail%m_trk, mref_rr, vec_zero())
+         vp_tvel_trk = vec_veloc2glob(rail_tvel_trk, rail_rvel_trk, my_rail%m_trk, mref_r, vec_zero())
          vp_rvel_trk = rail_rvel_trk
 
          ! call write_log(' position of O_rail and O_cp wrt O_trk')
@@ -153,12 +153,12 @@ contains
 
          ! convert position of contact point P on roller to rail coordinates & roller coordinates 
 
-         mref_rr   = marker_2loc(cp%mref, my_rail%m_trk)
+         mref_r    = marker_2loc(cp%mref, my_rail%m_trk)
          mref_rol  = marker_2loc(cp%mref, m_rol)
 
          ! get local rolling radius: z-position of the contact point on the roller
 
-         rr_loc    = mref_rol%z()
+         r_loc     = mref_rol%z()
 
          ! define velocity vectors 'tvel' and 'rvel' for rail profile origin O in roller coordinates
          !    these are equal to the velocities in track coordinates because R_{rol(trk)} == I
@@ -171,15 +171,15 @@ contains
          ! call vec_print(rail_rvel_rol, 'rvel_rail(rol)', 2)
 
          ! compute velocity vectors 'tvel' and 'rvel' of the contact reference point P in roller coordinates
-         ! v_P(rol) = v_rr(rol) + omega_rr(rol) x ( R_rr(rol) * m_P(rr) ) + R_rr(rol) * v_P(rr)
+         ! v_P(rol) = v_r(rol) + omega_r(rol) x ( R_r(rol) * m_P(r) ) + R_r(rol) * v_P(r)
 
-         associate( rail_rot_rol => my_rail%m_trk%rot ) ! note: R_rr(rol) == R_rr(trk)
-         vp_tvel_rol = vec_veloc2glob(rail_tvel_rol, rail_rvel_rol, rail_rot_rol, mref_rr, vec_zero())
+         associate( rail_rot_rol => my_rail%m_trk%rot ) ! note: R_r(rol) == R_r(trk)
+         vp_tvel_rol = vec_veloc2glob(rail_tvel_rol, rail_rvel_rol, rail_rot_rol, mref_r, vec_zero())
          vp_rvel_rol = rail_rvel_rol
          end associate
 
-         ! call write_log(' position of P = O_cp wrt O_rr')
-         ! call marker_print(mref_rr,        'O_cp(rr)',  2)
+         ! call write_log(' position of P = O_cp wrt O_r')
+         ! call marker_print(mref_r,        'O_cp(r)', 2)
 
          ! call write_log(' velocity of P = O_cp wrt O_rol')
          ! call vec_print(vp_tvel_rol, 'tvel_cp(rol)', 2)
@@ -216,18 +216,18 @@ contains
       mq_cp   = marker( 0d0, 0d0, gd%kin%pen )
       mq_trk  = marker_2glob( mq_cp, cp%mref )
 
-      mrw_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
-      mq_rw   = marker_2loc( mq_trk, mrw_trk )
+      mw_trk  = marker_2glob( my_wheel%m_ws, ws%m_trk )
+      mq_w    = marker_2loc( mq_trk, mw_trk )
 
-      ! call marker_print(my_wheel%m_ws, 'm_rw(ws)',  1)
+      ! call marker_print(my_wheel%m_ws, 'm_w(ws)',  1)
       ! call marker_print(mq_trk       , 'm_cp(trk)', 1)
-      ! call marker_print(mq_rw        , 'm_cp(rw)',  1)
+      ! call marker_print(mq_w        , 'm_cp(w)',  1)
 
       mq_ws   = marker_2loc(mq_trk, ws%m_trk)
 
       ! get local rolling radius: z-position of the contact point on the wheelset
 
-      rw_loc  = mq_ws%z()
+      w_loc   = mq_ws%z()
 
       ! define velocity vectors 'tvel' and 'rvel' for flexibilities (vx,vy,vz, vroll,vyaw,vpitch:
       ! velocity of wheel profile origin O w.r.t. wheelset center
@@ -240,15 +240,15 @@ contains
       ! call vec_print(whl_rvel_ws, 'rvel_whl(ws)', 2)
 
       ! compute velocity vectors 'tvel' and 'rvel' of the contact reference point Q in wheelset coordinates
-      ! v_Q(ws) = v_rw(ws) + omega_rw(ws) x ( R_rw(ws) * m_Q(rw) ) + R_rw(ws) * v_Q(rw)
+      ! v_Q(ws) = v_w(ws) + omega_w(ws) x ( R_w(ws) * m_Q(w) ) + R_w(ws) * v_Q(w)
 
       associate( whl_rot_ws => my_wheel%m_ws%rot )
-      vq_tvel_ws = vec_veloc2glob(whl_tvel_ws, whl_rvel_ws, whl_rot_ws, mq_rw, vec_zero())
+      vq_tvel_ws = vec_veloc2glob(whl_tvel_ws, whl_rvel_ws, whl_rot_ws, mq_w, vec_zero())
       vq_rvel_ws = whl_rvel_ws
       end associate
 
-      ! call write_log(' position of Q wrt O_rw')
-      ! call marker_print(mq_rw,        'Q(rw)',  2)
+      ! call write_log(' position of Q wrt O_w')
+      ! call marker_print(mq_w,         'Q(w)',   2)
 
       ! call write_log(' velocity of Q wrt O_ws')
       ! call vec_print(vq_tvel_ws, 'tvel_cp(ws)', 2)
@@ -385,21 +385,21 @@ contains
          call marker_print(cp%mref, 'm_cp(trk)', 2)
          call write_log(' contact reference position w.r.t. O_ws')
          call marker_print(mq_ws, 'm_Q(ws)', 2)
-         write(bufout,'(a,f11.6)') ' actual rolling radius on wheel r(cp) =', rw_loc
+         write(bufout,'(a,f11.6)') ' actual rolling radius on wheel r(cp) =', w_loc
          call write_log(1, bufout)
          call write_log(' velocity of contact point on wheel w.r.t. O_ws')
          call vec_print(vq_tvel_ws,   ' vq_tvel(ws)', 2, 6)
          call write_log(' velocity of contact point on wheel w.r.t. O_trk')
          call vec_print(vq_tvel_trk,  'vq_tvel(trk)', 2, 6)
          call write_log(' velocity of contact point on wheel w.r.t. O_cp')
-         call vec_print(vq_tvel_cp, ' vq_tvel(cp)', 2, 6)
+         call vec_print(vq_tvel_cp,   ' vq_tvel(cp)', 2, 6)
          call write_log(' rotation of contact point on wheel w.r.t. O_cp')
-         call vec_print(vq_rvel_cp, ' vq_rvel(cp)', 2, 6)
+         call vec_print(vq_rvel_cp,   ' vq_rvel(cp)', 2, 6)
 
          if (ic%is_roller()) then
             call write_log(' contact reference position w.r.t. O_rol')
             call marker_print(mref_rol, 'm_cp(rol)', 2)
-            write(bufout,'(a,f11.6)') ' actual rolling radius on roller r(cp) =', rr_loc
+            write(bufout,'(a,f11.6)') ' actual rolling radius on roller r(cp) =', r_loc
             call write_log(1, bufout)
             call write_log(' velocity of contact point on roller w.r.t. O_rol')
             call vec_print(vp_tvel_rol,  'vp_tvel(rol)', 2, 6)
@@ -438,7 +438,7 @@ contains
       logical, parameter    :: project_on_cref = .false.
       integer               :: ii, iimin, iidbg, is_right
       real(kind=8)          :: sgn, dst2, dstmin, zmin, zmax
-      type(t_marker)        :: m_rol, mrol_cp, mrr_rol, mrr_cp, mrw_arm, mrw_trk, mrw_cp, mws_cp
+      type(t_marker)        :: m_rol, mrol_cp, mr_rol, mr_cp, mw_arm, mw_trk, mw_cp, mws_cp
       type(t_vec)           :: rail_tvel_rol, rail_rvel_rol, rail_tvel_trk, rail_rvel_trk,              &
                                rail_tvel_cp, rail_rvel_cp,                                              &
                                rol_tvel_trk, rol_rvel_rol, rol_tvel_cp, rol_rvel_cp,                    &
@@ -480,10 +480,10 @@ contains
 
          ! convert rail profile origin to contact coordinates
 
-         ! call marker_print(my_rail%m_trk, 'mrr_trk', 2)
+         ! call marker_print(my_rail%m_trk, 'mr_trk',  2)
          ! call marker_print(cp%mpot,       'mcp_trk', 2)
-         mrr_cp = marker_2loc(my_rail%m_trk, cp%mpot)
-         ! call marker_print(mrr_cp,        'mrr_cp', 2)
+         mr_cp = marker_2loc(my_rail%m_trk, cp%mpot)
+         ! call marker_print(mr_cp,         'mr_cp',   2)
 
          ! define velocity vectors 'tvel' and 'rvel' for rail profile (origin O) w.r.t track coordinates
 
@@ -493,9 +493,9 @@ contains
          ! convert velocity vectors 'tvel' and 'rvel' to contact coordinates
 
          rail_rvel_cp = cp%mpot%rot .transp. rail_rvel_trk
-         rail_tvel_cp = cp%mpot%rot .transp. rail_tvel_trk + rail_rvel_cp .cross. mrr_cp%o 
-         ! call vec_print(rail_tvel_cp, 'vrr_cp', 2)
-         ! call vec_print(rail_rvel_cp, 'wrr_cp', 2)
+         rail_tvel_cp = cp%mpot%rot .transp. rail_tvel_trk + rail_rvel_cp .cross. mr_cp%o 
+         ! call vec_print(rail_tvel_cp, 'vr_cp', 2)
+         ! call vec_print(rail_rvel_cp, 'wr_cp', 2)
 
          ! compute velocities of points P in the contact grid in contact coordinates
 
@@ -505,7 +505,7 @@ contains
          endif
 
          call gf3_new(gf_tvel_rail, 'gf_tvel_rail', cp%rail_srfc, lzero=.true.)
-         call gf3_veloc2glob(mrr_cp, rail_tvel_cp, rail_rvel_cp, cp%rail_srfc, gf_tvel_rail)
+         call gf3_veloc2glob(mr_cp, rail_tvel_cp, rail_rvel_cp, cp%rail_srfc, gf_tvel_rail)
 
          if (idebug.ge.2) then
             write(bufout,'(a,i6,a,2g12.4)') ' ii=',iidbg,': rail_tvel(x,y)=', gf_tvel_rail%vx(iidbg),    &
@@ -521,16 +521,16 @@ contains
 
          m_rol%o   = vec( 0d0, 0d0, trk%nom_radius )
          m_rol%rot = rotmat_identity()
-         mrr_rol   = marker_2loc( my_rail%m_trk, m_rol )
-         mrr_cp    = marker_2loc( my_rail%m_trk, cp%mpot )
+         mr_rol    = marker_2loc( my_rail%m_trk, m_rol )
+         mr_cp     = marker_2loc( my_rail%m_trk, cp%mpot )
          mrol_cp   = marker_2loc( m_rol, cp%mpot )
 
          if (idebug.ge.2) then
-            call marker_print(m_rol, 'm_rol', 2)
-            call marker_print(my_rail%m_trk, 'm_rr', 2)
-            call marker_print(cp%mpot, 'm_cp', 2)
-            call marker_print(mrr_rol, 'mrr_rol', 2)
-            call marker_print(mrr_cp, 'mrr_cp', 2)
+            call marker_print(m_rol,   'm_rol',   2)
+            call marker_print(my_rail%m_trk, 'm_r', 2)
+            call marker_print(cp%mpot, 'm_cp',    2)
+            call marker_print(mr_rol,  'mr_rol',  2)
+            call marker_print(mr_cp,   'mr_cp',   2)
             call marker_print(mrol_cp, 'mrol_cp', 2)
          endif
 
@@ -553,12 +553,12 @@ contains
 
          ! compute velocity of the roller profile origin in contact coordinates
 
-         rail_tvel_cp = vec_veloc2glob(rol_tvel_cp, rol_rvel_cp, mrol_cp%rot, mrr_rol, rail_tvel_rol)
-         rail_rvel_cp = rol_rvel_cp + mrol_cp%rot * rail_rvel_rol
+         rail_tvel_cp  = vec_veloc2glob(rol_tvel_cp, rol_rvel_cp, mrol_cp%rot, mr_rol, rail_tvel_rol)
+         rail_rvel_cp  = rol_rvel_cp + mrol_cp%rot * rail_rvel_rol
 
          if (idebug.ge.2) then
-            call vec_print(rol_tvel_cp, 'rol_tvel_cp', 2)
-            call vec_print(rol_rvel_cp, 'rol_rvel_cp', 2)
+            call vec_print(rol_tvel_cp,  'rol_tvel_cp',  2)
+            call vec_print(rol_rvel_cp,  'rol_rvel_cp',  2)
             call vec_print(rail_tvel_cp, 'rail_tvel_cp', 2)
             call vec_print(rail_rvel_cp, 'rail_rvel_cp', 2)
          endif
@@ -578,7 +578,7 @@ contains
          endif
 
          call gf3_new(gf_tvel_rail, 'gf_tvel_rail', cp%rail_srfc, lzero=.true.)
-         call gf3_veloc2glob(mrr_cp, rail_tvel_cp, rail_rvel_cp, cp%rail_srfc, gf_tvel_rail)
+         call gf3_veloc2glob(mr_cp, rail_tvel_cp, rail_rvel_cp, cp%rail_srfc, gf_tvel_rail)
 
          if (idebug.ge.2) then
             write(bufout,'(a,i6,a,2g12.4)') ' ii=',iidbg,': rail_tvel(x,y)= ', gf_tvel_rail%vx(iidbg),  &
@@ -593,16 +593,16 @@ contains
 
       ! convert wheel-marker from wheel-set coords to track-coords and contact coordinates
 
-      mrw_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
-      mrw_cp  = marker_2loc( mrw_trk, cp%mpot )
+      mw_trk  = marker_2glob( my_wheel%m_ws, ws%m_trk )
+      mw_cp   = marker_2loc( mw_trk, cp%mpot )
       mws_cp  = marker_2loc( ws%m_trk, cp%mpot )
 
       if (idebug.ge.2) then
-         call marker_print(ws%m_trk, 'm_ws', 2)
-         call marker_print(my_wheel%m_ws, 'mrw_ws', 2)
-         call marker_print(mrw_trk, 'mrw_trk', 2)
-         call marker_print(mrw_cp, 'mrw_cp', 2)
-         call marker_print(mws_cp, 'mws_cp', 2)
+         call marker_print(ws%m_trk, 'm_ws',   2)
+         call marker_print(my_wheel%m_ws, 'mw_ws', 2)
+         call marker_print(mw_trk,   'mw_trk', 2)
+         call marker_print(mw_cp,    'mw_cp',  2)
+         call marker_print(mws_cp,   'mws_cp', 2)
       endif
 
       ! define velocity vectors 'tvel' and 'rvel' of wheelset in track/wheelset coordinates
@@ -619,8 +619,8 @@ contains
       ! define velocity vectors 'tvel' and 'rvel' for flexibilities (vx,vy,vz, vroll,vyaw,vpitch):
       ! velocity of wheel profile origin O w.r.t. wheelset coordinates
 
-      whl_tvel_ws = vec(     my_wheel%vx,   sgn*my_wheel%vy,         my_wheel%vz )
-      whl_rvel_ws = vec( sgn*my_wheel%vroll,    my_wheel%vpitch, sgn*my_wheel%vyaw )
+      whl_tvel_ws  = vec(     my_wheel%vx,   sgn*my_wheel%vy,         my_wheel%vz )
+      whl_rvel_ws  = vec( sgn*my_wheel%vroll,    my_wheel%vpitch, sgn*my_wheel%vyaw )
 
       ! convert velocity of wheel profile origin from wheelset to contact coordinates
       ! using cp as global system, ws as local system, whl_tvel_ws as flexibility
@@ -633,19 +633,19 @@ contains
       ! exclude flexibility dx in velocity whl_tvel_cp
       ! TODO: exclude flexibility dz in case of axle bending
 
-      mrw_arm = my_wheel%m_ws
-      call marker_shift(mrw_arm, -my_wheel%dx, 0d0, 0d0)
+      mw_arm = my_wheel%m_ws
+      call marker_shift(mw_arm, -my_wheel%dx, 0d0, 0d0)
 
-      if (idebug.ge.2) call marker_print(mrw_arm, 'mrw_ws(*)', 2)
+      if (idebug.ge.2) call marker_print(mw_arm, 'mw_ws(*)', 2)
 
-      whl_tvel_cp = vec_veloc2glob(ws_tvel_cp, ws_rvel_cp, mws_cp%rot, mrw_arm, whl_tvel_ws)
+      whl_tvel_cp = vec_veloc2glob(ws_tvel_cp, ws_rvel_cp, mws_cp%rot, mw_arm, whl_tvel_ws)
       whl_rvel_cp = ws_rvel_cp + mws_cp%rot * whl_rvel_ws
 
       if (idebug.ge.2) then
          call vec_print(ws_tvel_trk, 'ws_tvel_trk', 2)
-         call vec_print(ws_rvel_ws,  'ws_rvel_ws', 2)
-         call vec_print(ws_tvel_cp,  'ws_tvel_cp', 2)
-         call vec_print(ws_rvel_cp,  'ws_rvel_cp', 2)
+         call vec_print(ws_rvel_ws,  'ws_rvel_ws',  2)
+         call vec_print(ws_tvel_cp,  'ws_tvel_cp',  2)
+         call vec_print(ws_rvel_cp,  'ws_rvel_cp',  2)
          call vec_print(whl_tvel_ws, 'whl_tvel_ws', 2)
          call vec_print(whl_rvel_ws, 'whl_rvel_ws', 2)
          call vec_print(whl_tvel_cp, 'whl_tvel_cp', 2)
@@ -667,7 +667,7 @@ contains
       endif
 
       call gf3_new(gf_tvel_whl, 'gf_tvel_whl', cp%whl_srfc, lzero=.true.)
-      call gf3_veloc2glob(mrw_cp, whl_tvel_cp, whl_rvel_cp, cp%whl_srfc, gf_tvel_whl)
+      call gf3_veloc2glob(mw_cp, whl_tvel_cp, whl_rvel_cp, cp%whl_srfc, gf_tvel_whl)
       ! call gf3_print(gf_tvel_whl, 'gf_tvel_whl', ikZDIR, 5)
 
       ! conformal method: rotate velocities to local surface (s,n) coordinates
@@ -734,7 +734,7 @@ contains
       gd%kin%cksi   = 0d0
       gd%kin%ceta   = 0d0
       gd%kin%cphi   = 0d0
-      gd%ic%rztang = 1
+      gd%ic%rztang  = 1
 
       if (idebug.ge.4) then
          call write_log(' velocity of contact point on wheel w.r.t. O_trk')

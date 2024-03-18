@@ -976,13 +976,6 @@ contains
       integer                   :: icp, ierror
       real(kind=8)              :: sr, xr, yr, zr
       type(t_vec)               :: xavg_r, fdir
-!--pointers to global data items:
-      type(t_rail),     pointer :: my_rail
-      type(t_cpatch),   pointer :: cp => NULL()
-
-      ! set pointer to the active rail and wheel in the current configuration
-
-      my_rail     => wtd%trk%rai
 
       ! accumulate total forces and moments F_(trk), M_@r(trk), F_(ws) and M_@w(ws)
 
@@ -993,12 +986,12 @@ contains
 
       do icp = 1, wtd%numcps
 
-         cp => wtd%allcps(icp)%cp
-
+         associate(cp => wtd%allcps(icp)%cp)
          wtd%ftrk = wtd%ftrk + cp%ftrk
          wtd%ttrk = wtd%ttrk + cp%ttrk
          wtd%fws  = wtd%fws  + cp%fws 
          wtd%tws  = wtd%tws  + cp%tws 
+         end associate
 
       enddo
 
@@ -1010,7 +1003,9 @@ contains
          wtd%tavg = vec_zero()
 
       else
-         fdir    =   (my_rail%m_trk .transp. wtd%ftrk) / wtd%ftrk%norm()
+         associate(my_rail => wtd%trk%rai)
+
+         fdir   =   (my_rail%m_trk .transp. wtd%ftrk) / wtd%ftrk%norm()
          xavg_r = -((my_rail%m_trk .transp. wtd%ttrk) .cross. fdir) / (wtd%ftrk%norm())
 
          if (idebug.ge.3) then
@@ -1034,6 +1029,7 @@ contains
          ! compute moment T_@avg(tr) = (m_avg(tr) - m_r(tr)) x F_(tr)  +  M_@r(tr)
 
          wtd%tavg = -(xavg_r .cross. wtd%ftrk) + wtd%ttrk
+         end associate
       endif
 
    end subroutine total_forces_moments
