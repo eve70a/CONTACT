@@ -363,13 +363,15 @@ contains
 
       call ic_unpack (imodul, cpbtnfs, vldcmze, xhgiaowr, ic)
 
+      ! read & process debug parameters
+
       if (ic%xflow.ge.1) then
          call readline(linp, ncase, linenr, 'debug output psflcin', 'iI', ints, dbles, flags,           &
                        strngs, mxnval, nval, idebug, ieof, lstop, ierror)
          psflcin = ints(1)
          if (nval.ge.2) ic%x_readln = ints(2)
       else
-         psflcin     = 0
+         psflcin = 1000000
          ic%x_readln = 0
       endif
 

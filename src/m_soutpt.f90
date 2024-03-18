@@ -726,7 +726,7 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
 !--local variables:
    integer, parameter      :: maxcol = 20
    logical             :: lwrall, is_roll, use_plast, wxy_insteadof_uxy, pv_insteadof_uxy
-   integer             :: ncol, itauc, iuplx, iuply, itemp1, itemp2, j, ii, ix, iy, jj, jy
+   integer             :: lmat, ncol, itauc, iuplx, iuply, itemp1, itemp2, j, ii, ix, iy, jj, jy
    real(kind=8)        :: sgn, xl, yl, values(maxcol)
    character(len=11)   :: colnam(maxcol)
    character(len=256)  :: fname
@@ -744,6 +744,7 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
 
    ! check if the file unit-number is ok
 
+   lmat = get_lunit_tmp_use()
    if (lmat.le.0) goto 996
 
    ! write data for whole potential contact area when requested:
@@ -1023,6 +1024,7 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
       enddo ! jy
 
       close(lmat)
+      call free_lunit_tmp_use(lmat)
       return
 
       ! Error handling:

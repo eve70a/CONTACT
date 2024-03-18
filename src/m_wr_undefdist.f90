@@ -36,8 +36,8 @@ contains
 !--local variables:
       logical                 :: is_prismatic, use_bicubic
       character(len=5)        :: nam_side
-      integer                 :: nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ixdbg, iydbg,    &
-                                 iu, iv, icount, ierror
+      integer                 :: lud, nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ixdbg,      &
+                                 iydbg, iu, iv, icount, ierror
       real(kind=8)            :: xslc1, hmin, h_ii, xmin, xmax, ymin, ymax, zmin, zmax, smin, smax,     &
                                  swsta, swmid, swend, ds, dx_cp, zsta, zend, z_axle, xtr_sta,           &
                                  vy_ref, vz_ref, vy_iy, vz_iy, delt_iy, vlen_inv
@@ -607,9 +607,10 @@ contains
       if (.true. .and. idebug.ge.2) then
          write(tmp_fname,'(a,i1,a)') 'dump_gap_ud',icp,'.m'
          call write_log(' Writing undef.distc to ' // trim(tmp_fname))
-         open(unit=ltmp, file=tmp_fname)
-         write(ltmp,'(2(a,i6),a)') 'mx=',cgrid%nx,'; my=',cgrid%ny,';'
-         write(ltmp,*) 'tmp=['
+         lud = get_lunit_tmp_use()
+         open(unit=lud, file=tmp_fname)
+         write(lud,'(2(a,i6),a)') 'mx=',cgrid%nx,'; my=',cgrid%ny,';'
+         write(lud,*) 'tmp=['
          do iy = 1, cgrid%ny
             if (ic%is_conformal()) then
                vy_iy = cp%curv_nrm%vy(iy)
@@ -620,19 +621,20 @@ contains
             endif
             do ix = 1, cgrid%nx
                ii = ix + (iy-1) * cgrid%nx
-               write(ltmp,'(2i5,7g15.6)') ix, iy, cgrid%x(ii), cgrid%y(ii), whl_srfc%y(ii),       &
+               write(lud,'(2i5,7g15.6)') ix, iy, cgrid%x(ii), cgrid%y(ii), whl_srfc%y(ii),       &
                         whl_srfc%z(ii), rail_srfc%z(ii), delt_iy, gd%geom%prmudf(ii)
             enddo
          enddo
-         write(ltmp,*) '];'
-         write(ltmp,*) 'x_ud =reshape(tmp(:,3),mx,my);'
-         write(ltmp,*) 'sp_ud=reshape(tmp(:,4),mx,my);'
-         write(ltmp,*) 'sc_ud=reshape(tmp(:,5),mx,my);'
-         write(ltmp,*) 'nw_ud=reshape(tmp(:,6),mx,my);'
-         write(ltmp,*) 'nr_ud=reshape(tmp(:,7),mx,my);'
-         write(ltmp,*) 'delta=reshape(tmp(:,8),mx,my);'
-         write(ltmp,*) 'h_ud =reshape(tmp(:,9),mx,my);'
-         close(ltmp)
+         write(lud,*) '];'
+         write(lud,*) 'x_ud =reshape(tmp(:,3),mx,my);'
+         write(lud,*) 'sp_ud=reshape(tmp(:,4),mx,my);'
+         write(lud,*) 'sc_ud=reshape(tmp(:,5),mx,my);'
+         write(lud,*) 'nw_ud=reshape(tmp(:,6),mx,my);'
+         write(lud,*) 'nr_ud=reshape(tmp(:,7),mx,my);'
+         write(lud,*) 'delta=reshape(tmp(:,8),mx,my);'
+         write(lud,*) 'h_ud =reshape(tmp(:,9),mx,my);'
+         close(lud)
+         call free_lunit_tmp_use(lud)
       endif
 
       ! clean up local variables

@@ -2340,7 +2340,7 @@ contains
       integer,      intent(in)    :: idebug
 !--local variables:
       logical        :: has_zero
-      integer        :: ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0, icp
+      integer        :: lgap, ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0, icp
       integer        :: ii_n, ii_s, ilm, ixmin, nummin, numrem
       integer        :: locmin(2,MAX_LOC_MIN)
       real(kind=8)   :: gap_locmin, xmin, ymin, gmin, zrmin, curv_y, xmax, dgap, ysta, yend, zsta, zend
@@ -2372,21 +2372,23 @@ contains
 
       if (.true. .and. idebug.ge.2) then
          call write_log(' Dump 1d gap-function to dump_gap1d.m ...')
-         open(unit=ltmp, file='dump_gap1d.m')
-         write(ltmp,'(2(a,i6),a)') 'mx=',nx,'; my=',ny,';'
-         write(ltmp,'(a)') '%  iy      x_tr          y_tr          zw            zr            alph'
-         write(ltmp,'(a)') 'tmp =['
+         lgap = get_lunit_tmp_use()
+         open(unit=lgap, file='dump_gap1d.m')
+         write(lgap,'(2(a,i6),a)') 'mx=',nx,'; my=',ny,';'
+         write(lgap,'(a)') '%  iy      x_tr          y_tr          zw            zr            alph'
+         write(lgap,'(a)') 'tmp =['
          do iy = 1, ny
-            write(ltmp,'(i5,5f14.6)') iy, x(iy), y(iy), zw(iy), zr(iy), sf_incl%vy(iy)
+            write(lgap,'(i5,5f14.6)') iy, x(iy), y(iy), zw(iy), zr(iy), sf_incl%vy(iy)
          enddo
-         write(ltmp,*) '];'
-         write(ltmp,*) 'xtr_gap = reshape(tmp(:,2),mx,my);'
-         write(ltmp,*) 'ytr_gap = reshape(tmp(:,3),mx,my);'
-         write(ltmp,*) 'zw_gap  = reshape(tmp(:,4),mx,my);'
-         write(ltmp,*) 'zr_gap  = reshape(tmp(:,5),mx,my);'
-         write(ltmp,*) 'a_gap   = reshape(tmp(:,6),mx,my);'
-         write(ltmp,*) 'clear tmp;'
-         close(ltmp)
+         write(lgap,*) '];'
+         write(lgap,*) 'xtr_gap = reshape(tmp(:,2),mx,my);'
+         write(lgap,*) 'ytr_gap = reshape(tmp(:,3),mx,my);'
+         write(lgap,*) 'zw_gap  = reshape(tmp(:,4),mx,my);'
+         write(lgap,*) 'zr_gap  = reshape(tmp(:,5),mx,my);'
+         write(lgap,*) 'a_gap   = reshape(tmp(:,6),mx,my);'
+         write(lgap,*) 'clear tmp;'
+         close(lgap)
+         call free_lunit_tmp_use(lgap)
          if (idebug.ge.4) then
             call write_log(' idebug>=4: aborting')
             call abort_run()
@@ -2659,7 +2661,7 @@ contains
       integer,      intent(in)    :: idebug
 !--local variables:
       logical        :: has_uv
-      integer        :: ix, iy, iy_sta, iy_end, ix_sta, ix_end, ii_min, nguard, icheck
+      integer        :: lgap, ix, iy, iy_sta, iy_end, ix_sta, ix_end, ii_min, nguard, icheck
       integer        :: ii, ii_n, ii_s, ii_e, ii_w, ilm, ixmin, numcp0, icp, nummin, numrem
       integer        :: locmin(2,MAX_LOC_MIN)
       real(kind=8)   :: gap_locmin
@@ -2689,36 +2691,38 @@ contains
 
       if (.true. .and. idebug.ge.2) then
          call write_log(' Dump 2d gap-function to dump_gap2d.m ...')
-         open(unit=ltmp, file='dump_gap2d.m')
-         write(ltmp,'(2(a,i6),a)') 'nx=',nx,'; ny=',ny,';'
+         lgap = get_lunit_tmp_use()
+         open(unit=lgap, file='dump_gap2d.m')
+         write(lgap,'(2(a,i6),a)') 'nx=',nx,'; ny=',ny,';'
          if (has_uv) then
-            write(ltmp,'(2a)') '%  ix   iy      x_vw         y_vw         zw           zr',             &
+            write(lgap,'(2a)') '%  ix   iy      x_vw         y_vw         zw           zr',             &
                                                                         '           uw           vw'
          else
-            write(ltmp,'(a)') '%  ix   iy      x_vw         y_vw         zw           zr'
+            write(lgap,'(a)') '%  ix   iy      x_vw         y_vw         zw           zr'
          endif
-         write(ltmp,'(a)') 'tmp =['
+         write(lgap,'(a)') 'tmp =['
          do iy = 1, ny
             do ix = 1, nx
                ii = ix + (iy-1) * nx
                if (has_uv) then
-                  write(ltmp,'(2i5,6f13.6)') ix, iy, x(ii), y(ii), zw(ii), zr(ii), uw(ii), vw(ii)
+                  write(lgap,'(2i5,6f13.6)') ix, iy, x(ii), y(ii), zw(ii), zr(ii), uw(ii), vw(ii)
                else
-                  write(ltmp,'(2i5,6f13.6)') ix, iy, x(ii), y(ii), zw(ii), zr(ii)
+                  write(lgap,'(2i5,6f13.6)') ix, iy, x(ii), y(ii), zw(ii), zr(ii)
                endif
             enddo
          enddo
-         write(ltmp,*) '];'
-         write(ltmp,*) 'xvw_gap = reshape(tmp(:,3),nx,ny);'
-         write(ltmp,*) 'yvw_gap = reshape(tmp(:,4),nx,ny);'
-         write(ltmp,*) 'zw_gap  = reshape(tmp(:,5),nx,ny);'
-         write(ltmp,*) 'zr_gap  = reshape(tmp(:,6),nx,ny);'
+         write(lgap,*) '];'
+         write(lgap,*) 'xvw_gap = reshape(tmp(:,3),nx,ny);'
+         write(lgap,*) 'yvw_gap = reshape(tmp(:,4),nx,ny);'
+         write(lgap,*) 'zw_gap  = reshape(tmp(:,5),nx,ny);'
+         write(lgap,*) 'zr_gap  = reshape(tmp(:,6),nx,ny);'
          if (has_uv) then
-            write(ltmp,*) 'uw_gap  = reshape(tmp(:,7),nx,ny);'
-            write(ltmp,*) 'vw_gap  = reshape(tmp(:,8),nx,ny);'
+            write(lgap,*) 'uw_gap  = reshape(tmp(:,7),nx,ny);'
+            write(lgap,*) 'vw_gap  = reshape(tmp(:,8),nx,ny);'
          endif
-         write(ltmp,*) 'clear tmp;'
-         close(ltmp)
+         write(lgap,*) 'clear tmp;'
+         close(lgap)
+         call free_lunit_tmp_use(lgap)
       endif
 
       ! 2. find overall minimum gap value & surface inclination in view coordinates

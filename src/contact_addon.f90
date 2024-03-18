@@ -183,16 +183,16 @@ subroutine cntc_setFileUnits(nunits, iunits) &
       ! assign the accepted unit numbers to various files, in order of importance
       ! if there are too few unit numbers, set remaining ones to "-1"
 
-      lout = -1
-      lmat = -1
-      linp = -1
-      lsbs = -1
-      ltmp = -1
-      if (imy.ge.1) lout = my_units(1)
-      if (imy.ge.2) lmat = my_units(2)
-      if (imy.ge.3) linp = my_units(3)
-      if (imy.ge.4) lsbs = my_units(4)
-      if (imy.ge.5) ltmp = my_units(5)
+      lout  = -1
+      linp  = -1
+      ltmp1 = -1
+      ltmp2 = -1
+      ltmp3 = -1
+      if (imy.ge.1) lout  = my_units(1)
+      if (imy.ge.2) linp  = my_units(2)
+      if (imy.ge.3) ltmp1 = my_units(3)
+      if (imy.ge.4) ltmp2 = my_units(4)
+      if (imy.ge.5) ltmp3 = my_units(5)
 
       caddon_initialized = -2
    endif
@@ -730,32 +730,28 @@ subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
 !dec$ attributes dllexport :: cntc_readInpFile
 #endif
 
+   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   call cntc_activate(ire, -1, 1, -1, subnam, ierror)
+   if (ierror.lt.0) return
+
    call write_log('readinpfile...')
    ierror = 0
-!  open(12, file='test.out')
-!  write(12,*) ' starting cntc_readInpFile'
-!  close(12)
-!  if (idebug.ge.4) call cntc_log_start(subnam, .true.)
-!  call cntc_activate(ire, -1, 1, -1, subnam, ierror)
-!  if (ierror.lt.0) return
 
-!  ! Store name of output directory (note: only the value of the first call is memorized)
+   call c_to_f_string(c_fname, f_fname, len_fname)
 
-!  call c_to_f_string(c_fname, f_fname, len_fname)
+   if (inp_type.eq.CNTC_inp_spck) then
 
-!  if (inp_type.eq.CNTC_inp_spck) then
+      call wr_input_spck(f_fname, wtd, ierror)
 
-!     call wr_input_spck(f_fname, wtd, ierror)
+   else
 
-!  else
+      ierror = 21
+      write(bufout,'(a,i3,a,i8,a)') ' ERROR(',ierror,'): unknown inp-file code=',inp_type,' is ignored.'
+      call write_log(1, bufout)
 
-!     ierror = 21
-!     write(bufout,'(a,i3,a,i8,a)') ' ERROR(',ierror,'): unknown inp-file code=',inp_type,' is ignored.'
-!     call write_log(1, bufout)
+   endif
 
-!  endif
-
-!  if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_readInpFile
 
 !------------------------------------------------------------------------------------------------------------

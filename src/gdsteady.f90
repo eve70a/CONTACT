@@ -31,7 +31,7 @@
       type(t_eldiv)      :: igsold, igsopt
       type(t_gridfnc3)   :: g, dp, dupl, dscl, n, t, r, dv, v, q, D_q, psopt, ssopt, pold, tmp
       integer            :: mx, my, nadh, nslip, nplst, nexter, newadh, newslp, imvp, it_inn, it_fb,    &
-                            ii, iym, iidbg, ixdbg, iydbg, its_j, tot_j
+                            ii, iym, iidbg, ixdbg, iydbg, its_j, tot_j, ltmp
       real(kind=8)       :: alpha, alpha0, alpha1, beta, coefs(2,2), cosdth, facnel, flx, ga, k_tau,    &
                             tau_c0, snrm, st, ptabs, dif, dif1, difid, difinn, conv,      &
                             resmax, resrms, rii, res_dp, facdif
@@ -195,12 +195,14 @@
       enddo
 
       if (.false.) then
+         ltmp = get_lunit_tmp_use()
          open(ltmp, file='gdstdy0.mat')
          do ii = 1, npot
             write(ltmp,'(i4,i3,7g18.10)') ii, igs%el(ii), r%vx(ii), r%vy(ii), ss%vx(ii), ss%vy(ii), &
                ws%vx(ii), ws%vy(ii), dscl%vn(ii)
          enddo
          close(ltmp)
+         call free_lunit_tmp_use(ltmp)
       endif
 
       ! converged if residual is all zero

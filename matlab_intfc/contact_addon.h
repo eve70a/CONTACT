@@ -12,6 +12,8 @@ void cntc_initialize(int *ire, int *imodul, int *ifcver, int *ierror, const char
 
 void cntc_setglobalflags(int *lenflg, int *params, int *values);
 
+void cntc_readinpfile(int *ire, int *inp_type, const char *c_fname, int *len_fname, int *ierror);
+
 void cntc_setflags(int *ire, int *icp, int *lenflg, int *params, int *values);
 
 void cntc_setmetadata(int *ire, int *icp, int *lenmta, int *params, double *values);

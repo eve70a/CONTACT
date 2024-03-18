@@ -130,8 +130,9 @@ contains
 
             ! while (more (req/opt) values needed & more words available) do
 
-            ii = 0
-            do while (nval.lt.nval_tot .and. ii.lt.nitem)
+            ii     = 0
+            iostat = 0
+            do while (nval.lt.nval_tot .and. ii.lt.nitem .and. iostat.eq.0)
 
                ii   = ii + 1
                nval = nval + 1
@@ -148,6 +149,7 @@ contains
                         ' ; words(', ii, ') = "', trim(words(ii)), '"'
                      call write_log(1, bufout)
                   endif
+                  if (iostat.ne.0) iint = iint - 1
 
                elseif (to_lower(types(nval:nval)).eq.'d' .or. to_lower(types(nval:nval)).eq.'a') then
 
@@ -172,8 +174,8 @@ contains
                   idbl = idbl + 1
                   read(words(ii), fmt='(f40.0)', IOSTAT=iostat) dbles(idbl)
                   if (idebug.ge.9) then
-                     write(bufout,'(2(a,i3),a,e15.4,a,i7,a,i3,3a)') 'item ', ii,                       &
-                        ', type 2 -> dbles(', idbl, ') = ',dbles(idbl),' ; iostat = ', iostat,         &
+                     write(bufout,'(a,i3,a,i2,a,e15.4,a,i7,a,i3,3a)') 'item', ii,                       &
+                        ', type 2 -> dbles(', idbl, ') = ',dbles(idbl),' ; iostat = ', iostat,          &
                         ' ; words(',ii,') "' , trim(words(ii)), '"'
                      call write_log(1, bufout)
                   endif
@@ -181,9 +183,10 @@ contains
                   if (is_deg) dbles(idbl) = dbles(idbl) * pi/180d0
    
                   if (is_deg .and. idebug.ge.9) then
-                     write(bufout,'(a,i3,a,e15.4)') '        in radians: dbles(', idbl, ') = ', dbles(idbl)
+                     write(bufout,'(a,i2,a,e15.4)') '       in radians: dbles(', idbl, ') = ', dbles(idbl)
                      call write_log(1, bufout)
                   endif
+                  if (iostat.ne.0) idbl = idbl - 1
    
                elseif (to_lower(types(nval:nval)).eq.'l') then
    
@@ -192,11 +195,12 @@ contains
                   iflg = iflg + 1
                   read(words(ii), fmt='(l)', IOSTAT=iostat) flags(iflg)
                   if (idebug.ge.9) then
-                     write(bufout,'(2(a,i3),a,l5,a,i7,a,i3,3a)') 'item ', ii,                          &
-                        ', type 3 -> flags(', iflg, ') = ',flags(iflg),' - iostat = ', iostat,         &
+                     write(bufout,'(2(a,i3),a,l5,a,i7,a,i3,3a)') 'item', ii,                            &
+                        ', type 3 -> flags(', iflg, ') = ',flags(iflg),' - iostat = ', iostat,          &
                         ' - words(', ii,' ) = "', trim(words(ii)), '"'
                      call write_log(1, bufout)
                   endif
+                  if (iostat.ne.0) iflg = iflg - 1
    
                elseif (to_lower(types(nval:nval)).eq.'s') then
    
@@ -205,25 +209,28 @@ contains
                   istr = istr + 1
                   ilen = len(trim(words(ii)))
                   if (words(ii)(1:1).ne.squote .or. words(ii)(ilen:ilen).ne.squote) then
-                     iostat=1
+                     iostat = 1
                      strngs(istr) = ' '
                   else
-                     iostat=0
+                     iostat = 0
                      strngs(istr) = words(ii)(2:ilen-1)
                   endif
                   if (idebug.ge.9) then
-                     write(bufout,'(2(a,i3),a/,a70/,a,i7,a,i3,3a)') 'item ',ii,                        &
-                        ', type 4 -> strngs(', istr, ') = ', strngs(istr),'iostat = ', iostat,         &
-                        ' - words(',ii,' ) = "', trim(words(ii)), '"'
+                     write(bufout,'(2(a,i3),3a,i7,a,i3,3a)') 'item',ii,                                 &
+                        ', type 4 -> strngs(', istr, ') = "', trim(strngs(istr)),'", iostat = ',        &
+                        iostat, ' - words(',ii,' ) = "', trim(words(ii)), '"'
                      call write_log(3, bufout)
                   endif
+                  if (iostat.ne.0) istr = istr - 1
    
                else
-                  write(bufout,*) 'ERROR reading "', trim(descrip),'": ',                              &
+
+                  write(bufout,*) 'ERROR reading "', trim(descrip),'": ',                               &
                      'the string types must consist only of i, d, a, l and s'
                   call write_log(1, bufout)
                   if (lstop) call abort_run()
                   ierror = -6
+
                endif
 
                ! in case of an error in parsing: write error message
@@ -785,8 +792,8 @@ contains
 
             ! Error in reading line from file
 
-            write(bufout,'(a,i7,a,i7,a,/,a,i6,a,/,3a)') ' ERROR processing input for case',ncase,      &
-               ', line',linenr,':      low-level file-reading-error, IOSTAT=',iostat,                  &
+            write(bufout,'(a,i7,a,i7,a,/,a,i6,/,3a)') ' ERROR processing input for case',ncase,      &
+               ', line',linenr,':','      low-level file-reading-error, IOSTAT=',iostat,                  &
                ' while expecting      "',trim(descrip),'"'
             call write_log(3, bufout)
             if (lstop) stop

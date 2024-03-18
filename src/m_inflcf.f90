@@ -559,7 +559,8 @@ contains
 
       ! use free unit number defined in m_print_output
 
-      linfl  = ltmp
+      linfl  = get_lunit_tmp_use()
+      if (linfl.le.0) goto 995
 
       ncase  = 1
       idebug = 1
@@ -701,6 +702,7 @@ contains
                         influ%cv%cy, influ%csv%cy)
       endif
       close(linfl)
+      call free_lunit_tmp_use(linfl)
 
       ! print influence coefficients to output-file when requested
 

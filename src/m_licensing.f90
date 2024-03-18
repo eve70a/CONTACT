@@ -197,7 +197,7 @@ function DirIsWritable(folder)
    character(len=*)     :: folder
 !--local variables:
    integer, parameter   :: idebug = 0
-   integer              :: irnd, ios
+   integer              :: ltmp, irnd, ios
    real(kind=8)         :: rnd
    character(len=256)   :: test_file
 !--return value:
@@ -209,6 +209,13 @@ function DirIsWritable(folder)
 
    write(test_file,'(a,i6.6,a)') 'this_is_a_test_', irnd, '.txt'
    test_file = trim(folder) // path_sep // trim(test_file)
+
+   ltmp = get_lunit_tmp_use()
+   if (ltmp.gt.0) then
+      open (ltmp, file=test_file, action='write', status='new', dispose='delete', iostat=ios)
+   else
+      ios = 9999
+   endif
 
    open (ltmp, file=test_file, action='write', status='new', dispose='delete', iostat=ios)
 
@@ -236,7 +243,10 @@ function DirIsWritable(folder)
 
    ! close file & discard (dispose=delete)
 
-   if (ios.eq.0) close(ltmp)
+   if (ios.eq.0) then
+      close(ltmp)
+      call free_lunit_tmp_use(ltmp)
+   endif
 
    ! return success or failure
 

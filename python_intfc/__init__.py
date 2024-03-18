@@ -82,6 +82,7 @@ from .cntc_getwheelsetposition          import cntc_getwheelsetposition         
 from .cntc_getwheelsetvelocity          import cntc_getwheelsetvelocity         as getwheelsetvelocity
 from .cntc_initlibrary                  import cntc_initlibrary                 as initlibrary
 from .cntc_initialize                   import cntc_initialize                  as initialize
+from .cntc_readinpfile                  import cntc_readinpfile                 as readinpfile
 from .cntc_resetcalculationtime         import cntc_resetcalculationtime        as resetcalculationtime
 from .cntc_setcreepages                 import cntc_setcreepages                as setcreepages
 from .cntc_setextrarigidslip            import cntc_setextrarigidslip           as setextrarigidslip

@@ -24,6 +24,13 @@ def contact_addon_headers( cntc_dll ):
     cntc_dll.cntc_initialize.argtypes             = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int), 
                                                       POINTER(c_int),    c_char_p,          POINTER(c_int) ]
   
+    # void cntc_readinpfile                         ( int *ire,          int *inp_type,  const char *c_fname,
+    #                                                 int *len_fname,    int *ierror);
+
+    cntc_dll.cntc_readinpfile.restype             = None
+    cntc_dll.cntc_readinpfile.argtypes            = [ POINTER(c_int),    POINTER(c_int),    c_char_p,
+                                                      POINTER(c_int),    POINTER(c_int) ]
+  
     # void cntc_setglobalflags                      ( int *lenflg,       int *params,       int *values );
   
     cntc_dll.cntc_setglobalflags.restype          = None

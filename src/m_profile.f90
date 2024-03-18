@@ -412,22 +412,23 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine profile_read_config(prf, prfnam, linp, ncase, linenr, idebug, ieof, lstop, zerror)
+   subroutine profile_read_config(lunit, prf, prfnam, ncase, linenr, idebug, ieof, lstop, zerror)
 !--purpose: read profile filename and configuration parameters from inp-file
       implicit none
 !--subroutine parameters:
       type(t_profile)              :: prf
-      integer,      intent(in)     :: linp, ncase, idebug
+      integer,      intent(in)     :: lunit, ncase, idebug
       logical,      intent(in)     :: lstop
       integer,      intent(inout)  :: linenr, ieof
       logical,      intent(inout)  :: zerror
       character(len=*), intent(in) :: prfnam
 !--local variables:
       integer,      parameter :: mxnval = 20
-      integer          :: ints(mxnval), iparam(10), nval, prfopt, sub_ierror
-      logical          :: flags(mxnval)
-      real(kind=8)     :: dbles(mxnval), rparam(10)
-      character*256    :: strngs(mxnval), descrp
+      integer            :: ints(mxnval), iparam(10), nval, prfopt, sub_ierror
+      logical            :: flags(mxnval)
+      real(kind=8)       :: dbles(mxnval), rparam(10)
+      character(len=256) :: strngs(mxnval)
+      character(len= 32) :: descrp
 ! TODO: pass sub_ierror from readline up to calling routine
 
       ! using profile_setopt(iparam, rparam) to store parameters and fill in default values
@@ -444,7 +445,7 @@ contains
       ! get profile filename and basic configuration options
 
       descrp = 'file with ' //  trim(prfnam) // ' profile'
-      call readline(linp, ncase, linenr, descrp, 'siddII', ints, dbles, flags, strngs, mxnval, nval,    &
+      call readline(lunit, ncase, linenr, descrp, 'siddII', ints, dbles, flags, strngs, mxnval, nval,   &
                 idebug, ieof, lstop, sub_ierror)
 
       ! retrieve mirror_y, mirror_z, scale and smooth
@@ -472,7 +473,7 @@ contains
       elseif (prfopt.ge.1) then
 
          descrp = 'extra config for ' //  trim(prfnam) // ' profile (1)'
-         call readline(linp, ncase, linenr, descrp, 'iaaad', ints, dbles, flags, strngs, mxnval,        &
+         call readline(lunit, ncase, linenr, descrp, 'iaaad', ints, dbles, flags, strngs, mxnval,       &
                         nval, idebug, ieof, lstop, sub_ierror)
 
          ismooth    = max(  0, min(  2, ints(1)))
@@ -483,7 +484,7 @@ contains
 
          if (prfopt.ge.2) then
             descrp = 'extra config for ' //  trim(prfnam) // ' profile(2)'
-            call readline(linp, ncase, linenr, descrp, 'id', ints, dbles, flags, strngs, mxnval,        &
+            call readline(lunit, ncase, linenr, descrp, 'id', ints, dbles, flags, strngs, mxnval,       &
                         nval, idebug, ieof, lstop, sub_ierror)
 
             err_hnd    = max( -2, min(  1, ints(1)))
@@ -508,8 +509,9 @@ contains
       type(t_profile)            :: prf
       integer,        intent(in) :: is_wheel
 !--local variables:
-      integer             :: ios, ip
+      integer             :: ltmp, ios, ip
 
+      ltmp = get_lunit_tmp_use()
       open(ltmp, file=trim(prf%fname), action='write', iostat=ios)
 
       if (ios.ne.0) then
@@ -534,18 +536,19 @@ contains
 
          close(ltmp)
       endif
+      call free_lunit_tmp_use(ltmp)
 
    end subroutine write_simpack_profile
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine profile_write_config(meta, prf, is_wheel)
+   subroutine profile_write_config(lunit, meta, prf, is_wheel)
 !--purpose: write profile filename and configuration to inp-file
       implicit none
 !--subroutine arguments:
       type(t_metadata)           :: meta
       type(t_profile)            :: prf
-      integer,        intent(in) :: is_wheel
+      integer,        intent(in) :: lunit, is_wheel
 !--local variables:
       integer             :: len1, prfopt
       character(len=1)    :: namprf
@@ -595,10 +598,10 @@ contains
          ! original smoothing method - dont write detailed configuration
 
          if     (len1.le.28) then
-            write(linp, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
+            write(lunit, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,         &
                    prf%mirror_z, spaces(1:29-len1), namprf, namsmth
          else
-            write(linp, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
+            write(lunit, 7100) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,         &
                    prf%mirror_z, '  ', namprf, namsmth
          endif
 
@@ -611,15 +614,15 @@ contains
          if (prf%err_hnd.ne.0 .or. prf%f_max_omit.ne.0.5d0) prfopt = 2
 
          if     (len1.le.28) then
-            write(linp, 7200) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
+            write(lunit, 7200) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,         &
                    prf%mirror_z, prfopt, spaces(1:29-len1), namprf, namsmth
          else
-            write(linp, 7200) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,          &
+            write(lunit, 7200) '''', trim(prf%fname), '''', prf%mirror_y, prf%sclfac, prf%smth,         &
                    prf%mirror_z, prfopt, '  ', namprf, namsmth
          endif
-         write(linp, 7300) prf%ismooth, prf%zig_thrs*180d0/pi, prf%kink_high*180d0/pi,                  &
+         write(lunit, 7300) prf%ismooth, prf%zig_thrs*180d0/pi, prf%kink_high*180d0/pi,                 &
                    prf%kink_low*180d0/pi, prf%kink_wid
-         if (prfopt.ge.2) write(linp, 7400) prf%err_hnd, prf%f_max_omit
+         if (prfopt.ge.2) write(lunit, 7400) prf%err_hnd, prf%f_max_omit
 
       endif
 
@@ -986,7 +989,7 @@ contains
       endif
 
       ierror = 0
-      unitnm = ltmp
+      unitnm = get_lunit_tmp_use()
       open(unitnm, file=fulnam, status='old', iostat=ios)
       if (ios.ne.0) then
          write(bufout,'(3a,i4,a)') ' ERROR: cannot open file "',trim(fulnam),'" (',ios,')'
@@ -1245,6 +1248,7 @@ contains
 
       enddo
       close(unitnm)
+      call free_lunit_tmp_use(unitnm)
 
       ! Copy data points to either the wheel or the rail profile arrays
 
@@ -1387,7 +1391,7 @@ contains
       endif
       icol_kyield = 0
 
-      unitnm = ltmp
+      unitnm = get_lunit_tmp_use()
       ierror = 0
       open(unitnm, file=fulnam, status='old', iostat=ios)
       if (ios.ne.0) then
@@ -1747,6 +1751,7 @@ contains
 
       enddo ! while (more data, error==0)
       close(unitnm)
+      call free_lunit_tmp_use(unitnm)
 
       if (nwarn_coldef.gt.mxwarn_coldef) then
          write(bufout,'(a,i5,a)') ' ERROR: too few data values for ColumnDef, ignoring', nwarn_coldef,  &
@@ -1900,7 +1905,7 @@ contains
          call write_log(2, bufout)
       endif
 
-      unitnm = ltmp
+      unitnm = get_lunit_tmp_use()
       ierror = 0
       open(unitnm, file=fulnam, status='old', iostat=ios)
       if (ios.ne.0) then
@@ -1938,6 +1943,7 @@ contains
 
       enddo ! while (more data, error==0)
       close(unitnm)
+      call free_lunit_tmp_use(unitnm)
 
       if (x_profil.ge.3) then
          write(bufout,'(a,i6,a)') ' Obtained',npoint,' profile points'

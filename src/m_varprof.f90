@@ -177,7 +177,7 @@ end subroutine varprof_set_debug
       integer,      parameter :: mxnval = 20
       character*3,  parameter :: commnt = '!%"'
       real(kind=8), parameter :: tiny_ds = 1d-3  ! cf. tiny_dt in m_bspline
-      integer          :: ints(mxnval), idum(1), lslcs, ncase, linenr, nval, ieof, my_profil
+      integer          :: ints(mxnval), lslcs, idum(1), ncase, linenr, nval, ieof, my_profil
       integer          :: ia, ik, ip, islc, ix, nout
       integer          :: iout, sub_ierror
       logical          :: flags(mxnval), any_kyield, fill_spline, zerror
@@ -223,8 +223,7 @@ end subroutine varprof_set_debug
 
       ! use free unit number defined in m_print_output
 
-      lslcs = ltmp
-
+      lslcs = get_lunit_tmp_use()
       open(lslcs, file=fulnam, status='old', err=995)
       linenr = 0
       goto 997
@@ -479,6 +478,7 @@ end subroutine varprof_set_debug
       endif
 
       close(lslcs)
+      call free_lunit_tmp_use(lslcs)
 
       ! read files for each profile slice
 

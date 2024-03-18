@@ -26,28 +26,36 @@ public
    ! fmtmat   version number of (ASCII) matlab-file (100*major + 10*minor + 1*patch)
    ! linp     logical unit number of .inp file
    ! lout     logical unit number of .out file
-   ! lmat     logical unit number of .mat file for surface tractions
    ! lsbs     logical unit number of .subs file for subsurface stresses
-   ! ltmp     free logical unit for temporary use
+   ! ltmp*    logical units for temporary use, see get_lunit_tmp_use
 
    integer,      parameter :: fmtmat =   2320
    integer                 :: linp   =     11
    integer                 :: lout   =     12
-   integer                 :: lmat   =     17
-   integer                 :: lsbs   =     18
-   integer                 :: ltmp   =     20
-   public  fmtmat, linp, lout, lmat, lsbs, ltmp
+   integer                 :: ltmp1  =     17
+   integer                 :: ltmp2  =     18
+   integer                 :: ltmp3  =     19
+   public  fmtmat, linp, lout, ltmp1, ltmp2, ltmp3
 
    ! inp_open  flag indicating the status of the .inp-file
    ! out_open  flag indicating the status of the .out-file
    !              -1 == could not open;
    !               0 == uninitialized;
    !               1 == open for output (write_inp);
-   !               2 == open for input (read_inp).
+   !               2 == open for input (read_inp);
+   ! ltmp_open flag indicating the status of logical units for temporary use
+   !               0 == free
+   !               3 == in use (get_lunit_tmp_use, free_lunit_tmp_use).
 
    integer                 :: inp_open = 0
    integer                 :: out_open = 0
-   public  inp_open, out_open
+   integer                 :: ltmp1_open = 0
+   integer                 :: ltmp2_open = 0
+   integer                 :: ltmp3_open = 0
+   public  inp_open, out_open, ltmp1_open, ltmp2_open, ltmp3_open
+
+   public get_lunit_tmp_use
+   public free_lunit_tmp_use
 
    ! MAX_CHAR_INP  length of character variables for reading input, max. length of input lines
 
@@ -356,6 +364,52 @@ subroutine write_log_msg(nlines, msg)
    endif
 
 end subroutine write_log_msg
+
+!------------------------------------------------------------------------------------------------------------
+
+function get_lunit_tmp_use()
+!--purpose: claim one of the logical unit numbers available for temporary use
+   implicit none
+!--return value:
+   integer             :: get_lunit_tmp_use
+
+   if     (ltmp1.gt.0 .and. ltmp1_open.eq.0) then
+      ltmp1_open = 3
+      get_lunit_tmp_use = ltmp1
+   elseif (ltmp2.gt.0 .and. ltmp2_open.eq.0) then
+      ltmp2_open = 3
+      get_lunit_tmp_use = ltmp2
+   elseif (ltmp3.gt.0 .and. ltmp3_open.eq.0) then
+      ltmp3_open = 3
+      get_lunit_tmp_use = ltmp3
+   else
+      get_lunit_tmp_use = -1
+      ! call write_log(' ERROR: no free lunit')
+      ! stop
+   endif
+
+end function get_lunit_tmp_use
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine free_lunit_tmp_use(ltmp)
+!--purpose: release logical unit number claimed previously for temporary use
+   implicit none
+!--subroutine arguments:
+   integer             :: ltmp
+
+   if (ltmp.eq.ltmp1) then
+      ltmp1_open = 0
+   elseif (ltmp.eq.ltmp2) then
+      ltmp2_open = 0
+   elseif (ltmp.eq.ltmp3) then
+      ltmp3_open = 0
+   else
+      ! call write_log(' ERROR: incorrect ltmp')
+      ! stop
+   endif
+
+end subroutine free_lunit_tmp_use
 
 !------------------------------------------------------------------------------------------------------------
 

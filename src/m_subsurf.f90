@@ -651,7 +651,7 @@ subroutine subsur_calc (ic, mater, cgrid_arg, igs_arg, ps_arg, mirror_y, subs, i
    integer                      :: idebug
 !--local variables:
    integer,         parameter :: ncolum = 21
-   integer            :: ii, i, j, iz, kdb, npoint
+   integer            :: ltmp, ii, i, j, iz, kdb, npoint
    integer            :: iblock, iofs, mythrd, numthrd
    logical            :: usefft
    real(kind=8)       :: dbstep, sighyd, sigvm, sigtr, sigmaj(3), sigma(3,3), uw(3), xw(3)
@@ -665,9 +665,11 @@ subroutine subsur_calc (ic, mater, cgrid_arg, igs_arg, ps_arg, mirror_y, subs, i
    call timer_start(itimer_subsur)
 
    if (idebug.ge.10) then
+      ltmp = get_lunit_tmp_use()
       open(unit=ltmp, file='subsurf.tmp', action='write')
       call subsurf_wrtinp (ltmp, ic, subs)
       close(ltmp)
+      call free_lunit_tmp_use(ltmp)
    endif
 
    if (ic%x_nmdbg.ge.4) then
@@ -839,7 +841,7 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
    type(t_subsurf)          :: subs
    integer                  :: idebug
 !--local variables:
-   integer            :: lunmat, ncase, iblock, ii, i, j, k, npoint
+   integer            :: lsbs, ncase, iblock, ii, i, j, k, npoint
    logical            :: lwrmat, full_tensor
    real(kind=8)       :: sighyd, sigvm, sigtr, sigmaj(3), sigma(3,3), uw(3), xw(3)
    character(len=256) :: fname
@@ -884,18 +886,19 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
       fname = trim(meta%dirnam) // path_sep // trim(fname)
    endif
 
-   lunmat = lsbs
-   if (lunmat.le.0) then
-      write(*,*) 'ERROR: no unit-number provided for .subs-file; continuing without write.'
-      lwrmat = .false.
-   endif
-
    if (lwrmat) then
-      open (unit=lunmat, file=fname, action='write', err=998)
+      lsbs = get_lunit_tmp_use()
+      if (lsbs.le.0) goto 997
+
+      open (unit=lsbs, file=fname, action='write', err=998)
       goto 999
 
       ! Error handling:
 
+ 997  continue
+         write(*,*) 'ERROR: no unit-number provided for .subs-file; continuing without write.'
+         lwrmat = .false.
+         goto 999
  998  continue
          write(*,*) 'ERROR: cannot write stresses to .subs-file; continuing without write.'
          lwrmat = .false.
@@ -920,13 +923,13 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
          ! write block-header to .subs-file
 
          if (.not.full_tensor) then
-            write (lunmat,2121)
-            write (lunmat,2122) b%nx_eff, b%ny_eff, b%nz, (0.0, k=1,5)
-            write (lunmat,2123)
+            write (lsbs,2121)
+            write (lsbs,2122) b%nx_eff, b%ny_eff, b%nz, (0.0, k=1,5)
+            write (lsbs,2123)
          else
-            write (lunmat,2126)
-            write (lunmat,2127) b%nx_eff, b%ny_eff, b%nz, (0.0, k=1,11)
-            write (lunmat,2128)
+            write (lsbs,2126)
+            write (lsbs,2127) b%nx_eff, b%ny_eff, b%nz, (0.0, k=1,11)
+            write (lsbs,2128)
          endif
 
  2121    format ('%   NX',10x,'NY',10x,'NZ',5(11x,'-'))
@@ -951,10 +954,10 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
             sigma  = reshape(b%table(ii,13:21), (/ 3, 3 /) )
 
             if (.not.full_tensor) then
-               write (lunmat, 2251) (fmt_gs(12,6,5,xw(i)), i=1,3), (fmt_gs(12,6,5,uw(i)), i=1,3),       &
+               write (lsbs, 2251) (fmt_gs(12,6,5,xw(i)), i=1,3), (fmt_gs(12,6,5,uw(i)), i=1,3),         &
                                     fmt_gs(12,6,5,sighyd), fmt_gs(12,6,5,sigvm)
             else
-               write (lunmat, 2252) (fmt_gs(12,6,5,xw(i)), i=1,3), (fmt_gs(12,6,5,uw(i)), i=1,3),       &
+               write (lsbs, 2252) (fmt_gs(12,6,5,xw(i)), i=1,3), (fmt_gs(12,6,5,uw(i)), i=1,3),         &
                                     fmt_gs(12,6,5,sighyd), fmt_gs(12,6,5,sigvm),                        &
                                     (fmt_gs(12,6,5,sigma(1,j)), j=1,3),                                 &
                                     (fmt_gs(12,6,5,sigma(2,j)), j=2,3), fmt_gs(12,6,5,sigma(3,3))
@@ -968,7 +971,8 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
          end associate
       enddo ! all blocks of coordinates
 
-      close(lunmat)
+      close(lsbs)
+      call free_lunit_tmp_use(lsbs)
    endif ! lwrmat
    call timer_stop(itimer_subsfile)
 
