@@ -65,7 +65,7 @@ function [ opts3 ] = plot3d(sol, opt3, prr, prw, subs)
 %              or [0 0 0.56; 0.5 0 0; 0.8 0.25 0.42]
 %    eldivwid: line-width for contours for element division;
 %    colormap: this changes the colormap for 3D plots;
-%    addplot:  clear (0) or do not clear (1) the figure before plotting.
+%    addplot:  clear current subplot (-1), clear figure (0) or do not clear (1) the figure before plotting.
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -439,9 +439,9 @@ pfxtit = '';
 % start actual processing to produce the requested plot
 %
 
-if (myopt.addplot<=0)
+if (myopt.addplot==0 | myopt.addplot<-1)
    clf;  % restart figure
-elseif (myopt.addplot==2)
+elseif (myopt.addplot==-1 | myopt.addplot==2)
    cla;  % restart subplot?
 end
 
