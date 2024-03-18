@@ -698,9 +698,10 @@ contains
          elseif (k.le.3) then
 
             ! case 1.b: start of iteration: extrapolate using current estimate dfx_dx (at end of table)
+            !                               add factor 1.05 to favour overshoot, to get a bracket
             !                               maximum step: dpen <= 0.5 * pen, new pen <= 1.5 * pen
 
-            x_new  = its%x_b - its%r_b / dfx_dx
+            x_new  = its%x_b - 1.05d0 * its%r_b / dfx_dx
             dx_max = 0.5d0 * (its%x_b - its%xk_all(1))
 
             if (idebug_br.ge.3 .and. x_new.gt.its%x_b+dx_max) then
