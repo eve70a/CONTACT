@@ -217,7 +217,7 @@ contains
          if (my_lprint) then
             write(bufout, 1000) descrp, ic1
             call write_log(1, bufout)
- 1000       format (' Warning: Control digit ',a,' =',i2,' cannot be changed through the spck inp-file.')
+ 1000       format (' Warning: Control digit ',a,' =',i2,' cannot be changed through the Simpack inp-file.')
          endif
       endif
       warn_ic_changed = zwarn
@@ -284,17 +284,17 @@ contains
 
          ! revert control digits that cannot be changed through the spck.inp-file
 
-         if (warn_ic_changed('C1 (CONFIG)', ic0%config, ic%config, .true.)) ic%config = ic0%config
-         if (warn_ic_changed('P (PVTIME)',  ic0%pvtime, ic%pvtime, .true.)) ic%pvtime = ic0%pvtime
-         if (warn_ic_changed('N (NORM)',    ic0%norm,   ic%norm,   .true.)) ic%norm   = ic0%norm
-         if (warn_ic_changed('T (TANG)',    ic0%tang,   ic%tang,   .true.)) ic%tang   = ic0%tang
-         if (warn_ic_changed('F1 (FORCE)',  ic0%force1, ic%force1, .true.)) ic%force1 = ic0%force1
-         if (warn_ic_changed('H (HEAT)',    ic0%heat,   ic%heat,   .true.)) ic%heat   = ic0%heat
-         if (warn_ic_changed('S (STRESS)',  ic0%stress, ic%stress, .true.)) ic%stress = ic0%stress
-         if (warn_ic_changed('I (IESTIM)',  ic0%iestim, ic%iestim, .true.)) ic%iestim = ic0%iestim
+         if (warn_ic_changed('C1 (CONFIG)', ic0%config, ic%config, .false.)) ic%config = ic0%config
+         if (warn_ic_changed('P (PVTIME)',  ic0%pvtime, ic%pvtime, .true.))  ic%pvtime = ic0%pvtime
+         if (warn_ic_changed('N (NORM)',    ic0%norm,   ic%norm,   .true.))  ic%norm   = ic0%norm
+         if (warn_ic_changed('F1 (FORCE)',  ic0%force1, ic%force1, .true.))  ic%force1 = ic0%force1
+         if (warn_ic_changed('H (HEAT)',    ic0%heat,   ic%heat,   .true.))  ic%heat   = ic0%heat
+         if (warn_ic_changed('S (STRESS)',  ic0%stress, ic%stress, .true.))  ic%stress = ic0%stress
+         if (warn_ic_changed('I (IESTIM)',  ic0%iestim, ic%iestim, .true.))  ic%iestim = ic0%iestim
 
          ! reject features not supported in Simpack input
 
+         zerror = zerror .or. .not.check_irng ('Control digit T',  ic%tang,    0, 3)
          zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress,  0, 0)
          zerror = zerror .or. .not.check_2rng ('Control digit Z1', ic%ztrack,  0, 0, 3, 3)
          zerror = zerror .or. .not.check_2rng ('Control digit E1', ic%ewheel,  0, 0, 3, 3)

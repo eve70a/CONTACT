@@ -12,6 +12,7 @@ use m_print_output
 implicit none
 
 public timers_contact_init
+public timers_contact_outlevel
 public timers_contact_print
 public timer_start
 public timer_stop
@@ -50,13 +51,10 @@ integer, parameter :: itimer_interp5            = itimer_interp4   + 1
 integer, parameter :: itimer_interp6            = itimer_interp5   + 1
 integer, parameter :: itimer_udist              = itimer_interp6   + 1
 integer, parameter :: itimer_interp9            = itimer_udist     + 1
-integer, parameter :: itimer_sdis               = itimer_interp9   + 1
-integer, parameter :: itimer_sgencr             = itimer_sdis      + 1
+integer, parameter :: itimer_sgencr             = itimer_interp9   + 1
 integer, parameter :: itimer_infload            = itimer_sgencr    + 1
 integer, parameter :: itimer_filpvs             = itimer_infload   + 1
-integer, parameter :: itimer_srznrm             = itimer_filpvs    + 1
-integer, parameter :: itimer_srztng             = itimer_srznrm    + 1
-integer, parameter :: itimer_files              = itimer_srztng    + 1
+integer, parameter :: itimer_files              = itimer_filpvs    + 1
 
 integer, parameter :: itimer_fftdsc             = itimer_files     + 1
 integer, parameter :: itimer_ffttot             = itimer_fftdsc    + 1
@@ -78,7 +76,7 @@ integer, parameter :: my_i0addon                = itimer_last
 integer            :: my_naddon
 
 ! Level of output w.r.t. timers:
-integer, private   :: timer_output              = 1
+integer, private   :: timer_outlevel            = 1
 
 contains
 
@@ -105,7 +103,7 @@ integer, intent(in),  optional :: mxthrd
    ! Handle optional level of print-output
 
    if (present(idebug)) then
-      timer_output = idebug
+      timer_outlevel = idebug
       call timer_output_config(idebug_arg=idebug-2)
    endif
 
@@ -171,12 +169,10 @@ integer, intent(in),  optional :: mxthrd
 
    call timer_name(itimer_udist     , namtmr='Undeformed distance ')
    call timer_name(itimer_interp9   , namtmr=' - Interp whl_srfc  ')
-   call timer_name(itimer_sdis      , namtmr='Discretisation      ')
+
    call timer_name(itimer_sgencr    , namtmr='Influence coeffic.  ')
    call timer_name(itimer_infload   , namtmr='Load infl.coeffic.  ')
    call timer_name(itimer_filpvs    , namtmr='Initial state/estim.')
-   call timer_name(itimer_srznrm    , namtmr='Rhs normal problem  ')
-   call timer_name(itimer_srztng    , namtmr='Rhs tang. problem   ')
    call timer_name(itimer_files     , namtmr='Writing output-files')
 
    call timer_name(itimer_fftdsc    , namtmr='FFT descriptors     ')
@@ -188,6 +184,14 @@ integer, intent(in),  optional :: mxthrd
    call timer_name(itimer_subsfile  , namtmr='Subsurf writing     ')
 
 end subroutine timers_contact_init
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine timers_contact_outlevel(idebug)
+implicit none
+integer, intent(in)            :: idebug
+   timer_outlevel = idebug
+end subroutine timers_contact_outlevel
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -221,7 +225,7 @@ subroutine timers_contact_print
    ilines = 0
    do i = 1, num_timers
 
-      if (timer_output.ge.2 .or. i.lt.itimer_initcf .or. i.gt.my_i0addon) then
+      if (timer_outlevel.ge.2 .or. i.lt.itimer_initcf .or. i.gt.my_i0addon) then
 
          ! print separator when reaching first timer of new block
 

@@ -111,11 +111,13 @@
                                  ! 0 = none, 1 = overview (default), 2 = full, 3+ = debug
       CNTC_if_wrtinp  = 2002, &  ! code for activating writing of a CONTACT input-file
                                  ! 0 = no, 1 = write .inp-file (default)
-      CNTC_if_openmp  = 2003     ! >0: number of threads to use per contact patch in CONTACT
+      CNTC_if_openmp  = 2003, &  ! >0: number of threads to use per contact patch in CONTACT
                                  ! -1 = automatic (#cores), 0 = no multi-threading (default)
                                  ! note: per-patch multi-threading is disabled if multi-
                                  !       threading is used to compute different contact
                                  !       patches concurrently
+      CNTC_if_timers  = 2004     ! code for level of output w.r.t. performance timers
+                                 ! 0 = none, 1 = overview, 2 = full
 
       ! codes for cntc_getFieldData:
 

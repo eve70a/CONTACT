@@ -1106,6 +1106,8 @@ subroutine simpflex(ic, aa, bb, mater, fstat, kin, idebug)
       call write_log(1, bufout)
    endif
 
+   ! if creepages provided (F=0): apply blending approach
+
    if (ic%force3.le.0) then
 
       ! compute combined flexibility L_crss -- obtained setting cross terms \eta\phi = 0

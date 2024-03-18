@@ -827,7 +827,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
          ! set D-digit in the RE-CP-data (only makes sense for module 1)
 
-         if (values(i).ge.2 .and. values(i).le.9) my_ic%discns1_inp = values(i)
+         if (values(i).ge.0 .and. values(i).le.9) my_ic%discns1_inp = values(i)
          if (values(i).ge.2 .and. values(i).le.9) my_ic%discns1_eff = values(i)
 
       elseif (params(i).eq.CNTC_ic_npomax) then         ! set max. #elements in potential contact (mod. 1)
@@ -841,7 +841,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_ic_inflcf) then         ! set C3-digit in the RE-CP-data
 
-         if (values(i).ge.2 .and. values(i).le.4) my_ic%gencr_inp = values(i)
+         if (values(i).ge.0 .and. values(i).le.4) my_ic%gencr_inp = values(i)
          if (values(i).ge.2 .and. values(i).le.4) my_mater%gencr_eff = values(i)
 
       elseif (params(i).eq.CNTC_ic_ifmeth) then         ! set IF_METH for Blanco-approach (C3=4)
@@ -919,6 +919,12 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
       elseif (params(i).eq.CNTC_if_openmp) then         ! set if_openmp using cntc_setGlobalFlags
 
          call cntc_setGlobalFlags(1, params(i), values(i))
+
+      elseif (params(i).eq.CNTC_if_timers) then
+
+         write(bufout,'(a,i3)') ' set timer output=',values(i)
+         call write_log(1, bufout)
+         call timers_contact_outlevel(values(i))
 
       else
 
@@ -1643,6 +1649,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
 !--function: set V and L-digits and parameters for the friction law for a contact problem
 !  imeth          - type of friction law used: 10 * V-digit + 1 * L-digit
 !  L = 0: Coulomb friction,             lparam = [fstat, fkin]
+!      1: keep previous parameters,     lparam = [ ]
 !      2: linear falling friction,      lparam = [fkin, flin1, sabsh1, flin2, sabsh2, memdst, mem_s0]
 !      3: rational falling friction,    lparam = [fkin, frat1, sabsh1, frat2, sabsh2, memdst, mem_s0]
 !      4: exponential falling friction, lparam = [fkin, fexp1, sabsh1, fexp2, sabsh2, memdst, mem_s0]
@@ -1687,7 +1694,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
    vdigit = imeth / 10
    ldigit = imeth - 10*vdigit
 
-   if (vdigit.lt.0 .or. vdigit.gt.1 .or. ldigit.lt.0 .or. ldigit.eq.1 .or. ldigit.gt.6) then
+   if (vdigit.lt.0 .or. vdigit.gt.1 .or. ldigit.lt.0 .or. ldigit.gt.6) then
       write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' method',imeth,' does not exist.'
       call write_log(1, bufout)
       return
@@ -1700,7 +1707,11 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
       return
    endif
 
-   my_ic%varfrc        = vdigit
+   if (ldigit.ne.1) then
+      my_ic%varfrc = vdigit
+   else
+      vdigit = 0
+   endif
    if (ldigit.eq.5) then
       my_ic%frclaw_inp = 4
    else
@@ -1734,187 +1745,191 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
    !    call write_log(1, bufout)
    ! enddo
 
-   ! Unpack / copy the input parameters
+   if (ldigit.ne.1) then
 
-   if (imodul.eq.1) then
-      my_fric => wtd%fric
-   else
-      my_fric => gd%fric
-   endif
+      ! Unpack / copy the input parameters
 
-   ! L = 0 -- 6: store lparam(i,:)
-
-   if (ldigit.eq.5) then
-      my_fric%frclaw_eff = 4
-   else
-      my_fric%frclaw_eff = ldigit
-   endif
-
-   ! resize arrays to NVF entries
-
-   call fric_resize(my_fric, nvf)
-
-   ! copy parameters
-
-   iofs = 0
-   if (vdigit.eq.1) iofs = 1     ! skip 1st position: nvf
-
-   do ivf = 1, nvf
-
-      ! V = 1: store alphvf(i)
-
-      if (vdigit.eq.1) then
-         my_fric%alphvf(ivf) = params(iofs+1) * my_scl%angle
-         iofs = iofs + 1
+      if (imodul.eq.1) then
+         my_fric => wtd%fric
+      else
+         my_fric => gd%fric
       endif
 
-      if (ldigit.eq.0) then
+      ! L = 0 -- 6: store lparam(i,:)
 
-         ! L = 0: Coulomb friction with a single coefficient of friction fstat = fkin
-
-         my_fric%fkin_arr(ivf)   = max(1d-6, min(params(iofs+1), params(iofs+2)))
-         my_fric%fstat_arr(ivf)  = my_fric%fkin_arr(ivf)
-
-         if (idebug.ge.2) then
-            write(bufout,'(2a,i2,2(a,f6.3),a)') trim(pfx_str(subnam,ire,icp)),' L=',ldigit,             &
-                ', Fstat=',my_fric%fstat_arr(ivf),', Fkin=',my_fric%fkin_arr(ivf), ' [-]'
-            call write_log(1, bufout)
-         endif
-
-      elseif (ldigit.eq.2) then
-
-         ! Linear falling friction formula according to L=2
-         ! TODO: consistency/lower bounds should be moved to m_friclaw
-
-         my_fric%fkin_arr(ivf)  = max(1d-6, params(iofs+1))
-         my_fric%flin1(ivf)     = max(0d0,  params(iofs+2))
-         my_fric%sabsh1(ivf)    = max(1d-4, params(iofs+3) * my_scl%veloc)
-         my_fric%flin2(ivf)     = max(0d0,  params(iofs+4))
-         my_fric%sabsh2(ivf)    = max(1d-4, params(iofs+5) * my_scl%veloc)
-         my_fric%memdst         = max(0d0,  params(iofs+6) * my_scl%len)
-         my_fric%mem_s0         = max(0d0,  params(iofs+7) * my_scl%veloc)
-         my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%flin1(ivf) + my_fric%flin2(ivf)
-
-         if (idebug.ge.2) then
-            write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')                    &
-                trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
-                             ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
-                'Flin1=',my_fric%flin1(ivf), ' [-], Sabsh1=',my_fric%sabsh1(ivf), ' [mm/s], Flin2=',    &
-                         my_fric%flin2(ivf), ' [-], Sabsh2=',my_fric%sabsh2(ivf), ' [mm/s]'
-            call write_log(2, bufout)
-         endif
-
-      elseif (ldigit.eq.3) then
-
-         ! Rational falling friction formula according to L=3
-
-         my_fric%fkin_arr(ivf)  = max(1d-6, params(iofs+1))
-         my_fric%frat1(ivf)     = max(0d0,  params(iofs+2))
-         my_fric%sabsh1(ivf)    = max(1d-4, params(iofs+3) * my_scl%veloc)
-         my_fric%frat2(ivf)     = max(0d0,  params(iofs+4))
-         my_fric%sabsh2(ivf)    = max(1d-4, params(iofs+5) * my_scl%veloc)
-         my_fric%memdst         = max(0d0,  params(iofs+6) * my_scl%len)
-         my_fric%mem_s0         = max(0d0,  params(iofs+7) * my_scl%veloc)
-         my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%frat1(ivf) + my_fric%frat2(ivf)
-
-         if (idebug.ge.2) then
-            write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')                    &
-                trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
-                             ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
-                'Frat1=',my_fric%frat1(ivf), ' [-], Sabsh1=',my_fric%sabsh1(ivf), ' [mm/s], Frat2=',    &
-                         my_fric%frat2(ivf), ' [-], Sabsh2=',my_fric%sabsh2(ivf), ' [mm/s]'
-            call write_log(2, bufout)
-         endif
-
-      elseif (ldigit.eq.4) then
-
-         ! Exponential falling friction formula according to L=4
-
-         my_fric%fkin_arr(ivf)  = max(1d-6, params(iofs+1))
-         my_fric%fexp1(ivf)     = max(0d0,  params(iofs+2))
-         my_fric%sabsh1(ivf)    = max(1d-4, params(iofs+3) * my_scl%veloc)
-         my_fric%fexp2(ivf)     = max(0d0,  params(iofs+4))
-         my_fric%sabsh2(ivf)    = max(1d-4, params(iofs+5) * my_scl%veloc)
-         my_fric%memdst         = max(0d0,  params(iofs+6) * my_scl%len)
-         my_fric%mem_s0         = max(0d0,  params(iofs+7) * my_scl%veloc)
-         my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%fexp1(ivf) + my_fric%fexp2(ivf)    
-
-         if (idebug.ge.2) then
-            write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 2(48x,a,f5.2,a,f7.1,a,:,/))')                &
-                trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
-                             ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
-                'Fexp1=',my_fric%fexp1(ivf), ' [-], Sabsh1=',my_fric%sabsh1(ivf), ' [mm/s],',           &
-                'Fexp2=',my_fric%fexp2(ivf), ' [-], Sabsh2=',my_fric%sabsh2(ivf), ' [mm/s]'
-            call write_log(3, bufout)
-         endif
-
-      elseif (ldigit.eq.5) then
-
-         ! L = 5: Polach's exponential falling friction formula, converted to L=4
-         !   mu = mu0 * [ A + (1-A) * exp(-B*s) ]
-         !   fstat (s=0) == mu0;  fkin (s=inf) == mu0*A;  shalf: B*s == ln(2)
-
-         fstat    = max(1d-6,params(iofs+1))
-         polach_a = max(0d0, min(1d0, params(iofs+2)))
-         polach_b = params(iofs+3) / my_scl%veloc
-
-         fkin  = polach_a * fstat
-         fexp1 = fstat - fkin
-         shalf = log(2d0)/polach_b
-         my_fric%fstat_arr(ivf) = fstat
-         my_fric%fkin_arr(ivf)  = fkin
-         my_fric%fexp1(ivf)     = fexp1
-         my_fric%sabsh1(ivf)    = shalf
-         my_fric%fexp2(ivf)     =     0d0
-         my_fric%sabsh2(ivf)    = 10000d0   ! 10 m/s
-         my_fric%memdst         = 0.001d0   ! 1 micrometer
-         my_fric%mem_s0         =    10d0   ! 10 mm/s
-
-         if (idebug.ge.2) then
-            write(bufout,'(2a,i2,2(a,f5.2),a,/, 42x,2(a,f7.1),a,f5.2,a)')                               &
-                trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
-                        ', Fexp1=',my_fric%fexp1,' [-],', ' Sabsh1=',my_fric%sabsh1,                    &
-                        ', Mem_s0=',my_fric%mem_s0, ' [mm/s], Memdst=',my_fric%memdst,' [mm]'
-            call write_log(2, bufout)
-         endif
-
-      elseif (ldigit.eq.6) then
-
-         ! L = 6: Temperature dependent friction with piecewise linear formula
-
-         my_fric%fref(ivf)      = max(1d-6, params(iofs+1))
-         my_fric%tref(ivf)      = params(iofs+2)
-         my_fric%dfheat(ivf)    = max(1d-6-my_fric%fref(ivf), params(iofs+3))
-         my_fric%dtheat(ivf)    = params(iofs+4)
-         my_fric%memdst         = max(0d0,  params(iofs+5) * my_scl%len)
-         my_fric%mem_s0         = max(0d0,  params(iofs+6) * my_scl%veloc)
-         my_fric%fstat_arr(ivf) = my_fric%fref(ivf)
-         my_fric%fkin_arr(ivf)  = my_fric%fref(ivf) + my_fric%dfheat(ivf)
-
-         if (idebug.ge.2) then
-            write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,/, a,40x,a,f6.3,a,f7.1,a)')                            &
-                trim(pfx_str(subnam,ire,icp)), ' L=',my_fric%frclaw_eff, ', Fref=',my_fric%fref(ivf),   &
-                        ' [-], Tref=',my_fric%tref(ivf),' [C],',                                        &
-                pfx,' Dfheat =',my_fric%dfheat(ivf),' [-], Dtheat =',my_fric%dtheat(ivf),' [C]'
-            call write_log(2, bufout)
-         endif
-
+      if (ldigit.eq.5) then
+         my_fric%frclaw_eff = 4
+      else
+         my_fric%frclaw_eff = ldigit
       endif
 
-      iofs = iofs + nparam_loc(ldigit)
+      ! resize arrays to NVF entries
 
-   enddo ! ivf
+      call fric_resize(my_fric, nvf)
 
-   call fric_update(my_fric)
+      ! copy parameters
 
-   ! set the value of the friction coefficient used for scaling tang. forces
+      iofs = 0
+      if (vdigit.eq.1) iofs = 1     ! skip 1st position: nvf
 
-   my_kin%use_muscal = my_ic%varfrc.eq.0
-   if (my_kin%use_muscal) then
-      my_kin%muscal = my_fric%fstat()
-   else
-      my_kin%muscal = 1d0
-   endif
+      do ivf = 1, nvf
+
+         ! V = 1: store alphvf(i)
+
+         if (vdigit.eq.1) then
+            my_fric%alphvf(ivf) = params(iofs+1) * my_scl%angle
+            iofs = iofs + 1
+         endif
+
+         if (ldigit.eq.0) then
+
+            ! L = 0: Coulomb friction with a single coefficient of friction fstat = fkin
+
+            my_fric%fkin_arr(ivf)   = max(1d-6, min(params(iofs+1), params(iofs+2)))
+            my_fric%fstat_arr(ivf)  = my_fric%fkin_arr(ivf)
+
+            if (idebug.ge.2) then
+               write(bufout,'(2a,i2,2(a,f6.3),a)') trim(pfx_str(subnam,ire,icp)),' L=',ldigit,          &
+                   ', Fstat=',my_fric%fstat_arr(ivf),', Fkin=',my_fric%fkin_arr(ivf), ' [-]'
+               call write_log(1, bufout)
+            endif
+    
+         elseif (ldigit.eq.2) then
+    
+            ! Linear falling friction formula according to L=2
+            ! TODO: consistency/lower bounds should be moved to m_friclaw
+    
+            my_fric%fkin_arr(ivf)  = max(1d-6, params(iofs+1))
+            my_fric%flin1(ivf)     = max(0d0,  params(iofs+2))
+            my_fric%sabsh1(ivf)    = max(1d-4, params(iofs+3) * my_scl%veloc)
+            my_fric%flin2(ivf)     = max(0d0,  params(iofs+4))
+            my_fric%sabsh2(ivf)    = max(1d-4, params(iofs+5) * my_scl%veloc)
+            my_fric%memdst         = max(0d0,  params(iofs+6) * my_scl%len)
+            my_fric%mem_s0         = max(0d0,  params(iofs+7) * my_scl%veloc)
+            my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%flin1(ivf) + my_fric%flin2(ivf)
+    
+            if (idebug.ge.2) then
+               write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')                    &
+                   trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
+                                ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
+                   'Flin1=',my_fric%flin1(ivf), ' [-], Sabsh1=',my_fric%sabsh1(ivf), ' [mm/s], Flin2=',    &
+                            my_fric%flin2(ivf), ' [-], Sabsh2=',my_fric%sabsh2(ivf), ' [mm/s]'
+               call write_log(2, bufout)
+            endif
+    
+         elseif (ldigit.eq.3) then
+    
+            ! Rational falling friction formula according to L=3
+    
+            my_fric%fkin_arr(ivf)  = max(1d-6, params(iofs+1))
+            my_fric%frat1(ivf)     = max(0d0,  params(iofs+2))
+            my_fric%sabsh1(ivf)    = max(1d-4, params(iofs+3) * my_scl%veloc)
+            my_fric%frat2(ivf)     = max(0d0,  params(iofs+4))
+            my_fric%sabsh2(ivf)    = max(1d-4, params(iofs+5) * my_scl%veloc)
+            my_fric%memdst         = max(0d0,  params(iofs+6) * my_scl%len)
+            my_fric%mem_s0         = max(0d0,  params(iofs+7) * my_scl%veloc)
+            my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%frat1(ivf) + my_fric%frat2(ivf)
+    
+            if (idebug.ge.2) then
+               write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')                    &
+                   trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
+                                ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
+                   'Frat1=',my_fric%frat1(ivf), ' [-], Sabsh1=',my_fric%sabsh1(ivf), ' [mm/s], Frat2=',    &
+                            my_fric%frat2(ivf), ' [-], Sabsh2=',my_fric%sabsh2(ivf), ' [mm/s]'
+               call write_log(2, bufout)
+            endif
+    
+         elseif (ldigit.eq.4) then
+    
+            ! Exponential falling friction formula according to L=4
+    
+            my_fric%fkin_arr(ivf)  = max(1d-6, params(iofs+1))
+            my_fric%fexp1(ivf)     = max(0d0,  params(iofs+2))
+            my_fric%sabsh1(ivf)    = max(1d-4, params(iofs+3) * my_scl%veloc)
+            my_fric%fexp2(ivf)     = max(0d0,  params(iofs+4))
+            my_fric%sabsh2(ivf)    = max(1d-4, params(iofs+5) * my_scl%veloc)
+            my_fric%memdst         = max(0d0,  params(iofs+6) * my_scl%len)
+            my_fric%mem_s0         = max(0d0,  params(iofs+7) * my_scl%veloc)
+            my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%fexp1(ivf) + my_fric%fexp2(ivf)    
+    
+            if (idebug.ge.2) then
+               write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 2(48x,a,f5.2,a,f7.1,a,:,/))')                &
+                   trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
+                                ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
+                   'Fexp1=',my_fric%fexp1(ivf), ' [-], Sabsh1=',my_fric%sabsh1(ivf), ' [mm/s],',           &
+                   'Fexp2=',my_fric%fexp2(ivf), ' [-], Sabsh2=',my_fric%sabsh2(ivf), ' [mm/s]'
+               call write_log(3, bufout)
+            endif
+    
+         elseif (ldigit.eq.5) then
+    
+            ! L = 5: Polach's exponential falling friction formula, converted to L=4
+            !   mu = mu0 * [ A + (1-A) * exp(-B*s) ]
+            !   fstat (s=0) == mu0;  fkin (s=inf) == mu0*A;  shalf: B*s == ln(2)
+    
+            fstat    = max(1d-6,params(iofs+1))
+            polach_a = max(0d0, min(1d0, params(iofs+2)))
+            polach_b = params(iofs+3) / my_scl%veloc
+    
+            fkin  = polach_a * fstat
+            fexp1 = fstat - fkin
+            shalf = log(2d0)/polach_b
+            my_fric%fstat_arr(ivf) = fstat
+            my_fric%fkin_arr(ivf)  = fkin
+            my_fric%fexp1(ivf)     = fexp1
+            my_fric%sabsh1(ivf)    = shalf
+            my_fric%fexp2(ivf)     =     0d0
+            my_fric%sabsh2(ivf)    = 10000d0   ! 10 m/s
+            my_fric%memdst         = 0.001d0   ! 1 micrometer
+            my_fric%mem_s0         =    10d0   ! 10 mm/s
+    
+            if (idebug.ge.2) then
+               write(bufout,'(2a,i2,2(a,f5.2),a,/, 42x,2(a,f7.1),a,f5.2,a)')                            &
+                   trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),        &
+                           ', Fexp1=',my_fric%fexp1,' [-],', ' Sabsh1=',my_fric%sabsh1,                 &
+                           ', Mem_s0=',my_fric%mem_s0, ' [mm/s], Memdst=',my_fric%memdst,' [mm]'
+               call write_log(2, bufout)
+            endif
+    
+         elseif (ldigit.eq.6) then
+    
+            ! L = 6: Temperature dependent friction with piecewise linear formula
+    
+            my_fric%fref(ivf)      = max(1d-6, params(iofs+1))
+            my_fric%tref(ivf)      = params(iofs+2)
+            my_fric%dfheat(ivf)    = max(1d-6-my_fric%fref(ivf), params(iofs+3))
+            my_fric%dtheat(ivf)    = params(iofs+4)
+            my_fric%memdst         = max(0d0,  params(iofs+5) * my_scl%len)
+            my_fric%mem_s0         = max(0d0,  params(iofs+6) * my_scl%veloc)
+            my_fric%fstat_arr(ivf) = my_fric%fref(ivf)
+            my_fric%fkin_arr(ivf)  = my_fric%fref(ivf) + my_fric%dfheat(ivf)
+    
+            if (idebug.ge.2) then
+               write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,/, a,40x,a,f6.3,a,f7.1,a)')                            &
+                   trim(pfx_str(subnam,ire,icp)), ' L=',my_fric%frclaw_eff, ', Fref=',my_fric%fref(ivf),   &
+                           ' [-], Tref=',my_fric%tref(ivf),' [C],',                                        &
+                   pfx,' Dfheat =',my_fric%dfheat(ivf),' [-], Dtheat =',my_fric%dtheat(ivf),' [C]'
+               call write_log(2, bufout)
+            endif
+    
+         endif
+
+         iofs = iofs + nparam_loc(ldigit)
+
+      enddo ! ivf
+
+      call fric_update(my_fric)
+
+      ! set the value of the friction coefficient used for scaling tang. forces
+
+      my_kin%use_muscal = my_ic%varfrc.eq.0
+      if (my_kin%use_muscal) then
+         my_kin%muscal = my_fric%fstat()
+      else
+         my_kin%muscal = 1d0
+      endif
+
+   endif ! L <> 1
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setFrictionMethod
@@ -3008,6 +3023,7 @@ end subroutine cntc_setTrackDimensions_old
 subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
    bind(c,name=CNAME_(cntc_settrackdimensions_new))
 !--function: set the track or roller-rig description for a wheel-rail contact problem
+!    0: maintain track dimensions     params = [ ]
 !    1: new design track dimensions   params = [gaught, gaugsq, gaugwd, cant, nomrad],   if gaught >  0,
 !                                         or   [gaught, raily0, railz0, cant, nomrad],   if gaught <= 0.
 !    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
@@ -3026,7 +3042,7 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
    integer,      intent(in) :: nparam         ! number of parameters provided
    real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
 !--local variables:
-   integer             :: nparam_loc(3)
+   integer             :: nparam_loc(0:3)
    integer             :: ierror
    character(len=*), parameter :: subnam = 'cntc_setTrackDimensions_new'
 #ifdef _WIN32
@@ -3039,7 +3055,7 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
 
    ! check value of ZTRACK digit
 
-   if (ztrack.lt.1 .or. ztrack.gt.3) then
+   if (ztrack.lt.0 .or. ztrack.gt.3) then
       write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' does not exist.'
       call write_log(1, bufout)
       return
@@ -3048,9 +3064,9 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
    ! check number of parameters supplied, expecting 4 additional params when Z = 3, F = 3
 
    if (ztrack.eq.3 .and. wtd%ic%force1.eq.3) then
-      nparam_loc(1:3) = (/ 5, 6, 15 /)
+      nparam_loc(0:3) = (/ 0, 5, 6, 15 /)
    else
-      nparam_loc(1:3) = (/ 5, 6, 11 /)
+      nparam_loc(0:3) = (/ 0, 5, 6, 11 /)
    endif
 
    if (nparam.ne.nparam_loc(ztrack)) then
@@ -3881,19 +3897,24 @@ subroutine cntc_calculate1(ire, ierror) &
    ! Optionally write description of the case to the .inp-file
 
    if (my_ic%wrtinp.ge.1 .and. inp_open.ge.0) then
+      call timer_start(itimer_files)
       if (my_ic%return.eq.0 .or. my_ic%return.eq.2 .and. my_meta%irun.eq.0) then
-         write (linp,'(a,i6,a,i3)') '% case',my_meta%ncase,' for result element',ire
+         write (linp,'(a,i7,a,i3)') '% case',my_meta%ncase,' for result element',ire
       elseif (my_ic%return.eq.0 .or. my_ic%return.eq.2) then
-         write (linp,'(a,i6,4(a,i4))') '% case',my_meta%ncase,' for result element',ire, ': run',       &
+         write (linp,'(a,i7,4(a,i4))') '% case',my_meta%ncase,' for result element',ire, ': run',       &
                 my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
+      elseif (my_meta%irun.eq.0 .and. my_meta%tim.eq.0d0) then
+         write (linp,'(a,i7,a,i3)')         ' 1  MODULE   % case',my_meta%ncase,' for result element',ire
       elseif (my_meta%irun.eq.0) then
-         write (linp,'(a,i6,a,i3)') ' 1  MODULE   % case',my_meta%ncase,' for result element',ire
+         write (linp,'(a,i7,a,i3,a,f16.8)') ' 1  MODULE   % case',my_meta%ncase,' for result element',  &
+                ire,', t=',my_meta%tim
       else
-         write (linp,'(a,i6,4(a,i4))') ' 1  MODULE   % case',my_meta%ncase,' for result element',ire,   &
-                ': run', my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
+         write (linp,'(a,i7,4(a,i4))')      ' 1  MODULE   % case',my_meta%ncase,' for result element',  &
+                ire, ': run', my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
       endif
 
       call wr_write_inp(-1, wtd)
+      call timer_stop(itimer_files)
    endif
 
    ! Solve the contact-problem
@@ -4054,10 +4075,12 @@ subroutine cntc_calculate3(ire, icp, ierror) &
    ! Optionally write description of the case to the .inp-file
 
    if (my_ic%wrtinp.ge.1 .and. inp_open.ge.0) then
-      write (linp,'(a,i6,2(a,i3))') ' 3  MODULE   % case', my_meta%ncase, ' for result element', ire,   &
+      call timer_start(itimer_files)
+      write (linp,'(a,i7,2(a,i3))') ' 3  MODULE   % case', my_meta%ncase, ' for result element', ire,   &
                 ', contact problem',icp
       call wrtinp (-1, my_ic, gd%potcon_cur, my_mater, gd%hertz, gd%geom, gd%fric, my_kin, my_solv,     &
                         gd%outpt1, gd%subs, .true.)
+      call timer_stop(itimer_files)
    endif
 
    ! Increment the number of cases computed for this (ire,icp)
@@ -4199,7 +4222,7 @@ end subroutine subs_calculate
 subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
    bind(c,name=CNAME_(cntc_getflags))
 !--function: used for getting various configuration flags from a contact problem
-!--category: 6, "m=any, cp":        available for modules 1 and 3, in module 1 working on cp data
+!--category: 7, "m=any, wtd or cp":  available for modules 1 and 3, in module 1 working on single or all cps
    implicit none
 !--subroutine arguments:
    integer,      intent(in)  :: ire            ! result element ID
@@ -4215,8 +4238,7 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
 #endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
-   call cntc_activate(ire, icp, 0, 1, subnam, ierror)
-
+   call cntc_activate(ire, icp, 0, 0, subnam, ierror)
    if (ierror.lt.0) return
 
    imodul = ire_module(ix_reid(ire))
@@ -4340,6 +4362,16 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
 
       endif
    enddo
+
+   if (idebug.ge.2) then
+      do i = 1, lenflg
+         if (params(i).ne.0) then
+            write(bufout,'(2a,i2,3a,i8)') trim(pfx_str(subnam,ire,icp)), ' i=',i,', got flag ',         &
+                        cntc_flagName(params(i)),', value=',values(i)
+            call write_log(1, bufout)
+         endif
+      enddo
+   endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getFlags
@@ -5067,7 +5099,7 @@ end subroutine cntc_getNumElements
 subroutine cntc_getGridDiscretization(ire, icp, dx, dy) &
    bind(c,name=CNAME_(cntc_getgriddiscretization))
 !--function: get the grid discretization step sizes dx,dy for a contact problem
-!--category: 6, "m=any, cp":        available for modules 1 and 3, in module 1 working on cp data
+!--category: 7, "m=any, wtd or cp":  available for modules 1 and 3, in module 1 working on single or all cps
    implicit none
 !--subroutine arguments:
    integer,      intent(in)  :: ire           ! result element ID
@@ -5081,11 +5113,20 @@ subroutine cntc_getGridDiscretization(ire, icp, dx, dy) &
 #endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
-   call cntc_activate(ire, icp, 0, 1, subnam, ierror)
+   call cntc_activate(ire, icp, 0, 0, subnam, ierror)
    if (ierror.lt.0) return
 
-   dx  = gd%potcon_cur%dx / my_scl%len
-   dy  = gd%potcon_cur%dy / my_scl%len
+   if (icp.eq.-1) then
+
+      dx = wtd%discr%dx / my_scl%len
+      dy = wtd%discr%ds / my_scl%len
+
+   else
+
+      dx = gd%potcon_cur%dx / my_scl%len
+      dy = gd%potcon_cur%dy / my_scl%len
+
+   endif
 
    if (idebug.ge.2) then
       write(bufout,'(2a,2f8.5,a)') trim(pfx_str(subnam,ire,icp)),' step sizes dx,dy=',dx, dy,' [length]'

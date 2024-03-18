@@ -375,8 +375,8 @@ public
       !              8   = intermediate results of Newton-Raphson loops
       !              9   = information per iteration of NormCG, ConvexGS, SteadyGS
       !    x_readln governs the debug output on reading the input file
-      !    wrtinp   governs the writing of data to the input-file, used by the CONTACT add-on to SIMPACK
-      !             Rail, allowing for off-line use of CONTACT after the SIMPACK run.
+      !    wrtinp   governs the writing of data to the input-file, used by the CONTACT library,
+      !             allowing for off-line analysis of cases using the stand-alone CONTACT program
       !              0   = no writing of the input (default)
       !              1   = write input of each case to the .inp-file.
       ! r, return   return to main program.
