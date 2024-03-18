@@ -16,7 +16,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-module subroutine spline_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
+module subroutine splinedef_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
 !--function: enable/disable debug output of all spline routines
    implicit none
 !--subroutine arguments:
@@ -33,13 +33,13 @@ module subroutine spline_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
       iel_debug = new_iel_debug
    endif
 
-   if (ldebug.ge.3) then
-      write(bufout,'(a,i3,2(a,i7))') ' spline:  debugging level =',ldebug,', ii_debug =',               &
+   if (ldebug.ge.5) then
+      write(bufout,'(a,i3,2(a,i7))') ' spline_def:  debugging level =',ldebug,', ii_debug =',           &
                 ii_debug,', iel_debug =', iel_debug
       call write_log(1, bufout)
    endif
 
-end subroutine spline_set_debug
+end subroutine splinedef_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1401,16 +1401,16 @@ module subroutine locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, typ_xtr
    real(kind=8),     intent(out)  :: s_xtrm
    integer,          intent(out)  :: ierror
 !--local variables
-   real(kind=8), parameter :: tiny_a3 = 1d-10, tiny_a2 = 1d-10
+   real(kind=8), parameter :: tiny_a3 = 1d-10, tiny_a2 = 1d-10, tiny_ds = 1d-10
    real(kind=8) :: discr, ds, sloc, sloc1, sloc2, a1loc, floc1, floc2
 
    ierror = 0
    s_xtrm = 1d10
 
    if (ldebug.ge.3) then
-      write(bufout,'(a,i5,3(a,f9.4),3g12.4,a,i3)') ' locate_xtrem: seg',iseg,': s=[', s_spl(iseg),      &
-              ',', s_spl(iseg+1), '], a0-a3=',a0(iseg), a1(iseg), a2(iseg), a3(iseg),', type',typ_xtrm
-      call write_log(1, bufout)
+      write(bufout,'(a,i5,2(a,f9.4),a,/,a,4g14.6,a,i3)') ' locate_xtrem: seg',iseg,': s=[', s_spl(iseg), &
+              ',', s_spl(iseg+1), '],',' a0-a3=',a0(iseg), a1(iseg), a2(iseg), a3(iseg),', type',typ_xtrm
+      call write_log(2, bufout)
    endif
 
    ! segment cubic:   v(s)  = a0 + a1 * s +     a2 * s^2 +     a3 * s^3
@@ -1446,7 +1446,7 @@ module subroutine locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, typ_xtr
       s_xtrm = s_spl(iseg+1)
 
       if (ldebug.ge.3) then
-         write(bufout,'(a,g12.4,a,i4,a,f11.6)') '   ...D=',discr,'<0, kink at end of seg',iseg,      &
+         write(bufout,'(a,g12.4,a,i4,a,f11.6)') '   ...D=',discr,'<0, kink at end of seg',iseg,         &
                   ', s_xtrm=', s_xtrm
          call write_log(1, bufout)
       endif
@@ -1466,9 +1466,11 @@ module subroutine locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, typ_xtr
       if (ldebug.ge.3) then
          write(bufout,'(15x,3(a,f11.4))') 'zeros at sloc1=',sloc1,', sloc2=',sloc2,', ds=',ds
          call write_log(1, bufout)
+         write(bufout,'(a,2f12.9,a,g14.6)') ' sloc2,ds=', sloc2,ds,', sloc2-ds=',sloc2-ds
+         call write_log(1, bufout)
       endif
 
-      if (min(sloc1,sloc2).ge.0d0 .and. max(sloc1,sloc2).le.ds) then
+      if (min(sloc1,sloc2).ge.-tiny_ds .and. max(sloc1,sloc2).le.ds+tiny_ds) then
 
          ! two zeros within [0, ds]
 
@@ -1502,8 +1504,8 @@ module subroutine locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, typ_xtr
          if (ldebug.ge.1 .and. typ_xtrm.ne.0)                                                           &
             call write_log(' WARNING(spline, locate extremum): solution need not be overall min/max')
 
-      elseif (max(sloc1,sloc2).lt.0d0 .or. min(sloc1,sloc2).gt.ds .or.                                  &
-              (min(sloc1,sloc2).lt.0d0 .and. max(sloc1,sloc2).gt.ds)) then
+      elseif (max(sloc1,sloc2).lt.0d0-tiny_ds .or. min(sloc1,sloc2).gt.ds+tiny_ds .or.                  &
+              (min(sloc1,sloc2).lt.0d0-tiny_ds .and. max(sloc1,sloc2).gt.ds+tiny_ds)) then
 
          ! no zeros within [0, ds]
 
@@ -1524,12 +1526,12 @@ module subroutine locate_one_extremum(npnt, s_spl, a3, a2, a1, a0, iseg, typ_xtr
          else                                     ! continuous: should have zero within segment
 
             call write_log(' ERROR: no zero in segment')
-            write(bufout,'(a,i4,4(a,g12.4))') ' iseg=',iseg,': sloc1,2=',sloc1,',',sloc2,         &
+            write(bufout,'(a,i4,4(a,g12.4))') ' iseg=',iseg,': sloc1,2=',sloc1,',',sloc2,               &
                           ', ds=',ds, ', D=',discr
             call write_log(1, bufout)
          endif
 
-      elseif (sloc1.ge.0d0 .and. sloc1.le.ds) then
+      elseif (sloc1.ge.0d0-tiny_ds .and. sloc1.le.ds+tiny_ds) then
 
          ! first zero within [0, ds]
 

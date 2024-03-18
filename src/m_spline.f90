@@ -13,9 +13,9 @@ module m_spline
    implicit none
    private
 
-   ! Debugging for module m_spline
+   ! Debugging for modules m_spline_def and m_spline_make
 
-   public  spline_set_debug
+   public  splinedef_set_debug
 
    integer  :: ldebug    =  0    ! local level of debugging
    integer  :: ii_debug  = -1    ! output point for which detailed info is requested (-1 = none)
@@ -162,13 +162,13 @@ module m_spline
       ! m_spline_def: Basic functions for splines:
       !------------------------------------------------------------------------------------------------------
 
-      module subroutine spline_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
+      module subroutine splinedef_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
       !--function: enable/disable debug output of spline routines
       !--subroutine arguments:
          integer, intent(in)           :: new_ldebug       ! level of debug output required
          integer, intent(in), optional :: new_ii_debug     ! specific point of interest for debugging
          integer, intent(in), optional :: new_iel_debug    ! specific point of interest for debugging
-      end subroutine spline_set_debug
+      end subroutine splinedef_set_debug
       
       !------------------------------------------------------------------------------------------------------
       

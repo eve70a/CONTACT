@@ -17,9 +17,9 @@ module m_spline_get
    implicit none
    private
 
-   ! Debugging for module m_spline_get
+   ! Debugging for modules m_spline_get and m_spline (_def/_make)
 
-   public  splineget_set_debug
+   public  spline_set_debug
 
    integer  :: ldebug    =  0    ! local level of debugging
    integer  :: ii_debug  = -1    ! output point for which detailed info is requested (-1 = none)
@@ -174,7 +174,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine splineget_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
+subroutine spline_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
 !--function: enable/disable debug output of spline get-routines
    implicit none
 !--subroutine arguments:
@@ -192,12 +192,16 @@ subroutine splineget_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
    endif
 
    if (ldebug.ge.3) then
-      write(bufout,'(a,i3,2(a,i7))') ' spline-get:  debugging level =',ldebug,', ii_debug =',       &
+      write(bufout,'(a,i3,2(a,i7))') ' spline:  debugging level =',ldebug,', ii_debug =',               &
                 ii_debug,', iel_debug =', iel_debug
       call write_log(1, bufout)
    endif
 
-end subroutine splineget_set_debug
+   ! activate debugging for other spline modules: _def/_make
+
+   call splinedef_set_debug(new_ldebug, new_ii_debug, new_iel_debug)
+
+end subroutine spline_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 

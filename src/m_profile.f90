@@ -3231,7 +3231,7 @@ contains
       if (max(y1a,y1b)+tiny.lt.min(y2a,y2b) .or. max(y2a,y2b)+tiny.lt.min(y1a,y1b)) then
 
          has_isec = .false.
-         if (ldebug.ge.4) then
+         if (ldebug.ge.9) then
             write(bufout,'(2(a,i4),a)') ' segments',iseg,',',jseg,': no overlap in y'
             call write_log(1, bufout)
          endif
@@ -3239,7 +3239,7 @@ contains
       elseif (max(z1a,z1b)+tiny.lt.min(z2a,z2b) .or. max(z2a,z2b)+tiny.lt.min(z1a,z1b)) then
 
          has_isec = .false.
-         if (ldebug.ge.4) then
+         if (ldebug.ge.9) then
             write(bufout,'(2(a,i4),a)') ' segments',iseg,',',jseg,': no overlap in z'
             call write_log(1, bufout)
          endif
@@ -3277,7 +3277,7 @@ contains
          if (max(n2a,n2b).lt.-tiny .or. min(n2a,n2b).gt.tiny) then
 
             has_isec = .false.
-            if (ldebug.ge.4) then
+            if (ldebug.ge.9) then
                write(bufout,'(2(a,i4),a)') ' segments',iseg,',',jseg,': same sign for local n2a,n2b'
                call write_log(1, bufout)
             endif
@@ -3285,7 +3285,7 @@ contains
          elseif (max(abs(n2a),abs(n2b)).lt.tiny) then
 
             has_isec = .true.
-            if (ldebug.ge.4) then
+            if (ldebug.ge.9) then
                write(bufout,'(2(a,i4),2a)') ' segments',iseg,',',jseg,': (near) zero local n2a,n2b,',    &
                         ' overlapping segments'
                call write_log(1, bufout)
@@ -3299,7 +3299,7 @@ contains
             if (ti.lt.-tiny .or. ti.gt.len1+tiny) then
 
                has_isec = .false.
-               if (ldebug.ge.4) then
+               if (ldebug.ge.9) then
                   write(bufout,'(2(a,i4),a)') ' segments',iseg,',',jseg,': crossing outside segment 1'
                   call write_log(1, bufout)
                endif
@@ -3307,7 +3307,7 @@ contains
             else
 
                has_isec = .true.
-               if (ldebug.ge.4) then
+               if (ldebug.ge.9) then
                   write(bufout,'(2(a,i4),a)') ' segments',iseg,',',jseg,': crossing in segment 1'
                   call write_log(1, bufout)
                endif
