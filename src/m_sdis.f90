@@ -51,7 +51,7 @@ contains
 
          ! create (reallocate) grid-functions used in hierarchical data-structure
 
-         call create_gd_gridfunc(ic, cgrid, geom, outpt)
+         call create_gd_gridfunc(cgrid, geom, outpt)
 
       else
 
@@ -75,11 +75,10 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine create_gd_gridfunc(ic, cgrid, geom, outpt)
+   subroutine create_gd_gridfunc(cgrid, geom, outpt)
 !--purpose: create or reallocate grid-functions used in hierarchical data-structure
       implicit none
 !--subroutine arguments:
-      type(t_ic)            :: ic
       type(t_grid),  target :: cgrid
       type(t_geomet)        :: geom
       type(t_output)        :: outpt
@@ -103,10 +102,8 @@ contains
 
       call gf3_new(outpt%taucs, 'outpt%taucs', cgrid, outpt%igs)
       call gf3_new(outpt%upls,  'outpt%upls',  cgrid, outpt%igs)
-      if (ic%heat.ge.1) then
-         call gf3_new(outpt%temp1, 'outpt%temp1', cgrid, outpt%igs)
-         call gf3_new(outpt%temp2, 'outpt%temp2', cgrid, outpt%igs)
-         endif
+      call gf3_new(outpt%temp1, 'outpt%temp1', cgrid, outpt%igs)
+      call gf3_new(outpt%temp2, 'outpt%temp2', cgrid, outpt%igs)
 
       ! (re-)allocate grid-functions for previous time
 
