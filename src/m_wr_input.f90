@@ -132,7 +132,7 @@ contains
       ! Read elastic material constants when C3=2, 3 or 4
 
       if (ic%gencr_inp.eq.2 .or. ic%gencr_inp.eq.3 .or. ic%gencr_inp.eq.4) then
-         call mater_input(lunit, ncase, linenr, ic, kin, mater, solv, ldebug, ieof, lstop, zerror)
+         call mater_input(lunit, ncase, linenr, 1, ic, kin, mater, solv, ldebug, ieof, lstop, zerror)
       endif
 
       !------------------------------------------------------------------------------------------------------
@@ -346,7 +346,7 @@ contains
          ! Read input for C3 and M-digits when C3=2, 3 or 4
 
          if (ic%gencr_inp.eq.2 .or. ic%gencr_inp.eq.3 .or. ic%gencr_inp.eq.4) then
-            call mater_input(lspck, ncase, linenr, ic, kin, mater, solv, ldebug, ieof, lstop, zerror)
+            call mater_input(lspck, ncase, linenr, 11, ic, kin, mater, solv, ldebug, ieof, lstop, zerror)
          endif
 
          ! Read input for H-digit: material parameters for temperature calculation

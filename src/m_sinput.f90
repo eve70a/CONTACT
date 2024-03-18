@@ -126,7 +126,7 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if ((ic%gencr_inp.ge.2 .and. ic%gencr_inp.le.4) .or. ic%gencr_inp.eq.9) then
-         call mater_input(linp, ncase, linenr, ic, kin, mater, solv, idebug, ieof, lstop, zerror)
+         call mater_input(linp, ncase, linenr, 3, ic, kin, mater, solv, idebug, ieof, lstop, zerror)
       endif
 
       !------------------------------------------------------------------------------------------------------
@@ -810,11 +810,11 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine mater_input(linp, ncase, linenr, ic, kin, mater, solv, idebug, ieof, lstop, zerror)
+   subroutine mater_input(linp, ncase, linenr, imodul, ic, kin, mater, solv, idebug, ieof, lstop, zerror)
 !--purpose: read rolling step, direction, material constants dependent on C and M-digits
       implicit none
 !--subroutine arguments:
-      integer, intent(in)      :: linp, ncase, idebug
+      integer, intent(in)      :: linp, ncase, imodul, idebug
       integer, intent(inout)   :: linenr, ieof
       type(t_ic)               :: ic
       type(t_kincns)           :: kin
@@ -832,11 +832,18 @@ contains
 
       ! C=4: read surface inclinations needed for the Blanco-approach
 
-      if (ic%gencr_inp.eq.4) then
+      if (ic%gencr_inp.eq.4 .and. (imodul.eq.1 .or. imodul.eq.11)) then
+
+         call readline(linp, ncase, linenr, 'if-correction method', 'ii', ints ,dbles, flags,           &
+                        strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         mater%if_meth  = ints(1)
+         mater%if_ver   = ints(2)
+
+      elseif (ic%gencr_inp.eq.4) then
 
          ! read number of points
 
-         call readline(linp, ncase, linenr, 'if-correction method', 'iii', ints ,dbles, flags,       &
+         call readline(linp, ncase, linenr, 'if-correction method', 'iii', ints ,dbles, flags,          &
                         strngs, mxnval, nval, idebug, ieof, lstop, ierror)
          mater%if_meth  = ints(1)
          mater%if_ver   = ints(2)
@@ -851,7 +858,7 @@ contains
          ! read surface inclinations
 
          allocate(tmp(nn*2))
-         call read1darr(linp, ncase, linenr, 'conformal surface inclinations', 'a', nn*2, idum, tmp, &
+         call read1darr(linp, ncase, linenr, 'conformal surface inclinations', 'a', nn*2, idum, tmp,    &
                         idebug, lstop, ierror)
 
          mater%ninclin = nn
@@ -861,6 +868,7 @@ contains
             ! write(*,*) 'i=',ii,': yi=',tmp(2*ii-1),', ai=',tmp(2*ii)
          enddo
          deallocate(tmp)
+
       endif
 
       ! C=9, numerical influence coefficients: read filename
