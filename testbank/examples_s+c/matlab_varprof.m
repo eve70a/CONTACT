@@ -610,13 +610,12 @@ function [] = matlab_varprof(expnam)
          disp(sprintf('      ERROR: an error occured in the CONTACT library, ierr=%d.', ierr));
       end
 
-      itask  = 1;  % 1=rail or wheel profile coordinates, 2=track coords
-      itype  = 1;  % 0=rail, 1=wheel
-      isampl = 0;  % 0=internal sampling, 1=constant ds_out
-      prw = cntc_getprofilevalues(iwhe, itask, [itype,isampl], []);
-
-      figure(2); hold on;
-      plot(prw(:,1), prw(:,2), '-');
+      % itask  = 1;  % 1=rail or wheel profile coordinates, 2=track coords
+      % itype  = 1;  % 0=rail, 1=wheel
+      % isampl = 0;  % 0=internal sampling, 1=constant ds_out
+      % prw = cntc_getprofilevalues(iwhe, itask, [itype,isampl], []);
+      % figure(2); hold on;
+      % plot(prw(:,1), prw(:,2), '-');
 
    end % icase
 

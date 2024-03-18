@@ -149,14 +149,15 @@ contains
 
       if (wtd%ic%return.le.1) call wr_output(wtd)
 
-      ! destroy remaining contact patches (gds) of the previous time
+      ! destroy remaining (unconnected) contact patches (gds) of the previous time
 
-      do icpo = wtd%numcps+1, wtd%numtot
-         if (x_locate.ge.1) then
-            write(bufout,'(2(a,i3),a)') ' There are',wtd%numcps,' contact patches and',         &
-                wtd%numtot-wtd%numcps,' unconnected patches for previous time'
-            call write_log(1, bufout)
-         endif
+      if (x_locate.ge.1) then
+         write(bufout,'(3(a,i3),a)') ' There are',wtd%numcps,' contact patches,',wtd%n_miss,            &
+                ' near misses, and', wtd%numtot-wtd%n_miss-wtd%numcps,' patches from previous time'
+         call write_log(1, bufout)
+      endif
+
+      do icpo = wtd%numcps+wtd%n_miss+1, wtd%numtot
          if (associated(wtd%allcps(icpo)%cp)) then
             if (x_locate.ge.1 .and. associated(wtd%allcps(icpo)%cp%gd)) then
                write(bufout,'(a,i3)') ' wr_contact: destroy gd for icpo=',icpo
@@ -168,7 +169,7 @@ contains
             call cp_destroy(wtd%allcps(icpo))
          endif
       enddo
-      wtd%numtot = wtd%numcps
+      wtd%numtot = wtd%numcps + wtd%n_miss
 
       ! set ic_prv for next case
 

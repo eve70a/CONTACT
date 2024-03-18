@@ -328,10 +328,12 @@ public
 
       type(t_wheelset) :: ws      ! half wheel-set data, including wheel profile
       type(t_trackdata):: trk     ! half track/roller data, including rail profile
-      integer          :: numcps  ! number of contact problems at current time
+      integer          :: numcps  ! number of 'true' contact problems (gap<0) at current time
+      integer          :: n_miss  ! number of 'near miss' contact problems (gap>=0) at current time
       integer          :: numtot  ! total number of contact problems held in allcps
       type(p_cpatch)   :: allcps(MAX_NUM_CPS) ! pointers to the data for all contact problems of ws on trk
-                                  ! first numcps == current time, remainder == unconnected of prev.time
+                                  ! first numcps == current time, next n_miss == current time;
+                                  ! remainder == unconnected patches of prev.time
    end type t_ws_track
 
    type :: p_ws_track
@@ -503,6 +505,7 @@ contains
 
       wtd%numtot = 0
       wtd%numcps = 0
+      wtd%n_miss = 0
       do icp = 1, MAX_NUM_CPS
          wtd%allcps(icp)%cp => NULL()
       enddo

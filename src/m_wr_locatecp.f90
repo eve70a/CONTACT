@@ -48,7 +48,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_locatecp (meta, ic, ws, trk, discr, numcps, numtot, allcps, idebug, my_ierror)
+   subroutine wr_locatecp (meta, ic, ws, trk, discr, numcps, n_miss, numtot, allcps, idebug, my_ierror)
 !--purpose: locate the initial contact point(s) for a W/R contact case.
       implicit none
 !--subroutine arguments:
@@ -57,7 +57,7 @@ contains
       type(t_wheelset)              :: ws
       type(t_trackdata)             :: trk
       type(t_discret)               :: discr
-      integer                       :: numcps, numtot, idebug
+      integer                       :: numcps, n_miss, numtot, idebug
       type(p_cpatch)                :: allcps(MAX_NUM_CPS)
       integer,          intent(out) :: my_ierror
 !--local variables:
@@ -145,8 +145,14 @@ contains
 
          ! move data from newcps to allcps, clean-up newcps
 
-         call wr_update_allcps(meta, ic, numnew, newcps, numcps, numtot, allcps, ic%x_cpatch)
+         call wr_update_allcps(meta, ic, numnew, newcps, numcps, n_miss, numtot, allcps, ic%x_cpatch)
 
+      endif
+
+      if (ic%x_cpatch.ge.1) then
+         write(bufout,'(2(a,i3),a)') ' Obtained',numcps,' true contact patches and',n_miss,             &
+                   ' near misses (gap>=0)'
+         call write_log(1, bufout)
       endif
 
       call timer_stop(itimer_locatecp)
@@ -304,6 +310,7 @@ contains
       integer,          intent(in)    :: idebug
       integer,          intent(out)   :: my_ierror
 !--local variables:
+      integer,       parameter :: max_n_miss = 1
       integer                  :: sub_ierror, numcp0, icp
       logical                  :: rgn_has_overlap
       real(kind=8)             :: sgn, rgn_gap_min
@@ -393,13 +400,14 @@ contains
          if (.not.use_brute(ic, ws%whl%prw)) then
             if (idebug.ge.2) call write_log(' --- calling locate_interpen_1d ---')
             call locate_interpen_1d(ic, sf_whl, sf_rai, sf_incl, region%mview, sgn, ws%nom_radius,      &
-                        trk%nom_radius, rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, numnew,      &
-                        newcps, idebug)
+                        trk%nom_radius, rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, max_n_miss,  &
+                        numnew, newcps, idebug)
          else
             if (idebug.ge.2) call write_log(' --- calling locate_interpen_2d ---')
             call timer_start(itimer_interp6)
             call locate_interpen_2d(ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, discr%dx, ws%nom_radius,  &
-                        rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, numnew, newcps, idebug)
+                        rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, max_n_miss, numnew, newcps,  &
+                        idebug)
             call timer_stop(itimer_interp6)
          endif
 
@@ -500,7 +508,8 @@ contains
          sgn =  1
       endif
 
-      ! sort the contact problems with |y|-position descending, i.e. from field side to track center
+      ! sort the contact problems with |y|-position descending, i.e. from field side to track center,
+      !    with `near miss' patches (gap>=0) placed after true contact patches
 
       if (numnew.ge.2) then
          ! call write_log(' --- calling sort_cpatches_yvalue ---')
@@ -514,7 +523,7 @@ contains
          call combine_cpatches( ic, numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_comb, idebug )
       endif
 
-      ! turn contact reference angles for patches that lie close together
+      ! turn contact reference angles for 'true' contact patches that lie close together
 
       if (numnew.ge.2) then
          ! call write_log(' --- calling turn_cpatch_refangle ---')
@@ -586,6 +595,7 @@ contains
          ! estimate curvatures a1, b1 for the contact patches
 
          ! call write_log(' --- calling estimate_curvatures_v2 ---')
+         ! if (cp%gap_min.lt.0d0)  &
          call estimate_curvatures_v2( ic, cp, ws, prr_trk, trk%nom_radius, idebug )
 
          ! compute curved contact reference surface, pot.contact for conformal contact approach
@@ -607,6 +617,7 @@ contains
 
    subroutine wr_connect_cps(meta, ic, numnew, newcps, numcps, numtot, allcps)
 !--purpose: determine connection between numtot existing contact patches and numnew new contact patches
+!           numnew includes near miss contact patches (gap>=0)
       implicit none
 !--subroutine arguments:
       type(t_metadata)         :: meta
@@ -652,11 +663,13 @@ contains
             endif
          endif
 
+         ! print [ysta,yend] for old and new; new: print minimum gap value
+
          if (ic%x_cpatch.ge.3) then
             do icpo = 1, min(numnew, numtot)
                associate( cp0 => allcps(icpo)%cp, cp1 => newcps(icpo)%cp )
-               write(bufout,'(a,i3,4(a,f9.3),a)') ' icp=',icpo,': old y=[', cp0%ysta,',', cp0%yend,     &
-                              '], new y=[', cp1%ysta,',', cp1%yend,']'
+               write(bufout,'(a,i3,4(a,f9.3),a,f12.6)') ' icp=',icpo,': old y=[', cp0%ysta,',',cp0%yend, &
+                              '], new y=[', cp1%ysta,',', cp1%yend,'], gap=',cp1%gap_min
                call write_log(1, bufout)
                end associate
             enddo
@@ -668,12 +681,16 @@ contains
             enddo
             do icpn = numtot+1, numnew
                associate( cp1 => newcps(icpn)%cp )
-               write(bufout,'(a,i3,a,30x,2(a,f9.3),a)') ' icp=',icpn,':','new y=[', cp1%ysta,',',cp1%yend,']'
+               write(bufout,'(a,i3,a,30x,2(a,f9.3),a,f12.6)') ' icp=',icpn,':','new y=[', cp1%ysta,',', &
+                        cp1%yend,']',cp1%gap_min
                call write_log(1, bufout)
                end associate
             enddo
          endif
    
+         ! determine matrix has_overlap for new <--> old patches
+         ! count n_old per new patch; count n_new per old patch
+
          has_overlap(1:numnew,1:numtot) = .false.
          n_old(1:numnew) = 0
          n_new(1:numtot) = 0
@@ -682,7 +699,12 @@ contains
             newcps(icpn)%cp%prev_icp(1:MAX_NUM_CPS) = 0
             do icpo = 1, numtot
                associate( cp0 => allcps(icpo)%cp, cp1 => newcps(icpn)%cp )
-               if (cp1%ysta.le.cp0%yend .and. cp1%yend.ge.cp0%ysta) then
+
+               ! determine overlap [ynew0,ynew1] <--> [yold0,yold1]
+               !  - ignore `near miss' patches: has_overlap = .false.
+
+               if (cp0%gap_min.lt.0d0 .and. cp1%gap_min.lt.0d0 .and.                                    &
+                   cp1%ysta.le.cp0%yend .and. cp1%yend.ge.cp0%ysta) then
                   has_overlap(icpn,icpo) = .true.
                   n_old(icpn) = n_old(icpn) + 1
                   n_new(icpo) = n_new(icpo) + 1
@@ -696,6 +718,8 @@ contains
             enddo
          enddo
    
+         ! print matrix has_overlap
+
          if (ic%x_cpatch.ge.3 .and. numtot.ge.1 .and. numnew.ge.1) then
             call write_log(' matrix has_overlap(new,old):')
             write(fmtstr,'(a,i2,a)') '(a,', numtot, 'i3,a,i3)'
@@ -711,6 +735,8 @@ contains
             call write_log(1, bufout)
          endif
    
+         ! print overview of connections
+
          if (ic%x_cpatch.ge.1 .and. numtot.ge.1 .and. numnew.ge.1) then
             do icpn = 1, numnew
                associate( cp1 => newcps(icpn)%cp )
@@ -731,17 +757,23 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_update_allcps(meta, ic, numnew, newcps, numcps, numtot, allcps, x_cpatch)
+   subroutine wr_update_allcps(meta, ic, numnew, newcps, numcps, n_miss, numtot, allcps, x_cpatch)
 !--purpose: merge data from old contact patches with new patches and store in allcps
+!           new `near miss' patches are not connected / get no data from old patches
+!             in/out:  numcps: number of true patches in allcps
+!                      n_miss: number of near misses in allcps
+!                      numtot: total number of patches in allcps (incl. unconnected)
+!                 in:  numnew: number of cps (true+miss) resulting from contact search
       implicit none
 !--subroutine arguments:
-      type(t_metadata)         :: meta
-      type(t_ic)               :: ic
-      integer                  :: numnew, numcps, numtot, x_cpatch
-      type(p_cpatch)           :: newcps(MAX_LOC_MIN), allcps(MAX_NUM_CPS)
+      type(t_metadata)             :: meta
+      type(t_ic)                   :: ic
+      integer,       intent(in)    :: numnew, x_cpatch
+      integer,       intent(inout) :: numcps, n_miss, numtot
+      type(p_cpatch)               :: newcps(MAX_LOC_MIN), allcps(MAX_NUM_CPS)
 !--local variables:
-      integer                  :: iestim, i, icpx, icpo, icpn, i_old, n_old, n_new(numtot)
-      integer                  :: numrem, numtot_new
+      integer                      :: iestim, i, icpx, icpo, icpn, i_old, n_old, n_new(numtot)
+      integer                      :: numrem, numtot_new
 
       ! count number of new patches per old patch icpo
 
@@ -773,6 +805,11 @@ contains
          do i = 1, MAX_NUM_CPS
             if (newcps(icpn)%cp%prev_icp(i).ge.1) n_old = n_old + 1
          enddo
+
+         if (newcps(icpn)%cp%gap_min.ge.0d0 .and. n_old.ge.1) then
+            call write_log(' Internal error: near miss patch connected to previous time')
+            call abort_run()
+         endif
 
          ! merge second+higher old patches into first old patch
 
@@ -857,7 +894,7 @@ contains
 
       enddo ! for icpn
 
-      ! shift remaining gds for unconnected old patches from allcps to newcps
+      ! shift remaining gds for 'true' unconnected old patches from allcps to newcps
 
       numtot_new = numnew
       iestim = ic%iestim
@@ -865,7 +902,7 @@ contains
 
       if (ic%pvtime.eq.2 .and. iestim.eq.0) then
 
-         ! destroy remaining contact patches (gds) of the previous iteration
+         ! gds not used: destroy remaining contact patches (gds) of the previous iteration
 
          do icpo = 1, numtot
             if (associated(allcps(icpo)%cp)) then
@@ -882,9 +919,12 @@ contains
 
       else
 
+         ! count 'true' unconnected patches
+
          numrem = 0
          do icpo = 1, numtot
-            if (associated(allcps(icpo)%cp) .and. associated(allcps(icpo)%cp%gd)) numrem = numrem + 1
+            if (associated(allcps(icpo)%cp) .and. associated(allcps(icpo)%cp%gd) .and.                  &
+                                                 allcps(icpo)%cp%gap_min.lt.0d0) numrem = numrem + 1
          enddo
 
          if (x_cpatch.ge.2 .and. numrem.gt.0) then
@@ -893,8 +933,10 @@ contains
             call write_log(1, bufout)
          endif
 
+         ! shift 'true' unconnected patches
+
          do icpo = 1, numcps
-            if (associated(allcps(icpo)%cp)) then
+            if (associated(allcps(icpo)%cp) .and. allcps(icpo)%cp%gap_min.lt.0d0) then
                numtot_new = numtot_new + 1
                icpn       = numtot_new
 
@@ -906,6 +948,9 @@ contains
 
                newcps(icpn)%cp => allcps(icpo)%cp
                allcps(icpo)%cp => NULL()
+            elseif (associated(allcps(icpo)%cp)) then
+               ! destroy 'near miss' unconneced patches
+               call cp_destroy(allcps(icpo))
             endif
          enddo
       endif ! P=2 and I=0
@@ -921,8 +966,23 @@ contains
          newcps(icpn)%cp => NULL()
       enddo
 
-      numcps = numnew
+      ! count 'true' and 'near miss' contact patches
+
+      numcps = 0
+      n_miss = 0
       numtot = numtot_new
+
+      do icpn = 1, numnew
+         if (allcps(icpn)%cp%gap_min.lt.0d0) then
+            numcps = numcps + 1
+            if (n_miss.ge.1) then
+               call write_log(' Internal error: true patch after near miss')
+               call abort_run()
+            endif
+         else
+            n_miss = n_miss + 1
+         endif
+      enddo
 
       ! destroy remaining t_cpatch-es used during contact search (avoid memory leaking)
 
@@ -2317,7 +2377,7 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine locate_interpen_1d( ic, sf_whl, sf_rai, sf_incl, m_vw, sgn, nom_radius, roller_radius,    &
-                                  gap_min, delt_min, zw_min, a1, b1, numnew, newcps, idebug)
+                                  gap_min, delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps, idebug)
 !--purpose: find the points in the contact locus on the wheel with (locally) maximum interpenetration,
 !           define the corresponding interpenetration regions
       implicit none
@@ -2335,15 +2395,16 @@ contains
       real(kind=8), intent(out)   :: delt_min            ! contact angle at the overall minimum gap value
       real(kind=8), intent(out)   :: zw_min              ! wheel surface height at overall minimum gap value
       real(kind=8), intent(out)   :: a1, b1              ! curvatures at the overall minimum gap value
+      integer,      intent(in)    :: max_n_miss          ! max #near misses (gap>=0)
       integer,      intent(inout) :: numnew              ! number of contact problems
       type(p_cpatch)              :: newcps(MAX_LOC_MIN) ! data of contact problems
       integer,      intent(in)    :: idebug
 !--local variables:
-      logical        :: has_zero
-      integer        :: lgap, ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0, icp
-      integer        :: ii_n, ii_s, ilm, ixmin, nummin, numrem
-      integer        :: locmin(2,MAX_LOC_MIN)
-      real(kind=8)   :: gap_locmin, xmin, ymin, gmin, zrmin, curv_y, xmax, dgap, ysta, yend, zsta, zend
+      logical            :: has_zero
+      integer            :: lgap, ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0, icp, n_miss
+      integer            :: ii_n, ii_s, ilm, ilcmin, nummin, numrem
+      integer            :: locmin(2,MAX_LOC_MIN)
+      real(kind=8)       :: gap_locmin, xmin, ymin, gmin, zrmin, curv_y, xmax, dgap, ysta, yend, zsta, zend
       type(t_cpatch),             pointer     :: cp
       logical,      dimension(:), pointer     :: mask => NULL()
       real(kind=8), dimension(:), allocatable :: gap
@@ -2427,22 +2488,37 @@ contains
          call estimate_curvatures_v1(x, y, zr, nx, ny, iy_min, nom_radius, a1, b1, idebug)
       endif
 
-      ! 4. find local minima of gap-function, excluding those without interpenetration
+      ! 4. find local minima of gap-function, including those with no interpenetration
 
       if (idebug.ge.4) call write_log('--- determine local minima of gap function ---')
       call reallocate_arr(mask, ny)
       call find_gap_locmin(x, y, zr, zw, sgn, gap, nx, ny, nummin, locmin, mask, idebug, MAX_LOC_MIN)
 
+      ! 5.b find the local minimum with largest interpenetration
+
+      gap_locmin = 999d0
+      ilcmin  = 0
+      do ilm = 1, nummin
+         if (locmin(1,ilm).gt.0) then
+            iy = locmin(2,ilm)
+            if (gap(iy).lt.gap_locmin) then
+               ilcmin  = ilm
+               gap_locmin = gap(iy)
+            endif
+         endif
+      enddo
+
       ! 5. process list of local minima "(ix,iy)", find potential contact areas
-      !    note: entire loop is skipped in case there's no interpenetration
 
       numcp0 = numnew
       numrem = nummin
-      do while(numrem.gt.0)
+      n_miss = 0
+      do while(numrem.gt.0 .and. (gap_locmin.lt.0d0 .or. n_miss.lt.max_n_miss))
 
          ! 5.a increment the number of contact patches
 
          numnew = numnew + 1
+         if (gap_locmin.ge.0d0) n_miss = n_miss + 1     ! `near miss' contact patches with gap>=0
          icp    = min(MAX_LOC_MIN, numnew)
          if (.not.associated(newcps(icp)%cp)) then
             if (idebug.ge.3) then
@@ -2452,27 +2528,14 @@ contains
             allocate(newcps(icp)%cp)
          endif
          cp => newcps(icp)%cp
-
-         ! 5.b find the local minimum with largest interpenetration
-
-         gap_locmin = 999d0
-         ixmin  = 0
-         do ilm = 1, nummin
-            if (locmin(1,ilm).gt.0) then
-               iy = locmin(2,ilm)
-               if (gap(iy).lt.gap_locmin) then
-                  ixmin  = ilm
-                  gap_locmin = gap(iy)
-               endif
-            endif
-         enddo
+         cp%gap_min = gap_locmin
 
          ! 5.c store the initial contact point on the rail in terms of track coordinates
 
-         iy = locmin(2,ixmin)
+         iy = locmin(2,ilcmin)
 
          if (idebug.ge.2) then
-            write(bufout,'(a,i3,a,i5)') ' storing cp for local minimum',ixmin, ', iy=',iy
+            write(bufout,'(a,i3,a,i5)') ' storing cp for local minimum',ilcmin, ', iy=',iy
             call write_log(1, bufout)
          endif
 
@@ -2485,16 +2548,25 @@ contains
          cp%gap_min = gmin
          cp%nsub    = 1
 
+         ! don't let near miss change into true contact
+
+         if (gmin.lt.0d0 .and. gap_locmin.ge.0d0) cp%gap_min = 1d-10
+
          ! 5.d find the extent [iy_sta:iy_end] of the interpenetration region,
          !     with gap >= 0 on the outer columns, gap < 0 inside.
 
-         do iy = 1, ny
-            mask(iy) = (gap(iy).lt.0d0)
-         enddo
+         if (cp%gap_min.ge.0d0) then
+            iy_sta = iy
+            iy_end = iy
+         else
+            do iy = 1, ny
+               mask(iy) = (gap(iy).lt.0d0)
+            enddo
 
-         iy = locmin(2,ixmin)
-         nguard = 1
-         call find_bounding_box_1d(mask, ny, iy, nguard, iy_sta, iy_end, idebug)
+            iy = locmin(2,ilcmin)
+            nguard = 1
+            call find_bounding_box_1d(mask, ny, iy, nguard, iy_sta, iy_end, idebug)
+         endif
 
          if (idebug.ge.2) then
             write(bufout,127) 'storing cp',icp,                                                         &
@@ -2509,57 +2581,72 @@ contains
          !      - using approximation gap(x,y) = gap(xlc,y) + curv * (x-xlc)^2
          !      - integral over x evaluated analytically
 
-         if (ic%is_roller()) then
-            curv_y = 0.5d0 / nom_radius + 0.5d0 / roller_radius     ! add zw for wheel and roller
-         else
-            curv_y = 0.5d0 / nom_radius                             ! add zw for wheel profile
-         endif
-
-         call compute_wgt_center_1d(ic, cp, ny, x, y, zr, gap, sf_incl%vy, iy_sta, iy_end, curv_y, sgn, &
-                        idebug )
-
-         if (ic%use_initial_cp()) then
+         if (cp%gap_min.ge.0d0 .or. ic%use_initial_cp()) then
             if (idebug.ge.3) call write_log(' using the initial contact location')
             cp%wgt_xgap = cp%micp%x()
             cp%wgt_ygap = cp%micp%y()
+            cp%wgt_agap = sf_incl%vy(iy)
+         else
+            if (ic%is_roller()) then
+               curv_y = 0.5d0 / nom_radius + 0.5d0 / roller_radius     ! add zw for wheel and roller
+            else
+               curv_y = 0.5d0 / nom_radius                             ! add zw for wheel profile
+            endif
+
+            call compute_wgt_center_1d(ic, cp, ny, x, y, zr, gap, sf_incl%vy, iy_sta, iy_end, curv_y,   &
+                           sgn, idebug )
          endif
 
          ! 5.h compute contact length [x0,x1] of potential contact needed for 1d gap function
 
-         call compute_contact_length_1d( ny, x, gap, iy_sta, iy_end, curv_y, m_vw, xmin, xmax, idebug)
+         if (cp%gap_min.ge.0d0) then
+            xmin   = x(iy)
+            xmax   = x(iy)
+         else
+            call compute_contact_length_1d( ny, x, gap, iy_sta, iy_end, curv_y, m_vw, xmin, xmax, idebug)
+         endif
 
          ! 5.i compute improved estimates for ysta, yend using interpolation
 
-         iy   = locmin(2,ixmin)
-         ii_s = iy_sta
-         ii_n = iy_end
-
-         dgap = gap(ii_s+1) - gap(ii_s)
-         has_zero = (gap(ii_s)*gap(ii_s+1).le.-1d-12 .and. abs(dgap).ge.1d-9)
-         if (.not.has_zero) then
+         if (cp%gap_min.ge.0d0) then
+            ii_s = locmin(2,ilcmin)
             ysta = y(ii_s)
             zsta = zr(ii_s)
+            ii_n = ii_s
+            yend = ysta
+            zend = zsta
          else
-            ysta = y(ii_s) - gap(ii_s) * (y(ii_s+1) - y(ii_s)) / dgap
-            zsta = zr(ii_s) - gap(ii_s) * (zr(ii_s+1) - zr(ii_s)) / dgap
-         endif
-         dgap = gap(ii_n-1) - gap(ii_n)
-         has_zero = (gap(ii_n)*gap(ii_n-1).le.-1d-12 .and. abs(dgap).ge.1d-9)
-         if (.not.has_zero) then
-            yend = y(ii_n)
-            zend = zr(ii_n)
-         else
-            yend = y(ii_n) - gap(ii_n) * (y(ii_n-1) - y(ii_n)) / dgap
-            zend = zr(ii_n) - gap(ii_n) * (zr(ii_n-1) - zr(ii_n)) / dgap
-         endif
+            iy   = locmin(2,ilcmin)
+            ii_s = iy_sta
+            ii_n = iy_end
 
-         if (idebug.ge.4) then
-            write(bufout,'(a,i4,a,2f9.3,a,2f11.6,a,2f8.3)') ' ii_s=',ii_s,', y=',y(ii_s), y(ii_s+1),    &
-                   ', gap=',gap(ii_s), gap(ii_s+1), ', y/zsta=',ysta,zsta
-            call write_log(1, bufout)
-            write(bufout,'(a,i4,a,2f9.3,a,2f11.6,a,2f8.3)') ' ii_n=',ii_n,', y=',y(ii_n), y(ii_n-1),     &
-                   ', gap=',gap(ii_n), gap(ii_n-1), ', y/zend=',yend,zend
-            call write_log(1, bufout)
+            dgap = gap(ii_s+1) - gap(ii_s)
+            has_zero = (gap(ii_s)*gap(ii_s+1).le.-1d-12 .and. abs(dgap).ge.1d-9)
+            if (.not.has_zero) then
+               ysta = y(ii_s)
+               zsta = zr(ii_s)
+            else
+               ysta = y(ii_s) - gap(ii_s) * (y(ii_s+1) - y(ii_s)) / dgap
+               zsta = zr(ii_s) - gap(ii_s) * (zr(ii_s+1) - zr(ii_s)) / dgap
+            endif
+            dgap = gap(ii_n-1) - gap(ii_n)
+            has_zero = (gap(ii_n)*gap(ii_n-1).le.-1d-12 .and. abs(dgap).ge.1d-9)
+            if (.not.has_zero) then
+               yend = y(ii_n)
+               zend = zr(ii_n)
+            else
+               yend = y(ii_n) - gap(ii_n) * (y(ii_n-1) - y(ii_n)) / dgap
+               zend = zr(ii_n) - gap(ii_n) * (zr(ii_n-1) - zr(ii_n)) / dgap
+            endif
+
+            if (idebug.ge.4) then
+               write(bufout,'(a,i4,a,2f9.3,a,2f11.6,a,2f8.3)') ' ii_s=',ii_s,', y=',y(ii_s), y(ii_s+1), &
+                      ', gap=',gap(ii_s), gap(ii_s+1), ', y/zsta=',ysta,zsta
+               call write_log(1, bufout)
+               write(bufout,'(a,i4,a,2f9.3,a,2f11.6,a,2f8.3)') ' ii_n=',ii_n,', y=',y(ii_n), y(ii_n-1), &
+                      ', gap=',gap(ii_n), gap(ii_n-1), ', y/zend=',yend,zend
+               call write_log(1, bufout)
+            endif
          endif
 
          ! 5.i store extent of potential contact area in terms of track coordinates
@@ -2598,21 +2685,36 @@ contains
          do ilm = 1, nummin
             iy = locmin(2,ilm)
             if (iy.ge.iy_sta .and. iy.le.iy_end) then
-               if (ilm.eq.ixmin) then
-                  if (idebug.ge.3) then
-                     write(bufout,*) 'processed local minimum',ilm
-                     call write_log(1, bufout)
+               if (idebug.ge.2) then
+                  if (ilm.eq.ilcmin) then
+                     write(bufout,'(a,i4,2a)') ' processed  local minimum',ilm,', contained within ',   &
+                        'interpen.region'
+                  else
+                     write(bufout,'(a,i4,2a)') ' discarding local minimum',ilm,', contained within ',   &
+                        'interpen.region'
                   endif
-               else
-                  if (idebug.ge.2) then
-                     write(bufout,*) 'discarding local minimum',ilm,', contained within interpen.region'
-                     call write_log(1, bufout)
-                  endif
+                  call write_log(1, bufout)
                endif
                locmin(1,ilm) = -1
                numrem = numrem - 1
             endif
          enddo
+
+         ! 5.b find local minimum with next largest interpenetration
+
+         if (numrem.gt.0) then
+            gap_locmin = 999d0
+            ilcmin  = 0
+            do ilm = 1, nummin
+               if (locmin(1,ilm).gt.0) then
+                  iy = locmin(2,ilm)
+                  if (gap(iy).lt.gap_locmin) then
+                     ilcmin  = ilm
+                     gap_locmin = gap(iy)
+                  endif
+               endif
+            enddo
+         endif
 
       enddo ! while(numrem>0)
 
@@ -2638,7 +2740,7 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine locate_interpen_2d( ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, dx, nom_radius, gap_min,    &
-                                delt_min, zw_min, a1, b1, numnew, newcps, idebug)
+                                delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps, idebug)
 !--purpose: find the points in the wheel mesh with (locally) minimum gap / maximum interpenetration,
 !           define the corresponding interpenetration regions
       implicit none
@@ -2656,13 +2758,14 @@ contains
       real(kind=8), intent(out)   :: delt_min            ! contact angle at the overall minimum gap value
       real(kind=8), intent(out)   :: zw_min              ! wheel surface height at overall minimum gap value
       real(kind=8), intent(out)   :: a1, b1              ! curvatures at the overall minimum gap value
+      integer,      intent(in)    :: max_n_miss          ! max #near misses (gap>=0)
       integer,      intent(inout) :: numnew              ! number of contact problems
       type(p_cpatch)              :: newcps(MAX_LOC_MIN) ! data of contact problems
       integer,      intent(in)    :: idebug
 !--local variables:
       logical        :: has_uv
       integer        :: lgap, ix, iy, iy_sta, iy_end, ix_sta, ix_end, ii_min, nguard, icheck
-      integer        :: ii, ii_n, ii_s, ii_e, ii_w, ilm, ixmin, numcp0, icp, nummin, numrem
+      integer        :: ii, ii_n, ii_s, ii_e, ii_w, ilm, ilcmin, numcp0, icp, nummin, numrem, n_miss
       integer        :: locmin(2,MAX_LOC_MIN)
       real(kind=8)   :: gap_locmin
       type(t_cpatch),             pointer     :: cp
@@ -2746,22 +2849,39 @@ contains
          call estimate_curvatures_v1(x, y, gap, nx, ny, ii_min, nom_radius, a1, b1, idebug)
       endif
 
-      ! 4. find local minima of gap-function, excluding those without interpenetration
+      ! 4. find all local minima of gap-function, including those with no interpenetration
 
       if (idebug.ge.4) call write_log('--- determine local minima of gap function ---')
       call reallocate_arr(mask, nx*ny)
       call find_gap_locmin(x, y, zr, zw, sgn, gap, nx, ny, nummin, locmin, mask, idebug, MAX_LOC_MIN)
 
+      ! 5.b find the local minimum with largest interpenetration
+
+      gap_locmin = 999d0
+      ilcmin  = 0
+      do ilm = 1, nummin
+         if (locmin(1,ilm).gt.0) then
+            ix = locmin(1,ilm)
+            iy = locmin(2,ilm)
+            ii = ix + (iy-1) * nx
+            if (gap(ii).lt.gap_locmin) then
+               ilcmin  = ilm
+               gap_locmin = gap(ii)
+            endif
+         endif
+      enddo
+
       ! 5. process list of local minima "(ix,iy)", find potential contact areas
-      !    note: entire loop is skipped in case there's no interpenetration
 
       numcp0 = numnew
       numrem = nummin
-      do while(numrem.gt.0)
+      n_miss = 0
+      do while(numrem.gt.0 .and. (gap_locmin.lt.0d0 .or. n_miss.lt.max_n_miss))
 
          ! 5.a increment the number of contact patches
 
          numnew = numnew + 1
+         if (gap_locmin.ge.0d0) n_miss = n_miss + 1     ! `near miss' contact patches with gap>=0
          icp    = min(MAX_LOC_MIN, numnew)
          if (.not.associated(newcps(icp)%cp)) then
             if (idebug.ge.3) then
@@ -2771,31 +2891,16 @@ contains
             allocate(newcps(icp)%cp)
          endif
          cp => newcps(icp)%cp
-
-         ! 5.b find the local minimum with largest interpenetration
-
-         gap_locmin = 999d0
-         ixmin  = 0
-         do ilm = 1, nummin
-            if (locmin(1,ilm).gt.0) then
-               ix = locmin(1,ilm)
-               iy = locmin(2,ilm)
-               ii = ix + (iy-1) * nx
-               if (gap(ii).lt.gap_locmin) then
-                  ixmin  = ilm
-                  gap_locmin = gap(ii)
-               endif
-            endif
-         enddo
+         cp%gap_min = gap_locmin
 
          ! 5.c store the initial contact point on the rail in terms of track coordinates
 
-         ix = locmin(1,ixmin)
-         iy = locmin(2,ixmin)
+         ix = locmin(1,ilcmin)
+         iy = locmin(2,ilcmin)
          ii = ix + (iy-1) * nx
 
          if (idebug.ge.2) then
-            write(bufout,'(a,i3,2(a,i5),a)') ' storing cp for local minimum',ixmin, ', ix=(',iy,        &
+            write(bufout,'(a,i3,2(a,i5),a)') ' storing cp for local minimum',ilcmin, ', ix=(',iy,        &
                 ',',ix,')'
             call write_log(1, bufout)
          endif
@@ -2806,16 +2911,23 @@ contains
          ! 5.d find the extent [ix_sta:ix_end] x [iy_sta:iy_end] of the interpenetration region,
          !     with gap >= 0 on the outer rows & columns, gap < 0 inside.
 
-         do ii = 1, nx*ny
-            mask(ii) = (gap(ii).lt.0d0)
-         enddo
+         if (cp%gap_min.ge.0d0) then
+            ix_sta = ix
+            ix_end = ix
+            iy_sta = iy
+            iy_end = iy
+         else
+            do ii = 1, nx*ny
+               mask(ii) = (gap(ii).lt.0d0)
+            enddo
 
-         ix = locmin(1,ixmin)
-         iy = locmin(2,ixmin)
-         nguard = 1
-         icheck = 1
-         call find_bounding_box_2d(mask, nx, ny, ix, iy, nguard, ix_sta, ix_end, iy_sta, iy_end,        &
+            ix = locmin(1,ilcmin)
+            iy = locmin(2,ilcmin)
+            nguard = 1
+            icheck = 1
+            call find_bounding_box_2d(mask, nx, ny, ix, iy, nguard, ix_sta, ix_end, iy_sta, iy_end,     &
                                       icheck, idebug)
+         endif
 
          if (idebug.ge.2) then
             write(bufout,127) 'storing cp',icp,                                                         &
@@ -2828,8 +2940,15 @@ contains
          ! 5.e compute the "interpenetration center of gravity" in x and y
          !      - weighted mean \int_{gap<0} x * gap; \int_{gap<0} y * gap.
 
-         call compute_wgt_center_2d( ic, cp, nx, ny, dx, x, y, zr, gap, sf_incl%vy, ix_sta, ix_end,     &
-                iy_sta, iy_end, sgn, idebug )
+         if (cp%gap_min.ge.0d0) then
+            cp%wgt_xgap = cp%micp%x()
+            cp%wgt_ygap = cp%micp%y()
+            ii = ix + (iy-1) * nx
+            cp%wgt_agap = sf_incl%vy(ii)
+         else
+            call compute_wgt_center_2d( ic, cp, nx, ny, dx, x, y, zr, gap, sf_incl%vy, ix_sta, ix_end,  &
+                        iy_sta, iy_end, sgn, idebug )
+         endif
 
          ! 5.f determine extent of (u,v) coordinates for interpenetration area
 
@@ -2844,8 +2963,8 @@ contains
 
          ! 5.i store extent of potential contact area in terms of view coordinates
 
-         ix = locmin(1,ixmin)
-         iy = locmin(2,ixmin)
+         ix = locmin(1,ilcmin)
+         iy = locmin(2,ilcmin)
 
          ii_w = ix_sta + (iy-1) * nx
          ii_e = ix_end + (iy-1) * nx
@@ -2892,16 +3011,38 @@ contains
             ix = locmin(1,ilm)
             iy = locmin(2,ilm)
             if (iy.ge.iy_sta .and. iy.le.iy_end .and. ix.ge.ix_sta .and. ix.le.ix_end) then
-               if (ilm.eq.ixmin) then
-                  if (idebug.ge.3) write(*,*) 'processed local minimum',ilm
-               else
-                  if (idebug.ge.2) write(*,*) 'discarding local minimum',ilm,                           &
-                                ', contained within interpen.region'
+               if (idebug.ge.2) then
+                  if (ilm.eq.ilcmin) then
+                     write(bufout,'(a,i4,2a)') ' processed  local minimum',ilm,', contained within ',   &
+                        'interpen.region'
+                  else
+                     write(bufout,'(a,i4,2a)') ' discarding local minimum',ilm,', contained within ',   &
+                        'interpen.region'
+                  endif
+                  call write_log(1, bufout)
                endif
                locmin(1,ilm) = -1
                numrem = numrem - 1
             endif
          enddo
+
+         ! 5.b find local minimum with next largest interpenetration
+
+         if (numrem.gt.0) then
+            gap_locmin = 999d0
+            ilcmin  = 0
+            do ilm = 1, nummin
+               if (locmin(1,ilm).gt.0) then
+                  ix = locmin(1,ilm)
+                  iy = locmin(2,ilm)
+                  ii = ix + (iy-1) * nx
+                  if (gap(ii).lt.gap_locmin) then
+                     ilcmin  = ilm
+                     gap_locmin = gap(ii)
+                  endif
+               endif
+            enddo
+         endif
 
       enddo ! while(numrem>0)
 
@@ -3061,7 +3202,7 @@ contains
       wgt_zgap = wgt_zgap / totgap
       wgt_agap = wgt_agap / totgap
 
-      if (idebug.ge.2) then
+      if (idebug.ge.2 .or. isnan(wgt_xgap)) then
          write(bufout,'(4(a,f12.6))') ' interpen. center of gravity: x_cg=',wgt_xgap,                &
              ', y_cg=', sgn*wgt_ygap, ', z_cg=',wgt_zgap, ', a_avg=', wgt_agap
          call write_log(1, bufout)
@@ -3248,7 +3389,8 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine sort_cpatches_yvalue( numnew, newcps, idebug )
-!--purpose: sort the contact problems with |y|-position descending, i.e. from field side to track center
+!--purpose: sort contact problems: true contact patches with |y|-position descending, i.e. from field side
+!           to track center, followed by `near misses' (gap>=0) sorted with gap in increasing order
       implicit none
 !--subroutine arguments:
       type(p_cpatch)            :: newcps(numnew)       ! data of contact problems
@@ -3256,6 +3398,7 @@ contains
 !--local variables:
       logical        :: lchanged
       integer        :: icp
+      real(kind=8)   :: y0, y1, gap0, gap1
       type(p_cpatch) :: tmp_cp
 
       lchanged = .true.
@@ -3265,16 +3408,33 @@ contains
 
          do icp = 1, numnew-1
 
+            y0   = newcps(icp  )%cp%wgt_ygap
+            y1   = newcps(icp+1)%cp%wgt_ygap
+            gap0 = newcps(icp  )%cp%gap_min
+            gap1 = newcps(icp+1)%cp%gap_min
+
             if (idebug.ge.3) then
-               write(bufout,'(2(a,i3,a,f10.6))') ' cp',icp,' has |yr|=', newcps(icp)%cp%wgt_ygap,',',   &
-                               icp+1,' has |yr|=', newcps(icp+1)%cp%wgt_ygap
+               write(bufout,'(2(a,i3,a,f10.6))') ' cp',icp,' has   g =', gap0,',',icp+1,' has   g=', gap1
+               call write_log(1, bufout)
+               write(bufout,'(2(a,i3,a,f10.6))') ' cp',icp,' has |yr|=', y0,',',icp+1,' has |yr|=', y1
                call write_log(1, bufout)
             endif
 
-            if (newcps(icp)%cp%wgt_ygap.lt.newcps(icp+1)%cp%wgt_ygap) then
+            ! swap if (icp is near miss & icp+1 is true contact) or 
+            !         (true contacts: y0 < y1) or (near misses: g0 > g1)
+
+            if ( (gap0.ge.0d0 .and. gap1.lt.0d0)                    .or.                                &
+                 (gap0.lt.0d0 .and. gap1.lt.0d0 .and. y0.lt.y1)     .or.                                &
+                 (gap0.ge.0d0 .and. gap1.ge.0d0 .and. gap0.gt.gap1)       ) then
 
                if (idebug.ge.3) then
-                  write(bufout,'(2(a,i3))') '   ...swapping',icp,' and',icp+1
+                  if (gap0.ge.0d0 .and. gap1.lt.0d0) then
+                     write(bufout,'(2(a,i3),a)') '   ...swapping',icp,' and',icp+1,': near miss/true contact'
+                  elseif (gap0.lt.0d0 .and. y0.lt.y1) then
+                     write(bufout,'(2(a,i3),a)') '   ...swapping',icp,' and',icp+1,': true contact, y0<y1'
+                  else
+                     write(bufout,'(2(a,i3),a)') '   ...swapping',icp,' and',icp+1,': near misses, g0>g1'
+                  endif
                   call write_log(1, bufout)
                endif
 
@@ -3283,8 +3443,10 @@ contains
                newcps(icp+1) = tmp_cp
 
                if (idebug.ge.3) then
-                  write(bufout,'(2(a,i3,a,f10.6))') '   ...cp',icp,' has |yr|=',newcps(icp)%cp%wgt_ygap,   &
-                        ',', icp+1,' has |yr|=',newcps(icp+1)%cp%wgt_ygap
+                  y0   = newcps(icp  )%cp%wgt_ygap
+                  y1   = newcps(icp+1)%cp%wgt_ygap
+                  write(bufout,'(2(a,i3,a,f10.6))') '   ...cp',icp,' has |yr|=',y0,',', icp+1,          &
+                        ' has |yr|=',y1
                   call write_log(1, bufout)
                endif
 
@@ -3313,7 +3475,7 @@ contains
       integer                    :: icp, jcp
       real(kind=8)               :: dy, dz, dist, angl
       type(p_cpatch)             :: tmp_cp
-      real(kind=8),  allocatable :: ysta(:), yend(:), zsta(:), zend(:)
+      real(kind=8),  allocatable :: ysta(:), yend(:), zsta(:), zend(:), gapmin(:)
 
       if (idebug.ge.2 .or. debug_comb) then
          write(bufout,'(a,f6.2,a,f5.1,a)') ' Separating patches with more than', angl_sep,' rad or',    &
@@ -3323,7 +3485,7 @@ contains
          call write_log(1, bufout)
       endif
 
-      allocate(ysta(numnew), yend(numnew), zsta(numnew), zend(numnew))
+      allocate(ysta(numnew), yend(numnew), zsta(numnew), zend(numnew), gapmin(numnew))
       
       icp = 1
       do while (icp.lt.numnew)
@@ -3335,6 +3497,7 @@ contains
             yend(jcp) = newcps(jcp)%cp%yend
             zsta(jcp) = newcps(jcp)%cp%zsta
             zend(jcp) = newcps(jcp)%cp%zend
+            gapmin(jcp) = newcps(jcp)%cp%gap_min
          enddo
 
          ! print overview of cpatches y- and z-values (decreasing)
@@ -3344,13 +3507,14 @@ contains
             call write_log(1, bufout)
 
             do jcp = 1, numnew
-               write(bufout,'(a,i2,4(a,f9.4),a)') ' cp',jcp,': y=[',ysta(jcp),',', yend(jcp),           &
-                        '], zr=[',zsta(jcp),',', zend(jcp),']'
+               write(bufout,'(a,i2,5(a,f9.4))') ' cp',jcp,': y=[',ysta(jcp),',', yend(jcp),             &
+                        '], zr=[',zsta(jcp),',', zend(jcp),'], gap=',gapmin(jcp)
                call write_log(1,bufout)
             enddo
          endif
 
          ! patches sorted with y-values decreasing: [ysta(i+1), yend(i+1)], dist, [ysta(i), yend(i)]
+         ! `near misses' (gap>=0) placed after true contact patches
 
          dy    = ysta(icp) - yend(icp+1)
          dz    = zsta(icp) - zend(icp+1)
@@ -3365,7 +3529,13 @@ contains
             call write_log(1, bufout)
          endif
 
-         if (abs(angl).gt.angl_sep .or. dist.gt.dist_sep) then
+         if (gapmin(icp+1).ge.0d0) then
+
+            ! skip 'near miss' contact patches
+
+            icp = icp + 1
+
+         elseif (abs(angl).gt.angl_sep .or. dist.gt.dist_sep) then
 
             ! keep separate when |a1-a2| >= angl_sep or dist >= dist_sep : move to next patch
 
@@ -3471,7 +3641,7 @@ contains
          end associate
       enddo
 
-      deallocate(ysta, yend, zsta, zend)
+      deallocate(ysta, yend, zsta, zend, gapmin)
 
    end subroutine combine_cpatches
 
@@ -3492,7 +3662,7 @@ contains
       logical                     :: use_wgt_angle
       integer                     :: icp, jcp
       real(kind=8)                :: dy, dz, dist, dangl, angl_comb, fac
-      real(kind=8),  allocatable  :: ysta(:), yend(:), zsta(:), zend(:), angl(:), totgap(:)
+      real(kind=8),  allocatable  :: ysta(:), yend(:), zsta(:), zend(:), angl(:), totgap(:), gapmin(:)
 
       use_wgt_angle  = .true.
 
@@ -3513,7 +3683,8 @@ contains
       ! get [ysta, yend] and corresponding [zsta, zend] for all contact patches
       ! copy totgap and a-priori values of wgt_agap
 
-      allocate(ysta(numnew), yend(numnew), zsta(numnew), zend(numnew), angl(numnew), totgap(numnew))
+      allocate(ysta(numnew), yend(numnew), zsta(numnew), zend(numnew), angl(numnew), totgap(numnew),    &
+               gapmin(numnew))
 
       do jcp = 1, numnew
          ysta(jcp)   = newcps(jcp)%cp%ysta
@@ -3522,6 +3693,7 @@ contains
          zend(jcp)   = newcps(jcp)%cp%zend
          angl(jcp)   = newcps(jcp)%cp%wgt_agap
          totgap(jcp) = newcps(jcp)%cp%totgap
+         gapmin(jcp) = newcps(jcp)%cp%gap_min
       enddo
       
       ! print overview of cpatches y- and sr-values (decreasing)
@@ -3545,7 +3717,11 @@ contains
          dist  = sqrt(dy**2 + dz**2)
          dangl = angl(icp) - angl(icp+1)
 
-         if (abs(dangl).gt.angl_sep .or. dist.lt.dist_sep .or. dist.gt.dist_turn) then
+         if (gapmin(icp+1).ge.0d0) then
+
+            ! skip 'near miss' contact patches
+
+         elseif (abs(dangl).gt.angl_sep .or. dist.lt.dist_sep .or. dist.gt.dist_turn) then
 
             ! keep separate when |a1-a2| >= angl_sep or dist >= dist_turn : move to next patch
 
@@ -3577,7 +3753,7 @@ contains
          endif ! turn angles
       enddo ! for icp
 
-      deallocate(ysta, yend, zsta, zend, angl, totgap)
+      deallocate(ysta, yend, zsta, zend, angl, totgap, gapmin)
 
    end subroutine turn_cpatch_refangle
 
@@ -4527,7 +4703,7 @@ contains
 
       if (iy.eq.1 .or. iy.eq.ny) then
 
-         ! use value at grid point if minimum found on the boundary
+         ! use value at grid point "iy" if minimum found on the boundary
 
          xmin  = x(iy)
          ymin  = y(iy)
@@ -4536,7 +4712,7 @@ contains
 
       elseif (gap(iy-1).ge.888d0 .or. gap(iy+1).ge.888d0) then
 
-         ! use value at grid point if no data provided at adjacent points
+         ! use value at grid point "iy" if no data provided at adjacent points
 
          xmin  = x(iy)
          ymin  = y(iy)
@@ -4545,7 +4721,7 @@ contains
 
       else
 
-         ! use quadratic fit
+         ! use quadratic fit gap = a * (y-y0)^2 + b * (y-y0) + c
 
          dy   = y(iy) - y(iy-1)
          a    = (gap(iy+1) - 2d0*gap(iy) + gap(iy-1)) / (2d0 * dy**2)
@@ -4553,7 +4729,7 @@ contains
          c    =                  gap(iy)
 
          ymin = -b / (2d0*a)
-         gmin = a * ymin**2 + b * ymin + c
+         gmin =  a * ymin**2 + b * ymin + c
 
          if (idebug.ge.3) then
             write(bufout,'(2(4(a,f12.6),:,/))') ' quadratic fit: y_{i-1}=', y(iy-1), ', y_i=', y(iy),   &
@@ -4591,7 +4767,7 @@ contains
       integer,      intent(in)  :: nx, ny        ! grid dimensions
       integer,      intent(in)  :: idebug, len_locmin
       integer,      intent(out) :: nummin
-      integer,      intent(out) :: locmin(2,len_locmin)
+      integer,      intent(out) :: locmin(2,len_locmin) ! list of locations (ix,iy)
       logical                   :: mask(nx*ny)   ! work-space for plateau
 !--local variables:
       real(kind=8), parameter   :: thresh = 1d-6
@@ -4706,9 +4882,9 @@ contains
                endif
             endif
 
-            ! store position (ix,iy) of local minimum if gap is negative
+            ! store position (ix,iy) of local minimum, irrespective if gap is negative or positive
 
-            if (is_locmin .and. gap(ii).lt.0d0) then
+            if (is_locmin) then
                nummin = nummin + 1
                mask(ii) = .true.        ! start new plateau
                if (nummin.lt.len_locmin) then
@@ -4718,8 +4894,6 @@ contains
                   write(bufout,*) 'INTERNAL ERROR: maximum number of local minima exceeded',nummin
                   call write_log(1, bufout)
                endif
-            elseif (is_locmin) then
-               if (idebug.ge.2) call write_log(' ...discarding local minimum, no interpenetration')
             endif
 
          enddo ! iy

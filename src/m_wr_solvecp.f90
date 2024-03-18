@@ -116,8 +116,8 @@ contains
             write(bufout,'(a,f9.4)') ' z_ws=',wtd%ws%z
             call write_log(1, bufout)
          endif
-         call wr_locatecp(wtd%meta, wtd%ic, wtd%ws, wtd%trk, wtd%discr, wtd%numcps, wtd%numtot,         &
-                        wtd%allcps, x_locate, sub_ierror)
+         call wr_locatecp(wtd%meta, wtd%ic, wtd%ws, wtd%trk, wtd%discr, wtd%numcps, wtd%n_miss,         &
+                        wtd%numtot, wtd%allcps, x_locate, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
       endif
 
