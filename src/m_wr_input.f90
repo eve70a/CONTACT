@@ -31,7 +31,7 @@ contains
       integer,      parameter :: mxnval = 20
       logical,      parameter :: lstop  = .true.
       integer          :: ints(mxnval), line0, nval, is_wheel, i_ftype, ldebug, ieof, ierror,           &
-                          cpbtnfs, vldcmze, xhgiaowr, psflrin
+                          cpbtnfs, vldcmze, xhgiaowr, psflcin
       logical          :: flags(mxnval), is_roll, is_ssrol, was_roll, zerror
       real(kind=8)     :: dbles(mxnval), dx_prv, ds_prv
       character*16     :: types, namside
@@ -244,9 +244,9 @@ contains
                 15x, 'coefficients are required.  T=',i3,', C3=',i3,'.')
       endif
 
-      ! Check consistency between different control integers F=1 needs N=1, F=3 needs N=1
+      ! Check consistency between different control integers F=1 needs N=1
 
-      if ((ic%force1.eq.1 .or. ic%force1.eq.3) .and. ic%norm.ne.1) then
+      if (ic%force1.eq.1 .and. ic%norm.ne.1) then
          zerror = .true.
          write(lout, 2051) ic%force1, ic%norm
          write(   *, 2051) ic%force1, ic%norm
@@ -315,14 +315,16 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if (ic%xflow.ge.1) then
-         call readline(linp, ncase, linenr, 'debug output psflrin', 'i', ints, dbles, flags, strngs,    &
+         call readline(linp, ncase, linenr, 'debug output psflcin', 'iI', ints, dbles, flags, strngs,   &
                        mxnval, nval, ldebug, ieof, lstop, ierror)
-         psflrin = ints(1)
+         psflcin = ints(1)
+         if (nval.ge.2) ic%x_readln = ints(2)
       else
-         psflrin = 1000000
+         psflcin = 1000000
+         ic%x_readln = 0
       endif
 
-      call ic_unpack_dbg (1, psflrin, ic)
+      call ic_unpack_dbg (1, psflcin, ic)
 
       !------------------------------------------------------------------------------------------------------
       ! Read input for G-digit
@@ -917,7 +919,7 @@ contains
       integer                   :: ncase
       type(t_ws_track)          :: wtd
 !--local variables:
-      integer                  :: vldcmze, xhgiaowr, cpbtnfs, psflrin
+      integer                  :: vldcmze, xhgiaowr, cpbtnfs, psflcin
       real(kind=8)             :: dflt_turn
       character(len=1)         :: namside
       type(t_wheel),   pointer :: my_wheel
@@ -940,8 +942,8 @@ contains
       ! write debug parameters
 
       if (ic%xflow.ge.1) then
-         call ic_pack_dbg(psflrin, ic)
-         write(linp, 1103) psflrin
+         call ic_pack_dbg(psflcin, ic)
+         write(linp, 1103) psflcin
       endif
 
       ! write parameters for the iterative solution algorithms

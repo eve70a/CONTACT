@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.161)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.162)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -89,6 +89,7 @@
         radius $a$}{}
 \vtlogentry{1.160}{EV}{01-12-2023}{Added spin center}{}
 \vtlogentry{1.161}{EV}{11-12-2023}{Permit ${\tt T}=1,2$ in module 1}{}
+\vtlogentry{1.162}{EV}{16-01-2024}{Changed PSFLRIN to PSFLCIN}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -918,7 +919,7 @@ give a sign that you do not want so. This sign can be given with the
 
 \end{description}
 
-A fourth control word `{\bf PSFLRIN}' is used when ${\tt X}=1$, configuring
+A fourth control word `{\bf PSFLCIN}' is used when ${\tt X}=1$, configuring
 the debug outputs from different parts of the code. This consists primarily
 of the level of output. Additional configuration may be added later on
 subsequent lines.
@@ -932,12 +933,7 @@ subsequent lines.
 
 \item[XL - X\_LOCATE] : determines print-output from contact location
 
-\item[XR - X\_READLN] : determines print-output on readline
-\begin{description}
-\item[0] -- errors only;
-\item[1] -- warnings, information messages;
-\item[$\mathbf{\ge 4}$] copy inputs.
-\end{description}
+\item[XC - X\_CPATCH] : determines print-output on contact patches
 
 \item[XI - X\_INFLCF] : determines print-output on influence coefficients
 
@@ -952,6 +948,15 @@ subsequent lines.
 \item[8] -- intermediate results of Newton-Raphson loops (?);
 \item[9] -- information per iteration of NormCG, TangCG, ConvexGS, SteadyGS (?).
 \end{description}
+
+\magenta{
+\item[XR - X\_READLN] : determines print-output on readline
+\begin{description}
+\item[0] -- errors only;
+\item[1] -- warnings, information messages;
+\item[$\mathbf{\ge 4}$] copy inputs.
+\end{description}
+}
 
 \end{description}
 
@@ -1147,12 +1152,12 @@ $v_{y,r}=\Delta\dot{y}_{r}, \ldots$ may be specified also.
 Rail deflections may be computed resulting from the lateral and
 vertical contact forces.
 \begin{eqnarray}\label{eq:cntc_defl}
-   F_{y(tr)} + F^*_y - k^*_y \delta y_{defl} = 0 &\leftrightarrow&
+   F_{y(tr)} - k^*_y \delta y_{defl} + F^*_y = 0 &\leftrightarrow&
    \delta y_{\defl} = \frac{F_{y(tr)} + F^*_y}{ k^*_y } , \\
-   F_{z(tr)} + F^*_z - k^*_z \delta z_{defl} = 0 &\leftrightarrow&
+   F_{z(tr)} - k^*_z \delta z_{defl} + F^*_z = 0 &\leftrightarrow&
    \delta z_{\defl} = \frac{F_{z(tr)} + F^*_z}{ k^*_z } .
 \end{eqnarray}
-Here $F_y^*, F_z^*$ are prescribed forces on the rail at zero deflection.
+Here $F_y^*, F_z^*$ are prescribed external forces on the rail.
 This can be used to implement a massless rail with stiffness and damping:
 \begin{equation}\label{eq:massless}
    F_{y(tr)}^{n+1} + F^{n+1}_{\defl,y} = 0, \;\;
@@ -1733,11 +1738,9 @@ The massless rail model of Equation (\ref{eq:cntc_defl}) is activated using
 control digit ${\tt F}_1=3$, and takes the following inputs:
 \begin{inputvars}
 \inpvar{KYRAIL}{\bunit{N/mm}}{Effective lateral rail stiffness $k^*_y$.}
-\inpvar{FYRAIL}{\bunit{N}}{Lateral spring force $F_y^*$ from ground on rail
-        at zero deflection.}
+\inpvar{FYRAIL}{\bunit{N}}{Prescribed lateral force $F_y^*$ on the rail.}
 \inpvar{KZRAIL}{\bunit{N/mm}}{Effective vertical rail stiffness $k^*_z$.}
-\inpvar{FZRAIL}{\bunit{N}}{Vertical spring force $F_z^*$ from ground on
-        rail at zero deflection.}
+\inpvar{FZRAIL}{\bunit{N}}{Prescribed vertical force $F_z^*$ on the rail.}
 \end{inputvars}
 }
  
@@ -7181,7 +7184,8 @@ The input for one case of wheel/rail contact consists of:
 
 \magenta{% Parameters for additional debug output
 
-if X=1:  [ PSFLRIN ] (PROFIL, SMOOTH, FORCE , LOCATE, READLN, INFLCF, NMDBG )
+if X=1: [ PSFLCIN \{R\} ] (PROFIL, SMOOTH, FORCE, LOCATE, CPATCH, INFLCF, NMDBG,
+                                                                        READLN)
 
 }% Parameters for the iterative solution algorithms (section \ref{sec:iter_const}):
 
@@ -7296,7 +7300,8 @@ For module 3, the input for one case consists of:
 
 \magenta{% Parameters for additional debug output
 
-if X=1:  [ PSFLRIN ] (PROFIL, SMOOTH, FORCE , LOCATE, READLN, INFLCF, NMDBG )
+if X=1: [ PSFLCIN \{R\} ] (PROFIL, SMOOTH, FORCE, LOCATE, CPATCH, INFLCF, NMDBG,
+                                                                        READLN)
 
 }% Parameters for the iterative solution algorithms (section \ref{sec:iter_const}):
 

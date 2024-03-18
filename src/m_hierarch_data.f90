@@ -165,9 +165,10 @@ public
       integer :: x_smooth
       integer :: x_force
       integer :: x_locate
-      integer :: x_readln
+      integer :: x_cpatch
       integer :: x_inflcf
       integer :: x_nmdbg
+      integer :: x_readln
       integer :: wrtinp
       integer :: return
       integer :: ilvout
@@ -363,7 +364,7 @@ public
       !    x_smooth governs the debug output on profile smoothing
       !    x_force  governs the debug output on total force iteration
       !    x_locate governs the debug output on the contact search
-      !    x_readln governs the debug output on reading the input file
+      !    x_cpatch governs the debug output on shuffling of contact patches
       !    x_inflcf governs the debug output on influence coefficients
       !              0   = none
       !              7   = print influence coefficients
@@ -375,6 +376,7 @@ public
       !              7   = intermediate results of NORM and TANG algorithms
       !              8   = intermediate results of Newton-Raphson loops
       !              9   = information per iteration of NormCG, ConvexGS, SteadyGS
+      !    x_readln governs the debug output on reading the input file
       !    wrtinp   governs the writing of data to the input-file, used by the CONTACT add-on to SIMPACK
       !             Rail, allowing for off-line use of CONTACT after the SIMPACK run.
       !              0   = no writing of the input (default)
@@ -963,6 +965,7 @@ contains
       ic%x_smooth = 0
       ic%x_force  = 0
       ic%x_locate = 0
+      ic%x_cpatch = 0
       ic%x_readln = 0
       ic%x_inflcf = 0
       ic%x_nmdbg  = 0
@@ -1213,34 +1216,34 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine ic_unpack_dbg (modul, psflrin, ic)
+   subroutine ic_unpack_dbg (modul, psflcin, ic)
 !--purpose: unpack the debug flags into array ic
       implicit none
 !--subroutine parameters:
       type(t_ic) :: ic
-      integer    :: modul, psflrin
+      integer    :: modul, psflcin
 !--local variables:
       integer, parameter :: idebug = 0
       integer            :: ihulp
 
       ihulp         = 0
-      ic%x_profil   = (psflrin - ihulp) / 1000000
+      ic%x_profil   = (psflcin - ihulp) / 1000000
          ihulp      = ihulp + 1000000 * ic%x_profil
-      ic%x_smooth   = (psflrin - ihulp) / 100000
+      ic%x_smooth   = (psflcin - ihulp) / 100000
          ihulp      = ihulp +  100000 * ic%x_smooth
-      ic%x_force    = (psflrin - ihulp) / 10000
+      ic%x_force    = (psflcin - ihulp) / 10000
          ihulp      = ihulp +   10000 * ic%x_force
-      ic%x_locate   = (psflrin - ihulp) / 1000
+      ic%x_locate   = (psflcin - ihulp) / 1000
          ihulp      = ihulp +    1000 * ic%x_locate
-      ic%x_readln   = (psflrin - ihulp) / 100
-         ihulp      = ihulp +     100 * ic%x_readln
-      ic%x_inflcf   = (psflrin - ihulp) / 10
+      ic%x_cpatch   = (psflcin - ihulp) / 100
+         ihulp      = ihulp +     100 * ic%x_cpatch
+      ic%x_inflcf   = (psflcin - ihulp) / 10
          ihulp      = ihulp +      10 * ic%x_inflcf
-      ic%x_nmdbg    = (psflrin - ihulp) / 1
+      ic%x_nmdbg    = (psflcin - ihulp) / 1
 
       if (idebug.ge.2) then
          write(bufout,'(7(a,i2))') ' dbg_unpack: P=',ic%x_profil,', S=',ic%x_smooth,                    &
-             ', F=',ic%x_force,', L=',ic%x_locate,', R=',ic%x_readln,', I=',ic%x_inflcf,                &
+             ', F=',ic%x_force,', L=',ic%x_locate,', C=',ic%x_cpatch,', I=',ic%x_inflcf,                &
              ', N=',ic%x_nmdbg
          call write_log(1, bufout)
       endif
@@ -1256,16 +1259,16 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine ic_pack_dbg(psflrin, ic)
+   subroutine ic_pack_dbg(psflcin, ic)
 !--purpose: pack the debug flags in ic together in a control-word
       implicit none
 !--subroutine parameters:
       type(t_ic) :: ic
-      integer    :: psflrin
+      integer    :: psflcin
 
-      psflrin =                                                    1000000*ic%x_profil    +             &
+      psflcin =                                                    1000000*ic%x_profil    +             &
                  100000*ic%x_smooth    +    10000*ic%x_force     +    1000*ic%x_locate    +             &
-                    100*ic%x_readln    +       10*ic%x_inflcf    +       1*ic%x_nmdbg
+                    100*ic%x_cpatch    +       10*ic%x_inflcf    +       1*ic%x_nmdbg
 
    end subroutine ic_pack_dbg
 

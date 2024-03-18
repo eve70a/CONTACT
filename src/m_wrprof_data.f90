@@ -198,7 +198,7 @@ public
       real(kind=8)  :: roll, yaw, pitch
       real(kind=8)  :: vroll, vyaw, vpitch
       real(kind=8)  :: fx_inp, fy_inp, fz_inp, my_inp
-      real(kind=8)  :: z_cnt0, gap_min, delt_min, zw_min, a1, b1
+      real(kind=8)  :: gap_min, delt_min, zw_min, a1, b1
       logical       :: has_overlap
       type(t_wheel), pointer :: whl => NULL()
       type(t_marker) :: m_trk
@@ -229,7 +229,6 @@ public
       ! fy_inp        [N]   prescribed total force on rail in track lateral direction (n.y.a.)
       ! fz_inp        [N]   prescribed total force in track vertical direction (N>=1)
       ! my_inp      [N mm]  prescribed total moment on rail about wheelset lateral direction (F=2)
-      ! z_cnt0       [mm]   z-position at which precise initial contact occurs
       ! gap_min      [mm]   overall minimum gap (max interpenetration) found, positive if no contact occurs
       ! delt_min    [rad]   contact angle at the location of the overall minimum gap value
       ! zw_min       [mm]   wheel surface height at the location of the overall minimum gap value

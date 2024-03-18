@@ -117,7 +117,6 @@ contains
 
       ws%has_overlap = .false.
       ws%gap_min = 1d10
-      ws%z_cnt0  = 1d10
 
       do irgn = 1, num_rgn
          if (num_rgn.gt.1) then
@@ -146,7 +145,7 @@ contains
 
          ! move data from newcps to allcps, clean-up newcps
 
-         call wr_update_allcps(meta, ic, numnew, newcps, numcps, numtot, allcps, ic%x_force)
+         call wr_update_allcps(meta, ic, numnew, newcps, numcps, numtot, allcps, ic%x_cpatch)
 
       endif
 
@@ -450,7 +449,6 @@ contains
 
          ws%has_overlap = .true.
          ws%gap_min = min(ws%gap_min, rgn_gap_min)
-         ws%z_cnt0  = min(ws%z_cnt0, ws%z + ws%gap_min)
 
       endif
 
@@ -465,7 +463,6 @@ contains
       if (my_ierror.ne.0) then
          my_ierror = CNTC_err_search
          ws%gap_min = 1d10
-         ws%z_cnt0  = 1d10
       endif
 
    end subroutine locate_patches
@@ -629,7 +626,7 @@ contains
 
          ! P=2 and I=0: no connection to previous time
 
-         if (ic%x_force.ge.1) then
+         if (ic%x_cpatch.ge.1) then
             write(bufout,'(3(a,i3),a)') ' wr_connect_cps: There are', numnew,' new contact patches'
             call write_log(1, bufout)
          endif
@@ -642,7 +639,7 @@ contains
 
          ! P<>2 or I<>0: establish connection to previous time
 
-         if (ic%x_force.ge.1) then
+         if (ic%x_cpatch.ge.1) then
             if (ic%norm.ge.1 .and. (meta%itforc_out.ge.1 .or. meta%itforc_inn.ge.1)) then
                write(bufout,'(3(a,i3),a)') ' wr_connect_cps: There are', numnew,' new patches and',     &
                            numcps,' patches for prev.iteration +', numtot-numcps,' other for prev.time'
@@ -655,7 +652,7 @@ contains
             endif
          endif
 
-         if (ic%x_force.ge.3) then
+         if (ic%x_cpatch.ge.3) then
             do icpo = 1, min(numnew, numtot)
                associate( cp0 => allcps(icpo)%cp, cp1 => newcps(icpo)%cp )
                write(bufout,'(a,i3,4(a,f9.3),a)') ' icp=',icpo,': old y=[', cp0%ysta,',', cp0%yend,     &
@@ -690,7 +687,7 @@ contains
                   n_old(icpn) = n_old(icpn) + 1
                   n_new(icpo) = n_new(icpo) + 1
                   cp1%prev_icp(n_old(icpn)) = icpo
-                  if (ic%x_force.ge.4) then
+                  if (ic%x_cpatch.ge.4) then
                      write(bufout,'(2(a,i3))') ' old icp=',icpo,' overlaps with new icp=',icpn
                      call write_log(1, bufout)
                   endif
@@ -699,7 +696,7 @@ contains
             enddo
          enddo
    
-         if (ic%x_force.ge.3 .and. numtot.ge.1 .and. numnew.ge.1) then
+         if (ic%x_cpatch.ge.3 .and. numtot.ge.1 .and. numnew.ge.1) then
             call write_log(' matrix has_overlap(new,old):')
             write(fmtstr,'(a,i2,a)') '(a,', numtot, 'i3,a,i3)'
             write(bufout, fmtstr) '         i_old=', (icpo, icpo=1, numtot),',  n_old'
@@ -714,7 +711,7 @@ contains
             call write_log(1, bufout)
          endif
    
-         if (ic%x_force.ge.1 .and. numtot.ge.1 .and. numnew.ge.1) then
+         if (ic%x_cpatch.ge.1 .and. numtot.ge.1 .and. numnew.ge.1) then
             do icpn = 1, numnew
                associate( cp1 => newcps(icpn)%cp )
                if (n_old(icpn).le.0) then
@@ -734,13 +731,13 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_update_allcps(meta, ic, numnew, newcps, numcps, numtot, allcps, x_force)
+   subroutine wr_update_allcps(meta, ic, numnew, newcps, numcps, numtot, allcps, x_cpatch)
 !--purpose: merge data from old contact patches with new patches and store in allcps
       implicit none
 !--subroutine arguments:
       type(t_metadata)         :: meta
       type(t_ic)               :: ic
-      integer                  :: numnew, numcps, numtot, x_force
+      integer                  :: numnew, numcps, numtot, x_cpatch
       type(p_cpatch)           :: newcps(MAX_LOC_MIN), allcps(MAX_NUM_CPS)
 !--local variables:
       integer                  :: iestim, i, icpx, icpo, icpn, i_old, n_old, n_new(numtot)
@@ -757,7 +754,7 @@ contains
          enddo
       enddo
 
-      if (x_force.ge.3) then
+      if (x_cpatch.ge.3) then
          write(bufout,'(a,10i3)') ' initial n_new=',(n_new(icpo), icpo=1, numtot)
          call write_log(1, bufout)
       endif
@@ -788,17 +785,17 @@ contains
                ! merge old patch icpx into first old patch icpo
 
                icpx = newcps(icpn)%cp%prev_icp(i_old)
-               if (x_force.ge.1) then
+               if (x_cpatch.ge.1) then
                   write(bufout,'(2(a,i3))') ' wr_update_allcps: merge gd for icpo=',icpx,               &
                         ' into gd for icpo=',icpo
                   call write_log(1, bufout)
                endif
 
-               call gd_merge( allcps(icpx)%cp%gd, allcps(icpo)%cp%gd, x_force )
+               call gd_merge( allcps(icpx)%cp%gd, allcps(icpo)%cp%gd, x_cpatch )
 
                ! delete old patch icpx after merging
 
-               if (x_force.ge.1) then
+               if (x_cpatch.ge.1) then
                   write(bufout,'(a,i3)') ' wr_update_allcps: destroy gd for icpo=',icpx
                   call write_log(1, bufout)
                endif
@@ -821,7 +818,7 @@ contains
 
                ! more patches remaining: copy gd
 
-               if (x_force.ge.1) then
+               if (x_cpatch.ge.1) then
                   write(bufout,'(2(a,i3))') ' wr_update_allcps: copy gd from icpo=',icpo,' to icpn=',icpn
                   call write_log(1, bufout)
                endif
@@ -838,7 +835,7 @@ contains
 
                ! last patch for icpo: shift pointer
 
-               if (x_force.ge.1) then
+               if (x_cpatch.ge.1) then
                   write(bufout,'(2(a,i3))') ' wr_update_allcps: move gd from icpo=',icpo,' to icpn=',icpn
                   call write_log(1, bufout)
                endif
@@ -872,10 +869,10 @@ contains
 
          do icpo = 1, numtot
             if (associated(allcps(icpo)%cp)) then
-               if (x_force.ge.1 .and. associated(allcps(icpo)%cp%gd)) then
+               if (x_cpatch.ge.1 .and. associated(allcps(icpo)%cp%gd)) then
                   write(bufout,'(a,i3)') ' wr_contact: destroy gd for icpo=',icpo
                   call write_log(1, bufout)
-               elseif (x_force.ge.3) then
+               elseif (x_cpatch.ge.3) then
                   write(bufout,'(a,i3)') ' wr_contact: destroy allcps cp=',icpo
                   call write_log(1, bufout)
                endif
@@ -890,7 +887,7 @@ contains
             if (associated(allcps(icpo)%cp) .and. associated(allcps(icpo)%cp%gd)) numrem = numrem + 1
          enddo
 
-         if (x_force.ge.2 .and. numrem.gt.0) then
+         if (x_cpatch.ge.2 .and. numrem.gt.0) then
             write(bufout,'(3(a,i2),a)') ' wr_update_allcps: There are ',numrem,                         &
                 ' old patches remaining, move to newcps(',numnew+1,':',numnew+numrem,')'
             call write_log(1, bufout)
@@ -901,7 +898,7 @@ contains
                numtot_new = numtot_new + 1
                icpn       = numtot_new
 
-               if (x_force.ge.1 .and. associated(allcps(icpo)%cp%gd)) then
+               if (x_cpatch.ge.1 .and. associated(allcps(icpo)%cp%gd)) then
                   write(bufout,'(2(a,i3))') ' wr_update_allcps: move unused gd from icpo=',icpo,        &
                         ' to icpn=',icpn
                   call write_log(1, bufout)
@@ -916,7 +913,7 @@ contains
       ! shift all contact patches from newcps to allcps
 
       do icpn = 1, numtot_new
-         if (x_force.ge.3) then
+         if (x_cpatch.ge.3) then
             write(bufout,'(a,i3,a)') ' wr_update_allcps: move icp=',icpn,' from newcps to allcps'
             call write_log(1, bufout)
          endif
@@ -931,7 +928,7 @@ contains
 
       do icpn = 1, MAX_NUM_CPS
          if (associated(newcps(icpn)%cp)) then
-            if (x_force.ge.3) then
+            if (x_cpatch.ge.3) then
                write(bufout,'(a,i3)') ' wr_update_allcps: destroy newcps cp=',icpn
                call write_log(1, bufout)
             endif

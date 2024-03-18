@@ -44,7 +44,7 @@ contains
       integer, parameter :: mxnval = 20
       logical, parameter :: lstop  = .true.
       type(t_ic)     :: icold
-      integer        :: ncase, vldcmze, xgiaowr, pbtnfs, psflrin, nval, ieof, ierror
+      integer        :: ncase, vldcmze, xgiaowr, pbtnfs, psflcin, nval, ieof, ierror
       integer        :: ii, iof, ip, j, k, line0, idebug, nn, npot, kofs_x, kofs_y
       logical        :: z, zerror, is_roll, is_ssrol, was_roll, flags(mxnval)
       real(kind=8)   :: akeff, delt_x, delt_y
@@ -264,14 +264,16 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if (ic%xflow.ge.1) then
-         call readline(linp, ncase, linenr, 'debug output psflrin', 'i', ints, dbles, flags, strngs,    &
+         call readline(linp, ncase, linenr, 'debug output psflcin', 'iI', ints, dbles, flags, strngs,   &
                        mxnval, nval, idebug, ieof, lstop, ierror)
-         psflrin = ints(1)
+         psflcin = ints(1)
+         if (nval.ge.2) ic%x_readln = ints(2)
       else
-         psflrin = 0
+         psflcin     = 0
+         ic%x_readln = 0
       endif
 
-      call ic_unpack_dbg (3, psflrin, ic)
+      call ic_unpack_dbg (3, psflcin, ic)
       idebug = ic%x_readln
 
       !------------------------------------------------------------------------------------------------------
@@ -1162,7 +1164,7 @@ contains
       type(t_subsurf)  :: subs
       logical          :: ltight  ! flag: use solution to create tight pot.con.
 !--local variables:
-      integer      :: vldcmze, xgiaowr, pbtnfs, psflrin
+      integer      :: vldcmze, xgiaowr, pbtnfs, psflcin
       integer      :: ii, ix, ix0, ix1, iy, iy0, iy1, iof, k, len1
       logical      :: is_roll
       real(kind=8) :: fun, fux, fuy
@@ -1223,9 +1225,9 @@ contains
       if (ic%xflow.le.0) then
          write(linp, 1101) pbtnfs, vldcmze, xgiaowr
       else
-         call ic_pack_dbg(psflrin, ic)
+         call ic_pack_dbg(psflcin, ic)
          write(linp, 1102) pbtnfs, vldcmze, xgiaowr
-         write(linp, 1103) psflrin
+         write(linp, 1103) psflcin
       endif
 
  1101 format (i8.6, 4x, '  P-B-T-N-F-S          PVTIME, BOUND , TANG , NORM , FORCE, STRESS', /,        &
@@ -1234,7 +1236,7 @@ contains
  1102 format (i8.7, 6x, '    P-B-T-N-F-S                 PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS',/, &
               i8.7, 6x, '    L-D-C-M-Z-E                 FRCLAW, DISCNS, INFLCF, MATER,  RZNORM, EXRHS', /, &
               i8.7, 6x, 'X-H-G-I-A-O-W-R   XFLOW,  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN' )
- 1103 format (i8.3, 6x, '  P-S-F-L-R-I_N         PROFIL, SMOOTH, FORCE,  LOCATE, READLN, INFLCF, NMDBG' )
+ 1103 format (i8.3, 6x, '  P-S-F-L-C-I_N         PROFIL, SMOOTH, FORCE,  LOCATE, CPATCH, INFLCF, NMDBG' )
 
       ! write solver settings
 

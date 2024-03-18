@@ -54,7 +54,7 @@ contains
 
       wtd%meta%itforce = wtd%meta%itforce + 1
 
-      if (wtd%ic%x_force.ge.2) then
+      if (wtd%ic%x_cpatch.ge.2) then
          write(bufout,'(3(a,i3))') ' itout =',wtd%meta%itforc_out,', itinn =',wtd%meta%itforc_inn,       &
                    ', ittot =',wtd%meta%itforce
          call write_log(1, bufout)
@@ -112,7 +112,7 @@ contains
       ! locate the contact patch(es), set potential contact areas
 
       if (my_ierror.eq.0) then
-         if (wtd%ic%x_force.ge.1) then
+         if (wtd%ic%x_cpatch.ge.1) then
             write(bufout,'(a,f9.4)') ' z_ws=',wtd%ws%z
             call write_log(1, bufout)
          endif
@@ -396,7 +396,7 @@ contains
 
       new_gd = .false.
       if (.not.associated(cp%gd)) then
-         if (wtd_ic%x_force.ge.1) then
+         if (wtd_ic%x_cpatch.ge.1) then
             write(bufout,'(a,i3)') ' wr_setup_cp: allocate gd for icp=',icp
             call write_log(1, bufout)
          endif
@@ -504,7 +504,7 @@ contains
 
       ! update potcon_inp to cover the contact area of the previous time
  
-      if (wtd_ic%pvtime.ne.2) call merge_prev_potcon(icp, cp%gd, wtd_ic%x_force)
+      if (wtd_ic%pvtime.ne.2) call merge_prev_potcon(icp, cp%gd, wtd_ic%x_cpatch)
 
       ! check that npot_max will not be exceeded
 
@@ -535,7 +535,7 @@ contains
          call write_log(1, bufout)
       endif
 
-      if (wtd_ic%x_force.ge.2) then
+      if (wtd_ic%x_cpatch.ge.2) then
          associate(g1 => gd%cgrid_inp, g2 => gd%cgrid_cur)
          write(bufout,'(2(a,i4),2(a,f8.3))') ' cgrid_inp: mx,my=',g1%nx,',',g1%ny,', dx,dy=', g1%dx,',',g1%dy
          call write_log(1, bufout)
@@ -565,28 +565,28 @@ contains
 
       if (new_gd) then
          gd%ic%iestim = 0
-         if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (new patch)...')
+         if (wtd_ic%x_cpatch.ge.1) call write_log('    no initial estimate (new patch)...')
       elseif (abs(gd%potcon_inp%dx - gd%potcon_cur%dx).gt.1d-4*gd%potcon_inp%dx .or.                    &
               abs(gd%potcon_inp%dy - gd%potcon_cur%dy).gt.1d-4*gd%potcon_inp%dy) then
          gd%ic%iestim = 0
-         if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (change dx or dy)...')
+         if (wtd_ic%x_cpatch.ge.1) call write_log('    no initial estimate (change dx or dy)...')
       elseif (abs(gd%potcon_inp%npot - gd%potcon_cur%npot).gt.                                          &
                 0.4d0 * min(gd%potcon_inp%npot, gd%potcon_cur%npot)) then
          gd%ic%iestim = 0
-         if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (large change npot)...')
+         if (wtd_ic%x_cpatch.ge.1) call write_log('    no initial estimate (large change npot)...')
       elseif (gd%meta%ncase.lt.meta%ncase) then
          gd%ic%iestim = wtd_ic%iestim
          if (gd%ic%iestim.ge.1) then
-            if (wtd_ic%x_force.ge.1) call write_log(' using initial estimate (new case, user setting)...')
+            if (wtd_ic%x_cpatch.ge.1) call write_log(' using initial estimate (new case, user setting)...')
          else
-            if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (new case, user setting)...')
+            if (wtd_ic%x_cpatch.ge.1) call write_log('    no initial estimate (new case, user setting)...')
          endif
       elseif (gd%meta%itforce.eq.meta%itforce-1) then
          gd%ic%iestim = 1
-         if (wtd_ic%x_force.ge.1) call write_log(' using initial estimate (prev.iteration)...')
+         if (wtd_ic%x_cpatch.ge.1) call write_log(' using initial estimate (prev.iteration)...')
       else
          gd%ic%iestim = 0
-         if (wtd_ic%x_force.ge.1) call write_log('    no initial estimate (cp skipped iteration)...')
+         if (wtd_ic%x_cpatch.ge.1) call write_log('    no initial estimate (cp skipped iteration)...')
       endif
 
       !  - fill in surface inclinations for conformal infl.cf (Blanco approach)
