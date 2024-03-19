@@ -2,205 +2,111 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- NORM
-       1, Norm: size of Contact, Exterior :   2249   7471
       Norm: final element division: C, E=   1969   7751  ItCG=    10
-
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :    1969      0
-    1, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
-       2, Tang: size of Adhes, Slip area :       0   1969
-    2, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        34.65   7.737E-03
-       3, Tang: size of Adhes, Slip area :       0   1969
-    3, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        33.64   1.026E-02
-       4, Tang: size of Adhes, Slip area :       0   1969
-    4, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        32.08   7.918E-03
-       5, Tang: size of Adhes, Slip area :       0   1969
-    5, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        30.59   1.007E-02
-       6, Tang: size of Adhes, Slip area :       0   1969
-    6, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.49   8.168E-03
-       7, Tang: size of Adhes, Slip area :       0   1969
-    7, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        26.08   9.766E-03
-       8, Tang: size of Adhes, Slip area :       0   1969
-    8, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        23.29   8.544E-03
-       9, Tang: size of Adhes, Slip area :       0   1969
-    9, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        18.83   9.129E-03
-      10, Tang: size of Adhes, Slip area :       0   1969
-   10, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.78   9.135E-03
-      11, Tang: size of Adhes, Slip area :       0   1969
-   11, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.67   8.305E-03
-      12, Tang: size of Adhes, Slip area :       0   1969
-   12, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        23.65   1.002E-02
-      13, Tang: size of Adhes, Slip area :       0   1969
-   13, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.66   7.954E-03
-      14, Tang: size of Adhes, Slip area :       0   1969
-   14, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        30.15   1.005E-02
-      15, Tang: size of Adhes, Slip area :       0   1969
-   15, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.16   8.195E-03
-      16, Tang: size of Adhes, Slip area :       0   1969
-   16, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        25.70   9.737E-03
-      17, Tang: size of Adhes, Slip area :       0   1969
-   17, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        22.91   8.573E-03
-      18, Tang: size of Adhes, Slip area :       0   1969
-   18, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        18.42   9.088E-03
-      19, Tang: size of Adhes, Slip area :       0   1969
-   19, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.61   9.173E-03
-      20, Tang: size of Adhes, Slip area :       0   1969
-   20, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        17.01   8.272E-03
-      21, Tang: size of Adhes, Slip area :       0   1969
-   21, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        24.32   1.004E-02
-      22, Tang: size of Adhes, Slip area :       0   1969
-   22, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.97   7.967E-03
-      23, Tang: size of Adhes, Slip area :       0   1969
-   23, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.95   1.003E-02
-      24, Tang: size of Adhes, Slip area :       0   1969
-   24, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        27.89   8.216E-03
-      25, Tang: size of Adhes, Slip area :       0   1969
-   25, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        25.34   9.710E-03
-      26, Tang: size of Adhes, Slip area :       0   1969
-   26, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        22.54   8.603E-03
-      27, Tang: size of Adhes, Slip area :       0   1969
-   27, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        18.03   9.042E-03
-      28, Tang: size of Adhes, Slip area :       0   1969
-   28, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.48   9.217E-03
-      29, Tang: size of Adhes, Slip area :       0   1969
-   29, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        17.47   8.232E-03
-      30, Tang: size of Adhes, Slip area :       0   1969
-   30, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        25.12   1.007E-02
-      31, Tang: size of Adhes, Slip area :       0   1969
-   31, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.34   7.978E-03
-      32, Tang: size of Adhes, Slip area :       0   1969
-   32, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.77   1.002E-02
-      33, Tang: size of Adhes, Slip area :       0   1969
-   33, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        27.64   8.235E-03
-      34, Tang: size of Adhes, Slip area :       0   1969
-   34, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        25.01   9.684E-03
-      35, Tang: size of Adhes, Slip area :       0   1969
-   35, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        22.19   8.630E-03
-      36, Tang: size of Adhes, Slip area :       0   1969
-   36, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        17.68   8.998E-03
-      37, Tang: size of Adhes, Slip area :       0   1969
-   37, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.40   9.259E-03
-      38, Tang: size of Adhes, Slip area :       0   1969
-   38, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        17.94   8.196E-03
-      39, Tang: size of Adhes, Slip area :       0   1969
-   39, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        25.85   1.010E-02
-      40, Tang: size of Adhes, Slip area :       0   1969
-   40, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.63   7.989E-03
-      41, Tang: size of Adhes, Slip area :       0   1969
-   41, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.58   1.001E-02
-      42, Tang: size of Adhes, Slip area :       0   1969
-   42, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        27.40   8.252E-03
-      43, Tang: size of Adhes, Slip area :       0   1969
-   43, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        24.67   9.657E-03
-      44, Tang: size of Adhes, Slip area :       0   1969
-   44, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        21.83   8.657E-03
-      45, Tang: size of Adhes, Slip area :       0   1969
-   45, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        17.32   8.953E-03
-      46, Tang: size of Adhes, Slip area :       0   1969
-   46, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.37   9.304E-03
-      47, Tang: size of Adhes, Slip area :       0   1969
-   47, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        18.48   8.161E-03
-      48, Tang: size of Adhes, Slip area :       0   1969
-   48, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        26.58   1.012E-02
-      49, Tang: size of Adhes, Slip area :       0   1969
-   49, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.89   8.000E-03
-      50, Tang: size of Adhes, Slip area :       0   1969
-   50, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.38   9.993E-03
-      51, Tang: size of Adhes, Slip area :       0   1969
-   51, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        27.15   8.270E-03
-      52, Tang: size of Adhes, Slip area :       0   1969
-   52, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        24.32   9.629E-03
-      53, Tang: size of Adhes, Slip area :       0   1969
-   53, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        21.46   8.685E-03
-      54, Tang: size of Adhes, Slip area :       0   1969
-   54, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.99   8.908E-03
-      55, Tang: size of Adhes, Slip area :       0   1969
-   55, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.39   9.348E-03
-      56, Tang: size of Adhes, Slip area :       0   1969
-   56, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        19.04   8.128E-03
-      57, Tang: size of Adhes, Slip area :       0   1969
-   57, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        27.25   1.014E-02
-      58, Tang: size of Adhes, Slip area :       0   1969
-   58, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        30.09   8.012E-03
-      59, Tang: size of Adhes, Slip area :       0   1969
-   59, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.17   9.979E-03
-      60, Tang: size of Adhes, Slip area :       0   1969
-   60, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        26.89   8.288E-03
-      61, Tang: size of Adhes, Slip area :       0   1969
-   61, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        23.96   9.601E-03
-      62, Tang: size of Adhes, Slip area :       0   1969
-   62, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        21.09   8.713E-03
-      63, Tang: size of Adhes, Slip area :       0   1969
-   63, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.69   8.864E-03
-      64, Tang: size of Adhes, Slip area :       0   1969
-   64, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.47   9.393E-03
-      65, Tang: size of Adhes, Slip area :       0   1969
-   65, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        19.65   8.097E-03
-      66, Tang: size of Adhes, Slip area :       0   1969
-   66, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        27.88   1.015E-02
-      67, Tang: size of Adhes, Slip area :       0   1969
-   67, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        30.22   8.024E-03
-      68, Tang: size of Adhes, Slip area :       0   1969
-   68, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.95   9.965E-03
-      69, Tang: size of Adhes, Slip area :       0   1969
-   69, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        26.64   8.306E-03
-      70, Tang: size of Adhes, Slip area :       0   1969
-   70, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        23.60   9.571E-03
-      71, Tang: size of Adhes, Slip area :       0   1969
-   71, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        20.72   8.741E-03
-      72, Tang: size of Adhes, Slip area :       0   1969
-   72, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.43   8.819E-03
-      73, Tang: size of Adhes, Slip area :       0   1969
-   73, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.63   9.440E-03
-      74, Tang: size of Adhes, Slip area :       0   1969
-   74, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        20.30   8.068E-03
-      75, Tang: size of Adhes, Slip area :       0   1969
-   75, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.45   1.016E-02
-      76, Tang: size of Adhes, Slip area :       0   1969
-   76, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        30.30   8.036E-03
-      77, Tang: size of Adhes, Slip area :       0   1969
-   77, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.74   9.950E-03
-      78, Tang: size of Adhes, Slip area :       0   1969
-   78, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        26.38   8.325E-03
-      79, Tang: size of Adhes, Slip area :       0   1969
-   79, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        23.22   9.540E-03
-      80, Tang: size of Adhes, Slip area :       0   1969
-   80, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        20.35   8.770E-03
-      81, Tang: size of Adhes, Slip area :       0   1969
-   81, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.19   8.775E-03
-      82, Tang: size of Adhes, Slip area :       0   1969
-   82, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.84   9.488E-03
-      83, Tang: size of Adhes, Slip area :       0   1969
-   83, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        20.98   8.041E-03
-      84, Tang: size of Adhes, Slip area :       0   1969
-   84, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.93   1.016E-02
-      85, Tang: size of Adhes, Slip area :       0   1969
-   85, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        30.28   8.048E-03
-      86, Tang: size of Adhes, Slip area :       0   1969
-   86, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.52   9.936E-03
-      87, Tang: size of Adhes, Slip area :       0   1969
-   87, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        26.13   8.343E-03
-      88, Tang: size of Adhes, Slip area :       0   1969
-   88, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        22.85   9.509E-03
-      89, Tang: size of Adhes, Slip area :       0   1969
-   89, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        19.98   8.799E-03
-      90, Tang: size of Adhes, Slip area :       0   1969
-   90, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.00   8.732E-03
-      91, Tang: size of Adhes, Slip area :       0   1969
-   91, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        17.12   9.536E-03
+    1, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
+    2, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        34.65   7.737E-03
+    3, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        33.64   1.026E-02
+    4, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        32.08   7.918E-03
+    5, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        30.59   1.007E-02
+    6, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.49   8.168E-03
+    7, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        26.08   9.766E-03
+    8, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        23.29   8.544E-03
+    9, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        18.83   9.129E-03
+   10, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.78   9.135E-03
+   11, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.67   8.305E-03
+   12, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        23.65   1.002E-02
+   13, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.66   7.954E-03
+   14, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        30.15   1.005E-02
+   15, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.16   8.195E-03
+   16, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        25.70   9.737E-03
+   17, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        22.91   8.573E-03
+   18, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        18.42   9.088E-03
+   19, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.61   9.173E-03
+   20, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        17.01   8.272E-03
+   21, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        24.32   1.004E-02
+   22, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.97   7.967E-03
+   23, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        29.95   1.003E-02
+   24, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        27.89   8.216E-03
+   25, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        25.34   9.710E-03
+   26, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        22.54   8.603E-03
+   27, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        18.03   9.042E-03
+   28, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.48   9.217E-03
+   29, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        17.47   8.232E-03
+   30, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        25.12   1.007E-02
+   31, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        29.34   7.978E-03
+   32, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        29.77   1.002E-02
+   33, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        27.64   8.235E-03
+   34, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        25.01   9.684E-03
+   35, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        22.19   8.630E-03
+   36, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        17.68   8.998E-03
+   37, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.40   9.259E-03
+   38, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        17.94   8.196E-03
+   39, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        25.85   1.010E-02
+   40, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        29.63   7.989E-03
+   41, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        29.58   1.001E-02
+   42, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        27.40   8.252E-03
+   43, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        24.67   9.657E-03
+   44, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        21.83   8.657E-03
+   45, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        17.32   8.953E-03
+   46, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.37   9.304E-03
+   47, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        18.48   8.161E-03
+   48, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        26.58   1.012E-02
+   49, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        29.89   8.000E-03
+   50, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        29.38   9.993E-03
+   51, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        27.15   8.270E-03
+   52, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        24.32   9.629E-03
+   53, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        21.46   8.685E-03
+   54, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.99   8.908E-03
+   55, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.39   9.348E-03
+   56, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        19.04   8.128E-03
+   57, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        27.25   1.014E-02
+   58, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        30.09   8.012E-03
+   59, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        29.17   9.979E-03
+   60, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        26.89   8.288E-03
+   61, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        23.96   9.601E-03
+   62, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        21.09   8.713E-03
+   63, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.69   8.864E-03
+   64, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.47   9.393E-03
+   65, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        19.65   8.097E-03
+   66, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        27.88   1.015E-02
+   67, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        30.22   8.024E-03
+   68, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.95   9.965E-03
+   69, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        26.64   8.306E-03
+   70, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        23.60   9.571E-03
+   71, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        20.72   8.741E-03
+   72, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.43   8.819E-03
+   73, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.63   9.440E-03
+   74, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        20.30   8.068E-03
+   75, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.45   1.016E-02
+   76, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        30.30   8.036E-03
+   77, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.74   9.950E-03
+   78, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        26.38   8.325E-03
+   79, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        23.22   9.540E-03
+   80, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        20.35   8.770E-03
+   81, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.19   8.775E-03
+   82, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.84   9.488E-03
+   83, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        20.98   8.041E-03
+   84, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.93   1.016E-02
+   85, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        30.28   8.048E-03
+   86, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.52   9.936E-03
+   87, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        26.13   8.343E-03
+   88, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        22.85   9.509E-03
+   89, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        19.98   8.799E-03
+   90, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.00   8.732E-03
+   91, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        17.12   9.536E-03
       Tang: final element division: A, S=      0   1969  ItGS=   446
 
  
   PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
   LDCMZE.            FRCLAW 6, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
- HGIAOWR.  HEAT   3, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   4, RETURN 1
+ HGIAOWR.  HEAT   3, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   3, RETURN 1
  NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING
  CREEPAGE PRESCRIBED
@@ -295,199 +201,105 @@
      X  -->        Chi=180.00 degrees
 
  Case     2
- NORM
-       1, Norm: size of Contact, Exterior :   2249   7471
       Norm: final element division: C, E=   1969   7751  ItCG=    10
-
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :    1969      0
-    1, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
-       2, Tang: size of Adhes, Slip area :       0   1969
-    2, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        34.65   7.737E-03
-       3, Tang: size of Adhes, Slip area :       0   1969
-    3, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        33.03   1.025E-02
-       4, Tang: size of Adhes, Slip area :       0   1969
-    4, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        30.89   8.046E-03
-       5, Tang: size of Adhes, Slip area :       0   1969
-    5, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.16   9.930E-03
-       6, Tang: size of Adhes, Slip area :       0   1969
-    6, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        24.98   8.464E-03
-       7, Tang: size of Adhes, Slip area :       0   1969
-    7, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        19.94   9.342E-03
-       8, Tang: size of Adhes, Slip area :       0   1969
-    8, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        14.94   9.165E-03
-       9, Tang: size of Adhes, Slip area :       0   1969
-    9, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        13.83   8.392E-03
-      10, Tang: size of Adhes, Slip area :       0   1969
-   10, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        17.70   9.654E-03
-      11, Tang: size of Adhes, Slip area :       0   1969
-   11, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        16.34   8.446E-03
-      12, Tang: size of Adhes, Slip area :       0   1969
-   12, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        14.86   9.399E-03
-      13, Tang: size of Adhes, Slip area :       0   1969
-   13, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        10.71   8.832E-03
-      14, Tang: size of Adhes, Slip area :       0   1969
-   14, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        7.272   8.758E-03
-      15, Tang: size of Adhes, Slip area :       0   1969
-   15, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        7.857   9.267E-03
-      16, Tang: size of Adhes, Slip area :       0   1969
-   16, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        9.392   8.541E-03
-      17, Tang: size of Adhes, Slip area :       0   1969
-   17, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        10.60   9.303E-03
-      18, Tang: size of Adhes, Slip area :       0   1969
-   18, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.472   8.754E-03
-      19, Tang: size of Adhes, Slip area :       0   1969
-   19, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.198   8.967E-03
-      20, Tang: size of Adhes, Slip area :       0   1969
-   20, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.668   8.982E-03
-      21, Tang: size of Adhes, Slip area :       0   1969
-   21, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.258   8.714E-03
-      22, Tang: size of Adhes, Slip area :       0   1969
-   22, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.380   9.179E-03
-      23, Tang: size of Adhes, Slip area :       0   1969
-   23, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.375   8.657E-03
-      24, Tang: size of Adhes, Slip area :       0   1969
-   24, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.940   9.160E-03
-      25, Tang: size of Adhes, Slip area :       0   1969
-   25, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        5.066   8.760E-03
-      26, Tang: size of Adhes, Slip area :       0   1969
-   26, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.000   8.981E-03
-      27, Tang: size of Adhes, Slip area :       0   1969
-   27, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.350   8.949E-03
-      28, Tang: size of Adhes, Slip area :       0   1969
-   28, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.422   8.749E-03
-      29, Tang: size of Adhes, Slip area :       0   1969
-   29, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.266   9.181E-03
-      30, Tang: size of Adhes, Slip area :       0   1969
-   30, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.775   8.555E-03
-      31, Tang: size of Adhes, Slip area :       0   1969
-   31, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        11.47   9.341E-03
-      32, Tang: size of Adhes, Slip area :       0   1969
-   32, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.319   8.720E-03
-      33, Tang: size of Adhes, Slip area :       0   1969
-   33, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.181   9.002E-03
-      34, Tang: size of Adhes, Slip area :       0   1969
-   34, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.898   9.001E-03
-      35, Tang: size of Adhes, Slip area :       0   1969
-   35, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        5.545   8.658E-03
-      36, Tang: size of Adhes, Slip area :       0   1969
-   36, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        9.049   9.296E-03
-      37, Tang: size of Adhes, Slip area :       0   1969
-   37, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.655   8.605E-03
-      38, Tang: size of Adhes, Slip area :       0   1969
-   38, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.839   9.204E-03
-      39, Tang: size of Adhes, Slip area :       0   1969
-   39, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        5.677   8.798E-03
-      40, Tang: size of Adhes, Slip area :       0   1969
-   40, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.242   8.912E-03
-      41, Tang: size of Adhes, Slip area :       0   1969
-   41, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.175   9.061E-03
-      42, Tang: size of Adhes, Slip area :       0   1969
-   42, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.074   8.645E-03
-      43, Tang: size of Adhes, Slip area :       0   1969
-   43, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.876   9.272E-03
-      44, Tang: size of Adhes, Slip area :       0   1969
-   44, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        7.792   8.636E-03
-      45, Tang: size of Adhes, Slip area :       0   1969
-   45, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        7.696   9.162E-03
-      46, Tang: size of Adhes, Slip area :       0   1969
-   46, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.928   8.811E-03
-      47, Tang: size of Adhes, Slip area :       0   1969
-   47, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.803   8.900E-03
-      48, Tang: size of Adhes, Slip area :       0   1969
-   48, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.055   9.064E-03
-      49, Tang: size of Adhes, Slip area :       0   1969
-   49, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.674   8.623E-03
-      50, Tang: size of Adhes, Slip area :       0   1969
-   50, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        9.571   9.295E-03
-      51, Tang: size of Adhes, Slip area :       0   1969
-   51, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.379   8.622E-03
-      52, Tang: size of Adhes, Slip area :       0   1969
-   52, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.059   9.164E-03
-      53, Tang: size of Adhes, Slip area :       0   1969
-   53, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        5.059   8.838E-03
-      54, Tang: size of Adhes, Slip area :       0   1969
-   54, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.005   8.851E-03
-      55, Tang: size of Adhes, Slip area :       0   1969
-   55, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        5.419   9.127E-03
-      56, Tang: size of Adhes, Slip area :       0   1969
-   56, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        7.750   8.588E-03
-      57, Tang: size of Adhes, Slip area :       0   1969
-   57, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        10.27   9.314E-03
-      58, Tang: size of Adhes, Slip area :       0   1969
-   58, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.021   8.665E-03
-      59, Tang: size of Adhes, Slip area :       0   1969
-   59, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.892   9.096E-03
-      60, Tang: size of Adhes, Slip area :       0   1969
-   60, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.993   8.883E-03
-      61, Tang: size of Adhes, Slip area :       0   1969
-   61, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.512   8.808E-03
-      62, Tang: size of Adhes, Slip area :       0   1969
-   62, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        5.892   9.157E-03
-      63, Tang: size of Adhes, Slip area :       0   1969
-   63, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.127   8.578E-03
-      64, Tang: size of Adhes, Slip area :       0   1969
-   64, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        10.77   9.325E-03
-      65, Tang: size of Adhes, Slip area :       0   1969
-   65, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.339   8.658E-03
-      66, Tang: size of Adhes, Slip area :       0   1969
-   66, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        7.418   9.111E-03
-      67, Tang: size of Adhes, Slip area :       0   1969
-   67, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.467   8.894E-03
-      68, Tang: size of Adhes, Slip area :       0   1969
-   68, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.179   8.776E-03
-      69, Tang: size of Adhes, Slip area :       0   1969
-   69, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.840   9.209E-03
-      70, Tang: size of Adhes, Slip area :       0   1969
-   70, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.653   8.560E-03
-      71, Tang: size of Adhes, Slip area :       0   1969
-   71, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        10.39   9.301E-03
-      72, Tang: size of Adhes, Slip area :       0   1969
-   72, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        7.350   8.710E-03
-      73, Tang: size of Adhes, Slip area :       0   1969
-   73, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        5.922   9.033E-03
-      74, Tang: size of Adhes, Slip area :       0   1969
-   74, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.320   8.945E-03
-      75, Tang: size of Adhes, Slip area :       0   1969
-   75, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.981   8.739E-03
-      76, Tang: size of Adhes, Slip area :       0   1969
-   76, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.687   9.199E-03
-      77, Tang: size of Adhes, Slip area :       0   1969
-   77, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.427   8.574E-03
-      78, Tang: size of Adhes, Slip area :       0   1969
-   78, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        10.04   9.279E-03
-      79, Tang: size of Adhes, Slip area :       0   1969
-   79, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.907   8.727E-03
-      80, Tang: size of Adhes, Slip area :       0   1969
-   80, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        5.354   9.006E-03
-      81, Tang: size of Adhes, Slip area :       0   1969
-   81, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.151   8.969E-03
-      82, Tang: size of Adhes, Slip area :       0   1969
-   82, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.206   8.718E-03
-      83, Tang: size of Adhes, Slip area :       0   1969
-   83, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.854   9.207E-03
-      84, Tang: size of Adhes, Slip area :       0   1969
-   84, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        7.464   8.612E-03
-      85, Tang: size of Adhes, Slip area :       0   1969
-   85, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.158   9.210E-03
-      86, Tang: size of Adhes, Slip area :       0   1969
-   86, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        5.805   8.746E-03
-      87, Tang: size of Adhes, Slip area :       0   1969
-   87, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.662   8.990E-03
-      88, Tang: size of Adhes, Slip area :       0   1969
-   88, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.827   8.962E-03
-      89, Tang: size of Adhes, Slip area :       0   1969
-   89, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.979   8.727E-03
-      90, Tang: size of Adhes, Slip area :       0   1969
-   90, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.613   9.201E-03
-      91, Tang: size of Adhes, Slip area :       0   1969
-   91, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        8.141   8.576E-03
+    1, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
+    2, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        34.65   7.737E-03
+    3, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        33.03   1.025E-02
+    4, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        30.89   8.046E-03
+    5, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.16   9.930E-03
+    6, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        24.98   8.464E-03
+    7, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        19.94   9.342E-03
+    8, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        14.94   9.165E-03
+    9, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        13.83   8.392E-03
+   10, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        17.70   9.654E-03
+   11, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        16.34   8.446E-03
+   12, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        14.86   9.399E-03
+   13, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        10.71   8.832E-03
+   14, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        7.272   8.758E-03
+   15, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        7.857   9.267E-03
+   16, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        9.392   8.541E-03
+   17, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        10.60   9.303E-03
+   18, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.472   8.754E-03
+   19, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.198   8.967E-03
+   20, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.668   8.982E-03
+   21, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.258   8.714E-03
+   22, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.380   9.179E-03
+   23, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.375   8.657E-03
+   24, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.940   9.160E-03
+   25, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        5.066   8.760E-03
+   26, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.000   8.981E-03
+   27, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.350   8.949E-03
+   28, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.422   8.749E-03
+   29, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.266   9.181E-03
+   30, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.775   8.555E-03
+   31, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        11.47   9.341E-03
+   32, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.319   8.720E-03
+   33, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.181   9.002E-03
+   34, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.898   9.001E-03
+   35, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        5.545   8.658E-03
+   36, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        9.049   9.296E-03
+   37, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.655   8.605E-03
+   38, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.839   9.204E-03
+   39, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        5.677   8.798E-03
+   40, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.242   8.912E-03
+   41, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.175   9.061E-03
+   42, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.074   8.645E-03
+   43, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.876   9.272E-03
+   44, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        7.792   8.636E-03
+   45, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        7.696   9.162E-03
+   46, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.928   8.811E-03
+   47, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.803   8.900E-03
+   48, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.055   9.064E-03
+   49, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.674   8.623E-03
+   50, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        9.571   9.295E-03
+   51, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.379   8.622E-03
+   52, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.059   9.164E-03
+   53, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        5.059   8.838E-03
+   54, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.005   8.851E-03
+   55, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        5.419   9.127E-03
+   56, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        7.750   8.588E-03
+   57, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        10.27   9.314E-03
+   58, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.021   8.665E-03
+   59, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.892   9.096E-03
+   60, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.993   8.883E-03
+   61, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.512   8.808E-03
+   62, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        5.892   9.157E-03
+   63, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.127   8.578E-03
+   64, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        10.77   9.325E-03
+   65, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.339   8.658E-03
+   66, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        7.418   9.111E-03
+   67, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.467   8.894E-03
+   68, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.179   8.776E-03
+   69, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.840   9.209E-03
+   70, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.653   8.560E-03
+   71, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        10.39   9.301E-03
+   72, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        7.350   8.710E-03
+   73, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        5.922   9.033E-03
+   74, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.320   8.945E-03
+   75, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.981   8.739E-03
+   76, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.687   9.199E-03
+   77, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.427   8.574E-03
+   78, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        10.04   9.279E-03
+   79, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.907   8.727E-03
+   80, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        5.354   9.006E-03
+   81, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.151   8.969E-03
+   82, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.206   8.718E-03
+   83, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.854   9.207E-03
+   84, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        7.464   8.612E-03
+   85, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.158   9.210E-03
+   86, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        5.805   8.746E-03
+   87, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.662   8.990E-03
+   88, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.827   8.962E-03
+   89, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.979   8.727E-03
+   90, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.613   9.201E-03
+   91, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        8.141   8.576E-03
       Tang: final element division: A, S=      0   1969  ItGS=   374
 
  
   PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
   LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
- HGIAOWR.  HEAT   1, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   4, RETURN 1
+ HGIAOWR.  HEAT   1, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   3, RETURN 1
  NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING
  CREEPAGE PRESCRIBED
@@ -582,199 +394,105 @@
      X  -->        Chi=180.00 degrees
 
  Case     3
- NORM
-       1, Norm: size of Contact, Exterior :   2249   7471
       Norm: final element division: C, E=   1969   7751  ItCG=    10
-
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :    1969      0
-    1, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
-       2, Tang: size of Adhes, Slip area :       0   1969
-    2, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        34.65   7.737E-03
-       3, Tang: size of Adhes, Slip area :       0   1969
-    3, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        32.90   1.023E-02
-       4, Tang: size of Adhes, Slip area :       0   1969
-    4, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        30.48   8.113E-03
-       5, Tang: size of Adhes, Slip area :       0   1969
-    5, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        28.10   1.001E-02
-       6, Tang: size of Adhes, Slip area :       0   1969
-    6, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        25.20   8.448E-03
-       7, Tang: size of Adhes, Slip area :       0   1969
-    7, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        20.29   9.554E-03
-       8, Tang: size of Adhes, Slip area :       0   1969
-    8, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        14.18   9.075E-03
-       9, Tang: size of Adhes, Slip area :       0   1969
-    9, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        6.770   8.953E-03
-      10, Tang: size of Adhes, Slip area :       0   1969
-   10, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.768   9.025E-03
-      11, Tang: size of Adhes, Slip area :       0   1969
-   11, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.367   8.908E-03
-      12, Tang: size of Adhes, Slip area :       0   1969
-   12, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.556   8.985E-03
-      13, Tang: size of Adhes, Slip area :       0   1969
-   13, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.742   8.872E-03
-      14, Tang: size of Adhes, Slip area :       0   1969
-   14, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.828   8.978E-03
-      15, Tang: size of Adhes, Slip area :       0   1969
-   15, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.660   8.850E-03
-      16, Tang: size of Adhes, Slip area :       0   1969
-   16, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.089   8.977E-03
-      17, Tang: size of Adhes, Slip area :       0   1969
-   17, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.616   8.863E-03
-      18, Tang: size of Adhes, Slip area :       0   1969
-   18, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.810   8.950E-03
-      19, Tang: size of Adhes, Slip area :       0   1969
-   19, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.433   8.897E-03
-      20, Tang: size of Adhes, Slip area :       0   1969
-   20, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.593   8.894E-03
-      21, Tang: size of Adhes, Slip area :       0   1969
-   21, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.844   8.957E-03
-      22, Tang: size of Adhes, Slip area :       0   1969
-   22, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.464   8.833E-03
-      23, Tang: size of Adhes, Slip area :       0   1969
-   23, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.698   9.009E-03
-      24, Tang: size of Adhes, Slip area :       0   1969
-   24, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.294   8.856E-03
-      25, Tang: size of Adhes, Slip area :       0   1969
-   25, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.975   8.966E-03
-      26, Tang: size of Adhes, Slip area :       0   1969
-   26, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.710   8.866E-03
-      27, Tang: size of Adhes, Slip area :       0   1969
-   27, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.776   8.937E-03
-      28, Tang: size of Adhes, Slip area :       0   1969
-   28, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.291   8.923E-03
-      29, Tang: size of Adhes, Slip area :       0   1969
-   29, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.179   8.865E-03
-      30, Tang: size of Adhes, Slip area :       0   1969
-   30, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.727   8.976E-03
-      31, Tang: size of Adhes, Slip area :       0   1969
-   31, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.078   8.812E-03
-      32, Tang: size of Adhes, Slip area :       0   1969
-   32, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.580   9.004E-03
-      33, Tang: size of Adhes, Slip area :       0   1969
-   33, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.055   8.843E-03
-      34, Tang: size of Adhes, Slip area :       0   1969
-   34, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.245   8.974E-03
-      35, Tang: size of Adhes, Slip area :       0   1969
-   35, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.524   8.913E-03
-      36, Tang: size of Adhes, Slip area :       0   1969
-   36, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.161   8.888E-03
-      37, Tang: size of Adhes, Slip area :       0   1969
-   37, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.380   8.960E-03
-      38, Tang: size of Adhes, Slip area :       0   1969
-   38, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.541   8.833E-03
-      39, Tang: size of Adhes, Slip area :       0   1969
-   39, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.283   8.999E-03
-      40, Tang: size of Adhes, Slip area :       0   1969
-   40, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.547   8.807E-03
-      41, Tang: size of Adhes, Slip area :       0   1969
-   41, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.219   9.013E-03
-      42, Tang: size of Adhes, Slip area :       0   1969
-   42, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.991   8.900E-03
-      43, Tang: size of Adhes, Slip area :       0   1969
-   43, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.478   8.915E-03
-      44, Tang: size of Adhes, Slip area :       0   1969
-   44, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.602   8.943E-03
-      45, Tang: size of Adhes, Slip area :       0   1969
-   45, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.618   8.851E-03
-      46, Tang: size of Adhes, Slip area :       0   1969
-   46, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.935   8.984E-03
-      47, Tang: size of Adhes, Slip area :       0   1969
-   47, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.870   8.828E-03
-      48, Tang: size of Adhes, Slip area :       0   1969
-   48, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.273   8.992E-03
-      49, Tang: size of Adhes, Slip area :       0   1969
-   49, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.780   8.854E-03
-      50, Tang: size of Adhes, Slip area :       0   1969
-   50, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.897   8.961E-03
-      51, Tang: size of Adhes, Slip area :       0   1969
-   51, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.301   8.910E-03
-      52, Tang: size of Adhes, Slip area :       0   1969
-   52, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.076   8.890E-03
-      53, Tang: size of Adhes, Slip area :       0   1969
-   53, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.288   8.955E-03
-      54, Tang: size of Adhes, Slip area :       0   1969
-   54, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.762   8.821E-03
-      55, Tang: size of Adhes, Slip area :       0   1969
-   55, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.514   9.008E-03
-      56, Tang: size of Adhes, Slip area :       0   1969
-   56, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.720   8.807E-03
-      57, Tang: size of Adhes, Slip area :       0   1969
-   57, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.255   9.013E-03
-      58, Tang: size of Adhes, Slip area :       0   1969
-   58, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.986   8.910E-03
-      59, Tang: size of Adhes, Slip area :       0   1969
-   59, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.703   8.899E-03
-      60, Tang: size of Adhes, Slip area :       0   1969
-   60, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.308   8.960E-03
-      61, Tang: size of Adhes, Slip area :       0   1969
-   61, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.736   8.855E-03
-      62, Tang: size of Adhes, Slip area :       0   1969
-   62, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.072   8.992E-03
-      63, Tang: size of Adhes, Slip area :       0   1969
-   63, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.745   8.785E-03
-      64, Tang: size of Adhes, Slip area :       0   1969
-   64, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.563   9.039E-03
-      65, Tang: size of Adhes, Slip area :       0   1969
-   65, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.349   8.882E-03
-      66, Tang: size of Adhes, Slip area :       0   1969
-   66, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.874   8.924E-03
-      67, Tang: size of Adhes, Slip area :       0   1969
-   67, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.848   8.949E-03
-      68, Tang: size of Adhes, Slip area :       0   1969
-   68, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.524   8.864E-03
-      69, Tang: size of Adhes, Slip area :       0   1969
-   69, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.755   8.975E-03
-      70, Tang: size of Adhes, Slip area :       0   1969
-   70, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.027   8.814E-03
-      71, Tang: size of Adhes, Slip area :       0   1969
-   71, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.708   9.008E-03
-      72, Tang: size of Adhes, Slip area :       0   1969
-   72, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.029   8.855E-03
-      73, Tang: size of Adhes, Slip area :       0   1969
-   73, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.101   8.964E-03
-      74, Tang: size of Adhes, Slip area :       0   1969
-   74, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.362   8.912E-03
-      75, Tang: size of Adhes, Slip area :       0   1969
-   75, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.045   8.890E-03
-      76, Tang: size of Adhes, Slip area :       0   1969
-   76, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.295   8.953E-03
-      77, Tang: size of Adhes, Slip area :       0   1969
-   77, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.441   8.838E-03
-      78, Tang: size of Adhes, Slip area :       0   1969
-   78, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.088   8.992E-03
-      79, Tang: size of Adhes, Slip area :       0   1969
-   79, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.383   8.810E-03
-      80, Tang: size of Adhes, Slip area :       0   1969
-   80, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.949   9.004E-03
-      81, Tang: size of Adhes, Slip area :       0   1969
-   81, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.933   8.893E-03
-      82, Tang: size of Adhes, Slip area :       0   1969
-   82, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.688   8.916E-03
-      83, Tang: size of Adhes, Slip area :       0   1969
-   83, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.709   8.952E-03
-      84, Tang: size of Adhes, Slip area :       0   1969
-   84, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.586   8.851E-03
-      85, Tang: size of Adhes, Slip area :       0   1969
-   85, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.942   8.984E-03
-      86, Tang: size of Adhes, Slip area :       0   1969
-   86, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.494   8.798E-03
-      87, Tang: size of Adhes, Slip area :       0   1969
-   87, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        3.404   9.031E-03
-      88, Tang: size of Adhes, Slip area :       0   1969
-   88, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.423   8.865E-03
-      89, Tang: size of Adhes, Slip area :       0   1969
-   89, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        2.203   8.938E-03
-      90, Tang: size of Adhes, Slip area :       0   1969
-   90, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.926   8.954E-03
-      91, Tang: size of Adhes, Slip area :       0   1969
-   91, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.483   8.866E-03
+    1, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
+    2, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        34.65   7.737E-03
+    3, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        32.90   1.023E-02
+    4, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        30.48   8.113E-03
+    5, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        28.10   1.001E-02
+    6, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        25.20   8.448E-03
+    7, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        20.29   9.554E-03
+    8, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        14.18   9.075E-03
+    9, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        6.770   8.953E-03
+   10, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.768   9.025E-03
+   11, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.367   8.908E-03
+   12, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.556   8.985E-03
+   13, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.742   8.872E-03
+   14, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.828   8.978E-03
+   15, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.660   8.850E-03
+   16, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.089   8.977E-03
+   17, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.616   8.863E-03
+   18, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.810   8.950E-03
+   19, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.433   8.897E-03
+   20, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.593   8.894E-03
+   21, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.844   8.957E-03
+   22, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.464   8.833E-03
+   23, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.698   9.009E-03
+   24, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.294   8.856E-03
+   25, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.975   8.966E-03
+   26, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.710   8.866E-03
+   27, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.776   8.937E-03
+   28, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.291   8.923E-03
+   29, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.179   8.865E-03
+   30, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.727   8.976E-03
+   31, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.078   8.812E-03
+   32, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.580   9.004E-03
+   33, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.055   8.843E-03
+   34, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.245   8.974E-03
+   35, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.524   8.913E-03
+   36, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.161   8.888E-03
+   37, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.380   8.960E-03
+   38, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.541   8.833E-03
+   39, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.283   8.999E-03
+   40, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.547   8.807E-03
+   41, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.219   9.013E-03
+   42, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.991   8.900E-03
+   43, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.478   8.915E-03
+   44, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.602   8.943E-03
+   45, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.618   8.851E-03
+   46, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.935   8.984E-03
+   47, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.870   8.828E-03
+   48, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.273   8.992E-03
+   49, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.780   8.854E-03
+   50, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.897   8.961E-03
+   51, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.301   8.910E-03
+   52, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.076   8.890E-03
+   53, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.288   8.955E-03
+   54, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.762   8.821E-03
+   55, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.514   9.008E-03
+   56, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.720   8.807E-03
+   57, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.255   9.013E-03
+   58, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.986   8.910E-03
+   59, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.703   8.899E-03
+   60, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.308   8.960E-03
+   61, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.736   8.855E-03
+   62, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.072   8.992E-03
+   63, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.745   8.785E-03
+   64, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.563   9.039E-03
+   65, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.349   8.882E-03
+   66, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.874   8.924E-03
+   67, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.848   8.949E-03
+   68, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.524   8.864E-03
+   69, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.755   8.975E-03
+   70, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.027   8.814E-03
+   71, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.708   9.008E-03
+   72, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.029   8.855E-03
+   73, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.101   8.964E-03
+   74, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.362   8.912E-03
+   75, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.045   8.890E-03
+   76, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.295   8.953E-03
+   77, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.441   8.838E-03
+   78, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.088   8.992E-03
+   79, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.383   8.810E-03
+   80, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.949   9.004E-03
+   81, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.933   8.893E-03
+   82, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.688   8.916E-03
+   83, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.709   8.952E-03
+   84, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.586   8.851E-03
+   85, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.942   8.984E-03
+   86, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.494   8.798E-03
+   87, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        3.404   9.031E-03
+   88, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.423   8.865E-03
+   89, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        2.203   8.938E-03
+   90, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.926   8.954E-03
+   91, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.483   8.866E-03
       Tang: final element division: A, S=      0   1969  ItGS=   369
 
  
   PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
   LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
- HGIAOWR.  HEAT   1, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   4, RETURN 1
+ HGIAOWR.  HEAT   1, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   3, RETURN 1
  NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING
  CREEPAGE PRESCRIBED
@@ -869,37 +587,24 @@
      X  -->        Chi=180.00 degrees
 
  Case     4
- NORM
-       1, Norm: size of Contact, Exterior :   2249   7471
       Norm: final element division: C, E=   1969   7751  ItCG=    10
-
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :    1969      0
-    1, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
-       2, Tang: size of Adhes, Slip area :       0   1969
-    2, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        18.57   9.048E-03
-       3, Tang: size of Adhes, Slip area :       0   1969
-    3, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.179   9.300E-03
-       4, Tang: size of Adhes, Slip area :       0   1969
-    4, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.861   9.206E-03
-       5, Tang: size of Adhes, Slip area :       0   1969
-    5, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.5948   9.226E-03
-       6, Tang: size of Adhes, Slip area :       0   1969
-    6, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.1135   9.228E-03
-       7, Tang: size of Adhes, Slip area :       0   1969
-    7, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    6.881E-02   9.224E-03
-       8, Tang: size of Adhes, Slip area :       0   1969
-    8, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    4.016E-02   9.226E-03
-       9, Tang: size of Adhes, Slip area :       0   1969
-    9, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    1.336E-02   9.225E-03
-      10, Tang: size of Adhes, Slip area :       0   1969
-   10, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    2.503E-03   9.225E-03
+    1, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
+    2, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        18.57   9.048E-03
+    3, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.179   9.300E-03
+    4, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.861   9.206E-03
+    5, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.5948   9.226E-03
+    6, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.1135   9.228E-03
+    7, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    6.881E-02   9.224E-03
+    8, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    4.016E-02   9.226E-03
+    9, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    1.336E-02   9.225E-03
+   10, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    2.503E-03   9.225E-03
       Tang: final element division: A, S=      0   1969  ItGS=    30
 
  
   PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
   LDCMZE.            FRCLAW 6, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
- HGIAOWR.  HEAT   1, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   4, RETURN 1
+ HGIAOWR.  HEAT   1, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   3, RETURN 1
  NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING
  CREEPAGE PRESCRIBED
@@ -994,69 +699,40 @@
      X  -->        Chi=180.00 degrees
 
  Case     5
- NORM
-       1, Norm: size of Contact, Exterior :   2249   7471
       Norm: final element division: C, E=   1969   7751  ItCG=    10
-
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :    1969      0
-    1, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
-       2, Tang: size of Adhes, Slip area :       0   1969
-    2, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        18.57   9.048E-03
-       3, Tang: size of Adhes, Slip area :       0   1969
-    3, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        4.181   9.300E-03
-       4, Tang: size of Adhes, Slip area :       0   1969
-    4, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.888   9.224E-03
-       5, Tang: size of Adhes, Slip area :       0   1969
-    5, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.602   9.233E-03
-       6, Tang: size of Adhes, Slip area :       0   1969
-    6, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.231   9.234E-03
-       7, Tang: size of Adhes, Slip area :       0   1969
-    7, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.8898   9.229E-03
-       8, Tang: size of Adhes, Slip area :       0   1969
-    8, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.6854   9.229E-03
-       9, Tang: size of Adhes, Slip area :       0   1969
-    9, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.5138   9.228E-03
-      10, Tang: size of Adhes, Slip area :       0   1969
-   10, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.3930   9.227E-03
-      11, Tang: size of Adhes, Slip area :       0   1969
-   11, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.3038   9.227E-03
-      12, Tang: size of Adhes, Slip area :       0   1969
-   12, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.2274   9.226E-03
-      13, Tang: size of Adhes, Slip area :       0   1969
-   13, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.1764   9.226E-03
-      14, Tang: size of Adhes, Slip area :       0   1969
-   14, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.1370   9.226E-03
-      15, Tang: size of Adhes, Slip area :       0   1969
-   15, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.1062   9.226E-03
-      16, Tang: size of Adhes, Slip area :       0   1969
-   16, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    8.339E-02   9.226E-03
-      17, Tang: size of Adhes, Slip area :       0   1969
-   17, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    6.480E-02   9.225E-03
-      18, Tang: size of Adhes, Slip area :       0   1969
-   18, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    5.091E-02   9.225E-03
-      19, Tang: size of Adhes, Slip area :       0   1969
-   19, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    4.003E-02   9.225E-03
-      20, Tang: size of Adhes, Slip area :       0   1969
-   20, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    3.149E-02   9.225E-03
-      21, Tang: size of Adhes, Slip area :       0   1969
-   21, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    2.479E-02   9.225E-03
-      22, Tang: size of Adhes, Slip area :       0   1969
-   22, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    1.952E-02   9.225E-03
-      23, Tang: size of Adhes, Slip area :       0   1969
-   23, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    1.539E-02   9.225E-03
-      24, Tang: size of Adhes, Slip area :       0   1969
-   24, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    1.214E-02   9.225E-03
-      25, Tang: size of Adhes, Slip area :       0   1969
-   25, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    9.576E-03   9.225E-03
-      26, Tang: size of Adhes, Slip area :       0   1969
-   26, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    7.563E-03   9.225E-03
+    1, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        103.9   1.039E-02
+    2, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        18.57   9.048E-03
+    3, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        4.181   9.300E-03
+    4, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.888   9.224E-03
+    5, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.602   9.233E-03
+    6, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :        1.231   9.234E-03
+    7, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.8898   9.229E-03
+    8, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.6854   9.229E-03
+    9, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.5138   9.228E-03
+   10, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.3930   9.227E-03
+   11, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.3038   9.227E-03
+   12, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.2274   9.226E-03
+   13, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.1764   9.226E-03
+   14, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.1370   9.226E-03
+   15, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :       0.1062   9.226E-03
+   16, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    8.339E-02   9.226E-03
+   17, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    6.480E-02   9.225E-03
+   18, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    5.091E-02   9.225E-03
+   19, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    4.003E-02   9.225E-03
+   20, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    3.149E-02   9.225E-03
+   21, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    2.479E-02   9.225E-03
+   22, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    1.952E-02   9.225E-03
+   23, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    1.539E-02   9.225E-03
+   24, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    1.214E-02   9.225E-03
+   25, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    9.576E-03   9.225E-03
+   26, Temp-dep: A, S=     0  1969, |Tk-Tk-1|, .001 |Tk| :    7.563E-03   9.225E-03
       Tang: final element division: A, S=      0   1969  ItGS=    57
 
  
   PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
   LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
- HGIAOWR.  HEAT   1, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   4, RETURN 1
+ HGIAOWR.  HEAT   1, GAUSEI 4, IESTIM 0, MATFIL 2, OUTPUT 4, FLOW   3, RETURN 1
  NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING
  CREEPAGE PRESCRIBED
@@ -1157,20 +833,20 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       6.9 | 100.0 |       16.5 | 100.0 |
-|Non-Hertzian cases   |       5 |       6.9 | 100.0 |       16.5 | 100.0 |
-|Panag.process        |       5 |       6.8 |  98.9 |       16.3 |  98.5 |
-|Algorithm Norm       |       5 |       0.0 |   0.0 |        0.1 |   0.4 |
-|Algorithm Tang       |       5 |       6.8 |  98.9 |       16.2 |  98.1 |
-|Output quantities    |       5 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Total                |       1 |       9.2 | 100.0 |       17.0 | 100.0 |
+|Non-Hertzian cases   |       5 |       9.2 | 100.0 |       17.0 | 100.0 |
+|Panag.process        |       5 |       9.1 |  99.2 |       16.7 |  98.4 |
+|Algorithm Norm       |       5 |       0.0 |   0.2 |        0.1 |   0.4 |
+|Algorithm Tang       |       5 |       9.1 |  99.0 |       16.6 |  98.0 |
+|Output quantities    |       5 |       0.0 |   0.0 |        0.0 |   0.1 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       5 |       0.0 |   0.0 |        0.1 |   0.4 |
-|Tang: StedyGS solver |     309 |       6.3 |  91.4 |       14.9 |  90.2 |
-|Temperature calc.    |     314 |       0.5 |   7.3 |        0.9 |   5.7 |
+|Norm: ConjGrd solver |       5 |       0.0 |   0.2 |        0.1 |   0.3 |
+|Tang: StedyGS solver |     309 |       8.3 |  90.5 |       15.1 |  88.8 |
+|Temperature calc.    |     314 |       0.7 |   7.8 |        1.2 |   6.8 |
 |------------------------------------------------------------------------|
 |Reading input-file   |       5 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Initial state/estim. |       5 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       5 |       0.1 |   1.1 |        0.2 |   1.4 |
+|Initial state/estim. |       5 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Writing output-files |       5 |       0.1 |   0.8 |        0.2 |   1.4 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

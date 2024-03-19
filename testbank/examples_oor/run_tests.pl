@@ -16,8 +16,8 @@ my $contact;
 my $clibrary;
 my $tkdiff;
 if ($perl_platform =~ /.*win.*/i) {
-   $contact = "$contactdir\\bin\\contact.exe";
-#  $contact = "$contactdir\\bin\\contact_win$bits.exe";
+#  $contact = "$contactdir\\bin\\contact.exe";
+   $contact = "$contactdir\\bin\\contact_win$bits.exe";
    $clibrary = "$contactdir\\bin\\test_varprof_win$bits.exe";
 #  $tkdiff = "\"c:\\program files\\WinMerge\\winmergeu.exe\"";
    $tkdiff = "winmergeu";
@@ -30,7 +30,7 @@ $ENV{OMP_NUM_THREADS} = 2;
 
 my $status = 0;
 my @progrms=( $clibrary, $contact );
-#  @progrms=( $contact );
+   @progrms=( $contact );
 #  @progrms=( $clibrary );
 my @list=( 'rounded_flat_d09',  'chalmers_flat_fz125' );  
 #  @list=( 'rounded_flat_d09' );

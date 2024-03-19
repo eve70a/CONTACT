@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -193,13 +193,13 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
-|Non-Hertzian cases   |       2 |       0.0 | 100.0 |        0.1 | 100.0 |
-|Subsurface points    |       2 |       0.0 |   0.0 |        0.0 |   5.8 |
-|Panag.process        |       2 |       0.0 |   0.0 |        0.0 |  14.0 |
+|Total                |       1 |       0.2 | 100.0 |        0.3 | 100.0 |
+|Non-Hertzian cases   |       2 |       0.2 | 100.0 |        0.3 | 100.0 |
+|Subsurface points    |       2 |       0.0 |   0.0 |        0.0 |   4.2 |
+|Panag.process        |       2 |       0.0 |   0.0 |        0.0 |   4.9 |
 |Algorithm Norm       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |  14.0 |
-|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   2.3 |
+|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   4.9 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: ConvxGS solver |       3 |       0.0 |   0.0 |        0.0 |   0.0 |
@@ -207,7 +207,7 @@ Performance timers:
 |Reading input-file   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Subsurf writing      |       4 |       0.0 | 100.0 |        0.1 |  77.9 |
+|Writing output-files |       2 |       0.0 |   0.0 |        0.0 |   1.0 |
+|Subsurf writing      |       4 |       0.2 | 100.0 |        0.3 |  89.9 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

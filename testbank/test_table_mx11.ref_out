@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -63,14 +63,14 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.4 | 100.0 |        1.6 | 100.0 |
-|Panag.process        |    3220 |       1.2 |  84.3 |        1.2 |  73.9 |
-|Algorithm Norm       |    3220 |       0.5 |  38.2 |        0.5 |  33.2 |
-|Algorithm Tang       |    3220 |       0.6 |  44.9 |        0.6 |  38.0 |
-|Output quantities    |    3220 |       0.0 |   3.4 |        0.1 |   8.6 |
+|Total                |       1 |       1.4 | 100.0 |        1.9 | 100.0 |
+|Panag.process        |    3220 |       1.1 |  78.7 |        1.5 |  81.4 |
+|Algorithm Norm       |    3220 |       0.7 |  47.2 |        0.7 |  39.8 |
+|Algorithm Tang       |    3220 |       0.4 |  29.2 |        0.8 |  41.6 |
+|Output quantities    |    3220 |       0.2 |  14.6 |        0.1 |   8.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |    3220 |       0.5 |  32.6 |        0.4 |  26.2 |
-|Tang: StedyGS solver |    3220 |       0.5 |  38.2 |        0.6 |  33.7 |
+|Norm: ConjGrd solver |    3220 |       0.6 |  41.6 |        0.7 |  34.9 |
+|Tang: StedyGS solver |    3220 |       0.4 |  27.0 |        0.7 |  36.2 |
 |------------------------------------------------------------------------|
-|Cp. 1 on Res.el.  1  |    3220 |       1.4 | 100.0 |        1.6 |  99.0 |
+|Cp. 1 on Res.el.  1  |    3220 |       1.4 |  98.9 |        1.8 |  98.5 |
 |------------------------------------------------------------------------|

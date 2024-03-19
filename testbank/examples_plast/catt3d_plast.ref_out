@@ -2,13 +2,13 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Input: Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
+ Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
                  for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :    697    425
@@ -104,7 +104,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case     2
- Input: Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
+ Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
                  for solver ConvexGS with plasticity.
  NORM
        1, Norm: size of Contact, Exterior :    697    425
@@ -200,7 +200,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case     3
- Input: Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
+ Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
                  for solver ConvexGS with plasticity.
  NORM
        1, Norm: size of Contact, Exterior :    697    425
@@ -302,7 +302,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case     4
- Input: Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
+ Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
                  for solver ConvexGS with plasticity.
  NORM
        1, Norm: size of Contact, Exterior :    621    501
@@ -1254,20 +1254,20 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.8 | 100.0 |        1.7 | 100.0 |
-|Non-Hertzian cases   |      59 |       0.8 | 100.0 |        1.7 |  99.5 |
-|Panag.process        |      59 |       0.8 |  98.1 |        1.7 |  96.0 |
-|Algorithm Norm       |      59 |       0.0 |   1.9 |        0.1 |   4.2 |
-|Algorithm Tang       |      59 |       0.8 |  94.4 |        1.6 |  91.6 |
-|Output quantities    |      59 |       0.0 |   0.0 |        0.0 |   1.8 |
+|Total                |       1 |       0.8 | 100.0 |        1.9 | 100.0 |
+|Non-Hertzian cases   |      59 |       0.8 | 100.0 |        1.9 |  99.9 |
+|Panag.process        |      59 |       0.8 |  98.0 |        1.8 |  95.3 |
+|Algorithm Norm       |      59 |       0.0 |   0.0 |        0.0 |   2.2 |
+|Algorithm Tang       |      59 |       0.8 |  98.0 |        1.8 |  92.3 |
+|Output quantities    |      59 |       0.0 |   2.0 |        0.1 |   2.7 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      59 |       0.0 |   0.0 |        0.0 |   1.3 |
-|Tang: ConvxGS solver |      63 |       0.8 |  90.7 |        1.5 |  87.8 |
-|Tang: StedyGS solver |       1 |       0.0 |   3.7 |        0.0 |   1.3 |
+|Norm: ConjGrd solver |      59 |       0.0 |   0.0 |        0.0 |   0.8 |
+|Tang: ConvxGS solver |      63 |       0.8 |  98.0 |        1.7 |  88.9 |
+|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |   1.2 |
 |------------------------------------------------------------------------|
 |Reading input-file   |      59 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |       4 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       4 |       0.0 |   0.0 |        0.0 |   0.1 |
 |Initial state/estim. |      59 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       5 |       0.0 |   1.9 |        0.0 |   0.9 |
+|Writing output-files |       5 |       0.0 |   0.0 |        0.0 |   1.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -12,39 +12,41 @@
  Kink in rail profile at ( -10.30, -10.25) (ip=  104): successive angles    0.0,   84.4 deg
  Kink in rail profile at (  10.30, -10.25) (ip=  310): successive angles  -84.4,    0.0 deg
  reading wheel profile "..\profiles\circ_r10.prw"
- v1: Small or negative ry found (  -10.25    ), using positive value instead
- v1: Small or negative ry found (  -10.25    ), using positive value instead
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0352   1.955E+04, dFz/dz:   8.335E+05
-         2, NR,  z_ws, Fz:       0.0237   1.090E+04, dFz/dz:   7.547E+05
-         3, NR,  z_ws, Fz:       0.0225   1.010E+04, dFz/dz:   6.717E+05
-     0, SC, z, omg_ws:    0.022533  -1.00000007, res:    0.05959505, dFx/domg:  210.475276
+         1, NR,  z_ws, Fz:       0.0222       9895., dFz/dz:   6.678E+05
+         2, NR,  z_ws, Fz:       0.0224       9999., dFz/dz:   6.645E+05
+     1, SC, z, omg_ws:    0.022385  -1.00000007, res:    0.05950900, dFx/domg:  312.985263
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0225   1.011E+04, dFz/dz:   6.733E+05
-     1, SC, z, omg_ws:    0.022533  -1.00028322, res:   -0.01328000, dFx/domg:  257.377011
+         1, NR,  z_ws, Fz:       0.0224   1.001E+04, dFz/dz:   6.707E+05
+     2, SC, z, omg_ws:    0.022385  -1.00019021, res:    0.01042252, dFx/domg:  258.168430
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0225   1.011E+04, dFz/dz:   6.730E+05
-         2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.622E+05
+         1, NR,  z_ws, Fz:       0.0224   1.001E+04, dFz/dz:   6.709E+05
+     3, SC, z, omg_ws:    0.022385  -1.00023058, res:   -0.00008301, dFx/domg:  260.224506
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0224   1.001E+04, dFz/dz:   6.709E+05
+         2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
          3, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-         4, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     2, SC, z, omg_ws:    0.022367  -1.00023162, res:   -0.00040417, dFx/domg:  249.543931
+     4, SC, z, omg_ws:    0.022367  -1.00023026, res:   -0.00004927, dFx/domg:  105.769466
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224      10000., dFz/dz:   6.706E+05
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     3, SC, z, omg_ws:    0.022367  -1.00023000, res:    0.00001783, dFx/domg:  260.554964
+     5, SC, z, omg_ws:    0.022367  -1.00022979, res:    0.00007209, dFx/domg:  260.533092
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.706E+05
-     4, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000001, dFx/domg:  260.409813
+     6, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000006, dFx/domg:  260.313792
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.706E+05
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     5, SC, z, omg_ws:    0.022367  -1.00023007, res:   -0.00000001, dFx/domg:  476.196483
+     7, SC, z, omg_ws:    0.022367  -1.00023007, res:   -0.00000006, dFx/domg:  260.313792
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.706E+05
+     8, SC, z, omg_ws:    0.022367  -1.00023007, res:   -0.00000000, dFx/domg:  260.313792
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 4, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
- HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   2, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   1, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, X-FORCE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
@@ -88,11 +90,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -8.232E-05   5.915E-05   1.000E+04  -8.232E-05   5.915E-05   1.000E+04
+  -2.442E-06   5.914E-05   1.000E+04  -2.442E-06   5.914E-05   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0099     -0.0000     -0.0000   7.910E-04   2.416E-13   4.084E-05
+      0.0099     -0.0000     -0.0000   7.909E-04   2.416E-13   4.056E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -114,7 +116,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000   6.520E-04   4.729E-05   8.958E-02  -8.395E-02
+     1.000E+04       0.000   6.520E-04   4.701E-05   8.958E-02  -8.395E-02
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000   2.173E-07   2.237E-02       530.2
 
@@ -198,44 +200,41 @@
  reading rail  profile "..\profiles\groove_r1010.prr"
  Kink in rail profile at ( -10.10, -10.10) (ip=  101): successive angles    0.0,   86.0 deg
  Kink in rail profile at (  10.10, -10.10) (ip=  303): successive angles  -86.0,   -0.0 deg
- v1: Small or negative ry found (  -10.10    ), using positive value instead
- v1: Small or negative ry found (  -10.10    ), using positive value instead
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0352   2.353E+04, dFz/dz:   1.003E+06
-         2, NR,  z_ws, Fz:       0.0100       3748., dFz/dz:   3.758E+05
-         3, NR,  z_ws, Fz:       0.0266   1.575E+04, dFz/dz:   7.213E+05
-         4, NR,  z_ws, Fz:       0.0186       9396., dFz/dz:   7.971E+05
-     0, SC, z, omg_ws:    0.018641  -1.00000000, res:    0.10806040, dFx/domg:  210.475276
+         1, NR,  z_ws, Fz:       0.0189       9561., dFz/dz:   7.602E+05
+         2, NR,  z_ws, Fz:       0.0194       9990., dFz/dz:   7.432E+05
+     1, SC, z, omg_ws:    0.019443  -1.00000000, res:    0.10847298, dFx/domg:  370.442902
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194   1.002E+04, dFz/dz:   7.733E+05
+     2, SC, z, omg_ws:    0.019443  -1.00029282, res:    0.03693396, dFx/domg:  244.310824
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194   1.004E+04, dFz/dz:   7.744E+05
+     3, SC, z, omg_ws:    0.019443  -1.00044400, res:   -0.00054126, dFx/domg:  247.891141
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194   1.004E+04, dFz/dz:   7.744E+05
+         2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
+         3, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
+     4, SC, z, omg_ws:    0.019392  -1.00044181, res:   -0.00018247, dFx/domg:  164.323496
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194      10000., dFz/dz:   7.735E+05
+         2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
+     5, SC, z, omg_ws:    0.019392  -1.00044070, res:    0.00009241, dFx/domg:  247.545267
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0186       9447., dFz/dz:   7.602E+05
-     1, SC, z, omg_ws:    0.018641  -1.00051341, res:   -0.02177423, dFx/domg:  252.886155
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0186       9440., dFz/dz:   7.596E+05
-         2, NR,  z_ws, Fz:       0.0194       9988., dFz/dz:   7.436E+05
-         3, NR,  z_ws, Fz:       0.0194      10000., dFz/dz:   7.530E+05
-         4, NR,  z_ws, Fz:       0.0204   1.074E+04, dFz/dz:   7.595E+05
-         5, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.530E+05
-     2, SC, z, omg_ws:    0.019394  -1.00042731, res:    0.00340936, dFx/domg:  292.482447
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
-     3, SC, z, omg_ws:    0.019394  -1.00043897, res:    0.00052578, dFx/domg:  247.376352
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
-         2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.528E+05
-     4, SC, z, omg_ws:    0.019392  -1.00044109, res:   -0.00000373, dFx/domg:  249.130065
+     6, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000018, dFx/domg:  247.061180
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
          2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
-     5, SC, z, omg_ws:    0.019392  -1.00044108, res:   -0.00000009, dFx/domg:  243.391648
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+     7, SC, z, omg_ws:    0.019392  -1.00044108, res:   -0.00000017, dFx/domg:  247.061180
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
-     6, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000000, dFx/domg:  247.065124
+     8, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000000, dFx/domg:  247.061180
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   1, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, X-FORCE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
@@ -272,11 +271,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   1.296E-05  -3.209E-06   1.000E+04   1.296E-05  -3.209E-06   1.000E+04
+   3.685E-06  -3.504E-06   1.000E+04   3.685E-06  -3.504E-06   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0327     -0.0000      0.0000  -2.892E-05       0.000   1.404E-05
+      0.0327     -0.0000      0.0000  -3.278E-05       0.000   1.383E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -298,7 +297,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000       0.000   1.388E-05   7.848E-02     -0.3018
+     1.000E+04       0.000       0.000   1.365E-05   7.848E-02     -0.3018
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000       0.000   1.939E-02       409.3
 
@@ -408,45 +407,43 @@
  reading rail  profile "..\profiles\groove_r1005.prr"
  Kink in rail profile at ( -10.10, -10.05) (ip=  100): successive angles    0.0,   84.3 deg
  Kink in rail profile at (  10.10, -10.05) (ip=  302): successive angles  -84.3,   -0.0 deg
- v1: Small or negative ry found (  -10.05    ), using positive value instead
- v1: Small or negative ry found (  -10.05    ), using positive value instead
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0352   2.645E+04, dFz/dz:   1.127E+06
-         2, NR,  z_ws, Fz:       0.0089       3760., dFz/dz:   4.238E+05
-         3, NR,  z_ws, Fz:       0.0236   1.519E+04, dFz/dz:   7.765E+05
-         4, NR,  z_ws, Fz:       0.0169       9497., dFz/dz:   8.518E+05
-     0, SC, z, omg_ws:    0.016907  -1.00000007, res:    0.14731115, dFx/domg:  210.475276
+         1, NR,  z_ws, Fz:       0.0166       9277., dFz/dz:   8.368E+05
+         2, NR,  z_ws, Fz:       0.0175       9968., dFz/dz:   7.996E+05
+     1, SC, z, omg_ws:    0.017494  -1.00000007, res:    0.14726161, dFx/domg:  424.359157
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0169       9584., dFz/dz:   8.503E+05
-     1, SC, z, omg_ws:    0.016907  -1.00069997, res:   -0.01407344, dFx/domg:  230.583126
+         1, NR,  z_ws, Fz:       0.0175   1.002E+04, dFz/dz:   8.588E+05
+     2, SC, z, omg_ws:    0.017494  -1.00034710, res:    0.06900036, dFx/domg:  225.522994
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0169       9579., dFz/dz:   8.498E+05
-         2, NR,  z_ws, Fz:       0.0174       9979., dFz/dz:   8.076E+05
-         3, NR,  z_ws, Fz:       0.0174       9999., dFz/dz:   8.124E+05
-         4, NR,  z_ws, Fz:       0.0183   1.071E+04, dFz/dz:   8.211E+05
-         5, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.124E+05
-         6, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.124E+05
-     2, SC, z, omg_ws:    0.017429  -1.00063894, res:    0.00236876, dFx/domg:  269.393584
+         1, NR,  z_ws, Fz:       0.0175   1.005E+04, dFz/dz:   8.621E+05
+     3, SC, z, omg_ws:    0.017494  -1.00065305, res:   -0.00052438, dFx/domg:  227.236884
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.608E+05
-     3, SC, z, omg_ws:    0.017429  -1.00064773, res:    0.00040423, dFx/domg:  223.421631
+         1, NR,  z_ws, Fz:       0.0175   1.005E+04, dFz/dz:   8.621E+05
+         2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.135E+05
+         3, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
+         4, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.125E+05
+     4, SC, z, omg_ws:    0.017427  -1.00065075, res:   -0.00027735, dFx/domg:  107.047402
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.608E+05
-         2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.130E+05
-     4, SC, z, omg_ws:    0.017427  -1.00064954, res:   -0.00000805, dFx/domg:  227.871152
+         1, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.607E+05
+         2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.125E+05
+     5, SC, z, omg_ws:    0.017427  -1.00064815, res:    0.00030193, dFx/domg:  223.581441
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
-         2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-     5, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000011, dFx/domg:  224.733203
+     6, SC, z, omg_ws:    0.017427  -1.00064950, res:    0.00000071, dFx/domg:  223.054397
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
-     6, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000000, dFx/domg:  223.017436
+         2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.125E+05
+         3, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.128E+05
+     7, SC, z, omg_ws:    0.017427  -1.00064951, res:   -0.00000076, dFx/domg:  223.054397
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
+     8, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000000, dFx/domg:  223.054397
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   1, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, X-FORCE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
@@ -483,11 +480,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -8.464E-06   8.106E-06   1.000E+04  -8.464E-06   8.106E-06   1.000E+04
+  -5.019E-07   8.205E-06   1.000E+04  -5.019E-07   8.205E-06   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0678     -0.0000     -0.0000   8.928E-05  -1.137E-13  -1.947E-05
+      0.0678     -0.0000     -0.0000   9.074E-05       0.000  -1.882E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -509,7 +506,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000   3.596E-04   4.894E-06   7.171E-02     -0.6444
+     1.000E+04       0.000   3.597E-04   5.552E-06   7.171E-02     -0.6444
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1250       0.000   1.199E-07   1.743E-02       348.7
 
@@ -641,39 +638,40 @@
  reading rail  profile "..\profiles\groove_r1002.prr"
  Kink in rail profile at ( -10.04, -10.02) (ip=  100): successive angles    0.0,   85.5 deg
  Kink in rail profile at (  10.06, -10.02) (ip=  301): successive angles  -84.8,   -0.0 deg
- v1: Small or negative ry found (  -10.02    ), using positive value instead
- v1: Small or negative ry found (  -10.02    ), using positive value instead
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0139       8561., dFz/dz:   9.260E+05
-         2, NR,  z_ws, Fz:       0.0154       9883., dFz/dz:   8.504E+05
-     0, SC, z, omg_ws:    0.015422  -1.00000001, res:    0.19114617, dFx/domg:  512.598375
+         2, NR,  z_ws, Fz:       0.0154       9882., dFz/dz:   8.502E+05
+     1, SC, z, omg_ws:    0.015422  -1.00000001, res:    0.19112865, dFx/domg:  512.598375
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154       9937., dFz/dz:   9.665E+05
-     1, SC, z, omg_ws:    0.015422  -1.00037291, res:    0.11686859, dFx/domg:  199.190851
+     2, SC, z, omg_ws:    0.015422  -1.00037287, res:    0.11689432, dFx/domg:  199.093107
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0154   1.001E+04, dFz/dz:   9.739E+05
-     2, SC, z, omg_ws:    0.015422  -1.00095963, res:    0.00294496, dFx/domg:  194.171453
+         1, NR,  z_ws, Fz:       0.0154   1.001E+04, dFz/dz:   9.738E+05
+     3, SC, z, omg_ws:    0.015422  -1.00096001, res:    0.00286268, dFx/domg:  194.217429
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.001E+04, dFz/dz:   9.740E+05
-         2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.888E+05
-     3, SC, z, omg_ws:    0.015408  -1.00097479, res:    0.00023806, dFx/domg:  178.475507
+         2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.700E+05
+     4, SC, z, omg_ws:    0.015408  -1.00097475, res:    0.00021714, dFx/domg:  179.485409
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.737E+05
-         2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.739E+05
-     4, SC, z, omg_ws:    0.015406  -1.00097613, res:   -0.00000384, dFx/domg:  181.357131
+         2, NR,  z_ws, Fz:       0.0154      10000., dFz/dz:   8.733E+05
+     5, SC, z, omg_ws:    0.015406  -1.00097596, res:    0.00002582, dFx/domg:  158.144863
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
-         2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.733E+05
-     5, SC, z, omg_ws:    0.015406  -1.00097610, res:    0.00000014, dFx/domg:  187.827220
+     6, SC, z, omg_ws:    0.015406  -1.00097612, res:   -0.00000266, dFx/domg:  158.144863
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
-     6, SC, z, omg_ws:    0.015406  -1.00097611, res:    0.00000001, dFx/domg:  174.945418
+         2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.722E+05
+     7, SC, z, omg_ws:    0.015406  -1.00097610, res:    0.00000023, dFx/domg:  158.144863
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
+     8, SC, z, omg_ws:    0.015406  -1.00097611, res:   -0.00000002, dFx/domg:  158.144863
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   1, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, X-FORCE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
@@ -710,7 +708,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   9.404E-05   1.147E-02   1.000E+04   9.404E-05   1.147E-02   1.000E+04
+  -2.444E-04   1.147E-02   1.000E+04  -2.444E-04   1.147E-02   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -736,9 +734,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000   1.893E-02   1.591E-02   6.552E-02      -1.389
+     1.000E+04  -2.444E-04   1.893E-02   1.590E-02   6.552E-02      -1.389
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250       0.000   6.311E-06   1.541E-02       296.8
+        0.1250  -8.147E-08   6.312E-06   1.541E-02       296.8
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -899,51 +897,62 @@
     81     8.4177    -4.5855    -0.9990
 
  Case     5
- Input: WARNING. With dissimilar shapes (C= 4), MAXOUT should be > 1,
-        i.e. the Panag/outer iteration process should be used.
  reading rail  profile "..\profiles\groove_r1025.prr"
  Kink in rail profile at ( -10.30, -10.25) (ip=  104): successive angles    0.0,   84.4 deg
  Kink in rail profile at (  10.30, -10.25) (ip=  310): successive angles  -84.4,    0.0 deg
  reading wheel profile "..\profiles\circ_r10.prw"
- v1: Small or negative ry found (  -10.25    ), using positive value instead
- v1: Small or negative ry found (  -10.25    ), using positive value instead
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0352   1.986E+04, dFz/dz:   8.463E+05
-         2, NR,  z_ws, Fz:       0.0235   1.088E+04, dFz/dz:   7.705E+05
-         3, NR,  z_ws, Fz:       0.0224   1.010E+04, dFz/dz:   6.840E+05
-     0, SC, z, omg_ws:    0.022404  -1.00000007, res:    0.06135090, dFx/domg:  210.475276
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       214.1       10.71
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       5.081       10.68
+         1, NR,  z_ws, Fz:       0.0222       9902., dFz/dz:   6.682E+05
+     1, SC, z, omg_ws:    0.022227  -1.00000007, res:    0.06173886, dFx/domg:  312.985263
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       15.22       13.18
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.3975       13.16
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0224   1.011E+04, dFz/dz:   6.770E+05
-     1, SC, z, omg_ws:    0.022404  -1.00029156, res:   -0.01423113, dFx/domg:  259.297712
+         1, NR,  z_ws, Fz:       0.0222       9908., dFz/dz:   6.686E+05
+     2, SC, z, omg_ws:    0.022227  -1.00019733, res:    0.01005657, dFx/domg:  262.003464
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.282       2.145
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.748E-02       2.145
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0224   1.011E+04, dFz/dz:   6.768E+05
-         2, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.747E+05
-         3, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     2, SC, z, omg_ws:    0.022242  -1.00023668, res:   -0.00065158, dFx/domg:  247.425658
+         1, NR,  z_ws, Fz:       0.0222       9908., dFz/dz:   6.686E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       2.275       2.150
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.088E-02       2.149
+         2, NR,  z_ws, Fz:       0.0224       9999., dFz/dz:   6.628E+05
+     3, SC, z, omg_ws:    0.022366  -1.00023572, res:    0.00020528, dFx/domg:  256.655294
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.4594   4.395E-02
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.011E-03   4.394E-02
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0222      10000., dFz/dz:   6.744E+05
-         2, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     3, SC, z, omg_ws:    0.022243  -1.00023405, res:    0.00003588, dFx/domg:  261.051231
+         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
+     4, SC, z, omg_ws:    0.022366  -1.00023652, res:    0.00002558, dFx/domg:  224.674175
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.922E-02   5.476E-03
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.251E-04   5.476E-03
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.744E+05
-     4, SC, z, omg_ws:    0.022243  -1.00023418, res:    0.00000004, dFx/domg:  260.789083
+         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.345E-03   5.476E-03
+         2, NR,  z_ws, Fz:       0.0224      10000., dFz/dz:   6.783E+05
+     5, SC, z, omg_ws:    0.022365  -1.00023663, res:   -0.00000613, dFx/domg:  278.540156
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.107E-03   1.070E-04
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.191E-05   1.070E-04
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.744E+05
-         2, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.731E+05
-     5, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000004, dFx/domg:  533.406448
+         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.342E-05   1.070E-04
+         2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.805E+05
+     6, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000050, dFx/domg:  278.540156
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.588E-04   1.070E-04
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.777E-06   1.070E-04
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0222   1.000E+04, dFz/dz:   6.744E+05
-     6, SC, z, omg_ws:    0.022243  -1.00023418, res:   -0.00000002, dFx/domg:  260.978253
+         1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
+     7, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000003, dFx/domg:  278.540156
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 4, INFLCF 4, MATER  0, ZTRACK 3, EWHEEL 3
- HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   2, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   1, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, X-FORCE PRESCRIBED
  USING CONFORMAL IF-CORRECTION: BLANCO(v3), VARYING CURVATURE
- JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT=  5
 
  MATERIAL CONSTANTS
      NU          G           AK          EPS
@@ -976,19 +985,19 @@
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       0.000      0.0222       0.000       0.000       0.000
+         0.000       0.000      0.0224       0.000       0.000       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-         420.0       0.000       0.000       0.000       0.000  -1.0002342
+         420.0       0.000       0.000       0.000       0.000  -1.0002366
 
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -1.924E-04  -1.759E-06   1.000E+04  -1.924E-04  -1.759E-06   1.000E+04
+  -2.875E-04  -1.472E-05   1.000E+04  -2.875E-04  -1.472E-05   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0100      0.0000     -0.0000  -5.491E-05  -1.421E-14   5.336E-07
+      0.0088      0.0000     -0.0000  -1.838E-04   1.279E-13  -9.589E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -997,11 +1006,11 @@
       0.0000     -0.0000     -0.0000      0.0000     -0.0000     -0.0000
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000     -0.0000     -0.0222
+      0.0000     -0.0000     -0.0224
 
  Actual contact on columns iy = [  8, 30] (my= 37), sc = [ -2.875,  2.875]
  Reference contact angle delttr =   0.00 deg, range = [  15.56, -15.56] deg
- Total moments Mxp =         0.0, Msp =      -100.1, Mnp =         0.0 N.mm
+ Total moments Mxp =         0.0, Msp =       -88.3, Mnp =        -0.0 N.mm
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1010,41 +1019,41 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04  -1.924E-04   2.880E-04   3.417E-06   9.029E-02  -8.402E-02
+     1.000E+04  -2.875E-04   5.759E-04  -9.081E-05   8.993E-02  -8.602E-02
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250  -6.413E-08   9.601E-08   2.224E-02       527.4
+        0.1250  -9.583E-08   1.920E-07   2.237E-02       520.6
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   3515   1199    924    275      1      1
+   3515   1207    928    279      2      2
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     31  o.................................................................o
-    30  ......................SSSSSSSSSSSSSSSSSSSSSSS......................
+    30  .....................SSSSSSSSSSSSSSSSSSSSSSSSS.....................
     29  ................SSSSSSSSSSSSSSSSSSSSSSSSSSSS******S................
     28  ............SSSSSSSSSSSSSSSSSSSSSSS*******************S............
-    27  ..........SSSSSSSSSSSSSSSS*******************************..........
+    27  .........SSSSSSSSSSSSSSSSS*******************************S.........
     26  .......SSSSSSSSSSS*****************************************S.......
     25  ......SSSS***************************************************......
-    24  ....SS********************************************************S....
+    24  ....SS*********************************************************....
     23  ...SSSS*********************************************************...
     22  ..SSSSS**********************************************************..
     21  ..SSSSSS*********************************************************..
-    20  .SSSSSSS*********************************************************S.
+    20  .SSSSSSS**********************************************************.
     19  .SSSSSSS**********************************************************.
-    18  .SSSSSSS*********************************************************S.
+    18  .SSSSSSS**********************************************************.
     17  ..SSSSSS*********************************************************..
     16  ..SSSSS**********************************************************..
     15  ...SSSS*********************************************************...
-    14  ....SS********************************************************S....
+    14  ....SS*********************************************************....
     13  ......SSSS***************************************************......
     12  .......SSSSSSSSSSS*****************************************S.......
-    11  ..........SSSSSSSSSSSSSSSS*******************************..........
+    11  .........SSSSSSSSSSSSSSSSS*******************************S.........
     10  ............SSSSSSSSSSSSSSSSSSSSSSS*******************S............
      9  ................SSSSSSSSSSSSSSSSSSSSSSSSSSSS******S................
-     8  ......................SSSSSSSSSSSSSSSSSSSSSSS......................
+     8  .....................SSSSSSSSSSSSSSSSSSSSSSSSS.....................
      7  o.................................................................o
              2         3         4         5         6         7         8
         5678901234567890123456789012345678901234567890123456789012345678901
@@ -1052,98 +1061,112 @@
 
  CURVED REFERENCE SURFACE, TRACK COORDINATES,   37 POINTS:
     I        Y(I)       Z(I)       A(I)
-     1    -4.3533    -0.9727     0.4445
-     2    -4.1263    -0.8680     0.4198
-     3    -3.8967    -0.7689     0.3951
+     1    -4.3533    -0.9726     0.4445
+     2    -4.1263    -0.8679     0.4198
+     3    -3.8967    -0.7688     0.3951
      4    -3.6648    -0.6755     0.3704
-     5    -3.4307    -0.5879     0.3457
-     6    -3.1945    -0.5061     0.3210
+     5    -3.4307    -0.5878     0.3457
+     6    -3.1945    -0.5060     0.3210
      7    -2.9563    -0.4301     0.2963
-     8    -2.7163    -0.3601     0.2716
-     9    -2.4747    -0.2960     0.2470
-    10    -2.2315    -0.2379     0.2223
-    11    -1.9870    -0.1858     0.1976
-    12    -1.7413    -0.1398     0.1729
-    13    -1.4945    -0.0998     0.1482
-    14    -1.2468    -0.0660     0.1235
+     8    -2.7163    -0.3600     0.2716
+     9    -2.4747    -0.2959     0.2470
+    10    -2.2315    -0.2378     0.2223
+    11    -1.9870    -0.1857     0.1976
+    12    -1.7413    -0.1397     0.1729
+    13    -1.4945    -0.0997     0.1482
+    14    -1.2468    -0.0659     0.1235
     15    -0.9984    -0.0382     0.0988
     16    -0.7493    -0.0166     0.0741
     17    -0.4998    -0.0012     0.0494
-    18    -0.2500     0.0080     0.0247
-    19    -0.0000     0.0111     0.0000
-    20     0.2500     0.0080    -0.0247
+    18    -0.2500     0.0081     0.0247
+    19    -0.0000     0.0112     0.0000
+    20     0.2500     0.0081    -0.0247
     21     0.4998    -0.0012    -0.0494
     22     0.7493    -0.0166    -0.0741
     23     0.9984    -0.0382    -0.0988
-    24     1.2468    -0.0660    -0.1235
-    25     1.4945    -0.0998    -0.1482
-    26     1.7413    -0.1398    -0.1729
-    27     1.9870    -0.1858    -0.1976
-    28     2.2315    -0.2379    -0.2223
-    29     2.4747    -0.2960    -0.2470
-    30     2.7163    -0.3601    -0.2716
+    24     1.2468    -0.0659    -0.1235
+    25     1.4945    -0.0997    -0.1482
+    26     1.7413    -0.1397    -0.1729
+    27     1.9870    -0.1857    -0.1976
+    28     2.2315    -0.2378    -0.2223
+    29     2.4747    -0.2959    -0.2470
+    30     2.7163    -0.3600    -0.2716
     31     2.9563    -0.4301    -0.2963
-    32     3.1945    -0.5061    -0.3210
-    33     3.4307    -0.5879    -0.3457
+    32     3.1945    -0.5060    -0.3210
+    33     3.4307    -0.5878    -0.3457
     34     3.6648    -0.6755    -0.3704
-    35     3.8967    -0.7689    -0.3951
-    36     4.1263    -0.8680    -0.4198
-    37     4.3533    -0.9727    -0.4445
+    35     3.8967    -0.7688    -0.3951
+    36     4.1263    -0.8679    -0.4198
+    37     4.3533    -0.9726    -0.4445
 
  Case     6
- Input: WARNING. With dissimilar shapes (C= 4), MAXOUT should be > 1,
-        i.e. the Panag/outer iteration process should be used.
  reading rail  profile "..\profiles\groove_r1010.prr"
  Kink in rail profile at ( -10.10, -10.10) (ip=  101): successive angles    0.0,   86.0 deg
  Kink in rail profile at (  10.10, -10.10) (ip=  303): successive angles  -86.0,   -0.0 deg
- v1: Small or negative ry found (  -10.10    ), using positive value instead
- v1: Small or negative ry found (  -10.10    ), using positive value instead
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0352   2.440E+04, dFz/dz:   1.040E+06
-         2, NR,  z_ws, Fz:       0.0096       3591., dFz/dz:   3.736E+05
-         3, NR,  z_ws, Fz:       0.0268   1.635E+04, dFz/dz:   7.439E+05
-         4, NR,  z_ws, Fz:       0.0182       9286., dFz/dz:   8.275E+05
-     0, SC, z, omg_ws:    0.018229  -1.00000000, res:    0.11194374, dFx/domg:  210.475276
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       164.8       8.238
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       2.991       8.129
+         1, NR,  z_ws, Fz:       0.0189       9663., dFz/dz:   7.683E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       6.555       8.314
+         2, NR,  z_ws, Fz:       0.0193       9999., dFz/dz:   7.662E+05
+     1, SC, z, omg_ws:    0.019304  -1.00000000, res:    0.11486623, dFx/domg:  370.442902
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       18.24       19.08
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0193   1.002E+04, dFz/dz:   7.789E+05
+     2, SC, z, omg_ws:    0.019304  -1.00031008, res:    0.03864536, dFx/domg:  245.811841
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       9.775       6.409
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.2735       6.403
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0193   1.002E+04, dFz/dz:   7.784E+05
+     3, SC, z, omg_ws:    0.019304  -1.00046729, res:   -0.00018810, dFx/domg:  247.008306
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.5562   8.303E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.671E-03   8.303E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.481E-04   8.303E-05
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.108E-06   8.303E-05
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0193   1.002E+04, dFz/dz:   7.786E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.4055   8.291E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.073E-02   8.292E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.478E-05   8.292E-05
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.645E-06   8.292E-05
+         2, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.625E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.423E-03   8.291E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.055E-04   8.291E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.505E-06   8.291E-05
+         3, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.624E+05
+     4, SC, z, omg_ws:    0.019278  -1.00046653, res:    0.00003085, dFx/domg:  287.521973
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.290E-03   5.116E-03
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.050E-04   5.116E-03
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0182       9378., dFz/dz:   7.717E+05
-     1, SC, z, omg_ws:    0.018229  -1.00053186, res:   -0.02329424, dFx/domg:  254.272826
+         1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
+     5, SC, z, omg_ws:    0.019278  -1.00046664, res:    0.00000431, dFx/domg:  287.521973
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.028E-03   7.155E-04
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.154E-05   7.155E-04
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0182       9324., dFz/dz:   7.672E+05
-         2, NR,  z_ws, Fz:       0.0191       9993., dFz/dz:   7.642E+05
-         3, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.776E+05
-         4, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.776E+05
-     2, SC, z, omg_ws:    0.019114  -1.00044025, res:    0.00453080, dFx/domg:  303.729657
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.848E+05
-     3, SC, z, omg_ws:    0.019114  -1.00045517, res:    0.00084076, dFx/domg:  247.367901
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
-     4, SC, z, omg_ws:    0.019114  -1.00045857, res:    0.00000984, dFx/domg:  244.472445
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
-         2, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.777E+05
-     5, SC, z, omg_ws:    0.019112  -1.00045861, res:   -0.00000867, dFx/domg:  459.889084
+         1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
+     6, SC, z, omg_ws:    0.019278  -1.00046665, res:    0.00000064, dFx/domg:  287.521973
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.797E-04   1.061E-04
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.018E-06   1.061E-04
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
-         2, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.778E+05
-     6, SC, z, omg_ws:    0.019112  -1.00045859, res:   -0.00000414, dFx/domg:  240.325741
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
-         2, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.778E+05
-     7, SC, z, omg_ws:    0.019112  -1.00045857, res:    0.00000012, dFx/domg:  247.020093
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0191   1.000E+04, dFz/dz:   7.849E+05
-     8, SC, z, omg_ws:    0.019112  -1.00045857, res:    0.00000000, dFx/domg:  246.369942
+         1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.099E-04   1.061E-04
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.916E-06   1.061E-04
+         2, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.471E+05
+     7, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000008, dFx/domg:  287.521973
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.891E-05   8.291E-05
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
+     8, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000001, dFx/domg:  287.521973
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   1, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, X-FORCE PRESCRIBED
  USING CONFORMAL IF-CORRECTION: BLANCO(v3), VARYING CURVATURE
- JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT=  5
 
  MATERIAL CONSTANTS
      NU          G           AK          EPS
@@ -1169,19 +1192,19 @@
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       0.000      0.0191       0.000       0.000       0.000
+         0.000       0.000      0.0193       0.000       0.000       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-         420.0       0.000       0.000       0.000       0.000  -1.0004586
+         420.0       0.000       0.000       0.000       0.000  -1.0004667
 
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   3.035E-06  -1.138E-06   1.000E+04   3.035E-06  -1.138E-06   1.000E+04
+   1.154E-04  -1.783E-06   1.000E+04   1.154E-04  -1.783E-06   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0343     -0.0000     -0.0000  -4.406E-06       0.000   8.600E-06
+      0.0331     -0.0000      0.0000  -1.448E-05  -5.684E-14   1.006E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1190,11 +1213,11 @@
       0.0000      0.0000      0.0000     -0.0000      0.0000      0.0000
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000      0.0000     -0.0191
+      0.0000      0.0000     -0.0193
 
  Actual contact on columns iy = [  9, 43] (my= 51), sc = [ -4.375,  4.375]
  Reference contact angle delttr =  -0.00 deg, range = [  24.23, -24.23] deg
- Total moments Mxp =        -0.0, Msp =      -343.0, Mnp =         0.0 N.mm
+ Total moments Mxp =        -0.0, Msp =      -331.0, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1203,53 +1226,53 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000       0.000   8.498E-06   7.887E-02     -0.3113
+     1.000E+04       0.000       0.000   9.941E-06   7.837E-02     -0.3223
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250       0.000       0.000   1.911E-02       405.9
+        0.1250       0.000       0.000   1.928E-02       397.6
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   4437   1569    840    729      1      1
+   4437   1573    842    731      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     44  o.......................................................o
-    43  .....................SSSSSSSSSSSSSSS.....................
+    43  ....................SSSSSSSSSSSSSSSSS....................
     42  ................SSSSSSSSSSSSSSSSSSSSSSSSS................
     41  .............SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.............
     40  ...........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...........
     39  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.........
-    38  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*S.......
+    38  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS**S.......
     37  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*********S......
     36  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS*******************S.....
-    35  ....SSSSSSSSSSSSSSSSSSSS****************************S....
-    34  ...SSSSSSSSSSSS**************************************S...
-    33  ...SSSSSS*********************************************...
+    35  ....SSSSSSSSSSSSSSSSSSS*****************************S....
+    34  ...SSSSSSSSSSS***************************************S...
+    33  ...SSSSSSS********************************************...
     32  ..SSSSSSSS********************************************S..
     31  ..SSSSSSSSS********************************************..
     30  .SSSSSSSSSSS*******************************************S.
     29  .SSSSSSSSSSSS*******************************************.
-    28  .SSSSSSSSSSSS*******************************************.
+    28  .SSSSSSSSSSSSS******************************************.
     27  .SSSSSSSSSSSSS******************************************.
     26  .SSSSSSSSSSSSS******************************************.
     25  .SSSSSSSSSSSSS******************************************.
-    24  .SSSSSSSSSSSS*******************************************.
+    24  .SSSSSSSSSSSSS******************************************.
     23  .SSSSSSSSSSSS*******************************************.
     22  .SSSSSSSSSSS*******************************************S.
     21  ..SSSSSSSSS********************************************..
     20  ..SSSSSSSS********************************************S..
-    19  ...SSSSSS*********************************************...
-    18  ...SSSSSSSSSSSS**************************************S...
-    17  ....SSSSSSSSSSSSSSSSSSSS****************************S....
+    19  ...SSSSSSS********************************************...
+    18  ...SSSSSSSSSSS***************************************S...
+    17  ....SSSSSSSSSSSSSSSSSSS*****************************S....
     16  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS*******************S.....
     15  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*********S......
-    14  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*S.......
+    14  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS**S.......
     13  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.........
     12  ...........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...........
     11  .............SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.............
     10  ................SSSSSSSSSSSSSSSSSSSSSSSSS................
-     9  .....................SSSSSSSSSSSSSSS.....................
+     9  ....................SSSSSSSSSSSSSSSSS....................
      8  o.......................................................o
             2         3         4         5         6         7
         678901234567890123456789012345678901234567890123456789012
@@ -1257,115 +1280,122 @@
 
  CURVED REFERENCE SURFACE, TRACK COORDINATES,   51 POINTS:
     I        Y(I)       Z(I)       A(I)
-     1    -5.8549    -1.8721     0.6219
-     2    -5.6499    -1.7290     0.5970
-     3    -5.4414    -1.5910     0.5722
-     4    -5.2295    -1.4583     0.5473
-     5    -5.0145    -1.3309     0.5224
-     6    -4.7963    -1.2088     0.4975
+     1    -5.8549    -1.8720     0.6219
+     2    -5.6499    -1.7289     0.5970
+     3    -5.4414    -1.5909     0.5722
+     4    -5.2295    -1.4582     0.5473
+     5    -5.0145    -1.3308     0.5224
+     6    -4.7963    -1.2087     0.4975
      7    -4.5751    -1.0922     0.4727
-     8    -4.3511    -0.9812     0.4478
-     9    -4.1245    -0.8758     0.4229
+     8    -4.3511    -0.9811     0.4478
+     9    -4.1245    -0.8757     0.4229
     10    -3.8952    -0.7760     0.3980
-    11    -3.6636    -0.6820     0.3731
-    12    -3.4297    -0.5938     0.3483
-    13    -3.1937    -0.5114     0.3234
-    14    -2.9557    -0.4349     0.2985
-    15    -2.7158    -0.3644     0.2736
-    16    -2.4743    -0.2998     0.2488
-    17    -2.2313    -0.2413     0.2239
-    18    -1.9868    -0.1888     0.1990
-    19    -1.7412    -0.1424     0.1741
-    20    -1.4944    -0.1022     0.1493
-    21    -1.2468    -0.0681     0.1244
-    22    -0.9984    -0.0402     0.0995
-    23    -0.7493    -0.0184     0.0746
-    24    -0.4998    -0.0029     0.0498
-    25    -0.2500     0.0064     0.0249
+    11    -3.6636    -0.6819     0.3731
+    12    -3.4297    -0.5937     0.3483
+    13    -3.1937    -0.5113     0.3234
+    14    -2.9557    -0.4348     0.2985
+    15    -2.7158    -0.3643     0.2736
+    16    -2.4743    -0.2997     0.2488
+    17    -2.2313    -0.2412     0.2239
+    18    -1.9868    -0.1887     0.1990
+    19    -1.7412    -0.1423     0.1741
+    20    -1.4944    -0.1021     0.1493
+    21    -1.2468    -0.0680     0.1244
+    22    -0.9984    -0.0401     0.0995
+    23    -0.7493    -0.0183     0.0746
+    24    -0.4998    -0.0028     0.0498
+    25    -0.2500     0.0065     0.0249
     26    -0.0000     0.0096     0.0000
-    27     0.2500     0.0064    -0.0249
-    28     0.4998    -0.0029    -0.0498
-    29     0.7493    -0.0184    -0.0746
-    30     0.9984    -0.0402    -0.0995
-    31     1.2468    -0.0681    -0.1244
-    32     1.4944    -0.1022    -0.1493
-    33     1.7412    -0.1424    -0.1741
-    34     1.9868    -0.1888    -0.1990
-    35     2.2313    -0.2413    -0.2239
-    36     2.4743    -0.2998    -0.2488
-    37     2.7158    -0.3644    -0.2736
-    38     2.9557    -0.4349    -0.2985
-    39     3.1937    -0.5114    -0.3234
-    40     3.4297    -0.5938    -0.3483
-    41     3.6636    -0.6820    -0.3731
+    27     0.2500     0.0065    -0.0249
+    28     0.4998    -0.0028    -0.0498
+    29     0.7493    -0.0183    -0.0746
+    30     0.9984    -0.0401    -0.0995
+    31     1.2468    -0.0680    -0.1244
+    32     1.4944    -0.1021    -0.1493
+    33     1.7412    -0.1423    -0.1741
+    34     1.9868    -0.1887    -0.1990
+    35     2.2313    -0.2412    -0.2239
+    36     2.4743    -0.2997    -0.2488
+    37     2.7158    -0.3643    -0.2736
+    38     2.9557    -0.4348    -0.2985
+    39     3.1937    -0.5113    -0.3234
+    40     3.4297    -0.5937    -0.3483
+    41     3.6636    -0.6819    -0.3731
     42     3.8952    -0.7760    -0.3980
-    43     4.1245    -0.8758    -0.4229
-    44     4.3511    -0.9812    -0.4478
+    43     4.1245    -0.8757    -0.4229
+    44     4.3511    -0.9811    -0.4478
     45     4.5751    -1.0922    -0.4727
-    46     4.7963    -1.2088    -0.4975
-    47     5.0145    -1.3309    -0.5224
-    48     5.2295    -1.4583    -0.5473
-    49     5.4414    -1.5910    -0.5722
-    50     5.6499    -1.7290    -0.5970
-    51     5.8549    -1.8721    -0.6219
+    46     4.7963    -1.2087    -0.4975
+    47     5.0145    -1.3308    -0.5224
+    48     5.2295    -1.4582    -0.5473
+    49     5.4414    -1.5909    -0.5722
+    50     5.6499    -1.7289    -0.5970
+    51     5.8549    -1.8720    -0.6219
 
  Case     7
- Input: WARNING. With dissimilar shapes (C= 4), MAXOUT should be > 1,
-        i.e. the Panag/outer iteration process should be used.
  reading rail  profile "..\profiles\groove_r1005.prr"
  Kink in rail profile at ( -10.10, -10.05) (ip=  100): successive angles    0.0,   84.3 deg
  Kink in rail profile at (  10.10, -10.05) (ip=  302): successive angles  -84.3,   -0.0 deg
- v1: Small or negative ry found (  -10.05    ), using positive value instead
- v1: Small or negative ry found (  -10.05    ), using positive value instead
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0352   2.808E+04, dFz/dz:   1.197E+06
-         2, NR,  z_ws, Fz:       0.0084       3520., dFz/dz:   4.212E+05
-         3, NR,  z_ws, Fz:       0.0237   1.604E+04, dFz/dz:   8.142E+05
-         4, NR,  z_ws, Fz:       0.0163       9344., dFz/dz:   9.025E+05
-     0, SC, z, omg_ws:    0.016315  -1.00000007, res:    0.15237258, dFx/domg:  210.475276
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       139.4       6.972
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.089       6.897
+         1, NR,  z_ws, Fz:       0.0166       9494., dFz/dz:   8.564E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       8.022       7.041
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.3456       7.035
+         2, NR,  z_ws, Fz:       0.0172       9986., dFz/dz:   8.323E+05
+     1, SC, z, omg_ws:    0.017221  -1.00000007, res:    0.15558424, dFx/domg:  424.359157
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       17.51       21.90
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0163       9430., dFz/dz:   8.670E+05
-     1, SC, z, omg_ws:    0.016315  -1.00072402, res:   -0.01445059, dFx/domg:  230.436162
+         1, NR,  z_ws, Fz:       0.0172   1.004E+04, dFz/dz:   8.742E+05
+     2, SC, z, omg_ws:    0.017221  -1.00036671, res:    0.07381514, dFx/domg:  223.026873
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       15.69       10.43
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.9085       10.42
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0163       9420., dFz/dz:   8.661E+05
-         2, NR,  z_ws, Fz:       0.0170       9984., dFz/dz:   8.431E+05
-         3, NR,  z_ws, Fz:       0.0170      10000., dFz/dz:   8.447E+05
-         4, NR,  z_ws, Fz:       0.0179   1.073E+04, dFz/dz:   8.606E+05
-         5, NR,  z_ws, Fz:       0.0170      10000., dFz/dz:   8.478E+05
-         6, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.477E+05
-     2, SC, z, omg_ws:    0.017003  -1.00066131, res:    0.00466136, dFx/domg:  304.768487
+         1, NR,  z_ws, Fz:       0.0172   1.004E+04, dFz/dz:   8.743E+05
+     3, SC, z, omg_ws:    0.017221  -1.00069768, res:    0.00031335, dFx/domg:  222.080110
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.2938   4.422E-02
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.931E-03   4.422E-02
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
-     3, SC, z, omg_ws:    0.017003  -1.00067660, res:    0.00126022, dFx/domg:  222.372821
+         1, NR,  z_ws, Fz:       0.0172   1.004E+04, dFz/dz:   8.743E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.6141   4.418E-02
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.321E-02   4.418E-02
+         2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.375E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.574E-02   4.417E-02
+         3, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.366E+05
+     4, SC, z, omg_ws:    0.017176  -1.00069909, res:   -0.00034263, dFx/domg:  464.913323
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.722E-02   7.049E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.891E-03   7.049E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.646E-05   7.049E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
-     4, SC, z, omg_ws:    0.017003  -1.00068227, res:    0.00003573, dFx/domg:  216.068178
+         1, NR,  z_ws, Fz:       0.0172      10000., dFz/dz:   8.733E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.493E-04   7.049E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.352E-05   7.049E-05
+         2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.313E+05
+     5, SC, z, omg_ws:    0.017176  -1.00069835, res:   -0.00018093, dFx/domg:  219.409874
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.442E-02   7.049E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.960E-03   7.049E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.172E-05   7.049E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
-         2, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.556E+05
-         3, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.399E+05
-     5, SC, z, omg_ws:    0.017000  -1.00068244, res:   -0.00001719, dFx/domg:  320.007429
+         1, NR,  z_ws, Fz:       0.0172      10000., dFz/dz:   8.733E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.480E-04   7.049E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.448E-05   7.049E-05
+         2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.352E+05
+     6, SC, z, omg_ws:    0.017176  -1.00069753, res:   -0.00000087, dFx/domg:  218.349171
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.158E-04   7.049E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.143E-05   7.049E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
-         2, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.437E+05
-     6, SC, z, omg_ws:    0.017000  -1.00068238, res:   -0.00000506, dFx/domg:  225.720926
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170      10000., dFz/dz:   8.824E+05
-         2, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.437E+05
-     7, SC, z, omg_ws:    0.017000  -1.00068236, res:   -0.00000011, dFx/domg:  220.726094
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0170   1.000E+04, dFz/dz:   8.824E+05
-     8, SC, z, omg_ws:    0.017000  -1.00068236, res:   -0.00000000, dFx/domg:  219.686390
+         1, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.733E+05
+     7, SC, z, omg_ws:    0.017176  -1.00069752, res:    0.00000000, dFx/domg:  218.349171
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   1, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, X-FORCE PRESCRIBED
  USING CONFORMAL IF-CORRECTION: BLANCO(v3), VARYING CURVATURE
- JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT=  5
 
  MATERIAL CONSTANTS
      NU          G           AK          EPS
@@ -1391,19 +1421,19 @@
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       0.000      0.0170       0.000       0.000       0.000
+         0.000       0.000      0.0172       0.000       0.000       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-         420.0       0.000       0.000       0.000       0.000  -1.0006824
+         420.0       0.000       0.000       0.000       0.000  -1.0006975
 
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -5.278E-06  -3.184E-05   1.000E+04  -5.278E-06  -3.184E-05   1.000E+04
+   1.419E-07   1.115E-05   1.000E+04   1.419E-07   1.115E-05   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0722     -0.0000     -0.0000  -2.923E-04  -1.137E-13   5.261E-05
+      0.0727     -0.0000     -0.0000   1.213E-04   1.137E-13  -1.978E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1412,11 +1442,11 @@
       0.0000      0.0000     -0.0000     -0.0000      0.0000     -0.0000
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000      0.0000     -0.0170
+      0.0000      0.0000     -0.0172
 
  Actual contact on columns iy = [  9, 55] (my= 63), sc = [ -5.875,  5.875]
  Reference contact angle delttr =  -0.00 deg, range = [  32.86, -32.86] deg
- Total moments Mxp =        -0.0, Msp =      -722.3, Mnp =         0.0 N.mm
+ Total moments Mxp =        -0.0, Msp =      -726.6, Mnp =        -0.0 N.mm
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1425,65 +1455,65 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000  -1.692E-04   4.039E-05   7.146E-02     -0.6789
+     1.000E+04       0.000  -1.633E-04  -3.164E-05   7.093E-02     -0.7063
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250       0.000  -5.641E-08   1.700E-02       344.9
+        0.1250       0.000  -5.443E-08   1.718E-02       336.1
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   5229   1867    676   1191      1      1
+   5229   1891    659   1232      2      2
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     56  o.................................................o
-    55  .....................SSSSSSSSS.....................
+    55  ....................SSSSSSSSSSS....................
     54  ................SSSSSSSSSSSSSSSSSSS................
-    53  ..............SSSSSSSSSSSSSSSSSSSSSSS..............
-    52  ............SSSSSSSSSSSSSSSSSSSSSSSSSSS............
+    53  .............SSSSSSSSSSSSSSSSSSSSSSSSS.............
+    52  ...........SSSSSSSSSSSSSSSSSSSSSSSSSSSSS...........
     51  ..........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..........
-    50  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.........
+    50  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS........
     49  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
     48  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    47  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    47  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
     46  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
     45  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    44  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS****....
+    44  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS****S...
     43  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS***********S...
     42  ...SSSSSSSSSSSSSSSSSSSSSSS**********************...
-    41  ..SSSSSSSSSSSSSSSS******************************S..
-    40  ..SSSSSSSSSSSSS**********************************..
-    39  ..SSSSSSSSSSSSS**********************************..
-    38  .SSSSSSSSSSSSSSS*********************************S.
-    37  .SSSSSSSSSSSSSSSSS********************************.
-    36  .SSSSSSSSSSSSSSSSS********************************.
-    35  .SSSSSSSSSSSSSSSSSS*******************************.
+    41  ..SSSSSSSSSSSSSSSSS*****************************S..
+    40  ..SSSSSSSSSSSSSS*********************************..
+    39  ..SSSSSSSSSSSSSS*********************************..
+    38  .SSSSSSSSSSSSSSSS********************************S.
+    37  .SSSSSSSSSSSSSSSSS*******************************S.
+    36  .SSSSSSSSSSSSSSSSSS*******************************.
+    35  .SSSSSSSSSSSSSSSSSSS******************************.
     34  .SSSSSSSSSSSSSSSSSSS******************************.
-    33  .SSSSSSSSSSSSSSSSSSS******************************.
-    32  .SSSSSSSSSSSSSSSSSSS******************************.
-    31  .SSSSSSSSSSSSSSSSSSS******************************.
+    33  .SSSSSSSSSSSSSSSSSSSS*****************************.
+    32  .SSSSSSSSSSSSSSSSSSSS*****************************.
+    31  .SSSSSSSSSSSSSSSSSSSS*****************************.
     30  .SSSSSSSSSSSSSSSSSSS******************************.
-    29  .SSSSSSSSSSSSSSSSSS*******************************.
-    28  .SSSSSSSSSSSSSSSSS********************************.
-    27  .SSSSSSSSSSSSSSSSS********************************.
-    26  .SSSSSSSSSSSSSSS*********************************S.
-    25  ..SSSSSSSSSSSSS**********************************..
-    24  ..SSSSSSSSSSSSS**********************************..
-    23  ..SSSSSSSSSSSSSSSS******************************S..
+    29  .SSSSSSSSSSSSSSSSSSS******************************.
+    28  .SSSSSSSSSSSSSSSSSS*******************************.
+    27  .SSSSSSSSSSSSSSSSS*******************************S.
+    26  .SSSSSSSSSSSSSSSS********************************S.
+    25  ..SSSSSSSSSSSSSS*********************************..
+    24  ..SSSSSSSSSSSSSS*********************************..
+    23  ..SSSSSSSSSSSSSSSSS*****************************S..
     22  ...SSSSSSSSSSSSSSSSSSSSSSS**********************...
     21  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS***********S...
-    20  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS****....
+    20  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS****S...
     19  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
     18  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    17  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    17  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
     16  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
     15  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-    14  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.........
+    14  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS........
     13  ..........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..........
-    12  ............SSSSSSSSSSSSSSSSSSSSSSSSSSS............
-    11  ..............SSSSSSSSSSSSSSSSSSSSSSS..............
+    12  ...........SSSSSSSSSSSSSSSSSSSSSSSSSSSSS...........
+    11  .............SSSSSSSSSSSSSSSSSSSSSSSSS.............
     10  ................SSSSSSSSSSSSSSSSSSS................
-     9  .....................SSSSSSSSS.....................
+     9  ....................SSSSSSSSSSS....................
      8  o.................................................o
            2         3         4         5         6
         789012345678901234567890123456789012345678901234567
@@ -1491,117 +1521,136 @@
 
  CURVED REFERENCE SURFACE, TRACK COORDINATES,   63 POINTS:
     I        Y(I)       Z(I)       A(I)
-     1    -7.0008    -2.8409     0.7731
-     2    -6.8197    -2.6686     0.7481
-     3    -6.6344    -2.5008     0.7232
-     4    -6.4449    -2.3377     0.6983
-     5    -6.2514    -2.1794     0.6733
-     6    -6.0541    -2.0260     0.6484
-     7    -5.8529    -1.8775     0.6235
-     8    -5.6482    -1.7341     0.5985
-     9    -5.4399    -1.5958     0.5736
-    10    -5.2282    -1.4628     0.5486
-    11    -5.0133    -1.3351     0.5237
-    12    -4.7953    -1.2128     0.4988
-    13    -4.5743    -1.0959     0.4738
+     1    -7.0008    -2.8408     0.7731
+     2    -6.8197    -2.6685     0.7481
+     3    -6.6344    -2.5007     0.7232
+     4    -6.4449    -2.3376     0.6983
+     5    -6.2514    -2.1793     0.6733
+     6    -6.0541    -2.0259     0.6484
+     7    -5.8529    -1.8774     0.6235
+     8    -5.6482    -1.7340     0.5985
+     9    -5.4399    -1.5957     0.5736
+    10    -5.2282    -1.4627     0.5486
+    11    -5.0133    -1.3350     0.5237
+    12    -4.7953    -1.2127     0.4988
+    13    -4.5743    -1.0958     0.4738
     14    -4.3504    -0.9846     0.4489
-    15    -4.1238    -0.8790     0.4239
-    16    -3.8947    -0.7790     0.3990
+    15    -4.1238    -0.8789     0.4239
+    16    -3.8947    -0.7789     0.3990
     17    -3.6632    -0.6847     0.3741
-    18    -3.4293    -0.5963     0.3491
-    19    -3.1934    -0.5137     0.3242
+    18    -3.4293    -0.5962     0.3491
+    19    -3.1934    -0.5136     0.3242
     20    -2.9554    -0.4370     0.2993
-    21    -2.7157    -0.3663     0.2743
-    22    -2.4742    -0.3016     0.2494
+    21    -2.7157    -0.3662     0.2743
+    22    -2.4742    -0.3015     0.2494
     23    -2.2312    -0.2429     0.2244
     24    -1.9868    -0.1903     0.1995
-    25    -1.7411    -0.1439     0.1746
-    26    -1.4944    -0.1035     0.1496
-    27    -1.2468    -0.0693     0.1247
-    28    -0.9983    -0.0413     0.0997
+    25    -1.7411    -0.1438     0.1746
+    26    -1.4944    -0.1034     0.1496
+    27    -1.2468    -0.0692     0.1247
+    28    -0.9983    -0.0412     0.0997
     29    -0.7493    -0.0195     0.0748
-    30    -0.4998    -0.0040     0.0499
-    31    -0.2500     0.0054     0.0249
-    32     0.0000     0.0085    -0.0000
-    33     0.2500     0.0054    -0.0249
-    34     0.4998    -0.0040    -0.0499
+    30    -0.4998    -0.0039     0.0499
+    31    -0.2500     0.0055     0.0249
+    32     0.0000     0.0086    -0.0000
+    33     0.2500     0.0055    -0.0249
+    34     0.4998    -0.0039    -0.0499
     35     0.7493    -0.0195    -0.0748
-    36     0.9983    -0.0413    -0.0997
-    37     1.2468    -0.0693    -0.1247
-    38     1.4944    -0.1035    -0.1496
-    39     1.7411    -0.1439    -0.1746
+    36     0.9983    -0.0412    -0.0997
+    37     1.2468    -0.0692    -0.1247
+    38     1.4944    -0.1034    -0.1496
+    39     1.7411    -0.1438    -0.1746
     40     1.9868    -0.1903    -0.1995
     41     2.2312    -0.2429    -0.2244
-    42     2.4742    -0.3016    -0.2494
-    43     2.7157    -0.3663    -0.2743
+    42     2.4742    -0.3015    -0.2494
+    43     2.7157    -0.3662    -0.2743
     44     2.9554    -0.4370    -0.2993
-    45     3.1934    -0.5137    -0.3242
-    46     3.4293    -0.5963    -0.3491
+    45     3.1934    -0.5136    -0.3242
+    46     3.4293    -0.5962    -0.3491
     47     3.6632    -0.6847    -0.3741
-    48     3.8947    -0.7790    -0.3990
-    49     4.1238    -0.8790    -0.4239
+    48     3.8947    -0.7789    -0.3990
+    49     4.1238    -0.8789    -0.4239
     50     4.3504    -0.9846    -0.4489
-    51     4.5743    -1.0959    -0.4738
-    52     4.7953    -1.2128    -0.4988
-    53     5.0133    -1.3351    -0.5237
-    54     5.2282    -1.4628    -0.5486
-    55     5.4399    -1.5958    -0.5736
-    56     5.6482    -1.7341    -0.5985
-    57     5.8529    -1.8775    -0.6235
-    58     6.0541    -2.0260    -0.6484
-    59     6.2514    -2.1794    -0.6733
-    60     6.4449    -2.3377    -0.6983
-    61     6.6344    -2.5008    -0.7232
-    62     6.8197    -2.6686    -0.7481
-    63     7.0008    -2.8409    -0.7731
+    51     4.5743    -1.0958    -0.4738
+    52     4.7953    -1.2127    -0.4988
+    53     5.0133    -1.3350    -0.5237
+    54     5.2282    -1.4627    -0.5486
+    55     5.4399    -1.5957    -0.5736
+    56     5.6482    -1.7340    -0.5985
+    57     5.8529    -1.8774    -0.6235
+    58     6.0541    -2.0259    -0.6484
+    59     6.2514    -2.1793    -0.6733
+    60     6.4449    -2.3376    -0.6983
+    61     6.6344    -2.5007    -0.7232
+    62     6.8197    -2.6685    -0.7481
+    63     7.0008    -2.8408    -0.7731
 
  Case     8
- Input: WARNING. With dissimilar shapes (C= 4), MAXOUT should be > 1,
-        i.e. the Panag/outer iteration process should be used.
  reading rail  profile "..\profiles\groove_r1002.prr"
  Kink in rail profile at ( -10.04, -10.02) (ip=  100): successive angles    0.0,   85.5 deg
  Kink in rail profile at (  10.06, -10.02) (ip=  301): successive angles  -84.8,   -0.0 deg
- v1: Small or negative ry found (  -10.02    ), using positive value instead
- v1: Small or negative ry found (  -10.02    ), using positive value instead
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0139       9051., dFz/dz:   9.790E+05
-         2, NR,  z_ws, Fz:       0.0148       9940., dFz/dz:   9.171E+05
-     0, SC, z, omg_ws:    0.014837  -1.00000001, res:    0.19867511, dFx/domg:  512.598375
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       114.1       5.704
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       2.688       5.672
+         1, NR,  z_ws, Fz:       0.0139       8956., dFz/dz:   9.687E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       13.07       5.915
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.3381       5.905
+         2, NR,  z_ws, Fz:       0.0149       9935., dFz/dz:   9.087E+05
+     1, SC, z, omg_ws:    0.014946  -1.00000001, res:    0.20167472, dFx/domg:  512.598375
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       14.95       23.84
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148       9995., dFz/dz:   1.010E+06
-     1, SC, z, omg_ws:    0.014837  -1.00038760, res:    0.12346865, dFx/domg:  194.038939
+         1, NR,  z_ws, Fz:       0.0149       9991., dFz/dz:   1.003E+06
+     2, SC, z, omg_ws:    0.014946  -1.00039345, res:    0.12518454, dFx/domg:  194.415762
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       21.24       14.91
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       1.219       14.78
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.008E+04, dFz/dz:   1.019E+06
-     2, SC, z, omg_ws:    0.014837  -1.00102390, res:    0.00354301, dFx/domg:  188.470868
+         1, NR,  z_ws, Fz:       0.0149   1.002E+04, dFz/dz:   1.005E+06
+     3, SC, z, omg_ws:    0.014946  -1.00103735, res:    0.00645106, dFx/domg:  184.397047
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       1.426      0.7647
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.1461      0.7647
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.007E+04, dFz/dz:   1.018E+06
-         2, NR,  z_ws, Fz:       0.0148   1.001E+04, dFz/dz:   9.383E+05
-     3, SC, z, omg_ws:    0.014766  -1.00104270, res:    0.00002026, dFx/domg:  187.393146
+         1, NR,  z_ws, Fz:       0.0149   1.002E+04, dFz/dz:   1.005E+06
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.2217      0.7644
+         2, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   9.562E+05
+     4, SC, z, omg_ws:    0.014928  -1.00107233, res:    0.00027519, dFx/domg:  176.531034
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.3341   3.268E-02
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.966E-03   3.268E-02
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.001E+04, dFz/dz:   1.016E+06
-         2, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   9.352E+05
-     4, SC, z, omg_ws:    0.014760  -1.00104281, res:   -0.00005531, dFx/domg:  699.005865
+         1, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   1.005E+06
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.260E-03   3.268E-02
+         2, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   8.650E+05
+     5, SC, z, omg_ws:    0.014927  -1.00107389, res:    0.00008700, dFx/domg:  120.719322
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.861E-02   1.033E-02
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.099E-03   1.033E-02
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   1.016E+06
-         2, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   9.366E+05
-     5, SC, z, omg_ws:    0.014760  -1.00104273, res:   -0.00004210, dFx/domg:  166.921538
+         1, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   1.005E+06
+     6, SC, z, omg_ws:    0.014927  -1.00107461, res:   -0.00002931, dFx/domg:  161.390177
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.344E-02   5.938E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.223E-04   5.938E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.962E-06   5.938E-05
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148      10000., dFz/dz:   1.016E+06
-         2, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   9.366E+05
-     6, SC, z, omg_ws:    0.014760  -1.00104248, res:    0.00000053, dFx/domg:  169.012640
+         1, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   1.005E+06
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.283E-03   5.938E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.340E-05   5.938E-05
+         2, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   9.235E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.076E-04   5.938E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.574E-06   5.938E-05
+         3, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   9.014E+05
+     7, SC, z, omg_ws:    0.014927  -1.00107443, res:    0.00000011, dFx/domg:  161.390177
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.815E-05   5.938E-05
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0148   1.000E+04, dFz/dz:   1.016E+06
-     7, SC, z, omg_ws:    0.014760  -1.00104248, res:    0.00000000, dFx/domg:  168.130354
+         1, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   1.005E+06
+     8, SC, z, omg_ws:    0.014927  -1.00107443, res:   -0.00000000, dFx/domg:  161.390177
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  1, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   1, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, X-FORCE PRESCRIBED
  USING CONFORMAL IF-CORRECTION: BLANCO(v3), VARYING CURVATURE
- JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+ PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT=  5
 
  MATERIAL CONSTANTS
      NU          G           AK          EPS
@@ -1627,19 +1676,19 @@
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       0.000      0.0148       0.000       0.000       0.000
+         0.000       0.000      0.0149       0.000       0.000       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-         420.0       0.000       0.000       0.000       0.000  -1.0010425
+         420.0       0.000       0.000       0.000       0.000  -1.0010744
 
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   2.753E-05  -1.734E-02   1.000E+04   2.753E-05  -1.734E-02   1.000E+04
+  -1.926E-05  -5.822E-03   1.000E+04  -1.926E-05  -5.822E-03   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.1572     -0.0000     -0.0000  -5.616E-05  -4.777E-08   2.755E-02
+      0.1614     -0.0000     -0.0000  -5.642E-05  -5.239E-09   8.999E-03
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1648,11 +1697,11 @@
       0.0000     -0.0000     -0.0000      0.0000     -0.0000     -0.0000
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000     -0.0000     -0.0148
+      0.0000     -0.0000     -0.0149
 
  Actual contact on columns iy = [  9, 73] (my= 81), sc = [ -8.125,  8.125]
  Reference contact angle delttr =   0.00 deg, range = [  45.79, -45.79] deg
- Total moments Mxp =         0.0, Msp =     -1572.3, Mnp =         0.0 N.mm
+ Total moments Mxp =         0.0, Msp =     -1614.3, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1661,83 +1710,83 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000  -9.602E-03   2.604E-02   6.398E-02      -1.519
+     1.000E+04       0.000   2.469E-03   9.398E-03   6.353E-02      -1.578
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250       0.000  -3.201E-06   1.476E-02       292.0
+        0.1250       0.000   8.229E-07   1.493E-02       283.6
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   6237   2317    367   1950      1      1
+   6237   2337    328   2009      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     74  o...........................................o
-    73  ....................SSSSS....................
-    72  ................SSSSSSSSSSSSS................
+    73  ...................SSSSSSS...................
+    72  ...............SSSSSSSSSSSSSSS...............
     71  .............SSSSSSSSSSSSSSSSSSS.............
     70  ...........SSSSSSSSSSSSSSSSSSSSSSS...........
     69  ..........SSSSSSSSSSSSSSSSSSSSSSSSS..........
-    68  .........SSSSSSSSSSSSSSSSSSSSSSSSSSS.........
-    67  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSSS........
+    68  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSS........
+    67  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
     66  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
     65  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    64  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    64  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
     63  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
     62  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
     61  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    60  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    60  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
     59  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
     58  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    57  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    57  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
     56  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
     55  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
     54  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    53  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*****..
-    52  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS*************S.
-    51  .SSSSSSSSSSSSSSSSSSSSSSSSS*****************S.
-    50  .SSSSSSSSSSSSSSSSSSSSSSSS******************S.
-    49  .SSSSSSSSSSSSSSSSSSSSSSSSS*****************S.
-    48  .SSSSSSSSSSSSSSSSSSSSSSSSSS*****************.
-    47  .SSSSSSSSSSSSSSSSSSSSSSSSSS*****************.
-    46  .SSSSSSSSSSSSSSSSSSSSSSSSSSS****************.
-    45  .SSSSSSSSSSSSSSSSSSSSSSSSSSSS***************.
-    44  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS**************.
-    43  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS**************.
-    42  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS**************.
-    41  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS**************.
-    40  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS**************.
-    39  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS**************.
-    38  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS**************.
-    37  .SSSSSSSSSSSSSSSSSSSSSSSSSSSS***************.
-    36  .SSSSSSSSSSSSSSSSSSSSSSSSSSS****************.
-    35  .SSSSSSSSSSSSSSSSSSSSSSSSSS*****************.
-    34  .SSSSSSSSSSSSSSSSSSSSSSSSSS****************S.
-    33  .SSSSSSSSSSSSSSSSSSSSSSSSS*****************S.
-    32  .SSSSSSSSSSSSSSSSSSSSSSSS******************S.
-    31  .SSSSSSSSSSSSSSSSSSSSSSSSS*****************S.
-    30  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS*************S.
-    29  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*****..
+    53  ..**SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS****S..
+    52  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS************..
+    51  .SSSSSSSSSSSSSSSSSSSSSSSSSS****************S.
+    50  .SSSSSSSSSSSSSSSSSSSSSSSSS*****************S.
+    49  .SSSSSSSSSSSSSSSSSSSSSSSSSS****************S.
+    48  .SSSSSSSSSSSSSSSSSSSSSSSSSSS***************S.
+    47  .SSSSSSSSSSSSSSSSSSSSSSSSSSSS**************S.
+    46  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS*************S.
+    45  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*************.
+    44  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS************.
+    43  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS************.
+    42  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS************.
+    41  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS************.
+    40  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS************.
+    39  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS************.
+    38  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS************.
+    37  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*************.
+    36  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS*************S.
+    35  .SSSSSSSSSSSSSSSSSSSSSSSSSSSS**************S.
+    34  .SSSSSSSSSSSSSSSSSSSSSSSSSSS***************S.
+    33  .SSSSSSSSSSSSSSSSSSSSSSSSSS****************S.
+    32  .SSSSSSSSSSSSSSSSSSSSSSSSS*****************S.
+    31  .SSSSSSSSSSSSSSSSSSSSSSSSSS****************S.
+    30  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS************..
+    29  ..**SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS****S..
     28  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
     27  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
     26  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    25  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    25  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
     24  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
     23  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    22  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
+    22  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
     21  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
     20  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
     19  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    18  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
+    18  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
     17  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
     16  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-    15  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSSS........
-    14  .........SSSSSSSSSSSSSSSSSSSSSSSSSSS.........
+    15  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
+    14  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSS........
     13  ..........SSSSSSSSSSSSSSSSSSSSSSSSS..........
     12  ...........SSSSSSSSSSSSSSSSSSSSSSS...........
     11  .............SSSSSSSSSSSSSSSSSSS.............
-    10  ................SSSSSSSSSSSSS................
-     9  .....................SSS.....................
+    10  ...............SSSSSSSSSSSSSSS...............
+     9  ...................SSSSSSS...................
      8  o...........................................o
            2         3         4         5         6
         789012345678901234567890123456789012345678901
@@ -1746,86 +1795,86 @@
  CURVED REFERENCE SURFACE, TRACK COORDINATES,   81 POINTS:
     I        Y(I)       Z(I)       A(I)
      1    -8.4178    -4.5858     0.9990
-     2    -8.2799    -4.3773     0.9740
-     3    -8.1368    -4.1723     0.9491
-     4    -7.9887    -3.9709     0.9241
-     5    -7.8355    -3.7733     0.8991
-     6    -7.6775    -3.5796     0.8741
+     2    -8.2799    -4.3772     0.9740
+     3    -8.1368    -4.1722     0.9491
+     4    -7.9887    -3.9708     0.9241
+     5    -7.8355    -3.7732     0.8991
+     6    -7.6775    -3.5795     0.8741
      7    -7.5147    -3.3898     0.8492
      8    -7.3473    -3.2042     0.8242
-     9    -7.1752    -3.0229     0.7992
-    10    -6.9987    -2.8459     0.7742
+     9    -7.1752    -3.0228     0.7992
+    10    -6.9987    -2.8458     0.7742
     11    -6.8177    -2.6733     0.7493
-    12    -6.6326    -2.5054     0.7243
-    13    -6.4433    -2.3421     0.6993
-    14    -6.2500    -2.1836     0.6743
-    15    -6.0528    -2.0299     0.6494
+    12    -6.6326    -2.5053     0.7243
+    13    -6.4433    -2.3420     0.6993
+    14    -6.2500    -2.1835     0.6743
+    15    -6.0528    -2.0298     0.6494
     16    -5.8518    -1.8812     0.6244
     17    -5.6471    -1.7376     0.5994
-    18    -5.4390    -1.5992     0.5744
-    19    -5.2274    -1.4660     0.5495
-    20    -5.0126    -1.3381     0.5245
+    18    -5.4390    -1.5991     0.5744
+    19    -5.2274    -1.4659     0.5495
+    20    -5.0126    -1.3380     0.5245
     21    -4.7947    -1.2156     0.4995
     22    -4.5738    -1.0986     0.4745
-    23    -4.3500    -0.9872     0.4496
-    24    -4.1235    -0.8814     0.4246
-    25    -3.8944    -0.7813     0.3996
-    26    -3.6629    -0.6869     0.3746
-    27    -3.4291    -0.5983     0.3497
-    28    -3.1932    -0.5156     0.3247
-    29    -2.9553    -0.4388     0.2997
-    30    -2.7156    -0.3680     0.2747
-    31    -2.4741    -0.3032     0.2498
-    32    -2.2311    -0.2444     0.2248
-    33    -1.9867    -0.1918     0.1998
-    34    -1.7411    -0.1452     0.1748
-    35    -1.4944    -0.1048     0.1499
-    36    -1.2468    -0.0706     0.1249
-    37    -0.9983    -0.0425     0.0999
-    38    -0.7493    -0.0207     0.0749
-    39    -0.4998    -0.0051     0.0500
+    23    -4.3500    -0.9871     0.4496
+    24    -4.1235    -0.8813     0.4246
+    25    -3.8944    -0.7812     0.3996
+    26    -3.6629    -0.6868     0.3746
+    27    -3.4291    -0.5982     0.3497
+    28    -3.1932    -0.5155     0.3247
+    29    -2.9553    -0.4387     0.2997
+    30    -2.7156    -0.3679     0.2747
+    31    -2.4741    -0.3031     0.2498
+    32    -2.2311    -0.2443     0.2248
+    33    -1.9867    -0.1917     0.1998
+    34    -1.7411    -0.1451     0.1748
+    35    -1.4944    -0.1047     0.1499
+    36    -1.2468    -0.0705     0.1249
+    37    -0.9983    -0.0424     0.0999
+    38    -0.7493    -0.0206     0.0749
+    39    -0.4998    -0.0050     0.0500
     40    -0.2500     0.0043     0.0250
-    41    -0.0000     0.0074    -0.0000
+    41    -0.0000     0.0075    -0.0000
     42     0.2500     0.0043    -0.0250
-    43     0.4998    -0.0051    -0.0500
-    44     0.7493    -0.0207    -0.0749
-    45     0.9983    -0.0425    -0.0999
-    46     1.2468    -0.0706    -0.1249
-    47     1.4944    -0.1048    -0.1498
-    48     1.7411    -0.1452    -0.1748
-    49     1.9867    -0.1918    -0.1998
-    50     2.2311    -0.2444    -0.2248
-    51     2.4741    -0.3032    -0.2498
-    52     2.7155    -0.3680    -0.2747
-    53     2.9553    -0.4388    -0.2997
-    54     3.1932    -0.5156    -0.3247
-    55     3.4291    -0.5983    -0.3497
-    56     3.6629    -0.6869    -0.3746
+    43     0.4998    -0.0050    -0.0500
+    44     0.7493    -0.0206    -0.0749
+    45     0.9983    -0.0424    -0.0999
+    46     1.2468    -0.0705    -0.1249
+    47     1.4944    -0.1047    -0.1498
+    48     1.7411    -0.1451    -0.1748
+    49     1.9867    -0.1917    -0.1998
+    50     2.2311    -0.2443    -0.2248
+    51     2.4741    -0.3031    -0.2498
+    52     2.7155    -0.3679    -0.2747
+    53     2.9553    -0.4387    -0.2997
+    54     3.1932    -0.5155    -0.3247
+    55     3.4291    -0.5982    -0.3497
+    56     3.6629    -0.6868    -0.3746
     57     3.8944    -0.7812    -0.3996
-    58     4.1235    -0.8814    -0.4246
-    59     4.3500    -0.9872    -0.4496
+    58     4.1235    -0.8813    -0.4246
+    59     4.3500    -0.9871    -0.4496
     60     4.5737    -1.0986    -0.4745
-    61     4.7947    -1.2156    -0.4995
-    62     5.0126    -1.3381    -0.5245
-    63     5.2274    -1.4660    -0.5495
-    64     5.4390    -1.5992    -0.5744
+    61     4.7947    -1.2155    -0.4995
+    62     5.0126    -1.3380    -0.5245
+    63     5.2274    -1.4659    -0.5495
+    64     5.4390    -1.5991    -0.5744
     65     5.6471    -1.7376    -0.5994
     66     5.8518    -1.8812    -0.6244
-    67     6.0528    -2.0299    -0.6494
+    67     6.0528    -2.0298    -0.6494
     68     6.2500    -2.1835    -0.6743
-    69     6.4433    -2.3421    -0.6993
-    70     6.6326    -2.5054    -0.7243
-    71     6.8177    -2.6733    -0.7493
-    72     6.9986    -2.8459    -0.7742
-    73     7.1752    -3.0229    -0.7992
+    69     6.4433    -2.3420    -0.6993
+    70     6.6326    -2.5053    -0.7243
+    71     6.8177    -2.6732    -0.7493
+    72     6.9986    -2.8458    -0.7742
+    73     7.1752    -3.0228    -0.7992
     74     7.3472    -3.2042    -0.8242
     75     7.5147    -3.3898    -0.8492
-    76     7.6775    -3.5796    -0.8741
-    77     7.8355    -3.7733    -0.8991
-    78     7.9886    -3.9709    -0.9241
-    79     8.1368    -4.1723    -0.9491
-    80     8.2798    -4.3773    -0.9740
-    81     8.4177    -4.5858    -0.9990
+    76     7.6775    -3.5795    -0.8741
+    77     7.8355    -3.7732    -0.8991
+    78     7.9886    -3.9708    -0.9241
+    79     8.1368    -4.1722    -0.9491
+    80     8.2798    -4.3772    -0.9740
+    81     8.4177    -4.5857    -0.9990
 
 Parallel run using  2 threads
 Performance timers:
@@ -1834,23 +1883,23 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      44.3 | 100.0 |       78.3 | 100.0 |
-|Wheel-rail cases     |       8 |      44.3 | 100.0 |       78.3 | 100.0 |
+|Total                |       1 |      23.9 | 100.0 |       32.3 | 100.0 |
+|Wheel-rail cases     |       8 |      23.9 | 100.0 |       32.3 | 100.0 |
 |W/r profiles         |      10 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Geometric analysis   |     138 |       0.1 |   0.1 |        0.3 |   0.4 |
-|Panag.process        |     122 |      40.1 |  90.5 |       68.8 |  87.8 |
-|Algorithm Norm       |     122 |      13.8 |  31.2 |       23.3 |  29.8 |
-|Algorithm Tang       |     122 |      26.3 |  59.3 |       45.4 |  58.0 |
-|Output quantities    |     130 |       1.7 |   3.8 |        3.4 |   4.3 |
+|Geometric analysis   |     116 |       0.1 |   0.3 |        0.3 |   1.0 |
+|Panag.process        |     100 |      19.8 |  83.0 |       25.5 |  79.0 |
+|Algorithm Norm       |     144 |       4.9 |  20.3 |        6.4 |  19.7 |
+|Algorithm Tang       |     144 |      15.0 |  62.5 |       19.1 |  59.2 |
+|Output quantities    |     108 |       1.4 |   5.9 |        2.5 |   7.7 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     122 |      13.1 |  29.7 |       22.0 |  28.1 |
-|Tang: StedyGS solver |     122 |      25.7 |  58.0 |       44.5 |  56.8 |
+|Norm: ConjGrd solver |     144 |       3.8 |  15.9 |        4.5 |  14.0 |
+|Tang: StedyGS solver |     144 |      14.1 |  59.0 |       18.0 |  55.6 |
 |------------------------------------------------------------------------|
 |Reading input-file   |       8 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Contact location     |     138 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |     122 |       0.0 |   0.1 |        0.3 |   0.3 |
-| - Interp whl_srfc   |     122 |       0.0 |   0.1 |        0.2 |   0.2 |
-|Influence coeffic.   |     187 |       2.4 |   5.4 |        5.6 |   7.2 |
-|Initial state/estim. |     122 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |     116 |       0.0 |   0.1 |        0.1 |   0.3 |
+|Undeformed distance  |     100 |       0.0 |   0.1 |        0.2 |   0.6 |
+| - Interp whl_srfc   |     100 |       0.0 |   0.1 |        0.1 |   0.4 |
+|Influence coeffic.   |     147 |       2.5 |  10.6 |        3.8 |  11.6 |
+|Initial state/estim. |     100 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

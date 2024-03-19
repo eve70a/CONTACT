@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -11,12 +11,13 @@
  reading rail  profile "profiles\MBench_UIC60_v3.prr"
  reading wheel profile "profiles\MBench_S1002_v3.prw"
  **                cntc_calculate1(  1): calculating...
+
  Case      1 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
-         2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
-         3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
-         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
+         1, NR,  z_ws, Fz:       0.1995   1.151E+04, dFz/dz:   9.939E+05
+         2, NR,  z_ws, Fz:       0.1980       9884., dFz/dz:   1.070E+06
+         3, NR,  z_ws, Fz:       0.1981       9998., dFz/dz:   1.054E+06
+         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.060E+06
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -60,11 +61,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      0.2776      -36.24   1.000E+04      0.2776      -36.24   1.000E+04
+      0.2771      -36.24   1.000E+04      0.2771      -36.24   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0117   -751.4397      0.1380      0.1278      -16.68       4604.
+      0.0117   -751.4397      0.1380      0.1276      -16.68       4604.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -82,9 +83,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9997.      0.2776       253.7       4605.   6.042E-02     -0.4677
+         9997.      0.2771       253.7       4605.   6.042E-02     -0.4677
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1219   9.256E-05   8.458E-02   1.596E-02       338.3
+        0.1219   9.239E-05   8.458E-02   1.596E-02       338.3
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -93,12 +94,13 @@
    3999   1291    943    348      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case      1 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
-         2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
-         3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
-         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
+         1, NR,  z_ws, Fz:       0.1995   1.151E+04, dFz/dz:   9.939E+05
+         2, NR,  z_ws, Fz:       0.1980       9884., dFz/dz:   1.070E+06
+         3, NR,  z_ws, Fz:       0.1981       9998., dFz/dz:   1.054E+06
+         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.060E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -142,11 +144,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      0.2776       36.24   1.000E+04      0.2776       36.24   1.000E+04
+      0.2771       36.24   1.000E+04      0.2771       36.24   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0117    751.4397      0.1380     -0.1278      -16.68      -4604.
+      0.0117    751.4397      0.1380     -0.1276      -16.68      -4604.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -164,9 +166,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9997.      0.2776      -253.7      -4605.   6.042E-02     -0.4677
+         9997.      0.2771      -253.7      -4605.   6.042E-02     -0.4677
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1219   9.256E-05  -8.458E-02   1.596E-02       338.3
+        0.1219   9.239E-05  -8.458E-02   1.596E-02       338.3
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -175,12 +177,12 @@
    3999   1291    943    348      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case      2 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1759       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1985   1.348E+04, dFz/dz:   8.934E+05
-         2, NR,  z_ws, Fz:       0.1946   1.011E+04, dFz/dz:   8.643E+05
-         3, NR,  z_ws, Fz:       0.1945   1.001E+04, dFz/dz:   8.163E+05
-         4, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   8.148E+05
+         1, NR,  z_ws, Fz:       0.1947   1.014E+04, dFz/dz:   8.105E+05
+         2, NR,  z_ws, Fz:       0.1945       9999., dFz/dz:   8.170E+05
+         3, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   8.175E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -257,13 +259,14 @@
    3015    989    342    647      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case      2 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2016   1.860E+04, dFz/dz:   1.020E+06
-         2, NR,  z_ws, Fz:       0.1932       9375., dFz/dz:   1.094E+06
-         3, NR,  z_ws, Fz:       0.1938       9945., dFz/dz:   9.973E+05
+         1, NR,  z_ws, Fz:       0.1997   1.632E+04, dFz/dz:   9.634E+05
+         2, NR,  z_ws, Fz:       0.1931       9297., dFz/dz:   1.071E+06
+         3, NR,  z_ws, Fz:       0.1938       9951., dFz/dz:   9.954E+05
          4, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   1.001E+06
-         5, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   9.982E+05
+         5, NR,  z_ws, Fz:       0.1938      10000., dFz/dz:   1.035E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -307,7 +310,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -880.0      -2015.   1.000E+04      -882.4      -2014.      10000.
+      -880.0      -2015.      10000.      -882.4      -2014.      10000.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -340,12 +343,12 @@
    3995   1147     73   1074      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case      3 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1645       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1871   1.255E+04, dFz/dz:   8.319E+05
-         2, NR,  z_ws, Fz:       0.1841   1.008E+04, dFz/dz:   8.071E+05
-         3, NR,  z_ws, Fz:       0.1840   1.000E+04, dFz/dz:   7.759E+05
-         4, NR,  z_ws, Fz:       0.1840   1.000E+04, dFz/dz:   7.761E+05
+         1, NR,  z_ws, Fz:       0.1840   1.006E+04, dFz/dz:   7.722E+05
+         2, NR,  z_ws, Fz:       0.1840      10000., dFz/dz:   7.756E+05
+         3, NR,  z_ws, Fz:       0.1840      10000., dFz/dz:   7.587E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -389,7 +392,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       829.2      -3070.   1.000E+04       821.8      -3072.      10000.
+       829.2      -3070.      10000.       821.8      -3072.      10000.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -422,12 +425,13 @@
    2820    916      0    916      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case      3 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1593       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1865   1.179E+04, dFz/dz:   6.503E+05
-         2, NR,  z_ws, Fz:       0.1838       9920., dFz/dz:   6.795E+05
-         3, NR,  z_ws, Fz:       0.1839       9996., dFz/dz:   6.497E+05
-         4, NR,  z_ws, Fz:       0.1839   1.000E+04, dFz/dz:   6.503E+05
+         1, NR,  z_ws, Fz:       0.1848   1.059E+04, dFz/dz:   6.241E+05
+         2, NR,  z_ws, Fz:       0.1839       9964., dFz/dz:   6.614E+05
+         3, NR,  z_ws, Fz:       0.1839       9999., dFz/dz:   6.499E+05
+         4, NR,  z_ws, Fz:       0.1839   1.000E+04, dFz/dz:   6.504E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -504,12 +508,11 @@
    2550    606      0    606      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case      4 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1494       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1721   1.198E+04, dFz/dz:   7.940E+05
-         2, NR,  z_ws, Fz:       0.1696   1.005E+04, dFz/dz:   7.740E+05
-         3, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.477E+05
-         4, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.470E+05
+         1, NR,  z_ws, Fz:       0.1695   1.004E+04, dFz/dz:   7.483E+05
+         2, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.474E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -557,7 +560,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      2.6970   -756.0026      0.0343       11.35      -52.17       177.8
+      2.6970   -756.0026      0.0343       11.35      -52.18       177.8
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -586,12 +589,12 @@
    2585    859      0    859      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case      4 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1444       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1717   1.143E+04, dFz/dz:   6.287E+05
-         2, NR,  z_ws, Fz:       0.1694   1.001E+04, dFz/dz:   6.238E+05
-         3, NR,  z_ws, Fz:       0.1694   1.000E+04, dFz/dz:   6.059E+05
-         4, NR,  z_ws, Fz:       0.1694   1.000E+04, dFz/dz:   6.058E+05
+         1, NR,  z_ws, Fz:       0.1698   1.023E+04, dFz/dz:   6.053E+05
+         2, NR,  z_ws, Fz:       0.1694       9999., dFz/dz:   6.077E+05
+         3, NR,  z_ws, Fz:       0.1694      10000., dFz/dz:   6.053E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -635,7 +638,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -619.8      -2131.   1.000E+04      -627.5      -2129.      10000.
+      -619.8      -2131.      10000.      -627.5      -2129.      10000.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -668,12 +671,12 @@
    1836    514      0    514      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case      5 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1324       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1550   1.156E+04, dFz/dz:   7.664E+05
-         2, NR,  z_ws, Fz:       0.1530   1.003E+04, dFz/dz:   7.500E+05
-         3, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.333E+05
-         4, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.328E+05
+         1, NR,  z_ws, Fz:       0.1529       9961., dFz/dz:   7.291E+05
+         2, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.322E+05
+         3, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.317E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -750,12 +753,12 @@
    2444    830      0    830      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case      5 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1280       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1553   1.147E+04, dFz/dz:   6.312E+05
-         2, NR,  z_ws, Fz:       0.1529   1.003E+04, dFz/dz:   6.169E+05
-         3, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.040E+05
-         4, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.029E+05
+         1, NR,  z_ws, Fz:       0.1532   1.021E+04, dFz/dz:   6.072E+05
+         2, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.053E+05
+         3, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.050E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -832,12 +835,11 @@
    1683    505      0    505      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case      6 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.1138       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1364   1.124E+04, dFz/dz:   7.447E+05
-         2, NR,  z_ws, Fz:       0.1347   1.002E+04, dFz/dz:   7.315E+05
-         3, NR,  z_ws, Fz:       0.1347   1.000E+04, dFz/dz:   7.183E+05
-         4, NR,  z_ws, Fz:       0.1347      10000., dFz/dz:   7.297E+05
+         1, NR,  z_ws, Fz:       0.1347   1.002E+04, dFz/dz:   7.168E+05
+         2, NR,  z_ws, Fz:       0.1347      10000., dFz/dz:   7.183E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -885,7 +887,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.5213   -756.9482      0.0215       4.109      -24.96       83.78
+      4.5213   -756.9482      0.0215       4.109      -24.96       83.77
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -903,7 +905,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.004E+04       492.1      -2970.       105.0   9.306E-02      -36.08
+     1.004E+04       492.1      -2970.       105.0   9.305E-02      -36.08
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1224      0.1634     -0.9863   2.094E-02       483.1
 
@@ -914,12 +916,12 @@
    2350    799      0    799      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case      6 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.1097       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1370   1.160E+04, dFz/dz:   6.380E+05
-         2, NR,  z_ws, Fz:       0.1345   1.004E+04, dFz/dz:   6.229E+05
-         3, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.059E+05
-         4, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.055E+05
+         1, NR,  z_ws, Fz:       0.1348   1.022E+04, dFz/dz:   6.117E+05
+         2, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.084E+05
+         3, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.055E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -996,12 +998,11 @@
    1632    510      0    510      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case      7 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.0932       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1159   1.096E+04, dFz/dz:   7.268E+05
-         2, NR,  z_ws, Fz:       0.1145   1.001E+04, dFz/dz:   7.174E+05
-         3, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.042E+05
-         4, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.102E+05
+         1, NR,  z_ws, Fz:       0.1145   1.002E+04, dFz/dz:   7.051E+05
+         2, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.044E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -1078,12 +1079,11 @@
    2352    766      0    766      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case      7 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.0898       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1171   1.177E+04, dFz/dz:   6.467E+05
-         2, NR,  z_ws, Fz:       0.1143   1.004E+04, dFz/dz:   6.309E+05
-         3, NR,  z_ws, Fz:       0.1143   1.000E+04, dFz/dz:   6.157E+05
-         4, NR,  z_ws, Fz:       0.1143   1.000E+04, dFz/dz:   6.156E+05
+         1, NR,  z_ws, Fz:       0.1147   1.024E+04, dFz/dz:   6.172E+05
+         2, NR,  z_ws, Fz:       0.1143      10000., dFz/dz:   6.172E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1127,7 +1127,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -417.5      -1988.   1.000E+04      -431.8      -1987.      10000.
+      -417.5      -1988.      10000.      -431.8      -1987.      10000.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -1160,11 +1160,11 @@
    1632    530      0    530      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case      8 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.0708       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0934   1.073E+04, dFz/dz:   7.116E+05
-         2, NR,  z_ws, Fz:       0.0924   1.001E+04, dFz/dz:   7.050E+05
-         3, NR,  z_ws, Fz:       0.0924   1.000E+04, dFz/dz:   6.966E+05
+         1, NR,  z_ws, Fz:       0.0924   1.001E+04, dFz/dz:   6.952E+05
+         2, NR,  z_ws, Fz:       0.0924      10000., dFz/dz:   6.965E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -1208,7 +1208,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       443.1      -3078.   1.000E+04       417.2      -3084.       9999.
+       443.1      -3078.      10000.       417.2      -3084.       9999.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -1241,12 +1241,12 @@
    2303    748      0    748      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case      8 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.0678       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0952   1.198E+04, dFz/dz:   6.578E+05
-         2, NR,  z_ws, Fz:       0.0922   1.006E+04, dFz/dz:   6.390E+05
-         3, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.207E+05
-         4, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.207E+05
+         1, NR,  z_ws, Fz:       0.0925   1.029E+04, dFz/dz:   6.252E+05
+         2, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.233E+05
+         3, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.193E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1323,11 +1323,11 @@
    1683    542      0    542      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case      9 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.0462       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0688   1.053E+04, dFz/dz:   6.983E+05
-         2, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.923E+05
-         3, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.867E+05
+         1, NR,  z_ws, Fz:       0.0680       9961., dFz/dz:   6.854E+05
+         2, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.862E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -1404,12 +1404,12 @@
    2205    727      0    727      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case      9 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.0437       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0711   1.229E+04, dFz/dz:   6.738E+05
-         2, NR,  z_ws, Fz:       0.0677   1.007E+04, dFz/dz:   6.528E+05
-         3, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.285E+05
-         4, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.276E+05
+         1, NR,  z_ws, Fz:       0.0680   1.027E+04, dFz/dz:   6.346E+05
+         2, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.311E+05
+         3, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.270E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1475,7 +1475,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9745.      -379.6      -2898.      -24.05      0.1021      -56.61
+         9745.      -379.6      -2898.      -24.06      0.1021      -56.61
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1188     -0.1298     -0.9914   2.370E-02       664.4
 
@@ -1486,11 +1486,11 @@
    1734    561      0    561      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     10 for w/r contact on result element  1
          0, NR,  z_ws, Fz:       0.0189       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0415   1.036E+04, dFz/dz:   6.866E+05
-         2, NR,  z_ws, Fz:       0.0410   1.000E+04, dFz/dz:   6.841E+05
-         3, NR,  z_ws, Fz:       0.0410   1.000E+04, dFz/dz:   6.806E+05
+         1, NR,  z_ws, Fz:       0.0410   1.001E+04, dFz/dz:   6.788E+05
+         2, NR,  z_ws, Fz:       0.0410      10000., dFz/dz:   6.799E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -1534,7 +1534,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       440.6      -3067.   1.000E+04       407.4      -3075.       9999.
+       440.6      -3067.      10000.       407.4      -3075.       9999.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -1567,12 +1567,12 @@
    2107    712      0    712      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     10 for w/r contact on result element  2
          0, NR,  z_ws, Fz:       0.0171       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0445   1.278E+04, dFz/dz:   6.996E+05
-         2, NR,  z_ws, Fz:       0.0405   1.010E+04, dFz/dz:   6.742E+05
-         3, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.479E+05
-         4, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.473E+05
+         1, NR,  z_ws, Fz:       0.0409   1.036E+04, dFz/dz:   6.523E+05
+         2, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.487E+05
+         3, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.455E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1649,6 +1649,7 @@
    1887    602      0    602      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     11 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -0.0205       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0018       9961., dFz/dz:   6.707E+05
@@ -1729,6 +1730,7 @@
    2107    692      0    692      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     11 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.0023       7420., dFz/dz:   4.501E+05
@@ -1812,6 +1814,7 @@
    3960    389      0    389      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     12 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -0.1091       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.0858   1.048E+04, dFz/dz:   6.751E+05
@@ -1893,6 +1896,7 @@
    2009    679      0    679      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     12 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -0.1176       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.0910       7944., dFz/dz:   4.487E+05
@@ -1975,6 +1979,7 @@
     969    258      0    258      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     13 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -0.2185       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.1949   1.052E+04, dFz/dz:   6.695E+05
@@ -2056,6 +2061,7 @@
    1960    658      0    658      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     13 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -0.2259       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.2022       7095., dFz/dz:   4.498E+05
@@ -2138,6 +2144,7 @@
    1197    332      0    332      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     14 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -3.0696       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -3.0419   1.266E+04, dFz/dz:   6.847E+05
@@ -2220,6 +2227,7 @@
    1836    601      0    601      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     14 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -3.1382       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -3.0841       4586., dFz/dz:   1.273E+05
@@ -2303,6 +2311,7 @@
    1164    249      0    249      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     15 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -4.6045       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -4.5757   1.298E+04, dFz/dz:   6.782E+05
@@ -2385,6 +2394,7 @@
    1785    575      0    575      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     15 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -4.6549       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -4.5981       6739., dFz/dz:   1.781E+05
@@ -2467,6 +2477,7 @@
     957    224      0    224      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     16 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -5.5537       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -5.5246   1.301E+04, dFz/dz:   6.715E+05
@@ -2549,6 +2560,7 @@
    1734    559      0    559      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     16 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -5.5956       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -5.5417       7445., dFz/dz:   2.069E+05
@@ -2631,6 +2643,7 @@
     913    208      0    208      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     17 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -6.2851       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -6.2559   1.298E+04, dFz/dz:   6.657E+05
@@ -2713,6 +2726,7 @@
    1683    549      0    549      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     17 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -6.3220       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -6.2709       7793., dFz/dz:   2.284E+05
@@ -2795,6 +2809,7 @@
     869    199      0    199      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     18 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -6.8925       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -6.8631   1.296E+04, dFz/dz:   6.607E+05
@@ -2877,6 +2892,7 @@
    1632    543      0    543      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     18 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -6.9252       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -6.8762       8079., dFz/dz:   2.474E+05
@@ -2959,6 +2975,7 @@
     847    192      0    192      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     19 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -7.4161       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -7.3866   1.291E+04, dFz/dz:   6.562E+05
@@ -3041,6 +3058,7 @@
    1632    532      0    532      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     19 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -7.4455       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -7.3980       8346., dFz/dz:   2.635E+05
@@ -3123,6 +3141,7 @@
     825    186      0    186      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     20 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -7.8778       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -7.8482   1.288E+04, dFz/dz:   6.526E+05
@@ -3205,6 +3224,7 @@
    1632    520      0    520      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     20 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -7.9046       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -7.8583       8588., dFz/dz:   2.787E+05
@@ -3287,6 +3307,7 @@
     803    181      0    181      1      1
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
+
  Case     21 for w/r contact on result element  1
          0, NR,  z_ws, Fz:      -8.2913       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -8.2617   1.285E+04, dFz/dz:   6.493E+05
@@ -3369,6 +3390,7 @@
    1643    515      0    515      1      1
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
+
  Case     21 for w/r contact on result element  2
          0, NR,  z_ws, Fz:      -8.3159       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -8.2710       8745., dFz/dz:   2.918E+05
@@ -3456,19 +3478,19 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       3.2 | 100.0 |        3.8 | 100.0 |
-|Wheel-rail cases     |      42 |       3.2 |  97.1 |        3.6 |  96.7 |
-|Subsurface points    |       1 |       0.1 |   2.9 |        0.1 |   2.8 |
-|W/r profiles         |       4 |       0.0 |   0.0 |        0.0 |   0.4 |
-|Geometric analysis   |     206 |       0.2 |   4.8 |        0.1 |   3.5 |
-|Panag.process        |     164 |       2.8 |  85.6 |        3.3 |  88.0 |
-|Algorithm Norm       |     164 |       0.2 |   7.7 |        0.4 |   9.6 |
-|Algorithm Tang       |     164 |       2.5 |  77.4 |        2.9 |  78.2 |
-|Output quantities    |     206 |       0.2 |   4.8 |        0.1 |   2.4 |
+|Total                |       1 |       2.3 | 100.0 |        3.1 | 100.0 |
+|Wheel-rail cases     |      42 |       2.2 |  96.0 |        2.9 |  95.5 |
+|Subsurface points    |       1 |       0.1 |   3.3 |        0.1 |   3.9 |
+|W/r profiles         |       4 |       0.0 |   0.0 |        0.0 |   0.6 |
+|Geometric analysis   |     186 |       0.1 |   5.3 |        0.1 |   4.8 |
+|Panag.process        |     144 |       2.0 |  84.0 |        2.6 |  85.3 |
+|Algorithm Norm       |     144 |       0.2 |   8.7 |        0.4 |  13.6 |
+|Algorithm Tang       |     144 |       1.8 |  75.3 |        2.2 |  71.3 |
+|Output quantities    |     186 |       0.0 |   2.0 |        0.1 |   2.1 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     164 |       0.2 |   6.2 |        0.3 |   8.1 |
-|Tang: StedyGS solver |     164 |       2.5 |  76.0 |        2.9 |  77.1 |
+|Norm: ConjGrd solver |     144 |       0.2 |   6.7 |        0.3 |  10.3 |
+|Tang: StedyGS solver |     144 |       1.8 |  74.7 |        2.1 |  68.8 |
 |------------------------------------------------------------------------|
-|Result element  1    |      21 |       1.5 |  47.1 |        1.9 |  50.3 |
-|Result element  2    |      22 |       1.7 |  52.9 |        1.9 |  49.2 |
+|Result element  1    |      21 |       1.0 |  43.3 |        1.4 |  45.5 |
+|Result element  2    |      22 |       1.3 |  56.0 |        1.7 |  53.9 |
 |------------------------------------------------------------------------|

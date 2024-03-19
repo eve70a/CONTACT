@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -114,7 +114,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   3355    723      0    723      1      1
+   3416    723      0    723      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     30  o...............................................o
@@ -151,24 +151,24 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.3 | 100.0 |        0.4 | 100.0 |
-|Wheel-rail cases     |       1 |       0.3 | 100.0 |        0.4 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   5.6 |        0.2 |  55.1 |
-|Geometric analysis   |       1 |       0.2 |  83.3 |        0.1 |  34.4 |
-|Panag.process        |       1 |       0.0 |   5.6 |        0.0 |   4.6 |
-|Algorithm Norm       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       1 |       0.0 |   5.6 |        0.0 |   4.6 |
-|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   1.3 |
+|Total                |       1 |       0.2 | 100.0 |        0.3 | 100.0 |
+|Wheel-rail cases     |       1 |       0.2 | 100.0 |        0.2 |  95.4 |
+|W/r profiles         |       2 |       0.0 |  23.1 |        0.1 |  26.0 |
+|Geometric analysis   |       1 |       0.1 |  69.2 |        0.1 |  56.5 |
+|Panag.process        |       1 |       0.0 |   7.7 |        0.0 |   6.5 |
+|Algorithm Norm       |       1 |       0.0 |   7.7 |        0.0 |   0.0 |
+|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   6.5 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       1 |       0.0 |   5.6 |        0.0 |   4.6 |
+|Norm: ConjGrd solver |       1 |       0.0 |   7.7 |        0.0 |   0.0 |
+|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |   1.9 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       1 |       0.0 |   5.6 |        0.2 |  55.1 |
-|Contact location     |       1 |       0.2 |  83.3 |        0.1 |  34.4 |
-| - Interp sf_whl     |       1 |       0.1 |  27.8 |        0.0 |  12.1 |
-| - Other calc.       |       2 |       0.0 |   5.6 |        0.0 |   3.2 |
-| - Locate interpen   |       1 |       0.0 |   5.6 |        0.0 |   4.3 |
-|Undeformed distance  |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       1 |       0.0 |  23.1 |        0.1 |  26.0 |
+|Contact location     |       1 |       0.1 |  69.2 |        0.1 |  55.0 |
+| - Interp sf_whl     |       1 |       0.1 |  46.2 |        0.0 |  19.1 |
+| - Other calc.       |       2 |       0.0 |   7.7 |        0.0 |   6.1 |
+| - Locate interpen   |       1 |       0.0 |   7.7 |        0.0 |   4.6 |
+|Undeformed distance  |       1 |       0.0 |   0.0 |        0.0 |   1.5 |
 | - Interp whl_srfc   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       1 |       0.0 |   0.0 |        0.0 |   0.0 |

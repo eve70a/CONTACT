@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -636,16 +636,16 @@ Performance timers:
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
 |Total                |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
-|Non-Hertzian cases   |       1 |       0.0 |   0.0 |        0.0 |  62.5 |
-|Panag.process        |       1 |       0.0 |   0.0 |        0.0 |  62.5 |
+|Non-Hertzian cases   |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
+|Panag.process        |       1 |       0.0 |   0.0 |        0.0 |  66.7 |
 |Algorithm Norm       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |  62.5 |
+|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |  66.7 |
 |Output quantities    |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |  62.5 |
+|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       1 |       0.0 |   0.0 |        0.0 |  33.3 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Writing output-files |       1 |       0.0 |   0.0 |        0.0 |   0.0 |

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -11,11 +11,10 @@
  reading rail  profile "MBench_UIC60_v3.prr"
  reading wheel profile "MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.536E+04, dFz/dz:   1.018E+06
-         2, NR,  z_ws, Fz:       0.1995       9600., dFz/dz:   1.094E+06
-         3, NR,  z_ws, Fz:       0.1999       9947., dFz/dz:   9.482E+05
-         4, NR,  z_ws, Fz:       0.1999   1.000E+04, dFz/dz:   9.568E+05
-         5, NR,  z_ws, Fz:       0.1999      10000., dFz/dz:   9.753E+05
+         1, NR,  z_ws, Fz:       0.1995       9605., dFz/dz:   8.292E+05
+         2, NR,  z_ws, Fz:       0.2000   1.006E+04, dFz/dz:   9.537E+05
+         3, NR,  z_ws, Fz:       0.1999       9998., dFz/dz:   9.817E+05
+         4, NR,  z_ws, Fz:       0.1999      10000., dFz/dz:   9.502E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -69,11 +68,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       687.3       8.071      10000.       687.3       8.071      10000.
+       687.3       8.070      10000.       687.3       8.070      10000.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0085    753.0008      0.0947      -197.7      -2.609      -2876.
+      0.0085    753.0008      0.0947      -197.7      -2.608      -2876.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -199,17 +198,17 @@
 
  Case     2
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2016   1.550E+04, dFz/dz:   8.499E+05
- WARNING: potential contact area too small;   13 elements next to boundary.
-         2, NR,  z_ws, Fz:       0.1951   1.521E+04, dFz/dz:   4.499E+04
-         3, NR,  z_ws, Fz:       0.1847       2771., dFz/dz:   1.191E+06
-         4, NR,  z_ws, Fz:       0.1908       5908., dFz/dz:   2.127E+06
-         5, NR,  z_ws, Fz:       0.1927       7091., dFz/dz:   6.148E+05
-         6, NR,  z_ws, Fz:       0.1939       7979., dFz/dz:   7.250E+05
-         7, NR,  z_ws, Fz:       0.1945   1.042E+04, dFz/dz:   3.989E+06
-         8, NR,  z_ws, Fz:       0.1944       9610., dFz/dz:   7.664E+06
-         9, NR,  z_ws, Fz:       0.1945       9983., dFz/dz:   7.326E+06
-        10, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   7.419E+06
+         1, NR,  z_ws, Fz:       0.1997   1.311E+04, dFz/dz:   7.740E+05
+ WARNING: potential contact area too small;    3 elements next to boundary.
+         2, NR,  z_ws, Fz:       0.1956   1.244E+04, dFz/dz:   1.673E+05
+         3, NR,  z_ws, Fz:       0.1849       2875., dFz/dz:   8.942E+05
+         4, NR,  z_ws, Fz:       0.1929       7218., dFz/dz:   1.915E+06
+         5, NR,  z_ws, Fz:       0.1944       9262., dFz/dz:   2.495E+06
+         6, NR,  z_ws, Fz:       0.1947   1.160E+04, dFz/dz:   7.905E+06
+         7, NR,  z_ws, Fz:       0.1945       9911., dFz/dz:   6.950E+06
+         8, NR,  z_ws, Fz:       0.1945   1.001E+04, dFz/dz:   7.648E+06
+         9, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   7.428E+06
+        10, NR,  z_ws, Fz:       0.1945   1.000E+04, dFz/dz:   6.730E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -249,11 +248,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -982.5      -1687.   1.000E+04      -984.5      -1686.   1.000E+04
+      -982.5      -1687.   1.000E+04      -984.5      -1686.      10000.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.7821    744.2668      0.4416       332.5       599.8      -3380.
+     -0.7821    744.2666      0.4416       332.5       599.7      -3379.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -279,9 +278,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9890.      -982.5      -2247.      -3895.   7.390E-02      -6.624
+         9889.      -982.5      -2247.      -3895.   7.390E-02      -6.624
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1206     -0.3311     -0.7573   2.017E-02       569.8
+        0.1206     -0.3312     -0.7573   2.017E-02       569.8
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -470,10 +469,10 @@
 
  Case     4
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.707E+04, dFz/dz:   1.131E+06
-         2, NR,  z_ws, Fz:       0.1985       9911., dFz/dz:   1.146E+06
-         3, NR,  z_ws, Fz:       0.1986       9998., dFz/dz:   1.116E+06
-         4, NR,  z_ws, Fz:       0.1986      10000., dFz/dz:   1.099E+06
+         1, NR,  z_ws, Fz:       0.1995   1.096E+04, dFz/dz:   9.464E+05
+         2, NR,  z_ws, Fz:       0.1985       9882., dFz/dz:   1.063E+06
+         3, NR,  z_ws, Fz:       0.1986   1.000E+04, dFz/dz:   1.106E+06
+         4, NR,  z_ws, Fz:       0.1986   1.000E+04, dFz/dz:   1.088E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -513,11 +512,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       340.5       30.71      10000.       340.5       30.71      10000.
+       340.5       30.71   1.000E+04       340.5       30.71   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0083    752.2396      0.1148      -107.4      -9.718      -3153.
+      0.0083    752.2396      0.1148      -107.3      -9.718      -3153.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -543,7 +542,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9997.       340.5      -261.6      -3302.   6.438E-02     -0.3391
+         9997.       340.5      -261.6      -3303.   6.439E-02     -0.3391
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1219      0.1135  -8.722E-02   1.646E-02       352.1
 
@@ -636,13 +635,13 @@
 
  Case     5
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2016   1.772E+04, dFz/dz:   9.717E+05
-         2, NR,  z_ws, Fz:       0.1937       8835., dFz/dz:   1.118E+06
-         3, NR,  z_ws, Fz:       0.1947       9880., dFz/dz:   1.003E+06
-         4, NR,  z_ws, Fz:       0.1948       9968., dFz/dz:   7.367E+05
-         5, NR,  z_ws, Fz:       0.1949   1.000E+04, dFz/dz:   7.713E+05
-         6, NR,  z_ws, Fz:       0.1949   1.000E+04, dFz/dz:   7.126E+05
-         7, NR,  z_ws, Fz:       0.1949   1.000E+04, dFz/dz:   6.364E+05
+         1, NR,  z_ws, Fz:       0.1997   1.536E+04, dFz/dz:   9.067E+05
+         2, NR,  z_ws, Fz:       0.1938       8929., dFz/dz:   1.088E+06
+         3, NR,  z_ws, Fz:       0.1947       9903., dFz/dz:   9.891E+05
+         4, NR,  z_ws, Fz:       0.1948       9972., dFz/dz:   7.055E+05
+         5, NR,  z_ws, Fz:       0.1949   1.000E+04, dFz/dz:   7.943E+05
+         6, NR,  z_ws, Fz:       0.1949   1.000E+04, dFz/dz:   6.885E+05
+         7, NR,  z_ws, Fz:       0.1949   1.000E+04, dFz/dz:   6.916E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -899,10 +898,10 @@
 
  Case     7
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2048   1.757E+04, dFz/dz:   1.165E+06
-         2, NR,  z_ws, Fz:       0.1983   1.018E+04, dFz/dz:   1.137E+06
-         3, NR,  z_ws, Fz:       0.1981   1.001E+04, dFz/dz:   1.059E+06
-         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.058E+06
+         1, NR,  z_ws, Fz:       0.1995   1.151E+04, dFz/dz:   9.939E+05
+         2, NR,  z_ws, Fz:       0.1980       9884., dFz/dz:   1.070E+06
+         3, NR,  z_ws, Fz:       0.1981       9998., dFz/dz:   1.054E+06
+         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.060E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -938,11 +937,11 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      0.2776       36.24   1.000E+04      0.2776       36.24   1.000E+04
+      0.2771       36.24   1.000E+04      0.2771       36.24   1.000E+04
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0117    751.4397      0.1380     -0.1278      -16.68      -4604.
+      0.0117    751.4397      0.1380     -0.1276      -16.68      -4604.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -960,9 +959,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9997.      0.2776      -253.7      -4605.   6.042E-02     -0.4677
+         9997.      0.2771      -253.7      -4605.   6.042E-02     -0.4677
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1219   9.256E-05  -8.458E-02   1.596E-02       338.3
+        0.1219   9.239E-05  -8.458E-02   1.596E-02       338.3
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1058,11 +1057,11 @@
 
  Case     8
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2016   1.860E+04, dFz/dz:   1.020E+06
-         2, NR,  z_ws, Fz:       0.1932       9375., dFz/dz:   1.094E+06
-         3, NR,  z_ws, Fz:       0.1938       9945., dFz/dz:   9.973E+05
+         1, NR,  z_ws, Fz:       0.1997   1.632E+04, dFz/dz:   9.634E+05
+         2, NR,  z_ws, Fz:       0.1931       9297., dFz/dz:   1.071E+06
+         3, NR,  z_ws, Fz:       0.1938       9951., dFz/dz:   9.954E+05
          4, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   1.001E+06
-         5, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   9.982E+05
+         5, NR,  z_ws, Fz:       0.1938      10000., dFz/dz:   1.035E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1098,7 +1097,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -880.0      -2015.   1.000E+04      -882.4      -2014.      10000.
+      -880.0      -2015.      10000.      -882.4      -2014.      10000.
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
@@ -1356,26 +1355,26 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.0 | 100.0 |        1.7 | 100.0 |
-|Wheel-rail cases     |       9 |       1.0 | 100.0 |        1.7 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.5 |
-|Geometric analysis   |      63 |       0.1 |   6.2 |        0.1 |   7.3 |
-|Panag.process        |      54 |       0.9 |  90.6 |        1.4 |  80.4 |
-|Algorithm Norm       |      14 |       0.0 |   3.1 |        0.1 |   4.7 |
-|Algorithm Tang       |      54 |       0.9 |  87.5 |        1.3 |  75.7 |
-|Output quantities    |      63 |       0.0 |   0.0 |        0.1 |   3.8 |
+|Total                |       1 |       0.8 | 100.0 |        1.5 | 100.0 |
+|Wheel-rail cases     |       9 |       0.8 | 100.0 |        1.5 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Geometric analysis   |      62 |       0.0 |   0.0 |        0.1 |   5.7 |
+|Panag.process        |      53 |       0.8 |  92.3 |        1.1 |  73.9 |
+|Algorithm Norm       |      14 |       0.0 |   0.0 |        0.1 |   5.4 |
+|Algorithm Tang       |      53 |       0.8 |  92.3 |        1.1 |  68.3 |
+|Output quantities    |      62 |       0.0 |   5.8 |        0.1 |   5.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      14 |       0.0 |   3.1 |        0.1 |   4.3 |
-|Norm: KPEC method    |      21 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Norm: ANALYN method  |      19 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      14 |       0.9 |  87.5 |        1.2 |  73.3 |
-|Tang: Fastsim solver |      40 |       0.0 |   0.0 |        0.0 |   0.4 |
+|Norm: ConjGrd solver |      14 |       0.0 |   0.0 |        0.1 |   3.6 |
+|Norm: KPEC method    |      20 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Norm: ANALYN method  |      19 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Tang: StedyGS solver |      14 |       0.7 |  90.4 |        1.1 |  68.3 |
+|Tang: Fastsim solver |      39 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       9 |       0.0 |   0.0 |        0.0 |   0.5 |
-|Contact location     |      63 |       0.0 |   4.7 |        0.1 |   5.3 |
-|Undeformed distance  |      54 |       0.0 |   1.6 |        0.0 |   1.8 |
-| - Interp whl_srfc   |      54 |       0.0 |   0.0 |        0.0 |   0.9 |
-|Influence coeffic.   |      54 |       0.0 |   0.0 |        0.1 |   3.8 |
-|Initial state/estim. |      54 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       9 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Contact location     |      62 |       0.0 |   0.0 |        0.1 |   3.6 |
+|Undeformed distance  |      53 |       0.0 |   0.0 |        0.0 |   1.8 |
+| - Interp whl_srfc   |      53 |       0.0 |   0.0 |        0.0 |   1.2 |
+|Influence coeffic.   |      53 |       0.0 |   1.9 |        0.1 |   5.5 |
+|Initial state/estim. |      53 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

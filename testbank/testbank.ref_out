@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -1823,9 +1823,9 @@
  reading rail  profile "profiles\MBench_UIC60_v3.prr"
  reading wheel profile "profiles\MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:     101.3834       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:     101.4203       8967., dFz/dz:   3.642E+05
-         2, NR,  z_ws, Fz:     101.4232   1.000E+04, dFz/dz:   3.645E+05
-         3, NR,  z_ws, Fz:     101.4232      10000., dFz/dz:   3.736E+05
+         1, NR,  z_ws, Fz:     101.4203       8957., dFz/dz:   3.641E+05
+         2, NR,  z_ws, Fz:     101.4232   1.000E+04, dFz/dz:   3.644E+05
+         3, NR,  z_ws, Fz:     101.4232      10000., dFz/dz:   3.729E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1878,7 +1878,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0000    722.0375      0.4026   4.456E+04      -0.000       0.000
+     -0.0000    722.0375      0.4026   4.456E+04       0.000       0.000
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2346,11 +2346,10 @@
  reading wheel profile "profiles\avg_wheel.whl"
  WARNING: found data while still in headers, ignoring line    7
          0, NR,  z_ws, Fz:       0.1647       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.4113   2.371E+05, dFz/dz:   1.442E+06
-         2, NR,  z_ws, Fz:       0.3331   1.312E+05, dFz/dz:   1.355E+06
-         3, NR,  z_ws, Fz:       0.3281   1.252E+05, dFz/dz:   1.194E+06
-         4, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.186E+06
-         5, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.172E+06
+         1, NR,  z_ws, Fz:       0.3431   1.435E+05, dFz/dz:   1.206E+06
+         2, NR,  z_ws, Fz:       0.3273   1.242E+05, dFz/dz:   1.215E+06
+         3, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.183E+06
+         4, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.177E+06
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -2405,7 +2404,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.8530   -722.0954      7.0057      -9156.      -5630.   3.071E+04
+     -2.8530   -722.0954      7.0057      -9157.      -5630.   3.071E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2465,9 +2464,9 @@
  Kink in rail profile at ( -22.00,  33.72) (ip=    2): successive angles   -1.3, -124.3 deg
  WARNING: profile spline deviates up to  0.429 mm from input profile
          0, NR,  z_ws, Fz:       0.2139       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.2989   7.180E+04, dFz/dz:   1.266E+06
-         2, NR,  z_ws, Fz:       0.2986   7.139E+04, dFz/dz:   1.259E+06
-         3, NR,  z_ws, Fz:       0.2986   7.139E+04, dFz/dz:   1.263E+06
+         1, NR,  z_ws, Fz:       0.2991   7.200E+04, dFz/dz:   1.267E+06
+         2, NR,  z_ws, Fz:       0.2986   7.139E+04, dFz/dz:   1.260E+06
+         3, NR,  z_ws, Fz:       0.2986   7.139E+04, dFz/dz:   1.262E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -2870,15 +2869,13 @@
  reading wheel profile "profiles\whl_left_iter288.whl"
  WARNING: profile spline deviates up to  0.184 mm from input profile
          0, NR,  z_ws, Fz:      -4.2101       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.9293   2.159E+04, dFz/dz:   1.154E+05
-         2, NR,  z_ws, Fz:      -3.7890   4.035E+04, dFz/dz:   1.337E+05
-         3, NR,  z_ws, Fz:      -3.5784   7.415E+04, dFz/dz:   1.605E+05
-         4, NR,  z_ws, Fz:      -3.4521   9.639E+04, dFz/dz:   1.760E+05
-         5, NR,  z_ws, Fz:      -3.3005   1.244E+05, dFz/dz:   1.846E+05
-         6, NR,  z_ws, Fz:      -3.1750   1.499E+05, dFz/dz:   2.029E+05
-         7, NR,  z_ws, Fz:      -3.2159   1.414E+05, dFz/dz:   2.067E+05
-         8, NR,  z_ws, Fz:      -3.2152   1.415E+05, dFz/dz:   2.051E+05
-         9, NR,  z_ws, Fz:      -3.2152   1.415E+05, dFz/dz:   2.067E+05
+         1, NR,  z_ws, Fz:      -3.8326   3.381E+04, dFz/dz:   1.343E+05
+         2, NR,  z_ws, Fz:      -3.6438   6.310E+04, dFz/dz:   1.552E+05
+         3, NR,  z_ws, Fz:      -3.3607   1.128E+05, dFz/dz:   1.756E+05
+         4, NR,  z_ws, Fz:      -3.1908   1.466E+05, dFz/dz:   1.986E+05
+         5, NR,  z_ws, Fz:      -3.2161   1.414E+05, dFz/dz:   2.057E+05
+         6, NR,  z_ws, Fz:      -3.2152   1.415E+05, dFz/dz:   2.051E+05
+         7, NR,  z_ws, Fz:      -3.2152   1.415E+05, dFz/dz:   2.088E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -2983,21 +2980,24 @@
  reading wheel profile "profiles\whl_left_iter795.whl"
  WARNING: profile spline deviates up to  0.278 mm from input profile
          0, NR,  z_ws, Fz:      -1.0890       0.000, dFz/dz:       0.000
- WARNING: potential contact area too small;   63 elements next to boundary.
+ WARNING: potential contact area too small;   59 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         1, NR,  z_ws, Fz:      -0.8440   2.211E+05, dFz/dz:   1.354E+06
+         1, NR,  z_ws, Fz:      -0.8819   1.870E+05, dFz/dz:   1.355E+06
+ WARNING: potential contact area too small;   59 elements next to boundary.
+ WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
+         2, NR,  z_ws, Fz:      -0.8793   1.893E+05, dFz/dz:   8.612E+05
+ WARNING: potential contact area too small;   59 elements next to boundary.
+ WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
+         3, NR,  z_ws, Fz:      -0.8783   1.901E+05, dFz/dz:   8.610E+05
  WARNING: potential contact area too small;   61 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         2, NR,  z_ws, Fz:      -0.8666   2.007E+05, dFz/dz:   9.054E+05
+         4, NR,  z_ws, Fz:      -0.8678   1.996E+05, dFz/dz:   9.002E+05
  WARNING: potential contact area too small;   59 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         3, NR,  z_ws, Fz:      -0.8777   1.906E+05, dFz/dz:   9.005E+05
+         5, NR,  z_ws, Fz:      -0.8778   1.905E+05, dFz/dz:   8.610E+05
  WARNING: potential contact area too small;   59 elements next to boundary.
  WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         4, NR,  z_ws, Fz:      -0.8778   1.906E+05, dFz/dz:   8.607E+05
- WARNING: potential contact area too small;   59 elements next to boundary.
- WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line
-         5, NR,  z_ws, Fz:      -0.8778   1.906E+05, dFz/dz:   8.663E+05
+         6, NR,  z_ws, Fz:      -0.8778   1.906E+05, dFz/dz:   8.603E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -3362,13 +3362,13 @@
  reading wheel profile "profiles\Car7358_0001r.whl"
  WARNING: profile spline deviates up to  0.245 mm from input profile
          0, NR,  z_ws, Fz:      -5.3631       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -5.2314       5316., dFz/dz:   6.053E+04
-         2, NR,  z_ws, Fz:      -5.1655       9577., dFz/dz:   6.470E+04
-         3, NR,  z_ws, Fz:      -5.0667   1.779E+04, dFz/dz:   8.310E+04
-         4, NR,  z_ws, Fz:      -5.0075   2.338E+04, dFz/dz:   9.431E+04
-         5, NR,  z_ws, Fz:      -4.9363   3.142E+04, dFz/dz:   1.131E+05
-         6, NR,  z_ws, Fz:      -4.8510   4.197E+04, dFz/dz:   1.236E+05
-         7, NR,  z_ws, Fz:      -4.8669   3.994E+04, dFz/dz:   1.276E+05
+         1, NR,  z_ws, Fz:      -5.2294       5434., dFz/dz:   6.096E+04
+         2, NR,  z_ws, Fz:      -5.1626       9792., dFz/dz:   6.520E+04
+         3, NR,  z_ws, Fz:      -5.0623   1.818E+04, dFz/dz:   8.367E+04
+         4, NR,  z_ws, Fz:      -5.0021   2.395E+04, dFz/dz:   9.585E+04
+         5, NR,  z_ws, Fz:      -4.9299   3.218E+04, dFz/dz:   1.140E+05
+         6, NR,  z_ws, Fz:      -4.8433   4.296E+04, dFz/dz:   1.244E+05
+         7, NR,  z_ws, Fz:      -4.8671   3.992E+04, dFz/dz:   1.278E+05
          8, NR,  z_ws, Fz:      -4.8664   4.000E+04, dFz/dz:   1.257E+05
          9, NR,  z_ws, Fz:      -4.8664   4.000E+04, dFz/dz:   1.258E+05
 
@@ -4362,8 +4362,8 @@
    173   764.2873    -0.0235    -0.0220
 
  Case    36
- reading rail  profile "\cmcc\contact-cmcc\testbank\profiles\site_b_hr.prr"
- reading wheel profile "\cmcc\contact-cmcc\testbank\profiles\worn_high_mileage.prw"
+ reading rail  profile "profiles\site_b_hr.prr"
+ reading wheel profile "profiles\worn_high_mileage.prw"
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -4390,14 +4390,14 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       1.571       6.000       3.000    
 
- RAIL PROFILE "\cmcc\contact-cmcc\testbank\profiles\site_b_hr.prr"
+ RAIL PROFILE "profiles\site_b_hr.prr"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
- WHEEL PROFILE "\cmcc\contact-cmcc\testbank\profiles\worn_high_mileage.prw"
+ WHEEL PROFILE "profiles\worn_high_mileage.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
 
@@ -4868,32 +4868,32 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.4 | 100.0 |        1.5 | 100.0 |
-|Wheel-rail cases     |      17 |       0.2 |  54.2 |        0.9 |  61.7 |
-|Non-Hertzian cases   |      20 |       0.2 |  45.8 |        0.6 |  38.3 |
+|Total                |       1 |       0.4 | 100.0 |        1.7 | 100.0 |
+|Wheel-rail cases     |      17 |       0.2 |  66.7 |        1.0 |  63.0 |
+|Non-Hertzian cases   |      20 |       0.1 |  33.3 |        0.6 |  37.0 |
 |Subsurface points    |       3 |       0.0 |   0.0 |        0.0 |   0.0 |
-|W/r profiles         |      25 |       0.0 |   0.0 |        0.1 |   5.0 |
-|Geometric analysis   |      62 |       0.0 |   0.0 |        0.1 |   4.7 |
-|Panag.process        |      81 |       0.3 |  75.0 |        1.0 |  68.4 |
-|Algorithm Norm       |     122 |       0.1 |  29.2 |        0.2 |  16.7 |
-|Algorithm Tang       |     115 |       0.2 |  45.8 |        0.7 |  51.3 |
-|Output quantities    |      98 |       0.0 |   8.3 |        0.2 |  11.8 |
+|W/r profiles         |      25 |       0.0 |   8.3 |        0.1 |   4.5 |
+|Geometric analysis   |      60 |       0.0 |   0.0 |        0.1 |   4.3 |
+|Panag.process        |      79 |       0.3 |  83.3 |        1.1 |  63.6 |
+|Algorithm Norm       |     120 |       0.0 |   4.2 |        0.3 |  17.9 |
+|Algorithm Tang       |     113 |       0.3 |  79.2 |        0.8 |  45.5 |
+|Output quantities    |      96 |       0.0 |   8.3 |        0.3 |  16.3 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     122 |       0.1 |  25.0 |        0.2 |  14.2 |
-|Tang: TangCG solver  |      81 |       0.0 |   0.0 |        0.2 |  13.4 |
-|Tang: ConvxGS solver |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      80 |       0.2 |  45.8 |        0.5 |  35.0 |
+|Norm: ConjGrd solver |     120 |       0.0 |   4.2 |        0.2 |  13.0 |
+|Tang: TangCG solver  |      81 |       0.1 |  20.8 |        0.1 |   9.0 |
+|Tang: ConvxGS solver |       7 |       0.0 |   0.0 |        0.0 |   0.5 |
+|Tang: StedyGS solver |      77 |       0.2 |  58.3 |        0.6 |  34.0 |
 |Tang: Fastsim solver |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      37 |       0.0 |   0.0 |        0.1 |   5.0 |
-|Contact location     |      62 |       0.0 |   0.0 |        0.0 |   1.9 |
+|Reading input-file   |      37 |       0.0 |   8.3 |        0.1 |   4.6 |
+|Contact location     |      60 |       0.0 |   0.0 |        0.0 |   1.6 |
 | - Interp sf_whl     |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 | - Other calc.       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 | - Locate interpen   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |      61 |       0.0 |   0.0 |        0.0 |   1.9 |
-| - Interp whl_srfc   |      61 |       0.0 |   0.0 |        0.0 |   0.8 |
-|Influence coeffic.   |      79 |       0.0 |   4.2 |        0.0 |   2.5 |
-|Initial state/estim. |      81 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Undeformed distance  |      59 |       0.0 |   0.0 |        0.0 |   2.2 |
+| - Interp whl_srfc   |      59 |       0.0 |   0.0 |        0.0 |   1.9 |
+|Influence coeffic.   |      77 |       0.0 |   0.0 |        0.0 |   1.7 |
+|Initial state/estim. |      79 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Subsurf writing      |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

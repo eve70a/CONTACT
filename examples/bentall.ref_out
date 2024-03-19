@@ -2,18 +2,16 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Input: WARNING. With dissimilar materials (Ak= 0.1002), MAXOUT should
-        be > 1, i.e. the Panag/outer iteration process should be used.
+ Input: WARNING. With dissimilar materials (Ak= 0.1002), MAXOUT should be > 1,
+        i.e. the Panag/outer iteration process should be used.
 
  Case     2
- Input: WARNING. With dissimilar materials (Ak= 0.1002), MAXOUT should
-        be > 1, i.e. the Panag/outer iteration process should be used.
  NORM
        1, Norm: size of Contact, Exterior :    200     16
       Norm: final element division: C, E=    200     16  ItCG=     3
@@ -544,17 +542,17 @@ Performance timers:
 |------------------------------------------------------------------------|
 |Total                |       1 |       0.0 | 100.0 |        0.4 | 100.0 |
 |Non-Hertzian cases   |       6 |       0.0 | 100.0 |        0.4 | 100.0 |
-|Panag.process        |       6 |       0.0 | 100.0 |        0.4 |  95.7 |
-|Algorithm Norm       |      19 |       0.0 |   0.0 |        0.0 |   0.5 |
-|Algorithm Tang       |      19 |       0.0 | 100.0 |        0.4 |  95.2 |
-|Output quantities    |       6 |       0.0 |   0.0 |        0.0 |   2.4 |
+|Panag.process        |       6 |       0.0 | 100.0 |        0.4 |  98.1 |
+|Algorithm Norm       |      19 |       0.0 |   0.0 |        0.0 |   4.7 |
+|Algorithm Tang       |      19 |       0.0 | 100.0 |        0.4 |  93.0 |
+|Output quantities    |       6 |       0.0 |   0.0 |        0.0 |   1.9 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |      19 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      77 |       0.0 | 100.0 |        0.4 |  93.8 |
+|Tang: StedyGS solver |      77 |       0.0 | 100.0 |        0.3 |  79.5 |
 |------------------------------------------------------------------------|
 |Reading input-file   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       5 |       0.0 |   0.0 |        0.0 |   1.9 |
+|Writing output-files |       5 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

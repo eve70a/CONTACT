@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2484 $, $Date:: 2024-01-08$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -389,7 +389,7 @@
  **      cntc_getContactPatchAreas(  2.2): carea= 0.000056, harea= 0.000053, sarea= 0.000003 [area]
  **        cntc_getMaximumPressure(  2.2): maximum pressure= 0.523E+09 [force/area]
  **        cntc_getMaximumTraction(  2.2): maximum traction= 0.795E+08 [force/area]
- **        cntc_getCalculationTime(  2.2): tcpu=    0.0, twall=    0.0 [s]
+ **        cntc_getCalculationTime(  2.2): tcpu=    0.0, twall=    0.1 [s]
  **                cntc_calculate3(  1.2): g,nu1=  82000.0 0.280
  **                cntc_calculate3(  1.2): g,nu2=  82000.0 0.280
  **                cntc_calculate3(  1.2): nvf, fstat, fkin =   1 0.30 0.30
@@ -508,14 +508,14 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.0 | 100.0 |        0.0 | 100.0 |
-|Panag.process        |       4 |       0.0 | 100.0 |        0.0 |  77.1 |
-|Algorithm Norm       |       4 |       0.0 |  50.0 |        0.0 |  31.2 |
-|Algorithm Tang       |       4 |       0.0 |  50.0 |        0.0 |  45.8 |
-|Output quantities    |       4 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Total                |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
+|Panag.process        |       4 |       0.0 | 100.0 |        0.1 |  90.4 |
+|Algorithm Norm       |       4 |       0.0 |   0.0 |        0.0 |  30.9 |
+|Algorithm Tang       |       4 |       0.0 | 100.0 |        0.1 |  59.6 |
+|Output quantities    |       4 |       0.0 |   0.0 |        0.0 |   1.1 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       4 |       0.0 |   0.0 |        0.0 |  22.9 |
-|Tang: StedyGS solver |      10 |       0.0 |  50.0 |        0.0 |  45.8 |
+|Norm: ConjGrd solver |       4 |       0.0 |   0.0 |        0.0 |  30.9 |
+|Tang: StedyGS solver |      10 |       0.0 | 100.0 |        0.1 |  59.6 |
 |------------------------------------------------------------------------|
-|Cp. 2 on Res.el.  2  |       2 |       0.0 |  50.0 |        0.0 |  58.3 |
+|Cp. 2 on Res.el.  2  |       2 |       0.0 |  50.0 |        0.1 |  53.2 |
 |------------------------------------------------------------------------|

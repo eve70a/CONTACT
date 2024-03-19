@@ -2,13 +2,13 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Input: Warning: Using DQ = DX =  0.8000E-01 (instead of  0.5000    )
+ Warning: Using DQ = DX =  0.8000E-01 (instead of   2.000    )
                  for solver ConvexGS with plasticity.
  NORM
        1, Norm: size of Contact, Exterior :     30      0
@@ -3123,17 +3123,17 @@ Performance timers:
 |------------------------------------------------------------------------|
 |Total                |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
 |Non-Hertzian cases   |      50 |       0.0 | 100.0 |        0.1 | 100.0 |
-|Panag.process        |      50 |       0.0 | 100.0 |        0.0 |  37.1 |
-|Algorithm Norm       |      50 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |      50 |       0.0 | 100.0 |        0.0 |  35.5 |
-|Output quantities    |      50 |       0.0 |   0.0 |        0.0 |  37.1 |
+|Panag.process        |      50 |       0.0 | 100.0 |        0.0 |  46.5 |
+|Algorithm Norm       |      50 |       0.0 |   0.0 |        0.0 |   1.4 |
+|Algorithm Tang       |      50 |       0.0 | 100.0 |        0.0 |  31.0 |
+|Output quantities    |      50 |       0.0 |   0.0 |        0.0 |  32.4 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      50 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: ConvxGS solver |      54 |       0.0 |   0.0 |        0.0 |  12.9 |
+|Norm: ConjGrd solver |      50 |       0.0 |   0.0 |        0.0 |   1.4 |
+|Tang: ConvxGS solver |      54 |       0.0 | 100.0 |        0.0 |  26.8 |
 |------------------------------------------------------------------------|
 |Reading input-file   |      50 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |      50 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |      50 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       6 |       0.0 |   0.0 |        0.0 |   6.5 |
+|Writing output-files |       6 |       0.0 |   0.0 |        0.0 |   9.9 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

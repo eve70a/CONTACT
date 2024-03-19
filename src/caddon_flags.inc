@@ -173,5 +173,5 @@
       CNTC_err_other  =  -99, & ! other error, unspecified
       CNTC_err_broydn =  CNTC_err_ftot  ! obsolete, kept for backward compatibility
 
-! $Revision: 2485 $, $Date: 2024-01-08 15:27:32 +0100 (Mon, 08 Jan 2024) $
+! $Revision: 2519 $, $Date: 2024-03-18 18:08:59 +0100 (Mon, 18 Mar 2024) $
 !------------------------------------------------------------------------------------------------------------

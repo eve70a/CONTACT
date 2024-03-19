@@ -28,7 +28,7 @@ $ENV{OMP_NUM_THREADS} = 2;
 my $status = 0;
 my @list=( 'test-rollers2', 'test-rollers3', 'mbench_conf', 'groove_li' );
 #  @list=( 'test-rollers3' );
-   @list=( 'groove_li' );
+#  @list=( 'groove_li' );
 
 foreach my $test ( @list ) {
    if ( !$status ) {

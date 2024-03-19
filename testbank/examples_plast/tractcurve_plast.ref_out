@@ -2,13 +2,13 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Input: Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
+ Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
                  for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
@@ -3280,7 +3280,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case    31
- Input: Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
+ Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
                  for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
@@ -6672,7 +6672,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case    61
- Input: Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
+ Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
                  for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
@@ -10064,7 +10064,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case    91
- Input: Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
+ Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
                  for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
@@ -13456,7 +13456,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case   121
- Input: Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
+ Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
                  for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
@@ -16848,7 +16848,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case   151
- Input: Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
+ Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
                  for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
@@ -20240,7 +20240,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case   181
- Input: Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
+ Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
                  for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
@@ -23632,7 +23632,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case   211
- Input: Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
+ Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
                  for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
@@ -27030,18 +27030,18 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      17.9 | 100.0 |       28.9 | 100.0 |
-|Non-Hertzian cases   |     240 |      17.9 | 100.0 |       28.9 | 100.0 |
-|Panag.process        |     240 |      17.8 |  99.3 |       28.0 |  97.0 |
-|Algorithm Norm       |     240 |       0.2 |   1.1 |        0.5 |   1.8 |
-|Algorithm Tang       |     240 |      17.6 |  98.2 |       27.5 |  95.0 |
-|Output quantities    |     240 |       0.1 |   0.5 |        0.8 |   2.8 |
+|Total                |       1 |      17.5 | 100.0 |       28.6 | 100.0 |
+|Non-Hertzian cases   |     240 |      17.5 | 100.0 |       28.6 | 100.0 |
+|Panag.process        |     240 |      17.4 |  99.3 |       27.0 |  94.3 |
+|Algorithm Norm       |     240 |       0.1 |   0.7 |        0.6 |   2.2 |
+|Algorithm Tang       |     240 |      17.3 |  98.6 |       26.3 |  91.9 |
+|Output quantities    |     240 |       0.1 |   0.6 |        1.5 |   5.4 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     240 |       0.2 |   1.0 |        0.4 |   1.5 |
-|Tang: StedyGS solver |     240 |      17.5 |  97.8 |       27.2 |  94.0 |
+|Norm: ConjGrd solver |     240 |       0.1 |   0.5 |        0.5 |   1.7 |
+|Tang: StedyGS solver |     240 |      17.3 |  98.5 |       26.1 |  91.2 |
 |------------------------------------------------------------------------|
 |Reading input-file   |     240 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       8 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Initial state/estim. |     240 |       0.0 |   0.1 |        0.0 |   0.0 |
+|Initial state/estim. |     240 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

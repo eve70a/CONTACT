@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2447 $, $Date:: 2023-11-04$        |
+   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -10,32 +10,19 @@
  Case     1
  reading rail  profile "..\profiles\flat_plane.prr"
  reading wheel profile "..\profiles\circ_r100.prw"
- v1: The effective radius ry seems unrealistically large (   6250.    ), truncating
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
- NORM
-       1, Norm: size of Contact, Exterior :    333    628
       Norm: final element division: C, E=    285    676  ItCG=     9
-
- TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :     285      0
       Tang: final element division: A, S=      0    285  ItGS=     5
-
          1, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.270E+05
- NORM
-       1, Norm: size of Contact, Exterior :    333    628
-      Norm: final element division: C, E=    285    676  ItCG=     9
-
- TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :     285      0
-      Tang: final element division: A, S=      0    285  ItGS=     5
-
-         2, NR,  z_ws, Fz:       0.0351      10000., dFz/dz:   4.286E+05
+      Norm: final element division: C, E=    285    676  ItCG=     3
+      Tang: final element division: A, S=      0    285  ItGS=     2
+         2, NR,  z_ws, Fz:       0.0351      10000., dFz/dz:   4.287E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
- HGIAOWR.  HEAT   3, GAUSEI 0, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   4, RETURN 1
+ HGIAOWR.  HEAT   3, GAUSEI 0, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   3, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
@@ -87,7 +74,7 @@
 
  AVERAGE CONTACT POSITION
      XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-    -26.1751    749.5431      0.0000   8.449E-02      -4.822       16.07
+    -26.1751    749.5431      0.0000   8.449E-02      -4.821       16.07
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -142,70 +129,34 @@
      X  -->        Chi=  0.00 degrees
 
  Case     2
- v1: The effective radius ry seems unrealistically large (   6250.    ), truncating
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
- NORM
-       1, Norm: size of Contact, Exterior :    333    628
       Norm: final element division: C, E=    285    676  ItCG=     9
-
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :     285      0
-    1, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.82   2.982E-03
-       2, Tang: size of Adhes, Slip area :       0    285
-    2, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.417   2.846E-03
-       3, Tang: size of Adhes, Slip area :       0    285
-    3, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.3861   2.852E-03
-       4, Tang: size of Adhes, Slip area :       0    285
-    4, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.1473   2.852E-03
-       5, Tang: size of Adhes, Slip area :       0    285
-    5, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    7.263E-02   2.852E-03
-       6, Tang: size of Adhes, Slip area :       0    285
-    6, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    3.584E-02   2.852E-03
-       7, Tang: size of Adhes, Slip area :       0    285
-    7, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.852E-03
-       8, Tang: size of Adhes, Slip area :       0    285
-    8, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    8.725E-03   2.852E-03
-       9, Tang: size of Adhes, Slip area :       0    285
-    9, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    4.306E-03   2.852E-03
-      10, Tang: size of Adhes, Slip area :       0    285
-   10, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.852E-03
+    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :        29.82   2.982E-03
+    2, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :        1.417   2.846E-03
+    3, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.3861   2.852E-03
+    4, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.1473   2.852E-03
+    5, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    7.263E-02   2.852E-03
+    6, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    3.584E-02   2.852E-03
+    7, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.852E-03
+    8, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    8.725E-03   2.852E-03
+    9, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    4.306E-03   2.852E-03
+   10, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.852E-03
       Tang: final element division: A, S=      0    285  ItGS=    23
 
          1, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.270E+05
- NORM
-       1, Norm: size of Contact, Exterior :    333    628
-      Norm: final element division: C, E=    285    676  ItCG=     9
-
+      Norm: final element division: C, E=    285    676  ItCG=     3
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :     285      0
-    1, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.82   2.982E-03
-       2, Tang: size of Adhes, Slip area :       0    285
-    2, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.417   2.846E-03
-       3, Tang: size of Adhes, Slip area :       0    285
-    3, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.3860   2.851E-03
-       4, Tang: size of Adhes, Slip area :       0    285
-    4, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.1473   2.852E-03
-       5, Tang: size of Adhes, Slip area :       0    285
-    5, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    7.262E-02   2.852E-03
-       6, Tang: size of Adhes, Slip area :       0    285
-    6, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    3.583E-02   2.852E-03
-       7, Tang: size of Adhes, Slip area :       0    285
-    7, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.852E-03
-       8, Tang: size of Adhes, Slip area :       0    285
-    8, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    8.724E-03   2.852E-03
-       9, Tang: size of Adhes, Slip area :       0    285
-    9, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    4.305E-03   2.852E-03
-      10, Tang: size of Adhes, Slip area :       0    285
-   10, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.852E-03
-      Tang: final element division: A, S=      0    285  ItGS=    23
+    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.314E-03   2.852E-03
+      Tang: final element division: A, S=      0    285  ItGS=     2
 
-         2, NR,  z_ws, Fz:       0.0351      10000., dFz/dz:   4.286E+05
+         2, NR,  z_ws, Fz:       0.0351      10000., dFz/dz:   4.287E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 0, FRCLAW 6, DISCNS 0, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 0
- HGIAOWR.  HEAT   1, GAUSEI 1, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   4, RETURN 1
+ HGIAOWR.  HEAT   1, GAUSEI 1, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   3, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
@@ -269,7 +220,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    961    285      0    285      1     10
+    961    285      0    285      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     26   o . . . . . . . . . . . . . . . . . . . o
@@ -298,70 +249,34 @@
      X  -->        Chi=  0.00 degrees
 
  Case     3
- v1: The effective radius ry seems unrealistically large (   6250.    ), truncating
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
- NORM
-       1, Norm: size of Contact, Exterior :    333    628
       Norm: final element division: C, E=    285    676  ItCG=     9
-
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :     285      0
-    1, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.82   2.982E-03
-       2, Tang: size of Adhes, Slip area :       0    285
-    2, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.417   2.846E-03
-       3, Tang: size of Adhes, Slip area :       0    285
-    3, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.3861   2.852E-03
-       4, Tang: size of Adhes, Slip area :       0    285
-    4, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.1473   2.852E-03
-       5, Tang: size of Adhes, Slip area :       0    285
-    5, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    7.263E-02   2.852E-03
-       6, Tang: size of Adhes, Slip area :       0    285
-    6, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    3.584E-02   2.852E-03
-       7, Tang: size of Adhes, Slip area :       0    285
-    7, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.852E-03
-       8, Tang: size of Adhes, Slip area :       0    285
-    8, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    8.725E-03   2.852E-03
-       9, Tang: size of Adhes, Slip area :       0    285
-    9, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    4.306E-03   2.852E-03
-      10, Tang: size of Adhes, Slip area :       0    285
-   10, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.852E-03
+    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :        29.82   2.982E-03
+    2, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :        1.417   2.846E-03
+    3, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.3861   2.852E-03
+    4, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.1473   2.852E-03
+    5, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    7.263E-02   2.852E-03
+    6, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    3.584E-02   2.852E-03
+    7, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.852E-03
+    8, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    8.725E-03   2.852E-03
+    9, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    4.306E-03   2.852E-03
+   10, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.852E-03
       Tang: final element division: A, S=      0    285  ItGS=    23
 
          1, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.270E+05
- NORM
-       1, Norm: size of Contact, Exterior :    333    628
-      Norm: final element division: C, E=    285    676  ItCG=     9
-
+      Norm: final element division: C, E=    285    676  ItCG=     3
  TANG: STEADY STATE ROLLING CONTACT
-       1, Tang: size of Adhes, Slip area :     285      0
-    1, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        29.82   2.982E-03
-       2, Tang: size of Adhes, Slip area :       0    285
-    2, Temp-dep: |Tk-Tk-1|, .001 |Tk| :        1.417   2.846E-03
-       3, Tang: size of Adhes, Slip area :       0    285
-    3, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.3860   2.851E-03
-       4, Tang: size of Adhes, Slip area :       0    285
-    4, Temp-dep: |Tk-Tk-1|, .001 |Tk| :       0.1473   2.852E-03
-       5, Tang: size of Adhes, Slip area :       0    285
-    5, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    7.262E-02   2.852E-03
-       6, Tang: size of Adhes, Slip area :       0    285
-    6, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    3.583E-02   2.852E-03
-       7, Tang: size of Adhes, Slip area :       0    285
-    7, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.852E-03
-       8, Tang: size of Adhes, Slip area :       0    285
-    8, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    8.724E-03   2.852E-03
-       9, Tang: size of Adhes, Slip area :       0    285
-    9, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    4.305E-03   2.852E-03
-      10, Tang: size of Adhes, Slip area :       0    285
-   10, Temp-dep: |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.852E-03
-      Tang: final element division: A, S=      0    285  ItGS=    23
+    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.314E-03   2.852E-03
+      Tang: final element division: A, S=      0    285  ItGS=     2
 
-         2, NR,  z_ws, Fz:       0.0351      10000., dFz/dz:   4.286E+05
+         2, NR,  z_ws, Fz:       0.0351      10000., dFz/dz:   4.287E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 6, DISCNS 0, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 0
- HGIAOWR.  HEAT   1, GAUSEI 1, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   4, RETURN 1
+ HGIAOWR.  HEAT   1, GAUSEI 1, IESTIM 0, MATFIL 2, OUTPUT 3, FLOW   3, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
@@ -430,7 +345,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    961    285      0    285      1     10
+    961    285      0    285      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     26   o . . . . . . . . . . . . . . . . . . . o
@@ -467,22 +382,22 @@ Performance timers:
 |------------------------------------------------------------------------|
 |Total                |       1 |       0.0 |   0.0 |        0.1 | 100.0 |
 |Wheel-rail cases     |       3 |       0.0 |   0.0 |        0.1 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   3.6 |
-|Geometric analysis   |       9 |       0.0 |   0.0 |        0.0 |  20.5 |
-|Panag.process        |       6 |       0.0 |   0.0 |        0.1 |  52.7 |
-|Algorithm Norm       |       6 |       0.0 |   0.0 |        0.0 |  10.7 |
-|Algorithm Tang       |       6 |       0.0 |   0.0 |        0.0 |  42.0 |
-|Output quantities    |       9 |       0.0 |   0.0 |        0.0 |  16.1 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |  15.5 |
+|Geometric analysis   |       9 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Panag.process        |       6 |       0.0 |   0.0 |        0.0 |  41.7 |
+|Algorithm Norm       |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Tang       |       6 |       0.0 |   0.0 |        0.0 |  41.7 |
+|Output quantities    |       9 |       0.0 |   0.0 |        0.0 |   1.0 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      42 |       0.0 |   0.0 |        0.0 |  35.7 |
-|Temperature calc.    |      46 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |      24 |       0.0 |   0.0 |        0.0 |  26.2 |
+|Temperature calc.    |      28 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       3 |       0.0 |   0.0 |        0.0 |   3.6 |
-|Contact location     |       9 |       0.0 |   0.0 |        0.0 |  20.5 |
+|Reading input-file   |       3 |       0.0 |   0.0 |        0.0 |  15.5 |
+|Contact location     |       9 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Undeformed distance  |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |       6 |       0.0 |   0.0 |        0.0 |   0.9 |
+|Influence coeffic.   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
