@@ -2,8 +2,8 @@
 print_fig = 0;
 
 addpath('../../matlab_intern');
-set(0,'defaultaxeslinewidth',2);
-set(0,'defaultlinelinewidth',2);
+% set(0,'defaultaxeslinewidth',2);
+% set(0,'defaultlinelinewidth',2);
 set(0,'defaulttextfontsize',15);
 set(0,'defaultaxesfontsize',15);
 

@@ -76,7 +76,7 @@ private
       real(kind=8)       :: f_max_omit, sclfac, smth, zig_thrs, kink_high, kink_low, kink_wid
 
       ! variable profiles: #slices, data per slice
-      integer                                     :: nslc, nfeat, nkink, naccel, u_method
+      integer                                     :: nslc, nfeat, nkink, naccel, u_intpol
       real(kind=8),       dimension(:),   pointer :: slc_u       => NULL()
       character(len=256), dimension(:),   pointer :: slc_nam     => NULL()
       type(p_grid),       dimension(:)            :: slc_grd(MAX_NUM_SLCS)
@@ -132,11 +132,11 @@ private
 
       ! nslc             in case of slcs-files: number of slices (>=1);
       !                  -1 for regular profiles (prr, ban, txt)
-      ! slc_u    [mm]    u-positions of slices, s_fc along the track curve or th_w on wheel, after
+      ! slc_u    [mm]    u-positions of slices, u_fc along the track curve or th_w on wheel, after
       !         or [rad] shifting+scaling
       ! slc_nam          file-names of profile slices as given in a slcs-file
       ! slc_grd          grid-data for each of the profile slices
-      ! u_method         interpolation in longitudinal direction: SPL2D_APPROX, SPL2D_INTPOL
+      ! u_intpol         interpolation in longitudinal direction: SPL2D_APPROX, SPL2D_INTPOL
       !
       ! nfeat            number of feature positions in lateral direction (>= 2)
       ! nkink            number of kinks at feature positions
@@ -275,7 +275,7 @@ contains
       vprf%nfeat    = 0
       vprf%nkink    = 0
       vprf%naccel   = 0
-      vprf%u_method = SPL2D_INTPOL
+      vprf%u_intpol = SPL2D_INTPOL
 
       ! destroy arrays
 
@@ -635,12 +635,12 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine profile_store_values(prf, is_wheel, npoint_arg, rvalues, idebug)
+   subroutine profile_store_values(prf, is_wheel, npoint_arg, rvalues, x_profil)
 !--purpose: process and store array of w/r profile values (one slice, no support for var.profiles) 
       implicit none
 !--subroutine parameters:
       type(t_profile)                         :: prf
-      integer,                    intent(in)  :: is_wheel, npoint_arg, idebug
+      integer,                    intent(in)  :: is_wheel, npoint_arg, x_profil
       real(kind=8), dimension(:), intent(in)  :: rvalues(2*npoint_arg)  ! 2 x npoint_arg
 !--local variables:
       integer,      parameter  :: ncolpnt = 2
@@ -657,7 +657,7 @@ contains
       ierror = 0
       fname  = '<values>'
 
-      if (idebug.ge.2) then
+      if (x_profil.ge.2) then
          write(bufout,*) 'profile_store_values: is_wheel=',is_wheel,', npoint=',npoint_arg
          call write_log(1, bufout)
       endif
@@ -677,7 +677,7 @@ contains
          points(ipnt,1) = rvalues(1+2*(ipnt-1))
          points(ipnt,2) = rvalues(2+2*(ipnt-1))
 
-         if (idebug.ge.3) then
+         if (x_profil.ge.3) then
             write(bufout,*) ' i=',ipnt,': yi,zi=',points(ipnt,1), points(ipnt,2)
             call write_log(1, bufout)
          endif
@@ -685,7 +685,7 @@ contains
 
       !  - modification 1: point.dist.min - remove points too close together
 
-      call filter_close_points(points, npoint, npoint, ncolpnt, point_dist_min, is_wheel, idebug)
+      call filter_close_points(points, npoint, npoint, ncolpnt, point_dist_min, is_wheel, x_profil)
 
       !  - modification 7: mirror y if requested by subroutine argument
 
@@ -699,7 +699,7 @@ contains
 
       my_mirror_z = mirror_z
       if (my_mirror_z.eq.0) then
-         call check_z_pos_down(fname, npoint, points, is_wheel, idebug, my_mirror_z)
+         call check_z_pos_down(fname, npoint, points, is_wheel, x_profil, my_mirror_z)
       endif
 
       if (my_mirror_z.eq.1) then
@@ -711,17 +711,17 @@ contains
       !  - modification 9: inversion
 
       if (ierror.eq.0) then
-         call check_inversion(fname, npoint, points, 1, 2, is_wheel, idebug, 0, flip_data, ierror)
+         call check_inversion(fname, npoint, points, 1, 2, is_wheel, x_profil, 0, flip_data, ierror)
       endif
 
       if (ierror.eq.0 .and. flip_data.eq.1) then
-         call invert_points(npoint, points, is_wheel, idebug)
+         call invert_points(npoint, points, is_wheel, x_profil)
       endif
 
       !  - first/last points should now be in appropriate order
 
       if (ierror.eq.0) then
-         call check_overall_order(npoint, points, is_wheel, idebug, ierror)
+         call check_overall_order(npoint, points, is_wheel, x_profil, ierror)
       endif
 
       if (ierror.eq.0) then
@@ -738,7 +738,7 @@ contains
          icol_kyield = 0
          fill_spline = .true.
          call profile_finish_grid(fname, prf_grd, prf%ext_data, prf, npoint, points, is_wheel,          &
-                        icol_kyield, fill_spline, idebug)
+                        icol_kyield, fill_spline, x_profil)
 
       endif
 
@@ -750,7 +750,7 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine profile_finish_grid(fname, prf_grd, prf_ext, prf_opt, npoint, points, is_wheel,           &
-                icol_kyield, fill_spline, idebug)
+                icol_kyield, fill_spline, x_profil)
 !--purpose: copy points for one slice to a grid, make further modifications, and create smoothing spline
       implicit none
 !--subroutine parameters:
@@ -758,12 +758,12 @@ contains
       type(t_grid)                 :: prf_grd
       type(t_gridfnc3)             :: prf_ext
       type(t_profile)              :: prf_opt
-      integer,      intent(in)     :: npoint, is_wheel, icol_kyield, idebug
+      integer,      intent(in)     :: npoint, is_wheel, icol_kyield, x_profil
       logical,      intent(in)     :: fill_spline
       real(kind=8), dimension(:,:), pointer :: points
 !--local variables:
       integer,      parameter :: max_num_kinks = 99, max_num_accel = 99
-      integer              :: arrsiz, ncolpnt, ipnt, flip_data, nkink, naccel,                          &
+      integer              :: arrsiz, ncolpnt, ipnt, flip_data, nkink, naccel, k_chk,                   &
                               ikinks(max_num_kinks), iaccel(max_num_accel)
       logical              :: use_wgt, use_minz
       real(kind=8)         :: lambda, ds_bspl
@@ -780,7 +780,7 @@ contains
       if (.false. .and. is_wheel.le.0) then
          arrsiz  = size(points,1)
          ncolpnt = size(points,2)
-         call remove_vertical_slopes(points, arrsiz, npoint, ncolpnt, idebug)
+         call remove_vertical_slopes(points, arrsiz, npoint, ncolpnt, x_profil)
       endif
 
       !  - copy data to profil arrays
@@ -798,13 +798,13 @@ contains
       ! check that profile does not contain any loops, segments crossing each other
 
       if (ierror.eq.0) then
-         call profile_check_bowtie(npoint, prf_grd%y, prf_grd%z, is_wheel, idebug, ierror)
+         call profile_check_bowtie(npoint, prf_grd%y, prf_grd%z, is_wheel, x_profil, ierror)
       endif
 
       ! check that y-values of rail are increasing / wheel-y decreasing
 
       if (ierror.eq.0) then
-         call check_inversion(fname, prf_grd%ntot, prf_grd%coor, 2, 3, is_wheel, idebug, 1, flip_data,  &
+         call check_inversion(fname, prf_grd%ntot, prf_grd%coor, 2, 3, is_wheel, x_profil, 1, flip_data,  &
                         ierror)
       endif
 
@@ -837,12 +837,12 @@ contains
       ! create smoothing spline, preparing for interpolations
 
       if (ierror.eq.0 .and. fill_spline) then
-         if (idebug.ge.2) then
+         if (x_profil.ge.2) then
             write(bufout, '(a,i2,a,g11.3)') ' Creating spline representation using method', ismooth, &
                 ', smooth=', smooth
             call write_log(1, bufout)
          endif
-         if (idebug.ge.2) then
+         if (x_profil.ge.2) then
             write(bufout, '(9x,2(a,f6.3,a,f6.1),a,f6.1)') 'kink_high=', kink_high,' (',kink_high*180d0/pi, &
                 ' deg), kink_low=', kink_low,' (',kink_low*180d0/pi,' deg), kink_wid=',kink_wid
             call write_log(1, bufout)
@@ -855,7 +855,7 @@ contains
             ! detect kinks in input profile, including overall start/end-points
 
             call profile_find_kinks(prf_grd%ntot, prf_grd%y, prf_grd%z, is_wheel, kink_high, kink_low,  &
-                           kink_wid, 1d0, nkink, ikinks, idebug, ierror)
+                           kink_wid, 1d0, nkink, ikinks, x_profil, ierror)
 
             if (nkink.gt.2 .and. ismooth.eq.1) then
                write(bufout,'(a,i3,a,10i5)') ' find_kinks: nkink=',nkink,', ikinks=',ikinks(1:nkink)
@@ -872,8 +872,10 @@ contains
 
             if (ierror.eq.0) then
                use_minz = (is_wheel.eq.0)
+               k_chk = 0
+               if (x_profil.ge.1) k_chk = 10
                call spline_set_debug(1)
-               call grid_make_ppspline(prf_grd, lambda, use_wgt, nkink, ikinks, ierror, k_chk=10)
+               call grid_make_ppspline(prf_grd, lambda, use_wgt, nkink, ikinks, ierror, k_chk)
 
                if (is_wheel.eq.1 .and. .false.) then
                   call spline_set_debug(1)
@@ -902,7 +904,7 @@ contains
             ! detect kinks in input profile, including overall start/end-points
 
             call profile_find_kinks(prf_grd%ntot, prf_grd%y, prf_grd%z, is_wheel, kink_high, kink_low,  &
-                           kink_wid, 1d0, nkink, ikinks, idebug, ierror)
+                           kink_wid, 1d0, nkink, ikinks, x_profil, ierror)
 
             if (nkink.gt.2) then
                write(bufout,'(a,i3,a,10i5)') ' find_kinks: nkink=',nkink,', ikinks=',ikinks(1:nkink)
@@ -917,11 +919,13 @@ contains
             naccel          = 0
             iaccel(1)       = 0
             use_minz        = (is_wheel.eq.0)
+            k_chk           = 0
+            if (x_profil.ge.1) k_chk = 10
 
             ! call write_log(' call grid_make_bspline...')
             call spline_set_debug(0)
             call grid_make_bspline(prf_grd, ds_bspl, lambda, use_wgt, nkink, ikinks, naccel, iaccel,    &
-                                ierror, k_chk=10)
+                                ierror, k_chk)
 
             if (is_wheel.eq.1 .and. .false.) then
                call spline_set_debug(1)
@@ -951,7 +955,7 @@ contains
 
       ! print profile when needed
 
-      if (idebug.ge.4) then
+      if (x_profil.ge.4) then
          call grid_print(prf_grd, fname, 5)
       endif
 
@@ -1178,10 +1182,10 @@ contains
             elseif (keywrd.eq.'mirror.z') then
                file_mirror_z  = nint(values(1))
             elseif (keywrd.eq.'units.len') then
-               if (x_profil.ge.1) call write_log(' The keyword "units.len" is ignored. Please use ' //    &
+               if (x_profil.ge.2) call write_log(' The keyword "units.len" is ignored. Please use ' //    &
                         '"units.len.f" instead')
             elseif (keywrd.eq.'units.ang') then
-               if (x_profil.ge.1) call write_log(' The keyword "units.ang" is ignored. Please use ' //    &
+               if (x_profil.ge.2) call write_log(' The keyword "units.ang" is ignored. Please use ' //    &
                         '"units.ang.f" instead')
             elseif (keywrd.eq.'units.len.f') then
                units_len_fac = values(1)

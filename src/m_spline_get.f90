@@ -96,10 +96,10 @@ module m_spline_get
       module procedure spline_get_dzdy_at_s_gfout
    end interface spline_get_dzdy_at_s
 
-   public  spline_get_dzdy_at_y
-   public  spline_get_dzdy_at_y_scalar
-   public  spline_get_dzdy_at_y_arr
-   public  spline_get_dzdy_at_y_gfout
+   private spline_get_dzdy_at_y                 ! made private: currently not used in CONTACT
+   private spline_get_dzdy_at_y_scalar
+   private spline_get_dzdy_at_y_arr
+   private spline_get_dzdy_at_y_gfout
 
    interface spline_get_dzdy_at_y
       module procedure spline_get_dzdy_at_y_scalar
@@ -129,9 +129,9 @@ module m_spline_get
       module procedure spline_get_alpha_at_y_gfout
    end interface spline_get_alpha_at_y
 
-   public  spline_get_curv_yz_at_s
-   public  spline_get_curv_yz_at_s_scalar
-   public  spline_get_curv_yz_at_s_arr
+   private spline_get_curv_yz_at_s              ! made private: currently not used in CONTACT
+   private spline_get_curv_yz_at_s_scalar
+   private spline_get_curv_yz_at_s_arr
 
    interface spline_get_curv_yz_at_s
       module procedure spline_get_curv_yz_at_s_scalar
@@ -162,8 +162,6 @@ module m_spline_get
    end interface spline_get_dxyz_at_s
 
    public  spline_get_nvec_at_s_gfout
-
-   public  spline_get_pt_at_line_oyz
 
    private spline_test_data
    public  spline_test
@@ -1531,176 +1529,6 @@ subroutine spline_get_nvec_at_s_gfout( spl, gf_out, my_ierror )
    enddo
 
 end subroutine spline_get_nvec_at_s_gfout
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine spline_get_pt_at_line_oyz(spl, pt, dir, s, x, y, z, my_ierror)
-!--purpose: find the point s, y(s), z(s) in a spline curve that lies on the straight line formed by
-!           point pt and direction dir, ignoring the x-direction
-   implicit none
-!--subroutine arguments:
-   type(t_spline), intent(in)  :: spl
-   type(t_vec),    intent(in)  :: pt, dir
-   real(kind=8),   intent(out) :: s, x, y, z
-   integer,        intent(out) :: my_ierror
-!--local variables:
-   integer,      parameter   :: maxit = 10
-   real(kind=8), parameter   :: eps = 1d-4
-   integer      :: i0, i1, k, sub_ierror
-   real(kind=8) :: pt_x, pt_y, pt_z, dir_x, dir_y, dir_z, s0, s1, s_nwt, dst, dst0, dst1, ds,           &
-                   dy_ds, dz_ds, ddst_ds, lmbd
-
-   my_ierror = 0
-
-   ! get components of direction vector [dir_x, dir_y, dir_z]^T
-
-   dir_x = dir%x()
-   dir_y = dir%y()
-   dir_z = dir%z()
-   dst = sqrt(dir_y**2 + dir_z**2)
-
-   if (dst.lt.1d-10) then
-      call write_log(' INTERNAL ERROR: spline_get_pt_at_line_oyz: dir is parallel to x-direction')
-      x = 0d0
-      y = 0d0
-      z = 0d0
-      return
-   endif
-
-   ! get components of point pt [pt_x, pt_y, pt_z]^T
-
-   pt_x = pt%x()
-   pt_y = pt%y()
-   pt_z = pt%z()
-
-   if (ldebug.ge.3) then
-      write(bufout,'(6(a,f10.3),a)') ' get_pt_at_line: pt=(',pt_x,',',pt_y,',',pt_z,'), dir=(',dir_x,   &
-                        ',',dir_y,',',dir_z,')'
-      call write_log(1, bufout)
-   endif
-
-   ! create a bracket: compute distance of spline to line at s(1) and s(end)
-   ! 2D distance to line: inner product with perpendicular vector
-
-   i0   = idmin(spl%npnt, spl%ay0, 1)
-   i1   = idmax(spl%npnt, spl%ay0, 1)
-   s0   = spl%s(i0)
-   s1   = spl%s(i1)
-
-   if (ldebug.ge.3) then
-      write(bufout,'(2(a,f10.3))') ' get_pt_at_line: get_xyz_at_s for miny, s0=',s0,' and maxy, s1=',s1
-      call write_log(1, bufout)
-   endif
-
-   call spline_get_xyz_at_s( spl, s0, sub_ierror, x, y, z )
-   if (my_ierror.eq.0) my_ierror = sub_ierror
-   dst0 = (y - pt_y) * dir_z - (z - pt_z) * dir_y
-
-   if (ldebug.ge.2) then
-      write(bufout,'(a,i5, 4(a,f9.4))') ' get_pt_at_line: i_sta=', i0, ' :       s=',s0,',  yz=(',y,    &
-                ',',z, '), dst=',dst0
-      call write_log(1, bufout)
-   endif
-
-   call spline_get_xyz_at_s( spl, s1, sub_ierror, x, y, z )
-   if (my_ierror.eq.0) my_ierror = sub_ierror
-   dst1 = (y - pt_y) * dir_z - (z - pt_z) * dir_y
-
-   if (ldebug.ge.2) then
-      write(bufout,'(a,i5, 4(a,f9.4))') ' get_pt_at_line: i_end=', i1, ' :       s=',s1,',  yz=(',y,    &
-                ',',z, '), dst=',dst1
-      call write_log(1, bufout)
-   endif
-
-   if (dst0*dst1.gt.1d-10) then
-      call write_log(' WARNING: spline_get_pt_at_line_oyz: s0 and s1 lie on same side of line')
-      x = 0d0
-      y = 0d0
-      z = 0d0
-      return
-   endif
-
-   ! set initial estimate in between s0 and s1
-
-   k   = 0
-   s   = s0 - dst0 / (dst1-dst0) * (s1 - s0)
-   call spline_get_xyz_at_s( spl, s, sub_ierror, x, y, z )
-   if (my_ierror.eq.0) my_ierror = sub_ierror
-   dst = (y - pt_y) * dir_z - (z - pt_z) * dir_y
-
-   if (ldebug.ge.2) then
-      write(bufout,'(a,i3,6(a,f9.4))') ' iter k=',k,': s=',s,' in [',s0,',',s1,'], yz=(',y,',',z,       &
-                '), dst=',dst
-      call write_log(1, bufout)
-   endif
-
-   ! perform Newton iteration safe-guarded with bracket
-
-   do while (abs(dst).gt.eps .and. k.le.maxit)
-
-      k = k + 1
-
-      ! update bracket
-
-      if (dst*dst0.ge.0d0) then
-         s0   = s
-         dst0 = dst
-      else
-         s1   = s
-         dst1 = dst
-      endif
-
-      ! get derivative d(dst) / ds
-
-      call spline_get_dxyz_at_s( spl, s, dyout=dy_ds, dzout=dz_ds, my_ierror=sub_ierror )
-      if (my_ierror.eq.0) my_ierror = sub_ierror
-      ddst_ds = dy_ds * dir_z - dz_ds * dir_y
-
-      ! compute Newton step
-
-      ds    = -dst / ddst_ds
-      s_nwt = s + ds
-
-      ! revert to bisection when s_nwt falls outside bracket or lies close to its sides
-
-      if (s_nwt.gt.s0 .and. s_nwt.lt.s1) then
-         s = s_nwt
-      else
-         s = (s0 + s1) / 2d0
-         if (ldebug.ge.2) then
-            write(bufout,'(2(a,f9.4))') ' rejecting s_nwt=', s_nwt,', using bisection s=',s
-            call write_log(1, bufout)
-         endif
-      endif
-
-      call spline_get_xyz_at_s( spl, s, sub_ierror, x, y, z )
-      if (my_ierror.eq.0) my_ierror = sub_ierror
-      dst = (y - pt_y) * dir_z - (z - pt_z) * dir_y
-
-      if (ldebug.ge.2) then
-         write(bufout,'(a,i3,6(a,f9.4))') ' iter k=',k,': s=',s,' in [',s0,',',s1,'], yz=(',y,',',z,    &
-                '), dst=',dst
-         call write_log(1, bufout)
-      endif
-
-   enddo ! while
-
-   if (k.ge.maxit .and. abs(dst).gt.eps) then
-      write(bufout,'(a,i3,a,g12.4)') ' WARNING: spline_get_pt_at_line_oyz: no convergence, k=',k,       &
-                ', dst=',dst
-      call write_log(1, bufout)
-      x = 0d0
-      y = 0d0
-      z = 0d0
-      return
-   endif
-
-   ! get x-position on line pt + lmbd * dir
-
-   lmbd = (y - pt_y) * dir_y + (z - pt_z) * dir_z
-   x    = pt_x + lmbd * dir_x
-
-end subroutine spline_get_pt_at_line_oyz
 
 !------------------------------------------------------------------------------------------------------------
 

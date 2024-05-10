@@ -2,12 +2,12 @@
  
 %  - general parameters and counters
  
-   0.000       1.0   S_OFFSET [mm], S_SCALE [mm/mm]
+   0.000       1.0   U_OFFSET [usr], U_SCALE [mm/usr],  usr = mm
    21             NSLC
    10    0    0   NFEAT, NKINK, NACCEL
-    1             S_METHOD (1=intpol, 2=approx)
+    1             U_INTPOL (1=intpol, 2=approx)
  
-%  - slice positions S_SLC [mm] and filenames RFNAME per slice
+%  - slice positions U_SLC [usr] and filenames RFNAME per slice
  
     0.0      'cross+wing/cross+wing_11.prr'
    20.0      'cross+wing/cross+wing_12.prr'
@@ -34,7 +34,7 @@
 %  - part numbers P with kinks and accelerations to part P+1
  
 %  - S_F positions at geometrical features at start/end of each part per slice
-%        S_SLC [mm]    S_F,  F = 1 .. NFEAT
+%    U_SLC [usr]    S_F [mm],  F = 1 .. NFEAT
  
     0.0       0.0   35.000   41.629   51.629   58.259   93.259  135.930  170.930  178.519  233.519
    20.0       0.0   35.000   41.629   53.629   60.259   95.259  137.930  172.930  180.519  235.519

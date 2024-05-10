@@ -2,12 +2,12 @@
 
 %  - general parameters and counters
 
-   0.000      1.0    S_OFFSET [m], S_SCALE [mm/mm]
+   0.000      1.0    U_OFFSET [usr], U_SCALE [mm/usr],  usr = mm
    21                NSLC
     5    0    0      NFEAT, NKINK, NACCEL
-    1                S_METHOD (1=intpol, 2=approx)
+    1                U_INTPOL (1=intpol, 2=approx)
 
-%  - slice positions S_SLC [mm] and filenames RFNAME per slice
+%  - slice positions U_SLC [usr] and filenames RFNAME per slice
 
  -100.0      'cross_nose/nose_1.prr'
   -90.0      'cross_nose/nose_2.prr'
@@ -37,7 +37,7 @@
 %  -1  3        P_ACCEL(ia)
 
 %  - S_F positions at geometrical features at start/end of each part per slice
-%        S_SLC        S_F,  F = 1 .. NFEAT
+%    U_SLC [usr]    S_F [mm],  F = 1 .. NFEAT
 
   -100.0        0.0    33.0541   50.9076   87.0158     299.0  
    -90.0        0.0    33.0541   50.9076   87.0158     299.0

@@ -254,7 +254,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
          ylabel('y_{w} [mm]');
          zlabel('\delta{}r_{w} [mm]');
       else
-         xlabel('s_{fc} [mm]');
+         xlabel('u_{fc} [mm]');
          ylabel('y_{r} [mm]');
          zlabel('z_{r} [mm]');
       end

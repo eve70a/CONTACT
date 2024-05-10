@@ -1,9 +1,9 @@
 
-print_fig = 1;
+print_fig = 0;
 
 addpath('../../matlab_intern');
-set(0,'defaultaxeslinewidth',2);
-set(0,'defaultlinelinewidth',2);
+% set(0,'defaultaxeslinewidth',2);
+% set(0,'defaultlinelinewidth',2);
 set(0,'defaulttextfontsize',15);
 set(0,'defaultaxesfontsize',15);
 
@@ -69,7 +69,7 @@ grid on
 
 len = 180;
 l = plot_axes([0,0], len, 0, -1, '   ','k',[],[],[],[],[],0);
-set(l(1:14), 'linewidth',1);
+ix = find(l(1:14)); set(l(ix), 'linewidth',1);
 
 text(len*yvec(1),    len*yvec(2)-0, 'y_{track}', 'verticalalignment', 'top');
 text(len*zvec(1)-70, len*zvec(2)-20, 'z_{track}', 'verticalalignment','top');

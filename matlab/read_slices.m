@@ -38,7 +38,7 @@ is_wheel  = strcmp(lower(ext), '.slcw');
 if (is_wheel)           % 1st surface parameter u == theta or u == s along track curve
    nam_udir = 'theta';
 else
-   nam_udir = 'S';
+   nam_udir = 'U';
 end
 
 % Initialize output structure
@@ -90,7 +90,7 @@ end
 % TODO: smoothing in x/theta-direction
 
 if (ierror==0 & exist('make_2dspline'))
-   use_approx = (slcs.u_method==2); use_insert = 1; use_cylindr = is_wheel; idebug = 0;
+   use_approx = (slcs.u_intpol==2); use_insert = 1; use_cylindr = is_wheel; idebug = 0;
    slcs.spl2d = make_2dspline(slcs.u, slcs.vj, [], slcs.ysurf, slcs.zsurf, slcs.mask_j, ...
                                                                use_approx, use_insert, use_cylindr, idebug);
 end
@@ -162,12 +162,12 @@ function [ slcs, iline, ierror ] = read_slices_header(slcs, nam_udir, f, iline, 
 
          elseif (in_header==4)
 
-            % 4th line: [S,TH]_METHOD
+            % 4th line: [U,TH]_INTPOL
 
-            slcs.u_method = sscanf(s, '%f');
+            slcs.u_intpol = sscanf(s, '%f');
             in_header = in_header + 1;
-            if (~any(slcs.u_method==[1 2]))
-               disp(sprintf('ERROR: %s_METHOD should be 1 or 2', nam_udir));
+            if (~any(slcs.u_intpol==[1 2]))
+               disp(sprintf('ERROR: %s_INTPOL should be 1 or 2', nam_udir));
                disp(['input: ', s]);
                ierror = 4;
             end
@@ -284,7 +284,7 @@ function [ slcs, iline, nerror ] = read_feature_info(slcs, nam_udir, f, iline, i
 
    else
 
-      % next NSLC lines: s_slc, s_f, f = 1 : nfeat
+      % next NSLC lines: u_slc, s_f, f = 1 : nfeat
 
       nslc_p = 0; % #slices with features read from file
       slcs.s_feat = zeros(slcs.nslc, slcs.nfeat);

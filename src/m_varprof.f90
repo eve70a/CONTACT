@@ -123,14 +123,14 @@ end subroutine varprof_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine profile_read_file(prf, dirnam, is_wheel_arg, x_profil, x_readln, lstop)
+   subroutine profile_read_file(prf, inpdir, is_wheel_arg, x_profil, x_readln, lstop)
 !--purpose: reads a single w/r profile (Simpack, Miniprof, Ascii) or a variable profile (slcs)
       implicit none
 !--subroutine parameters:
       type(t_profile)              :: prf
       integer,       intent(in)    :: is_wheel_arg, x_profil, x_readln
       logical,       intent(in)    :: lstop
-      character*(*), intent(in)    :: dirnam
+      character*(*), intent(in)    :: inpdir
 !--local variables:
       integer              :: is_wheel, i_ftype
       logical              :: fill_spline
@@ -149,12 +149,12 @@ end subroutine varprof_set_debug
 
       if (i_ftype.eq.FTYPE_SLICES) then
 
-         call varprof_read_file(prf, dirnam, is_wheel_arg, x_profil, x_readln, lstop)
+         call varprof_read_file(prf, inpdir, is_wheel_arg, x_profil, x_readln, lstop)
 
       else
 
          fill_spline = .true.
-         call profile_read_slice(prf%fname, dirnam, prf%grd_data, prf%ext_data, prf, is_wheel_arg,      &
+         call profile_read_slice(prf%fname, inpdir, prf%grd_data, prf%ext_data, prf, is_wheel_arg,      &
                         fill_spline, x_profil, x_readln, lstop)
 
       endif
@@ -165,14 +165,14 @@ end subroutine varprof_set_debug
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine varprof_read_file(vprf, dirnam, is_wheel, x_profil, x_readln, lstop)
+   subroutine varprof_read_file(vprf, inpdir, is_wheel, x_profil, x_readln, lstop)
 !--purpose: read, process and store contents of a so-called slices file
       implicit none
 !--subroutine parameters:
       type(t_profile)              :: vprf
       integer,       intent(in)    :: is_wheel, x_profil, x_readln
       logical,       intent(in)    :: lstop
-      character*(*), intent(in)    :: dirnam
+      character*(*), intent(in)    :: inpdir
 !--local variables:
       integer,      parameter :: mxnval = 20
       character*3,  parameter :: commnt = '!%"'
@@ -189,12 +189,12 @@ end subroutine varprof_set_debug
 
       associate(fname      => vprf%fname,    nslc       => vprf%nslc,                                   &
                 nfeat      => vprf%nfeat,    nkink      => vprf%nkink,    naccel    => vprf%naccel,     &
-                u_method   => vprf%u_method, ierror     => vprf%ierror)
+                u_intpol   => vprf%u_intpol, ierror     => vprf%ierror)
 
       ! set longitudinal parameter name for printing
 
       if (is_wheel.eq.0) then
-         x_nam = 's'
+         x_nam = 'u'
       else
          x_nam = 'th'
       endif
@@ -277,7 +277,7 @@ end subroutine varprof_set_debug
       call readline(lslcs, ncase, linenr, 'longitudinal spline method', 'i', ints, dbles, flags,        &
                 strngs, mxnval, nval, x_readln, ieof, lstop, ierror)
 
-      u_method = ints(1)
+      u_intpol = ints(1)
 
       ! Check dimensions
 
@@ -286,8 +286,8 @@ end subroutine varprof_set_debug
       if (nfeat.ge.2) zerror = zerror .or. .not.check_irng ('NKINK',   nkink,   0, nfeat-2)
       if (nfeat.ge.2) zerror = zerror .or. .not.check_irng ('NACCEL',  naccel,  0, nfeat-2)
 
-      if (u_method.ne.SPL2D_INTPOL .and. u_method.ne.SPL2D_APPROX) then
-         write(bufout,'(2a,3(a,i4),a)') ' ERROR: invalid ',to_upper(trim(x_nam)),'_METHOD =',u_method,   &
+      if (u_intpol.ne.SPL2D_INTPOL .and. u_intpol.ne.SPL2D_APPROX) then
+         write(bufout,'(2a,3(a,i4),a)') ' ERROR: invalid ',to_upper(trim(x_nam)),'_INTPOL =',u_intpol,   &
                 ' must be', SPL2D_INTPOL, ' (intpol) or',SPL2D_APPROX,' (approx)'
          call write_log(1, bufout)
          zerror = .true.
@@ -748,13 +748,13 @@ end subroutine varprof_set_debug
 
       associate(fname      => vprf%fname,    nslc       => vprf%nslc,                                   &
                 nfeat      => vprf%nfeat,    nkink      => vprf%nkink,    naccel    => vprf%naccel,     &
-                u_method   => vprf%u_method, ierror     => vprf%ierror)
+                u_intpol   => vprf%u_intpol, ierror     => vprf%ierror)
 
       nslc     = 11
       nfeat    = 2
       nkink    = 0
       naccel   = 0
-      u_method = SPL2D_INTPOL
+      u_intpol = SPL2D_INTPOL
 
       ! allocate arrays slc_u and slc_nam for nslc slices
 
@@ -765,7 +765,7 @@ end subroutine varprof_set_debug
          x_nam = 'th'
          du  =  pi/4d0
       else
-         x_nam = 's'
+         x_nam = 'u'
          du  =  5d0
       endif
 
@@ -1069,7 +1069,7 @@ end subroutine varprof_set_debug
             ! call write_log('bspline_make_2d_bspline...')
             ! call bspline_set_debug(3)
             has_xdata  = .false.
-            use_approx = (vprf%u_method.eq.SPL2D_APPROX)
+            use_approx = (vprf%u_intpol.eq.SPL2D_APPROX)
             call bspline_make_2d_bspline(vprf%spl2d, vprf%nslc, nsplv, vprf%slc_u, vj, x2d, y2d, z2d,   &
                                         has_xdata, use_approx, ierror, mask)
             ! call bspline_set_debug(0)
@@ -1195,12 +1195,12 @@ end subroutine varprof_set_debug
             call write_log(1, bufout)
          endif
          if (nbefor.gt.0) then
-            write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nbefor,' positions lie before 1st slice at s_1=', &
+            write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nbefor,' positions lie before 1st slice at u_1=', &
                    vprf%slc_u(1),', using constant extrapolation'
             call write_log(1, bufout)
          endif
          if (nafter.gt.0) then
-            write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nafter,' positions lie after last slice at s_n=', &
+            write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nafter,' positions lie after last slice at u_n=', &
                    vprf%slc_u(vprf%nslc),', using constant extrapolation'
             call write_log(1, bufout)
          endif
@@ -1342,7 +1342,7 @@ end subroutine varprof_set_debug
 !--subroutine arguments:
       type(t_profile)              :: vprf
       type(t_marker),  intent(in)  :: m_trk
-      real(kind=8),    intent(in)  :: s_ws      ! offset between slice s and track x_tr
+      real(kind=8),    intent(in)  :: s_ws      ! offset between slice u and track x_tr
       type(t_grid)                 :: g_out
 !--local variables:
       real(kind=8),   parameter :: defval = 999d0, tiny = 1d-6
@@ -1393,12 +1393,12 @@ end subroutine varprof_set_debug
          call write_log(1, bufout)
       endif
       if (nbefor.gt.0) then
-         write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nbefor,' positions lie before 1st slice at s_1=', &
+         write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nbefor,' positions lie before 1st slice at u_1=', &
                 vprf%slc_u(1),', using constant extrapolation'
          call write_log(1, bufout)
       endif
       if (nafter.gt.0) then
-         write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nafter,' positions lie after last slice at s_n=', &
+         write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nafter,' positions lie after last slice at u_n=', &
                 vprf%slc_u(vprf%nslc),', using constant extrapolation'
          call write_log(1, bufout)
       endif
@@ -1598,12 +1598,12 @@ end subroutine varprof_set_debug
          call write_log(1, bufout)
       endif
       if (nbefor.gt.0) then
-         write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nbefor,' positions lie before 1st slice at s_1=', &
+         write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nbefor,' positions lie before 1st slice at u_1=', &
                 vprf%slc_u(1),', using constant extrapolation'
          call write_log(1, bufout)
       endif
       if (nafter.gt.0) then
-         write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nafter,' positions lie after last slice at s_n=', &
+         write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nafter,' positions lie after last slice at u_n=', &
                 vprf%slc_u(vprf%nslc),', using constant extrapolation'
          call write_log(1, bufout)
       endif
@@ -1713,12 +1713,12 @@ end subroutine varprof_set_debug
 
       if (ldebug.ge.1) then
          if (nbefor.gt.0) then
-            write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nbefor,' positions lie before 1st slice at s_1=', &
+            write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nbefor,' positions lie before 1st slice at u_1=', &
                    vprf%slc_u(1),', using constant extrapolation'
             call write_log(1, bufout)
          endif
          if (nafter.gt.0) then
-            write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nafter,' positions lie after last slice at s_n=', &
+            write(bufout,'(a,i4,a,f10.3,a)') ' WARNING:',nafter,' positions lie after last slice at u_n=', &
                    vprf%slc_u(vprf%nslc),', using constant extrapolation'
             call write_log(1, bufout)
          endif
@@ -1799,33 +1799,33 @@ end subroutine varprof_set_debug
       real(kind=8), intent(in)  :: s_ws, xmin, xmax
       integer,      intent(out) :: islc0, islc1
 !--local variables:
-      real(kind=8)       :: smin, smax
+      real(kind=8)       :: umin, umax
 
-      smin = s_ws + xmin
-      smax = s_ws + xmax
+      umin = s_ws + xmin
+      umax = s_ws + xmax
 
       ! no interpolation is needed if all si lie before start or after end of variable profile
 
-      if (smax.le.vprf%slc_u(1)) then
+      if (umax.le.vprf%slc_u(1)) then
 
          ! whole grid before start of variable profile
 
          if (ldebug.ge.1) then
-            write(bufout,'(3(a,f12.3),a)') ' grid has s_tr \in [',smin,',',smax,                        &
-                           '], before start of varprof, s_1=', vprf%slc_u(1)
+            write(bufout,'(3(a,f12.3),a)') ' grid has u \in [',umin,',',umax,                           &
+                           '], before start of varprof, u_1=', vprf%slc_u(1)
             call write_log(1, bufout)
          endif
 
          islc0 = 1
          islc1 = 1
 
-      elseif (smin.ge.vprf%slc_u(vprf%nslc)) then
+      elseif (umin.ge.vprf%slc_u(vprf%nslc)) then
 
          ! whole grid after end of variable profile
 
          if (ldebug.ge.1) then
-            write(bufout,'(3(a,f12.3),a)') ' grid has s_tr \in [',smin,',',smax,                        &
-                        '], after end of varprof, s_end=', vprf%slc_u(vprf%nslc)
+            write(bufout,'(3(a,f12.3),a)') ' grid has u \in [',umin,',',umax,                           &
+                        '], after end of varprof, u_end=', vprf%slc_u(vprf%nslc)
             call write_log(1, bufout)
          endif
 
@@ -1837,19 +1837,19 @@ end subroutine varprof_set_debug
          ! determine the range of 'relevant slices' islc0 to islc1
 
          islc0 = vprf%nslc
-         do while( vprf%slc_u(islc0).gt.smin .and. islc0.gt.1 )
+         do while( vprf%slc_u(islc0).gt.umin .and. islc0.gt.1 )
             islc0 = islc0 - 1
          enddo
          islc1 = 1
-         do while( vprf%slc_u(islc1).le.smax .and. islc1.lt.vprf%nslc )
+         do while( vprf%slc_u(islc1).le.umax .and. islc1.lt.vprf%nslc )
             islc1 = islc1 + 1
          enddo
 
-      endif ! [smin,smax] before start / after end
+      endif ! [umin,umax] before start / after end
 
       if (ldebug.ge.2) then
-         write(bufout,'(2(a,i5),4(a,f11.3),a)') ' using slices',islc0,':',islc1,' with s_slc = [',      &
-                  vprf%slc_u(islc0),',',vprf%slc_u(islc1),'] for grid s_tr \in [',smin,',',smax,']'
+         write(bufout,'(2(a,i5),4(a,f11.3),a)') ' using slices',islc0,':',islc1,' with u_slc = [',      &
+                  vprf%slc_u(islc0),',',vprf%slc_u(islc1),'] for grid u \in [',umin,',',umax,']'
          call write_log(1, bufout)
       endif
 

@@ -1,6 +1,6 @@
 
 print_fig = 0;
-use_3d = 0;
+use_3d = 1;
 
 % centerline: straight [c0 - c1], circular [c1 - c3]
 % left rail:  straight [l0 - l1], circular [l1 - l3]
@@ -67,9 +67,10 @@ if (use_3d)
    set(l([4,7,10]), 'interpreter','latex');
 else
    axnams = ['$x_{isys}$'; '$y_{isys}$'; '$z_{isys}$']; col = 1; th_txt = 0;
-   l = plot_axes([0,0], 10, 0, -1, axnams, col, ...
+   plot_axes([0,0], 10, 0, -1, axnams, col, ...
                    [],[],[],[], th_txt, [1.1,1.5; 2,1; 3,2.0], 1 );
-   set(l([6,9,10]), 'interpreter','latex');
+   l = findobj(gca,'Type','Text');
+   set(l, 'interpreter','latex');
 end
 
 % plot Fc axis system at s_fc=0
@@ -83,17 +84,18 @@ if (use_3d)
    set(l(1),'color','k');
 else
    axnams = ['$x_{fc}$'; '$y_{fc}$'; '$z_{fc}$']; col = 2; th_txt = 0;
-   l = plot_axes(c0, 10, -th0, -1, axnams, col, ...
+   plot_axes(c0, 10, -th0, -1, axnams, col, ...
                    [],[],[],[], th_txt, [1.1,0.9; 1.5,1; 3,1.5], 1 );
-   set(l([6,9,10]), 'interpreter','latex');
+   l = findobj(gca,'Type','Text');
+   set(l, 'interpreter','latex');
 end
 
-% plot Gamma(s)
+% plot Gamma(u)
 
 cg = 0.7 * c1 + 0.3 * c0;
 lg = cg - 10 * [sin(th1*pi/180); -cos(th1*pi/180)];
 plot([cg(1),lg(1)], [cg(2),lg(2)], 'k-', 'linewidth',1);
-text(lg(1), lg(2)+1, '$\boldmath{\Gamma}(s)$', 'interpreter','latex', ...
+text(lg(1), lg(2)+1, '$\boldmath{\Gamma}(u)$', 'interpreter','latex', ...
                 'verticalalignment','bottom', 'horizontalalignment','center');
 
 % plot arrow for track radius r_curv
@@ -174,12 +176,14 @@ if (use_3d)
    factxt = [1.6 1.4 1.2; 0.5 1.4 1.2; 1 1.4 1.2];
    l = plot_axes3([c2(:,ixtr);0], 10, rot, axnams, col, [],[],[], th_txt, factxt, 0 );
    set(l(1),'color','k');
-   set(l([4,7,10]), 'interpreter','latex');
+   l = findobj(gca,'Type','Text');
+   set(l, 'interpreter','latex');
 else
    axnams = ['$x_{tr}$'; '$y_{tr}$'; '        ']; col = 5; th_txt = 0;
-   l = plot_axes(c2(:,ixtr), 10, -th2(ixtr), -1, axnams, col, ...
+   plot_axes(c2(:,ixtr), 10, -th2(ixtr), -1, axnams, col, ...
                    [],[],[],[], th_txt, [1.2,0.0; 1.2,1.2; 3,2.2], 1 );
-   set(l([6,9,10]), 'interpreter','latex');
+   l = findobj(gca,'Type','Text');
+   set(l, 'interpreter','latex');
 end
 
 if (print_fig)

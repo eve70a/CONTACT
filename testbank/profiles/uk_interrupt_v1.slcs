@@ -1,11 +1,11 @@
 % data for testing handling of 'interruptions'. S+C benchmark, UK crossing, slices 45:55
 
-   0.000    1000.0   S_OFFSET [m], S_SCALE [mm/m]
+   0.000    1000.0   U_OFFSET [usr], U_SCALE [mm/usr],  usr = m
       20             NSLC
        7    0    0   NFEAT, NKINK, NACCEL
-       1             S_METHOD (1=intpol, 2=approx)
+       1             U_INTPOL (1=intpol, 2=approx)
 
-%  - slice positions S_SLC [m] and filenames RFNAME per slice
+%  - slice positions U_SLC [usr] and filenames RFNAME per slice
 
   -0.08520   'uk_crossing/Crossing_41.txt'
   -0.05201   'uk_crossing/Crossing_42.txt'
@@ -34,7 +34,7 @@
 %   1  3        P_ACCEL(ia)
 
 %  - S_F positions at geometrical features at start/end of each part per slice
-%        S_SLC        S_F,  F = 1 .. NFEAT
+%    U_SLC [usr]      S_F [mm],  F = 1 .. NFEAT
 
   -0.08520      -1      -1       -1       -1       0.      30.27   999.
   -0.05201      -1      -1       -1       -1       0.      30.24   999.

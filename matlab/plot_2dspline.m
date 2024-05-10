@@ -193,7 +193,7 @@ function [ myopt ] = plot_2dspline( slcs, opt )
       ylabel('y_{w} [mm]');
       zlabel('dr_{w} [mm]');
    else
-      xlabel('x_{fc} [mm]');
+      xlabel('u_{fc} [mm]');
       ylabel('y_{r} [mm]');
       zlabel('z_{r} [mm]');
    end

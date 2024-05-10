@@ -1,11 +1,11 @@
 % wheel flat on S1002 profile, courtesy M. Maglio / Chalmers University of Technology
 
-     0.0       1.0   TH_OFFSET [x], TH_SCALE [rad/x], x=rad
+     0.0       1.0   TH_OFFSET [usr], TH_SCALE [rad/usr], usr=rad
      258             NSLC
        0    0    0   NFEAT, NKINK, NACCEL
-       2             S_METHOD (1=intpol, 2=approx)
+       2             TH_INTPOL (1=intpol, 2=approx)
 
-%  - slice positions TH_SLC [x] and filenames WFNAME per slice
+%  - slice positions TH_SLC [usr] and filenames WFNAME per slice
 
    -3.0995   'S1002_flat/Wheel_section_208.txt'
    -3.0383   'S1002_flat/Wheel_section_209.txt'

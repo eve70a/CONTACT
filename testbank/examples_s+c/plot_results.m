@@ -127,13 +127,13 @@ end
 if (any(show_fig==6) & strcmp(expnam, 'mbench_intrup'))
    figure(6); clf; hold on;
    plot(sol.ws_pos.x, sol.tot_forc.fz_tr/1e3, '-o');
-   for is = 1 : slcs.nslc
-      if (slcs.u(is)>110 & slcs.u(is)<130)
-         ic = find(sol.ws_pos.x>slcs.u(is), 1, 'first');
-         plot(slcs.u(is)*[1 1], sol.tot_forc.fz_tr(ic)/1e3+0.05*[-1 1], '--', 'color',matlab_color(2))
-         if (slcs.slc_ib(is,1)<max(slcs.slc_ib([is-1,is+1],1)) | ...
-             slcs.slc_ib(is,2)>min(slcs.slc_ib([is-1,is+1],2)) )
-            text(slcs.u(is), sol.tot_forc.fz_tr(ic)/1e3+0.06, 'interruption', ...
+   for iu = 1 : slcs.nslc
+      if (slcs.u(iu)>110 & slcs.u(iu)<130)
+         ic = find(sol.ws_pos.x>slcs.u(iu), 1, 'first');
+         plot(slcs.u(iu)*[1 1], sol.tot_forc.fz_tr(ic)/1e3+0.05*[-1 1], '--', 'color',matlab_color(2))
+         if (slcs.slc_ib(iu,1)<max(slcs.slc_ib([iu-1,iu+1],1)) | ...
+             slcs.slc_ib(iu,2)>min(slcs.slc_ib([iu-1,iu+1],2)) )
+            text(slcs.u(iu), sol.tot_forc.fz_tr(ic)/1e3+0.06, 'interruption', ...
                                 'horizontalalignment','center', 'verticalalignment','bottom');
          end
       end
@@ -145,4 +145,4 @@ if (any(show_fig==6) & strcmp(expnam, 'mbench_intrup'))
    legend('total force F_z', 'profile slices', 'location','northwest');
 end
 
-clear expnam slc_file show_fig show_wheel icase ncase show_patch opt is ix0 ix1
+clear expnam slc_file show_fig show_wheel icase ncase show_patch opt iu ix0 ix1

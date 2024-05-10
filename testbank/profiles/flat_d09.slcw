@@ -1,11 +1,11 @@
 % cylindrical wheel with flat with rounded edges
 
-   0.000    1        TH_OFFSET [rad], TH_SCALE [rad/rad]
+   0.000    1        TH_OFFSET [usr], TH_SCALE [rad/usr], usr = rad
       57             NSLC
        0    0    0   NFEAT, NKINK, NACCEL
-       2             TH_METHOD (1=intpol, 2=approx)
+       2             TH_INTPOL (1=intpol, 2=approx)
 
-%  - slice positions TH_SLC [rad] and filenames WFNAME per slice
+%  - slice positions TH_SLC [usr] and filenames WFNAME per slice
 
    -0.124670    'flat_d09/flat_d09_1.txt'
    -0.120217    'flat_d09/flat_d09_2.txt'
