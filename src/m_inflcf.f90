@@ -525,14 +525,14 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine influe_load (fname_influe, dirnam, is_roll, cgrid, influ)
+   subroutine influe_load (fname_influe, inpdir, is_roll, cgrid, influ)
 !--purpose: Load the influence coefficients from a file.
 !           type 0: one set of coefficients, independent of y-position.
 !           type 1: separate matrix of coefficients per y-position.
       implicit none
 !--subroutine arguments:
       logical                  :: is_roll
-      character(len=*)         :: fname_influe, dirnam
+      character(len=*)         :: fname_influe, inpdir
       type(t_grid)             :: cgrid
       type(t_influe)           :: influ
 !--local variables:
@@ -549,13 +549,9 @@ contains
       associate( mxarr => cgrid%nx, myarr => cgrid%ny, dx    => cgrid%dx, dy    => cgrid%dy)
       call timer_start(itimer_infload)
 
-      ! determine full path-name, pre-pending dirname when necessary
+      ! determine full path-name, pre-pending inpdir when necessary
 
-      if (dirnam.ne.' ' .and. index_pathsep(fname_influe).le.0) then
-         fulnam_influe = trim(dirnam) // path_sep // fname_influe
-      else
-         fulnam_influe = fname_influe
-      endif
+      call make_absolute_path(fname_influe, inpdir, fulnam_influe)
 
       ! use free unit number defined in m_print_output
 

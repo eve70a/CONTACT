@@ -82,6 +82,8 @@ public
 
    public  index_pathsep
    public  set_platform_filesep
+   public  is_absolute_path
+   public  make_absolute_path
 
    ! routines for activating and de-activating the different output streams
 
@@ -213,6 +215,56 @@ subroutine set_platform_filesep(fname)
 
 end subroutine set_platform_filesep
  
+!------------------------------------------------------------------------------------------------------------
+
+pure function is_absolute_path(fname)
+!--purpose: determine whether a filename is absolute or relative
+   implicit none
+!--function argument:
+   character(len=*),           intent(in) :: fname
+!--return value:
+   logical        :: is_absolute_path
+
+   ! absolute path if fname starts with '/' or '\' 
+
+   if (index_pathsep(fname).eq.1) then
+
+      is_absolute_path = .true.
+
+   elseif (platform.eq.plat_win .and. len(fname).ge.3) then
+
+      ! Windows: absolute path if fname starts with drive e.g. 'C:\'
+
+      is_absolute_path = (fname(2:2).eq.':' .and. index_pathsep(fname).eq.3)
+
+   else
+
+      is_absolute_path = .false.
+
+   endif
+
+end function is_absolute_path
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine make_absolute_path(fname, dirnam, fulnam)
+!--purpose: in case of relative path-name, form absolute path-name
+!           Note: fulnam may refer to fname for in-place updating
+   implicit none
+!--subroutine arguments
+   character(len=*)  :: fname, dirnam
+   character(len=*)  :: fulnam          ! Note: fulnam can be equal to fname
+!--local variables
+
+   if (dirnam.ne.' ' .and. .not.is_absolute_path(fname)) then
+      fulnam = trim(dirnam) // path_sep // fname
+   else
+      fulnam = fname
+   endif
+   call set_platform_filesep(fulnam)
+
+end subroutine make_absolute_path
+
 !------------------------------------------------------------------------------------------------------------
 
 subroutine set_print_streams(nw_outfil, nw_screen, nw_simpck)

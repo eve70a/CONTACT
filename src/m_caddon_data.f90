@@ -62,7 +62,7 @@ public
    character(*), parameter  :: pfx = ' ** '       ! prefix for printing output of addon
    integer                  :: timer_output = 1   ! 0 = none, 1 = overview, 2 = full, 3+ = debug
                                                   ! the value is increased when idebug is increased
-   character(len=256)       :: caddon_expnam = 'contact_addon' ! experiment name
+   character(len=256)       :: caddon_expnam = 'contact_addon' ! overall experiment name for a run, ex. folder
    character(len=256)       :: caddon_outpath = ' '            ! full path of output directory
 
    ! internal data w.r.t. OpenMP and/or explicit multi-threading:
@@ -113,6 +113,9 @@ public
    private cntc_activate_wtd
    private cntc_activate_gd
    private set_actv_thread
+   public  cntc_getMaxNumThreads
+   public  lock_contact_problem
+   public  free_contact_problem
    public  cntc_destroy_gd
    public  cntc_timer_num
    public  cntc_select_units
@@ -317,14 +320,12 @@ subroutine cntc_activate_wtd(REid, CPid, ierror)
       wtd%ic%wrtinp  = 0              ! wrtinp:  default no input-specification to .inp-file
       wtd%ic%ilvout  = min(idebug, 1) ! ilvout:  switch off output when idebug=0
 
-      if (caddon_outpath.eq.' ') then
-         write(wtd%meta%expnam,'( a,i3.3)')                      'wraddon_re',REid
-      else
-         write(wtd%meta%expnam,'(2a,i3.3)') trim(caddon_outpath),'wraddon_re',REid
-      endif
+      write(wtd%meta%expnam,'( a,i3.3)') 'caddon_re',REid
+      wtd%meta%dirnam = caddon_outpath
       if (idebug.ge.5) then
-         write(bufout,*) 'experiment name=',trim(wtd%meta%expnam)
-         call write_log(1, bufout)
+         write(bufout,'(2(3a,/))') ' experiment name="',trim(wtd%meta%expnam),'",',                     &
+                ' dirnam="', trim(wtd%meta%dirnam),'"'
+         call write_log(2, bufout)
       endif
    endif
 
@@ -363,16 +364,6 @@ subroutine cntc_activate_wtd(REid, CPid, ierror)
       my_kin   => wtd%kin
       my_solv  => wtd%solv
       my_subs  => wtd%subs
-   endif
-
-   ! check if the wheel-rail pair (REid) is already in use (locked) by a different thread
-   ! If so, write error message and abort
-
-   if (my_meta%actv_thrd.ge.0) then
-      write(bufout,'(a,i3,2a,i2,a)') ' ERROR: wheel-rail problem (',REid, ') is already in use (locked)', &
-        ' by thread', my_meta%actv_thrd,', aborting.'
-      call write_log(1, bufout)
-      ierror = 305
    endif
 
    if (idebug.ge.5) call cntc_log_start(subnam, .false.)
@@ -445,15 +436,13 @@ subroutine cntc_activate_gd(REid, CPid)
       gd%kin%fxrel  = 0d0
       gd%kin%fyrel  = 0d0
 
-      if (caddon_outpath.eq.' ') then
-         write(gd%meta%expnam,'(a,i3.3,a,i1)') 'caddon_re',REid,'_cp',CPid
-      else
-         write(gd%meta%expnam,'(a,a,i3.3,a,i1)') trim(caddon_outpath),'caddon_re',REid,'_cp',CPid
-      endif
+      write(gd%meta%expnam,'(a,i3.3,a,i1)') 'caddon_re',REid,'_cp',CPid
+      gd%meta%dirnam = caddon_outpath
 
       if (idebug.ge.5) then
-         write(bufout,*) 'experiment name=',trim(gd%meta%expnam)
-         call write_log(1, bufout)
+         write(bufout,'(2(3a,/))') ' experiment name="',trim(gd%meta%expnam),'"',                       &
+                ' dirnam="',trim(gd%meta%dirnam),'"'
+         call write_log(2, bufout)
       endif
    endif
 
@@ -468,16 +457,6 @@ subroutine cntc_activate_gd(REid, CPid)
    my_kin     => gd%kin
    my_solv    => gd%solv
    my_subs    => gd%subs
-
-   ! check if the contact patch (REid,CPid) is already in use (locked) by a different thread
-   ! If so, write error message and abort
-
-   if (gd%meta%actv_thrd.ge.0) then
-      write(bufout,'(a,i3,a,i1,a,i2,a)') 'ERROR: contact problem (',REid,'.',CPid,                  &
-                ') is already in use (locked) by thread', gd%meta%actv_thrd,', aborting.'
-      call write_log(1, bufout)
-      call abort_run()
-   endif
 
    if (idebug.ge.5) call cntc_log_start(subnam, .false.)
 end subroutine cntc_activate_gd
@@ -511,8 +490,11 @@ subroutine set_actv_thread(REid, CPid)
 
       if (using_openmp.eq.0) then
          if (omp_in_parallel().ne.0) then
+            if (debug_openmp) call write_log(' Parallel computing is enabled based on OpenMP.')
             using_openmp = 1
          elseif (num_threads.gt.0) then
+            if (debug_openmp) &
+               call write_log(' Parallel computing disabled or based on unknown threading system.')
             using_openmp = -1
          endif
       endif
@@ -520,10 +502,10 @@ subroutine set_actv_thread(REid, CPid)
       ! set the thread number
 
       if (using_openmp.ge.1) then
-         my_thread = omp_get_thread_num()
+         my_thread   = omp_get_thread_num()
          num_threads = num_threads + 1
       elseif (using_openmp.le.-1) then
-         my_thread = num_threads
+         my_thread   = num_threads
          num_threads = num_threads + 1
       else ! using_openmp=0, don't know if OpenMP is used or not
          ! serial section or first explicit thread
@@ -559,6 +541,151 @@ subroutine set_actv_thread(REid, CPid)
 #endif
 
 end subroutine set_actv_thread
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getMaxNumThreads(mxthrd) &
+   bind(c,name=CNAME_(cntc_getmaxnumthreads))
+!--function: used for retrieving the maximum number of active threads allowed by the current license
+!--category: 0, "m=any, glob":      not related to contact's modules 1 or 3, working on global data
+   implicit none
+!--subroutine arguments:
+   integer,      intent(out) :: mxthrd    ! maximum number of concurrently active threads allowed
+!--local variables:
+   character(len=*), parameter :: subnam = 'cntc_getMaxNumThreads'
+#ifdef _WIN32
+!dec$ attributes dllexport :: cntc_getMaxNumThreads
+#endif
+
+   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+
+#ifdef _OPENMP
+   mxthrd = min(999, orig_mxthrd)
+#else
+   mxthrd = 1
+#endif
+
+   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+end subroutine cntc_getMaxNumThreads
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine lock_contact_problem(ire, icp, ierror)
+!--function: perform checks for multi-threading
+   implicit none
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+   integer,      intent(out) :: ierror        ! error code of CONTACT calculation
+!--local variables:
+   integer                     :: ixre, lic_mxthrd
+   integer,      pointer       :: actv_thrd
+   character(len=*), parameter :: subnam = 'lock_contact_problem'
+
+   ierror = 0
+
+!$omp critical (calculate_incr_numthrd)
+
+   ! count the #active threads - using shared variable num_actv_threads
+
+   num_actv_threads = num_actv_threads + 1
+   call cntc_getmaxnumthreads(lic_mxthrd)
+
+#ifdef _OPENMP
+
+   ! if compiled with OpenMP, check #active permitted according to license
+
+   if (debug_openmp .or. num_actv_threads.gt.lic_mxthrd) then
+      write(bufout,'(5(a,i0))') ' Starting cntc_calculate for ire= ',ire,', icp= ',icp,', thread= ',    &
+                my_thread, ', #active= ', num_actv_threads, ', max #active= ',lic_mxthrd
+      call write_log(1, bufout)
+   endif
+
+   if (num_actv_threads.gt.lic_mxthrd) then
+      ierror = CNTC_err_allow
+      if (debug_openmp .or. idebug.ge.1) then
+         write(bufout,'(a,i0,2a)') ' ERROR: no more than ',lic_mxthrd,' active threads allowed, ',      &
+                'skipping calculation'
+         call write_log(1, bufout)
+      endif
+   endif
+
+#else
+
+   ! not compiled with OpenMP, require my_thread == 0 and num_actv == 1
+
+   if (my_thread.gt.0 .or. num_actv_threads.gt.1) then
+      write(bufout,'(2(a,i0),a)') ' ERROR: parallel computation is not enabled in this version (thread ', &
+                my_thread,' of ',num_actv_threads,'), skipping calculation'
+      call write_log(1, bufout)
+      ierror = CNTC_err_allow
+   endif
+
+#endif
+
+   ! determine the lock to use for this (ire,icp) - using shared variable wtd/gd%actv_thrd
+
+   ixre = ix_reid(ire)
+   if (icp.le.0) then
+      actv_thrd => allwtd(ixre)%wtd%meta%actv_thrd
+   else
+      actv_thrd => allgds(ixre,icp)%gd%meta%actv_thrd
+   endif
+
+   ! in parallel runs, check that the (ire,icp) is free, not locked by another thread
+
+   if (actv_thrd.ge.0) then
+      write(bufout,'(2(a,i0),2a,i2,a)') ' ERROR: contact problem (',ire, ',',icp,') is already in use ', &
+        '(locked) by thread', actv_thrd,', skipping computation.'
+      call write_log(1, bufout)
+      ierror = 305
+   endif
+
+   ! in parallel runs, lock the (ire,icp) by setting the thread number in the wtd/gd data
+
+   if (ierror.eq.0) actv_thrd = my_thread
+
+!$omp end critical (calculate_incr_numthrd)
+
+end subroutine lock_contact_problem
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine free_contact_problem(ire, icp)
+!--function: release lock on a contact problem
+   implicit none
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: icp           ! contact problem ID
+!--local variables:
+   integer                     :: ixre
+   integer,      pointer       :: actv_thrd
+   character(len=*), parameter :: subnam = 'free_contact_problem'
+
+!$omp critical (calculate_decr_numthrd)
+
+   ! in parallel runs, decrement the #active threads 
+   !    using shared variable num_actv_threads
+
+   num_actv_threads = num_actv_threads - 1
+
+   ! determine the lock to use for this (ire,icp)
+   !    using shared variable wtd/gd%actv_thrd
+
+   ixre = ix_reid(ire)
+   if (icp.le.0) then
+      actv_thrd => allwtd(ixre)%wtd%meta%actv_thrd
+   else
+      actv_thrd => allgds(ixre,icp)%gd%meta%actv_thrd
+   endif
+
+   ! in parallel runs, release the lock on (ire,icp) by setting -1 in the wtd/gd data
+
+   actv_thrd = -1
+
+!$omp end critical (calculate_decr_numthrd)
+
+end subroutine free_contact_problem
 
 !------------------------------------------------------------------------------------------------------------
 

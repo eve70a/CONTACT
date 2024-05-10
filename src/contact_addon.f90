@@ -25,7 +25,6 @@ private cntc_setFileUnits
 private cntc_initializeFirst
 private cntc_initialize
 private cntc_setGlobalFlags
-private cntc_getMaxNumThreads
 private cntc_readInpFile
 private cntc_setFlags
 private cntc_setMetadata
@@ -211,7 +210,8 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
    integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
-   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory
+   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory /
+                                                         !           effective working folder
    character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
    integer,                intent(in)    :: len_outpath  ! length of C-string
    integer,                intent(in)    :: len_expnam   ! length of C-string
@@ -219,8 +219,8 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
    character(len=*), parameter :: subnam = 'cntc_initializeFirst'
    integer, parameter :: max_version = 20
    integer            :: num_version, ix
-   character(len=256) :: version(max_version), fname, f_dirnam
-   character          :: c_dirnam(256)
+   character(len=256) :: version(max_version), fname, f_recent
+   character          :: c_recent(256)
    character(len=len(bufout)-5) :: tmpbuf
    integer            :: jre, jcp, i, ilen, louttm
    logical            :: ltmpfile = .false.
@@ -280,6 +280,21 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
       endif
    endif
 
+   ! strip off directory name from experiment name, use as fallback for output folder
+
+   ix = index_pathsep(caddon_expnam, back=.true.)
+   if (ix.gt.1) then
+      if (caddon_outpath.eq.' ') caddon_outpath  = caddon_expnam(1:ix-1)
+      caddon_expnam  = caddon_expnam(ix+1:)
+
+      if (ltmpfile) then
+         write(37,*) '...directory separator found at ix=',ix
+         write(37,*) '...removing dirname to form true experiment name'
+         write(37,*) '...outpath= ',trim(caddon_outpath)
+         write(37,*) '...expnam=  ',trim(caddon_expnam)
+      endif
+   endif
+
    ! Set desired configuration of output streams
    !   - default    : to out-file and Simpack
    !   - ioutput = 1: to out-file, screen and Simpack
@@ -336,9 +351,9 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
 
    if (.false.) then
       ilen = 256
-      call getMostRecentDirectory(c_dirnam, ilen)
-      call c_to_f_string(c_dirnam, f_dirnam, ilen)
-      write(bufout,*) 'mostRecent: "',trim(f_dirnam),'", len=',ilen
+      call getMostRecentDirectory(c_recent, ilen)
+      call c_to_f_string(c_recent, f_recent, ilen)
+      write(bufout,*) 'mostRecent: "',trim(f_recent),'", len=',ilen
       call write_log(1, bufout)
    endif
 
@@ -385,7 +400,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
    nullify(wtd)
    nullify(gd)
 
-   ! Determine the maximum number of threads available for timers;
+   ! Determine the maximum number of threads available, used a.o. to define timers;
    ! Start with OpenMP disabled, using 1 thread
 
 #ifdef _OPENMP
@@ -443,7 +458,8 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) 
    integer,                intent(in)    :: imodul       ! module number 1=w/r contact, 3=basic contact
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
-   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory
+   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory /
+                                                         !           effective working folder
    integer,                intent(in)    :: len_outpath  ! length of C-string
 !--local variables:
    character(len=*), parameter    :: subnam = 'cntc_initialize'
@@ -686,32 +702,6 @@ end subroutine cntc_setGlobalFlags
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_getMaxNumThreads(mxthrd) &
-   bind(c,name=CNAME_(cntc_getmaxnumthreads))
-!--function: used for retrieving the maximum number of active threads allowed by the current license
-!--category: 0, "m=any, glob":      not related to contact's modules 1 or 3, working on global data
-   implicit none
-!--subroutine arguments:
-   integer,      intent(out) :: mxthrd    ! maximum number of concurrently active threads allowed
-!--local variables:
-   character(len=*), parameter :: subnam = 'cntc_getMaxNumThreads'
-#ifdef _WIN32
-!dec$ attributes dllexport :: cntc_getMaxNumThreads
-#endif
-
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
-
-#ifdef _OPENMP
-   mxthrd = 999
-#else
-   mxthrd = 1
-#endif
-
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
-end subroutine cntc_getMaxNumThreads
-
-!------------------------------------------------------------------------------------------------------------
-
 subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
    bind(c,name=CNAME_(cntc_readinpfile))
 !--function: used for configuring multiple data items at once using the inp-file format
@@ -738,13 +728,16 @@ subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
 
    call c_to_f_string(c_fname, f_fname, len_fname)
 
+   ! read contents of input-file dependent on type of input
+
    if (inp_type.eq.CNTC_inp_spck) then
 
       call wr_input_spck(f_fname, wtd, ierror)
+      if (ierror.ne.0) ierror = CNTC_err_input
 
    else
 
-      ierror = 21
+      ierror = CNTC_err_input
       write(bufout,'(a,i3,a,i8,a)') ' ERROR(',ierror,'): unknown inp-file code=',inp_type,' is ignored.'
       call write_log(1, bufout)
 
@@ -860,14 +853,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_ic_iestim) then         ! set I-digit in the RE-CP-data
 
-         if (imodul.eq.1 .and. values(i).ne.0) then
-            write(bufout,'(a,i3,a)') 'ERROR: module 1 does not support IESTIM =', values(i),            &
-                ', setting IESTIM := 0'
-            call write_log(1, bufout)
-            my_ic%iestim = 0
-         else
-            my_ic%iestim = max(0, min(3, values(i)))
-         endif
+         my_ic%iestim = max(0, min(3, values(i)))
 
       elseif (params(i).eq.CNTC_ic_matfil) then         ! set A-digit in the RE-CP-data
 
@@ -1019,6 +1005,8 @@ function cntc_flagName(iflag)
       cntc_flagName = 'CNTC_if_wrtinp'
    elseif (iflag.eq.CNTC_if_openmp) then
       cntc_flagName = 'CNTC_if_openmp'
+   elseif (iflag.eq.CNTC_if_timers) then
+      cntc_flagName = 'CNTC_if_timers'
    else
       write(cntc_flagName,'(i8)') iflag
    endif
@@ -1239,7 +1227,7 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
          endif
       endif
 
-   else
+   elseif (gdigit.eq.6) then
 
       ! gdigit=6: set solver parameters related to the calculation of sensitivities
 
@@ -1247,8 +1235,8 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
       my_solv%epsens = max(1d-20, rparam(1))
 
       if (idebug.ge.2) then
-         write(bufout,'(2a,i4,a,es8.1)') trim(pfx_str(subnam,ire,icp)),' set MxSENS=',my_solv%mxsens,   &
-                ', Epsens=', my_solv%epsens
+         write(bufout,'(2a,2(i0,a),es8.1)') trim(pfx_str(subnam,ire,icp)),' G=',gdigit,', set MxSENS=', &
+                my_solv%mxsens, ', Epsens=', my_solv%epsens
          call write_log(1, bufout)
       endif
 
@@ -2782,7 +2770,7 @@ end subroutine cntc_setTangentialForces
 subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nreals, rparam) &
    bind(c,name=CNAME_(cntc_setprofileinputfname))
 !--function: set a wheel or rail profile filename for a wheel-rail contact problem
-!  fname          - string: name of profile file
+!  fname          - string: name of profile file, absolute path or relative to effective working folder
 !  iparam         - integer configuration parameters
 !                     1: itype     0 = rail, 1 = wheel profile, -1 = taken from file extension (default)
 !                     2:  -        not used
@@ -3327,8 +3315,8 @@ subroutine cntc_setWheelsetPosition(ire, ewheel, nparam, params) &
    endif
 
    if (idebug.ge.2) then
-      write(bufout,'(2a,3f8.3,a)') trim(pfx_str(subnam,ire,-1)),' position=', wtd%ws%s, wtd%ws%y,       &
-                wtd%ws%z, ' [mm]'
+      write(bufout,'(3a,2f8.3,a)') trim(pfx_str(subnam,ire,-1)),' position=', fmt_gs(12,6,4,wtd%ws%s),  &
+                wtd%ws%y, wtd%ws%z, ' [mm]'
       call write_log(1, bufout)
       write(bufout,'(2a,3f10.6,a)') trim(pfx_str(subnam,ire,-1)),' orientation=', wtd%ws%roll,          &
                 wtd%ws%yaw, wtd%ws%pitch, ' [rad]'
@@ -3734,10 +3722,6 @@ subroutine cntc_calculate(ire, icp, ierror) &
    integer,      intent(out) :: ierror        ! error code of CONTACT calculation
 !--local variables:
    character(len=*), parameter   :: subnam = 'cntc_calculate'
-   integer                       :: lic_mxthrd, new_actv
-#ifdef _OPENMP
-   integer                       :: omp_mxthrd
-#endif
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_calculate
 #endif
@@ -3746,39 +3730,18 @@ subroutine cntc_calculate(ire, icp, ierror) &
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
 
    if (.not.my_license%is_valid) ierror = CNTC_err_allow
-   if (ierror.lt.0) return
 
-   ! check license for maximum number of active threads
+   call lock_contact_problem(ire, icp, ierror)
 
-   call cntc_getmaxnumthreads(lic_mxthrd)
-   new_actv = num_actv_threads + 1
-
-   if (debug_openmp) then
-      write(bufout,'(2(a,i3))') ' Starting cntc_calculate, thread=',new_actv,', max=',lic_mxthrd
-      call write_log(1, bufout)
-#ifdef _OPENMP
-      omp_mxthrd = omp_get_max_threads()
-      write(bufout,'(a,i3)') ' According to OpenMP, max #threads =', omp_mxthrd
-      call write_log(1, bufout)
-#endif
-   endif
-
-   if (new_actv.gt.lic_mxthrd) then
-      if (debug_openmp .or. idebug.ge.1) then
-         write(bufout,'(a,i3,a)') ' ERROR: no more than',lic_mxthrd,' active threads allowed, returning'
-         call write_log(1, bufout)
+   if (ierror.eq.0) then
+      if (icp.le.0) then
+         call cntc_calculate1(ire, ierror)
+      else
+         call cntc_calculate3(ire, icp, ierror)
       endif
-      ierror = CNTC_err_allow
-      return
    endif
-   ! write(bufout,*) 'calculate: starting with new_actv=',new_actv
-   ! call write_log(1,bufout)
 
-   if (icp.le.0) then
-      call cntc_calculate1(ire, ierror)
-   else
-      call cntc_calculate3(ire, icp, ierror)
-   endif
+   call free_contact_problem(ire, icp)
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_calculate
@@ -3848,6 +3811,7 @@ subroutine cntc_calculate1(ire, ierror) &
       write(bufout, '(a,f8.2,a,/,15x,3a)') ' Input: ERROR. The gauge point computation (GAUGHT =',      &
                 wtd%trk%gauge_height, ') cannot be used when using a', 'variable profile ("',           &
                 trim(my_rail%prr%fname),'").'
+      call write_log(1, bufout)
    endif
 
    ! TODO: signal errors in friction specification
@@ -3893,23 +3857,15 @@ subroutine cntc_calculate1(ire, ierror) &
 
    if ((my_ic%output_surf.ge.1 .or. my_ic%flow.ge.1) .and. out_open.eq.1) then
       if (my_meta%irun.eq.0 .and. my_meta%tim.eq.0d0) then
-         write (lout,'(/,a,i7,a,i3)') ' Case',my_meta%ncase,' for w/r contact on result element',ire
+         write (lout,'(/,a,i0,a,i0)') ' Case ',my_meta%ncase,' for w/r contact on result element ',ire
       elseif (my_meta%irun.eq.0) then
-         write (lout,'(/,a,i7,a,i3,a,f16.10)') ' Case',my_meta%ncase,' for w/r contact on result element', &
+         write (lout,'(/,a,i0,a,i0,a,f16.10)') ' Case ',my_meta%ncase,' for w/r contact on result element ', &
                 ire,', t=',my_meta%tim
       else
-         write (lout,'(/,a,i7,4(a,i4))') ' Case',my_meta%ncase,' for w/r contact on result element', ire, &
-                ', run',my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
+         write (lout,'(/,5(a,i0))') ' Case ',my_meta%ncase,' for w/r contact on result element ', ire,  &
+                ', run ',my_meta%irun,', axle ', my_meta%iax,', side ',my_meta%iside
       endif
    endif
-
-   ! in parallel runs, lock the (ire) by setting the thread number in the wtd
-   ! (slight race-condition with different threads calling activate + lock simultaneously)
-
-!$omp critical (calculate1_incr_numthrd)
-   num_actv_threads = num_actv_threads + 1
-   my_meta%actv_thrd = my_thread
-!$omp end critical (calculate1_incr_numthrd)
 
    ! Open .inp-file if not done so before
 
@@ -3975,14 +3931,8 @@ subroutine cntc_calculate1(ire, ierror) &
       endif
    endif
 
-   ! release the lock on contact problem (ire) by clearing the thread number in the wtd
-
-!$omp critical (calculate1_decr_numthrd)
-   num_actv_threads = num_actv_threads - 1
-   my_meta%actv_thrd = -1
-!$omp end critical (calculate1_decr_numthrd)
-
    ! Increment the number of cases computed for this (ire)
+
    my_meta%ncase = my_meta%ncase + 1
 
    if (idebug.ge.1) then
@@ -4064,7 +4014,8 @@ subroutine cntc_calculate3(ire, icp, ierror) &
    ! We should check whether all data are provided: mx, my, etc.?
    ! We should check whether the appropriate updates are carried out: scale, ...?
 
-   ! Open .inp-file if not done so before
+   ! Open .inp-file for writing (output-folder) if not done so before
+
    if (my_ic%wrtinp.ge.1 .and. linp.ge.1 .and. inp_open.eq.0) then
       fname = trim(caddon_outpath) // trim(caddon_expnam) // '.inp'
       open(unit=linp, file=fname, action='write', err=998)
@@ -4087,27 +4038,12 @@ subroutine cntc_calculate3(ire, icp, ierror) &
       write (lout,'(a,i6,2(a,i3))') ' Case',my_meta%ncase,' for contact problem',icp,' on result element',ire
    endif
 
-   ! in parallel runs, lock the (ire,icp) by setting the thread number in the gd
-   ! (slight race-condition with different threads calling activate + lock simultaneously)
-
-!$omp critical (calculate3_incr_numthrd)
-   num_actv_threads = num_actv_threads + 1
-   gd%meta%actv_thrd = my_thread
-!$omp end critical (calculate3_incr_numthrd)
-
    ! Solve the contact-problem
 
    itimer = cntc_timer_num(ire, icp)
    call timer_start(itimer)
    call contac(gd, ierror)
    call timer_stop(itimer)
-
-   ! release the lock on contact problem (ire,icp) by clearing the thread number in the gd
-
-!$omp critical (calculate3_decr_numthrd)
-   num_actv_threads = num_actv_threads - 1
-   gd%meta%actv_thrd = -1
-!$omp end critical (calculate3_decr_numthrd)
 
    ! Optionally write description of the case to the .inp-file
 
@@ -4170,7 +4106,7 @@ subroutine subs_calculate(ire, icp, ierror) &
    integer,      intent(out) :: ierror        ! error code of CONTACT calculation
 !--local variables:
    character(len=*), parameter   :: subnam = 'subs_calculate'
-   integer                       :: imodul, itimer, lic_mxthrd, new_actv, jcp, jcp0, jcp1
+   integer                       :: imodul, itimer, jcp, jcp0, jcp1
 #ifdef _WIN32
 !dec$ attributes dllexport :: subs_calculate
 #endif
@@ -4180,71 +4116,71 @@ subroutine subs_calculate(ire, icp, ierror) &
    if (.not.my_license%is_valid) ierror = CNTC_err_allow
    if (ierror.lt.0) return
 
-   ! check license for maximum number of active threads
+   ! perform checks for multi-threading, lock contact problem
 
-   call cntc_getmaxnumthreads(lic_mxthrd)
-   new_actv = num_actv_threads + 1
-   if (new_actv.gt.lic_mxthrd) then
-      if (debug_openmp .or. idebug.ge.1) then
-         write(bufout,'(a,i3,a)') ' ERROR: no more than',lic_mxthrd,' active threads allowed, returning'
+   call lock_contact_problem(ire, icp, ierror)
+
+   ! skip calculation in case of errors
+
+   if (ierror.eq.0) then
+
+      ! TODO: check that results are available
+
+      imodul = ire_module(ix_reid(ire))
+
+      if (idebug.ge.2) then
+         write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' calculating...'
          call write_log(1, bufout)
       endif
-      ierror = CNTC_err_allow
-      return
-   endif
-   ! write(bufout,*) 'calculate: starting with new_actv=',new_actv
-   ! call write_log(1,bufout)
 
-   ! TODO: check that results are available
+      itimer = cntc_timer_num(ire, -1)
+      call timer_start(itimer)
 
-   imodul = ire_module(ix_reid(ire))
+      if (imodul.eq.1) then
 
-   if (idebug.ge.2) then
-      write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' calculating...'
-      call write_log(1, bufout)
-   endif
+         ! module 1: use loop, copy input from wtd to gd as needed
 
-   itimer = cntc_timer_num(ire, -1)
-   call timer_start(itimer)
+         if (icp.le.0) then
+            jcp0 = 1
+            jcp1 = wtd%numcps
+         else
+            jcp0 = icp
+            jcp1 = icp
+         endif
 
-   if (imodul.eq.1) then
+         do jcp = jcp0, jcp1
 
-      ! module 1: use loop, copy input from wtd to gd as needed
+            associate(cp => wtd%allcps(jcp)%cp)
 
-      if (icp.le.0) then
-         jcp0 = 1
-         jcp1 = wtd%numcps
+            ! copy input for wtd to gd, except for cps that have gd%subs specified separately
+
+            if (.not.cp%has_own_subs) call subsurf_copy(wtd%subs, cp%gd%subs)
+
+            ! calculate subsurface stresses, using mirroring for left rail/wheel combination
+
+            cp%gd%meta%ncase = cp%gd%meta%ncase - 1
+            call subsur(cp%gd%meta, cp%gd%ic, cp%gd%mater, cp%gd%cgrid_cur, cp%gd%outpt1%igs,           &
+                           cp%gd%outpt1%ps, cp%gd%ic%is_left_side(), cp%gd%subs)
+            cp%gd%meta%ncase = cp%gd%meta%ncase + 1
+
+            end associate
+         enddo
       else
-         jcp0 = icp
-         jcp1 = icp
+
+         ! module 3: plain call to subsur_calc, gd%subs already filled in
+
+         gd%meta%ncase = gd%meta%ncase - 1
+         call subsur(gd%meta, gd%ic, gd%mater, gd%cgrid_cur, gd%outpt1%igs, gd%outpt1%ps, .false.,      &
+                        gd%subs)
+         gd%meta%ncase = gd%meta%ncase + 1
       endif
+      call timer_stop(itimer)
 
-      do jcp = jcp0, jcp1
+   endif ! ierror==0
 
-         associate(cp => wtd%allcps(jcp)%cp)
+   ! release lock for parallel computation
 
-         ! copy input for wtd to gd, except for cps that have gd%subs specified separately
-
-         if (.not.cp%has_own_subs) call subsurf_copy(wtd%subs, cp%gd%subs)
-
-         ! calculate subsurface stresses, using mirroring for left rail/wheel combination
-
-         cp%gd%meta%ncase = cp%gd%meta%ncase - 1
-         call subsur(cp%gd%meta, cp%gd%ic, cp%gd%mater, cp%gd%cgrid_cur, cp%gd%outpt1%igs,              &
-                          cp%gd%outpt1%ps, cp%gd%ic%is_left_side(), cp%gd%subs)
-         cp%gd%meta%ncase = cp%gd%meta%ncase + 1
-
-         end associate
-      enddo
-   else
-
-      ! module 3: plain call to subsur_calc, gd%subs already filled in
-
-      gd%meta%ncase = gd%meta%ncase - 1
-      call subsur(gd%meta, gd%ic, gd%mater, gd%cgrid_cur, gd%outpt1%igs, gd%outpt1%ps, .false., gd%subs)
-      gd%meta%ncase = gd%meta%ncase + 1
-   endif
-   call timer_stop(itimer)
+   call free_contact_problem(ire, icp)
 
    if (idebug.ge.2) then
       write(bufout,'(2a)')       trim(pfx_str(subnam,ire,icp)),' done...'
@@ -5429,12 +5365,6 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 !  23 - MY_W_W   - total moment on output body about wheel profile marker, component in wheel y-direction
 !  24 - MZ_W_W   - total moment on output body about wheel profile marker, component in wheel z-direction
 !
-!  25 - X_AVG    - average contact position (minimum total moment), track longitudinal x-direction
-!  26 - Y_AVG    - average contact position (minimum total moment), track lateral y-direction
-!  27 - Z_AVG    - average contact position (minimum total moment), track vertical z-direction
-!  28 - MX_AV_TR - total moment on output body about average contact position, comp. in track x-direction
-!  29 - MY_AV_TR - total moment on output body about average contact position, comp. in track y-direction
-!  30 - MZ_AV_TR - total moment on output body about average contact position, comp. in track z-direction
 !--category: 4, "m=1 only, wtd/cp": available for module 1 only, working on wtd or cp data
    implicit none
 !--subroutine arguments:
@@ -5445,7 +5375,7 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 !--local variables:
    integer                     :: ierror
    real(kind=8)                :: sgn
-   type(t_vec),      pointer   :: ftot_tr, ttot_r_tr, ftot_ws, ttot_w_ws, xavg, ttot_avg
+   type(t_vec),      pointer   :: ftot_tr, ttot_r_tr, ftot_ws, ttot_w_ws
    type(t_vec)                 :: ftot_r, ttot_r_r, ftot_w, ttot_w_w
    type(t_vec),      target    :: fzero
    character(len=*), parameter :: subnam = 'cntc_getGlobalForces'
@@ -5475,8 +5405,6 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
       ftot_ws     => wtd%fws
       ttot_r_tr   => wtd%ttrk
       ttot_w_ws   => wtd%tws
-      xavg        => wtd%xavg
-      ttot_avg    => wtd%tavg
 
    elseif (icp.ge.1 .and. icp.le.wtd%numcps) then
 
@@ -5484,8 +5412,6 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
       ftot_ws     => wtd%allcps(icp)%cp%fws
       ttot_r_tr   => wtd%allcps(icp)%cp%ttrk
       ttot_w_ws   => wtd%allcps(icp)%cp%tws
-      xavg        => fzero
-      ttot_avg    => fzero
 
    else
 
@@ -5493,8 +5419,6 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
       ftot_ws     => fzero
       ttot_r_tr   => fzero
       ttot_w_ws   => fzero
-      xavg        => fzero
-      ttot_avg    => fzero
 
    endif
 
@@ -5535,14 +5459,7 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
    if (lenarr.ge.23) rvalues(23) =       my_scl%body * ttot_w_w%y() / my_scl%len   ! MY_@W(RW)
    if (lenarr.ge.24) rvalues(24) = sgn * my_scl%body * ttot_w_w%z() / my_scl%len   ! MZ_@W(RW)
 
-   if (lenarr.ge.25) rvalues(25) =       xavg%x() / my_scl%len                     ! XAVG(TR)
-   if (lenarr.ge.26) rvalues(26) = sgn * xavg%y() / my_scl%len                     ! YAVG(TR)
-   if (lenarr.ge.27) rvalues(27) =       xavg%z() / my_scl%len                     ! ZAVG(TR)
-   if (lenarr.ge.28) rvalues(28) = sgn * my_scl%body * ttot_avg%x() / my_scl%len   ! MX_@AVG(TR)
-   if (lenarr.ge.29) rvalues(29) =       my_scl%body * ttot_avg%y() / my_scl%len   ! MY_@AVG(TR)
-   if (lenarr.ge.30) rvalues(30) = sgn * my_scl%body * ttot_avg%z() / my_scl%len   ! MZ_@AVG(TR)
-
-   if (lenarr.ge.31) rvalues(31:) = 0d0
+   if (lenarr.ge.25) rvalues(25:) = 0d0
 
    end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -5575,8 +5492,8 @@ subroutine cntc_getContactPatchAreas(ire, icp, carea, harea, sarea) &
 
    ! Count number of elements in contact, slip and adhesion
 
-   call eldiv_count(gd%outpt1%igs, nadh, nslip, nexter, nplast)
-   ncon = nadh + nslip
+   call eldiv_count(gd%outpt1%igs, nadh, nslip, nplast, nexter)
+   ncon = nadh + nslip + nplast
    carea = real(ncon)  * gd%potcon_cur%dxdy / my_scl%area
    harea = real(nadh)  * gd%potcon_cur%dxdy / my_scl%area
    sarea = real(nslip) * gd%potcon_cur%dxdy / my_scl%area

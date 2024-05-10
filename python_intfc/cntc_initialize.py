@@ -7,7 +7,7 @@
 #
 #  in:  integer    ire          - result element ID
 #       integer    imodul       - module number 1=w/r contact, 3=basic contact
-#       character  outpath(*)   - [optional] full path of output directory
+#       character  outpath(*)   - [optional] full path of output directory and effective working folder
 #       integer    idebug       - [optional] show (1) or hide (0) error messages
 #  out: integer    ifcver       - version of the CONTACT add-on
 #       integer    ierror       - error flag

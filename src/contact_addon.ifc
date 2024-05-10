@@ -48,7 +48,8 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
    integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
-   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory
+   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory /
+                                                         !           effective working folder
    character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
    integer,                intent(in)    :: len_outpath  ! length of C-string
    integer,                intent(in)    :: len_expnam   ! length of C-string
@@ -66,7 +67,8 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) 
    integer,                intent(in)    :: imodul       ! module number 1=w/r contact, 3=basic contact
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
-   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory
+   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory /
+                                                         !           effective working folder
    integer,                intent(in)    :: len_outpath  ! length of C-string
 end subroutine cntc_initialize
 
@@ -441,7 +443,7 @@ end subroutine cntc_setTangentialForces
 subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nreals, rparam) &
    bind(c,name=CNAME_(cntc_setprofileinputfname))
 !--function: set a wheel or rail profile filename for a wheel-rail contact problem
-!  fname          - string: name of profile file
+!  fname          - string: name of profile file, absolute path or relative to effective working folder
 !  iparam         - integer configuration parameters
 !                     1: itype     0 = rail, 1 = wheel profile, -1 = taken from file extension (default)
 !                     2:  -        not used
@@ -996,13 +998,6 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 !  22 - MX_RW_RW - total moment on output body about wheel profile marker, component in wheel x-direction
 !  23 - MY_RW_RW - total moment on output body about wheel profile marker, component in wheel y-direction
 !  24 - MZ_RW_RW - total moment on output body about wheel profile marker, component in wheel z-direction
-!
-!  25 - X_AVG    - average contact position (minimum total moment), track longitudinal x-direction
-!  26 - Y_AVG    - average contact position (minimum total moment), track lateral y-direction
-!  27 - Z_AVG    - average contact position (minimum total moment), track vertical z-direction
-!  28 - MX_AV_TR - total moment on output body about average contact position, comp. in track x-direction
-!  29 - MY_AV_TR - total moment on output body about average contact position, comp. in track y-direction
-!  30 - MZ_AV_TR - total moment on output body about average contact position, comp. in track z-direction
 !--subroutine arguments:
    integer,      intent(in)  :: ire           ! result element ID
    integer,      intent(in)  :: icp           ! contact problem ID

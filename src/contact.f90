@@ -249,7 +249,7 @@ program contact
          ! write(*,*) 'new gd%meta%expnam="',trim(gd%meta%expnam),'"'
       endif
 
-      ! strip off the directory name from experiment name
+      ! strip off the directory name from experiment name, store as input+output folder
 
       ix = index_pathsep(gd%meta%expnam, back=.true.)
       if (ix.gt.1) then

@@ -170,6 +170,7 @@
       CNTC_err_profil =  -32, & ! error reading w/r profile file(s)
       CNTC_err_frclaw =  -33, & ! invalid friction parameters
       CNTC_err_discr  =  -34, & ! invalid discretisation parameters
+      CNTC_err_input  =  -39, & ! error reading inp-file
       CNTC_err_other  =  -99, & ! other error, unspecified
       CNTC_err_broydn =  CNTC_err_ftot  ! obsolete, kept for backward compatibility
 
