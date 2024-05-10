@@ -10,7 +10,7 @@ function [npatch, ws_pos, tot_forc, cp_pos, cp_creep, cp_force] = parse_out1(fna
 %   ws_pos   = (input) wheel-set positions, orientations and velocities
 %              struct with x, y, z, roll, yaw, pitch, vx, ... vpitch
 %   tot_forc = total forces in track coordinates & wheelset coordinates
-%              struct with fx_tr, ... fz_ws, mx_tr, ... mz_ws, xavg, yavg, zavg, mx_av, my_av, mz_av
+%              struct with fx_tr, ... fz_ws, mx_tr, ... mz_ws
 %   cp_pos   = contact reference positions
 %              struct with xtr, ytr, ztr, delttr, yr, zr, xw, yw, zw, ncon, nadh, nslip, nplast, prev_icp,
 %              using npatch rows
@@ -89,8 +89,9 @@ end
 
 % parse the contents of the file
 
+icase  = 0;
 max_patch = 10;
-npatch = [];
+ire    = []; jcase  = []; tim    = []; npatch  = []; 
 x_ws   = []; y_ws   = []; z_ws   = []; roll    = []; yaw    = []; pitch  = [];
 vx_ws  = []; vy_ws  = []; vz_ws  = []; vroll   = []; vyaw   = []; vpitch = [];
 dx_whl = []; dy_whl = []; dz_whl = []; drollw  = []; dyaww  = []; dpitchw = [];
@@ -117,11 +118,21 @@ while (iline<f.nline)
 
    if (~isempty(strfind(s, 'Case')))
 
-      % Case     1
-
-      icase = sscanf(s,' Case %d');
+      icase = icase + 1;
       if (idebug>=5)
          disp(sprintf('...Case %d starts at line %d',icase,iline));
+      end
+
+      % Case     1
+      % Case  29246 for w/r contact on result element  2, t=      0.08706221
+
+      tmp = sscanf(s,' Case %d for w/r contact on result element %d, t= %f');
+      jcase(icase) = tmp(1);
+      if (~isempty(strfind(s, 'result element')))
+         ire(icase) = tmp(2);
+      end
+      if (~isempty(strfind(s, ', t=')))
+         tim(icase) = tmp(3);
       end
 
       % initialize the patch number for module 3
@@ -143,8 +154,6 @@ while (iline<f.nline)
       fx_ws(icase)   = NaN; fy_ws(icase)   = NaN; fz_ws(icase)   = NaN;
       mx_tr(icase)   = NaN; my_tr(icase)   = NaN; mz_tr(icase)   = NaN; 
       mx_ws(icase)   = NaN; my_ws(icase)   = NaN; mz_ws(icase)   = NaN;
-      xavg(icase)    = NaN; yavg(icase)    = NaN; zavg(icase)    = NaN;
-      mx_av(icase)   = NaN; my_av(icase)   = NaN; mz_av(icase)   = NaN;
 
       al = [1:max_patch];
       xcp_tr(al,icase) = NaN; ycp_tr(al,icase) = NaN; zcp_tr(al,icase) = NaN;
@@ -283,23 +292,10 @@ while (iline<f.nline)
          tmp = sscanf(s, '%f %f %f %f %f %f');
          mx_tr(icase) = tmp(1); my_tr(icase) = tmp(2); mz_tr(icase) = tmp(3);
          mx_ws(icase) = tmp(4); my_ws(icase) = tmp(5); mz_ws(icase) = tmp(6);
+      else
+         iline = iline - 2;
+         [s, iline] = read_line(f, iline, idebug);
       end
-   end
-
-   if (~isempty(strfind(s, 'AVERAGE CONTACT POSITION')))
-
-      % AVERAGE CONTACT POSITION
-      %     X(TR)       Y(TR)       Z(TR)       MX(AV)      MY(AV)      MZ(AV)
-      %    -32.4778    735.3326     44.6538   5.087E+07  -1.961E+06  -1.750E+07
-
-      if (idebug>=5)
-         disp(sprintf('...Found average contact position at line %d',iline));
-      end
-      [s, iline] = read_line(f, iline, idebug);
-      [s, iline] = read_line(f, iline, idebug);
-      tmp = sscanf(s, '%f %f %f %f %f %f');
-      xavg(icase) = tmp(1);  yavg(icase) = tmp(2);  zavg(icase) = tmp(3);
-      mx_av(icase) = tmp(4); my_av(icase) = tmp(5); mz_av(icase) = tmp(6);
    end
 
    if (~isempty(strfind(s, 'DATA FOR CONTACT PATCH')))
@@ -423,7 +419,7 @@ while (iline<f.nline)
       elseif (~isempty(strfind(s2, 'MAX(T1,T2)')))  % >= v22.1
          temp1(ipatch,icase) = tmp(6);
       end
-   end
+   end % TOTAL FORCES, TORSIONAL
 
    if (~isempty(strfind(s, 'CONTACT STATISTICS')))
 
@@ -452,7 +448,7 @@ while (iline<f.nline)
       if (~isempty(strfind(s, 'NPLAST')))
          nplast(ipatch,icase) = tmp(5);
       end
-   end
+   end % STATISTICS
 
    if (~isempty(strfind(s, 'ABSMAX SIGHYD')))
 
@@ -493,9 +489,10 @@ while (iline<f.nline)
          % read next line from file
          [ s, iline ] = read_line(f, iline, idebug);
       end
-   end
 
-end
+   end % ABSMAX, SIGHYD
+
+end % while (iline<f.nline)
 
 ws_pos   = struct('x',     x_ws,   'y',     y_ws,   'z',     z_ws,   ...
                   'roll',  roll,   'yaw',   yaw,    'pitch', pitch,  ...
@@ -518,9 +515,7 @@ end
 tot_forc = struct('fx_tr', fx_tr,  'fy_tr', fy_tr,  'fz_tr', fz_tr,  ...
                   'fx_ws', fx_ws,  'fy_ws', fy_ws,  'fz_ws', fz_ws,  ...
                   'mx_tr', mx_tr,  'my_tr', my_tr,  'mz_tr', mz_tr,  ...
-                  'mx_ws', mx_ws,  'my_ws', my_ws,  'mz_ws', mz_ws,  ...
-                  'xavg',  xavg,   'yavg',  yavg,   'zavg',  zavg,   ...
-                  'mx_av', mx_av,  'my_av', my_av,  'mz_av', mz_av);
+                  'mx_ws', mx_ws,  'my_ws', my_ws,  'mz_ws', mz_ws);
 
 max_patch = max(npatch);
 al        = [1:max_patch];
@@ -564,6 +559,9 @@ if (nargout<=1)
    sol = struct( 'ws_pos',ws_pos, 'tot_forc',tot_forc, 'npatch',  npatch, ...
                  'cp_pos',cp_pos, 'cp_creep',cp_creep, 'cp_force',cp_force,...
                  'cp_subs',cp_subs);
+   if (~isempty(ire)), sol.ire = ire; end
+   if (~isempty(tim)), sol.tim = tim; end
+   sol.icase = jcase;
    npatch = sol;
 end
 

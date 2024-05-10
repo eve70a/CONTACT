@@ -35,13 +35,6 @@
 #  22 - MX_RW_WS - total moment on output body about wheel profile marker, component in wheel x-direction
 #  23 - MY_RW_WS - total moment on output body about wheel profile marker, component in wheel y-direction
 #  24 - MZ_RW_WS - total moment on output body about wheel profile marker, component in wheel z-direction
-#
-#  25 - X_AVG    - average contact position (minimum total moment), track longitudinal x-direction
-#  26 - Y_AVG    - average contact position (minimum total moment), track lateral y-direction
-#  27 - Z_AVG    - average contact position (minimum total moment), track vertical z-direction
-#  28 - MX_AV_TR - total moment on output body about average contact position, comp. in track x-direction
-#  29 - MY_AV_TR - total moment on output body about average contact position, comp. in track y-direction
-#  30 - MZ_AV_TR - total moment on output body about average contact position, comp. in track z-direction
 #------------------------------------------------------------------------------------------------------------
 
 # Copyright 2008-2023 by Vtech CMCC.
