@@ -442,8 +442,8 @@ subroutine cntc_activate_gd(REid, CPid)
       gd%kin%cksi   = 0d0
       gd%kin%ceta   = 0d0
       gd%kin%cphi   = 0d0            ! start with zero creepages
-      gd%kin%fxrel1 = 0d0
-      gd%kin%fyrel1 = 0d0
+      gd%kin%fxrel  = 0d0
+      gd%kin%fyrel  = 0d0
 
       if (caddon_outpath.eq.' ') then
          write(gd%meta%expnam,'(a,i3.3,a,i1)') 'caddon_re',REid,'_cp',CPid

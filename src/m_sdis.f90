@@ -63,7 +63,7 @@ contains
 
          ! resize grid-functions used in hierarchical data-structure, keeping existing data
 
-         call gd_resize_gridfunc(ic, cgrid, cgrid_new, geom, outpt, .true.)
+         call gd_resize_gridfunc(cgrid, cgrid_new, geom, outpt, .true.)
 
          ! copy new grid into gd
 
@@ -257,7 +257,7 @@ contains
 
       if (ic%pvtime.le.1) then
          call gf3_copy(AllElm, ps, pv, ikZDIR)
-         kin%fprev(ikZDIR) = kin%fntrue
+         kin%fprev(ikZDIR) = kin%fcntc(ikZDIR)
       elseif (ic%pvtime.eq.2) then
          call gf3_set(AllElm, 0d0, pv, ikZDIR)
          kin%fprev(ikZDIR) = 0d0
@@ -277,8 +277,8 @@ contains
 
       if (ic%pvtime.eq.0) then
          call gf3_copy(AllElm, ps, pv, ikTANG)
-         kin%fprev(ikXDIR) = kin%fxrel1
-         kin%fprev(ikYDIR) = kin%fyrel1
+         kin%fprev(ikXDIR) = kin%fcntc(ikXDIR)
+         kin%fprev(ikYDIR) = kin%fcntc(ikYDIR)
       elseif (ic%pvtime.le.2) then
          call gf3_set(AllElm, 0d0, pv, ikTANG)
          kin%fprev(ikXDIR) = 0d0
@@ -823,8 +823,6 @@ contains
                                    fnmin, fnmid, fnmax, fnscal
 
       associate(igs  => outpt%igs, hs   => geom%hs1)
-
-      ! note: kin%fnscal is an output-variable, not yet filled in
 
       fnscal = kin%fntrue / mater%ga
 

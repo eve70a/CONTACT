@@ -88,8 +88,6 @@ subroutine hzsol(ic, geom, ipotcn, hz, kin, mater)
    geom%prmudf(1)   = hz%a1
    geom%prmudf(3)   = hz%b1
 
-   if (ic%norm.eq.0) kin%fnscal = kin%fntrue / mater%ga
-
 end subroutine hzsol
 
 !------------------------------------------------------------------------------------------------------------

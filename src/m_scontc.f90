@@ -71,10 +71,6 @@ contains
 
       call combin_mater(mater)
 
-      ! copy fntrue to fnscal when N=1, Fn prescribed
-
-      if (ic%norm.eq.1) kin%fnscal = kin%fntrue / mater%ga
-
       ! (re)initialize penv when P=2
 
       if (ic%pvtime.eq.2) kin%penv = 0d0
@@ -107,7 +103,7 @@ contains
 
       ! cycle grid-functions from current to previous time
 
-      if (idebug.ge.5) call write_log(' contac: calling set_prev_time')
+      if (idebug.ge.5) call write_log(' contac: calling set_prev_data')
       call set_prev_data(ic, geom, mater, fric, kin, outpt1)
 
       ! calculate influence functions cs, csv
@@ -264,7 +260,7 @@ contains
 
       associate( ic => gd%ic, meta => gd%meta, geom => gd%geom, cgrid => gd%cgrid_inp, fric => gd%fric )
 
-      if (meta%ncase.le.1 .and. ic%pvtime.le.1) then
+      if (meta%ncase.le.1 .and. ic%pvtime.ne.2) then
          write(bufout, 2001) ic%iestim
          call write_log(2, bufout)
  2001    format (' WARNING. In the first case contact must be initiated.'/,                            &

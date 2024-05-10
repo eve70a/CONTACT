@@ -784,7 +784,7 @@ contains
 
       if (ic%is_conformal()) then
          if (idebug.ge.2) then
-            write(bufout,800) ' total force(cs) =  [', gd%kin%fxrel1,',',gd%kin%fyrel1,',',gd%kin%fntrue,']'
+            write(bufout,800) ' total force(cs) =  [', gd%kin%fxrel,',',gd%kin%fyrel,',',gd%kin%fntrue,']'
             call write_log(1, bufout)
  800        format(4(a,g14.6))
          endif
@@ -792,7 +792,7 @@ contains
          call aggregate_forces(cp, gd%ic, gd%cgrid_cur, gd%kin, gd%mater, gd%outpt1, idebug)
 
          if (idebug.ge.2) then
-            write(bufout,800) ' total force(cp) =  [', gd%kin%fxrel1,',',gd%kin%fyrel1,',',gd%kin%fntrue,']'
+            write(bufout,800) ' total force(cp) =  [', gd%kin%fxrel,',',gd%kin%fyrel,',',gd%kin%fntrue,']'
             call write_log(1, bufout)
          endif
       endif
@@ -825,7 +825,7 @@ contains
       real(kind=8)     :: dxdy
 
       associate( npot   => cgrid%ntot,    muscal => kin%muscal,    fntrue => kin%fntrue,        &
-                 fnscal => kin%fnscal,    fxrel1 => kin%fxrel1,    fyrel1 => kin%fyrel1,        &
+                 fxrel  => kin%fxrel,     fyrel  => kin%fyrel,                                  &
                  mxtru1 => outpt1%mxtrue, mytru1 => outpt1%mytrue, mztru1 => outpt1%mztrue )
 
       ! create 3-d version of curved reference surface
@@ -864,13 +864,12 @@ contains
       if (ic%norm.eq.0) then
          fntrue = dxdy * gf3_sum(AllElm, ps_cp, ikZDIR)
       endif
-      fnscal = fntrue / mater%ga
 
       if (ic%force3.eq.0) then
-         fxrel1 = dxdy * gf3_sum(AllElm, ps_cp, ikXDIR) / (fntrue*muscal + tiny)
+         fxrel = dxdy * gf3_sum(AllElm, ps_cp, ikXDIR) / (fntrue*muscal + tiny)
       endif
       if (ic%force3.le.1) then
-         fyrel1 = dxdy * gf3_sum(AllElm, ps_cp, ikYDIR) / (fntrue*muscal + tiny)
+         fyrel = dxdy * gf3_sum(AllElm, ps_cp, ikYDIR) / (fntrue*muscal + tiny)
       endif
 
       ! Compute torsional moments about planar contact x, sp and np-axes
@@ -910,8 +909,8 @@ contains
 
       ! rotate forces from contact-reference coordinates to global coordinates
 
-      fcntc = vec( gd%kin%fxrel1 * gd%kin%fntrue * gd%kin%muscal,                               &
-                   gd%kin%fyrel1 * gd%kin%fntrue * gd%kin%muscal, gd%kin%fntrue )
+      fcntc = vec( gd%kin%fxrel * gd%kin%fntrue * gd%kin%muscal,                               &
+                   gd%kin%fyrel * gd%kin%fntrue * gd%kin%muscal, gd%kin%fntrue )
 
       tcntc = vec( gd%outpt1%mxtrue, gd%outpt1%mytrue, gd%outpt1%mztrue )
 

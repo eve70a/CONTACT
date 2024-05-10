@@ -149,6 +149,7 @@ public
       integer :: gapwgt
       integer :: gencr_inp
       integer :: mater
+      integer :: mater2
       integer :: ztrack
       integer :: ewheel
       integer :: rznorm
@@ -189,10 +190,11 @@ public
       !              4 = wheelset on rollers, left wheel,
       !              5 = wheelset on rollers, right wheel
       ! p, pvtime   the filling of the tractions Pv for the previous time instance,
-      !              0 = full sequence; copy result Ps to Pv;
-      !              1 = continuation for the normal part only;
-      !              2 = no continuation, the entire Pv is cleared; T=1,2: initiation of contact;
-      !             note: p has no effect for t=0 and 3.
+      !              0 = new timestep in a sequence; copy result Ps to Pv; Fcntc to Fprev
+      !             (1 = new timestep for the normal part only, set tangential to zero)
+      !              2 = initiation of new sequence, no continuation, the entire Pv is cleared
+      !              3 = new iteration for a timestep; keep Pv & Fprev unmodified. 
+      !             note: previous tractions have no effect for T=0 and 3.
       ! b, bound    selects the approach to be used for the normal problem, the traction bound:
       !              0 = full linearly elastic model and contact conditions;
       !              1 = (not used, reserved for semi-Hertzian approach);
@@ -220,8 +222,8 @@ public
       !              3 = rail deflection with stiffness ky, kz and spring forces fy_rail, fz_rail given
       ! f3, force3, module 3: specifies the tangential problem:
       !              0 = creepages cksi, ceta prescribed;
-      !              1 = relative force  fxrel1, creepage ceta prescribed;
-      !              2 = relative forces fxrel1, fyrel1 prescribed
+      !              1 = relative force  fxrel, creepage ceta prescribed;
+      !              2 = relative forces fxrel, fyrel prescribed
       ! h, heat     activates the temperature calculation:
       !              0 = no surface temperature calculation;
       !              1 = surface temperature calculation using parameters stored in memory
@@ -292,6 +294,10 @@ public
       !              5 = reserved (pseudo-viscous damping)
       !              6 = reserved (vertical slice/gap)
       !              Note: the m-digit is copied to t_material
+      ! m2, mater2  type of damping model to be used:
+      !              0 = no damping
+      !              1 = ad-hoc proportional damping with parameters from storage
+      !              2 = ad-hoc proportional damping with new parameters from input
       ! z1, ztrack  concerns the track geometry, profile, deviation, and deflection parameters (module 1)
       !              0 = maintain track dimensions, profile, deviations, and deflection parameters;
       !              1 = read new dimensions and profile;
@@ -419,6 +425,10 @@ public
       real(kind=8) :: laythk
       real(kind=8) :: tau_c0
       real(kind=8) :: k_tau
+      real(kind=8) :: cdampn
+      real(kind=8) :: cdampt
+      real(kind=8) :: dfnmax
+      real(kind=8) :: dftmax
       integer      :: bound_eff
       integer      :: mater_eff
       integer      :: gencr_eff
@@ -459,6 +469,11 @@ public
       ! laythk  [mm]   thickness of the interface layer
       ! tau_c0 [N/mm2] initial shear limit at which plasticity effects start to occur
       ! k_tau  [N/mm3] rate of increase of the shear limit with accumulated plastic deformation
+
+      ! cdampn  [s]    damping coefficient for normal contact forces
+      ! cdampt  [s]    damping coefficient for tangential contact forces
+      ! dfnmax [N/s]   maximum value for dFn/dt used in damping of normal contact forces
+      ! dftmax [N/s]   maximum value for dFt/dt used in damping of tangential contact forces
 
       ! bound_eff      effective bound-digit used, see field "bound" in type t_ic.
       ! mater_eff      effective material model used, see field "mater" in type t_ic.
@@ -657,10 +672,11 @@ public
       real(kind=8) :: spinxo
       real(kind=8) :: spinyo
       real(kind=8) :: fntrue
-      real(kind=8) :: fnscal
-      real(kind=8) :: fxrel1
-      real(kind=8) :: fyrel1
+      real(kind=8) :: fxrel
+      real(kind=8) :: fyrel
+      real(kind=8) :: fcntc(3)
       real(kind=8) :: fprev(3)
+      real(kind=8) :: fdamp(3)
       real(kind=8) :: muscal
       logical      :: use_muscal
 
@@ -684,12 +700,13 @@ public
       ! TODO: it would be better to have separate variables for creep & shift
 
       ! fntrue [N]     total normal force, input when N=1, output when N=0
-      ! fnscal [mm2]   total normal force relative to combined modulus of rigidity (output)
-      ! fxrel1 [-]     total tangential force in x-direction _on_ body (1), relative to muscal*fntrue;
+      ! fxrel  [-]     total tangential force in x-direction _on_ body (1), relative to muscal*fntrue;
       !                input when F3>=1, output when F3=0.
-      ! fyrel1 [-]     total tangential force in y-direction _on_ body (1), relative to muscal*fntrue;
+      ! fyrel  [-]     total tangential force in y-direction _on_ body (1), relative to muscal*fntrue;
       !                input when F3=2, output when F3<=1.
-      ! fprev  [N,-]   total forces [fx1,fy1,fn1] of previous time instance
+      ! fcntc  [N]     total forces [fxtrue,fytrue,fntrue] of current time instance
+      ! fprev  [N]     total forces [fxtrue,fytrue,fntrue] of previous time instance
+      ! fdamp  [N]     damping forces of current time instance
 
       ! use_muscal     flag indicating whether tangential forces are scaled by MU*FN (true) or by FN (false)
       ! muscal [-]     coefficient of friction used in scaling of tangential forces. Typically equal to FSTAT.
@@ -799,11 +816,10 @@ public
       ! temp1  [*C]    current surface temperature of body 1
       ! temp2  [*C]    current surface temperature of body 2
       ! sens           sensitivities of output forces and moments
-      !                  fntrue [N], fxrel1, fyrel1 [-], mztru1 [N.mm] etc.
+      !                  fntrue [N], fxrel, fyrel [-], mztrue [N.mm] etc.
       !                w.r.t. input parameters:
-      !                  pen [mm], cksi1, ceta1 [mm], cphi1 [rad] etc. (T=1)
-      !                  pen [mm], cksi1, ceta1 [-], cphi1 [rad/mm] etc. (T=2,3)
-      !                Note: one array for whole contact-problem comprising kin1 & kin2 --> outpt1 & outpt2
+      !                  pen [mm], cksi, ceta [mm], cphi [rad] etc. (T=1)
+      !                  pen [mm], cksi, ceta [-], cphi [rad/mm] etc. (T=2,3)
       ! mxtrue [N.mm]  torsional moment around the x-axis
       ! mytrue [N.mm]  torsional moment around the y-axis
       ! mztrue [N.mm]  torsional moment around the z-axis
@@ -949,6 +965,7 @@ contains
       ic%frclaw_inp  = 0
       ic%gencr_inp   = 2
       ic%mater  = 0
+      ic%mater2 = 0
       ic%rznorm = 2
       ic%rztang = 0
       ic%gausei_inp  = 1
@@ -1421,6 +1438,10 @@ contains
    m%laythk  = 0d0
    m%tau_c0  = 1d20
    m%k_tau   = 0d0
+   m%cdampn  = 0d0
+   m%cdampt  = 0d0
+   m%dfnmax  = 0d0
+   m%dftmax  = 0d0
    m%bound_eff = ic%bound
    m%mater_eff = ic%mater
    m%gencr_eff = ic%gencr_inp
@@ -1465,6 +1486,10 @@ contains
    m_out%laythk             = m_in%laythk  
    m_out%tau_c0             = m_in%tau_c0  
    m_out%k_tau              = m_in%k_tau   
+   m_out%cdampn             = m_in%cdampn  
+   m_out%cdampt             = m_in%cdampt  
+   m_out%dfnmax             = m_in%dfnmax  
+   m_out%dftmax             = m_in%dftmax  
    m_out%bound_eff          = m_in%bound_eff 
    m_out%mater_eff          = m_in%mater_eff 
    m_out%gencr_eff          = m_in%gencr_eff 
@@ -2091,18 +2116,19 @@ end subroutine potcon_get_overlap
       kin%dq      =  dx
       kin%facphi  =  1d0 / 6d0
       kin%chi     =  0d0
-      kin%fntrue  =  1d5
-      kin%fnscal  =  1d0
+      kin%fntrue  =  0d0
       kin%pen     =  0d0
       kin%penv    =  0d0
-      kin%fxrel1  =  0d0
-      kin%fyrel1  =  0d0
+      kin%fxrel   =  0d0
+      kin%fyrel   =  0d0
       kin%cksi    =  0d0
       kin%ceta    =  0d0
       kin%cphi    =  0d0
       kin%spinxo  =  0d0
       kin%spinyo  =  0d0
-      kin%fprev   = (/ kin%fxrel1, kin%fyrel1, kin%fntrue /)
+      kin%fcntc   = (/ 0d0, 0d0, 0d0 /)
+      kin%fprev   = (/ 0d0, 0d0, 0d0 /)
+      kin%fdamp   = (/ 0d0, 0d0, 0d0 /)
       kin%use_muscal = ic%varfrc.eq.0
       kin%muscal  =  1d0
       if (kin%use_muscal) kin%muscal = fric%fstat()
@@ -2187,9 +2213,11 @@ end subroutine potcon_get_overlap
 
       call eldiv_new( outp%igs, cgrid, nulify=.true. )
       call eldiv_new( outp%igv, cgrid, nulify=.true. )
+      call eldiv_exter(outp%igs)
+
       call gf3_new(outp%mus,   'outpt1%mus',   cgrid, nulify=.true.)
       call gf3_new(outp%shft,  'outpt1%shft',  cgrid, nulify=.true.)
-      call gf3_new(outp%ps,    'outpt1%ps',    cgrid, nulify=.true.)
+      call gf3_new(outp%ps,    'outpt1%ps',    cgrid, nulify=.true., lzero=.true.)
       call gf3_new(outp%us,    'outpt1%us',    cgrid, nulify=.true.)
       call gf3_new(outp%ss,    'outpt1%ss',    cgrid, nulify=.true.)
       call gf3_new(outp%taucs, 'outpt1%taucs', cgrid, nulify=.true.)
@@ -2337,11 +2365,10 @@ end subroutine potcon_get_overlap
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine gd_resize_gridfunc(ic, cgrid, cgrid_new, geom, outpt, keep_grid_ptr)
+   subroutine gd_resize_gridfunc(cgrid, cgrid_new, geom, outpt, keep_grid_ptr)
 !--purpose: resize grid-functions used in hierarchical data-structure, shifting data
       implicit none
 !--subroutine arguments:
-      type(t_ic)              :: ic
       type(t_grid),  target   :: cgrid, cgrid_new
       type(t_geomet)          :: geom
       type(t_output)          :: outpt
@@ -2392,30 +2419,26 @@ end subroutine potcon_get_overlap
       call gf3_resize(outpt%upls,  cgrid_new)
       call gf3_resize(outpt%taucv, cgrid_new)
       call gf3_resize(outpt%uplv,  cgrid_new)
+      call gf3_resize(outpt%temp1, cgrid_new)
+      call gf3_resize(outpt%temp2, cgrid_new)
       if (keep_ptr) outpt%taucs%grid => cgrid
       if (keep_ptr) outpt%upls%grid  => cgrid
       if (keep_ptr) outpt%taucv%grid => cgrid
       if (keep_ptr) outpt%uplv%grid  => cgrid
-
-      if (ic%heat.ge.1) then
-         call gf3_resize(outpt%temp1, cgrid_new)
-         call gf3_resize(outpt%temp2, cgrid_new)
-         if (keep_ptr) outpt%temp1%grid => cgrid
-         if (keep_ptr) outpt%temp2%grid => cgrid
-      endif
+      if (keep_ptr) outpt%temp1%grid => cgrid
+      if (keep_ptr) outpt%temp2%grid => cgrid
 
    end subroutine gd_resize_gridfunc
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine gd_merge_gridfunc(ic, geom_add, geom_tot, outpt_add, outpt_tot, idebug)
+   subroutine gd_merge_gridfunc(geom_add, geom_tot, outpt_add, outpt_tot, idebug)
 !--purpose: merge grid-functions from gd data-structure gd_add into gd data-structure gd_tot
 !           requires matching grids; contact regions must not overlap in y-direction.
 !           gd_add must lie to left of gd_tot: y-range [y0_add,y1_add] < [y0_tot,y1_tot].
 !--purpose: resize grid-functions used in hierarchical data-structure, shifting data
       implicit none
 !--subroutine arguments:
-      type(t_ic)              :: ic
       type(t_geomet)          :: geom_add, geom_tot
       type(t_output)          :: outpt_add, outpt_tot
       integer                 :: idebug
@@ -2495,11 +2518,8 @@ end subroutine potcon_get_overlap
       call gf3_msk_copy(1, mask, outpt_add%upls,  outpt_tot%upls,  ikALL)
       call gf3_msk_copy(1, mask, outpt_add%taucv, outpt_tot%taucv, ikALL)
       call gf3_msk_copy(1, mask, outpt_add%uplv,  outpt_tot%uplv,  ikALL)
-
-      if (ic%heat.ge.1) then
-         call gf3_msk_copy(1, mask, outpt_add%temp1, outpt_tot%temp1, ikALL)
-         call gf3_msk_copy(1, mask, outpt_add%temp2, outpt_tot%temp2, ikALL)
-      endif
+      call gf3_msk_copy(1, mask, outpt_add%temp1, outpt_tot%temp1, ikALL)
+      call gf3_msk_copy(1, mask, outpt_add%temp2, outpt_tot%temp2, ikALL)
 
       ! merge arrays for element division
 
@@ -2542,8 +2562,8 @@ end subroutine potcon_get_overlap
       call potcon_copy(pot_new, gd_tot%potcon_cur)
       call potcon_copy(pot_new, gd_add%potcon_cur)
 
-      call gd_resize_gridfunc(gd_tot%ic, gd_tot%cgrid_cur, cgrid_new, gd_tot%geom, gd_tot%outpt1, .true.)
-      call gd_resize_gridfunc(gd_add%ic, gd_add%cgrid_cur, cgrid_new, gd_add%geom, gd_add%outpt1, .true.)
+      call gd_resize_gridfunc(gd_tot%cgrid_cur, cgrid_new, gd_tot%geom, gd_tot%outpt1, .true.)
+      call gd_resize_gridfunc(gd_add%cgrid_cur, cgrid_new, gd_add%geom, gd_add%outpt1, .true.)
 
       call grid_copy(cgrid_new, gd_tot%cgrid_cur)
       call grid_copy(cgrid_new, gd_add%cgrid_cur)
@@ -2551,7 +2571,7 @@ end subroutine potcon_get_overlap
 
       ! merge grid-functions in geom, outpt using gd_add on left side into gd_tot on right side
 
-      call gd_merge_gridfunc(gd_tot%ic, gd_add%geom, gd_tot%geom, gd_add%outpt1, gd_tot%outpt1, idebug)
+      call gd_merge_gridfunc(gd_add%geom, gd_tot%geom, gd_add%outpt1, gd_tot%outpt1, idebug)
 
    end subroutine gd_merge
 

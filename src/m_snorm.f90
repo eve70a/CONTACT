@@ -67,7 +67,7 @@ contains
       call areas (igs1)
 
 #if defined WITH_MKLFFT
-      use_vecfft = (npot.ge.700 .or. ic%x_nmdbg.ge.5)
+      use_vecfft = (npot.ge.700 .or. ic%x_nmdbg.ge.4)
       use_fftprec = .true.
       if (.false.) then
          call test_fft (igs1, ps1, cs)
@@ -223,7 +223,7 @@ contains
 
          if (geom%iplan.eq.4) smlldd = 0
 
-         if (zready .and. geom%iplan.ne.4) then
+         if (zready .and. geom%iplan.ne.4) then   ! skip computation for sub-patches with reduced interaction
             call areas (igs1)
 
             ! Compute deformation differences due to normal pressures in unn
@@ -348,10 +348,7 @@ contains
 
       call areas (igs1)
 
-      if (ic%norm.eq.0) then
-         kin%fntrue = dxdy * gf3_sum(AllElm, ps1, ikZDIR)
-         kin%fnscal = kin%fntrue / mater%ga
-      endif
+      if (ic%norm.eq.0) kin%fntrue = dxdy * gf3_sum(AllElm, ps1, ikZDIR)
       call timer_stop(itimer_snorm)
 
       ! Compute sensitivities when requested (not yet available)
@@ -446,10 +443,12 @@ contains
 
       if (itable.eq.4 .and. print_tables) then
          ! Note: htang = A * pt, H* == hstot = h + htang
+         write(lout,400) pen
          write(lout,401)
          do ii = 1, npot
             write(lout,402) ix4ii(ii), iy4ii(ii), ii, hs%vn(ii)-pen, htang%vn(ii),                     &
                   unn%vn(ii)-htang%vn(ii), hs%vn(ii)-pen+unn%vn(ii), igs%el(ii), ps%vn(ii)
+ 400     format(' pen =',f12.8)
  401     format('  ix,  iy,   ii, rhs h-pen + contrib.pt + contrib.pn = def.dist, Ck/Ek, press.pn')
  402     format(2(i4,','),i5,',',4(f11.7,','),i4,',',f11.4)
          enddo
@@ -591,10 +590,7 @@ contains
 
       call areas (igs)
 
-      if (ic%norm.eq.0) then
-         kin%fntrue = dxdy * gf3_sum(AllElm, ps, ikZDIR)
-         kin%fnscal = kin%fntrue / mater%ga
-      endif
+      if (ic%norm.eq.0) kin%fntrue = dxdy * gf3_sum(AllElm, ps, ikZDIR)
 
       if (ic%flow.ge.3) call write_log(' ')
 

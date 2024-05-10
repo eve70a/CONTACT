@@ -922,8 +922,6 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_if_timers) then
 
-         write(bufout,'(a,i3)') ' set timer output=',values(i)
-         call write_log(1, bufout)
          call timers_contact_outlevel(values(i))
 
       else
@@ -1310,16 +1308,20 @@ end subroutine cntc_setMaterialProperties
 subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    bind(c,name=CNAME_(cntc_setmaterialparameters))
 !--function: set the M-digit and material parameters for a contact problem
+! values < 10 are used to configure the M-digit
 !    0: purely elastic material,           params = [ nu1, nu2, g1, g2 ]
 !    1: visco-elastic material,            params = [ nu1, nu2, g1, g2, fg1, fg2, vt1, vt2 ]
 !    2: modified Fastsim, 1 flexibility    params = [ nu1, nu2, g1, g2, flx, k0_mf, alfamf, betamf ]
 !    3: modified Fastsim, 3 flexibilities  params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
 !    4: elastic + elasto-plastic 3rd body  params = [ nu1, nu2, g1, g2, g3, laythk, tau_c0, k_tau ]
+! values >= 10 are used to configure the M2-digit, M2 = imeth - 10
+!   12: ad-hoc proportional damping        params = [ cdampn, cdampt, dfnmax, dftmax ]
 !
 ! dimensions: nu1, nu2        [-],        g1, g2    [force/area],   
 !             fg1, fg2        [-],        vt1, vt2  [time],
 !             flx         [volume/force], k0_mf, alfamf, betamf [-], 
 !             g3, tau_c0   [force/area],  laythk    [length],        k_tau [force/volume]
+!             cdampn, cdampt  [time],     dfnmax, dftmax   [force/time]
 !--category: 5, "m=any, wtd":       available for modules 1 and 3, in module 1 working on wtd data
    implicit none
 !--subroutine arguments:
@@ -1329,7 +1331,8 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    integer,      intent(in) :: nparam         ! number of parameters in rparam
    real(kind=8), intent(in) :: rparam(nparam) ! material parameters, dependent on m-digit
 !--local variables:
-   integer, parameter  :: nparam_loc(0:4) = (/ 4, 8, 8, 7, 8 /)
+   integer, parameter  :: nparam_loc(0:12) = (/ 4, 8, 8, 7, 8, 0, 0, 0, 0, 0, 0, 0, 4 /)
+   logical             :: set_m_digit, set_m2_digit
    integer             :: ierror
    character(len=*), parameter :: subnam = 'cntc_setMaterialParameters'
 #ifdef _WIN32
@@ -1342,7 +1345,9 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 
    ! check value of M-digit. 
 
-   if (imeth.lt.0 .or. imeth.gt.4) then
+   set_m_digit  = (imeth.ge.0 .and. imeth.le.4)
+   set_m2_digit = (imeth.ge.10 .and. imeth.le.12)
+   if (.not.set_m_digit .and. .not.set_m2_digit) then
       write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)), ' method',imeth,' does not exist.'
       call write_log(1, bufout)
       return
@@ -1358,96 +1363,128 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
       return
    endif
 
-   my_ic%mater        = imeth
-   my_mater%mater_eff = my_ic%mater
+   if (set_m2_digit) then
 
-   ! all methods: params(1--4) == nu1, nu2, gg1, gg2
+      ! configuring M2-digit
 
-   my_mater%poiss(1) = rparam(1) ! [-]
-   my_mater%poiss(2) = rparam(2)
-   my_mater%gg(1)    = rparam(3) * my_scl%forc / my_scl%area
-   my_mater%gg(2)    = rparam(4) * my_scl%forc / my_scl%area
+      my_ic%mater2    = imeth - 10
 
-   if (imeth.eq.0) then
+      if (imeth.eq.10) then       
 
-      ! purely elastic contact - no further data
+         ! M2 = 0 - no damping
 
-   elseif (imeth.eq.1) then
+         my_mater%cdampn = 0d0
+         my_mater%cdampt = 0d0
+         my_mater%dfnmax = 0d0
+         my_mater%dftmax = 0d0
 
-      ! visco-elastic contact - params(5--8) == fg1, fg2, vt1, vt2
+      elseif (imeth.eq.12) then
 
-      my_mater%fg(1)    = rparam(5)  ! [-]
-      my_mater%fg(2)    = rparam(6)
-      my_mater%tc(1)    = rparam(7)  ! [time]
-      my_mater%tc(2)    = rparam(8)
+         ! M2 = 2 - ad-hoc proportional damping
 
-   elseif (imeth.eq.2) then
+         my_mater%cdampn = rparam(1)                ! [s]
+         my_mater%cdampt = rparam(2)                ! [s]
+         my_mater%dfnmax = rparam(3) * my_scl%forc  ! [N/s]
+         my_mater%dftmax = rparam(4) * my_scl%forc  ! [N/s]
 
-      ! Fastsim, 1 flexiblity - params(5--8) == flx, k0_mf, alfamf, betamf
+      endif
 
-      my_mater%flx(1:3) = rparam(5) * my_scl%area * my_scl%len / my_scl%forc
-      my_mater%k0_mf    = max(1d-6, rparam(6)) ! [-]
-      my_mater%alfamf   = max(1d-6, rparam(7))
-      my_mater%betamf   = max(1d-6, rparam(8))
+   else
+
+      ! configuring M-digit
+
+      my_ic%mater        = imeth
+      my_mater%mater_eff = my_ic%mater
+
+      ! all methods: params(1--4) == nu1, nu2, gg1, gg2
+
+      my_mater%poiss(1) = rparam(1) ! [-]
+      my_mater%poiss(2) = rparam(2)
+      my_mater%gg(1)    = rparam(3) * my_scl%forc / my_scl%area
+      my_mater%gg(2)    = rparam(4) * my_scl%forc / my_scl%area
+
+      if (imeth.eq.0) then
+
+         ! purely elastic contact - no further data
+
+      elseif (imeth.eq.1) then
+
+         ! visco-elastic contact - params(5--8) == fg1, fg2, vt1, vt2
+
+         my_mater%fg(1)    = rparam(5)  ! [-]
+         my_mater%fg(2)    = rparam(6)
+         my_mater%tc(1)    = rparam(7)  ! [time]
+         my_mater%tc(2)    = rparam(8)
+
+      elseif (imeth.eq.2) then
+
+         ! Fastsim, 1 flexiblity - params(5--8) == flx, k0_mf, alfamf, betamf
+
+         my_mater%flx(1:3) = rparam(5) * my_scl%area * my_scl%len / my_scl%forc
+         my_mater%k0_mf    = max(1d-6, rparam(6)) ! [-]
+         my_mater%alfamf   = max(1d-6, rparam(7))
+         my_mater%betamf   = max(1d-6, rparam(8))
+
+         if (idebug.ge.2) then
+            write(bufout,'(2a,i1,4(a,f7.4))') trim(pfx_str(subnam,ire,icp)), ' M=',my_ic%mater,         &
+                   ', flx=',my_mater%flx(1),', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf,   &
+                   ', betamf=', my_mater%betamf
+            call write_log(1, bufout)
+         endif
+
+      elseif (imeth.eq.3) then
+
+         ! Fastsim, 3 flexiblities - params(5--7) == k0_mf, alfamf, betamf
+
+         my_mater%k0_mf    = max(1d-6, rparam(5)) ! [-]
+         my_mater%alfamf   = max(1d-6, rparam(6))
+         my_mater%betamf   = max(1d-6, rparam(7))
+
+         if (idebug.ge.2) then
+            write(bufout,'(2a,i1,3(a,f7.4))') trim(pfx_str(subnam,ire,icp)), ' M=',my_ic%mater,         &
+               ', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf, ', betamf=', my_mater%betamf
+            call write_log(1, bufout)
+         endif
+
+      elseif (imeth.eq.4) then
+
+         ! elastic contact + elasto-plastic interfacial layer - params(5--8) == gg3, laythk, tau_c0, k_tau
+
+         my_mater%gg3      = max(1d-6, rparam(5) * my_scl%forc / my_scl%area)
+         my_mater%laythk   = max(1d-9, rparam(6) * my_scl%len)
+         my_mater%tau_c0   = rparam(7) * my_scl%forc / my_scl%area
+         my_mater%k_tau    = rparam(8) * my_scl%forc / my_scl%area / my_scl%len
+         if (my_mater%tau_c0.le.1d-10) my_mater%tau_c0 = 1d20
+
+         if (idebug.ge.2) then
+            write(bufout,'(2a,i1,a,f7.1,a,f6.3,a,/, 43x,a,g9.1,a,f7.1,a)') trim(pfx_str(subnam,ire,icp)),  &
+                   ' M=', my_ic%mater,', Gg3=',my_mater%gg3,' [N/mm2], Laythk=',my_mater%laythk, ' [mm]',  &
+                   '  Tau_c0=', my_mater%tau_c0,' [N/mm2], K_tau=', my_mater%k_tau,' [N/mm3]'
+            call write_log(2, bufout)
+         endif
+
+         ! set flexibility for third body layer
+
+         my_mater%flx(1:3) = my_mater%laythk / my_mater%gg3
+
+      endif
+
+      ! compute combined material constants
+
+      call combin_mater(my_mater)
+
+      ! update MAXOUT for quasi-identity or non-quasi-identity
+
+      if (my_solv%maxout.ge.2 .and. abs(my_mater%ak).lt.1d-4) my_solv%maxout =  1
+      if (my_solv%maxout.le.1 .and. abs(my_mater%ak).ge.1d-4) my_solv%maxout = 10
 
       if (idebug.ge.2) then
-         write(bufout,'(2a,i1,4(a,f7.4))') trim(pfx_str(subnam,ire,icp)), ' M=',my_ic%mater,            &
-                ', flx=',my_mater%flx(1),', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf,      &
-                ', betamf=', my_mater%betamf
+         write(bufout,'(2a,f7.1,2(a,f5.2),a)') trim(pfx_str(subnam,ire,icp)),' G=',my_mater%ga,         &
+                   ' [N/mm2], Nu=',my_mater%nu,', K=',my_mater%ak, ' [-]'
          call write_log(1, bufout)
       endif
 
-   elseif (imeth.eq.3) then
-
-      ! Fastsim, 3 flexiblities - params(5--7) == k0_mf, alfamf, betamf
-
-      my_mater%k0_mf    = max(1d-6, rparam(5)) ! [-]
-      my_mater%alfamf   = max(1d-6, rparam(6))
-      my_mater%betamf   = max(1d-6, rparam(7))
-
-      if (idebug.ge.2) then
-         write(bufout,'(2a,i1,3(a,f7.4))') trim(pfx_str(subnam,ire,icp)), ' M=',my_ic%mater,            &
-            ', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf, ', betamf=', my_mater%betamf
-         call write_log(1, bufout)
-      endif
-
-   elseif (imeth.eq.4) then
-
-      ! elastic contact + elasto-plastic interfacial layer - params(5--8) == gg3, laythk, tau_c0, k_tau
-
-      my_mater%gg3      = max(1d-6, rparam(5) * my_scl%forc / my_scl%area)
-      my_mater%laythk   = max(1d-9, rparam(6) * my_scl%len)
-      my_mater%tau_c0   = rparam(7) * my_scl%forc / my_scl%area
-      my_mater%k_tau    = rparam(8) * my_scl%forc / my_scl%area / my_scl%len
-      if (my_mater%tau_c0.le.1d-10) my_mater%tau_c0 = 1d20
-
-      if (idebug.ge.2) then
-         write(bufout,'(2a,i1,a,f7.1,a,f6.3,a,/, 43x,a,g9.1,a,f7.1,a)') trim(pfx_str(subnam,ire,icp)),  &
-                ' M=', my_ic%mater,', Gg3=',my_mater%gg3,' [N/mm2], Laythk=',my_mater%laythk, ' [mm]',  &
-                '  Tau_c0=', my_mater%tau_c0,' [N/mm2], K_tau=', my_mater%k_tau,' [N/mm3]'
-         call write_log(2, bufout)
-      endif
-
-      ! set flexibility for third body layer
-
-      my_mater%flx(1:3) = my_mater%laythk / my_mater%gg3
-
-   endif
-
-   ! compute combined material constants
-
-   call combin_mater(my_mater)
-
-   ! update MAXOUT for quasi-identity or non-quasi-identity
-
-   if (my_solv%maxout.ge.2 .and. abs(my_mater%ak).lt.1d-4) my_solv%maxout =  1
-   if (my_solv%maxout.le.1 .and. abs(my_mater%ak).ge.1d-4) my_solv%maxout = 10
-
-   if (idebug.ge.2) then
-      write(bufout,'(2a,f7.1,2(a,f5.2),a)') trim(pfx_str(subnam,ire,icp)),' G=',my_mater%ga,            &
-                ' [N/mm2], Nu=',my_mater%nu,', K=',my_mater%ak, ' [-]'
-      call write_log(1, bufout)
-   endif
+   endif ! imeth>=10 (M2-digit)
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setMaterialParameters
@@ -1624,6 +1661,7 @@ subroutine cntc_setRollingStepsize(ire, icp, chi, dq) &
       ! module 1 (icp=-1): set the relative rolling step size [no unit conversion]
 
       wtd%discr%dqrel = dq
+      wtd%ic%discns1_inp = wtd%ic%discns1_eff   ! change D=1 to original value for write inp-file
 
    else
 
@@ -2437,7 +2475,6 @@ subroutine cntc_setNormalForce(ire, icp, fn) &
 
    my_ic%norm    = 1
    my_kin%fntrue = fn
-   my_kin%fnscal = fn / my_mater%ga
 
    if (idebug.ge.2) then
       write(bufout,'(2a,f9.2,a)') trim(pfx_str(subnam,ire,icp)),' normal force=',my_kin%fntrue, ' [N]'
@@ -2718,20 +2755,20 @@ subroutine cntc_setTangentialForces(ire, icp, fx, fy) &
 
       ! module 3: scaled total forces Fx, Fy on body 1, relative to fstat*Fn [-]
 
-      my_kin%fxrel1 = fx
-      my_kin%fyrel1 = fy
+      my_kin%fxrel = fx
+      my_kin%fyrel = fy
 
       ! scale forces when necessary, such that |F| <= 1
 
       fabs = sqrt(fx**2 + fy**2)
       if (fabs.gt.1d0) then
-         my_kin%fxrel1 = my_kin%fxrel1 / fabs
-         my_kin%fyrel1 = my_kin%fyrel1 / fabs
+         my_kin%fxrel = my_kin%fxrel / fabs
+         my_kin%fyrel = my_kin%fyrel / fabs
       endif
 
       if (idebug.ge.2) then
          write(bufout,'(2a,2f8.4,a)') trim(pfx_str(subnam,ire,icp)),' total forces Fx,Fy=',             &
-                my_kin%fxrel1, my_kin%fyrel1, ' [-]'
+                my_kin%fxrel, my_kin%fyrel, ' [-]'
          call write_log(1, bufout)
       endif
 
@@ -3858,7 +3895,7 @@ subroutine cntc_calculate1(ire, ierror) &
       if (my_meta%irun.eq.0 .and. my_meta%tim.eq.0d0) then
          write (lout,'(/,a,i7,a,i3)') ' Case',my_meta%ncase,' for w/r contact on result element',ire
       elseif (my_meta%irun.eq.0) then
-         write (lout,'(/,a,i7,a,i3,a,f16.8)') ' Case',my_meta%ncase,' for w/r contact on result element', &
+         write (lout,'(/,a,i7,a,i3,a,f16.10)') ' Case',my_meta%ncase,' for w/r contact on result element', &
                 ire,', t=',my_meta%tim
       else
          write (lout,'(/,a,i7,4(a,i4))') ' Case',my_meta%ncase,' for w/r contact on result element', ire, &
@@ -5335,8 +5372,8 @@ subroutine cntc_getContactForces(ire, icp, fn, tx, ty, mz) &
    if (imodul.eq.1 .and. my_ic%is_left_side()) sgn = -1d0
 
    fn = my_kin%fntrue                                        ! note: in simpack, output body == body 2
-   tx =       my_scl%body * my_kin%muscal * my_kin%fntrue * my_kin%fxrel1
-   ty = sgn * my_scl%body * my_kin%muscal * my_kin%fntrue * my_kin%fyrel1
+   tx =       my_scl%body * my_kin%muscal * my_kin%fntrue * my_kin%fxrel
+   ty = sgn * my_scl%body * my_kin%muscal * my_kin%fntrue * my_kin%fyrel
    mz = sgn * my_scl%body * gd%outpt1%mztrue / my_scl%len
 
    if (idebug.ge.3) then

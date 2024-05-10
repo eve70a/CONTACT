@@ -31,7 +31,7 @@ contains
       logical      :: znewln, is_roll, is_ssrol, use_plast
       integer      :: icp, icpo, n_old, i, j, ii, iin, iout, iy0, iy1, ii0, ii1, lstrow, ncon, nadh,    &
                       nslip, nplast, nexter, ic_discns, is_right
-      real(kind=8) :: def_turn, hmp, ptabs, ptarg, rhsx, rhsy, fxtru1, fytru1, sgn, rdum(20),           &
+      real(kind=8) :: def_turn, hmp, ptabs, ptarg, rhsx, rhsy, fxtrue, fytrue, sgn, rdum(20),           &
                       sc0, sc1, delt0, delt1, tmp1mx, tmp2mx, fac_in(nsens_in), fac_out(nsens_out)
       character(len= 9) :: str_muscal
       character(len=20) :: strng(max(20, nsens_in*nsens_out))
@@ -277,7 +277,7 @@ contains
          endif
          if (ic%config.le.1) then
             ! wheelset on track: print S_WS, VX_WS
-            write(lout, 4001) 'S', fmt_gs(12,4,4,ws%s), fmt_gs(12,4,4,ws%y), trim(strng(1)),            &
+            write(lout, 4001) 'S', fmt_gs(12,6,4,ws%s), fmt_gs(12,4,4,ws%y), trim(strng(1)),            &
                    fmt_gs(12,4,4,ws%roll), fmt_gs(12,4,4,ws%yaw), fmt_gs(12,4,4,ws%pitch)
             write(lout, 4002) fmt_gs(12,4,4,ws%vs), fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),               &
                    fmt_gs(12,4,4,ws%vroll), fmt_gs(12,4,4,ws%vyaw), ws%vpitch
@@ -345,14 +345,22 @@ contains
             write(lout,5010) 'ROLLER'
          endif
          write(lout,5011)
-         write(lout,5012) fmt_gs(12,4,4,wtd%ftrk%x()), fmt_gs(12,4,4,sgn*wtd%ftrk%y()),                 &
+         write(lout,5013) fmt_gs(12,4,4,wtd%ftrk%x()), fmt_gs(12,4,4,sgn*wtd%ftrk%y()),                 &
                 fmt_gs(12,4,4,wtd%ftrk%z()), fmt_gs(12,4,4,wtd%fws%x()), fmt_gs(12,4,4,sgn*wtd%fws%y()), &
                 fmt_gs(12,4,4,wtd%fws%z())
 !               fmt_gs(16,8,8,wtd%ftrk%z()), fmt_gs(16,8,8,wtd%fws%x()), fmt_gs(12,4,4,sgn*wtd%fws%y()), &
+         if (ic%output_surf.ge.4) then
+            write(lout,5012)
+            write(lout,5013) fmt_gs(12,4,4,wtd%ttrk%x()), fmt_gs(12,4,4,sgn*wtd%ttrk%y()),              &
+               fmt_gs(12,4,4,wtd%ttrk%z()), fmt_gs(12,4,4,wtd%tws%x()), fmt_gs(12,4,4,sgn*wtd%tws%y()), &
+               fmt_gs(12,4,4,wtd%tws%z())
+         endif
  5010    format (1x, /, ' TOTAL FORCES AND MOMENTS ON ',a)
  5011    format (2x, 3x,'FX(TR)',3x, 3x,'FY(TR)',3x, 3x,'FZ(TR)',3x, 3x,'FX(WS)',3x, 3x,'FY(WS)',3x,    &
                      3x,'FZ(WS)')
- 5012    format (6a)
+ 5012    format (/,2x, 3x,'MX@R(TR)',1x, 3x,'MY@R(TR)',1x, 3x,'MZ@R(TR)',1x, 3x,'MX@W(WS)',1x,          &
+                     3x,'MY@W(WS)',1x, 3x,'MZ@W(WS)')
+ 5013    format (6a)
       endif
 
       if (ic%output_surf.ge.2 .and. out_open.eq.1) then
@@ -375,12 +383,12 @@ contains
 
          associate(cgrid  => gd%cgrid_cur,    muscal => gd%kin%muscal,    pen    => gd%kin%pen,         &
                    cksi   => gd%kin%cksi,     ceta   => gd%kin%ceta,      cphi   => gd%kin%cphi,        &
-                   fntrue => gd%kin%fntrue,   fnscal => gd%kin%fnscal,    fxrel1 => gd%kin%fxrel1,      &
-                   fyrel1 => gd%kin%fyrel1,   chi    => gd%kin%chi,       veloc  => gd%kin%veloc,       &
+                   fntrue => gd%kin%fntrue,   fxrel  => gd%kin%fxrel,                                   &
+                   fyrel  => gd%kin%fyrel,    chi    => gd%kin%chi,       veloc  => gd%kin%veloc,       &
                    dq     => gd%kin%dq,       mus1   => gd%outpt1%mus,    igs1   => gd%outpt1%igs,      &
-                   ps1    => gd%outpt1%ps,    shft1  => gd%outpt1%shft,   mztru1 => gd%outpt1%mztrue,   &
-                   elen1  => gd%outpt1%elen,  temp1  => gd%outpt1%temp1,  temp2  => gd%outpt1%temp2,    &
-                   frpow1 => gd%outpt1%frpow, pmax1  => gd%outpt1%pmax,   eps    => gd%solv%eps,        &
+                   ps1    => gd%outpt1%ps,    shft1  => gd%outpt1%shft,   mztrue => gd%outpt1%mztrue,   &
+                   elen   => gd%outpt1%elen,  temp1  => gd%outpt1%temp1,  temp2  => gd%outpt1%temp2,    &
+                   frpow  => gd%outpt1%frpow, pmax1  => gd%outpt1%pmax,   eps    => gd%solv%eps,        &
                    hs1    => gd%geom%hs1,     subs   => gd%subs )
 
          if (ic%output_surf.ge.1 .and. out_open.eq.1) then
@@ -393,10 +401,10 @@ contains
             else
                write(str_prev, '(a,10(i3,:,'',''))') 'PREV', (cp%prev_icp(icpo), icpo=1,n_old)
             endif
-            if (ic%pvtime.eq.2 .and. ic%iestim.eq.0) then
-               write(lout, 6000) icp                    ! no sequence, no initial estimate
+            if (ic%pvtime.eq.2) then
+               write(lout, 6000) icp                    ! no sequence
             else
-               write(lout, 6001) icp, trim(str_prev)    ! sequence or initial estimate used
+               write(lout, 6001) icp, trim(str_prev)    ! sequence used
             endif
  6000       format(/,' ----- DATA FOR CONTACT PATCH',i3,' -----')
  6001       format(/,' ----- DATA FOR CONTACT PATCH',i3,' (',a,') -----')
@@ -499,15 +507,15 @@ contains
 
             ! Filter values that are dominated by noise using filt_sml()
 
-            fxtru1 = fxrel1 * (fntrue*muscal+tiny)
-            fytru1 = fyrel1 * (fntrue*muscal+tiny)
+            fxtrue = fxrel * (fntrue*muscal+tiny)
+            fytrue = fyrel * (fntrue*muscal+tiny)
 
             strng(1) = fmt_gs(12, 4, 4, fntrue)
-            strng(2) = fmt_gs(12, 4, 4, filt_sml(    fxtru1,0.5d0*eps*fntrue*muscal))
-            strng(3) = fmt_gs(12, 4, 4, filt_sml(sgn*fytru1,0.5d0*eps*fntrue*muscal))
-            strng(4) = fmt_gs(12, 4, 4, sgn*mztru1)
-            strng(5) = fmt_gs(12, 4, 4, elen1)
-            strng(6) = fmt_gs(12, 4, 4, frpow1)
+            strng(2) = fmt_gs(12, 4, 4, filt_sml(    fxtrue,0.5d0*eps*fntrue*muscal))
+            strng(3) = fmt_gs(12, 4, 4, filt_sml(sgn*fytrue,0.5d0*eps*fntrue*muscal))
+            strng(4) = fmt_gs(12, 4, 4, sgn*mztrue)
+            strng(5) = fmt_gs(12, 4, 4, elen)
+            strng(6) = fmt_gs(12, 4, 4, frpow)
 
             if (ic%output_surf.ge.2) write(lout,6400)
             write(lout,6401)
@@ -521,9 +529,9 @@ contains
             if (.not.gd%kin%use_muscal) strng(1) = '  FX/FN'
             if (.not.gd%kin%use_muscal) strng(2) = ' FS/FN'
 
-            strng(3) = fmt_gs(12, 4, 4, fnscal)
-            strng(4) = fmt_gs(12, 4, 4, filt_sml(fxrel1,0.5d0*eps))
-            strng(5) = fmt_gs(12, 4, 4, filt_sml(sgn*fyrel1,0.5d0*eps))
+            strng(3) = fmt_gs(12, 4, 4, fntrue/mater%ga)
+            strng(4) = fmt_gs(12, 4, 4, filt_sml(fxrel, 0.5d0*eps))
+            strng(5) = fmt_gs(12, 4, 4, filt_sml(sgn*fyrel, 0.5d0*eps))
             strng(6) = fmt_gs(12, 4, 4, gd%kin%pen)
 
             if (ic%print_pmax) then

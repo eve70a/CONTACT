@@ -21,6 +21,7 @@ public kincns_input
 public fric_input
 public veloc_input
 public mater_input
+public mater2_input
 public heat_input
 public potcon_input
 public geom_input
@@ -128,6 +129,12 @@ contains
       if ((ic%gencr_inp.ge.2 .and. ic%gencr_inp.le.4) .or. ic%gencr_inp.eq.9) then
          call mater_input(linp, ncase, linenr, 3, ic, kin, mater, solv, idebug, ieof, lstop, zerror)
       endif
+
+      !------------------------------------------------------------------------------------------------------
+      ! read material parameters for damping
+      !------------------------------------------------------------------------------------------------------
+
+      call mater2_input(linp, ncase, linenr, ic, mater, idebug, ieof, lstop, zerror)
 
       !------------------------------------------------------------------------------------------------------
       ! read material parameters for temperature calculation
@@ -355,7 +362,12 @@ contains
       call readline(linp, ncase, linenr, 'control integers vldcmze', 'iI', ints, dbles, flags,          &
                     strngs, mxnval, nval, idebug, ieof, lstop, ierror)
       vldcmze = ints(1)
-      if (nval.ge.2) ic%gapwgt = ints(2)
+      if (nval.ge.2) then
+         ic%gapwgt = ints(2) / 10
+         ic%mater2 = ints(2) - 10*ic%gapwgt
+      else
+         ic%mater2 = 1
+      endif
 
       call readline(linp, ncase, linenr, 'control integers hgiaowr', 'i', ints, dbles, flags,           &
                     strngs, mxnval, nval, idebug, ieof, lstop, ierror)
@@ -409,7 +421,7 @@ contains
          zerror = zerror .or. .not.check_2rng ('Control digit E',  ic%rztang,  0, 1, 9, 9)
       endif
 
-      zerror = zerror .or. .not.check_irng ('Control digit P',  ic%pvtime,  0, 2)
+      zerror = zerror .or. .not.check_irng ('Control digit P',  ic%pvtime,  0, 3)
       zerror = zerror .or. .not.check_irng ('Control digit T',  ic%tang,    0, 3)
       zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress,  0, 3)
       zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp,  0, 4, 6, 6)
@@ -427,7 +439,7 @@ contains
 
       ! Check requirements for first case
 
-      if (ncase.eq.1 .and. ic%pvtime.le.1) then
+      if (ncase.eq.1 .and. ic%pvtime.ne.2) then
          write(lout, 2001) ic%pvtime
          write(   *, 2001) ic%pvtime
  2001    format (' Input: WARNING. In the first case contact must be initiated.'/,                     &
@@ -521,13 +533,6 @@ contains
          write(   *, 2013) ic%norm, icold%norm, ic%ewheel
  2013    format (' Input: ERROR. Switching between position and total force, new wheelset', /, &
                  '               position input is needed.  N=',i2,' /',i2,', E=',i2,'.')
-      endif
-
-      if (is_ssrol .and. ic%pvtime.ne.2) then
-         ic%pvtime = 2
-         write(lout, 2021) ic%pvtime
-         write(   *, 2021) ic%pvtime
- 2021    format (' Input: WARNING. In steady state rolling previous Pv is ignored: digit P :=', i3)
       endif
 
       if (ic%gencr_inp.eq.0 .and. is_roll .and. .not.was_roll) then
@@ -719,11 +724,11 @@ contains
          kin%cksi   = dbles(2)
          kin%ceta   = dbles(3)
       elseif (ic%force3.eq.1) then
-         kin%fxrel1 = dbles(2)
+         kin%fxrel  = dbles(2)
          kin%ceta   = dbles(3)
       elseif (ic%force3.eq.2) then
-         kin%fxrel1 = dbles(2)
-         kin%fyrel1 = dbles(3)
+         kin%fxrel  = dbles(2)
+         kin%fyrel  = dbles(3)
       endif
       kin%cphi   = dbles(4)
       kin%spinxo = 0d0
@@ -741,15 +746,15 @@ contains
          zerror = zerror .or. .not.check_range ('the normal force', kin%fntrue, 0d0, 1d20)
       endif
 
-      if (ic%force3.ge.1 .and. abs(kin%fxrel1).gt.1d0) then
-         zerror = zerror .or. .not.check_range ('Abs(Fx)', abs(kin%fxrel1), -1d0, 1d0)
+      if (ic%force3.ge.1 .and. abs(kin%fxrel).gt.1d0) then
+         zerror = zerror .or. .not.check_range ('Abs(Fx)', abs(kin%fxrel), -1d0, 1d0)
       endif
 
-      z = (kin%fxrel1 **2 + kin%fyrel1 **2).gt.1d0
+      z = (kin%fxrel **2 + kin%fyrel **2).gt.1d0
       if (ic%force3.eq.2 .and. z) then
          zerror = .true.
-         write(lout, 2101) dsqrt (kin%fxrel1 **2 + kin%fyrel1 **2)
-         write(   *, 2101) dsqrt (kin%fxrel1 **2 + kin%fyrel1 **2)
+         write(lout, 2101) dsqrt (kin%fxrel **2 + kin%fyrel **2)
+         write(   *, 2101) dsqrt (kin%fxrel **2 + kin%fyrel **2)
  2101    format (' Input: ERROR. Ft cannot be.gt.FStat*Fn'/,                                            &
                  ' The values prescribed by Fx and Fy give Ft = ',g12.4,'*FStat*Fn')
       endif
@@ -1014,6 +1019,48 @@ contains
       endif
 
    end subroutine mater_input
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine mater2_input(linp, ncase, linenr, ic, mater, idebug, ieof, lstop, zerror)
+!--purpose: read material parameters for damping
+      implicit none
+!--subroutine arguments:
+      integer, intent(in)      :: linp, ncase, idebug
+      integer, intent(inout)   :: linenr, ieof
+      type(t_ic)               :: ic
+      type(t_material)         :: mater
+      logical, intent(in)      :: lstop
+      logical, intent(inout)   :: zerror
+!--local variables:
+      integer, parameter :: mxnval = 10
+      integer            :: ints(mxnval), nval, ierror
+      logical            :: flags(mxnval)
+      real(kind=8)       :: dbles(mxnval)
+      character(len=256) :: strngs(mxnval)
+
+      if (ic%mater2.le.0) then
+         mater%cdampn = 0d0
+         mater%cdampt = 0d0
+         mater%dfnmax = 0d0
+         mater%dftmax = 0d0
+      endif
+
+      if (ic%mater2.ge.2) then
+         call readline(linp, ncase, linenr, 'damping parameters', 'dddd', ints, dbles, flags, strngs,   &
+                        mxnval, nval, idebug, ieof, lstop, ierror)
+         mater%cdampn = dbles(1)
+         mater%cdampt = dbles(2)
+         mater%dfnmax = dbles(1)
+         mater%dftmax = dbles(2)
+
+         zerror = zerror .or. .not.check_range ('CDAMPN', mater%cdampn, 0d0, 1d20)
+         zerror = zerror .or. .not.check_range ('CDAMPT', mater%cdampt, 0d0, 1d20)
+         zerror = zerror .or. .not.check_range ('DFNMAX', mater%dfnmax, 0d0, 1d20)
+         zerror = zerror .or. .not.check_range ('DTNMAX', mater%dftmax, 0d0, 1d20)
+      endif
+
+   end subroutine mater2_input
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1485,31 +1532,41 @@ contains
          fux = kin%cksi
          fuy = kin%ceta
       elseif (ic%force3.eq.1) then
-         fux = kin%fxrel1
+         fux = kin%fxrel
          fuy = kin%ceta
       elseif (ic%force3.eq.2) then
-         fux = kin%fxrel1
-         fuy = kin%fyrel1
+         fux = kin%fxrel
+         fuy = kin%fyrel
       endif
 
       ! write control digits, debug parameters
 
       if (ncase.gt.0) write(linp,'(a,i8)') '% Next case', ncase
+      write(linp, 1111) pbtnfs
+      if (ic%mater2.le.0) then
+         write(linp, 1112) vldcmze
+      else
+         write(linp, 1113) vldcmze, ic%mater2
+      endif
       if (ic%xflow.le.0) then
-         write(linp, 1101) pbtnfs, vldcmze, xgiaowr
+         write(linp, 1114) xgiaowr
       else
          call ic_pack_dbg(psflcin, ic)
-         write(linp, 1102) pbtnfs, vldcmze, xgiaowr
-         write(linp, 1103) psflcin
+         write(linp, 1115) xgiaowr
+         if (ic%x_readln.le.0) then
+            write(linp, 1116) psflcin
+         else
+            write(linp, 1117) psflcin, ic%x_readln
+         endif
       endif
 
- 1101 format (i8.6, 4x, '  P-B-T-N-F-S          PVTIME, BOUND , TANG , NORM , FORCE, STRESS', /,        &
-              i8.6, 4x, '  L-D-C-M-Z-E          FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS ', /,      &
-              i8.7, 4x, 'H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN' )
- 1102 format (i8.7, 6x, '    P-B-T-N-F-S                 PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS',/, &
-              i8.7, 6x, '    L-D-C-M-Z-E                 FRCLAW, DISCNS, INFLCF, MATER,  RZNORM, EXRHS', /, &
-              i8.7, 6x, 'X-H-G-I-A-O-W-R   XFLOW,  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN' )
- 1103 format (i8.3, 6x, '  P-S-F-L-C-I_N         PROFIL, SMOOTH, FORCE,  LOCATE, CPATCH, INFLCF, NMDBG' )
+ 1111 format (i8.6, 6x,   '    P-B-T-N-F-S           PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS')
+ 1112 format (i8.6, 6x,   '    L-D-C-M-Z-E           FRCLAW, DISCNS, INFLCF, MATER,  RZNORM, EXRHS')
+ 1113 format (i8.6, i4,2x,'    L-D-C-M-Z-E  M        FRCLAW, DISCNS, INFLCF, MATER,  RZNORM, EXRHS,  MATER2')
+ 1114 format (i8.7, 6x,   '  H-G-I-A-O-W-R     HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN' )
+ 1115 format (i8.7, 6x,   'X-H-G-I-A-O-W-R    XFLOW, HEAT,   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN')
+ 1116 format (i8.3, 6x,   '  P-S-F-L-C-I-N           PROFIL, SMOOTH, FORCE,  LOCATE, CPATCH, INFLCF, NMDBG')
+ 1117 format (i8.3, 6x,   '  P-S-F-L-C-I-N  R        PROFIL, SMOOTH, FORCE,  LOCATE, CPATCH, INFLCF, NMDBG')
 
       ! write solver settings
 
@@ -1636,18 +1693,25 @@ contains
          endif
       endif
 
+      ! write material parameters for damping model
+
+      if (ic%mater2.eq.2) then
+         write(linp,5611) mater%cdampn, mater%cdampt, mater%dfnmax, mater%dftmax
+ 5611    format (4g12.4, 10x, 'CDAMPN, CDAMPT, DFNMAX, DFTMAX')
+      endif
+
       ! write material parameters for temperature model
 
       if (ic%heat.eq.3) then
-         write(linp,5611) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1), 1,1,1,1
-         write(linp,5611) mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2), 2,2,2,2
- 5611    format (4g12.4, 10x, 'BKTEMP',i1,', HEATCP',i1,', LAMBDA',i1,', DENS',i1)
+         write(linp,5711) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1), 1,1,1,1
+         write(linp,5711) mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2), 2,2,2,2
+ 5711    format (4g12.4, 10x, 'BKTEMP',i1,', HEATCP',i1,', LAMBDA',i1,', DENS',i1)
       endif
 
       if (ic%heat.eq.3 .and. ic%mater.eq.4) then
-         write(linp,5612) mater%betapl
-         write(linp,5612) mater%betapl
- 5612    format (1g12.4, 46x, 'BETAPL')
+         write(linp,5712) mater%betapl
+         write(linp,5712) mater%betapl
+ 5712    format (1g12.4, 46x, 'BETAPL')
       endif
 
       ! write discretisation parameters

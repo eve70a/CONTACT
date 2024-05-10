@@ -9,11 +9,14 @@
 #           2: rparam = [ poiss1, poiss2, g1,  g2,  flx,   k0_mf,  alfamf, betamf ];
 #           3: rparam = [ poiss1, poiss2, g1,  g2,  k0_mf, alfamf, betamf         ];
 #           4: rparam = [ poiss1, poiss2, g1,  g2,  g3,    laythk, tau_c0, k_tau  ];
+# values >= 10 are used to configure the M2-digit, M2 = m_digit - 10
+# M2-digit = 2: rparam = [ cdampn, cdampt, dfnmax, dftmax ];
 #
 # dimensions: poiss1, poiss2  [-],        g1, g2    [force/area],   
 #             fg1, fg2        [-],        vt1, vt2  [time],
 #             flx         [volume/force], k0_mf, alfamf, betamf [-], 
 #             g3, tau_c0  [force/area],   laythk    [length],        k_tau [force/volume]
+#             cdampn, cdampt  [time],     dfnmax, dftmax   [force/time]
 #------------------------------------------------------------------------------------------------------------
 
 # Copyright 2008-2023 by Vtech CMCC.

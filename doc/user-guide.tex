@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.162)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.164)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -90,6 +90,8 @@
 \vtlogentry{1.160}{EV}{01-12-2023}{Added spin center}{}
 \vtlogentry{1.161}{EV}{11-12-2023}{Permit ${\tt T}=1,2$ in module 1}{}
 \vtlogentry{1.162}{EV}{16-01-2024}{Changed PSFLRIN to PSFLCIN}{}
+\vtlogentry{1.163}{EV}{19-03-2024}{Added force based proportional damping}{}
+\vtlogentry{1.164}{EV}{03-04-2024}{Extended force based proportional damping}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -564,21 +566,21 @@ wheel.
 \item[P - PVTIME]\label{p-digit} : the relation of the current to the
         {\em previous case\/} or {\em previous time instance\/}:
 \begin{description}
-\item[0$^*$] -- full continuation; the resulting tractions of the last
-                calculated case are used as previous time instance for the
-                calculation of the current case;
-\item[1$^*$] -- continuation for the normal part only; the tangential
+\item[0$^*$] -- new time step; the resulting tractions \magenta{and forces}
+                of the last calculated case are used as previous time
+                instance for the calculation of the current case;
+\magenta{
+\item[1$^*$] -- new time step for the normal part only; the tangential
                 tractions of the previous time instance are set to zero;
-\item[2] -- no continuation; in transient cases (${\tt T}=1, 2$), the
+}
+\item[2] -- new sequence; in transient cases (${\tt T}=1, 2$), the
         previous tractions vanish entirely (initiation of contact), in
         other cases (${\tt T}=0, 3$), they will not be used.
-\magenta{
-\item[3] -- leave previous tractions untouched. Used internally in the
-        program to avoid copying in the total-force iteration.
-}
+\item[3$^*$] -- new iteration; leave previous tractions \magenta{and forces }untouched.
 \end{description}
-$^*$ The {\tt P}-digit is relevant only in transient shifting or rolling,
-${\tt T}=1$ or $2$. ${\tt P}=2$ is used in other cases.
+$^*$ Previous tractions are relevant only in transient shifting or rolling,
+${\tt T}=1$ or $2$. \magenta{Previous forces are relevant for the damping
+model, ${\tt M}_2>0$.}
 
 \item[B - BOUND]  \label{b-digit}  : selects the approach to be
         used for the normal problem, the {\em traction bound\/}:
@@ -744,7 +746,8 @@ $6,8$ or $9$}.
 \end{description}
 $^*$ Option ${\tt C}_3=9$ is not available in module 1.
 
-\item[M - MATER] \label{m-digit} : type of {\em material model\/} to be used
+\item[M - MATER1] \label{m-digit} : type of {\em material model\/} to
+        be used
 \begin{description}
 \item[0] -- purely elastic contact (\S \ref{sec:lin_elast});
 \magenta{
@@ -788,6 +791,18 @@ $^*$ Option ${\tt C}_3=9$ is not available in module 1.
 \item[5] -- read new position and velocity data, new wheelset geometry,
         wheel profile, and read flexible wheelset deviations.
 \end{description}
+
+\magenta{
+\item[M$_2$ - MATER2] \label{m2-digit} : type of {\em material model\/} to
+        be used with respect to damping:
+\begin{description}
+\item[0] -- no damping;
+\item[1] -- maintain the same approach and parameters as used in the
+        previous case;
+\item[2] -- read new input data, and activate the force based proportional
+        damping method (\S \ref{sec:damping}).
+\end{description}
+}
 
 \end{description}
 
@@ -2560,6 +2575,42 @@ elastic materials (${\tt M}=0$, Section \ref{sec:lin_elast}) and with
 interfacial layer (${\tt M}=4$, Section \ref{sec:intfc_layer}). These
 material models will be used as `best guess' when subsurface stresses
 are requested.
+
+\magenta{
+\subsection{Force based proportional damping}
+\label{sec:damping}
+
+A damping mechanism is provided aimed primarily at using CONTACT in a
+multibody simulation via module 1. This damping mechanism takes the contact
+forces $F_n^{el}, F_\tau^{el}$ computed by CONTACT for the previous and
+current times, and sets
+\begin{eqnarray}
+  F_n^{tot} = F_n^{el} + F_n^{damp}, &\mbox{with}&
+        F_n^{damp} = C_{damp,n} \fod{F_n^{el}}{t} , \\
+  F_\tau^{tot} = F_\tau^{el} + F_\tau^{damp}, &\mbox{with}&
+        F_\tau^{damp} = C_{damp,t} \fod{F_\tau^{el}}{t} , \; \tau=x,y .
+\end{eqnarray}
+The time derivatives $\txtfod{F^{el}}{t}$ are computed by a backward
+difference quotient, e.g.\
+\begin{equation}
+        \fod{F_n^{el}}{t} = \max( -dF_{n,max}, \min( dF_{n,max}, dF_n )),
+        \;\; dF_n = \frac{F_n^{el}(t)-F_n^{el}(t')}{t-t'} .
+\end{equation}
+This damping mechanism is activated by providing coefficients $C_{damp,n},
+C_{damp,t}$ using the ${\tt M}_2$ digit. 
+\begin{inputvars}
+\inpvar{CDAMPN}{\bunit{s}}{Damping coefficient $C_{damp,n}$ for normal
+        contact forces.}
+\inpvar{CDAMPT}{\bunit{s}}{Damping coefficient $C_{damp,t}$ for tangential
+        contact forces.}
+\inpvar{DFNMAX}{\bunit{N/s}}{Maximum absolute value $dF_{n,max}$ used for
+        $\txtfod{F_n^{el}}{t}$.}
+\inpvar{DFTMAX}{\bunit{N/s}}{Maximum absolute value $dF_{\tau,max}$ used
+        for $\txtfod{F_\tau^{el}}{t}$.}
+\end{inputvars}
+The forces $F^{tot}$ and $F^{damp}$ are currently not yet provided in the
+output.
+}
 
 \section{Friction description}
 \label{sec:fric_dscrp}
@@ -7178,9 +7229,10 @@ The input for one case of wheel/rail contact consists of:
 \begin{alltt}\small
 % Control integers, see section \ref{sec:controldigits}:
 
-\magenta{ }CPBTNFS     (\magenta{        }CONFIG, PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
-\magenta{ }VLDCMZE     (\magenta{        }VARFRC, FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL)
-\magenta{X}HGIAOWR     (\magenta{XFLOW , }HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
+\magenta{ }CPBTNFS  \magenta{   }  (\magenta{        }CONFIG, PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
+\magenta{ }VLDCMZE  \magenta{\{M\}}  (\magenta{        }VARFRC, FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL\magenta{,
+                                                                        MATER2})
+\magenta{X}HGIAOWR  \magenta{   }  (\magenta{XFLOW , }HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
 
 \magenta{% Parameters for additional debug output
 
@@ -7227,11 +7279,12 @@ if INFLCF>=2:
       if MATER =3: [         K0\_MF   ALFAMF  BETAMF ]
       if MATER =4: [ GG3     LAYTHK  TAU\_C0  K\_TAU  ]
 
-% Material parameters for temperature calculation (section \ref{sec:matcns}):
+% Material parameters for \magenta{damping and }temperature calculation (section \ref{sec:matcns}):
 
-if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
-               BKTEMP2  HEATCP2  LAMBDA2  DENS2          ]
-if H=3, M=4: [ BETAPL                                    ]
+\magenta{if M2=2:     [ CDAMPN   CDAMPT   DFNMAX   DFTMAX   ]
+}if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
+               BKTEMP2  HEATCP2  LAMBDA2  DENS2    ]
+if H=3, M=4: [ BETAPL                              ]
 
 % Information needed for the grid discretization (section \ref{sec:wr_potcon}):
 
@@ -7295,7 +7348,8 @@ For module 3, the input for one case consists of:
 % Control integers, see section \ref{sec:controldigits}:
 
 \magenta{ } PBTNFS      \magenta{        }       (PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
-\magenta{ } LDCMZE      \magenta{        }       (FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS )
+\magenta{ } LDCMZE\magenta{  \{M\}   }             (FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS \magenta{,
+                                                                      MATER2})
 \magenta{X}HGIAOWR     (\magenta{XFLOW , }HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
 
 \magenta{% Parameters for additional debug output
@@ -7349,11 +7403,12 @@ if C>=2:\magenta{
       if M=3: [      K0\_MF   ALFAMF  BETAMF ]
       if M=4: [ GG3  LAYTHK  TAU\_C0  K\_TAU  ]
 
-% Material parameters for temperature calculation (section \ref{sec:matcns}):
+% Material parameters for \magenta{damping and }temperature calculation (section \ref{sec:matcns}):
 
-if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
-               BKTEMP2  HEATCP2  LAMBDA2  DENS2 ]
-if H=3, M=4: [ BETAPL                           ]
+\magenta{if M2=2:     [ CDAMPN   CDAMPT   DFNMAX   DFTMAX ]
+}if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
+               BKTEMP2  HEATCP2  LAMBDA2  DENS2  ]
+if H=3, M=4: [ BETAPL                            ]
 
 % Information needed for the grid discretization (section \ref{sec:pot_con}).
 % Hertzian options when IPOTCN<0 (sections \ref{sec:hertz3d}, \ref{sec:hertz2d}, \ref{sec:sdec}), direct

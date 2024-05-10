@@ -12,10 +12,51 @@ use m_aijpj
 implicit none
 
 private
+public  calc_damping_force
 public  soutpt
 public  writmt
 
 contains
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine calc_damping_force( ic, mater, kin )
+!--purpose: compute ad-hoc proportional damping
+      implicit none
+!--subroutine arguments:
+      type(t_ic)                  :: ic
+      type(t_material)            :: mater
+      type(t_kincns)              :: kin
+!--local variables :
+      real(kind=8) :: df(3), dt_min
+      character(len=12) :: strng
+
+      associate(cdampn => mater%cdampn,  cdampt => mater%cdampt,  dt     => kin%dt,                     &
+                fcntc  => kin%fcntc,     fprev  => kin%fprev,     fdamp  => kin%fdamp )
+
+      ! compute ad-hoc proportional damping
+
+      if (ic%pvtime.eq.2) then
+         fdamp  = (/ 0d0, 0d0, 0d0 /)
+      else
+         dt_min = 1d-20
+         df     = (fcntc - fprev) / max(dt_min, dt)
+         if (abs(df(1)).gt.mater%dftmax) df(1) = sign(mater%dftmax, df(1)) ! |dftmax| * sign(df(1))
+         if (abs(df(2)).gt.mater%dftmax) df(2) = sign(mater%dftmax, df(2))
+         if (abs(df(3)).gt.mater%dfnmax) df(3) = sign(mater%dfnmax, df(3))
+         fdamp  = (/ cdampt * df(1), cdampt * df(2), cdampn * df(3) /)
+      endif
+
+      if (ic%x_force.ge.1) then
+         ! write(bufout,'(2(a,g12.4),a,3g12.4)') ' cdampn=',cdampn,', dt=',dt, ', fdamp=',fdamp
+         strng = fmt_gs(12, 8, 6, fdamp(3))
+         write(bufout,'(2(a,g12.4),2(a,f12.6),2a)') ' cdampn=',cdampn,', dt=',dt,', fprev=',fprev(3),   &
+                        ', fcntc=',fcntc(3),', fdamp=',strng
+         call write_log(1, bufout)
+      endif
+
+      end associate
+   end subroutine calc_damping_force
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -28,7 +69,7 @@ contains
       integer, parameter       :: idebug = 3
       integer      :: ii, i, j, iin, iout, lstrow, ncon, nadh, nslip, nplast, nexter
       logical      :: znewln, is_roll, is_ssrol, use_plast
-      real(kind=8) :: tmp1mx, tmp2mx, hmp, trcbnd, ptabs, ptarg, rhsx, rhsy, fxtru1, fytru1
+      real(kind=8) :: tmp1mx, tmp2mx, hmp, trcbnd, ptabs, ptarg, rhsx, rhsy, fxtrue, fytrue
       character(len= 9) :: str_muscal
       character(len=12) :: strng(max(20, nsens_in*nsens_out))
       type(t_gridfnc3) :: tmp
@@ -40,7 +81,7 @@ contains
                 x      => gd%cgrid_cur%x,   y      => gd%cgrid_cur%y,                                   &
                 muscal => gd%kin%muscal,    pen    => gd%kin%pen,       cksi   => gd%kin%cksi,          &
                 ceta   => gd%kin%ceta,      cphi   => gd%kin%cphi,      fntrue => gd%kin%fntrue,        &
-                fnscal => gd%kin%fnscal,    fxrel1 => gd%kin%fxrel1,    fyrel1 => gd%kin%fyrel1,        &
+                fxrel  => gd%kin%fxrel,     fyrel  => gd%kin%fyrel,     fcntc  => gd%kin%fcntc,         &
                 chi    => gd%kin%chi,       dq     => gd%kin%dq,        veloc  => gd%kin%veloc,         &
                 eps    => gd%solv%eps,                                                                  &
                 hs1    => gd%geom%hs1,      exrhs  => gd%geom%exrhs,                                    &
@@ -49,8 +90,8 @@ contains
                 ps1    => gd%outpt1%ps,     pv1    => gd%outpt1%pv,     us1    => gd%outpt1%us,         &
                 uv1    => gd%outpt1%uv,     ss1    => gd%outpt1%ss,     shft1  => gd%outpt1%shft,       &
                 taucs  => gd%outpt1%taucs,  temp1  => gd%outpt1%temp1,  temp2  => gd%outpt1%temp2,      &
-                mxtru1 => gd%outpt1%mxtrue, mytru1 => gd%outpt1%mytrue, mztru1 => gd%outpt1%mztrue,     &
-                elen1  => gd%outpt1%elen,   frpow1 => gd%outpt1%frpow,  pmax1 => gd%outpt1%pmax)
+                mxtrue => gd%outpt1%mxtrue, mytrue => gd%outpt1%mytrue, mztrue => gd%outpt1%mztrue,     &
+                elen   => gd%outpt1%elen,   frpow  => gd%outpt1%frpow,  pmax   => gd%outpt1%pmax)
 
       call gf3_new(tmp, 'output:tmp', gd%cgrid_cur, nulify=.true.)
 
@@ -256,8 +297,8 @@ contains
          strng(2) = fmt_gs(12, 4, 4, cksi)
          strng(3) = fmt_gs(12, 4, 4, ceta)
          strng(4) = fmt_gs(12, 4, 4, cphi)
-         strng(5) = fmt_gs(12, 4, 4, fxrel1)
-         strng(6) = fmt_gs(12, 4, 4, fyrel1)
+         strng(5) = fmt_gs(12, 4, 4, fxrel)
+         strng(6) = fmt_gs(12, 4, 4, fyrel)
          write(lout, 8301)
          if (.not.is_roll) then
             if (ic%force3.eq.0) write(lout, 8302)             gd%kin%dt, strng(1), strng(2), strng(3),  &
@@ -309,6 +350,9 @@ contains
          ! Compute displacement differences at current time, us(ii,ik).
          !  - set normal part of us to 0 when using B=2,3,4.
          !  - compute for AllElm when A>=2 for writing to mat-file
+         !
+         ! Note: module 1 uses A=0 in call to soutpt
+         ! Note: ignoring reduced interaction between combined sub-contact patches
 
          call areas(igs1)
          if (ic%bound.ge.2 .and. ic%bound.le.4) then
@@ -359,32 +403,36 @@ contains
          if (ic%norm.eq.0) then
             fntrue = dxdy * gf3_sum(AllElm, ps1, ikZDIR)
          endif
-         fnscal = fntrue / gd%mater%ga
      
          if (ic%force3.eq.0) then
-            fxrel1 = dxdy * gf3_sum(AllElm, ps1, ikXDIR) / (fntrue*muscal + tiny)
+            fxrel = dxdy * gf3_sum(AllElm, ps1, ikXDIR) / (fntrue*muscal + tiny)
          endif
          if (ic%force3.le.1) then
-            fyrel1 = dxdy * gf3_sum(AllElm, ps1, ikYDIR) / (fntrue*muscal + tiny)
+            fyrel = dxdy * gf3_sum(AllElm, ps1, ikYDIR) / (fntrue*muscal + tiny)
          endif
-         fxtru1 = fxrel1 * (fntrue*muscal+tiny)
-         fytru1 = fyrel1 * (fntrue*muscal+tiny)
+         fxtrue = fxrel * (fntrue*muscal+tiny)
+         fytrue = fyrel * (fntrue*muscal+tiny)
+         fcntc  = (/ fxtrue, fytrue, fntrue /)
+
+         ! compute ad-hoc proportional damping
+
+         call calc_damping_force( gd%ic, gd%mater, gd%kin )
 
          ! Compute torsional moments about x, y and z-axes
 
-         mxtru1 =   dxdy * ddot(npot, ps1%vn, 1, y, 1)
-         mytru1 = - dxdy * ddot(npot, ps1%vn, 1, x, 1)
-         mztru1 = - dxdy * ddot(npot, ps1%vx, 1, y, 1)  + dxdy * ddot(npot, ps1%vy, 1, x, 1)
-         if (abs(mztru1).lt.0.5d0*eps*(muscal*fntrue+tiny)) mztru1=0d0
+         mxtrue =   dxdy * ddot(npot, ps1%vn, 1, y, 1)
+         mytrue = - dxdy * ddot(npot, ps1%vn, 1, x, 1)
+         mztrue = - dxdy * ddot(npot, ps1%vx, 1, y, 1)  + dxdy * ddot(npot, ps1%vy, 1, x, 1)
+         if (abs(mztrue).lt.0.5d0*eps*(muscal*fntrue+tiny)) mztrue=0d0
 
          ! Compute Elastic Energy
          ! Note: set elen = 0 when using B=2,3,4.
          ! Note: exploiting Ps==0 in Exter, using AllInt instead of AllElm
 
          if (ic%bound.ge.2 .and. ic%bound.le.4) then
-            elen1 = 0d0
+            elen  = 0d0
          else
-            elen1 = 0.5d0 * 1d-3 * dxdy * gf3_dot(Allint, us1, ps1, ikALL)
+            elen  = 0.5d0 * 1d-3 * dxdy * gf3_dot(Allint, us1, ps1, ikALL)
          endif
 
          ! Compute the deformed distance  hs - Pen + Us(.,1) and store in ss(.,1)
@@ -423,12 +471,12 @@ contains
          ! this the absolute slip velocity. Array ss = S_t contains the shift distance [mm]. This is divided
          ! by 1000 dt to get the absolute velocity sa_t in [m/s].
 
-         frpow1 = dxdy * gf3_dot(AllElm, ps1, ss1, ikTANG) / (1d3 * gd%kin%dt)
+         frpow  = dxdy * gf3_dot(AllElm, ps1, ss1, ikTANG) / (1d3 * gd%kin%dt)
 
          ! compute the maximum pressure
 
-         pmax1 = 0d0
-         if (ic%print_pmax) pmax1  = gf3_max(AllElm, ps1, ikZDIR)
+         pmax  = 0d0
+         if (ic%print_pmax) pmax  = gf3_max(AllElm, ps1, ikZDIR)
 
       endif ! true
 
@@ -442,11 +490,11 @@ contains
       ! Filter values that are dominated by noise using filt_sml()
 
       strng(1) = fmt_gs(12, 4, 4, fntrue)
-      strng(2) = fmt_gs(12, 4, 4, filt_sml(fxtru1,0.5d0*eps*fntrue*muscal))
-      strng(3) = fmt_gs(12, 4, 4, filt_sml(fytru1,0.5d0*eps*fntrue*muscal))
-      strng(4) = fmt_gs(12, 4, 4, mztru1)
-      strng(5) = fmt_gs(12, 4, 4, elen1)
-      strng(6) = fmt_gs(12, 4, 4, frpow1)
+      strng(2) = fmt_gs(12, 4, 4, filt_sml(fxtrue,0.5d0*eps*fntrue*muscal))
+      strng(3) = fmt_gs(12, 4, 4, filt_sml(fytrue,0.5d0*eps*fntrue*muscal))
+      strng(4) = fmt_gs(12, 4, 4, mztrue)
+      strng(5) = fmt_gs(12, 4, 4, elen)
+      strng(6) = fmt_gs(12, 4, 4, frpow)
 
       if (ic%output_surf.ge.2) write(lout,8500)
       if (.not.is_roll) then
@@ -459,11 +507,11 @@ contains
  8501 format (2x, 3x,'FN',7x, 3x,'FX',7x, 3x,'FY',7x, 3x,'MZ',7x, 2x,'ELAST.EN.',1x, 2x,'FRIC.',a)
  8502 format (2x, 6a12)
 
-      strng(3) = fmt_gs(12, 4, 4, fnscal)
+      strng(3) = fmt_gs(12, 4, 4, fntrue/gd%mater%ga)
       if (ic%force3.eq.0) then
          strng(1) = 'FX/FSTAT/FN'
          if (.not.gd%kin%use_muscal) strng(1) = '  FX/FN'
-         strng(4) = fmt_gs(12, 4, 4, filt_sml(fxrel1,0.5d0*eps))
+         strng(4) = fmt_gs(12, 4, 4, filt_sml(fxrel, 0.5d0*eps))
       elseif (is_roll) then
          strng(1) = ' CREEP X'
          strng(4) = fmt_gs(12, 4, 4, filt_sml(cksi, ceta*eps))
@@ -474,7 +522,7 @@ contains
       if (ic%force3.le.1) then
          strng(2) = 'FY/FSTAT/FN'
          if (.not.gd%kin%use_muscal) strng(2) = ' FY/FN'
-         strng(5) = fmt_gs(12, 4, 4, filt_sml(fyrel1,0.5d0*eps))
+         strng(5) = fmt_gs(12, 4, 4, filt_sml(fyrel, 0.5d0*eps))
       elseif (is_roll) then
          strng(2) = ' CREEP Y'
          strng(5) = fmt_gs(12, 4, 4, filt_sml(ceta, cksi*eps))
@@ -482,12 +530,12 @@ contains
          strng(2) = ' SHIFT Y'
          strng(5) = fmt_gs(12, 4, 4, filt_sml(ceta, cksi*eps))
       endif
-      strng(6) = fmt_gs(12, 4, 4, pen)
+      strng(6) = fmt_gs(12, 6, 4, pen)
 
       if (ic%print_pmax) then
          strng(7)  = '    PMAX    '
-         strng(9)  = fmt_gs(12, 4, 4, pmax1)
-         ! write(strng(9),'(f12.8)') pmax1
+         strng(9)  = fmt_gs(12, 4, 4, pmax)
+         ! write(strng(9),'(f12.8)') pmax
       endif
       if (ic%heat.ge.1) then
          tmp1mx = gf3_max(AllElm, temp1, ikZDIR)

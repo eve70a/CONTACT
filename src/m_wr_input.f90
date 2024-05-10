@@ -136,6 +136,12 @@ contains
       endif
 
       !------------------------------------------------------------------------------------------------------
+      ! Read input for M2-digit: material parameters for damping
+      !------------------------------------------------------------------------------------------------------
+
+      call mater2_input(lunit, ncase, linenr, ic, mater, ldebug, ieof, lstop, zerror)
+
+      !------------------------------------------------------------------------------------------------------
       ! Read input for H-digit: material parameters for temperature calculation
       !------------------------------------------------------------------------------------------------------
 
@@ -253,7 +259,7 @@ contains
 
       ieof   = -1 ! eof is considered an error
       linenr =  0
-      ncase  =  1
+      ncase  =  0
 
       if (.false.) wtd%meta%ncase = 0
 
@@ -349,6 +355,10 @@ contains
             call mater_input(lspck, ncase, linenr, 11, ic, kin, mater, solv, ldebug, ieof, lstop, zerror)
          endif
 
+         ! Read input for M2-digit: material parameters for damping
+
+         call mater2_input(lspck, ncase, linenr, ic, mater, ldebug, ieof, lstop, zerror)
+
          ! Read input for H-digit: material parameters for temperature calculation
 
          if (ic%heat.eq.3) then
@@ -427,7 +437,7 @@ contains
 
       zerror = zerror .or. .not.check_range ('DX', discr%dx, 1d-8, 1d20)
       zerror = zerror .or. .not.check_range ('DS', discr%ds, 1d-8, 1d20)
-      zerror = zerror .or. .not.check_range ('DQREL', discr%dqrel, 1d-3, 10d0)
+      zerror = zerror .or. .not.check_range ('DQREL', discr%dqrel, 1d-5, 10d0)
 
       ! in transient cases, check element sizes of new/previous case
 
@@ -745,6 +755,7 @@ contains
       integer                  :: vldcmze, xhgiaowr, cpbtnfs, psflcin
       real(kind=8)             :: dflt_turn
       character(len=1)         :: namside
+      character(len=10)        :: strng
       type(t_wheel),   pointer :: my_wheel
 
       associate(ic    => wtd%ic,   mater => wtd%mater, discr => wtd%discr, kin   => wtd%kin,        &
@@ -756,18 +767,36 @@ contains
 
       call ic_pack (1, cpbtnfs, vldcmze, xhgiaowr, ic)
 
-      if (ic%xflow.le.0) then
-         write(linp, 1101) cpbtnfs, vldcmze, xhgiaowr
+      write(linp, 1101) cpbtnfs
+      if (ic%mater2.le.0) then
+         write(linp, 1102) vldcmze
       else
-         write(linp, 1102) cpbtnfs, vldcmze, xhgiaowr
+         write(linp, 1103) vldcmze, ic%mater2
+      endif
+      if (ic%xflow.le.0) then
+         write(linp, 1104) xhgiaowr
+      else
+         write(linp, 1105) xhgiaowr
       endif
 
       ! write debug parameters
 
       if (ic%xflow.ge.1) then
          call ic_pack_dbg(psflcin, ic)
-         write(linp, 1103) psflcin
+         if (ic%x_readln.le.0) then
+            write(linp, 1106) psflcin
+         else
+            write(linp, 1107) psflcin, ic%x_readln
+         endif
       endif
+
+ 1101 format(i8.7, 6x, '  C-P-B-T-N-F-S       CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS')
+ 1102 format(i8.7, 6x, '  V-L-D-C-M-Z-E       VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL')
+ 1103 format(i8.7,i3,4x,' V-L-D-C-M-Z-E  M    VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL, MATER2')
+ 1104 format(i8.7, 6x, '  H-G-I-A-O-W-R         HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN')
+ 1105 format(i8.7, 6x, 'X-H-G-I-A-O-W-R  XFLOW, HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN')
+ 1106 format(i8.7, 6x, '  P-S-F-L-C-I-N       PROFIL, SMOOTH, FORCE,  LOCATE, CPATCH, INFLCF, NMDBG' )
+ 1107 format(i8.7, 6x, '  P-S-F-L-C-I-N  R    PROFIL, SMOOTH, FORCE,  LOCATE, CPATCH, INFLCF, NMDBG,  READLN')
 
       ! write parameters for the iterative solution algorithms
 
@@ -782,15 +811,8 @@ contains
             solv%d_slp, solv%pow_s
       endif
 
- 1101 format (i8.7, 6x, 'C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS', /,   &
-              i8.7, 6x, 'V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL', /,   &
-              i8.7, 6x, 'H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN' )
- 1102 format (i8.7, 6x, '  C-P-B-T-N-F-S         CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS',/, &
-              i8.7, 6x, '  V-L-D-C-M-Z-E         VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL',/, &
-              i8.7, 6x, 'X-H-G-I-A-O-W-R   XFLOW,  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN' )
- 1103 format (i8.7, 6x, '  P-S-F-L-R-I_N         PROFIL, SMOOTH, FORCE,  LOCATE, READLN, INFLCF, NMDBG' )
- 1201 format( 4i6, 3x, es8.1, 14x,   'MAXGS,  MAXIN,  MAXNR,  MAXOUT, EPS')
- 1211 format( 2g12.4, i6, g12.4, 7x,  'OMEGAH, OMEGAS, INISLP, OMGSLP')
+ 1201 format( 4i6,    3x, es8.1, 14x, 'MAXGS,  MAXIN,  MAXNR,  MAXOUT, EPS')
+ 1211 format( 2g12.4, i6, g12.4,  7x, 'OMEGAH, OMEGAS, INISLP, OMGSLP')
  1212 format(         i6, g12.4, 40x, 'INISLP, OMGSLP')
  1215 format( 6f8.3,  10x, 'FDECAY, D_IFC/LIN/CNS, D_SLP, POW_S')
 
@@ -839,34 +861,42 @@ contains
          endif
       endif
 
+      ! write material parameters for damping model
+
+      if (ic%mater2.eq.2) then
+         write(linp,5611) mater%cdampn, mater%cdampt, mater%dfnmax, mater%dftmax
+ 5611    format (4g12.4, 10x, 'CDAMPN, CDAMPT, DFNMAX, DFTMAX')
+      endif
+
       ! write material parameters for temperature model
 
       if (ic%heat.eq.3) then
-         write(linp,5611) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1), 1,1,1,1
-         write(linp,5611) mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2), 2,2,2,2
- 5611    format (4g12.4, 10x, 'BKTEMP',i1,', HEATCP',i1,', LAMBDA',i1,', DENSITY',i1)
+         write(linp,5711) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1), 1,1,1,1
+         write(linp,5711) mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2), 2,2,2,2
+ 5711    format (4g12.4, 10x, 'BKTEMP',i1,', HEATCP',i1,', LAMBDA',i1,', DENSITY',i1)
       endif
 
       if (ic%heat.eq.3 .and. ic%mater.eq.4) then
-         write(linp,5612) mater%betapl
-         write(linp,5612) mater%betapl
- 5612    format (1g12.4, 46x, 'BETAPL')
+         write(linp,5712) mater%betapl
+         write(linp,5712) mater%betapl
+ 5712    format (1g12.4, 46x, 'BETAPL')
       endif
 
       ! write information needed for the grid discretization
 
       if (ic%discns1_inp.ge.2 .and. ic%discns1_inp.le.9) then
+         strng     = fmt_gs(10, 3, 3, discr%dqrel)
          ! write dist_turn only if different from default value
          dflt_turn = 2d0 * discr%dist_sep - 1d0 * discr%dist_comb
          if (abs(discr%dist_turn-dflt_turn).le.1d-3) then
-            write(linp, 6101) discr%dx, discr%ds, discr%dqrel, discr%angl_sep*180d0/pi, discr%dist_sep, &
+            write(linp, 6101) discr%dx, discr%ds, strng, discr%angl_sep*180d0/pi, discr%dist_sep, &
                    discr%dist_comb
          else
-            write(linp, 6102) discr%dx, discr%ds, discr%dqrel, discr%angl_sep*180d0/pi, discr%dist_sep, &
+            write(linp, 6102) discr%dx, discr%ds, strng, discr%angl_sep*180d0/pi, discr%dist_sep, &
                    discr%dist_comb, discr%dist_turn
          endif
- 6101    format( 3f9.4, f8.1,'d', 2f9.4, 4x, 'DX, DS, DQREL, A_SEP, D_SEP, D_COMB')
- 6102    format( 3f9.4, f8.1,'d', 3f6.2, 4x, 'DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN')
+ 6101    format( 2f9.4, a, f8.1,'d', 2f9.4, 3x, 'DX, DS, DQREL, A_SEP, D_SEP, D_COMB')
+ 6102    format( 2f9.4, a, f8.1,'d', 3f6.2, 3x, 'DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN')
       endif
 
       ! write information on track geometry

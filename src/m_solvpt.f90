@@ -157,8 +157,8 @@ contains
 
          ! While (|dF| > Eps|F|) do
 
-         df = abs(kin%fxrel1 - fxkp1)
-         if (ic%force3.ge.2) df = df + abs(kin%fyrel1 - fykp1)
+         df = abs(kin%fxrel - fxkp1)
+         if (ic%force3.ge.2) df = df + abs(kin%fyrel - fykp1)
 
          do while (df.gt.solv%eps .and. itnr.lt.solv%maxnr .and. info1.le.1)
             itnr = itnr + 1
@@ -180,8 +180,8 @@ contains
 
             ! determine suitable changes dcksi, dceta for cksi and ceta
 
-            dfx = kin%fxrel1 - fxkp1
-            dfy = kin%fyrel1 - fykp1
+            dfx = kin%fxrel - fxkp1
+            dfy = kin%fyrel - fykp1
 
             if (ic%force3.eq.1) then
                dceta = 0d0
@@ -309,8 +309,8 @@ contains
 
                ! compute error w.r.t. requested total forces Fx, Fy
 
-               df = abs(kin%fxrel1 - fxkp1)
-               if (ic%force3.ge.2) df = df + abs(kin%fyrel1 - fykp1)
+               df = abs(kin%fxrel - fxkp1)
+               if (ic%force3.ge.2) df = df + abs(kin%fyrel - fykp1)
 
                ! print progress report for half iteration
 
