@@ -935,7 +935,7 @@ contains
 
          ! shift 'true' unconnected patches
 
-         do icpo = 1, numcps
+         do icpo = 1, numtot
             if (associated(allcps(icpo)%cp) .and. allcps(icpo)%cp%gap_min.lt.0d0) then
                numtot_new = numtot_new + 1
                icpn       = numtot_new
