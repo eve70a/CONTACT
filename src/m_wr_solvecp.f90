@@ -972,9 +972,7 @@ contains
       integer,          intent(in) :: idebug
       type(t_ws_track)             :: wtd
 !--local variables:
-      integer                   :: icp, ierror
-      real(kind=8)              :: sr, xr, yr, zr
-      type(t_vec)               :: xavg_r, fdir
+      integer                   :: icp
 
       ! accumulate total forces and moments F_(trk), M_@r(trk), F_(ws) and M_@w(ws)
 
@@ -993,43 +991,6 @@ contains
          end associate
 
       enddo
-
-      ! compute location of inherent (minimum) moment - shifting the force laterally
-
-      if (abs(wtd%ftrk%norm()).le.1d-12) then
-
-         wtd%xavg = vec_zero()
-         wtd%tavg = vec_zero()
-
-      else
-         associate(my_rail => wtd%trk%rai)
-
-         fdir   =   (my_rail%m_trk .transp. wtd%ftrk) / wtd%ftrk%norm()
-         xavg_r = -((my_rail%m_trk .transp. wtd%ttrk) .cross. fdir) / (wtd%ftrk%norm())
-
-         if (idebug.ge.3) then
-            call vec_print(fdir, 'fdir(r)', 2)
-            call vec_print(xavg_r, 'xavg(r)', 2)
-         endif
-
-         ! shift force in total force direction onto the rail profile
-
-         call spline_get_pt_at_line_oyz(my_rail%prr%grd_data%spl, xavg_r, fdir, sr, xr, yr, zr, ierror)
-         xavg_r = vec( xr, yr, zr )
-
-         if (idebug.ge.2) then
-            call vec_print(xavg_r, 'xavg(r)', 2)
-         endif
-
-         ! compute 'true contact position' in (tr) coordinates
-
-         wtd%xavg = vec_2glob(xavg_r, my_rail%m_trk)
-
-         ! compute moment T_@avg(tr) = (m_avg(tr) - m_r(tr)) x F_(tr)  +  M_@r(tr)
-
-         wtd%tavg = -(xavg_r .cross. wtd%ftrk) + wtd%ttrk
-         end associate
-      endif
 
    end subroutine total_forces_moments
 

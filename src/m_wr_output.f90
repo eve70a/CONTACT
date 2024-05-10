@@ -363,16 +363,6 @@ contains
  5013    format (6a)
       endif
 
-      if (ic%output_surf.ge.2 .and. out_open.eq.1) then
-         write(lout,5102)
-         write(lout,5103) wtd%xavg%x(), sgn*wtd%xavg%y(), wtd%xavg%z(), fmt_gs(12,4,4,sgn*wtd%tavg%x()), &
-                fmt_gs(12,4,4,wtd%tavg%y()), fmt_gs(12,4,4,sgn*wtd%tavg%z())
- 5102    format (1x, /, ' AVERAGE CONTACT POSITION')
- 5103    format (2x, 3x,'XAV(TR)',2x, 3x,'YAV(TR)',2x, 3x,'ZAV(TR)',2x, 3x,'MX(AV)',3x,                 &
-                     3x,'MY(AV)',3x, 3x,'MZ(AV)', /, 3f12.4, 3a)
-
-      endif
-   
       ! Loop over all contact patches
 
       do icp = 1, wtd%numcps
