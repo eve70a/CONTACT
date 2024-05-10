@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -91,10 +91,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -2.442E-06   5.914E-05   1.000E+04  -2.442E-06   5.914E-05   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0099     -0.0000     -0.0000   7.909E-04   2.416E-13   4.056E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -272,10 +268,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    3.685E-06  -3.504E-06   1.000E+04   3.685E-06  -3.504E-06   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0327     -0.0000      0.0000  -3.278E-05       0.000   1.383E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -481,10 +473,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -5.019E-07   8.205E-06   1.000E+04  -5.019E-07   8.205E-06   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0678     -0.0000     -0.0000   9.074E-05       0.000  -1.882E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -709,10 +697,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -2.444E-04   1.147E-02   1.000E+04  -2.444E-04   1.147E-02   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.1430     -0.0000     -0.0000  -5.689E-05   1.514E-08   1.320E-02
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -995,10 +979,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -2.875E-04  -1.472E-05   1.000E+04  -2.875E-04  -1.472E-05   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0088      0.0000     -0.0000  -1.838E-04   1.279E-13  -9.589E-05
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1201,10 +1181,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.154E-04  -1.783E-06   1.000E+04   1.154E-04  -1.783E-06   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0331     -0.0000      0.0000  -1.448E-05  -5.684E-14   1.006E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1430,10 +1406,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.419E-07   1.115E-05   1.000E+04   1.419E-07   1.115E-05   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0727     -0.0000     -0.0000   1.213E-04   1.137E-13  -1.978E-05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1686,10 +1658,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -1.926E-05  -5.822E-03   1.000E+04  -1.926E-05  -5.822E-03   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.1614     -0.0000     -0.0000  -5.642E-05  -5.239E-09   8.999E-03
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1883,23 +1851,23 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      23.9 | 100.0 |       32.3 | 100.0 |
-|Wheel-rail cases     |       8 |      23.9 | 100.0 |       32.3 | 100.0 |
-|W/r profiles         |      10 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Geometric analysis   |     116 |       0.1 |   0.3 |        0.3 |   1.0 |
-|Panag.process        |     100 |      19.8 |  83.0 |       25.5 |  79.0 |
-|Algorithm Norm       |     144 |       4.9 |  20.3 |        6.4 |  19.7 |
-|Algorithm Tang       |     144 |      15.0 |  62.5 |       19.1 |  59.2 |
-|Output quantities    |     108 |       1.4 |   5.9 |        2.5 |   7.7 |
+|Total                |       1 |      23.9 | 100.0 |       39.1 | 100.0 |
+|Wheel-rail cases     |       8 |      23.9 | 100.0 |       39.1 | 100.0 |
+|W/r profiles         |      10 |       0.0 |   0.1 |        0.1 |   0.2 |
+|Geometric analysis   |     116 |       0.1 |   0.4 |        0.3 |   0.7 |
+|Panag.process        |     100 |      20.0 |  83.5 |       30.6 |  78.2 |
+|Algorithm Norm       |     144 |       4.6 |  19.3 |        7.4 |  19.0 |
+|Algorithm Tang       |     144 |      15.3 |  64.1 |       23.1 |  59.1 |
+|Output quantities    |     108 |       1.4 |   5.9 |        2.9 |   7.4 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     144 |       3.8 |  15.9 |        4.5 |  14.0 |
-|Tang: StedyGS solver |     144 |      14.1 |  59.0 |       18.0 |  55.6 |
+|Norm: ConjGrd solver |     144 |       3.5 |  14.7 |        5.5 |  14.2 |
+|Tang: StedyGS solver |     144 |      14.2 |  59.4 |       21.6 |  55.3 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       8 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Contact location     |     116 |       0.0 |   0.1 |        0.1 |   0.3 |
-|Undeformed distance  |     100 |       0.0 |   0.1 |        0.2 |   0.6 |
-| - Interp whl_srfc   |     100 |       0.0 |   0.1 |        0.1 |   0.4 |
-|Influence coeffic.   |     147 |       2.5 |  10.6 |        3.8 |  11.6 |
-|Initial state/estim. |     100 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       8 |       0.0 |   0.1 |        0.1 |   0.2 |
+|Contact location     |     116 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Undeformed distance  |     100 |       0.1 |   0.3 |        0.2 |   0.4 |
+| - Interp whl_srfc   |     100 |       0.1 |   0.3 |        0.1 |   0.3 |
+|Influence coeffic.   |     147 |       2.4 |  10.0 |        5.1 |  13.1 |
+|Initial state/estim. |     100 |       0.0 |   0.1 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

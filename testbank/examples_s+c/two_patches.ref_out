@@ -2,14 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Reading file "../profiles/uk_interrupt_v2.slcs" with profile slices
- obtained  20 slices, s = [  -85.20    ,   178.8    ]
+ Reading file "..\profiles\uk_interrupt_v2.slcs" with profile slices
+ obtained  20 slices, u = [  -85.20    ,   178.8    ]
  feature information for  20 slices with  11 features per slice
    1    -1.00    -1.00    -1.00    -1.00    -1.00    -1.00     0.00    26.52    34.02   108.58   999.00
    2    -1.00    -1.00    -1.00    -1.00    -1.00    -1.00     0.00    26.50    33.99   107.48   999.00
@@ -35,25 +35,25 @@
  make_2dspline: constructing interpolating spline surface
  reading wheel profile "..\profiles\MBench_S1002_v3.prw"
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
- WARNING: 130 positions lie after last slice at s_n=   178.810, using constant extrapolation
+ WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
          0, NR,  z_ws, Fz:      -0.9528       0.000, dFz/dz:       0.000
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
- WARNING: 130 positions lie after last slice at s_n=   178.810, using constant extrapolation
+ WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
          1, NR,  z_ws, Fz:      -0.9115   2.044E+04, dFz/dz:   7.432E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
- WARNING: 130 positions lie after last slice at s_n=   178.810, using constant extrapolation
+ WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
          2, NR,  z_ws, Fz:      -0.9393       1391., dFz/dz:   1.034E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
- WARNING: 130 positions lie after last slice at s_n=   178.810, using constant extrapolation
+ WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
          3, NR,  z_ws, Fz:      -0.9254       8849., dFz/dz:   5.365E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
- WARNING: 130 positions lie after last slice at s_n=   178.810, using constant extrapolation
+ WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
          4, NR,  z_ws, Fz:      -0.9233   1.043E+04, dFz/dz:   7.378E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
- WARNING: 130 positions lie after last slice at s_n=   178.810, using constant extrapolation
+ WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
          5, NR,  z_ws, Fz:      -0.9239       9993., dFz/dz:   7.497E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
- WARNING: 130 positions lie after last slice at s_n=   178.810, using constant extrapolation
+ WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
          6, NR,  z_ws, Fz:      -0.9238      10000., dFz/dz:   7.443E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
@@ -105,10 +105,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        298.4       3374.      10000.       298.4       3374.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0356    771.3109     45.4378      -2275.  -2.573E+04  -7.622E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -213,26 +209,26 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.6 | 100.0 |        0.9 | 100.0 |
-|Wheel-rail cases     |       1 |       0.6 | 100.0 |        0.9 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   2.5 |        0.0 |   3.7 |
-|Geometric analysis   |       7 |       0.5 |  87.5 |        0.7 |  82.6 |
-|Panag.process        |      12 |       0.0 |   7.5 |        0.1 |   8.4 |
-|Algorithm Norm       |      12 |       0.0 |   5.0 |        0.0 |   2.4 |
-|Algorithm Tang       |      12 |       0.0 |   2.5 |        0.1 |   6.1 |
-|Output quantities    |      13 |       0.0 |   0.0 |        0.0 |   2.0 |
+|Total                |       1 |       0.6 | 100.0 |        1.4 | 100.0 |
+|Wheel-rail cases     |       1 |       0.6 | 100.0 |        1.4 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   2.7 |        0.3 |  19.9 |
+|Geometric analysis   |       7 |       0.4 |  73.0 |        1.0 |  69.1 |
+|Panag.process        |      12 |       0.1 |  18.9 |        0.1 |   7.1 |
+|Algorithm Norm       |      12 |       0.0 |   5.4 |        0.0 |   0.2 |
+|Algorithm Tang       |      12 |       0.1 |  13.5 |        0.1 |   6.9 |
+|Output quantities    |      13 |       0.0 |   0.0 |        0.0 |   1.1 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      12 |       0.0 |   2.5 |        0.0 |   2.4 |
-|Tang: StedyGS solver |      12 |       0.0 |   2.5 |        0.0 |   4.5 |
+|Norm: ConjGrd solver |      12 |       0.0 |   2.7 |        0.0 |   0.0 |
+|Tang: StedyGS solver |      12 |       0.1 |  13.5 |        0.1 |   6.9 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       1 |       0.0 |   2.5 |        0.0 |   3.7 |
-|Contact location     |       7 |       0.5 |  77.5 |        0.7 |  75.7 |
-| - Interp sf_whl     |       7 |       0.2 |  27.5 |        0.2 |  20.5 |
-| - Other calc.       |      14 |       0.0 |   0.0 |        0.1 |   5.9 |
-| - Locate interpen   |       7 |       0.0 |   5.0 |        0.0 |   1.0 |
-|Undeformed distance  |      12 |       0.1 |  10.0 |        0.1 |   7.0 |
+|Reading input-file   |       1 |       0.0 |   2.7 |        0.3 |  19.9 |
+|Contact location     |       7 |       0.4 |  73.0 |        0.9 |  64.6 |
+| - Interp sf_whl     |       7 |       0.1 |  24.3 |        0.2 |  13.7 |
+| - Other calc.       |      14 |       0.0 |   8.1 |        0.1 |   6.3 |
+| - Locate interpen   |       7 |       0.0 |   2.7 |        0.0 |   1.1 |
+|Undeformed distance  |      12 |       0.0 |   0.0 |        0.1 |   4.2 |
 | - Interp whl_srfc   |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |      12 |       0.0 |   0.0 |        0.0 |   1.5 |
+|Influence coeffic.   |      12 |       0.0 |   5.4 |        0.0 |   1.7 |
 |Initial state/estim. |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -43,7 +43,7 @@
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
          1.000       0.000       0.000       0.000   2.038E-04       0.000
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         1.000       0.000       0.000      0.5098      0.5828
+         1.000       0.000       0.000    0.509770      0.5828
 
  THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
  A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
@@ -63,14 +63,14 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.4 | 100.0 |        1.9 | 100.0 |
-|Panag.process        |    3220 |       1.1 |  78.7 |        1.5 |  81.4 |
-|Algorithm Norm       |    3220 |       0.7 |  47.2 |        0.7 |  39.8 |
-|Algorithm Tang       |    3220 |       0.4 |  29.2 |        0.8 |  41.6 |
-|Output quantities    |    3220 |       0.2 |  14.6 |        0.1 |   8.0 |
+|Total                |       1 |       2.1 | 100.0 |        3.0 | 100.0 |
+|Panag.process        |    3220 |       1.7 |  80.7 |        2.3 |  76.2 |
+|Algorithm Norm       |    3220 |       1.0 |  45.2 |        1.2 |  39.9 |
+|Algorithm Tang       |    3220 |       0.7 |  34.8 |        1.1 |  35.6 |
+|Output quantities    |    3220 |       0.1 |   5.2 |        0.3 |  10.8 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |    3220 |       0.6 |  41.6 |        0.7 |  34.9 |
-|Tang: StedyGS solver |    3220 |       0.4 |  27.0 |        0.7 |  36.2 |
+|Norm: ConjGrd solver |    3220 |       0.7 |  32.6 |        1.0 |  32.3 |
+|Tang: StedyGS solver |    3220 |       0.6 |  29.6 |        1.0 |  31.8 |
 |------------------------------------------------------------------------|
-|Cp. 1 on Res.el.  1  |    3220 |       1.4 |  98.9 |        1.8 |  98.5 |
+|Cp. 1 on Res.el.  1  |    3220 |       2.1 |  97.8 |        3.0 |  99.2 |
 |------------------------------------------------------------------------|

@@ -2,14 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Reading file "../profiles/wing_rail.slcs" with profile slices
- obtained  21 slices, s = [   0.000    ,   200.0    ]
+ Reading file "..\profiles\wing_rail.slcs" with profile slices
+ obtained  21 slices, u = [   0.000    ,   200.0    ]
  feature information for  21 slices with   5 features per slice
    1     0.00     3.93    43.09    68.80   299.00
    2     0.00     4.93    44.09    69.80   299.00
@@ -86,10 +86,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        1818.       889.5   1.016E+04       1818.       889.5   1.016E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.4290    779.2381      0.0289      -151.8      -190.3      -838.0
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -155,26 +151,26 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.2 | 100.0 |        0.3 | 100.0 |
-|Wheel-rail cases     |       1 |       0.2 | 100.0 |        0.3 | 100.0 |
-|W/r profiles         |       2 |       0.0 |  18.8 |        0.1 |  25.1 |
-|Geometric analysis   |       1 |       0.1 |  50.0 |        0.1 |  50.2 |
-|Panag.process        |       1 |       0.1 |  25.0 |        0.0 |  18.4 |
-|Algorithm Norm       |       1 |       0.0 |   0.0 |        0.0 |   4.9 |
-|Algorithm Tang       |       1 |       0.1 |  25.0 |        0.0 |  13.5 |
-|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   1.9 |
+|Total                |       1 |       0.2 | 100.0 |        0.6 | 100.0 |
+|Wheel-rail cases     |       1 |       0.2 | 100.0 |        0.6 | 100.0 |
+|W/r profiles         |       2 |       0.0 |  21.4 |        0.3 |  58.9 |
+|Geometric analysis   |       1 |       0.1 |  50.0 |        0.2 |  30.0 |
+|Panag.process        |       1 |       0.0 |  21.4 |        0.0 |   8.2 |
+|Algorithm Norm       |       1 |       0.0 |   0.0 |        0.0 |   0.9 |
+|Algorithm Tang       |       1 |       0.0 |  14.3 |        0.0 |   7.4 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       1 |       0.0 |   0.0 |        0.0 |   4.9 |
-|Tang: StedyGS solver |       1 |       0.1 |  25.0 |        0.0 |  13.5 |
+|Norm: ConjGrd solver |       1 |       0.0 |   0.0 |        0.0 |   0.7 |
+|Tang: StedyGS solver |       1 |       0.0 |  14.3 |        0.0 |   7.4 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       1 |       0.0 |  18.8 |        0.1 |  25.1 |
-|Contact location     |       1 |       0.1 |  43.8 |        0.1 |  43.8 |
-| - Interp sf_whl     |       1 |       0.1 |  25.0 |        0.0 |  18.4 |
-| - Other calc.       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-| - Locate interpen   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |       1 |       0.0 |   6.2 |        0.0 |   6.4 |
+|Reading input-file   |       1 |       0.0 |  21.4 |        0.3 |  58.9 |
+|Contact location     |       1 |       0.1 |  50.0 |        0.2 |  30.0 |
+| - Interp sf_whl     |       1 |       0.0 |  14.3 |        0.0 |   8.6 |
+| - Other calc.       |       2 |       0.0 |   0.0 |        0.0 |   4.4 |
+| - Locate interpen   |       1 |       0.0 |   7.1 |        0.0 |   1.2 |
+|Undeformed distance  |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       1 |       0.0 |   7.1 |        0.0 |   2.8 |
 |Initial state/estim. |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

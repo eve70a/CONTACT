@@ -1,7 +1,7 @@
  3  MODULE   % case      1 for result element  1, contact problem  2
-  203000      P-B-T-N-F-S          PVTIME, BOUND , TANG , NORM , FORCE, STRESS
-  022020      L-D-C-M-Z-E          FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS 
- 0000341    H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  203000          P-B-T-N-F-S           PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+  022020          L-D-C-M-Z-E           FRCLAW, DISCNS, INFLCF, MATER,  RZNORM, EXRHS
+ 0000341        H-G-I-A-O-W-R     HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
    999    30   30    1    1.0E-04        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
   0.5000E-01  0.1000E-02   0.000      0.4000E-03          PEN, CKSI, CETA, CPHI
   0.3000      0.3000                                      FSTAT, FKIN
@@ -11,9 +11,9 @@
    21   33   4.250       7.000       1.235                MX,MY,AA,BB,SCALE
 
  3  MODULE   % case      1 for result element  2, contact problem  2
-  203100      P-B-T-N-F-S          PVTIME, BOUND , TANG , NORM , FORCE, STRESS
-  422420      L-D-C-M-Z-E          FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS 
- 0100341    H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  203100          P-B-T-N-F-S           PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+  422420          L-D-C-M-Z-E           FRCLAW, DISCNS, INFLCF, MATER,  RZNORM, EXRHS
+ 0100341        H-G-I-A-O-W-R     HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
   0.4208E+05  0.1000E-02   0.000      0.4000E-03          FN, CKSI, CETA, CPHI
   0.1800      0.1200   1250.      0.0000  0.1000E+05      FKIN,FEXP1,SH1,F2,SH2
   0.1000E-02   10.00                                      MEMDST, MEM_S0
@@ -181,9 +181,9 @@
 %  UNRESTRICTED PLANFORM
 
  3  MODULE   % case      2 for result element  2, contact problem  2
-  203100      P-B-T-N-F-S          PVTIME, BOUND , TANG , NORM , FORCE, STRESS
-  422420      L-D-C-M-Z-E          FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS 
- 0100341    H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  203100          P-B-T-N-F-S           PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+  422420          L-D-C-M-Z-E           FRCLAW, DISCNS, INFLCF, MATER,  RZNORM, EXRHS
+ 0100341        H-G-I-A-O-W-R     HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
   0.1956E+05  0.1000E-02   0.000     -0.3000E-03          FN, CKSI, CETA, CPHI
   0.1800      0.1200   1250.      0.0000  0.1000E+05      FKIN,FEXP1,SH1,F2,SH2
   0.1000E-02   10.00                                      MEMDST, MEM_S0
@@ -322,9 +322,9 @@
 %  UNRESTRICTED PLANFORM
 
  3  MODULE   % case      2 for result element  1, contact problem  2
-  203000      P-B-T-N-F-S          PVTIME, BOUND , TANG , NORM , FORCE, STRESS
-  022020      L-D-C-M-Z-E          FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS 
- 0000341    H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  203000          P-B-T-N-F-S           PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+  022020          L-D-C-M-Z-E           FRCLAW, DISCNS, INFLCF, MATER,  RZNORM, EXRHS
+ 0000341        H-G-I-A-O-W-R     HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
    999    30   30    1    1.0E-04        MAXGS , MAXIN , MAXNR , MAXOUT, EPS
   0.5000E-01  0.1000E-02   0.000      0.4000E-03          PEN, CKSI, CETA, CPHI
   0.3000      0.3000                                      FSTAT, FKIN

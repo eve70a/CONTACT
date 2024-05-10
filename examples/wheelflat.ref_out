@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -12,74 +12,6 @@
  Reading file "S1002_flat.slcw" with profile slices
  obtained 258 slices, th = [  -3.099    ,   3.122    ]
  reading wheel profile "S1002_flat\Wheel_section_208.txt"
- WARNING: profile spline deviates up to  0.101 mm from input profile
- WARNING: profile spline deviates up to  0.103 mm from input profile
- WARNING: profile spline deviates up to  0.109 mm from input profile
- WARNING: profile spline deviates up to  0.113 mm from input profile
- WARNING: profile spline deviates up to  0.117 mm from input profile
- WARNING: profile spline deviates up to  0.119 mm from input profile
- WARNING: profile spline deviates up to  0.128 mm from input profile
- WARNING: profile spline deviates up to  0.124 mm from input profile
- WARNING: profile spline deviates up to  0.126 mm from input profile
- WARNING: profile spline deviates up to  0.133 mm from input profile
- WARNING: profile spline deviates up to  0.139 mm from input profile
- WARNING: profile spline deviates up to  0.141 mm from input profile
- WARNING: profile spline deviates up to  0.144 mm from input profile
- WARNING: profile spline deviates up to  0.155 mm from input profile
- WARNING: profile spline deviates up to  0.153 mm from input profile
- WARNING: profile spline deviates up to  0.159 mm from input profile
- WARNING: profile spline deviates up to  0.165 mm from input profile
- WARNING: profile spline deviates up to  0.168 mm from input profile
- WARNING: profile spline deviates up to  0.178 mm from input profile
- WARNING: profile spline deviates up to  0.178 mm from input profile
- WARNING: profile spline deviates up to  0.183 mm from input profile
- WARNING: profile spline deviates up to  0.187 mm from input profile
- WARNING: profile spline deviates up to  0.194 mm from input profile
- WARNING: profile spline deviates up to  0.196 mm from input profile
- WARNING: profile spline deviates up to  0.196 mm from input profile
- WARNING: profile spline deviates up to  0.205 mm from input profile
- WARNING: profile spline deviates up to  0.207 mm from input profile
- WARNING: profile spline deviates up to  0.211 mm from input profile
- WARNING: profile spline deviates up to  0.207 mm from input profile
- WARNING: profile spline deviates up to  0.222 mm from input profile
- WARNING: profile spline deviates up to  0.217 mm from input profile
- WARNING: profile spline deviates up to  0.215 mm from input profile
- WARNING: profile spline deviates up to  0.213 mm from input profile
- WARNING: profile spline deviates up to  0.219 mm from input profile
- WARNING: profile spline deviates up to  0.222 mm from input profile
- WARNING: profile spline deviates up to  0.217 mm from input profile
- WARNING: profile spline deviates up to  0.218 mm from input profile
- WARNING: profile spline deviates up to  0.214 mm from input profile
- WARNING: profile spline deviates up to  0.217 mm from input profile
- WARNING: profile spline deviates up to  0.211 mm from input profile
- WARNING: profile spline deviates up to  0.206 mm from input profile
- WARNING: profile spline deviates up to  0.205 mm from input profile
- WARNING: profile spline deviates up to  0.198 mm from input profile
- WARNING: profile spline deviates up to  0.195 mm from input profile
- WARNING: profile spline deviates up to  0.195 mm from input profile
- WARNING: profile spline deviates up to  0.188 mm from input profile
- WARNING: profile spline deviates up to  0.181 mm from input profile
- WARNING: profile spline deviates up to  0.178 mm from input profile
- WARNING: profile spline deviates up to  0.174 mm from input profile
- WARNING: profile spline deviates up to  0.173 mm from input profile
- WARNING: profile spline deviates up to  0.163 mm from input profile
- WARNING: profile spline deviates up to  0.162 mm from input profile
- WARNING: profile spline deviates up to  0.161 mm from input profile
- WARNING: profile spline deviates up to  0.152 mm from input profile
- WARNING: profile spline deviates up to  0.147 mm from input profile
- WARNING: profile spline deviates up to  0.145 mm from input profile
- WARNING: profile spline deviates up to  0.141 mm from input profile
- WARNING: profile spline deviates up to  0.134 mm from input profile
- WARNING: profile spline deviates up to  0.133 mm from input profile
- WARNING: profile spline deviates up to  0.127 mm from input profile
- WARNING: profile spline deviates up to  0.127 mm from input profile
- WARNING: profile spline deviates up to  0.120 mm from input profile
- WARNING: profile spline deviates up to  0.114 mm from input profile
- WARNING: profile spline deviates up to  0.113 mm from input profile
- WARNING: profile spline deviates up to  0.105 mm from input profile
- WARNING: profile spline deviates up to  0.104 mm from input profile
- WARNING: profile spline deviates up to  0.100 mm from input profile
- WARNING: profile spline deviates up to  0.100 mm from input profile
  make_2dspline: constructing approximating spline surface
          0, NR,  z_ws, Fz:       0.2647       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.3652   1.122E+05, dFz/dz:   1.673E+06
@@ -137,10 +69,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        7499.       322.0   1.250E+05       7499.       322.0   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0006    759.4624      0.0264      -408.5      -319.3      -6465.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -159,7 +87,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       7499.      -1390.      -7458.       5.543      -4.846
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2000  -3.707E-02      0.1082       1096.
+         1.524      0.2000  -3.707E-02    0.108244       1096.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -254,10 +182,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        7499.       322.0   1.250E+05       7499.       322.0   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0006    759.4624      0.0264      -408.5      -319.3      -6465.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -276,7 +200,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       7499.      -1390.      -7458.       5.543      -4.846
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2000  -3.707E-02      0.1082       1096.
+         1.524      0.2000  -3.707E-02    0.108244       1096.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -370,10 +294,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        7474.       337.8   1.250E+05       7474.       337.8   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0005    759.4624      0.0264      -402.1      -318.9      -6391.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -392,7 +312,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       7474.      -1373.      -7313.       5.543      -4.824
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.1993  -3.660E-02      0.1082       1096.
+         1.524      0.1993  -3.660E-02    0.108244       1096.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -487,10 +407,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        6583.       717.0   1.250E+05       6583.       717.0   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.1727    759.5410      0.0253      -313.5      -309.8      -5875.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -509,7 +425,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       6583.      -953.1      -6648.       5.713      -4.010
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.1755  -2.542E-02      0.1169       1568.
+         1.524      0.1755  -2.542E-02    0.116936       1568.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -609,10 +525,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        7602.       959.4   1.250E+05       7602.       959.4   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -1.2529    759.7407      0.0228      -321.9      -388.9      -5433.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -631,7 +543,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       7602.      -660.8      -6821.       5.653      -4.317
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2027  -1.762E-02      0.1116       1728.
+         1.524      0.2027  -1.762E-02    0.111562       1728.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -730,10 +642,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        8370.       997.7   1.250E+05       8370.       997.7   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -1.3855    759.5326      0.0254      -590.7      -417.6      -8935.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -752,7 +660,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       8370.      -693.6  -1.022E+04       5.600      -5.564
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2232  -1.850E-02      0.1114       1562.
+         1.524      0.2232  -1.850E-02    0.111447       1562.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -850,10 +758,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        9134.       1298.   1.250E+05       9134.       1298.   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.1089    759.6432      0.0240      -498.6      -468.6      -7126.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -872,7 +776,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       9134.      -340.6      -8383.       5.612      -7.393
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2436  -9.082E-03      0.1113       1423.
+         1.524      0.2436  -9.082E-03    0.111326       1423.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -973,10 +877,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        9905.       1826.   1.250E+05       9905.       1826.   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -4.1608    759.9975      0.0197      -460.8      -581.8      -6529.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -995,7 +895,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       9905.       340.7      -7755.       5.848      -8.758
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.525      0.2641   9.084E-03      0.1195       1606.
+         1.525      0.2641   9.084E-03    0.119452       1606.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1095,10 +995,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.240E+04       1887.   1.250E+05   1.240E+04       1887.   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -7.0685    760.7966      0.0116      -295.2      -807.7      -3877.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1117,7 +1013,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05   1.240E+04       746.3      -5034.       5.838      -15.78
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.525      0.3307   1.990E-02      0.1185       1706.
+         1.525      0.3307   1.990E-02    0.118505       1706.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1224,10 +1120,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.651E+04      -439.3   1.250E+05   1.651E+04      -439.3   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-    -10.0276    763.2645      0.0001       599.8      -1550.       4962.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1246,7 +1138,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05   1.651E+04      -573.4       2501.       5.701      -30.00
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.4403  -1.529E-02      0.1149       1524.
+         1.524      0.4403  -1.529E-02    0.114869       1524.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1354,10 +1246,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.900E+04      -6449.   1.250E+05   1.900E+04      -6449.   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -8.5587    769.6457      0.0642       3482.      -5443.   3.119E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1376,7 +1264,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.251E+05   1.900E+04      -3897.   2.545E+04       6.167      -51.02
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.526      0.5062     -0.1038      0.1256       2095.
+         1.526      0.5062     -0.1038    0.125554       2095.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1472,10 +1360,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.867E+04      -4698.   1.250E+05   1.867E+04      -4698.   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -4.4653    772.8282      0.1470       2317.      -6080.   2.110E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1494,7 +1378,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.251E+05   1.867E+04      -297.2   2.009E+04       7.318      -51.64
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.525      0.4974  -7.919E-03      0.1439       2858.
+         1.525      0.4974  -7.919E-03    0.143938       2858.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1565,10 +1449,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.978E+04      -767.2   1.250E+05   1.978E+04      -767.2   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -1.2047    773.4943      0.1686       2047.      -6329.   1.013E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1587,7 +1467,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.249E+05   1.978E+04       4243.       9711.       7.497      -55.09
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.5279      0.1132      0.1456       3001.
+         1.524      0.5279      0.1132    0.145557       3001.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1655,10 +1535,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.961E+04       2406.   1.250E+05   1.961E+04       2406.   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      1.5175    773.3253      0.1629       2055.      -6449.       3961.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1677,7 +1553,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.248E+05   1.961E+04       7235.       1333.       7.526      -55.77
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.522      0.5237      0.1932      0.1496       3097.
+         1.522      0.5237      0.1932    0.149561       3097.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1747,10 +1623,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    2.523E+04       3999.   1.250E+05   2.523E+04       3999.   1.250E+05
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     10.5205    766.5564      0.0162       345.6      -6930.      -2439.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1885,10 +1757,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.510E+04      -1125.   1.250E+05   1.510E+04      -1125.   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      9.9835    760.1042      0.0185      -227.6      -1039.      -1080.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1907,7 +1775,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05   1.510E+04      -2503.      -360.7       6.047      -29.91
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.4026  -6.677E-02      0.1262       1985.
+         1.524      0.4026  -6.677E-02    0.126208       1985.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2021,10 +1889,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.353E+04      -1572.   1.250E+05   1.353E+04      -1572.   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      6.9202    758.9105      0.0342      -93.51      -504.9      -178.5
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2043,7 +1907,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05   1.353E+04      -3548.      -3003.       5.466      -18.30
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.3609  -9.464E-02      0.1083       1563.
+         1.524      0.3609  -9.464E-02    0.108325       1563.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2155,10 +2019,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.044E+04      -1378.   1.250E+05   1.044E+04      -1378.   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.5729    757.8518      0.0520      -403.2      -62.06      -4577.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2177,7 +2037,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05   1.044E+04      -3747.      -5629.       5.592      -10.86
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2784  -9.996E-02      0.1182       1811.
+         1.524      0.2784  -9.996E-02    0.118181       1811.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2288,10 +2148,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        9219.      -954.4   1.250E+05       9219.      -954.4   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      3.0419    757.7742      0.0535      -521.4      -19.89      -6876.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2310,7 +2166,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       9219.      -3348.      -7952.       5.454      -7.669
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2459  -8.931E-02      0.1090       1411.
+         1.524      0.2459  -8.931E-02    0.108979       1411.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2414,10 +2270,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        8297.      -203.0   1.250E+05       8297.      -203.0   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      1.7361    758.2438      0.0450      -552.7      -124.0      -8014.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2436,7 +2288,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       8297.      -2391.      -8549.       5.610      -6.666
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2213  -6.377E-02      0.1101       1517.
+         1.524      0.2213  -6.377E-02    0.110075       1517.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2536,10 +2388,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        8532.      -670.2   1.250E+05       8532.      -670.2   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      1.2685    758.9539      0.0335      -379.0      -234.5      -4839.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2558,7 +2406,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       8532.      -2585.      -5668.       5.573      -5.145
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2276  -6.895E-02      0.1116       1447.
+         1.524      0.2276  -6.895E-02    0.111576       1447.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2658,10 +2506,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        6924.       79.12   1.250E+05       6924.       79.12   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.8835    759.5200      0.0256      -241.9      -290.8      -3811.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2680,7 +2524,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       6924.      -1622.      -4930.       5.781      -4.006
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.1846  -4.327E-02      0.1226       1853.
+         1.524      0.1846  -4.327E-02    0.122552       1853.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2779,10 +2623,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        7728.       260.1   1.250E+05       7728.       260.1   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.1448    759.6705      0.0237      -391.6      -356.6      -5954.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2801,7 +2641,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       7728.      -1392.      -7408.       5.529      -3.953
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2061  -3.713E-02      0.1109       1101.
+         1.524      0.2061  -3.713E-02    0.110913       1101.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2898,10 +2738,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        7491.       286.8   1.250E+05       7491.       286.8   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0706    759.6189      0.0243      -358.6      -338.7      -5612.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2920,7 +2756,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       7491.      -1375.      -6866.       5.555      -4.768
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.1998  -3.666E-02      0.1108       1109.
+         1.524      0.1998  -3.666E-02    0.110773       1109.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3017,10 +2853,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        7504.       314.3   1.250E+05       7504.       314.3   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0103    759.5570      0.0251      -386.0      -332.3      -6080.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3039,7 +2871,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       7504.      -1367.      -7223.       5.544      -4.813
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.2001  -3.645E-02      0.1095       1099.
+         1.524      0.2001  -3.645E-02    0.109544       1099.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3134,10 +2966,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        7497.       322.2   1.250E+05       7497.       322.2   1.250E+05
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0039    759.5021      0.0258      -399.6      -324.8      -6318.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3156,7 +2984,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.250E+05       7497.      -1377.      -7376.       5.543      -4.827
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.524      0.1999  -3.672E-02      0.1087       1096.
+         1.524      0.1999  -3.672E-02    0.108734       1096.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3215,28 +3043,28 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       5.5 | 100.0 |        9.0 | 100.0 |
-|Wheel-rail cases     |      26 |       5.5 | 100.0 |        9.0 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.9 |        0.2 |   1.9 |
-|Geometric analysis   |     127 |       0.2 |   3.7 |        1.4 |  15.7 |
-|Panag.process        |     101 |       5.2 |  93.8 |        6.9 |  76.3 |
-|Algorithm Norm       |     101 |       0.4 |   6.8 |        0.4 |   4.4 |
-|Algorithm Tang       |     101 |       4.8 |  86.9 |        6.5 |  71.9 |
-|Output quantities    |     127 |       0.0 |   0.9 |        0.1 |   1.5 |
+|Total                |       1 |       4.8 | 100.0 |       10.6 | 100.0 |
+|Wheel-rail cases     |      26 |       4.8 | 100.0 |       10.6 | 100.0 |
+|W/r profiles         |       2 |       0.1 |   2.3 |        0.2 |   1.6 |
+|Geometric analysis   |     127 |       0.4 |   7.5 |        1.7 |  15.9 |
+|Panag.process        |     101 |       4.1 |  85.9 |        8.1 |  76.6 |
+|Algorithm Norm       |     101 |       0.2 |   3.6 |        0.5 |   4.5 |
+|Algorithm Tang       |     101 |       3.9 |  82.3 |        7.6 |  72.0 |
+|Output quantities    |     127 |       0.1 |   1.6 |        0.1 |   1.3 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     101 |       0.3 |   5.7 |        0.3 |   3.0 |
-|Tang: StedyGS solver |     101 |       4.7 |  85.2 |        6.4 |  70.9 |
+|Norm: ConjGrd solver |     101 |       0.1 |   2.6 |        0.3 |   3.1 |
+|Tang: StedyGS solver |     101 |       3.9 |  82.0 |        7.5 |  71.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      26 |       0.0 |   0.9 |        0.2 |   1.9 |
-|Contact location     |     127 |       0.2 |   2.8 |        1.2 |  13.2 |
-| - Eval whl spline   |     127 |       0.0 |   0.9 |        0.5 |   5.8 |
-| - Interp sf_whl     |     127 |       0.1 |   1.4 |        0.5 |   5.3 |
-| - Eval rail spline  |     127 |       0.0 |   0.0 |        0.0 |   0.4 |
-| - Other calc.       |     254 |       0.0 |   0.0 |        0.1 |   0.6 |
-| - Locate interpen   |     127 |       0.0 |   0.3 |        0.1 |   0.6 |
-|Undeformed distance  |     101 |       0.0 |   0.9 |        0.2 |   2.3 |
-| - Interp whl_srfc   |     101 |       0.0 |   0.3 |        0.0 |   0.5 |
-|Influence coeffic.   |     101 |       0.0 |   0.3 |        0.1 |   1.4 |
-|Initial state/estim. |     101 |       0.0 |   0.3 |        0.0 |   0.0 |
+|Reading input-file   |      26 |       0.1 |   2.3 |        0.2 |   1.6 |
+|Contact location     |     127 |       0.2 |   5.2 |        1.3 |  11.8 |
+| - Eval whl spline   |     127 |       0.0 |   1.0 |        0.6 |   5.3 |
+| - Interp sf_whl     |     127 |       0.1 |   3.0 |        0.5 |   4.8 |
+| - Eval rail spline  |     127 |       0.0 |   0.0 |        0.0 |   0.1 |
+| - Other calc.       |     254 |       0.0 |   1.0 |        0.1 |   0.8 |
+| - Locate interpen   |     127 |       0.0 |   0.3 |        0.1 |   0.5 |
+|Undeformed distance  |     101 |       0.1 |   2.3 |        0.4 |   3.9 |
+| - Interp whl_srfc   |     101 |       0.0 |   0.7 |        0.1 |   0.9 |
+|Influence coeffic.   |     101 |       0.1 |   2.3 |        0.2 |   1.8 |
+|Initial state/estim. |     101 |       0.0 |   0.0 |        0.0 |   0.1 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

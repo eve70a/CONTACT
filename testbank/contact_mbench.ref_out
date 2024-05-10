@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -12,7 +12,7 @@
  reading wheel profile "profiles\MBench_S1002_v3.prw"
  **                cntc_calculate1(  1): calculating...
 
- Case      1 for w/r contact on result element  1
+ Case 1 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1995   1.151E+04, dFz/dz:   9.939E+05
          2, NR,  z_ws, Fz:       0.1980       9884., dFz/dz:   1.070E+06
@@ -63,10 +63,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       0.2771      -36.24   1.000E+04      0.2771      -36.24   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0117   -751.4397      0.1380      0.1276      -16.68       4604.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -95,7 +91,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case      1 for w/r contact on result element  2
+ Case 1 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1995   1.151E+04, dFz/dz:   9.939E+05
          2, NR,  z_ws, Fz:       0.1980       9884., dFz/dz:   1.070E+06
@@ -146,10 +142,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       0.2771       36.24   1.000E+04      0.2771       36.24   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.0117    751.4397      0.1380     -0.1276      -16.68      -4604.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -178,7 +170,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case      2 for w/r contact on result element  1
+ Case 2 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.1759       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1947   1.014E+04, dFz/dz:   8.105E+05
          2, NR,  z_ws, Fz:       0.1945       9999., dFz/dz:   8.170E+05
@@ -228,10 +220,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        887.1      -2582.   1.000E+04       884.0      -2583.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.8664   -754.2648      0.0656       107.3      -305.3       1219.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -260,7 +248,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case      2 for w/r contact on result element  2
+ Case 2 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1997   1.632E+04, dFz/dz:   9.634E+05
          2, NR,  z_ws, Fz:       0.1931       9297., dFz/dz:   1.071E+06
@@ -312,10 +300,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -880.0      -2015.      10000.      -882.4      -2014.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.7756    744.7416      0.4162       285.1       675.5      -3235.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -344,7 +328,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case      3 for w/r contact on result element  1
+ Case 3 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.1645       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1840   1.006E+04, dFz/dz:   7.722E+05
          2, NR,  z_ws, Fz:       0.1840      10000., dFz/dz:   7.756E+05
@@ -394,10 +378,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        829.2      -3070.      10000.       821.8      -3072.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      1.7873   -755.2849      0.0460       26.09      -89.91       316.6
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -426,7 +406,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case      3 for w/r contact on result element  2
+ Case 3 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.1593       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1848   1.059E+04, dFz/dz:   6.241E+05
          2, NR,  z_ws, Fz:       0.1839       9964., dFz/dz:   6.614E+05
@@ -477,10 +457,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -814.3      -2142.   1.000E+04      -819.4      -2140.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -1.6958    741.8109      0.5876       5.960       38.76      -68.25
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -509,7 +485,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case      4 for w/r contact on result element  1
+ Case 4 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.1494       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1695   1.004E+04, dFz/dz:   7.483E+05
          2, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.474E+05
@@ -558,10 +534,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        641.1      -3095.   1.000E+04       629.9      -3098.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      2.6970   -756.0026      0.0343       11.35      -52.18       177.8
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -590,7 +562,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case      4 for w/r contact on result element  2
+ Case 4 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.1444       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1698   1.023E+04, dFz/dz:   6.053E+05
          2, NR,  z_ws, Fz:       0.1694       9999., dFz/dz:   6.077E+05
@@ -640,10 +612,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -619.8      -2131.      10000.      -627.5      -2129.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.5359    741.3132      0.6237       1.911       18.64      -35.75
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -672,7 +640,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case      5 for w/r contact on result element  1
+ Case 5 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.1324       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1529       9961., dFz/dz:   7.291E+05
          2, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.322E+05
@@ -722,10 +690,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        546.3      -3096.   1.000E+04       531.4      -3100.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      3.6083   -756.5382      0.0267       6.348      -34.61       116.6
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -754,7 +718,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case      5 for w/r contact on result element  2
+ Case 5 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.1280       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1532   1.021E+04, dFz/dz:   6.072E+05
          2, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.053E+05
@@ -804,10 +768,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -517.3      -2095.   1.000E+04      -527.3      -2094.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -3.3668    740.9042      0.6557       1.437       12.63      -29.17
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -836,7 +796,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case      6 for w/r contact on result element  1
+ Case 6 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.1138       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1347   1.002E+04, dFz/dz:   7.168E+05
          2, NR,  z_ws, Fz:       0.1347      10000., dFz/dz:   7.183E+05
@@ -885,10 +845,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        492.1      -3091.      10000.       473.5      -3095.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.5213   -756.9482      0.0215       4.109      -24.96       83.77
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -917,7 +873,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case      6 for w/r contact on result element  2
+ Case 6 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.1097       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1348   1.022E+04, dFz/dz:   6.117E+05
          2, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.084E+05
@@ -967,10 +923,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -456.2      -2047.   1.000E+04      -468.5      -2046.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -4.1882    740.4689      0.6920      0.9063       10.08      -27.10
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -999,7 +951,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case      7 for w/r contact on result element  1
+ Case 7 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.0932       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1145   1.002E+04, dFz/dz:   7.051E+05
          2, NR,  z_ws, Fz:       0.1145   1.000E+04, dFz/dz:   7.044E+05
@@ -1048,10 +1000,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        460.5      -3084.   1.000E+04       438.2      -3089.       9999.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      5.4361   -757.2640      0.0179       2.931      -19.04       63.85
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1080,7 +1028,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case      7 for w/r contact on result element  2
+ Case 7 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.0898       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1147   1.024E+04, dFz/dz:   6.172E+05
          2, NR,  z_ws, Fz:       0.1143      10000., dFz/dz:   6.172E+05
@@ -1129,10 +1077,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -417.5      -1988.      10000.      -431.8      -1987.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -4.9983    739.9795      0.7358       1.155       8.877      -26.99
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1161,7 +1105,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case      8 for w/r contact on result element  1
+ Case 8 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.0708       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0924   1.001E+04, dFz/dz:   6.952E+05
          2, NR,  z_ws, Fz:       0.0924      10000., dFz/dz:   6.965E+05
@@ -1210,10 +1154,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        443.1      -3078.      10000.       417.2      -3084.       9999.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      6.3521   -757.5068      0.0153       2.245      -15.14       50.80
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1242,7 +1182,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case      8 for w/r contact on result element  2
+ Case 8 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.0678       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0925   1.029E+04, dFz/dz:   6.252E+05
          2, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.233E+05
@@ -1292,10 +1232,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -393.1      -1918.   1.000E+04      -409.2      -1917.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -5.7953    739.4199      0.7895       1.146       8.447      -28.61
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1324,7 +1260,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case      9 for w/r contact on result element  1
+ Case 9 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.0462       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0680       9961., dFz/dz:   6.854E+05
          2, NR,  z_ws, Fz:       0.0680   1.000E+04, dFz/dz:   6.862E+05
@@ -1373,10 +1309,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        436.6      -3073.   1.000E+04       407.0      -3079.       9999.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      7.2692   -757.6900      0.0135       1.813      -12.38       41.64
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1405,7 +1337,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case      9 for w/r contact on result element  2
+ Case 9 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.0437       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0680   1.027E+04, dFz/dz:   6.346E+05
          2, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.311E+05
@@ -1455,10 +1387,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -379.6      -1833.   1.000E+04      -397.2      -1832.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -6.5747    738.7560      0.8584       1.240       8.592      -32.20
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1487,7 +1415,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     10 for w/r contact on result element  1
+ Case 10 for w/r contact on result element 1
          0, NR,  z_ws, Fz:       0.0189       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0410   1.001E+04, dFz/dz:   6.788E+05
          2, NR,  z_ws, Fz:       0.0410      10000., dFz/dz:   6.799E+05
@@ -1536,10 +1464,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        440.6      -3067.      10000.       407.4      -3075.       9999.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      8.1873   -757.8237      0.0123       1.536      -10.36       34.95
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1568,7 +1492,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     10 for w/r contact on result element  2
+ Case 10 for w/r contact on result element 2
          0, NR,  z_ws, Fz:       0.0171       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0409   1.036E+04, dFz/dz:   6.523E+05
          2, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.487E+05
@@ -1618,10 +1542,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -376.8      -1723.   1.000E+04      -395.4      -1722.       9999.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -7.3289    737.9185      0.9533       1.525       9.551      -40.02
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1650,7 +1570,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     11 for w/r contact on result element  1
+ Case 11 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -0.0205       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0018       9961., dFz/dz:   6.707E+05
          2, NR,  z_ws, Fz:       0.0019   1.000E+04, dFz/dz:   6.706E+05
@@ -1699,10 +1619,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        837.8      -2977.   1.000E+04       802.0      -2990.       9999.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      9.1065   -757.9189      0.0114       2.408      -8.540       28.75
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1731,7 +1647,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     11 for w/r contact on result element  2
+ Case 11 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.0023       7420., dFz/dz:   4.501E+05
          2, NR,  z_ws, Fz:       0.0034   1.139E+04, dFz/dz:   6.932E+05
@@ -1783,10 +1699,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -763.3       131.6      10000.      -761.7       137.2   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -7.0519    727.9412      2.7850       130.2      -9.804      -1711.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1815,7 +1727,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     12 for w/r contact on result element  1
+ Case 12 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -0.1091       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.0858   1.048E+04, dFz/dz:   6.751E+05
          2, NR,  z_ws, Fz:      -0.0865   1.000E+04, dFz/dz:   6.693E+05
@@ -1865,10 +1777,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        934.1      -2944.   1.000E+04       895.1      -2961.       9999.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     10.0267   -757.9972      0.0108       2.308      -8.641       24.31
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1897,7 +1805,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     12 for w/r contact on result element  2
+ Case 12 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -0.1176       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.0910       7944., dFz/dz:   4.487E+05
          2, NR,  z_ws, Fz:      -0.0864   1.009E+04, dFz/dz:   4.684E+05
@@ -1948,10 +1856,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -850.2       572.9      10000.      -842.7       579.3   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -7.3779    726.1267      3.2972       4.091       8.681      -54.40
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1980,7 +1884,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     13 for w/r contact on result element  1
+ Case 13 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -0.2185       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.1949   1.052E+04, dFz/dz:   6.695E+05
          2, NR,  z_ws, Fz:      -0.1957   1.000E+04, dFz/dz:   6.645E+05
@@ -2030,10 +1934,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        973.1      -2929.   1.000E+04       930.8      -2949.       9998.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     10.9471   -758.0421      0.0104       2.111      -9.014       20.91
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2062,7 +1962,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     13 for w/r contact on result element  2
+ Case 13 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -0.2259       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.2022       7095., dFz/dz:   4.498E+05
          2, NR,  z_ws, Fz:      -0.1958   1.017E+04, dFz/dz:   4.761E+05
@@ -2113,10 +2013,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -880.0       1401.      10000.      -859.8       1408.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -7.4129    725.1701      3.6736       5.081      -12.16      -57.17
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2145,7 +2041,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     14 for w/r contact on result element  1
+ Case 14 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -3.0696       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -3.0419   1.266E+04, dFz/dz:   6.847E+05
          2, NR,  z_ws, Fz:      -3.0458   1.010E+04, dFz/dz:   6.600E+05
@@ -2196,10 +2092,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2260.      -2043.   1.000E+04       2227.      -2121.       9991.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     11.8693   -758.6418      0.0060       2.063      -225.6      -32.99
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2228,7 +2120,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     14 for w/r contact on result element  2
+ Case 14 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -3.1382       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -3.0841       4586., dFz/dz:   1.273E+05
          2, NR,  z_ws, Fz:      -3.0571       8358., dFz/dz:   1.396E+05
@@ -2280,10 +2172,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -1987.   1.248E+04      10000.      -1792.   1.247E+04   1.005E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      5.7852    718.4776     10.4011       65.28      -912.8       298.8
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2312,7 +2200,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     15 for w/r contact on result element  1
+ Case 15 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -4.6045       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -4.5757   1.298E+04, dFz/dz:   6.782E+05
          2, NR,  z_ws, Fz:      -4.5801   1.012E+04, dFz/dz:   6.519E+05
@@ -2363,10 +2251,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2327.      -1964.   1.000E+04       2292.      -2067.       9987.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     12.7868   -758.6240      0.0061       2.085      -277.8      -42.62
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2395,7 +2279,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     15 for w/r contact on result element  2
+ Case 15 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -4.6549       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -4.5981       6739., dFz/dz:   1.781E+05
          2, NR,  z_ws, Fz:      -4.5798   1.022E+04, dFz/dz:   1.901E+05
@@ -2446,10 +2330,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2079.   1.049E+04      10000.      -1903.   1.046E+04   1.007E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      2.3138    719.0298      9.2790       74.99      -1058.       352.1
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2478,7 +2358,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     16 for w/r contact on result element  1
+ Case 16 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -5.5537       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -5.5246   1.301E+04, dFz/dz:   6.715E+05
          2, NR,  z_ws, Fz:      -5.5291   1.012E+04, dFz/dz:   6.452E+05
@@ -2529,10 +2409,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2327.      -1969.   1.000E+04       2290.      -2087.       9985.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     13.7020   -758.4584      0.0072       2.034      -297.2      -46.93
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2561,7 +2437,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     16 for w/r contact on result element  2
+ Case 16 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -5.5956       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -5.5417       7445., dFz/dz:   2.069E+05
          2, NR,  z_ws, Fz:      -5.5293   1.012E+04, dFz/dz:   2.166E+05
@@ -2612,10 +2488,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2086.       9344.      10000.      -1919.       9303.   1.007E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.4512    719.4491      8.5747       73.09      -1067.       340.3
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2644,7 +2516,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     17 for w/r contact on result element  1
+ Case 17 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -6.2851       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -6.2559   1.298E+04, dFz/dz:   6.657E+05
          2, NR,  z_ws, Fz:      -6.2604   1.012E+04, dFz/dz:   6.394E+05
@@ -2695,10 +2567,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2310.      -1998.   1.000E+04       2270.      -2128.       9982.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     14.6159   -758.2352      0.0088       1.971      -304.7      -49.47
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2727,7 +2595,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     17 for w/r contact on result element  2
+ Case 17 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -6.3220       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -6.2709       7793., dFz/dz:   2.284E+05
          2, NR,  z_ws, Fz:      -6.2612   1.009E+04, dFz/dz:   2.372E+05
@@ -2778,10 +2646,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2070.       8493.      10000.      -1909.       8445.   1.007E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.9637    719.8180      8.0282       67.99      -1032.       308.6
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2810,7 +2674,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     18 for w/r contact on result element  1
+ Case 18 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -6.8925       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -6.8631   1.296E+04, dFz/dz:   6.607E+05
          2, NR,  z_ws, Fz:      -6.8675   1.012E+04, dFz/dz:   6.347E+05
@@ -2861,10 +2725,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2285.      -2037.   1.000E+04       2242.      -2177.       9980.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     15.5284   -757.9798      0.0109       1.903      -306.3      -51.07
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2893,7 +2753,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     18 for w/r contact on result element  2
+ Case 18 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -6.9252       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -6.8762       8079., dFz/dz:   2.474E+05
          2, NR,  z_ws, Fz:      -6.8685   1.006E+04, dFz/dz:   2.546E+05
@@ -2944,10 +2804,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2044.       7801.   1.000E+04      -1887.       7747.   1.007E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.1788    720.1578      7.5728       62.63      -976.2       268.5
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2976,7 +2832,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     19 for w/r contact on result element  1
+ Case 19 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -7.4161       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -7.3866   1.291E+04, dFz/dz:   6.562E+05
          2, NR,  z_ws, Fz:      -7.3911   1.011E+04, dFz/dz:   6.309E+05
@@ -3027,10 +2883,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2257.      -2080.   1.000E+04       2209.      -2229.       9978.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     16.4400   -757.7031      0.0134       1.834      -304.0      -52.00
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3059,7 +2911,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     19 for w/r contact on result element  2
+ Case 19 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -7.4455       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -7.3980       8346., dFz/dz:   2.635E+05
          2, NR,  z_ws, Fz:      -7.3917   1.004E+04, dFz/dz:   2.704E+05
@@ -3110,10 +2962,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2014.       7213.      10000.      -1860.       7153.   1.007E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -3.2856    720.4778      7.1791       57.00      -910.5       226.4
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3142,7 +2990,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     20 for w/r contact on result element  1
+ Case 20 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -7.8778       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -7.8482   1.288E+04, dFz/dz:   6.526E+05
          2, NR,  z_ws, Fz:      -7.8526   1.011E+04, dFz/dz:   6.279E+05
@@ -3193,10 +3041,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2227.      -2125.   1.000E+04       2175.      -2282.       9977.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     17.3504   -757.4113      0.0163       1.767      -299.3      -52.42
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3225,7 +3069,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     20 for w/r contact on result element  2
+ Case 20 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -7.9046       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -7.8583       8588., dFz/dz:   2.787E+05
          2, NR,  z_ws, Fz:      -7.8533   1.003E+04, dFz/dz:   2.842E+05
@@ -3276,10 +3120,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -1981.       6697.   1.000E+04      -1830.       6633.   1.007E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -4.3299    720.7830      6.8310       51.63      -840.1       185.1
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3308,7 +3148,7 @@
  **                cntc_calculate1(  2): done...
  **                cntc_calculate1(  1): calculating...
 
- Case     21 for w/r contact on result element  1
+ Case 21 for w/r contact on result element 1
          0, NR,  z_ws, Fz:      -8.2913       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -8.2617   1.285E+04, dFz/dz:   6.493E+05
          2, NR,  z_ws, Fz:      -8.2661   1.011E+04, dFz/dz:   6.249E+05
@@ -3359,10 +3199,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2196.      -2169.   1.000E+04       2141.      -2334.       9975.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     18.2599   -757.1077      0.0196       1.702      -293.0      -52.46
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3391,7 +3227,7 @@
  **                cntc_calculate1(  1): done...
  **                cntc_calculate1(  2): calculating...
 
- Case     21 for w/r contact on result element  2
+ Case 21 for w/r contact on result element 2
          0, NR,  z_ws, Fz:      -8.3159       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -8.2710       8745., dFz/dz:   2.918E+05
          2, NR,  z_ws, Fz:      -8.2667   1.002E+04, dFz/dz:   2.974E+05
@@ -3442,10 +3278,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -1947.       6235.   1.000E+04      -1800.       6167.   1.007E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -5.3342    721.0765      6.5185       46.67      -768.0       146.0
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3478,19 +3310,19 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       2.3 | 100.0 |        3.1 | 100.0 |
-|Wheel-rail cases     |      42 |       2.2 |  96.0 |        2.9 |  95.5 |
-|Subsurface points    |       1 |       0.1 |   3.3 |        0.1 |   3.9 |
-|W/r profiles         |       4 |       0.0 |   0.0 |        0.0 |   0.6 |
-|Geometric analysis   |     186 |       0.1 |   5.3 |        0.1 |   4.8 |
-|Panag.process        |     144 |       2.0 |  84.0 |        2.6 |  85.3 |
-|Algorithm Norm       |     144 |       0.2 |   8.7 |        0.4 |  13.6 |
-|Algorithm Tang       |     144 |       1.8 |  75.3 |        2.2 |  71.3 |
-|Output quantities    |     186 |       0.0 |   2.0 |        0.1 |   2.1 |
+|Total                |       1 |       3.0 | 100.0 |        4.3 | 100.0 |
+|Wheel-rail cases     |      42 |       3.0 |  96.9 |        4.1 |  95.3 |
+|Subsurface points    |       1 |       0.1 |   2.6 |        0.2 |   3.8 |
+|W/r profiles         |       4 |       0.0 |   0.0 |        0.0 |   0.4 |
+|Geometric analysis   |     186 |       0.2 |   5.1 |        0.3 |   5.8 |
+|Panag.process        |     144 |       2.6 |  84.1 |        3.6 |  82.9 |
+|Algorithm Norm       |     144 |       0.5 |  14.9 |        0.5 |  11.6 |
+|Algorithm Tang       |     144 |       2.1 |  69.2 |        3.1 |  71.3 |
+|Output quantities    |     186 |       0.1 |   4.1 |        0.1 |   1.8 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     144 |       0.2 |   6.7 |        0.3 |  10.3 |
-|Tang: StedyGS solver |     144 |       1.8 |  74.7 |        2.1 |  68.8 |
+|Norm: ConjGrd solver |     144 |       0.3 |  11.3 |        0.4 |   8.5 |
+|Tang: StedyGS solver |     144 |       2.1 |  68.2 |        3.1 |  70.6 |
 |------------------------------------------------------------------------|
-|Result element  1    |      21 |       1.0 |  43.3 |        1.4 |  45.5 |
-|Result element  2    |      22 |       1.3 |  56.0 |        1.7 |  53.9 |
+|Result element  1    |      21 |       1.3 |  44.1 |        2.0 |  46.9 |
+|Result element  2    |      22 |       1.7 |  55.4 |        2.3 |  52.2 |
 |------------------------------------------------------------------------|

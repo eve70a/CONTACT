@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -37,7 +37,7 @@
      FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
          1.000       0.000       0.000       0.000   4.040E-04       0.000
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         1.000       0.000       0.000      0.8080       1.000
+         1.000       0.000       0.000    0.807984       1.000
 
  THE SENSITIVITIES.
  A ZERO MEANS THAT IT HAS NOT BEEN CALCULATED.
@@ -131,7 +131,7 @@
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
          1.000      0.9990       0.000  -1.998E-04   8.856E-04       0.000
      FN/G       CREEP X     FY/FSTAT/FN  APPROACH     PMAX    
-         1.000     -0.6430       0.000      0.8080       1.000
+         1.000     -0.6430       0.000    0.807984       1.000
 
  THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
  A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
@@ -193,12 +193,12 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.2 | 100.0 |        0.3 | 100.0 |
-|Non-Hertzian cases   |       2 |       0.2 | 100.0 |        0.3 | 100.0 |
-|Subsurface points    |       2 |       0.0 |   0.0 |        0.0 |   4.2 |
-|Panag.process        |       2 |       0.0 |   0.0 |        0.0 |   4.9 |
+|Total                |       1 |       0.2 | 100.0 |        0.5 | 100.0 |
+|Non-Hertzian cases   |       2 |       0.2 | 100.0 |        0.5 | 100.0 |
+|Subsurface points    |       2 |       0.0 |   8.3 |        0.0 |   6.3 |
+|Panag.process        |       2 |       0.0 |   0.0 |        0.0 |   0.9 |
 |Algorithm Norm       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   4.9 |
+|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   0.9 |
 |Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
@@ -207,7 +207,7 @@ Performance timers:
 |Reading input-file   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       2 |       0.0 |   0.0 |        0.0 |   1.0 |
-|Subsurf writing      |       4 |       0.2 | 100.0 |        0.3 |  89.9 |
+|Writing output-files |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurf writing      |       4 |       0.2 |  91.7 |        0.4 |  92.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -71,10 +71,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        52.56      -2999.      10000.      -52.15      -2999.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-    -26.1751    749.5431      0.0000   8.449E-02      -4.821       16.07
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -191,10 +187,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        50.30      -2871.      10000.      -49.93      -2871.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-    -26.1741    749.5431      0.0000  -8.630E-02       4.926      -17.16
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -313,10 +305,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        50.30      -2871.      10000.      -49.93      -2871.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-    -26.1741    749.5431      0.0000  -8.630E-02       4.926      -17.16
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -380,21 +368,21 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.0 |   0.0 |        0.1 | 100.0 |
-|Wheel-rail cases     |       3 |       0.0 |   0.0 |        0.1 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |  15.5 |
-|Geometric analysis   |       9 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Panag.process        |       6 |       0.0 |   0.0 |        0.0 |  41.7 |
-|Algorithm Norm       |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       6 |       0.0 |   0.0 |        0.0 |  41.7 |
-|Output quantities    |       9 |       0.0 |   0.0 |        0.0 |   1.0 |
+|Total                |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
+|Wheel-rail cases     |       3 |       0.0 | 100.0 |        0.1 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   6.5 |
+|Geometric analysis   |       9 |       0.0 |   0.0 |        0.0 |  28.0 |
+|Panag.process        |       6 |       0.0 | 100.0 |        0.0 |  40.2 |
+|Algorithm Norm       |       6 |       0.0 |   0.0 |        0.0 |   4.7 |
+|Algorithm Tang       |       6 |       0.0 | 100.0 |        0.0 |  35.5 |
+|Output quantities    |       9 |       0.0 |   0.0 |        0.0 |   8.4 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      24 |       0.0 |   0.0 |        0.0 |  26.2 |
+|Norm: ConjGrd solver |       6 |       0.0 |   0.0 |        0.0 |   2.8 |
+|Tang: StedyGS solver |      24 |       0.0 | 100.0 |        0.0 |  15.0 |
 |Temperature calc.    |      28 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       3 |       0.0 |   0.0 |        0.0 |  15.5 |
-|Contact location     |       9 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       3 |       0.0 |   0.0 |        0.0 |   6.5 |
+|Contact location     |       9 |       0.0 |   0.0 |        0.0 |  28.0 |
 |Undeformed distance  |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |

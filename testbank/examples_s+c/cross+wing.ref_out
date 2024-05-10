@@ -2,14 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Reading file "../profiles/cross+wing.slcs" with profile slices
- obtained  21 slices, s = [   0.000    ,   600.0    ]
+ Reading file "..\profiles\cross+wing.slcs" with profile slices
+ obtained  21 slices, u = [   0.000    ,   600.0    ]
  feature information for  21 slices with  10 features per slice
    1     0.00    35.00    41.63    51.63    58.26    93.26   135.93   170.93   178.52   233.52
    2     0.00    35.00    41.63    53.63    60.26    95.26   137.93   172.93   180.52   235.52
@@ -85,10 +85,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        989.9       14.22   1.010E+04       989.9       14.22   1.010E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0024    763.6115      2.2482      -8.352      -21.27      -84.71
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -175,21 +171,21 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.4 | 100.0 |        0.4 | 100.0 |
-|Wheel-rail cases     |       1 |       0.4 | 100.0 |        0.4 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   8.3 |        0.1 |  17.6 |
-|Geometric analysis   |       1 |       0.1 |  37.5 |        0.1 |  31.7 |
-|Panag.process        |       1 |       0.2 |  54.2 |        0.2 |  45.7 |
-|Algorithm Norm       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       1 |       0.2 |  54.2 |        0.2 |  45.7 |
-|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   1.4 |
+|Total                |       1 |       0.3 | 100.0 |        0.6 | 100.0 |
+|Wheel-rail cases     |       1 |       0.3 | 100.0 |        0.6 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   4.8 |        0.2 |  41.0 |
+|Geometric analysis   |       1 |       0.1 |  33.3 |        0.1 |  21.5 |
+|Panag.process        |       1 |       0.2 |  61.9 |        0.2 |  33.4 |
+|Algorithm Norm       |       1 |       0.0 |  14.3 |        0.0 |   2.8 |
+|Algorithm Tang       |       1 |       0.2 |  47.6 |        0.2 |  30.6 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       1 |       0.2 |  54.2 |        0.2 |  45.7 |
+|Norm: ConjGrd solver |       1 |       0.0 |  14.3 |        0.0 |   2.8 |
+|Tang: StedyGS solver |       1 |       0.2 |  47.6 |        0.2 |  30.6 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       1 |       0.0 |   8.3 |        0.1 |  17.9 |
-|Contact location     |       1 |       0.1 |  33.3 |        0.1 |  26.9 |
-|Undeformed distance  |       1 |       0.0 |   4.2 |        0.0 |   4.8 |
+|Reading input-file   |       1 |       0.0 |   4.8 |        0.2 |  41.0 |
+|Contact location     |       1 |       0.1 |  33.3 |        0.1 |  20.2 |
+|Undeformed distance  |       1 |       0.0 |   0.0 |        0.0 |   1.2 |
 | - Interp whl_srfc   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       1 |       0.0 |   0.0 |        0.0 |   0.0 |

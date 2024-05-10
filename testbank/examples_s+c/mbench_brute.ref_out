@@ -2,14 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Reading file "../profiles/uk_crossing.slcs" with profile slices
- obtained 148 slices, s = [ -0.7500E+05,  0.5000E+05]
+ Reading file "..\profiles\uk_crossing.slcs" with profile slices
+ obtained 148 slices, u = [ -0.7500E+05,  0.5000E+05]
  reading rail  profile "..\profiles\uk_crossing\Crossing_1.txt"
  make_2dspline: constructing interpolating spline surface
  reading wheel profile "..\profiles\MBench_S1002_v3.prw"
@@ -67,10 +67,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2758.       1235.      10000.       2758.       1235.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -3.2531    788.5731     -1.3968      -221.5      -535.9      -749.2
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -155,10 +151,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2757.       1235.      10000.       2757.       1235.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -3.2531    788.5731     -1.3968      -221.5      -535.8      -749.4
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -241,10 +233,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2757.       1235.      10000.       2757.       1235.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -3.2531    788.5731     -1.3968      -221.5      -535.7      -749.7
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -329,10 +317,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2756.       1235.      10000.       2756.       1235.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -3.2531    788.5731     -1.3968      -221.5      -535.6      -749.9
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -416,10 +400,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2721.       1242.   1.000E+04       2721.       1242.   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -3.2131    788.2352     -1.3589      -756.1      -773.6      -2726.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -542,10 +522,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2594.       1265.   1.000E+04       2594.       1265.   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -3.0285    786.9842     -1.0621      -2579.      -1681.      -9891.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -671,10 +647,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2453.       1288.   1.000E+04       2453.       1288.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.7034    785.4562     -0.2547      -4545.      -2852.  -1.847E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -799,10 +771,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2296.       1316.   1.000E+04       2296.       1316.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.1135    783.6867      1.7265      -6556.      -4361.  -2.848E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -926,10 +894,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2095.       1353.   1.000E+04       2095.       1353.   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.0351    782.6452     11.3776      -8180.      -6573.  -3.888E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1056,10 +1020,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        1873.       1391.   1.000E+04       1873.       1391.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      2.3476    781.9727     24.7689      -9225.      -8607.  -4.902E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1185,10 +1145,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        1665.       1427.   1.000E+04       1665.       1427.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.2960    781.2829     38.4710      -9831.  -1.026E+04  -5.880E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1312,10 +1268,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        1432.       1468.   1.000E+04       1432.       1468.   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.7182    779.6430     45.9431      -9715.  -1.134E+04  -6.762E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1441,10 +1393,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        1196.       1506.   1.000E+04       1196.       1506.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.3277    777.3168     49.4654      -9036.  -1.224E+04  -7.543E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -1567,10 +1515,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        961.8       1546.   1.000E+04       961.8       1546.   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      3.6789    774.7404     51.8438      -7907.  -1.318E+04  -8.214E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1695,10 +1639,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        708.6       1586.   1.000E+04       708.6       1586.   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      2.7767    771.9634     53.4922      -6174.  -1.401E+04  -8.710E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1825,10 +1765,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        465.3       1625.   1.000E+04       465.3       1625.   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      1.8267    769.0380     54.5241      -4226.  -1.482E+04  -9.082E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1957,10 +1893,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        208.0       1664.   1.000E+04       208.0       1664.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      0.7590    765.9575     54.9753      -1926.  -1.542E+04  -9.263E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2087,10 +2019,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -42.30       1701.   1.000E+04      -42.30       1701.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -0.2687    762.7837     54.9410       393.5  -1.582E+04  -9.301E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2213,10 +2141,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -302.3       1737.      10000.      -302.3       1737.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -1.2970    759.5163     54.3226       2761.  -1.585E+04  -9.136E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2343,10 +2267,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -555.1       1772.   1.000E+04      -555.1       1772.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.1764    756.1143     52.8631       4903.  -1.557E+04  -8.834E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2465,10 +2385,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -813.1       1806.      10000.      -813.1       1806.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.8642    752.5286     50.0690       6780.  -1.481E+04  -8.343E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2601,10 +2517,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -1070.       1839.   1.000E+04      -1070.       1839.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     -2.2726    747.0657     37.0319       8233.  -1.375E+04  -7.705E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -2735,10 +2647,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -1326.       1869.   1.000E+04      -1326.       1869.   1.000E+04
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      1.3165    738.2892      6.3080       9151.  -1.282E+04  -6.902E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2871,10 +2779,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -1579.       1897.   1.000E+04      -1579.       1897.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      2.1164    734.7382      3.4952       9433.  -1.133E+04  -5.976E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3006,10 +2910,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -1823.       1922.   1.000E+04      -1823.       1922.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      2.6425    731.7913      3.0476       9032.      -9571.  -4.954E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3140,10 +3040,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2054.       1942.   1.000E+04      -2054.       1942.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      3.0989    729.1459      3.0566       7969.      -7658.  -3.878E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3273,10 +3169,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2266.       1961.   1.000E+04      -2266.       1961.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      3.5339    726.7743      3.0587       6352.      -5722.  -2.798E+04
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3402,10 +3294,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2463.       1976.      10000.      -2463.       1976.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      3.9524    724.6308      3.0588       4269.      -3788.  -1.726E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -3534,10 +3422,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2636.       1988.      10000.      -2636.       1988.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.3078    722.8105      3.1474       1953.      -1980.      -7308.
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3664,10 +3548,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2742.       1997.   1.000E+04      -2742.       1997.   1.000E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.4772    721.7446      3.4045       281.3      -782.3      -910.4
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3790,10 +3670,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2745.       2004.      10000.      -2745.       2004.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.4763    721.7160      3.4139       239.0      -756.2      -753.9
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -3880,10 +3756,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2746.       2010.      10000.      -2746.       2010.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.4718    721.7123      3.4151       239.2      -759.8      -753.5
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -3972,10 +3844,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2747.       2017.      10000.      -2747.       2017.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.4672    721.7085      3.4164       239.4      -763.3      -753.1
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -4062,10 +3930,6 @@
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2747.       2023.      10000.      -2747.       2023.      10000.
-
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.4625    721.7047      3.4176       239.6      -766.8      -752.8
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -4154,10 +4018,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2748.       2029.      10000.      -2748.       2029.      10000.
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-      4.4579    721.7009      3.4189       239.8      -770.3      -752.4
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -4209,26 +4069,26 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      11.8 | 100.0 |       20.4 | 100.0 |
-|Wheel-rail cases     |      35 |      11.8 | 100.0 |       20.4 | 100.0 |
-|W/r profiles         |       2 |       0.1 |   1.1 |        0.2 |   0.8 |
-|Geometric analysis   |     187 |      11.2 |  94.7 |       19.1 |  93.4 |
-|Panag.process        |     271 |       0.4 |   3.0 |        0.7 |   3.2 |
-|Algorithm Norm       |     271 |       0.1 |   1.2 |        0.2 |   1.2 |
-|Algorithm Tang       |     271 |       0.2 |   1.9 |        0.4 |   1.9 |
-|Output quantities    |     306 |       0.0 |   0.1 |        0.1 |   0.7 |
+|Total                |       1 |      14.7 | 100.0 |       27.6 | 100.0 |
+|Wheel-rail cases     |      35 |      14.7 | 100.0 |       27.6 | 100.0 |
+|W/r profiles         |       2 |       0.1 |   0.7 |        2.0 |   7.2 |
+|Geometric analysis   |     187 |      13.8 |  94.4 |       24.2 |  87.6 |
+|Panag.process        |     271 |       0.6 |   3.9 |        0.8 |   2.8 |
+|Algorithm Norm       |     271 |       0.2 |   1.7 |        0.3 |   1.1 |
+|Algorithm Tang       |     271 |       0.3 |   2.2 |        0.5 |   1.7 |
+|Output quantities    |     306 |       0.1 |   0.5 |        0.1 |   0.4 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     271 |       0.1 |   0.9 |        0.1 |   0.7 |
-|Tang: StedyGS solver |     271 |       0.2 |   1.9 |        0.4 |   1.9 |
+|Norm: ConjGrd solver |     271 |       0.1 |   0.9 |        0.2 |   0.7 |
+|Tang: StedyGS solver |     271 |       0.3 |   2.2 |        0.5 |   1.6 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      35 |       0.1 |   1.1 |        0.2 |   0.8 |
-|Contact location     |     187 |      10.4 |  88.4 |       17.9 |  87.5 |
-| - Interp sf_whl     |     187 |       2.5 |  21.4 |        3.8 |  18.4 |
-| - Other calc.       |     374 |       0.2 |   2.1 |        1.2 |   5.8 |
-| - Locate interpen   |     187 |       0.3 |   2.8 |        0.5 |   2.5 |
-|Undeformed distance  |     271 |       0.8 |   6.3 |        1.2 |   5.8 |
-| - Interp whl_srfc   |     271 |       0.0 |   0.4 |        0.0 |   0.1 |
-|Influence coeffic.   |     271 |       0.1 |   0.7 |        0.0 |   0.2 |
+|Reading input-file   |      35 |       0.1 |   0.7 |        2.0 |   7.2 |
+|Contact location     |     187 |      12.7 |  86.3 |       22.7 |  82.1 |
+| - Interp sf_whl     |     187 |       4.5 |  30.6 |        5.3 |  19.3 |
+| - Other calc.       |     374 |       0.4 |   2.8 |        1.3 |   4.9 |
+| - Locate interpen   |     187 |       0.5 |   3.1 |        0.8 |   2.8 |
+|Undeformed distance  |     271 |       1.2 |   8.0 |        1.5 |   5.4 |
+| - Interp whl_srfc   |     271 |       0.0 |   0.1 |        0.0 |   0.1 |
+|Influence coeffic.   |     271 |       0.0 |   0.3 |        0.1 |   0.3 |
 |Initial state/estim. |     271 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

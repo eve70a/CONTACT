@@ -2,14 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Reading file "../profiles/cross_nose.slcs" with profile slices
- obtained  21 slices, s = [  -100.0    ,   100.0    ]
+ Reading file "..\profiles\cross_nose.slcs" with profile slices
+ obtained  21 slices, u = [  -100.0    ,   100.0    ]
  feature information for  21 slices with   5 features per slice
    1     0.00    33.05    50.91    87.02   299.00
    2     0.00    33.05    50.91    87.02   299.00
@@ -86,10 +86,6 @@
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2814.      -915.0   1.011E+04       2814.      -915.0   1.011E+04
 
- AVERAGE CONTACT POSITION
-     XAV(TR)     YAV(TR)     ZAV(TR)     MX(AV)      MY(AV)      MZ(AV)
-     46.8043    754.5810      0.0178      -35.26      -2335.      -339.1
-
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
@@ -151,21 +147,21 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.1 | 100.0 |        0.1 | 100.0 |
-|Wheel-rail cases     |       1 |       0.1 | 100.0 |        0.1 | 100.0 |
-|W/r profiles         |       2 |       0.0 |  60.0 |        0.1 |  59.1 |
-|Geometric analysis   |       1 |       0.0 |   0.0 |        0.0 |  10.9 |
-|Panag.process        |       1 |       0.0 |  20.0 |        0.0 |  16.1 |
-|Algorithm Norm       |       1 |       0.0 |  20.0 |        0.0 |   6.6 |
-|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   9.5 |
-|Output quantities    |       2 |       0.0 |  20.0 |        0.0 |   6.6 |
+|Total                |       1 |       0.0 | 100.0 |        0.2 | 100.0 |
+|Wheel-rail cases     |       1 |       0.0 | 100.0 |        0.2 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.1 |  59.1 |
+|Geometric analysis   |       1 |       0.0 |   0.0 |        0.0 |  10.4 |
+|Panag.process        |       1 |       0.0 | 100.0 |        0.0 |  18.9 |
+|Algorithm Norm       |       1 |       0.0 | 100.0 |        0.0 |  12.2 |
+|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |   6.7 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |   1.8 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       1 |       0.0 |   0.0 |        0.0 |   6.6 |
-|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |   9.5 |
+|Norm: ConjGrd solver |       1 |       0.0 | 100.0 |        0.0 |  12.2 |
+|Tang: StedyGS solver |       1 |       0.0 |   0.0 |        0.0 |   6.7 |
 |------------------------------------------------------------------------|
-|Reading input-file   |       1 |       0.0 |  60.0 |        0.1 |  59.1 |
-|Contact location     |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |       1 |       0.0 |   0.0 |        0.0 |  10.9 |
+|Reading input-file   |       1 |       0.0 |   0.0 |        0.1 |  59.1 |
+|Contact location     |       1 |       0.0 |   0.0 |        0.0 |  10.4 |
+|Undeformed distance  |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       1 |       0.0 |   0.0 |        0.0 |   0.0 |

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -758,19 +758,19 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
-|Non-Hertzian cases   |      12 |       0.0 |   0.0 |        0.0 | 100.0 |
-|Panag.process        |      12 |       0.0 |   0.0 |        0.0 | 100.0 |
-|Algorithm Norm       |      12 |       0.0 |   0.0 |        0.0 |   2.0 |
-|Algorithm Tang       |      12 |       0.0 |   0.0 |        0.0 |  94.0 |
+|Total                |       1 |       0.0 |   0.0 |        0.1 | 100.0 |
+|Non-Hertzian cases   |      12 |       0.0 |   0.0 |        0.1 | 100.0 |
+|Panag.process        |      12 |       0.0 |   0.0 |        0.0 |  60.3 |
+|Algorithm Norm       |      12 |       0.0 |   0.0 |        0.0 |  10.3 |
+|Algorithm Tang       |      12 |       0.0 |   0.0 |        0.0 |  48.3 |
 |Output quantities    |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      12 |       0.0 |   0.0 |        0.0 |   2.0 |
-|Tang: StedyGS solver |      12 |       0.0 |   0.0 |        0.0 |  62.0 |
+|Norm: ConjGrd solver |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |      12 |       0.0 |   0.0 |        0.0 |  46.6 |
 |------------------------------------------------------------------------|
 |Reading input-file   |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |      12 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       4 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |       4 |       0.0 |   0.0 |        0.0 |  32.8 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

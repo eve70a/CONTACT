@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2519 $, $Date:: 2024-03-19$        |
+   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -409,17 +409,17 @@ Performance timers:
 |------------------------------------------------------------------------|
 |Total                |       1 |       0.0 |   0.0 |        0.0 | 100.0 |
 |Non-Hertzian cases   |       2 |       0.0 |   0.0 |        0.0 | 100.0 |
-|Panag.process        |       2 |       0.0 |   0.0 |        0.0 |  37.5 |
+|Panag.process        |       2 |       0.0 |   0.0 |        0.0 |  53.1 |
 |Algorithm Norm       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |  37.5 |
-|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |  62.5 |
+|Algorithm Tang       |       1 |       0.0 |   0.0 |        0.0 |  53.1 |
+|Output quantities    |       2 |       0.0 |   0.0 |        0.0 |  43.8 |
 |------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: TangCG solver  |      13 |       0.0 |   0.0 |        0.0 |  37.5 |
+|Tang: TangCG solver  |      13 |       0.0 |   0.0 |        0.0 |  53.1 |
 |------------------------------------------------------------------------|
 |Reading input-file   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |       1 |       0.0 |   0.0 |        0.0 |   3.1 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
