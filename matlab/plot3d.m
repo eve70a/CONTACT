@@ -59,8 +59,8 @@ function [ opts3 ] = plot3d(sol, opt3, prr, prw, subs)
 %    veccolor: color specification for vectors on vector-plots. Default: 'b' for ptvec, 'k' for ptabs+vec;
 %               used also for quantitites in 'rw_rear' and 'rw_side' views, default matlab_color(6)
 %    vecwidth: line-width for vectors on vector-plots;
-%    addeldiv: show contours of element divisions on top of results (1) or not (0)
-%              (only in 2D plots, e.g. view [0 90])
+%    addeldiv: show contours of element divisions on top of results. <=0: no contours; >=1: show contact
+%              area, >=2: show adhesion area. Available in 2D plots, e.g. view [0 90]
 %    eldivcol: color specification for element division, e.g. ['b';'m';'g']
 %              or [0 0 0.56; 0.5 0 0; 0.8 0.25 0.42]
 %    eldivwid: line-width for contours for element division;
@@ -338,19 +338,11 @@ if (isempty(myopt.addeldiv))
    if (strcmp(myopt.field,'eldiv') | strcmp(myopt.field,'eldiv_spy'))
       myopt.addeldiv = 0;
    else
-      myopt.addeldiv = 1;
+      myopt.addeldiv = 2;
    end
 end
-if (ischar(myopt.addeldiv))
-   if (strcmp(myopt.addeldiv,'n') | strcmp(myopt.addeldiv,'no'))
-      myopt.addeldiv = 0;
-   elseif (strcmp(myopt.addeldiv,'y') | strcmp(myopt.addeldiv,'yes'))
-      myopt.addeldiv = 1;
-   else
-      disp(sprintf('Unknown value "%s" for addeldiv will be ignored', ...
-                                                          myopt.addeldiv));
-      myopt.addeldiv = 0;
-   end
+if (strcmp(myopt.field,'eldiv_contour'))
+   myopt.addeldiv = max(1, myopt.addeldiv);
 end
 if (any(strcmp(myopt.typplot,{'rw_rear','rw_side'})))
    myopt.addeldiv = 0;
@@ -1625,11 +1617,14 @@ function [ ] = show_eldiv_contour(sol, opt)
 % 
 % function [ ] = show_eldiv_contour(sol, opt)
 %
-% routine for plotting outlines of contact and adhesion areas 
+% routine for plotting outlines of contact area if opt.addeldiv>=1, adhesion/plasticity area (>=2)
 %   sol     - structure with CONTACT results as returned by loadcase
 %   opt     - structure with options as defined by plot3d.
 %
 
+   if (opt.addeldiv<=0)
+      return;
+   end
    if (sol.mx<=1 | sol.my<=1)
       if (0==1)
          disp('WARNING: option "eldiv_contour" is not available for 2D grids');
@@ -1675,85 +1670,91 @@ function [ ] = show_eldiv_contour(sol, opt)
       xcentr = [ xcentr, xcentr(end)+sol.dx ];
    end
 
-   % plot double line around adhesion area
-   l1 = []; l2 = []; l3 = [];
-   mask = 1.0*(eldiv==1);
-   col  = opt.eldivcol(1,:);
    zval = 1e5;
-   if (nnz(mask)>0 & ~strcmp(opt.field,'pn'))
-      ContourLvl = [0.45, 0.55]';
-      c = contourc(xcentr, ycentr, mask, ContourLvl);
-      nx = size(c,2); ix = 1;
-      while(ix < nx);
-         npnt = c(2,ix); c(:,ix) = NaN; ix = ix + 1 + npnt;
+   l1 = []; l2 = []; l3 = [];
+
+   % plot double line around adhesion area
+   if (opt.addeldiv>=2)
+      mask = 1.0*(eldiv==1);
+      col  = opt.eldivcol(1,:);
+      if (nnz(mask)>0 & ~strcmp(opt.field,'pn'))
+         ContourLvl = [0.45, 0.55]';
+         c = contourc(xcentr, ycentr, mask, ContourLvl);
+         nx = size(c,2); ix = 1;
+         while(ix < nx);
+            npnt = c(2,ix); c(:,ix) = NaN; ix = ix + 1 + npnt;
+         end
+
+         % set xyz-coordinates for plotting
+
+         if (strcmp(opt.rw_surfc,'none'))
+            xcrv = c(1,:); ycrv = c(2,:); zcrv = zval*[1;-1]*ones(1,nx);
+         elseif (strcmp(opt.rw_surfc,'prr'))
+            [ xcrv, ycrv, zcrv ] = cntc_to_rail_coords(sol, c(1,:), c(2,:));
+         elseif (strcmp(opt.rw_surfc,'prw'))
+            [ xcrv, ycrv, zcrv ] = cntc_to_wheel_coords(sol, c(1,:), c(2,:));
+         elseif (strcmp(opt.rw_surfc,'both'))
+            [ xcrv, ycrv, zcrv ] = cntc_to_track_coords(sol, c(1,:), c(2,:));
+         end
+
+         l1 = plot3(xcrv, ycrv, zcrv, 'color',col, 'linewidth',wid, 'Tag','Adhes');
       end
-
-      % set xyz-coordinates for plotting
-
-      if (strcmp(opt.rw_surfc,'none'))
-         xcrv = c(1,:); ycrv = c(2,:); zcrv = zval*[1;-1]*ones(1,nx);
-      elseif (strcmp(opt.rw_surfc,'prr'))
-         [ xcrv, ycrv, zcrv ] = cntc_to_rail_coords(sol, c(1,:), c(2,:));
-      elseif (strcmp(opt.rw_surfc,'prw'))
-         [ xcrv, ycrv, zcrv ] = cntc_to_wheel_coords(sol, c(1,:), c(2,:));
-      elseif (strcmp(opt.rw_surfc,'both'))
-         [ xcrv, ycrv, zcrv ] = cntc_to_track_coords(sol, c(1,:), c(2,:));
-      end
-
-      l1 = plot3(xcrv, ycrv, zcrv, 'color',col, 'linewidth',wid);
    end
 
    % plot double line around plasticity area
-   mask = 1.0*(eldiv==3);
-   col  = opt.eldivcol(3,:);
-   zval = 1e5;
-   if (nnz(mask)>0 & ~strcmp(opt.field,'pn'))
-      ContourLvl = [0.45, 0.55]';
-      c = contourc(xcentr, ycentr, mask, ContourLvl);
-      nx = size(c,2); ix = 1;
-      while(ix < nx);
-         npnt = c(2,ix); c(:,ix) = NaN; ix = ix + 1 + npnt;
+   if (opt.addeldiv>=2)
+      mask = 1.0*(eldiv==3);
+      col  = opt.eldivcol(3,:);
+      if (nnz(mask)>0 & ~strcmp(opt.field,'pn'))
+         ContourLvl = [0.45, 0.55]';
+         c = contourc(xcentr, ycentr, mask, ContourLvl);
+         nx = size(c,2); ix = 1;
+         while(ix < nx);
+            npnt = c(2,ix); c(:,ix) = NaN; ix = ix + 1 + npnt;
+         end
+
+         % set xyz-coordinates for plotting
+
+         if (strcmp(opt.rw_surfc,'none'))
+            xcrv = c(1,:); ycrv = c(2,:); zcrv = zval*[1;-1]*ones(1,nx);
+         elseif (strcmp(opt.rw_surfc,'prr'))
+            [ xcrv, ycrv, zcrv ] = cntc_to_rail_coords(sol, c(1,:), c(2,:));
+         elseif (strcmp(opt.rw_surfc,'prw'))
+            [ xcrv, ycrv, zcrv ] = cntc_to_wheel_coords(sol, c(1,:), c(2,:));
+         elseif (strcmp(opt.rw_surfc,'both'))
+            [ xcrv, ycrv, zcrv ] = cntc_to_track_coords(sol, c(1,:), c(2,:));
+         end
+   
+         l3 = plot3(xcrv, ycrv, zcrv, 'color',col, 'linewidth',wid, 'Tag','Plast');
       end
-
-      % set xyz-coordinates for plotting
-
-      if (strcmp(opt.rw_surfc,'none'))
-         xcrv = c(1,:); ycrv = c(2,:); zcrv = zval*[1;-1]*ones(1,nx);
-      elseif (strcmp(opt.rw_surfc,'prr'))
-         [ xcrv, ycrv, zcrv ] = cntc_to_rail_coords(sol, c(1,:), c(2,:));
-      elseif (strcmp(opt.rw_surfc,'prw'))
-         [ xcrv, ycrv, zcrv ] = cntc_to_wheel_coords(sol, c(1,:), c(2,:));
-      elseif (strcmp(opt.rw_surfc,'both'))
-         [ xcrv, ycrv, zcrv ] = cntc_to_track_coords(sol, c(1,:), c(2,:));
-      end
-
-      l3 = plot3(xcrv, ycrv, zcrv, 'color',col, 'linewidth',wid);
    end
 
    % plot single line around contact area
-   mask = 1.0*(eldiv>=1);
-   col = opt.eldivcol(2,:);
-   if (nnz(mask)>0)
-      ContourLvl = [0.5, 9.99]';
-      c = contourc(xcentr, ycentr, mask, ContourLvl);
-      nx = size(c,2); ix = 1;
-      while(ix < nx);
-         npnt = c(2,ix); c(:,ix) = NaN; ix = ix + 1 + npnt;
+   if (opt.addeldiv>=1)
+      mask = 1.0*(eldiv>=1);
+      col = opt.eldivcol(2,:);
+      if (nnz(mask)>0)
+         ContourLvl = [0.5, 9.99]';
+         c = contourc(xcentr, ycentr, mask, ContourLvl);
+         nx = size(c,2); ix = 1;
+         while(ix < nx);
+            npnt = c(2,ix); c(:,ix) = NaN; ix = ix + 1 + npnt;
+         end
+
+         % set xyz-coordinates for plotting
+
+         if (strcmp(opt.rw_surfc,'none'))
+            xcrv = c(1,:); ycrv = c(2,:); zcrv = zval*[1;-1]*ones(1,nx);
+         elseif (strcmp(opt.rw_surfc,'prr'))
+            [ xcrv, ycrv, zcrv ] = cntc_to_rail_coords(sol, c(1,:), c(2,:));
+         elseif (strcmp(opt.rw_surfc,'prw'))
+            [ xcrv, ycrv, zcrv ] = cntc_to_wheel_coords(sol, c(1,:), c(2,:));
+         elseif (strcmp(opt.rw_surfc,'both'))
+            [ xcrv, ycrv, zcrv ] = cntc_to_track_coords(sol, c(1,:), c(2,:));
+         end
+
+         l2 = plot3(xcrv, ycrv, zcrv, 'color',col, 'linewidth',wid, 'Tag','Contact');
       end
-
-      % set xyz-coordinates for plotting
-
-      if (strcmp(opt.rw_surfc,'none'))
-         xcrv = c(1,:); ycrv = c(2,:); zcrv = zval*[1;-1]*ones(1,nx);
-      elseif (strcmp(opt.rw_surfc,'prr'))
-         [ xcrv, ycrv, zcrv ] = cntc_to_rail_coords(sol, c(1,:), c(2,:));
-      elseif (strcmp(opt.rw_surfc,'prw'))
-         [ xcrv, ycrv, zcrv ] = cntc_to_wheel_coords(sol, c(1,:), c(2,:));
-      elseif (strcmp(opt.rw_surfc,'both'))
-         [ xcrv, ycrv, zcrv ] = cntc_to_track_coords(sol, c(1,:), c(2,:));
-      end
-
-      l2 = plot3(xcrv, ycrv, zcrv, 'color',col, 'linewidth',wid);
    end
 
    % adapt axis in order to fit the plotted range of the contact area
