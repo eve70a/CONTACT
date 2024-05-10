@@ -522,6 +522,7 @@ module subroutine spline_eval_arr(npnt, s_spl, nam_f, a3, a2, a1, a0, nout, s_ev
    endif
 
    nseg = npnt - 1
+   iseg = 0
 
    if (ldebug.ge.4) then
       write(bufout,'(a,i6,3a,i6,a)') ' eval: input spline has',nseg,' segments, evaluating ',nam_f(1:1), &
@@ -1262,6 +1263,7 @@ module subroutine spline_get_s_at_f_spl( spl, ikarg, nout, f_out, s_out, my_ierr
    ! assuming that f_out is sorted, either in ascending (rail) or descending order (wheel)
 
    iseg = 0
+   itop = 0
 
    do iout = 1, nout
 

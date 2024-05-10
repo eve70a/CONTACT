@@ -1106,6 +1106,8 @@ subroutine spline_get_alpha_at_y_arr( spl, nout, yout, alpha, my_ierror )
    integer                   :: sub_ierror
    real(kind=8), dimension(:), allocatable :: sout
 
+   my_ierror = 0
+
    ! allocate work array s(nout)
 
    allocate(sout(nout))
