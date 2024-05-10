@@ -196,11 +196,12 @@ module m_gridfunc
          real(kind=8),    optional :: defval
       end subroutine gf3_resize
 
-      module subroutine WrIgs (igs, is_roll, chi)
+      module subroutine wrigs(igs, is_roll, chi, ltight_arg)
       !--subroutine arguments:
-         type(t_eldiv) :: igs
-         logical       :: is_roll
-         real(kind=8)  :: chi
+         type(t_eldiv), intent(in)           :: igs
+         logical,       intent(in)           :: is_roll
+         real(kind=8),  intent(in)           :: chi
+         logical,       intent(in), optional :: ltight_arg
       end subroutine wrigs
 
    end interface
@@ -470,77 +471,113 @@ end function eldiv_count_atbnd
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine eldiv_cpatches(eldiv, npatch, ysep, idebug)
-!--function: fill element division (mask) with sub-patch numbers 1:npatch on the basis of y-values ysep
-!            used in gf3_msk_copy
+subroutine eldiv_cpatches(eldiv, npatch, xysep, split_on_y, idebug)
+!--function: fill element division (mask) with sub-patch numbers 1 to npatch, left to right,
+!            on the basis of x- or y-values xysep (split_on_y=F/T). Mask suitable for use in gf3_msk_copy
    implicit none
 !--subroutine arguments
    type(t_eldiv)             :: eldiv
    integer,      intent(in)  :: npatch, idebug
-   real(kind=8), intent(in)  :: ysep(npatch-1)
+   real(kind=8), intent(in)  :: xysep(npatch-1)
+   logical,      intent(in)  :: split_on_y
 !--local variables
-   integer      :: ip, ii, ix, iy, iy0, iy1
+   integer      :: npnt, ip, ii, ix, iy, j0, j1
    logical      :: ldone
+   real(kind=8), dimension(:), allocatable :: coor
 
-   associate( mx => eldiv%grid%nx, my => eldiv%grid%ny, y1 => eldiv%grid%y(1), yn => eldiv%grid%y(mx*my))
+   associate(mx => eldiv%grid%nx, my => eldiv%grid%ny)
+
+   ! gather coordinates for separation in y-direction or x-direction
+
+   if (split_on_y) then
+      npnt = my
+      allocate(coor(npnt))
+      do iy = 1, my
+         coor(iy) = eldiv%grid%y(iy*mx)
+      enddo
+   else
+      npnt = mx
+      allocate(coor(npnt))
+      do ix = 1, mx
+         coor(ix) = eldiv%grid%x(ix)
+      enddo
+   endif
 
    if (idebug.ge.2) then
-      write(bufout,'(a,i4,2(a,f7.3),a,i2,a,4f7.3)') ' my=',my,', y1=',y1,', yn=', yn, ', npatch=',      &
-             npatch,', ysep=',(ysep(ip), ip=1,npatch-1)
+      write(bufout,'(a,i4,2(a,f7.3))') ' eldiv_cpatches: np=',npnt,', c1=',coor(1),', cn=',coor(npnt)
+      call write_log(1, bufout)
+      write(bufout,'(16x,a,i2,a,6f7.3)') ' npatch=',npatch,', xysep=',(xysep(ip), ip=1,npatch-1)
       call write_log(1, bufout)
    endif
 
    do ip = 1, npatch
 
-      ! ysep-values are given in increasing order: determine range [iy0 : iy1)
-      ! patch  1: y-values (-\infty   , ysep( 1))
-      ! patch ip: y-values [ysep(ip-1), ysep(ip))
-      ! patch np: y-values [ysep(np-1),   \infty)
+      ! xysep-values are given in increasing order: determine range [j0 : j1)
+      ! patch  1: xy-values ( -\infty   , xysep( 1))
+      ! patch ip: xy-values [xysep(ip-1), xysep(ip))
+      ! patch np: xy-values [xysep(np-1),   \infty )
 
       if (ip.le.1) then
-         iy0 = 1
+         j0 = 1
       else
-         iy0 = iy1 + 1
+         j0 = j1 + 1
       endif
 
       if (ip.ge.npatch) then
-         iy1 = my            ! last segment: use all remaining iy
-      elseif (iy0.gt.my) then
-         iy1 = my            ! no points remaining: set empty interval
-      elseif (eldiv%grid%y(iy0*mx).ge.ysep(ip)) then
-         iy1 = iy0 - 1       ! first possible y already beyond upper bound ysep(ip): set empty
+         j1 = npnt            ! last segment: use all remaining j
+      elseif (j0.gt.npnt) then
+         j1 = npnt            ! no points remaining: set empty interval
+      elseif (coor(j0).ge.xysep(ip)) then
+         j1 = j0 - 1          ! first possible xy already beyond upper bound xysep(ip): set empty
       else
-         iy1 = iy0
+         j1 = j0
          ldone = .false.
-         do while (iy1.lt.my .and. .not.ldone)
-            if (eldiv%grid%y((iy1+1)*mx).lt.ysep(ip)) then
-               iy1 = iy1 + 1
+         do while (j1.lt.npnt .and. .not.ldone)
+            if (coor(j1+1).lt.xysep(ip)) then
+               j1 = j1 + 1
             else
                ldone = .true.
             endif
          enddo
       endif
 
-      if (iy1.lt.iy0 .and. idebug.ge.-1) then
-         write(bufout,'(3(a,i3),a)') ' WARNING: sub-patch',ip,': empty range iy = [', iy0,',',iy1, '].'
+      if (j1.lt.j0 .and. idebug.ge.-1) then
+         write(bufout,'(3(a,i3),a)') ' WARNING: sub-patch',ip,': empty range j = [', j0,',',j1, '].'
          call write_log(1, bufout)
+
+         write(bufout,'(a,i4,2(a,f7.3))') ' - np=',npnt,', c1=',coor(1),', cn=',coor(npnt)
+         call write_log(1, bufout)
+         write(bufout,'(a,i2,a,6f7.3)') ' - npatch=',npatch,', xysep=',(xysep(ii), ii=1,npatch-1)
+         call write_log(1, bufout)
+
       elseif (idebug.ge.2) then
-         ! if (min(iy0,iy1).ge.1 .and. max(iy0,iy1).le.my) then
-         write(bufout,'(3(a,i3),2(a,f7.3),a)') ' sub-patch',ip,': selecting range [', iy0,',',       &
-                iy1,'], y=[', eldiv%grid%y(iy0*mx),',', eldiv%grid%y(iy1*mx),']'
+
+         write(bufout,'(3(a,i3),2(a,f7.3),a)') ' sub-patch',ip,': selecting range [', j0,',',       &
+                j1,'], xy=[', coor(j0),',', coor(j1),']'
          call write_log(1, bufout)
       endif
 
-      ! set patch number in element division
+      ! set patch number ip in strips j0:j1 in element division 
 
-      do iy = iy0, iy1
-         do ix = 1, mx
-            ii = ix + (iy-1)*mx
-            eldiv%el(ii) = ip
+      if (split_on_y) then
+         do iy = j0, j1
+            do ix = 1, mx
+               ii = ix + (iy-1)*mx
+               eldiv%el(ii) = ip
+            enddo
          enddo
-      enddo
-   enddo
+      else
+         do iy = 1, my
+            do ix = j0, j1
+               ii = ix + (iy-1)*mx
+               eldiv%el(ii) = ip
+            enddo
+         enddo
+      endif
 
+   enddo !  ip = 1, npatch
+
+   deallocate(coor)
    end associate
 end subroutine eldiv_cpatches
 

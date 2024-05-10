@@ -176,25 +176,29 @@ end subroutine gf3_resize
 
 !------------------------------------------------------------------------------------------------------------
 
-module subroutine WrIgs (igs, is_roll, chi)
+module subroutine wrigs(igs, is_roll, chi, ltight_arg)
    implicit none
 !--subroutine arguments:
-   type(t_eldiv) :: igs
-   logical       :: is_roll
-   real(kind=8)  :: chi
+   type(t_eldiv), intent(in)           :: igs
+   logical,       intent(in)           :: is_roll
+   real(kind=8),  intent(in)           :: chi
+   logical,       intent(in), optional :: ltight_arg
 !--local variables:
    integer, parameter :: ScrRow = 800
    integer, parameter :: ScrCol = 800
    integer, parameter :: ArrLen = max(ScrRow, ScrCol)
         ! note that ArrLen is also hard-coded in the format strings below
    integer, parameter :: HlfCol =  36
-   logical, parameter :: ltight = .true.
+   logical          :: ltight
    integer          :: nx, ny, nxloc, nyloc, ix, ix0, ix1, iy, iy0, iy1, i, ii
    character        :: str(ArrLen), nums(ArrLen), tens(ArrLen), hundr(ArrLen)
    real(kind=8),     parameter :: pi = 4d0*atan(1d0)
    character(len=1), parameter :: aset(Exter:Plast) = (/ '.', '*', 'S', '|' /)
    character(len=1), parameter :: dig(10) = (/ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' /)
    character(len=1000) :: bufloc(1)
+
+   ltight = .true.
+   if (present(ltight_arg)) ltight = ltight_arg
 
    ! initialize strings nums, tens and str
    ! TODO: only on first call, save variables

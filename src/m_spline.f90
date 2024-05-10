@@ -84,7 +84,7 @@ module m_spline
    ! m_spline_make: Functions for the creation of 1D PP-splines:
    !---------------------------------------------------------------------------------------------------------
 
-   public  spline_check_updates
+   public  spline_check_deviation
 
    public  spline_add_topview
 
@@ -477,7 +477,7 @@ module m_spline
       
       !------------------------------------------------------------------------------------------------------
       
-      module subroutine spline_check_updates(spl, nprf, s_prf, x_prf, y_prf, z_prf, k_chk, dist_max,    &
+      module subroutine spline_check_deviation(spl, nprf, s_prf, x_prf, y_prf, z_prf, k_chk, dist_max,    &
                                 my_ierror)
       !--function: determine max distance between parametric spline (x(s),y(s),z(s)) and original data
       !--subroutine arguments:
@@ -487,7 +487,7 @@ module m_spline
          integer,      intent(in)           :: k_chk      ! refinement factor for checking
          real(kind=8), intent(out)          :: dist_max
          integer,      intent(out)          :: my_ierror
-      end subroutine spline_check_updates
+      end subroutine spline_check_deviation
       
       !------------------------------------------------------------------------------------------------------
       

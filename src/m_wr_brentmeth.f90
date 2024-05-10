@@ -59,7 +59,7 @@ private
       ! rk_all      residual values corresponding to x-values used
       ! k_all       iteration numbers corresponding to x-values used (starting at k=0?)
       ! np_all      number of contact patches in each iteration
-      ! k_0, k_1    iteration numbers of current bracket points
+      ! k_0, k_1    iteration numbers of current bracket points, <0 as long as no bracket is found
       ! x_0, r_0    lower side of current bracket
       ! k_a--k_d    iteration numbers of current/previous best guesses
       ! x_1, r_1    upper side of current bracket
@@ -161,8 +161,8 @@ contains
 
       elseif (its%numit.le.1) then
 
-         its%k_0 =  its%k_all(1)
-         its%k_1 =  its%k_all(1)
+         its%k_0 =  -1
+         its%k_1 =  -1
          its%x_0 => its%xk_all(1)
          its%x_1 => its%xk_all(1)
          its%r_0 => its%rk_all(1)
@@ -237,7 +237,14 @@ contains
 
          ! set pointers to bracket
 
-         if (its%x_a.lt.its%x_b) then
+         if (.not.brent_its_has_bracket(its, it_br0)) then
+            its%k_0 =  -1
+            its%k_1 =  -1
+            its%x_0 => NULL()
+            its%x_1 => NULL()
+            its%r_0 => NULL()
+            its%r_1 => NULL()
+         elseif (its%x_a.lt.its%x_b) then
             its%k_0 =  its%k_a
             its%k_1 =  its%k_b
             its%x_0 => its%xk_all(imin-1)
@@ -513,19 +520,17 @@ contains
 !--local variables:
       integer           :: it
 
-      ! call write_log(' brent_its_has_bracket...')
       if (its%numit.le.1) then
          brent_its_has_bracket = .false.
          it = 0
       else
          it = 1
-         do while(it.lt.its%numit .and.  its%rk_all(it)*its%rk_all(it+1).gt.0d0)
+         do while(it.lt.its%numit .and. its%rk_all(it)*its%rk_all(it+1).ge.0d0)
             it = it + 1
          enddo
          brent_its_has_bracket = (it.lt.its%numit)
       endif
       if (present(it0)) it0 = it
-      ! call write_log(' brent_its_has_bracket ok...')
    end function brent_its_has_bracket
 
 !------------------------------------------------------------------------------------------------------------
@@ -707,7 +712,7 @@ contains
 
          dr = sgn * (its%rk_all(its%numit) - its%rk_all(1))
 
-         if (dr.lt.0d0 .and. k.le.5) then
+         if (dr.le.0d0 .and. k.le.5) then
 
             ! case 1.a: Fz decreasing (Ftot increasing) across brent-table: 
             !                               double the step to reach positive sgn*dFz/dz

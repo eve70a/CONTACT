@@ -1125,7 +1125,6 @@ contains
          call abort_run()
       endif
 
-
       ! Make preconditioner of diagonal blocks Axx and Ayy
 
 #if defined WITH_MKLFFT
@@ -1267,8 +1266,9 @@ contains
             else
                beta = - zq / vq
             endif
-            if (beta.lt.0d0 .and. ic_nmdbg.ge.1) then
-               write(bufout,'(a,f14.9,2(a,g12.4))') ' beta= ',beta,' =',-zq,' /',vq
+            if (beta.lt.0d0 .and. ic_nmdbg.ge.5) then
+               ! beta<0 does not seem to harm convergence or cause any other problems
+               write(bufout,'(a,i0,a,f14.9,2(a,g12.4))') ' it=',itcg,': beta= ',beta,' =',-zq,' /',vq
                call write_log(1,bufout)
             endif
             if (.false.) beta = max(0d0, beta)
@@ -1318,19 +1318,19 @@ contains
          elseif (abs(vq).lt.small*abs(rv)) then
             alpha = 1d0
             if (ic_nmdbg.ge.15) then
-               write(bufout,*) 'alpha=',alpha,'=',rv,' / ',vq
+               write(bufout,*) ' it=',itcg,': alpha=',alpha,'=',rv,' / ',vq
                call write_log(1,bufout)
             endif
          else
             alpha = rv / vq
          endif
          if (isnan(alpha)) then
-            write(bufout,*) 'alpha=',alpha,'=',rv,' / ',vq
+            write(bufout,*) ' it=',itcg,': alpha=',alpha,'=',rv,' / ',vq
             call write_log(1,bufout)
          endif
 
          if (min(rv,vq).lt.0d0 .and. ic_nmdbg.ge.1) then
-            write(bufout,'(a,f14.9,2(a,g12.4))') ' alpha=',alpha,' =', rv,' /',vq
+            write(bufout,'(a,i0,a,f14.9,2(a,g12.4),a)') ' it=',itcg,': alpha=',alpha,' =',rv,' /',vq,' < 0!'
             call write_log(1, bufout)
             do ii = 1, npot
                write(bufout,'(a,i4,6(a,g12.4))') 'ii=',ii,                              &

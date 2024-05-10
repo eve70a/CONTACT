@@ -31,6 +31,13 @@ module m_grids
    public  grid_get_yrange
    public  grid_get_zrange
    public  grid_get_boundbox
+
+   public  equal_grid_sizes
+   interface equal_grid_sizes
+      module procedure equal_grid_sizes_r   ! scalar inputs
+      module procedure equal_grid_sizes_g   ! t_grid inputs
+   end interface equal_grid_sizes
+
    public  grid_overlap         ! scalar inputs
    public  grid_get_overlap     ! t_grid inputs
    public  grid_check_nan
@@ -361,6 +368,35 @@ end subroutine grid_get_boundbox
 
 !------------------------------------------------------------------------------------------------------------
 
+function equal_grid_sizes_r(dx1, dx2, dy1, dy2)
+!--purpose: check if grid sizes dx,dy are equal within tolerance
+   implicit none
+!--function result:
+   logical      :: equal_grid_sizes_r
+!--function arguments:
+   real(kind=8) :: dx1, dx2, dy1, dy2
+
+   equal_grid_sizes_r = (dx1.ge.1d-10 .and. abs(dx1-dx2).lt.1d-4*min(dx1, dx2) .and.                    &
+                         dy1.ge.1d-10 .and. abs(dy1-dy2).lt.1d-4*min(dy1, dy2))
+
+end function equal_grid_sizes_r
+
+!------------------------------------------------------------------------------------------------------------
+
+function equal_grid_sizes_g(g1, g2)
+!--purpose: check if grid sizes dx,dy are equal within tolerance
+   implicit none
+!--function result:
+   logical      :: equal_grid_sizes_g
+!--function arguments:
+   type(t_grid) :: g1, g2
+
+   equal_grid_sizes_g = equal_grid_sizes_r(g1%dx, g2%dx, g1%dy, g2%dy)
+
+end function equal_grid_sizes_g
+
+!------------------------------------------------------------------------------------------------------------
+
 subroutine grid_overlap(old_xl, old_dx, old_nx, old_yl, old_dy, old_ny,                                 &
                         new_xl, new_dx, new_nx, new_yl, new_dy, new_ny,                                 &
                         kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
@@ -379,8 +415,7 @@ subroutine grid_overlap(old_xl, old_dx, old_nx, old_yl, old_dy, old_ny,         
    ! check input grids
 
    is_equal = .false.
-   is_ok = (old_dx.ge.1d-10 .and. abs(old_dx-new_dx).lt.1d-4*min(old_dx, new_dx) .and.                  &
-            old_dy.ge.1d-10 .and. abs(old_dy-new_dy).lt.1d-4*min(old_dy, new_dy))
+   is_ok    = equal_grid_sizes_r(old_dx, new_dx, old_dy, new_dy)
 
    if (.not.is_ok) then
       call write_log(' grid_overlap: Internal error: need equal grid sizes.')
@@ -391,11 +426,11 @@ subroutine grid_overlap(old_xl, old_dx, old_nx, old_yl, old_dy, old_ny,         
       return
    endif
    
-   delt_x = new_xl - old_xl
-   delt_y = new_yl - old_yl
-   kofs_x = nint( delt_x / old_dx )
-   kofs_y = nint( delt_y / old_dy )
-   is_ok  = (abs(delt_x-kofs_x*old_dx).lt.1d-3*old_dx .and. abs(delt_y-kofs_y*old_dy).lt.1d-3*old_dy)
+   delt_x   = new_xl - old_xl
+   delt_y   = new_yl - old_yl
+   kofs_x   = nint( delt_x / old_dx )
+   kofs_y   = nint( delt_y / old_dy )
+   is_ok    = (abs(delt_x-kofs_x*old_dx).lt.1d-3*old_dx .and. abs(delt_y-kofs_y*old_dy).lt.1d-3*old_dy)
    is_equal = (new_nx.eq.old_nx .and. kofs_x.eq.0 .and. new_ny.eq.old_ny .and. kofs_y.eq.0)
 
    if (.not.is_ok) then
@@ -917,7 +952,7 @@ subroutine grid_make_ppspline_kink(g, lambda, use_wgt, nkink, ikinks, my_ierror,
    integer,      intent(in)           :: nkink
    integer,      intent(in)           :: ikinks(nkink) ! start/end of spline sections
    integer,      intent(out)          :: my_ierror
-   integer,      intent(in), optional :: k_chk      ! refinement factor for checking
+   integer,      intent(in), optional :: k_chk      ! refinement factor for checking, <=0: no check
 !--local variables:
    integer      :: sub_ierror
    logical      :: has_xdata
@@ -947,7 +982,7 @@ subroutine grid_make_ppspline_kink(g, lambda, use_wgt, nkink, ikinks, my_ierror,
    ! determine max.distance between spline and input data
 
    if (my_ierror.eq.0 .and. present(k_chk)) then
-      call spline_check_updates(g%spl, g%ntot, g%s_prf, g%x, g%y, g%z, k_chk, dist_max, sub_ierror)
+      call spline_check_deviation(g%spl, g%ntot, g%s_prf, g%x, g%y, g%z, k_chk, dist_max, sub_ierror)
       if (sub_ierror.ne.0) my_ierror = sub_ierror
    endif
 
@@ -971,7 +1006,7 @@ subroutine grid_make_ppspline_nokink(g, lambda, use_wgt, my_ierror, k_chk)
    real(kind=8), intent(in)           :: lambda     ! weight of 2nd derivative, using weight 1 for the data
    logical,      intent(in)           :: use_wgt    ! weigh data with spacing ds
    integer,      intent(out)          :: my_ierror
-   integer,      intent(in), optional :: k_chk      ! refinement factor for checking
+   integer,      intent(in), optional :: k_chk      ! refinement factor for checking, <=0: no check
 !--local variables:
    integer    :: nkink, ikinks(2)
 
@@ -997,7 +1032,7 @@ subroutine grid_make_bspline(g, ds_bspl, lambda, use_wgt, nkink, ikinks, naccel,
    integer,      intent(in)           :: naccel
    integer,      intent(in)           :: iaccel(naccel) ! jumps in radius of curvature
    integer,      intent(out)          :: my_ierror
-   integer,      intent(in), optional :: k_chk      ! refinement factor for checking
+   integer,      intent(in), optional :: k_chk      ! refinement factor for checking, <=0: no check
 !--local variables:
    integer      :: sub_ierror
    logical      :: has_xdata
@@ -1027,7 +1062,7 @@ subroutine grid_make_bspline(g, ds_bspl, lambda, use_wgt, nkink, ikinks, naccel,
    ! determine max.distance between spline and input data
 
    if (my_ierror.eq.0 .and. present(k_chk)) then
-      call spline_check_updates(g%spl, g%ntot, g%s_prf, g%x, g%y, g%z, k_chk, dist_max, sub_ierror)
+      call spline_check_deviation(g%spl, g%ntot, g%s_prf, g%x, g%y, g%z, k_chk, dist_max, sub_ierror)
       if (sub_ierror.ne.0) my_ierror = sub_ierror
    endif
 

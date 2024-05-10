@@ -199,7 +199,7 @@ end subroutine varprof_set_debug
          x_nam = 'th'
       endif
 
-      ! determine the relative folder from the slices filename
+      ! determine the base directory from the slices filename, used for relative folder names
 
       slcdir = ' '
       ix = index_pathsep(fname, back=.true.)
@@ -207,14 +207,9 @@ end subroutine varprof_set_debug
          slcdir = fname(1:ix-1)
       endif
 
-      ! determine full path-name, pre-pending dirnam when necessary
+      ! determine full path-name, pre-pending inpdir when necessary
 
-      if (dirnam.ne.' ' .and. index_pathsep(fname).le.0) then
-         fulnam = trim(dirnam) // path_sep // fname
-         slcdir = trim(dirnam) // path_sep // trim(slcdir)
-      else
-         fulnam = fname
-      endif
+      call make_absolute_path(fname, inpdir, fulnam)
 
       if (x_profil.ge.0) then
          write(bufout,*) 'Reading file "',trim(fulnam), '" with profile slices'
@@ -638,13 +633,7 @@ end subroutine varprof_set_debug
 
       ! determine full path-name, pre-pending slcdir when necessary
 
-      if (slcdir.ne.' ' .and. index_pathsep(fname).ne.1) then
-         fulnam = trim(slcdir) // path_sep // fname
-      else
-         fulnam = fname
-      endif
-      call set_platform_filesep(fulnam)
-
+      call make_absolute_path(fname, slcdir, fulnam)
       if (x_profil.ge.1) call write_log(' reading ' // nam_rw // ' profile "' // trim(fulnam) // '"')
 
       ! get type of file from filename extension

@@ -47,7 +47,7 @@ contains
          fdamp  = (/ cdampt * df(1), cdampt * df(2), cdampn * df(3) /)
       endif
 
-      if (ic%x_force.ge.1) then
+      if (ic%x_force.ge.2) then
          ! write(bufout,'(2(a,g12.4),a,3g12.4)') ' cdampn=',cdampn,', dt=',dt, ', fdamp=',fdamp
          strng = fmt_gs(12, 8, 6, fdamp(3))
          write(bufout,'(2(a,g12.4),2(a,f12.6),2a)') ' cdampn=',cdampn,', dt=',dt,', fprev=',fprev(3),   &
@@ -66,7 +66,7 @@ contains
 !--subroutine arguments:
       type(t_probdata)         :: gd
 !--local variables :
-      integer, parameter       :: idebug = 3
+      integer, parameter       :: idebug = 3, nd = 4
       integer      :: ii, i, j, iin, iout, lstrow, ncon, nadh, nslip, nplast, nexter
       logical      :: znewln, is_roll, is_ssrol, use_plast
       real(kind=8) :: tmp1mx, tmp2mx, hmp, trcbnd, ptabs, ptarg, rhsx, rhsy, fxtrue, fytrue
@@ -75,7 +75,7 @@ contains
       type(t_gridfnc3) :: tmp
 
       call timer_start(itimer_output)
-      associate(ic     => gd%ic,            pot    => gd%potcon_cur,                                    &
+      associate(ic     => gd%ic,            mater  => gd%mater,         pot    => gd%potcon_cur,        &
                 mx     => gd%potcon_cur%mx, my     => gd%potcon_cur%my, npot   => gd%potcon_cur%npot,   &
                 dx     => gd%potcon_cur%dx, dy     => gd%potcon_cur%dy, dxdy   => gd%potcon_cur%dxdy,   &
                 x      => gd%cgrid_cur%x,   y      => gd%cgrid_cur%y,                                   &
@@ -97,7 +97,7 @@ contains
 
       is_roll  = ic%tang.eq.2 .or. ic%tang.eq.3
       is_ssrol = ic%tang.eq.3
-      use_plast = ic%mater.eq.4 .and. gd%mater%tau_c0.gt.1d-10 .and. gd%mater%tau_c0.le.1d10
+      use_plast = ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10
 
       ! Print the heading if "output" >= 2
 
@@ -242,43 +242,48 @@ contains
                          3x,'D_SLP',4x, 3x,'POW_S',/, 2x, g12.4, i5,f7.3, 5g12.4)
          endif
 
-         write(lout, 8100) gd%mater%nu, gd%mater%ga, gd%mater%ak, eps
+         write(lout, 8100) mater%nu, mater%ga, mater%ak, eps
  8100    format (/, ' MATERIAL CONSTANTS', /,                                                           &
             2x, 3x,'NU',7x, 3x,'G',8x, 3x,'AK',7x, 3x,'EPS',/, 2x, 4g12.4)
 
-         write(lout, 8101) gd%mater%poiss, gd%mater%gg
+         write(lout, 8101) mater%poiss, mater%gg
  8101    format (/, 2x, 2x,'POISS(1)',2x, 2x,'POISS(2)',2x, 3x,'GG(1)',4x, 3x,'GG(2)',/, 2x, 4g12.4)
 
-         if (ic%heat.ge.1) write(lout, 8108) gd%mater%bktemp(1), gd%mater%heatcp(1), gd%mater%lambda(1), &
-                gd%mater%dens(1), gd%mater%bktemp(2), gd%mater%heatcp(2), gd%mater%lambda(2),           &
-                gd%mater%dens(2)
+         if (ic%mater2.ge.2) then
+            write(lout, 8102) fmt_gs(12,4,4,mater%cdampn), fmt_gs(12,4,4,mater%cdampt),                 &
+                fmt_gs(12,4,4,mater%dfnmax), fmt_gs(12,4,4,mater%dftmax)
+ 8102       format (/, 2x, 2x,'CDAMPN',4x, 2x,'CDAMPT',4x, 3x,'DFNMAX',4x, 3x,'DFTMAX',/, 2x, 4a)
+         endif
+
+         if (ic%heat.ge.1) write(lout, 8108) mater%bktemp(1), mater%heatcp(1), mater%lambda(1),         &
+                mater%dens(1), mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2)
  8108    format (/, 2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, :, /))
 
          if (ic%mater.eq.1) then
-            strng(1) = fmt_gs(12, 4, 4, gd%mater%tc(1))
-            strng(2) = fmt_gs(12, 4, 4, gd%mater%tc(2))
-            strng(3) = fmt_gs(12, 4, 4, gd%mater%vt(1))
-            strng(4) = fmt_gs(12, 4, 4, gd%mater%vt(2))
-            write(lout,8111) gd%mater%nuv, gd%mater%gav, gd%mater%akv, gd%mater%fg, (strng(j),j=1,4)
+            strng(1) = fmt_gs(12, 4, 4, mater%tc(1))
+            strng(2) = fmt_gs(12, 4, 4, mater%tc(2))
+            strng(3) = fmt_gs(12, 4, 4, mater%vt(1))
+            strng(4) = fmt_gs(12, 4, 4, mater%vt(2))
+            write(lout,8111) mater%nuv, mater%gav, mater%akv, mater%fg, (strng(j),j=1,4)
  8111    format (/, 1x,'VISCOELASTIC MATERIAL CONSTANTS',/,                                             & 
             2x, 3x,'NUV',6x, 3x,'GV',7x, 3x,'AKV', /, 2x, 3g12.4,/,/,                                   &
             2x, 3x,'FG(1)',4x, 3x,'FG(2)',4x, 3x,'TC(1)',4x, 3x,'TC(2)',4x, 3x,'VT(1)',4x, 3x,'VT(2)',/, &
             2x, 2g12.4, 4a12)
          endif
 
-         if (ic%mater.eq.2) write(lout,8121) gd%mater%flx(1)
+         if (ic%mater.eq.2) write(lout,8121) mater%flx(1)
  8121    format (/, 1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/, 2x, 3x,'FLX',/, 2x, g12.4)
 
-         if (ic%mater.eq.3) write(lout,8131) gd%mater%flx(1), gd%mater%flx(2), gd%mater%flx(3)
+         if (ic%mater.eq.3) write(lout,8131) mater%flx(1), mater%flx(2), mater%flx(3)
  8131    format (/, 1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/,                                        &
                  2x, 3x,'FLX1',5x, 3x,'FLX2',5x, 3x,'FLX3',/, 2x, 3g12.4)
 
-         if (ic%mater.eq.2 .or. ic%mater.eq.3) write(lout,8135) gd%mater%k0_mf, gd%mater%alfamf,        &
-            gd%mater%betamf, gd%mater%k_eff
+         if (ic%mater.eq.2 .or. ic%mater.eq.3) write(lout,8135) mater%k0_mf, mater%alfamf,              &
+            mater%betamf, mater%k_eff
  8135    format (/, 1x,'MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS',/,                                 &
                  2x, 3x,'K0_MF',4x, 3x,'ALFAMF',3x, 3x,'BETAMF',3x, 3x,'K_EFF',/, 2x, 4g12.4)
 
-         if (ic%mater.eq.4) write(lout,8141) gd%mater%gg3, gd%mater%laythk, gd%mater%tau_c0, gd%mater%k_tau
+         if (ic%mater.eq.4) write(lout,8141) mater%gg3, mater%laythk, mater%tau_c0, mater%k_tau
  8141    format (/, 1x,'INTERFACIAL LAYER PARAMETERS',/,                                                &
             2x, 3x,'GG3',6x, 3x,'LAYTHK',3x, 3x,'TAU_C0',3x, 3x,'K_TAU',/, 2x, 4g12.4)
 
@@ -416,7 +421,7 @@ contains
 
          ! compute ad-hoc proportional damping
 
-         call calc_damping_force( gd%ic, gd%mater, gd%kin )
+         call calc_damping_force( gd%ic, mater, gd%kin )
 
          ! Compute torsional moments about x, y and z-axes
 
@@ -489,9 +494,9 @@ contains
       ! header per row: 2 spaces + [ 3 spaces + 9 characters ]*
       ! Filter values that are dominated by noise using filt_sml()
 
-      strng(1) = fmt_gs(12, 4, 4, fntrue)
-      strng(2) = fmt_gs(12, 4, 4, filt_sml(fxtrue,0.5d0*eps*fntrue*muscal))
-      strng(3) = fmt_gs(12, 4, 4, filt_sml(fytrue,0.5d0*eps*fntrue*muscal))
+      strng(1) = fmt_gs(12,nd, 4, fntrue)
+      strng(2) = fmt_gs(12,nd, 4, filt_sml(fxtrue,0.5d0*eps*fntrue*muscal))
+      strng(3) = fmt_gs(12,nd, 4, filt_sml(fytrue,0.5d0*eps*fntrue*muscal))
       strng(4) = fmt_gs(12, 4, 4, mztrue)
       strng(5) = fmt_gs(12, 4, 4, elen)
       strng(6) = fmt_gs(12, 4, 4, frpow)
@@ -507,17 +512,17 @@ contains
  8501 format (2x, 3x,'FN',7x, 3x,'FX',7x, 3x,'FY',7x, 3x,'MZ',7x, 2x,'ELAST.EN.',1x, 2x,'FRIC.',a)
  8502 format (2x, 6a12)
 
-      strng(3) = fmt_gs(12, 4, 4, fntrue/gd%mater%ga)
+      strng(3) = fmt_gs(12, 4, 4, fntrue/mater%ga)
       if (ic%force3.eq.0) then
          strng(1) = 'FX/FSTAT/FN'
          if (.not.gd%kin%use_muscal) strng(1) = '  FX/FN'
          strng(4) = fmt_gs(12, 4, 4, filt_sml(fxrel, 0.5d0*eps))
       elseif (is_roll) then
          strng(1) = ' CREEP X'
-         strng(4) = fmt_gs(12, 4, 4, filt_sml(cksi, ceta*eps))
+         strng(4) = fmt_gs(12,nd, 4, filt_sml(cksi, ceta*eps))
       else
          strng(1) = ' SHIFT X'
-         strng(4) = fmt_gs(12, 4, 4, filt_sml(cksi, ceta*eps))
+         strng(4) = fmt_gs(12,nd, 4, filt_sml(cksi, ceta*eps))
       endif
       if (ic%force3.le.1) then
          strng(2) = 'FY/FSTAT/FN'
@@ -534,7 +539,7 @@ contains
 
       if (ic%print_pmax) then
          strng(7)  = '    PMAX    '
-         strng(9)  = fmt_gs(12, 4, 4, pmax)
+         strng(9)  = fmt_gs(12,nd, 4, pmax)
          ! write(strng(9),'(f12.8)') pmax
       endif
       if (ic%heat.ge.1) then
@@ -828,9 +833,7 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
       fname = trim(fname) // '.mat'
    endif
 
-   if (meta%dirnam.ne.' ') then
-      fname = trim(meta%dirnam) // path_sep // trim(fname)
-   endif
+   call make_absolute_path(fname, meta%dirnam, fname)
 
    ! Determine number of columns used
 
@@ -1078,13 +1081,16 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
       ! Error handling:
 
  996  continue
-         write(*,*) 'ERROR: no unit-number provided for .mat-file; skipping mat-output.'
+         call write_log(' ERROR: no unit-number provided for .mat-file; skipping mat-output.')
          goto 999
  997  continue
-         write(*,*) 'ERROR: cannot open file "', trim(fname),'" for writing; skipping mat-output.'
+         call write_log(' ERROR: cannot open file "'//trim(fname)//'" for writing; skipping mat-output.')
+         call free_lunit_tmp_use(lmat)
          goto 999
  998  continue
-         write(*,*) 'ERROR: cannot write solution to .mat-file; continuing without write.'
+         call write_log(' ERROR: cannot write solution to .mat-file; continuing without write.')
+         close(lmat)
+         call free_lunit_tmp_use(lmat)
          goto 999
  999  continue
 

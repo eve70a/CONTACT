@@ -22,21 +22,22 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_ud_planar (ic, ws, trk, icp, cp, gd, idebug)
+   subroutine wr_ud_planar (meta, ic, ws, trk, icp, cp, gd, idebug)
 !--purpose: compute the undeformed distance on a potential contact area using planar contact approach.
 !           TODO: propagate error conditions to calling subroutine
       implicit none
 !--subroutine arguments:
-      integer               :: icp, idebug
+      type(t_metadata)      :: meta
       type(t_ic)            :: ic
       type(t_wheelset)      :: ws
       type(t_trackdata)     :: trk
+      integer               :: icp, idebug
       type(t_cpatch)        :: cp
       type(t_probdata)      :: gd
 !--local variables:
       logical                 :: is_prismatic, use_bicubic
       character(len=5)        :: nam_side
-      integer                 :: lud, nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ixdbg,      &
+      integer                 :: lud, ios, nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ixdbg, &
                                  iydbg, iu, iv, icount, ierror
       real(kind=8)            :: xslc1, hmin, h_ii, xmin, xmax, ymin, ymax, zmin, zmax, smin, smax,     &
                                  swsta, swmid, swend, ds, dx_cp, zsta, zend, z_axle, xtr_sta,           &
@@ -47,7 +48,7 @@ contains
       type(t_marker)          :: mwhl_trk, mrai_pot, mwhl_pot, mpot_whl, mpot_rail
       type(t_grid)            :: rail_sn_full, rail_sn, bbr, bbc
       type(t_grid)            :: prw_trim, whl_srfw_full, whl_srfw, bbw
-      character(len=20)       :: tmp_fname
+      character(len=256)      :: tmp_fname, tmp_fulnam
 
       if (idebug.ge.2) call write_log(' --- Start subroutine wr_ud_planar ---')
       call timer_start(itimer_udist)
@@ -607,8 +608,9 @@ contains
       if (.true. .and. idebug.ge.2) then
          write(tmp_fname,'(a,i1,a)') 'dump_gap_ud',icp,'.m'
          call write_log(' Writing undef.distc to ' // trim(tmp_fname))
+         call make_absolute_path(tmp_fname, meta%dirnam, tmp_fulnam)
          lud = get_lunit_tmp_use()
-         open(unit=lud, file=tmp_fname)
+         open(unit=lud, file=tmp_fulnam, iostat=ios, err=991)
          write(lud,'(2(a,i6),a)') 'mx=',cgrid%nx,'; my=',cgrid%ny,';'
          write(lud,*) 'tmp=['
          do iy = 1, cgrid%ny
@@ -635,6 +637,13 @@ contains
          write(lud,*) 'h_ud =reshape(tmp(:,9),mx,my);'
          close(lud)
          call free_lunit_tmp_use(lud)
+         goto 999
+
+ 991     continue
+            write(bufout,'(2(a,i6))') ' Error opening lud=',lud,', ios=',ios
+            call write_log(1, bufout)
+
+ 999     continue
       endif
 
       ! clean up local variables

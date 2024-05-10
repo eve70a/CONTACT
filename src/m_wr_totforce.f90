@@ -213,7 +213,8 @@ contains
                xref_pot  = s_ws + cref_x
                yref_pot  = sr_ref
             elseif (wtd%ic%tang.eq.2) then ! transient rolling: super-grid fixed in lateral direction
-               xref_pot  = 0d0
+               xref_pot  = cref_x          !                    moving longitudinally at x_tr==0
+             ! xref_pot  = 0d0             ! HACK for old behavior!!!
                yref_pot  = sr_ref
             else                           ! steady rolling: contact grid centered at contact reference marker
                xref_pot  = 0d0
@@ -498,7 +499,7 @@ contains
 
       if (wtd%ic%norm.eq.1 .and. wtd%ws%fz_inp.lt.1d-9) then
          wtd%numcps = 0
-         if (x_locate.ge.1) then  
+         if (x_force.ge.1) then  
             call write_log(' Prescribed total force is zero or negative, skipping computation.')
          endif
          return
@@ -646,7 +647,7 @@ contains
 
       if (my_ierror.ne.0 .or. .not.wtd%ws%has_overlap) then
          call write_log(' no overlap...')
-         call total_forces_moments(wtd, x_locate)
+         call total_forces_moments(wtd)
          return
       endif
 

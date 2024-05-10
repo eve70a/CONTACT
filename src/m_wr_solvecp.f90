@@ -27,6 +27,7 @@ public  wr_solve_cp
 private aggregate_forces
 private cpatch_forces_moments
 public  total_forces_moments
+public  set_dummy_solution
 
 contains
 
@@ -121,7 +122,7 @@ contains
          if (my_ierror.eq.0) my_ierror = sub_ierror
       endif
 
-      ! define the contact problems for all contact patches
+         ! define the contact problems for all contact patches
 
       if (my_ierror.eq.0) then
          do icp = 1, wtd%numcps
@@ -140,7 +141,7 @@ contains
 
       ! perform actual computation when R=0 or 1
 
-      if (wtd%ic%return.le.1 .and. my_ierror.eq.0) then
+      if (my_ierror.eq.0 .and. wtd%ic%return.le.1) then
 
          do icp = 1, wtd%numcps
 
@@ -159,7 +160,7 @@ contains
 
          enddo
 
-         call total_forces_moments(wtd, x_locate)
+         call total_forces_moments(wtd)
 
          ! if requested: check for NaNs, write diagnostic information
 
@@ -320,14 +321,14 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_setup_cp(meta, ws, trk, numcps, icp, cp, wtd_ic, mater, discr, fric, kin, solv, idebug)
+   subroutine wr_setup_cp(meta, ws, trk, numcps, icp, cp, wtd_ic, mater, discr, fric, kin, solv, x_locate)
 !--purpose: define the contact problem for an initial contact point for a W/R contact case. 
       implicit none
 !--subroutine arguments:
       type(t_metadata)  :: meta
       type(t_wheelset)  :: ws
       type(t_trackdata) :: trk
-      integer           :: numcps, icp, idebug
+      integer           :: numcps, icp, x_locate
       type(t_cpatch)    :: cp
       type(t_ic)        :: wtd_ic
       type(t_material)  :: mater
@@ -343,7 +344,7 @@ contains
       type(t_marker)            :: mref_pot, mref_rai, mref_whl, whl_trk
       type(t_probdata), pointer :: gd
 
-      if (idebug.ge.3) then
+      if (x_locate.ge.3) then
          write(bufout,'(/a,i2,a)') ' --- Start subroutine wr_setup_cp for cp',icp,' ---'
          call write_log(2, bufout)
       endif
@@ -381,7 +382,7 @@ contains
 
       call spline_get_s_at_y( my_wheel%prw%grd_data%spl, mref_whl%y(), sw_ref, ierror )
 
-      if (idebug.ge.3) then
+      if (x_locate.ge.3) then
          call marker_print( ws%m_trk,      'm_ws(trk)', 2 )
          call marker_print( my_wheel%m_ws, 'm_whl(ws)', 2 )
          call marker_print( whl_trk,       'm_whl(trk)', 2 )
@@ -417,7 +418,7 @@ contains
       ! copy wheel and rail position data to meta-data
       ! note: mirrorring for left wheel is ignored, internal data written to gd%meta
 
-      gd%meta%tim       = 0d0
+      gd%meta%tim       = meta%tim
       gd%meta%s_ws      = ws%s
       gd%meta%th_ws     = ws%pitch
       gd%meta%ynom_whl  = ws%whl%m_ws%y()
@@ -467,15 +468,16 @@ contains
 
       ! copy solver settings
 
-      gd%solv      = solv
+      call solv_copy( solv, gd%solv)
 
       ! copy material parameters
 
-      gd%mater     = mater
+      call mater_copy( mater, gd%mater )
 
-      ! copy kinematic constants
+      ! copy kinematic parameters
 
-      gd%kin       = kin
+      gd%kin%facphi     = kin%facphi
+      gd%kin%use_muscal = kin%use_muscal
 
       !  - set parameters describing the potential contact area as needed in undef.dist calculation
 
@@ -504,7 +506,7 @@ contains
 
       ! update potcon_inp to cover the contact area of the previous time
  
-      if (wtd_ic%pvtime.ne.2) call merge_prev_potcon(icp, cp%gd, wtd_ic%x_cpatch)
+      if (wtd_ic%pvtime.ne.2 .and. .not.new_gd) call merge_prev_potcon(icp, cp%gd, wtd_ic%x_cpatch)
 
       ! check that npot_max will not be exceeded
 
@@ -524,7 +526,7 @@ contains
 
       call potcon_cgrid(gd%potcon_inp, gd%cgrid_inp)
 
-      if (idebug.ge.2) then
+      if (x_locate.ge.2) then
          mx   = gd%potcon_inp%mx
          npot = gd%potcon_inp%npot
          write(bufout,'(2(a,2f10.4))') ' x_cntc =', gd%cgrid_inp%x(1), gd%cgrid_inp%x(2),'...',         &
@@ -558,6 +560,8 @@ contains
 
       ! set I-digit for this gd
       !  - no initial estimate for new contact patches
+      !  - no initial estimate if different grid sizes are used (dx, dy)
+      !  - no initial estimate in case of reduced #elements (npot_max)
       !  - no initial estimate in case of large change in potential contact area (npot)
       !  - user setting I from wtd when a new case is started
       !  - use initial estimate if this gd was used in previous iteration
@@ -566,8 +570,8 @@ contains
       if (new_gd) then
          gd%ic%iestim = 0
          if (wtd_ic%x_cpatch.ge.1) call write_log('    no initial estimate (new patch)...')
-      elseif (abs(gd%potcon_inp%dx - gd%potcon_cur%dx).gt.1d-4*gd%potcon_inp%dx .or.                    &
-              abs(gd%potcon_inp%dy - gd%potcon_cur%dy).gt.1d-4*gd%potcon_inp%dy) then
+      elseif (.not.equal_grid_sizes(gd%potcon_inp%dx, gd%potcon_cur%dx,                                 &
+                                    gd%potcon_inp%dy, gd%potcon_cur%dy)) then
          gd%ic%iestim = 0
          if (wtd_ic%x_cpatch.ge.1) call write_log('    no initial estimate (change dx or dy)...')
       elseif (abs(gd%potcon_inp%npot - gd%potcon_cur%npot).gt.                                          &
@@ -598,11 +602,11 @@ contains
 
          if (allocated(gd%mater%surf_inclin)) deallocate(gd%mater%surf_inclin)
          allocate(gd%mater%surf_inclin(my,2))
-         if (idebug.ge.3) call write_log('%   iy     si      ai');
+         if (x_locate.ge.3) call write_log('%   iy     si      ai');
          do iy = 1, my
             gd%mater%surf_inclin(iy,1) = gd%cgrid_inp%y(iy*mx)
             gd%mater%surf_inclin(iy,2) = cp%curv_incln%vy(iy)
-            if (idebug.ge.3) then
+            if (x_locate.ge.3) then
                write(bufout,'(i6,f8.3,f11.6)') iy, gd%mater%surf_inclin(iy,1), gd%mater%surf_inclin(iy,2)
                call write_log(1, bufout)
             endif
@@ -622,7 +626,7 @@ contains
          call fric_interp(fric, gd%meta%deltcp_w, gd%fric)
       endif
 
-      if (idebug.ge.3) then
+      if (x_locate.ge.3) then
          write(bufout,*) ' Using V = ', gd%ic%varfrc,' with NVF =', gd%fric%nvf,' slices'
          call write_log(1, bufout)
       endif
@@ -649,7 +653,7 @@ contains
 
       if (wtd_ic%return.le.1) then
 
-         call wr_ud_planar (wtd_ic, ws, trk, icp, cp, gd, idebug)
+         call wr_ud_planar (meta, wtd_ic, ws, trk, icp, cp, gd, x_locate)
 
       endif
 
@@ -669,7 +673,8 @@ contains
 
          ! convert track y_sep position in rail profile to lateral s_c position in tangent plane
 
-         gd%geom%ysep(1:np-1) = (cp%y_sep(1:np-1) - cp%mref%y()) / cos(cp%mref%roll())
+         gd%geom%ysep(1:np-1) = (cp%y_sep(1:np-1) - cp%mref%y()) / cos(cp%mref%roll())  +               &
+                                                                              cp%sr_ref - cp%sr_pot
 
          ! fill tri-diagonal matrix fac
         
@@ -680,12 +685,12 @@ contains
          enddo
          gd%geom%facsep(np  ,np  ) = 1d0             ! diagonal entry
 
-         if (idebug.ge.2) then
+         if (x_locate.ge.2) then
             write(bufout,'(a,i3)') ' IPLAN=4: npatch=',np
             call write_log(1, bufout)
 
             do ip = 1, np
-               write(bufout,'(a,f9.3,a,7f7.3)') ' sc_sep=', gd%geom%ysep(ip),', fac=',             &
+               write(bufout,'(a,f9.3,a,7f7.3)') ' sc_sep=', gd%geom%ysep(ip),', fac=',                  &
                      (gd%geom%facsep(ip,ii), ii=1, np)
                call write_log(1, bufout)
             enddo
@@ -716,7 +721,7 @@ contains
 
          ! compute the creepages or the rigid slip function w.r.t. reference marker
 
-         call wr_rigid_slip(wtd_ic, ws, trk, discr%dqrel, cp, gd, idebug)
+         call wr_rigid_slip(wtd_ic, ws, trk, discr%dqrel, cp, gd, x_locate)
 
          ! set spin center using offset reference marker -- pot.contact
 
@@ -728,7 +733,7 @@ contains
 
       gd%ic%stress = 0
 
-      if (idebug.ge.4) call write_log('--- end subroutine wr_setup_cp ---')
+      if (x_locate.ge.4) call write_log('--- end subroutine wr_setup_cp ---')
       end associate
 
    end subroutine wr_setup_cp
@@ -747,7 +752,7 @@ contains
       type(t_ic)        :: ic
       integer           :: ierror
 !--local variables:
-      integer                   :: iatbnd
+      integer                   :: nadh, nslip, nplast, nexter, ncon, iatbnd
       type(t_probdata), pointer :: gd
 
       if (idebug.ge.3) then
@@ -767,6 +772,18 @@ contains
       gd%ic%output_surf = 0
       if (idebug.ge.5) call write_log(' ... calling contac')
       call contac(gd, ierror)
+
+      ! Count the number of elements in contact
+
+      call eldiv_count(gd%outpt1%igs, nadh, nslip, nplast, nexter)
+      ncon = nadh + nslip + nplast
+
+      if (ncon.le.0 .and. ic%ilvout.ge.1 .and. idebug.ge.-1) then
+         write(bufout,'(2(a,i0))') ' WARNING: no actual contact in patch ',icp,': ncon = ',ncon
+         call write_log(1, bufout)
+
+         if (idebug.ge.3) call wrigs(gd%outpt1%igs, .true., 0d0)
+      endif
 
       ! Count the number of interior elements at the boundaries of the potential contact
 
@@ -822,11 +839,11 @@ contains
       type(t_vec)      :: nref
       type(t_grid)     :: curv_cp
       type(t_gridfnc3) :: ps_cp
-      real(kind=8)     :: dxdy
+      real(kind=8)     :: dxdy, fxtrue, fytrue
 
-      associate( npot   => cgrid%ntot,    muscal => kin%muscal,    fntrue => kin%fntrue,        &
-                 fxrel  => kin%fxrel,     fyrel  => kin%fyrel,                                  &
-                 mxtru1 => outpt1%mxtrue, mytru1 => outpt1%mytrue, mztru1 => outpt1%mztrue )
+      associate( npot   => cgrid%ntot,    muscal => kin%muscal,    fcntc  => kin%fcntc,                 &
+                 fntrue => kin%fntrue,    fxrel  => kin%fxrel,     fyrel  => kin%fyrel,                 &
+                 mxtrue => outpt1%mxtrue, mytrue => outpt1%mytrue, mztrue => outpt1%mztrue )
 
       ! create 3-d version of curved reference surface
 
@@ -872,15 +889,26 @@ contains
          fyrel = dxdy * gf3_sum(AllElm, ps_cp, ikYDIR) / (fntrue*muscal + tiny)
       endif
 
+      fxtrue = fxrel * (fntrue*muscal+tiny)
+      fytrue = fyrel * (fntrue*muscal+tiny)
+
+      ! set contact force at current time
+
+      fcntc  = (/ fxtrue, fytrue, fntrue /)
+
+      ! compute ad-hoc proportional damping using fprev, fcntc
+
+      call calc_damping_force( ic, mater, kin )
+
       ! Compute torsional moments about planar contact x, sp and np-axes
       ! using (x,sp,np)-coordinates provided in curv_cp
 
-      mxtru1 = dxdy * ddot(npot, curv_cp%y, 1, ps_cp%vn, 1) - dxdy * ddot(npot, curv_cp%z, 1, ps_cp%vy, 1)
-      mytru1 = dxdy * ddot(npot, curv_cp%z, 1, ps_cp%vx, 1) - dxdy * ddot(npot, curv_cp%x, 1, ps_cp%vn, 1)
-      mztru1 = dxdy * ddot(npot, curv_cp%x, 1, ps_cp%vy, 1) - dxdy * ddot(npot, curv_cp%y, 1, ps_cp%vx, 1)
+      mxtrue = dxdy * ddot(npot, curv_cp%y, 1, ps_cp%vn, 1) - dxdy * ddot(npot, curv_cp%z, 1, ps_cp%vy, 1)
+      mytrue = dxdy * ddot(npot, curv_cp%z, 1, ps_cp%vx, 1) - dxdy * ddot(npot, curv_cp%x, 1, ps_cp%vn, 1)
+      mztrue = dxdy * ddot(npot, curv_cp%x, 1, ps_cp%vy, 1) - dxdy * ddot(npot, curv_cp%y, 1, ps_cp%vx, 1)
 
       if (idebug.ge.2) then
-         write(bufout,'(3(a,g14.7))') ' Total moments Mx=',mxtru1,', Msp=',mytru1,', Mnp=',mztru1
+         write(bufout,'(3(a,g14.7))') ' Total moments Mx=',mxtrue,', Msp=',mytrue,', Mnp=',mztrue
          call write_log(1, bufout)
       endif
 
@@ -902,16 +930,15 @@ contains
       integer           :: idebug
       type(t_cpatch)    :: cp
 !--local variables:
-      type(t_vec)       :: fcntc, tcntc
+      type(t_vec)       :: fcntc, fdamp, tcntc
       type(t_marker)    :: mwhl_trk
 
       associate(my_rail => trk%rai, my_wheel => ws%whl, gd => cp%gd)
 
       ! rotate forces from contact-reference coordinates to global coordinates
 
-      fcntc = vec( gd%kin%fxrel * gd%kin%fntrue * gd%kin%muscal,                               &
-                   gd%kin%fyrel * gd%kin%fntrue * gd%kin%muscal, gd%kin%fntrue )
-
+      fcntc = vec( gd%kin%fcntc )
+      fdamp = vec( gd%kin%fdamp )
       tcntc = vec( gd%outpt1%mxtrue, gd%outpt1%mytrue, gd%outpt1%mztrue )
 
       if (idebug.ge.2) then
@@ -925,7 +952,9 @@ contains
  800     format(4(a,g14.6))
       endif
 
-      cp%ftrk = cp%mref%rot * fcntc
+      ! total force = contact force + damping
+
+      cp%ftrk = cp%mref%rot * (fcntc + fdamp)
       tcntc   = cp%mref%rot * tcntc             ! T_@cp(cp) --> T_@cp(tr)
 
       ! compute moment T_@rr(tr) = (m_cp(tr) - m_r(tr)) x F_(tr)  +  T_@cp(tr)
@@ -965,12 +994,11 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine total_forces_moments(wtd, idebug)
-!--purpose: compute total forces and moments, location of minimum moment
+   subroutine total_forces_moments(wtd)
+!--purpose: compute total forces and moments
    implicit none
 !--subroutine arguments:
-      integer,          intent(in) :: idebug
-      type(t_ws_track)             :: wtd
+      type(t_ws_track)          :: wtd
 !--local variables:
       integer                   :: icp
 
@@ -982,17 +1010,41 @@ contains
       wtd%tws  = vec( 0d0, 0d0, 0d0 )
 
       do icp = 1, wtd%numcps
-
          associate(cp => wtd%allcps(icp)%cp)
          wtd%ftrk = wtd%ftrk + cp%ftrk
          wtd%ttrk = wtd%ttrk + cp%ttrk
          wtd%fws  = wtd%fws  + cp%fws 
          wtd%tws  = wtd%tws  + cp%tws 
          end associate
-
       enddo
 
    end subroutine total_forces_moments
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine set_dummy_solution(cp)
+!--purpose: initialize contact patch with no contact
+   implicit none
+!--subroutine arguments:
+      type(t_cpatch)               :: cp
+!--local variables:
+
+      ! initialize the contact patch data-structure: micp = mref = 0
+
+      call cp_init(cp)
+      cp%delttr  = 0d0
+      cp%gap_min = 1d0
+      cp%ftrk    = vec_zero()
+      cp%ttrk    = vec_zero()
+      cp%fws     = vec_zero()
+      cp%tws     = vec_zero()
+
+      ! initialize gd data-structure: 1-element potcon, zero solution
+
+      allocate(cp%gd)
+      call gd_init(cp%gd)
+
+   end subroutine set_dummy_solution
 
 !------------------------------------------------------------------------------------------------------------
 

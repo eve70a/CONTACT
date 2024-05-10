@@ -71,7 +71,7 @@ contains
 
       if (geom%iplan.eq.4) then
          call eldiv_new(cpatch, ps%grid)
-         call eldiv_cpatches(cpatch, geom%npatch, geom%ysep, idebug)
+         call eldiv_cpatches(cpatch, geom%npatch, geom%ysep, .true., idebug)
       endif
 
       ! Initialize grid functions rhs, res, v and q.

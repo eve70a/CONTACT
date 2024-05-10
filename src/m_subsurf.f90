@@ -62,7 +62,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine subsurf_input(unitnm, ic, ncase, linenr, idebug, subs)
+subroutine subsurf_input(unitnm, ic, ncase, linenr, subs, idebug, zerror)
 !--purpose: read points in which the subsurface elastic field must be computed.
 !           UnitNm gives the Unit-number of the input-file.
       implicit none
@@ -70,11 +70,12 @@ subroutine subsurf_input(unitnm, ic, ncase, linenr, idebug, subs)
       integer                  :: unitnm, linenr, ncase, idebug
       type(t_ic)               :: ic
       type(t_subsurf)          :: subs
+      logical, intent(inout)   :: zerror
 !--local variables:
       integer, parameter :: mxnval = 20
       logical, parameter :: lstop = .true.
       integer            :: ints(mxnval), idum(1), isubs, nval, ieof, ierror
-      logical            :: flags(mxnval), zerror, lchanged
+      logical            :: flags(mxnval), lchanged
       real(kind=8)       :: dbles(mxnval)
       character(len=256) :: strngs(mxnval)
       real(kind=8), dimension(:), pointer :: tmp
@@ -89,6 +90,7 @@ subroutine subsurf_input(unitnm, ic, ncase, linenr, idebug, subs)
 
          ic%matfil_subs = max(0, min(2, ints(1)))
          ic%output_subs = max(0, min(4, ints(2)))
+         zerror = zerror .or. (ierror.ne.0)
       endif
 
       if (ic%stress.ge.3) then
@@ -98,7 +100,7 @@ subroutine subsurf_input(unitnm, ic, ncase, linenr, idebug, subs)
          call readLine(unitnm, ncase, linenr, 'subsurface input option', 'i', ints, dbles,              &
                            flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
          isubs  = ints(1)
-         zerror = .not.check_3rng ('ISUBS', isubs, 1,3, 5,7, 9,9)
+         zerror = zerror .or. .not.check_3rng ('ISUBS', isubs, 1,3, 5,7, 9,9)
 
          ! While (more blocks) do
 
@@ -881,10 +883,7 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
    else
       fname = trim(fname) // '.subs'
    endif
-
-   if (meta%dirnam.ne.' ') then
-      fname = trim(meta%dirnam) // path_sep // trim(fname)
-   endif
+   call make_absolute_path(fname, meta%dirnam, fname)
 
    if (lwrmat) then
       lsbs = get_lunit_tmp_use()

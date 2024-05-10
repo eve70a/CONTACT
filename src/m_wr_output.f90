@@ -27,7 +27,7 @@ contains
 !--subroutine arguments:
       type(t_ws_track)         :: wtd
 !--local variables:
-      integer, parameter       :: idebug = 0
+      integer, parameter       :: idebug = 0, nd = 4
       logical      :: znewln, is_roll, is_ssrol, use_plast
       integer      :: icp, icpo, n_old, i, j, ii, iin, iout, iy0, iy1, ii0, ii1, lstrow, ncon, nadh,    &
                       nslip, nplast, nexter, ic_discns, is_right
@@ -171,15 +171,21 @@ contains
          write(lout, 2101) mater%poiss, fmt_gs(12,4,4,mater%gg(1)), fmt_gs(12,4,4,mater%gg(2))
  2101    format ( 2x, 2x,'POISS(R)',2x, 2x,'POISS(W)',2x, 3x,'GG(R)',4x, 3x,'GG(W)',/, 2x, 2g12.4, 2a, /)
 
+         if (ic%mater2.ge.2) then
+            write(lout, 2102) fmt_gs(12,4,4,mater%cdampn), fmt_gs(12,4,4,mater%cdampt),                 &
+                fmt_gs(12,4,4,mater%dfnmax), fmt_gs(12,4,4,mater%dftmax)
+ 2102       format ( 2x, 2x,'CDAMPN',4x, 2x,'CDAMPT',4x, 3x,'DFNMAX',4x, 3x,'DFTMAX',/, 2x, 4a, /)
+         endif
+
          if (ic%heat.ge.1 .and. ic%mater.ne.4) then
-            write(lout, 2102) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1),         &
+            write(lout, 2103) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1),         &
                               mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2)
          elseif (ic%heat.ge.1) then
-            write(lout, 2103) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1),         &
+            write(lout, 2104) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1),         &
                 mater%betapl, mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2)
          endif
- 2102    format (2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, /))
- 2103    format (2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY',5x, 'BETAPL', /,               &
+ 2103    format (2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, /))
+ 2104    format (2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY',5x, 'BETAPL', /,               &
                  2x, 5g12.4, /, 2x, 4g12.4, /)
 
          if (ic%mater.eq.1) write(lout,2113) mater%nuv, mater%gav, mater%akv, mater%fg, &
@@ -221,7 +227,7 @@ contains
 
          ! print information on profiles and smoothing
 
-         if (ic%output_surf.ge.2 .and. ic%ilvout.ge.1 .and. ic%ztrack.ge.3) then
+         if (ic%output_surf.ge.2 .and. ic%ztrack.ge.3) then
 
             if (ic%config.ge.4) then
                write(lout, '(/,3a)') ' ROLLER PROFILE "', trim(my_rail%prr%fname),'"'
@@ -238,7 +244,7 @@ contains
 
          endif
 
-         if (ic%output_surf.ge.3 .and. ic%ilvout.ge.1 .and. ic%ztrack.ge.3) then
+         if (ic%output_surf.ge.3 .and. ic%ztrack.ge.3) then
 
             write(lout, '(/, a)') '   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT'
             write(lout, '(2x, 5g12.4)') my_rail%prr%zig_thrs, my_rail%prr%kink_high,                    &
@@ -246,7 +252,7 @@ contains
 
          endif
 
-         if (ic%output_surf.ge.2 .and. ic%ilvout.ge.1 .and. ic%ewheel.ge.3) then
+         if (ic%output_surf.ge.2 .and. ic%ewheel.ge.3) then
 
             write(lout, '(/,3a)') ' WHEEL PROFILE "', trim(my_wheel%prw%fname),'"'
             if (my_wheel%prw%ismooth.eq.0) then
@@ -259,7 +265,7 @@ contains
 
          endif
 
-         if (ic%output_surf.ge.3 .and. ic%ilvout.ge.1 .and. ic%ewheel.ge.3) then
+         if (ic%output_surf.ge.3 .and. ic%ewheel.ge.3) then
 
             write(lout, '(/, a)') '   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT'
             write(lout, '(2x, 5g12.4)') my_wheel%prw%zig_thrs, my_wheel%prw%kink_high,                  &
@@ -277,14 +283,14 @@ contains
          endif
          if (ic%config.le.1) then
             ! wheelset on track: print S_WS, VX_WS
-            write(lout, 4001) 'S', fmt_gs(12,6,4,ws%s), fmt_gs(12,4,4,ws%y), trim(strng(1)),            &
-                   fmt_gs(12,4,4,ws%roll), fmt_gs(12,4,4,ws%yaw), fmt_gs(12,4,4,ws%pitch)
+            write(lout, 4001) 'S', fmt_gs(12,nd,4,ws%s), fmt_gs(12,4,4,ws%y), trim(strng(1)),           &
+                   fmt_gs(12,nd,4,ws%roll), fmt_gs(12,nd,4,ws%yaw), fmt_gs(12,nd,4,ws%pitch)
             write(lout, 4002) fmt_gs(12,4,4,ws%vs), fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),               &
                    fmt_gs(12,4,4,ws%vroll), fmt_gs(12,4,4,ws%vyaw), ws%vpitch
          else
             ! wheelset on roller rig: print X_WS, VPITCH_ROL
             write(lout, 4001) 'X', fmt_gs(12,4,4,ws%x), fmt_gs(12,4,4,ws%y), trim(strng(1)),            &
-                   fmt_gs(12,4,4,ws%roll), fmt_gs(12,4,4,ws%yaw), fmt_gs(12,4,4,ws%pitch)
+                   fmt_gs(12,nd,4,ws%roll), fmt_gs(12,nd,4,ws%yaw), fmt_gs(12,nd,4,ws%pitch)
             write(lout, 4003) trk%vpitch_rol, fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),               &
                   fmt_gs(12,4,4,ws%vroll), fmt_gs(12,4,4,ws%vyaw), ws%vpitch
          endif
@@ -345,9 +351,9 @@ contains
             write(lout,5010) 'ROLLER'
          endif
          write(lout,5011)
-         write(lout,5013) fmt_gs(12,4,4,wtd%ftrk%x()), fmt_gs(12,4,4,sgn*wtd%ftrk%y()),                 &
-                fmt_gs(12,4,4,wtd%ftrk%z()), fmt_gs(12,4,4,wtd%fws%x()), fmt_gs(12,4,4,sgn*wtd%fws%y()), &
-                fmt_gs(12,4,4,wtd%fws%z())
+         write(lout,5013) fmt_gs(12,nd,4,wtd%ftrk%x()), fmt_gs(12,nd,4,sgn*wtd%ftrk%y()),               &
+                          fmt_gs(12,nd,4,wtd%ftrk%z()), fmt_gs(12,nd,4,wtd%fws%x()),                    &
+                          fmt_gs(12,nd,4,sgn*wtd%fws%y()), fmt_gs(12,nd,4,wtd%fws%z())
 !               fmt_gs(16,8,8,wtd%ftrk%z()), fmt_gs(16,8,8,wtd%fws%x()), fmt_gs(12,4,4,sgn*wtd%fws%y()), &
          if (ic%output_surf.ge.4) then
             write(lout,5012)
@@ -500,9 +506,9 @@ contains
             fxtrue = fxrel * (fntrue*muscal+tiny)
             fytrue = fyrel * (fntrue*muscal+tiny)
 
-            strng(1) = fmt_gs(12, 4, 4, fntrue)
-            strng(2) = fmt_gs(12, 4, 4, filt_sml(    fxtrue,0.5d0*eps*fntrue*muscal))
-            strng(3) = fmt_gs(12, 4, 4, filt_sml(sgn*fytrue,0.5d0*eps*fntrue*muscal))
+            strng(1) = fmt_gs(12,nd, 4, fntrue)
+            strng(2) = fmt_gs(12,nd, 4, filt_sml(    fxtrue,0.5d0*eps*fntrue*muscal))
+            strng(3) = fmt_gs(12,nd, 4, filt_sml(sgn*fytrue,0.5d0*eps*fntrue*muscal))
             strng(4) = fmt_gs(12, 4, 4, sgn*mztrue)
             strng(5) = fmt_gs(12, 4, 4, elen)
             strng(6) = fmt_gs(12, 4, 4, frpow)
@@ -522,11 +528,11 @@ contains
             strng(3) = fmt_gs(12, 4, 4, fntrue/mater%ga)
             strng(4) = fmt_gs(12, 4, 4, filt_sml(fxrel, 0.5d0*eps))
             strng(5) = fmt_gs(12, 4, 4, filt_sml(sgn*fyrel, 0.5d0*eps))
-            strng(6) = fmt_gs(12, 4, 4, gd%kin%pen)
+            strng(6) = fmt_gs(12, 6, 4, gd%kin%pen)
 
             if (ic%print_pmax) then
                strng(7)  = '    PMAX    '
-               strng(9)  = fmt_gs(12, 4, 4, pmax1)
+               strng(9)  = fmt_gs(12,nd, 4, pmax1)
             endif
             if (ic%heat.ge.1) then
                tmp1mx = gf3_max(AllElm, temp1, ikZDIR)
@@ -559,7 +565,7 @@ contains
 
          ! Print more detailed global output when "output" >= 2
 
-         if (ic%output_surf.ge.2 .and. ic%ilvout.ge.2) then
+         if (ic%output_surf.ge.2) then
 
             ! Set mirroring of sensitivities for left-side wheel/rail
 
@@ -580,31 +586,30 @@ contains
                enddo
             enddo
 
-            if (ic%tang.ne.0) then
+            if (ic%tang.ne.0 .and. maxval(abs(gd%outpt1%sens(1:nsens_out,1:nsens_in))).gt.1d-10) then
 
                ! sensitivities for Norm and Tang, one contact-problem
 
                str_muscal = 'FN/FSTAT.'
                if (.not.gd%kin%use_muscal) str_muscal = 'FN.'
                write(lout, 6501) str_muscal
- 6501          format(/,/, ' THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/',a,/,                           &
-                           ' A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.',/,                    &
-                       8x, ' DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI',/)
+ 6501          format( /, ' THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/',a,/,                            &
+                          ' A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.',/,                     &
+                      8x, ' DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI',/)
                if (ic%sens.ge.2) then
-                  write(lout, 6502) (strng(i),i=1,4), (strng(i),i=8,11), (strng(i),i=15,18),            &
-                        (strng(i),i=22,25)
+                  write(lout, 6502) ((strng((iout-1)*nsens_in+iin), iin=1,4), iout=1,4)
                else
-                  write(lout, 6502) (strng(i),i=1,4), (strng(i),i=8,11), (strng(i),i=15,18)
+                  write(lout, 6502) ((strng((iout-1)*nsens_in+iin), iin=1,4), iout=1,3)
                endif
  6502          format (3x,'FN ',4a12,/, 3x,'FX ',4a12,/, 3x,'FY ',4a12,:,/, 3x,'MZ ',4a12)
 
-            else
+            elseif (ic%tang.eq.0 .and. abs(gd%outpt1%sens(1,1)).gt.1d-10) then
 
                ! sensitivities for Norm only
 
                write(lout, 6511) strng(1)
- 6511          format (/,/, ' THE SENSITIVITIES.', /, ' A ZERO MEANS THAT IT HAS NOT BEEN CALCULATED.', /, &
-                   2x, 'DFN/DPEN', /, a12)
+ 6511          format (/, ' THE SENSITIVITIES.', /, ' A ZERO MEANS THAT IT HAS NOT BEEN CALCULATED.',   &
+                       /, 2x, 'DFN/DPEN', /, a12)
 
             endif
          endif
@@ -628,7 +633,7 @@ contains
 
          ! write the picture of the contact area when "output" >= 3
 
-         if (ic%output_surf.ge.3 .and. ic%ilvout.ge.1) then
+         if (ic%output_surf.ge.3) then
             write(lout, 6700)
  6700       format(/, ' FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:')
             call wrigs (igs1, is_roll, gd%kin%chi)
@@ -636,7 +641,7 @@ contains
 
          ! print the curved reference surface used for conformal contact when "output" >= 3 and D == 4
 
-         if (ic%output_surf.ge.3 .and. ic%is_conformal() .and. ic%ilvout.ge.1) then
+         if (ic%output_surf.ge.3 .and. ic%is_conformal()) then
 
             write(lout, '(/,a,i5,a)') ' CURVED REFERENCE SURFACE, TRACK COORDINATES,', cp%curv_ref%ny, &
                 ' POINTS:'
@@ -748,7 +753,7 @@ contains
 
       ! print the profiles used in track coordinates when "output" >= 4
 
-      if (ic%output_surf.ge.4 .and. ic%ilvout.ge.1) then
+      if (ic%output_surf.ge.4) then
 
          ! get the rail profile in track coordinates
 

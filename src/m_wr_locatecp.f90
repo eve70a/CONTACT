@@ -16,6 +16,7 @@ public  wr_locatecp
 private locate_regions
 private locate_patches
 private complete_patches
+private patches_have_overlap
 private wr_connect_cps
 private wr_update_allcps
 private compute_wr_surfc
@@ -115,15 +116,15 @@ contains
          newcps(icp)%cp => NULL()
       enddo
 
-      ws%has_overlap = .false.
-      ws%gap_min = 1d10
+      ws%has_overlap = .true.
+      ws%gap_min     = 1d10
 
       do irgn = 1, num_rgn
          if (num_rgn.gt.1) then
             write(bufout,'(/,2(a,i3))') ' --- calling locate_patches for region',irgn,', #regions =',num_rgn
             call write_log(2, bufout)
          endif
-         call locate_patches(ic, ws, trk, discr, all_rgn(irgn), numnew, newcps, idebug, my_ierror)
+         call locate_patches(meta, ic, ws, trk, discr, all_rgn(irgn), numnew, newcps, idebug, my_ierror)
       enddo
 
       !--------------------------------------------------------------------------------------------------
@@ -137,7 +138,7 @@ contains
 
       endif
 
-      if (ws%has_overlap .and. my_ierror.eq.0) then
+      if (my_ierror.eq.0) then
 
          ! connect new contact patches in newcps to patches allcps of previous time
 
@@ -296,10 +297,11 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine locate_patches(ic, ws, trk, discr, region, numnew, newcps, idebug, my_ierror)
+   subroutine locate_patches(meta, ic, ws, trk, discr, region, numnew, newcps, idebug, my_ierror)
 !--purpose: locate the initial contact point(s) for one region for a W/R contact case.
       implicit none
 !--subroutine arguments:
+      type(t_metadata)                :: meta
       type(t_ic)                      :: ic
       type(t_wheelset)                :: ws
       type(t_trackdata)               :: trk
@@ -316,8 +318,6 @@ contains
       real(kind=8)             :: sgn, rgn_gap_min
       type(t_vec)              :: vec_trk
       type(t_marker)           :: rai_vw
-      type(t_rail),    pointer :: my_rail
-      type(t_wheel),   pointer :: my_wheel
       type(t_grid)             :: prr_rgn, sf_rai, sf_whl
       type(t_gridfnc3)         :: sf_incl, uv_whl
 
@@ -325,8 +325,7 @@ contains
 
       if (ic%use_oblique()) call write_log(' --- locate_patches: using oblique view direction ---')
 
-      my_rail   => trk%rai
-      my_wheel  => ws%whl
+      associate( my_rail   => trk%rai, my_wheel  => ws%whl)
 
       ! set the sign to -1 for left and +1 for right rail/wheel combination
 
@@ -377,12 +376,12 @@ contains
          if (.not.use_brute(ic, ws%whl%prw)) then
             if (idebug.ge.2) call write_log(' --- calling compute_wr_locus ---')
             call compute_wr_locus (ic, ws, trk, prr_rgn, region, discr%ds, sf_whl, sf_rai, idebug,      &
-                        rgn_has_overlap, sub_ierror)
+                        rgn_has_overlap, rgn_gap_min, sub_ierror)
             if (my_ierror.eq.0) my_ierror = sub_ierror
          else
             if (idebug.ge.2) call write_log(' --- calling compute_wr_surfc ---')
             call compute_wr_surfc (ic, ws, trk, prr_rgn, region, discr%dx, discr%ds, sf_whl, sf_rai,    &
-                        uv_whl, idebug, rgn_has_overlap)
+                        uv_whl, idebug, rgn_has_overlap, rgn_gap_min)
          endif
       endif
 
@@ -399,15 +398,15 @@ contains
 
          if (.not.use_brute(ic, ws%whl%prw)) then
             if (idebug.ge.2) call write_log(' --- calling locate_interpen_1d ---')
-            call locate_interpen_1d(ic, sf_whl, sf_rai, sf_incl, region%mview, sgn, ws%nom_radius,      &
+            call locate_interpen_1d(meta, ic, sf_whl, sf_rai, sf_incl, region%mview, sgn, ws%nom_radius, &
                         trk%nom_radius, rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, max_n_miss,  &
                         numnew, newcps, idebug)
          else
             if (idebug.ge.2) call write_log(' --- calling locate_interpen_2d ---')
             call timer_start(itimer_interp6)
-            call locate_interpen_2d(ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, discr%dx, ws%nom_radius,  &
-                        rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, max_n_miss, numnew, newcps,  &
-                        idebug)
+            call locate_interpen_2d(meta, ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, discr%dx,           &
+                        ws%nom_radius, rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, max_n_miss,   &
+                        numnew, newcps, idebug)
             call timer_stop(itimer_interp6)
          endif
 
@@ -453,12 +452,12 @@ contains
 
          endif
 
-         ! merge information for this region to overall information
-
-         ws%has_overlap = .true.
-         ws%gap_min = min(ws%gap_min, rgn_gap_min)
-
       endif
+
+      ! merge information for this region to overall information
+
+      ws%has_overlap = ws%has_overlap .and. rgn_has_overlap
+      ws%gap_min     = min(ws%gap_min, rgn_gap_min)
 
       ! cleanup local variables
 
@@ -472,6 +471,7 @@ contains
          my_ierror = CNTC_err_search
          ws%gap_min = 1d10
       endif
+      end associate
 
    end subroutine locate_patches
 
@@ -615,6 +615,53 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   function patches_have_overlap(cp1, cp2, ignore_near_miss, check_grid_sizes )
+!--purpose: determine whether two contact patches are partially overlapping
+      implicit none
+!--function result:
+   logical        :: patches_have_overlap
+!--subroutine arguments:
+   logical        :: ignore_near_miss, check_grid_sizes
+   type(t_cpatch) :: cp1, cp2
+!--local variables:
+   logical        :: has_overlap
+
+   has_overlap = .true.
+
+   ! if ignore_near_miss: `near miss' patches do not overlap at all
+
+   if (ignore_near_miss) then
+      if (cp1%gap_min.ge.0d0 .or. cp2%gap_min.ge.0d0) has_overlap = .false.
+   endif
+
+   ! if check_grid_sizes: no overlap if grid sizes are different
+
+   if (check_grid_sizes) then
+      if (.not.equal_grid_sizes(cp1%dx_eff, cp2%dx_eff, cp1%ds_eff, cp2%ds_eff)) has_overlap = .false.
+   endif
+
+   ! no overlap if all x1 < [x2sta,x2end]
+
+   if (cp1%xend.lt.cp2%xsta) has_overlap = .false.
+
+   ! no overlap if all x1 > [x2sta,x2end]
+
+   if (cp1%xsta.gt.cp2%xend) has_overlap = .false.
+
+   ! no overlap if all y1 < [y2sta,y2end]
+
+   if (cp1%yend.lt.cp2%ysta) has_overlap = .false.
+
+   ! no overlap if all y1 > [y2sta,y2end]
+
+   if (cp1%ysta.gt.cp2%yend) has_overlap = .false.
+
+   patches_have_overlap = has_overlap
+
+   end function patches_have_overlap
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine wr_connect_cps(meta, ic, numnew, newcps, numcps, numtot, allcps)
 !--purpose: determine connection between numtot existing contact patches and numnew new contact patches
 !           numnew includes near miss contact patches (gap>=0)
@@ -625,17 +672,19 @@ contains
       integer                  :: numnew, numcps, numtot
       type(p_cpatch)           :: newcps(numnew), allcps(numtot)
 !--local variables:
-      integer                  :: iestim, icpo, icpn
-      logical                  :: has_overlap(numnew,numtot)
+      integer                  :: iestim, icpo, icpn, icpn1, icpn2
+      logical                  :: has_overlap_y(numnew,numtot)
       integer                  :: n_old(numnew), n_new(numtot)
       character(len=30)        :: fmtstr
+
+      ! determine if initial estimates will be used
 
       iestim = ic%iestim
       if (meta%itforce.ge.2) iestim = 1
 
-      if (ic%pvtime.eq.2 .and. iestim.eq.0) then
+      ! P=2 and I=0: no connection to previous time
 
-         ! P=2 and I=0: no connection to previous time
+      if (ic%pvtime.eq.2 .and. iestim.eq.0) then
 
          if (ic%x_cpatch.ge.1) then
             write(bufout,'(3(a,i3),a)') ' wr_connect_cps: There are', numnew,' new contact patches'
@@ -682,16 +731,32 @@ contains
             do icpn = numtot+1, numnew
                associate( cp1 => newcps(icpn)%cp )
                write(bufout,'(a,i3,a,30x,2(a,f9.3),a,f12.6)') ' icp=',icpn,':','new y=[', cp1%ysta,',', &
-                        cp1%yend,']',cp1%gap_min
+                        cp1%yend,'], gap=',cp1%gap_min
                call write_log(1, bufout)
                end associate
             enddo
          endif
    
-         ! determine matrix has_overlap for new <--> old patches
+         ! consistency check: new patches should not overlap with each other
+
+         if (ic%x_cpatch.ge.4) call write_log(' perform consistency check on y-ranges...')
+         do icpn1 = 1, numnew
+            do icpn2 = icpn1+1, numnew
+
+               ! determine overlap [ysta1,yend1] <--> [ysta2,yend2], ignoring `near miss' patches
+
+               if (patches_have_overlap(newcps(icpn1)%cp, newcps(icpn2)%cp, .true., .true.)) then
+                  write(bufout,'(2(a,i3))') ' Internal error: icp=',icpn1,' overlaps with icp=',icpn2
+                  call write_log(1, bufout)
+               endif
+            enddo
+         enddo
+         if (ic%x_cpatch.ge.4) call write_log(' consistency check completed...')
+
+         ! determine matrix has_overlap_y for new <--> old patches
          ! count n_old per new patch; count n_new per old patch
 
-         has_overlap(1:numnew,1:numtot) = .false.
+         has_overlap_y(1:numnew,1:numtot) = .false.
          n_old(1:numnew) = 0
          n_new(1:numtot) = 0
    
@@ -700,12 +765,11 @@ contains
             do icpo = 1, numtot
                associate( cp0 => allcps(icpo)%cp, cp1 => newcps(icpn)%cp )
 
-               ! determine overlap [ynew0,ynew1] <--> [yold0,yold1]
-               !  - ignore `near miss' patches: has_overlap = .false.
+               ! determine overlap in x and y, ignore `near miss' patches,
+               !  in steady rolling: ignore patches with different grid sizes dx,dy
 
-               if (cp0%gap_min.lt.0d0 .and. cp1%gap_min.lt.0d0 .and.                                    &
-                   cp1%ysta.le.cp0%yend .and. cp1%yend.ge.cp0%ysta) then
-                  has_overlap(icpn,icpo) = .true.
+               if (patches_have_overlap(allcps(icpo)%cp, newcps(icpn)%cp, .true., .true.)) then
+                  has_overlap_y(icpn,icpo) = .true.
                   n_old(icpn) = n_old(icpn) + 1
                   n_new(icpo) = n_new(icpo) + 1
                   cp1%prev_icp(n_old(icpn)) = icpo
@@ -718,16 +782,16 @@ contains
             enddo
          enddo
    
-         ! print matrix has_overlap
+         ! print matrix has_overlap_y
 
          if (ic%x_cpatch.ge.3 .and. numtot.ge.1 .and. numnew.ge.1) then
-            call write_log(' matrix has_overlap(new,old):')
+            call write_log(' matrix has_overlap_y(new,old):')
             write(fmtstr,'(a,i2,a)') '(a,', numtot, 'i3,a,i3)'
             write(bufout, fmtstr) '         i_old=', (icpo, icpo=1, numtot),',  n_old'
             call write_log(1, bufout)
             write(fmtstr,'(a,i2,a)') '(a,i3,a,', numtot, 'l3,a,i3)'
             do icpn = 1, numnew
-               write(bufout,fmtstr) '     inew= ',icpn,':',(has_overlap(icpn,icpo), icpo=1,numtot),     &
+               write(bufout,fmtstr) '     inew= ',icpn,':',(has_overlap_y(icpn,icpo), icpo=1,numtot),     &
                    ',  ',n_old(icpn)
                call write_log(1, bufout)
             enddo
@@ -828,7 +892,7 @@ contains
                   call write_log(1, bufout)
                endif
 
-               call gd_merge( allcps(icpx)%cp%gd, allcps(icpo)%cp%gd, x_cpatch )
+               call gd_merge( allcps(icpo)%cp%gd, allcps(icpx)%cp%gd, x_cpatch )
 
                ! delete old patch icpx after merging
 
@@ -1001,7 +1065,7 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine compute_wr_surfc (ic, ws, trk, prr_rgn, region, dx_cp, ds_cp, sf_whl, sf_rai, uv_whl,     &
-                                idebug, has_overlap)
+                                idebug, has_overlap, gap_min)
 !--purpose: define the 'gap_mesh' and compute the wheel and rail surfaces sf_whl and sf_rai accordingly.
       implicit none
 !--subroutine arguments:
@@ -1014,6 +1078,7 @@ contains
       type(t_gridfnc3)              :: uv_whl
       type(t_region)                :: region
       logical,          intent(out) :: has_overlap
+      real(kind=8),     intent(out) :: gap_min
 !--local variables:
       logical                 :: is_prismatic
       integer                 :: nslc, nr, nx, ny, is_right, sub_ierror
@@ -1119,25 +1184,9 @@ contains
 
       elseif (ic%is_roller() .and. ic%use_oblique()) then
 
-         ! wheelset on roller rig, with roller axle aligned with view coordinate y-axis
+         ! wheelset on roller rig, view coordinate y-axis may be different from roller axle
 
-         ! interpolate rail profile to 1d intermediate 'prr_unif' 
-
-         call grid_create_uniform(prr_unif, nxarg=1, x0arg=0d0, x1arg=0d0,                              &
-                                            y0arg=ymin, dyarg=dy, y1arg=ymax, zarg=0d0)
-
-         call spline_get_xz_at_y(prr_rgn%spl, prr_unif, sub_ierror)
-
-         ! form the 2D rail surface in view coordinates in surface 'sf_rai'
-
-         z_axle = trk%nom_radius
-         call grid_revolve_profile(prr_unif, nx, xmin_vw, dx_vw, z_axle, 999d0, sf_rai)
-
-      elseif (ic%is_roller()) then
-
-         ! wheelset on roller rig, roller axle different from view coordinate y-axis
-
-         ! profile 'prr_rgn' is given in view coordinates; get profile in rail coords 
+         ! profile 'prr_rgn' is given in view coordinates; get profile in rail coords to use revolve
 
          rr_vw  = marker_2loc( my_rail%m_trk, region%mview )
          call grid_copy(prr_rgn, prr_rr)
@@ -1148,14 +1197,30 @@ contains
          z_axle = trk%nom_radius
          call grid_revolve_profile(prr_rr, nx, xmin_vw, dx_vw, z_axle, 999d0, rai_curv)
 
-         ! convert rail surface from rail coords to view coords
+         ! convert rail surface from rail coords to back to view coords
 
          call cartgrid_2glob(rai_curv, rr_vw)
 
-         ! interpolate surface rai_curv to the gap_mesh
+         ! interpolate surface rai_curv(vw) to the gap_mesh
 
          call grid_copy(gap_mesh, sf_rai)
          call interp_cartz2unif(rai_curv, sf_rai, sub_ierror, 999d0)
+
+      elseif (ic%is_roller()) then
+
+         ! wheelset on roller rig, view coordinate y-axis aligned with roller axle (track y-axis)
+
+         ! interpolate rail profile prr_rgn(tr) to 1d intermediate 'prr_unif(tr)' 
+
+         call grid_create_uniform(prr_unif, nxarg=1, x0arg=0d0, x1arg=0d0,                              &
+                                            y0arg=ymin, dyarg=dy, y1arg=ymax, zarg=0d0)
+
+         call spline_get_xz_at_y(prr_rgn%spl, prr_unif, sub_ierror)
+
+         ! form the 2D rail surface in view coordinates in surface 'sf_rai(tr)'
+
+         z_axle = trk%nom_radius
+         call grid_revolve_profile(prr_unif, nx, xmin_vw, dx_vw, z_axle, 999d0, sf_rai)
 
       else ! is_prismatic
 
@@ -1180,6 +1245,7 @@ contains
 
       call timer_start(itimer_interp5)
       has_overlap = .true.
+      gap_min     =  1d10
       call grid_get_boundbox(whl_curv, bbw)
       call grid_get_boundbox(sf_rai, bbr)
       call timer_stop(itimer_interp5)
@@ -1195,6 +1261,7 @@ contains
 
       if (ic%norm.le.0 .and. minval(bbw%z).gt.maxval(bbr%z)) then
          has_overlap = .false.
+         gap_min     = maxval(bbr%z) - minval(bbw%z)
          write(bufout,'(2a,/,2(2(a,f10.3),a,:,/))') ' WARNING: the wheel and rail are VERTICALLY in ',  &
                         'different places.',                                                            &
                         '          the wheel grid has z = [', minval(bbw%z),',', maxval(bbw%z),'],',    &
@@ -1499,7 +1566,7 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine compute_wr_locus (ic, ws, trk, prr_rgn, region, ds_cp, sf_whl, sf_rai, idebug,            &
-                        has_overlap, my_ierror)
+                        has_overlap, gap_min, my_ierror)
 !--purpose: compute the contact locus on the wheel surface, and define profiles sf_whl and sf_rai to
 !           be used for locating the interpenetration regions
       implicit none
@@ -1512,6 +1579,7 @@ contains
       type(t_grid)              :: prr_rgn, sf_whl, sf_rai
       integer                   :: idebug
       logical,      intent(out) :: has_overlap
+      real(kind=8), intent(out) :: gap_min
       integer,      intent(out) :: my_ierror
 !--local variables:
       integer,      parameter :: max_num_kinks = 99
@@ -1606,23 +1674,18 @@ contains
       ! evaluate profile slope dz/dy at s-positions of wheel profile prw
       !    (supporting vertical sections in wheel coordinates)
 
-      allocate(dz_dy(nw))
-      if (.true.) then
-         allocate(dy_ds(nw), dz_ds(nw))
-         call spline_eval(prw%spl, ikYDIR, nw, prw%s_prf, sub_ierror, f1_eval=dy_ds)
-         call spline_eval(prw%spl, ikZDIR, nw, prw%s_prf, sub_ierror, f1_eval=dz_ds)
-         do iw = 1, nw
-            dz_dy(iw) = dz_ds(iw) / min(-1d-6, dy_ds(iw))
-            if (iw.eq.iw_dbg) then
-               write(bufout,'(a,i4,4(a,g12.4))') ' wheel iw=',iw,': yw=',prw%y(iw),', dy_ds=',dy_ds(iw), &
-                     ', dz_ds=',dz_ds(iw),': dz_dy=',dz_dy(iw)
-               call write_log(1, bufout)
-            endif
-         enddo
-         deallocate(dy_ds, dz_ds)
-      else
-         call spline_get_dzdy_at_s( prw%spl, nw, prw%s_prf, dz_dy, sub_ierror )
-      endif
+      allocate(dz_dy(nw), dy_ds(nw), dz_ds(nw))
+      call spline_eval(prw%spl, ikYDIR, nw, prw%s_prf, sub_ierror, f1_eval=dy_ds)
+      call spline_eval(prw%spl, ikZDIR, nw, prw%s_prf, sub_ierror, f1_eval=dz_ds)
+      do iw = 1, nw
+         dz_dy(iw) = dz_ds(iw) / min(-1d-6, dy_ds(iw))
+         if (iw.eq.iw_dbg) then
+            write(bufout,'(a,i4,4(a,g12.4))') ' wheel iw=',iw,': yw=',prw%y(iw),', dy_ds=',dy_ds(iw), &
+                  ', dz_ds=',dz_ds(iw),': dz_dy=',dz_dy(iw)
+            call write_log(1, bufout)
+         endif
+      enddo
+      deallocate(dy_ds, dz_ds)
 
       ! wheel-on-rail configurations: straight-forward calculation
 
@@ -1751,6 +1814,7 @@ contains
       ! Check that the wheel and rail surfaces overlap
 
       has_overlap = .true.
+      gap_min     =  1d10
       call grid_get_boundbox(prw_lc, bbw)
       call grid_get_boundbox(sf_rai, bbr)
 
@@ -1767,15 +1831,25 @@ contains
 
       if (bbw%y(1).gt.bbr%y(8) .or. bbr%y(1).gt.bbw%y(8)) then
          has_overlap = .false.
-         write(bufout,'(2a,/,2(2(a,f8.3),a,:,/))') ' WARNING: the wheel and rail are laterally in ',    &
-                        'different places.',                                                            &
-                        '          the wheel grid has y=[', bbw%y(1),',', bbw%y(8),'],',                &
-                        '          the  rail grid has y=[', bbr%y(1),',', bbr%y(8),'].'
+         if (maxval(abs(bbw%y)).gt.9999. .or. maxval(abs(bbr%y)).gt.9999.) then
+            write(bufout,'(2a,/,2(5a,:,/))') ' WARNING: the wheel and rail are laterally in ',          &
+                           'different places.',                                                         &
+                           '          the wheel grid has y=[', fmt_gs(9,3,3,bbw%y(1)),',',              &
+                                                               fmt_gs(9,3,3,bbw%y(8)),'],',             &
+                           '          the  rail grid has y=[', fmt_gs(9,3,3,bbr%y(1)),',',              &
+                                                               fmt_gs(9,3,3,bbr%y(8)),'].'
+         else
+            write(bufout,'(2a,/,2(2(a,f8.3),a,:,/))') ' WARNING: the wheel and rail are laterally in ', &
+                           'different places.',                                                         &
+                           '          the wheel grid has y=[', bbw%y(1),',', bbw%y(8),'],',             &
+                           '          the  rail grid has y=[', bbr%y(1),',', bbr%y(8),'].'
+         endif
          call write_log(3, bufout)
       endif
 
       if (ic%norm.le.0 .and. minval(bbw%z).gt.maxval(bbr%z)) then
          has_overlap = .false.
+         gap_min     = maxval(bbr%z) - minval(bbw%z)
          if (maxval(abs(bbw%z)).gt.9999. .or. maxval(abs(bbr%z)).gt.9999.) then
             write(bufout,'(2a,/,2(5a,:,/))') ' WARNING: the wheel and rail are vertically in ',         &
                         'different places.',                                                            &
@@ -2376,12 +2450,13 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine locate_interpen_1d( ic, sf_whl, sf_rai, sf_incl, m_vw, sgn, nom_radius, roller_radius,    &
-                                  gap_min, delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps, idebug)
+   subroutine locate_interpen_1d(meta, ic, sf_whl, sf_rai, sf_incl, m_vw, sgn, nom_radius, roller_radius, &
+                                 gap_min, delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps, idebug)
 !--purpose: find the points in the contact locus on the wheel with (locally) maximum interpenetration,
 !           define the corresponding interpenetration regions
       implicit none
 !--subroutine arguments:
+      type(t_metadata)            :: meta
       type(t_ic)                  :: ic
       type(t_grid)                :: sf_whl, sf_rai      ! wheel contact locus & rail profile at uniform dy
                                                          ! in view coordinates
@@ -2401,13 +2476,14 @@ contains
       integer,      intent(in)    :: idebug
 !--local variables:
       logical            :: has_zero
-      integer            :: lgap, ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0, icp, n_miss
+      integer            :: lgap, ios, ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0, icp, n_miss
       integer            :: ii_n, ii_s, ilm, ilcmin, nummin, numrem
       integer            :: locmin(2,MAX_LOC_MIN)
       real(kind=8)       :: gap_locmin, xmin, ymin, gmin, zrmin, curv_y, xmax, dgap, ysta, yend, zsta, zend
       type(t_cpatch),             pointer     :: cp
       logical,      dimension(:), pointer     :: mask => NULL()
       real(kind=8), dimension(:), allocatable :: gap
+      character(len=256) :: fulnam
 
       if (idebug.ge.4) call write_log('--- start subroutine locate_interpen_1d ---')
       associate( nx => sf_whl%nx, ny => sf_whl%ny, x  => sf_whl%x,  y  => sf_whl%y,                     &
@@ -2431,10 +2507,11 @@ contains
          endif
       enddo
 
-      if (.true. .and. idebug.ge.2) then
+      if (.false. .and. idebug.ge.2) then
          call write_log(' Dump 1d gap-function to dump_gap1d.m ...')
          lgap = get_lunit_tmp_use()
-         open(unit=lgap, file='dump_gap1d.m')
+         call make_absolute_path('dump_gap1d.m', meta%dirnam, fulnam)
+         open(unit=lgap, file=fulnam, iostat=ios, err=991)
          write(lgap,'(2(a,i6),a)') 'mx=',nx,'; my=',ny,';'
          write(lgap,'(a)') '%  iy      x_tr          y_tr          zw            zr            alph'
          write(lgap,'(a)') 'tmp =['
@@ -2454,6 +2531,14 @@ contains
             call write_log(' idebug>=4: aborting')
             call abort_run()
          endif
+         goto 999
+
+ 991     continue
+            write(bufout,'(2(a,i6))') ' Error opening lgap=',lgap,', ios=',ios
+            call write_log(1, bufout)
+            call abort_run()
+
+ 999     continue
       endif
 
       if (.false.) then
@@ -2739,12 +2824,13 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine locate_interpen_2d( ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, dx, nom_radius, gap_min,    &
-                                delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps, idebug)
+   subroutine locate_interpen_2d(meta, ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, dx, nom_radius, gap_min, &
+                                 delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps, idebug)
 !--purpose: find the points in the wheel mesh with (locally) minimum gap / maximum interpenetration,
 !           define the corresponding interpenetration regions
       implicit none
 !--subroutine arguments:
+      type(t_metadata)            :: meta
       type(t_ic)                  :: ic
       type(t_grid)                :: sf_whl, sf_rai      ! wheel & rail surfaces at gap-mesh positions
                                                          ! in view coordinates
@@ -2764,13 +2850,14 @@ contains
       integer,      intent(in)    :: idebug
 !--local variables:
       logical        :: has_uv
-      integer        :: lgap, ix, iy, iy_sta, iy_end, ix_sta, ix_end, ii_min, nguard, icheck
+      integer        :: lgap, ios, ix, iy, iy_sta, iy_end, ix_sta, ix_end, ii_min, nguard, icheck
       integer        :: ii, ii_n, ii_s, ii_e, ii_w, ilm, ilcmin, numcp0, icp, nummin, numrem, n_miss
       integer        :: locmin(2,MAX_LOC_MIN)
       real(kind=8)   :: gap_locmin
       type(t_cpatch),             pointer     :: cp
       logical,      dimension(:), pointer     :: mask => NULL()
       real(kind=8), dimension(:), allocatable :: gap
+      character(len=256) :: fulnam
 
       if (idebug.ge.4) call write_log('--- start subroutine locate_interpen_2d ---')
       associate( nx => sf_whl%nx, ny => sf_whl%ny, x  => sf_whl%x,  y  => sf_whl%y,                     &
@@ -2794,8 +2881,9 @@ contains
 
       if (.true. .and. idebug.ge.2) then
          call write_log(' Dump 2d gap-function to dump_gap2d.m ...')
+         call make_absolute_path('dump_gap2d.m', meta%dirnam, fulnam)
          lgap = get_lunit_tmp_use()
-         open(unit=lgap, file='dump_gap2d.m')
+         open(unit=lgap, file=fulnam, iostat=ios, err=991)
          write(lgap,'(2(a,i6),a)') 'nx=',nx,'; ny=',ny,';'
          if (has_uv) then
             write(lgap,'(2a)') '%  ix   iy      x_vw         y_vw         zw           zr',             &
@@ -2826,6 +2914,13 @@ contains
          write(lgap,*) 'clear tmp;'
          close(lgap)
          call free_lunit_tmp_use(lgap)
+         goto 999
+
+ 991     continue
+            write(bufout,'(2(a,i6))') ' Error opening lud=',lgap,', ios=',ios
+            call write_log(1, bufout)
+
+ 999     continue
       endif
 
       ! 2. find overall minimum gap value & surface inclination in view coordinates
@@ -3261,7 +3356,7 @@ contains
                   cell_tot  =      dx * max(-gap(ii), 1d-10)
                else
                   ! squared weighting:            gap^2>0
-                  cell_tot  =      dx * max(gap(ii)**2, 1d-10)
+                  cell_tot  =      dx * max(gap(ii)**2, 1d-20)
                endif
                part_xgap = part_xgap +       x(ii) * cell_tot
                part_ygap = part_ygap +       y(ii) * cell_tot
@@ -3294,10 +3389,10 @@ contains
          call write_log(1, bufout)
       endif
 
-      wgt_xgap = wgt_xgap / max(totgap, 1d-10)
-      wgt_ygap = wgt_ygap / max(totgap, 1d-10)
-      wgt_zgap = wgt_zgap / max(totgap, 1d-10)
-      wgt_agap = wgt_agap / max(totgap, 1d-10)
+      wgt_xgap = wgt_xgap / max(totgap, 1d-40)
+      wgt_ygap = wgt_ygap / max(totgap, 1d-40)
+      wgt_zgap = wgt_zgap / max(totgap, 1d-40)
+      wgt_agap = wgt_agap / max(totgap, 1d-40)
 
       if (idebug.ge.2) then
          write(bufout,'(4(a,f12.6))') ' interpen. center of gravity: x_cg=',wgt_xgap,                &
@@ -3793,7 +3888,7 @@ contains
 
       ! 5.f get (y,z) coordinates at sr_ref
 
-      call spline_eval(prr%spl, ikYDIR, cp%sr_ref, sub_ierror, 999d0, cref_y)
+      call spline_eval(prr%spl, ikYDIR, cp%sr_ref, sub_ierror, 999d0, cref_y) ! needed when using micp
       call spline_eval(prr%spl, ikZDIR, cp%sr_ref, sub_ierror, 999d0, cref_z)
 
       if (ic%is_roller()) then
@@ -3837,7 +3932,8 @@ contains
          xref_pot  = s_ws + cref_x
          yref_pot  = cp%sr_ref
       elseif (ic%tang.eq.2) then        ! transient rolling: super-grid fixed in lateral direction,
-         xref_pot  = 0d0                ! longitudinally following along with track coordinate system
+         xref_pot  = cref_x             !                    moving along longitudinally at x_tr==0
+       ! xref_pot  = 0d0                ! HACK for old behavior!!!
          yref_pot  = cp%sr_ref
       else                              ! steady rolling: contact grid centered at contact reference marker
          xref_pot  = 0d0
@@ -4007,6 +4103,7 @@ contains
       my   = iy_h - iy_l + 1
 
       ! increase dx_eff, ds_eff as needed to bring npot below max #elements
+      !  - use of npot_max is disabled in transient contact (use_supergrid)
 
       if (ic%return.le.1 .and. .not.ic%use_supergrid() .and. npot_max.ge.100 .and. mx*my.ge.npot_max) then
          if (idebug.ge.-1) then
@@ -4107,7 +4204,6 @@ contains
       type(t_cpatch)                 :: cp
       integer,           intent(in)  :: idebug
 !--local variables:
-      logical,      parameter :: use_old_wnrm = .true.
       type(t_marker)          :: whl_trk, mq_cp, mq_trk, mq_whl
       type(t_grid)            :: rsrf, wsrf
       type(t_gridfnc3)        :: rnrm, wnrm
@@ -4261,10 +4357,8 @@ contains
 
          ! fill wnrm: evaluate dy/ds, dz/ds at positions sw(i), define outward normal
 
-         if (use_old_wnrm) then
-            call gf3_new(wnrm, 'wnrm', wsrf, lzero=.true.)
-            call spline_get_nvec_at_s_gfout( prw%spl, wnrm, sub_ierror )
-         endif
+         call gf3_new(wnrm, 'wnrm', wsrf, lzero=.true.)
+         call spline_get_nvec_at_s_gfout( prw%spl, wnrm, sub_ierror )
 
          ! rotate profile from wheel to track coordinates
          ! TODO: rotation should ignore yaw angle or set nx=0 and re-normalize
@@ -4276,7 +4370,7 @@ contains
          endif
 
          call cartgrid_2glob( wsrf, whl_trk )
-         if (use_old_wnrm) call gf3_rotate( wnrm, whl_trk%rot )
+         call gf3_rotate( wnrm, whl_trk%rot )
 
          if (idebug.ge.5) then
             call grid_print(wsrf, 'wsrf(trk)', 5, 9)
@@ -4304,20 +4398,6 @@ contains
          endif
 
       enddo
-
-      ! compute surface normals wnrm: evaluate dydz(s) at positions sw(i)
-      ! outward normal: [ 0, -dy/dz, 1 ]
-
-      if (.not.use_old_wnrm) then
-         wsrf%s_prf = -wsrf%s_prf                  ! temporarily use -sw to get increasing sequence
-         ! call write_log('grid_make_spline wsrf...')
-         call grid_make_ppspline(wsrf, lambda=0d0, use_wgt=.false., my_ierror=sub_ierror)
-         call gf3_new(wnrm, 'wnrm', wsrf, lzero=.true.)
-         call spline_get_dzdy_at_s(wsrf%spl, wnrm, sub_ierror)
-         call gf3_scal(AllElm, -1d0, wnrm, ikYDIR)
-         call gf3_set(AllElm,   1d0, wnrm, ikZDIR)
-         wsrf%s_prf = -wsrf%s_prf                  ! reset original sw
-      endif
 
       if (idebug.ge.3) then
          call grid_print(rsrf, 'rsrf_trk', 5, 9)
@@ -4591,48 +4671,32 @@ contains
 
       ! lateral: compute curvatures of profiles at contact reference position
 
-      if (.true.) then
+      ! method 1: \delta s = \delta\alpha/\kappa over full width of interpenetration area
 
-         ! method 1: \delta s = \delta\alpha/\kappa over full width of interpenetration area
+      sarr(1)  = cp%sr_ref + cp%sp_sta
+      sarr(2)  = cp%sr_ref + cp%sp_end
+      call spline_get_dzdy_at_s(prr%spl, 2, sarr, dzdy, sub_ierror)
+      alpha(1) = atan(dzdy(1))
+      alpha(2) = atan(dzdy(2))
+      kappa_r  = (alpha(2) - alpha(1)) / (sarr(2) - sarr(1))
 
-         sarr(1)  = cp%sr_ref + cp%sp_sta
-         sarr(2)  = cp%sr_ref + cp%sp_end
-         call spline_get_dzdy_at_s(prr%spl, 2, sarr, dzdy, sub_ierror)
-         alpha(1) = atan(dzdy(1))
-         alpha(2) = atan(dzdy(2))
-         kappa_r  = (alpha(2) - alpha(1)) / (sarr(2) - sarr(1))
+      if (idebug.ge.2) then
+         write(bufout,'(a,2f9.3,a,2f8.4,a,2g12.4)') ' prr_grd: s=',sarr(1), sarr(2),', alpha=',      &
+             alpha(1), alpha(2), ', kappa_r=',kappa_r
+         call write_log(1, bufout)
+      endif
 
-         if (idebug.ge.2) then
-            write(bufout,'(a,2f9.3,a,2f8.4,a,2g12.4)') ' prr_grd: s=',sarr(1), sarr(2),', alpha=',      &
-                alpha(1), alpha(2), ', kappa_r=',kappa_r
-            call write_log(1, bufout)
-         endif
+      sarr(1)  = sw_ref - cp%sp_sta  ! note: sw is oriented opposite to sr, sp
+      sarr(2)  = sw_ref - cp%sp_end
+      call spline_get_dzdy_at_s(my_wheel%prw%grd_data%spl, 2, sarr, dzdy, sub_ierror)
+      alpha(1) = atan(dzdy(1))
+      alpha(2) = atan(dzdy(2))
+      kappa_w  = (alpha(2) - alpha(1)) / (sarr(2) - sarr(1))
 
-         sarr(1)  = sw_ref - cp%sp_sta  ! note: sw is oriented opposite to sr, sp
-         sarr(2)  = sw_ref - cp%sp_end
-         call spline_get_dzdy_at_s(my_wheel%prw%grd_data%spl, 2, sarr, dzdy, sub_ierror)
-         alpha(1) = atan(dzdy(1))
-         alpha(2) = atan(dzdy(2))
-         kappa_w  = (alpha(2) - alpha(1)) / (sarr(2) - sarr(1))
-
-         if (idebug.ge.2) then
-            write(bufout,'(a,2f9.3,a,2f8.4,a,2g12.4)') ' prw_grd: s=',sarr(1), sarr(2),', alpha=',      &
-                alpha(1), alpha(2), ', kappa_w=',kappa_w
-            call write_log(1, bufout)
-         endif
-
-      else
-
-         ! method 2: \kappa at sr_ref, sw_ref according to spline
-
-         call spline_get_curv_yz_at_s( prr%spl, cp%sr_ref, kappa_r, sub_ierror )
-         call spline_get_curv_yz_at_s( my_wheel%prw%grd_data%spl, sw_ref, kappa_w, sub_ierror )
-
-         if (idebug.ge.2) then
-            write(bufout,'(2(a,g12.4))') 'prr_spl: kappa_r=',kappa_r, ', kappa_w=',kappa_w
-            call write_log(1, bufout)
-         endif
-
+      if (idebug.ge.2) then
+         write(bufout,'(a,2f9.3,a,2f8.4,a,2g12.4)') ' prw_grd: s=',sarr(1), sarr(2),', alpha=',      &
+             alpha(1), alpha(2), ', kappa_w=',kappa_w
+         call write_log(1, bufout)
       endif
 
       b1 = kappa_r / 2d0 + kappa_w / 2d0
@@ -5343,7 +5407,7 @@ contains
 
       if (ndel.gt.nint(max_omit*prw%ntot)) then
          my_ierror = -2102
-         write(bufout,'(a,i4,a,f6.2,a,i4)') 'ndel=',ndel, ', max_omit=',max_omit, ', ntot=',prw%ntot
+         write(bufout,'(a,i4,a,f6.2,a,i4)') ' ndel=',ndel, ', max_omit=',max_omit, ', ntot=',prw%ntot
             call write_log(1, bufout)
          if (err_hnd.ge.-1) then
             write(bufout,'(a,f6.1,a)') ' ERROR: wheel profile y-values are non-monotonic,',             &

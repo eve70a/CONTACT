@@ -103,6 +103,8 @@ module m_bspline
       module procedure bspline_get_xz_at_uy_prod
    end interface bspline_get_xz_at_uy
 
+   public  test_bspline
+
 !------------------------------------------------------------------------------------------------------------
 !  data for a parametric tensor B-spline (u, v, [x(u,v)], y(u,v), z(u,v)):
 

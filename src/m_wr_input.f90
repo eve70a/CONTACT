@@ -30,10 +30,11 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_input (lunit, inp, ncase, linenr, wtd)
+   subroutine wr_input (inpdir, lunit, inp, ncase, linenr, wtd)
 !--purpose: Input-routine for a W/R contact case. 
       implicit none
 !--subroutine arguments:
+      character*(*), intent(in) :: inpdir
       integer                   :: lunit, inp, linenr, ncase
       type(t_ws_track)          :: wtd
 !--local variables:
@@ -161,7 +162,7 @@ contains
       ! Read input for Z1-digit: track/roller rig design dimensions, profile(s), deviation
       !------------------------------------------------------------------------------------------------------
 
-      call trackdata_input(lunit, ncase, linenr, modul, meta, ic, trk, ldebug, ieof, lstop, zerror)
+      call trackdata_input(inpdir, lunit, ncase, linenr, modul, ic, trk, ldebug, ieof, lstop, zerror)
 
       if (my_rail%prr%fname.eq.' ' .and. (ic%ztrack.eq.0 .or. ic%ztrack.eq.2)) then
          zerror = .true.
@@ -174,7 +175,7 @@ contains
       ! Read input for E-digit: wheel-set dimensions, profile, position and velocity
       !------------------------------------------------------------------------------------------------------
 
-      call wheelset_input(lunit, ncase, linenr, modul, meta, ic, ws, trk, ldebug, ieof, lstop, zerror)
+      call wheelset_input(inpdir, lunit, ncase, linenr, modul, ic, ws, trk, ldebug, ieof, lstop, zerror)
 
       if (my_wheel%prw%fname.eq.' ' .and.                                                               &
           (ic%ewheel.eq.1 .or. ic%ewheel.eq.2 .or. ic%ewheel.eq.4)) then
@@ -189,7 +190,7 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if (ic%stress.ge.2) then
-         call subsurf_input(lunit, ic, ncase, linenr, ldebug, subs)
+         call subsurf_input(lunit, ic, ncase, linenr, subs, ldebug, zerror)
       endif
 
       ! abort on errors
@@ -241,10 +242,10 @@ contains
 !--local variables:
       integer,      parameter :: mxnval = 20
       logical,      parameter :: lstop  = .false.
-      integer          :: ints(mxnval), lspck, nval, ldebug, ieof, my_ierror, ncase, linenr, modul
+      integer          :: ints(mxnval), lspck, nval, ldebug, ieof, my_ierror, ncase, linenr, modul, ix
       logical          :: flags(mxnval), zerror
       real(kind=8)     :: dbles(mxnval)
-      character*256    :: strngs(mxnval)
+      character*256    :: strngs(mxnval), inpdir
       type(t_ic)       :: ic0
 
       ierror = 0
@@ -266,12 +267,21 @@ contains
       lspck = get_lunit_tmp_use()
       open(lspck, file=fname, status='old', err=985)
 
+      ! determine the folder name from the input filename
+
+      inpdir = ' '
+      ix = index_pathsep(fname, back=.true.)
+      if (ix.gt.0) then
+         inpdir = fname(1:ix-1) // path_sep
+      endif
+
       ! Get the module-number for first case
 
       ldebug = 1
       ieof   = -1 ! eof=error
       call readLine(lspck, ncase, linenr, 'module number', 'i', ints, dbles, flags, strngs, mxnval,      &
                     nval, ldebug, ieof, lstop, my_ierror)
+      zerror = zerror .or. (my_ierror.ne.0)
 
       modul = ints(1)
       if (modul.ne.0 .and. modul.ne.modul_spck) then
@@ -296,7 +306,7 @@ contains
          if (warn_ic_changed('F1 (FORCE)',  ic0%force1, ic%force1, .true.))  ic%force1 = ic0%force1
          if (warn_ic_changed('H (HEAT)',    ic0%heat,   ic%heat,   .true.))  ic%heat   = ic0%heat
          if (warn_ic_changed('S (STRESS)',  ic0%stress, ic%stress, .true.))  ic%stress = ic0%stress
-         if (warn_ic_changed('I (IESTIM)',  ic0%iestim, ic%iestim, .true.))  ic%iestim = ic0%iestim
+         if (warn_ic_changed('I (IESTIM)',  ic0%iestim, ic%iestim, .false.)) ic%iestim = ic0%iestim
 
          ! reject features not supported in Simpack input
 
@@ -373,16 +383,21 @@ contains
 
          ! Read input for Z1-digit: track/roller rig design dimensions, profile(s), deviation
 
-         call trackdata_input(lspck, ncase, linenr, modul, meta, ic, trk, ldebug, ieof, lstop, zerror)
+         call trackdata_input(inpdir, lspck, ncase, linenr, modul, ic, trk, ldebug, ieof, lstop, zerror)
 
          ! Read input for E-digit: wheel-set dimensions, profile, position and velocity
 
-         call wheelset_input(lspck, ncase, linenr, modul, meta, ic, ws, trk, ldebug, ieof, lstop, zerror)
+         call wheelset_input(inpdir, lspck, ncase, linenr, modul, ic, ws, trk, ldebug, ieof, lstop, zerror)
 
          ! read subsurface points
 
          if (ic%stress.ge.2) then
-            call subsurf_input(lspck, ic, ncase, linenr, ldebug, subs)
+            call subsurf_input(lspck, ic, ncase, linenr, subs, ldebug, zerror)
+         endif
+
+         if (zerror) then
+            call write_log(' Errors found. Returning.')
+            ierror = -1
          endif
 
       endif ! ierror==0
@@ -396,6 +411,7 @@ contains
          ierror = -2
          write(bufout,'(3a)') ' ERROR: cannot open input-file: "', trim(fname),'"'
          call write_log(1, bufout)
+         call free_lunit_tmp_use(lspck)
          return
 
       end associate
@@ -423,6 +439,7 @@ contains
 
       call readline(lunit, ncase, linenr, 'discretisation parameters', 'dddaddD', ints, dbles,          &
                      flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+      zerror = zerror .or. (ierror.ne.0)
       discr%dx        = dbles(1)
       discr%ds        = dbles(2)
       discr%dqrel     = dbles(3)
@@ -474,17 +491,17 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine trackdata_input(lunit, ncase, linenr, modul, meta, ic, trk, ldebug, ieof, lstop, zerror)
+   subroutine trackdata_input(inpdir, lunit, ncase, linenr, modul, ic, trk, ldebug, ieof, lstop, zerror)
 !--purpose: read material parameters for temperature calculation
       implicit none
 !--subroutine arguments:
-      integer, intent(in)      :: lunit, ncase, modul, ldebug
-      integer, intent(inout)   :: linenr, ieof
-      type(t_metadata)         :: meta
-      type(t_ic)               :: ic
-      type(t_trackdata)        :: trk
-      logical, intent(in)      :: lstop
-      logical, intent(inout)   :: zerror
+      character*(*), intent(in) :: inpdir
+      integer, intent(in)       :: lunit, ncase, modul, ldebug
+      integer, intent(inout)    :: linenr, ieof
+      type(t_ic)                :: ic
+      type(t_trackdata)         :: trk
+      logical, intent(in)       :: lstop
+      logical, intent(inout)    :: zerror
 !--local variables:
       integer, parameter :: mxnval = 10
       integer            :: ints(mxnval), nval, ierror, is_wheel, i_ftype
@@ -500,6 +517,7 @@ contains
 
             call readline(lunit, ncase, linenr, 'track design dimensions', 'ddda', ints, dbles, flags,  &
                            strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
             trk%gauge_height = dbles(1)
             if (trk%gauge_height.gt.0d0) then
@@ -517,6 +535,7 @@ contains
 
             call readline(lunit, ncase, linenr, 'roller rig design dimensions', 'dddd', ints, dbles,    &
                            flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
             trk%gauge_height = dbles(1)
             if (trk%gauge_height.gt.0d0) then
@@ -537,6 +556,7 @@ contains
          ! Z1=3: one rail profile used for current side of track; get filename and configuration data
 
          call profile_read_config(lunit, trk%rai%prr, 'rail', ncase, linenr, ldebug, ieof, lstop, zerror)
+         zerror = zerror .or. (ierror.ne.0)
 
          ! check that variable profiles are used with absolute rail placement
 
@@ -553,7 +573,7 @@ contains
          ! read the rail profile
 
          if (.not.zerror) then
-            call profile_read_file(trk%rai%prr, meta%dirnam, 0, ic%x_profil, ic%x_readln, lstop)
+            call profile_read_file(trk%rai%prr, inpdir, 0, ic%x_profil, ic%x_readln, lstop)
             zerror = zerror .or. (trk%rai%prr%ierror.ne.0)
          endif
 
@@ -565,6 +585,7 @@ contains
 
          call readline(lunit, ncase, linenr, 'current rail deviations', 'ddadda', ints, dbles, flags,   &
                         strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
 
          trk%rai%dy    = dbles(1)
          trk%rai%dz    = dbles(2)
@@ -581,6 +602,7 @@ contains
 
          call readline(lunit, ncase, linenr, 'current rail deflection parameters', 'dddd', ints, dbles, &
                         flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
 
          trk%ky_rail   = dbles(1)
          trk%fy_rail   = dbles(2)
@@ -593,18 +615,18 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wheelset_input(lunit, ncase, linenr, modul, meta, ic, ws, trk, ldebug, ieof, lstop, zerror)
+   subroutine wheelset_input(inpdir, lunit, ncase, linenr, modul, ic, ws, trk, ldebug, ieof, lstop, zerror)
 !--purpose: read input for E-digit: wheel-set dimensions, profile, position and velocity
       implicit none
 !--subroutine arguments:
-      integer, intent(in)      :: lunit, ncase, modul, ldebug
-      integer, intent(inout)   :: linenr, ieof
-      type(t_metadata)         :: meta
-      type(t_ic)               :: ic
-      type(t_wheelset)         :: ws
-      type(t_trackdata)        :: trk
-      logical, intent(in)      :: lstop
-      logical, intent(inout)   :: zerror
+      character*(*), intent(in) :: inpdir
+      integer, intent(in)       :: lunit, ncase, modul, ldebug
+      integer, intent(inout)    :: linenr, ieof
+      type(t_ic)                :: ic
+      type(t_wheelset)          :: ws
+      type(t_trackdata)         :: trk
+      logical, intent(in)       :: lstop
+      logical, intent(inout)    :: zerror
 !--local variables:
       integer, parameter :: mxnval = 10
       integer            :: ints(mxnval), nval, ierror
@@ -619,6 +641,7 @@ contains
 
          call readline(lunit, ncase, linenr, 'wheel-set dimensions', 'ddd', ints, dbles, flags,          &
                         strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          ws%flback_dist  = dbles(1)
          ws%flback_pos   = dbles(2)
          ws%nom_radius   = dbles(3)
@@ -637,7 +660,7 @@ contains
 
          ! read the wheel profile, store in wheel data
 
-         call profile_read_file(ws%whl%prw, meta%dirnam, 1, ic%x_profil, ic%x_readln, lstop)
+         call profile_read_file(ws%whl%prw, inpdir, 1, ic%x_profil, ic%x_readln, lstop)
          zerror = zerror .or. (ws%whl%prw%ierror.ne.0)
 
          if (.false. .and. ic%discns1_eff.eq.5) then
@@ -653,6 +676,7 @@ contains
 
          call readline(lunit, ncase, linenr, 'wheel-set position and orientation', 'dddaaa', ints,      &
                         dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          if (ic%config.le.1) then
             ws%s      = dbles(1)
             ws%x      = 0d0
@@ -688,6 +712,7 @@ contains
 
          call readline(lunit, ncase, linenr, 'wheel-set velocity and rotation', types, ints, dbles,     &
                         flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
 
          if (ic%config.le.1) then
             ws%vs          = dbles(1)
@@ -719,6 +744,7 @@ contains
 
          call readline(lunit, ncase, linenr, trim(namside) // ' wheel position deviations', 'dddaaa',   &
                        ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
 
          ws%whl%dx     = dbles(1)
          ws%whl%dy     = dbles(2)
@@ -731,6 +757,7 @@ contains
 
          call readline(lunit, ncase, linenr, trim(namside) // ' wheel velocity deviations', 'dddaaa',   &
                        ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
 
          ws%whl%vx     = dbles(1)
          ws%whl%vy     = dbles(2)
@@ -756,10 +783,24 @@ contains
       real(kind=8)             :: dflt_turn
       character(len=1)         :: namside
       character(len=10)        :: strng
+      type(t_ic)               :: tmp_ic
       type(t_wheel),   pointer :: my_wheel
 
-      associate(ic    => wtd%ic,   mater => wtd%mater, discr => wtd%discr, kin   => wtd%kin,        &
+      call ic_copy(wtd%ic, tmp_ic)      ! create local copy of configuration
+
+      associate(ic    => tmp_ic,   mater => wtd%mater, discr => wtd%discr, kin   => wtd%kin,        &
                 fric  => wtd%fric, solv  => wtd%solv,  ws    => wtd%ws,    trk   => wtd%trk  )
+
+      if (ic%wrtinp.ge.2) then
+         ic%frclaw_inp  = wtd%fric%frclaw_eff     ! write friction to inp-file
+         ic%discns1_inp = wtd%ic%discns1_eff      ! write discretisation parameters to inp-file
+         ic%gencr_inp   = wtd%mater%gencr_eff     ! write material parameters to inp-file
+         ic%mater2      = 0
+         if (max(mater%cdampn,mater%cdampt).ge.1d-15) ic%mater2 = 2
+         ic%ewheel      = max(3, ic%ewheel)       ! TODO: check writing of wheelset flexibility
+         ic%ztrack      = 3
+
+      endif
 
       if (ncase.gt.0) write(linp,'(a,i8)') '% Next case', ncase
 

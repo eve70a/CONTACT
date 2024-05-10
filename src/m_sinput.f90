@@ -304,7 +304,7 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       if (ic%stress.ge.2) then
-         call subsurf_input(linp, ic, ncase, linenr, idebug, subs)
+         call subsurf_input(linp, ic, ncase, linenr, subs, idebug, zerror)
       endif
 
       !------------------------------------------------------------------------------------------------------
@@ -357,10 +357,12 @@ contains
          call readLine(linp, ncase, linenr, 'control integers pbtnfs', 'i', ints, dbles, flags,         &
                        strngs, mxnval, nval, idebug, ieof, lstop, ierror)
       endif
+      zerror  = zerror .or. (ierror.ne.0)
       cpbtnfs = ints(1)
 
       call readline(linp, ncase, linenr, 'control integers vldcmze', 'iI', ints, dbles, flags,          &
                     strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+      zerror  = zerror .or. (ierror.ne.0)
       vldcmze = ints(1)
       if (nval.ge.2) then
          ic%gapwgt = ints(2) / 10
@@ -371,6 +373,7 @@ contains
 
       call readline(linp, ncase, linenr, 'control integers hgiaowr', 'i', ints, dbles, flags,           &
                     strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+      zerror   = zerror .or. (ierror.ne.0)
       xhgiaowr = ints(1)
 
       call ic_unpack (imodul, cpbtnfs, vldcmze, xhgiaowr, ic)
@@ -380,6 +383,7 @@ contains
       if (ic%xflow.ge.1) then
          call readline(linp, ncase, linenr, 'debug output psflcin', 'iI', ints, dbles, flags,           &
                        strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror  = zerror .or. (ierror.ne.0)
          psflcin = ints(1)
          if (nval.ge.2) ic%x_readln = ints(2)
       else
@@ -628,6 +632,7 @@ contains
 
          call readline(linp, ncase, linenr, 'iteration constants', 'iiiidI', ints, dbles, flags,        &
                         strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          solv%maxgs  = ints(1)  ! note: ordered alphabetically instead of inner-->outer
          solv%maxin  = ints(2)
          solv%maxnr  = ints(3)
@@ -639,6 +644,7 @@ contains
       if (gausei_inp.eq.2 .or. gausei_inp.eq.3) then
          call readline(linp, ncase, linenr, 'iteration (relaxation) parameters', 'ddid', ints,          &
                      dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          solv%omegah = dbles(1)
          solv%omegas = dbles(2)
          solv%inislp = ints(1)
@@ -648,6 +654,7 @@ contains
       if (gausei_inp.eq.4) then
          call readline(linp, ncase, linenr, 'iteration (relaxation) parameters', 'id', ints,            &
                      dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          solv%inislp = ints(1)
          solv%omgslp = dbles(1)
       endif
@@ -655,6 +662,7 @@ contains
       if (gausei_inp.eq.5) then
          call readline(linp, ncase, linenr, 'parameters for gdsteady', 'ddiddddd',                      &
                        ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          solv%fdecay = dbles(1)   ! <0.001 or >0.999 used for E_down / E_trl
          solv%betath = dbles(2)
          solv%kdowfb = ints(1)
@@ -714,6 +722,7 @@ contains
 
       call readline(linp, ncase, linenr, 'kinematic inputs', 'ddddDD',                                  &
                     ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+      zerror = zerror .or. (ierror.ne.0)
 
       if (ic%norm.eq.0) then
          kin%pen    = dbles(1)
@@ -786,6 +795,7 @@ contains
       if (is_roll) then
          call readline(linp, ncase, linenr, 'rolling velocity, direction and distance/time step',    &
                        'addD', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          kin%chi   = dbles(1)
          kin%dq    = dbles(2)
          kin%veloc = dbles(3)
@@ -841,6 +851,7 @@ contains
 
          call readline(linp, ncase, linenr, 'if-correction method', 'ii', ints ,dbles, flags,           &
                         strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%if_meth  = ints(1)
          mater%if_ver   = ints(2)
 
@@ -850,6 +861,7 @@ contains
 
          call readline(linp, ncase, linenr, 'if-correction method', 'iii', ints ,dbles, flags,          &
                         strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%if_meth  = ints(1)
          mater%if_ver   = ints(2)
          nn             = ints(3)
@@ -865,6 +877,7 @@ contains
          allocate(tmp(nn*2))
          call read1darr(linp, ncase, linenr, 'conformal surface inclinations', 'a', nn*2, idum, tmp,    &
                         idebug, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
 
          mater%ninclin = nn
          do ii = 1, nn
@@ -881,6 +894,7 @@ contains
       if (ic%gencr_inp.eq.9) then
          call readline(linp, ncase, linenr, 'file with numerical influence coefficients',            &
                        's', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%fname_influe = trim(strngs(1))
       endif
 
@@ -888,6 +902,7 @@ contains
 
       call readline(linp, ncase, linenr, 'material properties',                                      &
                     'dddd', ints ,dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+      zerror = zerror .or. (ierror.ne.0)
       mater%poiss(1) = dbles(1)
       mater%poiss(2) = dbles(2)
       mater%gg(1) = dbles(3)
@@ -898,6 +913,7 @@ contains
       if (ic%bound.eq.1) then
          call readline(linp, ncase, linenr, 'thin sheet compressibility',                            &
                        'd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%flx_z = dbles(1)
       endif
 
@@ -906,6 +922,7 @@ contains
       if (ic%mater.eq.1) then
          call readline(linp, ncase, linenr, 'viscoelastic material constants',                       &
                        'dddd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%fg(1) = dbles(1)
          mater%fg(2) = dbles(2)
          mater%tc(1) = dbles(3)
@@ -917,6 +934,7 @@ contains
       if (ic%mater.eq.2) then
          call readline(linp, ncase, linenr, 'simplified theory flexibility + slope reduction',       &
                        'dddd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%flx(1:3) = dbles(1)
          mater%k0_mf    = dbles(2)
          mater%alfamf   = dbles(3)
@@ -928,6 +946,7 @@ contains
       if (ic%mater.eq.3) then
          call readline(linp, ncase, linenr, 'slope reduction parameters', 'ddd', ints, dbles,        &
                        flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%k0_mf    = dbles(1)
          mater%alfamf   = dbles(2)
          mater%betamf   = dbles(3)
@@ -938,6 +957,7 @@ contains
       if (ic%mater.eq.4) then
          call readline(linp, ncase, linenr, 'third body layer parameters',                           &
                        'dddd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%gg3    = dbles(1)
          mater%laythk = dbles(2)
          mater%tau_c0 = dbles(3)
@@ -1051,9 +1071,10 @@ contains
                         mxnval, nval, idebug, ieof, lstop, ierror)
          mater%cdampn = dbles(1)
          mater%cdampt = dbles(2)
-         mater%dfnmax = dbles(1)
-         mater%dftmax = dbles(2)
+         mater%dfnmax = dbles(3)
+         mater%dftmax = dbles(4)
 
+         zerror = zerror .or. (ierror.ne.0)
          zerror = zerror .or. .not.check_range ('CDAMPN', mater%cdampn, 0d0, 1d20)
          zerror = zerror .or. .not.check_range ('CDAMPT', mater%cdampt, 0d0, 1d20)
          zerror = zerror .or. .not.check_range ('DFNMAX', mater%dfnmax, 0d0, 1d20)
@@ -1084,6 +1105,7 @@ contains
       if (ic%heat.eq.3) then
          call readline(linp, ncase, linenr, 'temperature inputs for body 1', 'dddd', ints, dbles,       &
                         flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%bktemp(1) = dbles(1)
          mater%heatcp(1) = dbles(2)
          mater%lambda(1) = dbles(3)
@@ -1091,6 +1113,7 @@ contains
 
          call readline(linp, ncase, linenr, 'temperature inputs for body 2', 'dddd', ints, dbles,       &
                         flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%bktemp(2) = dbles(1)
          mater%heatcp(2) = dbles(2)
          mater%lambda(2) = dbles(3)
@@ -1107,6 +1130,7 @@ contains
       if (ic%heat.eq.3 .and. ic%mater.eq.4) then
          call readline(linp, ncase, linenr, 'partitioning of plastic work', 'd', ints, dbles,           &
                         flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          mater%betapl = dbles(1)
 
          zerror = zerror .or. .not.check_range ('BETAPL', mater%betapl, 0d0, 1d0)
@@ -1136,6 +1160,7 @@ contains
 
       call readline(linp, ncase, linenr, 'specification method for potential contact area',          &
                     'i', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+      zerror = zerror .or. (ierror.ne.0)
       potcon%ipotcn = ints(1)
 
       if (potcon%ipotcn.ge.-5 .and. potcon%ipotcn.le.-1) then
@@ -1144,6 +1169,7 @@ contains
 
          call readline(linp, ncase, linenr, 'properties of potential contact area',                  &
                        'iiddd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
 
          potcon%mx = ints(1)
          potcon%my = ints(2)
@@ -1173,6 +1199,7 @@ contains
 
          call readline(linp, ncase, linenr, 'properties of SDEC contact area',                       &
                        'iidddd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
 
          potcon%mx = ints(1)
          potcon%my = ints(2)
@@ -1188,6 +1215,7 @@ contains
 
          call readline(linp, ncase, linenr, 'properties of potential contact area',                  &
                        'iidddd', ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
 
          potcon%mx = ints(1)
          potcon%my = ints(2)
@@ -1315,6 +1343,7 @@ contains
 
          call readline(linp, ncase, linenr, 'type of geometry description, ibase and iplan', 'ii',      &
                        ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
          geom%ibase = ints(1)
          geom%iplan = ints(2)
 
@@ -1329,11 +1358,13 @@ contains
 
             call read1darr(linp, ncase, linenr, 'geometry description #2', 'd', 6, idum, geom%prmudf,   &
                            idebug, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
          elseif (geom%ibase.eq.2) then
 
             call readline(linp, ncase, linenr, 'geometry description #3', 'idddd',                      &
                           ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
             geom%nn = ints(1)
             call reallocate_arr(geom%prmudf, 5+geom%nn)
@@ -1343,11 +1374,13 @@ contains
 
             call read1darr(linp, ncase, linenr, 'geometry description #4', 'd', geom%nn, idum,          &
                            geom%prmudf(6:), idebug, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
          elseif (geom%ibase.eq.3) then
 
             call read1darr(linp, ncase, linenr, 'geometry description #5', 'd', 8, idum, geom%prmudf,   &
                            idebug, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
          elseif (geom%ibase.eq.9) then
 
@@ -1356,6 +1389,7 @@ contains
 
             call read1darr(linp, ncase, linenr, 'undeformed distance in all elements', 'd',             &
                            npot, idum, geom%prmudf, idebug, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
          endif
 
          ! read additional parameters for planform
@@ -1366,6 +1400,7 @@ contains
             ! iplan = 2: elliptical planform (quadratic function)
             call read1darr(linp, ncase, linenr, 'planform description #2', 'd', 6, idum, geom%prmpln,   &
                            idebug, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
          elseif (geom%iplan.eq.3) then
 
@@ -1373,6 +1408,7 @@ contains
 
             call read1darr(linp, ncase, linenr, 'planform description #3', 'd', 8, idum, geom%prmpln,   &
                            idebug, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
          elseif (geom%iplan.eq.4) then
 
@@ -1380,6 +1416,7 @@ contains
 
             call readline(linp, ncase, linenr, 'planform description: npatch', 'i',                     &
                           ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
             associate( np => geom%npatch )
             np = max(1, min(100, ints(1)))
@@ -1392,9 +1429,11 @@ contains
 
             call read1darr(linp, ncase, linenr, 'planform description: ysep', 'd', np-1, idum,          &
                            geom%ysep, idebug, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
             call read1darr(linp, ncase, linenr, 'planform description: fac', 'd', np*(np-1)/2, idum,    &
                            tmp, idebug, lstop, ierror)
+            zerror = zerror .or. (ierror.ne.0)
 
             ! expand compressed list obtained in tmp to full matrix in facsep
 

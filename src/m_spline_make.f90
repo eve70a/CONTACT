@@ -520,7 +520,7 @@ end subroutine spline_add_topview
 
 !------------------------------------------------------------------------------------------------------------
 
-module subroutine spline_check_updates(spl, nprf, s_prf, x_prf, y_prf, z_prf, k_chk, dist_max, my_ierror)
+module subroutine spline_check_deviation(spl, nprf, s_prf, x_prf, y_prf, z_prf, k_chk, dist_max, my_ierror)
 !--function: determine max distance between parametric spline (x(s),y(s),z(s)) and original data
    implicit none
 !--subroutine arguments:
@@ -534,6 +534,11 @@ module subroutine spline_check_updates(spl, nprf, s_prf, x_prf, y_prf, z_prf, k_
    integer                    :: nchk, ichk, iseg, k, imax, sub_ierror
    real(kind=8)               :: ds, dst2, dst2mx
    real(kind=8), allocatable  :: schk(:), xspl(:), yspl(:), zspl(:), xint(:), yint(:), zint(:)
+
+   ! skip if k_chk <= 0 provided
+
+   my_ierror = 0
+   if (k_chk.le.0) return
 
    ! allocate temporary arrays for checking spline vs linear interpolant
 
@@ -620,7 +625,7 @@ module subroutine spline_check_updates(spl, nprf, s_prf, x_prf, y_prf, z_prf, k_
 
    deallocate(schk, xspl, yspl, zspl, xint, yint, zint)
 
-end subroutine spline_check_updates
+end subroutine spline_check_deviation
 
 !------------------------------------------------------------------------------------------------------------
 

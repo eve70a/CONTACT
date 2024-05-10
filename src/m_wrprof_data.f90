@@ -322,7 +322,8 @@ public
       type(t_kincns)   :: kin     ! kinematic description of the problem
       type(t_solvers)  :: solv    ! variables related to solution algorithms
       ! type(t_output) :: outpt   ! solution and derived quantities
-      type(t_vec)      :: ftrk, ttrk, fws, tws   ! F_(tr), T_@r(tr), F_(ws), T@w(ws) (right rail, mirrored)
+      type(t_vec)      :: ftrk, ttrk, fws, tws               ! F_(tr), T_@r(tr), F_(ws), T@w(ws)
+                                                             ! (right rail, mirrored view)
       real(kind=8)     :: dfz_dzws ! sensitivity of fz_tr to z_ws
 
       type(t_wheelset) :: ws      ! half wheel-set data, including wheel profile

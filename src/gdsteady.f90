@@ -30,7 +30,7 @@
       logical            :: lchanged, use_plast
       type(t_eldiv)      :: igsold, igsopt
       type(t_gridfnc3)   :: g, dp, dupl, dscl, n, t, r, dv, v, q, D_q, psopt, ssopt, pold, tmp
-      integer            :: mx, my, nadh, nslip, nplst, nexter, newadh, newslp, imvp, it_inn, it_fb,    &
+      integer            :: mx, my, nadh, nslip, nplast, nexter, newadh, newslp, imvp, it_inn, it_fb,   &
                             ii, iym, iidbg, ixdbg, iydbg, its_j, tot_j, ltmp
       real(kind=8)       :: alpha, alpha0, alpha1, beta, coefs(2,2), cosdth, facnel, flx, ga, k_tau,    &
                             tau_c0, snrm, st, ptabs, dif, dif1, difid, difinn, conv,      &
@@ -111,8 +111,8 @@
 
       ! correction factor for rms-norm: pot.con versus actual contact
 
-      call eldiv_count(igs, nadh, nslip, nplst, nexter)
-      facnel = sqrt(real(npot)/real(nadh+nslip+nplst))
+      call eldiv_count(igs, nadh, nslip, nplast, nexter)
+      facnel = sqrt(real(npot)/real(nadh+nslip+nplast))
 
       ! Compute traction-bound at each element ii - compatibility with previous implementation
 
@@ -443,11 +443,11 @@
          if (itgd.eq.1) dif1 = dif
 
          if (ic%flow.ge.5 .or. itgd.ge.maxgd-5) then
-            call eldiv_count(igs, nadh, nslip, nplst, nexter)
+            call eldiv_count(igs, nadh, nslip, nplast, nexter)
             if (npot.lt.100000 .and. use_plast) then
-               write(bufout, 5301) itgd, nadh, nslip, nplst, dif, difid, beta, its_j
+               write(bufout, 5301) itgd, nadh, nslip, nplast, dif, difid, beta, its_j
             elseif (use_plast) then
-               write(bufout, 5302) itgd, nadh, nslip, nplst, dif, difid, beta, its_j
+               write(bufout, 5302) itgd, nadh, nslip, nplast, dif, difid, beta, its_j
             elseif (npot.lt.100000) then
                write(bufout, 5303) itgd, nadh, nslip, dif, difid, beta, its_j
             else
