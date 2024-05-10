@@ -581,6 +581,8 @@ contains
       call grid_nullify(cp%curv_ref)
       call gf3_nullify(cp%curv_nrm)
       call gf3_nullify(cp%curv_incln)
+
+      if (associated(cp%gd)) call gd_destroy(cp%gd)
       cp%gd => NULL()
       cp%prev_icp(1:MAX_NUM_CPS) = 0
 
