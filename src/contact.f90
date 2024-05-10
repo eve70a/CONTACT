@@ -14,6 +14,7 @@ program contact
 #ifdef _OPENMP
    use omp_lib      , only : omp_get_max_threads, omp_set_num_threads
 #endif
+   use m_aijpj
    implicit none
 
    ! Work variables for writing the CONTACT version information, see VERSION
@@ -157,6 +158,10 @@ program contact
    call wrprof_destroy(wtd)
    deallocate(wtd)
    nullify(wtd)
+
+#if   defined WITH_MKLFFT
+   call fft_cleanup()
+#endif
 
    call write_log(' The CONTACT program ended succesfully.')
    stop

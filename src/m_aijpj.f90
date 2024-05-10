@@ -36,6 +36,7 @@ public IgsRange
 #if defined WITH_MKLFFT
 public fft_makePrec
 public fft_vecAijPj
+public fft_cleanup
 #endif
 
 interface AijPj
@@ -1116,6 +1117,23 @@ integer function opt_fft_size( fft_size )
    opt_fft_size = prod_fac
 
 end function opt_fft_size
+
+!------------------------------------------------------------------------------------------------------------
+#ifdef WITH_MKLFFT
+subroutine fft_cleanup()
+!--purpose: Cleanup, esp. to avoid memory leak report in Valgrind 
+   implicit none
+!--local variables:
+   integer(kind=4)        :: status
+
+   ! Destroy descriptors that were created before
+
+   if (desc_present) then
+      status = DftiFreeDescriptor(dfti_desc)
+      status = DftiFreeDescriptor(dfti_back)
+   endif
+end subroutine fft_cleanup
+#endif
 
 !------------------------------------------------------------------------------------------------------------
 
