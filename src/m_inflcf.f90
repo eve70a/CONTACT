@@ -1079,6 +1079,7 @@ contains
          endif
       endif
 
+      deallocate(alphai)
       call inflcf_destroy(aij)
 
       if (idebug.ge.5) call write_log('infload: done, returning')

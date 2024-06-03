@@ -400,7 +400,8 @@ contains
       real(kind=8) :: e1, e2, e3, tolx, tolx2
       real(kind=8), dimension(:,:), allocatable :: alr, atxy, atyx, r, x, y, xly2y1, ylx2x1
 
-      allocate(r(-mx:mx,-my:my), x(-mx:mx,-my:my), y(-mx:mx,-my:my))
+      allocate(r(-mx:mx,-my:my), x(-mx:mx,-my:my), y(-mx:mx,-my:my),                                    &
+               xly2y1(-mx:mx,-my:my), ylx2x1(-mx:mx,-my:my))
 
       e1 = (1d0-nuv) / pi
       e2 =  1d0      / pi
@@ -499,8 +500,6 @@ contains
 
       ! Determine logarithm terms, accounting for values close to zero
 
-      allocate(xly2y1(-mx:mx,-my:my), ylx2x1(-mx:mx,-my:my))
-
       do iy = iy0, my-1
          do ix = -mx, mx
             if (min(abs(y(ix,iy)+r(ix,iy)), abs(y(ix,iy+1)+r(ix,iy+1))).lt.tolx) then
@@ -543,8 +542,6 @@ contains
          enddo
       enddo
 
-      deallocate(x, y, r, xly2y1, ylx2x1)
-
       ! Impose symmetry relations
 
       do iy = iy0, my-1
@@ -554,6 +551,8 @@ contains
             cs%cf(ix,iy,1,2) =  cs%cf(ix,iy,2,1)
          enddo
       enddo
+
+      deallocate(x, y, r, xly2y1, ylx2x1)
 
    end subroutine elascf_pcwcns
 
@@ -703,6 +702,9 @@ contains
             cs%cf(ix,iy,1,2) =  cs%cf(ix,iy,2,1)
          enddo
       enddo
+
+      deallocate(xyr%x, xyr%y, xyr%r, xyr%xlog, xyr%ylog, xyr%rlog, xyr%xlogy, xyr%ylogx,               &
+                 xyr%xtanyx, xyr%ytanxy)
 
    end subroutine elascf_bilin
 

@@ -990,6 +990,9 @@ module subroutine interp_wgt_surf2unif(nnode_x, nnode_y, nnode, x_node, y_node, 
    enddo ! iel_y
 
    deallocate(iel2node)
+   if (.not.is_uniform_x) deallocate(xo_list)
+   if (.not.is_uniform_y) deallocate(yo_list)
+
 end subroutine interp_wgt_surf2unif
 
 !------------------------------------------------------------------------------------------------------------

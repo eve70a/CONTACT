@@ -648,6 +648,7 @@ contains
       if (my_ierror.ne.0 .or. .not.wtd%ws%has_overlap) then
          call write_log(' no overlap...')
          call total_forces_moments(wtd)
+         ! call brent_its_destroy(its)
          return
       endif
 
@@ -721,6 +722,7 @@ contains
          call write_log(1, bufout)
          my_ierror = -2
       endif
+      ! call brent_its_destroy(its)
 
    end subroutine wr_contact_fz_brent
 
@@ -758,6 +760,7 @@ contains
       endif
 
       k = 0
+      !!! call brent_its_init(its, ikXDIR, maxit, ftarg) ??
 
       ! preparations for initial estimate for z-position
 
@@ -1187,6 +1190,7 @@ contains
          call write_log(1, bufout)
          my_ierror = -2
       endif
+      ! call brent_its_destroy(its)
 
    end subroutine wr_contact_fy_brent
 

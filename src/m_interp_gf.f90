@@ -281,8 +281,7 @@ subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval, bicubic)
       dy = -1d0
    endif
 
-   allocate(zdum(nin))
-   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
+   allocate(zdum(nin), ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
 
    ! calculate interpolation weights
 
@@ -309,7 +308,7 @@ subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval, bicubic)
    endif
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
-   deallocate(ii2iel, ii2nod, wii2nod, fac_uv)
+   deallocate(zdum, ii2iel, ii2nod, wii2nod, fac_uv)
 end subroutine interp_cartz2unif_grid
 
 !------------------------------------------------------------------------------------------------------------
@@ -360,8 +359,7 @@ subroutine interp_cartz2unif_gf3(g_surf, gf_unif, my_ierror, defval)
       dy = -1d0
    endif
 
-   allocate(zdum(nin))
-   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
+   allocate(zdum(nin), ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
 
    ! calculate interpolation weights
 
@@ -382,7 +380,7 @@ subroutine interp_cartz2unif_gf3(g_surf, gf_unif, my_ierror, defval)
    endif
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
-   deallocate(ii2iel, ii2nod, wii2nod, fac_uv)
+   deallocate(zdum, ii2iel, ii2nod, wii2nod, fac_uv)
    end associate
 end subroutine interp_cartz2unif_gf3
 
@@ -434,8 +432,7 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
       dy = -1d0
    endif
 
-   allocate(zdum(nin))
-   allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
+   allocate(zdum(nin), ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
 
    ! calculate interpolation weights
 
@@ -457,7 +454,7 @@ subroutine interp_curvgf2unifgf(gf_curv, gf_unif, my_ierror, defval)
    endif
    if (my_ierror.eq.0) my_ierror = sub_ierror
 
-   deallocate(ii2iel, ii2nod, wii2nod, fac_uv)
+   deallocate(zdum, ii2iel, ii2nod, wii2nod, fac_uv)
    end associate
 end subroutine interp_curvgf2unifgf
 
@@ -529,8 +526,7 @@ subroutine interp_splgf2unifgf(gf_spl, gf_unif, sg_unif, ikarg, my_ierror, defva
          dy = -1d0
       endif
 
-      allocate(zdum(nin))
-      allocate(ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
+      allocate(zdum(nin), ii2iel(nout), ii2nod(4,nout), wii2nod(4,nout), fac_uv(2,nout))
 
       ! calculate interpolation weights using g_spl%s_prf <--> s_unif
 
@@ -552,7 +548,7 @@ subroutine interp_splgf2unifgf(gf_spl, gf_unif, sg_unif, ikarg, my_ierror, defva
       endif
       if (my_ierror.eq.0) my_ierror = sub_ierror
 
-      deallocate(ii2iel, ii2nod, wii2nod, fac_uv, zdum)
+      deallocate(zdum, ii2iel, ii2nod, wii2nod, fac_uv)
    endif
    deallocate(s_unif)
    end associate

@@ -25,6 +25,7 @@ private
    public  brent_its_add_iterate
    public  brent_sensitivity_k
    public  brent_its_print
+   public  brent_its_destroy
    public  brent_its_has_bracket
    public  brent_its_has_jump
    public  brent_its_has_chng_stiff
@@ -95,6 +96,17 @@ contains
       call brent_its_update_ptr(its)
       ! call write_log(' brent_its_init ok...')
    end subroutine brent_its_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine brent_its_destroy(its)
+!--purpose: cleanup iterates structure for Brent's algorithm
+      implicit none
+!--subroutine arguments:
+      type(t_brent_its), target :: its
+
+      deallocate(its%k_all, its%np_all, its%xk_all, its%rk_all)
+   end subroutine brent_its_destroy
 
 !------------------------------------------------------------------------------------------------------------
 

@@ -33,7 +33,7 @@ contains
 !--subroutine arguments:
       type(t_ic)       :: ic
       type(t_potcon)   :: potcon_inp, potcon_cur
-      type(t_grid)   :: cgrid
+      type(t_grid)     :: cgrid
       type(t_geomet)   :: geom
       type(t_output)   :: outpt
 !--local variables :
@@ -68,6 +68,7 @@ contains
          ! copy new grid into gd
 
          call grid_copy(cgrid_new, cgrid)
+         call grid_destroy(cgrid_new)
 
       endif
 
@@ -153,7 +154,7 @@ contains
             write (bufout, 4002) kin%chi, 'Fastsim'
             call write_log(2, bufout)
             kin%chi = 0d0
-      endif
+         endif
 
       elseif ((solv%gausei_eff.ne.2 .and. is_ssrol) .or. ic%mater.eq.4) then
 
@@ -175,9 +176,9 @@ contains
             if (ic%ilvout.ge.1) then
                if (solv%gausei_eff.ne.2 .and. is_ssrol) then
                   write (bufout, 4003) cgrid%dx, kin%dq, 'steady state rolling with solver SteadyGS'
-      else
+               else
                   write (bufout, 4003) cgrid%dx, kin%dq, 'solver ConvexGS with plasticity'
-      endif
+               endif
                call write_log(2, bufout)
             endif
          endif
@@ -494,8 +495,8 @@ contains
       type(t_grid)            :: cgrid
       type(t_kincns)          :: kin
       type(t_geomet)          :: geom
-!--local variables:
-      integer      :: ii
+!--local variables :
+      integer                   :: ii
       logical                   :: is_roll
       real(kind=8)              :: cc, sc, facx, facy
 
@@ -503,7 +504,7 @@ contains
                 cksi   => kin%cksi,   ceta   => kin%ceta,   cphi   => kin%cphi,                         &
                 spinxo => kin%spinxo, spinyo => kin%spinyo, hs1    => geom%hs1, exrhs  => geom%exrhs)
 
-      is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3
+      is_roll = ic%tang.eq.2 .or. ic%tang.eq.3
 
       if (ic%rztang.eq.0) then
          call gf3_new(exrhs, 'geom%exrhs', cgrid)
