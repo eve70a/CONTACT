@@ -263,7 +263,7 @@ contains
       ! compute velocity vectors 'tvel' and 'rvel' of the contact reference point Q in track coordinates
       ! v_Q(trk) = v_ws(trk) + omega_ws(trk) x ( R_ws(trk) * m_Q(ws) ) + R_ws(trk) * v_Q(ws)
 
-      if (idebug.ge.3) then
+      if (idebug.ge.4) then
          call rotmat_print( ws%m_trk%rot,                                  '     R_ws(trk)          =', 2)
          vq_tvel_trk = ws_tvel_trk + (ws_rvel_trk .cross. (ws%m_trk%rot * mq_ws%o)) +    &
                                                              (ws%m_trk%rot * vq_tvel_ws)
@@ -278,7 +278,7 @@ contains
 
       vq_tvel_trk = vec_veloc2glob(ws_tvel_trk, ws_rvel_trk, ws%m_trk%rot, mq_ws, vq_tvel_ws)
 
-      if (idebug.ge.3) then
+      if (idebug.ge.4) then
          call vec_print(vq_tvel_trk,                                       'B  : tvel_cp(trk)       =', 2, 8)
       endif
 
@@ -302,7 +302,7 @@ contains
 
       pitch_tvel_trk = (ws%m_trk%rot * vec( 0d0, ws%vpitch, 0d0 )) .cross. (ws%m_trk%rot * mq_ws%o)
 
-      if (idebug.ge.3) then
+      if (idebug.ge.4) then
          write(bufout,'(4(a,f13.6))') ' vs=',ws%vs,', tvel_pitch=',pitch_tvel_trk%x(),              &
                 ', tvel_trnsl=', vq_tvel_trk%x()-pitch_tvel_trk%x(),', tvel_tot=', vq_tvel_trk%x()
          call write_log(1, bufout)
@@ -376,24 +376,25 @@ contains
       elseif (idebug.ge.3) then
          call write_log(' wheel-set position w.r.t. O_trk')
          call marker_print(ws%m_trk,    'm_ws(trk)', 3)
-         call write_log(' wheel-set rotation w.r.t. O_ws')
+         call write_log(' wheel-set ang.velocity w.r.t. O_ws')
          call vec_print(ws_rvel_ws,  ' ws_rvel(ws)', 2, 6)
          call write_log(' wheel-set velocity w.r.t. O_trk')
          call vec_print(ws_tvel_trk, 'ws_tvel(trk)', 2, 6)
          call vec_print(ws_rvel_trk, 'ws_rvel(trk)', 2, 6)
-         call write_log(' contact reference position w.r.t. O_trk')
-         call marker_print(cp%mref, 'm_cp(trk)', 2)
          call write_log(' contact reference position w.r.t. O_ws')
          call marker_print(mq_ws, 'm_Q(ws)', 2)
          write(bufout,'(a,f11.6)') ' actual rolling radius on wheel r(cp) =', w_loc
          call write_log(1, bufout)
-         call write_log(' velocity of contact point on wheel w.r.t. O_ws')
+         ! call write_log(' contact reference position w.r.t. O_trk')
+         ! call marker_print(cp%mref, 'm_cp(trk)', 3)
+         call write_log(' velocity of contact point on wheel w.r.t. O_ws (=wheelset flexibility)')
          call vec_print(vq_tvel_ws,   ' vq_tvel(ws)', 2, 6)
-         call write_log(' velocity of contact point on wheel w.r.t. O_trk')
+         call write_log(' velocity of contact point on wheel w.r.t. O_trk (eq.28: v_ws(tr) + ' //       &
+                                                                                'cross(omg, R.xQ) + R.vQ)')
          call vec_print(vq_tvel_trk,  'vq_tvel(trk)', 2, 6)
-         call write_log(' velocity of contact point on wheel w.r.t. O_cp')
+         call write_log(' velocity of contact point on wheel w.r.t. O_cp (=R^T vQ(trk)))')
          call vec_print(vq_tvel_cp,   ' vq_tvel(cp)', 2, 6)
-         call write_log(' rotation of contact point on wheel w.r.t. O_cp')
+         call write_log(' rotation of contact point on wheel w.r.t. O_cp (=R^T omgQ(trk))')
          call vec_print(vq_rvel_cp,   ' vq_rvel(cp)', 2, 6)
 
          if (ic%is_roller()) then
