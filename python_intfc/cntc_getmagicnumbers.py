@@ -123,6 +123,8 @@ def cntc_getmagicnumbers():
                                # note: per-patch multi-threading is disabled if multi-
                                #       threading is used to compute different contact
                                #       patches concurrently
+    CNTC['if_timers']  = 2004; # code for level of output w.r.t. performance timers
+                               #     0 = none, 1 = overview, 2 = full
 
     # codes for cntc_getFieldData:
 

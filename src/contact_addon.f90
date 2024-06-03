@@ -2804,7 +2804,7 @@ subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nre
    integer,                intent(in) :: iparam(nints)
    real(kind=8),           intent(in) :: rparam(nreals)
 !--local variables:
-   integer                     :: ierror, i, ilen, is_spck, itype
+   integer                     :: ierror, i, ilen, is_spck, itype, itimer
    type(t_profile),  pointer   :: my_prf
    character(len=256)          :: f_fname
    character(len=*), parameter :: subnam = 'cntc_setProfileInputFname'
@@ -2856,7 +2856,10 @@ subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nre
 
    ! read actual profile data
 
+   itimer = cntc_timer_num(ire, -1)
+   call timer_start(itimer)
    call profile_read_file(my_prf, my_meta%dirnam, itype, wtd%ic%x_profil, wtd%ic%x_readln, .false.)
+   call timer_stop(itimer)
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setProfileInputFname

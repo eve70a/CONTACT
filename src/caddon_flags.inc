@@ -106,18 +106,18 @@
       CNTC_ic_npomax  = 1993, &  ! code for setting the max. #elements in the potential contact area
                      
       CNTC_if_idebug  = 2000, &  ! code for level of print-output of the addon itself
-                                 ! 0 = none, 1 = overview (default), 2 = full, 3+ = debug
+                                 !     0 = none, 1 = overview (default), 2 = full, 3+ = debug
       CNTC_if_licdbg  = 2001, &  ! code for tracing which license is used
-                                 ! 0 = none, 1 = overview (default), 2 = full, 3+ = debug
+                                 !     0 = none, 1 = overview (default), 2 = full, 3+ = debug
       CNTC_if_wrtinp  = 2002, &  ! code for activating writing of a CONTACT input-file
-                                 ! 0 = no, 1 = write .inp-file (default)
+                                 !     0 = no, 1 = write .inp-file (default)
       CNTC_if_openmp  = 2003, &  ! >0: number of threads to use per contact patch in CONTACT
-                                 ! -1 = automatic (#cores), 0 = no multi-threading (default)
+                                 !     -1 = automatic (#cores), 0 = no multi-threading (default)
                                  ! note: per-patch multi-threading is disabled if multi-
                                  !       threading is used to compute different contact
                                  !       patches concurrently
       CNTC_if_timers  = 2004     ! code for level of output w.r.t. performance timers
-                                 ! 0 = none, 1 = overview, 2 = full
+                                 !     0 = none, 1 = overview, 2 = full
 
       ! codes for cntc_getFieldData:
 
@@ -174,5 +174,5 @@
       CNTC_err_other  =  -99, & ! other error, unspecified
       CNTC_err_broydn =  CNTC_err_ftot  ! obsolete, kept for backward compatibility
 
-! $Revision: 2519 $, $Date: 2024-03-18 18:08:59 +0100 (Mon, 18 Mar 2024) $
+! $Revision: 2557 $, $Date: 2024-06-03 14:17:50 +0200 (Mon, 03 Jun 2024) $
 !------------------------------------------------------------------------------------------------------------
