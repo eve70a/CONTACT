@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
+   |  Version: open(win64), $Revision: 2559 $, $Date:: 2024-06-03$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -2732,28 +2732,28 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |      16.0 | 100.0 |       25.8 | 100.0 |
-|Wheel-rail cases     |      15 |      16.0 | 100.0 |       25.8 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.2 |        0.3 |   1.2 |
-|Geometric analysis   |      89 |       3.0 |  18.5 |        7.3 |  28.2 |
-|Panag.process        |      74 |      12.7 |  79.3 |       17.5 |  67.7 |
-|Algorithm Norm       |      74 |       0.5 |   3.1 |        0.7 |   2.7 |
-|Algorithm Tang       |      74 |      12.2 |  76.2 |       16.8 |  64.9 |
-|Output quantities    |      89 |       0.1 |   0.7 |        0.2 |   0.9 |
+|Total                |       1 |      14.1 | 100.0 |       20.3 | 100.0 |
+|Wheel-rail cases     |      15 |      14.1 | 100.0 |       20.3 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.2 |   1.2 |
+|Geometric analysis   |      89 |       2.9 |  20.8 |        4.8 |  23.8 |
+|Panag.process        |      74 |      11.0 |  77.9 |       14.5 |  71.7 |
+|Algorithm Norm       |      74 |       0.5 |   3.3 |        0.5 |   2.5 |
+|Algorithm Tang       |      74 |      10.5 |  74.5 |       14.0 |  69.1 |
+|Output quantities    |      89 |       0.0 |   0.3 |        0.2 |   1.2 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      74 |       0.4 |   2.4 |        0.6 |   2.2 |
-|Tang: StedyGS solver |      74 |      12.0 |  75.1 |       16.6 |  64.4 |
+|Norm: ConjGrd solver |      74 |       0.4 |   2.7 |        0.4 |   2.0 |
+|Tang: StedyGS solver |      74 |      10.4 |  73.5 |       13.8 |  68.1 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      15 |       0.0 |   0.2 |        0.3 |   1.2 |
-|Contact location     |      89 |       2.9 |  18.3 |        7.1 |  27.6 |
-| - Eval whl spline   |      89 |       0.1 |   0.4 |        0.4 |   1.5 |
-| - Interp sf_whl     |      89 |       1.0 |   6.1 |        2.9 |  11.1 |
-| - Eval rail spline  |      89 |       0.5 |   2.9 |        1.0 |   3.8 |
-| - Other calc.       |     178 |       0.6 |   3.7 |        1.4 |   5.4 |
-| - Locate interpen   |      89 |       0.7 |   4.3 |        1.1 |   4.3 |
-|Undeformed distance  |      74 |       0.0 |   0.2 |        0.2 |   0.6 |
-| - Interp whl_srfc   |      74 |       0.0 |   0.2 |        0.1 |   0.3 |
-|Influence coeffic.   |      74 |       0.1 |   0.8 |        0.2 |   0.9 |
+|Reading input-file   |      15 |       0.0 |   0.0 |        0.2 |   1.2 |
+|Contact location     |      89 |       2.9 |  20.3 |        4.7 |  23.1 |
+| - Eval whl spline   |      89 |       0.0 |   0.2 |        0.2 |   1.1 |
+| - Interp sf_whl     |      89 |       1.2 |   8.6 |        2.0 |  10.0 |
+| - Eval rail spline  |      89 |       0.6 |   4.0 |        0.6 |   2.8 |
+| - Other calc.       |     178 |       0.4 |   2.7 |        1.0 |   4.9 |
+| - Locate interpen   |      89 |       0.5 |   3.5 |        0.6 |   3.0 |
+|Undeformed distance  |      74 |       0.1 |   0.4 |        0.1 |   0.6 |
+| - Interp whl_srfc   |      74 |       0.0 |   0.2 |        0.0 |   0.2 |
+|Influence coeffic.   |      74 |       0.1 |   0.7 |        0.2 |   1.1 |
 |Initial state/estim. |      74 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

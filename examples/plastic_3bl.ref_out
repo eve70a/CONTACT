@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
+   |  Version: open(win64), $Revision: 2559 $, $Date:: 2024-06-03$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -3886,18 +3886,18 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       0.0 | 100.0 |        0.1 | 100.0 |
-|Non-Hertzian cases   |      57 |       0.0 | 100.0 |        0.1 | 100.0 |
-|Panag.process        |      57 |       0.0 |   0.0 |        0.0 |  27.4 |
-|Algorithm Norm       |      57 |       0.0 |   0.0 |        0.0 |   4.8 |
-|Algorithm Tang       |      57 |       0.0 |   0.0 |        0.0 |  22.6 |
-|Output quantities    |      57 |       0.0 | 100.0 |        0.0 |  48.4 |
+|Total                |       1 |       0.0 | 100.0 |        0.0 | 100.0 |
+|Non-Hertzian cases   |      57 |       0.0 | 100.0 |        0.0 | 100.0 |
+|Panag.process        |      57 |       0.0 | 100.0 |        0.0 |  40.0 |
+|Algorithm Norm       |      57 |       0.0 |   0.0 |        0.0 |  25.0 |
+|Algorithm Tang       |      57 |       0.0 | 100.0 |        0.0 |  15.0 |
+|Output quantities    |      57 |       0.0 |   0.0 |        0.0 |  40.0 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      57 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Norm: ConjGrd solver |      57 |       0.0 |   0.0 |        0.0 |  22.5 |
 |Tang: TangCG solver  |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: ConvxGS solver |      56 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
-|Reading input-file   |      57 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |      57 |       0.0 |   0.0 |        0.0 |  17.5 |
 |Influence coeffic.   |       5 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |      57 |       0.0 |   0.0 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
+   |  Version: open(win64), $Revision: 2559 $, $Date:: 2024-06-03$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -15066,19 +15066,19 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       9.2 | 100.0 |       24.4 | 100.0 |
-|Non-Hertzian cases   |     120 |       9.2 | 100.0 |       24.4 | 100.0 |
-|Panag.process        |     120 |       9.2 |  99.7 |       23.8 |  97.5 |
-|Algorithm Norm       |     120 |       0.1 |   1.0 |        0.3 |   1.4 |
-|Algorithm Tang       |     120 |       9.1 |  98.5 |       23.5 |  96.1 |
-|Output quantities    |     120 |       0.0 |   0.3 |        0.5 |   2.2 |
+|Total                |       1 |      10.5 | 100.0 |       20.0 | 100.0 |
+|Non-Hertzian cases   |     120 |      10.5 | 100.0 |       20.0 | 100.0 |
+|Panag.process        |     120 |      10.4 |  99.4 |       19.4 |  96.6 |
+|Algorithm Norm       |     120 |       0.1 |   0.9 |        0.3 |   1.5 |
+|Algorithm Tang       |     120 |      10.3 |  98.5 |       19.1 |  95.1 |
+|Output quantities    |     120 |       0.0 |   0.4 |        0.7 |   3.3 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     120 |       0.1 |   1.0 |        0.3 |   1.2 |
-|Tang: StedyGS solver |     821 |       8.9 |  96.4 |       22.4 |  91.9 |
-|Temperature calc.    |     911 |       0.1 |   0.7 |        0.2 |   0.9 |
+|Norm: ConjGrd solver |     120 |       0.1 |   0.9 |        0.2 |   1.2 |
+|Tang: StedyGS solver |     821 |      10.1 |  96.3 |       18.3 |  91.3 |
+|Temperature calc.    |     911 |       0.0 |   0.4 |        0.2 |   0.9 |
 |------------------------------------------------------------------------|
-|Reading input-file   |     120 |       0.0 |   0.0 |        0.0 |   0.1 |
+|Reading input-file   |     120 |       0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Initial state/estim. |     120 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |     120 |       0.0 |   0.1 |        0.0 |   0.0 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

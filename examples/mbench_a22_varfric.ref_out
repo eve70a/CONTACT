@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2540 $, $Date:: 2024-05-10$        |
+   |  Version: open(win64), $Revision: 2559 $, $Date:: 2024-06-03$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -718,28 +718,28 @@ Performance timers:
 |                               |-------------------|--------------------|
 |                     | #times  |   sec     |  %    |    sec     |  %    |
 |------------------------------------------------------------------------|
-|Total                |       1 |       1.6 | 100.0 |        3.0 | 100.0 |
-|Wheel-rail cases     |       5 |       1.6 | 100.0 |        3.0 | 100.0 |
-|Subsurface points    |       3 |       0.1 |   5.8 |        0.2 |   5.8 |
+|Total                |       1 |       1.7 | 100.0 |        2.5 | 100.0 |
+|Wheel-rail cases     |       5 |       1.7 | 100.0 |        2.5 | 100.0 |
+|Subsurface points    |       3 |       0.1 |   5.5 |        0.1 |   5.8 |
 |W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Geometric analysis   |      27 |       0.0 |   0.0 |        0.0 |   0.8 |
-|Panag.process        |      27 |       0.7 |  41.3 |        1.3 |  44.8 |
-|Algorithm Norm       |      27 |       0.0 |   1.0 |        0.1 |   3.5 |
-|Algorithm Tang       |      27 |       0.7 |  40.4 |        1.2 |  41.3 |
-|Output quantities    |      32 |       0.0 |   0.0 |        0.0 |   0.9 |
+|Geometric analysis   |      27 |       0.0 |   0.0 |        0.0 |   1.1 |
+|Panag.process        |      27 |       0.7 |  42.2 |        1.1 |  42.8 |
+|Algorithm Norm       |      27 |       0.1 |   4.6 |        0.1 |   3.6 |
+|Algorithm Tang       |      27 |       0.6 |  37.6 |        1.0 |  39.2 |
+|Output quantities    |      32 |       0.0 |   0.9 |        0.0 |   1.3 |
 |------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      27 |       0.0 |   0.0 |        0.1 |   2.6 |
-|Tang: StedyGS solver |      27 |       0.6 |  38.5 |        1.2 |  40.7 |
+|Norm: ConjGrd solver |      27 |       0.1 |   3.7 |        0.1 |   2.7 |
+|Tang: StedyGS solver |      27 |       0.6 |  37.6 |        1.0 |  39.1 |
 |------------------------------------------------------------------------|
 |Reading input-file   |       5 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Contact location     |      27 |       0.0 |   0.0 |        0.0 |   0.3 |
-|Undeformed distance  |      27 |       0.0 |   0.0 |        0.0 |   0.5 |
-| - Interp whl_srfc   |      27 |       0.0 |   0.0 |        0.0 |   0.5 |
-|Influence coeffic.   |      27 |       0.0 |   0.0 |        0.0 |   0.6 |
+|Contact location     |      27 |       0.0 |   0.0 |        0.0 |   1.1 |
+|Undeformed distance  |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
+| - Interp whl_srfc   |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |      27 |       0.0 |   0.0 |        0.0 |   0.8 |
 |Initial state/estim. |      27 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Subsurf infl.cf.     |      33 |       0.1 |   4.8 |        0.1 |   2.7 |
-|Subsurf FFTs         |      33 |       0.0 |   1.0 |        0.1 |   2.9 |
-|Subsurf derived qnt  |      33 |       0.0 |   0.0 |        0.0 |   0.2 |
-|Subsurf writing      |       6 |       0.8 |  51.9 |        1.3 |  45.1 |
+|Subsurf infl.cf.     |      33 |       0.0 |   0.9 |        0.0 |   1.9 |
+|Subsurf FFTs         |      33 |       0.1 |   3.7 |        0.1 |   3.8 |
+|Subsurf derived qnt  |      33 |       0.0 |   0.9 |        0.0 |   0.0 |
+|Subsurf writing      |       6 |       0.9 |  50.5 |        1.2 |  46.1 |
 |------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
