@@ -140,7 +140,7 @@ program test_varprof
 
    ztrack = 3
    rvalues(1:11) = (/ -1d0, 750d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0 /)
-   call cntc_setTrackDimensions_new(iwhe, ztrack, 11, rvalues)
+   call cntc_setTrackDimensions(iwhe, ztrack, 11, rvalues)
 
    !---------------------------------------------------------------------------------------------------------
    ! Further settings dependent on experiment name
@@ -481,7 +481,7 @@ program test_varprof
 
       ztrack = 3
       rvalues(1:11) = (/ 14d0, 0d0, 1435d0, 0.020d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0 /)
-      call cntc_setTrackDimensions_new(iwhe, ztrack, 11, rvalues)
+      call cntc_setTrackDimensions(iwhe, ztrack, 11, rvalues)
 
       ! set grid discretization
 
@@ -532,7 +532,7 @@ program test_varprof
 
       ztrack = 3
       rvalues(1:11) = (/ -1d0, 0d0, 0d0, 00d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0 /)
-      call cntc_setTrackDimensions_new(iwhe, ztrack, 11, rvalues)
+      call cntc_setTrackDimensions(iwhe, ztrack, 11, rvalues)
 
       ! set grid discretization
 

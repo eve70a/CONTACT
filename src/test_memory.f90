@@ -376,7 +376,7 @@ subroutine test3_initialize(iwhe)
 
    ztrack = 3
    rvalues(1:11) = (/ 14d0, 0d0, 1435d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0 /)
-   call cntc_setTrackDimensions_new(iwhe, ztrack, 11, rvalues)
+   call cntc_setTrackDimensions(iwhe, ztrack, 11, rvalues)
 
    ! set rail profile for left and right sides
 
@@ -553,7 +553,7 @@ subroutine test4_initialize(iwhe)
 
    ztrack = 3
    rvalues(1:11) = (/ 14d0, 0d0, 1435d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0 /)
-   call cntc_setTrackDimensions_new(iwhe, ztrack, 11, rvalues)
+   call cntc_setTrackDimensions(iwhe, ztrack, 11, rvalues)
 
    ! set grid discretization
 

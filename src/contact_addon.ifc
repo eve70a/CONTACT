@@ -534,27 +534,8 @@ end subroutine cntc_setProfileInputValues
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_setTrackDimensions_old(ire, ztrack, nparam, params) &
-   bind(c,name=CNAME_(cntc_settrackdimensions_old))
-!--function: set the track or roller-rig description for a wheel-rail contact problem
-!    1: new design track dimensions   params = [gaugwd, gaught, cant, nomrad]
-!    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
-!    3: new dimensions & track deviations for current side of the track
-!           params = [gaugwd, gaught, cant, nomrad, dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
-!
-! dimensions: gaugwd, gaught, nomrad, dyrail, dzrail [length],  cant, drollr [angle],
-!                                     vyrail, vzrail [veloc],         vrollr [ang.veloc]
-!--subroutine arguments:
-   integer,      intent(in) :: ire            ! result element ID
-   integer,      intent(in) :: ztrack         ! control digit ZTRACK
-   integer,      intent(in) :: nparam         ! number of parameters provided
-   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
-end subroutine cntc_setTrackDimensions_old
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
-   bind(c,name=CNAME_(cntc_settrackdimensions_new))
+subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
+   bind(c,name=CNAME_(cntc_settrackdimensions))
 !--function: set the track or roller-rig description for a wheel-rail contact problem
 !    1: new design track dimensions   params = [gaught, gaugsq, gaugwd, cant, nomrad],   if gaught >  0,
 !                                         or   [gaught, raily0, railz0, cant, nomrad],   if gaught <= 0.
@@ -566,20 +547,6 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
 ! dimensions: gaught, gaugwd, raily0, railz0, nomrad, dyrail, dzrail [length],    cant, drollr [angle]
 !                                                     vyrail, vzrail [veloc],           vrollr [ang.veloc]
 !                                                kyrail, kzrail [force/length], fyrail, fzrail [force]
-!--subroutine arguments:
-   integer,      intent(in) :: ire            ! result element ID
-   integer,      intent(in) :: ztrack         ! control digit ZTRACK
-   integer,      intent(in) :: nparam         ! number of parameters provided
-   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
-end subroutine cntc_setTrackDimensions_new
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
-   bind(c,name=CNAME_(cntc_settrackdimensions))
-!--function: set the track or roller-rig description for a wheel-rail contact problem
-!       !!!  This is has become an alias for cntc_settrackdimensions_new.
-!            This used to link to cntc_settrackdimensions_old in the previous version. !!!
 !--subroutine arguments:
    integer,      intent(in) :: ire            ! result element ID
    integer,      intent(in) :: ztrack         ! control digit ZTRACK
@@ -1288,8 +1255,6 @@ end interface
 !dec$ attributes dllimport :: cntc_setTangentialForces
 !dec$ attributes dllimport :: cntc_setProfileInputFname
 !dec$ attributes dllimport :: cntc_setProfileInputValues
-!dec$ attributes dllimport :: cntc_setTrackDimensions_old
-!dec$ attributes dllimport :: cntc_setTrackDimensions_new
 !dec$ attributes dllimport :: cntc_setTrackDimensions
 !dec$ attributes dllimport :: cntc_setWheelsetDimensions
 !dec$ attributes dllimport :: cntc_setWheelsetPosition

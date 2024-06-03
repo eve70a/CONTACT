@@ -106,8 +106,6 @@ from .cntc_settangentialforces          import cntc_settangentialforces         
 from .cntc_settemperaturedata           import cntc_settemperaturedata          as settemperaturedata
 from .cntc_settimestep                  import cntc_settimestep                 as settimestep
 from .cntc_settrackdimensions           import cntc_settrackdimensions          as settrackdimensions    
-from .cntc_settrackdimensions_new       import cntc_settrackdimensions_new      as settrackdimensions_new
-from .cntc_settrackdimensions_old       import cntc_settrackdimensions_old      as settrackdimensions_old
 from .cntc_setundeformeddistc           import cntc_setundeformeddistc          as setundeformeddistc
 from .cntc_setverticalforce             import cntc_setverticalforce            as setverticalforce     
 from .cntc_setwheelsetdimensions        import cntc_setwheelsetdimensions       as setwheelsetdimensions

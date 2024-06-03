@@ -114,7 +114,7 @@ for iwhe = 1 : 2 % "wheel number"
 
    ztrack = 3;
    params = [ 14, 0, 1435, 0, 0, 0, 0, 0, 0, 0, 0 ];
-   cntc_settrackdimensions_new(iwhe, ztrack, params);
+   cntc_settrackdimensions(iwhe, ztrack, params);
 
    % rail profile, same on both sides, scaling to [mm]
 

@@ -67,10 +67,6 @@ void cntc_setprofileinputvalues(int *ire, int *npoint, double *values, int *nint
 
 void cntc_settrackdimensions(int *ire, int *ztrack, int *nparam, double *rparam);
 
-void cntc_settrackdimensions_old(int *ire, int *ztrack, int *nparam, double *rparam);
-
-void cntc_settrackdimensions_new(int *ire, int *ztrack, int *nparam, double *rparam);
-
 void cntc_setwheelsetdimensions(int *ire, int *ewheel, int *nparam, double *rparam);
 
 void cntc_setwheelsetposition(int *ire, int *ewheel, int *nparam, double *rparam);

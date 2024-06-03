@@ -49,8 +49,6 @@ private cntc_setExtraRigidSlip
 private cntc_setTangentialForces
 private cntc_setProfileInputFname
 private cntc_setProfileInputValues
-private cntc_setTrackDimensions_old
-private cntc_setTrackDimensions_new
 private cntc_setTrackDimensions
 private cntc_setWheelsetDimensions
 private cntc_setWheelsetPosition
@@ -2996,110 +2994,8 @@ end subroutine cntc_setProfileInputValues
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_setTrackDimensions_old(ire, ztrack, nparam, params) &
-   bind(c,name=CNAME_(cntc_settrackdimensions_old))
-!--function: set the track or roller-rig description for a wheel-rail contact problem
-!    1: new design track dimensions   params = [gaugwd, gaught, cant, nomrad]
-!    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
-!    3: new dimensions & track deviations for current side of the track
-!           params = [gaugwd, gaught, cant, nomrad, dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
-!
-! dimensions: gaugwd, gaught, nomrad, dyrail, dzrail [length],  cant, drollr [angle],
-!                                     vyrail, vzrail [veloc],         vrollr [ang.veloc]
-!--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
-   implicit none
-!--subroutine arguments:
-   integer,      intent(in) :: ire            ! result element ID
-   integer,      intent(in) :: ztrack         ! control digit ZTRACK
-   integer,      intent(in) :: nparam         ! number of parameters provided
-   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
-!--local variables:
-   integer, parameter  :: nparam_loc(1:3) = (/ 4, 6, 10 /)
-   integer             :: ierror
-   character(len=*), parameter :: subnam = 'cntc_setTrackDimensions_old'
-#ifdef _WIN32
-!dec$ attributes dllexport :: cntc_setTrackDimensions_old
-#endif
-
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
-   call cntc_activate(ire, -1, 1, -1, subnam, ierror)
-   if (ierror.lt.0) return
-
-   ! check value of ZTRACK digit, check number of parameters supplied
-
-   if (ztrack.lt.1 .or. ztrack.gt.3) then
-      write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' does not exist.'
-      call write_log(1, bufout)
-      return
-   endif
-
-   if (nparam.ne.nparam_loc(ztrack)) then
-      write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' needs ',         &
-         nparam_loc(ztrack),' parameters.'
-      call write_log(1, bufout)
-      return
-   endif
-
-   ! set reference to the active rail in the current configuration
-
-   associate(my_rail  => wtd%trk%rai)
-
-   ! store the supplied values
-
-   my_ic%ztrack = ztrack
-
-   if (ztrack.eq.1) then
-
-      wtd%trk%track_gauge  = params(1) * my_scl%len
-      wtd%trk%gauge_height = params(2) * my_scl%len
-      wtd%trk%gauge_seqnum = 0
-      wtd%trk%cant_angle   = params(3) * my_scl%angle
-      wtd%trk%nom_radius   = params(4) * my_scl%len
-
-   elseif (ztrack.eq.2) then
-
-      my_rail%dy           = params(1) * my_scl%len
-      my_rail%dz           = params(2) * my_scl%len
-      my_rail%roll         = params(3) * my_scl%angle
-      my_rail%vy           = params(4) * my_scl%veloc
-      my_rail%vz           = params(5) * my_scl%veloc
-      my_rail%vroll        = params(6) * my_scl%angle
-
-   elseif (ztrack.eq.3) then
-
-      wtd%trk%track_gauge  = params( 1) * my_scl%len
-      wtd%trk%gauge_height = params( 2) * my_scl%len
-      wtd%trk%gauge_seqnum = 0
-      wtd%trk%cant_angle   = params( 3) * my_scl%angle
-      wtd%trk%nom_radius   = params( 4) * my_scl%len
-      my_rail%dy           = params( 5) * my_scl%len
-      my_rail%dz           = params( 6) * my_scl%len
-      my_rail%roll         = params( 7) * my_scl%angle
-      my_rail%vy           = params( 8) * my_scl%veloc
-      my_rail%vz           = params( 9) * my_scl%veloc
-      my_rail%vroll        = params(10) * my_scl%angle
-
-   endif
-
-   ! for gaught <= 0: convert old 'gaugwd' input to new (raily0,railz0) values
-
-   if ((ztrack.eq.1 .or. ztrack.eq.3) .and. wtd%trk%gauge_height.le.0d0) then
-      if (my_ic%is_left_side()) then
-         wtd%trk%rail_y0 = -wtd%trk%track_gauge / 2
-      else
-         wtd%trk%rail_y0 =  wtd%trk%track_gauge / 2
-      endif
-      wtd%trk%rail_z0    = 0d0
-   endif
-
-   end associate
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
-end subroutine cntc_setTrackDimensions_old
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
-   bind(c,name=CNAME_(cntc_settrackdimensions_new))
+subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
+   bind(c,name=CNAME_(cntc_settrackdimensions))
 !--function: set the track or roller-rig description for a wheel-rail contact problem
 !    0: maintain track dimensions     params = [ ]
 !    1: new design track dimensions   params = [gaught, gaugsq, gaugwd, cant, nomrad],   if gaught >  0,
@@ -3122,9 +3018,9 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
 !--local variables:
    integer             :: nparam_loc(0:3)
    integer             :: ierror
-   character(len=*), parameter :: subnam = 'cntc_setTrackDimensions_new'
+   character(len=*), parameter :: subnam = 'cntc_setTrackDimensions'
 #ifdef _WIN32
-!dec$ attributes dllexport :: cntc_setTrackDimensions_new
+!dec$ attributes dllexport :: cntc_setTrackDimensions
 #endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
@@ -3220,30 +3116,6 @@ subroutine cntc_setTrackDimensions_new(ire, ztrack, nparam, params) &
 
    end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
-end subroutine cntc_setTrackDimensions_new
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
-   bind(c,name=CNAME_(cntc_settrackdimensions))
-!--function: set the track or roller-rig description for a wheel-rail contact problem
-!       !!!  This is has become an alias for cntc_settrackdimensions_new.
-!            This used to link to cntc_settrackdimensions_old in the previous version. !!!
-   implicit none
-!--subroutine arguments:
-   integer,      intent(in) :: ire            ! result element ID
-   integer,      intent(in) :: ztrack         ! control digit ZTRACK
-   integer,      intent(in) :: nparam         ! number of parameters provided
-   real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
-!--local variables:
-#ifdef _WIN32
-!dec$ attributes dllexport :: cntc_setTrackDimensions
-#endif
-
-   call write_log(' WARNING: the behavior of cntc_setTrackDimensions changed wrt the previous version.')
-   call write_log('          Change to cntc_setTrackDimensions_old or cntc_setTrackdimensions_new.')
-   call cntc_setTrackDimensions_new(ire, ztrack, nparam, params)
-
 end subroutine cntc_setTrackDimensions
 
 !------------------------------------------------------------------------------------------------------------

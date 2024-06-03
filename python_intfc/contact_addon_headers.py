@@ -184,20 +184,6 @@ def contact_addon_headers( cntc_dll ):
     cntc_dll.cntc_settrackdimensions.argtypes     = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
                                                       POINTER(c_double) ]
   
-    # void cntc_settrackdimensions_new              ( int *ire,          int *ztrack,       int *nparam, 
-    #                                                 double *rparam );
-  
-    cntc_dll.cntc_settrackdimensions_new.restype  = None
-    cntc_dll.cntc_settrackdimensions_new.argtypes = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
-                                                      POINTER(c_double) ]
-  
-    # void cntc_settrackdimensions_old              ( int *ire,          int *ztrack,       int *nparam, 
-    #                                                 double *rparam );
-  
-    cntc_dll.cntc_settrackdimensions_old.restype  = None
-    cntc_dll.cntc_settrackdimensions_old.argtypes = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
-                                                      POINTER(c_double) ]
-  
     # void cntc_setprofileinputfname                ( int *ire,       const char* c_fname,  int *len_fname, 
     #                                                 int *nints,        int *iparam,       int *nreals, 
     #                                                 double *rparam );

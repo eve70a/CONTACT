@@ -3,9 +3,19 @@
 % function [ ] = cntc_settrackdimensions(ire, ztrack, params) 
 %
 % set the track or roller-rig description for a wheel-rail contact problem
+%  ztrack    - control digit ZTRACK
+%  params    - depending on method that is used
 %
-%   !!!  This is has become an alias for cntc_settrackdimensions_new.
-%        This used to link to cntc_settrackdimensions_old in the previous version. !!!
+%    1: new design track dimensions   params = [gaught, gaugsq, gaugwd, cant, nomrad],   if gaught >  0,
+%                                         or   [gaught, raily0, railz0, cant, nomrad],   if gaught <= 0.
+%    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
+%    3: new dimensions & track deviations for current side of the track
+%                                     params = params(1:5) cf. Z=1 followed by params(6:11) cf. Z=2;
+%                                              additionally, [kyrail, fyrail, kzrail, fzrail] when F=3.
+%
+% dimensions: gaught, gaugwd, raily0, railz0, nomrad, dyrail, dzrail [length],    cant, drollr [angle]
+%                                                     vyrail, vzrail [veloc],           vrollr [ang.veloc]
+%                                                kyrail, kzrail [force/length], fyrail, fzrail [force]
 %------------------------------------------------------------------------------------------------------------
 
 % Copyright 2008-2023 by Vtech CMCC.

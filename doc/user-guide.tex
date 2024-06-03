@@ -6413,10 +6413,11 @@ inconvenient, inappropriate to locate user inputs. An optional `{\tt
 wrkdir}' may be provided that will be used as the effective working folder.
 This may be left blank if the true working folder is ok to work with.
 
-\magenta{The variant {\tt cntc\_initializefirst\_new} is introduced in
-version 24.1, introducing the {\tt wrkdir} option. The behavior of the
-original subroutine will be changed in version 25.1, the {\tt new} variant
-deleted in version 26.1.}
+The variant {\tt cntc\_initializefirst\_new} is introduced in version 24.1,
+introducing the {\tt wrkdir} option without requiring changes to existing
+code. The interface of subroutine {\tt cntc\_initialize\-first} will be
+changed in version 25.1, after which the {\tt \_new} variant will be deleted
+in version 26.1.
 
 A second folder `{\tt outdir}' may be given for the outputs created by
 CONTACT. This can be an absolute path or a path relative to the effective
@@ -6764,11 +6765,8 @@ the final situation:
 
 \paragraph{cntc\_settrackdimensions}
 
-Two different versions of subroutine {\tt cntc\_settrackdimensions} are
-provided with slightly different interfaces. Subroutine {\tt
-cntc\_settrackdimensions\_old} provides the old interface that was used up
-to release 21.1 for backwards compatibility reasons. Subroutine {\tt
-cntc\_settrackdimensions\_new} adds extensions for absolute rail placement.
+The interface to subroutine {\tt cntc\_settrackdimensions} changed in
+version 23.1, adding extensions for absolute rail placement.
 
 {\scriptsize\begin{alltt}
 !--original code, works with versions 18.1 -- 22.2:
@@ -6776,25 +6774,7 @@ cntc\_settrackdimensions\_new} adds extensions for absolute rail placement.
    call cntc_settrackdimensions(ire, 1, params, 4) 
 \end{alltt}}
 
-This code may be updated as follows:
-{\scriptsize\begin{alltt}
-!--intermediate code, works with versions 22.1 -- 24.1:
-   if (ifcver.le.2199) then
-      params = (/ gaugwd, gaught, cant, 0d0 /)
-      call cntc_settrackdimensions\red{_old}(ire, 1, params, 4) 
-   else
-      if (gaught.gt.0d0) then
-         params = (/ \red{gaught}, \red{gaugsq}, gaugwd, cant, 0d0 /)
-      else
-         params = (/ \red{gaught}, \red{raily0}, \red{railz0}, cant, 0d0 /)
-      endif
-      call cntc_settrackdimensions\red{_new}(ire, 1, params, \red{5}) 
-   endif
-\end{alltt}}
-
-In version 23.1, subroutine {\tt cntc\_settrackdimensions} links to the new
-interface. Using this version, the caller code can be updated to the final
-situation:
+This caller code may be updated as follows:
 
 {\scriptsize\begin{alltt}
 !--final code, works with versions 23.1 and newer:
@@ -6803,7 +6783,7 @@ situation:
    else
       params = (/ gaught, raily0, railz0, cant, 0d0 /)
    endif
-   call cntc_settrackdimension\red{s(}ire, 1, params, 5) 
+   call cntc_settrackdimensions(ire, 1, params, 5) 
 \end{alltt}}
 
 \paragraph{cntc\_setwheelsetdimensions, position, velocity, flexibility}
