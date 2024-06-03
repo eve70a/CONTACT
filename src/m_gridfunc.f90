@@ -834,7 +834,7 @@ subroutine gf3_copy_struc(old_gf, new_gf, gf_name, lzero)
 
    ! link the element division of the existing grid function
 
-   call gf3_eldiv(new_gf, old_gf%eldiv)
+   if (associated(old_gf%eldiv)) call gf3_eldiv(new_gf, old_gf%eldiv)
 
    ! optionally initialize the data to zero
 

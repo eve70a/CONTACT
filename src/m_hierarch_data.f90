@@ -1499,7 +1499,9 @@ contains
    m_out%if_meth            = m_in%if_meth 
    m_out%if_ver             = m_in%if_ver  
    m_out%ninclin            = m_in%ninclin 
-   m_out%surf_inclin        = m_in%surf_inclin    ! Fortran2003: automatic allocation
+   if (allocated(m_in%surf_inclin)) then
+      m_out%surf_inclin     = m_in%surf_inclin    ! Fortran2003: automatic allocation
+   endif
    m_out%fname_influe       = m_in%fname_influe  
 
    end subroutine mater_copy

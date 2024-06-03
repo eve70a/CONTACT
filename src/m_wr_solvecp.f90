@@ -628,7 +628,7 @@ contains
       endif
 
       if (x_locate.ge.3) then
-         write(bufout,*) ' Using V = ', gd%ic%varfrc,' with NVF =', gd%fric%nvf,' slices'
+         write(bufout,'(2(a,i0),a)') ' using V = ', gd%ic%varfrc,' with NVF = ', gd%fric%nvf,' slices'
          call write_log(1, bufout)
       endif
 

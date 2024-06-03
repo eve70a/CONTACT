@@ -996,8 +996,8 @@ contains
 
          numrem = 0
          do icpo = 1, numtot
-            if (associated(allcps(icpo)%cp) .and. associated(allcps(icpo)%cp%gd) .and.                  &
-                                                 allcps(icpo)%cp%gap_min.lt.0d0) numrem = numrem + 1
+            if (.not.associated(allcps(icpo)%cp)) cycle
+            if (associated(allcps(icpo)%cp%gd) .and. allcps(icpo)%cp%gap_min.lt.0d0) numrem = numrem + 1
          enddo
 
          if (x_cpatch.ge.2 .and. numrem.gt.0) then
@@ -1009,7 +1009,8 @@ contains
          ! shift 'true' unconnected patches
 
          do icpo = 1, numtot
-            if (associated(allcps(icpo)%cp) .and. allcps(icpo)%cp%gap_min.lt.0d0) then
+            if (.not.associated(allcps(icpo)%cp)) cycle
+            if (allcps(icpo)%cp%gap_min.lt.0d0) then
                numtot_new = numtot_new + 1
                icpn       = numtot_new
 
@@ -5196,15 +5197,10 @@ contains
 
                if (idebug.ge.2) then
                   write(bufout,124) ' found local minimum, gap =',gap(ii), ' at (',              &
-                        x(ii), ',', sgn*y(ii), ',', zr(ii),')'
+                        x(ii), ',', sgn*y(ii), ',', zr(ii),'), ix=',ix,', iy=',iy
                   call write_log(1, bufout)
                endif
- 124           format(a,f12.6,a,f11.6,2(a,f12.6),a)
-
-               if (idebug.ge.3) then
-                  write(bufout,*) 'ix=',ix,', iy=',iy
-                  call write_log(1, bufout)
-               endif
+ 124           format(a,f12.6,a,f11.6,2(a,f12.6),2(a,i5))
 
                if (idebug.ge.4) then
                    write(bufout,125) ' XS:',x(ii_s),  ', XE:',x(ii_e),  ', XN:',x(ii_n),  ', XW:',x(ii_w)

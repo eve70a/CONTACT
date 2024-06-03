@@ -85,7 +85,7 @@ CCOPTS          = $(CCOPTS_ALL) $(CCOPTS32)
 FFOPTS_ALL      = -DTARGET_$(TARGET) /nologo /I. $(LICINC) $(MKLINC) /fpp /O3 /Qdiag-disable:10448 \
                   $(FFOPTS32) $(OPENMP) /heap-arrays:64 /MT /module:$(P) /object:$(P)
 FFOPTS_DEBUG    = /debug /Zi /RTCu /warn:ignore_loc /warn:interfaces /warn:uncalled \
-                  /check:bounds /check:uninit /check:pointers /check:format /traceback
+                  /check:pointers /check:bounds /check:uninit /check:format /traceback
 FFOPTS_DEVELOP  = /debug /Zi /warn:unused /traceback
 # /warn:unused /traceback /check:pointers /check:bounds /check:uninit
 # /check:arg_temp_created -- subsurf: idamax(table(1:,25))
