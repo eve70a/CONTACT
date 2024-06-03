@@ -1421,15 +1421,22 @@ contains
             associate( np => geom%npatch )
             np = max(1, min(100, ints(1)))
 
-            allocate(tmp(np*np))
-            call reallocate_arr(geom%ysep, np )
+            allocate(tmp(max(4*np, np*np)))
+            call reallocate_arr(geom%xylim, np, 4)
             call reallocate_arr(geom%facsep, np, np)
-            geom%ysep(1:np)         = 0d0
+            geom%xylim(1:np, 1:4) = 999d0
             geom%facsep(1:np, 1:np) = 0d0
 
-            call read1darr(linp, ncase, linenr, 'planform description: ysep', 'd', np-1, idum,          &
-                           geom%ysep, idebug, lstop, ierror)
+            call read1darr(linp, ncase, linenr, 'planform description: xylim', 'd', 4*np, idum,         &
+                           tmp, idebug, lstop, ierror)
             zerror = zerror .or. (ierror.ne.0)
+
+            do ip = 1, np
+               geom%xylim(ip,1) = tmp(4*(ip-1)+1)
+               geom%xylim(ip,2) = tmp(4*(ip-1)+2)
+               geom%xylim(ip,3) = tmp(4*(ip-1)+3)
+               geom%xylim(ip,4) = tmp(4*(ip-1)+4)
+            enddo
 
             call read1darr(linp, ncase, linenr, 'planform description: fac', 'd', np*(np-1)/2, idum,    &
                            tmp, idebug, lstop, ierror)
@@ -1441,8 +1448,9 @@ contains
                spaces = ' '
                iof = 0
                do ip = 1, np
-                  write(bufout,'(a,f7.3,2a,7f7.3)') ' ysep=', geom%ysep(ip),', fac=', spaces(1:7*ip),   &
-                           (tmp(iof+j), j=1, np-ip)
+                  write(bufout,'(4(a,f7.3),2a,7f7.3)') ' xlim=', geom%xylim(ip,1),',', geom%xylim(ip,2), &
+                                        ', ylim=', geom%xylim(ip,3), ',', geom%xylim(ip,4),             &
+                                        ', fac=', spaces(1:7*ip), (tmp(iof+j), j=1, np-ip)
                   call write_log(1, bufout)
                   iof = iof + np-ip
                enddo
@@ -1462,8 +1470,9 @@ contains
                write(bufout,'(a,i3)') ' IPLAN=4: npatch=',np
                call write_log(1, bufout)
                do ip = 1, np
-                  write(bufout,'(a,f7.3,a,7f7.3)') ' ysep=', geom%ysep(ip),', fac=',                    &
-                        (geom%facsep(ip,j), j=1, np)
+                  write(bufout,'(4(a,f7.3),2a,7f7.3)') ' xlim=',geom%xylim(ip,1),',', geom%xylim(ip,2), &
+                                                      ', ylim=',geom%xylim(ip,3),',', geom%xylim(ip,4), &
+                                                      ', fac=', spaces(1:7*ip),(geom%facsep(ip,j), j=1, np)
                   call write_log(1, bufout)
                enddo
             endif

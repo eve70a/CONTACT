@@ -340,7 +340,7 @@ contains
       character(len=5)          :: nam_side
       logical                   :: new_gd
       integer                   :: ip, ii, iy, mx, my, npot, ierror
-      real(kind=8)              :: sw_ref, fac_warn
+      real(kind=8)              :: sw_ref, fac_warn, xy_ofs
       type(t_marker)            :: mref_pot, mref_rai, mref_whl, whl_trk
       type(t_probdata), pointer :: gd
 
@@ -666,40 +666,70 @@ contains
          associate( np => gd%geom%npatch )
          np = cp%nsub
 
-         call reallocate_arr(gd%geom%ysep, np)
+         call reallocate_arr(gd%geom%xylim, np, 4)
          call reallocate_arr(gd%geom%facsep, np, np)
-         gd%geom%ysep(1:np) = 0d0
+         gd%geom%xylim(1:np,1) = -999d0
+         gd%geom%xylim(1:np,2) =  999d0
+         gd%geom%xylim(1:np,3) = -999d0
+         gd%geom%xylim(1:np,4) =  999d0
          gd%geom%facsep(1:np, 1:np) = 0d0
 
-         ! convert track y_sep position in rail profile to lateral s_c position in tangent plane
+         if (.not.associated(cp%f_sep2)) then      ! old implementation using y_sep
 
-         gd%geom%ysep(1:np-1) = (cp%y_sep(1:np-1) - cp%mref%y()) / cos(cp%mref%roll())  +               &
+            if (x_locate.ge.2) call write_log(' no f_sep2, old combination method')
+
+            ! convert track y_sep position in rail profile to lateral s_c position in tangent plane
+
+            gd%geom%xylim(2:np  ,3) = (cp%y_sep(1:np-1) - cp%mref%y()) / cos(cp%mref%roll())  +            &
                                                                               cp%sr_ref - cp%sr_pot
+            gd%geom%xylim(1:np-1,4) = gd%geom%xylim(2:np,3)
 
-         ! fill tri-diagonal matrix fac
+            ! fill tri-diagonal matrix fac
         
-         do ip = 1, np-1                       ! nsub patches --> nsub-1 interactions
-            gd%geom%facsep(ip  ,ip  ) = 1d0          ! diagonal entry
-            gd%geom%facsep(ip  ,ip+1) = cp%f_sep(ip) ! upper diagonal  (i,i+1)
-            gd%geom%facsep(ip+1,ip  ) = cp%f_sep(ip) ! symmetry: lower diagonal (i+1,i)
-         enddo
-         gd%geom%facsep(np  ,np  ) = 1d0             ! diagonal entry
+            do ip = 1, np-1                       ! nsub patches --> nsub-1 interactions
+               gd%geom%facsep(ip  ,ip  ) = 1d0          ! diagonal entry
+               gd%geom%facsep(ip  ,ip+1) = cp%f_sep(ip) ! upper diagonal  (i,i+1)
+               gd%geom%facsep(ip+1,ip  ) = cp%f_sep(ip) ! symmetry: lower diagonal (i+1,i)
+            enddo
+            gd%geom%facsep(np  ,np  ) = 1d0             ! diagonal entry
+
+         else                   ! new implementation using xylim, f_sep2
+
+            if (x_locate.ge.2) call write_log(' has f_sep2, new combination method')
+
+            ! copy track xsta/xend positions of sub-patches +/- safety
+
+            xy_ofs = 0.4d0 * discr%dist_comb
+            gd%geom%xylim(1:np, 1) = cp%xyzlim(1:np, 1) - cp%mpot%x() - xy_ofs
+            gd%geom%xylim(1:np, 2) = cp%xyzlim(1:np, 2) - cp%mpot%x() + xy_ofs
+
+            ! convert track ysta/yend position in rail profile to lateral s_c position in tangent plane
+
+            gd%geom%xylim(1:np, 3:4) = (cp%xyzlim(1:np, 3:4) - cp%mref%y()) / cos(cp%mref%roll()) +     &
+                                                                                 cp%sr_ref - cp%sr_pot
+
+            ! add safety in s_c-direction
+
+            gd%geom%xylim(1:np, 3) = gd%geom%xylim(1:np, 3) - xy_ofs
+            gd%geom%xylim(1:np, 4) = gd%geom%xylim(1:np, 4) + xy_ofs
+
+            ! copy reduction factors
+
+            gd%geom%facsep(1:np, 1:np) = cp%f_sep2(1:np, 1:np)
+         endif
 
          if (x_locate.ge.2) then
             write(bufout,'(a,i3)') ' IPLAN=4: npatch=',np
             call write_log(1, bufout)
 
             do ip = 1, np
-               write(bufout,'(a,f9.3,a,7f7.3)') ' sc_sep=', gd%geom%ysep(ip),', fac=',                  &
-                     (gd%geom%facsep(ip,ii), ii=1, np)
+               write(bufout,'(4(a,f8.3),a,6f6.3)') ' xlim=[',gd%geom%xylim(ip,1),',',gd%geom%xylim(ip,2), &
+                        '], ylim=[', gd%geom%xylim(ip,3),',',gd%geom%xylim(ip,4),'], fac=',            &
+                        (gd%geom%facsep(ip,ii), ii=1, np)
                call write_log(1, bufout)
             enddo
-
-            mx   = gd%potcon_inp%mx
-            my   = gd%potcon_inp%my
-            ! write(bufout,*) 'my=',my,', sc1=',gd%cgrid_inp%y(1),', scn=',gd%cgrid_inp%y(mx*my)
-            ! call write_log(1, bufout)
          endif
+
          end associate
       endif
 

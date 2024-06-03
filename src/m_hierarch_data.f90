@@ -625,8 +625,8 @@ public
       integer                                      :: nn, npatch
       real(kind=8),    dimension(:),   allocatable :: prmudf 
       real(kind=8),    dimension(:),   allocatable :: prmpln 
-      real(kind=8),    dimension(:),   allocatable :: ysep   
-      real(kind=8),    dimension(:,:), allocatable :: facsep 
+      real(kind=8),    dimension(:,:), allocatable :: xylim     ! (npatch,4)
+      real(kind=8),    dimension(:,:), allocatable :: facsep    ! (npatch,npatch)
       type(t_gridfnc3)                             :: exrhs
       type(t_gridfnc3)                             :: hs1, hv1
 
@@ -642,10 +642,10 @@ public
       !                  4 == weighted interaction between different (sub-) patches
       ! nn             number of heights for ibase==2
       ! npatch         number of (sub-) patches distinguished in iplan==4.
-      !                data stored in ysep(1:np), facsep(1:np,1:np).
+      !                data stored in xylim(1:np,4), facsep(1:np,1:np).
       ! prmudf [?]     parameters for computing the undeformed distance
       ! prmpln [?]     coefficients of the planform
-      ! ysep   [mm]    y-positions in the middle between successive (sub-) patches
+      ! xylim  [mm]    extent [xl,xh] x [yl,yh] of (sub-)patches in the potential contact area
       ! facsep [-]     multiplication factors for effect of pressures on displacements between (sub-)patches
       ! exrhs [mm|-]   extra term of the rigid slip (T=1, [mm]) or creepage (T=2-3, [-])
       ! hs1    [mm]    1st column (vn): undeformed distance
@@ -2046,7 +2046,7 @@ end subroutine potcon_get_overlap
       geom%npatch = 0
       geom%prmudf = (/ 1d0, 0d0, 1d0, (0d0, j=4,10) /)  ! automatic allocation
       geom%prmpln = (/ (0d0, j=1,10) /)                 ! automatic allocation
-      ! ysep, facsep
+      ! xylim, facsep
 
       call gf3_new( geom%exrhs, 'geom%exrhs', cgrid, nulify=.true. )
       call gf3_new( geom%hs1, 'geom%hs1', cgrid, nulify=.true. )
@@ -2070,7 +2070,7 @@ end subroutine potcon_get_overlap
 
       geom_out%prmudf = geom_in%prmudf  ! automatic (re)allocation
       geom_out%prmpln = geom_in%prmpln  ! automatic (re)allocation
-      geom_out%ysep   = geom_in%ysep    ! automatic (re)allocation
+      geom_out%xylim  = geom_in%xylim   ! automatic (re)allocation
       geom_out%facsep = geom_in%facsep  ! automatic (re)allocation
 
       call gf3_new( geom_out%exrhs, 'geom%exrhs', cgrid, nulify=.true. )
@@ -2093,7 +2093,7 @@ end subroutine potcon_get_overlap
 
       if (allocated(geom%prmudf)) deallocate(geom%prmudf)
       if (allocated(geom%prmpln)) deallocate(geom%prmpln)
-      if (allocated(geom%ysep))   deallocate(geom%ysep)
+      if (allocated(geom%xylim))  deallocate(geom%xylim)
       if (allocated(geom%facsep)) deallocate(geom%facsep)
       call gf3_destroy(geom%exrhs)
       call gf3_destroy(geom%hs1)
@@ -2442,9 +2442,10 @@ end subroutine potcon_get_overlap
       type(t_output)          :: outpt_tot, outpt_add
       integer                 :: idebug
 !--local variables:
-      integer        :: ii, ip_add, ierror
-      logical        :: split_on_y
-      real(kind=8)   :: xsep(1), ysep(1)
+      integer, parameter :: npatch = 2
+      integer        :: mx, ii, ipatch
+      logical        :: is_ok
+      real(kind=8)   :: xylim(npatch,4)
       type(t_eldiv)  :: mask
 
       associate(cgrid_add => outpt_add%ps%grid, cgrid_tot => outpt_tot%ps%grid,                         &
@@ -2455,7 +2456,11 @@ end subroutine potcon_get_overlap
 
       ! check that grids are equal (TODO: check xl,yl,dx,dy?)
 
-      if (cgrid_add%ntot.ne.cgrid_tot%ntot) then
+      is_ok  = equal_grid_sizes(cgrid_tot%dx, cgrid_add%dx, cgrid_tot%dy, cgrid_add%dy)
+      is_ok  = is_ok .and. abs(cgrid_tot%x(1)-cgrid_add%x(1)).lt.1d-3*cgrid_tot%dx
+      is_ok  = is_ok .and. abs(cgrid_tot%y(1)-cgrid_add%y(1)).lt.1d-3*cgrid_tot%dy
+      is_ok  = is_ok .and. cgrid_add%ntot.eq.cgrid_tot%ntot
+      if (.not.is_ok) then
          call write_log(' Internal error(gd_merge_gridfunc): grids not equal.')
          call abort_run()
       endif
@@ -2463,66 +2468,35 @@ end subroutine potcon_get_overlap
       ! create mask-array for sub-patches within pot.contact
 
       call eldiv_new(mask, cgrid_tot)
+      call eldiv_exter(mask)
 
-      ! check that actual contact areas are not overlapping & "add" lies to left or below "tot"
+      ! determine extent of actual contact areas
 
-      call areas(outpt_add%igs)
+      ipatch = 1
+      mx     = cgrid_tot%nx
       call areas(outpt_tot%igs)
+      xylim(ipatch,1) = cgrid_tot%x(ix0_tot) - 0.1d0 * cgrid_tot%dx
+      xylim(ipatch,2) = cgrid_tot%x(ix1_tot) + 0.1d0 * cgrid_tot%dx
+      xylim(ipatch,3) = cgrid_tot%y(iy0_tot*mx) - 0.1d0 * cgrid_tot%dy
+      xylim(ipatch,4) = cgrid_tot%y(iy1_tot*mx) + 0.1d0 * cgrid_tot%dy
 
-      if (iy1_add.lt.iy0_tot .or. iy0_add.gt.iy1_tot) then
+      ipatch = 2
+      mx     = cgrid_add%nx
+      call areas(outpt_add%igs)
+      xylim(ipatch,1) = cgrid_add%x(ix0_add) - 0.1d0 * cgrid_add%dx
+      xylim(ipatch,2) = cgrid_add%x(ix1_add) + 0.1d0 * cgrid_add%dx
+      xylim(ipatch,3) = cgrid_add%y(iy0_add*mx) - 0.1d0 * cgrid_add%dy
+      xylim(ipatch,4) = cgrid_add%y(iy1_add*mx) + 0.1d0 * cgrid_add%dy
 
-         ! if [y0_add,y1_add] < [y0_tot,y1_tot] then merge using y-direction, "add" == patch 1
-         ! if [y0_add,y1_add] > [y0_tot,y1_tot] then merge using y-direction, "add" == patch 2
+      ! warn in case actual contact areas are overlapping
+      ! ok:  [y0_add,y1_add] < [y0_tot,y1_tot]  or  [y0_add,y1_add] > [y0_tot,y1_tot]
 
-         ierror = 0
-         split_on_y = .true.
-
-         ysep(1) = 0.5d0 * (cgrid_add%y(1) + (iy1_add-1) * cgrid_add%dy + cgrid_add%dy/2d0 +            &
-                            cgrid_tot%y(1) + (iy0_tot-1) * cgrid_tot%dy - cgrid_tot%dy/2d0 )
-         if (iy1_add.lt.iy0_tot) then
-            ip_add = 1
-         else
-            ip_add = 2
-         endif
-   
-         if (idebug.ge.2) then
-            write(bufout,'(a,f8.3,a,i2)') ' new grid split at ysep=',ysep(1),', ip_add=',ip_add
-            call write_log(1, bufout)
-         endif
-
-         call eldiv_cpatches(mask, 2, ysep, split_on_y, idebug)
-
-      elseif (ix1_add.lt.ix0_tot .or. ix0_add.gt.ix1_tot) then
-
-         ! if [x0_add,x1_add] < [x0_tot,x1_tot] then merge using x-direction, "add" == patch 1
-         ! if [x0_add,x1_add] > [x0_tot,x1_tot] then merge using x-direction, "add" == patch 2
-
-         ierror = 0
-         split_on_y = .false.
-
-         xsep(1) = 0.5d0 * (cgrid_add%x(1) + (ix1_add-1) * cgrid_add%dx + cgrid_add%dx/2d0 +            &
-                            cgrid_tot%x(1) + (ix0_tot-1) * cgrid_tot%dx - cgrid_tot%dx/2d0 )
-         if (ix1_add.lt.ix0_tot) then
-            ip_add = 1
-         else
-            ip_add = 2
-         endif
-   
-         if (idebug.ge.2) then
-            write(bufout,'(a,f8.3,a,i2)') ' new grid split at xsep=',xsep(1),', ip_add=',ip_add
-            call write_log(1, bufout)
-         endif
-
-         call eldiv_cpatches(mask, 2, xsep, split_on_y, idebug)
-
-      else
-
+      is_ok = (ix1_add.lt.ix0_tot .or. ix0_add.gt.ix1_tot .or. iy1_add.lt.iy0_tot .or. iy0_add.gt.iy1_tot)
+      if (.not.is_ok) then
          call write_log(' ERROR(gd_merge_gridfunc): contact areas (boxes) overlap with each other.')
-         ierror = 1
-
       endif
- 
-      if (idebug.ge.2 .or. ierror.ne.0) then
+
+      if (idebug.ge.2 .or. .not.is_ok) then
          write(bufout,'(4(a,i3),a)') ' gd_tot: actual contact on ix=[',ix0_tot,',',ix1_tot,             &
                 '], iy=[',iy0_tot,',',iy1_tot,']'
          call write_log(1, bufout)
@@ -2533,31 +2507,38 @@ end subroutine potcon_get_overlap
          call wrigs (outpt_add%igs, .true., 0d0, .false.)
       endif
 
-      ! merge hs1, hv1 for right-hand side using gd_add on left and gd_tot on right side
+      call eldiv_cpatches(mask, npatch, xylim, idebug)
 
-      call gf3_msk_copy(ip_add, mask, geom_add%hs1, geom_tot%hs1, ikALL)
-      call gf3_msk_copy(ip_add, mask, geom_add%hv1, geom_tot%hv1, ikALL)
+      if (idebug.ge.2 .or. .not.is_ok) then
+         call write_log(' mask array, *=tot, S=add:')
+         call wrigs (mask, .true., 0d0, .false.)
+      endif
+
+      ! merge hs1, hv1 for right-hand side, adding contents of gd_add (ip=2 in mask) to gd_tot (ip=1)
+
+      call gf3_msk_copy(2, mask, geom_add%hs1, geom_tot%hs1, ikALL)
+      call gf3_msk_copy(2, mask, geom_add%hv1, geom_tot%hv1, ikALL)
 
       ! merge arrays for friction coefficients, tractions, displacements and shift
 
-      call gf3_msk_copy(ip_add, mask, outpt_add%mus, outpt_tot%mus, ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%ps,  outpt_tot%ps,  ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%us,  outpt_tot%us,  ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%ss,  outpt_tot%ss,  ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%mus, outpt_tot%mus, ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%ps,  outpt_tot%ps,  ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%us,  outpt_tot%us,  ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%ss,  outpt_tot%ss,  ikALL)
 
-      call gf3_msk_copy(ip_add, mask, outpt_add%muv, outpt_tot%muv, ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%pv,  outpt_tot%pv,  ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%uv,  outpt_tot%uv,  ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%sv,  outpt_tot%sv,  ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%muv, outpt_tot%muv, ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%pv,  outpt_tot%pv,  ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%uv,  outpt_tot%uv,  ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%sv,  outpt_tot%sv,  ikALL)
 
       ! merge arrays for plastic deformation, yield point, temperature
 
-      call gf3_msk_copy(ip_add, mask, outpt_add%taucs, outpt_tot%taucs, ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%upls,  outpt_tot%upls,  ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%taucv, outpt_tot%taucv, ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%uplv,  outpt_tot%uplv,  ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%temp1, outpt_tot%temp1, ikALL)
-      call gf3_msk_copy(ip_add, mask, outpt_add%temp2, outpt_tot%temp2, ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%taucs, outpt_tot%taucs, ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%upls,  outpt_tot%upls,  ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%taucv, outpt_tot%taucv, ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%uplv,  outpt_tot%uplv,  ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%temp1, outpt_tot%temp1, ikALL)
+      call gf3_msk_copy(2, mask, outpt_add%temp2, outpt_tot%temp2, ikALL)
 
       ! merge arrays for element division
 

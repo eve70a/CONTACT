@@ -471,113 +471,49 @@ end function eldiv_count_atbnd
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine eldiv_cpatches(eldiv, npatch, xysep, split_on_y, idebug)
+subroutine eldiv_cpatches(eldiv, npatch, xylim, idebug)
 !--function: fill element division (mask) with sub-patch numbers 1 to npatch, left to right,
-!            on the basis of x- or y-values xysep (split_on_y=F/T). Mask suitable for use in gf3_msk_copy
+!            on the basis of rectangles xylim per patch. 
    implicit none
 !--subroutine arguments
    type(t_eldiv)             :: eldiv
    integer,      intent(in)  :: npatch, idebug
-   real(kind=8), intent(in)  :: xysep(npatch-1)
-   logical,      intent(in)  :: split_on_y
+   real(kind=8), intent(in)  :: xylim(npatch,4)
 !--local variables
-   integer      :: npnt, ip, ii, ix, iy, j0, j1
-   logical      :: ldone
-   real(kind=8), dimension(:), allocatable :: coor
+   integer      :: ip, ix0, ix1, iy0, iy1, ix, iy, ii
 
-   associate(mx => eldiv%grid%nx, my => eldiv%grid%ny)
-
-   ! gather coordinates for separation in y-direction or x-direction
-
-   if (split_on_y) then
-      npnt = my
-      allocate(coor(npnt))
-      do iy = 1, my
-         coor(iy) = eldiv%grid%y(iy*mx)
-      enddo
-   else
-      npnt = mx
-      allocate(coor(npnt))
-      do ix = 1, mx
-         coor(ix) = eldiv%grid%x(ix)
-      enddo
-   endif
+   associate(g => eldiv%grid, npot => eldiv%grid%ntot, mx => eldiv%grid%nx, my => eldiv%grid%ny)
 
    if (idebug.ge.2) then
-      write(bufout,'(a,i4,2(a,f7.3))') ' eldiv_cpatches: np=',npnt,', c1=',coor(1),', cn=',coor(npnt)
+      write(bufout,'(a,i0,4(a,f8.3),a,i3)') ' eldiv_cpatches: npot= ',g%ntot,                           &
+                ', x=[',g%x(1),',',g%x(npot),'], y=[', g%y(1),',',g%y(npot),'], npatch=', npatch
       call write_log(1, bufout)
-      write(bufout,'(16x,a,i2,a,6f7.3)') ' npatch=',npatch,', xysep=',(xysep(ip), ip=1,npatch-1)
-      call write_log(1, bufout)
+      do ip = 1, npatch
+         write(bufout,'(a,i3,4(a,f8.3),a)') '  ipatch=',ip,': xlim=[',xylim(ip,1),',',xylim(ip,2),       &
+                                                          '], ylim=[',xylim(ip,3),',',xylim(ip,4),']'
+         call write_log(1, bufout)
+      enddo
    endif
+
+   eldiv%el(1:npot) = 0
 
    do ip = 1, npatch
 
-      ! xysep-values are given in increasing order: determine range [j0 : j1)
-      ! patch  1: xy-values ( -\infty   , xysep( 1))
-      ! patch ip: xy-values [xysep(ip-1), xysep(ip))
-      ! patch np: xy-values [xysep(np-1),   \infty )
+      ! set mask-value ip for all points with [x,y] \in [xl(ip),xh(ip)] x [yl(ip),yh(ip)]
 
-      if (ip.le.1) then
-         j0 = 1
-      else
-         j0 = j1 + 1
-      endif
+      ix0 = max( 1, nint( (xylim(ip,1) - g%x(1))/g%dx )+1 )
+      ix1 = min(mx, nint( (xylim(ip,2) - g%x(1))/g%dx )+1 )
+      iy0 = max( 1, nint( (xylim(ip,3) - g%y(1))/g%dy )+1 )
+      iy1 = min(my, nint( (xylim(ip,4) - g%y(1))/g%dy )+1 )
 
-      if (ip.ge.npatch) then
-         j1 = npnt            ! last segment: use all remaining j
-      elseif (j0.gt.npnt) then
-         j1 = npnt            ! no points remaining: set empty interval
-      elseif (coor(j0).ge.xysep(ip)) then
-         j1 = j0 - 1          ! first possible xy already beyond upper bound xysep(ip): set empty
-      else
-         j1 = j0
-         ldone = .false.
-         do while (j1.lt.npnt .and. .not.ldone)
-            if (coor(j1+1).lt.xysep(ip)) then
-               j1 = j1 + 1
-            else
-               ldone = .true.
-            endif
+      do iy = iy0, iy1
+         do ix = ix0, ix1
+            ii = ix + (iy-1)*mx
+            eldiv%el(ii) = ip
          enddo
-      endif
+      enddo
+   enddo
 
-      if (j1.lt.j0 .and. idebug.ge.-1) then
-         write(bufout,'(3(a,i3),a)') ' WARNING: sub-patch',ip,': empty range j = [', j0,',',j1, '].'
-         call write_log(1, bufout)
-
-         write(bufout,'(a,i4,2(a,f7.3))') ' - np=',npnt,', c1=',coor(1),', cn=',coor(npnt)
-         call write_log(1, bufout)
-         write(bufout,'(a,i2,a,6f7.3)') ' - npatch=',npatch,', xysep=',(xysep(ii), ii=1,npatch-1)
-         call write_log(1, bufout)
-
-      elseif (idebug.ge.2) then
-
-         write(bufout,'(3(a,i3),2(a,f7.3),a)') ' sub-patch',ip,': selecting range [', j0,',',       &
-                j1,'], xy=[', coor(j0),',', coor(j1),']'
-         call write_log(1, bufout)
-      endif
-
-      ! set patch number ip in strips j0:j1 in element division 
-
-      if (split_on_y) then
-         do iy = j0, j1
-            do ix = 1, mx
-               ii = ix + (iy-1)*mx
-               eldiv%el(ii) = ip
-            enddo
-         enddo
-      else
-         do iy = 1, my
-            do ix = j0, j1
-               ii = ix + (iy-1)*mx
-               eldiv%el(ii) = ip
-            enddo
-         enddo
-      endif
-
-   enddo !  ip = 1, npatch
-
-   deallocate(coor)
    end associate
 end subroutine eldiv_cpatches
 

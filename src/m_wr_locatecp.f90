@@ -490,11 +490,12 @@ contains
       integer,          intent(in)    :: idebug
       integer,          intent(out)   :: my_ierror
 !--local variables:
-      integer                  :: icp, sub_ierror
-      real(kind=8)             :: sgn, cref_x
-      type(t_grid)             :: prr_trk
-      type(t_rail),    pointer :: my_rail
-      type(t_cpatch),  pointer :: cp
+      logical                    :: use_new_combin
+      integer                    :: icp, sub_ierror
+      real(kind=8)               :: sgn, cref_x
+      type(t_grid)               :: prr_trk
+      type(t_rail),    pointer   :: my_rail
+      type(t_cpatch),  pointer   :: cp
 
       my_ierror  = 0
 
@@ -520,7 +521,14 @@ contains
 
       if (numnew.ge.2) then
          ! call write_log(' --- calling combine_cpatches ---')
-         call combine_cpatches( ic, numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_comb, idebug )
+         use_new_combin = (.true. .or. discr%angl_sep.gt.2d0)
+         if (.not.use_new_combin) then
+            call combine_cpatches( ic, numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_comb, &
+                        idebug )
+         else
+            call combine_cpatches_new( ic, numnew, newcps, discr%angl_sep, discr%dist_sep,              &
+                        discr%dist_comb, idebug )
+         endif
       endif
 
       ! turn contact reference angles for 'true' contact patches that lie close together
@@ -3609,7 +3617,7 @@ contains
          endif
 
          ! patches sorted with y-values decreasing: [ysta(i+1), yend(i+1)], dist, [ysta(i), yend(i)]
-         ! `near misses' (gap>=0) placed after true contact patches
+         ! `near misses' (gap>=0) placed after true contact patches (may have increasing y-value!)
 
          dy    = ysta(icp) - yend(icp+1)
          dz    = zsta(icp) - zend(icp+1)
@@ -3739,6 +3747,272 @@ contains
       deallocate(ysta, yend, zsta, zend, gapmin)
 
    end subroutine combine_cpatches
+
+!------------------------------------------------------------------------------------------------------------
+
+   function cpatch_distance(x0sta, x0end, y0sta, y0end, z0sta, z0end, x1sta, x1end, y1sta, y1end,       &
+                                z1sta, z1end)
+!--purpose: compute distance between bounding boxes around two patches
+      implicit none
+!--function result:
+      real(kind=8)              :: cpatch_distance
+!--subroutine arguments:
+      real(kind=8), intent(in)  :: x0sta, x0end, y0sta, y0end, z0sta, z0end, x1sta, x1end, y1sta,       &
+                                   y1end, z1sta, z1end
+!--local variables:
+      real(kind=8)              :: dist_x, dist_y, dist_z
+
+      ! compute distance between contact patches or sub-patches: d_x, d_y, d_tot
+
+      if (x0sta.gt.x1end) then
+         dist_x = x0sta - x1end
+      elseif (x1sta.gt.x0end) then
+         dist_x = x1sta - x0end
+      else
+         dist_x = 0d0
+      endif
+
+      if (y0sta.gt.y1end) then
+         dist_y = y0sta - y1end
+         dist_z = z0sta - z1end
+      elseif (y1sta.gt.y0end) then
+         dist_y = y1sta - y0end
+         dist_z = z1sta - z0end
+      else
+         dist_y = 0d0
+         dist_z = 0d0
+      endif
+
+      cpatch_distance = sqrt(dist_x**2 + dist_y**2 + dist_z**2)
+
+   end function cpatch_distance
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine combine_cpatches_new( ic, numnew, newcps, angl_sep, dist_sep, dist_comb, idebug )
+!--purpose: combine contact problems with overlapping x_r or sr-positions or lying too close together.
+!            1)          distance <= d_comb : combined fully
+!            2) d_comb < distance <= d_sep  : kept as separate sub-patches within single cpatch
+      implicit none
+!--subroutine arguments:
+      type(t_ic)                  :: ic
+      type(p_cpatch)              :: newcps(numnew)     ! data of contact problems
+      integer,      intent(in)    :: idebug
+      integer,      intent(inout) :: numnew
+      real(kind=8), intent(in)    :: angl_sep, dist_sep, dist_comb
+!--local variables:
+      logical, parameter         :: debug_comb = .false.
+      integer                    :: ipass, icp, jcp, kcp, isub, jsub
+      real(kind=8)               :: dist, angl
+      type(p_cpatch)             :: tmp_cp
+
+      if (idebug.ge.2 .or. debug_comb) then
+         write(bufout,'(a,f6.2,a,f5.1,a)') ' Separating patches with more than', angl_sep,' rad or',    &
+                dist_sep,' mm separation'
+         call write_log(1, bufout)
+         write(bufout,'(a,13x,f5.1,a)') ' Combining patches with less than ', dist_comb,' mm separation'
+         call write_log(1, bufout)
+      endif
+
+      do ipass = 1, 2
+
+         ! first pass: combine patches with distance <= d_comb - combined fully
+         ! second pass: combine patches with d_comb < distance <= d_sep - keep as separate sub-patches
+
+         ! for patches icp = 1 : npatch-1
+         !     check combination with patches jcp = icp+1 : npatch
+
+         icp = 1
+         do while (icp.lt.numnew)
+            associate( cp_tot => newcps(icp)%cp, nsub => newcps(icp)%cp%nsub )
+
+            ! ipass==2: initialize sub-patches contained in this patch
+
+            if (ipass.eq.2) then
+               nsub = 1
+               call reallocate_arr(cp_tot%xyzlim, nsub, 6)
+               cp_tot%xyzlim(nsub, 1:6) = (/ cp_tot%xsta, cp_tot%xend, cp_tot%ysta, cp_tot%yend,        &
+                                                                         cp_tot%zsta, cp_tot%zend /)
+            endif
+
+            ! check combination of icp with all patches jcp = icp+1 : end
+
+            jcp = icp + 1
+            do while (jcp.le.numnew)
+               associate( cp_add => newcps(jcp)%cp )
+
+               if (idebug.ge.3 .or. debug_comb) then
+                  write(bufout,'(3(a,i3))') ' pass',ipass,': checking overlap of patches',icp,' and',jcp
+                  call write_log(1, bufout)
+               endif
+
+               ! compute distance between patches icp and jcp
+
+               dist = cpatch_distance(cp_tot%xsta, cp_tot%xend, cp_tot%ysta, cp_tot%yend, cp_tot%zsta,  &
+                                      cp_tot%zend, cp_add%xsta, cp_add%xend, cp_add%ysta, cp_add%yend,  &
+                                      cp_add%zsta, cp_add%zend)
+               angl = cp_tot%wgt_agap - cp_add%wgt_agap
+
+               if (idebug.ge.4 .or. debug_comb) then
+                  write(bufout,'(a,i3,6(a,f8.3),a)') '   ...patch i=',icp,': xlim=[',cp_tot%xsta,',',   &
+                         cp_tot%xend,'], ylim=[',cp_tot%ysta,',',cp_tot%yend,'], zlim=[',cp_tot%zsta,   &
+                         ',',cp_tot%zend,']'
+                  call write_log(1, bufout)
+
+                  write(bufout,'(a,i3,6(a,f8.3),a)') '   ...patch j=',jcp,': xlim=[',cp_add%xsta,',',   &
+                         cp_add%xend,'], ylim=[',cp_add%ysta,',',cp_add%yend,'], zlim=[',cp_add%zsta,   &
+                         ',',cp_add%zend,']'
+                  call write_log(1, bufout)
+
+                  write(bufout,'(2(a,i3),3(a,f8.3))') '   ...patches',icp,' and',jcp,': dist=',dist
+                  call write_log(1, bufout)
+
+                  write(bufout,'(2(a,i3),3(a,f8.3))') '   ...patches',icp,' and',jcp,': a1=',           &
+                         cp_tot%wgt_agap, ', a2=', cp_add%wgt_agap,', dangl=',angl
+                  call write_log(1, bufout)
+
+               endif
+
+               if (cp_tot%gap_min.ge.0d0 .or. cp_add%gap_min.ge.0d0) then
+
+                  ! skip 'near miss' contact patches
+
+                  jcp = jcp + 1
+
+               elseif (abs(angl).gt.angl_sep .or. dist.gt.dist_sep .or.                                 &
+                                (ipass.eq.1 .and. dist.gt.dist_comb)) then
+
+                  ! keep separate when |a1-a2| >= angl_sep or dist >= dist_sep : move to next patch
+
+                  jcp = jcp + 1
+
+               else
+
+                  ! merge patch jcp into patch jcp
+
+                  if (idebug.ge.2 .or. debug_comb) then
+                     write(bufout,'(2(a,i3),a,f8.3)') '   ...combining patches',icp,' and',jcp,         &
+                                ', dist=',dist
+                     call write_log(1, bufout)
+                  endif
+
+                  ! keep micp with largest interpenetration
+
+                  if (cp_add%gap_min.lt.cp_tot%gap_min) then
+                     cp_tot%micp    = cp_add%micp
+                     cp_tot%gap_min = cp_add%gap_min
+                  endif
+
+                  ! take union of x- and y-ranges
+
+                  cp_tot%xsta = min(cp_tot%xsta, cp_add%xsta)
+                  cp_tot%xend = max(cp_tot%xend, cp_add%xend)
+                  if (cp_add%ysta.lt.cp_tot%ysta) then
+                     cp_tot%ysta = cp_add%ysta
+                     cp_tot%zsta = cp_add%zsta
+                  endif
+                  if (cp_add%yend.gt.cp_tot%yend) then
+                     cp_tot%yend = cp_add%yend
+                     cp_tot%zend = cp_add%zend
+                  endif
+
+                  ! take union of u- and v-ranges, if not empty ([1,0])
+
+                  if (cp_add%usta.lt.cp_add%uend .and. cp_tot%usta.lt.cp_tot%uend) then
+                     cp_tot%usta = min(cp_add%usta, cp_tot%usta)
+                     cp_tot%uend = max(cp_add%uend, cp_tot%uend)
+                     cp_tot%vsta = min(cp_add%vsta, cp_tot%vsta)
+                     cp_tot%vend = max(cp_add%vend, cp_tot%vend)
+                  endif
+
+                  ! compute new weighted center
+
+                  if (ic%use_initial_cp()) then
+                     cp_tot%wgt_xgap = cp_tot%micp%x()
+                     cp_tot%wgt_ygap = cp_tot%micp%y()
+                  else
+                     cp_tot%wgt_xgap = (cp_tot%wgt_xgap * cp_tot%totgap +                               &
+                                        cp_add%wgt_xgap * cp_add%totgap) / (cp_tot%totgap + cp_add%totgap)
+                     cp_tot%wgt_ygap = (cp_tot%wgt_ygap * cp_tot%totgap +                               &
+                                        cp_add%wgt_ygap * cp_add%totgap) / (cp_tot%totgap + cp_add%totgap)
+                  endif
+                  cp_tot%wgt_agap = (cp_tot%wgt_agap * cp_tot%totgap +                                  &
+                                        cp_add%wgt_agap * cp_add%totgap) / (cp_tot%totgap + cp_add%totgap)
+                  cp_tot%totgap   = cp_tot%totgap + cp_add%totgap
+               
+                  ! in 2nd pass: add jcp to list of sub-patches in patch icp
+
+                  if (ipass.eq.2) then
+                     nsub = nsub + 1
+                     call reallocate_arr(cp_tot%xyzlim, nsub, 6, keep=.true.)
+                     cp_tot%xyzlim(nsub, 1:6) = (/ cp_add%xsta, cp_add%xend, cp_add%ysta, cp_add%yend,  &
+                                                                             cp_add%zsta, cp_add%zend /)
+                  endif
+
+                  ! cycle remaining contact patches (pointers), putting jcp at end of list
+
+                  tmp_cp = newcps(jcp)
+                  do kcp = jcp+1, numnew
+                     newcps(kcp-1) = newcps(kcp)
+                  enddo
+                  newcps(numnew) = tmp_cp
+
+                  ! stay at jcp, reduce number of patches
+
+                  numnew = numnew - 1
+
+               endif ! combine icp + jcp
+
+               end associate ! cp_add
+            enddo ! while jcp<=numnew
+
+            icp = icp + 1
+            end associate ! cp_tot
+         enddo ! while icp<numnew
+
+      enddo ! ipass=1,2
+
+      ! numnew == #contact patches remaining after combination
+
+      ! for each patch icp: compute weighting matrix f_sep(nsub,nsub) for blending approach
+
+      do icp = 1, numnew
+
+         associate( cp_tot => newcps(icp)%cp, nsub => newcps(icp)%cp%nsub, xyzlim => newcps(icp)%cp%xyzlim )
+         call reallocate_arr(cp_tot%f_sep2, nsub, nsub)
+
+         do isub = 1, nsub
+            do jsub = 1, nsub
+
+               if (isub.eq.jsub) then             ! diagonal entry: f == 1
+
+                  cp_tot%f_sep2(isub,jsub) = 1d0
+
+               elseif (isub.gt.jsub) then         ! lower triangular part: copy upper triangular part
+
+                  cp_tot%f_sep2(isub,jsub) = cp_tot%f_sep2(jsub,isub)
+
+               else                               ! upper triangular part
+
+                  ! compute distance between sub-patches isub and jsub: d_x, d_y, dtot
+
+                  dist = cpatch_distance(xyzlim(isub,1), xyzlim(isub,2), xyzlim(isub,3), xyzlim(isub,4), &
+                                         xyzlim(isub,5), xyzlim(isub,6), xyzlim(jsub,1), xyzlim(jsub,2), &
+                                         xyzlim(jsub,3), xyzlim(jsub,4), xyzlim(jsub,5), xyzlim(jsub,6))
+
+                  ! compute reduction factor f_sep between sub-patches isub and jsub
+
+                  cp_tot%f_sep2(isub,jsub)  = ( max(0d0, dist_sep - dist) / (dist_sep - dist_comb) )**0.8d0
+
+               endif ! isub==jsub
+
+            enddo ! jsub
+         enddo ! isub
+
+         end associate
+      enddo ! icp
+
+   end subroutine combine_cpatches_new
 
 !------------------------------------------------------------------------------------------------------------
 

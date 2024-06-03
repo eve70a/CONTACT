@@ -343,15 +343,6 @@ contains
  4001    format (' Internal ERROR. The number of friction values NVF =',i6,' must be 1 or MY = ', i6,'.')
       endif
 
-      if (geom%iplan.eq.4) then
-         zerror = .not.check_sorted( 'YSEP', geom%npatch-1, geom%ysep, .true. )
-         if (zerror) then
-            nerror = nerror + 1
-            if (ierror.eq.0) ierror = 5001
-            call write_log(nline_errmsg, errmsg)
-         endif
-      endif
-
       end associate
    end subroutine check_case
 

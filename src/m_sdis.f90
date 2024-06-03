@@ -329,7 +329,7 @@ contains
 !           iplan = 1: Unrestricted planform.
 !                   2: Elliptic planform.
 !                   3: Planform: Union of two rectangles.
-!                   4: Weighted interaction between patches.
+!                   4: Weighted interaction between rectangular patches.
 !           prmudf describes the gap between the profiles (1) and (2)
       implicit none
 !--subroutine arguments:
@@ -337,9 +337,10 @@ contains
       type(t_geomet)         :: geom
 !--local variables:
       integer, parameter :: idebug = 0
-      integer      :: ii, mleft, nplan
-      logical      :: z1, z2
-      real(kind=8) :: a, dy1, rm, xm, y1, yleft, yn, rc
+      integer       :: ii, mleft, nplan
+      logical       :: z1, z2
+      real(kind=8)  :: a, dy1, rm, xm, y1, yleft, yn, rc
+      type(t_eldiv) :: cpatch
 
       associate(prmudf => geom%prmudf, prmpln => geom%prmpln, hs1    => geom%hs1)
 
@@ -463,6 +464,17 @@ contains
                  (prmpln(7).le.cgrid%y(ii) .and. cgrid%y(ii).le.prmpln(8))
             if (.not.(z1 .or. z2)) hs1%vn(ii) = 1d30
          enddo
+
+      elseif (geom%iplan.eq.4) then
+
+         ! iplan == 4: Planform is union of npatch rectangles
+
+         call eldiv_new(cpatch, cgrid)
+         call eldiv_cpatches(cpatch, geom%npatch, geom%xylim, 0)
+         do ii = 1, cgrid%ntot
+            if (cpatch%el(ii).le.0) hs1%vn(ii) = 1d30
+         enddo
+         call eldiv_destroy(cpatch)
 
       endif
 

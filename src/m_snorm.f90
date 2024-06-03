@@ -156,7 +156,7 @@ contains
          if (ic%flow.ge.4 .or. (ic%flow.ge.3 .and. itnorm.ge.2)) then
             write(bufout, 2200) itnorm, ncon, npot-ncon
             call write_log(1, bufout)
- 2200    format (4x,i4, ', Norm: size of Contact, Exterior :', 2i7)
+ 2200       format (4x,i4, ', Norm: size of Contact, Exterior :', 2i7)
          endif
          if (ic%flow.ge.9) call wrigs (igs1, .false., 0d0)
          call areas (igs1)
@@ -949,7 +949,7 @@ contains
       real(kind=8), parameter :: hz_min_curv = 1d-4
       integer      :: ic_norm, ipotcn, ixmin, ix, iy, iydbg
       real(kind=8) :: a1_y, b1_y, aa_y, bb_y, alpha1_y, beta1_y, xlc_y, xlen_y, ywid_y,                 &
-                      g_y, penloc, pmax_y, fn_hz, e_star, epshz, cp, rho
+                      hmin, g_y, penloc, pmax_y, fn_hz, e_star, epshz, cp, rho
 
       iydbg = -18
 
@@ -959,13 +959,18 @@ contains
 
          ! determine contact locus x_lc(iy) and corresponding gap g(y) = h(x_lc,y) (>=0, ex. penetration)
 
-         ixmin  = idmin(mx, htot(1:,iy), 1)
-         xlc_y  = x(ixmin,iy)
-         g_y    = htot(ixmin,iy) + pentot
+         ixmin  = -1
+         hmin   = 999d0 ! outside the planform: htot(ix,iy) == 1d20
+         do ix = 1, mx
+            if (htot(ix,iy).lt.hmin) then
+               ixmin = ix
+               hmin  = htot(ixmin,iy)
+            endif
+         enddo
 
-         ! determine curvatures A(iy), B(iy)
-
-         if (ixmin.le.1 .or. ixmin.ge.mx) then
+         if (ixmin.lt.0) then   ! row has no elements in planform
+            ixmin = (mx+1) / 2  ! assuming mx >= 3
+         elseif (ixmin.le.1 .or. ixmin.ge.mx) then
             write(bufout,'(a,i5)') ' ERROR (Analyn): found minimum gap at boundary, ix=',ixmin
             call write_log(1, bufout)
             ixmin = max(2, min(mx-1, ixmin))
@@ -975,6 +980,11 @@ contains
             write(bufout,'(a,i5)') ' Warning (Analyn): found penetration at boundary, iy=',iy
             call write_log(1, bufout)
          endif
+
+         xlc_y  = x(ixmin,iy)
+         g_y    = htot(ixmin,iy) + pentot
+
+         ! determine curvatures A(iy), B(iy)
 
          a1_y   = 0.5d0 * (htot(ixmin+1,iy) - 2d0*htot(ixmin,iy) + htot(ixmin-1,iy)) / dx**2
          if (iy.le.1) then

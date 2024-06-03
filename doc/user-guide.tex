@@ -3328,22 +3328,34 @@ The parameters are specified in the order in which they occur in this
 formula.
 \magenta{
 \item ${\tt IPLAN}=4$: Weighted interaction between $n_{patch}$ different
-contact patches. Contact patches are separated at given
-$y_{i\text{--}i+1}$-values. The effect of pressures on normal displacements
-of different patches is multiplied by factors $f_{i,j}\in[0,1]$, e.g.\
+contact patches. Contact patches are given as rectangles
+$[x_l^{(i)},x_h^{(i)}] \times[y_l^{(i)},y_h^{(i)}], i=1,n_{patch}$. 
+The effect of pressures on normal displacements of different patches is
+multiplied by factors $f_{i,j}\in[0,1]$, e.g.\
 \begin{equation}
         n_{patch} = 3, \;\;
-        \vec{y} = \left[ \begin{array}{c} 
-                         y_{1\text{--}2} \\ y_{2\text{--}3} 
+        \vec{x} = \left[ \begin{array}{cc} 
+                -100, & 100 \\ 
+                -100, & 100 \\
+                -100, & 100 \\
+                  \end{array} \right] , \;\;
+        \vec{y} = \left[ \begin{array}{cc} 
+                -100, & y_{1\text{--}2} \\ 
+                y_{1\text{--}2}, & y_{2\text{--}3}  \\
+                y_{2\text{--}3}, & 100 \\
                   \end{array} \right] , \;\;
         \mat{F} = \left[ \begin{array}{ccc}
                                 1 & f_{1,2} & f_{1,3} \\
                                 * &   1     & f_{2,3} \\
                                 * &   *     &    1      \end{array} \right] .
 \end{equation}
-The $y$-values must be strictly increasing, i.e.\ $y_{1\text{--}2} < 
-y_{2\text{--}3}$. The matrix $\mat{F}$ is symmetrical and may usually be
-tridiagonal. The multiplication factors $f$ are retrieved in row-wise
+In this example the values $y_{1\text{--}2}$ and $y_{2\text{--}3}$ are the
+separation lines between different patches. Like ${\tt IPLAN}=3$, no
+contact will be computed outside the union of the rectangles. Unlike option
+${\tt IPLAN}=3$, the rectangles should not be overlapping each other.
+The reduction factors $f_{i,j}$ may be applied arbitrarily on the overlapping
+areas. The matrix $\mat{F}$ is symmetrical and may usually be tridiagonal.
+The multiplication factors $f$ are retrieved from the input in row-wise
 order: $f_{1,2}, f_{1,3}, f_{2,3}$.
 }
 \end{itemize}
@@ -7489,7 +7501,7 @@ if Z>1 & IPOTCN>0: IBASE   IPLAN
       if IPLAN= 2:  [ PL1  PL2  PL3  PL4  PL5  PL6           ]
       if IPLAN= 3:  [ XL1  XH1  YL1  YH1  XL2  XH2  YL2  YH2 ]
 \magenta{      if IPLAN= 4:  [ NPATCH
-                      YSEP(I),  I=1,NPATCH-1
+                     (XL(I), XH(I), YL(I), YH(I)), I=1,NPATCH
                      (FAC(I,J), J=I+1,NPATCH), I=1,NPATCH-1  ]
 }
 \magenta{% Variable friction per grid row IY (section \ref{sec:varfrc}):

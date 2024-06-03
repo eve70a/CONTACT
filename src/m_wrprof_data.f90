@@ -97,7 +97,8 @@ public
       real(kind=8)     :: sr_ref, sr_pot, sp_sta, sp_end, sc_sta, sc_end
       real(kind=8)     :: dx_fac, ds_fac, dx_eff, ds_eff
       integer          :: nsub
-      real(kind=8), dimension(:), pointer :: y_sep => NULL(), f_sep => NULL()
+      real(kind=8), dimension(:),   pointer :: y_sep => NULL(), f_sep  => NULL()
+      real(kind=8), dimension(:,:), pointer :: xyzlim => NULL(), f_sep2 => NULL()
       integer          :: prev_icp(MAX_NUM_CPS)
       type(t_vec)      :: ftrk, ttrk, fws, tws
       type(t_grid)     :: rail_srfc, whl_srfc, curv_ref
@@ -134,8 +135,10 @@ public
       !
       ! for combining contact patches with blending approach:
       ! nsub             number of sub-patches with reduced interaction
-      ! y_sep     [mm]   track y-positions between neighbouring sub-patches in increasing order
-      ! f_sep     [-]    weighting factors for interactions between neighbouring sub-patches
+      ! xyzlim    [mm]   array (nsub,6): track [xyz][sta,end] of sub-patches contained in cpatch
+      ! y_sep     [mm]   array (nsub): track y-positions between neighbouring sub-patches in increasing order
+      ! f_sep     [-]    array (nsub): weighting factors for interactions between neighbouring sub-patches
+      ! f_sep2    [-]    array (nsub,nsub): weighting factors for interactions between sub-patches
       !
       ! connection between this patch and patches at previous time instance
       ! prev_icp  [-]    contact patch numbers at previous time connected to this icp, 0 in unused positions
