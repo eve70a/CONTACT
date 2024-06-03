@@ -1,0 +1,1306 @@
+   ------------------------------------------------------------------------
+   |  CONTACT - detailed investigation of 3D frictional contact problems  |
+   |            by E.A.H. Vollebregt and J.J. Kalker                      |
+   |                                                                      |
+   |  Version: trunk(win64), $Revision: 2544 $, $Date:: 2024-05-14$       |
+   |  Copyright Vtech CMCC, all rights reserved.                          |
+   |  (Subversion revision 2544M, 15-May-2024 15:40)                      |
+   |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
+   ------------------------------------------------------------------------
+
+ Case     1
+ reading rail  profile "..\profiles\site_b_hr.prr"
+ reading wheel profile "..\profiles\worn_high_mileage.prw"
+ itout =  0, itinn =  0, ittot =  1
+ z_ws=   0.0000
+ wr_connect_cps: There are  1 new contact patches
+ Obtained  0 true contact patches and  1 near misses (gap>=0)
+         0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
+ itout =  0, itinn =  1, ittot =  2
+ z_ws=   1.1430
+ wr_connect_cps: There are  2 new patches and  0 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: new icp=  1: not connected to any previous patches.
+ wr_connect_cps: new icp=  2: not connected to any previous patches.
+ Obtained  1 true contact patches and  1 near misses (gap>=0)
+ wr_setup_cp: allocate gd for icp=  1
+ cgrid_inp: mx,my=  23,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=   1,   1, dx,dy=   2.000,   2.000
+    no initial estimate (new patch)...
+      Norm: final element division: C, E=     60    216  ItCG=     9
+      Tang: final element division: A, S=      0     60  ItGS=     5
+         1, NR,  z_ws, Fz:       1.1430       3222., dFz/dz:   2.983E+05
+ itout =  0, itinn =  2, ittot =  3
+ z_ws=   1.1446
+ wr_connect_cps: There are  2 new patches and  1 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: not connected to any previous patches.
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ Obtained  1 true contact patches and  1 near misses (gap>=0)
+ cgrid_inp: mx,my=  24,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  23,  12, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=     65    223  ItCG=    10
+      Tang: final element division: A, S=      0     65  ItGS=     4
+         2, NR,  z_ws, Fz:       1.1446       3717., dFz/dz:   3.091E+05
+ itout =  0, itinn =  3, ittot =  4
+ z_ws=   1.1445
+ wr_connect_cps: There are  2 new patches and  1 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: not connected to any previous patches.
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ Obtained  1 true contact patches and  1 near misses (gap>=0)
+ cgrid_inp: mx,my=  23,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  24,  12, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=     64    212  ItCG=     8
+      Tang: final element division: A, S=      0     64  ItGS=     3
+         3, NR,  z_ws, Fz:       1.1445       3700., dFz/dz:   3.157E+05
+ itout =  0, itinn =  4, ittot =  5
+ z_ws=   1.1445
+ wr_connect_cps: There are  2 new patches and  1 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: not connected to any previous patches.
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ Obtained  1 true contact patches and  1 near misses (gap>=0)
+ cgrid_inp: mx,my=  23,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  23,  12, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=     64    212  ItCG=     4
+      Tang: final element division: A, S=      0     64  ItGS=     2
+         4, NR,  z_ws, Fz:       1.1445       3700., dFz/dz:   3.153E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 1, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   3, RETURN 1
+ PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 0, READLN 0, INFLCF 0, NMDBG  0
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-06
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     ALPHA       FSTAT       FKIN
+   -0.5236      0.2000      0.2000    
+   -0.3491      0.3500      0.3500    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.4000      0.4000       1.000       1.571       6.000       3.000    
+
+ RAIL PROFILE "../profiles/site_b_hr.prr"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL PROFILE "../profiles/worn_high_mileage.prw"
+   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
+      0           0           0         0.0000
+
+   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
+     2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       14.74      1.1445  -1.300E-03   5.000E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       848.9       2214.       3700.       860.0       2205.       3703.
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -2.0889    723.4359      7.3459     -0.5725    -25.7284      7.3458
+
+     XCP(W)      YCP(W)      ZCP(W)
+      1.4516     34.4116      7.1223
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2000      0.2000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       1.474E+04  -3.519E-02   5.841E-03   1.177E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         4309.       848.9      -143.3      -87.60   2.715E-02      -453.3
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     5.255E-02      0.9850     -0.1663   1.502E-02       718.0
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    276     64      0     64      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    12   o . . . . . . . . . . . . . . . . . . . . . o
+    11   . . . . . . . . . . . . . . . . . . . . . . .
+    10   . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . S S S S S S S S S . . . . . . . .
+     8   . . . . S S S S S S S S S S S S S S S . . . .
+     7   . . . S S S S S S S S S S S S S S S S S . . .
+     6   . . . . . S S S S S S S S S S S S S S . . . .
+     5   . . . . . . . . S S S S S S S S S . . . . . .
+     4   . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
+     X  -->        Chi=  0.00 degrees
+
+ Case     2
+ itout =  0, itinn =  0, ittot =  1
+ z_ws=   0.0000
+ wr_connect_cps: There are  1 new contact patches
+ wr_update_allcps: There are  1 old patches remaining, move to newcps( 2: 2)
+ wr_update_allcps: move unused gd from icpo=  1 to icpn=  2
+ Obtained  0 true contact patches and  1 near misses (gap>=0)
+         0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
+ itout =  0, itinn =  1, ittot =  2
+ z_ws=   1.1958
+ wr_connect_cps: There are  3 new patches and  0 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: new icp=  1: not connected to any previous patches.
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_connect_cps: new icp=  3: not connected to any previous patches.
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  3 true contact patches and  0 near misses (gap>=0)
+ wr_setup_cp: allocate gd for icp=  1
+ cgrid_inp: mx,my=  37,  69, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=   1,   1, dx,dy=   2.000,   2.000
+    no initial estimate (new patch)...
+ cgrid_inp: mx,my=  43,  24, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  23,  12, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+ wr_setup_cp: allocate gd for icp=  3
+ cgrid_inp: mx,my=  28,  10, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=   1,   1, dx,dy=   2.000,   2.000
+    no initial estimate (new patch)...
+      Norm: final element division: C, E=    830   1723  ItCG=    13
+      Tang: final element division: A, S=      0    830  ItGS=     5
+      Norm: final element division: C, E=    279    753  ItCG=    11
+      Tang: final element division: A, S=      0    279  ItGS=     6
+      Norm: final element division: C, E=     53    227  ItCG=    11
+      Tang: final element division: A, S=      0     53  ItGS=     5
+         1, NR,  z_ws, Fz:       1.1958   8.371E+04, dFz/dz:   1.820E+06
+ itout =  0, itinn =  2, ittot =  3
+ z_ws=   1.1446
+ wr_connect_cps: There are  2 new patches and  3 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  2
+ wr_connect_cps: new icp=  2: not connected to any previous patches.
+ wr_update_allcps: move gd from icpo=  2 to icpn=  1
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 3: 4)
+ wr_update_allcps: move unused gd from icpo=  1 to icpn=  3
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  4
+ Obtained  1 true contact patches and  1 near misses (gap>=0)
+ cgrid_inp: mx,my=  24,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  43,  24, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+      Norm: final element division: C, E=     65    223  ItCG=    10
+      Tang: final element division: A, S=      0     65  ItGS=     5
+         2, NR,  z_ws, Fz:       1.1446       3733., dFz/dz:   2.091E+05
+ itout =  0, itinn =  3, ittot =  4
+ z_ws=   1.1702
+ wr_connect_cps: There are  3 new patches and  1 patches for prev.iteration +  3 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  3
+ wr_connect_cps: new icp=  2: connected to old icp=  1
+ wr_connect_cps: new icp=  3: connected to old icp=  4
+ wr_update_allcps: move gd from icpo=  3 to icpn=  1
+ wr_update_allcps: move gd from icpo=  1 to icpn=  2
+ wr_update_allcps: move gd from icpo=  4 to icpn=  3
+ Obtained  3 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  27,  49, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  37,  69, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+ cgrid_inp: mx,my=  35,  20, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  24,  12, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+ cgrid_inp: mx,my=   7,   5, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  28,  10, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+      Norm: final element division: C, E=    430    893  ItCG=    12
+      Tang: final element division: A, S=      0    430  ItGS=     5
+      Norm: final element division: C, E=    162    538  ItCG=    11
+      Tang: final element division: A, S=      0    162  ItGS=     5
+      Norm: final element division: C, E=      3     32  ItCG=     6
+      Tang: final element division: A, S=      0      3  ItGS=     3
+         3, NR,  z_ws, Fz:       1.1702   3.358E+04, dFz/dz:   1.167E+06
+ itout =  0, itinn =  4, ittot =  5
+ z_ws=   1.1693
+ wr_connect_cps: There are  3 new patches and  3 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_connect_cps: new icp=  3: not connected to any previous patches.
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ wr_update_allcps: There are  1 old patches remaining, move to newcps( 4: 4)
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  4
+ Obtained  2 true contact patches and  1 near misses (gap>=0)
+ cgrid_inp: mx,my=  27,  48, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  27,  49, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ cgrid_inp: mx,my=  35,  20, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  20, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=    416    880  ItCG=     9
+      Tang: final element division: A, S=      0    416  ItGS=     4
+      Norm: final element division: C, E=    158    542  ItCG=     7
+      Tang: final element division: A, S=      0    158  ItGS=     4
+         4, NR,  z_ws, Fz:       1.1693   3.211E+04, dFz/dz:   1.587E+06
+ itout =  0, itinn =  5, ittot =  6
+ z_ws=   1.1695
+ wr_connect_cps: There are  3 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_connect_cps: new icp=  3: not connected to any previous patches.
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ wr_update_allcps: There are  1 old patches remaining, move to newcps( 4: 4)
+ wr_update_allcps: move unused gd from icpo=  4 to icpn=  4
+ Obtained  2 true contact patches and  1 near misses (gap>=0)
+ cgrid_inp: mx,my=  27,  49, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  27,  48, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ cgrid_inp: mx,my=  35,  20, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  20, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=    416    907  ItCG=     7
+      Tang: final element division: A, S=      0    416  ItGS=     3
+      Norm: final element division: C, E=    158    542  ItCG=     6
+      Tang: final element division: A, S=      0    158  ItGS=     4
+         5, NR,  z_ws, Fz:       1.1695   3.250E+04, dFz/dz:   1.572E+06
+ itout =  0, itinn =  6, ittot =  7
+ z_ws=   1.1695
+ wr_connect_cps: There are  3 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_connect_cps: new icp=  3: not connected to any previous patches.
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ wr_update_allcps: There are  1 old patches remaining, move to newcps( 4: 4)
+ wr_update_allcps: move unused gd from icpo=  4 to icpn=  4
+ Obtained  2 true contact patches and  1 near misses (gap>=0)
+ cgrid_inp: mx,my=  27,  49, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  27,  49, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ cgrid_inp: mx,my=  35,  20, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  20, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=    416    907  ItCG=     4
+      Tang: final element division: A, S=      0    416  ItGS=     2
+      Norm: final element division: C, E=    158    542  ItCG=     4
+      Tang: final element division: A, S=      0    158  ItGS=     2
+         6, NR,  z_ws, Fz:       1.1695   3.250E+04, dFz/dz:   1.572E+06
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   3, RETURN 1
+ PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 0, READLN 0, INFLCF 0, NMDBG  0
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-06
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     ALPHA       FSTAT       FKIN
+   -0.5236      0.2000      0.2000    
+   -0.3491      0.3500      0.3500    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.4000      0.4000       1.000       1.571       6.000       3.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       14.74      1.1695  -1.300E-03   5.000E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+       9669.       8869.   3.250E+04       9713.       8778.   3.251E+04
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -3.5755    755.9430      0.3412     -0.0587      6.7787      0.3412
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.1277     66.9349      0.1349
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3500      0.3500    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       1.463E+04  -5.077E-02   4.881E-03   1.259E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.859E+04       6477.      -624.0      -945.4      0.2154      -4842.
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.2267      0.9954  -9.589E-02   2.473E-02       460.1
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   1323    416      0    416      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    45   o . . . . . . . . . . . . . . . o
+    44   . . . . S S S S S S S S . . . . .
+    43   . . . S S S S S S S S S S S . . .
+    42   . . S S S S S S S S S S S S . . .
+    41   . . S S S S S S S S S S S S S . .
+    40   . . S S S S S S S S S S S S S . .
+    39   . . S S S S S S S S S S S S S . .
+    38   . . S S S S S S S S S S S S S . .
+    37   . . S S S S S S S S S S S S S . .
+    36   . . S S S S S S S S S S S S S . .
+    35   . S S S S S S S S S S S S S S . .
+    34   . S S S S S S S S S S S S S S S .
+    33   . S S S S S S S S S S S S S S S .
+    32   . S S S S S S S S S S S S S S S .
+    31   . S S S S S S S S S S S S S S S .
+    30   . S S S S S S S S S S S S S S S .
+    29   . S S S S S S S S S S S S S S S .
+    28   . S S S S S S S S S S S S S S S .
+    27   . S S S S S S S S S S S S S S S .
+    26   . S S S S S S S S S S S S S S S .
+    25   . S S S S S S S S S S S S S S S .
+    24   . S S S S S S S S S S S S S S S .
+    23   . S S S S S S S S S S S S S S S .
+    22   . S S S S S S S S S S S S S S S .
+    21   . . S S S S S S S S S S S S S S .
+    20   . . S S S S S S S S S S S S S . .
+    19   . . . S S S S S S S S S S S S . .
+    18   . . . S S S S S S S S S S S . . .
+    17   . . . . S S S S S S S S S S . . .
+    16   . . . . S S S S S S S S S . . . .
+    15   . . . . . S S S S S S S S . . . .
+    14   . . . . . S S S S S S S . . . . .
+    13   . . . . . . S S S S S S . . . . .
+    12   . . . . . . S S S S S . . . . . .
+    11   . . . . . . . S S S . . . . . . .
+    10   o . . . . . . . . . . . . . . . o
+                 1                   2
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
+     X  -->        Chi=  0.00 degrees
+
+ ----- DATA FOR CONTACT PATCH  2 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -2.0695    723.3751      7.3852     -0.5772    -25.7892      7.3852
+
+     XCP(W)      YCP(W)      ZCP(W)
+      1.4708     34.3507      7.1366
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2000      0.2000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       1.474E+04  -3.512E-02   5.864E-03   1.186E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.624E+04       3192.      -545.8      -743.2      0.2449      -1709.
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+        0.1980      0.9831     -0.1681   3.599E-02       1126.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    700    158      0    158      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    16   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+    15   . . . . . . . . . . . S S S . . . . . . . . . . . . .
+    14   . . . . . S S S S S S S S S S S S S S S S . . . . . .
+    13   . . S S S S S S S S S S S S S S S S S S S S S S . . .
+    12   . S S S S S S S S S S S S S S S S S S S S S S S S S .
+    11   . S S S S S S S S S S S S S S S S S S S S S S S S S .
+    10   . . S S S S S S S S S S S S S S S S S S S S S S S . .
+     9   . . . . S S S S S S S S S S S S S S S S S S S S . . .
+     8   . . . . . . . S S S S S S S S S S S S S S S . . . . .
+     7   . . . . . . . . . . S S S S S S S S S . . . . . . . .
+     6   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+                   1                   2                   3
+         5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+     X  -->        Chi=  0.00 degrees
+
+ Case     3
+ itout =  0, itinn =  0, ittot =  1
+ z_ws=   0.0000
+ wr_connect_cps: There are  1 new contact patches
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 2: 3)
+ wr_update_allcps: move unused gd from icpo=  1 to icpn=  2
+ wr_update_allcps: move unused gd from icpo=  2 to icpn=  3
+ Obtained  0 true contact patches and  1 near misses (gap>=0)
+         0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
+ itout =  0, itinn =  1, ittot =  2
+ z_ws=   1.2984
+ wr_connect_cps: There are  2 new patches and  0 patches for prev.iteration +  3 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  2  3
+ wr_connect_cps: new icp=  2: not connected to any previous patches.
+ wr_update_allcps: move gd from icpo=  2 to icpn=  1
+ wr_update_allcps: There are  1 old patches remaining, move to newcps( 3: 3)
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  3
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  68, 132, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  27,  49, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+ wr_setup_cp: allocate gd for icp=  2
+ cgrid_inp: mx,my=  57,  18, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=   1,   1, dx,dy=   2.000,   2.000
+    no initial estimate (new patch)...
+      Norm: final element division: C, E=   2937   6039  ItCG=    16
+      Tang: final element division: A, S=      0   2937  ItGS=     7
+      Norm: final element division: C, E=    271    755  ItCG=    13
+      Tang: final element division: A, S=      0    271  ItGS=     7
+         1, NR,  z_ws, Fz:       1.2984   3.671E+05, dFz/dz:   3.209E+06
+ itout =  0, itinn =  2, ittot =  3
+ z_ws=   1.1665
+ wr_connect_cps: There are  3 new patches and  2 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  1  3
+ wr_connect_cps: new icp=  3: not connected to any previous patches.
+ wr_update_allcps: copy gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  1 to icpn=  2
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 4: 5)
+ wr_update_allcps: move unused gd from icpo=  2 to icpn=  4
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  5
+ Obtained  2 true contact patches and  1 near misses (gap>=0)
+ cgrid_inp: mx,my=  27,  47, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  68, 132, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+ cgrid_inp: mx,my=  33,  18, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  68, 132, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+      Norm: final element division: C, E=    369    900  ItCG=    12
+      Tang: final element division: A, S=      0    369  ItGS=     5
+      Norm: final element division: C, E=    147    447  ItCG=    11
+      Tang: final element division: A, S=      0    147  ItGS=     5
+         2, NR,  z_ws, Fz:       1.1665   2.785E+04, dFz/dz:   7.011E+05
+ itout =  0, itinn =  3, ittot =  4
+ z_ws=   1.2324
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  3 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1  2  5
+ wr_connect_cps: new icp=  2: connected to old icp=  4
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  4 to icpn=  2
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 3: 4)
+ wr_update_allcps: move unused gd from icpo=  2 to icpn=  3
+ wr_update_allcps: move unused gd from icpo=  5 to icpn=  4
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  54, 126, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  27,  47, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+ cgrid_inp: mx,my=  41,  13, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  57,  18, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+      Norm: final element division: C, E=   1692   5112  ItCG=    14
+      Tang: final element division: A, S=      0   1692  ItGS=     6
+      Norm: final element division: C, E=    127    406  ItCG=    12
+      Tang: final element division: A, S=      0    127  ItGS=     6
+         3, NR,  z_ws, Fz:       1.2324   1.690E+05, dFz/dz:   2.140E+06
+ itout =  0, itinn =  4, ittot =  5
+ z_ws=   1.2131
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 3: 4)
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  3
+ wr_update_allcps: move unused gd from icpo=  4 to icpn=  4
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  54, 126, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.575,   5.430], ylim=[ -13.924,  21.528], fac= 1.000 0.413
+ xlim=[ -12.068,   7.866], ylim=[ -27.382, -16.402], fac= 0.413 1.000
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  41,  13, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1405   4622  ItCG=    12
+      Tang: final element division: A, S=      0   1405  ItGS=     5
+      Norm: final element division: C, E=     83    302  ItCG=    13
+      Tang: final element division: A, S=      0     83  ItGS=     5
+         4, NR,  z_ws, Fz:       1.2131   1.274E+05, dFz/dz:   2.146E+06
+ itout =  0, itinn =  5, ittot =  6
+ z_ws=   1.2131
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 3: 4)
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  3
+ wr_update_allcps: move unused gd from icpo=  4 to icpn=  4
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.578,   5.433], ylim=[ -13.944,  21.528], fac= 1.000 0.421
+ xlim=[ -12.071,   7.869], ylim=[ -27.383, -16.395], fac= 0.421 1.000
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1405   4622  ItCG=     7
+      Tang: final element division: A, S=      0   1405  ItGS=     3
+      Norm: final element division: C, E=     83    302  ItCG=     5
+      Tang: final element division: A, S=      0     83  ItGS=     3
+         5, NR,  z_ws, Fz:       1.2131   1.274E+05, dFz/dz:   2.376E+05
+ itout =  0, itinn =  6, ittot =  7
+ z_ws=   1.2135
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 3: 4)
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  3
+ wr_update_allcps: move unused gd from icpo=  4 to icpn=  4
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.602,   5.457], ylim=[ -14.097,  21.535], fac= 1.000 0.490
+ xlim=[ -12.092,   7.890], ylim=[ -27.395, -16.342], fac= 0.490 1.000
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1404   4623  ItCG=     9
+      Tang: final element division: A, S=      0   1404  ItGS=     4
+      Norm: final element division: C, E=     86    299  ItCG=     8
+      Tang: final element division: A, S=      0     86  ItGS=     4
+         6, NR,  z_ws, Fz:       1.2135   1.275E+05, dFz/dz:   3.265E+05
+ itout =  0, itinn =  7, ittot =  8
+ z_ws=   1.2133
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 3: 4)
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  3
+ wr_update_allcps: move unused gd from icpo=  4 to icpn=  4
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.590,   5.445], ylim=[ -14.022,  21.532], fac= 1.000 0.456
+ xlim=[ -12.082,   7.879], ylim=[ -27.389, -16.369], fac= 0.456 1.000
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1404   4623  ItCG=     8
+      Tang: final element division: A, S=      0   1404  ItGS=     4
+      Norm: final element division: C, E=     84    301  ItCG=     8
+      Tang: final element division: A, S=      0     84  ItGS=     4
+         7, NR,  z_ws, Fz:       1.2133   1.275E+05, dFz/dz:   3.935E+05
+ itout =  0, itinn =  8, ittot =  9
+ z_ws=   1.2134
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 3: 4)
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  3
+ wr_update_allcps: move unused gd from icpo=  4 to icpn=  4
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.596,   5.452], ylim=[ -14.063,  21.533], fac= 1.000 0.475
+ xlim=[ -12.087,   7.885], ylim=[ -27.393, -16.354], fac= 0.475 1.000
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1404   4623  ItCG=     7
+      Tang: final element division: A, S=      0   1404  ItGS=     3
+      Norm: final element division: C, E=     85    300  ItCG=     7
+      Tang: final element division: A, S=      0     85  ItGS=     3
+         8, NR,  z_ws, Fz:       1.2134   1.275E+05, dFz/dz:   4.041E+05
+ itout =  0, itinn =  9, ittot = 10
+ z_ws=   1.2134
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ wr_update_allcps: There are  2 old patches remaining, move to newcps( 3: 4)
+ wr_update_allcps: move unused gd from icpo=  3 to icpn=  3
+ wr_update_allcps: move unused gd from icpo=  4 to icpn=  4
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.597,   5.452], ylim=[ -14.064,  21.534], fac= 1.000 0.475
+ xlim=[ -12.087,   7.885], ylim=[ -27.393, -16.354], fac= 0.475 1.000
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1404   4623  ItCG=     5
+      Tang: final element division: A, S=      0   1404  ItGS=     2
+      Norm: final element division: C, E=     85    300  ItCG=     4
+      Tang: final element division: A, S=      0     85  ItGS=     2
+         9, NR,  z_ws, Fz:       1.2134   1.275E+05, dFz/dz:   3.955E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   3, RETURN 1
+ PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 0, READLN 0, INFLCF 0, NMDBG  0
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-06
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     ALPHA       FSTAT       FKIN
+   -0.5236      0.2000      0.2000    
+   -0.3491      0.3500      0.3500    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.4000      0.4000       1.000       1.571       6.000       3.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       14.74      1.2134  -1.300E-03   5.000E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+   4.366E+04   2.624E+04   1.275E+05   4.379E+04   2.586E+04   1.275E+05
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -3.1251    745.6767      1.1863     -0.2124     -3.4876      1.1863
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.5267     56.6654      0.9227
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3500      0.3500    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       1.464E+04  -4.888E-02   5.012E-03   4.594E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.271E+05   4.417E+04      -5020.   1.152E+05       4.491  -3.110E+04
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.550      0.9929     -0.1128   7.866E-02       1702.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   6027   1404      0   1404      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+   117  o....................................o
+   116  ..........SSSSSSSSSS..................
+   115  .......SSSSSSSSSSSSSSSS...............
+   114  .....SSSSSSSSSSSSSSSSSSSS.............
+   113  ....SSSSSSSSSSSSSSSSSSSSSS............
+   112  ....SSSSSSSSSSSSSSSSSSSSSSS...........
+   111  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   110  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   109  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   108  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   107  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   106  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   105  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   104  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   103  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   102  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+   101  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+   100  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    99  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    98  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    97  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    96  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    95  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    94  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    93  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    92  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    91  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    90  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    89  ....SSSSSSSSSSSSSSSSSSSSSSS...........
+    88  ....SSSSSSSSSSSSSSSSSSSSSSS...........
+    87  ....SSSSSSSSSSSSSSSSSSSSSSS...........
+    86  .....SSSSSSSSSSSSSSSSSSSSS............
+    85  .....SSSSSSSSSSSSSSSSSSSSS............
+    84  .....SSSSSSSSSSSSSSSSSSSSS............
+    83  .....SSSSSSSSSSSSSSSSSSSSS............
+    82  ......SSSSSSSSSSSSSSSSSSSS............
+    81  ......SSSSSSSSSSSSSSSSSSS.............
+    80  ......SSSSSSSSSSSSSSSSSSS.............
+    79  .......SSSSSSSSSSSSSSSSSS.............
+    78  .......SSSSSSSSSSSSSSSSSS.............
+    77  .......SSSSSSSSSSSSSSSSSS.............
+    76  .......SSSSSSSSSSSSSSSSSS.............
+    75  .......SSSSSSSSSSSSSSSSSS.............
+    74  .......SSSSSSSSSSSSSSSSS..............
+    73  .......SSSSSSSSSSSSSSSSS..............
+    72  ........SSSSSSSSSSSSSSSS..............
+    71  ........SSSSSSSSSSSSSSS...............
+    70  .........SSSSSSSSSSSSSS...............
+    69  ..........SSSSSSSSSSSS................
+    68  ...........SSSSSSSSSS.................
+    67  ............SSSSSSSS..................
+    66  .............SSSSSS...................
+    65  ..............SSSS....................
+    64  ..............SSSS....................
+    63  ...............SS.....................
+    62  ...............SSS....................
+    61  ..............SSSS....................
+    60  ..............SSSS....................
+    59  ..............SSSSS...................
+    58  ..............SSSS....................
+    57  ................S.....................
+    56  ......................................
+    55  ......................................
+    54  ......................................
+    53  ......................................
+    52  ......................................
+    51  ......................................
+    50  ......................................
+    49  ......................................
+    48  ......................................
+    47  ......................................
+    46  ......................................
+    45  ......................................
+    44  ......................................
+    43  ......................................
+    42  ......................................
+    41  ......................................
+    40  ......................................
+    39  ......................................
+    38  ......................................
+    37  ......................................
+    36  ......................................
+    35  ......................................
+    34  ......................................
+    33  ......................................
+    32  ......................................
+    31  ......................................
+    30  ......................................
+    29  ......................................
+    28  ......................................
+    27  ......................................
+    26  ......................................
+    25  ......................................
+    24  ......................................
+    23  ......................................
+    22  ......................................
+    21  ......................................
+    20  ..............SSSSSSSS................
+    19  .........SSSSSSSSSSSSSSSSSS...........
+    18  ......SSSSSSSSSSSSSSSSSSSSSSSS........
+    17  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    16  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    15  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    14  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    13  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    11  .......SSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    10  .........SSSSSSSSSSSSSSSSSSSSSSS......
+     9  ............SSSSSSSSSSSSSSSSSSS.......
+     8  ...............SSSSSSSSSSSS...........
+     7  o....................................o
+           1         2         3         4
+        78901234567890123456789012345678901234
+     X  -->        Chi=  0.00 degrees
+
+ ----- DATA FOR CONTACT PATCH  2 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      4.0767    714.2606     28.3521     -1.2698    -34.9037     28.3521
+
+     XCP(W)      YCP(W)      ZCP(W)
+      7.5711     25.1784     28.0476
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2000      0.2000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       1.508E+04   1.013E-02   1.689E-02   2.033E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         4809.      -511.3      -802.5      -255.1   2.617E-02      -291.4
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     5.864E-02     -0.5316     -0.8344   1.265E-02       685.6
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    385     85      0     85      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     7   . . . . . . . . . . . . . . . . S S S S S . . . . . . . . . . . . . .
+     6   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     5   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+     4   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     3   . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+     X  -->        Chi=  0.00 degrees
+
+ Case     4
+ itout =  0, itinn =  1, ittot =  1
+ z_ws=   1.2134
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (new case, user setting)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.597,   5.452], ylim=[ -14.064,  21.534], fac= 1.000 0.475
+ xlim=[ -12.087,   7.885], ylim=[ -27.393, -16.354], fac= 0.475 1.000
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (new case, user setting)...
+      Norm: final element division: C, E=   1404   4623  ItCG=     1
+      Tang: final element division: A, S=      0   1404  ItGS=     1
+      Norm: final element division: C, E=     85    300  ItCG=     1
+      Tang: final element division: A, S=      0     85  ItGS=     1
+         0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       1.2134   1.275E+05, dFz/dz:   2.207E+06
+ itout =  0, itinn =  2, ittot =  2
+ z_ws=   1.2147
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.668,   5.523], ylim=[ -14.490,  21.555], fac= 1.000 0.663
+ xlim=[ -12.151,   7.949], ylim=[ -27.427, -16.180], fac= 0.663 1.000
+ cgrid_inp: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1398   4629  ItCG=    10
+      Tang: final element division: A, S=      0   1398  ItGS=     5
+      Norm: final element division: C, E=     89    331  ItCG=     8
+      Tang: final element division: A, S=      0     89  ItGS=     4
+         2, NR,  z_ws, Fz:       1.2147   1.282E+05, dFz/dz:   5.288E+05
+ itout =  0, itinn =  3, ittot =  3
+ z_ws=   1.2144
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.650,   5.505], ylim=[ -14.386,  21.549], fac= 1.000 0.618
+ xlim=[ -12.135,   7.933], ylim=[ -27.419, -16.226], fac= 0.618 1.000
+ cgrid_inp: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1400   4627  ItCG=     9
+      Tang: final element division: A, S=      0   1400  ItGS=     4
+      Norm: final element division: C, E=     88    332  ItCG=     7
+      Tang: final element division: A, S=      0     88  ItGS=     4
+         3, NR,  z_ws, Fz:       1.2144   1.280E+05, dFz/dz:   6.065E+05
+ itout =  0, itinn =  4, ittot =  4
+ z_ws=   1.2144
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.652,   5.508], ylim=[ -14.400,  21.550], fac= 1.000 0.624
+ xlim=[ -12.137,   7.935], ylim=[ -27.420, -16.220], fac= 0.624 1.000
+ cgrid_inp: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1399   4628  ItCG=     7
+      Tang: final element division: A, S=      0   1399  ItGS=     3
+      Norm: final element division: C, E=     88    332  ItCG=     5
+      Tang: final element division: A, S=      0     88  ItGS=     3
+         4, NR,  z_ws, Fz:       1.2144   1.280E+05, dFz/dz:   5.776E+05
+ itout =  0, itinn =  5, ittot =  5
+ z_ws=   1.2144
+ wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ has f_sep2, new combination method
+ IPLAN=4: npatch=  2
+ xlim=[ -12.653,   5.508], ylim=[ -14.401,  21.550], fac= 1.000 0.624
+ xlim=[ -12.137,   7.935], ylim=[ -27.420, -16.220], fac= 0.624 1.000
+ cgrid_inp: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1399   4628  ItCG=     5
+      Tang: final element division: A, S=      0   1399  ItGS=     2
+      Norm: final element division: C, E=     88    332  ItCG=     4
+      Tang: final element division: A, S=      0     88  ItGS=     2
+         5, NR,  z_ws, Fz:       1.2144   1.280E+05, dFz/dz:   5.791E+05
+
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
+
+ CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
+ VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 1, OUTPUT 3, FLOW   3, RETURN 1
+ PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 0, READLN 0, INFLCF 0, NMDBG  0
+ VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
+ STEADY STATE ROLLING, CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       8.200E+04   0.000       1.000E-06
+
+    POISS(R)    POISS(W)     GG(R)       GG(W)
+    0.2800      0.2800       8.200E+04   8.200E+04
+
+ FRICTION LAW PARAMETERS
+     ALPHA       FSTAT       FKIN
+   -0.5236      0.2000      0.2000    
+   -0.3491      0.3500      0.3500    
+
+ DISCRETISATION PARAMETERS
+     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
+    0.4000      0.4000       1.000       1.571       6.000       3.000    
+
+ WHEEL-SET POSITION AND VELOCITY
+     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
+         0.000       14.74      1.2144  -1.300E-03   5.000E-03       0.000
+
+     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
+     1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
+
+
+ TOTAL FORCES AND MOMENTS ON RAIL
+     FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
+   4.379E+04   2.640E+04   1.280E+05   4.392E+04   2.602E+04   1.280E+05
+
+ ----- DATA FOR CONTACT PATCH  1 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+     -3.1268    745.6957      1.1842     -0.2118     -3.4687      1.1842
+
+     XCP(W)      YCP(W)      ZCP(W)
+      0.5251     56.6844      0.9196
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.3500      0.3500    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       1.464E+04  -4.888E-02   5.011E-03   4.581E-04
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     1.275E+05   4.432E+04      -5029.   1.120E+05       4.517  -3.123E+04
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+         1.555      0.9929     -0.1127   7.952E-02       1700.
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+   6027   1399      0   1399      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+   117  o....................................o
+   116  ..........SSSSSSSSSS..................
+   115  .......SSSSSSSSSSSSSSSS...............
+   114  .....SSSSSSSSSSSSSSSSSSSS.............
+   113  ....SSSSSSSSSSSSSSSSSSSSSS............
+   112  ....SSSSSSSSSSSSSSSSSSSSSSS...........
+   111  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   110  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   109  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   108  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   107  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   106  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   105  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   104  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   103  ...SSSSSSSSSSSSSSSSSSSSSSSS...........
+   102  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+   101  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+   100  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    99  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    98  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    97  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    96  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    95  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    94  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    93  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    92  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    91  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    90  ...SSSSSSSSSSSSSSSSSSSSSSSSS..........
+    89  ....SSSSSSSSSSSSSSSSSSSSSSS...........
+    88  ....SSSSSSSSSSSSSSSSSSSSSSS...........
+    87  ....SSSSSSSSSSSSSSSSSSSSSSS...........
+    86  .....SSSSSSSSSSSSSSSSSSSSS............
+    85  .....SSSSSSSSSSSSSSSSSSSSS............
+    84  .....SSSSSSSSSSSSSSSSSSSSS............
+    83  .....SSSSSSSSSSSSSSSSSSSSS............
+    82  ......SSSSSSSSSSSSSSSSSSSS............
+    81  ......SSSSSSSSSSSSSSSSSSS.............
+    80  ......SSSSSSSSSSSSSSSSSSS.............
+    79  ......SSSSSSSSSSSSSSSSSSS.............
+    78  .......SSSSSSSSSSSSSSSSSS.............
+    77  .......SSSSSSSSSSSSSSSSSS.............
+    76  .......SSSSSSSSSSSSSSSSSS.............
+    75  .......SSSSSSSSSSSSSSSSSS.............
+    74  .......SSSSSSSSSSSSSSSSS..............
+    73  .......SSSSSSSSSSSSSSSSS..............
+    72  ........SSSSSSSSSSSSSSSS..............
+    71  ........SSSSSSSSSSSSSSS...............
+    70  .........SSSSSSSSSSSSSS...............
+    69  ..........SSSSSSSSSSSS................
+    68  ...........SSSSSSSSSS.................
+    67  ............SSSSSSSS..................
+    66  .............SSSSSS...................
+    65  ..............SSSS....................
+    64  ...............SSS....................
+    63  ...............SS.....................
+    62  ...............SS.....................
+    61  ..............SSSS....................
+    60  ..............SSSS....................
+    59  ..............SSSS....................
+    58  ..............SSSS....................
+    57  ......................................
+    56  ......................................
+    55  ......................................
+    54  ......................................
+    53  ......................................
+    52  ......................................
+    51  ......................................
+    50  ......................................
+    49  ......................................
+    48  ......................................
+    47  ......................................
+    46  ......................................
+    45  ......................................
+    44  ......................................
+    43  ......................................
+    42  ......................................
+    41  ......................................
+    40  ......................................
+    39  ......................................
+    38  ......................................
+    37  ......................................
+    36  ......................................
+    35  ......................................
+    34  ......................................
+    33  ......................................
+    32  ......................................
+    31  ......................................
+    30  ......................................
+    29  ......................................
+    28  ......................................
+    27  ......................................
+    26  ......................................
+    25  ......................................
+    24  ......................................
+    23  ......................................
+    22  ......................................
+    21  ......................................
+    20  ..............SSSSSSS.................
+    19  ..........SSSSSSSSSSSSSSSS............
+    18  ......SSSSSSSSSSSSSSSSSSSSSSSS........
+    17  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    16  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    15  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    14  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
+    13  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
+    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
+    11  .......SSSSSSSSSSSSSSSSSSSSSSSSSS.....
+    10  .........SSSSSSSSSSSSSSSSSSSSSSS......
+     9  ............SSSSSSSSSSSSSSSSSSS.......
+     8  ...............SSSSSSSSSSSSS..........
+     7  o....................................o
+           1         2         3         4
+        78901234567890123456789012345678901234
+     X  -->        Chi=  0.00 degrees
+
+ ----- DATA FOR CONTACT PATCH  2 -----
+
+ CONTACT REFERENCE LOCATION
+     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
+      4.0769    714.2616     28.3489     -1.2699    -34.9027     28.3489
+
+     XCP(W)      YCP(W)      ZCP(W)
+      7.5714     25.1794     28.0435
+
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.2000      0.2000    
+
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.4000       1.508E+04   1.012E-02   1.689E-02   2.033E-03
+
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+         4977.      -529.3      -830.2      -270.5   2.766E-02      -301.6
+     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     6.070E-02     -0.5318     -0.8340   1.293E-02       691.6
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  INORM  ITANG
+    420     88      0     88      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    12   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    11   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . .
+     7   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     6   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+     5   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     4   . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+     X  -->        Chi=  0.00 degrees
+
+Parallel run using  2 threads
+Performance timers:
+|------------------------------------------------------------------------|
+|Timer name                     |   cpu time        |    wall clock      |
+|                               |-------------------|--------------------|
+|                     | #times  |   sec     |  %    |    sec     |  %    |
+|------------------------------------------------------------------------|
+|Total                |       1 |       0.5 | 100.0 |        1.5 | 100.0 |
+|Wheel-rail cases     |       4 |       0.5 | 100.0 |        1.5 | 100.0 |
+|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   1.1 |
+|Geometric analysis   |      27 |       0.0 |   3.3 |        0.1 |   6.4 |
+|Panag.process        |      45 |       0.4 |  90.0 |        1.2 |  80.7 |
+|Algorithm Norm       |      45 |       0.1 |  13.3 |        0.2 |  15.8 |
+|Algorithm Tang       |      45 |       0.4 |  76.7 |        1.0 |  64.9 |
+|Output quantities    |      49 |       0.0 |   3.3 |        0.1 |   4.4 |
+|------------------------------------------------------------------------|
+|Norm: ConjGrd solver |      45 |       0.1 |  13.3 |        0.2 |  15.4 |
+|Tang: StedyGS solver |      45 |       0.4 |  76.7 |        0.9 |  62.2 |
+|------------------------------------------------------------------------|
+|Reading input-file   |       4 |       0.0 |   0.0 |        0.0 |   1.1 |
+|Contact location     |      27 |       0.0 |   3.3 |        0.1 |   3.3 |
+|Undeformed distance  |      45 |       0.0 |   0.0 |        0.0 |   1.8 |
+| - Interp whl_srfc   |      45 |       0.0 |   0.0 |        0.0 |   0.3 |
+|Influence coeffic.   |      45 |       0.0 |   3.3 |        0.1 |   4.5 |
+|Initial state/estim. |      45 |       0.0 |   0.0 |        0.0 |   0.0 |
+|------------------------------------------------------------------------|
+ The CONTACT program ended succesfully.
