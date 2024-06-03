@@ -883,7 +883,7 @@ subroutine subsur_matfil (meta, ic, subs, idebug)
    else
       fname = trim(fname) // '.subs'
    endif
-   call make_absolute_path(fname, meta%dirnam, fname)
+   call make_absolute_path(fname, meta%outdir, fname)
 
    if (lwrmat) then
       lsbs = get_lunit_tmp_use()

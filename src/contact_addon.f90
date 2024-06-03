@@ -22,6 +22,7 @@ implicit none
 private
 
 private cntc_setFileUnits
+private copy_c_dirnam
 private cntc_initializeFirst
 private cntc_initialize
 private cntc_setGlobalFlags
@@ -200,8 +201,44 @@ end subroutine cntc_setFileUnits
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, len_outpath, len_expnam) &
-   bind(c,name=CNAME_(cntc_initializefirst))
+subroutine copy_c_dirnam(c_dirnam, len_dirnam, f_dirnam, ltmpfile)
+!--function: helper to convert C string to F-string and append path_sep
+   implicit none
+!--subroutine arguments:
+   character(kind=C_CHAR), intent(in)    :: c_dirnam(*)  ! C-string: folder name
+   integer,                intent(in)    :: len_dirnam   ! length of C-string
+   character(len=*),       intent(out)   :: f_dirnam     ! F-string: folder name
+   logical,                intent(in)    :: ltmpfile
+!--local variables
+   integer              :: i, ilen
+
+   ! Copy C to Fortran
+
+   call c_to_f_string(c_dirnam, f_dirnam, len_dirnam)
+
+   ! append '/' on non-empty directory that doesnt end on '/' already
+   ! TODO: permit use of '/' on Windows, '\' on Linux
+
+   ilen = len(trim(f_dirnam))
+   if (ilen.gt.1 .and. ilen.lt.len(f_dirnam)) then
+      if (f_dirnam(ilen:ilen).ne.path_sep) then
+         i = ilen + 1
+         f_dirnam(i:i) = path_sep
+      endif
+   endif
+
+   if (ltmpfile) then
+      write(37,*) 'len=',len(f_dirnam), len_dirnam
+      write(37,*) 'path=',trim(f_dirnam),'.'
+   endif
+
+end subroutine copy_c_dirnam
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,  &
+                                    len_outdir, len_expnam) &
+   bind(c,name=CNAME_(cntc_initializefirst_new))
 !--function: initialize the addon internal data structures and initialize output channels,
 !            print version information; return the addon version number.
 !--category: 0, "m=any, glob":      not related to contact's modules 1 or 3, working on global data
@@ -210,23 +247,24 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
    integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
-   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory /
-                                                         !           effective working folder
+   character(kind=C_CHAR), intent(in)    :: c_wrkdir(*)  ! C-string: effective working folder
+   character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
    character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
-   integer,                intent(in)    :: len_outpath  ! length of C-string
+   integer,                intent(in)    :: len_wrkdir   ! length of C-string
+   integer,                intent(in)    :: len_outdir   ! length of C-string
    integer,                intent(in)    :: len_expnam   ! length of C-string
 !--local variables:
-   character(len=*), parameter :: subnam = 'cntc_initializeFirst'
+   character(len=*), parameter :: subnam = 'cntc_initializeFirst_new'
    integer, parameter :: max_version = 20
    integer            :: num_version, ix
    character(len=256) :: version(max_version), fname, f_recent
    character          :: c_recent(256)
    character(len=len(bufout)-5) :: tmpbuf
-   integer            :: jre, jcp, i, ilen, louttm
+   integer            :: jre, jcp, ilen, louttm
    logical            :: ltmpfile = .false.
    logical            :: l_outfil, l_screen, l_simpck
 #ifdef _WIN32
-!dec$ attributes dllexport :: cntc_initializeFirst
+!dec$ attributes dllexport :: cntc_initializeFirst_new
 #endif
 
    if (caddon_initialized.ge.1) return
@@ -249,25 +287,10 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
 
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
 
-   ! Store name of output directory (note: only the value of the first call is memorized)
+   ! Store folder names (note: only the value of the first call is memorized, used for all REs)
 
-   call c_to_f_string(c_outpath, caddon_outpath, len_outpath)
-
-   ! append '/' on non-empty directory that doesnt end on '/' already
-   ! TODO: permit use of '/' on Windows, '\' on Linux
-
-   ilen = len(trim(caddon_outpath))
-   if (ilen.gt.1 .and. ilen.lt.len(caddon_outpath)) then
-      if (caddon_outpath(ilen:ilen).ne.path_sep) then
-         i = ilen + 1
-         caddon_outpath(i:i) = path_sep
-      endif
-   endif
-
-   if (ltmpfile) then
-      write(37,*) 'len=',len(caddon_outpath), len_outpath
-      write(37,*) 'path=',trim(caddon_outpath),'.'
-   endif
+   call copy_c_dirnam(c_wrkdir, len_wrkdir, caddon_wrkdir, ltmpfile)
+   call copy_c_dirnam(c_outdir, len_outdir, caddon_outdir, ltmpfile)
 
    ! If provided: store experiment name (note: only the value of the first call is memorized)
 
@@ -280,17 +303,17 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
       endif
    endif
 
-   ! strip off directory name from experiment name, use as fallback for output folder
+   ! strip off directory name from experiment name, use as fallback for effective working folder
 
    ix = index_pathsep(caddon_expnam, back=.true.)
    if (ix.gt.1) then
-      if (caddon_outpath.eq.' ') caddon_outpath  = caddon_expnam(1:ix-1)
+      if (caddon_wrkdir.eq.' ') caddon_wrkdir  = caddon_expnam(1:ix-1)
       caddon_expnam  = caddon_expnam(ix+1:)
 
       if (ltmpfile) then
          write(37,*) '...directory separator found at ix=',ix
          write(37,*) '...removing dirname to form true experiment name'
-         write(37,*) '...outpath= ',trim(caddon_outpath)
+         write(37,*) '...wrkdir= ',trim(caddon_wrkdir)
          write(37,*) '...expnam=  ',trim(caddon_expnam)
       endif
    endif
@@ -313,7 +336,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
 
    ! Try to open the .out-file in the requested output directory
 
-   fname = trim(caddon_outpath) // trim(caddon_expnam) // '.out'
+   fname = trim(caddon_outdir) // trim(caddon_expnam) // '.out'
    if (ltmpfile) write(37,*) 'init=',caddon_initialized,', fname=',trim(fname)
    if (.false. .and. caddon_initialized.eq.-1) then
       ! Continuing after finalizelast (init==-1), append output after previous contents
@@ -443,11 +466,39 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 
+end subroutine cntc_initializeFirst_new
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outdir, c_expnam, len_outdir, len_expnam) &
+   bind(c,name=CNAME_(cntc_initializefirst))
+!--function: initialize the addon internal data structures and initialize output channels,
+!            print version information; return the addon version number.
+!--category: 0, "m=any, glob":      not related to contact's modules 1 or 3, working on global data
+   implicit none
+!--subroutine arguments:
+   integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
+   integer,                intent(inout) :: ierror       ! error flag
+   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
+   character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
+   character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
+   integer,                intent(in)    :: len_outdir   ! length of C-string
+   integer,                intent(in)    :: len_expnam   ! length of C-string
+!--local variables:
+   character(len= 30,kind=C_CHAR) :: c_wrkdir
+#ifdef _WIN32
+!dec$ attributes dllexport :: cntc_initializeFirst
+#endif
+
+   c_wrkdir   = ' ' // C_NULL_CHAR
+   call cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, 1, len_outdir,  &
+                        len_expnam)
+
 end subroutine cntc_initializeFirst
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) &
+subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
    bind(c,name=CNAME_(cntc_initialize))
 !--function: upon first call: perform one-time initializations;
 !            for each ire: initialize and return the addon version number.
@@ -458,9 +509,8 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) 
    integer,                intent(in)    :: imodul       ! module number 1=w/r contact, 3=basic contact
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
-   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory /
-                                                         !           effective working folder
-   integer,                intent(in)    :: len_outpath  ! length of C-string
+   character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
+   integer,                intent(in)    :: len_outdir   ! length of C-string
 !--local variables:
    character(len=*), parameter    :: subnam = 'cntc_initialize'
    character(len= 30,kind=C_CHAR) :: c_string
@@ -482,7 +532,7 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) 
 
    if (caddon_initialized.le.0) then
       c_string   = ' ' // C_NULL_CHAR
-      call cntc_initializeFirst(ifcver, ierror, 0, c_outpath, c_string, len_outpath, 1)
+      call cntc_initializeFirst_new(ifcver, ierror, 0, c_string, c_outdir, c_string, 1, len_outdir, 1)
    endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
@@ -2858,7 +2908,7 @@ subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nre
 
    itimer = cntc_timer_num(ire, -1)
    call timer_start(itimer)
-   call profile_read_file(my_prf, my_meta%dirnam, itype, wtd%ic%x_profil, wtd%ic%x_readln, .false.)
+   call profile_read_file(my_prf, my_meta%wrkdir, itype, wtd%ic%x_profil, wtd%ic%x_readln, .false.)
    call timer_stop(itimer)
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
@@ -3870,10 +3920,10 @@ subroutine cntc_calculate1(ire, ierror) &
       endif
    endif
 
-   ! Open .inp-file if not done so before
+   ! Open .inp-file for writing (output-folder) if not done so before
 
    if (my_ic%wrtinp.ge.1 .and. linp.ge.1 .and. inp_open.eq.0) then
-      fname = trim(caddon_outpath) // trim(caddon_expnam) // '.inp'
+      fname = trim(caddon_outdir) // trim(caddon_expnam) // '.inp'
       open(unit=linp, file=fname, action='write', err=998)
       inp_open = 1
       goto 999
@@ -4020,7 +4070,7 @@ subroutine cntc_calculate3(ire, icp, ierror) &
    ! Open .inp-file for writing (output-folder) if not done so before
 
    if (my_ic%wrtinp.ge.1 .and. linp.ge.1 .and. inp_open.eq.0) then
-      fname = trim(caddon_outpath) // trim(caddon_expnam) // '.inp'
+      fname = trim(caddon_outdir) // trim(caddon_expnam) // '.inp'
       open(unit=linp, file=fname, action='write', err=998)
       inp_open = 1
       goto 999

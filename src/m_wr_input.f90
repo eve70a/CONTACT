@@ -245,7 +245,7 @@ contains
       integer          :: ints(mxnval), lspck, nval, ldebug, ieof, my_ierror, ncase, linenr, modul, ix
       logical          :: flags(mxnval), zerror
       real(kind=8)     :: dbles(mxnval)
-      character*256    :: strngs(mxnval), inpdir
+      character*256    :: strngs(mxnval), inpdir, fulnam
       type(t_ic)       :: ic0
 
       ierror = 0
@@ -264,15 +264,19 @@ contains
 
       if (.false.) wtd%meta%ncase = 0
 
+      ! determine full path-name, pre-pending wrkdir when necessary
+
+      call make_absolute_path(fname, meta%wrkdir, fulnam)
+
       lspck = get_lunit_tmp_use()
-      open(lspck, file=fname, status='old', err=985)
+      open(lspck, file=fulnam, status='old', err=985)
 
       ! determine the folder name from the input filename
 
       inpdir = ' '
-      ix = index_pathsep(fname, back=.true.)
+      ix = index_pathsep(fulnam, back=.true.)
       if (ix.gt.0) then
-         inpdir = fname(1:ix-1) // path_sep
+         inpdir = fulnam(1:ix-1) // path_sep
       endif
 
       ! Get the module-number for first case
@@ -409,7 +413,7 @@ contains
 
  985  continue
          ierror = -2
-         write(bufout,'(3a)') ' ERROR: cannot open input-file: "', trim(fname),'"'
+         write(bufout,'(3a)') ' ERROR: cannot open input-file: "', trim(fulnam),'"'
          call write_log(1, bufout)
          call free_lunit_tmp_use(lspck)
          return

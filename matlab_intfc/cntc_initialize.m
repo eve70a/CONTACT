@@ -1,6 +1,6 @@
 
 %------------------------------------------------------------------------------------------------------------
-% function [ ifcver, ierror ] = cntc_initialize(ire, imodul, [outpath], [idebug])
+% function [ ifcver, ierror ] = cntc_initialize(ire, imodul, [outdir], [idebug])
 %
 % upon first call: initialize the addon internal data and initialize output channels,
 %                  print version information;
@@ -8,7 +8,7 @@
 %
 %  in:  integer    ire          - result element ID
 %       integer    imodul       - module number 1=w/r contact, 3=basic contact
-%       character  outpath(*)   - full path of output directory and effective working folder
+%       character  outdir(*)    - output folder
 %       integer    idebug       - show (1) or hide (0) error messages
 %  out: integer    ifcver       - version of the CONTACT add-on
 %       integer    ierror       - error flag
@@ -20,7 +20,7 @@
 
 % category 0: m=*, glob   - no icp needed
 
-function [ ifcver, ierror ] = cntc_initialize(ire, imodul, c_outpath, idebug)
+function [ ifcver, ierror ] = cntc_initialize(ire, imodul, c_outdir, idebug)
    global libname;
    CNTC_err_allow = -12;
 
@@ -31,8 +31,8 @@ function [ ifcver, ierror ] = cntc_initialize(ire, imodul, c_outpath, idebug)
       disp(sprintf('cntc_initialize: please select module 1 or 3'));
       return;
    end
-   if (nargin<3 | isempty(c_outpath))
-      c_outpath = ' ';
+   if (nargin<3 | isempty(c_outdir))
+      c_outdir = ' ';
    end
    if (nargin<4 | isempty(idebug))
       idebug = 1;
@@ -42,7 +42,7 @@ function [ ifcver, ierror ] = cntc_initialize(ire, imodul, c_outpath, idebug)
    p_ver  = libpointer('int32Ptr',-1);
 
    p_ierr.value = 0;
-   calllib(libname,'cntc_initialize', ire, imodul, p_ver, p_ierr, c_outpath, length(c_outpath));
+   calllib(libname,'cntc_initialize', ire, imodul, p_ver, p_ierr, c_outdir, length(c_outdir));
    % disp(sprintf('test_caddon: obtained ver=%d, ierr=%d', p_ver.value, p_ierr.value));
 
    ifcver = double(p_ver.value);

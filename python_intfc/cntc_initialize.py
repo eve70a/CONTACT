@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------------------------------------
-# function [ ifcver, ierror ] = cntc_initialize(ire, imodul, outpath, idebug)
+# function [ ifcver, ierror ] = cntc_initialize(ire, imodul, outdir, idebug)
 #
 # upon first call: initialize the addon internal data and initialize output channels,
 #                  print version information;
@@ -7,7 +7,7 @@
 #
 #  in:  integer    ire          - result element ID
 #       integer    imodul       - module number 1=w/r contact, 3=basic contact
-#       character  outpath(*)   - [optional] full path of output directory and effective working folder
+#       character  outdir(*)    - [optional] output folder
 #       integer    idebug       - [optional] show (1) or hide (0) error messages
 #  out: integer    ifcver       - version of the CONTACT add-on
 #       integer    ierror       - error flag
@@ -24,7 +24,7 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, byref, pointer
 from .cntc_getmagicnumbers import cntc_getmagicnumbers
 
-def cntc_initialize(ire, imodul, outpath=' ', idebug=1):
+def cntc_initialize(ire, imodul, outdir=' ', idebug=1):
 
     if (not isinstance(ire, int)):
         ire = 1
@@ -33,15 +33,15 @@ def cntc_initialize(ire, imodul, outpath=' ', idebug=1):
 
     # initialize the internal data of the library, open its output streams
 
-    outpath_bytes = outpath.encode( 'utf-8' )
+    outdir_bytes  = outdir.encode( 'utf-8' )
 
     ifcver        = c_int()
     ierror        = c_int()
-    len_outpath   = c_int( len(outpath_bytes) )
+    len_outdir    = c_int( len(outdir_bytes) )
     c_imodul      = c_int(imodul)
     p_ire         = pointer(c_int(ire))
 
-    cntc_dll.cntc_initialize( p_ire, c_imodul, ifcver, ierror, outpath_bytes, len_outpath)
+    cntc_dll.cntc_initialize( p_ire, c_imodul, ifcver, ierror, outdir_bytes, len_outdir)
 
     # print('cntc_initialize: ifcver = ',ifcver.value,', ierror = ',ierror.value)
 

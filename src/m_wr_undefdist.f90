@@ -608,7 +608,7 @@ contains
       if (.true. .and. idebug.ge.2) then
          write(tmp_fname,'(a,i1,a)') 'dump_gap_ud',icp,'.m'
          call write_log(' Writing undef.distc to ' // trim(tmp_fname))
-         call make_absolute_path(tmp_fname, meta%dirnam, tmp_fulnam)
+         call make_absolute_path(tmp_fname, meta%outdir, tmp_fulnam)
          lud = get_lunit_tmp_use()
          open(unit=lud, file=tmp_fulnam, iostat=ios, err=991)
          write(lud,'(2(a,i6),a)') 'mx=',cgrid%nx,'; my=',cgrid%ny,';'

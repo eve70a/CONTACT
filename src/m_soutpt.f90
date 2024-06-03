@@ -833,7 +833,7 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
       fname = trim(fname) // '.mat'
    endif
 
-   call make_absolute_path(fname, meta%dirnam, fname)
+   call make_absolute_path(fname, meta%outdir, fname)
 
    ! Determine number of columns used
 

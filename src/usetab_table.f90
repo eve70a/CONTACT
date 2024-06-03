@@ -69,7 +69,7 @@ program usetab_table
    c_expnam = trim(expnam) // C_NULL_CHAR
    l_expnam = len(trim(expnam))
    iout = 0
-   call cntc_initializeFirst(ver, ierr, iout, c_path, c_expnam, 1, l_expnam)
+   call cntc_initializeFirst_new(ver, ierr, iout, c_path, c_path, c_expnam, 1, 1, l_expnam)
 
    ! Set global flags: debug output, use of OpenMP
 

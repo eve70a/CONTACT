@@ -39,7 +39,27 @@ end subroutine cntc_setFileUnits
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, len_outpath, len_expnam) &
+subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,  &
+                                len_outdir, len_expnam) &
+   bind(c,name=CNAME_(cntc_initializefirst_new))
+!--function: initialize the addon internal data structures and initialize output channels,
+!            print version information; return the addon version number.
+   use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
+!--subroutine arguments:
+   integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
+   integer,                intent(inout) :: ierror       ! error flag
+   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
+   character(kind=C_CHAR), intent(in)    :: c_wrkdir(*)  ! C-string: effective working folder
+   character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
+   character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
+   integer,                intent(in)    :: len_wrkdir   ! length of C-string
+   integer,                intent(in)    :: len_outdir   ! length of C-string
+   integer,                intent(in)    :: len_expnam   ! length of C-string
+end subroutine cntc_initializeFirst_new
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outdir, c_expnam, len_outdir, len_expnam) &
    bind(c,name=CNAME_(cntc_initializefirst))
 !--function: initialize the addon internal data structures and initialize output channels,
 !            print version information; return the addon version number.
@@ -48,16 +68,15 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outpath, c_expnam, le
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
    integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
-   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory /
-                                                         !           effective working folder
+   character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
    character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
-   integer,                intent(in)    :: len_outpath  ! length of C-string
+   integer,                intent(in)    :: len_outdir   ! length of C-string
    integer,                intent(in)    :: len_expnam   ! length of C-string
 end subroutine cntc_initializeFirst
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) &
+subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
    bind(c,name=CNAME_(cntc_initialize))
 !--function: upon first call: perform one-time initializations;
 !            for each ire: initialize and return the addon version number.
@@ -67,9 +86,8 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) 
    integer,                intent(in)    :: imodul       ! module number 1=w/r contact, 3=basic contact
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
-   character(kind=C_CHAR), intent(in)    :: c_outpath(*) ! C-string: full path of output directory /
-                                                         !           effective working folder
-   integer,                intent(in)    :: len_outpath  ! length of C-string
+   character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
+   integer,                intent(in)    :: len_outdir   ! length of C-string
 end subroutine cntc_initialize
 
 !------------------------------------------------------------------------------------------------------------

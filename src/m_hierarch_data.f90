@@ -847,7 +847,7 @@ public
       real(kind=8)       :: xcp_tr, ycp_tr, zcp_tr, deltcp_tr
       real(kind=8)       :: xcp_r, ycp_r, zcp_r, scp_r, deltcp_r
       real(kind=8)       :: xcp_w, ycp_w, zcp_w, scp_w, deltcp_w
-      character(len=256) :: dirnam, expnam
+      character(len=256) :: wrkdir, outdir, expnam
 
       ! REid              result element ID, used by CONTACT add-on
       ! CPid              contact patch ID, used by CONTACT add-on
@@ -882,9 +882,10 @@ public
       ! scp_w      [mm]   position of the contact reference point measured along the curved wheel surface
       ! deltcp_w   [rad]  roll angle from right wheel vertical to contact reference normal direction
       ! [xy]o_spin [mm]   offset from super-grid pot.contact origin to contact reference position
-      ! dirnam            optional working folder/output path for experiment, can be an absolute path or
+      ! wrkdir            optional 'effective working folder' for experiment, can be an absolute path or
       !                   relative to the program's working folder
-      ! expnam            experiment name, excluding folder name (stored in dirnam)
+      ! outdir            optional folder for output files, can be an absolute path or relative to wrkdir
+      ! expnam            experiment name, excluding any folder names
 
    end type t_metadata
 
@@ -1325,7 +1326,8 @@ contains
       m%npatch     = 0
       m%ipatch     = 0
       m%tim        = 0d0
-      m%dirnam     = ' '
+      m%wrkdir     = ' '
+      m%outdir     = ' '
       m%expnam     = ' '
    endif
 

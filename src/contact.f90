@@ -55,8 +55,9 @@ program contact
    ! Obtain mode of operation and experiment name, open file-units linp, lout
 
    call ReadModeExp(imode, gd, linenr)
-   wtd%meta%expnam = gd%meta%expnam
-   wtd%meta%dirnam = gd%meta%dirnam
+   wtd%meta%wrkdir  = gd%meta%wrkdir
+   wtd%meta%outdir  = gd%meta%outdir
+   wtd%meta%expnam  = gd%meta%expnam
 
    call set_print_streams(nw_outfil=.true., nw_screen=.true., nw_simpck=.false.)
 
@@ -254,10 +255,11 @@ program contact
       ix = index_pathsep(gd%meta%expnam, back=.true.)
       if (ix.gt.1) then
          ! write(*,*) '...directory separator found at ix=',ix
-         ! write(*,*) '...removing dirname to form true experiment name'
-         gd%meta%dirnam = gd%meta%expnam(1:ix-1)
+         ! write(*,*) '...removing wrkdir to form true experiment name'
+         gd%meta%wrkdir = gd%meta%expnam(1:ix-1)
+         gd%meta%outdir = gd%meta%wrkdir
          gd%meta%expnam = gd%meta%expnam(ix+1:)
-         ! write(*,*) '...dirname=',trim(gd%meta%dirnam)
+         ! write(*,*) '...wrkdir=',trim(gd%meta%wrkdir)
          ! write(*,*) '...expnam= ',trim(gd%meta%expnam)
       endif
 
@@ -266,8 +268,8 @@ program contact
 
       if (imode.ge.2 .and. imode.le.3) then
          fname = trim(gd%meta%expnam) // '.inp'
-         if (gd%meta%dirnam.ne.' ') then
-            fname = trim(gd%meta%dirnam) // path_sep // trim(fname)
+         if (gd%meta%wrkdir.ne.' ') then
+            fname = trim(gd%meta%wrkdir) // path_sep // trim(fname)
          endif
 
          inp_open = -1
@@ -280,8 +282,8 @@ program contact
       !  - used for flow-output and results in human-readable form
 
       fname = trim(gd%meta%expnam) // '.out'
-      if (gd%meta%dirnam.ne.' ') then
-         fname = trim(gd%meta%dirnam) // path_sep // trim(fname)
+      if (gd%meta%outdir.ne.' ') then
+         fname = trim(gd%meta%outdir) // path_sep // trim(fname)
       endif
 
       out_open = -1

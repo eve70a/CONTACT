@@ -1,10 +1,11 @@
 
 %------------------------------------------------------------------------------------------------------------
-% function [ CNTC, ifcver, ierror ] = cntc_initlibrary(outpath, expnam, idebug);
+% function [ CNTC, ifcver, ierror ] = cntc_initlibrary(wrkdir, outdir, expnam, idebug);
 %
 % load the library into Matlab, initialize its internal data and output channels
 %
-%  in:  character  outpath(*)   - [optional] full path of output directory
+%  in:  character  wrkdir(*)    - [optional] effective working folder
+%       character  outdir(*)    - [optional] output folder
 %       character  expnam(*)    - [optional] experiment name, default 'contact_addon'
 %       integer    idebug       - [optional] show (1) or hide (0) error messages
 %  out: integer    CNTC         - struct with 'magic numbers' for configuring CONTACT
@@ -18,7 +19,7 @@
 
 % category 0: m=*, glob   - no icp needed
 
-function [ CNTC, ifcver, ierror ] = cntc_initlibrary(c_outpath, c_expnam, idebug);
+function [ CNTC, ifcver, ierror ] = cntc_initlibrary(c_wrkdir, c_outdir, c_expnam, idebug);
 
    global libname;
 
@@ -53,16 +54,20 @@ function [ CNTC, ifcver, ierror ] = cntc_initlibrary(c_outpath, c_expnam, idebug
    end
 
    % initialize the internal data of the library, open its output streams
-   if (nargin<1 | isempty(c_outpath))
-      c_outpath = ' ';
+   if (nargin<1 | isempty(c_wrkdir))
+      c_wrkdir = ' ';
    end
-   if (nargin<2 | isempty(c_expnam))
+   if (nargin<2 | isempty(c_outdir))
+      c_outdir = ' ';
+   end
+   if (nargin<3 | isempty(c_expnam))
       c_expnam = ' ';
    end
-   if (nargin<3 | isempty(idebug))
+   if (nargin<4 | isempty(idebug))
       idebug = 1;
    end
-   len_outpath = length(c_outpath);
+   len_wrkdir = length(c_wrkdir);
+   len_outdir = length(c_outdir);
    len_expnam = length(c_expnam);
    ioutput = 0;
 
@@ -70,8 +75,8 @@ function [ CNTC, ifcver, ierror ] = cntc_initlibrary(c_outpath, c_expnam, idebug
    p_ver  = libpointer('int32Ptr',-1);
 
    p_ierr.value = 0;
-   calllib(libname,'cntc_initializefirst', p_ver, p_ierr, ioutput, c_outpath, c_expnam, ...
-                                                                                len_outpath, len_expnam);
+   calllib(libname,'cntc_initializefirst_new', p_ver, p_ierr, ioutput, c_wrkdir, c_outdir, c_expnam, ...
+                                                                    len_wrkdir, len_outdir, len_expnam);
    % disp(sprintf('test_caddon: obtained ver=%d, ierr=%d', p_ver.value, p_ierr.value));
 
    ifcver = double(p_ver.value);

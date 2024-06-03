@@ -14,9 +14,10 @@ program test_varprof
 !--local variables:
    integer,      parameter :: iwhe = 1, mxflgs = CNTC_FLAGS_DIM, mxcase = 100
    real(kind=8), parameter :: pi   = 4d0*atan(1d0)
-   integer                        :: len_outpath, len_expnam, len_fname, icount, ldebug, ver, ierr, iout
-   character(len=256)             :: f_outpath, f_expnam, f_fname, tmpstr
-   character(len=256,kind=C_CHAR) :: c_outpath, c_expnam, c_fname
+   integer                        :: len_wrkdir, len_outdir, len_expnam, len_fname, icount, ldebug,     &
+                                     ver, ierr, iout
+   character(len=256)             :: f_wrkdir, f_outdir, f_expnam, f_fname, tmpstr
+   character(len=256,kind=C_CHAR) :: c_wrkdir, c_outdir, c_expnam, c_fname
    integer                 :: icp, imodul, gdigit, mdigit, ldigit, itype, mirrory, mirrorz, irep, nrep
    integer                 :: flags(mxflgs), values(mxflgs)
    real(kind=8)            :: gg, poiss, fstat, fkin, dx, ds, a_sep, d_sep, d_comb, d_turn, dqrel, rdum
@@ -64,12 +65,16 @@ program test_varprof
    ver         = -1
    ierr        = -1
    iout        =  0    ! enable/disable (1/0) screen output
-   f_outpath   = ' '   ! could be '/tmp' for instance
-   c_outpath   =     trim(f_outpath)  // C_NULL_CHAR
-   len_outpath = len(trim(f_outpath))
+   f_wrkdir    = ' '   ! effective working directory, starting point for relative paths
+   c_wrkdir    =     trim(f_wrkdir)  // C_NULL_CHAR
+   len_wrkdir  = len(trim(f_wrkdir))
+   f_outdir    = ' '   ! could be '/tmp' for instance
+   c_outdir    =     trim(f_outdir)  // C_NULL_CHAR
+   len_outdir  = len(trim(f_outdir))
    c_expnam    =     trim(f_expnam )  // C_NULL_CHAR
    len_expnam  = len(trim(f_expnam ))
-   call cntc_initializeFirst(ver, ierr, iout, c_outpath, c_expnam, len_outpath, len_expnam)
+   call cntc_initializeFirst_new(ver, ierr, iout, c_wrkdir, c_outdir, c_expnam, len_wrkdir, len_outdir, &
+                        len_expnam)
 
    ! Set the amount of output of the C.library itself; enable or disable use of OpenMP
 
@@ -82,7 +87,7 @@ program test_varprof
    !---------------------------------------------------------------------------------------------------------
 
    imodul = 1
-   call cntc_initialize(iwhe, imodul, ver, ierr, c_outpath, len_outpath)
+   call cntc_initialize(iwhe, imodul, ver, ierr, c_outdir, len_outdir)
 
    ! Configure result element, setting permanent data
 

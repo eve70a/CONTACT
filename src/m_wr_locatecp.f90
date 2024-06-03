@@ -49,7 +49,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_locatecp (meta, ic, ws, trk, discr, numcps, n_miss, numtot, allcps, idebug, my_ierror)
+   subroutine wr_locatecp (meta, ic, ws, trk, discr, numcps, n_miss, numtot, allcps, my_ierror)
 !--purpose: locate the initial contact point(s) for a W/R contact case.
       implicit none
 !--subroutine arguments:
@@ -58,11 +58,11 @@ contains
       type(t_wheelset)              :: ws
       type(t_trackdata)             :: trk
       type(t_discret)               :: discr
-      integer                       :: numcps, n_miss, numtot, idebug
+      integer                       :: numcps, n_miss, numtot
       type(p_cpatch)                :: allcps(MAX_NUM_CPS)
       integer,          intent(out) :: my_ierror
 !--local variables:
-      integer                  :: is_right, sub_ierror, icp, irgn, numnew, num_rgn
+      integer                  :: is_right, sub_ierror, icp, irgn, numnew, num_rgn, idebug
       real(kind=8)             :: sgn
       type(p_cpatch)           :: newcps(MAX_LOC_MIN) ! work variable to build list of contact problems
       type(t_region)           :: all_rgn(MAX_NUM_RGN)
@@ -70,6 +70,7 @@ contains
       type(t_wheel),   pointer :: my_wheel
 
       my_ierror = 0
+      idebug = ic%x_locate
 
       call timer_start(itimer_locatecp)
       if (idebug.ge.3) then
@@ -2518,7 +2519,7 @@ contains
       if (.false. .and. idebug.ge.2) then
          call write_log(' Dump 1d gap-function to dump_gap1d.m ...')
          lgap = get_lunit_tmp_use()
-         call make_absolute_path('dump_gap1d.m', meta%dirnam, fulnam)
+         call make_absolute_path('dump_gap1d.m', meta%outdir, fulnam)
          open(unit=lgap, file=fulnam, iostat=ios, err=991)
          write(lgap,'(2(a,i6),a)') 'mx=',nx,'; my=',ny,';'
          write(lgap,'(a)') '%  iy      x_tr          y_tr          zw            zr            alph'
@@ -2889,7 +2890,7 @@ contains
 
       if (.true. .and. idebug.ge.2) then
          call write_log(' Dump 2d gap-function to dump_gap2d.m ...')
-         call make_absolute_path('dump_gap2d.m', meta%dirnam, fulnam)
+         call make_absolute_path('dump_gap2d.m', meta%outdir, fulnam)
          lgap = get_lunit_tmp_use()
          open(unit=lgap, file=fulnam, iostat=ios, err=991)
          write(lgap,'(2(a,i6),a)') 'nx=',nx,'; ny=',ny,';'
@@ -3853,7 +3854,7 @@ contains
                                       cp_add%zsta, cp_add%zend)
                angl = cp_tot%wgt_agap - cp_add%wgt_agap
 
-               if (idebug.ge.4 .or. debug_comb) then
+               if (idebug.ge.3 .or. debug_comb) then
                   write(bufout,'(a,i3,6(a,f8.3),a)') '   ...patch i=',icp,': xlim=[',cp_tot%xsta,',',   &
                          cp_tot%xend,'], ylim=[',cp_tot%ysta,',',cp_tot%yend,'], zlim=[',cp_tot%zsta,   &
                          ',',cp_tot%zend,']'

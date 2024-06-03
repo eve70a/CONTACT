@@ -82,7 +82,7 @@ program test_caddon
 
       ioutput = 0       ! 0 = out-file, 1 = out-file + screen
       c_string   = ' ' // C_NULL_CHAR
-      call cntc_initializeFirst(ifcver, ierror, ioutput, c_string, c_string, 1, 1)
+      call cntc_initializeFirst_new(ifcver, ierror, ioutput, c_string, c_string, c_string, 1, 1, 1)
 
    elseif (.false.) then
 

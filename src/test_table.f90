@@ -15,7 +15,7 @@ program test_table
 !--local variables:
    real(kind=8), parameter :: pi     = 4d0*atan(1d0)
    character(len=30,kind=C_CHAR) :: c_path, c_expnam
-   character(len=256)      :: tmpstr, outpath, expnam
+   character(len=256)      :: tmpstr, outdir, expnam
    integer, parameter      :: mxflgs = CNTC_FLAGS_DIM
    integer                 :: flags(mxflgs), values(mxflgs), iparam(mxflgs)
    real(kind=8)            :: rparam(mxflgs)
@@ -75,13 +75,13 @@ program test_table
 
    ! Initialize once using cntc_initializeFirst
 
-   outpath  = ' '
-   c_path   = trim(outpath) // C_NULL_CHAR
-   l_path   = len(trim(outpath))
+   outdir   = ' '
+   c_path   = trim(outdir) // C_NULL_CHAR
+   l_path   = len(trim(outdir))
    c_expnam = trim(expnam) // C_NULL_CHAR
    l_expnam = len(trim(expnam))
    iout = 0
-   call cntc_initializeFirst(ver, ierr, iout, c_path, c_expnam, l_path, l_expnam)
+   call cntc_initializeFirst_new(ver, ierr, iout, c_path, c_path, c_expnam, l_path, l_path, l_expnam)
 
    ! Set global flags: debug output, use of OpenMP
 

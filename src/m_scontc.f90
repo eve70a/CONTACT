@@ -126,7 +126,7 @@ contains
       if (ic%gencr_inp.eq.9 .or. (ic%gencr_inp.eq.1 .and. mater%gencr_eff.eq.9)) then
          if (idebug.ge.5) call write_log(' contac: calling influe_load')
 
-         call influe_load(mater%fname_influe, meta%dirnam, is_roll, cgrid, influ)
+         call influe_load(mater%fname_influe, meta%wrkdir, is_roll, cgrid, influ)
          call influe_mater(influ, mater)
 
          if (ic%x_inflcf.eq.6) then

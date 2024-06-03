@@ -8,8 +8,17 @@ from ctypes import c_char_p, c_int, c_double, POINTER
 def contact_addon_headers( cntc_dll ):
 
 
+    # void cntc_initializefirst_new                 ( int *ifcver,       int *ierror,       int *ioutput,
+    #                                           const char* c_wrkdir, const char* c_outdir, const char* c_expnam,
+    #                                                 int *len_wrkdir,   int *len_outdir,   int *len_expnam );
+
+    cntc_dll.cntc_initializefirst_new.restype     = None
+    cntc_dll.cntc_initializefirst_new.argtypes    = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int), 
+                                                      c_char_p,          c_char_p,          c_char_p,
+                                                      POINTER(c_int),    POINTER(c_int),    POINTER(c_int) ]
+
     # void cntc_initializefirst                     ( int *ifcver,       int *ierror,       int *ioutput,
-    #                                          const char* c_outpath, const char* c_expnam, int *len_outpath, 
+    #                                          const char* c_outdir,  const char* c_expnam, int *len_outdir, 
     #                                                 int *len_expnam );
 
     cntc_dll.cntc_initializefirst.restype         = None
@@ -18,7 +27,7 @@ def contact_addon_headers( cntc_dll ):
                                                       POINTER(c_int) ]
 
     # void cntc_initialize                          ( int *ire,          int *imodul,       int *ifcver,
-    #                                                 int *ierror,   const char* c_outpath, int *len_outpath );
+    #                                                 int *ierror,    const char* c_outdir, int *len_outdir );
 
     cntc_dll.cntc_initialize.restype              = None
     cntc_dll.cntc_initialize.argtypes             = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int), 

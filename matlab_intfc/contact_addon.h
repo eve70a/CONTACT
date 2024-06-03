@@ -4,11 +4,15 @@
  Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 */
 
-void cntc_initializefirst(int *ifcver, int *ierror, int *ioutput, const char *c_outpath,
-                        const char *c_expnam, int *len_outpath, int *len_expnam);
+void cntc_initializefirst_new(int *ifcver, int *ierror, int *ioutput, const char *c_wrkdir,
+                        const char *c_outdir, const char *c_expnam, int *len_wrkdir, 
+                        int *len_outdir, int *len_expnam);
 
-void cntc_initialize(int *ire, int *imodul, int *ifcver, int *ierror, const char *c_outpath,
-                        int *len_outpath);
+void cntc_initializefirst(int *ifcver, int *ierror, int *ioutput, const char *c_outdir, 
+                        const char *c_expnam, int *len_outdir, int *len_expnam);
+
+void cntc_initialize(int *ire, int *imodul, int *ifcver, int *ierror, const char *c_outdir,
+                        int *len_outdir);
 
 void cntc_setglobalflags(int *lenflg, int *params, int *values);
 

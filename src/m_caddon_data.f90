@@ -62,8 +62,11 @@ public
    character(*), parameter  :: pfx = ' ** '       ! prefix for printing output of addon
    integer                  :: timer_output = 1   ! 0 = none, 1 = overview, 2 = full, 3+ = debug
                                                   ! the value is increased when idebug is increased
-   character(len=256)       :: caddon_expnam = 'contact_addon' ! overall experiment name for a run, ex. folder
-   character(len=256)       :: caddon_outpath = ' '            ! full path of output directory
+
+   ! using a single out-file and inp-file (wrtinp) for all result elements together
+   character(len=256)       :: caddon_expnam = 'contact_addon' ! overall experiment name, ex. folder
+   character(len=256)       :: caddon_wrkdir  = ' '            ! working folder for all result elements
+   character(len=256)       :: caddon_outdir  = ' '            ! output folder for all result elements
 
    ! internal data w.r.t. OpenMP and/or explicit multi-threading:
 
@@ -144,19 +147,19 @@ subroutine cntc_activate(REid, CPid, needs_module, needs_icp, calnam, ierror)
    integer,          intent(out) :: ierror       ! error code
 !--local variables:
    integer                  :: ixre           ! position in list of REids
-   integer                  :: imodul, ifcver, len_outpath
-   character(len=1)         :: c_outpath(20)
+   integer                  :: imodul, ifcver, len_outdir
+   character(len=1)         :: c_outdir(20)
    character(len=*), parameter :: subnam = 'cntc_activate'
 !--subroutines used:
    interface
-      subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outpath, len_outpath) &
+      subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
          bind(c,name=CNAME_(cntc_initialize))
          integer,          intent(in)    :: ire         ! result element ID
          integer,          intent(in)    :: imodul      ! module number 1=w/r contact, 3=basic contact
          integer,          intent(out)   :: ifcver      ! version of the CONTACT add-on
          integer,          intent(inout) :: ierror      ! error flag
-         character,        intent(in)    :: c_outpath(*) ! C-string: full path of output directory
-         integer,          intent(in)    :: len_outpath ! length of C-string
+         character,        intent(in)    :: c_outdir(*) ! C-string: output folder
+         integer,          intent(in)    :: len_outdir  ! length of C-string
       end subroutine cntc_initialize
    end interface
 
@@ -188,10 +191,10 @@ subroutine cntc_activate(REid, CPid, needs_module, needs_icp, calnam, ierror)
       endif
       ierror = 0
       ifcver = 0
-      c_outpath = ' '
-      len_outpath = 1
+      c_outdir = ' ' // C_NULL_CHAR
+      len_outdir = 1
       if (idebug.ge.5) call write_log(' calling cntc_initialize for REid...')
-      call cntc_initialize(REid, imodul, ifcver, ierror, c_outpath, len_outpath)
+      call cntc_initialize(REid, imodul, ifcver, ierror, c_outdir, len_outdir)
       if (idebug.ge.1 .and. ierror.ne.0) then
          write(bufout,*) 'initialize: ierror=',ierror
          call write_log(1, bufout)
@@ -321,11 +324,12 @@ subroutine cntc_activate_wtd(REid, CPid, ierror)
       wtd%ic%ilvout  = min(idebug, 1) ! ilvout:  switch off output when idebug=0
 
       write(wtd%meta%expnam,'( a,i3.3)') 'caddon_re',REid
-      wtd%meta%dirnam = caddon_outpath
+      wtd%meta%wrkdir = caddon_wrkdir
+      wtd%meta%outdir = caddon_outdir
       if (idebug.ge.5) then
-         write(bufout,'(2(3a,/))') ' experiment name="',trim(wtd%meta%expnam),'",',                     &
-                ' dirnam="', trim(wtd%meta%dirnam),'"'
-         call write_log(2, bufout)
+         write(bufout,'(3(3a,/))') ' experiment name="',trim(wtd%meta%expnam),'",',                     &
+                ' wrkdir="', trim(wtd%meta%wrkdir),'"', ' outdir="', trim(wtd%meta%outdir),'"'
+         call write_log(3, bufout)
       endif
    endif
 
@@ -437,11 +441,12 @@ subroutine cntc_activate_gd(REid, CPid)
       gd%kin%fyrel  = 0d0
 
       write(gd%meta%expnam,'(a,i3.3,a,i1)') 'caddon_re',REid,'_cp',CPid
-      gd%meta%dirnam = caddon_outpath
+      gd%meta%wrkdir = caddon_wrkdir
+      gd%meta%outdir = caddon_outdir
 
       if (idebug.ge.5) then
          write(bufout,'(2(3a,/))') ' experiment name="',trim(gd%meta%expnam),'"',                       &
-                ' dirnam="',trim(gd%meta%dirnam),'"'
+                ' outdir="',trim(gd%meta%outdir),'"'
          call write_log(2, bufout)
       endif
    endif

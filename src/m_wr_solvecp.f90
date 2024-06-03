@@ -118,7 +118,7 @@ contains
             call write_log(1, bufout)
          endif
          call wr_locatecp(wtd%meta, wtd%ic, wtd%ws, wtd%trk, wtd%discr, wtd%numcps, wtd%n_miss,         &
-                        wtd%numtot, wtd%allcps, x_locate, sub_ierror)
+                        wtd%numtot, wtd%allcps, sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
       endif
 
@@ -409,7 +409,8 @@ contains
 
       !  - general metadata:
       gd%meta%expnam    = meta%expnam
-      gd%meta%dirnam    = meta%dirnam
+      gd%meta%wrkdir    = meta%wrkdir
+      gd%meta%outdir    = meta%outdir
       gd%meta%npatch    = numcps
       gd%meta%ipatch    = icp
 

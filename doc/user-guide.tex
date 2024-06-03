@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.165)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.166)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -96,6 +96,7 @@
 \vtlogentry{1.163}{EV}{19-03-2024}{Added force-based proportional damping}{}
 \vtlogentry{1.164}{EV}{03-04-2024}{Extended force-based proportional damping}{}
 \vtlogentry{1.165}{EV}{25-04-2024}{Renamed S to U in slices-file}{}
+\vtlogentry{1.166}{EV}{21-05-2024}{Add effective working folder}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -6375,7 +6376,7 @@ programmers the interfaces are specified in {\tt contact\_addon.ifc}.
 
 \begin{alltt}\small
 cntc_initlibrary          - load library into matlab (Matlab)
-cntc_initializefirst      - open out-file, initialize data-structures (Fortran/C)
+cntc_initializefirst_new  - open out-file, initialize data-structures (Fortran/C)
 cntc_initialize           - further initializations per result element
 cntc_setfileunits         - configure logical file units (Fortran)
 cntc_setglobalflags       - configuration of general settings
@@ -6386,7 +6387,8 @@ cntc_managelicense        - perform license activation, refreshing or printing
 
 The first step in Matlab is to load the library, which is done with {\tt
 cntc\_\-init\-library}. Optional arguments can be used to change the
-output folder or experiment name (default `{\tt contact\_addon}').
+working folder, output folder or experiment name (default `{\tt 
+contact\_addon}').
 \begin{alltt}\small
    [CNTC, ifcver, ierror] = cntc_initlibrary;
 \end{alltt}
@@ -6398,19 +6400,37 @@ valid for the actual computation.
 In Fortran and C, the analogue is {\tt cntc\_initializefirst}. In that
 case the magic numbers are provided in {\tt caddon\_\-flags.\-inc}.
 
-\paragraph{cntc\_initializefirst}
+\paragraph{cntc\_initializefirst\_new}
 
 When using the library from Fortran/C, it is needed to properly
-initialize its data-structures, license, experiment name, file I/O etc.
-This is done by subroutine {\tt cntc\_init\-ia\-lize\-first}. This
-routine will be called by {\tt cntc\_initialize} if it isn't called
+initialize file I/O, folders used, experiment name, license, and internal
+data-structures. This is done by subroutine {\tt cntc\_initializefirst\_new}.
+This routine will be called by {\tt cntc\_initialize} if it isn't called
 explicitly. In Matlab, this routine is called by {\tt cntc\_initlibrary}. 
 
-The output-file for the experiment will be opened (default {\tt
-contact\_addon.out}), removing the previous contents if already present.
-Note that {\tt cntc\_initializefirst} will be called again if a new
-computation is started after all previous result elements have been cleared
-({\tt cntc\_finalizelast}).
+Dependent on how a dll is loaded, the true working folder may be
+inconvenient, inappropriate to locate user inputs. An optional `{\tt
+wrkdir}' may be provided that will be used as the effective working folder.
+This may be left blank if the true working folder is ok to work with.
+
+\magenta{The variant {\tt cntc\_initializefirst\_new} is introduced in
+version 24.1, introducing the {\tt wrkdir} option. The behavior of the
+original subroutine will be changed in version 25.1, the {\tt new} variant
+deleted in version 26.1.}
+
+A second folder `{\tt outdir}' may be given for the outputs created by
+CONTACT. This can be an absolute path or a path relative to the effective
+working folder. If left blank, outputs go in the effective working
+folder.
+
+CONTACT stores the first values provided for {\tt wrkdir} and {\tt outdir}
+in its internal memory and uses these values for all result elements.
+
+{\tt cntc\_initializefirst} opens the output-file for the experiment
+(default {\tt contact\_addon.out}), removing the previous contents if
+already present. Note that a new computation starts when a result element
+is created after all previous results elements have been cleared
+({\tt cntc\_finalizelast}), removing the contents of the out-file.
 
 \paragraph{cntc\_initialize}
 

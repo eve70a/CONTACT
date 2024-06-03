@@ -1,9 +1,10 @@
 #------------------------------------------------------------------------------------------------------------
-# function [ CNTC, ifcver, ierror ] = cntc_initlibrary(outpath, expnam, idebug);
+# function [ CNTC, ifcver, ierror ] = cntc_initlibrary(wrkdir, outdir, expnam, idebug);
 #
 # load the library into Python, initialize its internal data and output channels
 #
-#  in:  character  outpath(*)   - [optional] full path of output directory
+#  in:  character  wrkdir(*)    - [optional] effective working folder
+#       character  outdir(*)    - [optional] output folder
 #       character  expnam(*)    - [optional] experiment name
 #       integer    idebug       - [optional] show (1) or hide (0) error messages
 #  out: integer    CNTC         - struct with 'magic numbers' for configuring CONTACT
@@ -21,21 +22,23 @@ from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double
 from .cntc_getmagicnumbers import cntc_getmagicnumbers
 
-def cntc_initlibrary(outpath=' ', expnam=' ', idebug=1):
+def cntc_initlibrary(wrkdir=' ', outdir=' ', expnam=' ', idebug=1):
 
     # initialize the internal data of the library, open its output streams
 
-    outpath_bytes = outpath.encode( 'utf-8' )
+    wrkdir_bytes  = wrkdir.encode( 'utf-8' )
+    outdir_bytes  = outdir.encode( 'utf-8' )
     expnam_bytes  = expnam.encode( 'utf-8' )
 
     ifcver        = c_int( )
     ierror        = c_int( )
     ioutput       = c_int( 0 )
-    len_outpath   = c_int( len(outpath_bytes) )
+    len_wrkdir    = c_int( len(wrkdir_bytes) )
+    len_outdir    = c_int( len(outdir_bytes) )
     len_expnam    = c_int( len(expnam_bytes) )
 
-    cntc_dll.cntc_initializefirst( ifcver, ierror, ioutput, outpath_bytes, expnam_bytes, 
-                                   len_outpath, len_expnam )
+    cntc_dll.cntc_initializefirst_new( ifcver, ierror, ioutput, wrkdir_bytes, outdir_bytes, expnam_bytes, 
+                                                                    len_wrkdir, len_outdir, len_expnam )
 
     # print('initializeFirst: ifcver = ',ifcver.value,', ierror = ',ierror.value)
 
