@@ -29,6 +29,7 @@ if ($perl_platform =~ /.*win.*/i) {
 $ENV{OMP_NUM_THREADS} = 2;
 
 my $status = 0;
+my $abort_on_error = 1;
 my @progrms=( $clibrary, $contact );
    @progrms=( $contact );
 #  @progrms=( $clibrary );
@@ -54,7 +55,9 @@ foreach my $test ( @list ) {
    
          if ( $status ) {
             print "An error occurred in CONTACT, skipping diff.\n";
-            $status = 0;
+            if ( not $abort_on_error ) {
+               $status = 0;
+            }
          } else {
             # run diff program, get status
             system($tkdiff . " $test.out $test.ref_out");

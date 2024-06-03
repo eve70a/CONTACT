@@ -32,6 +32,7 @@ if ($perl_platform =~ /.*win.*/i) {
 }
 
 my $status = 0;
+my $abort_on_error = 1;
 my @list=( 'stand_alone', 'test_nonhz', 'test_mbench', 'test_table' );
 #  @list=( 'test_nonhz', 'test_mbench', 'test_table' );
 #  @list=( 'stand_alone' );
@@ -96,7 +97,9 @@ foreach my $test ( @list ) {
 
       if ( $status ) {
          print "An error occurred in CONTACT, skipping diff.\n";
-         $status = 0;
+         if ( not $abort_on_error ) {
+            $status = 0;
+         }
 
       # compare output-files with reference results, get exit code
 

@@ -28,6 +28,7 @@ if ($perl_platform =~ /.*win.*/i) {
 $ENV{OMP_NUM_THREADS} = 2;
 
 my $status = 0;
+my $abort_on_error = 1;
 my @list=( 'm3_tempdep', 'conv_temp', 'm1_tempdep', 'euro_tractcurv' );
 #  @list=( 'm1_tempdep' );
 #  @list=( 'euro_tractcurv' );
@@ -41,7 +42,9 @@ foreach my $test ( @list ) {
 
       if ( $status ) {
          print "An error occurred in CONTACT, skipping diff.\n";
-         $status = 0;
+         if ( not $abort_on_error ) {
+            $status = 0;
+         }
       } else {
 
          # run diff program, get status
