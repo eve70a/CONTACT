@@ -9,12 +9,11 @@
 % cntc_setflags                 - configuration of parameters per contact problem
 % cntc_setmetadata              - configuration of various metadata in CONTACT
 % cntc_setsolverflags           - configuration of solver parameters
+% cntc_readinpfile              - configure multiple data-items using the inp-file format
 %
 % cntc_setprofileinputfname     - set a wheel or rail profile filename for a w/r problem
 % cntc_setprofileinputvalues    - set a wheel or rail profile (table) for a w/r problem
 % cntc_settrackdimensions       - set the track geometry for a w/r problem   New version
-% *cntc_settrackdimensions_old  - set the track geometry for a w/r problem   Obsolete: use _new version
-% cntc_settrackdimensions_new   - set the track geometry for a w/r problem
 % cntc_setwheelsetdimensions    - set wheelset geometry specification
 % cntc_setwheelsetposition      - set wheelset position specification
 % cntc_setwheelsetvelocity      - set wheelset velocity specification

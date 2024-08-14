@@ -5,18 +5,23 @@ use strict;
 # specific settings for Dos/Windows versus Unix/Linux filesystems:
 my $perl_platform = $^O;
 my $dir_separator;
+if ($perl_platform =~ /.*win.*/i) {
+   $dir_separator = '\\';
+} else {
+   $dir_separator = '/';
+}
+my $contactdir = "..".$dir_separator.".."; 
+#  $contactdir = $ENV{CONTACTDIR};
 my $bits = '64';
 my $contact;
 my $tkdiff;
 if ($perl_platform =~ /.*win.*/i) {
-   $dir_separator = '\\';
-   $contact = "\\cmcc\\contact-cmcc\\bin\\contact_win$bits.exe";
+   $contact = "$contactdir\\bin\\contact_win$bits.exe";
    $tkdiff = "winmergeu";
 } else {
-   $dir_separator = '/';
-   $contact = "/v3/CMCC/contact-cmcc/bin/contact_linux$bits";
+   $contact = "$contactdir/bin/contact";
    $tkdiff = "tkdiff";
-   $ENV{LD_LIBRARY_PATH} = "../bin/linux$bits";
+   $ENV{LD_LIBRARY_PATH} = "$contactdir/bin/linux$bits";
 }
 $ENV{OMP_NUM_THREADS} = 2;
 

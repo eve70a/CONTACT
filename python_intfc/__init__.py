@@ -62,6 +62,7 @@ from .cntc_getcreepages                 import cntc_getcreepages                
 from .cntc_getdisplacements             import cntc_getdisplacements            as getdisplacements
 from .cntc_getelementdivision           import cntc_getelementdivision          as getelementdivision
 from .cntc_getfielddata                 import cntc_getfielddata                as getfielddata
+from .cntc_getflags                     import cntc_getflags                    as getflags
 from .cntc_getglobalforces              import cntc_getglobalforces             as getglobalforces
 from .cntc_getgriddiscretization        import cntc_getgriddiscretization       as getgriddiscretization
 from .cntc_gethertzcontact              import cntc_gethertzcontact             as gethertzcontact
@@ -72,6 +73,7 @@ from .cntc_getmaximumtraction           import cntc_getmaximumtraction          
 from .cntc_getmicroslip                 import cntc_getmicroslip                as getmicroslip
 from .cntc_getnumcontactpatches         import cntc_getnumcontactpatches        as getnumcontactpatches
 from .cntc_getnumelements               import cntc_getnumelements              as getnumelements
+from .cntc_getparameters                import cntc_getparameters               as getparameters
 from .cntc_getpenetration               import cntc_getpenetration              as getpenetration
 from .cntc_getpotcontact                import cntc_getpotcontact               as getpotcontact
 from .cntc_getprofilevalues             import cntc_getprofilevalues            as getprofilevalues
@@ -91,8 +93,8 @@ from .cntc_setfrictionmethod            import cntc_setfrictionmethod           
 from .cntc_setglobalflags               import cntc_setglobalflags              as setglobalflags
 from .cntc_sethertzcontact              import cntc_sethertzcontact             as sethertzcontact
 from .cntc_setinterfaciallayer          import cntc_setinterfaciallayer         as setinterfaciallayer
-from .cntc_setmaterialproperties        import cntc_setmaterialproperties       as setmaterialproperties
 from .cntc_setmaterialparameters        import cntc_setmaterialparameters       as setmaterialparameters
+from .cntc_setmaterialproperties        import cntc_setmaterialproperties       as setmaterialproperties
 from .cntc_setmetadata                  import cntc_setmetadata                 as setmetadata
 from .cntc_setnormalforce               import cntc_setnormalforce              as setnormalforce
 from .cntc_setpenetration               import cntc_setpenetration              as setpenetration

@@ -12,7 +12,7 @@ set EXE4=..\bin\test_table_win64.exe
 set EXE5=..\bin\caddon_license_win64.exe
 
 rem Since version 20.2, the use of OpenMP is disabled in the library version for Windows
-set FFOPTS=/nologo /I. /fpp /O3 /MT /nodebug /names:lowercase /iface:nomixed_str_len_arg 
+set FFOPTS=/nologo /I. /fpp /O3 /MT /nodebug /Qdiag-disable:10448 /names:lowercase /iface:nomixed_str_len_arg 
 
 echo ifort %FFOPTS% test_caddon.f90 %CNTC_LIB% -o %EXE1%
 ifort %FFOPTS% test_caddon.f90 %CNTC_LIB% -o %EXE1%

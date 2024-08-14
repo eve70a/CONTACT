@@ -8,7 +8,7 @@
 
 if (~exist('cntc_initlibrary.m','file'))
    % set location of CONTACT installation folder
-   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v23.2';
+   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v24.1';
    contactdir = '..';
    addpath([contactdir, '\matlab_intfc']);
    addpath([contactdir, '\matlab']);
@@ -262,7 +262,7 @@ if (make_fig)
    plot([0.154 0.57], [0.25 0.25], 'k-');
    text(4, 0.35, 'falling friction effect','horizontalalignment','center');
    plot([4 4], [0.33, 0.297], 'k-');
-   text(4.8, 0.42, 'User guide, section 6.4','horizontalalignment','right');
+   text(4.8, 0.42, 'User guide, Section 5.9','horizontalalignment','right');
 end
 
-% $Revision: 2447 $, $Date: 2023-11-04 15:03:17 +0100 (Sat, 04 Nov 2023) $
+% $Revision: 2593 $, $Date: 2024-08-14 15:18:54 +0200 (Wed, 14 Aug 2024) $

@@ -73,4 +73,27 @@
   0.0  5.5  10000. -0.00047770 0.0132  0.0      S, Y, FZ, ROLL, YAW, PITCH
  2000. 0.0    0.0   0.0        0.0  -4.33188640 VS,VY,VZ, VROLL,VYAW,VPITCH
 
+%  1: Lateral displacement  0.0 mm, yaw angle  0.0 mrad, friction variation along track direction
+
+  1 MODULE
+ 1203100    C-P-B-T-N-F-S   CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
+ 2021002    V-L-D-C-M-Z-E   VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
+ 0101321    H-G-I-A-O-W-R     HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
+  2                                            NVF
+    0.0   0.200   0.200                        SVF, FSTAT, FKIN
+  100.0   0.300   0.300                        SVF, FSTAT, FKIN
+  0.200   0.200   1.000   90d   6.0   3.0      DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+ 60.0  0.0  10000. 0.00000000 0.0000  0.0      S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0  0.0        0.0  -4.34811810 VS,VY,VZ, VROLL,VYAW,VPITCH
+
+% 12: Lateral displacement  5.5 mm, yaw angle 13.2 mrad, conformal
+
+  1 MODULE
+ 1203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 2141002    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0101321    H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+  0.200   0.200   1.000   90d   9.0   5.0      DX, DS, DQREL, A_SEP, D_SEP, D_COMB
+ 70.0  5.5  10000. -0.00047770 0.0132  0.0      S, Y, FZ, ROLL, YAW, PITCH
+ 2000. 0.0    0.0   0.0        0.0  -4.33188640 VS,VY,VZ, VROLL,VYAW,VPITCH
+
  0 MODULE

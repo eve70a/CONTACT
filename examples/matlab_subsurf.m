@@ -8,7 +8,7 @@
 
 if (~exist('cntc_initlibrary.m','file'))
    % set location of CONTACT installation folder
-   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v23.2';
+   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v24.1';
    contactdir = '..';
    addpath([contactdir, '\matlab_intfc']);
    addpath([contactdir, '\matlab']);
@@ -38,6 +38,7 @@ imodul = 3; % basic contact
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
             % CONTACT unit convention: [mm], [mm/s], [N], acting on body (1)
+flags = []; values = [];
 flags( 1) = CNTC.if_units ; values( 1) = CNTC.un_cntc;
 flags( 2) = CNTC.if_wrtinp; values( 2) = 0;    % no .inp-file needed
 flags( 3) = CNTC.ic_matfil; values( 3) = 0;    % no .mat-file needed
@@ -129,7 +130,7 @@ blk1b   = subs_getresults(iwhe, icp, 2, 'all');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % compute the contact problem for case 2: frictional rolling
 
-clear flags values;
+flags = []; values = [];
 flags(1) = CNTC.ic_tang  ; values(1) = 3;    % T=3, steady state rolling
 flags(2) = CNTC.ic_force ; values(2) = 1;    % F=1, FX prescribed
 cntc_setflags(iwhe, icp, flags, values);
@@ -169,12 +170,12 @@ axis([0 2.5 0 1.8]); grid; set(gca,'ytick',[0:0.2:1.8]);
 set(gca,'dataaspectratio',[1.5 1 1]);
 xlabel('z [mm]');
 ylabel('stress [N/mm^2]');
-legend('-\sigma_{hyd} for p_z=1, p_x=p_y=0', ...
-        '\sigma_{vm} for p_z=1, p_x=p_y=0', ...
-        '\sigma_{vm} for p_z=0, p_x=1, p_y=0');
-text(0.95, 0.60, 'single element, dx=dy=1', ...
+legend({'$-\sigma_{hyd}$ for $p_z=1, p_x=p_y=0$', ...
+        '$\sigma_{vm}$ for $p_z=1, p_x=p_y=0$', ...
+        '$\sigma_{vm}$ for $p_z=0, p_x=1, p_y=0$'}, 'interpreter','latex');
+text(0.95, 0.60, 'single element, $\delta{}x=\delta{}y=1$', 'interpreter','latex',...
         'horizontalalignment','right', 'units','normalized');
-text(0.95, 0.52, 'G=1, \nu=0.28', ...
+text(0.95, 0.52, '$G=1, \nu=0.28$', 'interpreter','latex', ...
         'horizontalalignment','right', 'units','normalized');
 
 % plot displacements uz along Oxz-plane, y=0
@@ -197,4 +198,4 @@ title('');
 cntc_finalize(iwhe);
 cntc_closelibrary;
 
-% $Revision: 2447 $, $Date: 2023-11-04 15:03:17 +0100 (Sat, 04 Nov 2023) $
+% $Revision: 2593 $, $Date: 2024-08-14 15:18:54 +0200 (Wed, 14 Aug 2024) $

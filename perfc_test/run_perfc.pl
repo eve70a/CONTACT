@@ -23,7 +23,7 @@ open(STDERR, ">run_perfc.log");
 # prescribe which CONTACT version to use
 
 my $VER="contact-open";
-#  $VER="releases".$file_sep."contact_v23.2";
+#  $VER="releases".$file_sep."contact_v24.1";
 
 print " ----------------------------------------------------------------------\n";
 my $time_str = strftime("%d-%m-%Y %H:%M:%S", localtime);

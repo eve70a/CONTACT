@@ -27,7 +27,7 @@ if (not importlib.util.find_spec('python_intfc')):
             CONTACTDIR = '/v3/CMCC/contact'
         else:
             CONTACTDIR = 'C:\\CMCC\\contact'
-            # CONTACTDIR = 'C:\Program Files\Vtech CMCC\contact_v23.2'
+            # CONTACTDIR = 'C:\Program Files\Vtech CMCC\contact_v24.1'
         print('Setting CONTACTDIR as', CONTACTDIR)
     sys.path.append( CONTACTDIR )
 
@@ -36,18 +36,19 @@ if (not importlib.util.find_spec('python_intfc')):
 
 import python_intfc as cntc
 
-# $Revision: 2447 $, $Date: 2023-11-04 15:03:17 +0100 (Sat, 04 Nov 2023) $
+# $Revision: 2593 $, $Date: 2024-08-14 15:18:54 +0200 (Wed, 14 Aug 2024) $
 
 #------------------------------------------------------------------------------------------------------------
 # Part 1: Initialize the CONTACT library, register two problems 
 #         "iwhe = 1" for left wheel, "iwhe = 2" for right wheel
 #------------------------------------------------------------------------------------------------------------
 
-# outpath = 'c:\\temp'
-outpath = ' '
+# outdir = 'c:\\temp'
+wrkdir  = ' '
+outdir  = ' '
 expnam  = ' '
 idebug  = 1
-[CNTC, ifcver, ierror] = cntc.initlibrary(outpath, expnam, idebug)
+[CNTC, ifcver, ierror] = cntc.initlibrary(wrkdir, outdir, expnam, idebug)
 
 if ierror:
    sys.exit('An error occurred, ierror = %d' % ierror)
@@ -149,7 +150,7 @@ for iwhe in [1, 2]:
 
    ztrack = 3;
    params = np.array( [ 14, 0, 1435, 0, 0, 0, 0, 0, 0, 0, 0 ], dtype=c_double )
-   cntc.settrackdimensions_new(iwhe, ztrack, params)
+   cntc.settrackdimensions(iwhe, ztrack, params)
 
    # rail profile
 

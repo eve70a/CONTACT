@@ -9,7 +9,7 @@ EXE5=../bin/caddon_license_linux64
 
 if [ 1 = 1 ]; then
    echo "Using Intel fortran..."
-   FFOPTS="-fpp -qopenmp -names lowercase -assume nounderscore -convert big_endian"
+   FFOPTS="-fpp -qopenmp -names lowercase -assume nounderscore -convert big_endian -diag-disable=10448"
 
    ifort $FFOPTS test_caddon.f90    $DLL -o $EXE1
    ifort $FFOPTS test_mbench.f90    $DLL -o $EXE2

@@ -29,7 +29,7 @@ public
    ! lsbs     logical unit number of .subs file for subsurface stresses
    ! ltmp*    logical units for temporary use, see get_lunit_tmp_use
 
-   integer,      parameter :: fmtmat =   2320
+   integer,      parameter :: fmtmat =   2410
    integer                 :: linp   =     11
    integer                 :: lout   =     12
    integer                 :: ltmp1  =     17

@@ -4,7 +4,7 @@
 %
 % set a wheel or rail profile filename for a wheel-rail contact problem
 %
-%  fname          - string: name of profile file, absolute path or relative to effective working folder
+%  fname          - string: name of profile file, absolute path or relative wrt effective working folder
 %  iparam         - integer configuration parameters
 %                     1: itype     0 = rail, 1 = wheel profile, -1 = taken from file extension (default)
 %                     2:  -        not used

@@ -9,7 +9,7 @@
 
 if (~exist('cntc_initlibrary.m','file'))
    % set location of CONTACT installation folder
-   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v23.2';
+   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v24.1';
    contactdir = '..';
    addpath([contactdir, '\matlab_intfc']);
    addpath([contactdir, '\matlab']);

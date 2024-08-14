@@ -10,8 +10,8 @@ expnam = strvcat('cattaneo', 'carter2d', 'bentall', 'visc_cylindr', 'catt_to_car
                  'subsurf', 'spence35', 'mbench', 'kpec', 'wheelflat', 'tractcurv', 'conformal', ...
                  'ertz_temperature', 'plastic_3bl', 'fastsim', 'veldep_fric');
 % expnam = strvcat('kpec');
-expnam = strvcat('plastic_3bl');
-% expnam = strvcat('mbench');
+% expnam = strvcat('plastic_3bl');
+% expnam = strvcat('wheelflat');
 
 pause_after_plot = 1 * (size(expnam,1)>1);
 print_figures = 0;
@@ -478,8 +478,8 @@ if (~isempty(strmatch('wheelflat',expnam)))
    sol = parse_out1('wheelflat.out');
 
    sref = loadcase('wheelflat', 1);
-   sref.x_offset = sref.meta.xcp_r;
-   sref.y_offset = sref.meta.ycp_r;
+   sref.x_offset = sref.meta.xcp_r - sref.meta.spinxo;
+   sref.y_offset = sref.meta.ycp_r - sref.meta.spinyo;
 
    optel = opt;
    optel.field = 'eldiv_contour';
@@ -511,10 +511,7 @@ if (~isempty(strmatch('wheelflat',expnam)))
       subplot(nrow, ncol, isub);
 
       plot3d(s(1), opt);
-
       plot3d(sref, optel);
-      c = get(gca,'children');
-      delete(c(3:4));
 
       axis([-20 20 -15 20]);
       shading flat;
