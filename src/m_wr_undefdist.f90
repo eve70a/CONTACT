@@ -40,7 +40,7 @@ contains
       integer                 :: lud, ios, nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ixdbg, &
                                  iydbg, iu, iv, icount, ierror
       real(kind=8)            :: xslc1, hmin, h_ii, xmin, xmax, ymin, ymax, zmin, zmax, smin, smax,     &
-                                 swsta, swmid, swend, ds, dx_cp, zsta, zend, z_axle, xtr_sta,           &
+                                 swsta, swmid, swend, ds, dx_cp, zp_sta, zp_end, z_axle, xtr_sta,       &
                                  vy_ref, vz_ref, vy_iy, vz_iy, delt_iy, vlen_inv
       real(kind=8)            :: rmin, rmax, th_min, th_max, dth, v_min, v_max, dv
       real(kind=8),   dimension(:), allocatable :: u_out, v_out
@@ -254,29 +254,31 @@ contains
          call marker_print(mpot_whl,  'm_pot(whl)',  5)
       endif
 
-      ! the potential contact area is at [xsta,xend] x [ysta,yend] in track coordinates
+      ! the potential contact area is at [xsta,xend] x [sp_sta,sp_end] w.r.t. m_pot
+      ! Note: xsta/xend were updated according to the pot.contact area (set_planar_potcon),
+      !       ysta/yend are original values from locate_interpen, may lie far off tangent plane
 
-      zsta = cp%mpot%z() + cp%sp_sta * sin(cp%delttr)
-      zend = cp%mpot%z() + cp%sp_end * sin(cp%delttr)
+      zp_sta = cp%mpot%z() + cp%sp_sta * sin(cp%delttr)
+      zp_end = cp%mpot%z() + cp%sp_end * sin(cp%delttr)
 
       if (idebug.ge.2) then
-         write(bufout,'(5(a,:,f12.6))') ' zsta=',cp%mpot%z(),' + ',cp%sp_sta, ' * sin(',cp%delttr,')'
+         write(bufout,'(5(a,:,f12.6))') ' zp_sta=',cp%mpot%z(),' + ',cp%sp_sta, ' * sin(',cp%delttr,')'
          call write_log(1, bufout)
          call write_log(' potential contact area w.r.t. O_trk')
          write(bufout,'(2(a,f12.6),a)') '     x(tr) = [',cp%xsta,'--',cp%xend,']'
          call write_log(1, bufout)
          write(bufout,'(2(a,f12.6),a)') '     y(tr) = [',cp%ysta,'--',cp%yend,']'
          call write_log(1, bufout)
-         write(bufout,'(2(a,f12.6),a)') '     z(tr) = [',   zsta,'--',   zend,']'
+         write(bufout,'(2(a,f12.6),a)') '     z(tr) = [', zp_sta,'--', zp_end,']'
          call write_log(1, bufout)
       endif
 
       ! compute potential contact on wheel profile according to potential contact on track
 
-      vtmp(1) = vec_2loc( vec(cp%xsta, cp%ysta, zsta), mwhl_trk )
-      vtmp(2) = vec_2loc( vec(cp%xsta, cp%yend, zend), mwhl_trk )
-      vtmp(3) = vec_2loc( vec(cp%xend, cp%ysta, zsta), mwhl_trk )
-      vtmp(4) = vec_2loc( vec(cp%xend, cp%yend, zend), mwhl_trk )
+      vtmp(1) = vec_2loc( vec(cp%xsta, cp%ysta, zp_sta), mwhl_trk )
+      vtmp(2) = vec_2loc( vec(cp%xsta, cp%yend, zp_end), mwhl_trk )
+      vtmp(3) = vec_2loc( vec(cp%xend, cp%ysta, zp_sta), mwhl_trk )
+      vtmp(4) = vec_2loc( vec(cp%xend, cp%yend, zp_end), mwhl_trk )
 
       xmin = min(vtmp(1)%x(), vtmp(2)%x(), vtmp(3)%x(), vtmp(4)%x()) - 2*cgrid%dx
       xmax = max(vtmp(1)%x(), vtmp(2)%x(), vtmp(3)%x(), vtmp(4)%x()) + 2*cgrid%dx

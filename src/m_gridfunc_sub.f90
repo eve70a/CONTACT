@@ -101,24 +101,80 @@ end subroutine eldiv_resize
 
 !------------------------------------------------------------------------------------------------------------
 
-module subroutine gf3_resize(gf, g_new, defval)
+module subroutine gf3_resize_curv(gf, g_new, kofs_x, kofs_y, ix0, ix1, iy0, iy1, def_x, def_y, def_z)
+!--purpose: resize grid function to the new grid provided, placing original data in [ix0:ix1] x [iy0:iy1]
+!           offsets kofs_x, kofs_y: #extra columns/rows in old grid wrt new grid (<=0)
+   implicit none
+!--subroutine arguments:
+   type(t_gridfnc3)          :: gf
+   type(t_grid),    target   :: g_new
+   integer                   :: kofs_x, kofs_y, ix0, ix1, iy0, iy1
+   real(kind=8),    optional :: def_x, def_y, def_z
+!--local variables:
+   integer, parameter :: idebug = 0
+   integer            :: ix, iy, ii1, ii2
+   real(kind=8)       :: defval(3)
+   real(kind=8), dimension(:,:), pointer :: val_new
+
+   associate(g_old => gf%grid)
+
+   defval(1:3) = 0d0
+   if (present(def_x)) defval(1:3) = def_x      ! def_x == overall default, all components
+   if (present(def_y)) defval(2)   = def_y
+   if (present(def_z)) defval(3)   = def_z
+
+   ! allocate new values-array
+
+   allocate(val_new(g_new%ntot,3))
+
+   ! copy grid function data
+
+   do iy = 1, g_new%ny
+      do ix = 1, g_new%nx
+         ii1 = ix+kofs_x + (iy+kofs_y-1) * g_old%nx
+         ii2 = ix        + (iy       -1) * g_new%nx
+         if (ix.ge.ix0 .and. ix.le.ix1 .and. iy.ge.iy0 .and. iy.le.iy1) then
+            val_new(ii2,1:3) = gf%val(ii1,1:3)
+         else
+            val_new(ii2,1:3) = defval(1:3)
+         endif
+      enddo ! ix
+   enddo ! iy
+
+   ! destroy original array, replace with new array
+
+   deallocate(gf%val)
+   gf%val => val_new
+   gf%vx  => gf%val(:,ikXDIR)
+   gf%vy  => gf%val(:,ikYDIR)
+   gf%vn  => gf%val(:,ikZDIR)
+   gf%vt  => gf%val(:,ikXDIR)
+
+   ! store pointer to the grid on which this gridfunc lives
+
+   gf%grid => g_new
+
+   end associate
+
+end subroutine gf3_resize_curv
+
+!------------------------------------------------------------------------------------------------------------
+
+module subroutine gf3_resize_unif(gf, g_new, def_x, def_y, def_z)
 !--purpose: resize grid function to the new (matching) grid provided
    implicit none
 !--subroutine arguments:
    type(t_gridfnc3)          :: gf
    type(t_grid),    target   :: g_new
-   real(kind=8),    optional :: defval
+   real(kind=8),    optional :: def_x, def_y, def_z
 !--local variables:
    integer, parameter :: idebug = 0
    logical            :: is_ok, is_equal
-   integer            :: kofs_x, kofs_y, ix, ix0, ix1, iy, iy0, iy1, ii1, ii2
-   real(kind=8), dimension(:,:), pointer :: val_new
-
-   associate(g_old => gf%grid)
+   integer            :: kofs_x, kofs_y, ix0, ix1, iy0, iy1
 
    ! check input grids and determine overlap region
 
-   call grid_get_overlap(g_old, g_new, kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
+   call grid_get_overlap(gf%grid, g_new, kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
 
    if (.not.is_ok) then
       call write_log(' gf3_resize: Internal error: cannot copy between old/new grids provided')
@@ -137,32 +193,7 @@ module subroutine gf3_resize(gf, g_new, defval)
 
    if (.not.is_equal) then
 
-      ! allocate new values-array
-
-      allocate(val_new(g_new%ntot,3))
-
-      ! copy grid function data
-
-      do iy = 1, g_new%ny
-         do ix = 1, g_new%nx
-            ii1 = ix+kofs_x + (iy+kofs_y-1) * g_old%nx
-            ii2 = ix        + (iy       -1) * g_new%nx
-            if (ix.ge.ix0 .and. ix.le.ix1 .and. iy.ge.iy0 .and. iy.le.iy1) then
-               val_new(ii2,1:3) = gf%val(ii1,1:3)
-            else
-               if (present(defval)) val_new(ii2,1:3) = defval
-            endif
-         enddo ! ix
-      enddo ! iy
-
-      ! destroy original array, replace with new array
-
-      deallocate(gf%val)
-      gf%val => val_new
-      gf%vx  => gf%val(:,ikXDIR)
-      gf%vy  => gf%val(:,ikYDIR)
-      gf%vn  => gf%val(:,ikZDIR)
-      gf%vt  => gf%val(:,ikXDIR)
+      call gf3_resize_curv(gf, g_new, kofs_x, kofs_y, ix0, ix1, iy0, iy1, def_x, def_y, def_z)
 
    endif
 
@@ -170,9 +201,7 @@ module subroutine gf3_resize(gf, g_new, defval)
 
    gf%grid => g_new
 
-   end associate
-
-end subroutine gf3_resize
+end subroutine gf3_resize_unif
 
 !------------------------------------------------------------------------------------------------------------
 

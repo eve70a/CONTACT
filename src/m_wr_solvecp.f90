@@ -28,6 +28,9 @@ private aggregate_forces
 private cpatch_forces_moments
 public  total_forces_moments
 public  set_dummy_solution
+private wtd_check_nan
+private merge_prev_potcon
+private extend_curv_ref
 
 contains
 
@@ -175,42 +178,6 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wtd_check_nan(wtd)
-!--purpose: check solution of a w/r contact problem
-      implicit none
-!--subroutine arguments:
-      type(t_ws_track)  :: wtd
-!--local variables:
-      integer           :: icp
-
-      if (any(isnan(wtd%ftrk%v)) .or. any(isnan(wtd%ttrk%v))) then
-
-         ! write error-message
-
-         write(bufout,'(a,i8,4(a,i4),a)') ' check_nan: found NaN-values for case', wtd%meta%ncase,      &
-                ' on result element', wtd%meta%reid,', it', wtd%meta%itforce,' (',wtd%meta%itforc_out,  &
-                  '/', wtd%meta%itforc_inn,')'
-         call write_log(1, bufout)
-
-         ! write out-file for the case
-
-         call wr_output(wtd)
-
-         ! write mat-files for each contact patch
-
-         do icp = 1, wtd%numcps
-            associate( gd => wtd%allcps(icp)%cp%gd )
-            gd%ic%matfil_surf = 2
-            call writmt (gd%meta, gd%ic, gd%cgrid_cur, gd%potcon_cur, gd%mater, gd%fric, gd%kin,        &
-                         gd%geom, gd%outpt1, wtd%ic%is_left_side())
-            end associate
-         enddo
-      endif
-         
-   end subroutine wtd_check_nan
-
-!------------------------------------------------------------------------------------------------------------
-
    subroutine wr_subsurf(wtd, idebug)
 !--purpose: compute subsurface stresses for all cps in the w/r problem
       implicit none
@@ -251,76 +218,6 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine merge_prev_potcon(icp, gd, idebug)
-!--purpose: extend gd%potcon_inp to cover previous contact area
-      implicit none
-!--subroutine arguments:
-      integer           :: icp, idebug
-      type(t_probdata)  :: gd
-!--local variables:
-      integer           :: ierror
-      type(t_potcon)    :: potcon_prv, potcon_tot
-
-      ! determine potential contact area tight around contact area for previous time
- 
-      associate(igv => gd%outpt1%igv)
-      call areas(igv)
-
-      potcon_prv = gd%potcon_cur
-      potcon_prv%ipotcn = 1
-
-      if (igv%ixmax.ge.igv%ixmin) then
-         potcon_prv%mx = igv%ixmax - igv%ixmin + 1
-         potcon_prv%xl = potcon_prv%xl + (igv%ixmin-1) * potcon_prv%dx
-      else
-         potcon_prv%mx = 1
-      endif
-
-      if (igv%iymax.ge.igv%iymin) then
-         potcon_prv%my = igv%iymax - igv%iymin + 1
-         potcon_prv%yl = potcon_prv%yl + (igv%iymin-1) * potcon_prv%dy
-      else
-         potcon_prv%my = 1
-      endif
-
-      call potcon_fill( potcon_prv )
-      end associate
-
-      ! merge proposed potcon_inp with potcon_prv for previous time
-
-      call potcon_merge( potcon_prv, gd%potcon_inp, potcon_tot, idebug, ierror )
-      if (ierror.ne.0) then
-         call write_log(' Internal error(merge_prev_potcon): previous/current grids cannot be merged.')
-         call abort_run()
-      endif
-
-      if (idebug.ge.1) then
-         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '   prev',icp,': x=[',gd%potcon_cur%xl,',',           &
-                gd%potcon_cur%xh,'], mx=',gd%potcon_cur%mx,', y=[',gd%potcon_cur%yl,',',                &
-                gd%potcon_cur%yh,'], my=',gd%potcon_cur%my
-         call write_log(1, bufout)
-         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '  tight',icp,': x=[',potcon_prv%xl,',',              &
-                potcon_prv%xh,'], mx=',potcon_prv%mx,', y=[',potcon_prv%yl,',',                         &
-                potcon_prv%yh,'], my=',potcon_prv%my
-         call write_log(1, bufout)
-         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '    new',icp,': x=[',gd%potcon_inp%xl,',',           &
-                gd%potcon_inp%xh,'], mx=',gd%potcon_inp%mx,', y=[',gd%potcon_inp%yl,',',                &
-                gd%potcon_inp%yh,'], my=',gd%potcon_inp%my
-         call write_log(1, bufout)
-         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') ' merged',icp,': x=[',potcon_tot%xl,',',              &
-                potcon_tot%xh,'], mx=',potcon_tot%mx,', y=[',potcon_tot%yl,',',                         &
-                potcon_tot%yh,'], my=',potcon_tot%my
-         call write_log(1, bufout)
-      endif
-
-      ! store extended potcon for new time instance
-
-      gd%potcon_inp = potcon_tot
-
-   end subroutine merge_prev_potcon
-
-!------------------------------------------------------------------------------------------------------------
-
    subroutine wr_setup_cp(meta, ws, trk, numcps, icp, cp, wtd_ic, mater, discr, fric, kin, solv, x_locate)
 !--purpose: define the contact problem for an initial contact point for a W/R contact case. 
       implicit none
@@ -342,6 +239,7 @@ contains
       integer                   :: ip, ii, iy, mx, my, npot, ierror
       real(kind=8)              :: sw_ref, fac_warn, xy_ofs
       type(t_marker)            :: mref_pot, mref_rai, mref_whl, whl_trk
+      type(t_potcon)            :: potcon_inp
       type(t_probdata), pointer :: gd
 
       if (x_locate.ge.3) then
@@ -408,6 +306,7 @@ contains
       gd => cp%gd
 
       !  - general metadata:
+      gd%meta%reid      = meta%reid
       gd%meta%expnam    = meta%expnam
       gd%meta%wrkdir    = meta%wrkdir
       gd%meta%outdir    = meta%outdir
@@ -507,7 +406,18 @@ contains
 
       ! update potcon_inp to cover the contact area of the previous time
  
-      if (wtd_ic%pvtime.ne.2 .and. .not.new_gd) call merge_prev_potcon(icp, cp%gd, wtd_ic%x_cpatch)
+      if (wtd_ic%pvtime.ne.2 .and. .not.new_gd) then
+         potcon_inp = cp%gd%potcon_inp
+         call merge_prev_potcon(icp, cp%gd, wtd_ic%x_cpatch)
+
+         ! for conformal contact, extend curv_ref, curv_nrm, curv_incln to new potential contact size
+         ! (arrays from previous time deleted in wr_update_allcps)
+
+         if (wtd_ic%is_conformal()) then
+            call extend_curv_ref(wtd_ic, potcon_inp, cp%gd%potcon_inp, cp%curv_ref, cp%curv_nrm,        &
+                cp%curv_incln)
+         endif
+      endif
 
       ! check that npot_max will not be exceeded
 
@@ -687,49 +597,25 @@ contains
          gd%geom%xylim(1:np,4) =  999d0
          gd%geom%facsep(1:np, 1:np) = 0d0
 
-         if (.not.associated(cp%f_sep2)) then      ! old implementation using y_sep
+         ! copy track xsta/xend positions of sub-patches +/- safety
 
-            if (x_locate.ge.2) call write_log(' no f_sep2, old combination method')
+         xy_ofs = 0.4d0 * discr%dist_comb
+         gd%geom%xylim(1:np, 1) = cp%xyzlim(1:np, 1) - cp%mpot%x() - xy_ofs
+         gd%geom%xylim(1:np, 2) = cp%xyzlim(1:np, 2) - cp%mpot%x() + xy_ofs
 
-            ! convert track y_sep position in rail profile to lateral s_c position in tangent plane
+         ! convert track ysta/yend position in rail profile to lateral s_c position in tangent plane
 
-            gd%geom%xylim(2:np  ,3) = (cp%y_sep(1:np-1) - cp%mref%y()) / cos(cp%mref%roll())  +            &
-                                                                              cp%sr_ref - cp%sr_pot
-            gd%geom%xylim(1:np-1,4) = gd%geom%xylim(2:np,3)
-
-            ! fill tri-diagonal matrix fac
-        
-            do ip = 1, np-1                       ! nsub patches --> nsub-1 interactions
-               gd%geom%facsep(ip  ,ip  ) = 1d0          ! diagonal entry
-               gd%geom%facsep(ip  ,ip+1) = cp%f_sep(ip) ! upper diagonal  (i,i+1)
-               gd%geom%facsep(ip+1,ip  ) = cp%f_sep(ip) ! symmetry: lower diagonal (i+1,i)
-            enddo
-            gd%geom%facsep(np  ,np  ) = 1d0             ! diagonal entry
-
-         else                   ! new implementation using xylim, f_sep2
-
-            if (x_locate.ge.2) call write_log(' has f_sep2, new combination method')
-
-            ! copy track xsta/xend positions of sub-patches +/- safety
-
-            xy_ofs = 0.4d0 * discr%dist_comb
-            gd%geom%xylim(1:np, 1) = cp%xyzlim(1:np, 1) - cp%mpot%x() - xy_ofs
-            gd%geom%xylim(1:np, 2) = cp%xyzlim(1:np, 2) - cp%mpot%x() + xy_ofs
-
-            ! convert track ysta/yend position in rail profile to lateral s_c position in tangent plane
-
-            gd%geom%xylim(1:np, 3:4) = (cp%xyzlim(1:np, 3:4) - cp%mref%y()) / cos(cp%mref%roll()) +     &
+         gd%geom%xylim(1:np, 3:4) = (cp%xyzlim(1:np, 3:4) - cp%mref%y()) / cos(cp%mref%roll()) +     &
                                                                                  cp%sr_ref - cp%sr_pot
 
-            ! add safety in s_c-direction
+         ! add safety in s_c-direction
 
-            gd%geom%xylim(1:np, 3) = gd%geom%xylim(1:np, 3) - xy_ofs
-            gd%geom%xylim(1:np, 4) = gd%geom%xylim(1:np, 4) + xy_ofs
+         gd%geom%xylim(1:np, 3) = gd%geom%xylim(1:np, 3) - xy_ofs
+         gd%geom%xylim(1:np, 4) = gd%geom%xylim(1:np, 4) + xy_ofs
 
-            ! copy reduction factors
+         ! copy reduction factors
 
-            gd%geom%facsep(1:np, 1:np) = cp%f_sep2(1:np, 1:np)
-         endif
+         gd%geom%facsep(1:np, 1:np) = cp%f_sep2(1:np, 1:np)
 
          if (x_locate.ge.2) then
             write(bufout,'(a,i3)') ' IPLAN=4: npatch=',np
@@ -762,14 +648,15 @@ contains
 
       else
 
-         ! compute the creepages or the rigid slip function w.r.t. reference marker
-
-         call wr_rigid_slip(wtd_ic, ws, trk, discr%dqrel, cp, gd, x_locate)
-
          ! set spin center using offset reference marker -- pot.contact
 
          gd%kin%spinxo = mref_pot%x()
          gd%kin%spinyo = mref_pot%y()
+
+         ! compute the creepages or the rigid slip function w.r.t. reference marker
+
+         call wr_rigid_slip(wtd_ic, ws, trk, discr%dqrel, icp, cp, gd, x_locate)
+
       endif
  
       ! subsurface stress computation is performed separately, if needed
@@ -1088,6 +975,215 @@ contains
       call gd_init(cp%gd)
 
    end subroutine set_dummy_solution
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine wtd_check_nan(wtd)
+!--purpose: check solution of a w/r contact problem
+      implicit none
+!--subroutine arguments:
+      type(t_ws_track)  :: wtd
+!--local variables:
+      integer           :: icp
+
+      if (any(isnan(wtd%ftrk%v)) .or. any(isnan(wtd%ttrk%v))) then
+
+         ! write error-message
+
+         write(bufout,'(a,i8,4(a,i4),a)') ' check_nan: found NaN-values for case', wtd%meta%ncase,      &
+                ' on result element', wtd%meta%reid,', it', wtd%meta%itforce,' (',wtd%meta%itforc_out,  &
+                  '/', wtd%meta%itforc_inn,')'
+         call write_log(1, bufout)
+
+         ! write out-file for the case
+
+         call wr_output(wtd)
+
+         ! write mat-files for each contact patch
+
+         do icp = 1, wtd%numcps
+            associate( gd => wtd%allcps(icp)%cp%gd )
+            gd%ic%matfil_surf = 2
+            call writmt (gd%meta, gd%ic, gd%cgrid_cur, gd%potcon_cur, gd%mater, gd%fric, gd%kin,        &
+                         gd%geom, gd%outpt1, wtd%ic%is_left_side())
+            end associate
+         enddo
+      endif
+         
+   end subroutine wtd_check_nan
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine merge_prev_potcon(icp, gd, idebug)
+!--purpose: extend gd%potcon_inp to cover previous contact area
+      implicit none
+!--subroutine arguments:
+      integer           :: icp, idebug
+      type(t_probdata)  :: gd
+!--local variables:
+      integer           :: ierror
+      type(t_potcon)    :: potcon_prv, potcon_tot
+
+      ! determine potential contact area tight around contact area for previous time
+ 
+      associate(igv => gd%outpt1%igv)
+      call areas(igv)
+
+      potcon_prv = gd%potcon_cur
+      potcon_prv%ipotcn = 1
+
+      if (igv%ixmax.ge.igv%ixmin) then
+         potcon_prv%mx = igv%ixmax - igv%ixmin + 1
+         potcon_prv%xl = potcon_prv%xl + (igv%ixmin-1) * potcon_prv%dx
+      else
+         potcon_prv%mx = 1
+      endif
+
+      if (igv%iymax.ge.igv%iymin) then
+         potcon_prv%my = igv%iymax - igv%iymin + 1
+         potcon_prv%yl = potcon_prv%yl + (igv%iymin-1) * potcon_prv%dy
+      else
+         potcon_prv%my = 1
+      endif
+
+      call potcon_fill( potcon_prv )
+      end associate
+
+      ! merge proposed potcon_inp with potcon_prv for previous time
+
+      call potcon_merge( potcon_prv, gd%potcon_inp, potcon_tot, idebug, ierror )
+      if (ierror.ne.0) then
+         call write_log(' Internal error(merge_prev_potcon): previous/current grids cannot be merged.')
+         call abort_run()
+      endif
+
+      if (idebug.ge.1) then
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '   prev',icp,': x=[',gd%potcon_cur%xl,',',           &
+                gd%potcon_cur%xh,'], mx=',gd%potcon_cur%mx,', y=[',gd%potcon_cur%yl,',',                &
+                gd%potcon_cur%yh,'], my=',gd%potcon_cur%my
+         call write_log(1, bufout)
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '  tight',icp,': x=[',potcon_prv%xl,',',              &
+                potcon_prv%xh,'], mx=',potcon_prv%mx,', y=[',potcon_prv%yl,',',                         &
+                potcon_prv%yh,'], my=',potcon_prv%my
+         call write_log(1, bufout)
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') '    new',icp,': x=[',gd%potcon_inp%xl,',',           &
+                gd%potcon_inp%xh,'], mx=',gd%potcon_inp%mx,', y=[',gd%potcon_inp%yl,',',                &
+                gd%potcon_inp%yh,'], my=',gd%potcon_inp%my
+         call write_log(1, bufout)
+         write(bufout,'(a,i3,2(2(a,f8.3),a,i4))') ' merged',icp,': x=[',potcon_tot%xl,',',              &
+                potcon_tot%xh,'], mx=',potcon_tot%mx,', y=[',potcon_tot%yl,',',                         &
+                potcon_tot%yh,'], my=',potcon_tot%my
+         call write_log(1, bufout)
+      endif
+
+      ! store extended potcon for new time instance
+
+      gd%potcon_inp = potcon_tot
+
+   end subroutine merge_prev_potcon
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine extend_curv_ref(ic, pot_old, pot_new, curv_ref, curv_nrm, curv_incln)
+!--purpose: extend curved reference grid according to new dimensions of potential contact area
+      implicit none
+!--subroutine arguments:
+      type(t_ic)                :: ic
+      type(t_potcon)            :: pot_old, pot_new        ! size of old/new curv_ref grids
+      type(t_grid),    target   :: curv_ref
+      type(t_gridfnc3)          :: curv_nrm, curv_incln
+!--local variables:
+      logical            :: is_ok, is_equal
+      integer            :: ix0, ix1, iy0, iy1, kofs_x, kofs_y, iy_old, iy_new
+      type(t_grid)       :: curv_new
+      real(kind=8)       :: dcoor(3)
+
+      ! check that the two grids have matching (dx,dy) and determine offset ky
+      ! ky == #extra rows at start of pot_old wrt pot_new
+
+      call potcon_get_overlap(pot_old, pot_new, kofs_x, kofs_y, ix0, ix1, iy0, iy1, is_ok, is_equal)
+
+      if (ic%x_cpatch.ge.2) then
+         write(bufout,'(2(a,f8.3,a,i4))')     ' pot_old: yl=',pot_old%yl,', my=',pot_old%my,', yh=',    &
+                pot_old%yh,', offset k_y=',kofs_y
+         call write_log(1, bufout)
+         write(bufout,'(a,f8.3,a,i4,a,f8.3)') ' pot_new: yl=',pot_new%yl,', my=',pot_new%my,', yh=',    &
+                pot_new%yh
+         call write_log(1, bufout)
+      endif
+
+      ! allocate space for new grid and grid-functions
+
+      call grid_create_curvil(curv_new, 1, pot_new%my)
+
+      ! copy data from curv_ref to curv_new with linear extrapolation
+
+      do iy_old = 1, pot_old%my
+         iy_new = iy_old - kofs_y
+         curv_new%coor(iy_new,1:3) = curv_ref%coor(iy_old,1:3)
+      enddo
+
+      ! linear extrapolation at start of old curv_ref
+
+      dcoor(1:3) = curv_ref%coor(1,1:3) - curv_ref%coor(2,1:3)
+      do iy_new = -kofs_y, 1, -1
+         curv_new%coor(iy_new,1:3) = curv_new%coor(iy_new+1,1:3) + dcoor(1:3)
+      enddo
+
+      ! linear extrapolation at end of old curv_ref
+
+      dcoor(1:3) = curv_ref%coor(pot_old%my,1:3) - curv_ref%coor(pot_old%my-1,1:3)
+      do iy_new = pot_old%my-kofs_y+1, pot_new%my
+         curv_new%coor(iy_new,1:3) = curv_new%coor(iy_new-1,1:3) + dcoor(1:3)
+      enddo
+
+      if (ic%x_cpatch.ge.4) then
+         do iy_new = 1, pot_new%my
+            iy_old = iy_new + kofs_y
+            if (iy_old.ge.1 .and. iy_old.le.pot_old%my) then
+               write(bufout,'(a,i3,a,3f12.3,a,i3)') ' iyn=',iy_new,': curv_new=[',curv_new%x(iy_new),   &
+                   curv_new%y(iy_new), curv_new%z(iy_new),'] <-- iyo=',iy_old
+               call write_log(1, bufout)
+            else
+               write(bufout,'(a,i3,a,3f12.3,a)') ' iyn=',iy_new,': curv_new=[',curv_new%x(iy_new),      &
+                   curv_new%y(iy_new), curv_new%z(iy_new),']'
+               call write_log(1, bufout)
+            endif
+         enddo
+      endif
+
+      ! move curv_new into subroutine argument curv_ref
+
+      call grid_destroy(curv_ref)
+      call grid_copy(curv_new, curv_ref)
+      call grid_destroy(curv_new)
+
+      ! extend grid functions curv_nrm and curv_incln
+
+      call gf3_resize_curv(curv_nrm, curv_new, 0, kofs_y, 1, 1, iy0, iy1, 0d0)
+      call gf3_resize_curv(curv_incln, curv_new, 0, kofs_y, 1, 1, iy0, iy1, 0d0)
+
+      ! constant extrapolation at start of old curv_nrm/incln
+
+      do iy_new = 1, -kofs_y
+         curv_nrm%val(iy_new,1:3)   = curv_nrm%val(1-kofs_y,1:3)
+         curv_incln%val(iy_new,1:3) = curv_incln%val(1-kofs_y,1:3)
+      enddo
+
+      ! constant extrapolation at end of old curv_nrm/incln
+
+      do iy_new = pot_old%my-kofs_y+1, pot_new%my
+         curv_nrm%val(iy_new,1:3)   = curv_nrm%val(pot_old%my-kofs_y,1:3)
+         curv_incln%val(iy_new,1:3) = curv_incln%val(pot_old%my-kofs_y,1:3)
+      enddo
+
+      if (ic%x_cpatch.ge.4) call gf3_print(curv_nrm,   'curv_nrm',   ikALL, 5)
+      if (ic%x_cpatch.ge.4) call gf3_print(curv_incln, 'curv_incln', ikALL, 5)
+
+      curv_nrm%grid   => curv_ref
+      curv_incln%grid => curv_ref
+
+   end subroutine extend_curv_ref
 
 !------------------------------------------------------------------------------------------------------------
 

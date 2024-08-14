@@ -440,7 +440,7 @@ subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir,
 
    louttm = -1
    if (out_open) louttm = lout
-   call timers_contact_init(louttm=louttm, idebug=timer_output, maxerr=-1,                      &
+   call timers_contact_init(louttm=louttm, idebug=timer_output, maxerr=-1,                              &
                             naddon=numtmr, i0addon=ioftmr, mxthrd=orig_mxthrd)
 
    call timer_start(itimer_main)

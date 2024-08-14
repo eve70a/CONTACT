@@ -80,6 +80,8 @@ module m_gridfunc
    public gf3_copy         ! copy values from one gf to another
    public gf3_msk_copy
    public gf3_resize       ! resize to new matching grid, keeping data
+   public gf3_resize_curv
+   public gf3_resize_unif
    public gf3_scal
    public gf3_msk_scal
    public gf3_axpy
@@ -191,13 +193,23 @@ module m_gridfunc
          type(t_grid),  target   :: g_new
       end subroutine eldiv_resize
 
-      module subroutine gf3_resize(gf, g_new, defval)
+      module subroutine gf3_resize_curv(gf, g_new, kofs_x, kofs_y, ix0, ix1, iy0, iy1, def_x, def_y, def_z)
+      !--purpose: resize grid function to the new grid provided, placing data in [ix0:ix1] x [iy0:iy1]
+      !           offsets kofs_x, kofs_y: #extra columns/rows in old grid wrt new grid (<=0)
+      !--subroutine arguments:
+         type(t_gridfnc3)          :: gf
+         type(t_grid),    target   :: g_new
+         integer                   :: kofs_x, kofs_y, ix0, ix1, iy0, iy1
+         real(kind=8),    optional :: def_x, def_y, def_z
+      end subroutine gf3_resize_curv
+
+      module subroutine gf3_resize_unif(gf, g_new, def_x, def_y, def_z)
       !--purpose: resize grid function to the new (matching) grid provided
       !--subroutine arguments:
          type(t_gridfnc3)          :: gf
          type(t_grid),    target   :: g_new
-         real(kind=8),    optional :: defval
-      end subroutine gf3_resize
+         real(kind=8),    optional :: def_x, def_y, def_z
+      end subroutine gf3_resize_unif
 
       module subroutine wrigs(igs, is_roll, chi, ltight_arg)
       !--subroutine arguments:
@@ -208,6 +220,11 @@ module m_gridfunc
       end subroutine wrigs
 
    end interface
+
+   interface gf3_resize
+      module procedure gf3_resize_curv
+      module procedure gf3_resize_unif
+   end interface gf3_resize
 
 contains
 
@@ -262,7 +279,7 @@ subroutine eldiv_new(eldiv, grid, nulify)
 
    ! allocate component-arrays if not done so before, re-allocate at correct size when necessary
 
-   call reallocate_arr(eldiv%el, grid%ntot)
+   call reallocate_arr(eldiv%el,     grid%ntot)
    call reallocate_arr(eldiv%row1st, grid%ny)
    call reallocate_arr(eldiv%rowlst, grid%ny)
 

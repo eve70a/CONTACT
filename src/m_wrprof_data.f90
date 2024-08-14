@@ -91,13 +91,12 @@ public
    type :: t_cpatch
       type(t_vec)      :: micp
       real(kind=8)     :: gap_min, totgap, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap
+      real(kind=8)     :: xsta, xend, ysta, yend, zsta, zend, usta, uend, vsta, vend
       type(t_marker)   :: mref, mpot
       real(kind=8)     :: delttr
-      real(kind=8)     :: xsta, xend, ysta, yend, zsta, zend, usta, uend, vsta, vend
-      real(kind=8)     :: sr_ref, sr_pot, sp_sta, sp_end, sc_sta, sc_end
+      real(kind=8)     :: sp_sta, sp_end, sc_sta, sc_end, sr_ref, sr_pot, sw_ref
       real(kind=8)     :: dx_fac, ds_fac, dx_eff, ds_eff
       integer          :: nsub
-      real(kind=8), dimension(:),   pointer :: y_sep => NULL(), f_sep  => NULL()
       real(kind=8), dimension(:,:), pointer :: xyzlim => NULL(), f_sep2 => NULL()
       integer          :: prev_icp(MAX_NUM_CPS)
       type(t_vec)      :: ftrk, ttrk, fws, tws
@@ -115,15 +114,19 @@ public
       ! wgt_agap  [rad]  weighted average of alpha values for interpenetration area
       ! [xyz]sta  [mm]   start-position of (estimated) interpenetration area in track coordinates
       ! [xyz]end  [mm]   end-position of (estimated) interpenetration area in track coordinates
-      ! [uv]sta   [-]    start-position of (estimated) interpenetration area in surface (u,v) coordinates
-      ! [uv]end   [-]    end-position of (estimated) interpenetration area in surface (u,v) coordinates
-      ! sr_ref    [mm]   sr-position of the contact reference in rail profile sr-coordinates
-      ! sr_pot    [mm]   sr-position of the potential contact marker in rail profile sr-coordinates
+      !                  Note: [xyz]sta/end are determined first for the interpenetration area,
+      !                        xsta/end are updated later according to the potential contact area
+      ! [uv]sta   [-]    start-position of (estimated) interpenetration area in wheel surf (u,v) coordinates
+      ! [uv]end   [-]    end-position of (estimated) interpenetration area in wheel surf (u,v) coordinates
       !
       ! variables concerning the potential contact area:
       ! mref             contact reference marker w.r.t. track coordinates
       ! mpot             potential contact marker w.r.t. track coordinates (origin of local coordinates)
-      ! delttr    [rad]  contact angle in track coordinates, rotation from track z-axis to contact n-axis
+      ! delttr    [rad]  mref%roll(), contact angle in track coordinates, rotation from track z-axis to
+      !                  contact n-axis
+      ! sr_ref    [mm]   sr-position of the contact reference in rail profile sr-coordinates
+      ! sr_pot    [mm]   sr-position of the potential contact marker in rail profile sr-coordinates
+      ! sw_ref    [mm]   sw-position of the contact reference in wheel profile sw-coordinates
       ! sp_sta    [mm]   start-position of (estimated) interpenetration area in planar contact sp-coordinate
       ! sp_end    [mm]   end-position of (estimated) interpenetration area in planar contact sp-coordinate
       ! sc_sta    [mm]   start-position of (estimated) interpenetration area in conformal sc-coordinate
@@ -136,8 +139,6 @@ public
       ! for combining contact patches with blending approach:
       ! nsub             number of sub-patches with reduced interaction
       ! xyzlim    [mm]   array (nsub,6): track [xyz][sta,end] of sub-patches contained in cpatch
-      ! y_sep     [mm]   array (nsub): track y-positions between neighbouring sub-patches in increasing order
-      ! f_sep     [-]    array (nsub): weighting factors for interactions between neighbouring sub-patches
       ! f_sep2    [-]    array (nsub,nsub): weighting factors for interactions between sub-patches
       !
       ! connection between this patch and patches at previous time instance
@@ -576,9 +577,9 @@ contains
       cp%micp = vec_zero()
       call marker_init(cp%mref)
       call marker_init(cp%mpot)
-      cp%nsub = 0
-      cp%y_sep => NULL()
-      cp%f_sep => NULL()
+      cp%nsub   = 0
+      cp%xyzlim => NULL()
+      cp%f_sep2 => NULL()
       call grid_nullify(cp%rail_srfc)
       call grid_nullify(cp%whl_srfc)
       call grid_nullify(cp%curv_ref)
@@ -603,8 +604,8 @@ contains
       type(t_cpatch)  :: cp
 !--local variables:
 
-      call destroy_arr( cp%y_sep )
-      call destroy_arr( cp%f_sep )
+      call destroy_arr( cp%xyzlim )
+      call destroy_arr( cp%f_sep2 )
       call grid_destroy( cp%rail_srfc )
       call grid_destroy( cp%whl_srfc )
       call grid_destroy( cp%curv_ref )

@@ -142,7 +142,7 @@ contains
 
          ! connect new contact patches in newcps to patches allcps of previous time
 
-         call wr_connect_cps(meta, ic, numnew, newcps, numcps, numtot, allcps)
+         call wr_connect_cps(meta, ic, numnew, newcps, numcps, n_miss, numtot, allcps)
 
          ! move data from newcps to allcps, clean-up newcps
 
@@ -488,7 +488,6 @@ contains
       type(p_cpatch)                  :: newcps(numnew)
       integer,          intent(out)   :: my_ierror
 !--local variables:
-      logical                    :: use_new_combin
       integer                    :: icp, sub_ierror
       real(kind=8)               :: sgn, cref_x
       type(t_grid)               :: prr_trk
@@ -519,12 +518,7 @@ contains
 
       if (numnew.ge.2) then
          ! call write_log(' --- calling combine_cpatches ---')
-         use_new_combin = (.true. .or. discr%angl_sep.gt.2d0)
-         if (.not.use_new_combin) then
-            call combine_cpatches( ic, numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_comb)
-         else
-            call combine_cpatches_new( ic, numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_comb)
-         endif
+         call combine_cpatches( ic, numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_comb)
       endif
 
       ! turn contact reference angles for 'true' contact patches that lie close together
@@ -587,7 +581,7 @@ contains
          ! fill in the contact angle and reference marker
 
          ! call write_log(' --- calling set_cpatch_reference ---')
-         call set_cpatch_reference( ic, icp, cp, prr_trk, my_rail%m_trk, ws%s, sgn, trk%nom_radius)
+         call set_cpatch_reference( ic, icp, cp, prr_trk, my_rail%m_trk, ws, sgn, trk%nom_radius)
 
          ! compute potential contact area for planar contact approach
 
@@ -627,56 +621,57 @@ contains
    logical        :: ignore_near_miss, check_grid_sizes
    type(t_cpatch) :: cp1, cp2
 !--local variables:
-   logical        :: has_overlap
+   logical        :: cps_overlap
 
-   has_overlap = .true.
+   cps_overlap = .true.
 
    ! if ignore_near_miss: `near miss' patches do not overlap at all
 
    if (ignore_near_miss) then
-      if (cp1%gap_min.ge.0d0 .or. cp2%gap_min.ge.0d0) has_overlap = .false.
+      if (cp1%gap_min.ge.0d0 .or. cp2%gap_min.ge.0d0) cps_overlap = .false.
    endif
 
    ! if check_grid_sizes: no overlap if grid sizes are different
 
    if (check_grid_sizes) then
-      if (.not.equal_grid_sizes(cp1%dx_eff, cp2%dx_eff, cp1%ds_eff, cp2%ds_eff)) has_overlap = .false.
+      if (.not.equal_grid_sizes(cp1%dx_eff, cp2%dx_eff, cp1%ds_eff, cp2%ds_eff)) cps_overlap = .false.
    endif
 
    ! no overlap if all x1 < [x2sta,x2end]
 
-   if (cp1%xend.lt.cp2%xsta) has_overlap = .false.
+   if (cp1%xend.lt.cp2%xsta) cps_overlap = .false.
 
    ! no overlap if all x1 > [x2sta,x2end]
 
-   if (cp1%xsta.gt.cp2%xend) has_overlap = .false.
+   if (cp1%xsta.gt.cp2%xend) cps_overlap = .false.
 
    ! no overlap if all y1 < [y2sta,y2end]
 
-   if (cp1%yend.lt.cp2%ysta) has_overlap = .false.
+   if (cp1%yend.lt.cp2%ysta) cps_overlap = .false.
 
    ! no overlap if all y1 > [y2sta,y2end]
 
-   if (cp1%ysta.gt.cp2%yend) has_overlap = .false.
+   if (cp1%ysta.gt.cp2%yend) cps_overlap = .false.
 
-   patches_have_overlap = has_overlap
+   patches_have_overlap = cps_overlap
 
    end function patches_have_overlap
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_connect_cps(meta, ic, numnew, newcps, numcps, numtot, allcps)
+   subroutine wr_connect_cps(meta, ic, numnew, newcps, numcps, n_miss, numtot, allcps)
 !--purpose: determine connection between numtot existing contact patches and numnew new contact patches
-!           numnew includes near miss contact patches (gap>=0)
+!           old: numtot = numcps + n_miss + prev.time
+!           new: numnew includes near miss contact patches (gap>=0)
       implicit none
 !--subroutine arguments:
       type(t_metadata)         :: meta
       type(t_ic)               :: ic
-      integer                  :: numnew, numcps, numtot
+      integer                  :: numnew, numcps, n_miss, numtot
       type(p_cpatch)           :: newcps(numnew), allcps(numtot)
 !--local variables:
       integer                  :: iestim, icpo, icpn, icpn1, icpn2
-      logical                  :: has_overlap_y(numnew,numtot)
+      logical                  :: has_overlap_cp(numnew,numtot)
       integer                  :: n_old(numnew), n_new(numtot)
       character(len=30)        :: fmtstr
 
@@ -704,8 +699,9 @@ contains
 
          if (ic%x_cpatch.ge.1) then
             if (ic%norm.ge.1 .and. (meta%itforc_out.ge.1 .or. meta%itforc_inn.ge.1)) then
-               write(bufout,'(3(a,i3),a)') ' wr_connect_cps: There are', numnew,' new patches and',     &
-                           numcps,' patches for prev.iteration +', numtot-numcps,' other for prev.time'
+               write(bufout,'(5(a,i0),a)') ' wr_connect_cps: There are ', numnew,' new patches and ',   &
+                        numtot,' old patches (',numcps,' prev iter, ', n_miss,' near miss, ',           &
+                        numtot-n_miss-numcps,' other/prev.time)'
                call write_log(1, bufout)
             else
                ! N=0 or 1st force iteration: numtot == numcps, numrem = 0
@@ -746,7 +742,8 @@ contains
          do icpn1 = 1, numnew
             do icpn2 = icpn1+1, numnew
 
-               ! determine overlap [ysta1,yend1] <--> [ysta2,yend2], ignoring `near miss' patches
+               ! determine overlap [xsta1,xend1] <--> [xsta2,xend2], [ysta1,yend1] <--> [ysta2,yend2],
+               ! ignoring `near miss' patches
 
                if (patches_have_overlap(newcps(icpn1)%cp, newcps(icpn2)%cp, .true., .true.)) then
                   write(bufout,'(2(a,i3))') ' Internal error: icp=',icpn1,' overlaps with icp=',icpn2
@@ -756,10 +753,10 @@ contains
          enddo
          if (ic%x_cpatch.ge.4) call write_log(' consistency check completed...')
 
-         ! determine matrix has_overlap_y for new <--> old patches
+         ! determine matrix has_overlap_cp for new <--> old patches
          ! count n_old per new patch; count n_new per old patch
 
-         has_overlap_y(1:numnew,1:numtot) = .false.
+         has_overlap_cp(1:numnew,1:numtot) = .false.
          n_old(1:numnew) = 0
          n_new(1:numtot) = 0
    
@@ -772,7 +769,7 @@ contains
                !  in steady rolling: ignore patches with different grid sizes dx,dy
 
                if (patches_have_overlap(allcps(icpo)%cp, newcps(icpn)%cp, .true., .true.)) then
-                  has_overlap_y(icpn,icpo) = .true.
+                  has_overlap_cp(icpn,icpo) = .true.
                   n_old(icpn) = n_old(icpn) + 1
                   n_new(icpo) = n_new(icpo) + 1
                   cp1%prev_icp(n_old(icpn)) = icpo
@@ -785,16 +782,16 @@ contains
             enddo
          enddo
    
-         ! print matrix has_overlap_y
+         ! print matrix has_overlap_cp
 
          if (ic%x_cpatch.ge.3 .and. numtot.ge.1 .and. numnew.ge.1) then
-            call write_log(' matrix has_overlap_y(new,old):')
+            call write_log(' matrix has_overlap_cp(new,old):')
             write(fmtstr,'(a,i2,a)') '(a,', numtot, 'i3,a,i3)'
             write(bufout, fmtstr) '         i_old=', (icpo, icpo=1, numtot),',  n_old'
             call write_log(1, bufout)
             write(fmtstr,'(a,i2,a)') '(a,i3,a,', numtot, 'l3,a,i3)'
             do icpn = 1, numnew
-               write(bufout,fmtstr) '     inew= ',icpn,':',(has_overlap_y(icpn,icpo), icpo=1,numtot),     &
+               write(bufout,fmtstr) '     inew= ',icpn,':',(has_overlap_cp(icpn,icpo), icpo=1,numtot),  &
                    ',  ',n_old(icpn)
                call write_log(1, bufout)
             enddo
@@ -2733,7 +2730,8 @@ contains
             endif
          endif
 
-         ! 5.i store extent of potential contact area in terms of track coordinates
+         ! 5.i store extent of interpenetration area in terms of track coordinates
+         !     Note: zsta/end based on principal profile zr, could include offset x for wheel-on-roller
 
          cp%xsta = xmin
          cp%xend = xmax
@@ -3054,7 +3052,8 @@ contains
             cp%vend = 0d0
          endif
 
-         ! 5.i store extent of potential contact area in terms of view coordinates
+         ! 5.i store extent of interpenetration area in terms of view coordinates
+         !     Note: zsta/end based on surface zr, including offset x in case of wheel-on-roller
 
          ix = locmin(1,ilcmin)
          iy = locmin(2,ilcmin)
@@ -3552,192 +3551,6 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine combine_cpatches( ic, numnew, newcps, angl_sep, dist_sep, dist_comb)
-!--purpose: combine contact problems with overlapping sr-positions or lying too close together.
-!           patches are sorted with sr-values decreasing (from field side to track center)
-      implicit none
-!--subroutine arguments:
-      type(t_ic)                  :: ic
-      type(p_cpatch)              :: newcps(numnew)     ! data of contact problems
-      integer,      intent(inout) :: numnew
-      real(kind=8), intent(in)    :: angl_sep, dist_sep, dist_comb
-!--local variables:
-      logical, parameter         :: debug_comb = .false.
-      integer                    :: icp, jcp
-      real(kind=8)               :: dy, dz, dist, angl
-      type(p_cpatch)             :: tmp_cp
-      real(kind=8),  allocatable :: ysta(:), yend(:), zsta(:), zend(:), gapmin(:)
-
-      if (ic%x_locate.ge.2 .or. debug_comb) then
-         write(bufout,'(a,f6.2,a,f5.1,a)') ' Separating patches with more than', angl_sep,' rad or',    &
-                dist_sep,' mm separation'
-         call write_log(1, bufout)
-         write(bufout,'(a,13x,f5.1,a)') ' Combining patches with less than ', dist_comb,' mm separation'
-         call write_log(1, bufout)
-      endif
-
-      allocate(ysta(numnew), yend(numnew), zsta(numnew), zend(numnew), gapmin(numnew))
-      
-      icp = 1
-      do while (icp.lt.numnew)
-
-         ! get [ysta, yend] and [zsta, zend] for all contact patches
-
-         do jcp = 1, numnew
-            ysta(jcp) = newcps(jcp)%cp%ysta
-            yend(jcp) = newcps(jcp)%cp%yend
-            zsta(jcp) = newcps(jcp)%cp%zsta
-            zend(jcp) = newcps(jcp)%cp%zend
-            gapmin(jcp) = newcps(jcp)%cp%gap_min
-         enddo
-
-         ! print overview of cpatches y- and z-values (decreasing)
-
-         if (ic%x_locate.ge.3 .or. debug_comb) then
-            write(bufout,'(2(a,i3))') ' checking overlap of patches',icp,' and',icp+1
-            call write_log(1, bufout)
-
-            do jcp = 1, numnew
-               write(bufout,'(a,i2,5(a,f9.4))') ' cp',jcp,': y=[',ysta(jcp),',', yend(jcp),             &
-                        '], zr=[',zsta(jcp),',', zend(jcp),'], gap=',gapmin(jcp)
-               call write_log(1,bufout)
-            enddo
-         endif
-
-         ! patches sorted with y-values decreasing: [ysta(i+1), yend(i+1)], dist, [ysta(i), yend(i)]
-         ! `near misses' (gap>=0) placed after true contact patches (may have increasing y-value!)
-
-         dy    = ysta(icp) - yend(icp+1)
-         dz    = zsta(icp) - zend(icp+1)
-         dist  = sqrt(dy**2 + dz**2)
-         angl  = newcps(icp)%cp%wgt_agap - newcps(icp+1)%cp%wgt_agap
-
-         if (ic%x_locate.ge.4 .or. debug_comb) then
-            write(bufout,'(2(a,i3),3(a,f8.3))') '   ...patches',icp,' and',icp+1,': a1=',               &
-                   newcps(icp)%cp%wgt_agap, ', a2=', newcps(icp+1)%cp%wgt_agap,', diff=',angl
-            call write_log(1, bufout)
-            write(bufout,'(2(a,i3),3(a,f8.3))') '   ...patches',icp,' and',icp+1,': dist=', dist
-            call write_log(1, bufout)
-         endif
-
-         if (gapmin(icp+1).ge.0d0) then
-
-            ! skip 'near miss' contact patches
-
-            icp = icp + 1
-
-         elseif (abs(angl).gt.angl_sep .or. dist.gt.dist_sep) then
-
-            ! keep separate when |a1-a2| >= angl_sep or dist >= dist_sep : move to next patch
-
-            icp = icp + 1
-
-         else
-
-            ! combine patches i and i+1
-
-            associate( cp_lft => newcps(icp+1)%cp, cp_rgt => newcps(icp)%cp )
-
-            ! store y-value in between neighbouring patches, weighting factor
-
-            if (dist.gt.dist_comb) then
-               cp_rgt%nsub = cp_rgt%nsub + 1
-
-               call enlarge_1d_real(cp_rgt%y_sep, cp_rgt%nsub, 5)
-               call enlarge_1d_real(cp_rgt%f_sep,  cp_rgt%nsub, 5)
-
-               cp_rgt%y_sep(cp_rgt%nsub-1) = (yend(icp+1) + ysta(icp)) / 2d0
-               cp_rgt%f_sep(cp_rgt%nsub-1)  = ( (dist_sep - dist) / (dist_sep - dist_comb) )**0.8d0
-
-            endif
-
-            if ((ic%x_locate.ge.2 .or. debug_comb) .and. dist.gt.dist_comb) then
-               write(bufout,'(2(a,i3),3(a,f8.3))') '   ...combining patches',icp,' and',icp+1,', dist=', &
-                     dist,', y_sep=', cp_rgt%y_sep(cp_rgt%nsub-1),', fsep=', cp_rgt%f_sep(cp_rgt%nsub-1)
-               call write_log(1, bufout)
-            elseif (ic%x_locate.ge.2 .or. debug_comb) then
-               write(bufout,'(2(a,i3),a,f8.3)') '   ...combining patches',icp,' and',icp+1,', dist=',dist
-               call write_log(1, bufout)
-            endif
-
-            ! keep micp with largest interpenetration
-
-            if (cp_lft%gap_min.lt.cp_rgt%gap_min) then
-               cp_rgt%micp    = cp_lft%micp
-               cp_rgt%gap_min = cp_lft%gap_min
-            endif
-
-            ! take union of x- and y-ranges
-
-            cp_rgt%xsta = min(cp_rgt%xsta, cp_lft%xsta)
-            cp_rgt%xend = max(cp_rgt%xend, cp_lft%xend)
-            if (cp_lft%ysta.lt.cp_rgt%ysta) then
-               cp_rgt%ysta = cp_lft%ysta
-               cp_rgt%zsta = cp_lft%zsta
-            endif
-            if (cp_lft%yend.gt.cp_rgt%yend) then
-               cp_rgt%yend = cp_lft%yend
-               cp_rgt%zend = cp_lft%zend
-            endif
-
-            ! take union of u- and v-ranges, if not empty ([1,0])
-
-            if (cp_lft%usta.lt.cp_lft%uend .and. cp_rgt%usta.lt.cp_rgt%uend) then
-               cp_rgt%usta = min(cp_lft%usta, cp_rgt%usta)
-               cp_rgt%uend = max(cp_lft%uend, cp_rgt%uend)
-               cp_rgt%vsta = min(cp_lft%vsta, cp_rgt%vsta)
-               cp_rgt%vend = max(cp_lft%vend, cp_rgt%vend)
-            endif
-
-            ! compute new weighted center
-
-            if (ic%use_initial_cp()) then
-               cp_rgt%wgt_xgap = cp_rgt%micp%x()
-               cp_rgt%wgt_ygap = cp_rgt%micp%y()
-            else
-               cp_rgt%wgt_xgap = (cp_rgt%wgt_xgap * cp_rgt%totgap +                                     &
-                                  cp_lft%wgt_xgap * cp_lft%totgap) / (cp_rgt%totgap + cp_lft%totgap)
-               cp_rgt%wgt_ygap = (cp_rgt%wgt_ygap * cp_rgt%totgap +                                     &
-                                  cp_lft%wgt_ygap * cp_lft%totgap) / (cp_rgt%totgap + cp_lft%totgap)
-            endif
-            cp_rgt%wgt_agap = (cp_rgt%wgt_agap * cp_rgt%totgap +                                     &
-                                  cp_lft%wgt_agap * cp_lft%totgap) / (cp_rgt%totgap + cp_lft%totgap)
-            cp_rgt%totgap   = cp_rgt%totgap + cp_lft%totgap
-            
-            end associate
-
-            ! cycle remaining contact patches (pointers), putting icp+1 at end of list
-
-            tmp_cp = newcps(icp+1)
-            do jcp = icp+2, numnew
-               newcps(jcp-1) = newcps(jcp)
-            enddo
-            newcps(numnew) = tmp_cp
-
-            ! stay at icp, reduce number of patches
-
-            numnew = numnew - 1
-
-         endif
-      enddo ! while icp<numnew
-
-      ! reorder ysep, fsep in ascending order
-
-      do icp = 1, numnew
-         associate( cp => newcps(icp)%cp )
-         if (cp%nsub.ge.3) then
-            call reverse_order(cp%nsub-1, cp%y_sep)
-            call reverse_order(cp%nsub-1, cp%f_sep)
-         endif
-         end associate
-      enddo
-
-      deallocate(ysta, yend, zsta, zend, gapmin)
-
-   end subroutine combine_cpatches
-
-!------------------------------------------------------------------------------------------------------------
-
    function cpatch_distance(x0sta, x0end, y0sta, y0end, z0sta, z0end, x1sta, x1end, y1sta, y1end,       &
                                 z1sta, z1end)
 !--purpose: compute distance between bounding boxes around two patches
@@ -3777,7 +3590,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine combine_cpatches_new( ic, numnew, newcps, angl_sep, dist_sep, dist_comb)
+   subroutine combine_cpatches( ic, numnew, newcps, angl_sep, dist_sep, dist_comb)
 !--purpose: combine contact problems with overlapping x_r or sr-positions or lying too close together.
 !            1)          distance <= d_comb : combined fully
 !            2) d_comb < distance <= d_sep  : kept as separate sub-patches within single cpatch
@@ -3999,7 +3812,7 @@ contains
          end associate
       enddo ! icp
 
-   end subroutine combine_cpatches_new
+   end subroutine combine_cpatches
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -4115,22 +3928,25 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine set_cpatch_reference( ic, icp, cp, prr, mtrk, s_ws, sgn, nom_radius)
+   subroutine set_cpatch_reference( ic, icp, cp, prr, mtrk, ws, sgn, nom_radius)
 !--purpose: determine the contact angle and reference marker for one contact patch
       implicit none
 !--subroutine arguments:
-      type(t_ic),   intent(in)  :: ic
-      integer,      intent(in)  :: icp                  ! current contact patch number
-      type(t_cpatch)            :: cp
-      type(t_grid)              :: prr                  ! rail profile in track coordinates
-      type(t_marker)            :: mtrk                 ! roller profile marker
-      real(kind=8), intent(in)  :: sgn                  ! +1/-1 for right/left w/r-combination
-      real(kind=8), intent(in)  :: nom_radius           ! radius in case of a roller
-      real(kind=8), intent(in)  :: s_ws
+      type(t_ic),       intent(in)  :: ic
+      integer,          intent(in)  :: icp                  ! current contact patch number
+      type(t_cpatch)                :: cp
+      type(t_grid)                  :: prr                  ! rail profile in track coordinates
+      type(t_marker)                :: mtrk                 ! roller profile marker
+      type(t_wheelset), intent(in)  :: ws
+      real(kind=8),     intent(in)  :: sgn                  ! +1/-1 for right/left w/r-combination
+      real(kind=8),     intent(in)  :: nom_radius           ! radius in case of a roller
 !--local variables:
       logical                   :: use_wgt_angle
       integer                   :: sub_ierror
       real(kind=8)              :: cref_x, cref_y, cref_z, xref_pot, yref_pot, zc_rol, r_y
+      type(t_marker)            :: whl_trk, mq_trk, mq_whl
+
+      associate( my_wheel => ws%whl,      prw  => ws%whl%prw%grd_data )
 
       use_wgt_angle  = .true.
 
@@ -4189,7 +4005,7 @@ contains
       ! 5.h set position of contact reference in terms of super-grid coordinates
 
       if (ic%tang.eq.1) then            ! transient shift: world/material-fixed super-grid
-         xref_pot  = s_ws + cref_x
+         xref_pot  = ws%s + cref_x
          yref_pot  = cp%sr_ref
       elseif (ic%tang.eq.2) then        ! transient rolling: super-grid fixed in lateral direction,
          xref_pot  = cref_x             !                    moving along longitudinally at x_tr==0
@@ -4223,6 +4039,26 @@ contains
             call write_log(1, bufout)
          endif
       endif
+
+      ! get sw-position of contact reference mQ on wheel profile
+
+      mq_trk  = cp%mref                                 ! TODO: penetration pen is unknown at this point
+      whl_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
+      mq_whl  = marker_2loc( mq_trk, whl_trk )          ! using Q on wheel in wheel coords
+
+      if (my_wheel%prw%grd_data%spl%nsec_top.le.0) then
+         if (ic%x_locate.ge.2) call write_log(' prw%grd_data: add topview')
+         call spline_add_topview(my_wheel%prw%grd_data%spl, .false., sub_ierror)
+      endif
+      call spline_get_s_at_y( prw%spl, mq_whl%y(), cp%sw_ref, sub_ierror )
+
+      if (ic%x_locate.ge.5) then
+         call grid_print(prw, 'prw(w)', 5)
+         write(bufout,*) 'sw_ref=',cp%sw_ref
+         call write_log(1, bufout)
+      endif
+
+      end associate
 
    end subroutine set_cpatch_reference
 
@@ -4317,7 +4153,8 @@ contains
       cp%sp_end = sr_end - cp%sr_pot
 
       ! define planar potential contact area for [xsta_tr,xend_tr] x [sp_sta,sp_end]
-      !  - the contact reference position is placed at (xsg,ysg) in local coordinates
+      !  - the grid origin lies at m_pot at roll angle delttr w.r.t. track coordinates
+      !  - the contact reference position need not coincide with a grid point in transient contact
       !  - grid points are placed at (ix*dx, iy*dy)
       !  - elements are numbered here as [ ix_l : ix_h ] x [ iy_l : iy_h ],
       !  - we get mx = ix_h - ix_l + 1, my = iy_h - iy_l + 1
@@ -4463,15 +4300,18 @@ contains
       real(kind=8),      intent(in)  :: nom_radius  ! radius in case of a roller
       type(t_cpatch)                 :: cp
 !--local variables:
-      type(t_marker)          :: whl_trk, mq_cp, mq_trk, mq_whl
+      type(t_marker)          :: whl_trk, mq_trk, mq_whl
       type(t_grid)            :: rsrf, wsrf
       type(t_gridfnc3)        :: rnrm, wnrm
       integer                 :: iter, iy_ref, iy, iy0, iy1, ky, my, ny, sub_ierror
-      real(kind=8)            :: fac_sc, sc_ref, sr_sta, sr_end, sw_ref, z_axle, x_err, yi, dy, dz,     &
-                                 ds_min, cref_x, rref, dzrol
+      real(kind=8)            :: fac_sc, sc_ref, sr_sta, sr_end, z_axle, x_err, yi, dy, dz,     &
+                                 ds_min, cref_x, rref, dzrol, sgn
       real(kind=8), dimension(:), allocatable :: si, xw
 
       if (ic%x_locate.ge.3) call write_log(' compute_curved_potcon: starting')
+
+      sgn = 1d0
+      if (ic%is_left_side()) sgn = -1d0
 
       associate( my_wheel => ws%whl,      prw  => ws%whl%prw%grd_data,                                  &
                  csrf     => cp%curv_ref, cnrm => cp%curv_nrm,         calph => cp%curv_incln)
@@ -4563,30 +4403,9 @@ contains
 
       ! 3. compute wsrf: points (y(s),z(s)) on wheel surface at positions wsrf%s_prf == sw(i)
 
-      ! 3.a compute contact point on wheel in wheel coords
-
-      if (.true.) then
-         mq_trk   = cp%mref
-      else
-         ! TODO: kin%pen is unknown at this point
-         write(bufout,*) 'pen=',cp%gd%kin%pen
-         call write_log(1,bufout)
-
-         mq_cp  = marker( 0d0, 0d0, cp%gd%kin%pen )
-         mq_trk = marker_2glob( mq_cp, cp%mref )
-      endif
+      mq_trk  = cp%mref                                 ! TODO: penetration pen is unknown at this point
       whl_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
       mq_whl  = marker_2loc( mq_trk, whl_trk )
-
-      ! get sw-position of contact reference mQ on wheel profile
-
-      call spline_get_s_at_y( prw%spl, mq_whl%y(), sw_ref, sub_ierror )
-
-      if (ic%x_locate.ge.5) then
-         call grid_print(prw, 'prw(rw)', 5)
-         write(bufout,*) 'sw_ref=',sw_ref
-         call write_log(1, bufout)
-      endif
 
       ! set initial estimate for positions (sw(i), xw(i))
 
@@ -4597,7 +4416,7 @@ contains
       do iter = 1, 3
 
          if (iter.le.1) then
-            wsrf%s_prf(1:ny) = sw_ref - (si(1:ny)-sc_ref) ! note: sw is oriented opposite to sr, si
+            wsrf%s_prf(1:ny) = cp%sw_ref - (si(1:ny)-sc_ref) ! note: sw is oriented opposite to sr, si
             xw(1:ny) = mq_whl%x()
          else
             ! update estimate for position xw(i). (TODO: refine estimate of sw?)
@@ -4622,9 +4441,9 @@ contains
          ! rotate profile from wheel to track coordinates
          ! TODO: rotation should ignore yaw angle or set nx=0 and re-normalize
 
-         if (abs(whl_trk%yaw()).gt.0.025d0) then
+         if (ic%x_locate.ge.2 .and. abs(whl_trk%yaw()).gt.0.025d0) then
             write(bufout,'(2a,g12.4,a)') ' WARNING: curved reference surface may be inaccurate for ',    &
-                        'yaw angle', whl_trk%yaw(),' rad'
+                        'yaw angle', sgn*whl_trk%yaw(),' rad'
             call write_log(1, bufout)
          endif
 
@@ -4895,8 +4714,7 @@ contains
       real(kind=8), intent(in)  :: roller_radius
 !--local variables:
       integer        :: sub_ierror
-      real(kind=8)   :: rrx, rwx, sw_ref, sarr(2), dzdy(2), alpha(2), kappa_r, kappa_w, a1, b1, rx, ry
-      type(t_marker) :: mq_trk, whl_trk, mq_whl
+      real(kind=8)   :: rrx, rwx, sarr(2), dzdy(2), alpha(2), kappa_r, kappa_w, a1, b1, rx, ry
       type(t_wheel),  pointer :: my_wheel
 
       my_wheel  => ws%whl
@@ -4915,18 +4733,6 @@ contains
          a1   = a1 + 1d0 / (2d0 * rrx)
       endif
 
-      ! compute contact point on wheel in wheel coords, get sw-position
-
-      mq_trk  = cp%mref         ! TODO: kin%pen is unknown at this point
-      whl_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
-      mq_whl  = marker_2loc( mq_trk, whl_trk )
-
-      if (my_wheel%prw%grd_data%spl%nsec_top.le.0) then
-         if (ic%x_locate.ge.2) call write_log(' prw%grd_data: add topview')
-         call spline_add_topview(my_wheel%prw%grd_data%spl, .false., sub_ierror)
-      endif
-      call spline_get_s_at_y( my_wheel%prw%grd_data%spl, mq_whl%y(), sw_ref, sub_ierror )
-
       ! lateral: compute curvatures of profiles at contact reference position
 
       ! method 1: \delta s = \delta\alpha/\kappa over full width of interpenetration area
@@ -4944,8 +4750,8 @@ contains
          call write_log(1, bufout)
       endif
 
-      sarr(1)  = sw_ref - cp%sp_sta  ! note: sw is oriented opposite to sr, sp
-      sarr(2)  = sw_ref - cp%sp_end
+      sarr(1)  = cp%sw_ref - cp%sp_sta  ! note: sw is oriented opposite to sr, sp
+      sarr(2)  = cp%sw_ref - cp%sp_end
       call spline_get_dzdy_at_s(my_wheel%prw%grd_data%spl, 2, sarr, dzdy, sub_ierror)
       alpha(1) = atan(dzdy(1))
       alpha(2) = atan(dzdy(2))
