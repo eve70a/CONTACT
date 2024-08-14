@@ -942,10 +942,10 @@ subroutine wall_time(curwal)
       is_initialized  = .true.
       if (LOUTTM.ge. 1 .and. idebug.ge.1) then
 !$omp    critical (wall_time_init)
-         if (idebug.ge.2) write(LOUTTM,*) 'curr_ticks=',curr_ticks,', tick_max=', tick_max,             &
-            'tick_rate=',tick_rate
-         if (idebug.ge.1) write(LOUTTM,*) 'time to timer-roll-over is approx.', int(rem_secs/3600.),    &
-            ' hr', nint( (rem_secs-3600.*int(rem_secs/3600.))/60. ), ' min'
+         if (idebug.ge.2) write(LOUTTM,'(3(a,i0))') ' curr_ticks= ',curr_ticks,', tick_max= ',          &
+            tick_max, ', tick_rate= ',tick_rate
+         if (idebug.ge.1) write(LOUTTM,'(2(a,i0),a)') ' time to timer-roll-over is approx. ',           &
+                int(rem_secs/3600.),' hr ', nint( (rem_secs-3600.*int(rem_secs/3600.))/60. ), ' min'
 !$omp    end critical (wall_time_init)
       endif
    else
@@ -959,8 +959,9 @@ subroutine wall_time(curwal)
       num_periods = num_periods + 1
       if (LOUTTM.ge.1 .and. idebug.ge.2) then
 !$omp    critical (wall_time_rollover)
-         write(LOUTTM,*) 'wall_time: timer roll-over. curr_ticks=', curr_ticks, ', last_count=',last_count
-         write(LOUTTM,*) 'num_periods=',num_periods
+         write(LOUTTM,'(2(a,i0))') 'wall_time: timer roll-over. curr_ticks= ', curr_ticks,              &
+                ', last_count= ',last_count
+         write(LOUTTM,'(a,i0)') ' num_periods= ',num_periods
 !$omp    end critical (wall_time_rollover)
       endif
    endif

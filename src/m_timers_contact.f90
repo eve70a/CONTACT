@@ -215,11 +215,11 @@ subroutine timers_contact_print
    total_wall = max(1e-6, total_wall)
 
    call write_log('Performance timers:')
-   call write_log('|------------------------------------------------------------------------|')
-   call write_log('|Timer name                     |   cpu time        |    wall clock      |')
-   call write_log('|                               |-------------------|--------------------|')
-   call write_log('|                     | #times  |   sec     |  %    |    sec     |  %    |')
-   call write_log('|------------------------------------------------------------------------|')
+   call write_log('|--------------------------------------------------------------------------|')
+   call write_log('|Timer name                      |    cpu time        |    wall clock      |')
+   call write_log('|                                |--------------------|--------------------|')
+   call write_log('|                     |  #times  |    sec     |  %    |    sec     |  %    |')
+   call write_log('|--------------------------------------------------------------------------|')
 
    cum_time = 0
    ilines = 0
@@ -230,7 +230,7 @@ subroutine timers_contact_print
          ! print separator when reaching first timer of new block
 
          if (i.eq.itimer_normcg .or. i.eq.itimer_initcf .or. i.eq.my_i0addon+1) then
-            if (ilines.gt.0) call write_log('|------------------------------------------------------------------------|')
+            if (ilines.gt.0) call write_log('|--------------------------------------------------------------------------|')
             ilines = 0
          endif
 
@@ -260,11 +260,11 @@ subroutine timers_contact_print
 
       endif
    enddo
-   if (ilines.gt.0) call write_log('|------------------------------------------------------------------------|')
+   if (ilines.gt.0) call write_log('|--------------------------------------------------------------------------|')
 
- 111 format('|',a,' |',i8,' |',2(f10.1,' | ',f5.1,' | '))
- 112 format('|',a,' |',i8,' |',2(f10.1,' | ',f5.1,' | '),'(',i3,')')
- 113 format('|',a,' |',i8,' |',2(f10.1,' | ',f5.1,' | '),'(*)')
+ 111 format('|',a,' |',i9,' |',2(f11.1,' | ',f5.1,' |'))
+ 112 format('|',a,' |',i9,' |',2(f11.1,' | ',f5.1,' |'),'(',i3,')')
+ 113 format('|',a,' |',i9,' |',2(f11.1,' | ',f5.1,' |'),'(*)')
 
 end subroutine timers_contact_print
 
