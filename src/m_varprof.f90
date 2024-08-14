@@ -199,14 +199,6 @@ end subroutine varprof_set_debug
          x_nam = 'th'
       endif
 
-      ! determine the base directory from the slices filename, used for relative folder names
-
-      slcdir = ' '
-      ix = index_pathsep(fname, back=.true.)
-      if (ix.gt.0) then
-         slcdir = fname(1:ix-1)
-      endif
-
       ! determine full path-name, pre-pending inpdir when necessary
 
       call make_absolute_path(fname, inpdir, fulnam)
@@ -214,6 +206,14 @@ end subroutine varprof_set_debug
       if (x_profil.ge.0) then
          write(bufout,*) 'Reading file "',trim(fulnam), '" with profile slices'
          call write_log(1, bufout)
+      endif
+
+      ! determine the base directory from the full name, used for relative folder names
+
+      slcdir = ' '
+      ix = index_pathsep(fulnam, back=.true.)
+      if (ix.gt.0) then
+         slcdir = fulnam(1:ix-1)
       endif
 
       ! use free unit number defined in m_print_output
@@ -297,7 +297,7 @@ end subroutine varprof_set_debug
          call reallocate_arr(vprf%slc_u, nslc)
          call reallocate_arr(vprf%slc_nam, nslc)
 
-         ! Read s-position and profile filename per slice
+         ! Read u-position and profile filename per slice
 
          do islc = 1, nslc
 
@@ -325,7 +325,7 @@ end subroutine varprof_set_debug
 
       endif
 
-      ! check that s-positions are in strictly increasing order
+      ! check that u-positions are in strictly increasing order
 
       if (ierror.eq.0) then
          do islc = 1, nslc-1
