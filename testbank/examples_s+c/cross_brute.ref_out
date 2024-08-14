@@ -147,24 +147,24 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.2 | 100.0 |        0.6 | 100.0 |
-|Wheel-rail cases     |        1 |        0.2 | 100.0 |        0.6 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.4 |  65.7 |
-|Geometric analysis   |        1 |        0.2 |  84.6 |        0.2 |  28.4 |
-|Panag.process        |        1 |        0.0 |   7.7 |        0.0 |   5.1 |
-|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   2.0 |
-|Algorithm Tang       |        1 |        0.0 |   7.7 |        0.0 |   3.2 |
+|Total                |        1 |        0.2 | 100.0 |        0.2 | 100.0 |
+|Wheel-rail cases     |        1 |        0.2 | 100.0 |        0.2 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   8.3 |        0.1 |  28.1 |
+|Geometric analysis   |        1 |        0.1 |  75.0 |        0.1 |  53.6 |
+|Panag.process        |        1 |        0.0 |  16.7 |        0.0 |  14.5 |
+|Algorithm Norm       |        1 |        0.0 |  16.7 |        0.0 |   7.2 |
+|Algorithm Tang       |        1 |        0.0 |   0.0 |        0.0 |   7.2 |
 |Output quantities    |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   2.0 |
-|Tang: StedyGS solver |        1 |        0.0 |   7.7 |        0.0 |   3.2 |
+|Norm: ConjGrd solver |        1 |        0.0 |  16.7 |        0.0 |   7.2 |
+|Tang: StedyGS solver |        1 |        0.0 |   0.0 |        0.0 |   7.2 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   0.0 |        0.4 |  65.7 |
-|Contact location     |        1 |        0.2 |  84.6 |        0.2 |  26.5 |
-| - Interp sf_whl     |        1 |        0.1 |  46.2 |        0.1 |   9.3 |
-| - Other calc.       |        2 |        0.0 |   0.0 |        0.0 |   0.8 |
-| - Locate interpen   |        1 |        0.0 |  15.4 |        0.0 |   1.0 |
-|Undeformed distance  |        1 |        0.0 |   0.0 |        0.0 |   1.8 |
+|Reading input-file   |        1 |        0.0 |   8.3 |        0.1 |  31.9 |
+|Contact location     |        1 |        0.1 |  75.0 |        0.1 |  53.6 |
+| - Interp sf_whl     |        1 |        0.1 |  58.3 |        0.1 |  22.6 |
+| - Other calc.       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+| - Locate interpen   |        1 |        0.0 |   8.3 |        0.0 |   4.7 |
+|Undeformed distance  |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        1 |        0.0 |   0.0 |        0.0 |   0.0 |

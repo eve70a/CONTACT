@@ -3935,7 +3935,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.500E+04       0.000       0.000       0.000
+     0.000      0.4000       1.500E+04  -4.336E-03   1.403E-02   1.117E-03
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -4794,32 +4794,32 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.3 | 100.0 |        1.6 | 100.0 |
-|Wheel-rail cases     |       17 |        0.3 |  85.0 |        1.0 |  60.8 |
-|Non-Hertzian cases   |       20 |        0.0 |  15.0 |        0.6 |  39.2 |
+|Total                |        1 |        0.5 | 100.0 |        2.9 | 100.0 |
+|Wheel-rail cases     |       17 |        0.3 |  54.5 |        1.9 |  65.8 |
+|Non-Hertzian cases   |       20 |        0.2 |  45.5 |        1.0 |  34.2 |
 |Subsurface points    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|W/r profiles         |       25 |        0.0 |   5.0 |        0.0 |   2.2 |
-|Geometric analysis   |       60 |        0.0 |   0.0 |        0.1 |   5.3 |
-|Panag.process        |       79 |        0.2 |  65.0 |        1.0 |  64.4 |
-|Algorithm Norm       |      120 |        0.1 |  20.0 |        0.3 |  15.9 |
-|Algorithm Tang       |      113 |        0.1 |  45.0 |        0.7 |  47.3 |
-|Output quantities    |       96 |        0.0 |  10.0 |        0.2 |  14.5 |
+|W/r profiles         |       25 |        0.0 |   6.1 |        0.3 |  10.6 |
+|Geometric analysis   |       60 |        0.0 |   9.1 |        0.1 |   5.2 |
+|Panag.process        |       79 |        0.4 |  78.8 |        1.6 |  55.2 |
+|Algorithm Norm       |      120 |        0.1 |  18.2 |        0.4 |  12.9 |
+|Algorithm Tang       |      113 |        0.3 |  60.6 |        1.2 |  41.7 |
+|Output quantities    |       96 |        0.0 |   3.0 |        0.3 |   9.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      120 |        0.0 |  15.0 |        0.2 |  11.1 |
-|Tang: TangCG solver  |       81 |        0.0 |   5.0 |        0.2 |  10.2 |
-|Tang: ConvxGS solver |        7 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Tang: StedyGS solver |       77 |        0.1 |  40.0 |        0.5 |  33.7 |
+|Norm: ConjGrd solver |      120 |        0.1 |  18.2 |        0.2 |   8.6 |
+|Tang: TangCG solver  |       81 |        0.1 |  12.1 |        0.2 |   8.4 |
+|Tang: ConvxGS solver |        7 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Tang: StedyGS solver |       77 |        0.2 |  48.5 |        0.9 |  30.3 |
 |Tang: Fastsim solver |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       37 |        0.0 |   5.0 |        0.0 |   2.2 |
-|Contact location     |       60 |        0.0 |   0.0 |        0.1 |   3.7 |
+|Reading input-file   |       37 |        0.0 |   6.1 |        0.3 |  11.5 |
+|Contact location     |       60 |        0.0 |   6.1 |        0.1 |   2.6 |
 | - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Other calc.       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Locate interpen   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |       59 |        0.0 |   0.0 |        0.0 |   1.5 |
-| - Interp whl_srfc   |       59 |        0.0 |   0.0 |        0.0 |   1.5 |
-|Influence coeffic.   |       77 |        0.0 |  10.0 |        0.1 |   4.6 |
-|Initial state/estim. |       79 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Undeformed distance  |       59 |        0.0 |   3.0 |        0.1 |   2.5 |
+| - Interp whl_srfc   |       59 |        0.0 |   0.0 |        0.0 |   0.9 |
+|Influence coeffic.   |       69 |        0.0 |   0.0 |        0.1 |   2.6 |
+|Initial state/estim. |       79 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

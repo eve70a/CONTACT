@@ -2,10 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2558 $, $Date:: 2024-06-03$       |
+   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2558M, 03-Jun-2024 16:15)                      |
-   |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
+   |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
@@ -9746,28 +9745,28 @@
 
 Parallel run using  2 threads
 Performance timers:
-|------------------------------------------------------------------------|
-|Timer name                     |   cpu time        |    wall clock      |
-|                               |-------------------|--------------------|
-|                     | #times  |   sec     |  %    |    sec     |  %    |
-|------------------------------------------------------------------------|
-|Total                |       1 |       1.7 | 100.0 |        4.5 | 100.0 |
-|Wheel-rail cases     |      81 |       1.7 | 100.0 |        4.5 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.9 |        0.0 |   0.4 |
-|Geometric analysis   |      81 |       0.0 |   0.0 |        0.3 |   5.8 |
-|Panag.process        |      81 |       1.5 |  90.0 |        2.4 |  53.5 |
-|Algorithm Norm       |      81 |       0.7 |  42.7 |        0.8 |  17.7 |
-|Algorithm Tang       |      81 |       0.8 |  47.3 |        1.6 |  35.4 |
-|Output quantities    |     162 |       0.1 |   3.6 |        0.6 |  14.1 |
-|------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      81 |       0.7 |  38.2 |        0.5 |  11.9 |
-|Tang: TangCG solver  |      81 |       0.8 |  45.5 |        1.3 |  29.9 |
-|------------------------------------------------------------------------|
-|Reading input-file   |      81 |       0.0 |   0.9 |        0.0 |   0.5 |
-|Contact location     |      81 |       0.0 |   0.0 |        0.1 |   3.1 |
-|Undeformed distance  |      81 |       0.0 |   0.0 |        0.1 |   2.3 |
-| - Interp whl_srfc   |      81 |       0.0 |   0.0 |        0.1 |   1.2 |
-|Influence coeffic.   |      81 |       0.1 |   3.6 |        0.6 |  12.5 |
-|Initial state/estim. |      81 |       0.0 |   0.0 |        0.0 |   0.0 |
-|------------------------------------------------------------------------|
+|--------------------------------------------------------------------------|
+|Timer name                      |    cpu time        |    wall clock      |
+|                                |--------------------|--------------------|
+|                     |  #times  |    sec     |  %    |    sec     |  %    |
+|--------------------------------------------------------------------------|
+|Total                |        1 |        0.6 | 100.0 |        3.8 | 100.0 |
+|Wheel-rail cases     |       81 |        0.6 | 100.0 |        3.8 |  99.9 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.4 |
+|Geometric analysis   |       81 |        0.0 |   5.0 |        0.2 |   4.4 |
+|Panag.process        |       81 |        0.5 |  77.5 |        2.1 |  54.9 |
+|Algorithm Norm       |       81 |        0.1 |  20.0 |        0.8 |  20.3 |
+|Algorithm Tang       |       81 |        0.4 |  57.5 |        1.3 |  34.6 |
+|Output quantities    |      162 |        0.0 |   5.0 |        0.6 |  15.2 |
+|--------------------------------------------------------------------------|
+|Norm: ConjGrd solver |       81 |        0.0 |   5.0 |        0.5 |  12.2 |
+|Tang: TangCG solver  |       81 |        0.3 |  55.0 |        1.2 |  31.1 |
+|--------------------------------------------------------------------------|
+|Reading input-file   |       81 |        0.0 |   0.0 |        0.0 |   0.4 |
+|Contact location     |       81 |        0.0 |   2.5 |        0.1 |   2.4 |
+|Undeformed distance  |       81 |        0.0 |   2.5 |        0.1 |   1.8 |
+| - Interp whl_srfc   |       81 |        0.0 |   0.0 |        0.0 |   0.6 |
+|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |       81 |        0.0 |   0.0 |        0.0 |   0.0 |
+|--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

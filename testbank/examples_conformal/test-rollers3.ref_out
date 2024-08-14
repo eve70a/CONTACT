@@ -72,7 +72,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           100.0       0.000       0.000       0.000
+     0.000      0.2000           100.0  -3.991E-04   8.274E-14  -2.482E-12
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -197,7 +197,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           100.0       0.000       0.000       0.000
+     0.000      0.2000           100.0  -3.997E-04   8.411E-14  -2.523E-12
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -316,7 +316,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           95.53       0.000       0.000       0.000
+     0.000      0.2000           95.53  -3.615E-04   2.473E-04  -3.770E-14
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -435,7 +435,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     3.142      0.2000           95.53       0.000       0.000       0.000
+     3.142      0.2000           95.53   3.615E-04  -2.473E-04   3.770E-14
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -560,7 +560,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           100.0       0.000       0.000       0.000
+     0.000      0.2000           100.0  -3.993E-04  -4.050E-11   1.215E-09
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -688,7 +688,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           100.0       0.000       0.000       0.000
+     0.000      0.2000           100.0   9.986E-05   1.217E-16  -3.651E-15
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -816,7 +816,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           95.53       0.000       0.000       0.000
+     0.000      0.2000           95.53   1.193E-04   6.853E-05  -2.263E-15
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -926,7 +926,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     3.142      0.2000           95.53       0.000       0.000       0.000
+     3.142      0.2000           95.53  -1.193E-04  -6.853E-05   2.263E-15
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -1056,7 +1056,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           100.0       0.000       0.000       0.000
+     0.000      0.2000           100.0   9.976E-05  -5.002E-10   1.500E-08
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -1184,7 +1184,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           98.50       0.000       0.000       0.000
+     0.000      0.2000           98.50  -3.338E-04   6.682E-05  -2.005E-03
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -1316,7 +1316,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           98.50       0.000       0.000       0.000
+     0.000      0.2000           98.50  -3.327E-04   6.682E-05  -2.005E-03
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -1444,7 +1444,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           99.83       0.000       0.000       0.000
+     0.000      0.2000           99.83  -3.006E-04  -4.192E-07   1.258E-05
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -1514,23 +1514,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.8 | 100.0 |        3.2 | 100.0 |
-|Wheel-rail cases     |       12 |        1.8 | 100.0 |        3.2 | 100.0 |
-|W/r profiles         |       14 |        0.0 |   0.0 |        0.1 |   2.4 |
-|Geometric analysis   |       12 |        0.0 |   0.0 |        0.0 |   1.4 |
-|Panag.process        |       12 |        1.8 | 100.0 |        3.0 |  92.8 |
-|Algorithm Norm       |       12 |        0.0 |   1.7 |        0.1 |   2.8 |
-|Algorithm Tang       |       12 |        1.8 |  98.3 |        2.9 |  90.0 |
-|Output quantities    |       24 |        0.0 |   0.0 |        0.1 |   2.7 |
+|Total                |        1 |        2.2 | 100.0 |        3.2 | 100.0 |
+|Wheel-rail cases     |       12 |        2.2 | 100.0 |        3.2 | 100.0 |
+|W/r profiles         |       14 |        0.0 |   0.0 |        0.1 |   1.9 |
+|Geometric analysis   |       12 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Panag.process        |       12 |        2.2 |  99.3 |        3.0 |  93.0 |
+|Algorithm Norm       |       12 |        0.0 |   0.7 |        0.1 |   2.8 |
+|Algorithm Tang       |       12 |        2.1 |  98.6 |        2.9 |  90.2 |
+|Output quantities    |       24 |        0.0 |   0.7 |        0.1 |   3.6 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       12 |        0.0 |   1.7 |        0.1 |   2.6 |
-|Tang: StedyGS solver |       12 |        1.8 |  98.3 |        2.9 |  90.0 |
+|Norm: ConjGrd solver |       12 |        0.0 |   0.7 |        0.1 |   1.6 |
+|Tang: StedyGS solver |       12 |        2.1 |  98.6 |        2.9 |  90.2 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       12 |        0.0 |   0.0 |        0.1 |   2.4 |
-|Contact location     |       12 |        0.0 |   0.0 |        0.0 |   0.7 |
-|Undeformed distance  |       12 |        0.0 |   0.0 |        0.0 |   0.7 |
-| - Interp whl_srfc   |       12 |        0.0 |   0.0 |        0.0 |   0.6 |
-|Influence coeffic.   |       12 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Reading input-file   |       12 |        0.0 |   0.0 |        0.1 |   1.9 |
+|Contact location     |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Undeformed distance  |       12 |        0.0 |   0.0 |        0.0 |   1.1 |
+| - Interp whl_srfc   |       12 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Influence coeffic.   |       12 |        0.0 |   0.0 |        0.0 |   0.2 |
 |Initial state/estim. |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

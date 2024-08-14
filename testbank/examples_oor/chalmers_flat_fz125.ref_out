@@ -2928,7 +2928,7 @@
          0, NR,  z_ws, Fz:       0.2642       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.3648   1.114E+05, dFz/dz:   1.661E+06
          2, NR,  z_ws, Fz:       0.3730   1.250E+05, dFz/dz:   1.657E+06
-         3, NR,  z_ws, Fz:       0.3730   1.250E+05, dFz/dz:   1.692E+06
+         3, NR,  z_ws, Fz:       0.3730   1.250E+05, dFz/dz:   1.691E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -3043,28 +3043,28 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        4.4 | 100.0 |       11.3 | 100.0 |
-|Wheel-rail cases     |       26 |        4.4 | 100.0 |       11.3 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.4 |        2.3 |  20.3 |
-|Geometric analysis   |      127 |        0.1 |   2.8 |        1.4 |  12.8 |
-|Panag.process        |      101 |        4.2 |  94.3 |        7.0 |  61.6 |
-|Algorithm Norm       |      101 |        0.3 |   6.7 |        0.4 |   3.5 |
-|Algorithm Tang       |      101 |        3.9 |  87.6 |        6.6 |  57.8 |
-|Output quantities    |      127 |        0.0 |   0.4 |        0.2 |   1.9 |
+|Total                |        1 |        4.6 | 100.0 |        9.5 | 100.0 |
+|Wheel-rail cases     |       26 |        4.6 | 100.0 |        9.5 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   1.0 |        0.1 |   1.2 |
+|Geometric analysis   |      127 |        0.2 |   4.1 |        1.5 |  15.6 |
+|Panag.process        |      101 |        4.2 |  90.5 |        7.3 |  76.6 |
+|Algorithm Norm       |      101 |        0.4 |   8.8 |        0.7 |   6.9 |
+|Algorithm Tang       |      101 |        3.8 |  81.8 |        6.6 |  69.6 |
+|Output quantities    |      127 |        0.1 |   3.0 |        0.3 |   3.2 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      101 |        0.3 |   6.4 |        0.3 |   2.6 |
-|Tang: StedyGS solver |      101 |        3.9 |  87.3 |        6.5 |  57.4 |
+|Norm: ConjGrd solver |      101 |        0.3 |   5.7 |        0.3 |   2.9 |
+|Tang: StedyGS solver |      101 |        3.8 |  81.4 |        6.6 |  68.9 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       26 |        0.0 |   0.4 |        2.3 |  20.3 |
-|Contact location     |      127 |        0.1 |   2.1 |        1.1 |  10.0 |
-| - Eval whl spline   |      127 |        0.0 |   0.4 |        0.5 |   4.7 |
-| - Interp sf_whl     |      127 |        0.1 |   1.8 |        0.5 |   4.1 |
-| - Eval rail spline  |      127 |        0.0 |   0.0 |        0.0 |   0.1 |
-| - Other calc.       |      254 |        0.0 |   0.0 |        0.1 |   0.6 |
-| - Locate interpen   |      127 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Undeformed distance  |      101 |        0.0 |   0.7 |        0.3 |   2.7 |
-| - Interp whl_srfc   |      101 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Influence coeffic.   |      101 |        0.0 |   0.7 |        0.1 |   1.0 |
+|Reading input-file   |       26 |        0.0 |   1.0 |        0.1 |   1.2 |
+|Contact location     |      127 |        0.1 |   2.4 |        1.1 |  11.2 |
+| - Eval whl spline   |      127 |        0.0 |   0.7 |        0.5 |   5.4 |
+| - Interp sf_whl     |      127 |        0.1 |   1.7 |        0.4 |   4.3 |
+| - Eval rail spline  |      127 |        0.0 |   0.0 |        0.0 |   0.4 |
+| - Other calc.       |      254 |        0.0 |   0.0 |        0.0 |   0.4 |
+| - Locate interpen   |      127 |        0.0 |   0.0 |        0.0 |   0.4 |
+|Undeformed distance  |      101 |        0.1 |   1.4 |        0.4 |   3.9 |
+| - Interp whl_srfc   |      101 |        0.0 |   0.3 |        0.1 |   0.7 |
+|Influence coeffic.   |        8 |        0.0 |   0.3 |        0.0 |   0.4 |
 |Initial state/estim. |      101 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -151,26 +151,26 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.2 | 100.0 |        0.6 | 100.0 |
-|Wheel-rail cases     |        1 |        0.2 | 100.0 |        0.6 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   6.2 |        0.4 |  66.8 |
-|Geometric analysis   |        1 |        0.1 |  56.2 |        0.1 |  22.1 |
-|Panag.process        |        1 |        0.1 |  31.2 |        0.0 |   8.3 |
-|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   1.0 |
-|Algorithm Tang       |        1 |        0.1 |  31.2 |        0.0 |   7.3 |
-|Output quantities    |        2 |        0.0 |   0.0 |        0.0 |   1.4 |
+|Total                |        1 |        0.2 | 100.0 |        0.3 | 100.0 |
+|Wheel-rail cases     |        1 |        0.2 | 100.0 |        0.3 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.1 |  30.2 |
+|Geometric analysis   |        1 |        0.1 |  53.8 |        0.1 |  45.6 |
+|Panag.process        |        1 |        0.1 |  46.2 |        0.0 |  12.6 |
+|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   1.1 |
+|Algorithm Tang       |        1 |        0.1 |  46.2 |        0.0 |  11.6 |
+|Output quantities    |        2 |        0.0 |   0.0 |        0.0 |   0.7 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   1.0 |
-|Tang: StedyGS solver |        1 |        0.1 |  31.2 |        0.0 |   7.3 |
+|Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   1.1 |
+|Tang: StedyGS solver |        1 |        0.1 |  46.2 |        0.0 |  11.6 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   6.2 |        0.4 |  66.8 |
-|Contact location     |        1 |        0.1 |  56.2 |        0.1 |  20.2 |
-| - Interp sf_whl     |        1 |        0.1 |  31.2 |        0.0 |   7.7 |
-| - Other calc.       |        2 |        0.0 |   6.2 |        0.0 |   2.4 |
+|Reading input-file   |        1 |        0.0 |   0.0 |        0.1 |  30.5 |
+|Contact location     |        1 |        0.1 |  46.2 |        0.1 |  45.6 |
+| - Interp sf_whl     |        1 |        0.0 |  23.1 |        0.1 |  17.5 |
+| - Other calc.       |        2 |        0.0 |   7.7 |        0.0 |   5.6 |
 | - Locate interpen   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |        1 |        0.0 |   0.0 |        0.0 |   1.9 |
+|Undeformed distance  |        1 |        0.0 |   7.7 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        1 |        0.0 |   6.2 |        0.0 |   0.0 |
+|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   4.9 |
 |Initial state/estim. |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

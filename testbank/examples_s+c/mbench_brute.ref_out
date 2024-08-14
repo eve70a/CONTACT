@@ -2104,7 +2104,7 @@
          0, NR,  z_ws, Fz:      -0.2754       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.2407   1.823E+04, dFz/dz:   7.884E+05
          2, NR,  z_ws, Fz:      -0.2512      10000., dFz/dz:   7.884E+05
-         3, NR,  z_ws, Fz:      -0.2512      10000., dFz/dz:   6.987E+05
+         3, NR,  z_ws, Fz:      -0.2512      10000., dFz/dz:   6.985E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -4069,26 +4069,26 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       11.2 | 100.0 |       21.8 | 100.0 |
-|Wheel-rail cases     |       35 |       11.2 | 100.0 |       21.8 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.1 |        1.8 |   8.3 |
-|Geometric analysis   |      187 |       10.6 |  94.4 |       18.8 |  86.3 |
-|Panag.process        |      271 |        0.5 |   4.2 |        0.6 |   2.6 |
-|Algorithm Norm       |      271 |        0.2 |   1.9 |        0.2 |   1.0 |
-|Algorithm Tang       |      271 |        0.2 |   2.2 |        0.3 |   1.6 |
-|Output quantities    |      306 |        0.0 |   0.4 |        0.2 |   0.7 |
+|Total                |        1 |       11.0 | 100.0 |       20.2 | 100.0 |
+|Wheel-rail cases     |       35 |       11.0 | 100.0 |       20.2 | 100.0 |
+|W/r profiles         |        2 |        0.1 |   0.9 |        0.2 |   0.8 |
+|Geometric analysis   |      187 |       10.2 |  93.3 |       18.8 |  93.2 |
+|Panag.process        |      271 |        0.5 |   4.7 |        0.7 |   3.2 |
+|Algorithm Norm       |      271 |        0.3 |   2.9 |        0.3 |   1.4 |
+|Algorithm Tang       |      271 |        0.2 |   1.9 |        0.4 |   1.9 |
+|Output quantities    |      306 |        0.0 |   0.3 |        0.1 |   0.6 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      271 |        0.2 |   1.5 |        0.1 |   0.7 |
-|Tang: StedyGS solver |      271 |        0.2 |   2.2 |        0.3 |   1.6 |
+|Norm: ConjGrd solver |      271 |        0.3 |   2.4 |        0.2 |   1.0 |
+|Tang: StedyGS solver |      271 |        0.2 |   1.9 |        0.4 |   1.8 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       35 |        0.0 |   0.1 |        1.8 |   8.4 |
-|Contact location     |      187 |        9.7 |  85.8 |       17.5 |  80.6 |
-| - Interp sf_whl     |      187 |        2.9 |  25.4 |        3.7 |  17.0 |
-| - Other calc.       |      374 |        0.3 |   2.5 |        1.1 |   5.0 |
-| - Locate interpen   |      187 |        0.2 |   2.2 |        0.4 |   1.9 |
-|Undeformed distance  |      271 |        1.0 |   8.6 |        1.2 |   5.6 |
-| - Interp whl_srfc   |      271 |        0.0 |   0.4 |        0.0 |   0.2 |
-|Influence coeffic.   |      271 |        0.1 |   0.6 |        0.0 |   0.2 |
+|Reading input-file   |       35 |        0.1 |   0.9 |        0.2 |   0.8 |
+|Contact location     |      187 |        9.3 |  85.0 |       17.5 |  86.6 |
+| - Interp sf_whl     |      187 |        2.7 |  25.0 |        3.9 |  19.3 |
+| - Other calc.       |      374 |        0.3 |   2.4 |        1.0 |   5.0 |
+| - Locate interpen   |      187 |        0.4 |   3.7 |        0.5 |   2.3 |
+|Undeformed distance  |      271 |        0.9 |   8.1 |        1.3 |   6.4 |
+| - Interp whl_srfc   |      271 |        0.0 |   0.1 |        0.0 |   0.1 |
+|Influence coeffic.   |       71 |        0.0 |   0.1 |        0.0 |   0.1 |
 |Initial state/estim. |      271 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

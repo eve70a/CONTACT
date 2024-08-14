@@ -107,7 +107,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0       0.000       0.000       0.000
+     0.000      0.9583E-01       420.0  -2.809E-04   1.910E-12  -1.196E-10
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -199,32 +199,32 @@
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0189       9561., dFz/dz:   7.602E+05
          2, NR,  z_ws, Fz:       0.0194       9990., dFz/dz:   7.432E+05
-     1, SC, z, omg_ws:    0.019443  -1.00000000, res:    0.10847298, dFx/domg:  370.442902
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+     1, SC, z, omg_ws:    0.019443  -1.00000000, res:    0.10847296, dFx/domg:  370.442902
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.002E+04, dFz/dz:   7.733E+05
-     2, SC, z, omg_ws:    0.019443  -1.00029282, res:    0.03693396, dFx/domg:  244.310824
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+     2, SC, z, omg_ws:    0.019443  -1.00029282, res:    0.03693392, dFx/domg:  244.310937
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.004E+04, dFz/dz:   7.744E+05
-     3, SC, z, omg_ws:    0.019443  -1.00044400, res:   -0.00054126, dFx/domg:  247.891141
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+     3, SC, z, omg_ws:    0.019443  -1.00044400, res:   -0.00054122, dFx/domg:  247.890975
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.004E+04, dFz/dz:   7.744E+05
          2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
          3, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
-     4, SC, z, omg_ws:    0.019392  -1.00044181, res:   -0.00018247, dFx/domg:  164.323496
+     4, SC, z, omg_ws:    0.019392  -1.00044181, res:   -0.00018244, dFx/domg:  164.328258
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194      10000., dFz/dz:   7.735E+05
          2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
-     5, SC, z, omg_ws:    0.019392  -1.00044070, res:    0.00009241, dFx/domg:  247.545267
+     5, SC, z, omg_ws:    0.019392  -1.00044070, res:    0.00009239, dFx/domg:  247.545261
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
-     6, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000018, dFx/domg:  247.061180
+     6, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000018, dFx/domg:  247.061165
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
          2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
-     7, SC, z, omg_ws:    0.019392  -1.00044108, res:   -0.00000017, dFx/domg:  247.061180
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+     7, SC, z, omg_ws:    0.019392  -1.00044108, res:   -0.00000017, dFx/domg:  247.061165
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
-     8, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000000, dFx/domg:  247.061180
+     8, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000000, dFx/domg:  247.061165
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -267,7 +267,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   3.685E-06  -3.504E-06   1.000E+04   3.685E-06  -3.504E-06   1.000E+04
+   3.664E-06  -3.504E-06   1.000E+04   3.664E-06  -3.504E-06   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -284,7 +284,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0       0.000       0.000       0.000
+     0.000      0.9583E-01       420.0  -5.742E-04   1.794E-17  -1.123E-15
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -402,34 +402,34 @@
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0166       9277., dFz/dz:   8.368E+05
          2, NR,  z_ws, Fz:       0.0175       9968., dFz/dz:   7.996E+05
-     1, SC, z, omg_ws:    0.017494  -1.00000007, res:    0.14726161, dFx/domg:  424.359157
+     1, SC, z, omg_ws:    0.017494  -1.00000007, res:    0.14726162, dFx/domg:  424.359157
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0175   1.002E+04, dFz/dz:   8.588E+05
-     2, SC, z, omg_ws:    0.017494  -1.00034710, res:    0.06900036, dFx/domg:  225.522994
+     2, SC, z, omg_ws:    0.017494  -1.00034710, res:    0.06900034, dFx/domg:  225.523074
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0175   1.005E+04, dFz/dz:   8.621E+05
-     3, SC, z, omg_ws:    0.017494  -1.00065305, res:   -0.00052438, dFx/domg:  227.236884
+     3, SC, z, omg_ws:    0.017494  -1.00065305, res:   -0.00052436, dFx/domg:  227.236913
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0175   1.005E+04, dFz/dz:   8.621E+05
          2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.135E+05
          3, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
          4, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.125E+05
-     4, SC, z, omg_ws:    0.017427  -1.00065075, res:   -0.00027735, dFx/domg:  107.047402
+     4, SC, z, omg_ws:    0.017427  -1.00065074, res:   -0.00027733, dFx/domg:  107.052134
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.607E+05
          2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.125E+05
-     5, SC, z, omg_ws:    0.017427  -1.00064815, res:    0.00030193, dFx/domg:  223.581441
+     5, SC, z, omg_ws:    0.017427  -1.00064815, res:    0.00030188, dFx/domg:  223.581444
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
-     6, SC, z, omg_ws:    0.017427  -1.00064950, res:    0.00000071, dFx/domg:  223.054397
+     6, SC, z, omg_ws:    0.017427  -1.00064950, res:    0.00000071, dFx/domg:  223.054396
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
          2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.125E+05
          3, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.128E+05
-     7, SC, z, omg_ws:    0.017427  -1.00064951, res:   -0.00000076, dFx/domg:  223.054397
+     7, SC, z, omg_ws:    0.017427  -1.00064951, res:   -0.00000076, dFx/domg:  223.054396
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
-     8, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000000, dFx/domg:  223.054397
+     8, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000000, dFx/domg:  223.054396
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -472,7 +472,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -5.019E-07   8.205E-06   1.000E+04  -5.019E-07   8.205E-06   1.000E+04
+  -5.980E-07   8.205E-06   1.000E+04  -5.980E-07   8.205E-06   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -489,7 +489,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0       0.000       0.000       0.000
+     0.000      0.9583E-01       420.0  -9.767E-04   4.655E-13  -2.915E-11
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -629,31 +629,31 @@
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0139       8561., dFz/dz:   9.260E+05
          2, NR,  z_ws, Fz:       0.0154       9882., dFz/dz:   8.502E+05
-     1, SC, z, omg_ws:    0.015422  -1.00000001, res:    0.19112865, dFx/domg:  512.598375
+     1, SC, z, omg_ws:    0.015422  -1.00000001, res:    0.19112863, dFx/domg:  512.598375
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154       9937., dFz/dz:   9.665E+05
-     2, SC, z, omg_ws:    0.015422  -1.00037287, res:    0.11689432, dFx/domg:  199.093107
+     2, SC, z, omg_ws:    0.015422  -1.00037287, res:    0.11689432, dFx/domg:  199.093073
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.001E+04, dFz/dz:   9.738E+05
-     3, SC, z, omg_ws:    0.015422  -1.00096001, res:    0.00286268, dFx/domg:  194.217429
+     3, SC, z, omg_ws:    0.015422  -1.00096001, res:    0.00286266, dFx/domg:  194.217431
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.001E+04, dFz/dz:   9.740E+05
          2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.700E+05
-     4, SC, z, omg_ws:    0.015408  -1.00097475, res:    0.00021714, dFx/domg:  179.485409
+     4, SC, z, omg_ws:    0.015408  -1.00097475, res:    0.00021715, dFx/domg:  179.484959
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.737E+05
          2, NR,  z_ws, Fz:       0.0154      10000., dFz/dz:   8.733E+05
-     5, SC, z, omg_ws:    0.015406  -1.00097596, res:    0.00002582, dFx/domg:  158.144863
+     5, SC, z, omg_ws:    0.015406  -1.00097596, res:    0.00002582, dFx/domg:  158.146001
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
-     6, SC, z, omg_ws:    0.015406  -1.00097612, res:   -0.00000266, dFx/domg:  158.144863
+     6, SC, z, omg_ws:    0.015406  -1.00097612, res:   -0.00000266, dFx/domg:  158.146001
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
          2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.722E+05
-     7, SC, z, omg_ws:    0.015406  -1.00097610, res:    0.00000023, dFx/domg:  158.144863
+     7, SC, z, omg_ws:    0.015406  -1.00097610, res:    0.00000023, dFx/domg:  158.146001
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
-     8, SC, z, omg_ws:    0.015406  -1.00097611, res:   -0.00000002, dFx/domg:  158.144863
+     8, SC, z, omg_ws:    0.015406  -1.00097611, res:   -0.00000002, dFx/domg:  158.146001
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -696,7 +696,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -2.444E-04   1.147E-02   1.000E+04  -2.444E-04   1.147E-02   1.000E+04
+  -2.445E-04   1.147E-02   1.000E+04  -2.445E-04   1.147E-02   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -713,14 +713,14 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0       0.000       0.000       0.000
+     0.000      0.9583E-01       420.0  -1.868E-03   2.364E-11  -1.480E-09
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04  -2.444E-04   1.893E-02   1.590E-02   6.552E-02      -1.389
+     1.000E+04  -2.445E-04   1.893E-02   1.590E-02   6.552E-02      -1.389
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1250  -8.147E-08   6.312E-06   1.541E-02       296.8
+        0.1250  -8.149E-08   6.312E-06   1.541E-02       296.8
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -914,19 +914,19 @@
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.345E-03   5.476E-03
          2, NR,  z_ws, Fz:       0.0224      10000., dFz/dz:   6.783E+05
-     5, SC, z, omg_ws:    0.022365  -1.00023663, res:   -0.00000613, dFx/domg:  278.540156
+     5, SC, z, omg_ws:    0.022365  -1.00023663, res:   -0.00000613, dFx/domg:  278.540155
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.107E-03   1.070E-04
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.191E-05   1.070E-04
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.342E-05   1.070E-04
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.805E+05
-     6, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000050, dFx/domg:  278.540156
+     6, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000050, dFx/domg:  278.540155
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.588E-04   1.070E-04
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.777E-06   1.070E-04
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
-     7, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000003, dFx/domg:  278.540156
+     7, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000003, dFx/domg:  278.540155
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -994,7 +994,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0       0.000       0.000       0.000
+     0.000      0.9583E-01       420.0  -2.744E-04   1.902E-12  -1.191E-10
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -1107,36 +1107,36 @@
          1, NR,  z_ws, Fz:       0.0193   1.002E+04, dFz/dz:   7.786E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.4055   8.291E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.073E-02   8.292E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.478E-05   8.292E-05
-  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.645E-06   8.292E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.477E-05   8.292E-05
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.641E-06   8.292E-05
          2, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.625E+05
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.423E-03   8.291E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.055E-04   8.291E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.505E-06   8.291E-05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.424E-03   8.291E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.056E-04   8.291E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.508E-06   8.291E-05
          3, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.624E+05
-     4, SC, z, omg_ws:    0.019278  -1.00046653, res:    0.00003085, dFx/domg:  287.521973
+     4, SC, z, omg_ws:    0.019278  -1.00046653, res:    0.00003085, dFx/domg:  287.521963
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.290E-03   5.116E-03
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.050E-04   5.116E-03
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
-     5, SC, z, omg_ws:    0.019278  -1.00046664, res:    0.00000431, dFx/domg:  287.521973
+     5, SC, z, omg_ws:    0.019278  -1.00046664, res:    0.00000431, dFx/domg:  287.521963
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.028E-03   7.155E-04
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.154E-05   7.155E-04
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.155E-05   7.155E-04
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
-     6, SC, z, omg_ws:    0.019278  -1.00046665, res:    0.00000064, dFx/domg:  287.521973
+     6, SC, z, omg_ws:    0.019278  -1.00046665, res:    0.00000064, dFx/domg:  287.521963
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.797E-04   1.061E-04
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.018E-06   1.061E-04
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.020E-06   1.061E-04
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.099E-04   1.061E-04
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.916E-06   1.061E-04
          2, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.471E+05
-     7, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000008, dFx/domg:  287.521973
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.891E-05   8.291E-05
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+     7, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000008, dFx/domg:  287.521963
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.892E-05   8.291E-05
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
-     8, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000001, dFx/domg:  287.521973
+     8, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000001, dFx/domg:  287.521963
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1197,7 +1197,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0       0.000       0.000       0.000
+     0.000      0.9583E-01       420.0  -5.401E-04   1.796E-17  -1.124E-15
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -1338,16 +1338,16 @@
          2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.375E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.574E-02   4.417E-02
          3, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.366E+05
-     4, SC, z, omg_ws:    0.017176  -1.00069909, res:   -0.00034263, dFx/domg:  464.913323
+     4, SC, z, omg_ws:    0.017176  -1.00069909, res:   -0.00034263, dFx/domg:  464.913324
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.722E-02   7.049E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.891E-03   7.049E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.646E-05   7.049E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.644E-05   7.049E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0172      10000., dFz/dz:   8.733E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.493E-04   7.049E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.352E-05   7.049E-05
          2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.313E+05
-     5, SC, z, omg_ws:    0.017176  -1.00069835, res:   -0.00018093, dFx/domg:  219.409874
+     5, SC, z, omg_ws:    0.017176  -1.00069835, res:   -0.00018093, dFx/domg:  219.409877
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.442E-02   7.049E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.960E-03   7.049E-05
   3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.172E-05   7.049E-05
@@ -1356,12 +1356,12 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.480E-04   7.049E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.448E-05   7.049E-05
          2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.352E+05
-     6, SC, z, omg_ws:    0.017176  -1.00069753, res:   -0.00000087, dFx/domg:  218.349171
+     6, SC, z, omg_ws:    0.017176  -1.00069753, res:   -0.00000087, dFx/domg:  218.349167
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.158E-04   7.049E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.143E-05   7.049E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.733E+05
-     7, SC, z, omg_ws:    0.017176  -1.00069752, res:    0.00000000, dFx/domg:  218.349171
+     7, SC, z, omg_ws:    0.017176  -1.00069752, res:    0.00000000, dFx/domg:  218.349167
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1405,7 +1405,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   1.419E-07   1.115E-05   1.000E+04   1.419E-07   1.115E-05   1.000E+04
+   1.420E-07   1.115E-05   1.000E+04   1.420E-07   1.115E-05   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1422,7 +1422,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0       0.000       0.000       0.000
+     0.000      0.9583E-01       420.0  -9.158E-04  -1.296E-12   8.114E-11
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -1598,8 +1598,8 @@
          1, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   1.005E+06
      6, SC, z, omg_ws:    0.014927  -1.00107461, res:   -0.00002931, dFx/domg:  161.390177
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.344E-02   5.938E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.223E-04   5.938E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.962E-06   5.938E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.225E-04   5.938E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.971E-06   5.938E-05
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   1.005E+06
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.283E-03   5.938E-05
@@ -1673,7 +1673,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0       0.000       0.000       0.000
+     0.000      0.9583E-01       420.0  -1.732E-03   2.622E-11  -1.641E-09
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -1851,23 +1851,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       20.5 | 100.0 |       32.7 | 100.0 |
-|Wheel-rail cases     |        8 |       20.5 | 100.0 |       32.7 | 100.0 |
+|Total                |        1 |       20.6 | 100.0 |       33.2 | 100.0 |
+|Wheel-rail cases     |        8 |       20.6 | 100.0 |       33.2 | 100.0 |
 |W/r profiles         |       10 |        0.0 |   0.0 |        0.1 |   0.2 |
-|Geometric analysis   |      116 |        0.0 |   0.2 |        0.2 |   0.6 |
-|Panag.process        |      100 |       17.5 |  85.6 |       25.8 |  78.7 |
-|Algorithm Norm       |      144 |        4.0 |  19.6 |        6.3 |  19.2 |
-|Algorithm Tang       |      144 |       13.5 |  65.9 |       19.4 |  59.3 |
-|Output quantities    |      108 |        1.2 |   5.9 |        2.4 |   7.4 |
+|Geometric analysis   |      116 |        0.0 |   0.1 |        0.4 |   1.1 |
+|Panag.process        |      100 |       17.6 |  85.7 |       26.0 |  78.2 |
+|Algorithm Norm       |      144 |        3.8 |  18.7 |        6.4 |  19.2 |
+|Algorithm Tang       |      144 |       13.8 |  66.9 |       19.5 |  58.8 |
+|Output quantities    |      108 |        1.0 |   4.8 |        2.4 |   7.2 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      144 |        3.2 |  15.9 |        4.7 |  14.2 |
-|Tang: StedyGS solver |      144 |       12.8 |  62.3 |       18.2 |  55.4 |
+|Norm: ConjGrd solver |      144 |        3.0 |  14.8 |        4.6 |  13.7 |
+|Tang: StedyGS solver |      144 |       13.0 |  63.2 |       18.3 |  55.0 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        8 |        0.0 |   0.0 |        0.1 |   0.2 |
-|Contact location     |      116 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Undeformed distance  |      100 |        0.0 |   0.2 |        0.1 |   0.4 |
-| - Interp whl_srfc   |      100 |        0.0 |   0.2 |        0.1 |   0.3 |
-|Influence coeffic.   |      147 |        1.6 |   7.9 |        4.0 |  12.2 |
-|Initial state/estim. |      100 |        0.0 |   0.2 |        0.0 |   0.0 |
+|Contact location     |      116 |        0.0 |   0.0 |        0.1 |   0.2 |
+|Undeformed distance  |      100 |        0.0 |   0.0 |        0.2 |   0.7 |
+| - Interp whl_srfc   |      100 |        0.0 |   0.0 |        0.2 |   0.5 |
+|Influence coeffic.   |      111 |        1.9 |   9.1 |        4.1 |  12.3 |
+|Initial state/estim. |      100 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

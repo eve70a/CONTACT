@@ -85,7 +85,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           2000.       0.000       0.000       0.000
+     0.000      0.2000           2000.   9.357E-03   2.659E-02   9.007E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -164,7 +164,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           2000.       0.000       0.000       0.000
+     0.000      0.2000           2000.   2.540E-02   7.204E-02   2.042E-03
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -212,19 +212,19 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
-|Wheel-rail cases     |        1 |        0.0 |   0.0 |        0.0 |  97.1 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   8.8 |
+|Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
+|Wheel-rail cases     |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Geometric analysis   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Panag.process        |        2 |        0.0 |   0.0 |        0.0 |  38.2 |
-|Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |  38.2 |
-|Algorithm Tang       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Output quantities    |        3 |        0.0 |   0.0 |        0.0 |  50.0 |
+|Panag.process        |        2 |        0.0 | 100.0 |        0.0 |  31.2 |
+|Algorithm Norm       |        2 |        0.0 | 100.0 |        0.0 |   4.2 |
+|Algorithm Tang       |        2 |        0.0 |   0.0 |        0.0 |  27.1 |
+|Output quantities    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        2 |        0.0 |   0.0 |        0.0 |  38.2 |
-|Tang: StedyGS solver |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Norm: ConjGrd solver |        2 |        0.0 | 100.0 |        0.0 |   4.2 |
+|Tang: StedyGS solver |        2 |        0.0 |   0.0 |        0.0 |  27.1 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   8.8 |
+|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Contact location     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Undeformed distance  |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |

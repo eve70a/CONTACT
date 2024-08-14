@@ -304,7 +304,7 @@
          0, NR,  z_ws, Fz:       0.1645       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1840   1.006E+04, dFz/dz:   7.722E+05
          2, NR,  z_ws, Fz:       0.1840      10000., dFz/dz:   7.756E+05
-         3, NR,  z_ws, Fz:       0.1840      10000., dFz/dz:   7.587E+05
+         3, NR,  z_ws, Fz:       0.1840      10000., dFz/dz:   7.586E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -419,7 +419,7 @@
  Case     4
          0, NR,  z_ws, Fz:       0.1494       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1695   1.004E+04, dFz/dz:   7.483E+05
-         2, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.474E+05
+         2, NR,  z_ws, Fz:       0.1695   1.000E+04, dFz/dz:   7.475E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -530,7 +530,7 @@
  Case     5
          0, NR,  z_ws, Fz:       0.1324       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1529       9961., dFz/dz:   7.291E+05
-         2, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.322E+05
+         2, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.323E+05
          3, NR,  z_ws, Fz:       0.1530   1.000E+04, dFz/dz:   7.317E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
@@ -640,7 +640,7 @@
  Case     6
          0, NR,  z_ws, Fz:       0.1138       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1347   1.002E+04, dFz/dz:   7.168E+05
-         2, NR,  z_ws, Fz:       0.1347      10000., dFz/dz:   7.183E+05
+         2, NR,  z_ws, Fz:       0.1347      10000., dFz/dz:   7.182E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -852,7 +852,7 @@
  Case     8
          0, NR,  z_ws, Fz:       0.0708       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0924   1.001E+04, dFz/dz:   6.952E+05
-         2, NR,  z_ws, Fz:       0.0924      10000., dFz/dz:   6.965E+05
+         2, NR,  z_ws, Fz:       0.0924      10000., dFz/dz:   6.964E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -1058,7 +1058,7 @@
  Case    10
          0, NR,  z_ws, Fz:       0.0189       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0410   1.001E+04, dFz/dz:   6.788E+05
-         2, NR,  z_ws, Fz:       0.0410      10000., dFz/dz:   6.799E+05
+         2, NR,  z_ws, Fz:       0.0410      10000., dFz/dz:   6.798E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -1659,7 +1659,7 @@
          1, NR,  z_ws, Fz:      -5.5246   1.301E+04, dFz/dz:   6.715E+05
          2, NR,  z_ws, Fz:      -5.5291   1.012E+04, dFz/dz:   6.452E+05
          3, NR,  z_ws, Fz:      -5.5293   1.001E+04, dFz/dz:   6.163E+05
-         4, NR,  z_ws, Fz:      -5.5293   1.000E+04, dFz/dz:   6.164E+05
+         4, NR,  z_ws, Fz:      -5.5293   1.000E+04, dFz/dz:   6.163E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -2229,23 +2229,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.5 | 100.0 |        1.6 | 100.0 |
-|Wheel-rail cases     |       21 |        0.5 | 100.0 |        1.6 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   1.6 |
-|Geometric analysis   |       86 |        0.0 |   0.0 |        0.1 |   3.8 |
-|Panag.process        |       65 |        0.5 |  97.1 |        1.3 |  80.4 |
-|Algorithm Norm       |       65 |        0.0 |   5.9 |        0.2 |  12.3 |
-|Algorithm Tang       |       65 |        0.5 |  91.2 |        1.1 |  68.1 |
-|Output quantities    |       86 |        0.0 |   2.9 |        0.1 |   7.8 |
+|Total                |        1 |        0.6 | 100.0 |        1.6 | 100.0 |
+|Wheel-rail cases     |       21 |        0.6 | 100.0 |        1.6 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.4 |
+|Geometric analysis   |       86 |        0.0 |   0.0 |        0.1 |   7.9 |
+|Panag.process        |       65 |        0.5 |  88.9 |        1.2 |  78.5 |
+|Algorithm Norm       |       65 |        0.0 |   0.0 |        0.2 |   9.9 |
+|Algorithm Tang       |       65 |        0.5 |  88.9 |        1.1 |  67.9 |
+|Output quantities    |       86 |        0.1 |  11.1 |        0.1 |   9.4 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       65 |        0.0 |   5.9 |        0.2 |   9.2 |
-|Tang: StedyGS solver |       65 |        0.5 |  88.2 |        1.1 |  66.5 |
+|Norm: ConjGrd solver |       65 |        0.0 |   0.0 |        0.1 |   5.3 |
+|Tang: StedyGS solver |       65 |        0.5 |  86.1 |        1.1 |  67.1 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       21 |        0.0 |   0.0 |        0.0 |   1.6 |
-|Contact location     |       86 |        0.0 |   0.0 |        0.0 |   0.8 |
-|Undeformed distance  |       65 |        0.0 |   0.0 |        0.0 |   1.9 |
-| - Interp whl_srfc   |       65 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Influence coeffic.   |       65 |        0.0 |   0.0 |        0.1 |   3.4 |
+|Reading input-file   |       21 |        0.0 |   0.0 |        0.0 |   0.4 |
+|Contact location     |       86 |        0.0 |   0.0 |        0.1 |   3.1 |
+|Undeformed distance  |       65 |        0.0 |   0.0 |        0.1 |   4.0 |
+| - Interp whl_srfc   |       65 |        0.0 |   0.0 |        0.0 |   2.9 |
+|Influence coeffic.   |       16 |        0.0 |   0.0 |        0.0 |   0.8 |
 |Initial state/estim. |       65 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

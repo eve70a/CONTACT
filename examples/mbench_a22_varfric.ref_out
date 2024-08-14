@@ -662,7 +662,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           2000.       0.000       0.000       0.000
+     0.000      0.2000           2000.   4.409E-03   1.403E-02   7.151E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -934,7 +934,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           2000.       0.000       0.000       0.000
+     0.000      0.2000           2000.   4.409E-03   1.403E-02   7.153E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -990,28 +990,28 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        2.1 | 100.0 |        3.2 | 100.0 |
-|Wheel-rail cases     |        7 |        2.1 | 100.0 |        3.2 | 100.0 |
-|Subsurface points    |        3 |        0.1 |   3.7 |        0.1 |   4.1 |
+|Total                |        1 |        1.8 | 100.0 |        3.2 | 100.0 |
+|Wheel-rail cases     |        7 |        1.8 | 100.0 |        3.2 | 100.0 |
+|Subsurface points    |        3 |        0.1 |   5.9 |        0.2 |   5.5 |
 |W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Geometric analysis   |       37 |        0.0 |   0.0 |        0.1 |   1.9 |
-|Panag.process        |       35 |        1.1 |  51.5 |        1.7 |  51.4 |
-|Algorithm Norm       |       35 |        0.0 |   1.5 |        0.1 |   3.4 |
-|Algorithm Tang       |       35 |        1.0 |  50.0 |        1.6 |  48.1 |
-|Output quantities    |       42 |        0.0 |   0.7 |        0.0 |   1.0 |
+|Geometric analysis   |       37 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Panag.process        |       35 |        1.0 |  53.4 |        1.7 |  53.4 |
+|Algorithm Norm       |       35 |        0.0 |   0.0 |        0.1 |   4.6 |
+|Algorithm Tang       |       35 |        1.0 |  53.4 |        1.5 |  48.8 |
+|Output quantities    |       42 |        0.0 |   0.8 |        0.0 |   1.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       35 |        0.0 |   0.7 |        0.1 |   2.4 |
-|Tang: StedyGS solver |       35 |        1.0 |  49.3 |        1.5 |  46.9 |
+|Norm: ConjGrd solver |       35 |        0.0 |   0.0 |        0.1 |   3.1 |
+|Tang: StedyGS solver |       35 |        1.0 |  53.4 |        1.5 |  48.3 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        7 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Contact location     |       37 |        0.0 |   0.0 |        0.1 |   1.6 |
+|Contact location     |       37 |        0.0 |   0.0 |        0.0 |   0.1 |
 |Undeformed distance  |       35 |        0.0 |   0.0 |        0.0 |   0.2 |
-| - Interp whl_srfc   |       35 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Influence coeffic.   |       35 |        0.0 |   0.0 |        0.0 |   1.2 |
-|Initial state/estim. |       35 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Subsurf infl.cf.     |       33 |        0.0 |   0.0 |        0.0 |   1.2 |
-|Subsurf FFTs         |       33 |        0.1 |   3.0 |        0.1 |   2.5 |
-|Subsurf derived qnt  |       33 |        0.0 |   0.7 |        0.0 |   0.5 |
-|Subsurf writing      |        6 |        0.9 |  43.3 |        1.2 |  37.8 |
+| - Interp whl_srfc   |       35 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       14 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Initial state/estim. |       35 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurf infl.cf.     |       33 |        0.1 |   3.4 |        0.1 |   2.0 |
+|Subsurf FFTs         |       33 |        0.0 |   2.5 |        0.1 |   3.4 |
+|Subsurf derived qnt  |       33 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurf writing      |        6 |        0.7 |  39.0 |        1.1 |  36.1 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,10 +2,9 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: trunk(win64), $Revision: 2558 $, $Date:: 2024-06-03$       |
+   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
-   |  (Subversion revision 2558M, 03-Jun-2024 16:15)                      |
-   |  Licensed to: Edwin Vollebregt (floating), VTECH CMCC                |
+   |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
@@ -18,7 +17,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
  itout =  0, itinn =  1, ittot =  2
  z_ws=   1.1430
- wr_connect_cps: There are  2 new patches and  0 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: There are 2 new patches and 1 old patches (0 prev iter, 1 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: not connected to any previous patches.
  wr_connect_cps: new icp=  2: not connected to any previous patches.
  Obtained  1 true contact patches and  1 near misses (gap>=0)
@@ -31,7 +30,7 @@
          1, NR,  z_ws, Fz:       1.1430       3222., dFz/dz:   2.983E+05
  itout =  0, itinn =  2, ittot =  3
  z_ws=   1.1446
- wr_connect_cps: There are  2 new patches and  1 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: There are 2 new patches and 2 old patches (1 prev iter, 1 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: not connected to any previous patches.
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -44,7 +43,7 @@
          2, NR,  z_ws, Fz:       1.1446       3717., dFz/dz:   3.091E+05
  itout =  0, itinn =  3, ittot =  4
  z_ws=   1.1445
- wr_connect_cps: There are  2 new patches and  1 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: There are 2 new patches and 2 old patches (1 prev iter, 1 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: not connected to any previous patches.
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -57,7 +56,7 @@
          3, NR,  z_ws, Fz:       1.1445       3700., dFz/dz:   3.157E+05
  itout =  0, itinn =  4, ittot =  5
  z_ws=   1.1445
- wr_connect_cps: There are  2 new patches and  1 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: There are 2 new patches and 2 old patches (1 prev iter, 1 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: not connected to any previous patches.
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -178,7 +177,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
  itout =  0, itinn =  1, ittot =  2
  z_ws=   1.1958
- wr_connect_cps: There are  3 new patches and  0 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: There are 3 new patches and 2 old patches (0 prev iter, 1 near miss, 1 other/prev.time)
  wr_connect_cps: new icp=  1: not connected to any previous patches.
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_connect_cps: new icp=  3: not connected to any previous patches.
@@ -204,7 +203,7 @@
          1, NR,  z_ws, Fz:       1.1958   8.371E+04, dFz/dz:   1.820E+06
  itout =  0, itinn =  2, ittot =  3
  z_ws=   1.1446
- wr_connect_cps: There are  2 new patches and  3 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: There are 2 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  2
  wr_connect_cps: new icp=  2: not connected to any previous patches.
  wr_update_allcps: move gd from icpo=  2 to icpn=  1
@@ -220,7 +219,7 @@
          2, NR,  z_ws, Fz:       1.1446       3733., dFz/dz:   2.091E+05
  itout =  0, itinn =  3, ittot =  4
  z_ws=   1.1702
- wr_connect_cps: There are  3 new patches and  1 patches for prev.iteration +  3 other for prev.time
+ wr_connect_cps: There are 3 new patches and 4 old patches (1 prev iter, 1 near miss, 2 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  3
  wr_connect_cps: new icp=  2: connected to old icp=  1
  wr_connect_cps: new icp=  3: connected to old icp=  4
@@ -246,7 +245,7 @@
          3, NR,  z_ws, Fz:       1.1702   3.358E+04, dFz/dz:   1.167E+06
  itout =  0, itinn =  4, ittot =  5
  z_ws=   1.1693
- wr_connect_cps: There are  3 new patches and  3 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: There are 3 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_connect_cps: new icp=  3: not connected to any previous patches.
@@ -268,7 +267,7 @@
          4, NR,  z_ws, Fz:       1.1693   3.211E+04, dFz/dz:   1.587E+06
  itout =  0, itinn =  5, ittot =  6
  z_ws=   1.1695
- wr_connect_cps: There are  3 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: There are 3 new patches and 4 old patches (2 prev iter, 1 near miss, 1 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_connect_cps: new icp=  3: not connected to any previous patches.
@@ -290,7 +289,7 @@
          5, NR,  z_ws, Fz:       1.1695   3.250E+04, dFz/dz:   1.572E+06
  itout =  0, itinn =  6, ittot =  7
  z_ws=   1.1695
- wr_connect_cps: There are  3 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: There are 3 new patches and 4 old patches (2 prev iter, 1 near miss, 1 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_connect_cps: new icp=  3: not connected to any previous patches.
@@ -477,7 +476,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
  itout =  0, itinn =  1, ittot =  2
  z_ws=   1.2984
- wr_connect_cps: There are  2 new patches and  0 patches for prev.iteration +  3 other for prev.time
+ wr_connect_cps: There are 2 new patches and 3 old patches (0 prev iter, 1 near miss, 2 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  2  3
  wr_connect_cps: new icp=  2: not connected to any previous patches.
  wr_update_allcps: move gd from icpo=  2 to icpn=  1
@@ -498,7 +497,7 @@
          1, NR,  z_ws, Fz:       1.2984   3.671E+05, dFz/dz:   3.209E+06
  itout =  0, itinn =  2, ittot =  3
  z_ws=   1.1665
- wr_connect_cps: There are  3 new patches and  2 patches for prev.iteration +  1 other for prev.time
+ wr_connect_cps: There are 3 new patches and 3 old patches (2 prev iter, 0 near miss, 1 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  1  3
  wr_connect_cps: new icp=  3: not connected to any previous patches.
@@ -521,7 +520,7 @@
          2, NR,  z_ws, Fz:       1.1665   2.785E+04, dFz/dz:   7.011E+05
  itout =  0, itinn =  3, ittot =  4
  z_ws=   1.2324
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  3 other for prev.time
+ wr_connect_cps: There are 2 new patches and 5 old patches (2 prev iter, 1 near miss, 2 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1  2  5
  wr_connect_cps: new icp=  2: connected to old icp=  4
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -543,7 +542,7 @@
          3, NR,  z_ws, Fz:       1.2324   1.690E+05, dFz/dz:   2.140E+06
  itout =  0, itinn =  4, ittot =  5
  z_ws=   1.2131
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: There are 2 new patches and 4 old patches (2 prev iter, 0 near miss, 2 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -565,7 +564,7 @@
          4, NR,  z_ws, Fz:       1.2131   1.274E+05, dFz/dz:   2.146E+06
  itout =  0, itinn =  5, ittot =  6
  z_ws=   1.2131
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: There are 2 new patches and 4 old patches (2 prev iter, 0 near miss, 2 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -587,7 +586,7 @@
          5, NR,  z_ws, Fz:       1.2131   1.274E+05, dFz/dz:   2.376E+05
  itout =  0, itinn =  6, ittot =  7
  z_ws=   1.2135
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: There are 2 new patches and 4 old patches (2 prev iter, 0 near miss, 2 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -609,7 +608,7 @@
          6, NR,  z_ws, Fz:       1.2135   1.275E+05, dFz/dz:   3.265E+05
  itout =  0, itinn =  7, ittot =  8
  z_ws=   1.2133
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: There are 2 new patches and 4 old patches (2 prev iter, 0 near miss, 2 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -631,7 +630,7 @@
          7, NR,  z_ws, Fz:       1.2133   1.275E+05, dFz/dz:   3.935E+05
  itout =  0, itinn =  8, ittot =  9
  z_ws=   1.2134
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: There are 2 new patches and 4 old patches (2 prev iter, 0 near miss, 2 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -653,7 +652,7 @@
          8, NR,  z_ws, Fz:       1.2134   1.275E+05, dFz/dz:   4.041E+05
  itout =  0, itinn =  9, ittot = 10
  z_ws=   1.2134
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  2 other for prev.time
+ wr_connect_cps: There are 2 new patches and 4 old patches (2 prev iter, 0 near miss, 2 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1  3  4
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -907,7 +906,7 @@
  Case     4
  itout =  0, itinn =  1, ittot =  1
  z_ws=   1.2134
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -927,7 +926,7 @@
          1, NR,  z_ws, Fz:       1.2134   1.275E+05, dFz/dz:   2.207E+06
  itout =  0, itinn =  2, ittot =  2
  z_ws=   1.2147
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -946,7 +945,7 @@
          2, NR,  z_ws, Fz:       1.2147   1.282E+05, dFz/dz:   5.288E+05
  itout =  0, itinn =  3, ittot =  3
  z_ws=   1.2144
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -965,7 +964,7 @@
          3, NR,  z_ws, Fz:       1.2144   1.280E+05, dFz/dz:   6.065E+05
  itout =  0, itinn =  4, ittot =  4
  z_ws=   1.2144
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -984,7 +983,7 @@
          4, NR,  z_ws, Fz:       1.2144   1.280E+05, dFz/dz:   5.776E+05
  itout =  0, itinn =  5, ittot =  5
  z_ws=   1.2144
- wr_connect_cps: There are  2 new patches and  2 patches for prev.iteration +  0 other for prev.time
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
@@ -1235,28 +1234,28 @@
 
 Parallel run using  2 threads
 Performance timers:
-|------------------------------------------------------------------------|
-|Timer name                     |   cpu time        |    wall clock      |
-|                               |-------------------|--------------------|
-|                     | #times  |   sec     |  %    |    sec     |  %    |
-|------------------------------------------------------------------------|
-|Total                |       1 |       2.8 | 100.0 |        4.8 | 100.0 |
-|Wheel-rail cases     |       4 |       2.8 | 100.0 |        4.8 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   0.3 |
-|Geometric analysis   |      27 |       0.0 |   1.1 |        0.1 |   2.7 |
-|Panag.process        |      45 |       2.8 |  98.9 |        4.3 |  90.8 |
-|Algorithm Norm       |      45 |       0.2 |   6.7 |        0.3 |   7.1 |
-|Algorithm Tang       |      45 |       2.6 |  92.1 |        4.0 |  83.6 |
-|Output quantities    |      49 |       0.0 |   0.0 |        0.1 |   1.4 |
-|------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      45 |       0.2 |   6.7 |        0.3 |   5.9 |
-|Tang: StedyGS solver |      45 |       2.6 |  92.1 |        3.9 |  82.0 |
-|------------------------------------------------------------------------|
-|Reading input-file   |       4 |       0.0 |   0.0 |        0.0 |   0.3 |
-|Contact location     |      27 |       0.0 |   1.1 |        0.1 |   1.6 |
-|Undeformed distance  |      45 |       0.0 |   0.0 |        0.0 |   0.8 |
-| - Interp whl_srfc   |      45 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Influence coeffic.   |      45 |       0.0 |   0.0 |        0.2 |   3.7 |
-|Initial state/estim. |      45 |       0.0 |   0.0 |        0.0 |   0.0 |
-|------------------------------------------------------------------------|
+|--------------------------------------------------------------------------|
+|Timer name                      |    cpu time        |    wall clock      |
+|                                |--------------------|--------------------|
+|                     |  #times  |    sec     |  %    |    sec     |  %    |
+|--------------------------------------------------------------------------|
+|Total                |        1 |        0.5 | 100.0 |        1.0 | 100.0 |
+|Wheel-rail cases     |        4 |        0.5 | 100.0 |        1.0 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   3.2 |        0.0 |   1.6 |
+|Geometric analysis   |       27 |        0.0 |   9.7 |        0.1 |  10.9 |
+|Panag.process        |       45 |        0.4 |  74.2 |        0.8 |  74.7 |
+|Algorithm Norm       |       45 |        0.1 |  12.9 |        0.1 |  12.2 |
+|Algorithm Tang       |       45 |        0.3 |  61.3 |        0.6 |  62.5 |
+|Output quantities    |       49 |        0.0 |   6.5 |        0.0 |   4.1 |
+|--------------------------------------------------------------------------|
+|Norm: ConjGrd solver |       45 |        0.0 |   9.7 |        0.1 |  11.6 |
+|Tang: StedyGS solver |       45 |        0.3 |  58.1 |        0.6 |  56.0 |
+|--------------------------------------------------------------------------|
+|Reading input-file   |        4 |        0.0 |   3.2 |        0.0 |   1.6 |
+|Contact location     |       27 |        0.0 |   0.0 |        0.0 |   1.7 |
+|Undeformed distance  |       45 |        0.0 |   9.7 |        0.1 |   6.7 |
+| - Interp whl_srfc   |       45 |        0.0 |   9.7 |        0.1 |   5.6 |
+|Influence coeffic.   |       11 |        0.0 |   6.5 |        0.0 |   2.8 |
+|Initial state/estim. |       45 |        0.0 |   0.0 |        0.0 |   0.1 |
+|--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
