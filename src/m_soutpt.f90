@@ -805,25 +805,8 @@ subroutine writmt (meta, ic, cgrid, potcon, mater, fric, kin, geom, outpt1, mirr
    lwrall = (ic%matfil_surf.ge.2)
 
    ! Save mat-files using names <EXPERIM>.0001.mat, ...
-   ! For cases >= 1M, use name  <EXPERIM>.mat.
 
-   if (meta%ncase.le.9999) then
-      fname = trim(meta%expnam) // '.'                                                                  &
-                        // char(ichar('0')+    meta%ncase/1000)                                         &
-                        // char(ichar('0')+mod(meta%ncase,1000)/100)                                    &
-                        // char(ichar('0')+mod(meta%ncase, 100)/ 10)                                    &
-                        // char(ichar('0')+mod(meta%ncase,  10)/  1)                                     
-   elseif (meta%ncase.le.999999) then
-      fname = trim(meta%expnam) // '.'                                                                  &
-                        // char(ichar('0')+    meta%ncase/100000)                                       &
-                        // char(ichar('0')+mod(meta%ncase,100000)/10000)                                &
-                        // char(ichar('0')+mod(meta%ncase, 10000)/ 1000)                                &
-                        // char(ichar('0')+mod(meta%ncase,  1000)/  100)                                &
-                        // char(ichar('0')+mod(meta%ncase,   100)/   10)                                &
-                        // char(ichar('0')+mod(meta%ncase,    10)/    1)
-   else
-      fname = trim(meta%expnam)
-   endif
+   write(fname, '(a,a,i0.4)') trim(meta%expnam), '.', meta%ncase
 
    ! Append 'a', 'b'... to case number in case of multiple patches
 

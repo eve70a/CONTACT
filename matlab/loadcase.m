@@ -1,5 +1,5 @@
 
-function [ s1, s2, s3, s4, s5, s6, s7, s8, s9, s10 ] = loadcase( expnam, icase, ipatch )
+function [ s1, s2, s3, s4, s5, s6, s7, s8, s9, s10 ] = loadcase( expnam, icase, ipatch_in )
 %
 % [ s1, s2, ... ] = loadcase( expnam, [icase], [ipatch] )
 %
@@ -24,15 +24,15 @@ s6 = []; s7 = []; s8 = []; s9 = []; s10 = [];
 if (nargin<2 | isempty(icase))
    icase = 1;
 end
-if (nargin<3 | isempty(ipatch))
+if (nargin<3 | isempty(ipatch_in))
    if (nargout<=1)
-      ipatch = 0;
+      ipatch_in =  0; % all available, array output
    else
-      ipatch = -1;
+      ipatch_in = -1; % all available, separate outputs
    end
 end
 
-if (ipatch<0)
+if (ipatch_in<0)
    use_array = 0;
 else
    use_array = 1;
@@ -41,13 +41,9 @@ end
 % check for the presence of output-files "experiment.<icase>[a-z].mat", ...
 
 has_output = zeros(max_patch,1);
-for jpatch = 1:max_patch
-   if (icase<=9999)
-      fname = [expnam, sprintf('.%04d%c.mat', icase, 96+jpatch)];
-   else
-      fname = [expnam, sprintf('.%06d%c.mat', icase, 96+jpatch)];
-   end
-   if (exist(fname,'file'))
+for jpatch = 1 : max_patch
+   fname = find_mat_file( expnam, icase, jpatch );
+   if (~isempty(fname))
       has_output(jpatch) = 1;
    end
 end
@@ -55,71 +51,63 @@ end
 % set default number of patches: all available
 
 if (max(has_output)<=0)
-   npatch = 1;
+   npatch = 1;                      % module 3, or module 1 with no contact
 else
-   npatch = max(find(has_output));
+   npatch = max(find(has_output));  % module 1 with contact
 end
 
 % set requested range of patches
 
-if (ipatch<=0)
+if (ipatch_in<=0)
    ipatch = [1 : npatch];
+else
+   ipatch = ipatch_in;
 end
 
 % loop over the requested patches
 
 for jpatch = ipatch
 
-   % npatch may be reduced to value obtained from actual mat-files
-
-   if (jpatch > npatch)
-      continue
-   end
-
    tmp = [];
    if (jpatch>1 & ~has_output(jpatch))
 
-      % short-cut for [b-z]: no data found
+      % module 1, higher patch numbers: error if specifically requested, report if missing
 
-      disp(sprintf('No output found for contact patch %d.',jpatch));
+      if (any(jpatch==ipatch_in))
+         disp(sprintf('Error: cannot find mat-file for experiment %s, contact patch %d.', expnam, jpatch));
+      else
+         disp(sprintf('No output found for contact patch %d.',jpatch));
+      end
+      continue
+
+   elseif (jpatch > npatch)
+
+      % npatch may be overruled by the value read from the actual mat-files
+      %  - silently skip [true npatch+1 : #files found], if not specifically asked for
+
+      if (any(jpatch==ipatch_in))
+         disp(sprintf('Skipping ipatch %d: left-over from a different run?',jpatch));
+      end
       continue
 
    elseif (has_output(jpatch))
 
-      % load file "<icase>[a-z]" if present
+      % found file "<icase>[a-z]" : module 1, load file
 
-      if (icase<=9999)
-         fname = [expnam, sprintf('.%04d%c.mat', icase, 96+jpatch)];
-      else
-         fname = [expnam, sprintf('.%06d%c.mat', icase, 96+jpatch)];
-      end
+      fname = find_mat_file( expnam, icase, jpatch );
       tmp = load(fname, '-ascii');
 
    else
 
-      % else, check for presence of file "experiment.0001.mat" or "experiment.000001.mat"
+      % either (module 1, patch 1, not found) or (module 3)
 
-      if (icase<=9999)
-         fname = [expnam, sprintf('.%04d.mat', icase)];
-      else
-         fname = [expnam, sprintf('.%06d.mat', icase)];
-      end
-      fname_ic = fname;
-
-      if (exist(fname,'file'))
-
+      fname = find_mat_file( expnam, icase, [] );
+      if (~isempty(fname))
          tmp = load(fname, '-ascii');
-
+      elseif (any(jpatch==ipatch_in))
+         disp(sprintf('Error: cannot find mat-file for experiment %s, contact patch %d.', expnam, jpatch));
       else
-
-         % else, check for presence of file "experiment.mat"
-
-         fname = [expnam,'.mat'];
-         if (exist(fname,'file'))
-            tmp = load(fname, '-ascii');
-         else
-            disp(['ERROR: cannot find file ',fname,' nor ',fname_ic]);
-         end
+         disp(sprintf('Error: cannot find mat-file for experiment %s, case %d.', expnam, icase));
       end
    end
 
@@ -152,14 +140,14 @@ end
 
 end % function loadcase
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [ sol ] = fill_struct(tmp, fname)
 
 % check the file format
 
 fmtmat = tmp(1,end);
-if (fmtmat>2320)
+if (fmtmat>2410)
    disp('ERROR: the mat-file is created with a newer version of CONTACT.');
    disp('       Please use the corresponding version of this Matlab script.');
    sol=[];
@@ -519,5 +507,67 @@ end
 
 end % function fill_struct
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [ fname ] = find_mat_file( expnam, icase, ipatch )
+
+% determine whether file exists and if so, return the filename
+
+   if (nargin<2)
+      icase  = [];
+   end
+   if (nargin<3)
+      ipatch = [];
+   end
+
+   fname = [];
+
+   % module 1, patch 1,2,3: letter a,b,c
+
+   if (~isempty(ipatch))
+      if (icase<=9999)
+         fname1 = [expnam, sprintf('.%04d%c.mat', icase, 96+ipatch)];
+      else
+         fname1 = [expnam, sprintf('.%d%c.mat', icase, 96+ipatch)];        % new: var. #digits
+         if (~exist(fname1, 'file'))
+            fname1 = [expnam, sprintf('.%06d%c.mat', icase, 96+ipatch)];   % old: 6 digits, leading zeros
+         end
+      end
+
+      if (exist(fname1,'file'));
+         fname = fname1;
+      end
+   end
+
+   % module 3: no patch letter
+
+   if (isempty(fname) & isempty(ipatch) & ~isempty(icase))
+      if (icase<=9999)
+         fname3 = [expnam, sprintf('.%04d.mat', icase)];
+      else
+         fname3 = [expnam, sprintf('.%d.mat', icase)];                     % new: var. #digits
+         if (~exist(fname3,'file'));
+            fname3 = [expnam, sprintf('.%06d.mat', icase)];                % old: 6 digits, leading zeros
+         end
+      end
+
+      if (exist(fname3,'file'));
+         fname = fname3;
+      end
+   end
+
+   % if not found, check for presence of file "experiment.mat"
+
+   if (isempty(fname) & isempty(ipatch))
+      fname0 = [expnam,'.mat'];
+      if (exist(fname0,'file'))
+         fname = fname0;
+      end
+   end
+
+   % disp(sprintf('find_mat(case %d, patch %d): fname="%s"', icase, ipatch, fname))
+
+end % function find_mat_file
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
