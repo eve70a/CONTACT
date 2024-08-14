@@ -1053,7 +1053,8 @@ subroutine simpflex(ic, aa, bb, mater, fstat, kin, idebug)
    real(kind=8),     intent(in)  :: aa, bb, fstat
    integer,          intent(in)  :: idebug
 !--local variables:
-   real(kind=8)   :: aob, cc, cxx, cyy, cyz, ch_ksi, ch_eta, ch_phi, f3, f4, f_crp, f_wgt, l_crss
+   real(kind=8)   :: aob, cc, cxx, cyy, cyz, ch_ksi, ch_eta, ch_phi, f3, f4, f_crp, f_wgt,              &
+                     crss_numer, crss_denom, l_crss
 
    associate(ga => mater%ga, flx => mater%flx, cksi => kin%cksi, ceta => kin%ceta, cphi => kin%cphi)
 
@@ -1112,8 +1113,10 @@ subroutine simpflex(ic, aa, bb, mater, fstat, kin, idebug)
 
       f3 = 8d0 * aa / 3d0
       f4 = pi * aa**2 / 4d0
-      l_crss = (cksi**2 + ceta**2 + (cphi*f4/f3)**2) /                                                  &
-                           (cksi**2/flx(1) + ceta**2/flx(2) + (cphi*f4/f3)**2/flx(3))
+      crss_numer =  cksi**2        + ceta**2        + (cphi*f4/f3)**2
+      crss_denom =  cksi**2/flx(1) + ceta**2/flx(2) + (cphi*f4/f3)**2/flx(3)
+      if (abs(crss_denom).lt.1d-14) crss_denom = 1d-14
+      l_crss = crss_numer / crss_denom
 
       ! apply blending approach, gradually shifting from 3 flexibilities to 1 flexibility at large creepage
 
