@@ -18,10 +18,18 @@ private
 public  t_inflcf
 public  t_influe
 
+public  inflcf_is_defined
 public  inflcf_new
+public  inflcf_new_mxmy
+public  inflcf_new_grid
 public  inflcf_copy
 public  inflcf_print
 public  inflcf_destroy
+
+interface inflcf_new
+   module procedure inflcf_new_mxmy     ! separate arguments mx, my, dx, dy
+   module procedure inflcf_new_grid     ! grid argument
+end interface inflcf_new
 
 public  influe_copy
 public  influe_load
@@ -42,7 +50,7 @@ public  influe_destroy
       real(kind=8),    dimension(:,:,:,:),   allocatable :: cf
       real(kind=8),    dimension(:,:,:,:,:), allocatable :: cy
       integer                                            :: cf_mx, cf_my
-      real(kind=8)                                       :: dx, dy
+      real(kind=8)                                       :: dx, dy, dq
       real(kind=8)                                       :: xoffs, yoffs
       integer                                            :: itypcf
       logical                                            :: nt_cpl
@@ -52,6 +60,8 @@ public  influe_destroy
       logical,         dimension(:,:)                    :: fft_ok(3,3)
       integer                                            :: fft_mx, fft_my
       complex(kind=8), dimension(:,:,:),     pointer     :: fft_cf => NULL()
+   contains
+      procedure :: is_defined => inflcf_is_defined
 
       ! itypcf   type of influence matrix.
       !            0 == standard method, using cf
@@ -61,7 +71,7 @@ public  influe_destroy
       !            true  == coupling, Ak<>0 or num.infl.cf.
       ! cf_mx    number of grid elements provided in x-direction, can be larger than actual contact grid 
       ! cf_my    number of grid elements provided in y-direction, can be larger than actual contact grid
-      ! dx, dy   element grid sizes used in x-/y-direction
+      ! d[xyq]   element grid sizes used in x-/y-direction, rolling step size
       ! ga       combined modulus of rigidity - scaling factor not included in coefficients themselves
       ! ga_inv   1/ga, scaling factor not included in coefficients themselves
       ! use_3bl  flag indicating whether a 3rd body/interfacial layer is included (h3>0) or not
@@ -85,7 +95,6 @@ public  influe_destroy
       !          For rolling with chi=0, the coordinate system moves forward over distance Dq per step, such
       !          that tractions pv(jx,jy) should be located at (x(jx)-dq,y(jy)) instead of (x(jx),y(jy)).
       ! yoffs    y-offset between tractions and displacements grids, see xoffs.
-      ! grid     pointer to grid-data on which infl.coefficients are defined originally, particularly dx,dy
                  
       ! fft_ok   flag array, describing for which coordinate direction pairs (ik,jk) the fft transform of
       !          the influence coefficients is available in fft_cf.
@@ -119,23 +128,39 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine inflcf_new(inflcf, itypcf, grid)
+   function inflcf_is_defined(this)
+!--purpose: determine if the inflcf is 'defined', has memory allocated
+      implicit none
+!--function return value:
+      logical             :: inflcf_is_defined
+!--function arguments:
+      class(t_inflcf)     :: this
+
+      inflcf_is_defined =  this%cf_mx.ge.1 .and. this%cf_my.ge.1 .and.                                  &
+                           ( (this%itypcf.eq.0 .and. allocated(this%cf)) .or.                           &
+                             (this%itypcf.eq.1 .and. allocated(this%cy)) ) 
+
+end function inflcf_is_defined
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine inflcf_new_mxmy(inflcf, itypcf, mx, my, dx, dy)
 !--purpose: (re-)allocate space for an influence coefficients matrix on the given grid
       implicit none
 !--subroutine arguments:
-      integer         , intent(in)    :: itypcf
-      type(t_grid)                    :: grid
+      integer         , intent(in)    :: itypcf, mx, my
+      real(kind=8)    , intent(in)    :: dx, dy
       type(t_inflcf)  , intent(inout) :: inflcf
 !--local variables:
       integer    :: nmatrix
 
       ! Copy grid properties used in influence matrix
 
-      inflcf%cf_mx = grid%nx
-      inflcf%cf_my = grid%ny
-      inflcf%dx    = grid%dx
-      inflcf%dy    = grid%dy
-      associate( mx => inflcf%cf_mx, my => inflcf%cf_my )
+      inflcf%cf_mx = mx
+      inflcf%cf_my = my
+      inflcf%dx    = dx
+      inflcf%dy    = dy
+      inflcf%dq    = dx
 
       if (itypcf.eq.0) then
 
@@ -191,8 +216,20 @@ contains
       inflcf%fft_my = 2*my
       inflcf%fft_ok = .false.
 
-      end associate
-   end subroutine inflcf_new
+   end subroutine inflcf_new_mxmy
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine inflcf_new_grid(inflcf, itypcf, grid)
+!--purpose: (re-)allocate space for an influence coefficients matrix on the given grid
+      implicit none
+!--subroutine arguments:
+      integer         , intent(in)    :: itypcf
+      type(t_grid)                    :: grid
+      type(t_inflcf)  , intent(inout) :: inflcf
+
+      call inflcf_new_mxmy(inflcf, itypcf, grid%nx, grid%ny, grid%dx, grid%dy)
+   end subroutine inflcf_new_grid
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1348,7 +1385,7 @@ contains
                   bij(ix,ky,imat, ikZDIR,jkZDIR) =       - asmn    +    aspn * cs  + aij(ix,ky, ikYDIR,jkZDIR) * sn
 
                else
-                  call write_log('INTERNAL ERROR(blanco0): incorrect iversion')
+                  call write_log('INTERNAL ERROR(blanco1): incorrect iversion')
                   call abort_run()
                endif
 

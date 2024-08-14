@@ -140,17 +140,57 @@ contains
       logical,      parameter  :: use_dq_scaling = .false.
       real(kind=8), dimension(:,:,:,:), pointer :: cs, cv, csv
 !--local variables:
-      integer      :: ix, iy, ik, jk
+      integer      :: mx_new, my_new, ix, iy, ik, jk
       real(kind=8) :: cc, facdq, facdqi, sc, xshft, yshft, fdg(2)
-      logical      :: is_roll
+      logical      :: is_roll, equal_dxy, equal_dq, reuse_coeff
 
-      call timer_start(itimer_sgencr)
+      mx_new = cgrid%nx
+      my_new = cgrid%ny
 
-      associate(npot  => cgrid%ntot,  mx    => cgrid%nx,  my    => cgrid%ny,   dx    => cgrid%dx,       &
-                dy    => cgrid%dy,    chi   => kin%chi,   dq    => kin%dq,                              &
+      ! previous influence coefficients will be re-used when C = 1, as long as DX, DY are held constant
+      ! and available MX, MY >= new MX, MY. No reuse for C = 4, where coefficients depend on ALPHA_I.
+
+      equal_dxy =  check_equal('new DX', cgrid%dx, 'old DX', influ%cs%dx, 1d-4, .false.) .and.          &
+                   check_equal('new DY', cgrid%dy, 'old DY', influ%cs%dy, 1d-4, .false.)
+      equal_dq  =  check_equal('new DQ', kin%dq,  'old DQ', influ%csv%dq, 1d-4, .false.)
+      reuse_coeff = (ic%gencr_inp.eq.1 .and. mater%gencr_eff.ne.4 .and. influ%cs%is_defined() .and.     &
+           mx_new.le.influ%cs%cf_mx .and. my_new.le.influ%cs%cf_my .and. equal_dxy .and. equal_dq)
+
+      if (reuse_coeff) then
+         if (ic%x_inflcf.ge.3) call write_log(' mx,my small enough, re-use previous infl.coeff.')
+         return
+      elseif (.not.influ%cs%is_defined()) then
+         if (ic%x_inflcf.ge.3) call write_log(' no influence coefficients available')
+      elseif (mater%gencr_eff.eq.4) then
+         if (ic%x_inflcf.ge.3) call write_log(' no reuse of influence coefficients for C3 = 4')
+      elseif (ic%gencr_inp.ne.1) then
+         if (ic%x_inflcf.ge.3) then
+            write(bufout,'(a,i0,a)') ' C3 = ',ic%gencr_inp,', computing influence coeffients'
+            call write_log(1, bufout)
+         endif
+      elseif (.not.equal_dxy) then
+         if (ic%x_inflcf.ge.3) call write_log(' no reuse of influence coefficients for new DX, DY')
+      elseif (.not.equal_dq) then
+         if (ic%x_inflcf.ge.3) call write_log(' no reuse of influence coefficients for new DQREL')
+      elseif (mx_new.gt.influ%cs%cf_mx .or. my_new.gt.influ%cs%cf_my) then
+         if (ic%x_inflcf.ge.3) then
+            write(bufout,'(2(a,2i5))') ' new mx,my=',mx_new, my_new,' > available cf_mx,cf_my=',        &
+                   influ%cs%cf_mx, influ%cs%cf_my
+            call write_log(1, bufout)
+         endif
+         mx_new = max(influ%cs%cf_mx, nint(1.2*mx_new))
+         my_new = max(influ%cs%cf_my, nint(1.2*my_new))
+      else
+         if (ic%x_inflcf.ge.3) call write_log(' Cannot reuse infl.coeff???')
+      endif
+
+      associate(mx    => mx_new,      my    => my_new,    dx    => cgrid%dx,   dy    => cgrid%dy,       &
+                chi   => kin%chi,     dq    => kin%dq,                                                  &
                 ak    => mater%ak,    ga    => mater%ga,  nu    => mater%nu,   akv   => mater%akv,      &
                 gav   => mater%gav,   nuv   => mater%nuv, gg    => mater%gg,   poiss => mater%poiss,    &
                 fg    => mater%fg,    vt    => mater%vt)
+
+      call timer_start(itimer_sgencr)
 
       is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3
 
@@ -163,10 +203,15 @@ contains
       !       added to the left/bottom to obtain more favourable sizes for Fast Fourier transform.
       !       Elements (-mx,:) and (:,-my) are referenced but do not affect the calculations.
 
-      call inflcf_new(influ%cs,  0, cgrid)
-      call inflcf_new(influ%cv,  0, cgrid)
-      call inflcf_new(influ%csv, 0, cgrid)
-      call inflcf_new(influ%ms,  0, cgrid)
+      if (ic%x_inflcf.ge.1) then
+         write(bufout,'(a,2i5)') ' compute influence coefficients for mx,my=',mx, my
+         call write_log(1, bufout)
+      endif
+
+      call inflcf_new(influ%cs,  0, mx, my, dx, dy)
+      call inflcf_new(influ%cv,  0, mx, my, dx, dy)
+      call inflcf_new(influ%csv, 0, mx, my, dx, dy)
+      call inflcf_new(influ%ms,  0, mx, my, dx, dy)
 
       ! Copy relevant material parameters to influence matrices
 
@@ -217,6 +262,8 @@ contains
          facdq = 1d0
       endif
       facdqi = 1d0 / facdq
+      influ%cv%dq  = dq
+      influ%csv%dq = dq
 
       ! 1) Form the array of influence numbers "cs".
 
