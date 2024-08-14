@@ -103,6 +103,7 @@ contains
       ! Using work-array wstot instead of input-array wsfix.
 
       call gf3_copy(AllElm, wsfix1, wstot, ikTANG)
+      if (ic%x_nmdbg.ge.1) call gf3_check_nan(wsfix1, 'solvpt: wsfix1', AllInt, ikTANG, 2)
 
       if (ic%force3.ge.1) then
          do i = 1, k
@@ -464,6 +465,8 @@ contains
          call write_log(1, bufout)
          call abort_run()
       endif
+
+      if (ic%x_nmdbg.ge.1) call gf3_check_nan(outpt1%ps, 'solvpt: ps', AllInt, ikTANG, 2)
 
       end subroutine tang_solver
 
@@ -1329,17 +1332,19 @@ contains
             call write_log(1,bufout)
          endif
 
-         if (min(rv,vq).lt.0d0 .and. ic_nmdbg.ge.1) then
-            write(bufout,'(a,i0,a,f14.9,2(a,g12.4),a)') ' it=',itcg,': alpha=',alpha,' =',rv,' /',vq,' < 0!'
+         if (min(rv,vq).lt.0d0 .and. max(rv,vq).gt.0d0 .and. ic_nmdbg.ge.3) then
+            write(bufout,'(a,i0,3(a,es16.8),a)') ' it=',itcg,': alpha=',alpha,' =',rv,' /',vq,' < 0!'
             call write_log(1, bufout)
             do ii = 1, npot
-               write(bufout,'(a,i4,6(a,g12.4))') 'ii=',ii,                              &
-                  ': pn=',ps%vn(ii),', px=',ps%vx(ii),', vx=',v%vx(ii),                 &
-                  ', qx=',q%vx(ii),', wx=',ws%vx(ii),', rx=',r%vx(ii)
-               call write_log(1, bufout)
-               write(bufout,'( 26x,5(a,g12.4))') 'py=',ps%vy(ii),                       &
-                  ', vy=',v%vy(ii),', qy=',q%vy(ii),', wy=',ws%vy(ii),', ry=',r%vy(ii)
-               call write_log(1, bufout)
+               if (igs%el(ii).gt.Exter) then
+                  write(bufout,'(a,i4,6(a,g12.4))') 'ii=',ii,                                           &
+                     ': pn=',ps%vn(ii),', px=',ps%vx(ii),', vx=',v%vx(ii),                              &
+                     ', qx=', q%vx(ii),', wx=',ws%vx(ii),', rx=',r%vx(ii)
+                  call write_log(1, bufout)
+                  write(bufout,'( 26x,5(a,g12.4))') 'py=',ps%vy(ii),                                    &
+                     ', vy=',v%vy(ii),', qy=',q%vy(ii),', wy=',ws%vy(ii),', ry=',r%vy(ii)
+                  call write_log(1, bufout)
+               endif
             enddo
          endif
 

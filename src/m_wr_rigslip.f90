@@ -15,17 +15,18 @@ private
 public  wr_rigid_slip
 private wr_creep_cref
 private wr_rigslip_wrsurf
+private extract_creepages
 private project_midplane
 
 contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_rigid_slip(ic, ws, trk, dqrel, cp, gd, idebug)
+   subroutine wr_rigid_slip(ic, ws, trk, dqrel, icp, cp, gd, idebug)
 !--purpose: compute the creepages at the contact reference and/or the rigid slip on the contact grid
       implicit none
 !--subroutine arguments:
-      integer               :: idebug
+      integer               :: idebug, icp
       real(kind=8)          :: dqrel
       type(t_ic)            :: ic
       type(t_wheelset)      :: ws
@@ -51,7 +52,7 @@ contains
 
          ! compute rigid slip at the contact grid points, using the actual wheel & rail surfaces
 
-         call wr_rigslip_wrsurf(ic, ws, trk, dqrel, cp, gd, idebug)
+         call wr_rigslip_wrsurf(ic, ws, trk, dqrel, icp, cp, gd, idebug)
 
       else
 
@@ -345,8 +346,6 @@ contains
          endif
          gd%kin%dq      =  dqrel * gd%cgrid_inp%dx
       endif
-      gd%kin%spinxo = 0d0
-      gd%kin%spinyo = 0d0
 
       ! creepage = { velocity of rail/roller (1) - velocity of wheel (2) } / reference velocity
 
@@ -424,11 +423,11 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_rigslip_wrsurf(ic, ws, trk, dqrel, cp, gd, idebug)
+   subroutine wr_rigslip_wrsurf(ic, ws, trk, dqrel, icp, cp, gd, idebug)
 !--purpose: compute the rigid slip at each grid point in the contact reference plane
       implicit none
 !--subroutine arguments:
-      integer               :: idebug
+      integer               :: idebug, icp
       type(t_ic)            :: ic
       type(t_wheelset)      :: ws
       type(t_trackdata)     :: trk
@@ -785,6 +784,14 @@ contains
          call gf3_scal(AllElm, 1d0/gd%kin%veloc, gd%geom%exrhs, ikTANG)
       endif
 
+      ! move planar part from exrhs to creepages cksi, ceta, cphi
+
+      if (idebug.ge.4) then
+         write(bufout,'(a,i0,a)') ' patch icp= ',icp,': extracting planar creepages from exrhs'
+         call write_log(1, bufout)
+      endif
+      call extract_creepages( gd%ic, gd%cgrid_inp, gd%kin, gd%geom%prmudf, gd%geom%exrhs )
+
       if (idebug.ge.4) then
          call gf3_print(gd%geom%exrhs, 'exrhs', ikTANG, 4)
       endif
@@ -796,6 +803,111 @@ contains
       if (idebug.ge.4) call write_log(' --- end subroutine wr_rigslip_wrsurf ---')
 
    end subroutine wr_rigslip_wrsurf
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine extract_creepages( ic, cgrid, kin, prmudf, exrhs )
+!--purpose: define equivalent creepages, extracting contributions from exrhs
+      implicit none
+!--subroutine arguments:
+      type(t_ic)                 :: ic
+      type(t_grid)               :: cgrid
+      type(t_kincns)             :: kin
+      type(t_gridfnc3)           :: exrhs
+      real(kind=8), dimension(:) :: prmudf
+!--local variables:
+      logical               :: is_roll
+      integer               :: ii, ncon
+      real(kind=8)          :: gap, dst_avg, wx_avg, wy_avg, wz_avg, x_avg, y_avg, xofs, yofs,          &
+                               xofs_dq, yofs_dq, denom
+
+      associate( mx => cgrid%nx, my => cgrid%ny, npot => cgrid%ntot, x => cgrid%x, y => cgrid%y,        &
+                 h  => prmudf )
+
+      is_roll = ic%tang.eq.2 .or. ic%tang.eq.3
+
+      ! offset 1/6 dq used in rolling problems:
+
+      if (is_roll) then
+         xofs_dq = cos(kin%chi) * kin%dq * kin%facphi
+         yofs_dq = sin(kin%chi) * kin%dq * kin%facphi
+      else
+         xofs_dq = 0d0
+         yofs_dq = 0d0
+      endif
+
+      ! solve [ cksi, ceta, cphi ] from equations [ wx = cksi - yofs * cphi, wy = ceta + xofs * cphi ]
+      ! using normal equations, At * A * c = At * w
+      ! At * A: a11 = a22 = sum(1), a13 = sum(-yofs), a23 = sum(xofs), a33 = sum(xofs**2 + yofs**2)
+      ! At * w: d1 = sum(wx), d2 = sum(wy), d3 = sum(xofs*wy - yofs*wx)
+
+      ! compute average position and average rigid slip over interpenetration area
+
+      ncon    = 0
+      x_avg   = 0d0
+      y_avg   = 0d0
+      dst_avg = 0d0
+      wx_avg  = 0d0
+      wy_avg  = 0d0
+      wz_avg  = 0d0
+
+      do ii = 1, npot
+         gap = h(ii) - kin%pen
+         if (gap.lt.0d0) then
+            xofs    = x(ii) + xofs_dq - kin%spinxo
+            yofs    = y(ii) + yofs_dq - kin%spinyo
+
+            ncon    = ncon    + 1
+            x_avg   = x_avg   + xofs
+            y_avg   = y_avg   + yofs
+            dst_avg = dst_avg + xofs**2 + yofs**2
+            wx_avg  = wx_avg  + exrhs%vx(ii)
+            wy_avg  = wy_avg  + exrhs%vy(ii)
+            wz_avg  = wz_avg  + xofs * exrhs%vy(ii) - yofs * exrhs%vx(ii)
+         endif
+      enddo
+
+      if (ncon.ge.1) then
+         x_avg   = x_avg  / ncon
+         y_avg   = y_avg  / ncon
+         dst_avg = sqrt(dst_avg / ncon)
+         wx_avg  = wx_avg / ncon
+         wy_avg  = wy_avg / ncon
+         wz_avg  = wz_avg / ncon
+         denom   = dst_avg**2 - y_avg**2 - x_avg**2
+      else
+         denom   = 1d0
+      endif
+
+      if (ncon.le.0 .or. denom.lt.1d-12) then
+         x_avg   = 0d0
+         y_avg   = 0d0
+         dst_avg = 1d0
+         wx_avg  = 0d0
+         wy_avg  = 0d0
+         wz_avg  = 0d0
+         denom   = 1d0
+      endif
+
+      ! compute least squares approximation (cksi, ceta, cphi)
+
+      kin%cphi = (wz_avg + y_avg * wx_avg - x_avg * wy_avg) / denom
+      kin%cksi =  wx_avg + y_avg * kin%cphi
+      kin%ceta =  wy_avg - x_avg * kin%cphi
+
+      ! extract (cksi, ceta, cphi) from exrhs
+
+      do ii = 1, npot
+         xofs   = x(ii) + xofs_dq - kin%spinxo
+         yofs   = y(ii) + yofs_dq - kin%spinyo
+         exrhs%vx(ii) = exrhs%vx(ii) - kin%cksi + yofs * kin%cphi
+         exrhs%vy(ii) = exrhs%vy(ii) - kin%ceta - xofs * kin%cphi
+      enddo
+
+      if (ic%x_nmdbg.ge.1) call gf3_check_nan(exrhs, 'extract_creepage: exrhs', AllElm, ikTANG, 2)
+      end associate
+
+   end subroutine extract_creepages
 
 !------------------------------------------------------------------------------------------------------------
 

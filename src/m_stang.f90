@@ -42,7 +42,7 @@ contains
       type(t_gridfnc3)         :: hs1
       integer                  :: ittang
 !--local variables :
-      type(t_gridfnc3)            :: musted, slpvel, slpprv, tmpprv, tmp, wsfix1, wsfix2
+      type(t_gridfnc3)            :: musted, slpvel, slpprv, tmpprv, tmp, wsfix1
       type(t_eldiv)               :: igsprv
       type(t_leadedge)            :: ledg
       integer, allocatable        :: iel(:)
@@ -70,7 +70,6 @@ contains
       ! dup: nullify, copy structure and el.div from ps1, initialize at 0:
 
       call gf3_copy_struc(ps1, wsfix1, 'tang:wsfix1', .true.)
-      call gf3_copy_struc(ps1, wsfix2, 'tang:wsfix2', .true.)
       call gf3_copy_struc(ps1, tmp,    'tang:tmp',    .true.)
       call gf3_copy_struc(ps1, musted, 'tang:musted', .true.)
       call gf3_copy_struc(ps1, slpvel, 'tang:slpvel', .true.)
@@ -720,7 +719,6 @@ contains
       if (ic%flow.ge.4 .or. (ic%flow.ge.3 .and. (use_out_it .or. ittang.ge.2))) call write_log(' ')
 
       call gf3_destroy(wsfix1)
-      call gf3_destroy(wsfix2)
       call gf3_destroy(tmp)
       call gf3_destroy(musted)
       call gf3_destroy(slpvel)

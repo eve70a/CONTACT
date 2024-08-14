@@ -510,10 +510,9 @@ contains
 !--local variables :
       integer                   :: ii
       logical                   :: is_roll
-      real(kind=8)              :: cc, sc, facx, facy
+      real(kind=8)              :: facx, facy, xofs_dq, yofs_dq
 
-      associate(chi    => kin%chi,    dq     => kin%dq,     facphi => kin%facphi,                       &
-                cksi   => kin%cksi,   ceta   => kin%ceta,   cphi   => kin%cphi,                         &
+      associate(cksi   => kin%cksi,   ceta   => kin%ceta,   cphi   => kin%cphi,                         &
                 spinxo => kin%spinxo, spinyo => kin%spinyo, hs1    => geom%hs1, exrhs  => geom%exrhs)
 
       is_roll = ic%tang.eq.2 .or. ic%tang.eq.3
@@ -521,6 +520,16 @@ contains
       if (ic%rztang.eq.0) then
          call gf3_new(exrhs, 'geom%exrhs', cgrid)
          call gf3_set(AllElm, 0d0, exrhs, ikTANG)
+      endif
+
+      ! offset 1/6 dq used in rolling problems:
+
+      if (is_roll) then
+         xofs_dq = cos(kin%chi) * kin%dq * kin%facphi
+         yofs_dq = sin(kin%chi) * kin%dq * kin%facphi
+      else
+         xofs_dq = 0d0
+         yofs_dq = 0d0
       endif
 
       ! M=3, using FASTSIM approach with 3 flexibilities: scale spin creepage by factors L1/L3 and L2/L3
@@ -536,28 +545,10 @@ contains
       ! compute the rigid slip (wx,wy) of body (1) w.r.t. body (2) and place it in the tangential
       !    right-hand side as hs1 = -dq w.
 
-      if (is_roll) then
-
-         ! rolling:
-
-         cc = cos(chi)
-         sc = sin(chi)
-         ! write(bufout,'(a,f6.3)') ' using f=',f
-         ! call write_log(1, bufout)
-
-         do ii = 1, cgrid%ntot
-            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii) + spinyo - sc*dq*facphi) + exrhs%vx(ii) ! below: * -dq 
-            hs1%vy(ii) = facy * cphi *( cgrid%x(ii) - spinxo + cc*dq*facphi) + exrhs%vy(ii) !        * -dq
-         enddo
-      else
-
-         ! shift:
-
-         do ii = 1, cgrid%ntot
-            hs1%vx(ii) = facx * cphi *(-cgrid%y(ii) + spinyo) + exrhs%vx(ii)
-            hs1%vy(ii) = facy * cphi *( cgrid%x(ii) - spinxo) + exrhs%vy(ii)
-         enddo
-      endif
+      do ii = 1, cgrid%ntot
+         hs1%vx(ii) = facx * -(cgrid%y(ii) + yofs_dq - spinyo) * cphi + exrhs%vx(ii) ! below: * -dq 
+         hs1%vy(ii) = facy *  (cgrid%x(ii) + xofs_dq - spinxo) * cphi + exrhs%vy(ii) !        * -dq
+      enddo
 
       ! if x-creepage prescribed:
 
@@ -577,7 +568,7 @@ contains
 
       ! change sign and multiply with dq (=1 in case of shifts)
 
-      call gf3_scal(AllElm, -dq, hs1, ikTANG)
+      call gf3_scal(AllElm, -kin%dq, hs1, ikTANG)
 
       end associate
 
