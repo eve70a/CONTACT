@@ -2,20 +2,20 @@
 %------------------------------------------------------------------------------------------------------------
 % function [ ] = cntc_setmaterialparameters(ire, icp, m_digit, rparam)
 %
-% set the material parameters for a contact problem
-%
-% M-digit  = 0: rparam = [ poiss1, poiss2, g1,  g2                                 ];
-%            1: rparam = [ poiss1, poiss2, g1,  g2,  fg1,   fg2,    vt1,    vt2    ];
-%            2: rparam = [ poiss1, poiss2, g1,  g2,  flx,   k0_mf,  alfamf, betamf ];
-%            3: rparam = [ poiss1, poiss2, g1,  g2,  k0_mf, alfamf, betamf         ];
-%            4: rparam = [ poiss1, poiss2, g1,  g2,  g3,    laythk, tau_c0, k_tau  ];
+% set the M-digit and material parameters for a contact problem
+% values < 10 are used to configure the M-digit
+%    0: purely elastic material,           params = [ nu1, nu2, g1, g2 ]
+%    1: visco-elastic material,            params = [ nu1, nu2, g1, g2, fg1,   fg2,    vt1,    vt2    ]
+%    2: modified Fastsim, 1 flexibility    params = [ nu1, nu2, g1, g2, flx,   k0_mf,  alfamf, betamf ]
+%    3: modified Fastsim, 3 flexibilities  params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf         ]
+%    4: elastic + elasto-plastic 3rd body  params = [ nu1, nu2, g1, g2, g3,    laythk, tau_c0, k_tau  ]
 % values >= 10 are used to configure the M2-digit, M2 = m_digit - 10
-% M2-digit = 2: rparam = [ cdampn, cdampt, dfnmax, dftmax ];
+%   12: force-based proportional damping   params = [ cdampn, cdampt, dfnmax, dftmax ]
 %
-% dimensions: poiss1, poiss2  [-],        g1, g2    [force/area],   
+% dimensions: nu1, nu2        [-],        g1, g2    [force/area],   
 %             fg1, fg2        [-],        vt1, vt2  [time],
 %             flx         [volume/force], k0_mf, alfamf, betamf [-], 
-%             g3, tau_c0  [force/area],   laythk    [length],        k_tau [force/volume]
+%             g3, tau_c0   [force/area],  laythk    [length],        k_tau [force/volume]
 %             cdampn, cdampt  [time],     dfnmax, dftmax   [force/time]
 %------------------------------------------------------------------------------------------------------------
 

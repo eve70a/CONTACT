@@ -8,6 +8,7 @@
 #  params(nparam) - depending on method that is used
 #
 #  L = 0: Coulomb friction,             lparam = [fstat, fkin]
+#      1: keep previous parameters,     lparam = [ ]
 #      2: linear falling friction,      lparam = [fkin, flin1, sabsh1, flin2, sabsh2, memdst, mem_s0]
 #      3: rational falling friction,    lparam = [fkin, frat1, sabsh1, frat2, sabsh2, memdst, mem_s0]
 #      4: exponential falling friction, lparam = [fkin, fexp1, sabsh1, fexp2, sabsh2, memdst, mem_s0]

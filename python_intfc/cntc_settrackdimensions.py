@@ -6,6 +6,7 @@
 #  ztrack    - control digit ZTRACK
 #  params    - depending on method that is used
 #
+#    0: maintain track dimensions     params = [ ]
 #    1: new design track dimensions   params = [gaught, gaugsq, gaugwd, cant, nomrad],   if gaught >  0,
 #                                         or   [gaught, raily0, railz0, cant, nomrad],   if gaught <= 0.
 #    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
