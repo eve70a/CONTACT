@@ -385,7 +385,7 @@ end
 if (any(strcmp(myopt.rw_surfc, {'prw','both'})))
    if (isfield(prw,'nslc')) % variable profile
       sol.slcw = prw;
-      sol.prw = get_profile_slice(sol.slcw, -sol.meta.th_ws+sol.meta.xcp_r/sol.meta.rnom_whl);
+      sol.prw = get_profile_slice(sol.slcw, -sol.meta.th_ws+sol.meta.xcp_w/sol.meta.rnom_whl);
    else
       sol.prw = prw;
    end
@@ -985,7 +985,6 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
 %  - all profile points will be used if both ds_true and ds_appx are left empty
 %  - for variable profiles, x-positions and arc-lengths s are replaced by the (u,v)-parametrization
 
-   use_intern   = 1;
    if (nargin< 5), dx_true = []; end
    if (nargin< 6), dx_appx = []; end
    if (nargin< 7), srange  = []; end
@@ -1105,9 +1104,9 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
       ysurf = ones(nx,1) * prf.ProfileY(js)';
       zsurf = ones(nx,1) * prf.ProfileZ(js)';
       
-   elseif (want_rail & myisfield(sol, 'slcs.spl2d') & use_intern & exist('eval_2dspline'))
+   elseif (want_rail & myisfield(sol, 'slcs.spl2d'))
 
-      % variable rail profile, using internal 2D spline algorithm
+      % variable rail profile, using 2D spline algorithm
 
       % form profile surface at given ui (==x_fc) and vj
 
@@ -1147,15 +1146,15 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
       r_y   =  nom_radius + prf.ProfileZ(js)';
       zsurf = -nom_radius + sqrt( max(0, (ones(nx,1)*r_y).^2 - xsurf.^2) );
 
-   elseif (~want_rail & myisfield(sol, 'slcw.spl2d') & use_intern & exist('eval_2dspline'))
+   elseif (~want_rail & myisfield(sol, 'slcw.spl2d'))
 
-      % variable wheel profile, using internal 2D spline algorithm
+      % variable wheel profile, using 2D spline algorithm
 
       % form profile surface at given ui (==th_w) and vj
 
       th_min = min(sol.slcw.spl2d.ui);
       th_max = max(sol.slcw.spl2d.ui);
-      disp(sprintf('var wheel, th_w=[%5.1f,%5.1f], xi=[%5.1f,%5.1f]', th_min, th_max, min(xi), max(xi)));
+      th_w   = -sol.meta.th_ws + mean(xi)/sol.meta.rnom_whl;
       ui     = max(th_min, min(th_max, -sol.meta.th_ws + xi/sol.meta.rnom_whl));
       vj     = sj;
 
@@ -1165,7 +1164,7 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
    else
 
       disp('make_3d_surface: ERROR: case not supported.')
-      disp([want_rail, has_slcs, has_slcw, myisfield(sol,'slcw.spl2d'), use_intern, exist('eval_2dspline')])
+      disp([want_rail, has_slcs, has_slcw, myisfield(sol,'slcw.spl2d'), exist('eval_2dspline')])
       return;
 
    end
@@ -1802,7 +1801,7 @@ function show_rw_rear_view(sol, field, opt)
       [ ~, ypln, zpln ] = cntc_to_track_coords(sol, [], yc, zc);
    end
 
-   plot(ypln, zpln, '.-', 'markersize',12, 'color',matlab_color(5));
+   plot(ypln, zpln, '.-', 'markersize',12, 'color',matlab_color(5), 'Tag','pot.con');
 
    % get field to be plotted, replace values in exterior elements
    if (ischar(field))
@@ -1839,8 +1838,8 @@ function show_rw_rear_view(sol, field, opt)
    if (~isempty(opt.veccolor))
       col = opt.veccolor;
    end
-   plot( yval, zval, 'linewidth',1, 'color',col );
-   plot( [ypln; yval], [zpln; zval], 'linewidth',1, 'color',col );
+   plot( yval, zval, 'linewidth',1, 'color',col, 'Tag','field' );
+   plot( [ypln; yval], [zpln; zval], 'linewidth',1, 'color',col, 'Tag','field' );
 
    % plot contact reference point, origin of contact local coordinate system
 
