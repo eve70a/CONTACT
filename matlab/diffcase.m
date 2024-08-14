@@ -16,6 +16,23 @@ function [ dif ] = diffcase(sol1, sol2)
 
 dif = [];
 
+% compare arrays of sol structures using recursion (esp. w/r contacts with multiple patches)
+
+if (length(sol1)>1 | length(sol2)>1)
+   if (length(sol1) ~= length(sol2))
+      disp(sprintf('ERROR: sol1 has %d contact patches whereas sol2 has %d patches', ...
+                        length(sol1), length(sol2)));
+      return;
+   end
+
+   dif = diffcase(sol1(1), sol2(1));
+   for isol = 2 : length(sol1)
+      dif(isol) = diffcase(sol1(isol), sol2(isol));
+   end
+   return
+end
+
+
 % Check equality of the structures w.r.t. grids used
 
 if (sol1.mx ~= sol2.mx | sol1.my ~= sol2.my)
