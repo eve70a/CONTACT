@@ -105,6 +105,10 @@ if (isempty(s_in))
    s_in = make_arclength(y_in, z_in);
 end
 
+if (~isstruct(p_in))
+   p_in = struct('ProfileY',y_in, 'ProfileZ',z_in, 'ProfileS',s_in, 'is_wheel',is_wheel);
+end
+
 % estimate curvatures needed for adaptive weighting, using moving window [-sw,sw]
 
 imeth = 0; s_windw = 4; k_hlf = 4;
@@ -189,6 +193,7 @@ end
 p_out.ProfileS = s_out;
 p_out.ProfileY = y_out;
 p_out.ProfileZ = z_out;
+p_out.spl      = spl;
 
 % estimate surface inclination
 % rail:   in [-pi, pi], wheel:  in [0, 2*pi]
