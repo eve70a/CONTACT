@@ -46,6 +46,10 @@ end
 y1_in = prf1.ProfileY;
 z1_in = prf1.ProfileZ;
 n1    = length(y1_in);
+if (min(size(y1_in))>1)
+   disp('ERROR in plot_update: y1_in should be an n x 1 vector');
+   return;
+end
 if (size(y1_in,1)<size(y1_in,2))
    y1_in = y1_in'; z1_in = z1_in';  % make column vectors
 end
@@ -53,6 +57,10 @@ end
 y2    = prf2.ProfileY;
 z2    = prf2.ProfileZ;
 n2    = length(y2);
+if (min(size(y2))>1)
+   disp('ERROR in plot_update: y2 should be an n x 1 vector');
+   return;
+end
 if (size(y2,1)<size(y2,2))
    y2 = y2'; z2 = z2';              % make column vectors
 end
