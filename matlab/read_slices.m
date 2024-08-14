@@ -253,13 +253,22 @@ function [ slcs, iline, nerror ] = read_slices_fnames(slcs, nam_udir, f, iline, 
       nerror = nerror + 1;
    end
 
-   % for wheels, require that |u_end - u_1| < 2*pi
+   % for wheels, use some overlap < -pi and > pi to mitigate effect of boundary conditions
+   %             require |u_i| \in [-1.5*pi, 1.5*pi], either \subset [-pi,pi) or [-pi,pi) \subset [u_i]
 
-   du = (slcs.u(end) - slcs.u(1)) * slcs.u_scale;
-   if (slcs.is_wheel & du>2*pi)
-      disp(sprintf('ERROR: slice %s-positions should be at most 2*pi apart.', nam_udir));
-      disp(sprintf('       islc= %d, %d: %s=%8.3f, %8.3f', 1, slcs.nslc, nam_udir, slcs.u(1), slcs.u(end)));
-      nerror = nerror + 1;
+   if (slcs.is_wheel)
+      th0 = slcs.u(1); th1 = slcs.u(end);
+      if (th0<-1.5*pi | th1>1.5*pi)
+         disp(sprintf('ERROR: wheel %s-positions should lie within [-1.5pi, 1.5pi].', nam_udir));
+         disp(sprintf('       islc= %d, %d: %s=%8.3f, %8.3f', 1, slcs.nslc, nam_udir, th0, th1));
+         nerror = nerror + 1;
+      end
+      eps_pi = 1e-4;
+      if ((th0<-pi-eps_pi & th1<pi-eps_pi) | (th0>-pi+eps_pi & th1>pi+eps_pi))
+         disp(sprintf('ERROR: wheel %s-positions should fully encompass [-pi,pi]', nam_udir));
+         disp(sprintf('       or lie fully within [-pi,pi], got %s=[%8.3f,%8.3f]', nam_udir, th0, th1));
+         nerror = nerror + 1;
+      end
    end
 
 end % function read_slices_fnames
