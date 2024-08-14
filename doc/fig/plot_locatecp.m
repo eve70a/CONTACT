@@ -1,12 +1,17 @@
 
-print_fig = 1;
+print_fig = 0;
 show_figs = [  31:34 ];
+large_angle = 0;
 % set(0,'defaultlinelinewidth',2);
 % set(0,'defaultaxeslinewidth',2);
 % set(0,'defaulttextfontsize',15);
 % set(0,'defaultaxesfontsize',15);
 
-icase = 1;
+if (large_angle)
+   icase = 2;
+else
+   icase = 1;
+end
 s = loadcase('test_pictures', icase);
 
 prr = read_profile('../../examples/MBench_UIC60_v3.prr');
@@ -114,7 +119,8 @@ z_cgrid = tmp(2,:);
 
 % interpolate rail and wheel to contact grid positions
 
-nr_cgrid = interp1( prr_cp(1,:), prr_cp(2,:), sp_cgrid);
+ix = find(prr_cp(2,:)<20);
+nr_cgrid = interp1( prr_cp(1,ix), prr_cp(2,ix), sp_cgrid);
 nw_cgrid = interp1( prw_cp(1,:), prw_cp(2,:), sp_cgrid);
 nw_cgrid = max(nw_cgrid, nr_cgrid-0.15);
 
@@ -462,10 +468,10 @@ for ifig = 21 : 23
 end % ifig
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% figure 31-33: plot profiles in terms of contact coordinates
+% figure 31-34: plot profiles in terms of contact coordinates
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-for ifig = 31 : 33
+for ifig = 31 : 34
    if (any(show_figs==ifig))
       iver = ifig - 30;
 
@@ -475,8 +481,12 @@ for ifig = 31 : 33
       ylabel('$n_{cp}$ [mm]', 'interpreter','latex');
       set(gca,'ydir','reverse', 'ticklabelinterpreter','latex');
 
-      if (iver==1)
+      if (iver==1 & large_angle)
+         axis([-30 65 -30 85]);
+      elseif (iver==1)
          axis([-40 80 -20 50]);
+      elseif (large_angle)
+         axis([-10 10  -3 10]);
       else
          axis([-10 10 -3.667 8]);
       end
@@ -511,7 +521,12 @@ for ifig = 31 : 33
       % plot vertical search lines
 
       if (iver==3)
-         plot([1;1]*sp_cgrid, [-0.3;5]*ones(size(sp_cgrid)), ':', 'color',matlab_color(2), 'linewidth',1);
+         n_end = 5;
+         if (large_angle)
+            n_end = 8;
+            plot(sp_cgrid([1,end]), n_end*[1,1], '--', 'color',matlab_color(2), 'linewidth',1);
+         end
+         plot([1;1]*sp_cgrid, [-0.3;n_end]*ones(size(sp_cgrid)), ':', 'color',matlab_color(2), 'linewidth',1);
       end
 
       % plot contact grid
@@ -563,7 +578,11 @@ for ifig = 31 : 33
 
       if (print_fig)
          set(gcf,'paperpositionmode','auto');
-         print('-djpeg95', sprintf('wr_norm_ud%d.jpg', iver));
+         if (large_angle)
+            print('-djpeg95', sprintf('wr_norm_ud%d_lrg.jpg', iver));
+         else
+            print('-djpeg95', sprintf('wr_norm_ud%d.jpg', iver));
+         end
       end
    end % show_fig
 end % ifig

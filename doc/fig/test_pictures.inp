@@ -19,5 +19,13 @@
   0.0  -50.0 100000. -7.00d     0.000   0.0     S, Y, FZ, ROLL, YAW, PITCH
  2000.   0.0    0.0   0.0       0.0   -4.348176 VS,VY,VZ, VROLL,VYAW,VPITCH
 
+%  2: contact at large contact angle, multi-valued nr
+
+  1 MODULE
+ 1200100     C-P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM , FORCE , STRESS
+  111001       L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL
+  101221       G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+  0.0  -47.3 100000. -7.00d     0.000   0.0     S, Y, FZ, ROLL, YAW, PITCH
+
   0 MODULE
 
