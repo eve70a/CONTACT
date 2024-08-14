@@ -68,6 +68,7 @@ module m_gridfunc
    public if1_destroy
 
    public gf3_is_defined
+   public gf3_has_eldiv
    public gf3_ikrange
    public gf3_nullify
    public gf3_new          ! (re-)initialize structure of grid-func
@@ -98,6 +99,7 @@ module m_gridfunc
    public gf3_dq_shift     ! in rolling, interpolate data from the current to the new grid
    public gf3_mirror_x     ! copy values with mirroring in x-direction
    public gf3_print
+   public gf3_check_nan
    public gf3_destroy
    public gf3_test
 
@@ -161,6 +163,7 @@ module m_gridfunc
       type(t_eldiv),                pointer :: eldiv => NULL()
    contains
       procedure :: is_defined  => gf3_is_defined
+      procedure :: has_eldiv   => gf3_has_eldiv
 
       ! name    name of the grid-function, for debugging purposes
       ! val     values array (1:ntot,3): for each grid point a 3-vector with values, associated with
@@ -732,6 +735,24 @@ end function gf3_is_defined
 
 !------------------------------------------------------------------------------------------------------------
 
+function gf3_has_eldiv(this)
+!--purpose: determine if the eldiv of a gf3 is 'defined', has memory allocated
+   implicit none
+!--function return value:
+   logical                 :: gf3_has_eldiv
+!--function arguments:
+   class(t_gridfnc3)       :: this
+
+   if (.not.associated(this%eldiv)) then
+      gf3_has_eldiv = .false.
+   else
+      gf3_has_eldiv = this%eldiv%is_defined()
+   endif
+
+end function gf3_has_eldiv
+
+!------------------------------------------------------------------------------------------------------------
+
 subroutine gf3_nullify(gf3)
 !--purpose: initialize/nullify all pointers for a grid function.
 !           used to signal that there's no memory allocated for the gf.
@@ -920,7 +941,7 @@ subroutine gf3_set(iigs, val, f, ikarg)
 
       elseif (iigs.eq.AllInt) then
 
-         if (.not.associated(f%eldiv)) then
+         if (.not.f%has_eldiv()) then
             call write_log(' error with el.div of gf '//trim(f%name))
             call abort_run()
          endif
@@ -968,7 +989,7 @@ subroutine gf3_copy_xdir(iigs, n_in, val, f, ikarg)
       call write_log(' error with val of gf '//trim(f%name))
       call abort_run()
    endif
-   if (iigs.eq.AllInt .and. .not.associated(f%eldiv)) then
+   if (iigs.eq.AllInt .and. .not.f%has_eldiv()) then
       call write_log(' error with el.div of gf '//trim(f%name))
       call abort_run()
    endif
@@ -1033,7 +1054,7 @@ subroutine gf3_copy(iigs, f1, f2, ikarg)
           ' and ',trim(f2%name), size(f1%val,1),size(f2%val,1)
       call write_log(1, bufout)
       call abort_run()
-   elseif (iigs.eq.AllInt .and. .not.associated(f1%eldiv)) then
+   elseif (iigs.eq.AllInt .and. .not.f1%has_eldiv()) then
       call write_log(' gf3_copy: Internal error: no eldiv, cannot use AllInt for grid-func '//trim(f1%name))
       call abort_run()
    endif
@@ -2178,6 +2199,82 @@ subroutine gf3_print(f, nam, ikarg, idebug, ndigit)
    endif ! idebug>=4
 
 end subroutine gf3_print
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine gf3_check_nan(f, nam, iigs_arg, ikarg, idebug, nnan_out)
+!--purpose: Count number of NaN-values in grid-function f
+   implicit none
+!--subroutine parameters:
+   type(t_gridfnc3), intent(in)            :: f
+   character(len=*)                        :: nam
+   integer,          intent(in)            :: iigs_arg, ikarg, idebug
+   integer,          intent(out), optional :: nnan_out(3)
+!--local variables:
+   integer      :: iigs, ii, ii0(3), ii1(3), ik0, ik1, ik, nnan(3), nnan_tot
+   logical      :: check_ii
+
+   if (idebug.ge.4) then
+      write(bufout,'(2a,2(a,i0))') ' Check NaNs for grid-function ',trim(nam),' using iigs=',           &
+                iigs_arg,', ik=',ikarg
+      call write_log(1, bufout)
+      if (iigs_arg.eq.AllInt .and. .not.f%has_eldiv())                                                  &
+         call write_log('   note: no eldiv available in grid-function ' // trim(nam))
+   endif
+
+   ! determine range for coordinate directions ik
+
+   call gf3_ikrange(ikarg, ik0, ik1)
+
+   iigs = AllElm
+   if (iigs_arg.eq.AllInt .and. f%has_eldiv()) iigs = AllInt
+
+   ! count number of nan values for all three coordinate directions, determine first/last positions ii
+
+   nnan = (/  0,  0,  0 /)
+   ii0  = (/ -1, -1, -1 /)
+   ii1  = (/ -1, -1, -1 /)
+   check_ii = .true.
+
+   do ik = ik0, ik1
+      do ii = 1, f%grid%ntot
+         if (iigs.eq.AllInt) check_ii = (f%eldiv%el(ii).ge.Adhes)
+         if (check_ii .and. isnan(f%val(ii,ik))) then
+            nnan(ik) = nnan(ik) + 1
+            if (ii0(ik).lt.0) ii0(ik) = ii
+            ii1(ik) = ii
+         endif
+      enddo
+   enddo
+   nnan_tot = nnan(1) + nnan(2) + nnan(3)
+
+   ! print information as requested by idebug
+
+   if (nnan_tot.le.0 .and. idebug.ge.3) then
+      write(bufout,'(3a)') ' Grid-function ',trim(nam),' has no NaN-values'
+      call write_log(1, bufout)
+   endif
+
+   if (nnan_tot.ge.1 .and. idebug.ge.1) then
+      write(bufout,'(3a,i7,3(a,i7),a)') ' Grid-function ',trim(nam),' has',nnan_tot,' NaN-values (',    &
+                nnan(1),'/',nnan(2),'/',nnan(3),')'
+      call write_log(1, bufout)
+   endif
+
+   if (idebug.ge.2) then
+      do ik = ik0, ik1
+         if (nnan(ik).gt.0) then
+            write(bufout,'(a,i1,2(a,i7))') ' Coord.dir.',ik,': first NaN at ii=',ii0(ik),', last at',ii1(ik)
+            call write_log(1,bufout)
+         endif
+      enddo
+   endif
+
+   ! copy nnan to nnan_out if necessary
+
+   if (present(nnan_out)) nnan_out(1:3) = nnan(1:3)
+
+end subroutine gf3_check_nan
 
 !------------------------------------------------------------------------------------------------------------
 

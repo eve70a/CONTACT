@@ -63,6 +63,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outdir, c_expnam, len
    bind(c,name=CNAME_(cntc_initializefirst))
 !--function: initialize the addon internal data structures and initialize output channels,
 !            print version information; return the addon version number.
+!            Old version provided for backward compatibility. Interface will be changed in v25.1.
    use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
 !--subroutine arguments:
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
@@ -113,7 +114,7 @@ end subroutine cntc_getMaxNumThreads
 !------------------------------------------------------------------------------------------------------------
 
 subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
-   bind(c,name=CNAME_(cntc_readInpFile))
+   bind(c,name=CNAME_(cntc_readinpfile))
 !--function: used for configuring multiple data items at once using the inp-file format
    use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
 !--subroutine arguments:
@@ -198,7 +199,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 !    3: modified Fastsim, 3 flexibilities  params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
 !    4: elastic + elasto-plastic 3rd body  params = [ nu1, nu2, g1, g2, g3, laythk, tau_c0, k_tau ]
 ! values >= 10 are used to configure the M2-digit, M2 = imeth - 10
-!   12: ad-hoc proportional damping        params = [ cdampn, cdampt, dfnmax, dftmax ]
+!   12: force-based proportional damping   params = [ cdampn, cdampt, dfnmax, dftmax ]
 !
 ! dimensions: nu1, nu2        [-],        g1, g2    [force/area],   
 !             fg1, fg2        [-],        vt1, vt2  [time],
@@ -278,6 +279,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
 !--function: set V and L-digits and parameters for the friction law for a contact problem
 !  imeth          - type of friction law used: 10 * V-digit + 1 * L-digit
 !  L = 0: Coulomb friction,             lparam = [fstat, fkin]
+!      1: keep previous parameters,     lparam = [ ]
 !      2: linear falling friction,      lparam = [fkin, flin1, sabsh1, flin2, sabsh2, memdst, mem_s0]
 !      3: rational falling friction,    lparam = [fkin, frat1, sabsh1, frat2, sabsh2, memdst, mem_s0]
 !      4: exponential falling friction, lparam = [fkin, fexp1, sabsh1, fexp2, sabsh2, memdst, mem_s0]
@@ -461,7 +463,7 @@ end subroutine cntc_setTangentialForces
 subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nreals, rparam) &
    bind(c,name=CNAME_(cntc_setprofileinputfname))
 !--function: set a wheel or rail profile filename for a wheel-rail contact problem
-!  fname          - string: name of profile file, absolute path or relative to effective working folder
+!  fname          - string: name of profile file, absolute path or relative wrt effective working folder
 !  iparam         - integer configuration parameters
 !                     1: itype     0 = rail, 1 = wheel profile, -1 = taken from file extension (default)
 !                     2:  -        not used
@@ -537,6 +539,7 @@ end subroutine cntc_setProfileInputValues
 subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
    bind(c,name=CNAME_(cntc_settrackdimensions))
 !--function: set the track or roller-rig description for a wheel-rail contact problem
+!    0: maintain track dimensions     params = [ ]
 !    1: new design track dimensions   params = [gaught, gaugsq, gaugwd, cant, nomrad],   if gaught >  0,
 !                                         or   [gaught, raily0, railz0, cant, nomrad],   if gaught <= 0.
 !    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
@@ -690,7 +693,7 @@ subroutine cntc_getParameters(ire, icp, lenarr, values) &
    integer,      intent(in)  :: ire            ! result element ID
    integer,      intent(in)  :: icp            ! contact problem ID
    integer,      intent(in)  :: lenarr         ! length of values array
-   integer,      intent(out) :: values(lenarr) ! values of the parameters obtained from CONTACT
+   real(kind=8), intent(out) :: values(lenarr) ! values of the parameters obtained from CONTACT
 end subroutine cntc_getParameters
 
 !------------------------------------------------------------------------------------------------------------
@@ -958,31 +961,32 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 !   1 - FX_TR    - total force on the output body, component in track longitudinal x-direction
 !   2 - FY_TR    - total force on the output body, component in track lateral y-direction
 !   3 - FZ_TR    - total force on the output body, component in track vertical z-direction
-!   4 - MX_RR_TR - total moment on output body about rail profile marker, component in track x-direction
-!   5 - MY_RR_TR - total moment on output body about rail profile marker, component in track y-direction
-!   6 - MZ_RR_TR - total moment on output body about rail profile marker, component in track z-direction
+!   4 - MX_R_TR  - total moment on output body about rail profile marker, component in track x-direction
+!   5 - MY_R_TR  - total moment on output body about rail profile marker, component in track y-direction
+!   6 - MZ_R_TR  - total moment on output body about rail profile marker, component in track z-direction
 !
 !   7 - FX_WS    - total force on the output body, component in wheelset longitudinal x-direction
 !   8 - FY_WS    - total force on the output body, component in wheelset lateral y-direction
 !   9 - FZ_WS    - total force on the output body, component in wheelset vertical z-direction
-!  10 - MX_RW_WS - total moment on output body about wheel profile marker, component in wheelset x-direction
-!  11 - MY_RW_WS - total moment on output body about wheel profile marker, component in wheelset y-direction
-!  12 - MZ_RW_WS - total moment on output body about wheel profile marker, component in wheelset z-direction
+!  10 - MX_W_WS  - total moment on output body about wheel profile marker, component in wheelset x-direction
+!  11 - MY_W_WS  - total moment on output body about wheel profile marker, component in wheelset y-direction
+!  12 - MZ_W_WS  - total moment on output body about wheel profile marker, component in wheelset z-direction
 !                  Note that the 'output body' is the rail when using CONTACTs unit convention
 !
-!  13 - FX_RR    - total force on the output body, component in rail profile x-direction
-!  14 - FY_RR    - total force on the output body, component in rail profile y-direction
-!  15 - FZ_RR    - total force on the output body, component in rail profile z-direction
-!  16 - MX_RR_RR - total moment on output body about rail profile marker, component in rail x-direction
-!  17 - MY_RR_RR - total moment on output body about rail profile marker, component in rail y-direction
-!  18 - MZ_RR_RR - total moment on output body about rail profile marker, component in rail z-direction
+!  13 - FX_R     - total force on the output body, component in rail profile x-direction
+!  14 - FY_R     - total force on the output body, component in rail profile y-direction
+!  15 - FZ_R     - total force on the output body, component in rail profile z-direction
+!  16 - MX_R_R   - total moment on output body about rail profile marker, component in rail x-direction
+!  17 - MY_R_R   - total moment on output body about rail profile marker, component in rail y-direction
+!  18 - MZ_R_R   - total moment on output body about rail profile marker, component in rail z-direction
 !
-!  19 - FX_RW    - total force on the output body, component in wheel profile x-direction
-!  20 - FY_RW    - total force on the output body, component in wheel profile y-direction
-!  21 - FZ_RW    - total force on the output body, component in wheel profile z-direction
-!  22 - MX_RW_RW - total moment on output body about wheel profile marker, component in wheel x-direction
-!  23 - MY_RW_RW - total moment on output body about wheel profile marker, component in wheel y-direction
-!  24 - MZ_RW_RW - total moment on output body about wheel profile marker, component in wheel z-direction
+!  19 - FX_W     - total force on the output body, component in wheel profile x-direction
+!  20 - FY_W     - total force on the output body, component in wheel profile y-direction
+!  21 - FZ_W     - total force on the output body, component in wheel profile z-direction
+!  22 - MX_W_W   - total moment on output body about wheel profile marker, component in wheel x-direction
+!  23 - MY_W_W   - total moment on output body about wheel profile marker, component in wheel y-direction
+!  24 - MZ_W_W   - total moment on output body about wheel profile marker, component in wheel z-direction
+!
 !--subroutine arguments:
    integer,      intent(in)  :: ire           ! result element ID
    integer,      intent(in)  :: icp           ! contact problem ID

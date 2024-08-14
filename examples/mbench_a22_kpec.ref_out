@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2559 $, $Date:: 2024-06-03$        |
+   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -1314,31 +1314,31 @@
 
 Parallel run using  2 threads
 Performance timers:
-|------------------------------------------------------------------------|
-|Timer name                     |   cpu time        |    wall clock      |
-|                               |-------------------|--------------------|
-|                     | #times  |   sec     |  %    |    sec     |  %    |
-|------------------------------------------------------------------------|
-|Total                |       1 |       0.9 | 100.0 |        1.5 | 100.0 |
-|Wheel-rail cases     |       9 |       0.9 | 100.0 |        1.5 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   1.7 |        0.0 |   0.9 |
-|Geometric analysis   |      62 |       0.0 |   3.4 |        0.1 |   6.7 |
-|Panag.process        |      53 |       0.8 |  83.1 |        1.0 |  71.8 |
-|Algorithm Norm       |      14 |       0.0 |   3.4 |        0.1 |   6.7 |
-|Algorithm Tang       |      53 |       0.7 |  79.7 |        0.9 |  65.2 |
-|Output quantities    |      62 |       0.0 |   1.7 |        0.1 |   8.3 |
-|------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      14 |       0.0 |   1.7 |        0.1 |   3.5 |
-|Norm: KPEC method    |      20 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Norm: ANALYN method  |      19 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      14 |       0.7 |  79.7 |        0.9 |  64.7 |
-|Tang: Fastsim solver |      39 |       0.0 |   0.0 |        0.0 |   0.0 |
-|------------------------------------------------------------------------|
-|Reading input-file   |       9 |       0.0 |   1.7 |        0.0 |   0.9 |
-|Contact location     |      62 |       0.0 |   0.0 |        0.0 |   2.0 |
-|Undeformed distance  |      53 |       0.0 |   3.4 |        0.1 |   4.8 |
-| - Interp whl_srfc   |      53 |       0.0 |   1.7 |        0.0 |   3.0 |
-|Influence coeffic.   |      53 |       0.1 |   6.8 |        0.1 |   6.4 |
-|Initial state/estim. |      53 |       0.0 |   0.0 |        0.0 |   0.0 |
-|------------------------------------------------------------------------|
+|--------------------------------------------------------------------------|
+|Timer name                      |    cpu time        |    wall clock      |
+|                                |--------------------|--------------------|
+|                     |  #times  |    sec     |  %    |    sec     |  %    |
+|--------------------------------------------------------------------------|
+|Total                |        1 |        0.7 | 100.0 |        1.5 | 100.0 |
+|Wheel-rail cases     |        9 |        0.7 | 100.0 |        1.5 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Geometric analysis   |       62 |        0.0 |   0.0 |        0.1 |   3.8 |
+|Panag.process        |       53 |        0.7 |  97.7 |        1.1 |  75.3 |
+|Algorithm Norm       |       14 |        0.0 |   2.3 |        0.1 |   7.0 |
+|Algorithm Tang       |       53 |        0.7 |  95.5 |        1.0 |  66.9 |
+|Output quantities    |       62 |        0.0 |   0.0 |        0.1 |   4.4 |
+|--------------------------------------------------------------------------|
+|Norm: ConjGrd solver |       14 |        0.0 |   2.3 |        0.1 |   6.7 |
+|Norm: KPEC method    |       20 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Norm: ANALYN method  |       19 |        0.0 |   0.0 |        0.0 |   1.4 |
+|Tang: StedyGS solver |       14 |        0.7 |  95.5 |        1.0 |  66.0 |
+|Tang: Fastsim solver |       39 |        0.0 |   0.0 |        0.0 |   0.0 |
+|--------------------------------------------------------------------------|
+|Reading input-file   |        9 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Contact location     |       62 |        0.0 |   0.0 |        0.1 |   3.4 |
+|Undeformed distance  |       53 |        0.0 |   0.0 |        0.0 |   0.3 |
+| - Interp whl_srfc   |       53 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       53 |        0.0 |   0.0 |        0.1 |   5.8 |
+|Initial state/estim. |       53 |        0.0 |   0.0 |        0.0 |   0.0 |
+|--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

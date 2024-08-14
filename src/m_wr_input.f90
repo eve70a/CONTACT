@@ -119,7 +119,7 @@ contains
 
       ! Adapt the value of the friction coefficient used for scaling of tangential forces
 
-      kin%use_muscal = ic%varfrc.eq.0
+      kin%use_muscal = (ic%varfrc.eq.0 .or. ic%varfrc.eq.2)
       if (kin%use_muscal) then
          kin%muscal = fric%fstat()
       else
@@ -356,7 +356,7 @@ contains
 
          ! Adapt the value of the friction coefficient used for scaling of tangential forces
 
-         kin%use_muscal = ic%varfrc.eq.0
+         kin%use_muscal = (ic%varfrc.eq.0 .or. ic%varfrc.eq.2)
          if (kin%use_muscal) then
             kin%muscal = fric%fstat()
          else
@@ -806,7 +806,7 @@ contains
 
       endif
 
-      if (ncase.gt.0) write(linp,'(a,i8)') '% Next case', ncase
+      if (ncase.gt.0) write(linp,'(a,i0)') '% Next case ', ncase
 
       ! write control integers
 
@@ -863,7 +863,7 @@ contains
 
       ! write friction description
 
-      call fric_wrtinp(linp, ic%varfrc, ic%frclaw_inp, fric)
+      call fric_wrtinp(linp, ic%frclaw_inp, fric)
 
       ! write information for influence coefficients, esp. material constants
 

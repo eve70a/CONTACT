@@ -253,9 +253,8 @@ contains
          if (ic%norm.eq.1) call gf3_proj_avg(AllInt, q, ikZDIR)
 
          ! alpha = (r,v) / (v, A * v)
-         ! Note: if A is truely pos.def. then vav is always >= 0.
-         !       vav == 0 iff v == 0. Avoid division by zero for the
-         !       special case of a single element where v == 0 occurs.
+         ! Note: if A is truely pos.definite then vav is always >= 0, vav == 0 iff v == 0.
+         !       Avoid division by zero for the special case of a single element where v == 0 occurs.
 
          rv    = gf3_dot(AllInt, res, v, ikZDIR)
          vav   = gf3_dot(AllInt, q, v, ikZDIR)
@@ -475,7 +474,7 @@ contains
       type(t_gridfnc3), intent(inout)   :: res, tmp1, tmp2
 !--local variables:
       integer, parameter :: idebug = 0
-      integer      :: ip, jp, np, mx, my, npot
+      integer            :: ip, jp, np, mx, my, npot
 
       if (geom%iplan.ne.4) then
 

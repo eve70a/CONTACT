@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2559 $, $Date:: 2024-06-03$        |
+   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -709,7 +709,7 @@
 
  
   PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
- VLDCMZE.  VARFRC 2, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
+ VLDCMZE.  VARFRC 3, FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
  HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 0, OUTPUT 3, FLOW   4, RETURN 1
  NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING
@@ -1853,6 +1853,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0000      5.0000      0.2618       0.000       0.000       0.000
+
  WHEEL PROFILE "profiles/MBench_S1002_v3.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -1866,10 +1870,6 @@
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
          2000.       0.000       0.000       0.000       0.000  -4.3481760
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0000      5.0000      0.2618       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON RAIL
@@ -1948,6 +1948,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0000      0.0000     -0.0997       0.000       0.000       0.000
+
  WHEEL PROFILE "profiles/circ_r100.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -1961,10 +1965,6 @@
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
          2000.       0.000       0.000       0.000       0.000  -4.3481760
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0000      0.0000     -0.0997       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON RAIL
@@ -4789,37 +4789,37 @@
          5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
      X  -->
 Performance timers:
-|------------------------------------------------------------------------|
-|Timer name                     |   cpu time        |    wall clock      |
-|                               |-------------------|--------------------|
-|                     | #times  |   sec     |  %    |    sec     |  %    |
-|------------------------------------------------------------------------|
-|Total                |       1 |       0.7 | 100.0 |        1.5 | 100.0 |
-|Wheel-rail cases     |      17 |       0.4 |  55.6 |        0.9 |  61.9 |
-|Non-Hertzian cases   |      20 |       0.3 |  44.4 |        0.6 |  38.1 |
-|Subsurface points    |       3 |       0.0 |   0.0 |        0.0 |   0.0 |
-|W/r profiles         |      25 |       0.0 |   0.0 |        0.1 |   4.9 |
-|Geometric analysis   |      60 |       0.1 |  11.1 |        0.1 |   5.3 |
-|Panag.process        |      79 |       0.5 |  77.8 |        1.0 |  68.7 |
-|Algorithm Norm       |     120 |       0.0 |   6.7 |        0.2 |  10.8 |
-|Algorithm Tang       |     113 |       0.5 |  71.1 |        0.8 |  56.4 |
-|Output quantities    |      96 |       0.0 |   2.2 |        0.2 |  10.9 |
-|------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     120 |       0.0 |   6.7 |        0.1 |   8.2 |
-|Tang: TangCG solver  |      81 |       0.1 |  20.0 |        0.2 |  14.9 |
-|Tang: ConvxGS solver |       7 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      77 |       0.3 |  48.9 |        0.5 |  37.0 |
-|Tang: Fastsim solver |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
-|------------------------------------------------------------------------|
-|Reading input-file   |      37 |       0.0 |   0.0 |        0.1 |   4.9 |
-|Contact location     |      60 |       0.0 |   2.2 |        0.0 |   1.5 |
-| - Interp sf_whl     |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-| - Other calc.       |       2 |       0.0 |   0.0 |        0.0 |   0.0 |
-| - Locate interpen   |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |      59 |       0.1 |   8.9 |        0.1 |   3.9 |
-| - Interp whl_srfc   |      59 |       0.1 |   8.9 |        0.1 |   3.7 |
-|Influence coeffic.   |      77 |       0.0 |   2.2 |        0.0 |   3.0 |
-|Initial state/estim. |      79 |       0.0 |   2.2 |        0.0 |   0.5 |
-|Subsurf writing      |       6 |       0.0 |   0.0 |        0.0 |   0.1 |
-|------------------------------------------------------------------------|
+|--------------------------------------------------------------------------|
+|Timer name                      |    cpu time        |    wall clock      |
+|                                |--------------------|--------------------|
+|                     |  #times  |    sec     |  %    |    sec     |  %    |
+|--------------------------------------------------------------------------|
+|Total                |        1 |        0.3 | 100.0 |        1.6 | 100.0 |
+|Wheel-rail cases     |       17 |        0.3 |  85.0 |        1.0 |  60.8 |
+|Non-Hertzian cases   |       20 |        0.0 |  15.0 |        0.6 |  39.2 |
+|Subsurface points    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
+|W/r profiles         |       25 |        0.0 |   5.0 |        0.0 |   2.2 |
+|Geometric analysis   |       60 |        0.0 |   0.0 |        0.1 |   5.3 |
+|Panag.process        |       79 |        0.2 |  65.0 |        1.0 |  64.4 |
+|Algorithm Norm       |      120 |        0.1 |  20.0 |        0.3 |  15.9 |
+|Algorithm Tang       |      113 |        0.1 |  45.0 |        0.7 |  47.3 |
+|Output quantities    |       96 |        0.0 |  10.0 |        0.2 |  14.5 |
+|--------------------------------------------------------------------------|
+|Norm: ConjGrd solver |      120 |        0.0 |  15.0 |        0.2 |  11.1 |
+|Tang: TangCG solver  |       81 |        0.0 |   5.0 |        0.2 |  10.2 |
+|Tang: ConvxGS solver |        7 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Tang: StedyGS solver |       77 |        0.1 |  40.0 |        0.5 |  33.7 |
+|Tang: Fastsim solver |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
+|--------------------------------------------------------------------------|
+|Reading input-file   |       37 |        0.0 |   5.0 |        0.0 |   2.2 |
+|Contact location     |       60 |        0.0 |   0.0 |        0.1 |   3.7 |
+| - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+| - Other calc.       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+| - Locate interpen   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Undeformed distance  |       59 |        0.0 |   0.0 |        0.0 |   1.5 |
+| - Interp whl_srfc   |       59 |        0.0 |   0.0 |        0.0 |   1.5 |
+|Influence coeffic.   |       77 |        0.0 |  10.0 |        0.1 |   4.6 |
+|Initial state/estim. |       79 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.1 |
+|--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -289,7 +289,7 @@ contains
 
          write(lout, *)
 
-         call fric_output(lout, ic%varfrc, ic%output_surf, gd%fric)
+         call fric_output(lout, ic%output_surf, gd%fric)
 
          write(lout, *)
 
@@ -761,7 +761,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror_y)
+subroutine writmt (meta, ic, cgrid, potcon, mater, fric, kin, geom, outpt1, mirror_y)
 !--purpose: writes variables into the output-file <EXPERIM>.<CASE>.MAT. This is a file that is used for
 !          communication with the plot-scripts written in MatLab. See User Guide (A.6) for a specification.
    implicit none
@@ -773,8 +773,8 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
    type(t_material)            :: mater
    type(t_friclaw)             :: fric
    type(t_kincns)              :: kin
+   type(t_geomet)              :: geom
    type(t_output)              :: outpt1
-   type(t_gridfnc3)            :: hs
    logical,         intent(in) :: mirror_y
 !--local variables:
    integer, parameter      :: maxcol = 20
@@ -1039,15 +1039,15 @@ subroutine writmt (meta, ic, cgrid, potcon, hs, mater, fric, kin, outpt1, mirror
 
                ! get values for element ii
 
-               values( 3) =       hs%vn(ii)
+               values( 3) =       geom%hs1%vn(ii)
                values( 4) =       mus%vt(ii)
                values( 5) =       ps%vn(ii)
                values( 6) =       ps%vx(ii)
                values( 7) = sgn * ps%vy(ii)
                values( 8) =       us%vn(ii)
                if (wxy_insteadof_uxy) then
-                  values( 9) =       hs%vx(ii)/kin%dt
-                  values(10) = sgn * hs%vy(ii)/kin%dt
+                  values( 9) =       geom%hs1%vx(ii)/kin%dt
+                  values(10) = sgn * geom%hs1%vy(ii)/kin%dt
                elseif (pv_insteadof_uxy) then
                   values( 9) =       pv%vx(ii)
                   values(10) = sgn * pv%vy(ii)

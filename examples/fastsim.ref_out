@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2559 $, $Date:: 2024-06-03$        |
+   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -1149,25 +1149,25 @@
 
 Parallel run using  2 threads
 Performance timers:
-|------------------------------------------------------------------------|
-|Timer name                     |   cpu time        |    wall clock      |
-|                               |-------------------|--------------------|
-|                     | #times  |   sec     |  %    |    sec     |  %    |
-|------------------------------------------------------------------------|
-|Total                |       1 |       0.5 | 100.0 |        0.8 | 100.0 |
-|Non-Hertzian cases   |       6 |       0.5 | 100.0 |        0.8 | 100.0 |
-|Panag.process        |       6 |       0.2 |  40.0 |        0.3 |  35.4 |
-|Algorithm Norm       |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       6 |       0.2 |  40.0 |        0.3 |  35.4 |
-|Output quantities    |       6 |       0.0 |   5.7 |        0.1 |  11.2 |
-|------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       1 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       1 |       0.2 |  37.1 |        0.3 |  33.8 |
-|Tang: Fastsim solver |       5 |       0.0 |   2.9 |        0.0 |   1.6 |
-|------------------------------------------------------------------------|
-|Reading input-file   |       6 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |       6 |       0.0 |   5.7 |        0.1 |   6.9 |
-|Initial state/estim. |       6 |       0.0 |   0.0 |        0.0 |   0.1 |
-|Writing output-files |       4 |       0.3 |  48.6 |        0.4 |  44.0 |
-|------------------------------------------------------------------------|
+|--------------------------------------------------------------------------|
+|Timer name                      |    cpu time        |    wall clock      |
+|                                |--------------------|--------------------|
+|                     |  #times  |    sec     |  %    |    sec     |  %    |
+|--------------------------------------------------------------------------|
+|Total                |        1 |        0.4 | 100.0 |        0.8 | 100.0 |
+|Non-Hertzian cases   |        6 |        0.4 | 100.0 |        0.8 | 100.0 |
+|Panag.process        |        6 |        0.2 |  50.0 |        0.3 |  32.8 |
+|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Tang       |        6 |        0.2 |  50.0 |        0.3 |  32.8 |
+|Output quantities    |        6 |        0.0 |   0.0 |        0.1 |  11.2 |
+|--------------------------------------------------------------------------|
+|Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |        1 |        0.2 |  50.0 |        0.3 |  32.2 |
+|Tang: Fastsim solver |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
+|--------------------------------------------------------------------------|
+|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Influence coeffic.   |        6 |        0.0 |   3.8 |        0.1 |  10.0 |
+|Initial state/estim. |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |        4 |        0.2 |  46.2 |        0.4 |  45.4 |
+|--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2559 $, $Date:: 2024-06-03$        |
+   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -48,6 +48,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL PROFILE "profiles/left-wheel-v1-pre-dry.whl"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -67,10 +71,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -161,6 +161,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.6473      0.2568   8.348E-05   2.000E-03       0.000
@@ -173,10 +177,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -267,6 +267,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.9840      0.2590   4.957E-05   4.000E-03       0.000
@@ -279,10 +283,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -373,6 +373,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.300      0.2632   1.930E-05   6.000E-03       0.000
@@ -385,10 +389,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -479,6 +479,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.586      0.2696  -6.888E-06   8.000E-03       0.000
@@ -491,10 +495,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -585,6 +585,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.832      0.2781  -2.881E-05   1.000E-02       0.000
@@ -597,10 +601,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -691,6 +691,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.032      0.2887  -4.625E-05   1.200E-02       0.000
@@ -703,10 +707,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -797,6 +797,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.179      0.3015  -5.889E-05   1.400E-02       0.000
@@ -809,10 +813,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -903,6 +903,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.270      0.3164  -6.655E-05   1.600E-02       0.000
@@ -915,10 +919,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1009,6 +1009,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.300      0.3334  -6.914E-05   1.800E-02       0.000
@@ -1021,10 +1025,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1115,6 +1115,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.270      0.3164  -6.655E-05   1.600E-02       0.000
@@ -1127,10 +1131,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1221,6 +1221,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.179      0.3015  -5.889E-05   1.400E-02       0.000
@@ -1233,10 +1237,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1327,6 +1327,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.032      0.2887  -4.625E-05   1.200E-02       0.000
@@ -1339,10 +1343,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1433,6 +1433,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.832      0.2781  -2.881E-05   1.000E-02       0.000
@@ -1445,10 +1449,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1539,6 +1539,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.586      0.2696  -6.888E-06   8.000E-03       0.000
@@ -1551,10 +1555,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1645,6 +1645,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.300      0.2632   1.930E-05   6.000E-03       0.000
@@ -1657,10 +1661,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1751,6 +1751,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.9840      0.2590   4.957E-05   4.000E-03       0.000
@@ -1763,10 +1767,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1857,6 +1857,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.6473      0.2568   8.348E-05   2.000E-03       0.000
@@ -1869,10 +1873,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -1963,6 +1963,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.3000      0.2567   1.201E-04       0.000       0.000
@@ -1975,10 +1979,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -2069,6 +2069,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000  -4.730E-02      0.2585   1.569E-04  -2.000E-03       0.000
@@ -2081,10 +2085,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -2175,6 +2175,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -3.205      0.2709   4.208E-04  -4.000E-03       0.000
@@ -2187,10 +2191,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -2280,6 +2280,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.300      0.2738   6.996E-04  -6.000E-03       0.000
@@ -2292,10 +2296,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -2427,6 +2427,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.386      0.2762   7.160E-04  -8.000E-03       0.000
@@ -2439,10 +2443,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -2568,6 +2568,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.460      0.2805   7.306E-04  -1.000E-02       0.000
@@ -2580,10 +2584,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -2709,6 +2709,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.520      0.2873   7.429E-04  -1.200E-02       0.000
@@ -2721,10 +2725,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -2854,6 +2854,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.564      0.2967   7.524E-04  -1.400E-02       0.000
@@ -2866,10 +2870,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -2999,6 +2999,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.591      0.3093   7.589E-04  -1.600E-02       0.000
@@ -3011,10 +3015,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -3130,6 +3130,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.600      0.3257   7.615E-04  -1.800E-02       0.000
@@ -3142,10 +3146,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -3260,6 +3260,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.591      0.3093   7.589E-04  -1.600E-02       0.000
@@ -3272,10 +3276,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -3391,6 +3391,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.564      0.2967   7.524E-04  -1.400E-02       0.000
@@ -3403,10 +3407,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -3536,6 +3536,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.520      0.2873   7.429E-04  -1.200E-02       0.000
@@ -3548,10 +3552,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -3681,6 +3681,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.460      0.2805   7.306E-04  -1.000E-02       0.000
@@ -3693,10 +3697,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -3822,6 +3822,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.386      0.2762   7.160E-04  -8.000E-03       0.000
@@ -3834,10 +3838,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -3963,6 +3963,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.240      0.2766   6.910E-04  -6.000E-03       0.000
@@ -3975,10 +3979,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -4108,6 +4108,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -4.165      0.2730   5.010E-04  -4.000E-03       0.000
@@ -4120,10 +4124,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -4213,6 +4213,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -2.084      0.2653   3.219E-04  -2.000E-03       0.000
@@ -4225,10 +4229,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -4320,6 +4320,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+       -0.0801      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.3000      0.2567   1.201E-04       0.000       0.000
@@ -4332,10 +4336,6 @@
          0.000       0.000       1.297   1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-       -0.0801      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -4440,6 +4440,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL PROFILE "profiles/right-wheel-v1-pre-dry.whl"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -4459,10 +4463,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -4563,6 +4563,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.6473      0.2568   8.348E-05   2.000E-03       0.000
@@ -4575,10 +4579,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -4679,6 +4679,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.9840      0.2590   4.957E-05   4.000E-03       0.000
@@ -4691,10 +4695,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -4795,6 +4795,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.300      0.2632   1.930E-05   6.000E-03       0.000
@@ -4807,10 +4811,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -4910,6 +4910,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.586      0.2696  -6.888E-06   8.000E-03       0.000
@@ -4922,10 +4926,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -5026,6 +5026,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.832      0.2781  -2.881E-05   1.000E-02       0.000
@@ -5038,10 +5042,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -5142,6 +5142,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.032      0.2887  -4.625E-05   1.200E-02       0.000
@@ -5154,10 +5158,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -5258,6 +5258,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.179      0.3015  -5.889E-05   1.400E-02       0.000
@@ -5270,10 +5274,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -5374,6 +5374,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.270      0.3164  -6.655E-05   1.600E-02       0.000
@@ -5386,10 +5390,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -5491,6 +5491,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.300      0.3334  -6.914E-05   1.800E-02       0.000
@@ -5503,10 +5507,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -5608,6 +5608,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.270      0.3164  -6.655E-05   1.600E-02       0.000
@@ -5620,10 +5624,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -5725,6 +5725,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.179      0.3015  -5.889E-05   1.400E-02       0.000
@@ -5737,10 +5741,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -5841,6 +5841,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       2.032      0.2887  -4.625E-05   1.200E-02       0.000
@@ -5853,10 +5857,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -5957,6 +5957,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.832      0.2781  -2.881E-05   1.000E-02       0.000
@@ -5969,10 +5973,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -6073,6 +6073,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.586      0.2696  -6.888E-06   8.000E-03       0.000
@@ -6085,10 +6089,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -6189,6 +6189,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       1.300      0.2632   1.930E-05   6.000E-03       0.000
@@ -6201,10 +6205,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -6304,6 +6304,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.9840      0.2590   4.957E-05   4.000E-03       0.000
@@ -6316,10 +6320,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -6420,6 +6420,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.6473      0.2568   8.348E-05   2.000E-03       0.000
@@ -6432,10 +6436,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -6536,6 +6536,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.3000      0.2567   1.201E-04       0.000       0.000
@@ -6548,10 +6552,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -6652,6 +6652,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000  -4.730E-02      0.2585   1.569E-04  -2.000E-03       0.000
@@ -6664,10 +6668,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -6769,6 +6769,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -3.205      0.2709   4.208E-04  -4.000E-03       0.000
@@ -6781,10 +6785,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -6883,6 +6883,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.300      0.2738   6.996E-04  -6.000E-03       0.000
@@ -6895,10 +6899,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -6995,6 +6995,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.386      0.2762   7.160E-04  -8.000E-03       0.000
@@ -7007,10 +7011,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -7107,6 +7107,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.460      0.2805   7.306E-04  -1.000E-02       0.000
@@ -7119,10 +7123,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -7219,6 +7219,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.520      0.2873   7.429E-04  -1.200E-02       0.000
@@ -7231,10 +7235,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -7331,6 +7331,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.564      0.2967   7.524E-04  -1.400E-02       0.000
@@ -7343,10 +7347,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -7443,6 +7443,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.591      0.3093   7.589E-04  -1.600E-02       0.000
@@ -7455,10 +7459,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -7555,6 +7555,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.600      0.3257   7.615E-04  -1.800E-02       0.000
@@ -7567,10 +7571,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -7667,6 +7667,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.591      0.3093   7.589E-04  -1.600E-02       0.000
@@ -7679,10 +7683,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -7779,6 +7779,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.564      0.2967   7.524E-04  -1.400E-02       0.000
@@ -7791,10 +7795,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -7891,6 +7891,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.520      0.2873   7.429E-04  -1.200E-02       0.000
@@ -7903,10 +7907,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -8003,6 +8003,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.460      0.2805   7.306E-04  -1.000E-02       0.000
@@ -8015,10 +8019,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -8115,6 +8115,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.386      0.2762   7.160E-04  -8.000E-03       0.000
@@ -8127,10 +8131,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -8227,6 +8227,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -6.240      0.2766   6.910E-04  -6.000E-03       0.000
@@ -8239,10 +8243,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -8339,6 +8339,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -4.165      0.2730   5.010E-04  -4.000E-03       0.000
@@ -8351,10 +8355,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -8451,6 +8451,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -2.084      0.2653   3.219E-04  -2.000E-03       0.000
@@ -8463,10 +8467,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -8567,6 +8567,10 @@
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       90.00       8.000       4.000    
 
+ RAIL IRREGULARITY
+     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
+        0.0545      0.0000      0.0000       0.000       0.000       0.000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      0.3000      0.2567   1.201E-04       0.000       0.000
@@ -8579,10 +8583,6 @@
          0.000       0.000       1.297  -1.667E-02       0.000       0.000
      VXWHL       VYWHL       VZWHL       VROLLW      VYAWW       VPITCHW
          0.000       0.000       0.000       0.000       0.000       0.000
-
- RAIL IRREGULARITY
-     DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
-        0.0545      0.0000      0.0000       0.000       0.000       0.000
 
 
  TOTAL FORCES AND MOMENTS ON ROLLER
@@ -8649,29 +8649,29 @@
          7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      X  -->        Chi=  0.00 degrees
 Performance timers:
-|------------------------------------------------------------------------|
-|Timer name                     |   cpu time        |    wall clock      |
-|                               |-------------------|--------------------|
-|                     | #times  |   sec     |  %    |    sec     |  %    |
-|------------------------------------------------------------------------|
-|Total                |       1 |       0.7 | 100.0 |        1.5 | 100.0 |
-|Wheel-rail cases     |      74 |       0.7 | 100.0 |        1.5 | 100.0 |
-|W/r profiles         |       4 |       0.0 |   2.3 |        0.0 |   0.7 |
-|Geometric analysis   |      74 |       0.0 |   4.7 |        0.0 |   2.6 |
-|Panag.process        |      87 |       0.5 |  81.4 |        1.1 |  69.5 |
-|Algorithm Norm       |      87 |       0.0 |   7.0 |        0.1 |   8.8 |
-|Algorithm Tang       |      87 |       0.5 |  74.4 |        0.9 |  60.6 |
-|Output quantities    |     161 |       0.1 |  11.6 |        0.4 |  24.9 |
-|------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      87 |       0.0 |   7.0 |        0.1 |   8.7 |
-|Tang: StedyGS solver |      87 |       0.5 |  72.1 |        0.9 |  60.2 |
-|Temperature calc.    |      37 |       0.0 |   0.0 |        0.0 |   0.0 |
-|------------------------------------------------------------------------|
-|Reading input-file   |      74 |       0.0 |   2.3 |        0.0 |   0.8 |
-|Contact location     |      74 |       0.0 |   2.3 |        0.0 |   2.0 |
-|Undeformed distance  |      87 |       0.0 |   2.3 |        0.0 |   0.7 |
-| - Interp whl_srfc   |      87 |       0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |      87 |       0.0 |   0.0 |        0.0 |   1.7 |
-|Initial state/estim. |      87 |       0.0 |   0.0 |        0.0 |   0.0 |
-|------------------------------------------------------------------------|
+|--------------------------------------------------------------------------|
+|Timer name                      |    cpu time        |    wall clock      |
+|                                |--------------------|--------------------|
+|                     |  #times  |    sec     |  %    |    sec     |  %    |
+|--------------------------------------------------------------------------|
+|Total                |        1 |        0.2 | 100.0 |        1.7 | 100.0 |
+|Wheel-rail cases     |       74 |        0.2 | 100.0 |        1.7 | 100.0 |
+|W/r profiles         |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |       74 |        0.0 |   0.0 |        0.1 |   7.1 |
+|Panag.process        |       87 |        0.2 |  92.9 |        1.2 |  68.5 |
+|Algorithm Norm       |       87 |        0.0 |   0.0 |        0.2 |  12.6 |
+|Algorithm Tang       |       87 |        0.2 |  92.9 |        0.9 |  55.9 |
+|Output quantities    |      161 |        0.0 |   7.1 |        0.4 |  21.3 |
+|--------------------------------------------------------------------------|
+|Norm: ConjGrd solver |       87 |        0.0 |   0.0 |        0.2 |   9.4 |
+|Tang: StedyGS solver |       87 |        0.2 |  92.9 |        0.9 |  55.7 |
+|Temperature calc.    |       37 |        0.0 |   0.0 |        0.0 |   0.0 |
+|--------------------------------------------------------------------------|
+|Reading input-file   |       74 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Contact location     |       74 |        0.0 |   0.0 |        0.1 |   4.5 |
+|Undeformed distance  |       87 |        0.0 |   0.0 |        0.0 |   2.6 |
+| - Interp whl_srfc   |       87 |        0.0 |   0.0 |        0.0 |   0.7 |
+|Influence coeffic.   |       87 |        0.0 |   0.0 |        0.0 |   2.0 |
+|Initial state/estim. |       87 |        0.0 |   0.0 |        0.0 |   0.0 |
+|--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

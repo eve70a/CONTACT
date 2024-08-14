@@ -201,8 +201,8 @@ contains
          do icp = 1, wtd%numcps
             associate( gd => wtd%allcps(icp)%cp%gd )
             gd%ic%matfil_surf = 2
-            call writmt (gd%meta, gd%ic, gd%cgrid_cur, gd%potcon_cur, gd%geom%hs1, gd%mater, gd%fric,   &
-                gd%kin, gd%outpt1, wtd%ic%is_left_side())
+            call writmt (gd%meta, gd%ic, gd%cgrid_cur, gd%potcon_cur, gd%mater, gd%fric, gd%kin,        &
+                         gd%geom, gd%outpt1, wtd%ic%is_left_side())
             end associate
          enddo
       endif
@@ -619,23 +619,35 @@ contains
       if (wtd_ic%varfrc.eq.0) then
          gd%ic%varfrc = 0
          call fric_copy(fric, gd%fric)
-      elseif (wtd_ic%is_conformal()) then
-         gd%ic%varfrc = 2
+      elseif (wtd_ic%varfrc.eq.1 .and. wtd_ic%is_conformal()) then
          call fric_interp(fric, gd%potcon_inp%my, cp%curv_incln%vy, gd%fric)
-      else
+         gd%ic%varfrc = 3
+      elseif (wtd_ic%varfrc.eq.1) then
          gd%ic%varfrc = 0
          call fric_interp(fric, gd%meta%deltcp_w, gd%fric)
+      elseif (wtd_ic%varfrc.eq.2) then
+         gd%ic%varfrc = 0
+         call fric_interp(fric, gd%meta%s_ws, gd%fric)
+      else
+         write(bufout,'(a,i0,a)') ' Internal error: incorrect V= ',wtd_ic%varfrc,', aborting.'
+         call write_log(1, bufout)
+         call abort_run()
       endif
+      gd%fric%varfrc_eff = gd%ic%varfrc
 
       if (x_locate.ge.3) then
          write(bufout,'(2(a,i0),a)') ' using V = ', gd%ic%varfrc,' with NVF = ', gd%fric%nvf,' slices'
          call write_log(1, bufout)
       endif
+      if (x_locate.ge.4) then
+         call fric_print(fric,'wtd%fric')
+         call fric_print(gd%fric,'gd%fric')
+      endif
 
-      ! constant friction per patch: enable scaling output forces
+      ! constant friction parameters per patch: enable scaling output forces
       ! Note: potential conflicts for F=1 with Fx<>0.
 
-      gd%kin%use_muscal = gd%ic%varfrc.eq.0
+      gd%kin%use_muscal = (gd%ic%varfrc.eq.0 .or. gd%ic%varfrc.eq.2)
       if (gd%kin%use_muscal) then
          gd%kin%muscal = gd%fric%fstat()
       else

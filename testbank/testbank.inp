@@ -119,7 +119,7 @@
  3  MODULE
 % Next Case - Steady state rolling with variable friction, NVF = MY
   203100     P-B-T-N-F-S          PVTIME, BOUND, TANG, NORM, FORCE, STRESS
- 2022020   V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
+ 3022020   V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
  0000341   H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
     80    30      5    1     1e-6              MAXGS, MAXIN, MAXNR, MAXOUT, EPS
    0.4705    -0.00304     0.0         0.0           FN, CKSI, CETA, CPHI
@@ -623,7 +623,7 @@
  0101321        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
   0.400   0.400     1.000    90d   30.0   20.0   40.0     DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN
 
-% Test-case for transient + N=0: initialize from zero tractions
+% Test-case for transient shift + N=0: initialize from zero tractions
 
  1  MODULE
  1201000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS

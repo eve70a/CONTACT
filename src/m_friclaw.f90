@@ -27,9 +27,10 @@ public
    public  fric_is_veldep
    private fric_get_fstat
    private fric_get_fstat_min
+   private fric_get_fstat_avg
    public  fric_veldep_mu_steady
    public  fric_tempdep_mu_temp
-   private fric_check_alpha
+   private fric_check_param
    public  fric_interp
    public  fric_input
    public  fric_wrtinp
@@ -49,21 +50,22 @@ public
    !---------------------------------------------------------------------------------------------------------
 
    ! data with respect to the friction law used -- see report-m20002
-   ! In module 1, the user may use V=1 and define nvf arbitrarily
+   ! In module 1, the user may use V=1 or 2 and define nvf arbitrarily
    ! In module 3, the program uses either V=0 with nvf=1 or V=2 with nvf=my
 
    type :: t_friclaw
       integer      :: frclaw_eff
+      integer      :: varfrc_eff
       integer      :: nvf
-      real(kind=8), dimension(:),   pointer   :: alphvf => NULL()
+      real(kind=8), dimension(:),   pointer   :: paramvf => NULL()
       real(kind=8), dimension(:),   pointer   :: fstat_arr => NULL()
       real(kind=8), dimension(:),   pointer   :: fkin_arr  => NULL()
-      real(kind=8), dimension(:),   pointer   :: flin1  => NULL(), flin2 => NULL()
-      real(kind=8), dimension(:),   pointer   :: frat1  => NULL(), frat2 => NULL()
-      real(kind=8), dimension(:),   pointer   :: fexp1  => NULL(), fexp2 => NULL()
-      real(kind=8), dimension(:),   pointer   :: sabsh1 => NULL(), sabsh2 => NULL()
-      real(kind=8), dimension(:),   pointer   :: fref   => NULL(), dfheat => NULL()
-      real(kind=8), dimension(:),   pointer   :: tref   => NULL(), dtheat => NULL()
+      real(kind=8), dimension(:),   pointer   :: flin1   => NULL(), flin2 => NULL()
+      real(kind=8), dimension(:),   pointer   :: frat1   => NULL(), frat2 => NULL()
+      real(kind=8), dimension(:),   pointer   :: fexp1   => NULL(), fexp2 => NULL()
+      real(kind=8), dimension(:),   pointer   :: sabsh1  => NULL(), sabsh2 => NULL()
+      real(kind=8), dimension(:),   pointer   :: fref    => NULL(), dfheat => NULL()
+      real(kind=8), dimension(:),   pointer   :: tref    => NULL(), dtheat => NULL()
       real(kind=8) :: memdst
       real(kind=8) :: mem_s0
    contains
@@ -72,8 +74,15 @@ public
       procedure :: mu_temp    => fric_tempdep_mu_temp
       procedure :: fstat      => fric_get_fstat
       procedure :: fstat_min  => fric_get_fstat_min
+      procedure :: fstat_avg  => fric_get_fstat_avg
 
-      ! frclaw_eff     effective friction law used in current case, see ic%frclaw_inp above.
+      ! frclaw_eff     effective friction law used in current case, see frclaw_inp in t_ic
+      ! varfrc_eff     type of friction variation cf varfrc in t_ic
+      ! nvf            number of sets of friction parameters
+      ! paramvf        independent parameter: ALPHVF for V=1, SVF for V=2
+      ! alphvf   [rad] surface inclination alpha for which friction parameters are given
+      ! svf      [mm]  track position s which friction parameters are given
+
       ! fkin_arr  [-]  kinetic coefficients of friction (L=0),
       !                limit values for coefficient of friction at large slip velocities (L=2-4,6).
       ! fstat_arr [-]  static coefficients of friction (L=0-6), derived from other input when L=2-6.
@@ -106,21 +115,21 @@ contains
       integer         :: nvf
 
       fric%nvf  =  nvf
-      call reallocate_arr(fric%alphvf, nvf)
+      call reallocate_arr(fric%paramvf, nvf)
       call reallocate_arr(fric%fstat_arr, nvf)
       call reallocate_arr(fric%fkin_arr,  nvf)
-      call reallocate_arr(fric%flin1,  nvf)
-      call reallocate_arr(fric%flin2,  nvf)
-      call reallocate_arr(fric%frat1,  nvf)
-      call reallocate_arr(fric%frat2,  nvf)
-      call reallocate_arr(fric%fexp1,  nvf)
-      call reallocate_arr(fric%fexp2,  nvf)
-      call reallocate_arr(fric%sabsh1, nvf)
-      call reallocate_arr(fric%sabsh2, nvf)
-      call reallocate_arr(fric%fref,   nvf)
-      call reallocate_arr(fric%dfheat, nvf)
-      call reallocate_arr(fric%tref,   nvf)
-      call reallocate_arr(fric%dtheat, nvf)
+      call reallocate_arr(fric%flin1,   nvf)
+      call reallocate_arr(fric%flin2,   nvf)
+      call reallocate_arr(fric%frat1,   nvf)
+      call reallocate_arr(fric%frat2,   nvf)
+      call reallocate_arr(fric%fexp1,   nvf)
+      call reallocate_arr(fric%fexp2,   nvf)
+      call reallocate_arr(fric%sabsh1,  nvf)
+      call reallocate_arr(fric%sabsh2,  nvf)
+      call reallocate_arr(fric%fref,    nvf)
+      call reallocate_arr(fric%dfheat,  nvf)
+      call reallocate_arr(fric%tref,    nvf)
+      call reallocate_arr(fric%dtheat,  nvf)
 
    end subroutine fric_resize
 
@@ -142,8 +151,9 @@ contains
       ! store sensible default values
 
       fric%frclaw_eff =  0
+      fric%varfrc_eff =  0
 
-      fric%alphvf    = (/  0.0d0  /)
+      fric%paramvf   = (/  0.0d0  /)
       fric%fkin_arr  = (/  0.30d0 /)
       fric%fstat_arr = (/  0.30d0 /)
       fric%flin1     = (/  0.0d0  /)
@@ -181,25 +191,26 @@ contains
 
       ! copy contents of f_in
 
-      f_out%frclaw_eff    = f_in%frclaw_eff
+      f_out%frclaw_eff     = f_in%frclaw_eff
+      f_out%varfrc_eff     = f_in%varfrc_eff
 
-      f_out%alphvf(1:nvf) = f_in%alphvf(1:nvf)
+      f_out%paramvf(1:nvf) = f_in%paramvf(1:nvf)
       f_out%fstat_arr(1:nvf) = f_in%fstat_arr(1:nvf)
       f_out%fkin_arr (1:nvf) = f_in%fkin_arr (1:nvf)
-      f_out%flin1 (1:nvf) = f_in%flin1 (1:nvf)
-      f_out%flin2 (1:nvf) = f_in%flin2 (1:nvf)
-      f_out%frat1 (1:nvf) = f_in%frat1 (1:nvf)
-      f_out%frat2 (1:nvf) = f_in%frat2 (1:nvf)
-      f_out%fexp1 (1:nvf) = f_in%fexp1 (1:nvf)
-      f_out%fexp2 (1:nvf) = f_in%fexp2 (1:nvf)
-      f_out%sabsh1(1:nvf) = f_in%sabsh1(1:nvf)
-      f_out%sabsh2(1:nvf) = f_in%sabsh2(1:nvf)
-      f_out%fref  (1:nvf) = f_in%fref  (1:nvf)
-      f_out%tref  (1:nvf) = f_in%tref  (1:nvf)
-      f_out%dfheat(1:nvf) = f_in%dfheat(1:nvf)
-      f_out%dtheat(1:nvf) = f_in%dtheat(1:nvf)
-      f_out%memdst        = f_in%memdst  
-      f_out%mem_s0        = f_in%mem_s0  
+      f_out%flin1 (1:nvf)  = f_in%flin1 (1:nvf)
+      f_out%flin2 (1:nvf)  = f_in%flin2 (1:nvf)
+      f_out%frat1 (1:nvf)  = f_in%frat1 (1:nvf)
+      f_out%frat2 (1:nvf)  = f_in%frat2 (1:nvf)
+      f_out%fexp1 (1:nvf)  = f_in%fexp1 (1:nvf)
+      f_out%fexp2 (1:nvf)  = f_in%fexp2 (1:nvf)
+      f_out%sabsh1(1:nvf)  = f_in%sabsh1(1:nvf)
+      f_out%sabsh2(1:nvf)  = f_in%sabsh2(1:nvf)
+      f_out%fref  (1:nvf)  = f_in%fref  (1:nvf)
+      f_out%tref  (1:nvf)  = f_in%tref  (1:nvf)
+      f_out%dfheat(1:nvf)  = f_in%dfheat(1:nvf)
+      f_out%dtheat(1:nvf)  = f_in%dtheat(1:nvf)
+      f_out%memdst         = f_in%memdst  
+      f_out%mem_s0         = f_in%mem_s0  
 
    end subroutine fric_copy
 
@@ -211,7 +222,7 @@ contains
 !--subroutine parameters:
       type(t_friclaw) :: fric
 
-      call destroy_arr(fric%alphvf)
+      call destroy_arr(fric%paramvf)
       call destroy_arr(fric%fstat_arr)
       call destroy_arr(fric%fkin_arr)
       call destroy_arr(fric%flin1)
@@ -238,31 +249,37 @@ contains
       type(t_friclaw)  :: f
       character(len=*) :: nam
 !--local variables:
-      integer         :: ivf
+      integer          :: ivf
+      character(len=5) :: namprm
 
-      write(bufout,'(3a,i2,a,i4,a)') ' friction law ',trim(nam),' uses L=', f%frclaw_eff,' with',       &
-                f%nvf,' slices'
+      namprm = '     '
+      if (f%varfrc_eff.eq.1) namprm = 'ALPHA'
+      if (f%varfrc_eff.eq.2) namprm = 'SVF  '
+      if (f%varfrc_eff.eq.3) namprm = 'ALPHA'
+
+      write(bufout,'(3a,2(i2,a),i4,a)') ' friction law ',trim(nam),' uses L=', f%frclaw_eff,' with V=', &
+                f%varfrc_eff, ',', f%nvf,' slices'
       call write_log(1, bufout)
 
-      if (f%frclaw_eff.eq.0) write(bufout, 3200)
-      if (f%frclaw_eff.eq.2) write(bufout, 3202) 'FLIN1', 'FLIN2'
-      if (f%frclaw_eff.eq.3) write(bufout, 3202) 'FRAT1', 'FRAT2'
-      if (f%frclaw_eff.eq.4) write(bufout, 3202) 'FEXP1', 'FEXP2'
-      if (f%frclaw_eff.eq.6) write(bufout, 3206)
+      if (f%frclaw_eff.eq.0) write(bufout, 3200) namprm
+      if (f%frclaw_eff.eq.2) write(bufout, 3202) namprm, 'FLIN1', 'FLIN2'
+      if (f%frclaw_eff.eq.3) write(bufout, 3202) namprm, 'FRAT1', 'FRAT2'
+      if (f%frclaw_eff.eq.4) write(bufout, 3202) namprm, 'FEXP1', 'FEXP2'
+      if (f%frclaw_eff.eq.6) write(bufout, 3206) namprm
       call write_log(1, bufout)
- 3200 format ( 2x, 3x,'ALPHA',4x, 3x,'FSTAT',4x, 3x,'FKIN')
- 3202 format ( 2x, 3x,'ALPHA',4x, 3x,'FKIN',5x, 3x,a5,4x, 3x,'SABSH1',3x, 3x,a5,4x, 3x,'SABSH2')
- 3206 format ( 2x, 3x,'ALPHA',4x, 3x,'FREF',5x, 3x,'TREF',5x, 3x,'DFHEAT',3x, 3x,'DTHEAT')
+ 3200 format ( 2x, 3x,a,4x, 3x,'FSTAT',4x, 3x,'FKIN')
+ 3202 format ( 2x, 3x,a,4x, 3x,'FKIN',5x, 3x,a5,4x, 3x,'SABSH1',3x, 3x,a5,4x, 3x,'SABSH2')
+ 3206 format ( 2x, 3x,a,4x, 3x,'FREF',5x, 3x,'TREF',5x, 3x,'DFHEAT',3x, 3x,'DTHEAT')
 
       do ivf = 1, f%nvf
-         if (f%frclaw_eff.eq.0) write(bufout, 3300) f%alphvf(ivf), f%fstat_arr(ivf), f%fkin_arr(ivf)
-         if (f%frclaw_eff.eq.2) write(bufout, 3300) f%alphvf(ivf), f%fkin_arr(ivf), f%flin1(ivf),       &
+         if (f%frclaw_eff.eq.0) write(bufout, 3300) f%paramvf(ivf), f%fstat_arr(ivf), f%fkin_arr(ivf)
+         if (f%frclaw_eff.eq.2) write(bufout, 3300) f%paramvf(ivf), f%fkin_arr(ivf), f%flin1(ivf),      &
                 f%sabsh1(ivf), f%flin2(ivf), f%sabsh2(ivf)
-         if (f%frclaw_eff.eq.3) write(bufout, 3300) f%alphvf(ivf), f%fkin_arr(ivf), f%frat1(ivf),       &
+         if (f%frclaw_eff.eq.3) write(bufout, 3300) f%paramvf(ivf), f%fkin_arr(ivf), f%frat1(ivf),      &
                 f%sabsh1(ivf), f%frat2(ivf), f%sabsh2(ivf)
-         if (f%frclaw_eff.eq.4) write(bufout, 3300) f%alphvf(ivf), f%fkin_arr(ivf), f%fexp1(ivf),       &
+         if (f%frclaw_eff.eq.4) write(bufout, 3300) f%paramvf(ivf), f%fkin_arr(ivf), f%fexp1(ivf),      &
                 f%sabsh1(ivf), f%fexp2(ivf), f%sabsh2(ivf)
-         if (f%frclaw_eff.eq.6) write(bufout, 3300) f%alphvf(ivf), f%fref(ivf), f%tref(ivf),            &
+         if (f%frclaw_eff.eq.6) write(bufout, 3300) f%paramvf(ivf), f%fref(ivf), f%tref(ivf),           &
                 f%dfheat(ivf), f%dtheat(ivf)
          call write_log(1, bufout)
  3300    format ( 2x, 6g12.4)
@@ -352,6 +369,28 @@ contains
       fric_get_fstat_min = fmin
 
    end function fric_get_fstat_min
+
+!------------------------------------------------------------------------------------------------------------
+
+   function fric_get_fstat_avg(f)
+   !--function: obtain average static coefficient of friction from friclaw data-structure
+      implicit none
+   !--result value
+      real(kind=8)      :: fric_get_fstat_avg
+   !--subroutine arguments
+      class(t_friclaw),           intent(in) :: f
+   !--local variables:
+      integer           :: ivf
+      real(kind=8)      :: fsum
+
+      fsum = f%fstat_arr(1)
+      do ivf = 2, f%nvf
+         fsum = fsum + f%fstat_arr(ivf)
+      enddo
+
+      fric_get_fstat_avg = fsum / real(f%nvf)
+
+   end function fric_get_fstat_avg
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -450,12 +489,12 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine fric_check_alpha( nvf, alphvf, ierror )
-!--purpose: Check alpha-values of variable friction: must be strictly increasing
+   subroutine fric_check_param( nvf, paramvf, ierror )
+!--purpose: Check param-values of variable friction: must be strictly increasing
    implicit none
 !--subroutine arguments:
    integer,         intent(in)  :: nvf
-   real(kind=8),    intent(in)  :: alphvf(nvf)
+   real(kind=8),    intent(in)  :: paramvf(nvf)
    integer,         intent(out) :: ierror
 !--local variables:
    real(kind=8), parameter :: thresh = 1d-6
@@ -463,25 +502,25 @@ contains
  
    ierror = 0
 
-   ! check that variable friction values are given with alpha's in increasing order
+   ! check that variable friction values are given with param's in increasing order
    ! repeated values are prohibited to avoid division by zero when using interpolation
 
    ivf  = 1
    do while(ierror.le.0 .and. ivf.lt.nvf)
       ivf = ivf + 1
-      if (alphvf(ivf)-alphvf(ivf-1).lt.thresh) ierror = ivf
+      if (paramvf(ivf)-paramvf(ivf-1).lt.thresh) ierror = ivf
    enddo
 
-   end subroutine fric_check_alpha
+   end subroutine fric_check_param
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine fric_interp_arr( f_in, n_out, alph_out, f_out )
+   subroutine fric_interp_arr( f_in, n_out, param_out, f_out )
 !--purpose: Interpolate friction law parameters from f_in to f_out
    implicit none
 !--subroutine arguments:
    integer,         intent(in)  :: n_out
-   real(kind=8),    intent(in)  :: alph_out(n_out)
+   real(kind=8),    intent(in)  :: param_out(n_out)
    type(t_friclaw), intent(in)  :: f_in
    type(t_friclaw)              :: f_out
 !--local variables:
@@ -498,54 +537,58 @@ contains
    frclaw           = f_in%frclaw_eff
    f_out%frclaw_eff = frclaw
 
+   ! store parameter positions used for interpolation
+
+   f_out%paramvf(1:n_out) = param_out(1:n_out)
+
    ! L=0: Coulomb friction
 
    if (frclaw.eq.0) then
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%fstat_arr, n_out, alph_out, f_out%fstat_arr, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%fstat_arr, n_out, param_out, f_out%fstat_arr, sub_error )
       if (my_error.eq.0) my_error = sub_error
    endif
 
    ! L=2-4: Velocity-dependent friction
 
    if (frclaw.ge.2 .and. frclaw.le.4) then
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%fkin_arr, n_out, alph_out, f_out%fkin_arr, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%fkin_arr, n_out, param_out, f_out%fkin_arr, sub_error )
       if (my_error.eq.0) my_error = sub_error
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%sabsh1, n_out, alph_out, f_out%sabsh1, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%sabsh1, n_out, param_out, f_out%sabsh1, sub_error )
       if (my_error.eq.0) my_error = sub_error
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%sabsh2, n_out, alph_out, f_out%sabsh2, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%sabsh2, n_out, param_out, f_out%sabsh2, sub_error )
       if (my_error.eq.0) my_error = sub_error
       f_out%memdst = f_in%memdst
       f_out%mem_s0 = f_in%mem_s0
    endif
    if (frclaw.eq.2) then
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%flin1, n_out, alph_out, f_out%flin1, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%flin1, n_out, param_out, f_out%flin1, sub_error )
       if (my_error.eq.0) my_error = sub_error
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%flin2, n_out, alph_out, f_out%flin2, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%flin2, n_out, param_out, f_out%flin2, sub_error )
       if (my_error.eq.0) my_error = sub_error
    endif
    if (frclaw.eq.3) then
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%frat1, n_out, alph_out, f_out%frat1, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%frat1, n_out, param_out, f_out%frat1, sub_error )
       if (my_error.eq.0) my_error = sub_error
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%frat2, n_out, alph_out, f_out%frat2, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%frat2, n_out, param_out, f_out%frat2, sub_error )
       if (my_error.eq.0) my_error = sub_error
    endif
    if (frclaw.eq.4) then
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%fexp1, n_out, alph_out, f_out%fexp1, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%fexp1, n_out, param_out, f_out%fexp1, sub_error )
       if (my_error.eq.0) my_error = sub_error
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%fexp2, n_out, alph_out, f_out%fexp2, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%fexp2, n_out, param_out, f_out%fexp2, sub_error )
       if (my_error.eq.0) my_error = sub_error
    endif
 
    ! L=6: Temperature-dependent friction
 
    if (frclaw.eq.6) then
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%fref,   n_out, alph_out, f_out%fref, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%fref,   n_out, param_out, f_out%fref, sub_error )
       if (my_error.eq.0) my_error = sub_error
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%tref,   n_out, alph_out, f_out%tref, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%tref,   n_out, param_out, f_out%tref, sub_error )
       if (my_error.eq.0) my_error = sub_error
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%dfheat, n_out, alph_out, f_out%dfheat, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%dfheat, n_out, param_out, f_out%dfheat, sub_error )
       if (my_error.eq.0) my_error = sub_error
-      call interp_1d( f_in%nvf, f_in%alphvf, f_in%dtheat, n_out, alph_out, f_out%dtheat, sub_error )
+      call interp_1d( f_in%nvf, f_in%paramvf, f_in%dtheat, n_out, param_out, f_out%dtheat, sub_error )
       if (my_error.eq.0) my_error = sub_error
       f_out%memdst = f_in%memdst
       f_out%mem_s0 = f_in%mem_s0
@@ -559,17 +602,17 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine fric_interp_scalar( f_in, alph_out, f_out )
+   subroutine fric_interp_scalar( f_in, param_out, f_out )
 !--purpose: Interpolate friction law parameters from f_in to f_out
    implicit none
 !--subroutine arguments:
-   real(kind=8),    intent(in)  :: alph_out
+   real(kind=8),    intent(in)  :: param_out
    type(t_friclaw), intent(in)  :: f_in
    type(t_friclaw)              :: f_out
 !--local variables:
    real(kind=8)                 :: rarr(1)
 
-   rarr(1) = alph_out
+   rarr(1) = param_out
    call fric_interp_arr( f_in, 1, rarr, f_out )
 
    end subroutine fric_interp_scalar
@@ -586,24 +629,26 @@ contains
       type(t_friclaw)          :: fric
 !--local variables:
       integer, parameter :: mxnval = 20
-      integer            :: ints(mxnval), ivf, ialpha, nval, ierror
-      logical            :: flags(mxnval)
+      integer            :: ints(mxnval), ivf, iofs, nval, ierror
+      logical            :: lparam, flags(mxnval)
       real(kind=8)       :: dbles(mxnval)
       character(len=256) :: strngs(mxnval)
-      character(len=1)   :: talpha
+      character(len=1)   :: tparam
+      character(len=5)   :: namprm
       character(len=6)   :: types
 
       ! Copy effective friction law used
 
       fric%frclaw_eff = ic_frclaw_inp
+      fric%varfrc_eff = ic_varfrc
 
       ! Determine NVF, number of sets of parameters used for friction variation
 
-      if (ic_varfrc.eq.0) then          ! V = 0:  NVF = 1
+      if (ic_varfrc.eq.0) then                          ! V = 0:  NVF = 1
 
          fric%nvf = 1
 
-      elseif (ic_varfrc.eq.1) then      ! V = 1:  NVF from input
+      elseif (ic_varfrc.eq.1 .or. ic_varfrc.eq.2) then  ! V = 1, 2:  NVF from input
 
          call readline(linp, ncase, linenr, 'number of points for var.friction', 'i', ints, dbles,      &
                         flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
@@ -611,7 +656,7 @@ contains
          fric%nvf = ints(1)
          zerror = zerror .or. .not.check_irng ('NVF', fric%nvf, 1, MAX_NVF)
 
-      elseif (ic_varfrc.eq.2) then      ! V = 2:  NVF == MY
+      elseif (ic_varfrc.eq.3) then                      ! V = 3:  NVF == MY
 
          fric%nvf = my
 
@@ -621,82 +666,93 @@ contains
 
       call fric_resize(fric, fric%nvf)
 
-      ! Read input depending on V-digit:  ALPHVF values for V = 1
+      ! Read input depending on V-digit:  ALPHVF values for V = 1, SVF values for V = 2
 
-      if (ic_varfrc.eq.0 .or. ic_varfrc.eq.2) then
-         ialpha =  0
-         talpha = ' '
+      if (ic_varfrc.eq.0 .or. ic_varfrc.eq.3) then
+         lparam  = .false.
+         tparam  = ' '
+         iofs    = 0
+      elseif (ic_varfrc.eq.1) then
+         lparam  = .true.
+         tparam  = 'a'
+         iofs    = 1
       else
-         ialpha =  1
-         talpha = 'a'
+         lparam  = .true.
+         tparam  = 'd'
+         iofs    = 1
       endif
 
       ! read each set of parameters in turn
 
       do ivf = 1, fric%nvf
 
-         if (ialpha.le.0) fric%alphvf(ivf) = real(ivf)
+         if (.not.lparam) fric%paramvf(ivf) = real(ivf)
          
-         if (ic_frclaw_inp.eq.0) then           ! L = 0: [ALPHVF], FSTAT, FKIN
+         if (ic_frclaw_inp.eq.0) then           ! L = 0: [ALPHVF/SVF], FSTAT, FKIN
 
-            types = trim(talpha) // 'dd'
+            types = trim(tparam) // 'dd'
             call readline(linp, ncase, linenr, 'coefficients of friction', types,                       &
                           ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
 
-            if (ialpha.gt.0) fric%alphvf(ivf) = dbles(1)
-            fric%fstat_arr(ivf)  = dbles(ialpha+1)
-            fric%fkin_arr(ivf)   = dbles(ialpha+2)
+            if (lparam) fric%paramvf(ivf) = dbles(1)
 
-         elseif (ic_frclaw_inp.eq.2) then       ! L = 2: [ALPHVF], FKIN, FLIN1, SABSH1, FLIN2, SABSH2
+            fric%fstat_arr(ivf)  = dbles(iofs+1)
+            fric%fkin_arr(ivf)   = dbles(iofs+2)
 
-            types = trim(talpha) // 'ddddd'
+         elseif (ic_frclaw_inp.eq.2) then       ! L = 2: [ALPHVF/SVF], FKIN, FLIN1, SABSH1, FLIN2, SABSH2
+
+            types = trim(tparam) // 'ddddd'
             call readline(linp, ncase, linenr, 'velocity dep. friction, linear formula', types,         &
                           ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
 
-            if (ialpha.gt.0) fric%alphvf(ivf) = dbles(1)
-            fric%fkin_arr(ivf)   = dbles(ialpha+1)
-            fric%flin1(ivf)  = dbles(ialpha+2)
-            fric%sabsh1(ivf) = dbles(ialpha+3)
-            fric%flin2(ivf)  = dbles(ialpha+4)
-            fric%sabsh2(ivf) = dbles(ialpha+5)
+            if (lparam) fric%paramvf(ivf) = dbles(1)
 
-         elseif (ic_frclaw_inp.eq.3) then       ! L = 3: [ALPHVF], FKIN, FRAT1, SABSH1, FRAT2, SABSH2
+            fric%fkin_arr(ivf) = dbles(iofs+1)
+            fric%flin1(ivf)    = dbles(iofs+2)
+            fric%sabsh1(ivf)   = dbles(iofs+3)
+            fric%flin2(ivf)    = dbles(iofs+4)
+            fric%sabsh2(ivf)   = dbles(iofs+5)
 
-            types = trim(talpha) // 'ddddd'
+         elseif (ic_frclaw_inp.eq.3) then       ! L = 3: [ALPHVF/SVF], FKIN, FRAT1, SABSH1, FRAT2, SABSH2
+
+            types = trim(tparam) // 'ddddd'
             call readline(linp, ncase, linenr, 'velocity dep. friction, rational formula', types,       &
                           ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
 
-            if (ialpha.gt.0) fric%alphvf(ivf) = dbles(1)
-            fric%fkin_arr(ivf) = dbles(ialpha+1)
-            fric%frat1(ivf)  = dbles(ialpha+2)
-            fric%sabsh1(ivf) = dbles(ialpha+3)
-            fric%frat2(ivf)  = dbles(ialpha+4)
-            fric%sabsh2(ivf) = dbles(ialpha+5)
+            if (lparam) fric%paramvf(ivf) = dbles(1)
 
-         elseif (ic_frclaw_inp.eq.4) then       ! L = 4: [ALPHVF], FKIN, FEXP1, SABSH1, FEXP2, SABSH2
+            fric%fkin_arr(ivf) = dbles(iofs+1)
+            fric%frat1(ivf)    = dbles(iofs+2)
+            fric%sabsh1(ivf)   = dbles(iofs+3)
+            fric%frat2(ivf)    = dbles(iofs+4)
+            fric%sabsh2(ivf)   = dbles(iofs+5)
 
-            types = trim(talpha) // 'ddddd'
+         elseif (ic_frclaw_inp.eq.4) then       ! L = 4: [ALPHVF/SVF], FKIN, FEXP1, SABSH1, FEXP2, SABSH2
+
+            types = trim(tparam) // 'ddddd'
             call readline(linp, ncase, linenr, 'velocity dep. friction, exponential formula', types,    &
                           ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
 
-            if (ialpha.gt.0) fric%alphvf(ivf) = dbles(1)
-            fric%fkin_arr(ivf) = dbles(ialpha+1)
-            fric%fexp1(ivf)  = dbles(ialpha+2)
-            fric%sabsh1(ivf) = dbles(ialpha+3)
-            fric%fexp2(ivf)  = dbles(ialpha+4)
-            fric%sabsh2(ivf) = dbles(ialpha+5)
+            if (lparam) fric%paramvf(ivf) = dbles(1)
 
-         elseif (ic_frclaw_inp.eq.6) then       ! L = 6: [ALPHVF], FREF, TREF, DFHEAT, DTHEAT
+            fric%fkin_arr(ivf) = dbles(iofs+1)
+            fric%fexp1(ivf)    = dbles(iofs+2)
+            fric%sabsh1(ivf)   = dbles(iofs+3)
+            fric%fexp2(ivf)    = dbles(iofs+4)
+            fric%sabsh2(ivf)   = dbles(iofs+5)
 
-            types = trim(talpha) // 'dddd'
+         elseif (ic_frclaw_inp.eq.6) then       ! L = 6: [ALPHVF/SVF], FREF, TREF, DFHEAT, DTHEAT
+
+            types = trim(tparam) // 'dddd'
             call readline(linp, ncase, linenr, 'temperature dependent friction', types,                 &
                           ints, dbles, flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
 
-            if (ialpha.gt.0) fric%alphvf(ivf) = dbles(1)
-            fric%fref(ivf)   = dbles(ialpha+1)
-            fric%tref(ivf)   = dbles(ialpha+2)
-            fric%dfheat(ivf) = dbles(ialpha+3)
-            fric%dtheat(ivf) = dbles(ialpha+4)
+            if (lparam) fric%paramvf(ivf) = dbles(1)
+
+            fric%fref(ivf)     = dbles(iofs+1)
+            fric%tref(ivf)     = dbles(iofs+2)
+            fric%dfheat(ivf)   = dbles(iofs+3)
+            fric%dtheat(ivf)   = dbles(iofs+4)
 
          endif
       enddo ! nvf
@@ -720,16 +776,20 @@ contains
 
       ! Check parameters of friction law
 
-      if (ic_varfrc.eq.1) then
+      if (ic_varfrc.eq.1 .or. ic_varfrc.eq.2) then
+         if (ic_varfrc.eq.1) namprm = 'ALPHA'
+         if (ic_varfrc.eq.2) namprm = 'SVF  '
 
-         call fric_check_alpha( fric%nvf, fric%alphvf, ierror )
+         call fric_check_param( fric%nvf, fric%paramvf, ierror )
 
          if (ierror.gt.0) then
             zerror = .true.
-            write(lout, 2101) ierror-1, fric%alphvf(ierror-1), ierror, fric%alphvf(ierror)
-            write(   *, 2101) ierror-1, fric%alphvf(ierror-1), ierror, fric%alphvf(ierror)
- 2101       format (' Input: ERROR. For variable friction, ALPHA must be strictly increasing.', /,      &
-                    '               ALPHA(',i2,')=',f10.6,', ALPHA(',i2,')=',f10.6,'.')
+            write(lout, 2101) namprm, namprm, ierror-1, fric%paramvf(ierror-1),                         &
+                                      namprm, ierror, fric%paramvf(ierror)
+            write(   *, 2101) namprm, namprm, ierror-1, fric%paramvf(ierror-1),                         &
+                                      namprm, ierror, fric%paramvf(ierror)
+ 2101       format (' Input: ERROR. For variable friction, ',a,' must be strictly increasing.', /,      &
+                    '               ',a,'(',i2,')=',f10.6,', ',a,'(',i2,')=',f10.6,'.')
          endif
       endif
 
@@ -806,16 +866,23 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine fric_wrtinp(linp, ic_varfrc, ic_frclaw_inp, fric)
+   subroutine fric_wrtinp(linp, ic_frclaw_inp, fric)
 !--purpose: Write friction input for current case to INPUT-file <experim>.inp, unit linp.
       implicit none
 !--subroutine parameters:
-      integer          :: linp, ic_varfrc, ic_frclaw_inp
+      integer          :: linp, ic_frclaw_inp
       type(t_friclaw)  :: fric
 !--local variables:
       integer      :: ivf
+      character(len=5) :: namprm
 
-      if (ic_varfrc.eq.0 .or. ic_varfrc.eq.2) then
+      ! keep previous settings when L=1 
+
+      if (ic_frclaw_inp.eq.1) return
+
+      ! V = 0: constant coefficient; V = 3: parameter for each row w.o. parameter value
+
+      if (fric%varfrc_eff.eq.0 .or. fric%varfrc_eff.eq.3) then
 
          do ivf = 1, fric%nvf
 
@@ -837,30 +904,35 @@ contains
  3102    format( f8.4, 4x, 2(f8.4, g12.4), 6x, 'FKIN,',a5,',SH1,F2,SH2')
  3106    format( 4g12.4, 10x, 'FREF, TREF, DFHEAT, DTHEAT')
 
-      else ! varfrc = 1
+      ! V = 1: variable friction with parameter alpha; V = 2: variable friction with parameter sfc
+
+      else ! varfrc = 1 or 2
+
+         if (fric%varfrc_eff.eq.1) namprm = 'ALPHA'
+         if (fric%varfrc_eff.eq.2) namprm = 'SVF  '
 
          write(linp, 3200) fric%nvf
          do ivf = 1, fric%nvf
 
-            if (ic_frclaw_inp.eq.0) write(linp, 3201) fric%alphvf(ivf), fric%fstat_arr(ivf),            &
-                fric%fkin_arr(ivf)
+            if (ic_frclaw_inp.eq.0) write(linp, 3201) fric%paramvf(ivf), fric%fstat_arr(ivf),            &
+                fric%fkin_arr(ivf), namprm
 
-            if (ic_frclaw_inp.eq.2) write(linp, 3202) fric%alphvf(ivf), fric%fkin_arr(ivf),             &
-                fric%flin1(ivf), fric%sabsh1(ivf), fric%flin2(ivf), fric%sabsh2(ivf), 'FLIN1'
-            if (ic_frclaw_inp.eq.3) write(linp, 3202) fric%alphvf(ivf), fric%fkin_arr(ivf),             &
-                fric%frat1(ivf), fric%sabsh1(ivf), fric%frat2(ivf), fric%sabsh2(ivf), 'FRAT1'
-            if (ic_frclaw_inp.eq.4) write(linp, 3202) fric%alphvf(ivf), fric%fkin_arr(ivf),             &
-                fric%fexp1(ivf), fric%sabsh1(ivf), fric%fexp2(ivf), fric%sabsh2(ivf), 'FEXP1'
+            if (ic_frclaw_inp.eq.2) write(linp, 3202) fric%paramvf(ivf), fric%fkin_arr(ivf),             &
+                fric%flin1(ivf), fric%sabsh1(ivf), fric%flin2(ivf), fric%sabsh2(ivf), namprm, 'FLIN1'
+            if (ic_frclaw_inp.eq.3) write(linp, 3202) fric%paramvf(ivf), fric%fkin_arr(ivf),             &
+                fric%frat1(ivf), fric%sabsh1(ivf), fric%frat2(ivf), fric%sabsh2(ivf), namprm, 'FRAT1'
+            if (ic_frclaw_inp.eq.4) write(linp, 3202) fric%paramvf(ivf), fric%fkin_arr(ivf),             &
+                fric%fexp1(ivf), fric%sabsh1(ivf), fric%fexp2(ivf), fric%sabsh2(ivf), namprm, 'FEXP1'
 
-            if (ic_frclaw_inp.eq.6) write(linp, 3206) fric%alphvf(ivf), fric%fref(ivf), fric%tref(ivf), &
-                fric%dfheat(ivf), fric%dtheat(ivf)
+            if (ic_frclaw_inp.eq.6) write(linp, 3206) fric%paramvf(ivf), fric%fref(ivf), fric%tref(ivf), &
+                fric%dfheat(ivf), fric%dtheat(ivf), namprm
 
          enddo ! ivf
 
  3200    format(  i8,    50x, 'NVF')
- 3201    format( 3g12.4, 22x, 'ALPHA, FSTAT, FKIN')
- 3202    format( 2f8.4, 2(f8.4, g12.4), 2x, 'ALPHA, FKIN,',a5,',SHLF')
- 3206    format( 2f8.4, g12.4, f8.4, g12.4, 10x, 'FREF, TREF, DFHEAT, DTHEAT')
+ 3201    format( 3g12.4, 22x, a,', FSTAT, FKIN')
+ 3202    format( 2f8.4, 2(f8.4, g12.4), 2x, a,', FKIN,',a5,',SHLF')
+ 3206    format( 2f8.4, g12.4, f8.4, g12.4, 10x, a,', FREF, TREF, DF,DTHEAT')
 
       endif ! v-digit
      
@@ -873,19 +945,20 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine fric_output(lout, ic_varfrc, ic_output, fric)
+   subroutine fric_output(lout, ic_output, fric)
 !--purpose: Write friction input for current case to output-file <experim>.out, unit lout.
       implicit none
 !--subroutine parameters:
-      integer          :: lout, ic_varfrc, ic_output
+      integer          :: lout, ic_output
       type(t_friclaw)  :: fric
 !--local variables:
       integer      :: ivf
+      character(len=5) :: namprm
 
       write(lout, 3001)
  3001 format (' FRICTION LAW PARAMETERS')
 
-      if (ic_varfrc.le.0) then
+      if (fric%varfrc_eff.le.0) then
 
          if (fric%frclaw_eff.eq.0) write(lout, 3002)
          if (fric%frclaw_eff.eq.2) write(lout, 3003) 'FLIN1', 'FLIN2'
@@ -911,31 +984,34 @@ contains
 
  3100    format (2x, 6g12.4)
 
-      elseif (ic_varfrc.eq.1) then
+      elseif (fric%varfrc_eff.eq.1 .or. fric%varfrc_eff.eq.2) then
 
-         if (fric%frclaw_eff.eq.0) write(lout, 4000)
-         if (fric%frclaw_eff.eq.2) write(lout, 4002) 'FLIN1', 'FLIN2'
-         if (fric%frclaw_eff.eq.3) write(lout, 4002) 'FRAT1', 'FRAT2'
-         if (fric%frclaw_eff.eq.4) write(lout, 4002) 'FEXP1', 'FEXP2'
-         if (fric%frclaw_eff.eq.6) write(lout, 4006)
- 4000    format ( 2x, 3x,'ALPHA',4x, 3x,'FSTAT',4x, 3x,'FKIN')
- 4002    format ( 2x, 3x,'ALPHA',4x, 3x,'FKIN',5x, 3x,a5,4x, 3x,'SABSH1',3x, 3x,a5,4x, 3x,'SABSH2')
- 4006    format ( 2x, 3x,'ALPHA',4x, 3x,'FREF',5x, 3x,'TREF',5x, 3x,'DFHEAT',3x, 3x,'DTHEAT')
+         if (fric%varfrc_eff.eq.1) namprm = 'ALPHA'
+         if (fric%varfrc_eff.eq.2) namprm = 'SVF  '
+
+         if (fric%frclaw_eff.eq.0) write(lout, 4000) namprm
+         if (fric%frclaw_eff.eq.2) write(lout, 4002) namprm, 'FLIN1', 'FLIN2'
+         if (fric%frclaw_eff.eq.3) write(lout, 4002) namprm, 'FRAT1', 'FRAT2'
+         if (fric%frclaw_eff.eq.4) write(lout, 4002) namprm, 'FEXP1', 'FEXP2'
+         if (fric%frclaw_eff.eq.6) write(lout, 4006) namprm
+ 4000    format ( 2x, 3x,a,4x, 3x,'FSTAT',4x, 3x,'FKIN')
+ 4002    format ( 2x, 3x,a,4x, 3x,'FKIN',5x, 3x,a5,4x, 3x,'SABSH1',3x, 3x,a5,4x, 3x,'SABSH2')
+ 4006    format ( 2x, 3x,a,4x, 3x,'FREF',5x, 3x,'TREF',5x, 3x,'DFHEAT',3x, 3x,'DTHEAT')
 
          do ivf = 1, fric%nvf
-            if (fric%frclaw_eff.eq.0) write(lout, 3100) fric%alphvf(ivf), fric%fstat_arr(ivf),          &
+            if (fric%frclaw_eff.eq.0) write(lout, 3100) fric%paramvf(ivf), fric%fstat_arr(ivf),          &
                 fric%fkin_arr(ivf)
-            if (fric%frclaw_eff.eq.2) write(lout, 3100) fric%alphvf(ivf), fric%fkin_arr(ivf),           &
+            if (fric%frclaw_eff.eq.2) write(lout, 3100) fric%paramvf(ivf), fric%fkin_arr(ivf),           &
                 fric%flin1(ivf), fric%sabsh1(ivf), fric%flin2(ivf), fric%sabsh2(ivf)
-            if (fric%frclaw_eff.eq.3) write(lout, 3100) fric%alphvf(ivf), fric%fkin_arr(ivf),           &
+            if (fric%frclaw_eff.eq.3) write(lout, 3100) fric%paramvf(ivf), fric%fkin_arr(ivf),           &
                 fric%frat1(ivf), fric%sabsh1(ivf), fric%frat2(ivf), fric%sabsh2(ivf)
-            if (fric%frclaw_eff.eq.4) write(lout, 3100) fric%alphvf(ivf), fric%fkin_arr(ivf),           &
+            if (fric%frclaw_eff.eq.4) write(lout, 3100) fric%paramvf(ivf), fric%fkin_arr(ivf),           &
                 fric%fexp1(ivf), fric%sabsh1(ivf), fric%fexp2(ivf), fric%sabsh2(ivf)
-            if (fric%frclaw_eff.eq.6) write(lout, 3100) fric%alphvf(ivf), fric%fref(ivf),               &
+            if (fric%frclaw_eff.eq.6) write(lout, 3100) fric%paramvf(ivf), fric%fref(ivf),               &
                 fric%tref(ivf), fric%dfheat(ivf), fric%dtheat(ivf)
          enddo
 
-      elseif (ic_varfrc.ge.2) then
+      elseif (fric%varfrc_eff.ge.3) then
 
          if (fric%frclaw_eff.eq.0) write(lout, 5002)
          if (fric%frclaw_eff.eq.2) write(lout, 5003) 'FLIN1', 'FLIN2'

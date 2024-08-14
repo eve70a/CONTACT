@@ -107,7 +107,7 @@ contains
 
       ! Adapt the value of the friction coefficient used for scaling of tangential forces
 
-      kin%use_muscal = ic%varfrc.eq.0
+      kin%use_muscal = (ic%varfrc.eq.0 .or. ic%varfrc.eq.2)
       if (kin%use_muscal) then
          kin%muscal = fric%fstat()
       else
@@ -261,17 +261,17 @@ contains
       endif
 
       !------------------------------------------------------------------------------------------------------
-      ! read & check input for V- and L-digits for V = 2, parameters per row, NVF = MY
+      ! read & check input for V- and L-digits for V = 3, parameters per row, NVF = MY
       !------------------------------------------------------------------------------------------------------
 
-      if (ic%frclaw_inp.ne.1 .and. ic%varfrc.eq.2) then
+      if (ic%frclaw_inp.ne.1 .and. ic%varfrc.eq.3) then
          call fric_input(linp, ncase, linenr, ic%varfrc, ic%frclaw_inp, potcon_inp%my, fric, idebug,        &
                 ieof, lstop, zerror)
       endif
 
       ! Adapt the value of the friction coefficient used for scaling of tangential forces
 
-      kin%use_muscal = ic%varfrc.eq.0
+      kin%use_muscal = (ic%varfrc.eq.0 .or. ic%varfrc.eq.2)
       if (kin%use_muscal) then
          kin%muscal = fric%fstat()
       else
@@ -408,7 +408,7 @@ contains
          zerror = zerror .or. .not.check_irng ('Control digit N1', ic%norm,    0, 1)
          zerror = zerror .or. .not.check_2rng ('Control digit F1', ic%force1,  0, 1, 3, 3)
 
-         zerror = zerror .or. .not.check_irng ('Control digit V',  ic%varfrc,  0, 1)
+         zerror = zerror .or. .not.check_irng ('Control digit V',  ic%varfrc,  0, 2)
          zerror = zerror .or. .not.check_irng ('Control digit D',  ic%discns1_inp, 0, 9)
          zerror = zerror .or. .not.check_irng ('Control digit C3', ic%gencr_inp, 0, 4)
          zerror = zerror .or. .not.check_irng ('Control digit Z1', ic%ztrack,  0, 3)
@@ -418,7 +418,7 @@ contains
          zerror = zerror .or. .not.check_irng ('Control digit N',  ic%norm,    0, 1)
          zerror = zerror .or. .not.check_irng ('Control digit F3', ic%force3,  0, 2)
 
-         zerror = zerror .or. .not.check_2int ('Control digit V',  ic%varfrc,  0, 2)
+         zerror = zerror .or. .not.check_2int ('Control digit V',  ic%varfrc,  0, 3)
          zerror = zerror .or. .not.check_irng ('Control digit D',  ic%discns3, 0, 2)
          zerror = zerror .or. .not.check_2rng ('Control digit C3', ic%gencr_inp, 0, 4, 9, 9)
          zerror = zerror .or. .not.check_irng ('Control digit Z',  ic%rznorm,  0, 2)
@@ -571,14 +571,6 @@ contains
          write(lout, 2061) ic%tang
          write(   *, 2061) ic%tang
  2061    format (' Input: ERROR. Visco-elastic materials require steady state rolling. T=',i3,'.')
-      endif
-
-      if ((ic%mater.eq.2 .or. ic%mater.eq.3) .and. ic%varfrc.ne.0) then
-         zerror = .true.
-         write(lout, 2063) ic%mater, ic%varfrc
-         write(   *, 2063) ic%mater, ic%varfrc
- 2063    format (' Input: ERROR. Friction variation is not supported for FASTSIM.',/,                   &
-                 '               M=',i3,', V='i3,'.')
       endif
 
       ! Check limitations of temperature model
@@ -1674,7 +1666,7 @@ contains
 
       ! write friction parameters
 
-      if (ic%varfrc.eq.0) call fric_wrtinp(linp, ic%varfrc, ic%frclaw_inp, fric)
+      if (ic%varfrc.eq.0) call fric_wrtinp(linp, ic%frclaw_inp, fric)
 
       ! if new influence coefficients: write rolling step, material constants when C=2, 3, 4 or 9
 
@@ -1847,7 +1839,7 @@ contains
 
       ! write the friction input
 
-      if (ic%varfrc.eq.2) call fric_wrtinp(linp, ic%varfrc, ic%frclaw_inp, fric)
+      if (ic%varfrc.eq.2) call fric_wrtinp(linp, ic%frclaw_inp, fric)
 
       ! write the extra term in the undeformed distance for the tangential problem
 

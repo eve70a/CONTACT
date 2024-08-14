@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.166)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.167)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -62,25 +62,6 @@
 
 \magenta{
 \begin{vtlogsheet}
-\vtlogentry{1.140}{EV}{15-12-2022}{Version for release v22.2}{}
-\vtlogentry{1.141}{EV}{02-03-2023}{Added {\tt S\_METHOD} for approximating
-        spline}{}
-\vtlogentry{1.142}{EV}{20-03-2023}{Correction format {\tt slcs}-file}{}
-\vtlogentry{1.143}{EV}{20-03-2023}{Added {\tt NPOT\_MAX}}{}
-\vtlogentry{1.144}{EV}{23-03-2023}{Added ${\tt D}=6,8,9$}{}
-\vtlogentry{1.145}{EV}{14-04-2023}{Version for release v23.1}{}
-\vtlogentry{1.146}{EV}{10-05-2023}{Added massless rail deflection ${\tt 
-        F}_1=3$}{}
-\vtlogentry{1.147}{EV}{19-06-2023}{Changed cntc\_getprofilevalues}{}
-\vtlogentry{1.148}{EV}{31-07-2023}{Added configuration of debug outputs}{}
-\vtlogentry{1.149}{EV}{11-08-2023}{Added ${\tt D}=7$ using initial contact
-        position}{}
-\vtlogentry{1.150}{EV}{16-08-2023}{Added comment on slice feature positions}{}
-\vtlogentry{1.151}{EV}{23-08-2023}{Clear out-file upon new initialization}{}
-\vtlogentry{1.152}{EV}{12-09-2023}{Delete arc-fit, add conversion formulas}{}
-\vtlogentry{1.153}{EV}{04-10-2023}{Added wheel slices file}{}
-\vtlogentry{1.154}{EV}{24-10-2023}{Add description of {\tt
-        cntc\_getcpresults}}{}
 \vtlogentry{1.155}{EV}{03-11-2023}{Version for release v23.2}{}
 \vtlogentry{1.156}{EV}{10-11-2023}{Added wheel flat example}{}
 \vtlogentry{1.157}{EV}{21-11-2023}{Added super grid with active window}{}
@@ -89,14 +70,14 @@
         radius $a$}{}
 \vtlogentry{1.160}{EV}{01-12-2023}{Added spin center}{}
 \vtlogentry{1.161}{EV}{11-12-2023}{Permit ${\tt T}=1,2$ in module 1}{}
-\end{vtlogsheet}
-
-\begin{vtlogsheet}
 \vtlogentry{1.162}{EV}{16-01-2024}{Changed PSFLRIN to PSFLCIN}{}
 \vtlogentry{1.163}{EV}{19-03-2024}{Added force-based proportional damping}{}
 \vtlogentry{1.164}{EV}{03-04-2024}{Extended force-based proportional damping}{}
 \vtlogentry{1.165}{EV}{25-04-2024}{Renamed S to U in slices-file}{}
 \vtlogentry{1.166}{EV}{21-05-2024}{Add effective working folder}{}
+\vtlogentry{1.167}{EV}{16-06-2024}{Version for release v24.1}{}
+\vtlogentry{1.168}{EV}{06-07-2024}{Add ${\tt V}=2$, friction variation in
+                        track direction }{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -213,10 +194,11 @@ CONTACT can be operated in different ways:
 \end{itemize}
 The latter two options are relevant for wear calculations and for Vehicle
 System Dynamics (VSD) simulation codes. Add-ons to GENSYS, NUCARS, SIMPACK
-Rail \cite{Vollebregt2011b-iavsd2011} and Universal Mechanism\footnote{{\tt
-www.gensys.se}, {\tt www.aar.com/nucars}, {\tt www.simpack.com}, {\tt 
-www.universalmechanism.com}} have been realized and are provided on a
-commercial basis.
+Rail \cite{Vollebregt2024b-railways,memo24004-simpack-usub}, 
+Universal Mechanism, and Vampire Pro\footnote{{\tt www.gensys.se}, 
+{\tt www.aar.com/nucars}, {\tt www.simpack.com}, 
+{\tt www.universalmechanism.com}, {\tt vampire.\-clyx.net}} have been realized
+and are provided on a commercial basis.
 
 \section{History of the program}
 
@@ -255,7 +237,7 @@ incorporation of velocity dependent friction laws
 \cite{Vollebregt2014c-tractcurv,Vollebregt2012a-quasistd}, effects of
 roughness and contamination (`third body layer') 
 \cite{Vollebregt2014c-tractcurv,Vollebregt2021a-soa-paper,
-Vollebregt2019a-fra}, by making extensions for solving conformal
+Vollebregt2024a-vt-fra}, by making extensions for solving conformal
 contact problems \cite{Vollebregt2018b-corrigendum,
 Vollebregt2020c-distr-force,Vollebregt2014d-conformal}, and via new
 enhanced solvers on the basis of Conjugate Gradients and FFTs 
@@ -265,8 +247,9 @@ The software was transferred to the company Vtech CMCC in 2020, that now
 continues this development and distribution. Research is being done to
 extend CONTACT for rails and wheels with variable profile cross-section,
 i.e.\ switches and crossings \cite{Vollebregt2023a-iavsd2023} and wheel
-out-of-roundness. When such new functionality is achieved, this will be
-included in future versions of this document.
+out-of-roundness \cite{Vollebregt2024b-railways}. When such new
+functionality is achieved, this will be included in future versions of
+this document.
 
 \section{Structure of this report}
 
@@ -677,12 +660,14 @@ geometry.
         the rail;
 \item[1] -- multiple sets of inputs are used, varying the coefficient of
         friction across the rail profile.
+\item[2] -- multiple sets of inputs are used, varying the coefficient of
+        friction along the rolling direction (track $s_{\fc}$ position).
 \magenta{
-\item[2] -- multiple sets of inputs are used, per row of the potential contact.
+\item[3] -- multiple sets of inputs are used, per row of the potential contact.
 }
 \end{description}
-\magenta{Option ${\tt V}=1$ is used in module 1 while ${\tt V}=2$ is used
-for module 3. In module 3, friction is varied in lateral ($y$ or $s$)
+\magenta{Options ${\tt V}=1$ and 2 are used in module 1 while ${\tt V}=3$ is
+used for module 3. In module 3, friction is varied in lateral ($y/s_r$)
 direction.}
 
 \item[L - FRCLAW]   \label{l-digit} : concerns the {\em friction law\/} to
@@ -797,17 +782,15 @@ $^*$ Option ${\tt C}_3=9$ is not available in module 1.
         wheel profile, and read flexible wheelset deviations.
 \end{description}
 
-\magenta{
 \item[M$_2$ - MATER2] \label{m2-digit} : type of {\em material model\/} to
         be used with respect to damping:
 \begin{description}
 \item[0] -- no damping;
 \item[1] -- maintain the same approach and parameters as used in the
         previous case;
-\item[2] -- read new input data, and activate the force based proportional
+\item[2] -- read new input data, and activate the force-based proportional
         damping method (\S \ref{sec:damping}).
 \end{description}
-}
 
 \end{description}
 
@@ -1362,10 +1345,10 @@ slcw} file extension.
 \paragraph{Form as needed by CONTACT}
 
 Profiles are transformed into a canonical form to simplify usage and
-processing in CONTACT. This form considers the wheel and rail on the right
-side of the wheelset and track, with lateral $y$-coordinates increasing
-towards the field side. Optional mirroring is provided for cases where
-left side profiles are given in the actual files. 
+processing in CONTACT. This form uses wheel and rail coordinates with lateral
+$y$-direction positive towards the field side (`right side profile').
+Optional mirroring is provided for profile data that have $y$-coordinate
+values increasing towards the track center (`left side').
 
 The canonical form uses $\unit{mm}$ as the unit of length and has positive
 $z$ pointing downwards. Optional scaling and mirroring are provided to
@@ -2628,8 +2611,7 @@ interfacial layer (${\tt M}=4$, Section \ref{sec:intfc_layer}). These
 material models will be used as `best guess' when subsurface stresses
 are requested.
 
-\magenta{
-\subsection{Force based proportional damping}
+\subsection{Force-based proportional damping}
 \label{sec:damping}
 
 A damping mechanism is provided aimed primarily at using CONTACT in a
@@ -2662,7 +2644,6 @@ C_{damp,t}$ using the ${\tt M}_2$ digit.
 \end{inputvars}
 The forces $F^{tot}$ and $F^{damp}$ are currently not yet provided in the
 output.
-}
 
 \section{Friction description}
 \label{sec:fric_dscrp}
@@ -2938,16 +2919,19 @@ case are maintained.
 
 The input parameters for the friction laws ${\tt L}=0, 2\text{--}4, 6$ as
 discussed above, may be varied laterally, along the rail profile (module
-1)\magenta{\ or contact $y$-direction (module 3)}, using the option 
-${\tt V}=1$. The parameters are specified at two or more control points. 
+1) or longitudinally, along the track (module 1)\magenta{, or laterally, in
+contact $y$-direction (module 3)}, using options ${\tt 
+V}=1$ or $2$\magenta{, or $3$}, respectively. The parameters are specified
+at two or more control points. 
 \begin{inputvars}
 \inpvar{NVF}{ }{Number of control points $n_{vf}$ for friction variation.}
 \end{inputvars}
 Linear interpolation is used between these points, while the parameters
 are held constant outside of this range.
 
-The control points on the rail profile are defined indirectly, using the
-rail surface inclination:
+Option ${\tt V}=1$ provides friction variation in lateral
+direction, across the rail profile. The control points on the rail
+profile are defined indirectly, using the rail surface inclination:
 \begin{inputvars}
 \inpvar{ALPHVF}{\bunit{rad}}{Rail surface inclinations at the control points,
         $\alpha_{vf,i}, i=1\cdots n_{vf}$.}
@@ -2957,12 +2941,19 @@ horizontal $y_r$-axis to the inclined surface. Negative values are found on
 gauge face, small values at the top of the rail, increasing to $90^\circ$ at
 the field side of the rail. The values must be entered in increasing order.
 
+Option ${\tt V}=2$ provides friction variation in longitudinal
+direction. In this case the control points are $s$ positions along the
+track curve.
+\begin{inputvars}
+\inpvar{SVF}{\bunit{mm}}{Track positions of the control points,
+        $s_{vf,i}, i=1\cdots n_{vf}$.}
+\end{inputvars}
+
 \magenta{
-Friction variation is supported in module 3 through option ${\tt V}=2$
-(option ${\tt V}=1$ is not supported).
-This requires that the parameters for the friction laws are given for each
-row of the grid. This uses ${\tt NVF}={\tt MY}$ and avoids any
-interpolation.
+Option ${\tt V}=3$ provides friction variation in module 3, in lateral
+($y_c$) direction of the contact patch. This requires that the parameters
+for the friction laws are given for each row of the grid, using
+${\tt NVF}={\tt MY}$ and avoiding any interpolation.
 }
 
 \section{Potential contact area and discretisation}
@@ -3427,7 +3418,7 @@ In rolling problems (${\tt T}=2,3$) the following variables are used.
         viscoelastic material behaviour (${\tt M}=1$), velocity dependent
         friction laws (${\tt L}=2-4$), and the frictional power dissipation
         {\tt FRIC}.}
-\inpbreak
+% \inpbreak
 \inpvar{CKSI, CETA}{\bunit{-}}{Creepages in $x$- and $y$-directions
         respectively, rigid slip velocities relative to the rolling speed
         $V$.}
@@ -3863,9 +3854,11 @@ small problems.
 \inpvar{IGS(I)}{-}{Element division of current time instant, stated per
                    element $I$ (0: Exterior, 1: Adhesion, 2: Slip, 3:
                    Plasticity). Refer to (\ref{eq:1d_index}) and
-                   (\ref{eq:x_i}) for the numbering and coordinates of the elements.}
-\inpvar{PS(I,1)}{\bunit{N/mm^2}}{The normal pressures $p_{In}$ of the current time
-        step in element $I$, acting on body 1, the upper body.}
+                   (\ref{eq:x_i}) for the numbering and coordinates of the
+                   elements.}
+\inpvar{PS(I,1)}{\bunit{N/mm^2}}{The normal pressures $p_{In}$ of the current
+        time step in element $I$, acting on body 1, the upper body.}
+\inpbreak
 \inpvar{PS(I,2:3)}{\bunit{N/mm^2}}{The tangential tractions $\vec{p}_{It}$ per
         element $I$, load per unit area acting on body 1.}
 \inpvar{PV(I,1:3)}{\bunit{N/mm^2}}{The tractions $\vec{p}'_{It}$ of the previous
@@ -5782,7 +5775,7 @@ scripts.
 The Matlab search path must be adjusted such that our plotting programs can
 be found. This is done in Matlab with the {\tt addpath} command, e.g.
 \begin{verbatim}
->> addpath('C:\Program Files\Vtech CMCC\contact_v23.2\matlab');
+>> addpath('C:\Program Files\Vtech CMCC\contact_v24.1\matlab');
 \end{verbatim}
 This command may be put in a file `{\tt startup.m}' in your working
 directory, in your personal overall startup-file
@@ -5790,9 +5783,9 @@ directory, in your personal overall startup-file
 configuration-file (`\verb+<MAT-+ \verb+LAB>\toolbox\local\pathdef.m+').
 
 You can check whether the path is set correctly by typing
-\verb+ help contact_v23.2\matlab+. This should show the following output:
+\verb+ help contact_v24.1\matlab+. This should show the following output:
 \begin{alltt}\small
-Matlab scripts for visualisation of output of the CONTACT program (trunk).
+Matlab scripts for visualisation of output of the CONTACT program (v24.1).
 
 Loading results into Matlab.
 
@@ -7292,17 +7285,17 @@ The input for one case of wheel/rail contact consists of:
 \begin{alltt}\small
 % Control integers, see section \ref{sec:controldigits}:
 
-\magenta{ }CPBTNFS  \magenta{   }  (\magenta{        }CONFIG, PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
-\magenta{ }VLDCMZE  \magenta{\{M\}}  (\magenta{        }VARFRC, FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL\magenta{,
-                                                                        MATER2})
-\magenta{X}HGIAOWR  \magenta{   }  (\magenta{XFLOW , }HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
+ CPBTNFS       (        CONFIG, PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
+ VLDCMZE  \{M\}  (        VARFRC, FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL,
+                                                                        MATER2)
+XHGIAOWR       (XFLOW , HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
 
-\magenta{% Parameters for additional debug output
+% Parameters for additional debug output
 
 if X=1: [ PSFLCIN \{R\} ] (PROFIL, SMOOTH, FORCE, LOCATE, CPATCH, INFLCF, NMDBG,
                                                                         READLN)
 
-}% Parameters for the iterative solution algorithms (section \ref{sec:iter_const}):
+% Parameters for the iterative solution algorithms (section \ref{sec:iter_const}):
 
 if G<>1:      [ MAXGS   MAXIN   MAXNR   MAXOUT  EPS   \{NPOT\_MAX\}   ]
 if G=2,3:     [ OMEGAH  OMEGAS  INISLP  OMGSLP        ]
@@ -7322,13 +7315,13 @@ if VARFRC=0:
       if L=3: [ FKIN   FRAT1  SABSH1  FRAT2  SABSH2        ]
       if L=4: [ FKIN   FEXP1  SABSH1  FEXP2  SABSH2        ]
       if L=6: [ FREF   TREF   DFHEAT  DTHEAT               ]
-if VARFRC=1:  [ NVF                                        ]
-      if L=0: [ ALPHA  FSTAT  FKIN                         ], NVF times
-      if L=2: [ ALPHA  FKIN   FLIN1  SABSH1  FLIN2  SABSH2 ], NVF times
-      if L=3: [ ALPHA  FKIN   FRAT1  SABSH1  FRAT2  SABSH2 ], NVF times
-      if L=4: [ ALPHA  FKIN   FEXP1  SABSH1  FEXP2  SABSH2 ], NVF times
-      if L=6: [ ALPHA  FREF   TREF   DFHEAT  DTHEAT        ], NVF times
-if L=2,3,4,6: [ MEMDST MEM\_S0                              ]
+if VARFRC=1 or 2:  [ NVF                                        ]
+      if L=0: [ ALPHA/SVF   FSTAT  FKIN                         ], NVF times
+      if L=2: [ ALPHA/SVF   FKIN   FLIN1  SABSH1  FLIN2  SABSH2 ], NVF times
+      if L=3: [ ALPHA/SVF   FKIN   FRAT1  SABSH1  FRAT2  SABSH2 ], NVF times
+      if L=4: [ ALPHA/SVF   FKIN   FEXP1  SABSH1  FEXP2  SABSH2 ], NVF times
+      if L=6: [ ALPHA/SVF   FREF   TREF   DFHEAT  DTHEAT        ], NVF times
+if L=2,3,4,6: [ MEMDST MEM\_S0                                   ]
 
 % Information needed for influence coefficients,
 % particularly the material parameters (section \ref{sec:matcns}):
@@ -7342,10 +7335,10 @@ if INFLCF>=2:
       if MATER =3: [         K0\_MF   ALFAMF  BETAMF ]
       if MATER =4: [ GG3     LAYTHK  TAU\_C0  K\_TAU  ]
 
-% Material parameters for \magenta{damping and }temperature calculation (section \ref{sec:matcns}):
+% Material parameters for damping and temperature calculation (section \ref{sec:matcns}):
 
-\magenta{if M2=2:     [ CDAMPN   CDAMPT   DFNMAX   DFTMAX   ]
-}if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
+if M2=2:     [ CDAMPN   CDAMPT   DFNMAX   DFTMAX   ]
+if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
                BKTEMP2  HEATCP2  LAMBDA2  DENS2    ]
 if H=3, M=4: [ BETAPL                              ]
 
@@ -7410,17 +7403,17 @@ For module 3, the input for one case consists of:
 \begin{alltt}\small
 % Control integers, see section \ref{sec:controldigits}:
 
-\magenta{ } PBTNFS      \magenta{        }       (PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
-\magenta{ } LDCMZE\magenta{  \{M\}   }             (FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS \magenta{,
-                                                                      MATER2})
-\magenta{X}HGIAOWR     (\magenta{XFLOW , }HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
+  PBTNFS                     (PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
+  LDCMZE  \{M\}                (FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS ,
+                                                                      MATER2)
+XHGIAOWR     (XFLOW , HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
 
-\magenta{% Parameters for additional debug output
+% Parameters for additional debug output
 
 if X=1: [ PSFLCIN \{R\} ] (PROFIL, SMOOTH, FORCE, LOCATE, CPATCH, INFLCF, NMDBG,
                                                                         READLN)
 
-}% Parameters for the iterative solution algorithms (section \ref{sec:iter_const}):
+% Parameters for the iterative solution algorithms (section \ref{sec:iter_const}):
 
 if G=0,2,3,4: [ MAXGS   MAXIN   MAXNR   MAXOUT  EPS     ]
 if G=2,3:     [ OMEGAH  OMEGAS  INISLP  OMGSLP          ]
@@ -7466,10 +7459,10 @@ if C>=2:\magenta{
       if M=3: [      K0\_MF   ALFAMF  BETAMF ]
       if M=4: [ GG3  LAYTHK  TAU\_C0  K\_TAU  ]
 
-% Material parameters for \magenta{damping and }temperature calculation (section \ref{sec:matcns}):
+% Material parameters for damping and temperature calculation (section \ref{sec:matcns}):
 
-\magenta{if M2=2:     [ CDAMPN   CDAMPT   DFNMAX   DFTMAX ]
-}if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
+if M2=2:     [ CDAMPN   CDAMPT   DFNMAX   DFTMAX ]
+if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
                BKTEMP2  HEATCP2  LAMBDA2  DENS2  ]
 if H=3, M=4: [ BETAPL                            ]
 
@@ -7506,7 +7499,7 @@ if Z>1 & IPOTCN>0: IBASE   IPLAN
 }
 \magenta{% Variable friction per grid row IY (section \ref{sec:varfrc}):
 
-if VARFRC=2:
+if VARFRC=3:
       if L=0: [ FSTAT  FKIN                                ], MY times
       if L=2: [ FKIN   FLIN1  SABSH1  FLIN2  SABSH2        ], MY times
       if L=3: [ FKIN   FRAT1  SABSH1  FRAT2  SABSH2        ], MY times

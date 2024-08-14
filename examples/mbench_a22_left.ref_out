@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2559 $, $Date:: 2024-06-03$        |
+   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -2224,28 +2224,28 @@
 
 Parallel run using  2 threads
 Performance timers:
-|------------------------------------------------------------------------|
-|Timer name                     |   cpu time        |    wall clock      |
-|                               |-------------------|--------------------|
-|                     | #times  |   sec     |  %    |    sec     |  %    |
-|------------------------------------------------------------------------|
-|Total                |       1 |       0.7 | 100.0 |        1.6 | 100.0 |
-|Wheel-rail cases     |      21 |       0.7 | 100.0 |        1.6 | 100.0 |
-|W/r profiles         |       2 |       0.0 |   0.0 |        0.0 |   1.0 |
-|Geometric analysis   |      86 |       0.0 |   2.3 |        0.1 |   6.6 |
-|Panag.process        |      65 |       0.6 |  90.9 |        1.3 |  82.3 |
-|Algorithm Norm       |      65 |       0.1 |  15.9 |        0.1 |   8.6 |
-|Algorithm Tang       |      65 |       0.5 |  75.0 |        1.2 |  73.7 |
-|Output quantities    |      86 |       0.0 |   2.3 |        0.1 |   5.1 |
-|------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      65 |       0.1 |  11.4 |        0.1 |   6.4 |
-|Tang: StedyGS solver |      65 |       0.5 |  75.0 |        1.2 |  73.7 |
-|------------------------------------------------------------------------|
-|Reading input-file   |      21 |       0.0 |   0.0 |        0.0 |   1.5 |
-|Contact location     |      86 |       0.0 |   0.0 |        0.0 |   2.0 |
-|Undeformed distance  |      65 |       0.0 |   2.3 |        0.0 |   2.9 |
-| - Interp whl_srfc   |      65 |       0.0 |   0.0 |        0.0 |   1.1 |
-|Influence coeffic.   |      65 |       0.0 |   4.5 |        0.0 |   2.9 |
-|Initial state/estim. |      65 |       0.0 |   0.0 |        0.0 |   0.0 |
-|------------------------------------------------------------------------|
+|--------------------------------------------------------------------------|
+|Timer name                      |    cpu time        |    wall clock      |
+|                                |--------------------|--------------------|
+|                     |  #times  |    sec     |  %    |    sec     |  %    |
+|--------------------------------------------------------------------------|
+|Total                |        1 |        0.5 | 100.0 |        1.6 | 100.0 |
+|Wheel-rail cases     |       21 |        0.5 | 100.0 |        1.6 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   1.6 |
+|Geometric analysis   |       86 |        0.0 |   0.0 |        0.1 |   3.8 |
+|Panag.process        |       65 |        0.5 |  97.1 |        1.3 |  80.4 |
+|Algorithm Norm       |       65 |        0.0 |   5.9 |        0.2 |  12.3 |
+|Algorithm Tang       |       65 |        0.5 |  91.2 |        1.1 |  68.1 |
+|Output quantities    |       86 |        0.0 |   2.9 |        0.1 |   7.8 |
+|--------------------------------------------------------------------------|
+|Norm: ConjGrd solver |       65 |        0.0 |   5.9 |        0.2 |   9.2 |
+|Tang: StedyGS solver |       65 |        0.5 |  88.2 |        1.1 |  66.5 |
+|--------------------------------------------------------------------------|
+|Reading input-file   |       21 |        0.0 |   0.0 |        0.0 |   1.6 |
+|Contact location     |       86 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Undeformed distance  |       65 |        0.0 |   0.0 |        0.0 |   1.9 |
+| - Interp whl_srfc   |       65 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Influence coeffic.   |       65 |        0.0 |   0.0 |        0.1 |   3.4 |
+|Initial state/estim. |       65 |        0.0 |   0.0 |        0.0 |   0.0 |
+|--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

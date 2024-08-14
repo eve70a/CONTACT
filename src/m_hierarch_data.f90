@@ -240,9 +240,10 @@ public
       !              3 = compute normal and tangential sensitivities
       ! v1, varfrc  concerns variation of friction across width/rail profile (module 1)
       !              0 = constant inputs, no variation
-      !              1 = multiple inputs with linear interpolation
-      !              2 = multiple sets of inputs are used, per row (iy) of the potential contact
-      !                  used internally in module 3 for conformal contacts
+      !              1 = multiple inputs with linear interpolation for lateral direction across rail head
+      !              2 = multiple inputs with linear interpolation for longitudinal direction along track
+      !              3 = multiple sets of inputs are used, per row (iy) of the potential contact
+      !                  used in module 3 for conformal contacts with varfrc=1 in module 1
       ! l, frclaw   concerns the friction law to be used:
       !              0 = Coulomb friction with static and kinetic friction coefficients;
       !              1 = use the friction law from parameters in storage;
@@ -696,9 +697,9 @@ public
       ! ceta  [mm|-]   rigid shift (T=1) or creepage (T=2-3) in y-direction
       !                (prescribed when F<=1, computed when F=2)
       ! cphi [rad|rad/mm]  rigid spin shift (T=1, [rad]) or spin creepage (T=2-3, [rad/mm])
+      !                TODO: it would be better to have separate variables for creep & shift
       ! spinxo [mm]    x-component of 'spin center' (xo,yo), spin creepage linearization point
       ! spinyo [mm]    y-component of 'spin center' (xo,yo), spin creepage linearization point
-      ! TODO: it would be better to have separate variables for creep & shift
 
       ! fntrue [N]     total normal force, input when N=1, output when N=0
       ! fxrel  [-]     total tangential force in x-direction _on_ body (1), relative to muscal*fntrue;
@@ -709,7 +710,8 @@ public
       ! fprev  [N]     total forces [fxtrue,fytrue,fntrue] of previous time instance
       ! fdamp  [N]     damping forces of current time instance
 
-      ! use_muscal     flag indicating whether tangential forces are scaled by MU*FN (true) or by FN (false)
+      ! use_muscal     flag indicating whether friction parameters are constant within the contact
+      !                patch, permitting scaling of tangential forces by MU*FN (true) or by FN (false)
       ! muscal [-]     coefficient of friction used in scaling of tangential forces. Typically equal to FSTAT.
 
    end type t_kincns
@@ -2134,7 +2136,7 @@ end subroutine potcon_get_overlap
       kin%fcntc   = (/ 0d0, 0d0, 0d0 /)
       kin%fprev   = (/ 0d0, 0d0, 0d0 /)
       kin%fdamp   = (/ 0d0, 0d0, 0d0 /)
-      kin%use_muscal = ic%varfrc.eq.0
+      kin%use_muscal = (ic%varfrc.eq.0 .or. ic%varfrc.eq.2)
       kin%muscal  =  1d0
       if (kin%use_muscal) kin%muscal = fric%fstat()
 

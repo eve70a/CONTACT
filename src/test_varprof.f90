@@ -677,6 +677,21 @@ program test_varprof
                                 ' elements at boundary'
          end if
 
+         ! set L = 1, M2 = 1, Z = 0, E = 0, G = 1: maintain settings in next case
+
+         rparam(1) = 0d0
+         call cntc_setfrictionmethod(iwhe, icp, 1, 0, rparam)
+         call cntc_setmaterialparameters(iwhe, icp, 11, 0, rparam)
+         call cntc_settrackdimensions(iwhe, 0, 0, rparam)
+         call cntc_setwheelsetdimensions(iwhe, 0, 0, rparam)
+         call cntc_setsolverflags(iwhe, icp, 1, 0, flags, 0, rparam)
+
+         ! set D = 1, C3 = 1: maintain settings in next case
+
+         flags(1) = CNTC_ic_discns ; values(1) = 1
+         flags(2) = CNTC_ic_inflcf ; values(2) = 1
+         call cntc_setflags(iwhe, icp, 2, flags, values)
+
       end do ! icase
    end do ! irep
 

@@ -208,7 +208,7 @@ contains
  2141    format (1x,'INTERFACIAL LAYER PARAMETERS',/,                                                   &
             2x, 3x,'GG3',6x, 3x,'LAYTHK',3x, 3x,'TAU_C0',3x, 3x,'K_TAU',/, 2x, 4g12.4,/)
 
-         if (ic%tang.gt.0) call fric_output(lout, ic%varfrc, ic%output_surf, wtd%fric)
+         if (ic%tang.gt.0) call fric_output(lout, ic%output_surf, wtd%fric)
 
          def_turn = 2d0 * discr%dist_sep - discr%dist_comb
          if (abs(discr%dist_turn-def_turn).lt.1d-6) then
@@ -225,7 +225,7 @@ contains
             2x, 3x,'DX',7x, 3x,'DS',7x, 3x,'DQREL',4x, 3x,'A_SEP',4x, 3x,'D_SEP',4x, 3x,'D_COMB',3x,    &
             3x,'D_TURN', /, 2x, 7g12.4)
 
-         ! print information on profiles and smoothing
+         ! print information on rail profile and smoothing
 
          if (ic%output_surf.ge.2 .and. ic%ztrack.ge.3) then
 
@@ -252,6 +252,28 @@ contains
 
          endif
 
+         ! print information on rail position, flexibility
+
+         if (max(abs(my_rail%dy), abs(my_rail%dz), abs(my_rail%roll), abs(my_rail%vy), abs(my_rail%vz), &
+                 abs(my_rail%vroll)).gt.1d-10) then
+            write(lout, 3102) my_rail%dy, my_rail%dz, my_rail%roll, fmt_gs(12,4,4,my_rail%vy),          &
+                              fmt_gs(12,4,4,my_rail%vz), fmt_gs(12,4,4,my_rail%vroll)
+ 3102       format (/, 1x,'RAIL IRREGULARITY',/,                                                        &
+               2x, 3x,'DYRAIL',3x, 3x,'DZRAIL',3x, 3x,'DROLLR',3x, 3x,'VYRAIL',3x, 3x,'VZRAIL',3x,      &
+                   3x,'VROLLR',3x, /, 2x, 3f12.4, 3a)
+         endif
+
+         if (ic%force1.eq.3) then
+            write(lout,3202)
+            write(lout,3203) wtd%trk%ky_rail, wtd%trk%dy_defl, fmt_gs(12,4,4,wtd%trk%fy_rail),          &
+                   wtd%trk%kz_rail, wtd%trk%dz_defl, fmt_gs(12,4,4,wtd%trk%fz_rail)
+ 3202       format (/, 1x,'MASSLESS RAIL DEFLECTION')
+ 3203       format (2x, 3x,'KY_RAIL',2x, 3x,'DY_DEFL',2x, 3x,'FY_RAIL',2x, 3x,'KZ_RAIL',2x,             &
+                   3x,'DZ_DEFL',2x, 3x,'FZ_RAIL',2x, /, 2x, 2f12.4,a, 2f12.4,a)
+         endif
+
+         ! print information on wheel profile and smoothing
+
          if (ic%output_surf.ge.2 .and. ic%ewheel.ge.3) then
 
             write(lout, '(/,3a)') ' WHEEL PROFILE "', trim(my_wheel%prw%fname),'"'
@@ -272,6 +294,8 @@ contains
                    my_wheel%prw%kink_low, my_wheel%prw%kink_wid, my_wheel%prw%f_max_omit
 
          endif
+
+         ! print wheelset position, velocity, flexibility
 
          write(lout, 4000)
  4000    format (/, 1x,'WHEEL-SET POSITION AND VELOCITY')
@@ -314,24 +338,6 @@ contains
                    3x,'DPITCHW',2x, /, 2x, 6a, /,                                                       &
                2x, 3x,'VXWHL',4x, 3x,'VYWHL',4x, 3x,'VZWHL',4x, 3x,'VROLLW',3x, 3x,'VYAWW',4x,          &
                    3x,'VPITCHW',2x, /, 2x, 6a, /)
-         endif
-
-         if (max(abs(my_rail%dy), abs(my_rail%dz), abs(my_rail%roll), abs(my_rail%vy), abs(my_rail%vz), &
-                 abs(my_rail%vroll)).gt.1d-10) then
-            write(lout, 4102) my_rail%dy, my_rail%dz, my_rail%roll, fmt_gs(12,4,4,my_rail%vy),          &
-                              fmt_gs(12,4,4,my_rail%vz), fmt_gs(12,4,4,my_rail%vroll)
- 4102       format (1x,'RAIL IRREGULARITY',/,                                                           &
-               2x, 3x,'DYRAIL',3x, 3x,'DZRAIL',3x, 3x,'DROLLR',3x, 3x,'VYRAIL',3x, 3x,'VZRAIL',3x,      &
-                   3x,'VROLLR',3x, /, 2x, 3f12.4, 3a,/)
-         endif
-
-         if (ic%force1.eq.3) then
-            write(lout,4202)
-            write(lout,4203) wtd%trk%ky_rail, wtd%trk%dy_defl, fmt_gs(12,4,4,wtd%trk%fy_rail),          &
-                   wtd%trk%kz_rail, wtd%trk%dz_defl, fmt_gs(12,4,4,wtd%trk%fz_rail)
- 4202       format (1x,'MASSLESS RAIL DEFLECTION')
- 4203       format (2x, 3x,'KY_RAIL',2x, 3x,'DY_DEFL',2x, 3x,'FY_RAIL',2x, 3x,'KZ_RAIL',2x,             &
-                   3x,'DZ_DEFL',2x, 3x,'FZ_RAIL',2x, /, 2x, 2f12.4,a, 2f12.4,a,/)
          endif
 
       endif
@@ -456,9 +462,9 @@ contains
 
             ! V = 1: report on actual friction parameters used, converted to struct with NVF = 1
 
-            if (ic%tang.gt.0 .and. wtd%ic%varfrc.eq.1) then
+            if (ic%tang.gt.0 .and. wtd%ic%varfrc.ge.1) then
 
-               call fric_output(lout, gd%ic%varfrc, wtd%ic%output_surf, gd%fric)
+               call fric_output(lout, wtd%ic%output_surf, gd%fric)
                write(lout,'(1x)')
 
             endif

@@ -472,6 +472,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outdir, c_expnam, len
    bind(c,name=CNAME_(cntc_initializefirst))
 !--function: initialize the addon internal data structures and initialize output channels,
 !            print version information; return the addon version number.
+!            Old version provided for backward compatibility. Interface will be changed in v25.1.
 !--category: 0, "m=any, glob":      not related to contact's modules 1 or 3, working on global data
    implicit none
 !--subroutine arguments:
@@ -1351,7 +1352,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 !    3: modified Fastsim, 3 flexibilities  params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
 !    4: elastic + elasto-plastic 3rd body  params = [ nu1, nu2, g1, g2, g3, laythk, tau_c0, k_tau ]
 ! values >= 10 are used to configure the M2-digit, M2 = imeth - 10
-!   12: ad-hoc proportional damping        params = [ cdampn, cdampt, dfnmax, dftmax ]
+!   12: force-based proportional damping   params = [ cdampn, cdampt, dfnmax, dftmax ]
 !
 ! dimensions: nu1, nu2        [-],        g1, g2    [force/area],   
 !             fg1, fg2        [-],        vt1, vt2  [time],
@@ -1416,7 +1417,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 
       elseif (imeth.eq.12) then
 
-         ! M2 = 2 - ad-hoc proportional damping
+         ! M2 = 2 - force-based proportional damping
 
          my_mater%cdampn = rparam(1)                ! [s]
          my_mater%cdampt = rparam(2)                ! [s]
@@ -1735,9 +1736,10 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
 !                         alphvf(1),   lparam( 1 ,1:n) ],  ...
 !                                   ...
 !                         alphvf(nvf), lparam(nvf,1:n) ]
+!  When V = 2, same as for V = 1, using svf instead of alphvf
 !    
 !  dimensions:  alphvf: [angle],  fstat, fkin, flin1,2, frat1,2, fexp1,2, polach_a, fref, dfheat: [-]
-!               sabsh1,2, mem_s0: [veloc],  memdst: [length],  polach_b [1/veloc],  tref, dtheat [C]
+!               sabsh1,2, mem_s0: [veloc],  svf, memdst: [length],  polach_b [1/veloc],  tref, dtheat [C]
 !--category: 5, "m=any, wtd":       available for modules 1 and 3, in module 1 working on wtd data
    implicit none
 !--subroutine arguments:
@@ -1748,6 +1750,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
    real(kind=8), intent(in) :: params(nparam) ! depending on method that is used
 !--local variables:
    integer, parameter  :: nparam_loc(0:6) = (/ 2, 0, 7, 7, 7, 3, 6 /)
+   logical      :: use_nvf
    integer      :: ierror, ldigit, vdigit, nexpct, imodul, nvf, ivf, iofs
    real(kind=8) :: fstat, fkin, polach_a, polach_b, fexp1, shalf
    character(len=*), parameter :: subnam = 'cntc_setFrictionMethod'
@@ -1768,15 +1771,8 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
    vdigit = imeth / 10
    ldigit = imeth - 10*vdigit
 
-   if (vdigit.lt.0 .or. vdigit.gt.1 .or. ldigit.lt.0 .or. ldigit.gt.6) then
+   if (vdigit.lt.0 .or. vdigit.gt.2 .or. ldigit.lt.0 .or. ldigit.gt.6) then
       write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' method',imeth,' does not exist.'
-      call write_log(1, bufout)
-      return
-   endif
-
-   if (vdigit.eq.1 .and. imodul.ne.1) then
-      write(bufout,'(a,2(a,i1))') trim(pfx_str(subnam,ire,icp)),' V=',vdigit,' is not allowed in module', &
-                imodul
       call write_log(1, bufout)
       return
    endif
@@ -1792,9 +1788,18 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
       my_ic%frclaw_inp = ldigit
    endif
 
+   use_nvf = (vdigit.eq.1 .or. vdigit.eq.2)
+
+   if (use_nvf .and. imodul.ne.1) then
+      write(bufout,'(a,2(a,i1))') trim(pfx_str(subnam,ire,icp)),' V=',vdigit,' is not allowed in module', &
+                imodul
+      call write_log(1, bufout)
+      return
+   endif
+
    ! Get nvf, check number of parameters
 
-   if (vdigit.eq.1 .and. nparam.ge.1) then
+   if (use_nvf .and. nparam.ge.1) then
       nvf    = nint(params(1))
       nexpct = 1 + nvf * (1 + nparam_loc(ldigit))
    else
@@ -1803,7 +1808,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
    endif
 
    if (nparam.ne.nexpct) then
-      if (vdigit.eq.1) then
+      if (use_nvf) then
          write(bufout,'(2a,i2,a,2(i3,a))') trim(pfx_str(subnam,ire,icp)),' with L=',ldigit,', NVF=',    &
                 nvf,' needs', nexpct,' parameters.'
       else
@@ -1828,6 +1833,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
       else
          my_fric => gd%fric
       endif
+      my_fric%varfrc_eff = my_ic%varfrc
 
       ! L = 0 -- 6: store lparam(i,:)
 
@@ -1844,14 +1850,14 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
       ! copy parameters
 
       iofs = 0
-      if (vdigit.eq.1) iofs = 1     ! skip 1st position: nvf
+      if (use_nvf) iofs = 1     ! skip 1st position: nvf
 
       do ivf = 1, nvf
 
-         ! V = 1: store alphvf(i)
+         ! V = 1 or 2: store alphvf(i) or svf(i)
 
-         if (vdigit.eq.1) then
-            my_fric%alphvf(ivf) = params(iofs+1) * my_scl%angle
+         if (use_nvf) then
+            my_fric%paramvf(ivf) = params(iofs+1) * my_scl%angle
             iofs = iofs + 1
          endif
 
@@ -1996,7 +2002,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
 
       ! set the value of the friction coefficient used for scaling tang. forces
 
-      my_kin%use_muscal = my_ic%varfrc.eq.0
+      my_kin%use_muscal = (my_ic%varfrc.eq.0 .or. my_ic%varfrc.eq.2)
       if (my_kin%use_muscal) then
          my_kin%muscal = my_fric%fstat()
       else
@@ -2818,7 +2824,7 @@ end subroutine cntc_setTangentialForces
 subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nreals, rparam) &
    bind(c,name=CNAME_(cntc_setprofileinputfname))
 !--function: set a wheel or rail profile filename for a wheel-rail contact problem
-!  fname          - string: name of profile file, absolute path or relative to effective working folder
+!  fname          - string: name of profile file, absolute path or relative wrt effective working folder
 !  iparam         - integer configuration parameters
 !                     1: itype     0 = rail, 1 = wheel profile, -1 = taken from file extension (default)
 !                     2:  -        not used
@@ -3817,17 +3823,17 @@ subroutine cntc_calculate1(ire, ierror) &
    if (my_ic%wrtinp.ge.1 .and. inp_open.ge.0) then
       call timer_start(itimer_files)
       if (my_ic%return.eq.0 .or. my_ic%return.eq.2 .and. my_meta%irun.eq.0) then
-         write (linp,'(a,i7,a,i3)') '% case',my_meta%ncase,' for result element',ire
+         write (linp,'(a,i0,a,i3)')    '% case ',my_meta%ncase,' for result element',ire
       elseif (my_ic%return.eq.0 .or. my_ic%return.eq.2) then
-         write (linp,'(a,i7,4(a,i4))') '% case',my_meta%ncase,' for result element',ire, ': run',       &
+         write (linp,'(a,i0,4(a,i4))') '% case ',my_meta%ncase,' for result element',ire, ': run',      &
                 my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
       elseif (my_meta%irun.eq.0 .and. my_meta%tim.eq.0d0) then
-         write (linp,'(a,i7,a,i3)')         ' 1  MODULE   % case',my_meta%ncase,' for result element',ire
+         write (linp,'(a,i0,a,i3)')         ' 1  MODULE   % case ',my_meta%ncase,' for result element',ire
       elseif (my_meta%irun.eq.0) then
-         write (linp,'(a,i7,a,i3,a,f16.8)') ' 1  MODULE   % case',my_meta%ncase,' for result element',  &
+         write (linp,'(a,i0,a,i3,a,f16.8)') ' 1  MODULE   % case ',my_meta%ncase,' for result element', &
                 ire,', t=',my_meta%tim
       else
-         write (linp,'(a,i7,4(a,i4))')      ' 1  MODULE   % case',my_meta%ncase,' for result element',  &
+         write (linp,'(a,i0,4(a,i4))')      ' 1  MODULE   % case ',my_meta%ncase,' for result element', &
                 ire, ': run', my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
       endif
 

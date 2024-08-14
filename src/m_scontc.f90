@@ -191,7 +191,7 @@ contains
          if (ic%matfil_surf.ge.1) then
             if (idebug.ge.5) call write_log(' contac: calling writmt')
             call timer_start(itimer_files)
-            call writmt (meta, ic, cgrid, potcon_cur, geom%hs1, mater, fric, kin, outpt1, .false.)
+            call writmt (meta, ic, cgrid, potcon_cur, mater, fric, kin, geom, outpt1, .false.)
             call timer_stop(itimer_files)
          endif
 
@@ -506,18 +506,15 @@ contains
 
             call gf3_copy(AllElm, ps1, po1, ikALL)
 
-            if (solv%maxout.gt.1) then
+            ! In case of non-quasiidentity: write convergence
 
-               ! In case of non-quasiidentity: write convergence
-
-               if (ic%flow.ge.1 .or. itout.ge.solv%maxout-4) then
-                  strng(1) = fmt_gs(12,4,4, dif)
-                  strng(2) = fmt_gs(12,4,4, difid)
-                  write (bufout, 6000) itout, (strng(j),j=1,2)
-                  call write_log(1, bufout)
-                  if (ic%flow.ge.2) call write_log(' ')
- 6000             format (i3, ', Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :',2a12)
-               endif
+            if (solv%maxout.gt.1 .and. (ic%flow.ge.1 .or. itout.ge.solv%maxout-2)) then
+               strng(1) = fmt_gs(12,4,4, dif)
+               strng(2) = fmt_gs(12,4,4, difid)
+               write (bufout, 6000) itout, (strng(j),j=1,2)
+               call write_log(1, bufout)
+               if (ic%flow.ge.2) call write_log(' ')
+ 6000          format (i3, ', Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :',2a12)
             endif
          endif
 
