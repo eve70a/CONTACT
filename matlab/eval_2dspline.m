@@ -146,9 +146,10 @@ function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug
 
    [~, ~, ~, Bmat] = eval_bspline_basisfnc( spl2d.tui, u_in, k );
 
-   % matrix-multply to get output values
+   % matrix-multiply to get output values
 
    % y_out: [ noutu, noutv ], Bmat: [ noutu, nsplu ], ci_y: [ nsplu, noutv ], u_in: [ noutu ]
+   % TODO: improve performance for list output, avoid dense [n,n] [xyz]_out?
    if (has_xij)
       x_out = Bmat * ci_x;
    else
