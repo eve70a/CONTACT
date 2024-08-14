@@ -2005,7 +2005,7 @@ end subroutine gf3_dq_shift_scalar
 !------------------------------------------------------------------------------------------------------------
 
 subroutine gf3_mirror_x(ikeep, fin, fout, ikarg, idebug)
-!--function: copy fin to fout with mirroring in x-direction
+!--function: copy fin to fout with mirroring in x-direction, assuming x values symmetrical wrt x=0
 !            ikeep<0 : fout(x<0), fout(x>0) = fin(x<0)
 !            ikeep>0 : fout(x<0), fout(x>0) = fin(x>0)
    implicit none
@@ -2064,35 +2064,19 @@ subroutine gf3_mirror_x(ikeep, fin, fout, ikarg, idebug)
       do ik = ik0, ik1
          do iy = 1, my
             do ix = 1, mx
+               ii = ix + (iy-1)*mx
                if (ix.lt.ix_pos1) then
-                  fout%val(ix,ik) = fin%val(ix,ik)
+                  fout%val(ii,ik) = fin%val(ii,ik)
                elseif (ix.le.ix_posn) then
                   ix_neg = ix_neg1 + ix_pos1 - ix
-                  fout%val(ix,ik) = fin%val(ix_neg,ik)
+                  ii_neg = ix_neg + (iy-1)*mx
+                  fout%val(ii,ik) = fin%val(ii_neg,ik)
                else
-                  fout%val(ix,ik) = 0d0
+                  fout%val(ii,ik) = 0d0
                endif
             enddo
          enddo
       enddo
-
-!     do ival = 1, nval
-!        ix_neg = ix_negn - 1 + ival
-!        ix_pos = ix_posn + 1 - ival
-!        if (idebug.ge.5) then
-!           write(bufout,'(2(a,i3))') ' copying ix=', ix_neg,' to', ix_pos
-!           call write_log(1, bufout)
-!        endif
-
-!        do iy = 1, my
-!           ii_neg = ix_neg + (iy-1) * mx
-!           ii_pos = ix_pos + (iy-1) * mx
-!           do ik = ik0, ik1
-!              fout%val(ii_neg,ik) = fin%val(ii_neg,ik)
-!              fout%val(ii_pos,ik) = fin%val(ii_neg,ik)
-!           enddo
-!        enddo
-!     enddo
 
    else
 
@@ -2101,35 +2085,19 @@ subroutine gf3_mirror_x(ikeep, fin, fout, ikarg, idebug)
       do ik = ik0, ik1
          do iy = 1, my
             do ix = 1, mx
+               ii = ix + (iy-1)*mx
                if (ix.lt.ix_negn) then
-                  fout%val(ix,ik) = 0d0
+                  fout%val(ii,ik) = 0d0
                elseif (ix.le.ix_neg1) then
                   ix_pos = ix_pos1 + ix_neg1 - ix
-                  fout%val(ix,ik) = fin%val(ix_pos,ik)
+                  ii_pos = ix_pos + (iy-1)*mx
+                  fout%val(ii,ik) = fin%val(ii_pos,ik)
                else
-                  fout%val(ix,ik) = fin%val(ix,ik)
+                  fout%val(ii,ik) = fin%val(ii,ik)
                endif
             enddo
          enddo
       enddo
-
-!     do ival = 1, nval
-!        ix_pos = ix_pos1 - 1 + ival
-!        ix_neg = ix_neg1 + 1 - ival
-!        if (idebug.ge.5) then
-!           write(bufout,'(2(a,i3))') ' copying ix=', ix_pos,' to', ix_neg
-!           call write_log(1, bufout)
-!        endif
-
-!        do iy = 1, my
-!           ii_neg = ix_neg + (iy-1) * mx
-!           ii_pos = ix_pos + (iy-1) * mx
-!           do ik = ik0, ik1
-!              fout%val(ii_neg,ik) = fin%val(ii_pos,ik)
-!              fout%val(ii_pos,ik) = fin%val(ii_pos,ik)
-!           enddo
-!        enddo
-!     enddo
 
    endif
 
