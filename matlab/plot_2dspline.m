@@ -115,22 +115,24 @@ function [ myopt ] = plot_2dspline( slcs, opt )
    % set target step-sizes for plotting
 
    if (isempty(myopt.urange))
+      xlen = max(max(slcs.xsurf)) - min(min(slcs.xsurf));
+   else
+      xlen = max(opt.urange) - min(opt.urange);
+   end
+   if (isempty(myopt.urange))
       myopt.urange = [ min(slcs.spl2d.ui), max(slcs.spl2d.ui) ];
    end
    if (isempty(myopt.vrange))
       myopt.vrange = [ min(slcs.spl2d.vj), max(slcs.spl2d.vj) ];
    end
    if (isempty(myopt.xysteps))
-      xlen = max(max(slcs.xsurf)) - min(min(slcs.xsurf));
       ylen = max(slcs.spl2d.vj) - min(slcs.spl2d.vj);
       myopt.xysteps = [xlen/4, ylen/10]; % using 4/10 intervals == 5/11 lines
    end
    if (isempty(myopt.zoom))
       if (strcmp(myopt.typplot,'topol'))
-         xlen = max(max(slcs.u))  - min(min(slcs.u));
          ylen = max(max(slcs.vj)) - min(min(slcs.vj));
       else
-         xlen = max(max(slcs.xsurf)) - min(min(slcs.xsurf));
          ylen = max(max(slcs.ysurf)) - min(min(slcs.ysurf));
       end
       myopt.zoom = [ 0.5*xlen/ylen 1 1 ];       % wheel: data aspect ratio, e.g. [0.05 1 1]
@@ -174,7 +176,7 @@ function [ myopt ] = plot_2dspline( slcs, opt )
       colormap(m_bin);
    end
 
-   set(l,'Tag','prr');
+   set(l,'Tag','slcs');
 
    % set view appropriate for rails with z positive downwards
 
