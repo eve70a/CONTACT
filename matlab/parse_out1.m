@@ -1,11 +1,12 @@
-function [npatch, ws_pos, tot_forc, cp_pos, cp_creep, cp_force] = parse_out1(fname, idebug)
+function [npatch, ws_pos, tot_forc, cp_pos, cp_creep, cp_force] = parse_out1(fname, ire_out, idebug)
 %
-% function [ sol ] = parse_out1(fname, [idebug])
+% function [ sol ] = parse_out1(fname, [ire_out], [idebug])
 %    or
-% function [ npatch, ws_pos, tot_forc, cp_pos, cp_creep, cp_force, cp_subs ] = parse_out1(fname, [idebug])
+% function [ npatch, ws_pos, tot_forc, cp_pos, cp_creep, cp_force, cp_subs ] = ...
+%                                                               parse_out1(fname, [ire_out], [idebug])
 %
-% Reads CONTACT output for w/r contact cases (module 1) from out-file fname and returns the overall
-% values from it:
+% Reads CONTACT output for w/r contact cases (module 1) for result element 'ire_out' from out-file fname
+% and returns the overall values from it:
 %   npatch   = number of contact patches per case
 %   ws_pos   = (input) wheel-set positions, orientations and velocities
 %              struct with x, y, z, roll, yaw, pitch, vx, ... vpitch
@@ -26,7 +27,10 @@ function [npatch, ws_pos, tot_forc, cp_pos, cp_creep, cp_force] = parse_out1(fna
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
-if (nargin<2 | isempty(idebug))
+if (nargin<2 | isempty(ire_out))
+   ire_out = -1; % result element number as used in CONTACT library for which output is wanted, -1 == all
+end
+if (nargin<3 | isempty(idebug))
    idebug=0; % display input when idebug>=2, sections found when idebug>=5
 end
 
@@ -494,6 +498,45 @@ while (iline<f.nline)
 
 end % while (iline<f.nline)
 
+% select cases for result element ire_out, if provided
+
+if (ire_out>0 & ~isempty(ire))
+   ncase    = length(jcase);
+   i_select = find(ire == ire_out);
+   disp(sprintf('Total #cases = %d, selected %d cases for ire_out = %d', ncase, length(i_select), ire_out));
+
+   npatch = npatch(i_select);
+   ire    = ire   (i_select); jcase  = jcase (i_select); tim     = tim    (i_select);
+   x_ws   = x_ws  (i_select); y_ws   = y_ws  (i_select); z_ws    = z_ws   (i_select); 
+   roll   = roll  (i_select); yaw    = yaw   (i_select); pitch   = pitch  (i_select);
+   vx_ws  = vx_ws (i_select); vy_ws  = vy_ws (i_select); vz_ws   = vz_ws  (i_select); 
+   vroll  = vroll (i_select); vyaw   = vyaw  (i_select); vpitch  = vpitch (i_select);
+   dx_whl = dx_whl(i_select); dy_whl = dy_whl(i_select); dz_whl  = dz_whl (i_select); 
+   drollw = drollw(i_select); dyaww  = dyaww (i_select); dpitchw = dpitchw(i_select);
+   vxwhl  = vxwhl (i_select); vywhl  = vywhl (i_select); vzwhl   = vzwhl  (i_select);
+   vrollw = vrollw(i_select); vyaww  = vyaww (i_select); vpitchw = vpitchw(i_select);
+   fx_tr  = fx_tr (i_select); fy_tr  = fy_tr (i_select); fz_tr   = fz_tr  (i_select); 
+   fx_ws  = fx_ws (i_select); fy_ws  = fy_ws (i_select); fz_ws   = fz_ws  (i_select);
+   mx_tr  = mx_tr (i_select); my_tr  = my_tr (i_select); mz_tr   = mz_tr  (i_select); 
+   mx_ws  = mx_ws (i_select); my_ws  = my_ws (i_select); mz_ws   = mz_ws  (i_select);
+ 
+   xcp_tr  = xcp_tr (:,i_select); ycp_tr  = ycp_tr(:,i_select); zcp_tr  = zcp_tr(:,i_select);
+   delt_tr = delt_tr(:,i_select); ycp_r   = ycp_r (:,i_select); zcp_r   = zcp_r (:,i_select);
+   xcp_w   = xcp_w  (:,i_select); ycp_w   = ycp_w (:,i_select); zcp_w   = zcp_w (:,i_select);
+   pen     = pen    (:,i_select); veloc   = veloc (:,i_select);
+   cksi    = cksi   (:,i_select); ceta    = ceta  (:,i_select); cphi    = cphi  (:,i_select);
+   fn_loc  = fn_loc (:,i_select); fx_loc  = fx_loc(:,i_select); fs_loc  = fs_loc(:,i_select);
+   mn_loc  = mn_loc (:,i_select); elen    = elen  (:,i_select); fric    = fric  (:,i_select);
+   temp1   = temp1  (:,i_select); temp2   = temp2 (:,i_select); pmax    = pmax  (:,i_select);
+   ncon    = ncon   (:,i_select); nadh    = nadh  (:,i_select); nslip   = nslip (:,i_select);
+   nplast  = nplast (:,i_select); prevcp  = prevcp(:,:,i_select);
+   if (~isempty(subs_max))
+      subs_max = subs_max(:,:,i_select,:);
+   end
+end
+
+% group arrays into structures
+
 ws_pos   = struct('x',     x_ws,   'y',     y_ws,   'z',     z_ws,   ...
                   'roll',  roll,   'yaw',   yaw,    'pitch', pitch,  ...
                   'vx',    vx_ws,  'vy',    vy_ws,  'vz',    vz_ws,  ...
@@ -554,6 +597,8 @@ else
                       'sigyy',  squeeze(subs_max(:,al,:,7)), ...
                       'sigzz',  squeeze(subs_max(:,al,:,8)));
 end
+
+% convert separate structs into one overall struct, if requested
 
 if (nargout<=1)
    sol = struct( 'ws_pos',ws_pos, 'tot_forc',tot_forc, 'npatch',  npatch, ...
