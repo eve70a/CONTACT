@@ -80,6 +80,8 @@ contains
       if (potcon_inp%ipotcn.ge.-5 .and. potcon_inp%ipotcn.le.-1) then
          if (idebug.ge.5) call write_log(' contac: calling hzsol')
          call hzsol(ic, geom, potcon_inp%ipotcn, hertz, kin, mater)
+      endif
+      if (potcon_inp%ipotcn.ge.-6 .and. potcon_inp%ipotcn.le.-1) then
          call potcon_hertz(hertz, potcon_inp)
       endif
 

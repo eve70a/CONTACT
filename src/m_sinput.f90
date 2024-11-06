@@ -1197,8 +1197,9 @@ contains
          potcon%my = ints(2)
          potcon%npot = potcon%mx * potcon%my
          hz%aa     = dbles(1)
-         hz%bpos   = dbles(2)
-         hz%bneg   = dbles(3)
+         hz%bneg   = dbles(2)
+         hz%bpos   = dbles(3)
+         hz%bb     = (hz%bneg + hz%bpos) / 2d0
          hz%scale  = dbles(4)
 
       elseif (potcon%ipotcn.ge.1 .and. potcon%ipotcn.le.4) then
@@ -1243,8 +1244,8 @@ contains
       endif
 
       if (potcon%ipotcn.eq.-6) then
-         zerror = zerror .or. .not.check_range ('BPOS', hz%bpos, 1d-8, 1d20)
          zerror = zerror .or. .not.check_range ('BNEG', hz%bneg, 1d-8, 1d20)
+         zerror = zerror .or. .not.check_range ('BPOS', hz%bpos, 1d-8, 1d20)
       endif
 
       if (potcon%ipotcn.eq.1 .or. potcon%ipotcn.eq.3) then

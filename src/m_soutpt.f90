@@ -29,7 +29,7 @@ contains
       type(t_kincns)              :: kin
 !--local variables :
       real(kind=8) :: df(3), dt_min
-      character(len=12) :: strng
+      character(len=12) :: strng(3)
 
       associate(cdampn => mater%cdampn,  cdampt => mater%cdampt,  dt     => kin%dt,                     &
                 fcntc  => kin%fcntc,     fprev  => kin%fprev,     fdamp  => kin%fdamp )
@@ -45,14 +45,16 @@ contains
          if (abs(df(2)).gt.mater%dftmax) df(2) = sign(mater%dftmax, df(2))
          if (abs(df(3)).gt.mater%dfnmax) df(3) = sign(mater%dfnmax, df(3))
          fdamp  = (/ cdampt * df(1), cdampt * df(2), cdampn * df(3) /)
-      endif
 
-      if (ic%x_force.ge.2) then
-         ! write(bufout,'(2(a,g12.4),a,3g12.4)') ' cdampn=',cdampn,', dt=',dt, ', fdamp=',fdamp
-         strng = fmt_gs(12, 8, 6, fdamp(3))
-         write(bufout,'(2(a,g12.4),2(a,f12.6),2a)') ' cdampn=',cdampn,', dt=',dt,', fprev=',fprev(3),   &
-                        ', fcntc=',fcntc(3),', fdamp=',strng
-         call write_log(1, bufout)
+         if (ic%x_force.ge.2) then
+            ! write(bufout,'(2(a,g12.4),a,3g12.4)') ' cdampn=',cdampn,', dt=',dt, ', fdamp=',fdamp
+            strng(1) = fmt_gs(12, 9, 6, fprev(3))
+            strng(2) = fmt_gs(12, 9, 6, fcntc(3))
+            strng(3) = fmt_gs(12, 9, 6, fdamp(3))
+            write(bufout,'(2(a,g12.4),6a)') ' cdampn=',cdampn,', dt=',dt,', fprev=',strng(1),           &
+                           ', fcntc=',strng(2),', fdamp=',strng(3)
+            call write_log(1, bufout)
+         endif
       endif
 
       end associate
@@ -205,12 +207,13 @@ contains
  8064       format (' CURVATURE PRESCRIBED, A1,BB: ', 13x, 2g12.4)
  8066       format (' SEMIAXES PRESCRIBED, AA,BNEG,BPOS:', 8x, 3g12.4)
 
-            if (pot%ipotcn.ne.-1) write(lout, 8071) gd%hertz%a1, gd%hertz%b1
-            if (pot%ipotcn.ne.-3) write(lout, 8072) gd%hertz%aa, gd%hertz%bb, gd%hertz%aob
+            if (pot%ipotcn.ne.-1 .and. pot%ipotcn.ne.-6) write(lout, 8071) gd%hertz%a1, gd%hertz%b1
+            if (pot%ipotcn.ne.-3 .and. pot%ipotcn.ne.-6)                                                &
+               write(lout, 8072) gd%hertz%aa, gd%hertz%bb, gd%hertz%aob
  8071       format (' THE CURVATURES A1,B1 ARE:    ', 13x, 2g12.4)
  8072       format (' BASIC SEMIAXES AA,BB, RATIO  ', 13x, 3g12.4)
 
-            write(lout, 8081) gd%hertz%rho, gd%hertz%cp
+            if (pot%ipotcn.ne.-6) write(lout, 8081) gd%hertz%rho, gd%hertz%cp
  8081       format (' EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP', 6x, 2g12.4)
 
             write(lout, 8091)  pot%xl, pot%yl, gd%hertz%scale, mx, my, dx, dy
