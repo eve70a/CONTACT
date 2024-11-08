@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -11,52 +11,54 @@
  reading rail  profile "..\profiles\site_b_hr.prr"
  reading wheel profile "..\profiles\worn_high_mileage.prw"
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
-      Norm: final element division: C, E=   3080   6230  ItCG=    15
-      Tang: final element division: A, S=    987   2093  ItGS=    39
-      Norm: final element division: C, E=    288    774  ItCG=    12
-      Tang: final element division: A, S=      0    288  ItGS=     5
-         1, NR,  z_ws, Fz:       1.3068   4.269E+05, dFz/dz:   3.557E+06
-      Norm: final element division: C, E=    346    779  ItCG=    11
-      Tang: final element division: A, S=      0    346  ItGS=    15
-      Norm: final element division: C, E=    140    454  ItCG=    11
-      Tang: final element division: A, S=      0    140  ItGS=     6
-         2, NR,  z_ws, Fz:       1.1653   2.676E+04, dFz/dz:   6.949E+05
-      Norm: final element division: C, E=   1759   5171  ItCG=    15
-      Tang: final element division: A, S=    486   1273  ItGS=    29
-      Norm: final element division: C, E=    131    428  ItCG=    12
-      Tang: final element division: A, S=      0    131  ItGS=     4
-         3, NR,  z_ws, Fz:       1.2360   1.953E+05, dFz/dz:   2.382E+06
-      Norm: final element division: C, E=   1420   4558  ItCG=    13
-      Tang: final element division: A, S=    329   1091  ItGS=    23
-      Norm: final element division: C, E=     73    312  ItCG=    12
-      Tang: final element division: A, S=      0     73  ItGS=     4
-         4, NR,  z_ws, Fz:       1.2116   1.418E+05, dFz/dz:   2.186E+06
-      Norm: final element division: C, E=   1055   2263  ItCG=    14
-      Tang: final element division: A, S=    237    818  ItGS=    24
-      Norm: final element division: C, E=    343    973  ItCG=    12
+      Norm: final element division: C, E=    985   2131  ItCG=    14
+      Tang: final element division: A, S=    235    750  ItGS=    24
+      Norm: final element division: C, E=    332    910  ItCG=    11
+      Tang: final element division: A, S=      0    332  ItGS=     7
+      Norm: final element division: C, E=     67    263  ItCG=    11
+      Tang: final element division: A, S=      0     67  ItGS=     4
+         1, NR,  z_ws, Fz:       1.2065   1.117E+05, dFz/dz:   2.100E+06
+      Norm: final element division: C, E=   1404   4623  ItCG=    13
+      Tang: final element division: A, S=    329   1075  ItGS=    25
+      Norm: final element division: C, E=     86    299  ItCG=    11
+      Tang: final element division: A, S=      0     86  ItGS=     4
+         2, NR,  z_ws, Fz:       1.2136   1.407E+05, dFz/dz:   4.126E+06
+      Norm: final element division: C, E=   1408   4619  ItCG=     9
+      Tang: final element division: A, S=    328   1080  ItGS=    17
+      Norm: final element division: C, E=     81    304  ItCG=     9
+      Tang: final element division: A, S=      0     81  ItGS=     3
+         3, NR,  z_ws, Fz:       1.2127   1.405E+05, dFz/dz:   2.232E+05
+      Norm: final element division: C, E=   1059   2259  ItCG=    14
+      Tang: final element division: A, S=    239    820  ItGS=    24
+      Norm: final element division: C, E=    343    973  ItCG=    11
       Tang: final element division: A, S=      0    343  ItGS=    10
-      Norm: final element division: C, E=     68    295  ItCG=     9
+      Norm: final element division: C, E=     68    306  ItCG=    10
       Tang: final element division: A, S=      0     68  ItGS=     3
-         5, NR,  z_ws, Fz:       1.2094   1.272E+05, dFz/dz:   6.680E+06
-      Norm: final element division: C, E=   1083   2486  ItCG=    10
-      Tang: final element division: A, S=    236    847  ItGS=    21
-      Norm: final element division: C, E=    337    979  ItCG=    10
-      Tang: final element division: A, S=      0    337  ItGS=    12
+         4, NR,  z_ws, Fz:       1.2096   1.289E+05, dFz/dz:   3.785E+06
+      Norm: final element division: C, E=   1418   4560  ItCG=    13
+      Tang: final element division: A, S=    328   1090  ItGS=    25
+      Norm: final element division: C, E=     75    310  ItCG=     9
+      Tang: final element division: A, S=      0     75  ItGS=     3
+         5, NR,  z_ws, Fz:       1.2117   1.413E+05, dFz/dz:  -8.432E+05
+      Norm: final element division: C, E=   1083   2400  ItCG=    14
+      Tang: final element division: A, S=    235    848  ItGS=    24
+      Norm: final element division: C, E=    340    976  ItCG=    12
+      Tang: final element division: A, S=      0    340  ItGS=    12
+      Norm: final element division: C, E=     68    306  ItCG=     9
+      Tang: final element division: A, S=      0     68  ItGS=     3
+         6, NR,  z_ws, Fz:       1.2107   1.365E+05, dFz/dz:   4.514E+06
+      Norm: final element division: C, E=   1083   2400  ItCG=     8
+      Tang: final element division: A, S=    234    849  ItGS=    18
+      Norm: final element division: C, E=    337    979  ItCG=     8
+      Tang: final element division: A, S=      0    337  ItGS=    10
       Norm: final element division: C, E=     69    305  ItCG=     8
       Tang: final element division: A, S=      0     69  ItGS=     3
-         6, NR,  z_ws, Fz:       1.2109   1.376E+05, dFz/dz:   5.795E+06
-      Norm: final element division: C, E=   1083   2400  ItCG=     7
-      Tang: final element division: A, S=    234    849  ItGS=    18
-      Norm: final element division: C, E=    338    978  ItCG=     8
-      Tang: final element division: A, S=      0    338  ItGS=    10
+         7, NR,  z_ws, Fz:       1.2108   1.371E+05, dFz/dz:   5.820E+06
+      Norm: final element division: C, E=   1083   2400  ItCG=     6
+      Tang: final element division: A, S=    234    849  ItGS=    16
+      Norm: final element division: C, E=    338    978  ItCG=     6
+      Tang: final element division: A, S=      0    338  ItGS=     8
       Norm: final element division: C, E=     69    305  ItCG=     5
-      Tang: final element division: A, S=      0     69  ItGS=     3
-         7, NR,  z_ws, Fz:       1.2107   1.370E+05, dFz/dz:   5.811E+06
-      Norm: final element division: C, E=   1083   2400  ItCG=     4
-      Tang: final element division: A, S=    234    849  ItGS=     9
-      Norm: final element division: C, E=    338    978  ItCG=     4
-      Tang: final element division: A, S=      0    338  ItGS=     4
-      Norm: final element division: C, E=     69    305  ItCG=     3
       Tang: final element division: A, S=      0     69  ItGS=     2
          8, NR,  z_ws, Fz:       1.2107   1.370E+05, dFz/dz:   5.825E+06
 
@@ -241,24 +243,24 @@
    1316    338      0    338      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    20  o...................................o
-    19  .............SSSSSSSS................
-    18  .........SSSSSSSSSSSSSSSSS...........
-    17  ......SSSSSSSSSSSSSSSSSSSSSSS........
-    16  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    12  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    11  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    10  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-     9  .......SSSSSSSSSSSSSSSSSSSSSSSSS.....
-     8  .........SSSSSSSSSSSSSSSSSSSSSS......
-     7  ............SSSSSSSSSSSSSSSSS........
-     6  ....................S................
-     5  o...................................o
-            1         2         3         4
-        6789012345678901234567890123456789012
+    20   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    19   . . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . . .
+    18   . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    17   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    16   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    15   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    14   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    13   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    12   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    11   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    10   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+     9   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     8   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     7   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . .
+     6   . . . . . . . . . . . . . . . . . . . . S . . . . . . . . . . . . . . . .
+     5   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  3 -----
@@ -310,20 +312,21 @@
       Tang: final element division: A, S=      0     83  ItCG=     9
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2107   1.370E+05, dFz/dz:   2.447E+06
-      Norm: final element division: C, E=   1085   2441  ItCG=     5
-      Tang: final element division: A, S=    241    844  ItCG=    16
-      Norm: final element division: C, E=    337   1026  ItCG=     6
-      Tang: final element division: A, S=      0    337  ItCG=    11
-      Norm: final element division: C, E=     83    302  ItCG=     4
-      Tang: final element division: A, S=      0     83  ItCG=     2
-         2, NR,  z_ws, Fz:       1.2108   1.370E+05, dFz/dz:   4.846E+06
-      Norm: final element division: C, E=   1085   2441  ItCG=     4
-      Tang: final element division: A, S=    241    844  ItCG=     4
-      Norm: final element division: C, E=    337   1026  ItCG=     5
-      Tang: final element division: A, S=      0    337  ItCG=     3
-      Norm: final element division: C, E=     83    302  ItCG=     3
-      Tang: final element division: A, S=      0     83  ItCG=     2
-         3, NR,  z_ws, Fz:       1.2108   1.370E+05, dFz/dz:   4.926E+06
+      Norm: final element division: C, E=   1447   4877  ItCG=    13
+      Tang: final element division: A, S=    430   1017  ItCG=    48
+      Norm: final element division: C, E=     97    347  ItCG=    10
+      Tang: final element division: A, S=      0     97  ItCG=     4
+         2, NR,  z_ws, Fz:       1.2196   1.475E+05, dFz/dz:   1.197E+06
+      Norm: final element division: C, E=   1085   3946  ItCG=    19
+      Tang: final element division: A, S=    189    896  ItCG=    32
+      Norm: final element division: C, E=    338   5114  ItCG=    17
+      Tang: final element division: A, S=      0    338  ItCG=    12
+      Norm: final element division: C, E=     83    302  ItCG=    12
+      Tang: final element division: A, S=      0     83  ItCG=     3
+         3, NR,  z_ws, Fz:       1.2108   1.379E+05, dFz/dz:   3.902E+07
+  ...detected jump in x=[    1.210750,    1.210773]
+     df/dx=  0.1631E+07,  0.3902E+08,  0.1098E+07
+ Brent algorithm stopped with residual > tolerance.
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  3 CONTACT PATCHES
 
@@ -361,16 +364,16 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -8.105E+04  -2.892E+04   1.370E+05  -8.120E+04  -2.869E+04   1.370E+05
+  -8.299E+04  -3.185E+04   1.379E+05  -8.315E+04  -3.161E+04   1.378E+05
 
  ----- DATA FOR CONTACT PATCH  1 (PREV  1) -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.5537    754.6651      0.4186     -0.1850      5.5008      0.4186
+     -3.5537    754.6645      0.4186     -0.1858      5.5002      0.4186
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.1430     65.6569      0.1694
+      0.1431     65.6562      0.1694
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -378,99 +381,99 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000       1.000           1.000   1.819E-03   1.999E-03   1.652E-04
+     0.000       1.000           1.000   1.819E-03   1.999E-03   1.659E-04
 
      SPINXO      SPINYO
-    -3.154       5.381    
+    -3.154       5.380    
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     7.874E+04  -4.007E+04  -4.856E+04   3.180E+05       3.814     -0.1820
+     7.877E+04  -4.286E+04  -4.917E+04   3.376E+05       3.919     -0.3090
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.9602     -0.5655     -0.6853   6.646E-02       803.5
+        0.9606     -0.6045     -0.6936   6.648E-02       803.8
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   3526   1085    241    844      1      1
+   5031   1085    189    896      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    76   o . . . . . . . . . . . . . . . . . . . . . . . . . o
-    75   . . . . . . . . S S S S S * * * * S . . . . . . . . .
-    74   . . . . . S S S S S S S S S S * * * * * * . . . . . .
-    73   . . . . S S S S S S S S S S S S * * * * * * * . . . .
-    72   . . . S S S S S S S S S S S S * * * * * * * * * . . .
-    71   . . S S S S S S S S S S S S S * * * * * * * * * S . .
-    70   . . S S S S S S S S S S S S S * * * * * * * * * * . .
-    69   . S S S S S S S S S S S S S S * * * * * * * * * * . .
-    68   . S S S S S S S S S S S S S S * * * * * * * * * * . .
-    67   . . S S S S S S S S S S S S S * * * * * * * * * * . .
-    66   . . S S S S S S S S S S S S S * * * * * * * * * * . .
-    65   . . S S S S S S S S S S S S S * * * * * * * * * * . .
-    64   . . S S S S S S S S S S S S S * * * * * * * * * * . .
-    63   . . S S S S S S S S S S S S S * * * * * * * * * * . .
-    62   . S S S S S S S S S S S S S S * * * * * * * * * * S .
-    61   . S S S S S S S S S S S S S S * * * * * * * * * * S .
-    60   . S S S S S S S S S S S S S S S * * * * * * * * * S .
-    59   . S S S S S S S S S S S S S S S * * * * * * * * * S .
-    58   . S S S S S S S S S S S S S S S * * * * * * * * * S .
-    57   . S S S S S S S S S S S S S S S S * * * * * * * * S .
-    56   . S S S S S S S S S S S S S S S S * * * * * * * * S .
-    55   . S S S S S S S S S S S S S S S S * * * * * * * * S .
-    54   . S S S S S S S S S S S S S S S S * * * * * * * * S .
-    53   . S S S S S S S S S S S S S S S S S * * * * * * * S .
-    52   . S S S S S S S S S S S S S S S S S * * * * * * * S .
-    51   . S S S S S S S S S S S S S S S S S * * * * * * * S .
-    50   . S S S S S S S S S S S S S S S S S S * * * * * * S .
-    49   . . S S S S S S S S S S S S S S S S S * * * * * * S .
-    48   . . S S S S S S S S S S S S S S S S S S * * * * * . .
-    47   . . S S S S S S S S S S S S S S S S S S S * * * S . .
-    46   . . . S S S S S S S S S S S S S S S S S S * * * S . .
-    45   . . . S S S S S S S S S S S S S S S S S S * * * S . .
-    44   . . . S S S S S S S S S S S S S S S S S S S S S . . .
-    43   . . . . S S S S S S S S S S S S S S S S S S S S . . .
-    42   . . . . S S S S S S S S S S S S S S S S S S S S . . .
-    41   . . . . S S S S S S S S S S S S S S S S S S S S . . .
-    40   . . . . S S S S S S S S S S S S S S S S S S S . . . .
-    39   . . . . S S S S S S S S S S S S S S S S S S S . . . .
-    38   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    37   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    36   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    35   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    34   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    33   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    32   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    31   . . . . . . S S S S S S S S S S S S S S S S . . . . .
-    30   . . . . . . S S S S S S S S S S S S S S S S . . . . .
-    29   . . . . . . . S S S S S S S S S S S S S S . . . . . .
-    28   . . . . . . . . S S S S S S S S S S S S . . . . . . .
-    27   . . . . . . . . . S S S S S S S S S S . . . . . . . .
-    26   . . . . . . . . . . S S S S S S S S . . . . . . . . .
-    25   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    24   . . . . . . . . . . . . S S S S S . . . . . . . . . .
-    23   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    22   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    21   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    20   . . . . . . . . . . . . S S S S S . . . . . . . . . .
-    19   . . . . . . . . . . . . S S S S S . . . . . . . . . .
-    18   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    17   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    16   . . . . . . . . . . . . S S S S S . . . . . . . . . .
-    15   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+   111   o . . . . . . . . . . . . . . . . . . . . . . . . . o
+   110   . . . . . . . . S S S S S S S S S S . . . . . . . . .
+   109   . . . . . S S S S S S S S S S S * * * * S . . . . . .
+   108   . . . . S S S S S S S S S S S S * * * * * * S . . . .
+   107   . . . S S S S S S S S S S S S * * * * * * * * S . . .
+   106   . . S S S S S S S S S S S S S * * * * * * * * * S . .
+   105   . . S S S S S S S S S S S S S * * * * * * * * * S . .
+   104   . S S S S S S S S S S S S S S * * * * * * * * * * . .
+   103   . S S S S S S S S S S S S S S * * * * * * * * * * . .
+   102   . . S S S S S S S S S S S S S S * * * * * * * * S . .
+   101   . . S S S S S S S S S S S S S S * * * * * * * * S . .
+   100   . . S S S S S S S S S S S S S S * * * * * * * * S . .
+    99   . . S S S S S S S S S S S S S S * * * * * * * * S . .
+    98   . . S S S S S S S S S S S S S S * * * * * * * * * . .
+    97   . S S S S S S S S S S S S S S S * * * * * * * * * S .
+    96   . S S S S S S S S S S S S S S S * * * * * * * * * S .
+    95   . S S S S S S S S S S S S S S S S * * * * * * * * S .
+    94   . S S S S S S S S S S S S S S S S * * * * * * * * S .
+    93   . S S S S S S S S S S S S S S S S * * * * * * * * S .
+    92   . S S S S S S S S S S S S S S S S * * * * * * * * S .
+    91   . S S S S S S S S S S S S S S S S S * * * * * * * S .
+    90   . S S S S S S S S S S S S S S S S S * * * * * * * S .
+    89   . S S S S S S S S S S S S S S S S S * * * * * * * S .
+    88   . S S S S S S S S S S S S S S S S S S * * * * * * S .
+    87   . S S S S S S S S S S S S S S S S S S * * * * * S S .
+    86   . S S S S S S S S S S S S S S S S S S S * * * * S S .
+    85   . S S S S S S S S S S S S S S S S S S S * * * * S S .
+    84   . . S S S S S S S S S S S S S S S S S S S * * S S S .
+    83   . . S S S S S S S S S S S S S S S S S S S S S S S . .
+    82   . . S S S S S S S S S S S S S S S S S S S S S S S . .
+    81   . . . S S S S S S S S S S S S S S S S S S S S S S . .
+    80   . . . S S S S S S S S S S S S S S S S S S S S S S . .
+    79   . . . S S S S S S S S S S S S S S S S S S S S S . . .
+    78   . . . . S S S S S S S S S S S S S S S S S S S S . . .
+    77   . . . . S S S S S S S S S S S S S S S S S S S S . . .
+    76   . . . . S S S S S S S S S S S S S S S S S S S S . . .
+    75   . . . . S S S S S S S S S S S S S S S S S S S . . . .
+    74   . . . . S S S S S S S S S S S S S S S S S S S . . . .
+    73   . . . . . S S S S S S S S S S S S S S S S S S . . . .
+    72   . . . . . S S S S S S S S S S S S S S S S S S . . . .
+    71   . . . . . S S S S S S S S S S S S S S S S S S . . . .
+    70   . . . . . S S S S S S S S S S S S S S S S S S . . . .
+    69   . . . . . S S S S S S S S S S S S S S S S S S . . . .
+    68   . . . . . S S S S S S S S S S S S S S S S S S . . . .
+    67   . . . . . S S S S S S S S S S S S S S S S S S . . . .
+    66   . . . . . . S S S S S S S S S S S S S S S S . . . . .
+    65   . . . . . . S S S S S S S S S S S S S S S S . . . . .
+    64   . . . . . . . S S S S S S S S S S S S S S . . . . . .
+    63   . . . . . . . . S S S S S S S S S S S S . . . . . . .
+    62   . . . . . . . . . S S S S S S S S S S . . . . . . . .
+    61   . . . . . . . . . . S S S S S S S S . . . . . . . . .
+    60   . . . . . . . . . . . S S S S S S . . . . . . . . . .
+    59   . . . . . . . . . . . . S S S S S . . . . . . . . . .
+    58   . . . . . . . . . . . . S S S S . . . . . . . . . . .
+    57   . . . . . . . . . . . . S S S S . . . . . . . . . . .
+    56   . . . . . . . . . . . . S S S S . . . . . . . . . . .
+    55   . . . . . . . . . . . . S S S S S . . . . . . . . . .
+    54   . . . . . . . . . . . . S S S S S . . . . . . . . . .
+    53   . . . . . . . . . . . S S S S S S . . . . . . . . . .
+    52   . . . . . . . . . . . S S S S S S . . . . . . . . . .
+    51   . . . . . . . . . . . . S S S S S . . . . . . . . . .
+    50   o . . . . . . . . . . . . . . . . . . . . . . . . . o
            1                   2                   3
          9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->
 
- ----- DATA FOR CONTACT PATCH  2 (PREV  2) -----
+ ----- DATA FOR CONTACT PATCH  2 (PREV  1) -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -2.0554    723.3889      7.3763     -0.2858    -25.7754      7.3762
+     -2.0554    723.3890      7.3762     -0.2838    -25.7754      7.3762
 
      XCP(W)      YCP(W)      ZCP(W)
-      1.4849     34.3645      7.0864
+      1.4849     34.3646      7.0863
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -478,7 +481,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000       1.000           1.000   8.080E-03   2.335E-03   2.539E-04
+     0.000       1.000           1.000   8.080E-03   2.334E-03   2.522E-04
 
      SPINXO      SPINYO
     -1.655      -26.96    
@@ -486,44 +489,44 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     4.725E+04  -4.014E+04  -1.363E+04  -1.069E+06       2.743     -0.3458
+     4.727E+04  -3.930E+04  -1.604E+04  -1.041E+06       2.739     -0.5701
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.5762     -0.9440     -0.3205   7.415E-02       1621.
+        0.5765     -0.9237     -0.3771   7.411E-02       1619.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   1363    337      0    337      1      1
+   5452    338      0    338      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    20  o...................................o
-    19  ..........SSSSSSSSSSSSSS.............
-    18  .......SSSSSSSSSSSSSSSSSSSSS.........
-    17  ....SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    16  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    15  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    11  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    10  .......SSSSSSSSSSSSSSSSSSSSSSSSSS....
-     9  ........SSSSSSSSSSSSSSSSSSSSSSS......
-     8  ...........SSSSSSSSSSSSSSSSSSS.......
-     7  ...............SSSSSSSSSSS...........
-     6  o...................................o
-            1         2         3         4
-        6789012345678901234567890123456789012
+    20   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    19   . . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    18   . . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+    17   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    16   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    15   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    14   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    13   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    12   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    11   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    10   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+     9   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     8   . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
+     7   . . . . . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . .
+     6   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
      X  -->
 
- ----- DATA FOR CONTACT PATCH  3 (PREV  3) -----
+ ----- DATA FOR CONTACT PATCH  3 (PREV  2) -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0759    714.2578     28.3612     -1.2698    -34.9065     28.3611
+      4.0759    714.2578     28.3611     -1.2698    -34.9065     28.3611
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.5703     25.1756     28.0594
+      7.5703     25.1756     28.0593
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -539,9 +542,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         4351.      -839.6      -220.7  -4.364E+04   2.176E-02  -2.440E-02
+         4354.      -840.0      -221.4  -4.367E+04   2.178E-02  -2.442E-02
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     5.306E-02     -0.9648     -0.2536   1.195E-02       631.9
+     5.310E-02     -0.9647     -0.2542   1.195E-02       632.0
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -572,24 +575,24 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.2 | 100.0 |        2.3 | 100.0 |
-|Wheel-rail cases     |        2 |        1.2 | 100.0 |        2.3 | 100.0 |
+|Total                |        1 |        0.7 | 100.0 |        1.4 | 100.0 |
+|Wheel-rail cases     |        2 |        0.7 | 100.0 |        1.4 | 100.0 |
 |W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.4 |
-|Geometric analysis   |       12 |        0.0 |   0.0 |        0.0 |   0.7 |
-|Panag.process        |       29 |        1.2 | 100.0 |        2.1 |  93.9 |
-|Algorithm Norm       |       29 |        0.0 |   1.4 |        0.1 |   6.0 |
-|Algorithm Tang       |       29 |        1.1 |  98.6 |        2.0 |  87.6 |
-|Output quantities    |       31 |        0.0 |   0.0 |        0.0 |   0.9 |
+|Geometric analysis   |       12 |        0.0 |   0.0 |        0.0 |   1.7 |
+|Panag.process        |       29 |        0.7 |  97.9 |        1.3 |  89.6 |
+|Algorithm Norm       |       29 |        0.0 |   4.3 |        0.1 |   8.8 |
+|Algorithm Tang       |       29 |        0.7 |  93.6 |        1.2 |  80.7 |
+|Output quantities    |       31 |        0.0 |   0.0 |        0.0 |   2.8 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       29 |        0.0 |   1.4 |        0.1 |   4.4 |
-|Tang: TangCG solver  |        9 |        0.0 |   0.0 |        0.0 |   1.0 |
-|Tang: StedyGS solver |       20 |        1.1 |  98.6 |        2.0 |  86.6 |
+|Norm: ConjGrd solver |       29 |        0.0 |   4.3 |        0.1 |   5.0 |
+|Tang: TangCG solver  |        8 |        0.0 |   6.4 |        0.1 |   5.4 |
+|Tang: StedyGS solver |       21 |        0.6 |  87.2 |        1.1 |  74.2 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        2 |        0.0 |   0.0 |        0.0 |   0.4 |
-|Contact location     |       12 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Undeformed distance  |       29 |        0.0 |   0.0 |        0.0 |   0.4 |
-| - Interp whl_srfc   |       29 |        0.0 |   0.0 |        0.0 |   0.4 |
-|Influence coeffic.   |       23 |        0.0 |   0.0 |        0.0 |   1.6 |
+|Contact location     |       12 |        0.0 |   0.0 |        0.0 |   0.6 |
+|Undeformed distance  |       29 |        0.0 |   0.0 |        0.0 |   1.0 |
+| - Interp whl_srfc   |       29 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Influence coeffic.   |       27 |        0.0 |   0.0 |        0.0 |   0.6 |
 |Initial state/estim. |       29 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -11,47 +11,19 @@
  reading rail  profile "..\profiles\site_b_hr.prr"
  reading wheel profile "..\profiles\worn_high_mileage.prw"
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
-      Norm: final element division: C, E=   3198   6042  ItCG=    15
-      Tang: final element division: A, S=    972   2226  ItGS=    39
-      Norm: final element division: C, E=    289    832  ItCG=    12
-      Tang: final element division: A, S=      0    289  ItGS=     5
-         1, NR,  z_ws, Fz:       1.3068   3.852E+05, dFz/dz:   3.209E+06
-      Norm: final element division: C, E=    416    907  ItCG=    13
-      Tang: final element division: A, S=      0    416  ItGS=    18
-      Norm: final element division: C, E=    160    540  ItCG=    11
-      Tang: final element division: A, S=      0    160  ItGS=     6
-         2, NR,  z_ws, Fz:       1.1695   3.330E+04, dFz/dz:   7.800E+05
-      Norm: final element division: C, E=   1849   5081  ItCG=    14
-      Tang: final element division: A, S=    445   1404  ItGS=    29
-      Norm: final element division: C, E=    134    425  ItCG=    12
-      Tang: final element division: A, S=      0    134  ItGS=     4
-         3, NR,  z_ws, Fz:       1.2381   1.782E+05, dFz/dz:   2.110E+06
-      Norm: final element division: C, E=   1468   4856  ItCG=    13
-      Tang: final element division: A, S=    293   1175  ItGS=    24
-      Norm: final element division: C, E=     99    345  ItCG=    10
-      Tang: final element division: A, S=      0     99  ItGS=     4
-         4, NR,  z_ws, Fz:       1.2186   1.287E+05, dFz/dz:   2.533E+06
-      Norm: final element division: C, E=   1531   4793  ItCG=    11
-      Tang: final element division: A, S=    321   1210  ItGS=    22
-      Norm: final element division: C, E=    105    351  ItCG=     9
-      Tang: final element division: A, S=      0    105  ItGS=     3
-         5, NR,  z_ws, Fz:       1.2219   1.367E+05, dFz/dz:   2.427E+06
-      Norm: final element division: C, E=   1532   4792  ItCG=     8
-      Tang: final element division: A, S=    321   1211  ItGS=    17
-      Norm: final element division: C, E=    106    388  ItCG=     6
-      Tang: final element division: A, S=      0    106  ItGS=     3
-         6, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.448E+06
-      Norm: final element division: C, E=   1532   4792  ItCG=     4
-      Tang: final element division: A, S=    321   1211  ItGS=     8
-      Norm: final element division: C, E=    106    388  ItCG=     3
-      Tang: final element division: A, S=      0    106  ItGS=     2
-         7, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.448E+06
+         1, NR,  z_ws, Fz:       1.2065   1.115E+05, dFz/dz:   2.098E+06
+         2, NR,  z_ws, Fz:       1.2136   1.229E+05, dFz/dz:   1.606E+06
+         3, NR,  z_ws, Fz:       1.2182   1.278E+05, dFz/dz:   1.060E+06
+         4, NR,  z_ws, Fz:       1.2248   1.439E+05, dFz/dz:   2.443E+06
+         5, NR,  z_ws, Fz:       1.2220   1.369E+05, dFz/dz:   2.467E+06
+         6, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.449E+06
+         7, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.441E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 0, DISCNS 4, INFLCF 2, MATER  0, ZTRACK 3, EWHEEL 3
- HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   3, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 0, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
  PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 0, READLN 0, INFLCF 0, NMDBG  0
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
@@ -110,7 +82,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-26.200, 18.200]
  Reference contact angle delttr = -11.92 deg, range = [ -40.32,  -1.44] deg
- Total moments Mxp =   -243408.3, Msp =    -90498.8, Mnp =    271039.7 N.mm
+ Total moments Mxp =   -243408.3, Msp =    -90498.8, Mnp =    271039.6 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -138,121 +110,121 @@
    6324   1532    321   1211      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-   118  o....................................o
-   117  ............SSSSSS....................
-   116  ........SSSSSSSSSSSSSS................
-   115  ......SSSSSSSSSSSSSS****S.............
-   114  ....SSSSSSSSSSSSSSS*******............
-   113  ...SSSSSSSSSSSSSSS*********...........
-   112  ...SSSSSSSSSSSSSS**********S..........
-   111  ...SSSSSSSSSSSSSS**********S..........
-   110  ..SSSSSSSSSSSSSSS***********..........
-   109  ..SSSSSSSSSSSSSSS***********..........
-   108  ...SSSSSSSSSSSSSS***********..........
-   107  ...SSSSSSSSSSSSSS**********S..........
-   106  ...SSSSSSSSSSSSSS**********S..........
-   105  ...SSSSSSSSSSSSSS**********S..........
-   104  ...SSSSSSSSSSSSSS***********..........
-   103  ...SSSSSSSSSSSSSS***********..........
-   102  ..SSSSSSSSSSSSSSS***********..........
-   101  ..SSSSSSSSSSSSSSS***********..........
-   100  ..SSSSSSSSSSSSSSS***********..........
-    99  ...SSSSSSSSSSSSSS***********..........
-    98  ...SSSSSSSSSSSSSS***********..........
-    97  ...SSSSSSSSSSSSSSS**********..........
-    96  ...SSSSSSSSSSSSSSS**********..........
-    95  ...SSSSSSSSSSSSSSS**********..........
-    94  ...SSSSSSSSSSSSSSS**********..........
-    93  ...SSSSSSSSSSSSSSS**********..........
-    92  ...SSSSSSSSSSSSSSS**********..........
-    91  ...SSSSSSSSSSSSSSS**********..........
-    90  ...SSSSSSSSSSSSSSS**********..........
-    89  ...SSSSSSSSSSSSSSSS********S..........
-    88  ...SSSSSSSSSSSSSSSS********S..........
-    87  ....SSSSSSSSSSSSSSSS*******...........
-    86  ....SSSSSSSSSSSSSSSS*******...........
-    85  ....SSSSSSSSSSSSSSSS******S...........
-    84  .....SSSSSSSSSSSSSSSS*****S...........
-    83  .....SSSSSSSSSSSSSSSS*****............
-    82  .....SSSSSSSSSSSSSSSSS****............
-    81  .....SSSSSSSSSSSSSSSSS***S............
-    80  ......SSSSSSSSSSSSSSSS***S............
-    79  ......SSSSSSSSSSSSSSSS***S............
-    78  ......SSSSSSSSSSSSSSSSS**.............
-    77  ......SSSSSSSSSSSSSSSSSSS.............
-    76  ......SSSSSSSSSSSSSSSSSSS.............
-    75  ......SSSSSSSSSSSSSSSSSSS.............
-    74  ......SSSSSSSSSSSSSSSSSSS.............
-    73  .......SSSSSSSSSSSSSSSSSS.............
-    72  .......SSSSSSSSSSSSSSSSSS.............
-    71  .......SSSSSSSSSSSSSSSSS..............
-    70  ........SSSSSSSSSSSSSSSS..............
-    69  .........SSSSSSSSSSSSSS...............
-    68  ..........SSSSSSSSSSSS................
-    67  ...........SSSSSSSSSS.................
-    66  ............SSSSSSSS..................
-    65  ............SSSSSSSS..................
-    64  .............SSSSSS...................
-    63  .............SSSSSS...................
-    62  .............SSSSSS...................
-    61  .............SSSSSS...................
-    60  .............SSSSSS...................
-    59  .............SSSSSSS..................
-    58  .............SSSSSSS..................
-    57  .............SSSSSS...................
-    56  ...............SSS....................
-    55  ......................................
-    54  ......................................
-    53  ......................................
-    52  ......................................
-    51  ......................................
-    50  ......................................
-    49  ......................................
-    48  ......................................
-    47  ......................................
-    46  ......................................
-    45  ......................................
-    44  ......................................
-    43  ......................................
-    42  ......................................
-    41  ......................................
-    40  ......................................
-    39  ......................................
-    38  ......................................
-    37  ......................................
-    36  ......................................
-    35  ......................................
-    34  ......................................
-    33  ......................................
-    32  ......................................
-    31  ......................................
-    30  ......................................
-    29  ......................................
-    28  ......................................
-    27  ......................................
-    26  ......................................
-    25  ......................................
-    24  ......................................
-    23  ......................................
-    22  ......................................
-    21  ......................................
-    20  ................SSSS..................
-    19  ..........SSSSSSSSSSSSSSSS............
-    18  .......SSSSSSSSSSSSSSSSSSSSSS.........
-    17  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    16  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    11  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    10  .......SSSSSSSSSSSSSSSSSSSSSSSSSSS....
-     9  .........SSSSSSSSSSSSSSSSSSSSSSSS.....
-     8  ...........SSSSSSSSSSSSSSSSSSSS.......
-     7  ..............SSSSSSSSSSSSSSS.........
-     6  o....................................o
-          1         2         3         4
-        89012345678901234567890123456789012345
+   118   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+   117   . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . . .
+   116   . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . . . . . . . .
+   115   . . . . . . S S S S S S S S S S S S S S * * * * S . . . . . . . . . . . . .
+   114   . . . . S S S S S S S S S S S S S S S * * * * * * * . . . . . . . . . . . .
+   113   . . . S S S S S S S S S S S S S S S * * * * * * * * * . . . . . . . . . . .
+   112   . . . S S S S S S S S S S S S S S * * * * * * * * * * S . . . . . . . . . .
+   111   . . . S S S S S S S S S S S S S S * * * * * * * * * * S . . . . . . . . . .
+   110   . . S S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+   109   . . S S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+   108   . . . S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+   107   . . . S S S S S S S S S S S S S S * * * * * * * * * * S . . . . . . . . . .
+   106   . . . S S S S S S S S S S S S S S * * * * * * * * * * S . . . . . . . . . .
+   105   . . . S S S S S S S S S S S S S S * * * * * * * * * * S . . . . . . . . . .
+   104   . . . S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+   103   . . . S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+   102   . . S S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+   101   . . S S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+   100   . . S S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+    99   . . . S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+    98   . . . S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . . . . . .
+    97   . . . S S S S S S S S S S S S S S S * * * * * * * * * * . . . . . . . . . .
+    96   . . . S S S S S S S S S S S S S S S * * * * * * * * * * . . . . . . . . . .
+    95   . . . S S S S S S S S S S S S S S S * * * * * * * * * * . . . . . . . . . .
+    94   . . . S S S S S S S S S S S S S S S * * * * * * * * * * . . . . . . . . . .
+    93   . . . S S S S S S S S S S S S S S S * * * * * * * * * * . . . . . . . . . .
+    92   . . . S S S S S S S S S S S S S S S * * * * * * * * * * . . . . . . . . . .
+    91   . . . S S S S S S S S S S S S S S S * * * * * * * * * * . . . . . . . . . .
+    90   . . . S S S S S S S S S S S S S S S * * * * * * * * * * . . . . . . . . . .
+    89   . . . S S S S S S S S S S S S S S S S * * * * * * * * S . . . . . . . . . .
+    88   . . . S S S S S S S S S S S S S S S S * * * * * * * * S . . . . . . . . . .
+    87   . . . . S S S S S S S S S S S S S S S S * * * * * * * . . . . . . . . . . .
+    86   . . . . S S S S S S S S S S S S S S S S * * * * * * * . . . . . . . . . . .
+    85   . . . . S S S S S S S S S S S S S S S S * * * * * * S . . . . . . . . . . .
+    84   . . . . . S S S S S S S S S S S S S S S S * * * * * S . . . . . . . . . . .
+    83   . . . . . S S S S S S S S S S S S S S S S * * * * * . . . . . . . . . . . .
+    82   . . . . . S S S S S S S S S S S S S S S S S * * * * . . . . . . . . . . . .
+    81   . . . . . S S S S S S S S S S S S S S S S S * * * S . . . . . . . . . . . .
+    80   . . . . . . S S S S S S S S S S S S S S S S * * * S . . . . . . . . . . . .
+    79   . . . . . . S S S S S S S S S S S S S S S S * * * S . . . . . . . . . . . .
+    78   . . . . . . S S S S S S S S S S S S S S S S S * * . . . . . . . . . . . . .
+    77   . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    76   . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    75   . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    74   . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    73   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    72   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    71   . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    70   . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    69   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . . . . . . .
+    68   . . . . . . . . . . S S S S S S S S S S S S . . . . . . . . . . . . . . . .
+    67   . . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . . . . . . .
+    66   . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . . . . .
+    65   . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . . . . .
+    64   . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . .
+    63   . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . .
+    62   . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . .
+    61   . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . .
+    60   . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . .
+    59   . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . . . . . .
+    58   . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . . . . . .
+    57   . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . .
+    56   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . . . . . .
+    55   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    54   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    53   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    52   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    51   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    50   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    49   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    48   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    47   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    46   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    45   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    44   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    43   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    42   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    41   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    40   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    39   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    38   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    37   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    36   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    35   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    34   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    33   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    29   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    28   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    27   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    26   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    25   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    24   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    23   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    22   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    21   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    20   . . . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . .
+    19   . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    18   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+    17   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    16   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    15   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    14   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    13   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    12   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    11   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    10   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+     9   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     8   . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     7   . . . . . . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . .
+     6   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+             1                   2                   3                   4
+         8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  CURVED REFERENCE SURFACE, TRACK COORDINATES,  124 POINTS:
@@ -449,28 +421,16 @@
     13   715.0782    25.6686    -1.2823
 
  Case     2
-      Norm: final element division: C, E=   1528   4796  ItCG=    10
-      Tang: final element division: A, S=    336   1192  ItCG=    29
-      Norm: final element division: C, E=    104    352  ItCG=    10
-      Tang: final element division: A, S=      0    104  ItCG=     5
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2220   1.373E+05, dFz/dz:   2.162E+06
-      Norm: final element division: C, E=   1528   4796  ItCG=     6
-      Tang: final element division: A, S=    329   1199  ItCG=    26
-      Norm: final element division: C, E=    104    352  ItCG=     6
-      Tang: final element division: A, S=      0    104  ItCG=     4
-         2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.417E+06
-      Norm: final element division: C, E=   1528   4796  ItCG=     4
-      Tang: final element division: A, S=    329   1199  ItCG=     8
-      Norm: final element division: C, E=    104    352  ItCG=     3
-      Tang: final element division: A, S=      0    104  ItCG=     2
+         2, NR,  z_ws, Fz:       1.2219   1.371E+05, dFz/dz:   2.416E+06
          3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.417E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
  CPBTNFS.  CONFIG 1, PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 3, FLOW   3, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 2, FLOW   2, RETURN 1
  PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 0, READLN 0, INFLCF 0, NMDBG  0
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
@@ -515,7 +475,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -249009.3, Msp =    311166.7, Mnp =    419557.5 N.mm
+ Total moments Mxp =   -249009.1, Msp =    311166.5, Mnp =    419557.2 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -544,251 +504,6 @@
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
    6324   1528    329   1199      1      1
-
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-   118  o....................................o
-   117  ...........SSSSSSSS...................
-   116  ........SSSSSSSSSSSS**S...............
-   115  ......SSSSSSSSSSSSS*****S.............
-   114  ....SSSSSSSSSSSSSS********............
-   113  ...SSSSSSSSSSSSSSS*********...........
-   112  ...SSSSSSSSSSSSSS**********S..........
-   111  ...SSSSSSSSSSSSSS***********..........
-   110  ...SSSSSSSSSSSSSS***********..........
-   109  ...SSSSSSSSSSSSSS***********..........
-   108  ...SSSSSSSSSSSSSS***********..........
-   107  ...SSSSSSSSSSSSSS***********..........
-   106  ...SSSSSSSSSSSSSS***********..........
-   105  ...SSSSSSSSSSSSSS***********..........
-   104  ...SSSSSSSSSSSSSS***********..........
-   103  ...SSSSSSSSSSSSSS***********..........
-   102  ...SSSSSSSSSSSSSS***********..........
-   101  ...SSSSSSSSSSSSSS***********..........
-   100  ...SSSSSSSSSSSSSS***********..........
-    99  ...SSSSSSSSSSSSSS***********..........
-    98  ...SSSSSSSSSSSSSSS**********..........
-    97  ...SSSSSSSSSSSSSSS**********..........
-    96  ...SSSSSSSSSSSSSSS**********..........
-    95  ...SSSSSSSSSSSSSSS**********..........
-    94  ...SSSSSSSSSSSSSSS**********..........
-    93  ...SSSSSSSSSSSSSSS**********..........
-    92  ...SSSSSSSSSSSSSSS**********S.........
-    91  ...SSSSSSSSSSSSSSS**********S.........
-    90  ...SSSSSSSSSSSSSSS**********..........
-    89  ...SSSSSSSSSSSSSSSS*********..........
-    88  ....SSSSSSSSSSSSSSS********S..........
-    87  ....SSSSSSSSSSSSSSSS*******...........
-    86  ....SSSSSSSSSSSSSSSS*******...........
-    85  .....SSSSSSSSSSSSSSSS*****S...........
-    84  .....SSSSSSSSSSSSSSSS*****S...........
-    83  .....SSSSSSSSSSSSSSSS*****............
-    82  .....SSSSSSSSSSSSSSSSS****............
-    81  ......SSSSSSSSSSSSSSSS***S............
-    80  ......SSSSSSSSSSSSSSSS***S............
-    79  ......SSSSSSSSSSSSSSSSS**S............
-    78  ......SSSSSSSSSSSSSSSSS**.............
-    77  ......SSSSSSSSSSSSSSSSSS*.............
-    76  ......SSSSSSSSSSSSSSSSS*S.............
-    75  .......SSSSSSSSSSSSSSSSSS.............
-    74  .......SSSSSSSSSSSSSSSSSS.............
-    73  .......SSSSSSSSSSSSSSSSSS.............
-    72  .......SSSSSSSSSSSSSSSSSS.............
-    71  ........SSSSSSSSSSSSSSSS..............
-    70  ........SSSSSSSSSSSSSSSS..............
-    69  .........SSSSSSSSSSSSSS...............
-    68  ..........SSSSSSSSSSSS................
-    67  ...........SSSSSSSSSS.................
-    66  ............SSSSSSSS..................
-    65  .............SSSSSSS..................
-    64  .............SSSSSS...................
-    63  .............SSSSSS...................
-    62  .............SSSSSS...................
-    61  .............SSSSSS...................
-    60  .............SSSSSSS..................
-    59  .............SSSSSSS..................
-    58  .............SSSSSSS..................
-    57  .............SSSSSS...................
-    56  ...............SS.....................
-    55  ......................................
-    54  ......................................
-    53  ......................................
-    52  ......................................
-    51  ......................................
-    50  ......................................
-    49  ......................................
-    48  ......................................
-    47  ......................................
-    46  ......................................
-    45  ......................................
-    44  ......................................
-    43  ......................................
-    42  ......................................
-    41  ......................................
-    40  ......................................
-    39  ......................................
-    38  ......................................
-    37  ......................................
-    36  ......................................
-    35  ......................................
-    34  ......................................
-    33  ......................................
-    32  ......................................
-    31  ......................................
-    30  ......................................
-    29  ......................................
-    28  ......................................
-    27  ......................................
-    26  ......................................
-    25  ......................................
-    24  ......................................
-    23  ......................................
-    22  ......................................
-    21  ......................................
-    20  ..............SSSSSSSS................
-    19  ..........SSSSSSSSSSSSSSSS............
-    18  .......SSSSSSSSSSSSSSSSSSSSSSS........
-    17  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    16  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    11  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    10  .......SSSSSSSSSSSSSSSSSSSSSSSSSSS....
-     9  .........SSSSSSSSSSSSSSSSSSSSSSS......
-     8  ...........SSSSSSSSSSSSSSSSSSSS.......
-     7  ...............SSSSSSSSSSSSS..........
-     6  o....................................o
-          1         2         3         4
-        89012345678901234567890123456789012345
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,  124 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   719.5848    10.6852    -0.8772
-     2   719.8462    10.3826    -0.8402
-     3   720.1180    10.0893    -0.8074
-     4   720.3988     9.8045    -0.7782
-     5   720.6873     9.5275    -0.7524
-     6   720.9825     9.2577    -0.7291
-     7   721.2837     8.9945    -0.7075
-     8   721.5904     8.7377    -0.6869
-     9   721.9022     8.4872    -0.6668
-    10   722.2190     8.2429    -0.6470
-    11   722.5405     8.0050    -0.6271
-    12   722.8667     7.7735    -0.6069
-    13   723.1976     7.5487    -0.5866
-    14   723.5330     7.3307    -0.5662
-    15   723.8727     7.1196    -0.5460
-    16   724.2165     6.9152    -0.5270
-    17   724.5640     6.7171    -0.5098
-    18   724.9147     6.5247    -0.4941
-    19   725.2682     6.3376    -0.4794
-    20   725.6244     6.1556    -0.4653
-    21   725.9831     5.9786    -0.4516
-    22   726.3441     5.8064    -0.4387
-    23   726.7072     5.6387    -0.4271
-    24   727.0722     5.4750    -0.4161
-    25   727.4389     5.3153    -0.4055
-    26   727.8073     5.1595    -0.3947
-    27   728.1774     5.0077    -0.3839
-    28   728.5491     4.8598    -0.3731
-    29   728.9223     4.7160    -0.3624
-    30   729.2971     4.5762    -0.3518
-    31   729.6733     4.4404    -0.3410
-    32   730.0510     4.3086    -0.3303
-    33   730.4301     4.1809    -0.3197
-    34   730.8105     4.0572    -0.3094
-    35   731.1921     3.9373    -0.2994
-    36   731.5749     3.8212    -0.2897
-    37   731.9587     3.7087    -0.2806
-    38   732.3435     3.5996    -0.2719
-    39   732.7293     3.4938    -0.2635
-    40   733.1159     3.3912    -0.2555
-    41   733.5033     3.2916    -0.2478
-    42   733.8914     3.1949    -0.2407
-    43   734.2802     3.1008    -0.2341
-    44   734.6696     3.0092    -0.2278
-    45   735.0596     2.9201    -0.2216
-    46   735.4501     2.8334    -0.2155
-    47   735.8411     2.7490    -0.2096
-    48   736.2325     2.6669    -0.2040
-    49   736.6245     2.5869    -0.1985
-    50   737.0168     2.5091    -0.1933
-    51   737.4096     2.4333    -0.1882
-    52   737.8027     2.3594    -0.1834
-    53   738.1961     2.2873    -0.1789
-    54   738.5899     2.2170    -0.1747
-    55   738.9840     2.1483    -0.1705
-    56   739.3783     2.0812    -0.1663
-    57   739.7729     2.0158    -0.1620
-    58   740.1678     1.9521    -0.1577
-    59   740.5630     1.8901    -0.1537
-    60   740.9584     1.8297    -0.1497
-    61   741.3540     1.7707    -0.1460
-    62   741.7499     1.7133    -0.1425
-    63   742.1459     1.6571    -0.1393
-    64   742.5421     1.6022    -0.1362
-    65   742.9385     1.5485    -0.1330
-    66   743.3351     1.4961    -0.1299
-    67   743.7318     1.4449    -0.1267
-    68   744.1287     1.3950    -0.1235
-    69   744.5257     1.3463    -0.1203
-    70   744.9229     1.2990    -0.1170
-    71   745.3202     1.2529    -0.1137
-    72   745.7177     1.2082    -0.1104
-    73   746.1154     1.1648    -0.1073
-    74   746.5131     1.1225    -0.1043
-    75   746.9110     1.0814    -0.1015
-    76   747.3090     1.0414    -0.0989
-    77   747.7071     1.0024    -0.0965
-    78   748.1053     0.9644    -0.0941
-    79   748.5036     0.9273    -0.0917
-    80   748.9019     0.8911    -0.0894
-    81   749.3004     0.8559    -0.0871
-    82   749.6989     0.8215    -0.0847
-    83   750.0975     0.7881    -0.0826
-    84   750.4962     0.7555    -0.0806
-    85   750.8949     0.7237    -0.0789
-    86   751.2937     0.6925    -0.0772
-    87   751.6925     0.6619    -0.0755
-    88   752.0914     0.6321    -0.0738
-    89   752.4904     0.6030    -0.0720
-    90   752.8893     0.5746    -0.0701
-    91   753.2884     0.5470    -0.0679
-    92   753.6875     0.5202    -0.0662
-    93   754.0866     0.4940    -0.0648
-    94   754.4858     0.4684    -0.0634
-    95   754.8850     0.4433    -0.0620
-    96   755.2843     0.4189    -0.0605
-    97   755.6836     0.3949    -0.0591
-    98   756.0829     0.3716    -0.0578
-    99   756.4823     0.3487    -0.0565
-   100   756.8816     0.3264    -0.0552
-   101   757.2810     0.3046    -0.0539
-   102   757.6805     0.2833    -0.0524
-   103   758.0799     0.2627    -0.0508
-   104   758.4794     0.2427    -0.0492
-   105   758.8790     0.2234    -0.0476
-   106   759.2785     0.2046    -0.0461
-   107   759.6781     0.1864    -0.0447
-   108   760.0777     0.1688    -0.0434
-   109   760.4774     0.1518    -0.0419
-   110   760.8771     0.1353    -0.0403
-   111   761.2767     0.1195    -0.0386
-   112   761.6765     0.1044    -0.0369
-   113   762.0762     0.0901    -0.0350
-   114   762.4760     0.0765    -0.0329
-   115   762.8758     0.0637    -0.0306
-   116   763.2756     0.0520    -0.0281
-   117   763.6754     0.0413    -0.0255
-   118   764.0753     0.0315    -0.0231
-   119   764.4752     0.0228    -0.0207
-   120   764.8751     0.0150    -0.0182
-   121   765.2750     0.0082    -0.0157
-   122   765.6749     0.0024    -0.0131
-   123   766.0749    -0.0023    -0.0104
-   124   766.4748    -0.0059    -0.0078
 
  ----- DATA FOR CONTACT PATCH  2 (PREV  2) -----
 
@@ -831,146 +546,29 @@
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
     456    104      0    104      1      1
 
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    12   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    11   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     8   . . . . . . . . . . . . . . . S S S S S . . . . . . . . . . .
-     7   . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . .
-     6   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     4   . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . .
-     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-                     1                   2                   3
-         4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,   12 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   713.6903    30.1392    -1.2381
-     2   713.8188    29.7605    -1.2490
-     3   713.9436    29.3806    -1.2573
-     4   714.0658    28.9997    -1.2634
-     5   714.1859    28.6181    -1.2680
-     6   714.3045    28.2360    -1.2716
-     7   714.4218    27.8536    -1.2744
-     8   714.5382    27.4709    -1.2767
-     9   714.6538    27.0879    -1.2784
-    10   714.7689    26.7048    -1.2794
-    11   714.8836    26.3216    -1.2803
-    12   714.9980    25.9383    -1.2813
-
  Case     3
-      Norm: final element division: C, E=   1528   4796  ItCG=     1
-      Tang: final element division: A, S=    328   1200  ItCG=    23
-      Norm: final element division: C, E=    104    352  ItCG=     1
-      Tang: final element division: A, S=      0    104  ItCG=     3
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.160E+06
-      Norm: final element division: C, E=   1434   4593  ItCG=    11
-      Tang: final element division: A, S=    197   1237  ItCG=    38
-      Norm: final element division: C, E=     87    333  ItCG=    10
-      Tang: final element division: A, S=      0     87  ItCG=     4
-         2, NR,  z_ws, Fz:       1.2136   1.234E+05, dFz/dz:   1.643E+06
-      Norm: final element division: C, E=   1067   3847  ItCG=    19
-      Tang: final element division: A, S=    138    929  ItCG=    33
-      Norm: final element division: C, E=    349   5103  ItCG=    17
-      Tang: final element division: A, S=      0    349  ItCG=     8
-      Norm: final element division: C, E=     80    283  ItCG=    12
-      Tang: final element division: A, S=      0     80  ItCG=     3
-         3, NR,  z_ws, Fz:       1.2097   1.212E+05, dFz/dz:   5.770E+05
-      Norm: final element division: C, E=    405   3627  ItCG=    18
-      Tang: final element division: A, S=      0    405  ItCG=     6
-      Norm: final element division: C, E=    156   3948  ItCG=    13
-      Tang: final element division: A, S=      0    156  ItCG=     6
-         4, NR,  z_ws, Fz:       1.1682   3.189E+04, dFz/dz:   2.152E+06
-      Norm: final element division: C, E=   1015   3899  ItCG=    16
-      Tang: final element division: A, S=    104    911  ItCG=    28
-      Norm: final element division: C, E=    335   5001  ItCG=    13
-      Tang: final element division: A, S=      0    335  ItCG=     7
-      Norm: final element division: C, E=     77    286  ItCG=    11
-      Tang: final element division: A, S=      0     77  ItCG=     5
-         5, NR,  z_ws, Fz:       1.2078   1.159E+05, dFz/dz:   2.737E+06
-      Norm: final element division: C, E=   1027   3887  ItCG=     9
-      Tang: final element division: A, S=    114    913  ItCG=    32
-      Norm: final element division: C, E=    339   5113  ItCG=     8
-      Tang: final element division: A, S=      0    339  ItCG=     6
-      Norm: final element division: C, E=     78    285  ItCG=     8
-      Tang: final element division: A, S=      0     78  ItCG=     3
-         6, NR,  z_ws, Fz:       1.2082   1.171E+05, dFz/dz:   2.868E+06
-      Norm: final element division: C, E=   1027   3887  ItCG=     5
-      Tang: final element division: A, S=    114    913  ItCG=    14
-      Norm: final element division: C, E=    340   5112  ItCG=     6
-      Tang: final element division: A, S=      0    340  ItCG=     4
-      Norm: final element division: C, E=     78    285  ItCG=     5
-      Tang: final element division: A, S=      0     78  ItCG=     2
-         7, NR,  z_ws, Fz:       1.2082   1.171E+05, dFz/dz:  -1.249E+05
-      Norm: final element division: C, E=   1022   3892  ItCG=     7
-      Tang: final element division: A, S=    111    911  ItCG=    20
-      Norm: final element division: C, E=    337   5115  ItCG=     8
-      Tang: final element division: A, S=      0    337  ItCG=     2
-      Norm: final element division: C, E=     78    285  ItCG=     6
-      Tang: final element division: A, S=      0     78  ItCG=     2
-         8, NR,  z_ws, Fz:       1.2080   1.164E+05, dFz/dz:   3.180E+06
-      Norm: final element division: C, E=   1027   3887  ItCG=     8
-      Tang: final element division: A, S=    114    913  ItCG=    20
-      Norm: final element division: C, E=    341   5111  ItCG=     8
-      Tang: final element division: A, S=      0    341  ItCG=     6
-      Norm: final element division: C, E=     78    285  ItCG=     6
-      Tang: final element division: A, S=      0     78  ItCG=     2
-         9, NR,  z_ws, Fz:       1.2082   1.170E+05, dFz/dz:   4.355E+05
-      Norm: final element division: C, E=   1027   3887  ItCG=     6
-      Tang: final element division: A, S=    112    915  ItCG=    17
-      Norm: final element division: C, E=    338   5114  ItCG=     7
-      Tang: final element division: A, S=      0    338  ItCG=     2
-      Norm: final element division: C, E=     78    285  ItCG=     5
-      Tang: final element division: A, S=      0     78  ItCG=     2
-        10, NR,  z_ws, Fz:       1.2081   1.169E+05, dFz/dz:   2.114E+06
-      Norm: final element division: C, E=   1027   3887  ItCG=     6
-      Tang: final element division: A, S=    114    913  ItCG=    18
-      Norm: final element division: C, E=    340   5112  ItCG=     7
-      Tang: final element division: A, S=      0    340  ItCG=     5
-      Norm: final element division: C, E=     78    285  ItCG=     5
-      Tang: final element division: A, S=      0     78  ItCG=     2
-        11, NR,  z_ws, Fz:       1.2082   1.170E+05, dFz/dz:   1.065E+06
-      Norm: final element division: C, E=   1027   3887  ItCG=     5
-      Tang: final element division: A, S=    113    914  ItCG=    15
-      Norm: final element division: C, E=    339   5113  ItCG=     6
-      Tang: final element division: A, S=      0    339  ItCG=     4
-      Norm: final element division: C, E=     78    285  ItCG=     5
-      Tang: final element division: A, S=      0     78  ItCG=     2
-        12, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.780E+06
-      Norm: final element division: C, E=   1027   3887  ItCG=     5
-      Tang: final element division: A, S=    113    914  ItCG=    11
-      Norm: final element division: C, E=    340   5112  ItCG=     5
-      Tang: final element division: A, S=      0    340  ItCG=     4
-      Norm: final element division: C, E=     78    285  ItCG=     4
-      Tang: final element division: A, S=      0     78  ItCG=     2
-        13, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.993E+06
-      Norm: final element division: C, E=   1027   3887  ItCG=     4
-      Tang: final element division: A, S=    113    914  ItCG=     7
-      Norm: final element division: C, E=    340   5112  ItCG=     4
-      Tang: final element division: A, S=      0    340  ItCG=     2
-      Norm: final element division: C, E=     78    285  ItCG=     3
-      Tang: final element division: A, S=      0     78  ItCG=     2
-        14, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.866E+06
-      Norm: final element division: C, E=   1027   3887  ItCG=     2
-      Tang: final element division: A, S=    113    914  ItCG=     2
-      Norm: final element division: C, E=    340   5112  ItCG=     2
-      Tang: final element division: A, S=      0    340  ItCG=     2
-      Norm: final element division: C, E=     78    285  ItCG=     2
-      Tang: final element division: A, S=      0     78  ItCG=     2
-        15, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.874E+06
+         2, NR,  z_ws, Fz:       1.2152   1.243E+05, dFz/dz:   1.898E+06
+         3, NR,  z_ws, Fz:       1.2112   1.249E+05, dFz/dz:  -1.569E+05
+         4, NR,  z_ws, Fz:       1.1690   3.306E+04, dFz/dz:   2.177E+06
+         5, NR,  z_ws, Fz:       1.2075   1.152E+05, dFz/dz:   2.679E+06
+         6, NR,  z_ws, Fz:       1.2082   1.171E+05, dFz/dz:   2.761E+06
+         7, NR,  z_ws, Fz:       1.2082   1.171E+05, dFz/dz:   1.086E+05
+         8, NR,  z_ws, Fz:       1.2079   1.158E+05, dFz/dz:   3.865E+06
+         9, NR,  z_ws, Fz:       1.2082   1.170E+05, dFz/dz:   6.357E+05
+        10, NR,  z_ws, Fz:       1.2081   1.169E+05, dFz/dz:   1.922E+06
+        11, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.216E+06
+        12, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.762E+06
+        13, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.909E+06
+        14, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.884E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  3 CONTACT PATCHES
 
  CPBTNFS.  CONFIG 1, PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 3, FLOW   3, RETURN 1
- PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 1, READLN 0, INFLCF 0, NMDBG  0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 2, FLOW   2, RETURN 1
+ PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 0, READLN 0, INFLCF 0, NMDBG  0
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
@@ -1014,7 +612,7 @@
 
  Actual contact on columns iy = [ 51,110] (my=117), sc = [ -9.800, 14.200]
  Reference contact angle delttr =  -5.01 deg, range = [  -9.28,  -1.61] deg
- Total moments Mxp =     15196.5, Msp =    254558.6, Mnp =    164601.8 N.mm
+ Total moments Mxp =     15196.6, Msp =    254558.6, Mnp =    164601.8 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -1044,193 +642,6 @@
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
    4914   1027    113    914      1      1
 
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-   111   o . . . . . . . . . . . . . . . . . . . . . . . . o
-   110   . . . . . . . S S S S S S S S S S S . . . . . . . .
-   109   . . . . S S S S S S S S S S S S S S S S . . . . . .
-   108   . . . S S S S S S S S S S S S S S S S S S S . . . .
-   107   . . S S S S S S S S S S S S S S S S S S S S S . . .
-   106   . S S S S S S S S S S S S S S S S S * * * S S S . .
-   105   . S S S S S S S S S S S S S S S S S * * * S S S . .
-   104   . S S S S S S S S S S S S S S S S * * * * * S S . .
-   103   . S S S S S S S S S S S S S S S S * * * * * S S . .
-   102   . S S S S S S S S S S S S S S S S * * * * * S S . .
-   101   . S S S S S S S S S S S S S S S S * * * * * S S . .
-   100   . S S S S S S S S S S S S S S S S * * * * * S S . .
-    99   . S S S S S S S S S S S S S S S S * * * * * S S . .
-    98   . S S S S S S S S S S S S S S S S * * * * * S S . .
-    97   . S S S S S S S S S S S S S S S S * * * * * S S . .
-    96   . S S S S S S S S S S S S S S S S * * * * * * S . .
-    95   . S S S S S S S S S S S S S S S S * * * * * * S . .
-    94   . S S S S S S S S S S S S S S S S * * * * * * S . .
-    93   . S S S S S S S S S S S S S S S S * * * * * * S . .
-    92   . S S S S S S S S S S S S S S S S * * * * * S S . .
-    91   . S S S S S S S S S S S S S S S S * * * * * S S . .
-    90   . S S S S S S S S S S S S S S S S * * * * * S S . .
-    89   . S S S S S S S S S S S S S S S S * * * * * S S . .
-    88   . S S S S S S S S S S S S S S S S * * * * * * S S .
-    87   . S S S S S S S S S S S S S S S S * * * * * * S S .
-    86   . S S S S S S S S S S S S S S S S S * * * * * S S .
-    85   . S S S S S S S S S S S S S S S S S * * * * S S S .
-    84   . S S S S S S S S S S S S S S S S S S * * S S S . .
-    83   . S S S S S S S S S S S S S S S S S S S S S S S . .
-    82   . . S S S S S S S S S S S S S S S S S S S S S S . .
-    81   . . S S S S S S S S S S S S S S S S S S S S S S . .
-    80   . . S S S S S S S S S S S S S S S S S S S S S . . .
-    79   . . S S S S S S S S S S S S S S S S S S S S S . . .
-    78   . . . S S S S S S S S S S S S S S S S S S S S . . .
-    77   . . . S S S S S S S S S S S S S S S S S S S S . . .
-    76   . . . S S S S S S S S S S S S S S S S S S S . . . .
-    75   . . . S S S S S S S S S S S S S S S S S S S . . . .
-    74   . . . . S S S S S S S S S S S S S S S S S S . . . .
-    73   . . . . S S S S S S S S S S S S S S S S S S . . . .
-    72   . . . . S S S S S S S S S S S S S S S S S S . . . .
-    71   . . . . S S S S S S S S S S S S S S S S S . . . . .
-    70   . . . . S S S S S S S S S S S S S S S S S . . . . .
-    69   . . . . S S S S S S S S S S S S S S S S S . . . . .
-    68   . . . . . S S S S S S S S S S S S S S S S . . . . .
-    67   . . . . . S S S S S S S S S S S S S S S S . . . . .
-    66   . . . . . S S S S S S S S S S S S S S S S . . . . .
-    65   . . . . . . S S S S S S S S S S S S S S . . . . . .
-    64   . . . . . . S S S S S S S S S S S S S S . . . . . .
-    63   . . . . . . . S S S S S S S S S S S S . . . . . . .
-    62   . . . . . . . . S S S S S S S S S S . . . . . . . .
-    61   . . . . . . . . . . S S S S S S S . . . . . . . . .
-    60   . . . . . . . . . . . S S S S S . . . . . . . . . .
-    59   . . . . . . . . . . . S S S S . . . . . . . . . . .
-    58   . . . . . . . . . . . . S S . . . . . . . . . . . .
-    57   . . . . . . . . . . . . S S . . . . . . . . . . . .
-    56   . . . . . . . . . . . . S S . . . . . . . . . . . .
-    55   . . . . . . . . . . . . S S S . . . . . . . . . . .
-    54   . . . . . . . . . . . . S S S . . . . . . . . . . .
-    53   . . . . . . . . . . . S S S S . . . . . . . . . . .
-    52   . . . . . . . . . . . S S S S . . . . . . . . . . .
-    51   . . . . . . . . . . . . . S . . . . . . . . . . . .
-    50   o . . . . . . . . . . . . . . . . . . . . . . . . o
-           1                   2                   3
-         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,  117 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   720.2000     6.1178    -0.2155
-     2   720.5910     6.0334    -0.2155
-     3   720.9820     5.9490    -0.2155
-     4   721.3730     5.8646    -0.2155
-     5   721.7640     5.7802    -0.2155
-     6   722.1550     5.6958    -0.2155
-     7   722.5460     5.6114    -0.2155
-     8   722.9370     5.5271    -0.2155
-     9   723.3280     5.4427    -0.2155
-    10   723.7190     5.3583    -0.2155
-    11   724.1100     5.2739    -0.2155
-    12   724.5010     5.1895    -0.2155
-    13   724.8920     5.1051    -0.2155
-    14   725.2830     5.0207    -0.2155
-    15   725.6740     4.9363    -0.2155
-    16   726.0650     4.8520    -0.2155
-    17   726.4560     4.7676    -0.2155
-    18   726.8470     4.6832    -0.2155
-    19   727.2380     4.5988    -0.2155
-    20   727.6290     4.5144    -0.2155
-    21   728.0200     4.4300    -0.2155
-    22   728.4110     4.3456    -0.2155
-    23   728.8020     4.2612    -0.2155
-    24   729.1930     4.1769    -0.2155
-    25   729.5840     4.0925    -0.2155
-    26   729.9750     4.0081    -0.2155
-    27   730.3660     3.9237    -0.2155
-    28   730.7570     3.8393    -0.2155
-    29   731.1480     3.7549    -0.2155
-    30   731.5390     3.6705    -0.2155
-    31   731.9300     3.5861    -0.2155
-    32   732.3210     3.5018    -0.2155
-    33   732.7120     3.4174    -0.2155
-    34   733.1030     3.3330    -0.2155
-    35   733.4940     3.2486    -0.2155
-    36   733.8850     3.1642    -0.2155
-    37   734.2760     3.0798    -0.2155
-    38   734.6670     2.9954    -0.2155
-    39   735.0580     2.9110    -0.2155
-    40   735.4490     2.8267    -0.2155
-    41   735.8400     2.7423    -0.2096
-    42   736.2315     2.6601    -0.2040
-    43   736.6234     2.5802    -0.1985
-    44   737.0158     2.5023    -0.1933
-    45   737.4085     2.4265    -0.1882
-    46   737.8016     2.3526    -0.1834
-    47   738.1951     2.2806    -0.1789
-    48   738.5888     2.2102    -0.1747
-    49   738.9829     2.1415    -0.1705
-    50   739.3772     2.0744    -0.1663
-    51   739.7719     2.0091    -0.1620
-    52   740.1668     1.9454    -0.1577
-    53   740.5619     1.8834    -0.1537
-    54   740.9573     1.8229    -0.1497
-    55   741.3530     1.7640    -0.1460
-    56   741.7488     1.7065    -0.1425
-    57   742.1449     1.6504    -0.1393
-    58   742.5411     1.5954    -0.1362
-    59   742.9375     1.5418    -0.1330
-    60   743.3340     1.4893    -0.1299
-    61   743.7307     1.4382    -0.1267
-    62   744.1276     1.3882    -0.1235
-    63   744.5246     1.3396    -0.1203
-    64   744.9218     1.2922    -0.1170
-    65   745.3192     1.2462    -0.1137
-    66   745.7167     1.2015    -0.1104
-    67   746.1143     1.1580    -0.1073
-    68   746.5121     1.1158    -0.1043
-    69   746.9099     1.0747    -0.1015
-    70   747.3079     1.0347    -0.0989
-    71   747.7060     0.9957    -0.0965
-    72   748.1042     0.9577    -0.0941
-    73   748.5025     0.9205    -0.0917
-    74   748.9009     0.8844    -0.0894
-    75   749.2993     0.8491    -0.0871
-    76   749.6978     0.8148    -0.0847
-    77   750.0964     0.7814    -0.0826
-    78   750.4951     0.7488    -0.0806
-    79   750.8938     0.7169    -0.0789
-    80   751.2926     0.6858    -0.0772
-    81   751.6915     0.6552    -0.0755
-    82   752.0903     0.6254    -0.0738
-    83   752.4893     0.5963    -0.0720
-    84   752.8883     0.5679    -0.0701
-    85   753.2873     0.5403    -0.0679
-    86   753.6864     0.5135    -0.0662
-    87   754.0856     0.4873    -0.0648
-    88   754.4848     0.4617    -0.0634
-    89   754.8840     0.4366    -0.0620
-    90   755.2832     0.4121    -0.0605
-    91   755.6825     0.3882    -0.0591
-    92   756.0818     0.3649    -0.0578
-    93   756.4812     0.3420    -0.0565
-    94   756.8806     0.3197    -0.0552
-    95   757.2800     0.2979    -0.0539
-    96   757.6794     0.2766    -0.0524
-    97   758.0789     0.2560    -0.0508
-    98   758.4784     0.2360    -0.0492
-    99   758.8779     0.2167    -0.0476
-   100   759.2775     0.1979    -0.0461
-   101   759.6771     0.1798    -0.0447
-   102   760.0767     0.1621    -0.0434
-   103   760.4763     0.1451    -0.0419
-   104   760.8760     0.1286    -0.0403
-   105   761.2757     0.1129    -0.0386
-   106   761.6754     0.0977    -0.0369
-   107   762.0751     0.0834    -0.0350
-   108   762.4749     0.0698    -0.0329
-   109   762.8747     0.0571    -0.0306
-   110   763.2745     0.0453    -0.0281
-   111   763.6744     0.0346    -0.0255
-   112   764.0742     0.0249    -0.0231
-   113   764.4741     0.0161    -0.0207
-   114   764.8740     0.0083    -0.0182
-   115   765.2739     0.0015    -0.0157
-   116   765.6739    -0.0042    -0.0131
-   117   766.0738    -0.0089    -0.0104
-
  ----- DATA FOR CONTACT PATCH  2 (PREV  2) -----
 
  CONTACT REFERENCE LOCATION
@@ -1242,7 +653,7 @@
 
  Actual contact on columns iy = [  6, 19] (my=116), sc = [-29.800,-24.200]
  Reference contact angle delttr = -30.09 deg, range = [ -40.59, -26.69] deg
- Total moments Mxp =      1718.3, Msp =     91237.4, Mnp =      3624.9 N.mm
+ Total moments Mxp =      1718.3, Msp =     91237.4, Mnp =      3624.8 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -1271,146 +682,6 @@
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
    5452    340      0    340      1      1
-
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    20  o...................................o
-    19  ...............SSSS..................
-    18  .........SSSSSSSSSSSSSSSS............
-    17  ......SSSSSSSSSSSSSSSSSSSSSS.........
-    16  ....SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    13  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    12  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    11  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    10  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-     9  .......SSSSSSSSSSSSSSSSSSSSSSSSS.....
-     8  .........SSSSSSSSSSSSSSSSSSSSSS......
-     7  ...........SSSSSSSSSSSSSSSSSS........
-     6  ..............SSSSSSSSSSSS...........
-     5  o...................................o
-            1         2         3         4
-        6789012345678901234567890123456789012
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,  116 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   719.8362    10.3882    -0.8416
-     2   720.1076    10.0945    -0.8086
-     3   720.3881     9.8094    -0.7793
-     4   720.6763     9.5321    -0.7533
-     5   720.9713     9.2619    -0.7300
-     6   721.2722     8.9985    -0.7084
-     7   721.5787     8.7414    -0.6878
-     8   721.8903     8.4906    -0.6677
-     9   722.2068     8.2460    -0.6479
-    10   722.5281     8.0078    -0.6280
-    11   722.8541     7.7761    -0.6078
-    12   723.1848     7.5510    -0.5874
-    13   723.5200     7.3327    -0.5670
-    14   723.8596     7.1213    -0.5468
-    15   724.2032     6.9166    -0.5277
-    16   724.5506     6.7182    -0.5105
-    17   724.9011     6.5256    -0.4948
-    18   725.2545     6.3383    -0.4800
-    19   725.6106     6.1561    -0.4659
-    20   725.9692     5.9789    -0.4522
-    21   726.3301     5.8065    -0.4393
-    22   726.6931     5.6385    -0.4276
-    23   727.0580     5.4746    -0.4167
-    24   727.4246     5.3147    -0.4060
-    25   727.7929     5.1587    -0.3953
-    26   728.1629     5.0066    -0.3845
-    27   728.5345     4.8586    -0.3736
-    28   728.9061     4.7106    -0.3736
-    29   729.2777     4.5626    -0.3736
-    30   729.6493     4.4146    -0.3736
-    31   730.0209     4.2666    -0.3736
-    32   730.3925     4.1186    -0.3736
-    33   730.7641     3.9705    -0.3736
-    34   731.1357     3.8225    -0.3736
-    35   731.5073     3.6745    -0.3736
-    36   731.8789     3.5265    -0.3736
-    37   732.2506     3.3785    -0.3736
-    38   732.6222     3.2305    -0.3736
-    39   732.9938     3.0825    -0.3736
-    40   733.3654     2.9344    -0.3736
-    41   733.7370     2.7864    -0.3736
-    42   734.1086     2.6384    -0.3736
-    43   734.4802     2.4904    -0.3736
-    44   734.8518     2.3424    -0.3736
-    45   735.2234     2.1944    -0.3736
-    46   735.5950     2.0464    -0.3736
-    47   735.9666     1.8983    -0.3736
-    48   736.3382     1.7503    -0.3736
-    49   736.7098     1.6023    -0.3736
-    50   737.0814     1.4543    -0.3736
-    51   737.4530     1.3063    -0.3736
-    52   737.8246     1.1583    -0.3736
-    53   738.1963     1.0103    -0.3736
-    54   738.5679     0.8623    -0.3736
-    55   738.9395     0.7142    -0.3736
-    56   739.3111     0.5662    -0.3736
-    57   739.6827     0.4182    -0.3736
-    58   740.0543     0.2702    -0.3736
-    59   740.4259     0.1222    -0.3736
-    60   740.7975    -0.0258    -0.3736
-    61   741.1691    -0.1738    -0.3736
-    62   741.5407    -0.3219    -0.3736
-    63   741.9123    -0.4699    -0.3736
-    64   742.2839    -0.6179    -0.3736
-    65   742.6555    -0.7659    -0.3736
-    66   743.0271    -0.9139    -0.3736
-    67   743.3987    -1.0619    -0.3736
-    68   743.7703    -1.2099    -0.3736
-    69   744.1420    -1.3580    -0.3736
-    70   744.5136    -1.5060    -0.3736
-    71   744.8852    -1.6540    -0.3736
-    72   745.2568    -1.8020    -0.3736
-    73   745.6284    -1.9500    -0.3736
-    74   746.0000    -2.0980    -0.3736
-    75   746.3716    -2.2460    -0.3736
-    76   746.7432    -2.3941    -0.3736
-    77   747.1148    -2.5421    -0.3736
-    78   747.4864    -2.6901    -0.3736
-    79   747.8580    -2.8381    -0.3736
-    80   748.2296    -2.9861    -0.3736
-    81   748.6012    -3.1341    -0.3736
-    82   748.9728    -3.2821    -0.3736
-    83   749.3444    -3.4301    -0.3736
-    84   749.7160    -3.5782    -0.3736
-    85   750.0877    -3.7262    -0.3736
-    86   750.4593    -3.8742    -0.3736
-    87   750.8309    -4.0222    -0.3736
-    88   751.2025    -4.1702    -0.3736
-    89   751.5741    -4.3182    -0.3736
-    90   751.9457    -4.4662    -0.3736
-    91   752.3173    -4.6143    -0.3736
-    92   752.6889    -4.7623    -0.3736
-    93   753.0605    -4.9103    -0.3736
-    94   753.4321    -5.0583    -0.3736
-    95   753.8037    -5.2063    -0.3736
-    96   754.1753    -5.3543    -0.3736
-    97   754.5469    -5.5023    -0.3736
-    98   754.9185    -5.6504    -0.3736
-    99   755.2901    -5.7984    -0.3736
-   100   755.6617    -5.9464    -0.3736
-   101   756.0333    -6.0944    -0.3736
-   102   756.4050    -6.2424    -0.3736
-   103   756.7766    -6.3904    -0.3736
-   104   757.1482    -6.5384    -0.3736
-   105   757.5198    -6.6865    -0.3736
-   106   757.8914    -6.8345    -0.3736
-   107   758.2630    -6.9825    -0.3736
-   108   758.6346    -7.1305    -0.3736
-   109   759.0062    -7.2785    -0.3736
-   110   759.3778    -7.4265    -0.3736
-   111   759.7494    -7.5745    -0.3736
-   112   760.1210    -7.7226    -0.3736
-   113   760.4926    -7.8706    -0.3736
-   114   760.8642    -8.0186    -0.3736
-   115   761.2358    -8.1666    -0.3736
-   116   761.6074    -8.3146    -0.3736
 
  ----- DATA FOR CONTACT PATCH  3 (PREV  3) -----
 
@@ -1453,92 +724,22 @@
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
     363     78      0     78      1      1
 
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     7   . . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . .
-     6   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . .
-     5   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
-     4   . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . . .
-     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-                           1                   2                   3
-         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,   11 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   713.6903    30.1325    -1.2381
-     2   713.8187    29.7539    -1.2490
-     3   713.9436    29.3739    -1.2573
-     4   714.0657    28.9930    -1.2634
-     5   714.1858    28.6114    -1.2680
-     6   714.3044    28.2294    -1.2716
-     7   714.4218    27.8469    -1.2744
-     8   714.5381    27.4642    -1.2767
-     9   714.6537    27.0813    -1.2784
-    10   714.7688    26.6981    -1.2794
-    11   714.8836    26.3149    -1.2803
- There are  3 contact patches,  0 near misses, and  0 patches from previous time
-
  Case     4
-      Norm: final element division: C, E=   1027   3887  ItCG=     1
-      Tang: final element division: A, S=    161    866  ItCG=    31
-      Norm: final element division: C, E=    340   5112  ItCG=     1
-      Tang: final element division: A, S=      0    340  ItCG=     9
-      Norm: final element division: C, E=     78    285  ItCG=     1
-      Tang: final element division: A, S=      0     78  ItCG=     3
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2081   1.167E+05, dFz/dz:   2.151E+06
-      Norm: final element division: C, E=   1434   4593  ItCG=    11
-      Tang: final element division: A, S=    305   1129  ItCG=    39
-      Norm: final element division: C, E=     87    333  ItCG=     9
-      Tang: final element division: A, S=      0     87  ItCG=     4
-         2, NR,  z_ws, Fz:       1.2136   1.237E+05, dFz/dz:   1.274E+06
-      Norm: final element division: C, E=   1443   4584  ItCG=     9
-      Tang: final element division: A, S=    362   1081  ItCG=    38
-      Norm: final element division: C, E=     89    331  ItCG=     9
-      Tang: final element division: A, S=      0     89  ItCG=     4
-         3, NR,  z_ws, Fz:       1.2154   1.247E+05, dFz/dz:   5.703E+05
-      Norm: final element division: C, E=   1494   4830  ItCG=    11
-      Tang: final element division: A, S=    676    818  ItCG=    22
-      Norm: final element division: C, E=     96    348  ItCG=     9
-      Tang: final element division: A, S=      0     96  ItCG=     4
-         4, NR,  z_ws, Fz:       1.2198   1.323E+05, dFz/dz:   1.711E+06
-      Norm: final element division: C, E=   1443   4757  ItCG=    11
-      Tang: final element division: A, S=    409   1034  ItCG=    20
-      Norm: final element division: C, E=     92    352  ItCG=     8
-      Tang: final element division: A, S=      0     92  ItCG=     4
-         5, NR,  z_ws, Fz:       1.2167   1.254E+05, dFz/dz:   5.271E+05
-      Norm: final element division: C, E=   1467   4857  ItCG=    10
-      Tang: final element division: A, S=    531    936  ItCG=    21
-      Norm: final element division: C, E=     94    350  ItCG=     8
-      Tang: final element division: A, S=      0     94  ItCG=     4
-         6, NR,  z_ws, Fz:       1.2183   1.286E+05, dFz/dz:   2.076E+06
-      Norm: final element division: C, E=   1457   4867  ItCG=     9
-      Tang: final element division: A, S=    458    999  ItCG=    17
-      Norm: final element division: C, E=     92    352  ItCG=     7
-      Tang: final element division: A, S=      0     92  ItCG=     2
-         7, NR,  z_ws, Fz:       1.2175   1.268E+05, dFz/dz:   1.783E+06
-      Norm: final element division: C, E=   1458   4866  ItCG=     7
-      Tang: final element division: A, S=    467    991  ItCG=    17
-      Norm: final element division: C, E=     92    352  ItCG=     6
-      Tang: final element division: A, S=      0     92  ItCG=     3
-         8, NR,  z_ws, Fz:       1.2176   1.271E+05, dFz/dz:   2.361E+06
-      Norm: final element division: C, E=   1457   4867  ItCG=     6
-      Tang: final element division: A, S=    465    992  ItCG=    12
-      Norm: final element division: C, E=     92    352  ItCG=     5
-      Tang: final element division: A, S=      0     92  ItCG=     2
-         9, NR,  z_ws, Fz:       1.2176   1.270E+05, dFz/dz:   2.362E+06
+         2, NR,  z_ws, Fz:       1.2202   1.332E+05, dFz/dz:   1.367E+06
+         3, NR,  z_ws, Fz:       1.2157   1.249E+05, dFz/dz:   1.838E+06
+         4, NR,  z_ws, Fz:       1.2168   1.255E+05, dFz/dz:   5.068E+05
+         5, NR,  z_ws, Fz:       1.2185   1.292E+05, dFz/dz:   2.215E+06
+         6, NR,  z_ws, Fz:       1.2175   1.269E+05, dFz/dz:   2.001E+06
+         7, NR,  z_ws, Fz:       1.2176   1.270E+05, dFz/dz:   2.360E+06
+         8, NR,  z_ws, Fz:       1.2176   1.270E+05, dFz/dz:   2.361E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
  CPBTNFS.  CONFIG 1, PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 3, FLOW   3, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 2, FLOW   2, RETURN 1
  PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 1, READLN 0, INFLCF 0, NMDBG  0
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
@@ -1583,7 +784,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -12.04 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -238961.3, Msp =    284493.6, Mnp =    418441.4 N.mm
+ Total moments Mxp =   -238961.4, Msp =    284493.6, Mnp =    418441.2 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -1612,251 +813,6 @@
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
    6324   1457    465    992      1      1
-
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-   118  o...................................o
-   117  ............SSSS.....................
-   116  .......SSS***********................
-   115  .....SSSSSS************..............
-   114  ....SSSSSSS**************............
-   113  ...SSSSSSSSS*************S...........
-   112  ..SSSSSSSSSS**************...........
-   111  ..SSSSSSSSSS**************S..........
-   110  ..SSSSSSSSSSS*************S..........
-   109  ..SSSSSSSSSSS*************S..........
-   108  ..SSSSSSSSSSS*************S..........
-   107  ..SSSSSSSSSSS*************S..........
-   106  ..SSSSSSSSSSSS************S..........
-   105  ..SSSSSSSSSSSS************S..........
-   104  ..SSSSSSSSSSSS************S..........
-   103  ..SSSSSSSSSSSS*************..........
-   102  ..SSSSSSSSSSSS*************..........
-   101  ..SSSSSSSSSSSSS************..........
-   100  ..SSSSSSSSSSSSS************..........
-    99  ..SSSSSSSSSSSSS************..........
-    98  ..SSSSSSSSSSSSS************..........
-    97  ..SSSSSSSSSSSSS************..........
-    96  ..SSSSSSSSSSSSS************..........
-    95  ..SSSSSSSSSSSSSS***********..........
-    94  ..SSSSSSSSSSSSSS***********..........
-    93  ..SSSSSSSSSSSSSS***********..........
-    92  ..SSSSSSSSSSSSSS***********..........
-    91  ..SSSSSSSSSSSSSS***********..........
-    90  ..SSSSSSSSSSSSSS***********..........
-    89  ...SSSSSSSSSSSSS**********S..........
-    88  ...SSSSSSSSSSSSS**********...........
-    87  ...SSSSSSSSSSSSSS*********...........
-    86  ....SSSSSSSSSSSSS********S...........
-    85  ....SSSSSSSSSSSSS********S...........
-    84  ....SSSSSSSSSSSSS********............
-    83  ....SSSSSSSSSSSSS********............
-    82  .....SSSSSSSSSSSS*******S............
-    81  .....SSSSSSSSSSSS*******S............
-    80  .....SSSSSSSSSSSS*******.............
-    79  .....SSSSSSSSSSSS*******.............
-    78  ......SSSSSSSSSSSS******.............
-    77  ......SSSSSSSSSSSS*****S.............
-    76  ......SSSSSSSSSSSS*****S.............
-    75  ......SSSSSSSSSSSS*****S.............
-    74  ......SSSSSSSSSSSS*****S.............
-    73  ......SSSSSSSSSSSS*****S.............
-    72  .......SSSSSSSSSSS*****..............
-    71  .......SSSSSSSSSSS****S..............
-    70  ........SSSSSSSSSS***S...............
-    69  .........SSSSSSSSS**S................
-    68  ..........SSSSSSSS*S.................
-    67  ...........SSSSSSSS..................
-    66  ............SSSSSS...................
-    65  .............SSSSS...................
-    64  .............SSSS....................
-    63  ..............SSS....................
-    62  .............SSSS....................
-    61  .............SSSS....................
-    60  .............SSSSS...................
-    59  .............SSSSS...................
-    58  .............SSSSS...................
-    57  ..............SS.....................
-    56  .....................................
-    55  .....................................
-    54  .....................................
-    53  .....................................
-    52  .....................................
-    51  .....................................
-    50  .....................................
-    49  .....................................
-    48  .....................................
-    47  .....................................
-    46  .....................................
-    45  .....................................
-    44  .....................................
-    43  .....................................
-    42  .....................................
-    41  .....................................
-    40  .....................................
-    39  .....................................
-    38  .....................................
-    37  .....................................
-    36  .....................................
-    35  .....................................
-    34  .....................................
-    33  .....................................
-    32  .....................................
-    31  .....................................
-    30  .....................................
-    29  .....................................
-    28  .....................................
-    27  .....................................
-    26  .....................................
-    25  .....................................
-    24  .....................................
-    23  .....................................
-    22  .....................................
-    21  .....................................
-    20  ...............SSSS..................
-    19  ..........SSSSSSSSSSSSSSS............
-    18  .......SSSSSSSSSSSSSSSSSSSSS.........
-    17  ....SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    16  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    15  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    11  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSS.....
-     9  ........SSSSSSSSSSSSSSSSSSSSSSS......
-     8  ...........SSSSSSSSSSSSSSSSSS........
-     7  ..............SSSSSSSSSSSS...........
-     6  o...................................o
-         1         2         3         4
-        9012345678901234567890123456789012345
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,  124 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   719.5848    10.6831    -0.8772
-     2   719.8462    10.3805    -0.8402
-     3   720.1180    10.0872    -0.8074
-     4   720.3988     9.8024    -0.7782
-     5   720.6873     9.5254    -0.7524
-     6   720.9825     9.2555    -0.7291
-     7   721.2837     8.9923    -0.7075
-     8   721.5904     8.7355    -0.6869
-     9   721.9022     8.4850    -0.6668
-    10   722.2190     8.2408    -0.6470
-    11   722.5405     8.0028    -0.6271
-    12   722.8668     7.7714    -0.6069
-    13   723.1976     7.5466    -0.5866
-    14   723.5330     7.3286    -0.5662
-    15   723.8727     7.1175    -0.5460
-    16   724.2165     6.9131    -0.5270
-    17   724.5640     6.7149    -0.5098
-    18   724.9147     6.5225    -0.4941
-    19   725.2682     6.3354    -0.4794
-    20   725.6244     6.1535    -0.4653
-    21   725.9831     5.9765    -0.4516
-    22   726.3441     5.8043    -0.4387
-    23   726.7072     5.6365    -0.4271
-    24   727.0722     5.4729    -0.4161
-    25   727.4389     5.3131    -0.4055
-    26   727.8073     5.1573    -0.3947
-    27   728.1774     5.0055    -0.3839
-    28   728.5491     4.8577    -0.3731
-    29   728.9223     4.7139    -0.3624
-    30   729.2971     4.5741    -0.3518
-    31   729.6733     4.4382    -0.3410
-    32   730.0510     4.3065    -0.3303
-    33   730.4301     4.1788    -0.3197
-    34   730.8105     4.0550    -0.3094
-    35   731.1921     3.9352    -0.2994
-    36   731.5749     3.8191    -0.2897
-    37   731.9587     3.7065    -0.2806
-    38   732.3436     3.5975    -0.2719
-    39   732.7293     3.4917    -0.2635
-    40   733.1159     3.3890    -0.2555
-    41   733.5033     3.2894    -0.2478
-    42   733.8915     3.1927    -0.2407
-    43   734.2802     3.0986    -0.2341
-    44   734.6696     3.0071    -0.2278
-    45   735.0596     2.9180    -0.2216
-    46   735.4501     2.8313    -0.2155
-    47   735.8411     2.7469    -0.2096
-    48   736.2325     2.6647    -0.2040
-    49   736.6245     2.5848    -0.1985
-    50   737.0168     2.5069    -0.1933
-    51   737.4096     2.4311    -0.1882
-    52   737.8027     2.3572    -0.1834
-    53   738.1961     2.2851    -0.1789
-    54   738.5899     2.2148    -0.1747
-    55   738.9840     2.1461    -0.1705
-    56   739.3783     2.0790    -0.1663
-    57   739.7729     2.0137    -0.1620
-    58   740.1678     1.9500    -0.1577
-    59   740.5630     1.8880    -0.1537
-    60   740.9584     1.8275    -0.1497
-    61   741.3540     1.7686    -0.1460
-    62   741.7499     1.7111    -0.1425
-    63   742.1459     1.6549    -0.1393
-    64   742.5421     1.6000    -0.1362
-    65   742.9385     1.5463    -0.1330
-    66   743.3351     1.4939    -0.1299
-    67   743.7318     1.4427    -0.1267
-    68   744.1287     1.3928    -0.1235
-    69   744.5257     1.3442    -0.1203
-    70   744.9229     1.2968    -0.1170
-    71   745.3202     1.2508    -0.1137
-    72   745.7177     1.2061    -0.1104
-    73   746.1154     1.1626    -0.1073
-    74   746.5131     1.1204    -0.1043
-    75   746.9110     1.0793    -0.1015
-    76   747.3090     1.0393    -0.0989
-    77   747.7071     1.0003    -0.0965
-    78   748.1053     0.9622    -0.0941
-    79   748.5036     0.9251    -0.0917
-    80   748.9019     0.8890    -0.0894
-    81   749.3004     0.8537    -0.0871
-    82   749.6989     0.8194    -0.0847
-    83   750.0975     0.7860    -0.0826
-    84   750.4962     0.7534    -0.0806
-    85   750.8949     0.7215    -0.0789
-    86   751.2937     0.6903    -0.0772
-    87   751.6925     0.6598    -0.0755
-    88   752.0914     0.6300    -0.0738
-    89   752.4904     0.6008    -0.0720
-    90   752.8894     0.5724    -0.0701
-    91   753.2884     0.5448    -0.0679
-    92   753.6875     0.5181    -0.0662
-    93   754.0867     0.4919    -0.0648
-    94   754.4858     0.4662    -0.0634
-    95   754.8851     0.4412    -0.0620
-    96   755.2843     0.4167    -0.0605
-    97   755.6836     0.3928    -0.0591
-    98   756.0829     0.3694    -0.0578
-    99   756.4823     0.3466    -0.0565
-   100   756.8816     0.3243    -0.0552
-   101   757.2810     0.3025    -0.0539
-   102   757.6805     0.2812    -0.0524
-   103   758.0800     0.2605    -0.0508
-   104   758.4795     0.2406    -0.0492
-   105   758.8790     0.2212    -0.0476
-   106   759.2786     0.2025    -0.0461
-   107   759.6781     0.1843    -0.0447
-   108   760.0778     0.1667    -0.0434
-   109   760.4774     0.1496    -0.0419
-   110   760.8771     0.1332    -0.0403
-   111   761.2767     0.1174    -0.0386
-   112   761.6765     0.1023    -0.0369
-   113   762.0762     0.0879    -0.0350
-   114   762.4760     0.0743    -0.0329
-   115   762.8758     0.0616    -0.0306
-   116   763.2756     0.0498    -0.0281
-   117   763.6754     0.0391    -0.0255
-   118   764.0753     0.0294    -0.0231
-   119   764.4752     0.0206    -0.0207
-   120   764.8751     0.0128    -0.0182
-   121   765.2750     0.0060    -0.0157
-   122   765.6749     0.0003    -0.0131
-   123   766.0749    -0.0044    -0.0104
-   124   766.4748    -0.0080    -0.0078
 
  ----- DATA FOR CONTACT PATCH  2 (PREV  2) -----
 
@@ -1898,62 +854,22 @@
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
     444     92      0     92      1      1
-
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-     8   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-     7   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . .
-     6   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     4   . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
-     3   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-                     1                   2                   3
-         4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,   12 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   713.6903    30.1371    -1.2381
-     2   713.8188    29.7585    -1.2490
-     3   713.9436    29.3785    -1.2573
-     4   714.0657    28.9976    -1.2634
-     5   714.1859    28.6160    -1.2680
-     6   714.3044    28.2340    -1.2716
-     7   714.4218    27.8515    -1.2744
-     8   714.5381    27.4688    -1.2767
-     9   714.6538    27.0859    -1.2784
-    10   714.7689    26.7027    -1.2794
-    11   714.8836    26.3195    -1.2803
-    12   714.9980    25.9362    -1.2813
  There are  2 contact patches,  0 near misses, and  0 patches from previous time
 
  Case     5
-      Norm: final element division: C, E=   1457   4867  ItCG=     1
-      Tang: final element division: A, S=    303   1154  ItCG=    35
-      Norm: final element division: C, E=     92    352  ItCG=     1
-      Tang: final element division: A, S=      0     92  ItCG=     3
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2176   1.269E+05, dFz/dz:   2.095E+06
-      Norm: final element division: C, E=   1528   4796  ItCG=    11
-      Tang: final element division: A, S=    466   1062  ItCG=    50
-      Norm: final element division: C, E=    104    352  ItCG=     9
-      Tang: final element division: A, S=      0    104  ItCG=     4
-         2, NR,  z_ws, Fz:       1.2219   1.371E+05, dFz/dz:   2.387E+06
-      Norm: final element division: C, E=   1528   4796  ItCG=     6
-      Tang: final element division: A, S=    463   1065  ItCG=    13
-      Norm: final element division: C, E=    104    352  ItCG=     5
-      Tang: final element division: A, S=      0    104  ItCG=     4
-         3, NR,  z_ws, Fz:       1.2218   1.370E+05, dFz/dz:   2.410E+06
-      Norm: final element division: C, E=   1528   4796  ItCG=     3
-      Tang: final element division: A, S=    463   1065  ItCG=     5
-      Norm: final element division: C, E=    104    352  ItCG=     3
-      Tang: final element division: A, S=      0    104  ItCG=     2
-         4, NR,  z_ws, Fz:       1.2218   1.370E+05, dFz/dz:   2.405E+06
+         2, NR,  z_ws, Fz:       1.2208   1.345E+05, dFz/dz:   2.381E+06
+         3, NR,  z_ws, Fz:       1.2216   1.364E+05, dFz/dz:   2.403E+06
+         4, NR,  z_ws, Fz:       1.2263   1.479E+05, dFz/dz:   2.435E+06
+         5, NR,  z_ws, Fz:       1.2218   1.370E+05, dFz/dz:   2.409E+06
+         6, NR,  z_ws, Fz:       1.2218   1.370E+05, dFz/dz:   2.410E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
  CPBTNFS.  CONFIG 1, PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 3, FLOW   3, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 2, FLOW   2, RETURN 1
  PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 0, READLN 0, INFLCF 0, NMDBG  0
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
@@ -1998,7 +914,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -251154.8, Msp =    311869.0, Mnp =    419768.4 N.mm
+ Total moments Mxp =   -251154.8, Msp =    311869.0, Mnp =    419768.2 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -2027,251 +943,6 @@
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
    6324   1528    463   1065      1      1
-
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-   118  o....................................o
-   117  ...........SSSS***S...................
-   116  ........SSSSS*********S...............
-   115  ......SSSSSSSS***********.............
-   114  ....SSSSSSSSSS************............
-   113  ...SSSSSSSSSSSS************...........
-   112  ...SSSSSSSSSSSS************S..........
-   111  ...SSSSSSSSSSSS*************..........
-   110  ...SSSSSSSSSSSS*************..........
-   109  ...SSSSSSSSSSSSS************..........
-   108  ...SSSSSSSSSSSSS************..........
-   107  ...SSSSSSSSSSSSS************..........
-   106  ...SSSSSSSSSSSSS************..........
-   105  ...SSSSSSSSSSSSS************..........
-   104  ...SSSSSSSSSSSSS************..........
-   103  ...SSSSSSSSSSSSSS***********..........
-   102  ...SSSSSSSSSSSSSS***********..........
-   101  ...SSSSSSSSSSSSSS***********..........
-   100  ...SSSSSSSSSSSSSS***********..........
-    99  ...SSSSSSSSSSSSSS***********..........
-    98  ...SSSSSSSSSSSSSS***********..........
-    97  ...SSSSSSSSSSSSSS***********..........
-    96  ...SSSSSSSSSSSSSS***********..........
-    95  ...SSSSSSSSSSSSSS***********..........
-    94  ...SSSSSSSSSSSSSSS**********..........
-    93  ...SSSSSSSSSSSSSSS**********..........
-    92  ...SSSSSSSSSSSSSSS**********S.........
-    91  ...SSSSSSSSSSSSSSS**********S.........
-    90  ...SSSSSSSSSSSSSSS**********..........
-    89  ...SSSSSSSSSSSSSSS**********..........
-    88  ....SSSSSSSSSSSSSS*********S..........
-    87  ....SSSSSSSSSSSSSS*********...........
-    86  ....SSSSSSSSSSSSSS*********...........
-    85  .....SSSSSSSSSSSSS*********...........
-    84  .....SSSSSSSSSSSSS********S...........
-    83  .....SSSSSSSSSSSSS********............
-    82  .....SSSSSSSSSSSSS********............
-    81  ......SSSSSSSSSSSS********............
-    80  ......SSSSSSSSSSSS*******S............
-    79  ......SSSSSSSSSSSS*******S............
-    78  ......SSSSSSSSSSSS*******.............
-    77  ......SSSSSSSSSSSS*******.............
-    76  ......SSSSSSSSSSSS*******.............
-    75  .......SSSSSSSSSSSS******.............
-    74  .......SSSSSSSSSSSS******.............
-    73  .......SSSSSSSSSSSS******.............
-    72  .......SSSSSSSSSSSS*****S.............
-    71  ........SSSSSSSSSSS*****..............
-    70  ........SSSSSSSSSS*****S..............
-    69  .........SSSSSSSSS****S...............
-    68  ..........SSSSSSSS***S................
-    67  ...........SSSSSSS**S.................
-    66  ............SSSSSS*S..................
-    65  .............SSSS*SS..................
-    64  .............SSSSSS...................
-    63  .............SSSSSS...................
-    62  .............SSSSSS...................
-    61  .............SSSSSS...................
-    60  .............SSSSSSS..................
-    59  .............SSSSSSS..................
-    58  .............SSSSSSS..................
-    57  .............SSSSSS...................
-    56  ...............SS.....................
-    55  ......................................
-    54  ......................................
-    53  ......................................
-    52  ......................................
-    51  ......................................
-    50  ......................................
-    49  ......................................
-    48  ......................................
-    47  ......................................
-    46  ......................................
-    45  ......................................
-    44  ......................................
-    43  ......................................
-    42  ......................................
-    41  ......................................
-    40  ......................................
-    39  ......................................
-    38  ......................................
-    37  ......................................
-    36  ......................................
-    35  ......................................
-    34  ......................................
-    33  ......................................
-    32  ......................................
-    31  ......................................
-    30  ......................................
-    29  ......................................
-    28  ......................................
-    27  ......................................
-    26  ......................................
-    25  ......................................
-    24  ......................................
-    23  ......................................
-    22  ......................................
-    21  ......................................
-    20  ..............SSSSSSSS................
-    19  ..........SSSSSSSSSSSSSSSS............
-    18  .......SSSSSSSSSSSSSSSSSSSSSSS........
-    17  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    16  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    11  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    10  .......SSSSSSSSSSSSSSSSSSSSSSSSSSS....
-     9  .........SSSSSSSSSSSSSSSSSSSSSSS......
-     8  ...........SSSSSSSSSSSSSSSSSSSS.......
-     7  ...............SSSSSSSSSSSSS..........
-     6  o....................................o
-          1         2         3         4
-        89012345678901234567890123456789012345
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,  124 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   719.5848    10.6852    -0.8772
-     2   719.8462    10.3826    -0.8402
-     3   720.1180    10.0893    -0.8074
-     4   720.3988     9.8045    -0.7782
-     5   720.6873     9.5275    -0.7524
-     6   720.9825     9.2576    -0.7291
-     7   721.2837     8.9945    -0.7075
-     8   721.5904     8.7377    -0.6869
-     9   721.9022     8.4871    -0.6668
-    10   722.2190     8.2429    -0.6470
-    11   722.5405     8.0050    -0.6271
-    12   722.8667     7.7735    -0.6069
-    13   723.1976     7.5487    -0.5866
-    14   723.5330     7.3307    -0.5662
-    15   723.8727     7.1196    -0.5460
-    16   724.2165     6.9152    -0.5270
-    17   724.5640     6.7170    -0.5098
-    18   724.9147     6.5246    -0.4941
-    19   725.2682     6.3376    -0.4794
-    20   725.6244     6.1556    -0.4653
-    21   725.9831     5.9786    -0.4516
-    22   726.3441     5.8064    -0.4387
-    23   726.7072     5.6386    -0.4271
-    24   727.0722     5.4750    -0.4161
-    25   727.4389     5.3153    -0.4055
-    26   727.8073     5.1594    -0.3947
-    27   728.1774     5.0076    -0.3839
-    28   728.5491     4.8598    -0.3731
-    29   728.9223     4.7160    -0.3624
-    30   729.2971     4.5762    -0.3518
-    31   729.6733     4.4404    -0.3410
-    32   730.0510     4.3086    -0.3303
-    33   730.4301     4.1809    -0.3197
-    34   730.8105     4.0572    -0.3094
-    35   731.1921     3.9373    -0.2994
-    36   731.5749     3.8212    -0.2897
-    37   731.9587     3.7087    -0.2806
-    38   732.3435     3.5996    -0.2719
-    39   732.7293     3.4938    -0.2635
-    40   733.1159     3.3911    -0.2555
-    41   733.5033     3.2916    -0.2478
-    42   733.8914     3.1948    -0.2407
-    43   734.2802     3.1008    -0.2341
-    44   734.6696     3.0092    -0.2278
-    45   735.0596     2.9201    -0.2216
-    46   735.4501     2.8334    -0.2155
-    47   735.8411     2.7490    -0.2096
-    48   736.2325     2.6669    -0.2040
-    49   736.6245     2.5869    -0.1985
-    50   737.0168     2.5091    -0.1933
-    51   737.4096     2.4332    -0.1882
-    52   737.8027     2.3593    -0.1834
-    53   738.1961     2.2873    -0.1789
-    54   738.5899     2.2169    -0.1747
-    55   738.9840     2.1482    -0.1705
-    56   739.3783     2.0812    -0.1663
-    57   739.7729     2.0158    -0.1620
-    58   740.1678     1.9521    -0.1577
-    59   740.5630     1.8901    -0.1537
-    60   740.9584     1.8296    -0.1497
-    61   741.3540     1.7707    -0.1460
-    62   741.7499     1.7132    -0.1425
-    63   742.1459     1.6571    -0.1393
-    64   742.5421     1.6022    -0.1362
-    65   742.9385     1.5485    -0.1330
-    66   743.3351     1.4960    -0.1299
-    67   743.7318     1.4449    -0.1267
-    68   744.1287     1.3949    -0.1235
-    69   744.5257     1.3463    -0.1203
-    70   744.9229     1.2989    -0.1170
-    71   745.3202     1.2529    -0.1137
-    72   745.7177     1.2082    -0.1104
-    73   746.1154     1.1647    -0.1073
-    74   746.5131     1.1225    -0.1043
-    75   746.9110     1.0814    -0.1015
-    76   747.3090     1.0414    -0.0989
-    77   747.7071     1.0024    -0.0965
-    78   748.1053     0.9644    -0.0941
-    79   748.5036     0.9272    -0.0917
-    80   748.9019     0.8911    -0.0894
-    81   749.3004     0.8558    -0.0871
-    82   749.6989     0.8215    -0.0847
-    83   750.0975     0.7881    -0.0826
-    84   750.4962     0.7555    -0.0806
-    85   750.8949     0.7236    -0.0789
-    86   751.2937     0.6924    -0.0772
-    87   751.6925     0.6619    -0.0755
-    88   752.0914     0.6321    -0.0738
-    89   752.4904     0.6029    -0.0720
-    90   752.8893     0.5746    -0.0701
-    91   753.2884     0.5470    -0.0679
-    92   753.6875     0.5202    -0.0662
-    93   754.0866     0.4940    -0.0648
-    94   754.4858     0.4684    -0.0634
-    95   754.8850     0.4433    -0.0620
-    96   755.2843     0.4188    -0.0605
-    97   755.6836     0.3949    -0.0591
-    98   756.0829     0.3716    -0.0578
-    99   756.4823     0.3487    -0.0565
-   100   756.8816     0.3264    -0.0552
-   101   757.2810     0.3046    -0.0539
-   102   757.6805     0.2833    -0.0524
-   103   758.0799     0.2627    -0.0508
-   104   758.4794     0.2427    -0.0492
-   105   758.8790     0.2233    -0.0476
-   106   759.2785     0.2046    -0.0461
-   107   759.6781     0.1864    -0.0447
-   108   760.0777     0.1688    -0.0434
-   109   760.4774     0.1517    -0.0419
-   110   760.8771     0.1353    -0.0403
-   111   761.2767     0.1195    -0.0386
-   112   761.6765     0.1044    -0.0369
-   113   762.0762     0.0900    -0.0350
-   114   762.4760     0.0764    -0.0329
-   115   762.8758     0.0637    -0.0306
-   116   763.2756     0.0520    -0.0281
-   117   763.6754     0.0412    -0.0255
-   118   764.0753     0.0315    -0.0231
-   119   764.4752     0.0228    -0.0207
-   120   764.8751     0.0150    -0.0182
-   121   765.2750     0.0082    -0.0157
-   122   765.6749     0.0024    -0.0131
-   123   766.0749    -0.0023    -0.0104
-   124   766.4748    -0.0059    -0.0078
 
  ----- DATA FOR CONTACT PATCH  2 (PREV  2) -----
 
@@ -2314,61 +985,19 @@
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
     456    104      0    104      1      1
 
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    12   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    11   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     8   . . . . . . . . . . . . . . . S S S S S . . . . . . . . . . .
-     7   . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . .
-     6   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     4   . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . .
-     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-                     1                   2                   3
-         4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,   12 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   713.6903    30.1392    -1.2381
-     2   713.8188    29.7605    -1.2490
-     3   713.9436    29.3805    -1.2573
-     4   714.0658    28.9996    -1.2634
-     5   714.1859    28.6181    -1.2680
-     6   714.3045    28.2360    -1.2716
-     7   714.4218    27.8536    -1.2744
-     8   714.5382    27.4709    -1.2767
-     9   714.6538    27.0879    -1.2784
-    10   714.7689    26.7048    -1.2794
-    11   714.8836    26.3216    -1.2803
-    12   714.9980    25.9383    -1.2813
-
  Case     6
-      Norm: final element division: C, E=   1528   4796  ItCG=     1
-      Tang: final element division: A, S=    377   1151  ItCG=    33
-      Norm: final element division: C, E=    104    352  ItCG=     1
-      Tang: final element division: A, S=      0    104  ItCG=     3
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2218   1.369E+05, dFz/dz:   2.160E+06
-      Norm: final element division: C, E=   1528   4796  ItCG=     5
-      Tang: final element division: A, S=    377   1151  ItCG=    18
-      Norm: final element division: C, E=    104    352  ItCG=     5
-      Tang: final element division: A, S=      0    104  ItCG=     4
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.413E+06
-      Norm: final element division: C, E=   1528   4796  ItCG=     2
-      Tang: final element division: A, S=    377   1151  ItCG=     2
-      Norm: final element division: C, E=    104    352  ItCG=     2
-      Tang: final element division: A, S=      0    104  ItCG=     2
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.412E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.413E+06
+         4, NR,  z_ws, Fz:       1.2266   1.486E+05, dFz/dz:   2.446E+06
+         5, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.415E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
  CPBTNFS.  CONFIG 1, PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 2
- HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 3, FLOW   3, RETURN 1
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 2, FLOW   2, RETURN 1
  PSFLRIN.  PROFIL 1, SMOOTH 0, FORCE  1, LOCATE 0, READLN 0, INFLCF 0, NMDBG  0
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
@@ -2413,7 +1042,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -250261.6, Msp =    311557.3, Mnp =    419907.0 N.mm
+ Total moments Mxp =   -250261.6, Msp =    311557.2, Mnp =    419906.9 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -2442,251 +1071,6 @@
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
    6324   1528    377   1151      1      1
-
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-   118  o....................................o
-   117  ...........SSSSSSSS...................
-   116  ........SSSSSSSS******S...............
-   115  ......SSSSSSSSSSS********.............
-   114  ....SSSSSSSSSSSSS*********............
-   113  ...SSSSSSSSSSSSSS**********...........
-   112  ...SSSSSSSSSSSSSSS*********S..........
-   111  ...SSSSSSSSSSSSSSS**********..........
-   110  ...SSSSSSSSSSSSSS***********..........
-   109  ...SSSSSSSSSSSSSS***********..........
-   108  ...SSSSSSSSSSSSSSS**********..........
-   107  ...SSSSSSSSSSSSSSS**********..........
-   106  ...SSSSSSSSSSSSSSS**********..........
-   105  ...SSSSSSSSSSSSSSS**********..........
-   104  ...SSSSSSSSSSSSSSS**********..........
-   103  ...SSSSSSSSSSSSSS***********..........
-   102  ...SSSSSSSSSSSSSS***********..........
-   101  ...SSSSSSSSSSSSSS***********..........
-   100  ...SSSSSSSSSSSSSSS**********..........
-    99  ...SSSSSSSSSSSSSSS**********..........
-    98  ...SSSSSSSSSSSSSSS**********..........
-    97  ...SSSSSSSSSSSSSSS**********..........
-    96  ...SSSSSSSSSSSSSSS**********..........
-    95  ...SSSSSSSSSSSSSSS**********..........
-    94  ...SSSSSSSSSSSSSSS**********..........
-    93  ...SSSSSSSSSSSSSSS**********..........
-    92  ...SSSSSSSSSSSSSSS**********S.........
-    91  ...SSSSSSSSSSSSSSSS*********S.........
-    90  ...SSSSSSSSSSSSSSSS*********..........
-    89  ...SSSSSSSSSSSSSSSSS********..........
-    88  ....SSSSSSSSSSSSSSSS*******S..........
-    87  ....SSSSSSSSSSSSSSSS*******...........
-    86  ....SSSSSSSSSSSSSSSS*******...........
-    85  .....SSSSSSSSSSSSSSS******S...........
-    84  .....SSSSSSSSSSSSSSS******S...........
-    83  .....SSSSSSSSSSSSSSS******............
-    82  .....SSSSSSSSSSSSSSS******............
-    81  ......SSSSSSSSSSSSSS******............
-    80  ......SSSSSSSSSSSSSS*****S............
-    79  ......SSSSSSSSSSSSSS*****S............
-    78  ......SSSSSSSSSSSSSS*****.............
-    77  ......SSSSSSSSSSSSSS*****.............
-    76  ......SSSSSSSSSSSSSS*****.............
-    75  .......SSSSSSSSSSSSS*****.............
-    74  .......SSSSSSSSSSSSS*****.............
-    73  .......SSSSSSSSSSSSS****S.............
-    72  .......SSSSSSSSSSSSS****S.............
-    71  ........SSSSSSSSSSS*****..............
-    70  ........SSSSSSSSSSS****S..............
-    69  .........SSSSSSSSSSS*SS...............
-    68  ..........SSSSSSSSSSSS................
-    67  ...........SSSSSSSSSS.................
-    66  ............SSSSSSSS..................
-    65  .............SSSSSSS..................
-    64  .............SSSSSS...................
-    63  .............SSSSSS...................
-    62  .............SSSSSS...................
-    61  .............SSSSSS...................
-    60  .............SSSSSSS..................
-    59  .............SSSSSSS..................
-    58  .............SSSSSSS..................
-    57  .............SSSSSS...................
-    56  ...............SS.....................
-    55  ......................................
-    54  ......................................
-    53  ......................................
-    52  ......................................
-    51  ......................................
-    50  ......................................
-    49  ......................................
-    48  ......................................
-    47  ......................................
-    46  ......................................
-    45  ......................................
-    44  ......................................
-    43  ......................................
-    42  ......................................
-    41  ......................................
-    40  ......................................
-    39  ......................................
-    38  ......................................
-    37  ......................................
-    36  ......................................
-    35  ......................................
-    34  ......................................
-    33  ......................................
-    32  ......................................
-    31  ......................................
-    30  ......................................
-    29  ......................................
-    28  ......................................
-    27  ......................................
-    26  ......................................
-    25  ......................................
-    24  ......................................
-    23  ......................................
-    22  ......................................
-    21  ......................................
-    20  ..............SSSSSSSS................
-    19  ..........SSSSSSSSSSSSSSSS............
-    18  .......SSSSSSSSSSSSSSSSSSSSSSS........
-    17  .....SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    16  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    11  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    10  .......SSSSSSSSSSSSSSSSSSSSSSSSSSS....
-     9  .........SSSSSSSSSSSSSSSSSSSSSSS......
-     8  ...........SSSSSSSSSSSSSSSSSSSS.......
-     7  ...............SSSSSSSSSSSSS..........
-     6  o....................................o
-          1         2         3         4
-        89012345678901234567890123456789012345
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,  124 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   719.5848    10.6852    -0.8772
-     2   719.8462    10.3826    -0.8402
-     3   720.1180    10.0893    -0.8074
-     4   720.3988     9.8045    -0.7782
-     5   720.6873     9.5275    -0.7524
-     6   720.9825     9.2576    -0.7291
-     7   721.2837     8.9945    -0.7075
-     8   721.5904     8.7377    -0.6869
-     9   721.9022     8.4872    -0.6668
-    10   722.2190     8.2429    -0.6470
-    11   722.5405     8.0050    -0.6271
-    12   722.8667     7.7735    -0.6069
-    13   723.1976     7.5487    -0.5866
-    14   723.5330     7.3307    -0.5662
-    15   723.8727     7.1196    -0.5460
-    16   724.2165     6.9152    -0.5270
-    17   724.5640     6.7171    -0.5098
-    18   724.9147     6.5246    -0.4941
-    19   725.2682     6.3376    -0.4794
-    20   725.6244     6.1556    -0.4653
-    21   725.9831     5.9786    -0.4516
-    22   726.3441     5.8064    -0.4387
-    23   726.7072     5.6387    -0.4271
-    24   727.0722     5.4750    -0.4161
-    25   727.4389     5.3153    -0.4055
-    26   727.8073     5.1595    -0.3947
-    27   728.1774     5.0076    -0.3839
-    28   728.5491     4.8598    -0.3731
-    29   728.9223     4.7160    -0.3624
-    30   729.2971     4.5762    -0.3518
-    31   729.6733     4.4404    -0.3410
-    32   730.0510     4.3086    -0.3303
-    33   730.4301     4.1809    -0.3197
-    34   730.8105     4.0572    -0.3094
-    35   731.1921     3.9373    -0.2994
-    36   731.5749     3.8212    -0.2897
-    37   731.9587     3.7087    -0.2806
-    38   732.3435     3.5996    -0.2719
-    39   732.7293     3.4938    -0.2635
-    40   733.1159     3.3912    -0.2555
-    41   733.5033     3.2916    -0.2478
-    42   733.8914     3.1949    -0.2407
-    43   734.2802     3.1008    -0.2341
-    44   734.6696     3.0092    -0.2278
-    45   735.0596     2.9201    -0.2216
-    46   735.4501     2.8334    -0.2155
-    47   735.8411     2.7490    -0.2096
-    48   736.2325     2.6669    -0.2040
-    49   736.6245     2.5869    -0.1985
-    50   737.0168     2.5091    -0.1933
-    51   737.4096     2.4332    -0.1882
-    52   737.8027     2.3594    -0.1834
-    53   738.1961     2.2873    -0.1789
-    54   738.5899     2.2169    -0.1747
-    55   738.9840     2.1482    -0.1705
-    56   739.3783     2.0812    -0.1663
-    57   739.7729     2.0158    -0.1620
-    58   740.1678     1.9521    -0.1577
-    59   740.5630     1.8901    -0.1537
-    60   740.9584     1.8297    -0.1497
-    61   741.3540     1.7707    -0.1460
-    62   741.7499     1.7133    -0.1425
-    63   742.1459     1.6571    -0.1393
-    64   742.5421     1.6022    -0.1362
-    65   742.9385     1.5485    -0.1330
-    66   743.3351     1.4961    -0.1299
-    67   743.7318     1.4449    -0.1267
-    68   744.1287     1.3950    -0.1235
-    69   744.5257     1.3463    -0.1203
-    70   744.9229     1.2990    -0.1170
-    71   745.3202     1.2529    -0.1137
-    72   745.7177     1.2082    -0.1104
-    73   746.1154     1.1648    -0.1073
-    74   746.5131     1.1225    -0.1043
-    75   746.9110     1.0814    -0.1015
-    76   747.3090     1.0414    -0.0989
-    77   747.7071     1.0024    -0.0965
-    78   748.1053     0.9644    -0.0941
-    79   748.5036     0.9273    -0.0917
-    80   748.9019     0.8911    -0.0894
-    81   749.3004     0.8558    -0.0871
-    82   749.6989     0.8215    -0.0847
-    83   750.0975     0.7881    -0.0826
-    84   750.4962     0.7555    -0.0806
-    85   750.8949     0.7237    -0.0789
-    86   751.2937     0.6925    -0.0772
-    87   751.6925     0.6619    -0.0755
-    88   752.0914     0.6321    -0.0738
-    89   752.4904     0.6030    -0.0720
-    90   752.8893     0.5746    -0.0701
-    91   753.2884     0.5470    -0.0679
-    92   753.6875     0.5202    -0.0662
-    93   754.0866     0.4940    -0.0648
-    94   754.4858     0.4684    -0.0634
-    95   754.8850     0.4433    -0.0620
-    96   755.2843     0.4188    -0.0605
-    97   755.6836     0.3949    -0.0591
-    98   756.0829     0.3716    -0.0578
-    99   756.4823     0.3487    -0.0565
-   100   756.8816     0.3264    -0.0552
-   101   757.2810     0.3046    -0.0539
-   102   757.6805     0.2833    -0.0524
-   103   758.0799     0.2627    -0.0508
-   104   758.4794     0.2427    -0.0492
-   105   758.8790     0.2233    -0.0476
-   106   759.2785     0.2046    -0.0461
-   107   759.6781     0.1864    -0.0447
-   108   760.0777     0.1688    -0.0434
-   109   760.4774     0.1518    -0.0419
-   110   760.8771     0.1353    -0.0403
-   111   761.2767     0.1195    -0.0386
-   112   761.6765     0.1044    -0.0369
-   113   762.0762     0.0900    -0.0350
-   114   762.4760     0.0765    -0.0329
-   115   762.8758     0.0637    -0.0306
-   116   763.2756     0.0520    -0.0281
-   117   763.6754     0.0413    -0.0255
-   118   764.0753     0.0315    -0.0231
-   119   764.4752     0.0228    -0.0207
-   120   764.8751     0.0150    -0.0182
-   121   765.2750     0.0082    -0.0157
-   122   765.6749     0.0024    -0.0131
-   123   766.0749    -0.0023    -0.0104
-   124   766.4748    -0.0059    -0.0078
 
  ----- DATA FOR CONTACT PATCH  2 (PREV  2) -----
 
@@ -2729,38 +1113,6 @@
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
     456    104      0    104      1      1
 
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    12   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    11   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     8   . . . . . . . . . . . . . . . S S S S S . . . . . . . . . . .
-     7   . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . .
-     6   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     4   . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . .
-     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-                     1                   2                   3
-         4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
-     X  -->        Chi=  0.00 degrees
-
- CURVED REFERENCE SURFACE, TRACK COORDINATES,   12 POINTS:
-    I        Y(I)       Z(I)       A(I)
-     1   713.6903    30.1392    -1.2381
-     2   713.8188    29.7605    -1.2490
-     3   713.9436    29.3806    -1.2573
-     4   714.0658    28.9997    -1.2634
-     5   714.1859    28.6181    -1.2680
-     6   714.3045    28.2360    -1.2716
-     7   714.4218    27.8536    -1.2744
-     8   714.5382    27.4709    -1.2767
-     9   714.6538    27.0879    -1.2784
-    10   714.7689    26.7048    -1.2794
-    11   714.8836    26.3216    -1.2803
-    12   714.9980    25.9383    -1.2813
-
 Parallel run using  2 threads
 Performance timers:
 |--------------------------------------------------------------------------|
@@ -2768,24 +1120,24 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.7 | 100.0 |        4.1 | 100.0 |
-|Wheel-rail cases     |        6 |        1.7 | 100.0 |        4.1 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Geometric analysis   |       42 |        0.0 |   0.9 |        0.2 |   5.4 |
-|Panag.process        |       95 |        1.5 |  93.4 |        3.5 |  85.3 |
-|Algorithm Norm       |       95 |        0.2 |   9.4 |        0.5 |  12.8 |
-|Algorithm Tang       |       95 |        1.4 |  84.0 |        3.0 |  72.5 |
-|Output quantities    |      101 |        0.0 |   1.9 |        0.1 |   3.5 |
+|Total                |        1 |        1.8 | 100.0 |        2.8 | 100.0 |
+|Wheel-rail cases     |        6 |        1.8 | 100.0 |        2.8 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Geometric analysis   |       44 |        0.0 |   1.8 |        0.2 |   5.9 |
+|Panag.process        |       99 |        1.6 |  92.0 |        2.2 |  79.6 |
+|Algorithm Norm       |       99 |        0.2 |  12.5 |        0.5 |  17.4 |
+|Algorithm Tang       |       99 |        1.4 |  79.5 |        1.7 |  62.0 |
+|Output quantities    |      105 |        0.1 |   4.5 |        0.1 |   4.1 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       95 |        0.1 |   8.5 |        0.4 |   9.3 |
-|Tang: TangCG solver  |       81 |        0.1 |   5.7 |        0.6 |  15.4 |
-|Tang: StedyGS solver |       14 |        1.3 |  78.3 |        2.1 |  52.4 |
+|Norm: ConjGrd solver |       99 |        0.2 |  10.7 |        0.3 |   9.6 |
+|Tang: TangCG solver  |       84 |        0.5 |  26.8 |        0.7 |  24.9 |
+|Tang: StedyGS solver |       15 |        0.9 |  49.1 |        1.0 |  36.1 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Contact location     |       42 |        0.0 |   0.9 |        0.0 |   0.7 |
-|Undeformed distance  |       95 |        0.0 |   0.0 |        0.2 |   3.7 |
-| - Interp whl_srfc   |       95 |        0.0 |   0.0 |        0.1 |   2.5 |
-|Influence coeffic.   |       16 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Initial state/estim. |       95 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Contact location     |       44 |        0.0 |   0.0 |        0.0 |   0.9 |
+|Undeformed distance  |       99 |        0.0 |   1.8 |        0.1 |   4.4 |
+| - Interp whl_srfc   |       99 |        0.0 |   1.8 |        0.1 |   2.4 |
+|Influence coeffic.   |       18 |        0.0 |   0.0 |        0.0 |   0.9 |
+|Initial state/estim. |       99 |        0.0 |   0.0 |        0.0 |   0.9 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

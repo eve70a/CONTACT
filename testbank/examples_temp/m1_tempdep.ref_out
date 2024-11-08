@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -13,10 +13,13 @@
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
       Norm: final element division: C, E=    285    676  ItCG=     9
       Tang: final element division: A, S=      0    285  ItGS=     5
-         1, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.270E+05
+         1, NR,  z_ws, Fz:       0.0351       9999., dFz/dz:   4.270E+05
       Norm: final element division: C, E=    285    676  ItCG=     3
       Tang: final element division: A, S=      0    285  ItGS=     2
-         2, NR,  z_ws, Fz:       0.0351      10000., dFz/dz:   4.287E+05
+         2, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.286E+05
+      Norm: final element division: C, E=    285    676  ItCG=     3
+      Tang: final element division: A, S=      0    285  ItGS=     2
+         3, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.286E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -70,7 +73,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       52.56      -2999.      10000.      -52.15      -2999.      10000.
+       52.56      -2999.   1.000E+04      -52.15      -2999.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -88,7 +91,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-        10000.       52.56      -2999.       17.52      0.1557      -207.2
+     1.000E+04       52.56      -2999.       17.52      0.1557      -207.2
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX      MAX(T1,T2)
         0.1220   1.752E-02     -0.9998   3.512E-02       1366.       48.34
 
@@ -130,23 +133,31 @@
  TANG: STEADY STATE ROLLING CONTACT
     1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :        29.82   2.982E-03
     2, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :        1.417   2.846E-03
-    3, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.3861   2.852E-03
-    4, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.1473   2.852E-03
-    5, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    7.263E-02   2.852E-03
-    6, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    3.584E-02   2.852E-03
-    7, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.852E-03
-    8, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    8.725E-03   2.852E-03
-    9, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    4.306E-03   2.852E-03
-   10, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.852E-03
+    3, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.3860   2.851E-03
+    4, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.1472   2.851E-03
+    5, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    7.261E-02   2.851E-03
+    6, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    3.583E-02   2.851E-03
+    7, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.851E-03
+    8, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    8.723E-03   2.851E-03
+    9, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    4.305E-03   2.851E-03
+   10, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.851E-03
       Tang: final element division: A, S=      0    285  ItGS=    23
 
-         1, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.270E+05
+         1, NR,  z_ws, Fz:       0.0351       9999., dFz/dz:   4.270E+05
       Norm: final element division: C, E=    285    676  ItCG=     3
  TANG: STEADY STATE ROLLING CONTACT
-    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.314E-03   2.852E-03
-      Tang: final element division: A, S=      0    285  ItGS=     2
+    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.179E-02   2.852E-03
+    2, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    4.008E-04   2.852E-03
+      Tang: final element division: A, S=      0    285  ItGS=     4
 
-         2, NR,  z_ws, Fz:       0.0351      10000., dFz/dz:   4.287E+05
+         2, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.286E+05
+      Norm: final element division: C, E=    285    676  ItCG=     3
+ TANG: STEADY STATE ROLLING CONTACT
+    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.006E-02   2.852E-03
+    2, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    3.417E-04   2.852E-03
+      Tang: final element division: A, S=      0    285  ItGS=     4
+
+         3, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.286E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -186,7 +197,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       50.30      -2871.      10000.      -49.93      -2871.      10000.
+       50.30      -2871.   1.000E+04      -49.93      -2871.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -204,7 +215,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-        10000.       50.30      -2871.      -18.57      0.1544      -198.4
+     1.000E+04       50.30      -2871.      -18.57      0.1544      -198.4
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX      MAX(T1,T2)
         0.1220   1.677E-02     -0.9570   3.512E-02       1366.       45.50
 
@@ -212,7 +223,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    961    285      0    285      1      1
+    961    285      0    285      1      2
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     26   o . . . . . . . . . . . . . . . . . . . o
@@ -246,23 +257,31 @@
  TANG: STEADY STATE ROLLING CONTACT
     1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :        29.82   2.982E-03
     2, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :        1.417   2.846E-03
-    3, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.3861   2.852E-03
-    4, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.1473   2.852E-03
-    5, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    7.263E-02   2.852E-03
-    6, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    3.584E-02   2.852E-03
-    7, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.852E-03
-    8, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    8.725E-03   2.852E-03
-    9, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    4.306E-03   2.852E-03
-   10, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.852E-03
+    3, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.3860   2.851E-03
+    4, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :       0.1472   2.851E-03
+    5, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    7.261E-02   2.851E-03
+    6, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    3.583E-02   2.851E-03
+    7, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.768E-02   2.851E-03
+    8, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    8.723E-03   2.851E-03
+    9, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    4.305E-03   2.851E-03
+   10, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.125E-03   2.851E-03
       Tang: final element division: A, S=      0    285  ItGS=    23
 
-         1, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.270E+05
+         1, NR,  z_ws, Fz:       0.0351       9999., dFz/dz:   4.270E+05
       Norm: final element division: C, E=    285    676  ItCG=     3
  TANG: STEADY STATE ROLLING CONTACT
-    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    2.314E-03   2.852E-03
-      Tang: final element division: A, S=      0    285  ItGS=     2
+    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.179E-02   2.852E-03
+    2, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    4.008E-04   2.852E-03
+      Tang: final element division: A, S=      0    285  ItGS=     4
 
-         2, NR,  z_ws, Fz:       0.0351      10000., dFz/dz:   4.287E+05
+         2, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.286E+05
+      Norm: final element division: C, E=    285    676  ItCG=     3
+ TANG: STEADY STATE ROLLING CONTACT
+    1, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    1.006E-02   2.852E-03
+    2, Temp-dep: A, S=     0   285, |Tk-Tk-1|, .001 |Tk| :    3.417E-04   2.852E-03
+      Tang: final element division: A, S=      0    285  ItGS=     4
+
+         3, NR,  z_ws, Fz:       0.0351   1.000E+04, dFz/dz:   4.286E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -303,7 +322,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       50.30      -2871.      10000.      -49.93      -2871.      10000.
+       50.30      -2871.   1.000E+04      -49.93      -2871.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -325,7 +344,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-        10000.       50.30      -2871.      -18.57      0.1544      -198.4
+     1.000E+04       50.30      -2871.      -18.57      0.1544      -198.4
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX      MAX(T1,T2)
         0.1220   1.677E-02     -0.9570   3.512E-02       1366.       45.50
 
@@ -333,7 +352,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    961    285      0    285      1      1
+    961    285      0    285      1      2
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     26   o . . . . . . . . . . . . . . . . . . . o
@@ -368,24 +387,24 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.0 |   0.0 |        0.1 | 100.0 |
-|Wheel-rail cases     |        3 |        0.0 |   0.0 |        0.1 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   6.7 |
-|Geometric analysis   |        9 |        0.0 |   0.0 |        0.0 |   0.8 |
-|Panag.process        |        6 |        0.0 |   0.0 |        0.1 |  56.3 |
-|Algorithm Norm       |        6 |        0.0 |   0.0 |        0.0 |  17.6 |
-|Algorithm Tang       |        6 |        0.0 |   0.0 |        0.0 |  37.8 |
-|Output quantities    |        9 |        0.0 |   0.0 |        0.0 |  33.6 |
+|Total                |        1 |        0.0 | 100.0 |        0.1 | 100.0 |
+|Wheel-rail cases     |        3 |        0.0 | 100.0 |        0.1 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |  15.0 |
+|Geometric analysis   |       12 |        0.0 |   0.0 |        0.0 |   1.5 |
+|Panag.process        |        9 |        0.0 | 100.0 |        0.1 |  48.9 |
+|Algorithm Norm       |        9 |        0.0 | 100.0 |        0.0 |  15.8 |
+|Algorithm Tang       |        9 |        0.0 |   0.0 |        0.0 |  33.1 |
+|Output quantities    |       12 |        0.0 |   0.0 |        0.0 |  11.3 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        6 |        0.0 |   0.0 |        0.0 |  12.6 |
-|Tang: StedyGS solver |       24 |        0.0 |   0.0 |        0.0 |  24.4 |
-|Temperature calc.    |       28 |        0.0 |   0.0 |        0.0 |  12.6 |
+|Norm: ConjGrd solver |        9 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Tang: StedyGS solver |       31 |        0.0 |   0.0 |        0.0 |  33.1 |
+|Temperature calc.    |       37 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        3 |        0.0 |   0.0 |        0.0 |   6.7 |
-|Contact location     |        9 |        0.0 |   0.0 |        0.0 |   0.8 |
-|Undeformed distance  |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-| - Interp whl_srfc   |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Initial state/estim. |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        3 |        0.0 |   0.0 |        0.0 |  15.0 |
+|Contact location     |       12 |        0.0 |   0.0 |        0.0 |   1.5 |
+|Undeformed distance  |        9 |        0.0 |   0.0 |        0.0 |   0.0 |
+| - Interp whl_srfc   |        9 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |        9 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -67,52 +67,52 @@
     1936   1276    356    920      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    44  o..........................................o
-    43  ............................................
-    42  .................SSSSSSSSSS.................
-    41  ..............SSSSSSSSSSSSSSSS..............
-    40  ............SSSSSSSSSSSSSSSSSSSS............
-    39  ..........SSSSSSSSSSSSSSSSSSSSSSSS..........
-    38  .........SSSSSSSSSSSSSSSSSSSSSSSSSS.........
-    37  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSS........
-    36  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-    35  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    34  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*S......
-    33  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS****S.....
-    32  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSS*******S....
-    31  ....SSSSSSSSSSSSSSSSSSSSSSSSSSS********S....
-    30  ...SSSSSSSSSSSSSSSSSSSSSSSSS************S...
-    29  ...SSSSSSSSSSSSSSSSSSSSSSSS*************S...
-    28  ...SSSSSSSSSSSSSSSSSSSSSS***************S...
-    27  ..SSSSSSSSSSSSSSSSSSSSS******************S..
-    26  ..SSSSSSSSSSSSSSSSSS*********************S..
-    25  ..SSSSSSSSSSSSSSSS***********************S..
-    24  ..SSSSSSSSSSSSSS*************************S..
-    23  ..SSS****SSSSS***************************S..
-    22  ..SSS****SSSSS***************************S..
-    21  ..SSSSSSSSSSSSSS*************************S..
-    20  ..SSSSSSSSSSSSSSSS***********************S..
-    19  ..SSSSSSSSSSSSSSSSSS*********************S..
-    18  ..SSSSSSSSSSSSSSSSSSSSS******************S..
-    17  ...SSSSSSSSSSSSSSSSSSSSSS***************S...
-    16  ...SSSSSSSSSSSSSSSSSSSSSSSS*************S...
-    15  ...SSSSSSSSSSSSSSSSSSSSSSSSS************S...
-    14  ....SSSSSSSSSSSSSSSSSSSSSSSSSSS********S....
-    13  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSS*******S....
-    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS****S.....
-    11  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS*S......
-    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
-     9  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-     8  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSS........
-     7  .........SSSSSSSSSSSSSSSSSSSSSSSSSS.........
-     6  ..........SSSSSSSSSSSSSSSSSSSSSSSS..........
-     5  ............SSSSSSSSSSSSSSSSSSSS............
-     4  ..............SSSSSSSSSSSSSSSS..............
-     3  .................SSSSSSSSSS.................
-     2  ............................................
-     1  o..........................................o
-                 1         2         3         4
-        12345678901234567890123456789012345678901234
+    44   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    43   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    42   . . . . . . . . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . . . . . . .
+    41   . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    40   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    39   . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    38   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+    37   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    36   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+    35   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    34   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S * S . . . . . .
+    33   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S * * * * S . . . . .
+    32   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * S . . . .
+    31   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S . . . .
+    30   . . . S S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * S . . .
+    29   . . . S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * S . . .
+    28   . . . S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * S . . .
+    27   . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . .
+    26   . . S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * S . .
+    25   . . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . .
+    24   . . S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    23   . . S S S * * * * S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    22   . . S S S * * * * S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    21   . . S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    20   . . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . .
+    19   . . S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * S . .
+    18   . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * S . .
+    17   . . . S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * S . . .
+    16   . . . S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * * S . . .
+    15   . . . S S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * S . . .
+    14   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S . . . .
+    13   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * S . . . .
+    12   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S * * * * S . . . . .
+    11   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S * S . . . . . .
+    10   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     9   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     8   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+     7   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+     6   . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+     5   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+     4   . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3                   4
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  Case     2
@@ -178,52 +178,52 @@
     1936   1264    742    522      0      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    44  o..........................................o
-    43  ............................................
-    42  ..................SSSSSSSS..................
-    41  ..............SSSSSSSSSSSSSSSS..............
-    40  ............SSSSSSSSSSSSSSSSSSSS............
-    39  ...........SSSSSSSSSSSSSSSSSSSSSS...........
-    38  .........SSSSSSSSSSSSSSSSSSSSSSSSSS.........
-    37  ........SSSSSSSSSSSSSSSSSSSSSSSSS**S........
-    36  .......SSSSSSSSSSSSSSSSSSSSSS*******S.......
-    35  ......SSSSSSSSSSSSSSSSSSS************S......
-    34  ......SSSSSSSSSSSSSSSS***************S......
-    33  .....SSSSSSSSSSSSSS*******************S.....
-    32  ....SSSSSSSSSSSS***********************S....
-    31  ....SSSSSSSSSS*************************S....
-    30  ...SSSSSSSSS****************************S...
-    29  ...SSSSSSS******************************S...
-    28  ...SSSSS********************************S...
-    27  ...SSSS**********************************...
-    26  ..SSSS***********************************S..
-    25  ..SSS************************************S..
-    24  ..SSS************************************S..
-    23  ..SS*************************************S..
-    22  ..SS*************************************S..
-    21  ..SSS************************************S..
-    20  ..SSS************************************S..
-    19  ..SSSS***********************************S..
-    18  ...SSSS**********************************...
-    17  ...SSSSS********************************S...
-    16  ...SSSSSSS******************************S...
-    15  ...SSSSSSSSS****************************S...
-    14  ....SSSSSSSSSS*************************S....
-    13  ....SSSSSSSSSSSS***********************S....
-    12  .....SSSSSSSSSSSSSS*******************S.....
-    11  ......SSSSSSSSSSSSSSSS***************S......
-    10  ......SSSSSSSSSSSSSSSSSSS************S......
-     9  .......SSSSSSSSSSSSSSSSSSSSSS*******S.......
-     8  ........SSSSSSSSSSSSSSSSSSSSSSSSS**S........
-     7  .........SSSSSSSSSSSSSSSSSSSSSSSSSS.........
-     6  ...........SSSSSSSSSSSSSSSSSSSSSS...........
-     5  ............SSSSSSSSSSSSSSSSSSSS............
-     4  ..............SSSSSSSSSSSSSSSS..............
-     3  ..................SSSSSSSS..................
-     2  ............................................
-     1  o..........................................o
-                 1         2         3         4
-        12345678901234567890123456789012345678901234
+    44   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    43   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    42   . . . . . . . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . . . . .
+    41   . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    40   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    39   . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    38   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+    37   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S * * S . . . . . . . .
+    36   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S * * * * * * * S . . . . . . .
+    35   . . . . . . S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * S . . . . . .
+    34   . . . . . . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * S . . . . . .
+    33   . . . . . S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * S . . . . .
+    32   . . . . S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . . . .
+    31   . . . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * S . . . .
+    30   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    29   . . . S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    28   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    27   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * . . .
+    26   . . S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    25   . . S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    24   . . S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    23   . . S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    22   . . S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    21   . . S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    20   . . S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    19   . . S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . .
+    18   . . . S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * . . .
+    17   . . . S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    16   . . . S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    15   . . . S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * * * * S . . .
+    14   . . . . S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * * * S . . . .
+    13   . . . . S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * * * * * S . . . .
+    12   . . . . . S S S S S S S S S S S S S S * * * * * * * * * * * * * * * * * * * S . . . . .
+    11   . . . . . . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * * S . . . . . .
+    10   . . . . . . S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * * S . . . . . .
+     9   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S * * * * * * * S . . . . . . .
+     8   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S * * S . . . . . . . .
+     7   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+     6   . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+     5   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+     4   . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3                   4
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  Case     3
@@ -289,52 +289,52 @@
     1936   1264    622    642      0      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    44  o..........................................o
-    43  ............................................
-    42  ..................SSSSS***..................
-    41  ..............SSSSSSSSSSS****S..............
-    40  ............SSSSSSSSSSSSSS******............
-    39  ...........SSSSSSSSSSSSSS********...........
-    38  .........SSSSSSSSSSSSSSSSSS********.........
-    37  ........SSSSSSSSSSSSSSSSSSSS********........
-    36  .......SSSSSSSSSSSSSSSSSSSSS*********.......
-    35  ......SSSSSSSSSSSSSSSSSSSSSSS********S......
-    34  ......SSSSSSSSSSSSSSSSSSSSS***********......
-    33  .....SSSSSSSSSSSSSSSSSSSSSSSS**********.....
-    32  ....SSSSSSSSSSSSSSSSSSSSSSSSSSS********S....
-    31  ....SSSSSSSSSSSS****SSSSSSSSSS**********....
-    30  ...SSSSSSSS***********SSSSSSSSS*********S...
-    29  ...SSSSSS**************SSSSSSSSS*********...
-    28  ...SSSS*****************SSSSSSS**********...
-    27  ...SSS******************SSSSSS***********...
-    26  ..SSS********************SSSSSSSSS********..
-    25  ..SS*********************SSSSSSSSS********..
-    24  ..SS*********************SSSSSSSSS********..
-    23  ..SS*********************SSSSSSSSS********..
-    22  ..SS*********************SSSSSSSSS********..
-    21  ..SS*********************SSSSSSSSS********..
-    20  ..SS*********************SSSSSSSSS********..
-    19  ..SSS********************SSSSSSSSS********..
-    18  ...SSS******************SSSSSS***********...
-    17  ...SSSS*****************SSSSSSS**********...
-    16  ...SSSSSS**************SSSSSSSSS*********...
-    15  ...SSSSSSSS***********SSSSSSSSS*********S...
-    14  ....SSSSSSSSSSSS****SSSSSSSSSS**********....
-    13  ....SSSSSSSSSSSSSSSSSSSSSSSSSSS********S....
-    12  .....SSSSSSSSSSSSSSSSSSSSSSSS**********.....
-    11  ......SSSSSSSSSSSSSSSSSSSSS***********......
-    10  ......SSSSSSSSSSSSSSSSSSSSSSS********S......
-     9  .......SSSSSSSSSSSSSSSSSSSSS*********.......
-     8  ........SSSSSSSSSSSSSSSSSSSS********........
-     7  .........SSSSSSSSSSSSSSSSSS********.........
-     6  ...........SSSSSSSSSSSSSS********...........
-     5  ............SSSSSSSSSSSSSS******............
-     4  ..............SSSSSSSSSSS****S..............
-     3  ..................SSSSS***..................
-     2  ............................................
-     1  o..........................................o
-                 1         2         3         4
-        12345678901234567890123456789012345678901234
+    44   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    43   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    42   . . . . . . . . . . . . . . . . . . S S S S S * * * . . . . . . . . . . . . . . . . . .
+    41   . . . . . . . . . . . . . . S S S S S S S S S S S * * * * S . . . . . . . . . . . . . .
+    40   . . . . . . . . . . . . S S S S S S S S S S S S S S * * * * * * . . . . . . . . . . . .
+    39   . . . . . . . . . . . S S S S S S S S S S S S S S * * * * * * * * . . . . . . . . . . .
+    38   . . . . . . . . . S S S S S S S S S S S S S S S S S S * * * * * * * * . . . . . . . . .
+    37   . . . . . . . . S S S S S S S S S S S S S S S S S S S S * * * * * * * * . . . . . . . .
+    36   . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * . . . . . . .
+    35   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S . . . . . .
+    34   . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . .
+    33   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * . . . . .
+    32   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S . . . .
+    31   . . . . S S S S S S S S S S S S * * * * S S S S S S S S S S * * * * * * * * * * . . . .
+    30   . . . S S S S S S S S * * * * * * * * * * * S S S S S S S S S * * * * * * * * * S . . .
+    29   . . . S S S S S S * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * * . . .
+    28   . . . S S S S * * * * * * * * * * * * * * * * * S S S S S S S * * * * * * * * * * . . .
+    27   . . . S S S * * * * * * * * * * * * * * * * * * S S S S S S * * * * * * * * * * * . . .
+    26   . . S S S * * * * * * * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * . .
+    25   . . S S * * * * * * * * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * . .
+    24   . . S S * * * * * * * * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * . .
+    23   . . S S * * * * * * * * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * . .
+    22   . . S S * * * * * * * * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * . .
+    21   . . S S * * * * * * * * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * . .
+    20   . . S S * * * * * * * * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * . .
+    19   . . S S S * * * * * * * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * . .
+    18   . . . S S S * * * * * * * * * * * * * * * * * * S S S S S S * * * * * * * * * * * . . .
+    17   . . . S S S S * * * * * * * * * * * * * * * * * S S S S S S S * * * * * * * * * * . . .
+    16   . . . S S S S S S * * * * * * * * * * * * * * S S S S S S S S S * * * * * * * * * . . .
+    15   . . . S S S S S S S S * * * * * * * * * * * S S S S S S S S S * * * * * * * * * S . . .
+    14   . . . . S S S S S S S S S S S S * * * * S S S S S S S S S S * * * * * * * * * * . . . .
+    13   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S . . . .
+    12   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * . . . . .
+    11   . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * * . . . . . .
+    10   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S . . . . . .
+     9   . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * . . . . . . .
+     8   . . . . . . . . S S S S S S S S S S S S S S S S S S S S * * * * * * * * . . . . . . . .
+     7   . . . . . . . . . S S S S S S S S S S S S S S S S S S * * * * * * * * . . . . . . . . .
+     6   . . . . . . . . . . . S S S S S S S S S S S S S S * * * * * * * * . . . . . . . . . . .
+     5   . . . . . . . . . . . . S S S S S S S S S S S S S S * * * * * * . . . . . . . . . . . .
+     4   . . . . . . . . . . . . . . S S S S S S S S S S S * * * * S . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . S S S S S * * * . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3                   4
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  Case     4
@@ -1154,20 +1154,20 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.3 | 100.0 |        0.9 | 100.0 |
-|Non-Hertzian cases   |        6 |        0.3 | 100.0 |        0.9 |  98.9 |
-|Panag.process        |        6 |        0.1 |  36.4 |        0.3 |  33.7 |
-|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   0.6 |
-|Algorithm Tang       |        6 |        0.1 |  36.4 |        0.3 |  33.1 |
-|Output quantities    |        6 |        0.0 |   0.0 |        0.1 |  10.9 |
+|Total                |        1 |        0.4 | 100.0 |        1.0 | 100.0 |
+|Non-Hertzian cases   |        6 |        0.4 | 100.0 |        1.0 | 100.0 |
+|Panag.process        |        6 |        0.2 |  46.4 |        0.3 |  32.7 |
+|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Tang       |        6 |        0.2 |  46.4 |        0.3 |  32.7 |
+|Output quantities    |        6 |        0.0 |   0.0 |        0.1 |   9.9 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   0.6 |
-|Tang: StedyGS solver |        1 |        0.1 |  36.4 |        0.3 |  31.4 |
+|Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |        1 |        0.2 |  46.4 |        0.3 |  32.7 |
 |Tang: Fastsim solver |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        6 |        0.0 |   0.0 |        0.1 |   8.5 |
+|Influence coeffic.   |        6 |        0.0 |   3.6 |        0.1 |   9.2 |
 |Initial state/estim. |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        4 |        0.2 |  63.6 |        0.4 |  45.8 |
+|Writing output-files |        4 |        0.2 |  50.0 |        0.5 |  46.9 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

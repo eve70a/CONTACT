@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -39,22 +39,19 @@
          0, NR,  z_ws, Fz:      -0.9528       0.000, dFz/dz:       0.000
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         1, NR,  z_ws, Fz:      -0.9115   2.044E+04, dFz/dz:   7.432E+05
+         1, NR,  z_ws, Fz:      -0.9287       6574., dFz/dz:   4.101E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         2, NR,  z_ws, Fz:      -0.9393       1391., dFz/dz:   1.034E+05
+         2, NR,  z_ws, Fz:      -0.9234   1.033E+04, dFz/dz:   7.063E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         3, NR,  z_ws, Fz:      -0.9254       8849., dFz/dz:   5.365E+05
+         3, NR,  z_ws, Fz:      -0.9239       9980., dFz/dz:   7.486E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         4, NR,  z_ws, Fz:      -0.9233   1.043E+04, dFz/dz:   7.378E+05
+         4, NR,  z_ws, Fz:      -0.9238      10000., dFz/dz:   7.447E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         5, NR,  z_ws, Fz:      -0.9239       9993., dFz/dz:   7.497E+05
- varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
- WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         6, NR,  z_ws, Fz:      -0.9238      10000., dFz/dz:   7.443E+05
+         5, NR,  z_ws, Fz:      -0.9238   1.000E+04, dFz/dz:   7.471E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -104,7 +101,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       298.4       3374.      10000.       298.4       3374.      10000.
+       298.4       3374.   1.000E+04       298.4       3374.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -209,26 +206,26 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.5 | 100.0 |        1.0 | 100.0 |
-|Wheel-rail cases     |        1 |        0.5 | 100.0 |        1.0 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   3.1 |
-|Geometric analysis   |        7 |        0.4 |  82.8 |        0.9 |  83.7 |
-|Panag.process        |       12 |        0.1 |  13.8 |        0.1 |   7.5 |
-|Algorithm Norm       |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |       12 |        0.1 |  13.8 |        0.1 |   7.5 |
-|Output quantities    |       13 |        0.0 |   0.0 |        0.0 |   1.8 |
+|Total                |        1 |        0.7 | 100.0 |        0.9 | 100.0 |
+|Wheel-rail cases     |        1 |        0.7 | 100.0 |        0.9 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   2.4 |        0.2 |  25.1 |
+|Geometric analysis   |        6 |        0.6 |  92.9 |        0.6 |  63.0 |
+|Panag.process        |       10 |        0.0 |   4.8 |        0.1 |   7.6 |
+|Algorithm Norm       |       10 |        0.0 |   0.0 |        0.0 |   3.1 |
+|Algorithm Tang       |       10 |        0.0 |   4.8 |        0.0 |   4.5 |
+|Output quantities    |       11 |        0.0 |   0.0 |        0.0 |   2.1 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       12 |        0.1 |  13.8 |        0.1 |   7.5 |
+|Norm: ConjGrd solver |       10 |        0.0 |   0.0 |        0.0 |   1.6 |
+|Tang: StedyGS solver |       10 |        0.0 |   2.4 |        0.0 |   4.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   3.1 |
-|Contact location     |        7 |        0.3 |  75.9 |        0.8 |  79.5 |
-| - Interp sf_whl     |        7 |        0.1 |  20.7 |        0.2 |  16.7 |
-| - Other calc.       |       14 |        0.0 |   3.4 |        0.1 |   6.7 |
-| - Locate interpen   |        7 |        0.0 |   3.4 |        0.0 |   2.4 |
-|Undeformed distance  |       12 |        0.0 |   6.9 |        0.0 |   4.1 |
-| - Interp whl_srfc   |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |       12 |        0.0 |   3.4 |        0.0 |   0.0 |
-|Initial state/estim. |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        1 |        0.0 |   2.4 |        0.2 |  25.1 |
+|Contact location     |        6 |        0.6 |  88.1 |        0.6 |  59.4 |
+| - Interp sf_whl     |        6 |        0.1 |  21.4 |        0.2 |  17.0 |
+| - Other calc.       |       12 |        0.0 |   4.8 |        0.0 |   4.8 |
+| - Locate interpen   |        6 |        0.0 |   2.4 |        0.0 |   1.1 |
+|Undeformed distance  |       10 |        0.0 |   4.8 |        0.0 |   3.6 |
+| - Interp whl_srfc   |       10 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       10 |        0.0 |   0.0 |        0.0 |   0.5 |
+|Initial state/estim. |       10 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

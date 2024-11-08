@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -11,10 +11,11 @@
  reading rail  profile "MBench_UIC60_v3.prr"
  reading wheel profile "MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1995   1.151E+04, dFz/dz:   9.939E+05
-         2, NR,  z_ws, Fz:       0.1980       9884., dFz/dz:   1.070E+06
-         3, NR,  z_ws, Fz:       0.1981       9998., dFz/dz:   1.054E+06
-         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.060E+06
+         1, NR,  z_ws, Fz:       0.1976       9443., dFz/dz:   9.179E+05
+         2, NR,  z_ws, Fz:       0.1979       9808., dFz/dz:   1.044E+06
+         3, NR,  z_ws, Fz:       0.1982   1.009E+04, dFz/dz:   1.055E+06
+         4, NR,  z_ws, Fz:       0.1981      10000., dFz/dz:   1.059E+06
+         5, NR,  z_ws, Fz:       0.1981      10000., dFz/dz:   1.029E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -64,7 +65,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      0.2771       36.24   1.000E+04      0.2771       36.24   1.000E+04
+      0.2771       36.24      10000.      0.2771       36.24      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -180,11 +181,11 @@
 
  Case     2
          0, NR,  z_ws, Fz:       0.1743       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1997   1.632E+04, dFz/dz:   9.634E+05
-         2, NR,  z_ws, Fz:       0.1931       9297., dFz/dz:   1.071E+06
-         3, NR,  z_ws, Fz:       0.1938       9951., dFz/dz:   9.954E+05
+         1, NR,  z_ws, Fz:       0.1997   1.633E+04, dFz/dz:   9.638E+05
+         2, NR,  z_ws, Fz:       0.1911       7388., dFz/dz:   1.043E+06
+         3, NR,  z_ws, Fz:       0.1936       9795., dFz/dz:   9.614E+05
          4, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   1.001E+06
-         5, NR,  z_ws, Fz:       0.1938      10000., dFz/dz:   1.035E+06
+         5, NR,  z_ws, Fz:       0.1938   1.000E+04, dFz/dz:   9.998E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -220,7 +221,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -880.0      -2015.      10000.      -882.4      -2014.      10000.
+      -880.0      -2015.   1.000E+04      -882.4      -2014.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -327,10 +328,10 @@
 
  Case     3
          0, NR,  z_ws, Fz:       0.1593       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1848   1.059E+04, dFz/dz:   6.241E+05
-         2, NR,  z_ws, Fz:       0.1839       9964., dFz/dz:   6.614E+05
-         3, NR,  z_ws, Fz:       0.1839       9999., dFz/dz:   6.499E+05
-         4, NR,  z_ws, Fz:       0.1839   1.000E+04, dFz/dz:   6.504E+05
+         1, NR,  z_ws, Fz:       0.1848   1.061E+04, dFz/dz:   6.243E+05
+         2, NR,  z_ws, Fz:       0.1840   1.004E+04, dFz/dz:   6.630E+05
+         3, NR,  z_ws, Fz:       0.1839       9999., dFz/dz:   6.503E+05
+         4, NR,  z_ws, Fz:       0.1839   1.000E+04, dFz/dz:   6.506E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -395,42 +396,43 @@
    2550    606      0    606      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    33  o.....................................o
-    32  .................SSSSS.................
-    31  ................SSSSSSS................
-    30  ...............SSSSSSSSS...............
-    29  ..............SSSSSSSSSSS..............
-    28  .............SSSSSSSSSSSSS.............
-    27  ............SSSSSSSSSSSSSSS............
-    26  ...........SSSSSSSSSSSSSSSSS...........
-    25  ..........SSSSSSSSSSSSSSSSSSS..........
-    24  .........SSSSSSSSSSSSSSSSSSSSS.........
-    23  ........SSSSSSSSSSSSSSSSSSSSSSS........
-    22  .......SSSSSSSSSSSSSSSSSSSSSSSSS.......
-    21  ......SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    20  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    19  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    18  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    16  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    15  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    11  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-     9  ........SSSSSSSSSSSSSSSSSSSSSSS........
-     8  ...........SSSSSSSSSSSSSSSSS...........
-     7  o.....................................o
-           1         2         3         4
-        789012345678901234567890123456789012345
+    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    32   . . . . . . . . . . . . . . . . . S S S S S . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . . . . . S S S S S S S S S . . . . . . . . . . . . . . .
+    29   . . . . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . . . .
+    28   . . . . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . . . . .
+    27   . . . . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    26   . . . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    25   . . . . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    24   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+    23   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    22   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+    21   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    20   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    19   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    18   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    17   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    16   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    15   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    14   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    13   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    12   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    11   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    10   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     9   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+     8   . . . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+     7   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+               1                   2                   3                   4
+         7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  Case     4
          0, NR,  z_ws, Fz:       0.1444       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1698   1.023E+04, dFz/dz:   6.053E+05
-         2, NR,  z_ws, Fz:       0.1694       9999., dFz/dz:   6.077E+05
-         3, NR,  z_ws, Fz:       0.1694      10000., dFz/dz:   6.052E+05
+         1, NR,  z_ws, Fz:       0.1698   1.024E+04, dFz/dz:   6.055E+05
+         2, NR,  z_ws, Fz:       0.1694   1.002E+04, dFz/dz:   6.081E+05
+         3, NR,  z_ws, Fz:       0.1694      10000., dFz/dz:   6.058E+05
+         4, NR,  z_ws, Fz:       0.1694   1.000E+04, dFz/dz:   6.039E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -466,7 +468,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -619.8      -2131.      10000.      -627.5      -2129.      10000.
+      -619.8      -2131.   1.000E+04      -627.5      -2129.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -495,35 +497,35 @@
    1836    514      0    514      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    26  o.....................................o
-    25  ...............SSSSSSSSS...............
-    24  ............SSSSSSSSSSSSSSS............
-    23  ..........SSSSSSSSSSSSSSSSSSS..........
-    22  .......SSSSSSSSSSSSSSSSSSSSSSSSS.......
-    21  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    20  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    19  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    18  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    16  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    15  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    11  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-     9  ........SSSSSSSSSSSSSSSSSSSSSSS........
-     8  ...........SSSSSSSSSSSSSSSSS...........
-     7  o.....................................o
-           1         2         3         4
-        789012345678901234567890123456789012345
+    26   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    25   . . . . . . . . . . . . . . . S S S S S S S S S . . . . . . . . . . . . . . .
+    24   . . . . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    23   . . . . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    22   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+    21   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    20   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    19   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    18   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    17   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    16   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    15   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    14   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    13   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    12   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    11   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    10   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     9   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+     8   . . . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+     7   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+               1                   2                   3                   4
+         7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  Case     5
          0, NR,  z_ws, Fz:       0.1280       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1532   1.021E+04, dFz/dz:   6.072E+05
-         2, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.053E+05
-         3, NR,  z_ws, Fz:       0.1529   1.000E+04, dFz/dz:   6.050E+05
+         1, NR,  z_ws, Fz:       0.1532   1.022E+04, dFz/dz:   6.075E+05
+         2, NR,  z_ws, Fz:       0.1529   1.001E+04, dFz/dz:   6.054E+05
+         3, NR,  z_ws, Fz:       0.1529      10000., dFz/dz:   6.037E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -559,7 +561,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -517.3      -2095.   1.000E+04      -527.3      -2094.      10000.
+      -517.2      -2095.      10000.      -527.3      -2094.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -577,7 +579,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9799.      -517.3      -2893.      -37.57      0.1074      -28.39
+         9799.      -517.2      -2893.      -37.57      0.1074      -28.39
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1195     -0.1760     -0.9843   2.480E-02       744.8
 
@@ -588,34 +590,34 @@
    1683    505      0    505      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    25  o.....................................o
-    24  .............SSSSSSSSSSSSS.............
-    23  .........SSSSSSSSSSSSSSSSSSSSS.........
-    22  ......SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    21  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    20  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    19  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    16  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    15  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    14  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    13  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    11  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-     9  .........SSSSSSSSSSSSSSSSSSSSSS........
-     8  ............SSSSSSSSSSSSSSS............
-     7  o.....................................o
-           1         2         3         4
-        789012345678901234567890123456789012345
+    25   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    24   . . . . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . . . . .
+    23   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+    22   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    21   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    20   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    19   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    18   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    17   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    16   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    15   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    14   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    13   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    12   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    11   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    10   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     9   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+     8   . . . . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . . . .
+     7   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+               1                   2                   3                   4
+         7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  Case     6
          0, NR,  z_ws, Fz:       0.1097       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1348   1.022E+04, dFz/dz:   6.117E+05
-         2, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.084E+05
-         3, NR,  z_ws, Fz:       0.1344   1.000E+04, dFz/dz:   6.055E+05
+         1, NR,  z_ws, Fz:       0.1348   1.024E+04, dFz/dz:   6.119E+05
+         2, NR,  z_ws, Fz:       0.1345   1.001E+04, dFz/dz:   6.086E+05
+         3, NR,  z_ws, Fz:       0.1344      10000., dFz/dz:   6.053E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -651,7 +653,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -456.2      -2047.   1.000E+04      -468.5      -2046.      10000.
+      -456.2      -2047.      10000.      -468.5      -2046.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -671,7 +673,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          9787.      -456.2      -2900.      -25.37      0.1064      -35.43
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1194     -0.1554     -0.9878   2.461E-02       730.4
+        0.1193     -0.1554     -0.9878   2.461E-02       730.4
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -680,33 +682,34 @@
    1632    510      0    510      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    25  o.....................................o
-    24  ............SSSSSSSSSSSSSSS............
-    23  ........SSSSSSSSSSSSSSSSSSSSSSS........
-    22  ......SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    21  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    20  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    19  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    16  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    15  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    14  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    13  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    11  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-     9  ........SSSSSSSSSSSSSSSSSSSSSSS........
-     8  ............SSSSSSSSSSSSSSSS...........
-     7  o.....................................o
-           1         2         3         4
-        789012345678901234567890123456789012345
+    25   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    24   . . . . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    23   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    22   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    21   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    20   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    19   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    18   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    17   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    16   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    15   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    14   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    13   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    12   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    11   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    10   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     9   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+     8   . . . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . .
+     7   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+               1                   2                   3                   4
+         7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  Case     7
          0, NR,  z_ws, Fz:       0.0898       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1147   1.024E+04, dFz/dz:   6.172E+05
-         2, NR,  z_ws, Fz:       0.1143      10000., dFz/dz:   6.173E+05
+         1, NR,  z_ws, Fz:       0.1147   1.025E+04, dFz/dz:   6.176E+05
+         2, NR,  z_ws, Fz:       0.1143       9999., dFz/dz:   6.174E+05
+         3, NR,  z_ws, Fz:       0.1143      10000., dFz/dz:   6.158E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -771,36 +774,36 @@
    1632    530      0    530      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    27  o.....................................o
-    26  .................SSSS..................
-    25  ..........SSSSSSSSSSSSSSSSSS...........
-    24  .......SSSSSSSSSSSSSSSSSSSSSSSS........
-    23  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    22  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    21  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    20  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    19  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    16  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    14  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    13  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    11  ......SSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    10  ........SSSSSSSSSSSSSSSSSSSSSSSS.......
-     9  ...........SSSSSSSSSSSSSSSSSS..........
-     8  ................SSSSSSSS...............
-     7  o.....................................o
-           1         2         3         4
-        789012345678901234567890123456789012345
+    27   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    26   . . . . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . .
+    25   . . . . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    24   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    23   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    22   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    21   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    20   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    19   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    18   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    17   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    16   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    15   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    14   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    13   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    12   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    11   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    10   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     9   . . . . . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . .
+     7   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+               1                   2                   3                   4
+         7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  Case     8
          0, NR,  z_ws, Fz:       0.0678       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0925   1.029E+04, dFz/dz:   6.252E+05
-         2, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.233E+05
-         3, NR,  z_ws, Fz:       0.0921   1.000E+04, dFz/dz:   6.193E+05
+         1, NR,  z_ws, Fz:       0.0926   1.031E+04, dFz/dz:   6.256E+05
+         2, NR,  z_ws, Fz:       0.0921       9995., dFz/dz:   6.235E+05
+         3, NR,  z_ws, Fz:       0.0921      10000., dFz/dz:   6.209E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -836,7 +839,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -393.1      -1918.   1.000E+04      -409.2      -1917.      10000.
+      -393.1      -1918.      10000.      -409.2      -1917.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -865,36 +868,36 @@
    1683    542      0    542      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    27  o.....................................o
-    26  ..............SSSSSSSSSS...............
-    25  .........SSSSSSSSSSSSSSSSSSSS..........
-    24  .......SSSSSSSSSSSSSSSSSSSSSSSS........
-    23  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    22  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    21  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    20  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    19  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    16  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    14  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    13  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    11  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    10  ........SSSSSSSSSSSSSSSSSSSSSSSS.......
-     9  ..........SSSSSSSSSSSSSSSSSSSS.........
-     8  ..............SSSSSSSSSSSS.............
-     7  o.....................................o
-           1         2         3         4
-        789012345678901234567890123456789012345
+    27   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    26   . . . . . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . . . . .
+    25   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    24   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    23   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    22   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    21   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    20   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    19   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    18   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    17   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    16   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    15   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    14   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    13   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    12   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    11   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    10   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     9   . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+     8   . . . . . . . . . . . . . . S S S S S S S S S S S S . . . . . . . . . . . . .
+     7   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+               1                   2                   3                   4
+         7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  Case     9
          0, NR,  z_ws, Fz:       0.0437       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0680   1.027E+04, dFz/dz:   6.346E+05
-         2, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.311E+05
-         3, NR,  z_ws, Fz:       0.0676   1.000E+04, dFz/dz:   6.270E+05
+         1, NR,  z_ws, Fz:       0.0680   1.029E+04, dFz/dz:   6.351E+05
+         2, NR,  z_ws, Fz:       0.0676       9994., dFz/dz:   6.314E+05
+         3, NR,  z_ws, Fz:       0.0676      10000., dFz/dz:   6.278E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -930,7 +933,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -379.6      -1833.   1.000E+04      -397.2      -1832.      10000.
+      -379.6      -1833.      10000.      -397.2      -1832.       9999.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -948,7 +951,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9745.      -379.6      -2898.      -24.06      0.1021      -56.61
+         9745.      -379.6      -2898.      -24.05      0.1021      -56.61
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1188     -0.1298     -0.9914   2.370E-02       664.4
 
@@ -959,37 +962,37 @@
    1734    561      0    561      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    28  o...................................o
-    27  ..........SSSSSSSSSSSSSSS............
-    26  .......SSSSSSSSSSSSSSSSSSSSSS........
-    25  .....SSSSSSSSSSSSSSSSSSSSSSSSSS......
-    24  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    23  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    22  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    21  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    20  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    19  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    18  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    17  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    16  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    14  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    13  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    12  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    11  ......SSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    10  ........SSSSSSSSSSSSSSSSSSSSSS.......
-     9  ...........SSSSSSSSSSSSSSSS..........
-     8  ...............SSSSSSSS..............
-     7  o...................................o
-          1         2         3         4
-        8901234567890123456789012345678901234
+    28   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    27   . . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    26   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    25   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    24   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    23   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    22   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    21   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    20   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    19   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    18   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    17   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    16   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    15   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    14   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    13   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    12   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    11   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    10   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     9   . . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . .
+     7   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+             1                   2                   3                   4
+         8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  Case    10
          0, NR,  z_ws, Fz:       0.0171       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0409   1.036E+04, dFz/dz:   6.523E+05
-         2, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.487E+05
-         3, NR,  z_ws, Fz:       0.0404   1.000E+04, dFz/dz:   6.455E+05
+         1, NR,  z_ws, Fz:       0.0410   1.039E+04, dFz/dz:   6.529E+05
+         2, NR,  z_ws, Fz:       0.0403       9993., dFz/dz:   6.489E+05
+         3, NR,  z_ws, Fz:       0.0404      10000., dFz/dz:   6.479E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1025,7 +1028,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -376.8      -1723.   1.000E+04      -395.4      -1722.       9999.
+      -376.8      -1723.      10000.      -395.4      -1722.       9999.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1054,41 +1057,41 @@
    1887    602      0    602      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    31  o...................................o
-    30  ............SSSSSSSSSSSS.............
-    29  ........SSSSSSSSSSSSSSSSSSSS.........
-    28  ......SSSSSSSSSSSSSSSSSSSSSSSS.......
-    27  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    26  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    25  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    24  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    23  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    22  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    21  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    20  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    19  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    18  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    17  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    16  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    15  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-    14  .....SSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    13  ......SSSSSSSSSSSSSSSSSSSSSSSSSS.....
-    12  .......SSSSSSSSSSSSSSSSSSSSSSSS......
-    11  .........SSSSSSSSSSSSSSSSSSSS........
-    10  ............SSSSSSSSSSSSSSS..........
-     9  ................SSSSSSS..............
-     8  o...................................o
-          1         2         3         4
-        8901234567890123456789012345678901234
+    31   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    30   . . . . . . . . . . . . S S S S S S S S S S S S . . . . . . . . . . . . .
+    29   . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . .
+    28   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+    27   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    26   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    25   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    24   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    23   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    22   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    21   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    20   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    19   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    18   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    17   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    16   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    15   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    14   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    13   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    12   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    11   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    10   . . . . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . .
+     8   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+             1                   2                   3                   4
+         8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  Case    11
          0, NR,  z_ws, Fz:      -0.0271       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.0023       7420., dFz/dz:   4.501E+05
-         2, NR,  z_ws, Fz:       0.0034   1.139E+04, dFz/dz:   6.932E+05
-         3, NR,  z_ws, Fz:       0.0014       9914., dFz/dz:   7.359E+05
-         4, NR,  z_ws, Fz:       0.0015       9997., dFz/dz:   7.068E+05
-         5, NR,  z_ws, Fz:       0.0015      10000., dFz/dz:   7.000E+05
+         1, NR,  z_ws, Fz:      -0.0009       8300., dFz/dz:   4.765E+05
+         2, NR,  z_ws, Fz:      -0.0008       8375., dFz/dz:   6.487E+05
+         3, NR,  z_ws, Fz:       0.0020   1.036E+04, dFz/dz:   6.969E+05
+         4, NR,  z_ws, Fz:       0.0015   1.000E+04, dFz/dz:   6.899E+05
+         5, NR,  z_ws, Fz:       0.0015      10000., dFz/dz:   6.965E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1153,79 +1156,79 @@
    3960    389      0    389      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    67  o............................................o
-    66  .............SSSSSSS..........................
-    65  ...........SSSSSSSSSSSS.......................
-    64  ..........SSSSSSSSSSSSSS......................
-    63  .........SSSSSSSSSSSSSSSS.....................
-    62  .........SSSSSSSSSSSSSSSSS....................
-    61  .........SSSSSSSSSSSSSSSSS....................
-    60  .........SSSSSSSSSSSSSSSSS....................
-    59  .........SSSSSSSSSSSSSSSSS....................
-    58  .........SSSSSSSSSSSSSSSS.....................
-    57  ..........SSSSSSSSSSSSSSS.....................
-    56  ...........SSSSSSSSSSSSS......................
-    55  .............SSSSSSSSSS.......................
-    54  ...............SSSSSS.........................
-    53  ..............................................
-    52  ..............................................
-    51  ..............................................
-    50  ..............................................
-    49  ..............................................
-    48  ..............................................
-    47  ..............................................
-    46  ..............................................
-    45  ..............................................
-    44  ..............................................
-    43  ..............................................
-    42  ..............................................
-    41  ..............................................
-    40  ..............................................
-    39  ..............................................
-    38  ..............................................
-    37  ..............................................
-    36  ..............................................
-    35  ..............................................
-    34  ..............................................
-    33  ..............................................
-    32  ..............................................
-    31  ..............................................
-    30  ..............................................
-    29  ..............................................
-    28  ..............................................
-    27  ..............................................
-    26  ..............................................
-    25  ..............................................
-    24  ..............................................
-    23  ..............................................
-    22  ..............................................
-    21  ..............................................
-    20  ..............................................
-    19  ..............................................
-    18  ..............................................
-    17  ..............................................
-    16  ..............................................
-    15  ..............................................
-    14  ..............................................
-    13  ..............................................
-    12  ..............................................
-    11  ...........SSSSSSSSSSSSSSSSSSSSS..............
-    10  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.....
-     9  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-     8  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     7  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-     6  ..........SSSSSSSSSSSSSSSSSSSSSSSSSSSS........
-     5  o............................................o
-            1         2         3         4         5
-        6789012345678901234567890123456789012345678901
+    67   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    66   . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . .
+    65   . . . . . . . . . . . S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . .
+    64   . . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . .
+    63   . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . .
+    62   . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . .
+    61   . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . .
+    60   . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . .
+    59   . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . .
+    58   . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . .
+    57   . . . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . .
+    56   . . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . .
+    55   . . . . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . .
+    54   . . . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . .
+    53   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    52   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    51   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    50   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    49   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    48   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    47   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    46   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    45   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    44   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    43   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    42   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    41   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    40   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    39   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    38   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    37   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    36   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    35   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    34   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    33   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    29   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    28   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    27   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    26   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    25   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    24   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    23   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    22   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    21   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    20   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    19   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    18   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    17   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    16   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    15   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    14   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    13   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    12   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    11   . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    10   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     9   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+     8   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     7   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+     6   . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+     5   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4                   5
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      X  -->        Chi=  0.00 degrees
 
  Case    12
          0, NR,  z_ws, Fz:      -0.1176       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.0910       7944., dFz/dz:   4.487E+05
-         2, NR,  z_ws, Fz:      -0.0864   1.009E+04, dFz/dz:   4.684E+05
-         3, NR,  z_ws, Fz:      -0.0866       9997., dFz/dz:   4.845E+05
-         4, NR,  z_ws, Fz:      -0.0866      10000., dFz/dz:   4.837E+05
+         1, NR,  z_ws, Fz:      -0.0906       8131., dFz/dz:   4.522E+05
+         2, NR,  z_ws, Fz:      -0.0861   1.023E+04, dFz/dz:   4.708E+05
+         3, NR,  z_ws, Fz:      -0.0866       9993., dFz/dz:   4.846E+05
+         4, NR,  z_ws, Fz:      -0.0866      10000., dFz/dz:   4.832E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1305,10 +1308,11 @@
 
  Case    13
          0, NR,  z_ws, Fz:      -0.2259       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2022       7095., dFz/dz:   4.498E+05
-         2, NR,  z_ws, Fz:      -0.1958   1.017E+04, dFz/dz:   4.761E+05
-         3, NR,  z_ws, Fz:      -0.1961       9991., dFz/dz:   5.012E+05
-         4, NR,  z_ws, Fz:      -0.1961      10000., dFz/dz:   4.999E+05
+         1, NR,  z_ws, Fz:      -0.2013       7528., dFz/dz:   4.588E+05
+         2, NR,  z_ws, Fz:      -0.1943   1.093E+04, dFz/dz:   4.862E+05
+         3, NR,  z_ws, Fz:      -0.1962       9960., dFz/dz:   5.070E+05
+         4, NR,  z_ws, Fz:      -0.1961       9999., dFz/dz:   5.000E+05
+         5, NR,  z_ws, Fz:      -0.1961   1.000E+04, dFz/dz:   5.000E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1344,7 +1348,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -880.0       1401.      10000.      -859.8       1408.   1.000E+04
+      -880.0       1401.   1.000E+04      -859.8       1408.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1373,29 +1377,29 @@
    1197    332      0    332      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    17  o............................................o
-    16  .......SSSSSSSSSSSSSSSSSSSSSSSSSS.............
-    15  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS........
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    13  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    12  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    11  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    10  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     9  ..........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
-     8  ...............SSSSSSSSSSSSSSSSSSSSSSSSS......
-     7  ..........................SSSSSS..............
-     6  o............................................o
-            1         2         3         4         5
-        6789012345678901234567890123456789012345678901
+    17   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    16   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    15   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    14   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    13   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    12   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    11   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    10   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     9   . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+     8   . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     7   . . . . . . . . . . . . . . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . .
+     6   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4                   5
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      X  -->        Chi=  0.00 degrees
 
  Case    14
          0, NR,  z_ws, Fz:      -3.1382       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.0841       4586., dFz/dz:   1.273E+05
-         2, NR,  z_ws, Fz:      -3.0571       8358., dFz/dz:   1.396E+05
-         3, NR,  z_ws, Fz:      -3.0442   1.042E+04, dFz/dz:   1.603E+05
-         4, NR,  z_ws, Fz:      -3.0469       9987., dFz/dz:   1.650E+05
-         5, NR,  z_ws, Fz:      -3.0468      10000., dFz/dz:   1.642E+05
+         1, NR,  z_ws, Fz:      -3.0550       8689., dFz/dz:   1.567E+05
+         2, NR,  z_ws, Fz:      -3.0483       9755., dFz/dz:   1.595E+05
+         3, NR,  z_ws, Fz:      -3.0468       9994., dFz/dz:   1.626E+05
+         4, NR,  z_ws, Fz:      -3.0423   1.075E+04, dFz/dz:   1.656E+05
+         5, NR,  z_ws, Fz:      -3.0468      10000., dFz/dz:   1.643E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1478,10 +1482,11 @@
 
  Case    15
          0, NR,  z_ws, Fz:      -4.6549       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -4.5981       6739., dFz/dz:   1.781E+05
-         2, NR,  z_ws, Fz:      -4.5798   1.022E+04, dFz/dz:   1.901E+05
-         3, NR,  z_ws, Fz:      -4.5809       9985., dFz/dz:   2.033E+05
-         4, NR,  z_ws, Fz:      -4.5809      10000., dFz/dz:   2.026E+05
+         1, NR,  z_ws, Fz:      -4.5845       9262., dFz/dz:   1.976E+05
+         2, NR,  z_ws, Fz:      -4.5816       9859., dFz/dz:   1.998E+05
+         3, NR,  z_ws, Fz:      -4.5809       9998., dFz/dz:   2.022E+05
+         4, NR,  z_ws, Fz:      -4.5772   1.076E+04, dFz/dz:   2.052E+05
+         5, NR,  z_ws, Fz:      -4.5809      10000., dFz/dz:   2.046E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1537,7 +1542,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.403E+04      -2079.      -3644.      -654.2      0.2216      -338.8
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1711     -0.4940     -0.8659   3.563E-02       2621.
+        0.1711     -0.4940     -0.8659   3.563E-02       2622.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1563,10 +1568,11 @@
 
  Case    16
          0, NR,  z_ws, Fz:      -5.5956       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -5.5417       7445., dFz/dz:   2.069E+05
-         2, NR,  z_ws, Fz:      -5.5293   1.012E+04, dFz/dz:   2.166E+05
-         3, NR,  z_ws, Fz:      -5.5299       9994., dFz/dz:   2.279E+05
-         4, NR,  z_ws, Fz:      -5.5298      10000., dFz/dz:   2.269E+05
+         1, NR,  z_ws, Fz:      -5.5323       9455., dFz/dz:   2.237E+05
+         2, NR,  z_ws, Fz:      -5.5300       9959., dFz/dz:   2.261E+05
+         3, NR,  z_ws, Fz:      -5.5298      10000., dFz/dz:   2.270E+05
+         4, NR,  z_ws, Fz:      -5.5266   1.076E+04, dFz/dz:   2.311E+05
+         5, NR,  z_ws, Fz:      -5.5298   1.000E+04, dFz/dz:   2.297E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1602,7 +1608,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -2086.       9344.      10000.      -1919.       9303.   1.007E+04
+      -2086.       9344.   1.000E+04      -1919.       9303.   1.007E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1648,10 +1654,9 @@
 
  Case    17
          0, NR,  z_ws, Fz:      -6.3220       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -6.2709       7793., dFz/dz:   2.284E+05
-         2, NR,  z_ws, Fz:      -6.2612   1.009E+04, dFz/dz:   2.372E+05
-         3, NR,  z_ws, Fz:      -6.2616       9996., dFz/dz:   2.485E+05
-         4, NR,  z_ws, Fz:      -6.2615      10000., dFz/dz:   2.470E+05
+         1, NR,  z_ws, Fz:      -6.2631       9606., dFz/dz:   2.446E+05
+         2, NR,  z_ws, Fz:      -6.2615   1.002E+04, dFz/dz:   2.468E+05
+         3, NR,  z_ws, Fz:      -6.2615      10000., dFz/dz:   2.482E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1733,10 +1738,10 @@
 
  Case    18
          0, NR,  z_ws, Fz:      -6.9252       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -6.8762       8079., dFz/dz:   2.474E+05
-         2, NR,  z_ws, Fz:      -6.8685   1.006E+04, dFz/dz:   2.546E+05
-         3, NR,  z_ws, Fz:      -6.8687       9998., dFz/dz:   2.648E+05
-         4, NR,  z_ws, Fz:      -6.8687      10000., dFz/dz:   2.639E+05
+         1, NR,  z_ws, Fz:      -6.8696       9746., dFz/dz:   2.630E+05
+         2, NR,  z_ws, Fz:      -6.8684   1.008E+04, dFz/dz:   2.646E+05
+         3, NR,  z_ws, Fz:      -6.8687      10000., dFz/dz:   2.650E+05
+         4, NR,  z_ws, Fz:      -6.8687   1.000E+04, dFz/dz:   2.632E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1772,7 +1777,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -2044.       7801.      10000.      -1887.       7747.   1.007E+04
+      -2044.       7801.   1.000E+04      -1887.       7747.   1.007E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1818,10 +1823,10 @@
 
  Case    19
          0, NR,  z_ws, Fz:      -7.4455       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -7.3980       8346., dFz/dz:   2.635E+05
-         2, NR,  z_ws, Fz:      -7.3917   1.004E+04, dFz/dz:   2.704E+05
-         3, NR,  z_ws, Fz:      -7.3919       9999., dFz/dz:   2.796E+05
-         4, NR,  z_ws, Fz:      -7.3919      10000., dFz/dz:   2.786E+05
+         1, NR,  z_ws, Fz:      -7.3923       9883., dFz/dz:   2.786E+05
+         2, NR,  z_ws, Fz:      -7.3914   1.013E+04, dFz/dz:   2.794E+05
+         3, NR,  z_ws, Fz:      -7.3919      10000., dFz/dz:   2.788E+05
+         4, NR,  z_ws, Fz:      -7.3919   1.000E+04, dFz/dz:   2.785E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1857,7 +1862,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -2014.       7213.      10000.      -1860.       7153.   1.007E+04
+      -2014.       7213.   1.000E+04      -1860.       7153.   1.007E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1903,10 +1908,9 @@
 
  Case    20
          0, NR,  z_ws, Fz:      -7.9046       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -7.8583       8588., dFz/dz:   2.787E+05
-         2, NR,  z_ws, Fz:      -7.8533   1.003E+04, dFz/dz:   2.842E+05
-         3, NR,  z_ws, Fz:      -7.8534       9999., dFz/dz:   2.913E+05
-         4, NR,  z_ws, Fz:      -7.8534   1.000E+04, dFz/dz:   2.907E+05
+         1, NR,  z_ws, Fz:      -7.8534       9996., dFz/dz:   2.930E+05
+         2, NR,  z_ws, Fz:      -7.8527   1.020E+04, dFz/dz:   2.939E+05
+         3, NR,  z_ws, Fz:      -7.8534      10000., dFz/dz:   2.912E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1942,7 +1946,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -1981.       6697.   1.000E+04      -1830.       6633.   1.007E+04
+      -1981.       6697.      10000.      -1830.       6633.   1.007E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1988,10 +1992,9 @@
 
  Case    21
          0, NR,  z_ws, Fz:      -8.3159       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -8.2710       8745., dFz/dz:   2.918E+05
-         2, NR,  z_ws, Fz:      -8.2667   1.002E+04, dFz/dz:   2.974E+05
-         3, NR,  z_ws, Fz:      -8.2668       9999., dFz/dz:   3.055E+05
-         4, NR,  z_ws, Fz:      -8.2668   1.000E+04, dFz/dz:   3.050E+05
+         1, NR,  z_ws, Fz:      -8.2666   1.005E+04, dFz/dz:   3.056E+05
+         2, NR,  z_ws, Fz:      -8.2668       9999., dFz/dz:   3.056E+05
+         3, NR,  z_ws, Fz:      -8.2668   1.000E+04, dFz/dz:   3.054E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -2078,23 +2081,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.7 | 100.0 |        1.7 | 100.0 |
-|Wheel-rail cases     |       21 |        0.7 | 100.0 |        1.7 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Geometric analysis   |      100 |        0.0 |   2.3 |        0.2 |   8.8 |
-|Panag.process        |       79 |        0.6 |  95.3 |        1.4 |  80.7 |
-|Algorithm Norm       |       79 |        0.0 |   2.3 |        0.1 |   7.1 |
-|Algorithm Tang       |       79 |        0.6 |  93.0 |        1.3 |  73.6 |
-|Output quantities    |      100 |        0.0 |   2.3 |        0.1 |   5.2 |
+|Total                |        1 |        1.0 | 100.0 |        1.9 | 100.0 |
+|Wheel-rail cases     |       21 |        1.0 | 100.0 |        1.9 |  99.9 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Geometric analysis   |      103 |        0.0 |   1.6 |        0.1 |   6.0 |
+|Panag.process        |       82 |        0.9 |  96.7 |        1.6 |  85.3 |
+|Algorithm Norm       |       82 |        0.0 |   0.0 |        0.2 |  12.6 |
+|Algorithm Tang       |       82 |        0.9 |  96.7 |        1.4 |  72.5 |
+|Output quantities    |      103 |        0.0 |   0.0 |        0.1 |   3.8 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       79 |        0.0 |   2.3 |        0.1 |   6.3 |
-|Tang: StedyGS solver |       79 |        0.6 |  90.7 |        1.2 |  71.7 |
+|Norm: ConjGrd solver |       82 |        0.0 |   0.0 |        0.2 |   9.4 |
+|Tang: StedyGS solver |       82 |        0.9 |  96.7 |        1.3 |  72.1 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       21 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Contact location     |      100 |        0.0 |   2.3 |        0.1 |   4.8 |
-|Undeformed distance  |       79 |        0.0 |   0.0 |        0.1 |   3.1 |
-| - Interp whl_srfc   |       79 |        0.0 |   0.0 |        0.0 |   2.0 |
-|Influence coeffic.   |       27 |        0.0 |   0.0 |        0.0 |   1.7 |
-|Initial state/estim. |       79 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       21 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Contact location     |      103 |        0.0 |   1.6 |        0.1 |   4.5 |
+|Undeformed distance  |       82 |        0.0 |   0.0 |        0.0 |   1.1 |
+| - Interp whl_srfc   |       82 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Influence coeffic.   |       32 |        0.0 |   0.0 |        0.0 |   1.5 |
+|Initial state/estim. |       82 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

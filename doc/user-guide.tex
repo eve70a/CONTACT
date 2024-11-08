@@ -7390,8 +7390,8 @@ if Z=2,3, F=3: [  KYRAIL   FYRAIL   KZRAIL    FZRAIL                    ]
 if E=3,5:      [  FBDIST   FBPOS     NOMRADW   ] 
 if E=3,5:      [ 'WFNAME'  MIRRORY   SCALEYZ   SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
 if PRFOPT>=1:  [  ISMOOTH  ZIGTHRS   KINKHIGH  KINKLOW  KINKWID ]
-\magenta{if PRFOPT>=2:  [  ERRHND   MAXOMIT  ]}
-
+\magenta{if PRFOPT>=2:  [  ERRHND   MAXOMIT  ]
+}
 % Information on the wheelset state (section \ref{sec:wheelset_geom}):
 
 if CONFIG=0,1, E>=1: [ S\_WS    Y\_WS    Z\_INP  ROLL    YAW    PITCH    ]
@@ -7521,9 +7521,8 @@ if Z>1 & IPOTCN>0: IBASE   IPLAN
 \magenta{      if IPLAN= 4:  [ NPATCH
                      (XL(I), XH(I), YL(I), YH(I)), I=1,NPATCH
                      (FAC(I,J), J=I+1,NPATCH), I=1,NPATCH-1  ]
-}
-\magenta{% Variable friction per grid row IY (section \ref{sec:varfrc}):
-
+}\magenta{
+% Variable friction per grid row IY (section \ref{sec:varfrc}):
 if VARFRC=3:
       if L=0: [ FSTAT  FKIN                                ], MY times
       if L=2: [ FKIN   FLIN1  SABSH1  FLIN2  SABSH2        ], MY times
@@ -7532,7 +7531,6 @@ if VARFRC=3:
       if L=6: [ FREF   TREF   DFHEAT  DTHEAT               ], MY times
       if L=2,3,4,6: [ MEMDST MEM\_S0                        ]
 }
-
 % Kinematics, extra terms to tangential right hand side (section \ref{sec:kincns}):
 
 if E=9: [ EXRHS(I,2), EXRHS(I,3), I=1,NPOT    ]

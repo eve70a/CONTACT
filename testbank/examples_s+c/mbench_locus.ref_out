@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -14,10 +14,10 @@
  make_2dspline: constructing interpolating spline surface
  reading wheel profile "..\profiles\MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:      -0.2578       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2295       8154., dFz/dz:   4.322E+05
-         2, NR,  z_ws, Fz:      -0.2252   1.009E+04, dFz/dz:   4.532E+05
-         3, NR,  z_ws, Fz:      -0.2254       9996., dFz/dz:   4.736E+05
-         4, NR,  z_ws, Fz:      -0.2254      10000., dFz/dz:   4.725E+05
+         1, NR,  z_ws, Fz:      -0.2275       9047., dFz/dz:   4.476E+05
+         2, NR,  z_ws, Fz:      -0.2256       9939., dFz/dz:   4.614E+05
+         3, NR,  z_ws, Fz:      -0.2254   1.000E+04, dFz/dz:   4.721E+05
+         4, NR,  z_ws, Fz:      -0.2254   1.000E+04, dFz/dz:   4.723E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -67,33 +67,33 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       2749.       1274.      10000.       2749.       1274.      10000.
+       2750.       1274.   1.000E+04       2750.       1274.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2127    788.6059     -1.4240     -0.0991     38.6059     -1.4240
+     -3.2123    788.6072     -1.4240     -0.0990     38.6072     -1.4240
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2127     37.7959     -1.1985
+     -3.2123     37.7972     -1.1986
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.472E-03  -6.918E-04   2.153E-04
+     0.000      0.2000           1998.  -2.472E-03  -6.913E-04   2.152E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.008E+04       2749.       278.9      -734.0      0.1425      -13.64
+     1.008E+04       2750.       278.7      -729.9      0.1425      -13.65
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1229      0.9093   9.225E-02   3.214E-02       2132.
+        0.1229      0.9096   9.221E-02   3.214E-02       2132.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   1122    214     44    170      1      1
+   1188    213     44    169      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     12  o...............................................o
@@ -101,7 +101,7 @@
     10  .................SSSSSSSSSSSSSSSSSSSSSSSS******S.
      9  .............SSSSSSSSSSSSSSSSSSSSSSS**********S..
      8  .........SSSSSSSSSSSSSSSSSSSSSS************......
-     7  .....SSSSSSSSSSSSSSSSSSSSSS**********S...........
+     7  ......SSSSSSSSSSSSSSSSSSSSS**********S...........
      6  ...SSSSSSSSSSSSSSSSSSSSS******S..................
      5  .SSSSSSSSSSSSSSSSSSSSS...........................
      4  ..SSSSSSSSS......................................
@@ -112,10 +112,10 @@
 
  Case     2
          0, NR,  z_ws, Fz:      -0.2585       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2322       7285., dFz/dz:   4.160E+05
-         2, NR,  z_ws, Fz:      -0.2257   1.020E+04, dFz/dz:   4.462E+05
-         3, NR,  z_ws, Fz:      -0.2261       9988., dFz/dz:   4.737E+05
-         4, NR,  z_ws, Fz:      -0.2261      10000., dFz/dz:   4.718E+05
+         1, NR,  z_ws, Fz:      -0.2282       9046., dFz/dz:   4.476E+05
+         2, NR,  z_ws, Fz:      -0.2262       9940., dFz/dz:   4.614E+05
+         3, NR,  z_ws, Fz:      -0.2261   1.000E+04, dFz/dz:   4.721E+05
+         4, NR,  z_ws, Fz:      -0.2261   1.000E+04, dFz/dz:   4.718E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -151,27 +151,27 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       2749.       1274.      10000.       2749.       1274.      10000.
+       2749.       1274.   1.000E+04       2749.       1274.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2123    788.6072     -1.4240     -0.0990     38.6072     -1.4240
+     -3.2124    788.6072     -1.4240     -0.0990     38.6072     -1.4240
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2123     37.7872     -1.1979
+     -3.2124     37.7872     -1.1979
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.471E-03  -6.913E-04   2.152E-04
+     0.000      0.2000           1998.  -2.471E-03  -6.914E-04   2.152E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.008E+04       2749.       278.8      -730.1      0.1425      -13.64
+     1.008E+04       2749.       278.8      -730.2      0.1425      -13.64
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1229      0.9094   9.223E-02   3.214E-02       2132.
+        0.1229      0.9094   9.224E-02   3.214E-02       2132.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -196,10 +196,10 @@
 
  Case     3
          0, NR,  z_ws, Fz:      -0.2591       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2328       7301., dFz/dz:   4.163E+05
-         2, NR,  z_ws, Fz:      -0.2264   1.019E+04, dFz/dz:   4.464E+05
-         3, NR,  z_ws, Fz:      -0.2268       9988., dFz/dz:   4.737E+05
-         4, NR,  z_ws, Fz:      -0.2268      10000., dFz/dz:   4.717E+05
+         1, NR,  z_ws, Fz:      -0.2288       9043., dFz/dz:   4.476E+05
+         2, NR,  z_ws, Fz:      -0.2269       9942., dFz/dz:   4.614E+05
+         3, NR,  z_ws, Fz:      -0.2268   1.000E+04, dFz/dz:   4.721E+05
+         4, NR,  z_ws, Fz:      -0.2268   1.000E+04, dFz/dz:   4.718E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -235,7 +235,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       2749.       1274.      10000.       2749.       1274.      10000.
+       2749.       1274.   1.000E+04       2749.       1274.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -248,7 +248,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.469E-03  -6.913E-04   2.152E-04
+     0.000      0.2000           1998.  -2.469E-03  -6.914E-04   2.152E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -280,10 +280,10 @@
 
  Case     4
          0, NR,  z_ws, Fz:      -0.2598       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2336       7248., dFz/dz:   4.154E+05
-         2, NR,  z_ws, Fz:      -0.2270   1.020E+04, dFz/dz:   4.459E+05
-         3, NR,  z_ws, Fz:      -0.2275       9987., dFz/dz:   4.737E+05
-         4, NR,  z_ws, Fz:      -0.2274      10000., dFz/dz:   4.717E+05
+         1, NR,  z_ws, Fz:      -0.2295       9040., dFz/dz:   4.476E+05
+         2, NR,  z_ws, Fz:      -0.2276       9943., dFz/dz:   4.613E+05
+         3, NR,  z_ws, Fz:      -0.2274   1.000E+04, dFz/dz:   4.721E+05
+         4, NR,  z_ws, Fz:      -0.2274   1.000E+04, dFz/dz:   4.718E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -319,7 +319,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       2748.       1274.      10000.       2748.       1274.      10000.
+       2748.       1274.   1.000E+04       2748.       1274.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -337,9 +337,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.008E+04       2748.       279.0      -730.6      0.1425      -13.61
+     1.008E+04       2748.       279.0      -730.7      0.1425      -13.61
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1229      0.9090   9.229E-02   3.214E-02       2132.
+        0.1229      0.9090   9.230E-02   3.214E-02       2132.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -364,11 +364,10 @@
 
  Case     5
          0, NR,  z_ws, Fz:      -0.2605       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2342       7305., dFz/dz:   4.165E+05
-         2, NR,  z_ws, Fz:      -0.2277   1.030E+04, dFz/dz:   4.630E+05
-         3, NR,  z_ws, Fz:      -0.2283       9938., dFz/dz:   5.577E+05
-         4, NR,  z_ws, Fz:      -0.2282       9999., dFz/dz:   5.504E+05
-         5, NR,  z_ws, Fz:      -0.2282   1.000E+04, dFz/dz:   5.586E+05
+         1, NR,  z_ws, Fz:      -0.2302       9038., dFz/dz:   4.476E+05
+         2, NR,  z_ws, Fz:      -0.2283       9953., dFz/dz:   4.899E+05
+         3, NR,  z_ws, Fz:      -0.2282   1.000E+04, dFz/dz:   5.535E+05
+         4, NR,  z_ws, Fz:      -0.2282      10000., dFz/dz:   5.563E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -404,16 +403,16 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       2713.       1280.   1.000E+04       2713.       1280.   1.000E+04
+       2713.       1280.      10000.       2713.       1280.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2126    788.6067     -1.4240     -0.0990     38.6067     -1.4240
+     -3.2127    788.6067     -1.4240     -0.0990     38.6067     -1.4240
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2126     37.7567     -1.1958
+     -3.2127     37.7567     -1.1958
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -454,7 +453,7 @@
       4.6240    721.8182      3.3340     -0.3036    -28.1818      3.3340
 
      XCP(W)      YCP(W)      ZCP(W)
-      4.6240    -29.0318      3.5622
+      4.6240    -29.0318      3.5623
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -485,11 +484,10 @@
 
  Case     6
          0, NR,  z_ws, Fz:      -0.2611       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2350       7235., dFz/dz:   4.152E+05
-         2, NR,  z_ws, Fz:      -0.2283   1.061E+04, dFz/dz:   5.073E+05
-         3, NR,  z_ws, Fz:      -0.2296       9890., dFz/dz:   5.982E+05
-         4, NR,  z_ws, Fz:      -0.2294       9999., dFz/dz:   5.900E+05
-         5, NR,  z_ws, Fz:      -0.2294   1.000E+04, dFz/dz:   5.906E+05
+         1, NR,  z_ws, Fz:      -0.2310       9056., dFz/dz:   4.513E+05
+         2, NR,  z_ws, Fz:      -0.2294       9957., dFz/dz:   5.639E+05
+         3, NR,  z_ws, Fz:      -0.2294   1.000E+04, dFz/dz:   5.904E+05
+         4, NR,  z_ws, Fz:      -0.2294   1.000E+04, dFz/dz:   5.888E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -531,14 +529,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2123    788.6046     -1.4239     -0.0990     38.6046     -1.4239
+     -3.2124    788.6046     -1.4239     -0.0990     38.6046     -1.4239
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2123     37.7446     -1.1945
+     -3.2124     37.7446     -1.1945
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.465E-03  -6.914E-04   2.152E-04
+     0.000      0.2000           1998.  -2.465E-03  -6.915E-04   2.152E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -608,11 +606,11 @@
 
  Case     7
          0, NR,  z_ws, Fz:      -0.2618       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2356       7263., dFz/dz:   4.160E+05
-         2, NR,  z_ws, Fz:      -0.2290   1.101E+04, dFz/dz:   5.699E+05
-         3, NR,  z_ws, Fz:      -0.2308       9879., dFz/dz:   6.383E+05
-         4, NR,  z_ws, Fz:      -0.2306       9994., dFz/dz:   6.084E+05
-         5, NR,  z_ws, Fz:      -0.2306   1.000E+04, dFz/dz:   6.103E+05
+         1, NR,  z_ws, Fz:      -0.2322       9069., dFz/dz:   4.595E+05
+         2, NR,  z_ws, Fz:      -0.2307       9939., dFz/dz:   5.883E+05
+         3, NR,  z_ws, Fz:      -0.2306       9999., dFz/dz:   6.094E+05
+         4, NR,  z_ws, Fz:      -0.2291   1.100E+04, dFz/dz:   6.418E+05
+         5, NR,  z_ws, Fz:      -0.2306      10000., dFz/dz:   6.122E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -648,7 +646,7 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       2458.       1324.   1.000E+04       2458.       1324.   1.000E+04
+       2458.       1324.      10000.       2458.       1324.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -668,7 +666,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          9525.       2612.       275.5      -675.1      0.1300      -12.92
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1162      0.9142   9.641E-02   3.094E-02       2095.
+        0.1162      0.9142   9.642E-02   3.094E-02       2095.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -731,11 +729,10 @@
 
  Case     8
          0, NR,  z_ws, Fz:      -0.2625       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2362       7510., dFz/dz:   4.296E+05
-         2, NR,  z_ws, Fz:      -0.2304   1.104E+04, dFz/dz:   6.091E+05
-         3, NR,  z_ws, Fz:      -0.2322       9903., dFz/dz:   6.658E+05
-         4, NR,  z_ws, Fz:      -0.2320       9996., dFz/dz:   6.402E+05
-         5, NR,  z_ws, Fz:      -0.2320   1.000E+04, dFz/dz:   6.408E+05
+         1, NR,  z_ws, Fz:      -0.2335       9067., dFz/dz:   4.694E+05
+         2, NR,  z_ws, Fz:      -0.2321       9944., dFz/dz:   6.268E+05
+         3, NR,  z_ws, Fz:      -0.2320   1.000E+04, dFz/dz:   6.411E+05
+         4, NR,  z_ws, Fz:      -0.2320   1.000E+04, dFz/dz:   6.289E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -818,7 +815,7 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.6129    721.8089      3.3371     -0.3051    -28.1911      3.3371
+      4.6129    721.8089      3.3372     -0.3051    -28.1911      3.3372
 
      XCP(W)      YCP(W)      ZCP(W)
       4.6129    -29.0711      3.5692
@@ -854,11 +851,10 @@
 
  Case     9
          0, NR,  z_ws, Fz:      -0.2631       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2370       7781., dFz/dz:   4.475E+05
-         2, NR,  z_ws, Fz:      -0.2321   1.096E+04, dFz/dz:   6.411E+05
-         3, NR,  z_ws, Fz:      -0.2336       9942., dFz/dz:   6.797E+05
-         4, NR,  z_ws, Fz:      -0.2335       9999., dFz/dz:   6.705E+05
-         5, NR,  z_ws, Fz:      -0.2335   1.000E+04, dFz/dz:   6.704E+05
+         1, NR,  z_ws, Fz:      -0.2349       9100., dFz/dz:   4.832E+05
+         2, NR,  z_ws, Fz:      -0.2336       9961., dFz/dz:   6.503E+05
+         3, NR,  z_ws, Fz:      -0.2335   1.000E+04, dFz/dz:   6.706E+05
+         4, NR,  z_ws, Fz:      -0.2335   1.000E+04, dFz/dz:   6.702E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -900,10 +896,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2108    788.5954     -1.4233     -0.0991     38.5954     -1.4233
+     -3.2109    788.5954     -1.4233     -0.0991     38.5954     -1.4233
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2108     37.7054     -1.1898
+     -3.2109     37.7054     -1.1898
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -912,9 +908,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         8821.       2439.       269.0      -609.7      0.1146      -12.06
+         8821.       2439.       269.0      -609.6      0.1146      -12.06
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1076      0.9218      0.1017   2.936E-02       2044.
+        0.1076      0.9219      0.1017   2.936E-02       2044.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -978,11 +974,10 @@
 
  Case    10
          0, NR,  z_ws, Fz:      -0.2638       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2321   1.210E+04, dFz/dz:   5.723E+05
-         2, NR,  z_ws, Fz:      -0.2357       9534., dFz/dz:   6.993E+05
-         3, NR,  z_ws, Fz:      -0.2351       9982., dFz/dz:   6.718E+05
-         4, NR,  z_ws, Fz:      -0.2351   1.000E+04, dFz/dz:   6.763E+05
-         5, NR,  z_ws, Fz:      -0.2351   1.000E+04, dFz/dz:   6.725E+05
+         1, NR,  z_ws, Fz:      -0.2363       9147., dFz/dz:   4.998E+05
+         2, NR,  z_ws, Fz:      -0.2351       9984., dFz/dz:   6.651E+05
+         3, NR,  z_ws, Fz:      -0.2351   1.000E+04, dFz/dz:   6.763E+05
+         4, NR,  z_ws, Fz:      -0.2351   1.000E+04, dFz/dz:   6.740E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1047,17 +1042,17 @@
    1071    186     36    150      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    12  o............................................o
-    11  .......................SSSSSSSSSSSSSSSSSSSS...
-    10  .................SSSSSSSSSSSSSSSSSSSSSSS*****.
-     9  .............SSSSSSSSSSSSSSSSSSSSSS*********..
-     8  .........SSSSSSSSSSSSSSSSSSSSS**********S.....
-     7  .....SSSSSSSSSSSSSSSSSSSSS*********...........
-     6  ..SSSSSSSSSSSSSSSSSSSSSSS***..................
-     5  .SSSSSSSSSSSSSSSSSSS..........................
-     4  o............................................o
-        1         2         3         4         5
-        0123456789012345678901234567890123456789012345
+    12   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    11   . . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . .
+    10   . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S * * * * * .
+     9   . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * . .
+     8   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * S . . . . .
+     7   . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * . . . . . . . . . . .
+     6   . . S S S S S S S S S S S S S S S S S S S S S S S * * * . . . . . . . . . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . .
+     4   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+         1                   2                   3                   4                   5
+         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
@@ -1076,7 +1071,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         1666.      -461.4      -186.8      -50.37   7.373E-03      -8.376
+         1666.      -461.4      -186.8      -50.37   7.374E-03      -8.376
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      2.031E-02     -0.9233     -0.3739   1.004E-02       1419.
 
@@ -1102,11 +1097,10 @@
 
  Case    11
          0, NR,  z_ws, Fz:      -0.2645       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2325   1.305E+04, dFz/dz:   6.119E+05
-         2, NR,  z_ws, Fz:      -0.2374       9474., dFz/dz:   7.172E+05
-         3, NR,  z_ws, Fz:      -0.2367       9973., dFz/dz:   6.803E+05
-         4, NR,  z_ws, Fz:      -0.2367   1.000E+04, dFz/dz:   6.914E+05
-         5, NR,  z_ws, Fz:      -0.2367   1.000E+04, dFz/dz:   6.900E+05
+         1, NR,  z_ws, Fz:      -0.2379       9190., dFz/dz:   5.185E+05
+         2, NR,  z_ws, Fz:      -0.2366   1.008E+04, dFz/dz:   6.790E+05
+         3, NR,  z_ws, Fz:      -0.2367       9999., dFz/dz:   6.913E+05
+         4, NR,  z_ws, Fz:      -0.2367   1.000E+04, dFz/dz:   6.909E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1148,19 +1142,19 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2097    788.5876     -1.4229     -0.0992     38.5876     -1.4229
+     -3.2099    788.5875     -1.4229     -0.0992     38.5875     -1.4229
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2097     37.6776     -1.1862
+     -3.2099     37.6775     -1.1862
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.455E-03  -6.917E-04   2.155E-04
+     0.000      0.2000           1998.  -2.455E-03  -6.918E-04   2.155E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         8008.       2245.       259.5      -536.2   9.773E-02      -11.08
+         8008.       2245.       259.5      -536.4   9.773E-02      -11.08
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      9.766E-02      0.9344      0.1080   2.750E-02       1983.
 
@@ -1171,17 +1165,17 @@
    1037    182     30    152      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    12  o...........................................o
-    11  ......................SSSSSSSSSSSSSSSSSSSS...
-    10  .................SSSSSSSSSSSSSSSSSSSSSSS***S.
-     9  ............SSSSSSSSSSSSSSSSSSSSSSS********..
-     8  ........SSSSSSSSSSSSSSSSSSSSS**********S.....
-     7  ....SSSSSSSSSSSSSSSSSSSSSS********...........
-     6  ..SSSSSSSSSSSSSSSSSSSSSSS*S..................
-     5  .SSSSSSSSSSSSSSSSS...........................
-     4  o...........................................o
-        1         2         3         4         5
-        012345678901234567890123456789012345678901234
+    12   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    11   . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S . . .
+    10   . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S * * * S .
+     9   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * . .
+     8   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * S . . . . .
+     7   . . . . S S S S S S S S S S S S S S S S S S S S S S * * * * * * * * . . . . . . . . . . .
+     6   . . S S S S S S S S S S S S S S S S S S S S S S S * S . . . . . . . . . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     4   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+         1                   2                   3                   4                   5
+         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
@@ -1211,25 +1205,25 @@
     333     71      0     71      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-     9  o...................................o
-     8  .....................................
-     7  .....................................
-     6  ...........SSSSSSSSSSSSSSSSSSSSS.....
-     5  ....SSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-     4  .....SSSSSSSSSSSSSSSSSSSSS...........
-     3  .....................................
-     2  .....................................
-     1  o...................................o
-                 1         2         3
-        1234567890123456789012345678901234567
+     9   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     7   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     6   . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . .
+     5   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+     4   . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7
      X  -->        Chi=  0.00 degrees
 
  Case    12
          0, NR,  z_ws, Fz:      -0.2651       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2392       9396., dFz/dz:   5.441E+05
-         2, NR,  z_ws, Fz:      -0.2381   1.016E+04, dFz/dz:   6.911E+05
-         3, NR,  z_ws, Fz:      -0.2383       9997., dFz/dz:   7.021E+05
-         4, NR,  z_ws, Fz:      -0.2383      10000., dFz/dz:   7.006E+05
+         1, NR,  z_ws, Fz:      -0.2394       9300., dFz/dz:   5.415E+05
+         2, NR,  z_ws, Fz:      -0.2382   1.009E+04, dFz/dz:   6.885E+05
+         3, NR,  z_ws, Fz:      -0.2383       9998., dFz/dz:   7.021E+05
+         4, NR,  z_ws, Fz:      -0.2383   1.000E+04, dFz/dz:   7.018E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1265,25 +1259,25 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       1430.       1495.      10000.       1430.       1495.      10000.
+       1430.       1495.   1.000E+04       1430.       1495.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2092    788.5834     -1.4226     -0.0992     38.5834     -1.4226
+     -3.2093    788.5834     -1.4226     -0.0992     38.5834     -1.4226
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2092     37.6634     -1.1843
+     -3.2093     37.6634     -1.1843
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.453E-03  -6.918E-04   2.156E-04
+     0.000      0.2000           1998.  -2.453E-03  -6.919E-04   2.156E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         7579.       2125.       257.2      -493.4   8.917E-02      -10.49
+         7579.       2125.       257.2      -493.5   8.917E-02      -10.49
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      9.242E-02      0.9348      0.1131   2.652E-02       1949.
 
@@ -1294,17 +1288,17 @@
    1037    176     29    147      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    12  o...........................................o
-    11  .......................SSSSSSSSSSSSSSSSSS....
-    10  .................SSSSSSSSSSSSSSSSSSSSSSS***S.
-     9  .............SSSSSSSSSSSSSSSSSSSSS********S..
-     8  ........SSSSSSSSSSSSSSSSSSSSS**********......
-     7  .....SSSSSSSSSSSSSSSSSSSSS*******S...........
-     6  ..SSSSSSSSSSSSSSSSSSSSSSS*...................
-     5  .SSSSSSSSSSSSSSSSS...........................
-     4  o...........................................o
-        1         2         3         4         5
-        012345678901234567890123456789012345678901234
+    12   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    11   . . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S . . . .
+    10   . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S * * * S .
+     9   . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S . .
+     8   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * * * . . . . . .
+     7   . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * S . . . . . . . . . . .
+     6   . . S S S S S S S S S S S S S S S S S S S S S S S * . . . . . . . . . . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     4   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+         1                   2                   3                   4                   5
+         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
@@ -1349,12 +1343,10 @@
 
  Case    13
          0, NR,  z_ws, Fz:      -0.2658       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2498       4052., dFz/dz:   3.808E+05
-         2, NR,  z_ws, Fz:      -0.2418       8765., dFz/dz:   5.905E+05
-         3, NR,  z_ws, Fz:      -0.2386   1.103E+04, dFz/dz:   6.995E+05
-         4, NR,  z_ws, Fz:      -0.2401       9980., dFz/dz:   7.129E+05
-         5, NR,  z_ws, Fz:      -0.2400      10000., dFz/dz:   7.032E+05
-         6, NR,  z_ws, Fz:      -0.2400   1.000E+04, dFz/dz:   7.052E+05
+         1, NR,  z_ws, Fz:      -0.2410       9339., dFz/dz:   5.653E+05
+         2, NR,  z_ws, Fz:      -0.2401       9975., dFz/dz:   6.922E+05
+         3, NR,  z_ws, Fz:      -0.2399   1.009E+04, dFz/dz:   7.032E+05
+         4, NR,  z_ws, Fz:      -0.2400      10000., dFz/dz:   7.031E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1390,25 +1382,25 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       1200.       1530.   1.000E+04       1200.       1530.   1.000E+04
+       1200.       1530.      10000.       1200.       1530.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2087    788.5791     -1.4224     -0.0992     38.5791     -1.4224
+     -3.2088    788.5791     -1.4224     -0.0992     38.5791     -1.4224
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2087     37.6491     -1.1823
+     -3.2088     37.6491     -1.1823
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.451E-03  -6.919E-04   2.156E-04
+     0.000      0.2000           1998.  -2.451E-03  -6.920E-04   2.156E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         7137.       2016.       249.8      -456.8   8.082E-02      -9.948
+         7137.       2016.       249.9      -456.8   8.082E-02      -9.948
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      8.704E-02      0.9417      0.1167   2.550E-02       1912.
 
@@ -1419,17 +1411,17 @@
     944    170     26    144      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    12  o..........................................o
-    11  ........................SSSSSSSSSSSSSSSSS...
-    10  .................SSSSSSSSSSSSSSSSSSSSSSS***.
-     9  .............SSSSSSSSSSSSSSSSSSSSS********..
-     8  .........SSSSSSSSSSSSSSSSSSSSS********S.....
-     7  .....SSSSSSSSSSSSSSSSSSSSS*******...........
-     6  ..SSSSSSSSSSSSSSSSSSSSSSSS..................
-     5  .SSSSSSSSSSSSSSSS...........................
-     4  o..........................................o
-         1         2         3         4         5
-        90123456789012345678901234567890123456789012
+    12   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    11   . . . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S . . .
+    10   . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S * * * .
+     9   . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * . .
+     8   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * S . . . . .
+     7   . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * . . . . . . . . . . .
+     6   . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     4   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+           1                   2                   3                   4                   5
+         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
@@ -1474,10 +1466,10 @@
 
  Case    14
          0, NR,  z_ws, Fz:      -0.2664       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2405   1.096E+04, dFz/dz:   6.326E+05
-         2, NR,  z_ws, Fz:      -0.2420       9876., dFz/dz:   7.138E+05
-         3, NR,  z_ws, Fz:      -0.2418       9999., dFz/dz:   7.055E+05
-         4, NR,  z_ws, Fz:      -0.2418   1.000E+04, dFz/dz:   7.070E+05
+         1, NR,  z_ws, Fz:      -0.2427       9373., dFz/dz:   5.919E+05
+         2, NR,  z_ws, Fz:      -0.2418       9988., dFz/dz:   6.999E+05
+         3, NR,  z_ws, Fz:      -0.2418   1.000E+04, dFz/dz:   7.068E+05
+         4, NR,  z_ws, Fz:      -0.2418   1.000E+04, dFz/dz:   7.019E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1519,10 +1511,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2083    788.5747     -1.4221     -0.0993     38.5747     -1.4221
+     -3.2084    788.5747     -1.4221     -0.0993     38.5747     -1.4221
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2083     37.6347     -1.1803
+     -3.2084     37.6347     -1.1803
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1542,17 +1534,17 @@
     870    164     22    142      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o.........................................o
-    10  ........................SSSSSSSSSSSSSSS....
-     9  .................SSSSSSSSSSSSSSSSSSSSSS**S.
-     8  ............SSSSSSSSSSSSSSSSSSSSSS******S..
-     7  ........SSSSSSSSSSSSSSSSSSSSS********......
-     6  ....SSSSSSSSSSSSSSSSSSSSS******S...........
-     5  .SSSSSSSSSSSSSSSSSSSSSSSS..................
-     4  .SSSSSSSSSSSSSS............................
-     3  o.........................................o
-         1         2         3         4         5
-        9012345678901234567890123456789012345678901
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S . . . .
+     9   . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S * * S .
+     8   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S * * * * * * S . .
+     7   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * * . . . . . .
+     6   . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * S . . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . .
+     4   . S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+           1                   2                   3                   4                   5
+         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
@@ -1597,10 +1589,9 @@
 
  Case    15
          0, NR,  z_ws, Fz:      -0.2671       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2346   1.691E+04, dFz/dz:   7.811E+05
-         2, NR,  z_ws, Fz:      -0.2435   1.007E+04, dFz/dz:   7.727E+05
-         3, NR,  z_ws, Fz:      -0.2436   1.001E+04, dFz/dz:   7.114E+05
-         4, NR,  z_ws, Fz:      -0.2436   1.000E+04, dFz/dz:   7.087E+05
+         1, NR,  z_ws, Fz:      -0.2444       9407., dFz/dz:   6.222E+05
+         2, NR,  z_ws, Fz:      -0.2436       9993., dFz/dz:   6.991E+05
+         3, NR,  z_ws, Fz:      -0.2436   1.000E+04, dFz/dz:   7.090E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1642,10 +1633,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2080    788.5702     -1.4218     -0.0993     38.5702     -1.4218
+     -3.2081    788.5701     -1.4218     -0.0993     38.5701     -1.4218
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2080     37.6202     -1.1782
+     -3.2081     37.6201     -1.1782
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1654,7 +1645,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         6227.       1775.       236.5      -375.1   6.464E-02      -8.748
+         6227.       1775.       236.5      -375.2   6.464E-02      -8.748
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      7.594E-02      0.9499      0.1266   2.334E-02       1831.
 
@@ -1665,17 +1656,17 @@
     855    157     20    137      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o.......................................o
-    10  .......................SSSSSSSSSSSSSS....
-     9  ................SSSSSSSSSSSSSSSSSSSSSSS*.
-     8  ............SSSSSSSSSSSSSSSSSSSS*******S.
-     7  .......SSSSSSSSSSSSSSSSSSSSS*******S.....
-     6  ...SSSSSSSSSSSSSSSSSSSSSS*****...........
-     5  .SSSSSSSSSSSSSSSSSSSSSS..................
-     4  .SSSSSSSSSSSSS...........................
-     3  o.......................................o
-        1         2         3         4         5
-        01234567890123456789012345678901234567890
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S . . . .
+     9   . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S * .
+     8   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S * * * * * * * S .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * * * S . . . . .
+     6   . . . S S S S S S S S S S S S S S S S S S S S S S * * * * * . . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . .
+     4   . S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+         1                   2                   3                   4                   5
+         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
@@ -1705,25 +1696,25 @@
     405     93      0     93      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-     9  o...................................o
-     8  .....................................
-     7  .....................................
-     6  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     5  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     4  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-     3  .....................................
-     2  .....................................
-     1  o...................................o
-             1         2         3         4
-        5678901234567890123456789012345678901
+     9   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     7   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     6   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     4   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                   1                   2                   3                   4
+         5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      X  -->        Chi=  0.00 degrees
 
  Case    16
          0, NR,  z_ws, Fz:      -0.2678       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2491       7533., dFz/dz:   6.037E+05
-         2, NR,  z_ws, Fz:      -0.2450   1.032E+04, dFz/dz:   6.814E+05
-         3, NR,  z_ws, Fz:      -0.2454       9985., dFz/dz:   7.141E+05
-         4, NR,  z_ws, Fz:      -0.2454      10000., dFz/dz:   7.110E+05
+         1, NR,  z_ws, Fz:      -0.2462       9439., dFz/dz:   6.567E+05
+         2, NR,  z_ws, Fz:      -0.2453   1.006E+04, dFz/dz:   7.030E+05
+         3, NR,  z_ws, Fz:      -0.2454       9999., dFz/dz:   7.117E+05
+         4, NR,  z_ws, Fz:      -0.2454   1.000E+04, dFz/dz:   7.103E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1759,16 +1750,16 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       464.2       1642.      10000.       464.2       1642.      10000.
+       464.2       1642.   1.000E+04       464.2       1642.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2077    788.5655     -1.4215     -0.0993     38.5655     -1.4215
+     -3.2078    788.5655     -1.4215     -0.0993     38.5655     -1.4215
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2077     37.6055     -1.1761
+     -3.2078     37.6055     -1.1761
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1777,7 +1768,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         5765.       1656.       228.8      -335.3   5.698E-02      -8.165
+         5765.       1656.       228.8      -335.4   5.698E-02      -8.165
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      7.031E-02      0.9574      0.1323   2.220E-02       1786.
 
@@ -1788,27 +1779,27 @@
     825    150     17    133      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o.......................................o
-    10  ........................SSSSSSSSSSSS.....
-     9  .................SSSSSSSSSSSSSSSSSSSSS*S.
-     8  ............SSSSSSSSSSSSSSSSSSSSS*****S..
-     7  ........SSSSSSSSSSSSSSSSSSSS*******S.....
-     6  ....SSSSSSSSSSSSSSSSSSSSS****S...........
-     5  .SSSSSSSSSSSSSSSSSSSSSS..................
-     4  .SSSSSSSSSSSS............................
-     3  o.......................................o
-         1         2         3         4
-        90123456789012345678901234567890123456789
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S S S S . . . . .
+     9   . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * S .
+     8   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * S . .
+     7   . . . . . . . . S S S S S S S S S S S S S S S S S S S S * * * * * * * S . . . . .
+     6   . . . . S S S S S S S S S S S S S S S S S S S S S * * * * S . . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . .
+     4   . S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+           1                   2                   3                   4
+         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.5834    721.7840      3.3456     -0.3090    -28.2160      3.3456
+      4.5833    721.7840      3.3456     -0.3090    -28.2160      3.3456
 
      XCP(W)      YCP(W)      ZCP(W)
-      4.5834    -29.1760      3.5910
+      4.5833    -29.1760      3.5910
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1828,27 +1819,27 @@
     517     96      0     96      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o.....................................o
-    10  .......................................
-     9  .......................................
-     8  .......................................
-     7  ........SSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-     6  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     5  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-     4  .......................................
-     3  .......................................
-     2  .......................................
-     1  o.....................................o
-             1         2         3         4
-        567890123456789012345678901234567890123
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     7   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+     6   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     5   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     4   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                   1                   2                   3                   4
+         5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3
      X  -->        Chi=  0.00 degrees
 
  Case    17
          0, NR,  z_ws, Fz:      -0.2687       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2491       8732., dFz/dz:   6.698E+05
-         2, NR,  z_ws, Fz:      -0.2472   1.004E+04, dFz/dz:   6.920E+05
-         3, NR,  z_ws, Fz:      -0.2473       9999., dFz/dz:   7.029E+05
-         4, NR,  z_ws, Fz:      -0.2473   1.000E+04, dFz/dz:   7.020E+05
+         1, NR,  z_ws, Fz:      -0.2480       9469., dFz/dz:   6.885E+05
+         2, NR,  z_ws, Fz:      -0.2472   1.006E+04, dFz/dz:   6.993E+05
+         3, NR,  z_ws, Fz:      -0.2473      10000., dFz/dz:   7.029E+05
+         4, NR,  z_ws, Fz:      -0.2473   1.000E+04, dFz/dz:   7.050E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1890,10 +1881,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2076    788.5608     -1.4212     -0.0994     38.5608     -1.4212
+     -3.2077    788.5607     -1.4212     -0.0994     38.5607     -1.4212
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2076     37.5908     -1.1739
+     -3.2077     37.5907     -1.1739
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1913,22 +1904,22 @@
     756    141     15    126      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    14  o.....................................o
-    13  .......................................
-    12  .......................................
-    11  .......................................
-    10  .........................SSSSSSSSS.....
-     9  ................SSSSSSSSSSSSSSSSSSSSSS.
-     8  ...........SSSSSSSSSSSSSSSSSSSSS*****S.
-     7  .......SSSSSSSSSSSSSSSSSSSS*******.....
-     6  ...SSSSSSSSSSSSSSSSSSSSSS***S..........
-     5  .SSSSSSSSSSSSSSSSSSSS..................
-     4  .SSSSSSSSSS............................
-     3  .......................................
-     2  .......................................
-     1  o.....................................o
-         1         2         3         4
-        901234567890123456789012345678901234567
+    14   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    13   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    12   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    11   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S . . . . .
+     9   . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S .
+     8   . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * S .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S S * * * * * * * . . . . .
+     6   . . . S S S S S S S S S S S S S S S S S S S S S S * * * S . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . .
+     4   . S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+           1                   2                   3                   4
+         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
@@ -1958,27 +1949,27 @@
     539     99      0     99      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o.....................................o
-    10  .......................................
-     9  .......................................
-     8  .......................................
-     7  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     6  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     5  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-     4  .......................................
-     3  .......................................
-     2  .......................................
-     1  o.....................................o
-            1         2         3         4
-        678901234567890123456789012345678901234
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     6   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     4   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  Case    18
          0, NR,  z_ws, Fz:      -0.2720       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2394   1.767E+04, dFz/dz:   8.136E+05
-         2, NR,  z_ws, Fz:      -0.2488   1.025E+04, dFz/dz:   7.866E+05
-         3, NR,  z_ws, Fz:      -0.2492   1.003E+04, dFz/dz:   7.070E+05
-         4, NR,  z_ws, Fz:      -0.2492   1.000E+04, dFz/dz:   7.059E+05
+         1, NR,  z_ws, Fz:      -0.2499       9494., dFz/dz:   6.452E+05
+         2, NR,  z_ws, Fz:      -0.2491   1.005E+04, dFz/dz:   7.009E+05
+         3, NR,  z_ws, Fz:      -0.2492      10000., dFz/dz:   7.059E+05
+         4, NR,  z_ws, Fz:      -0.2492   1.000E+04, dFz/dz:   7.042E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2014,16 +2005,16 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -44.63       1713.   1.000E+04      -44.63       1713.   1.000E+04
+      -44.64       1713.   1.000E+04      -44.64       1713.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2076    788.5559     -1.4209     -0.0994     38.5559     -1.4209
+     -3.2077    788.5559     -1.4209     -0.0994     38.5559     -1.4209
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2076     37.5759     -1.1717
+     -3.2077     37.5759     -1.1717
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -2043,36 +2034,36 @@
     742    131     11    120      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    14  o.....................................o
-    13  .......................................
-    12  .......................................
-    11  .......................................
-    10  ..........................SSSSSS.......
-     9  .................SSSSSSSSSSSSSSSSSSSSS.
-     8  ............SSSSSSSSSSSSSSSSSSSS****S..
-     7  .......SSSSSSSSSSSSSSSSSSSS******S.....
-     6  ...SSSSSSSSSSSSSSSSSSSSSSS*S...........
-     5  .SSSSSSSSSSSSSSSSSSS...................
-     4  ..SSSSSSSS.............................
-     3  .......................................
-     2  .......................................
-     1  o.....................................o
-         1         2         3         4
-        901234567890123456789012345678901234567
+    14   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    13   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    12   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    11   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . S S S S S S . . . . . . .
+     9   . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S .
+     8   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S * * * * S . .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S S * * * * * * S . . . . .
+     6   . . . S S S S S S S S S S S S S S S S S S S S S S S * S . . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . . .
+     4   . . S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+           1                   2                   3                   4
+         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.5757    721.7775      3.3478     -0.3100    -28.2225      3.3478
+      4.5757    721.7775      3.3479     -0.3100    -28.2225      3.3479
 
      XCP(W)      YCP(W)      ZCP(W)
       4.5757    -29.2025      3.5971
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           2008.   7.901E-03   3.022E-03   6.605E-04
+     0.000      0.2000           2008.   7.901E-03   3.022E-03   6.606E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
@@ -2088,27 +2079,27 @@
     561    105      0    105      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o.......................................o
-    10  .........................................
-     9  .........................................
-     8  .........................................
-     7  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     6  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     5  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-     4  .........................................
-     3  .........................................
-     2  .........................................
-     1  o.......................................o
-            1         2         3         4
-        67890123456789012345678901234567890123456
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     6   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     4   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6
      X  -->        Chi=  0.00 degrees
 
  Case    19
          0, NR,  z_ws, Fz:      -0.2753       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2428   1.647E+04, dFz/dz:   7.594E+05
-         2, NR,  z_ws, Fz:      -0.2513       9895., dFz/dz:   7.717E+05
-         3, NR,  z_ws, Fz:      -0.2512       9989., dFz/dz:   6.914E+05
-         4, NR,  z_ws, Fz:      -0.2512   1.000E+04, dFz/dz:   6.934E+05
+         1, NR,  z_ws, Fz:      -0.2518       9529., dFz/dz:   6.089E+05
+         2, NR,  z_ws, Fz:      -0.2511   1.004E+04, dFz/dz:   6.838E+05
+         3, NR,  z_ws, Fz:      -0.2512       9999., dFz/dz:   6.932E+05
+         4, NR,  z_ws, Fz:      -0.2512   1.000E+04, dFz/dz:   6.903E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2150,19 +2141,19 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2077    788.5510     -1.4206     -0.0995     38.5510     -1.4206
+     -3.2074    788.5511     -1.4206     -0.0995     38.5511     -1.4206
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2077     37.5610     -1.1695
+     -3.2074     37.5611     -1.1695
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.438E-03  -6.935E-04   2.162E-04
+     0.000      0.2000           1998.  -2.438E-03  -6.933E-04   2.162E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         4363.       1269.       197.8      -219.0   3.616E-02      -6.252
+         4363.       1269.       197.8      -218.9   3.615E-02      -6.252
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      5.321E-02      0.9694      0.1511   1.852E-02       1636.
 
@@ -2173,16 +2164,16 @@
     714    116     10    106      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    10  o...................................o
-     9  .................SSSSSSSSSSSSSSSSSSS.
-     8  ...........SSSSSSSSSSSSSSSSSSSS****S.
-     7  ......SSSSSSSSSSSSSSSSSSSSS*****.....
-     6  ...SSSSSSSSSSSSSSSSSSSSSS*...........
-     5  .SSSSSSSSSSSSSSSSSS..................
-     4  ..SSSSS..............................
-     3  o...................................o
-         1         2         3         4
-        9012345678901234567890123456789012345
+    10   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+     9   . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S .
+     8   . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S * * * * S .
+     7   . . . . . . S S S S S S S S S S S S S S S S S S S S S * * * * * . . . . .
+     6   . . . S S S S S S S S S S S S S S S S S S S S S S * . . . . . . . . . . .
+     5   . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . . . .
+     4   . . S S S S S . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+           1                   2                   3                   4
+         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
@@ -2203,7 +2194,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          5748.      -1572.      -671.0      -389.5   5.901E-02      -29.32
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     7.009E-02     -0.9119     -0.3891   2.296E-02       2046.
+     7.009E-02     -0.9119     -0.3892   2.296E-02       2046.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2212,27 +2203,27 @@
     561    108      0    108      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o........................................o
-    10  ..........................................
-     9  ..........................................
-     8  ..........................................
-     7  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     6  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     5  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-     4  ..........................................
-     3  ..........................................
-     2  ..........................................
-     1  o........................................o
-            1         2         3         4
-        678901234567890123456789012345678901234567
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     6   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     4   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7
      X  -->        Chi=  0.00 degrees
 
  Case    20
          0, NR,  z_ws, Fz:      -0.2786       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2460   1.543E+04, dFz/dz:   7.098E+05
-         2, NR,  z_ws, Fz:      -0.2537       9652., dFz/dz:   7.552E+05
-         3, NR,  z_ws, Fz:      -0.2532       9966., dFz/dz:   6.821E+05
-         4, NR,  z_ws, Fz:      -0.2532   1.000E+04, dFz/dz:   6.827E+05
+         1, NR,  z_ws, Fz:      -0.2538       9569., dFz/dz:   5.779E+05
+         2, NR,  z_ws, Fz:      -0.2532       9969., dFz/dz:   6.818E+05
+         3, NR,  z_ws, Fz:      -0.2531   1.004E+04, dFz/dz:   6.828E+05
+         4, NR,  z_ws, Fz:      -0.2532   1.000E+04, dFz/dz:   6.828E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2274,10 +2265,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2080    788.5458     -1.4203     -0.0995     38.5458     -1.4203
+     -3.2079    788.5458     -1.4203     -0.0995     38.5458     -1.4203
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2080     37.5458     -1.1671
+     -3.2079     37.5458     -1.1671
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -2335,28 +2326,27 @@
     583    111      0    111      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o.........................................o
-    10  ...........................................
-     9  ...........................................
-     8  ...........................................
-     7  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     6  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     5  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-     4  ...........................................
-     3  ...........................................
-     2  ...........................................
-     1  o.........................................o
-            1         2         3         4
-        6789012345678901234567890123456789012345678
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     6   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     4   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8
      X  -->        Chi=  0.00 degrees
 
  Case    21
          0, NR,  z_ws, Fz:      -0.2820       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2493   1.446E+04, dFz/dz:   6.628E+05
-         2, NR,  z_ws, Fz:      -0.2560       9492., dFz/dz:   7.385E+05
-         3, NR,  z_ws, Fz:      -0.2553       9956., dFz/dz:   6.746E+05
-         4, NR,  z_ws, Fz:      -0.2552   1.000E+04, dFz/dz:   6.889E+05
-         5, NR,  z_ws, Fz:      -0.2552   1.000E+04, dFz/dz:   6.889E+05
+         1, NR,  z_ws, Fz:      -0.2558       9604., dFz/dz:   5.507E+05
+         2, NR,  z_ws, Fz:      -0.2552   1.002E+04, dFz/dz:   6.783E+05
+         3, NR,  z_ws, Fz:      -0.2552      10000., dFz/dz:   6.896E+05
+         4, NR,  z_ws, Fz:      -0.2552   1.000E+04, dFz/dz:   6.865E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2398,21 +2388,21 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2085    788.5406     -1.4200     -0.0996     38.5406     -1.4200
+     -3.2082    788.5407     -1.4200     -0.0996     38.5407     -1.4200
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2085     37.5306     -1.1648
+     -3.2082     37.5307     -1.1648
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.434E-03  -6.945E-04   2.164E-04
+     0.000      0.2000           1998.  -2.434E-03  -6.943E-04   2.164E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         3445.       1009.       174.8      -152.8   2.433E-02      -4.979
+         3445.       1009.       174.8      -152.8   2.433E-02      -4.978
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     4.201E-02      0.9763      0.1692   1.582E-02       1511.
+     4.201E-02      0.9764      0.1692   1.582E-02       1511.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2453,7 +2443,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         6670.      -1820.      -784.3      -500.6   7.597E-02      -34.13
+         6670.      -1820.      -784.3      -500.5   7.597E-02      -34.13
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      8.134E-02     -0.9097     -0.3920   2.541E-02       2157.
 
@@ -2464,29 +2454,27 @@
     605    126      0    126      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o...........................................o
-    10  .............................................
-     9  .............................................
-     8  ...........................SSS...............
-     7  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     6  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     5  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-     4  .............SSSSSSS.........................
-     3  .............................................
-     2  .............................................
-     1  o...........................................o
-            1         2         3         4         5
-        678901234567890123456789012345678901234567890
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     6   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     4   . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4                   5
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
      X  -->        Chi=  0.00 degrees
 
  Case    22
          0, NR,  z_ws, Fz:      -0.2853       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2685       3633., dFz/dz:   3.249E+05
-         2, NR,  z_ws, Fz:      -0.2601       8160., dFz/dz:   5.398E+05
-         3, NR,  z_ws, Fz:      -0.2545   1.204E+04, dFz/dz:   6.851E+05
-         4, NR,  z_ws, Fz:      -0.2575       9924., dFz/dz:   6.568E+05
-         5, NR,  z_ws, Fz:      -0.2573   1.000E+04, dFz/dz:   6.854E+05
-         6, NR,  z_ws, Fz:      -0.2573   1.000E+04, dFz/dz:   6.849E+05
+         1, NR,  z_ws, Fz:      -0.2579       9611., dFz/dz:   5.264E+05
+         2, NR,  z_ws, Fz:      -0.2573   1.003E+04, dFz/dz:   6.822E+05
+         3, NR,  z_ws, Fz:      -0.2573      10000., dFz/dz:   6.854E+05
+         4, NR,  z_ws, Fz:      -0.2573   1.000E+04, dFz/dz:   6.746E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2528,19 +2516,19 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2092    788.5352     -1.4197     -0.0997     38.5352     -1.4197
+     -3.2089    788.5353     -1.4197     -0.0997     38.5353     -1.4197
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2092     37.5152     -1.1623
+     -3.2089     37.5153     -1.1623
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.432E-03  -6.951E-04   2.166E-04
+     0.000      0.2000           1998.  -2.432E-03  -6.950E-04   2.166E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         2985.       874.4       160.5      -122.2   1.914E-02      -4.319
+         2985.       874.4       160.5      -122.1   1.914E-02      -4.319
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      3.640E-02      0.9766      0.1792   1.438E-02       1440.
 
@@ -2594,29 +2582,27 @@
     605    137      0    137      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11  o...........................................o
-    10  .............................................
-     9  .............................................
-     8  ........................SSSSSSSSS............
-     7  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     6  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     5  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.......
-     4  ...........SSSSSSSSSSS.......................
-     3  .............................................
-     2  .............................................
-     1  o...........................................o
-            1         2         3         4         5
-        678901234567890123456789012345678901234567890
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S . . . . . . . . . . . .
+     7   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     6   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . .
+     4   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4                   5
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
      X  -->        Chi=  0.00 degrees
 
  Case    23
          0, NR,  z_ws, Fz:      -0.2886       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2719       3351., dFz/dz:   2.995E+05
-         2, NR,  z_ws, Fz:      -0.2635       7471., dFz/dz:   4.909E+05
-         3, NR,  z_ws, Fz:      -0.2550   1.324E+04, dFz/dz:   6.827E+05
-         4, NR,  z_ws, Fz:      -0.2598       9832., dFz/dz:   6.374E+05
-         5, NR,  z_ws, Fz:      -0.2595   1.001E+04, dFz/dz:   6.792E+05
-         6, NR,  z_ws, Fz:      -0.2595      10000., dFz/dz:   6.842E+05
+         1, NR,  z_ws, Fz:      -0.2600       9648., dFz/dz:   5.059E+05
+         2, NR,  z_ws, Fz:      -0.2595   1.003E+04, dFz/dz:   6.778E+05
+         3, NR,  z_ws, Fz:      -0.2595      10000., dFz/dz:   6.850E+05
+         4, NR,  z_ws, Fz:      -0.2595      10000., dFz/dz:   6.795E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2658,19 +2644,19 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2103    788.5298     -1.4193     -0.0998     38.5298     -1.4193
+     -3.2100    788.5299     -1.4193     -0.0997     38.5299     -1.4193
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2103     37.4998     -1.1598
+     -3.2100     37.4999     -1.1598
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.429E-03  -6.959E-04   2.168E-04
+     0.000      0.2000           1998.  -2.429E-03  -6.958E-04   2.168E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         2530.       740.7       143.7      -93.18   1.454E-02      -3.662
+         2530.       740.8       143.7      -93.14   1.454E-02      -3.662
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      3.085E-02      0.9760      0.1894   1.289E-02       1354.
 
@@ -2713,7 +2699,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         7589.      -2067.      -897.3      -616.9   9.399E-02      -38.95
+         7589.      -2067.      -897.3      -617.0   9.400E-02      -38.95
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      9.254E-02     -0.9079     -0.3942   2.768E-02       2247.
 
@@ -2741,12 +2727,10 @@
 
  Case    24
          0, NR,  z_ws, Fz:      -0.2920       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2753       3295., dFz/dz:   2.962E+05
-         2, NR,  z_ws, Fz:      -0.2670       6813., dFz/dz:   4.217E+05
-         3, NR,  z_ws, Fz:      -0.2562   1.400E+04, dFz/dz:   6.677E+05
-         4, NR,  z_ws, Fz:      -0.2622       9703., dFz/dz:   6.054E+05
-         5, NR,  z_ws, Fz:      -0.2617   1.003E+04, dFz/dz:   6.701E+05
-         6, NR,  z_ws, Fz:      -0.2617      10000., dFz/dz:   6.712E+05
+         1, NR,  z_ws, Fz:      -0.2622       9689., dFz/dz:   4.880E+05
+         2, NR,  z_ws, Fz:      -0.2616   1.007E+04, dFz/dz:   6.702E+05
+         3, NR,  z_ws, Fz:      -0.2617      10000., dFz/dz:   6.718E+05
+         4, NR,  z_ws, Fz:      -0.2617      10000., dFz/dz:   6.604E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2788,21 +2772,21 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2116    788.5242     -1.4190     -0.0999     38.5242     -1.4190
+     -3.2113    788.5243     -1.4190     -0.0998     38.5243     -1.4190
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2116     37.4842     -1.1572
+     -3.2113     37.4843     -1.1572
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.427E-03  -6.969E-04   2.170E-04
+     0.000      0.2000           1998.  -2.427E-03  -6.967E-04   2.170E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         2082.       608.7       124.8      -67.85   1.055E-02      -3.014
+         2082.       608.7       124.8      -67.82   1.055E-02      -3.014
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     2.539E-02      0.9746      0.1999   1.135E-02       1282.
+     2.539E-02      0.9746      0.1998   1.135E-02       1282.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2870,13 +2854,10 @@
 
  Case    25
          0, NR,  z_ws, Fz:      -0.2953       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2786       3307., dFz/dz:   2.968E+05
-         2, NR,  z_ws, Fz:      -0.2703       6363., dFz/dz:   3.656E+05
-         3, NR,  z_ws, Fz:      -0.2580   1.431E+04, dFz/dz:   6.484E+05
-         4, NR,  z_ws, Fz:      -0.2646       9592., dFz/dz:   5.756E+05
-         5, NR,  z_ws, Fz:      -0.2639   1.005E+04, dFz/dz:   6.531E+05
-         6, NR,  z_ws, Fz:      -0.2640       9999., dFz/dz:   6.597E+05
-         7, NR,  z_ws, Fz:      -0.2640      10000., dFz/dz:   6.559E+05
+         1, NR,  z_ws, Fz:      -0.2644       9730., dFz/dz:   4.724E+05
+         2, NR,  z_ws, Fz:      -0.2640   1.004E+04, dFz/dz:   6.549E+05
+         3, NR,  z_ws, Fz:      -0.2640      10000., dFz/dz:   6.595E+05
+         4, NR,  z_ws, Fz:      -0.2640   1.000E+04, dFz/dz:   6.777E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2912,25 +2893,25 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -1823.       1924.      10000.      -1823.       1924.      10000.
+      -1823.       1924.   1.000E+04      -1823.       1924.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2134    788.5184     -1.4186     -0.1000     38.5184     -1.4186
+     -3.2131    788.5185     -1.4186     -0.1000     38.5185     -1.4186
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2134     37.4684     -1.1546
+     -3.2131     37.4685     -1.1546
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.425E-03  -6.981E-04   2.172E-04
+     0.000      0.2000           1998.  -2.425E-03  -6.979E-04   2.172E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         1647.       480.9       104.0      -45.96   7.200E-03      -2.383
+         1647.       480.9       104.0      -45.94   7.200E-03      -2.383
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      2.009E-02      0.9731      0.2104   9.754E-03       1204.
 
@@ -2999,13 +2980,9 @@
 
  Case    26
          0, NR,  z_ws, Fz:      -0.2987       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2819       3326., dFz/dz:   2.971E+05
-         2, NR,  z_ws, Fz:      -0.2735       6091., dFz/dz:   3.294E+05
-         3, NR,  z_ws, Fz:      -0.2609   1.381E+04, dFz/dz:   6.126E+05
-         4, NR,  z_ws, Fz:      -0.2671       9532., dFz/dz:   6.880E+05
-         5, NR,  z_ws, Fz:      -0.2665       9958., dFz/dz:   6.265E+05
-         6, NR,  z_ws, Fz:      -0.2664   1.000E+04, dFz/dz:   6.284E+05
-         7, NR,  z_ws, Fz:      -0.2664   1.000E+04, dFz/dz:   6.272E+05
+         1, NR,  z_ws, Fz:      -0.2667       9781., dFz/dz:   4.590E+05
+         2, NR,  z_ws, Fz:      -0.2663   1.005E+04, dFz/dz:   6.280E+05
+         3, NR,  z_ws, Fz:      -0.2664      10000., dFz/dz:   6.285E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -3041,27 +3018,27 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -2054.       1944.   1.000E+04      -2054.       1944.   1.000E+04
+      -2054.       1944.      10000.      -2054.       1944.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2157    788.5125     -1.4182     -0.1001     38.5125     -1.4182
+     -3.2155    788.5125     -1.4182     -0.1001     38.5125     -1.4182
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2157     37.4525     -1.1519
+     -3.2155     37.4525     -1.1519
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.423E-03  -6.995E-04   2.175E-04
+     0.000      0.2000           1998.  -2.423E-03  -6.994E-04   2.175E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         1236.       360.2       82.04      -28.87   4.481E-03      -1.787
+         1236.       360.2       82.03      -28.87   4.481E-03      -1.787
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     1.507E-02      0.9715      0.2212   8.068E-03       1112.
+     1.507E-02      0.9715      0.2212   8.067E-03       1112.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3128,13 +3105,10 @@
 
  Case    27
          0, NR,  z_ws, Fz:      -0.3021       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2853       3328., dFz/dz:   2.970E+05
-         2, NR,  z_ws, Fz:      -0.2769       6045., dFz/dz:   3.232E+05
-         3, NR,  z_ws, Fz:      -0.2643   1.306E+04, dFz/dz:   5.562E+05
-         4, NR,  z_ws, Fz:      -0.2698       9451., dFz/dz:   6.560E+05
-         5, NR,  z_ws, Fz:      -0.2689       9959., dFz/dz:   6.069E+05
-         6, NR,  z_ws, Fz:      -0.2689   1.000E+04, dFz/dz:   6.157E+05
-         7, NR,  z_ws, Fz:      -0.2689   1.000E+04, dFz/dz:   6.135E+05
+         1, NR,  z_ws, Fz:      -0.2691       9835., dFz/dz:   4.475E+05
+         2, NR,  z_ws, Fz:      -0.2687   1.010E+04, dFz/dz:   6.161E+05
+         3, NR,  z_ws, Fz:      -0.2689      10000., dFz/dz:   6.168E+05
+         4, NR,  z_ws, Fz:      -0.2689   1.000E+04, dFz/dz:   6.062E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -3176,19 +3150,19 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2188    788.5062     -1.4179     -0.1003     38.5062     -1.4179
+     -3.2186    788.5062     -1.4179     -0.1003     38.5062     -1.4179
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2188     37.4362     -1.1490
+     -3.2186     37.4362     -1.1490
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.420E-03  -7.014E-04   2.179E-04
+     0.000      0.2000           1998.  -2.420E-03  -7.013E-04   2.179E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         857.8       249.4       60.37      -16.60   2.392E-03      -1.240
+         857.8       249.4       60.36      -16.59   2.392E-03      -1.240
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      1.046E-02      0.9690      0.2346   6.282E-03       1003.
 
@@ -3236,7 +3210,7 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    649    170      0    170      1      1
+    660    170      0    170      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     11  o...............................................o
@@ -3250,17 +3224,15 @@
      3  .................................................
      2  .................................................
      1  o...............................................o
-            1         2         3         4         5
-        6789012345678901234567890123456789012345678901234
+           1         2         3         4         5
+        7890123456789012345678901234567890123456789012345
      X  -->        Chi=  0.00 degrees
 
  Case    28
          0, NR,  z_ws, Fz:      -0.3055       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2776       7023., dFz/dz:   3.774E+05
-         2, NR,  z_ws, Fz:      -0.2697   1.106E+04, dFz/dz:   5.122E+05
-         3, NR,  z_ws, Fz:      -0.2717       9797., dFz/dz:   6.099E+05
-         4, NR,  z_ws, Fz:      -0.2714       9994., dFz/dz:   5.915E+05
-         5, NR,  z_ws, Fz:      -0.2714   1.000E+04, dFz/dz:   5.938E+05
+         1, NR,  z_ws, Fz:      -0.2716       9874., dFz/dz:   4.374E+05
+         2, NR,  z_ws, Fz:      -0.2713   1.007E+04, dFz/dz:   5.927E+05
+         3, NR,  z_ws, Fz:      -0.2714      10000., dFz/dz:   5.934E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -3296,27 +3268,27 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -2463.       1977.   1.000E+04      -2463.       1977.   1.000E+04
+      -2463.       1977.      10000.      -2463.       1977.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2225    788.4998     -1.4175     -0.1005     38.4998     -1.4175
+     -3.2224    788.4998     -1.4175     -0.1005     38.4998     -1.4175
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2225     37.4198     -1.1461
+     -3.2224     37.4198     -1.1461
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.418E-03  -7.038E-04   2.184E-04
+     0.000      0.2000           1998.  -2.418E-03  -7.037E-04   2.184E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         505.8       146.6       37.70      -7.309   9.769E-04     -0.7315
+         505.8       146.6       37.69      -7.304   9.767E-04     -0.7314
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     6.169E-03      0.9663      0.2484   4.415E-03       865.9
+     6.168E-03      0.9664      0.2484   4.415E-03       865.8
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3382,11 +3354,10 @@
 
  Case    29
          0, NR,  z_ws, Fz:      -0.3089       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2811       6942., dFz/dz:   3.758E+05
-         2, NR,  z_ws, Fz:      -0.2730   1.060E+04, dFz/dz:   4.500E+05
-         3, NR,  z_ws, Fz:      -0.2743       9839., dFz/dz:   5.699E+05
-         4, NR,  z_ws, Fz:      -0.2741       9995., dFz/dz:   5.529E+05
-         5, NR,  z_ws, Fz:      -0.2741   1.000E+04, dFz/dz:   5.625E+05
+         1, NR,  z_ws, Fz:      -0.2742       9898., dFz/dz:   4.289E+05
+         2, NR,  z_ws, Fz:      -0.2739   1.009E+04, dFz/dz:   5.610E+05
+         3, NR,  z_ws, Fz:      -0.2741       9999., dFz/dz:   5.647E+05
+         4, NR,  z_ws, Fz:      -0.2741      10000., dFz/dz:   5.618E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -3422,25 +3393,25 @@
 
  TOTAL FORCES AND MOMENTS ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -2635.       1989.   1.000E+04      -2635.       1989.   1.000E+04
+      -2635.       1989.      10000.      -2635.       1989.      10000.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2273    788.4932     -1.4171     -0.1008     38.4932     -1.4171
+     -3.2271    788.4932     -1.4171     -0.1008     38.4932     -1.4171
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2273     37.4032     -1.1430
+     -3.2271     37.4032     -1.1430
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.415E-03  -7.068E-04   2.190E-04
+     0.000      0.2000           1998.  -2.415E-03  -7.067E-04   2.190E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         196.6       56.83       15.50      -1.333   2.124E-04     -0.2841
+         196.5       56.83       15.49      -1.332   2.124E-04     -0.2841
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
      2.397E-03      0.9638      0.2628   2.428E-03       583.3
 
@@ -3466,10 +3437,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.5315    721.7400      3.3608     -0.3157    -28.2600      3.3608
+      4.5315    721.7399      3.3608     -0.3157    -28.2601      3.3608
 
      XCP(W)      YCP(W)      ZCP(W)
-      4.5315    -29.3500      3.6349
+      4.5315    -29.3501      3.6349
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -3478,7 +3449,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9928.      -2692.      -1188.      -950.4      0.1460      -51.41
+         9928.      -2692.      -1188.      -950.3      0.1460      -51.41
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1211     -0.9040     -0.3989   3.302E-02       2427.
 
@@ -3508,11 +3479,10 @@
 
  Case    30
          0, NR,  z_ws, Fz:      -0.3122       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2823       7814., dFz/dz:   3.910E+05
-         2, NR,  z_ws, Fz:      -0.2767   1.015E+04, dFz/dz:   4.183E+05
-         3, NR,  z_ws, Fz:      -0.2770       9978., dFz/dz:   4.777E+05
-         4, NR,  z_ws, Fz:      -0.2770      10000., dFz/dz:   4.717E+05
-         5, NR,  z_ws, Fz:      -0.2770   1.000E+04, dFz/dz:   4.752E+05
+         1, NR,  z_ws, Fz:      -0.2772       9931., dFz/dz:   4.244E+05
+         2, NR,  z_ws, Fz:      -0.2767   1.012E+04, dFz/dz:   4.703E+05
+         3, NR,  z_ws, Fz:      -0.2770       9999., dFz/dz:   4.611E+05
+         4, NR,  z_ws, Fz:      -0.2770   1.000E+04, dFz/dz:   4.697E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -3554,21 +3524,21 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.2330    788.4861     -1.4166     -0.1012     38.4861     -1.4166
+     -3.2318    788.4865     -1.4166     -0.1012     38.4865     -1.4166
 
      XCP(W)      YCP(W)      ZCP(W)
-     -3.2330     37.3861     -1.1396
+     -3.2318     37.3865     -1.1396
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -2.413E-03  -7.110E-04   2.199E-04
+     0.000      0.2000           1998.  -2.413E-03  -7.104E-04   2.198E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         4.661       1.343      0.3898  -4.448E-04   3.360E-07  -6.858E-03
+         4.663       1.343      0.3896  -4.593E-04   3.362E-07  -6.860E-03
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     5.684E-05      0.9603      0.2788   1.570E-04       64.30
+     5.686E-05      0.9604      0.2785   1.571E-04       64.31
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3631,10 +3601,9 @@
 
  Case    31
          0, NR,  z_ws, Fz:      -0.3156       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2858       7778., dFz/dz:   3.903E+05
-         2, NR,  z_ws, Fz:      -0.2801   1.014E+04, dFz/dz:   4.145E+05
-         3, NR,  z_ws, Fz:      -0.2804       9994., dFz/dz:   4.314E+05
-         4, NR,  z_ws, Fz:      -0.2804      10000., dFz/dz:   4.299E+05
+         1, NR,  z_ws, Fz:      -0.2805       9930., dFz/dz:   4.243E+05
+         2, NR,  z_ws, Fz:      -0.2801   1.013E+04, dFz/dz:   4.311E+05
+         3, NR,  z_ws, Fz:      -0.2804      10000., dFz/dz:   4.306E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -3688,7 +3657,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.013E+04      -2746.      -1212.      -982.3      0.1508      -52.57
+     1.013E+04      -2746.      -1212.      -982.2      0.1508      -52.57
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1235     -0.9038     -0.3990   3.344E-02       2438.
 
@@ -3718,10 +3687,9 @@
 
  Case    32
          0, NR,  z_ws, Fz:      -0.3190       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2891       7798., dFz/dz:   3.905E+05
-         2, NR,  z_ws, Fz:      -0.2835   1.014E+04, dFz/dz:   4.146E+05
-         3, NR,  z_ws, Fz:      -0.2838       9995., dFz/dz:   4.314E+05
-         4, NR,  z_ws, Fz:      -0.2838      10000., dFz/dz:   4.303E+05
+         1, NR,  z_ws, Fz:      -0.2839       9929., dFz/dz:   4.242E+05
+         2, NR,  z_ws, Fz:      -0.2835   1.012E+04, dFz/dz:   4.310E+05
+         3, NR,  z_ws, Fz:      -0.2838      10000., dFz/dz:   4.306E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -3805,10 +3773,9 @@
 
  Case    33
          0, NR,  z_ws, Fz:      -0.3225       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2926       7759., dFz/dz:   3.898E+05
-         2, NR,  z_ws, Fz:      -0.2869   1.014E+04, dFz/dz:   4.142E+05
-         3, NR,  z_ws, Fz:      -0.2872       9994., dFz/dz:   4.313E+05
-         4, NR,  z_ws, Fz:      -0.2872      10000., dFz/dz:   4.304E+05
+         1, NR,  z_ws, Fz:      -0.2873       9928., dFz/dz:   4.241E+05
+         2, NR,  z_ws, Fz:      -0.2869   1.012E+04, dFz/dz:   4.310E+05
+         3, NR,  z_ws, Fz:      -0.2872      10000., dFz/dz:   4.305E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -3864,7 +3831,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.013E+04      -2747.      -1211.      -983.8      0.1508      -52.71
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1235     -0.9039     -0.3985   3.344E-02       2435.
+        0.1235     -0.9039     -0.3986   3.344E-02       2435.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3892,10 +3859,9 @@
 
  Case    34
          0, NR,  z_ws, Fz:      -0.3259       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2984       6843., dFz/dz:   3.735E+05
-         2, NR,  z_ws, Fz:      -0.2899   1.028E+04, dFz/dz:   4.067E+05
-         3, NR,  z_ws, Fz:      -0.2906       9983., dFz/dz:   4.316E+05
-         4, NR,  z_ws, Fz:      -0.2906      10000., dFz/dz:   4.306E+05
+         1, NR,  z_ws, Fz:      -0.2907       9938., dFz/dz:   4.242E+05
+         2, NR,  z_ws, Fz:      -0.2903   1.012E+04, dFz/dz:   4.310E+05
+         3, NR,  z_ws, Fz:      -0.2906      10000., dFz/dz:   4.305E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -3979,10 +3945,9 @@
 
  Case    35
          0, NR,  z_ws, Fz:      -0.3293       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.2995       7747., dFz/dz:   3.895E+05
-         2, NR,  z_ws, Fz:      -0.2937   1.014E+04, dFz/dz:   4.140E+05
-         3, NR,  z_ws, Fz:      -0.2940       9994., dFz/dz:   4.312E+05
-         4, NR,  z_ws, Fz:      -0.2940      10000., dFz/dz:   4.301E+05
+         1, NR,  z_ws, Fz:      -0.2941       9937., dFz/dz:   4.242E+05
+         2, NR,  z_ws, Fz:      -0.2937   1.012E+04, dFz/dz:   4.309E+05
+         3, NR,  z_ws, Fz:      -0.2940      10000., dFz/dz:   4.305E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -4071,23 +4036,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       14.8 | 100.0 |       25.5 | 100.0 |
-|Wheel-rail cases     |       35 |       14.8 | 100.0 |       25.5 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.2 |        0.1 |   0.5 |
-|Geometric analysis   |      203 |       14.1 |  95.2 |       24.2 |  94.9 |
-|Panag.process        |      290 |        0.6 |   3.9 |        0.6 |   2.4 |
-|Algorithm Norm       |      290 |        0.2 |   1.7 |        0.3 |   1.1 |
-|Algorithm Tang       |      290 |        0.3 |   2.2 |        0.3 |   1.3 |
-|Output quantities    |      325 |        0.0 |   0.2 |        0.2 |   0.8 |
+|Total                |        1 |       11.3 | 100.0 |       22.8 | 100.0 |
+|Wheel-rail cases     |       35 |       11.3 | 100.0 |       22.8 | 100.0 |
+|W/r profiles         |        2 |        0.1 |   1.0 |        0.1 |   0.5 |
+|Geometric analysis   |      168 |       10.9 |  96.4 |       21.7 |  95.0 |
+|Panag.process        |      233 |        0.3 |   2.3 |        0.5 |   2.2 |
+|Algorithm Norm       |      233 |        0.1 |   0.7 |        0.2 |   1.0 |
+|Algorithm Tang       |      233 |        0.2 |   1.7 |        0.3 |   1.2 |
+|Output quantities    |      268 |        0.0 |   0.3 |        0.2 |   0.7 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      290 |        0.2 |   1.1 |        0.2 |   0.9 |
-|Tang: StedyGS solver |      290 |        0.3 |   2.1 |        0.3 |   1.3 |
+|Norm: ConjGrd solver |      233 |        0.1 |   0.6 |        0.1 |   0.5 |
+|Tang: StedyGS solver |      233 |        0.2 |   1.4 |        0.3 |   1.2 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       35 |        0.0 |   0.2 |        0.1 |   0.5 |
-|Contact location     |      203 |       13.0 |  87.8 |       22.9 |  90.0 |
-|Undeformed distance  |      290 |        1.1 |   7.4 |        1.2 |   4.8 |
-| - Interp whl_srfc   |      290 |        0.0 |   0.3 |        0.0 |   0.1 |
-|Influence coeffic.   |      104 |        0.0 |   0.2 |        0.1 |   0.3 |
-|Initial state/estim. |      290 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       35 |        0.1 |   1.0 |        0.1 |   0.6 |
+|Contact location     |      168 |       10.2 |  90.4 |       20.5 |  89.9 |
+|Undeformed distance  |      233 |        0.7 |   6.1 |        1.2 |   5.1 |
+| - Interp whl_srfc   |      233 |        0.0 |   0.1 |        0.0 |   0.0 |
+|Influence coeffic.   |      106 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Initial state/estim. |      233 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

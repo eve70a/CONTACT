@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -101,20 +101,20 @@
    1176    321      0    321      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    17  o............................................o
-    16  .....SSSSSSSSSSSSSSSSSSSSSSSSS................
-    15  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..........
-    14  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS......
-    13  ..SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS....
-    12  ...SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-    11  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-    10  .........SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-     9  .............SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..
-     8  ..................SSSSSSSSSSSSSSSSSSSSSSSSS...
-     7  ...........................SSSSSSSSSSS........
-     6  o............................................o
-            1         2         3         4         5
-        6789012345678901234567890123456789012345678901
+    17   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    16   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . . .
+    15   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    14   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+    13   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+    12   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    11   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    10   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+     9   . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+     8   . . . . . . . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+     7   . . . . . . . . . . . . . . . . . . . . . . . . . . . S S S S S S S S S S S . . . . . . . .
+     6   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                 1                   2                   3                   4                   5
+         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      X  -->        Chi=  0.00 degrees
 
  CURVED REFERENCE SURFACE, TRACK COORDINATES,   21 POINTS:
@@ -212,19 +212,19 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Wheel-rail cases     |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Total                |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
+|Wheel-rail cases     |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |  11.1 |
 |Geometric analysis   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Panag.process        |        2 |        0.0 | 100.0 |        0.0 |  31.2 |
-|Algorithm Norm       |        2 |        0.0 | 100.0 |        0.0 |   4.2 |
-|Algorithm Tang       |        2 |        0.0 |   0.0 |        0.0 |  27.1 |
-|Output quantities    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Panag.process        |        2 |        0.0 |   0.0 |        0.0 |  48.1 |
+|Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |  48.1 |
+|Algorithm Tang       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Output quantities    |        3 |        0.0 |   0.0 |        0.0 |  29.6 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        2 |        0.0 | 100.0 |        0.0 |   4.2 |
-|Tang: StedyGS solver |        2 |        0.0 |   0.0 |        0.0 |  27.1 |
+|Norm: ConjGrd solver |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |  11.1 |
 |Contact location     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Undeformed distance  |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |

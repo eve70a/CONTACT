@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -508,14 +508,14 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Panag.process        |        4 |        0.0 | 100.0 |        0.0 |  67.3 |
-|Algorithm Norm       |        4 |        0.0 |   0.0 |        0.0 |  28.6 |
-|Algorithm Tang       |        4 |        0.0 | 100.0 |        0.0 |  38.8 |
-|Output quantities    |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
+|Panag.process        |        4 |        0.0 |  75.0 |        0.1 |  97.0 |
+|Algorithm Norm       |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Tang       |        4 |        0.0 |  75.0 |        0.1 |  97.0 |
+|Output quantities    |        4 |        0.0 |   0.0 |        0.0 |   3.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        4 |        0.0 |   0.0 |        0.0 |  28.6 |
-|Tang: StedyGS solver |       10 |        0.0 | 100.0 |        0.0 |  32.7 |
+|Norm: ConjGrd solver |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |       10 |        0.0 |  75.0 |        0.1 |  97.0 |
 |--------------------------------------------------------------------------|
-|Cp. 2 on Res.el.  2  |        2 |        0.0 |   0.0 |        0.0 |  65.3 |
+|Cp. 2 on Res.el.  2  |        2 |        0.0 |   0.0 |        0.0 |  47.0 |
 |--------------------------------------------------------------------------|

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2593 $, $Date:: 2024-08-14$        |
+   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -11,10 +11,11 @@
  reading rail  profile "..\profiles\MBench_UIC60_v3.prr"
  reading wheel profile "..\profiles\MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.1995   1.151E+04, dFz/dz:   9.933E+05
-         2, NR,  z_ws, Fz:       0.1980       9885., dFz/dz:   1.069E+06
-         3, NR,  z_ws, Fz:       0.1981       9998., dFz/dz:   1.054E+06
-         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.056E+06
+         1, NR,  z_ws, Fz:       0.1976       9438., dFz/dz:   9.174E+05
+         2, NR,  z_ws, Fz:       0.1979       9802., dFz/dz:   1.043E+06
+         3, NR,  z_ws, Fz:       0.1982   1.008E+04, dFz/dz:   1.054E+06
+         4, NR,  z_ws, Fz:       0.1981      10000., dFz/dz:   1.059E+06
+         5, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.062E+06
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -189,23 +190,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.5 | 100.0 |        0.8 | 100.0 |
-|Wheel-rail cases     |        1 |        0.5 | 100.0 |        0.8 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   4.8 |
-|Geometric analysis   |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Panag.process        |        4 |        0.5 |  90.9 |        0.7 |  89.3 |
-|Algorithm Norm       |        4 |        0.0 |   6.1 |        0.1 |   7.1 |
-|Algorithm Tang       |        4 |        0.4 |  84.8 |        0.6 |  82.3 |
-|Output quantities    |        5 |        0.0 |   0.0 |        0.0 |   1.3 |
+|Total                |        1 |        0.7 | 100.0 |        0.8 | 100.0 |
+|Wheel-rail cases     |        1 |        0.7 | 100.0 |        0.8 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   2.9 |
+|Geometric analysis   |        6 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Panag.process        |        5 |        0.7 |  95.6 |        0.7 |  88.8 |
+|Algorithm Norm       |        5 |        0.0 |   2.2 |        0.0 |   2.1 |
+|Algorithm Tang       |        5 |        0.7 |  93.3 |        0.7 |  86.7 |
+|Output quantities    |        6 |        0.0 |   2.2 |        0.0 |   4.7 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        4 |        0.0 |   6.1 |        0.0 |   4.9 |
-|Tang: StedyGS solver |        4 |        0.4 |  78.8 |        0.6 |  80.1 |
+|Norm: ConjGrd solver |        5 |        0.0 |   2.2 |        0.0 |   2.1 |
+|Tang: StedyGS solver |        5 |        0.6 |  91.1 |        0.7 |  85.4 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   4.8 |
-|Contact location     |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-| - Interp whl_srfc   |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        4 |        0.0 |   3.0 |        0.0 |   1.3 |
-|Initial state/estim. |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   2.9 |
+|Contact location     |        6 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Undeformed distance  |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
+| - Interp whl_srfc   |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   1.5 |
+|Initial state/estim. |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
