@@ -433,27 +433,14 @@ module subroutine bspline_eval2d_inverse(spl2d, noutu, nouty, noutv, uout, yout,
       yhig(1:3) = 0d0
       do jseg = 4, nsplv
          ylow(jseg) = cj_y(jseg)
-         ylow(jseg) = min(cj_y(jseg), cj_y(jseg-1))
-         ylow(jseg) = min(cj_y(jseg), cj_y(jseg-2))
-         ylow(jseg) = min(cj_y(jseg), cj_y(jseg-3))
+         ylow(jseg) = min(ylow(jseg), cj_y(jseg-1))
+         ylow(jseg) = min(ylow(jseg), cj_y(jseg-2))
+         ylow(jseg) = min(ylow(jseg), cj_y(jseg-3))
          yhig(jseg) = cj_y(jseg)
-         yhig(jseg) = max(cj_y(jseg), cj_y(jseg-1))
-         yhig(jseg) = max(cj_y(jseg), cj_y(jseg-2))
-         yhig(jseg) = max(cj_y(jseg), cj_y(jseg-3))
+         yhig(jseg) = max(yhig(jseg), cj_y(jseg-1))
+         yhig(jseg) = max(yhig(jseg), cj_y(jseg-2))
+         yhig(jseg) = max(yhig(jseg), cj_y(jseg-3))
       enddo
-
-      if (ldebug.ge.5) then
-         do jseg = 4, nsplv
-            if (ylow(jseg).le.yout(iouty) .and. yout(iouty).le.yhig(jseg)) then
-               write(bufout,'(a,i4,4(a,f12.6),a)') ' seg j=',jseg,': v = [',spl2d%tvj(jseg),',',        &
-                                        spl2d%tvj(jseg+1),', y in [',ylow(jseg),',',yhig(jseg),'] *'
-            else
-               write(bufout,'(a,i4,4(a,f12.6),a)') ' seg j=',jseg,': v = [',spl2d%tvj(jseg),',',        &
-                                        spl2d%tvj(jseg+1),', y in [',ylow(jseg),',',yhig(jseg),']'
-            endif
-            call write_log(1, bufout)
-         enddo
-      endif
 
       if (use_list) then
          iouty0 = ioutu
@@ -464,6 +451,21 @@ module subroutine bspline_eval2d_inverse(spl2d, noutu, nouty, noutv, uout, yout,
       endif
 
       do iouty = iouty0, iouty1
+
+         if (ldebug.ge.5) then
+            write(bufout,'(2(a,i0),a,f8.3)') ' nsplv=',nsplv,', iouty=',iouty,', yout=',yout(iouty)
+            call write_log(1,bufout)
+            do jseg = 4, nsplv
+               if (ylow(jseg).le.yout(iouty) .and. yout(iouty).le.yhig(jseg)) then
+                  write(bufout,'(a,i4,4(a,f12.6),a)') ' seg j=',jseg,': v = [',spl2d%tvj(jseg),',',     &
+                                           spl2d%tvj(jseg+1),', y in [',ylow(jseg),',',yhig(jseg),'] *'
+               else
+                  write(bufout,'(a,i4,4(a,f12.6),a)') ' seg j=',jseg,': v = [',spl2d%tvj(jseg),',',     &
+                                           spl2d%tvj(jseg+1),', y in [',ylow(jseg),',',yhig(jseg),']'
+               endif
+               call write_log(1, bufout)
+            enddo
+         endif
 
          if (use_list) then
             ioutv = 1
@@ -727,7 +729,7 @@ module subroutine bspline_make_1d_ppspline_phase1(bspl, nmeas, s_prf, ds_out, la
          write(bufout,'(a,i4,a,i4)') ' knot vector tj has ',nknot,' knots, nmeas=',nmeas
          call write_log(1, bufout)
       endif
-      if (ldebug.ge.4) then
+      if (ldebug.ge.3) then
          do j = 1, nknot
             write(bufout,'(a,i4,a,f12.6)') ' j =',j,': tj =',bspl%tui(j)
             call write_log(1, bufout)

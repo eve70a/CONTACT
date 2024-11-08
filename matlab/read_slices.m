@@ -91,8 +91,20 @@ end
 
 if (ierror==0 & exist('make_2dspline'))
    use_approx = (slcs.u_intpol==2); use_insert = 1; use_cylindr = is_wheel; idebug = 0;
+   % disp('slcs.ysurf:')
+   % disp(slcs.ysurf)
    slcs.spl2d = make_2dspline(slcs.u, slcs.vj, [], slcs.ysurf, slcs.zsurf, slcs.mask_j, ...
                                                                use_approx, use_insert, use_cylindr, idebug);
+   if (1==1)
+      % add second spline surface for distance computation
+      if (~use_approx)
+         slcs.appx = make_2dspline(slcs.u, slcs.vj, [], slcs.ysurf, slcs.zsurf, slcs.mask_j, ...
+                                                               1, use_insert, use_cylindr, idebug);
+      else
+         slcs.intp = make_2dspline(slcs.u, slcs.vj, [], slcs.ysurf, slcs.zsurf, slcs.mask_j, ...
+                                                               0, use_insert, use_cylindr, idebug);
+      end
+   end
 end
 
 end % function read_slices

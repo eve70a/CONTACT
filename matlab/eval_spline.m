@@ -96,9 +96,9 @@ for iout = 1 : length(yev)
       else
          %disp(sprintf('yev(%2d)=%8.3f lies in top part %d, y=[%7.3f,%7.3f]', iout, yev(iout), itop, ...
          %       spl.top_ybrk(itop), spl.top_ybrk(itop+1)));
-         isec = spl.top_sec(itop);
-         ip0 = spl.isec_uni_y(isec);
-         ip1 = spl.isec_uni_y(isec+1);
+         isec = spl.iuni_top(itop);
+         ip0  = spl.ipnt_uniy(isec);
+         ip1  = spl.ipnt_uniy(isec+1);
          % disp(sprintf('yev(%2d)=%7.3f lies in section %d, y=[%7.3f,%7.3f]', iout, yev(iout), isec, ...
          %           a0(ip0), a0(ip1)));
          iseg   = ip0-1 + locate_segment( ip1-ip0+1, a0(ip0:ip1), yev(iout) );
@@ -122,7 +122,7 @@ for iout = 1 : length(yev)
 
       s_out(iout) = s(1) - 1e-9;  % set s slightly before s(1)
 
-   elseif (iseg>=np)           % after end of spline range: yev > a0(end)
+   elseif (iseg>=np)              % after end of spline range: yev > a0(end)
 
       s_out(iout) = s(end) + 1e-9; % set s slightly after s(end)
 
@@ -130,7 +130,7 @@ for iout = 1 : length(yev)
 
       % Solve cubic equation for segment:
 
-      ppcoef = [a0(i), a1(iseg), a2(iseg), a3(iseg)];
+      ppcoef = [a0(iseg), a1(iseg), a2(iseg), a3(iseg)];
       sseg   = s(iseg+[0,1]);
       [sout1, found] = solve_cubic_eq(ppcoef, sseg, yev(iout), idebug, iout, 1, iseg);
 
@@ -154,6 +154,8 @@ end % function spline_get_s_at_y
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [ iseg ] = locate_segment( np, vp, vi )
+% find segment 'iseg' in list of segments { vp(ip), ip=1,np } that contains position vi.
+% on output: iseg in { 0, .., np },  iseg=0 when vi < min(vp), iseg=np when vi >= max(vp).
 
    ascending = (vp(end) >= vp(1));
 
@@ -161,7 +163,7 @@ function [ iseg ] = locate_segment( np, vp, vi )
       if (vi < vp(1))
          iseg = 0;
       elseif (vi > vp(end))
-         iseg = np + 1;
+         iseg = np;
       else
          % find segment iseg: vp(iseg) <= vi <= vp(iseg+1)
          iseg = find( vp<=vi, 1, 'last');
@@ -170,7 +172,7 @@ function [ iseg ] = locate_segment( np, vp, vi )
       if (vi > vp(1))
          iseg = 0;
       elseif (vi < vp(end))
-         iseg = np + 1;
+         iseg = np;
       else
          % find segment iseg: vp(iseg) >= vi >= vp(iseg+1)
          iseg = find( vp>=vi, 1, 'last');

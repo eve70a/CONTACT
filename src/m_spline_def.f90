@@ -350,6 +350,28 @@ module subroutine spline_print(spl, nam, idebug, ndigit)
       call print_array_size_1d(spl%az3, 'az3')
    endif
 
+   ! idebug>=3: information on visible parts in top view
+
+   if (idebug.ge.3) then
+      if (spl%nsec_top.le.0) then
+         call write_log(' spline does not have information on visible parts in top view')
+      else
+         write(bufout,'(a,i4,a)') ' spline top view consists of',spl%nsec_top,' parts [y_j, y_{j+1}]'
+         call write_log(1, bufout)
+
+         nline = spl%nsec_top / 10 + 1
+
+         write(bufout, 211) '         itop  ', (itop, itop=1, min(100,spl%nsec_top))
+         call write_log(nline, bufout)
+
+         write(bufout, 212) '     ysec_top =', (spl%ysec_top(itop), itop=1, min(100,spl%nsec_top+1))
+         call write_log(nline, bufout)
+
+         write(bufout, 211) '     iuni_top =', (spl%iuni_top(itop), itop=1, min(100,spl%nsec_top))
+         call write_log(nline, bufout)
+      endif
+   endif
+
    ! idebug>=3: information on uni-valued y-sections
 
    if (idebug.ge.3) then
@@ -377,28 +399,6 @@ module subroutine spline_print(spl, nam, idebug, ndigit)
          call write_log(nline, bufout)
 
          write(bufout, 212) '    zsec_uniy =',(spl%az0(spl%ipnt_uniy(iuni)), iuni=1,min(100,spl%nsec_uniy+1))
-         call write_log(nline, bufout)
-      endif
-   endif
-
-   ! idebug>=3: information on visible parts in top view
-
-   if (idebug.ge.3) then
-      if (spl%nsec_top.le.0) then
-         call write_log(' spline does not have information on visible parts in top view')
-      else
-         write(bufout,'(a,i4,a)') ' spline top view consists of',spl%nsec_top,' parts [y_j, y_{j+1}]'
-         call write_log(1, bufout)
-
-         nline = spl%nsec_top / 10 + 1
-
-         write(bufout, 211) '         itop  ', (itop, itop=1, min(100,spl%nsec_top))
-         call write_log(nline, bufout)
-
-         write(bufout, 212) '     ysec_top =', (spl%ysec_top(itop), itop=1, min(100,spl%nsec_top+1))
-         call write_log(nline, bufout)
-
-         write(bufout, 211) '     iuni_top =', (spl%iuni_top(itop), itop=1, min(100,spl%nsec_top))
          call write_log(nline, bufout)
       endif
    endif
@@ -1050,7 +1050,7 @@ module subroutine solve_cubic_newton( s_a, s_b, f_a, c1, c2, c3, f_b, fval, sl, 
       f3 = ((c3 * s3 + c2) * s3 + c1) * s3 + f_a - fval
       f4 = f_b - fval
    
-      ! there can be a zero <s1, one between s1 and s3, and one >s3
+      ! there can be a zero before s1, one between s1 and s3, and one after s3
       ! select initial estimate: start-point, mid-point or end-point of segment iseg
 
       s1_in_s04 = ((s4-s1)*(s1-s0) .gt. 0d0)
@@ -1058,33 +1058,33 @@ module subroutine solve_cubic_newton( s_a, s_b, f_a, c1, c2, c3, f_b, fval, sl, 
 
       if (f1*f3.gt.0d0 .and. c3*f1.gt.0d0) then
          ! one zero, to the left of s1
-         sl  = s0
-         f_s = f0
-         s4  = s1       ! high point of bracket
-         f4  = f1
+         if (s1.le.s0) then     ! case 4.1.a, no solution within [s0,s4]
+            sl = s1 + (s1-s0) + (s1-s2)
+            f_s = ((c3 * sl + c2) * sl + c1) * sl + f_a - fval
+         else                   ! case 4.1.b
+            sl = s0
+            f_s = f0
+         endif
       elseif (f1*f3.gt.0d0) then
          ! one zero, to the right of s3
-         sl  = s4
-         f_s = f4
-         s0  = s3       ! low point of bracket
-         f0  = f3
+         if (s3.ge.s4) then     ! case 4.2.a, no solution within [s0,s4]
+            sl = s3 + (s3-s4) + (s3-s2)
+            f_s = ((c3 * sl + c2) * sl + c1) * sl + f_a - fval
+         else
+            sl  = s4
+            f_s = f4
+         endif
       elseif (s1_in_s04 .and. s3_in_s04) then
          ! three zeros, middle one between s0 and s4
-         sl  = (s1 + s3) / 2d0
+         sl  = (s1 + s3) / 2d0  ! case 4.3
          f_s = ((c3 * sl + c2) * sl + c1) * sl + f_a - fval
-         s0  = s1       ! low point of bracket
-         f0  = f1
-         s4  = s3       ! high point of bracket
-         f4  = f3
       elseif ((s1_in_s04 .and. f0*f1.gt.0d0) .or. (s3_in_s04 .and. f0*f3.gt.0d0)) then
          ! three zeros, right one between s0 and s4
-         sl  = s4
+         sl  = s4               ! case 4.4
          f_s = f4
-         s0  = s1       ! low point of bracket
-         f0  = f1
       else
          ! three zeros, left one between s0 and s4
-         sl  = s0
+         sl  = s0               ! case 4.5
          f_s = f0
       endif
       df_ds = (3d0 * c3 * sl + 2d0 * c2) * sl + c1
@@ -1142,16 +1142,6 @@ module subroutine solve_cubic_newton( s_a, s_b, f_a, c1, c2, c3, f_b, fval, sl, 
       f_s   = ((      c3 * sl +       c2) * sl  + c1) * sl + f_a - fval
       df_ds =  (3d0 * c3 * sl + 2d0 * c2) * sl  + c1
 
-      ! update bracket [s0, s4]
-
-      if (f_s*f0.gt.0d0) then
-         s0 = sl
-         f0 = f_s
-      else
-         s4 = sl
-         f4 = f_s
-      endif
-   
       if (ldebug.ge.5 .or. (iter.ge.5 .and. ldebug.ge.2)) then
          write(bufout,12) iter, sl, s0, s4, f_s, df_ds 
          call write_log(1, bufout)
@@ -1286,14 +1276,11 @@ module subroutine spline_get_s_at_f_spl( spl, ikarg, nout, f_out, s_out, my_ierr
          call locate_segment( spl%nsec_top+1, spl%ysec_top, f_out(iout), itop )
          itop = max(1, min(spl%nsec_top, itop))
 
-         ! determine the corresponding uni-valued section number iuni
+         ! search f_out in the corresponding uni-valued section number iuni
 
          iuni = spl%iuni_top(itop)
-
-         ! search f_out in uni-valued section iuni
-
          ip0  = spl%ipnt_uniy(iuni)
-         ip1  = spl%ipnt_uniy(iuni+1) - 1
+         ip1  = spl%ipnt_uniy(iuni+1)
          np01 = ip1 - ip0 + 1
 
          call locate_segment( np01, d(ip0:ip1), f_out(iout), iseg )

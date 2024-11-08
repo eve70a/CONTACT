@@ -422,7 +422,7 @@ contains
          zerror = zerror .or. .not.check_irng ('Control digit D',  ic%discns3, 0, 2)
          zerror = zerror .or. .not.check_2rng ('Control digit C3', ic%gencr_inp, 0, 4, 9, 9)
          zerror = zerror .or. .not.check_irng ('Control digit Z',  ic%rznorm,  0, 2)
-         zerror = zerror .or. .not.check_2rng ('Control digit E',  ic%rztang,  0, 1, 9, 9)
+         zerror = zerror .or. .not.check_2rng ('Control digit E',  ic%rztang,  0, 3, 9, 9)
       endif
 
       zerror = zerror .or. .not.check_irng ('Control digit P',  ic%pvtime,  0, 3)

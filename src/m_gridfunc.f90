@@ -2015,7 +2015,7 @@ subroutine gf3_mirror_x(ikeep, fin, fout, ikarg, idebug)
 !--local variables
    real(kind=8), parameter :: small = 1d-9
    integer                 :: mx, my, ix, iy, ik, ik0, ik1, nval,                                       &
-                              ix_negn, ix_neg1, ix_pos1, ix_posn, ix_neg, ix_pos
+                              ix_negn, ix_neg1, ix_pos1, ix_posn, ix_neg, ix_pos, ii, ii_neg, ii_pos
 
    if (ikeep.eq.0) then
       call write_log(' INTERNAL ERROR(mirror_x): ikeep=0')

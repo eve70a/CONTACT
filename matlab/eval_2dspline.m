@@ -108,8 +108,9 @@ function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug
    % determine collocation matrix for v-direction: evaluate each B-spline at each output location
    %  - check basic interval [tj(4),tj(nknot-k+1)]
 
-   n0 = nnz(v_in < spl2d.tvj(4));
-   n1 = nnz(v_in > spl2d.tvj(end-3));
+   tiny_dt = 1e-10;
+   n0 = nnz(v_in < spl2d.tvj(4)-tiny_dt);
+   n1 = nnz(v_in > spl2d.tvj(end-3)+tiny_dt);
    if (n0+n1>0)
       disp(sprintf('Warning: there are %d v-positions before and %d after spline v-range [%3.1f,%3.1f]', ...
                 n0, n1, spl2d.tvj(4), spl2d.tvj(end-3)));
@@ -136,9 +137,8 @@ function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug
 
    % determine collocation matrix for u-direction: evaluate each B-spline at each output location
 
-   tiny  = 1e-10;
-   n0 = nnz(u_in < spl2d.tui(4)-tiny);
-   n1 = nnz(u_in > spl2d.tui(end-3)+tiny);
+   n0 = nnz(u_in < spl2d.tui(4)-tiny_dt);
+   n1 = nnz(u_in > spl2d.tui(end-3)+tiny_dt);
    if (n0+n1>0)
       disp(sprintf('Warning: there are %d u-positions before and %d after spline u-range [%3.1f,%3.1f]', ...
                 n0, n1, spl2d.tui(4), spl2d.tui(end-3)));
@@ -161,7 +161,7 @@ function [x_out, y_out, z_out] = eval_2dspline_forward(spl2d, u_in, v_in, idebug
 
    % remove points that don't have full support
 
-   ix    = find(mask<1-tiny);
+   ix    = find(mask<1-tiny_dt);
    x_out(ix) = NaN;
    y_out(ix) = NaN;
    z_out(ix) = NaN;
@@ -191,7 +191,7 @@ function [ v_out ] = eval_2dspline_inverse(spl2d, u_in, y_in, idebug)
 % if u_in and y_in have the same size, invert 2d spline at pairs (u_in(i), y_in(i))
 %                                else, invert 2d spline at tensor grid u_in x y_in.
 
-   tiny   = 1e-10 * max(abs(spl2d.ui));
+   tiny_dt = 1e-10;
    k      = 4;
    nknotu = length(spl2d.tui);
    nknotv = length(spl2d.tvj);
@@ -236,6 +236,11 @@ function [ v_out ] = eval_2dspline_inverse(spl2d, u_in, y_in, idebug)
       % cj_y: [ nsplv, 1 ], Bmat: [ nu, nsplu ], cij_y: [ nsplu, nsplv ], u_in: [ nu ]
 
       cj_y = (Bmatx(iout,:) * spl2d.cij_y)';
+
+      % remove coefficients that don't have full support
+      mask = (Bmatx(iout,:) * spl2d.mask_j)';
+      ix   = find(mask<1-tiny_dt);
+      cj_y(ix) = NaN;
 
       % n+k knots gives n basisfunctions and n spline coefficients; 
       % basisfunction j becomes nonzero at knot j until knot j+k.
@@ -305,9 +310,11 @@ function [ v_out ] = eval_2dspline_inverse(spl2d, u_in, y_in, idebug)
 
             % try potential segments one-by-one until a solution is found
 
-            jj = 1;
+            jj = 0;
             found = 0;
-            while(jj<=nseg & ~found)
+            while(jj<nseg & ~found)
+
+               jj = jj + 1;
 
                % spline segment: interval [v_j, v_{j+1}]
 
@@ -333,9 +340,6 @@ function [ v_out ] = eval_2dspline_inverse(spl2d, u_in, y_in, idebug)
                elseif (~found & idebug>=3)
                   disp(sprintf('jj = %d: no solution',jj));
                end
-
-               found = 1;
-               if (~found), jj = jj + 1; end
             end % jj
 
          end % nseg>0

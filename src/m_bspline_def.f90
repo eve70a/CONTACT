@@ -191,6 +191,128 @@ end subroutine bspline2d_print
 
 !------------------------------------------------------------------------------------------------------------
 
+module subroutine bspline2d_dump_matlab(bspl, is_wheel, fname, idebug)
+!--function: print spline structure in the form of a Matlab m-file
+   implicit none
+!--subroutine arguments
+   type(t_bspline2d)    :: bspl
+   character(len=*)     :: fname
+   integer              :: is_wheel, idebug
+!--local variables
+   integer, parameter   :: n_p_line = 10
+   integer              :: lspl, ios, iu, jv, ii
+
+      call write_log(' Dump 2d spline data to m-file "' // trim(fname) // '"...')
+      lspl = get_lunit_tmp_use()
+      open(unit=lspl, file=fname, iostat=ios, err=991)
+
+      write(lspl,'(a)')         's = struct();'
+      write(lspl,'(2(a,i6),a)') 's.nknotu = ',bspl%nknotu, '; s.nknotv = ',bspl%nknotv,';'
+      write(lspl,'(2(a,i6),a)') 's.nreducu =',bspl%nreducu,'; s.nreducv =',bspl%nreducv,';'
+      write(lspl,'(2(a,i6),a)') 's.nsplu =  ',bspl%nsplu,  '; s.nsplv =  ',bspl%nsplv,';'
+      write(lspl,'(2(a,i6),a)') 's.nbrku =  ',bspl%nbrku,  '; s.nbrkv =  ',bspl%nbrkv,';'
+
+      write(lspl,'(a)')         's.tui = [ ...'
+      do iu = 1, bspl%nknotu
+         write(lspl,'(f15.4,$)') bspl%tui(iu)
+         if (modulo(iu, n_p_line).eq.0) write(lspl,'(a)') ' ...'
+      enddo
+      write(lspl,'(a)') ']'';'
+
+      write(lspl,'(a)')         's.tvj = [ ...'
+      do jv = 1, bspl%nknotv
+         write(lspl,'(f15.4,$)') bspl%tvj(jv)
+         if (modulo(jv, n_p_line).eq.0) write(lspl,'(a)') ' ...'
+      enddo
+      write(lspl,'(a)') '];'
+
+      write(lspl,'(a)')         's.ui  = s.tui(4:end-3);'
+      write(lspl,'(a)')         's.vj  = s.tvj(4:end-3);'
+      write(lspl,'(a)')         's.tui_grev = conv(s.tui(2:end-1), [1 1 1]/3, ''valid'');'
+      write(lspl,'(a)')         's.tvj_grev = conv(s.tvj(2:end-1), [1 1 1]/3, ''valid'');'
+
+      if (.not.bspl%has_xdata) then
+         write(lspl,'(a)') '% spline has no xdata'
+      else
+         write(lspl,'(a)')         's.cij_x = reshape( [ ...'
+         do jv = 1, bspl%nsplv
+            do iu = 1, bspl%nsplu
+               ii = iu + (jv-1) * bspl%nsplu
+               write(lspl,'(es15.7,$)') bspl%cij_x(iu,jv)
+               if (modulo(ii, n_p_line).eq.0) write(lspl,'(a)') ' ...'
+            enddo
+         enddo
+         write(lspl,'(a)') ' ], s.nsplu, s.nsplv);'
+         write(lspl,'(a)') '% ix = find(s.cij_x<-998); s.cij_x(ix) = 0;'
+      endif
+
+      write(lspl,'(a)')         's.cij_y = reshape( [ ...'
+      do jv = 1, bspl%nsplv
+         do iu = 1, bspl%nsplu
+            ii = iu + (jv-1) * bspl%nsplu
+            write(lspl,'(es15.7,$)') bspl%cij_y(iu,jv)
+            if (modulo(ii, n_p_line).eq.0) write(lspl,'(a)') ' ...'
+         enddo
+      enddo
+      write(lspl,'(a)') ' ], s.nsplu, s.nsplv);'
+      write(lspl,'(a)') 'ix = find(s.cij_y<-998); s.cij_y(ix) = 0;'
+
+      write(lspl,'(a)')         's.cij_z = reshape( [ ...'
+      do jv = 1, bspl%nsplv
+         do iu = 1, bspl%nsplu
+            ii = iu + (jv-1) * bspl%nsplu
+            write(lspl,'(es15.7,$)') bspl%cij_z(iu,jv)
+            if (modulo(ii, n_p_line).eq.0) write(lspl,'(a)') ' ...'
+         enddo
+      enddo
+      write(lspl,'(a)') ' ], s.nsplu, s.nsplv);'
+      write(lspl,'(a)') 'ix = find(s.cij_z<-998); s.cij_z(ix) = 0;'
+
+      write(lspl,'(a)')         's.mask_j = reshape( [ ...'
+      do jv = 1, bspl%nsplv
+         do iu = 1, bspl%nsplu
+            ii = iu + (jv-1) * bspl%nsplu
+            write(lspl,'(i2,$)') bspl%mask(iu,jv)
+            if (modulo(ii, n_p_line).eq.0) write(lspl,'(a)') ' ...'
+         enddo
+      enddo
+      write(lspl,'(a)') ' ], s.nsplu, s.nsplv);'
+
+      if (is_wheel.ge.1) then
+         write(lspl,'(a)') 's.use_cylindr = 1;'
+      else
+         write(lspl,'(a)') 's.use_cylindr = 0;'
+      endif
+
+      close(lspl)
+      call free_lunit_tmp_use(lspl)
+      if (idebug.ge.4) then
+         call write_log(' idebug>=4: aborting')
+         call abort_run()
+      endif
+      goto 999
+
+ 991  continue
+         write(bufout,'(2(a,i6))') ' Error opening lspl=',lspl,', ios=',ios
+         call write_log(1, bufout)
+         call abort_run()
+
+ 999  continue
+
+!     nline    = int( (bspl%nknotu-1) / n_p_line ) + 1
+!     do iline = 1, nline
+!        iof = (iline-1) * n_p_line
+!        if (iof+n_p_line.lt.bspl%nknotu) then
+!           write(lspl,'(10f12.4,a)') (bspl%tui(iu), iu=iof+1, iof+n_p_line), ' ...'
+!        else
+!           write(lspl,'(10f12.4)') (bspl%tui(iu), iu=iof+1, min(bspl%nknotu, iof+n_p_line))
+!        endif
+!     enddo
+
+end subroutine bspline2d_dump_matlab
+
+!------------------------------------------------------------------------------------------------------------
+
 module subroutine bspline_make_breakpoints(nknot, tj, tiny_dt, nbrk_arg, spnt, idebug)
 !--function: determine breakpoints in knot vector tj: unique knots, excluding 1:k-1 and end-[0:k-2]
    implicit none

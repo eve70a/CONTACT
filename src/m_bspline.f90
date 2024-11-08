@@ -34,6 +34,7 @@ module m_bspline
    public  bspline2d_nullify
    public  bspline2d_destroy
    public  bspline2d_print
+   public  bspline2d_dump_matlab
    public  bspline_make_breakpoints
    public  bspline_insert_knot
    public  bspline_eval1d
@@ -191,6 +192,16 @@ module m_bspline
          integer              :: idebug
          integer, optional    :: ndigit       ! number of significant digits
       end subroutine bspline2d_print
+
+      !------------------------------------------------------------------------------------------------------
+
+      module subroutine bspline2d_dump_matlab(bspl, is_wheel, fname, idebug)
+      !--function: print spline structure in the form of a Matlab m-file
+      !--subroutine arguments
+         type(t_bspline2d)    :: bspl
+         character(len=*)     :: fname
+         integer              :: is_wheel, idebug
+      end subroutine bspline2d_dump_matlab
 
       !------------------------------------------------------------------------------------------------------
 

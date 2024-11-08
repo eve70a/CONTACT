@@ -685,7 +685,7 @@ module subroutine ppspline_make_simple_sec_intpol(tot_pnt, ip0, ip1, s, y, a3, a
       if (k.gt.1) then
          qmat(k,1) = -3d0 / h(k) - 3d0 / h(k-1)
       else
-         qmat(k,1) = 0d0
+         qmat(k,1) = 0d0        ! free end condition f"(0) = 0
       endif
       qmat(k,2) = 3d0 / h(k)
    enddo
@@ -698,7 +698,7 @@ module subroutine ppspline_make_simple_sec_intpol(tot_pnt, ip0, ip1, s, y, a3, a
       if (j.le.neqs-1) then
          amat(j,2) =        h(j+1)
       else
-         amat(j,2) = h(j+1)
+         amat(j,2) = h(j+1)     ! free end condition f"(end) = 0
       endif
 
       rhs(j) = qmat(j  ,2) * y(iofs+j  ) + qmat(j+1,1) * y(iofs+j+1) + qmat(j+1,2) * y(iofs+j+2)

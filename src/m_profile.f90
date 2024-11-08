@@ -914,8 +914,8 @@ contains
             ! ismooth = 2: using weighted smoothing B-spline
 
             use_wgt         = .true.
+            ds_bspl         = max(0.001d0, smooth/4d0)
             lambda          = smooth**6 / (64d0 * pi**6)
-            ds_bspl         = 0.001d0
             naccel          = 0
             iaccel(1)       = 0
             use_minz        = (is_wheel.eq.0)
@@ -923,16 +923,18 @@ contains
             if (x_profil.ge.1) k_chk = 10
 
             ! call write_log(' call grid_make_bspline...')
-            call spline_set_debug(0)
+            ! call bspline_set_debug(3)
+            ! call spline_set_debug(3)
             call grid_make_bspline(prf_grd, ds_bspl, lambda, use_wgt, nkink, ikinks, naccel, iaccel,    &
                                 ierror, k_chk)
 
-            if (is_wheel.eq.1 .and. .false.) then
+            if (is_wheel.eq.0 .and. .false.) then
                call spline_set_debug(1)
                call spline_add_topview(prf_grd%spl, use_minz, ierror)
-               call spline_print(prf_grd%spl, 'prf_grd%spl', 3)
+               call spline_print(prf_grd%spl, 'prf_grd%spl', 5)
             endif
-            call spline_set_debug(0)
+            ! call bspline_set_debug(0)
+            ! call spline_set_debug(0)
             ! call spline_print(prf_grd%spl, 'prf_grd%spl', 3)
             ! call write_log(' done grid_make_bspline...')
 
@@ -3062,12 +3064,13 @@ contains
             do while(is_kink .and. ipnt+k.gt.2 .and. dst.lt.dst_max)
                k   = k - 1
                dst = sqrt( (y(ipnt)-y(ipnt+k))**2 + (z(ipnt)-z(ipnt+k))**2 )
-               if (dst.lt.dst_max .and. abs(dalph(ipnt+k)).gt.ang_thrs_low) is_kink = .false.
-
+               if (dst.lt.dst_max) then
+                  if (abs(dalph(ipnt+k)).gt.ang_thrs_low) is_kink = .false.
                if (ldebug.ge.3) then
-                  write(bufout,'(a,i3,3(a,f6.2),a,f7.1)') '  - ngb k=',k,': (',y(ipnt+k),',',z(ipnt+k), &
-                        '), dst=', dst,', dalph=',dalph(ipnt+k)*180d0/pi
+                     write(bufout,'(a,i3,3(a,f6.2),a,f7.1)') '  - ngb k=',k,': (',y(ipnt+k),',',        &
+                        z(ipnt+k), '), dst=', dst,', dalph=',dalph(ipnt+k)*180d0/pi
                   call write_log(1, bufout)
+               endif
                endif
             enddo
 
@@ -3078,12 +3081,13 @@ contains
             do while(is_kink .and. ipnt+k.lt.npnt-1 .and. dst.lt.dst_max)
                k   = k + 1
                dst = sqrt( (y(ipnt+k)-y(ipnt))**2 + (z(ipnt+k)-z(ipnt))**2 )
-               if (dst.lt.dst_max .and. abs(dalph(ipnt+k)).gt.ang_thrs_low) is_kink = .false.
-
+               if (dst.lt.dst_max) then
+                  if (abs(dalph(ipnt+k)).gt.ang_thrs_low) is_kink = .false.
                if (ldebug.ge.3) then
-                  write(bufout,'(a,i3,3(a,f6.2),a,f7.1)') '  - ngb k=',k,': (',y(ipnt+k),',',z(ipnt+k), &
-                        '), dst=', dst,', dalph=',dalph(ipnt+k)*180d0/pi
+                     write(bufout,'(a,i3,3(a,f6.2),a,f7.1)') '  - ngb k=',k,': (',y(ipnt+k),',',        &
+                        z(ipnt+k), '), dst=', dst,', dalph=',dalph(ipnt+k)*180d0/pi
                   call write_log(1, bufout)
+                  endif
                endif
             enddo
          endif

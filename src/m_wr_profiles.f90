@@ -228,8 +228,8 @@ contains
       real(kind=8), intent(out) :: yvampr          ! rail profile y-value at gauge meas.height
       real(kind=8), intent(out) :: zmin            ! lowest z-coordinate on canted rail profile
 !--local variables:
-      integer                   :: iminy, i1st, ilast, ir, j, ierror
-      real(kind=8)              :: sout, xout, yout
+      integer                   :: iminy, i1st, ilast, ir, is0, is1, j, ierror
+      real(kind=8)              :: sout, xout, yout, s0, s1
       type(t_grid)              :: prr_cant, prr_trim
 
       if (prr_orig%y(1).ge.prr_orig%y(prr_orig%ntot)) then
@@ -358,10 +358,16 @@ contains
             ! 4.c gauge point lies inside the interval z-zmin in [0, gauge_height],
             !     compute vertical slope dy/ds = 0
 
+            ! find range [is0:is1] in spline spl%s covering profile s_prf(i1st:ilast)
+
+            s0 = prr_cant%s_prf(i1st)
+            s1 = prr_cant%s_prf(ilast)
+            call locate_interval(prr_cant%spl%npnt, prr_cant%spl%s, s0, s1, is0, is1)
+
             if (idebug.ge.3) call write_log(' gauge point at zgauge<z<0, using slope dy/ds=0...')
 
             ! call spline_set_debug(5)
-            call spline_get_xyz_at_miny(prr_cant%spl, i1st, ilast, ierror, sout, xout, ygauge, zgauge)
+            call spline_get_xyz_at_miny(prr_cant%spl, is0, is1, ierror, sout, xout, ygauge, zgauge)
             ! call spline_set_debug(0)
 
             if (idebug.ge.1) then

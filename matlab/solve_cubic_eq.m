@@ -23,7 +23,7 @@ function [ u_out, found ] = solve_cubic_eq(ppcoef, useg, yev, idebug, iout, jout
    if (1==1)
       [ u_out1, found ] = solve_cubic_cardano(ppcoef, useg, yev, idebug, iout, jout, jseg);
       [ u_out2, found ] = solve_cubic_newton(ppcoef, useg, yev, idebug, iout, jout, jseg);
-      if (abs(u_out1-u_out2)>1e-6)
+      if (abs(u_out1-u_out2)>1e-7*max(abs([u_out1,u_out2])))
          disp(sprintf('  jseg = %d: different solutions u_newt = %8.4f, u_card = %8.4f, diff = %3.1e', ...
                                                                  jseg, u_out2, u_out1, abs(u_out2-u_out1)));
       end

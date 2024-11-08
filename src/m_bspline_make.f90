@@ -97,6 +97,7 @@ module subroutine bspline_make_knot_vector_simple(nprf, sprf, nkink, ikinks, nac
    real(kind=8) :: s_sec, dt_sec
 
    my_ierror = 0
+   if (idebug.ge.1) call write_log(' using bspline_make_knotvector_simple')
 
    ! using sections between kinks and acceleration points
    ! note: ikinks includes 1 and nprf
@@ -147,9 +148,17 @@ module subroutine bspline_make_knot_vector_simple(nprf, sprf, nkink, ikinks, nac
       if (isec_end-isec_sta.le.1) then
          nintv = 1      ! double kink or kink next to boundary
       else
-         nintv  = nint(s_sec / ds_out)
+         nintv  = max(1, nint(s_sec / ds_out))
       endif
       dt_sec = s_sec / real(nintv)
+
+      if (idebug.ge.2) then
+         write(bufout,'(3(a,i3),2(a,l2))') ' section isec=',isec,': sta=',isec_sta,', end=',isec_end,   &
+                   ', kink_sta=',kink_start,', end=',kink_end
+         call write_log(1, bufout)
+         write(bufout,'(18x,2(a,f10.6),a,i3)') ' s_sec =',s_sec,', dt_sec=',dt_sec,', nintv=',nintv
+         call write_log(1, bufout)
+      endif
 
       ! add knots for this section including start/end-points
 
@@ -247,6 +256,7 @@ module subroutine bspline_make_knot_vector_advanced(nprf, sprf, nkink, ikinks, n
    real(kind=8) :: s_sec, dt_sec, tj_new
 
    my_ierror = 0
+   if (idebug.ge.1) call write_log(' using bspline_make_knotvector_advanced')
 
    ! TODO: check unique([ikinks, iaccel])
    ! !!! NOTE: ikinks includes 1 and nprf !!!!
@@ -1136,8 +1146,8 @@ module subroutine bspline_solve_coef1d_intpol(nsplx, jseg, b4, nrow, nsply, cx, 
          call dgbsv(nsplx, kl, ku, nrhs, sysmat, lda, ipiv, cz, ldb, info)
       endif
 
-      if (info.ne.0 .or. idebug.ge.3) then
-         write(bufout,*) 'done dgbsv(',isys,'), info=',info
+      if (info.ne.0 .or. idebug.ge.6) then
+         write(bufout,'(2(a,i0))') ' done dgbsv( ',isys,' ), info= ',info
          call write_log(1, bufout)
       endif
 
@@ -1245,8 +1255,8 @@ module subroutine bspline_make_2d_bspline(spl2d, nmeasu, nmeasv, ui, vj, x2d, y2
    ! check requirements on data size
 
    if (nmeasu.lt.4 .or. nmeasv.lt.4) then
-      write(bufout,'(2(a,i4))') 'ERROR: 2D spline needs at least 4 slices and 4 points per slice, nmeasu=', &
-                nmeasu,', nmeasv=',nmeasv
+      write(bufout,'(a,2(a,i4))') ' ERROR: 2D spline needs at least 4 slices and 4 points per slice,', &
+                ' nmeasu=', nmeasu,', nmeasv=',nmeasv
       call write_log(1, bufout)
       my_ierror = 404
    endif
@@ -1405,7 +1415,7 @@ module subroutine bspline_make_2d_bspline(spl2d, nmeasu, nmeasv, ui, vj, x2d, y2
       wrk_ci_y(1:nj,1:ni) = transpose(y2d(iu0:iu1,j0:j1))
       wrk_ci_z(1:nj,1:ni) = transpose(z2d(iu0:iu1,j0:j1))
 
-      ! call print_2d_real(nmeasv+2, ni, wrk_ci_z, 'inp_ci_z', 10, 'g12.4')
+      ! call print_2d_real(nj, ni, wrk_ci_y, 'inp_ci_y', 10, 'g12.6')
 
       if (my_ierror.eq.0) then
          ! call write_log(' bspline_solve_coef1d_intpol(1)...')
@@ -1419,7 +1429,7 @@ module subroutine bspline_make_2d_bspline(spl2d, nmeasu, nmeasv, ui, vj, x2d, y2
             call check_nan(wrk_ci_y, 'ci_y', 1)
             call check_nan(wrk_ci_z, 'ci_z', 1)
          endif
-         ! call print_2d_real(nmeasv+2, ni, wrk_ci_y, 'out_ci_y', 10, 'g12.4')
+         ! call print_2d_real(nj, ni, wrk_ci_y, 'out_ci_y', 10, 'g12.4')
       endif
 
       ! insert knots at not-a-knot positions, compute updated coefficient values

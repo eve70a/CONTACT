@@ -160,8 +160,8 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
       slc = slcs.prf(is);
       if (idebug>=3 & is==is_debug)
-         disp(sprintf(['Slice %d: s=[%5.1f,%5.1f], s_p={%5.1f,',...
-                       '%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f,%5.1f}'], ...
+         disp(sprintf(['Slice %d: prr_s=[%5.2f,%5.2f], s_f={%5.2f,',...
+                       '%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f}'], ...
                        is, slcs.prf(is).ProfileS([1,end]), s_feat(is,:)));
       end
 
@@ -183,7 +183,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
          sj(i0:i1) = s_ofs + s_len * (vj(i0:i1) - vj(i0)) / v_len;
 
          if (idebug>=3 & is==is_debug)
-            disp(sprintf(' part %d: s=[%6.1f,%6.1f], sj={%6.1f,%6.1f ..%6.1f}', ...
+            disp(sprintf(' part %d: s=[%6.2f,%6.2f], sj={%6.3f,%6.3f ..%6.3f}', ...
                         ipart, s_feat(is,ipart+[0:1]), sj([i0,i0+1,i1]) ));
          end
       end
@@ -197,7 +197,19 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 
          % make spline for the slice, evaluate at positions sj
 
-         lambda = 0; wgt = []; ikinks = []; iaccel = []; use_bspline = 1; ds_bspline = 0.5;
+         if (~exist('detect_kinks'))
+            ikinks = [];
+         else
+            dalph_thrs_high = 30 * pi/180;
+            dalph_thrs_low  =  6 * pi/180;
+            dst_max         = 2.0;
+            scale_z         = 1.0;
+            is_wheel        = [];
+            ikinks = detect_kinks( slc.ProfileS, slc.ProfileY, slc.ProfileZ, dalph_thrs_high, ...
+                                                dalph_thrs_low, dst_max, scale_z, is_wheel);
+         end
+
+         lambda = 0; wgt = []; iaccel = []; use_bspline = 0; ds_bspline = 0.5;
          if (length(slc.ProfileY)==7), ikinks = [2,3,4,5,6]; end    % hack for V-groove test-case
          spl = make_spline( slc.ProfileS, slc.ProfileY, slc.ProfileZ, lambda, wgt, ikinks, iaccel, ...
                                                                            use_bspline, ds_bspline);

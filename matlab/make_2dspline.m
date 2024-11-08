@@ -93,19 +93,20 @@ function [ spl2d ] = make_2dspline( ui, vj, xij, yij, zij, mask_j, use_approx, u
 
    % determine master knot-vector tui_full with knots at all measurement points + extension at start/end
 
+   use_insert = 1;
    use_repl = 0;
-   tui_full = make_knot_vector_atmeas( ui, 'u', 1, use_repl, idebug );
+   tui_full = make_knot_vector_atmeas( ui, 'u', use_insert, use_repl, idebug );
 
    % determine master knot-vector tvj_full with knots at all measurement points + extension at start/end
 
    use_repl = 0;
-   tvj_full = make_knot_vector_atmeas( vj, 'v', 1, use_repl, idebug );
+   tvj_full = make_knot_vector_atmeas( vj, 'v', use_insert, use_repl, idebug );
 
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % Phase 1: build B-splines per slice in lateral direction v -> (y,z)
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-   % consider 'sections' of slices i0:i1 with same mask per slice
+   % consider contiguous 'sections' of slices i0:i1 with same mask per slice
 
    ci_x = zeros(nmeasu, nmeasv+n_ins);
    ci_y = zeros(nmeasu, nmeasv+n_ins);
@@ -114,7 +115,7 @@ function [ spl2d ] = make_2dspline( ui, vj, xij, yij, zij, mask_j, use_approx, u
    i1 = 0;
    while(i1 < nmeasu)
 
-      % select slices i0:i1 with the same mask per slice
+      % select contiguous slices i0:i1 with the same mask per slice
 
       i0 = i1 + 1;
       i1 = i0;
@@ -253,122 +254,135 @@ function [ spl2d ] = make_2dspline( ui, vj, xij, yij, zij, mask_j, use_approx, u
       end
       njt = jt1 - jt0 + 1;
 
-      % determine active i0:i1 and corresponding rows it0:it1 in cij_x, cij_y, cij_z
+      % loop over contiguous regions i0:i1
 
-      i0   = find(mask_j(:,j0), 1, 'first');
-      i1   = find(mask_j(:,j0), 1, 'last');
-      ni   = i1 - i0 + 1;
-      it0  = i0;
-      it1  = i1 + 2;
+      i_prev = 0;
+      while(i_prev<nmeasu)
 
-      if (idebug>=1)
-         disp(sprintf('compute cij_[xyz] for jt=[%3d,%3d], active ix=[%3d,%3d]', jt0,jt1, i0,i1));
-      end
+          % determine contiguous active i0:i1 and corresponding rows it0:it1 in cij_x, cij_y, cij_z
 
-      if (use_approx)
+          i0   = i_prev + find(mask_j(i_prev+1:end,j0), 1, 'first');
+          i1   = i0-1 + find(mask_j(i0+1:end,j0)==0, 1, 'first');
+          if (isempty(i1)), i1 = nmeasu; end
+          ni   = i1 - i0 + 1;
+          it0  = i0;
+          it1  = i1 + 2;
 
-         % approximating spline -- interpret (cx, cy, cz) as control points for 2D spline
-
-         c_x = zeros(ni+n_ins,njt);
-         c_y = zeros(ni+n_ins,njt);
-         c_z = zeros(ni+n_ins,njt);
-
-         if (~use_insert)
-
-            if (has_xij), c_x(1:ni,:) = ci_x(i0:i1,jt0:jt1); end
-            if (has_yij), c_y(1:ni,:) = ci_y(i0:i1,jt0:jt1); end
-            if (has_zij), c_z(1:ni,:) = ci_z(i0:i1,jt0:jt1); end
-
+         if (idebug>=1)
+            disp(sprintf('compute cij_[xyz] for jt=[%3d,%3d], active ix=[%3d,%3d]', jt0,jt1, i0,i1));
+         end
+    
+         if (use_approx)
+    
+            % approximating spline -- interpret (cx, cy, cz) as control points for 2D spline
+    
+            c_x = zeros(ni+n_ins,njt);
+            c_y = zeros(ni+n_ins,njt);
+            c_z = zeros(ni+n_ins,njt);
+    
+            if (~use_insert)
+    
+               if (has_xij), c_x(1:ni,:) = ci_x(i0:i1,jt0:jt1); end
+               if (has_yij), c_y(1:ni,:) = ci_y(i0:i1,jt0:jt1); end
+               if (has_zij), c_z(1:ni,:) = ci_z(i0:i1,jt0:jt1); end
+    
+            else
+    
+               % select interior 'control points' from ci_x, ci_y, ci_z
+    
+               if (has_xij), c_x(2:ni+1,:) = ci_x(i0:i1,jt0:jt1); end
+               if (has_yij), c_y(2:ni+1,:) = ci_y(i0:i1,jt0:jt1); end
+               if (has_zij), c_z(2:ni+1,:) = ci_z(i0:i1,jt0:jt1); end
+    
+               % add fantom control points at rows 1 and ni+2
+    
+               dt_ext = tui_full(3+i0)   - tui_full(3+i0-1);
+               dt_int = tui_full(3+i0+1) - tui_full(3+i0);
+               c_x(1,:)  = c_x(2,:) - dt_ext/dt_int * (c_x(3,:) - c_x(2,:));
+               c_y(1,:)  = c_y(2,:) - dt_ext/dt_int * (c_y(3,:) - c_y(2,:));
+               c_z(1,:)  = c_z(2,:) - dt_ext/dt_int * (c_z(3,:) - c_z(2,:));
+               if (idebug>=1)
+                  disp(sprintf('start: t_ext = %5.2f, t_bnd = %5.2f, t_int = %5.2f', tui_full(3+i0+[-1:1])));
+                  disp(sprintf('       c_ext = %5.2f *c_bnd + %5.2f *c_int', [1,0]+[1,-1]*dt_ext/dt_int))
+               end
+    
+               dt_int = tui_full(3+i1)   - tui_full(3+i1-1);
+               dt_ext = tui_full(3+i1+1) - tui_full(3+i1);
+               c_x(ni+2,:)  = c_x(ni+1,:) + dt_ext/dt_int * (c_x(ni+1,:) - c_x(ni,:));
+               c_y(ni+2,:)  = c_y(ni+1,:) + dt_ext/dt_int * (c_y(ni+1,:) - c_y(ni,:));
+               c_z(ni+2,:)  = c_z(ni+1,:) + dt_ext/dt_int * (c_z(ni+1,:) - c_z(ni,:));
+               if (idebug>=1)
+                  disp(sprintf('end:   t_int = %5.2f, t_bnd = %5.2f, t_ext = %5.2f', tui_full(3+i1+[-1:1])));
+                  disp(sprintf('       c_ext = %5.2f *c_bnd + %5.2f *c_int', [1,0]+[1,-1]*dt_ext/dt_int))
+               end
+            end
+    
          else
-
-            % select interior 'control points' from ci_x, ci_y, ci_z
-
-            if (has_xij), c_x(2:ni+1,:) = ci_x(i0:i1,jt0:jt1); end
-            if (has_yij), c_y(2:ni+1,:) = ci_y(i0:i1,jt0:jt1); end
-            if (has_zij), c_z(2:ni+1,:) = ci_z(i0:i1,jt0:jt1); end
-
-            % add fantom control points at rows 1 and ni+2
-
-            dt_ext = tui_full(3+i0)   - tui_full(3+i0-1);
-            dt_int = tui_full(3+i0+1) - tui_full(3+i0);
-            c_x(1,:)  = c_x(2,:) - dt_ext/dt_int * (c_x(3,:) - c_x(2,:));
-            c_y(1,:)  = c_y(2,:) - dt_ext/dt_int * (c_y(3,:) - c_y(2,:));
-            c_z(1,:)  = c_z(2,:) - dt_ext/dt_int * (c_z(3,:) - c_z(2,:));
-            if (idebug>=1)
-               disp(sprintf('start: t_ext = %5.2f, t_bnd = %5.2f, t_int = %5.2f', tui_full(3+i0+[-1:1])));
-               disp(sprintf('       c_ext = %5.2f *c_bnd + %5.2f *c_int', [1,0]+[1,-1]*dt_ext/dt_int))
+    
+            % interpolating spline -- take (cx, cy, cz) as data points for 2D spline
+    
+            % select local knot-vector tui from tui_full
+       
+            iof = [ 1+[-3:0], 3:ni-2, ni+[0:3] ]; % iof = numbering within selection
+            ik  = i0 + iof  + k-2;               % ik  = converted to overall numbering
+            ik1 = i0 + 2    + k-2;
+            ik2 = i0 + ni-1 + k-2;
+            tui = tui_full(ik);
+            % disp('knots tui_full:')
+            % disp(tui_full')
+            % disp('knots tui:')
+            % disp(tui')
+       
+            % determine collocation matrix for u-direction: evaluate each B-spline at each measurement location
+       
+            [~, ~, ~, Bmat] = eval_bspline_basisfnc( tui, ui(i0:i1) );
+       
+            % determine 2d spline coefficients cij_[xyz], solving B [cij_x, cij_y, cij_z] = [ci_x, ci_y, ci_z]
+       
+            cnd = condest(Bmat);
+            if (cnd>1e10)
+               disp(sprintf('make_2dspline: Bmat(u) has size %3d x %3d, condition %6.2e', size(Bmat), cnd));
             end
-
-            dt_int = tui_full(3+i1)   - tui_full(3+i1-1);
-            dt_ext = tui_full(3+i1+1) - tui_full(3+i1);
-            c_x(ni+2,:)  = c_x(ni+1,:) + dt_ext/dt_int * (c_x(ni+1,:) - c_x(ni,:));
-            c_y(ni+2,:)  = c_y(ni+1,:) + dt_ext/dt_int * (c_y(ni+1,:) - c_y(ni,:));
-            c_z(ni+2,:)  = c_z(ni+1,:) + dt_ext/dt_int * (c_z(ni+1,:) - c_z(ni,:));
-            if (idebug>=1)
-               disp(sprintf('end:   t_int = %5.2f, t_bnd = %5.2f, t_ext = %5.2f', tui_full(3+i1+[-1:1])));
-               disp(sprintf('       c_ext = %5.2f *c_bnd + %5.2f *c_int', [1,0]+[1,-1]*dt_ext/dt_int))
+       
+            % cij_y: [ nmeasu, nmeasv+2 ], Bmat: [ nmeasu, nmeasu ], ci_y: [ nmeasu, nmeasv+2 ]
+       
+            if (has_xij), c_x = Bmat \ ci_x(i0:i1,jt0:jt1); end
+            if (has_yij), c_y = Bmat \ ci_y(i0:i1,jt0:jt1); end
+            if (has_zij), c_z = Bmat \ ci_z(i0:i1,jt0:jt1); end
+       
+            if (use_insert)
+    
+               % insert knots at not-a-knot positions
+    
+               if (has_xij)
+                  [ t1, c_x ] = insert_knot( tui, tui_full(ik1), c_x, k, idebug );
+                  [ t2, c_x ] = insert_knot( t1, tui_full(ik2), c_x, k, idebug );
+               end
+               if (has_yij)
+                  [ t1, c_y ] = insert_knot( tui, tui_full(ik1), c_y, k, idebug );
+                  [ t2, c_y ] = insert_knot( t1, tui_full(ik2), c_y, k, idebug );
+               end
+               if (has_zij)
+                  [ t1, c_z ] = insert_knot( tui, tui_full(ik1), c_z, k, idebug );
+                  [ t2, c_z ] = insert_knot( t1, tui_full(ik2), c_z, k, idebug );
+               end
             end
-         end
-
-      else
-
-         % interpolating spline -- take (cx, cy, cz) as data points for 2D spline
-
-         % select local knot-vector tui from tui_full
     
-         iof = [ 1+[-3:0], 3:ni-2, ni+[0:3] ]; % iof = numbering within selection
-         ik  = i0 + iof  + k-2;               % ik  = converted to overall numbering
-         ik1 = i0 + 2    + k-2;
-         ik2 = i0 + ni-1 + k-2;
-         tui = tui_full(ik);
-         % disp('knots tui_full:')
-         % disp(tui_full')
-         % disp('knots tui:')
-         % disp(tui')
+         end % use_approx
     
-         % determine collocation matrix for u-direction: evaluate each B-spline at each measurement location
+         % store results
     
-         [~, ~, ~, Bmat] = eval_bspline_basisfnc( tui, ui(i0:i1) );
-    
-         % determine 2d spline coefficients cij_[xyz], solving B [cij_x, cij_y, cij_z] = [ci_x, ci_y, ci_z]
-    
-         cnd = condest(Bmat);
-         if (cnd>1e10)
-            disp(sprintf('make_2dspline: Bmat(u) has size %3d x %3d, condition %6.2e', size(Bmat), cnd));
-         end
-    
-         % cij_y: [ nmeasu, nmeasv+2 ], Bmat: [ nmeasu, nmeasu ], ci_y: [ nmeasu, nmeasv+2 ]
-    
-         if (has_xij), c_x = Bmat \ ci_x(i0:i1,jt0:jt1); end
-         if (has_yij), c_y = Bmat \ ci_y(i0:i1,jt0:jt1); end
-         if (has_zij), c_z = Bmat \ ci_z(i0:i1,jt0:jt1); end
-    
-         if (use_insert)
+         if (has_xij), cij_x(i0:i1+n_ins, jt0:jt1) = c_x; end
+         if (has_yij), cij_y(i0:i1+n_ins, jt0:jt1) = c_y; end
+         if (has_zij), cij_z(i0:i1+n_ins, jt0:jt1) = c_z; end
+         spl_mask(i0:i1+n_ins, jt0:jt1) = 1;
 
-            % insert knots at not-a-knot positions
+         % prepare for next section [i0:i1]
 
-            if (has_xij)
-               [ t1, c_x ] = insert_knot( tui, tui_full(ik1), c_x, k, idebug );
-               [ t2, c_x ] = insert_knot( t1, tui_full(ik2), c_x, k, idebug );
-            end
-            if (has_yij)
-               [ t1, c_y ] = insert_knot( tui, tui_full(ik1), c_y, k, idebug );
-               [ t2, c_y ] = insert_knot( t1, tui_full(ik2), c_y, k, idebug );
-            end
-            if (has_zij)
-               [ t1, c_z ] = insert_knot( tui, tui_full(ik1), c_z, k, idebug );
-               [ t2, c_z ] = insert_knot( t1, tui_full(ik2), c_z, k, idebug );
-            end
-         end
+         i_prev = i1;
+         if (isempty(find(mask_j(i1+1:end,j0)))), i_prev = nmeasu; end
 
-      end % use_approx
-
-      % store results
-
-      if (has_xij), cij_x(i0:i1+n_ins, jt0:jt1) = c_x; end
-      if (has_yij), cij_y(i0:i1+n_ins, jt0:jt1) = c_y; end
-      if (has_zij), cij_z(i0:i1+n_ins, jt0:jt1) = c_z; end
-      spl_mask(i0:i1+n_ins, jt0:jt1) = 1;
+      end % while (contiguous i0:i1)
    end
 
    spl2d = struct('ui',ui, 'vj',vj, 'use_cylindr',use_cylindr, 'xij',xij, 'yij',yij, 'zij',zij, ...
