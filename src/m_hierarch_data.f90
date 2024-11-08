@@ -318,6 +318,8 @@ public
       ! e3, rztang/exrhs  extra term of the rigid slip, rhs of tangential problem (module 3)
       !              0 = set the extra term equal to zero;
       !              1 = maintain the extra term of the previous case;
+      !              2 = add extra term w_y = -x\phi, removing spin contribution from y-direction;
+      !              3 = add extra term w_x =  y\phi, removing spin contribution from x-direction;
       !              9 = read a new extra term from the inputfile, element-by-element
       ! g, gausei   the choices w.r.t. iterative solvers
       !              0 = default solvers and settings, new max.its, eps
@@ -334,7 +336,11 @@ public
       !              2 = use normal part of solution only;
       !              3 = previous case gives a good initial estimate.
       ! a, matfil_surf   governs the use of the matlab-file <experim>.<case>.mat per case:
-      !              0 = the mat-files is not created;
+      !             -2 = results are evaluated for all points of the potential contact area (soutpt),
+      !                  no mat-files created  -- for internal use in module 1 calling module 3
+      !             -1 = results are evaluated for points in the actual contact area (soutpt),
+      !                  no mat-files created  -- for internal use in module 1 calling module 3
+      !              0 = no mat-files created;
       !              1 = the detailed results of the case are written to a mat-file, for points inside
       !                  contact area.
       !              2 = results are evaluated/written to the mat-file for all points of the potential
@@ -2076,8 +2082,8 @@ end subroutine potcon_get_overlap
 
       geom_out%prmudf = geom_in%prmudf  ! automatic (re)allocation
       geom_out%prmpln = geom_in%prmpln  ! automatic (re)allocation
-      geom_out%xylim  = geom_in%xylim   ! automatic (re)allocation
-      geom_out%facsep = geom_in%facsep  ! automatic (re)allocation
+      if (allocated(geom_in%xylim))  geom_out%xylim  = geom_in%xylim   ! automatic (re)allocation
+      if (allocated(geom_in%facsep)) geom_out%facsep = geom_in%facsep  ! automatic (re)allocation
 
       call gf3_new( geom_out%exrhs, 'geom%exrhs', cgrid, nulify=.true. )
       call gf3_new( geom_out%hs1,   'geom%hs1'  , cgrid, nulify=.true. )

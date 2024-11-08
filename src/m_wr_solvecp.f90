@@ -117,7 +117,11 @@ contains
 
       if (my_ierror.eq.0) then
          if (wtd%ic%x_cpatch.ge.1) then
-            write(bufout,'(a,f9.4)') ' z_ws=',wtd%ws%z
+            if (wtd%ic%force1.eq.3) then
+               write(bufout,'(2(a,f9.4))') ' dy_defl=',wtd%trk%dy_defl,', z_ws=',wtd%ws%z
+            else
+               write(bufout,'(a,f9.4)') ' z_ws=',wtd%ws%z
+            endif
             call write_log(1, bufout)
          endif
          call wr_locatecp(wtd%meta, wtd%ic, wtd%ws, wtd%trk, wtd%discr, wtd%numcps, wtd%n_miss,         &
@@ -364,7 +368,7 @@ contains
       gd%ic%norm        = 0
       gd%ic%force3      = 0
       gd%ic%discns3     = 1
-      gd%ic%matfil_surf = 0
+      gd%ic%matfil_surf = -wtd_ic%matfil_surf
 
       ! copy solver settings
 
@@ -1005,7 +1009,7 @@ contains
             associate( gd => wtd%allcps(icp)%cp%gd )
             gd%ic%matfil_surf = 2
             call writmt (gd%meta, gd%ic, gd%cgrid_cur, gd%potcon_cur, gd%mater, gd%fric, gd%kin,        &
-                         gd%geom, gd%outpt1, wtd%ic%is_left_side())
+                gd%geom, gd%outpt1, wtd%ic%is_left_side())
             end associate
          enddo
       endif

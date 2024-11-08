@@ -517,7 +517,7 @@ contains
 
       is_roll = ic%tang.eq.2 .or. ic%tang.eq.3
 
-      if (ic%rztang.eq.0) then
+      if (ic%rztang.ne.1 .and. ic%rztang.ne.9) then
          call gf3_new(exrhs, 'geom%exrhs', cgrid)
          call gf3_set(AllElm, 0d0, exrhs, ikTANG)
       endif
@@ -541,6 +541,8 @@ contains
          facx = 1d0
          facy = 1d0
       endif
+      if (ic%rztang.eq.2) facy = 0d0    ! E = 2: discard spin from w_y
+      if (ic%rztang.eq.3) facx = 0d0    ! E = 3: discard spin from w_x
 
       ! compute the rigid slip (wx,wy) of body (1) w.r.t. body (2) and place it in the tangential
       !    right-hand side as hs1 = -dq w.

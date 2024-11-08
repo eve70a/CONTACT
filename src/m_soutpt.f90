@@ -359,13 +359,13 @@ contains
          !  - set normal part of us to 0 when using B=2,3,4.
          !  - compute for AllElm when A>=2 for writing to mat-file
          !
-         ! Note: module 1 uses A=0 in call to soutpt
+         ! Note: module 1 uses A3 = -A1 (0, -1 or -2) in call to soutpt
          ! Note: ignoring reduced interaction between combined sub-contact patches
 
          call areas(igs1)
          if (ic%bound.ge.2 .and. ic%bound.le.4) then
             call gf3_set(AllElm, 0d0, us1, ikZDIR)
-         elseif (ic%matfil_surf.ge.2) then
+         elseif (abs(ic%matfil_surf).ge.2) then
             call VecAijPj(igs1, AllElm, us1, ikZDIR, ps1, jkALL, cs)
          else
             call VecAijPj(igs1, AllInt, us1, ikZDIR, ps1, jkALL, cs)
@@ -376,7 +376,7 @@ contains
          !    TODO: exploit that tangential tractions are zero when T=0?
 
          if (ic%mater.ne.2 .and. ic%mater.ne.3) then
-            if (ic%matfil_surf.ge.2 .or. .false.) then
+            if (abs(ic%matfil_surf).ge.2 .or. .false.) then
                call VecAijPj(igs1, AllElm, us1, ikTANG, ps1, jkALL, cs)
             else
                call VecAijPj(igs1, AllInt, us1, ikTANG, ps1, jkALL, cs)
