@@ -2272,7 +2272,7 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
 !--function: set the parameters of the potential contact area for a contact problem
 !  for w/r contact, icp = -1:
 !    0: w/r contact, fixed grid sizes,  params = [ dx, ds, n.a. ]
-!   -1: w/r contact, fixed grid sizes,  params = [ dx, ds, a_sep, d_sep, d_comb, [d_turn] ]
+!   -1: w/r contact, fixed grid sizes,  params = [ dx, ds, a_sep, d_sep, d_comb, [d_turn, g_miss] ]
 !
 !  for generic contact, icp > 0:
 !    1: lower-left + grid sizes,        params = [ mx, my, xl , yl , dx , dy  ]
@@ -2281,7 +2281,7 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
 !    4: 1st center + last center,       params = [ mx, my, xc1, yc1, xcm, ycm ]
 !
 !  dimensions: mx, my [-],   a_sep [angle],
-!              dx, ds, dy, d_sep, d_comb, d_turn, xl, yl, xh, yh, xc1, yc1, xcm, ycm [length]
+!              dx, ds, dy, d_sep, d_comb, d_turn, g_miss, xl, yl, xh, yh, xc1, yc1, xcm, ycm [length]
 !--category: 5, "m=any, wtd":       available for modules 1 and 3, in module 1 working on wtd data
    implicit none
 !--subroutine arguments:
@@ -2292,7 +2292,6 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
    real(kind=8), intent(in) :: params(nparam) ! dependent on type of specification [length]
 !--local variables:
    integer, parameter  :: nparam_loc(-1:4) = (/ 6, 3, 6, 6, 6, 6 /)
-   logical      :: use_def_dturn
    integer      :: ierror
    character(len=*), parameter :: subnam = 'cntc_setPotContact'
 #ifdef _WIN32
@@ -2314,9 +2313,9 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
       endif
 
       if (ipotcn.eq.-1) then
-         if (nparam.ne.5 .and. nparam.ne.6) then
+         if (nparam.lt.5 .or. nparam.gt.7) then
             write(bufout,'(2a,i2,a)') trim(pfx_str(subnam,ire,icp)),' method IPOTCN=',ipotcn,           &
-                ' needs 5 or 6 parameters.'
+                ' needs 5, 6 or 7 parameters.'
             call write_log(1, bufout)
             return
          endif
@@ -2337,11 +2336,15 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
          wtd%discr%dist_sep  = max(0d0, params(4)) * my_scl%len
          wtd%discr%dist_comb = max(0d0, params(5)) * my_scl%len
 
-         use_def_dturn = (nparam.le.5)
-         if (use_def_dturn) then
-            wtd%discr%dist_turn = 2d0 * wtd%discr%dist_sep - wtd%discr%dist_comb
+         if (nparam.lt.6) then
+            wtd%discr%dist_turn = 2d0 * wtd%discr%dist_sep - wtd%discr%dist_comb ! default D_TURN
          else
             wtd%discr%dist_turn = max(0d0, params(6)) * my_scl%len
+         endif
+         if (nparam.lt.7) then
+            wtd%discr%gap_miss  = -1d0                          ! default G_MISS
+         else
+            wtd%discr%gap_miss  = params(7) * my_scl%len
          endif
       endif
 
@@ -4328,17 +4331,25 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 !                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
 !                     4: arc    get arc-length parameter s along profile
 !                     5: angl   get surface inclination atan2(dz, dy) [angle]
+!                     6: 2d-u   evaluate varprof [xyz]_r or [xyz]_w for cross-section at constant u_i = x_i
+!                     7: 2d-v   evaluate varprof [xyz]_r or [xyz]_w for interpolation path at constant v_j
+!                     8: 2d-y   evaluate varprof [xyz]_r or [xyz]_w for longitudinal slice at constant y_j
+!                     9: spl2d  dump 2D spline data-structure for inspection in Matlab
 !  iparam         - integer configuration parameters
 !                     1: itype     0 = rail, 1 = wheel profile
 !                     2: isampl   -1 = sampling cf. original input data;
-!                                  0 = sampling cf. spline representation (default);
-!                                  1 = sampling cf. spline representation at spacing ds_out
+!                                  0 = sampling cf. spline representation (default for tasks 0--5);
+!                                  1 = sampling cf. spline representation at spacing ds_out (required for
+!                                      tasks 6--8)
 !                            kchk>=2 = sampling cf. spline representation with integer refinement factor
 !  rparam         - real configuration parameters
-!                     1: ds_out  step-size ds used with sampling method isampl=1, default 1mm
-!                     2: x_out   for variable profiles: longitudinal position x_r [mm] (task=1) or
-!                                x_tr [mm] (task=2) or circumferential position th_w [rad] on wheel
-!  tasks 1,2,4: no unit conversion or scaling are applied for profile values
+!                     1: ds_out  step-size ds/du/dv used with sampling method isampl=1, default 1mm
+!                     2: c1_out  sample position on variable profiles (task 1, 2: x_out)
+!                     3: c2_sta  start of sample range on variable profiles
+!                     4: c2_end  end of sample range on variable profiles
+!                   task 6: c1 = u, c2 = v; task 7: c1 = v, c2 = u; task 8: c1 = y, c2 = u.
+!  units: s,x,y,z [mm], th [rad], u,v [-]
+!  tasks 1--9: no unit conversion or scaling are applied for profile values
 !--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
    implicit none
 !--subroutine arguments:
@@ -4352,14 +4363,16 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 !--local variables:
    character(len=*), parameter :: subnam = 'cntc_getProfileValues_new'
    character(len=5)            :: namtyp(0:1) = (/ 'rail ', 'wheel' /)
-   integer                     :: itype, isampl, npnt, ip, j, jp, ldebug, ierror, sub_ierror
+   integer                     :: itype, isampl, npnt, ip, j, jp, iu, ldebug, ierror, sub_ierror
    logical                     :: is_ok
-   real(kind=8)                :: s0, s1, ds, ds_out, x_out, sgn, ygauge, yvampr, zgauge, zmin
+   real(kind=8)                :: s0, s1, ds, ds_out, x_out, sgn, ygauge, yvampr, zgauge, zmin,  &
+                                  c2_sta, c2_end, uarr(1), varr(1), yarr(1)
    type(t_marker)              :: rw_trk
    type(t_grid),     target    :: g_wrk, g_slc
    type(t_gridfnc3)            :: dxyz
    type(t_profile),  pointer   :: my_prf
    type(t_grid),     pointer   :: g
+   character(len=256)          :: fulnam
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_getProfileValues_new
 #endif
@@ -4368,19 +4381,57 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
-   ! unpack option values, fill in defaults
-
    itype   = 0  ! default: rail
    if (nints.ge.1) itype   = max(0, min(1, iparam(1)))     ! 0=rail, 1=wheel
 
-   isampl  = 0  ! default: use s-positions from profile spline
+   ! select rail or wheel profile data-structure
+
+   associate(my_rail  => wtd%trk%rai, my_wheel => wtd%ws%whl)
+   if (itype.eq.0) then
+      my_prf   => my_rail%prr
+   else
+      my_prf   => my_wheel%prw
+   endif
+
+   ! check that the profile was loaded ok
+
+   if (itask.ne.-1 .and. my_prf%ierror.ne.0) then
+      write(bufout,'(a,2(a,i0))') trim(pfx_str(subnam,ire,-1)),' ERROR: task=',itask,                   &
+                ': profile could not be loaded, ierror=',my_prf%ierror
+      call write_log(1, bufout)
+      return
+   endif
+
+   ! tasks 6--9: check that a variable profile is given
+
+   if (itask.ge.6 .and. .not.my_prf%is_varprof()) then
+      write(bufout,'(2a,2(i0,a))') trim(pfx_str(subnam,ire,-1)),' ERROR: task=',itask,', type=',itype,  &
+             ': needs a variable profile'
+      call write_log(1, bufout)
+      return
+   endif
+
+   ! unpack option values, fill in defaults
+
+   isampl  = 0  ! default: use s/v-positions from profile spline
    if (nints.ge.2) isampl  = max(-1, min(100, iparam(2)))
+   if (itask.ge.6 .and. itask.le.8) isampl = 1          ! 2d spline: using uniform sampling
 
    ds_out  = 1d0
    if (nreals.ge.1) ds_out = rparam(1)
 
    x_out   = 0d0
    if (nreals.ge.2) x_out  = rparam(2)
+
+   if (itask.eq.6) then                                 ! cross-section constant u
+      c2_sta  = my_prf%spl2d%tvj(4)
+      c2_end  = my_prf%spl2d%tvj(my_prf%spl2d%nknotv-3)
+   elseif (itask.eq.7 .or. itask.eq.8) then             ! cross-section constant v or y
+      c2_sta  = my_prf%spl2d%tui(4)
+      c2_end  = my_prf%spl2d%tui(my_prf%spl2d%nknotu-3)
+   endif
+   if (nreals.ge.3) c2_sta = rparam(3)
+   if (nreals.ge.4) c2_end = rparam(4)
 
    if (idebug.ge.2) then
       write(bufout,'(a,3(a,i2),2(a,g12.4))') trim(pfx_str(subnam,ire,-1)),' task=',itask,               &
@@ -4397,50 +4448,35 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
       call write_log(1, bufout)
    endif
 
-   ! interpolate variable profile to requested x_out, create profile g_slc
+   ! tasks 0--5: interpolate variable profile to requested x_out, using profile g_slc instead of varprof
 
-   associate(my_rail  => wtd%trk%rai, my_wheel => wtd%ws%whl)
-   if (itype.eq.0 .and. my_rail%prr%is_varprof()) then
+   if (itask.le.5 .and. my_prf%ierror.eq.0 .and. my_prf%is_varprof()) then
 
       ! task 2: interpret x_out as track coordinate, add s_ws to get rail coordinate
-      if (itask.eq.2) x_out = x_out + wtd%ws%s
+      if (itask.eq.2 .and. itype.eq.0) x_out = x_out + wtd%ws%s
 
-      if (idebug.ge.3) then
+      if (idebug.ge.3 .and. itype.eq.0) then
          write(bufout,'(a,g12.4)') ' setting up "current slice" for variable rail at x_out=',x_out
          call write_log(1, bufout)
-      endif
-
-      call varprof_intpol_xunif(my_rail%prr, 0d0, 1, x_out, 0d0, g_slc, sub_ierror)
-      ierror = sub_ierror
-
-   elseif (itype.eq.1 .and. my_wheel%prw%is_varprof()) then
-
-      if (idebug.ge.3) then
+      elseif (idebug.ge.3) then
          write(bufout,'(a,g12.4)') ' setting up "current slice" for out-of-round wheel at th_out=',x_out
          call write_log(1, bufout)
       endif
 
-      call varprof_intpol_xunif(my_wheel%prw, 0d0, 1, x_out, 0d0, g_slc, sub_ierror)
+      call varprof_intpol_xunif(my_prf, 0d0, 1, x_out, 0d0, g_slc, sub_ierror)
       ierror = sub_ierror
+      g      => g_slc
 
-   endif
-
-   ! select rail or wheel, set pointer g to actual data
-
-   if (itype.eq.0) then
-      my_prf   => my_rail%prr
    else
-      my_prf   => my_wheel%prw
-   endif
 
-   if (.not.my_prf%is_varprof()) then
+      ! set pointer g to actual data
+
       g     => my_prf%grd_data
       ierror = my_prf%ierror
-   else
-      g     => g_slc
+
    endif
 
-   if (idebug.ge.2) then
+   if (idebug.ge.3) then
       write(bufout,'(4a)') trim(pfx_str(subnam,ire,-1)),' fname="', trim(my_prf%fname),'"'
       call write_log(1, bufout)
    endif
@@ -4483,9 +4519,13 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 
    elseif (isampl.eq.1) then    !  1: uniform sampling at spacing ds_out
 
-      s0   = g%spl%s(1)
-      s1   = g%spl%s(g%spl%npnt)
-      npnt = int( (s1 - s0) / ds_out ) + 1
+      if (itask.ge.6 .and. itask.le.8) then
+         npnt = int( (c2_end - c2_sta) / ds_out ) + 1
+      else
+         s0   = g%spl%s(1)
+         s1   = g%spl%s(g%spl%npnt)
+         npnt = int( (s1 - s0) / ds_out ) + 1
+      endif
       
    elseif (isampl.ge.2 .and. isampl.le.100) then ! using 'isampl' points in each spline interval 
 
@@ -4521,8 +4561,13 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 
    elseif (isampl.eq.1) then    !  1: uniform sampling at spacing ds_out
 
-      s0   = g%spl%s(1)
-      s1   = g%spl%s(g%spl%npnt)
+      if (itask.ge.6 .and. itask.le.8) then
+         s0 = c2_sta
+         s1 = c2_end
+      else
+         s0   = g%spl%s(1)
+         s1   = g%spl%s(g%spl%npnt)
+      endif
 
       do ip = 1, npnt
          g_wrk%s_prf(ip) = s0 + (ip-1) * ds_out
@@ -4548,6 +4593,32 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    if (itask.eq.1 .or. itask.eq.2) then
       call spline_eval(g%spl, ikYDIR, npnt, g_wrk%s_prf, ierror, 999d0, g_wrk%y)
       call spline_eval(g%spl, ikZDIR, npnt, g_wrk%s_prf, ierror, 999d0, g_wrk%z)
+   elseif (itask.eq.6) then                     ! lateral cross-section at constant u
+      uarr(1) = x_out
+      call bspline_eval2d_prod(my_prf%spl2d, 1, npnt, uarr, g_wrk%s_prf, g_wrk%x, g_wrk%y, g_wrk%z,     &
+                .false., sub_ierror, 99d9)
+      do iu = 1, npnt
+         g_wrk%x(iu) = uarr(1)
+      enddo
+   elseif (itask.eq.7) then                     ! longitudinal interpolation path at constant v
+      varr(1) = x_out
+      call bspline_eval2d_prod(my_prf%spl2d, npnt, 1, g_wrk%s_prf, varr, g_wrk%x, g_wrk%y, g_wrk%z,     &
+                .false., sub_ierror, 999d0)
+      do iu = 1, npnt
+         g_wrk%x(iu) = g_wrk%s_prf(iu)
+      enddo
+   elseif (itask.eq.8) then                     ! longitudinal slice at constant y
+      yarr(1) = x_out
+      do iu = 1, npnt
+         g_wrk%x(iu) = g_wrk%s_prf(iu)
+         g_wrk%y(iu) = yarr(1)
+      enddo
+      if (idebug.ge.3) then
+         write(bufout,'(a,f9.3,a,i0,3(a,g12.3),a)') ' evaluate spl2d at yj=',yarr(1),', npnt=',npnt,    &
+                   ', ui=[',g_wrk%s_prf(1),':',g_wrk%s_prf(2)-g_wrk%s_prf(1),':',g_wrk%s_prf(npnt),']'
+         call write_log(1, bufout)
+      endif
+      call bspline_get_z_at_xy_prod(my_prf%spl2d, npnt, 1, g_wrk%s_prf, yarr, g_wrk%z, sub_ierror, 999d0)
    endif
 
    ! copy output-values
@@ -4635,7 +4706,45 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
       enddo
       call gf3_destroy(dxyz)
 
+   elseif (itask.ge.6 .and. itask.le.8) then     ! 6-8 = 2d-u, 2d-v, 2d-y
+
+      if (lenarr.eq.1) then
+
+         ! output number of points required
+
+         val(1) = npnt
+
+      else
+
+         ! output rail or wheel (x,y,z) positions
+
+         do ip = 1, npnt
+            if (       ip.le.lenarr) val(       ip) = g_wrk%x(ip)
+            if (  npnt+ip.le.lenarr) val(  npnt+ip) = g_wrk%y(ip)
+            if (2*npnt+ip.le.lenarr) val(2*npnt+ip) = g_wrk%z(ip)
+         enddo
+      endif
+
+   elseif (itask.eq.9) then     ! 9 = spl2d
+
+      call make_absolute_path('dump_spl2d.m', wtd%meta%outdir, fulnam)
+
+      if (itype.eq.0 .and. my_rail%prr%is_varprof()) then
+
+         call bspline2d_dump_matlab(my_rail%prr%spl2d, itype, fulnam, 0)
+
+      elseif (itype.eq.1 .and. my_wheel%prw%is_varprof()) then
+
+         call bspline2d_dump_matlab(my_wheel%prw%spl2d, itype, fulnam, 0)
+
+      else
+         write(bufout,'(2a,2(i0,a))') trim(pfx_str(subnam,ire,-1)),' task=',itask,', type=',itype,      &
+                ': not a variable profile'
+         call write_log(1, bufout)
+      endif
+
    endif
+
    call grid_destroy(g_wrk)
    if (my_prf%is_varprof()) call grid_destroy(g_slc)
 

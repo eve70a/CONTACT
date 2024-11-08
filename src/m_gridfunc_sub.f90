@@ -213,15 +213,12 @@ module subroutine wrigs(igs, is_roll, chi, ltight_arg)
    real(kind=8),  intent(in)           :: chi
    logical,       intent(in), optional :: ltight_arg
 !--local variables:
-   integer, parameter :: ScrRow = 800
-   integer, parameter :: ScrCol = 800
-   integer, parameter :: ArrLen = max(ScrRow, ScrCol)
-        ! note that ArrLen is also hard-coded in the format strings below
-   integer, parameter :: HlfCol =  36
-   logical          :: ltight
-   integer          :: nx, ny, nxloc, nyloc, ix, ix0, ix1, iy, iy0, iy1, i, ii
-   character        :: str(ArrLen), nums(ArrLen), tens(ArrLen), hundr(ArrLen)
-   real(kind=8),     parameter :: pi = 4d0*atan(1d0)
+   real(kind=8), parameter :: pi = 4d0*atan(1d0)
+   integer,      parameter :: ScrRow = 800, ScrCol = 800
+   integer,      parameter :: HlfCol =  46
+   logical                 :: ltight
+   integer                 :: lenarr, nx, ny, nxloc, nyloc, ix, ix0, ix1, iy, iy0, iy1, i, ii
+   character(len=1), dimension(:), allocatable  :: str, nums, tens, hundr
    character(len=1), parameter :: aset(Exter:Plast) = (/ '.', '*', 'S', '|' /)
    character(len=1), parameter :: dig(10) = (/ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' /)
    character(len=1000) :: bufloc(1)
@@ -229,10 +226,15 @@ module subroutine wrigs(igs, is_roll, chi, ltight_arg)
    ltight = .true.
    if (present(ltight_arg)) ltight = ltight_arg
 
+   nx     = igs%grid%nx
+   ny     = igs%grid%ny
+   lenarr = max(nx, ny)
+   allocate(str(lenarr), nums(lenarr), tens(lenarr), hundr(lenarr))
+
    ! initialize strings nums, tens and str
    ! TODO: only on first call, save variables
 
-   do ix = 1, ArrLen
+   do ix = 1, lenarr
       i = mod(ix-1, 10) + 1
       nums(ix) = dig(i)
       if (mod(ix,10).eq.0) then
@@ -248,14 +250,11 @@ module subroutine wrigs(igs, is_roll, chi, ltight_arg)
          hundr(ix) = ' '
       endif
    enddo
-   do ix = 1, ArrLen
+   do ix = 1, lenarr
       str(ix) = ' '
    enddo
 
    ! determine range to be displayed
-
-   nx = igs%grid%nx
-   ny = igs%grid%ny
 
    if (ltight) then
       call areas(igs)
@@ -408,6 +407,8 @@ module subroutine wrigs(igs, is_roll, chi, ltight_arg)
  7300    format ('     <--  Y        Chi=', f6.2, ' degrees')
       endif
    endif
+
+   deallocate(str, nums, tens, hundr)
 
 end subroutine wrigs
 

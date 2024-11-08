@@ -2,7 +2,13 @@
 icase      = 20;
 show_wheel = 0;
 show_patch = 1;
-show_fig   = [ 1 2 3 4 5 6 ];
+show_fig   = [     3       ];
+% 1: plot rear view
+% 2: plot side view
+% 3: plot 3d view
+% 4: plot pressures
+% 5: plot load transfer
+% 6: plot load across interruption
 
 % expnam = 'cross_brute'; slc_file = '../profiles/cross_nose.slcs'; scale_yz = 1;
 % expnam = 'cross_locus'; slc_file = '../profiles/cross_nose.slcs'; scale_yz = 1;
@@ -10,8 +16,8 @@ show_fig   = [ 1 2 3 4 5 6 ];
 % expnam = 'cross+wing'; slc_file = '../profiles/cross+wing.slcs'; scale_yz = 1;
 % expnam = 'cw_interrupt'; slc_file = '../profiles/cross+wing_extd.slcs'; scale_yz = 1;
 % expnam = 'mbench_brute'; slc_file = '../profiles/uk_crossing.slcs'; scale_yz = 1000;
-% expnam = 'mbench_locus'; slc_file = '../profiles/uk_crossing.slcs'; scale_yz = 1000;
-  expnam = 'mbench_intrup'; slc_file = '../profiles/uk_interrupt_v2.slcs'; scale_yz = 1000;
+  expnam = 'mbench_locus'; slc_file = '../profiles/uk_crossing.slcs'; scale_yz = 1000;
+% expnam = 'mbench_intrup'; slc_file = '../profiles/uk_interrupt_v2.slcs'; scale_yz = 1000;
 % expnam = 'two_patches'; slc_file = '../profiles/uk_interrupt_v2.slcs'; scale_yz = 1000;
 
 if (~exist('slcs') | ~strcmp(slcs.slc_file, slc_file))
@@ -40,7 +46,7 @@ end
 if (any(show_fig==1))
    opt = plot3d;
    opt.typplot  = 'rw_rear';
-   opt.rw_surfc = 'prr';
+   opt.rw_surfc = 'both';
    opt.field    = 'pn';
    opt.xysteps  = 20;
    opt.vecscale = 20 / 2000;

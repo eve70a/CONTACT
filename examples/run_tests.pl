@@ -28,7 +28,7 @@ my @list=( 'cattaneo', 'carter2d', 'bentall', 'visc_cylindr', 'subsurf',
            'ertz_temperature', 'plastic_3bl', 'tractcurv', 'wheelflat' );
 #  @list=( 'mbench_a22_left', 'mbench_a22_right', 'mbench_a22_varfric', 'mbench_a22_kpec' );
 #  @list=( 'mbench_a22_varfric' );
-#  @list=( 'mbench_a22_kpec' );
+   @list=( 'mbench_a22_kpec' );
 #  @list=( 'wheelflat' );
 #  @list=( 'veldep_fric' );
 #  @list=( 'subsurf', 'spence35' );

@@ -317,7 +317,7 @@ end subroutine varprof_set_debug
 
          enddo ! islc
 
-         if (x_profil.ge.1) then
+         if (x_profil.ge.1 .and. ierror.eq.0) then
             write(bufout,'(a,i3,3a,2(g12.4,a))') ' obtained ',nslc,' slices, ',trim(x_nam),' = [',      &
                 vprf%slc_u(1), ',',vprf%slc_u(nslc),']'
             call write_log(1, bufout)
@@ -505,14 +505,14 @@ end subroutine varprof_set_debug
             if (islc.gt.1) my_profil = my_profil - 1
             fill_spline = .true.
 
-            call profile_read_slice(vprf%slc_nam(islc), slcdir, vprf%slc_grd(islc)%g, vprf%ext_data,       &
+            call profile_read_slice(vprf%slc_nam(islc), slcdir, vprf%slc_grd(islc)%g, vprf%ext_data,    &
                         vprf, is_wheel, fill_spline, my_profil, x_readln, lstop)
             ! ierror returned via vprf%ierror
 
             if (vprf%has_kyield) any_kyield = .true.
 
             if (ierror.ne.0) then
-               write(bufout,'(a,i4,3a,i4,a)') ' An error occurred for slice islc=',islc,' file="',      &
+               write(bufout,'(a,i0,3a,i0,a)') ' An error occurred for slice islc= ',islc,', file="',    &
                         trim(vprf%slc_nam(islc)),'" (',ierror,'), aborting.'
                call write_log(1, bufout)
             endif
@@ -554,16 +554,16 @@ end subroutine varprof_set_debug
             call abort_run()
          elseif (.false.) then
             ! testing get_z_at_xy...
-            nout    = 5001
+            nout    = 1
             do iout = 1, nout
-               xout(iout) = (iout-1) * 0.01d0
-               yout(iout) = 24.90d0
+               xout(iout) = 40.00d0 + (iout-1) * 0.01d0
+               yout(iout) = 27.212d0
                zout(iout) = -1234d0
             enddo
             call write_log(' ...bspline_get_z_at_xy')
-            call bspline_set_debug(1)
-            call spline_set_debug(1)
-            call bspline_get_z_at_xy(vprf%spl2d, nout, xout, yout, zout, sub_ierror)
+            call bspline_set_debug(5)
+            call spline_set_debug(5)
+            call bspline_get_z_at_xy(vprf%spl2d, nout, xout, yout, zout, sub_ierror, 987d0)
             call spline_set_debug(0)
             call bspline_set_debug(0)
 
@@ -1018,9 +1018,8 @@ end subroutine varprof_set_debug
                   sj(i0:i1) = vprf%slc_s_f(islc,ip) + len_s * (vj(i0:i1) - vj(i0)) / len_v
 
                   if (ldebug.ge.3) then
-                     write(bufout,'(a,i4,a,i3,2(a,i4),4(a,f8.3),a)') ' slice',islc,', part',ip,         &
-                           ': points [', i0,',',i1,'], vj = [',vj(i0),',',vj(i1),', sj = [', sj(i0),    &
-                           ',',sj(i1),']'
+                     write(bufout,'(4(a,i4),4(a,f8.3),a)') ' slice',islc,', part',ip, ': points [',     &
+                        i0,',',i1,'], vj = [',vj(i0),',',vj(i1),'], sj = [', sj(i0),',',sj(i1),']'
                      call write_log(1, bufout)
                   endif
 
@@ -1039,6 +1038,12 @@ end subroutine varprof_set_debug
                call spline_eval(gslc%spl, ikYDIR, npnt, sj(i0:i1), sub_ierror, f_eval=y1d)
                y2d(islc,i0:i1) = y1d(1:npnt)
 
+               if (ldebug.ge.3) then
+                  write(bufout,'(4(a,i4),3(a,f10.4),a)') ' slice',islc,', part',ip, ': points [',       &
+                        i0,',',i1,'], yj = [', y2d(islc,i0),',', y2d(islc,i0+1),', ...', y2d(islc,i1),']'
+                  call write_log(1, bufout)
+               endif
+
                call spline_eval(gslc%spl, ikZDIR, npnt, sj(i0:i1), sub_ierror, f_eval=z1d)
                z2d(islc,i0:i1) = z1d(1:npnt)
 
@@ -1047,8 +1052,8 @@ end subroutine varprof_set_debug
             enddo ! islc
 
             if (ldebug.ge.5) then
-               call print_2d_real(vprf%nslc, nsplv, y2d, 'y2d', 10, 'g12.4')
-               call print_2d_real(vprf%nslc, nsplv, z2d, 'z2d', 10, 'g12.4')
+               call print_2d_real(vprf%nslc, nsplv, y2d, 'y2d', 10, 'g12.6')
+               call print_2d_real(vprf%nslc, nsplv, z2d, 'z2d', 10, 'g12.6')
             endif
          endif ! ierror.eq.0
 
@@ -1644,7 +1649,7 @@ end subroutine varprof_set_debug
       integer,        intent(out) :: my_ierror
 !--local variables:
       real(kind=8), parameter :: defval = 999d0, tiny = 1d-6
-      integer                 :: ix, iy, iy0, iy1, is, ii, ns, nline, nbefor, nafter, sub_ierror
+      integer                 :: ix, iv, iv0, iv1, is, ii, nv, nline, nbefor, nafter, sub_ierror
       real(kind=8)            :: xi(nx), xdum2d(1,1)
       type(t_grid)            :: g_trim
 
@@ -1657,21 +1662,21 @@ end subroutine varprof_set_debug
 
       endif
 
-      ! create output grid with nx slices, ns profile points
+      ! create output grid with nx slices, nv profile points
 
-      ns = vprf%spl2d%nbrkv
-      call grid_create_curvil(g_out, nx, ns, lies_in_oyz=(nx.le.1))
+      nv = vprf%spl2d%nbrkv
+      call grid_create_curvil(g_out, nx, nv, lies_in_oyz=(nx.le.1))
 
       if (ldebug.ge.1) then
-         write(bufout,'(2(a,i4),a)') ' xunif2: output grid has',nx,' x',ns,' points'
+         write(bufout,'(2(a,i4),a)') ' xunif2: output grid has',nx,' x',nv,' points'
          call write_log(1, bufout)
       endif
 
       ! set uniform x-positions
 
-      do iy = 1, g_out%ny
+      do iv = 1, g_out%ny
          do ix = 1, nx
-            ii = ix + (iy-1) * g_out%nx
+            ii = ix + (iv-1) * g_out%nx
             g_out%x(ii) = x0 + (ix-1) * dx
          enddo
       enddo
@@ -1686,8 +1691,8 @@ end subroutine varprof_set_debug
       endif
       if (ldebug.ge.2) then
          call write_log(' output positions sj across rail profile:')
-         write(bufout,'(10( 20(f10.3),:,/ ))') (vprf%spl2d%vbrk(is), is=1, min(200,ns))
-         nline = int( (min(200,ns)-1) / 20 ) + 1
+         write(bufout,'(10( 20(f10.3),:,/ ))') (vprf%spl2d%vbrk(is), is=1, min(200,nv))
+         nline = int( (min(200,nv)-1) / 20 ) + 1
          call write_log(nline, bufout)
       endif
 
@@ -1718,7 +1723,7 @@ end subroutine varprof_set_debug
          endif
       endif
 
-      ! clip xi-values outside [s1,sn]
+      ! clip xi-values outside [v1,vn]
 
       if (nbefor+nafter.gt.0) then
          do ix = 1, nx
@@ -1726,12 +1731,12 @@ end subroutine varprof_set_debug
          enddo
       endif
 
-      ! evaluate 2D spline at given x-values and s-breakpoints
+      ! evaluate 2D spline at given x-values and v-breakpoints
 
       if (my_ierror.eq.0) then
          ! call write_log(' ...bspline_eval2d_prod')
          ! call bspline_set_debug(5, 1, 1)
-         call bspline_eval2d_prod(vprf%spl2d, nx, ns, xi, vprf%spl2d%vbrk, xdum2d, g_out%y, g_out%z,    &
+         call bspline_eval2d_prod(vprf%spl2d, nx, nv, xi, vprf%spl2d%vbrk, xdum2d, g_out%y, g_out%z,    &
                 .false., sub_ierror, defval)
          call bspline_set_debug(0)
 
@@ -1747,16 +1752,16 @@ end subroutine varprof_set_debug
       ! re-compute spline for interpolated profile (fast hack, ismooth=0, no kinks)
 
       if (my_ierror.eq.0 .and. nx.eq.1) then
-         iy0 = ns
-         iy1 =  1
-         do iy = 1, ns
-            if (g_out%y(iy).lt.defval-tiny) then
-               iy0 = min(iy, iy0)       ! first non-default
-               iy1 = max(iy, iy1)       ! last non-default
+         iv0 = nv
+         iv1 =  1
+         do iv = 1, nv
+            if (g_out%y(iv).lt.defval-tiny) then
+               iv0 = min(iv, iv0)       ! first non-default
+               iv1 = max(iv, iv1)       ! last non-default
             endif
          enddo
 
-         call grid_trim(g_out, g_trim, 1, 1, iy0, iy1, with_spline=.false.)
+         call grid_trim(g_out, g_trim, 1, 1, iv0, iv1, with_spline=.false.)
          call grid_copy(g_trim, g_out)
          call grid_destroy(g_trim)
 
@@ -1883,8 +1888,8 @@ end subroutine varprof_set_debug
                x_lbnd(iy) = min(x_lbnd(iy), xslc)
                x_ubnd(iy) = max(x_ubnd(iy), xslc)
                ! constant extrapolation for points iy available on slice 1 or slice nslc
-               if (islc0.le.1)         x_lbnd(iy) = -xmax
-               if (islc1.ge.vprf%nslc) x_ubnd(iy) =  xmax
+               if (islc.le.1)         x_lbnd(iy) = -xmax
+               if (islc.ge.vprf%nslc) x_ubnd(iy) =  xmax
             endif
          enddo
 

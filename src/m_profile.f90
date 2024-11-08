@@ -763,10 +763,11 @@ contains
       real(kind=8), dimension(:,:), pointer :: points
 !--local variables:
       integer,      parameter :: max_num_kinks = 99, max_num_accel = 99
+      real(kind=8), parameter :: min_prf_length = 5d0, max_prf_length = 500d0
       integer              :: arrsiz, ncolpnt, ipnt, flip_data, nkink, naccel, k_chk,                   &
                               ikinks(max_num_kinks), iaccel(max_num_accel)
       logical              :: use_wgt, use_minz
-      real(kind=8)         :: lambda, ds_bspl
+      real(kind=8)         :: lambda, ds_bspl, stot
 
       associate(mirror_y   => prf_opt%mirror_y,   mirror_z   => prf_opt%mirror_z,                       &
                 sclfac     => prf_opt%sclfac,     ismooth    => prf_opt%ismooth,                        &
@@ -834,11 +835,33 @@ contains
          call grid_make_arclength(prf_grd, ierror)
       endif
 
+      ! check total length of profile curve
+
+      if (ierror.eq.0) then
+         stot = prf_grd%s_prf(prf_grd%ntot) - prf_grd%s_prf(1)
+         if (x_profil.ge.2) then
+            write(bufout,'(a,es12.4,a)') ' Total arc-length of profile s_tot =',stot,' mm'
+            call write_log(1, bufout)
+         endif
+         if (stot.lt.min_prf_length) then
+            ierror = 241
+            write(bufout,'(a,g12.4,a,f6.1,a)') ' ERROR: total length of profile curve s_tot=',stot,     &
+                        ' is less than minimum s_min=',min_prf_length,' mm'
+            call write_log(1, bufout)
+         endif
+         if (stot.gt.max_prf_length) then
+            ierror = 242
+            write(bufout,'(a,g12.4,a,f6.1,a)') ' ERROR: total length of profile curve s_tot=',stot,     &
+                        ' is more than maximum s_max=',max_prf_length,' mm'
+            call write_log(1, bufout)
+         endif
+      endif
+
       ! create smoothing spline, preparing for interpolations
 
       if (ierror.eq.0 .and. fill_spline) then
          if (x_profil.ge.2) then
-            write(bufout, '(a,i2,a,g11.3)') ' Creating spline representation using method', ismooth, &
+            write(bufout, '(a,i2,a,g11.3)') ' Creating spline representation using method', ismooth,    &
                 ', smooth=', smooth
             call write_log(1, bufout)
          endif
@@ -3066,11 +3089,11 @@ contains
                dst = sqrt( (y(ipnt)-y(ipnt+k))**2 + (z(ipnt)-z(ipnt+k))**2 )
                if (dst.lt.dst_max) then
                   if (abs(dalph(ipnt+k)).gt.ang_thrs_low) is_kink = .false.
-               if (ldebug.ge.3) then
+                  if (ldebug.ge.3) then
                      write(bufout,'(a,i3,3(a,f6.2),a,f7.1)') '  - ngb k=',k,': (',y(ipnt+k),',',        &
                         z(ipnt+k), '), dst=', dst,', dalph=',dalph(ipnt+k)*180d0/pi
-                  call write_log(1, bufout)
-               endif
+                     call write_log(1, bufout)
+                  endif
                endif
             enddo
 
@@ -3083,10 +3106,10 @@ contains
                dst = sqrt( (y(ipnt+k)-y(ipnt))**2 + (z(ipnt+k)-z(ipnt))**2 )
                if (dst.lt.dst_max) then
                   if (abs(dalph(ipnt+k)).gt.ang_thrs_low) is_kink = .false.
-               if (ldebug.ge.3) then
+                  if (ldebug.ge.3) then
                      write(bufout,'(a,i3,3(a,f6.2),a,f7.1)') '  - ngb k=',k,': (',y(ipnt+k),',',        &
                         z(ipnt+k), '), dst=', dst,', dalph=',dalph(ipnt+k)*180d0/pi
-                  call write_log(1, bufout)
+                     call write_log(1, bufout)
                   endif
                endif
             enddo

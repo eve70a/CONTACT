@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.167)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.171)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -74,10 +74,14 @@
 \vtlogentry{1.163}{EV}{19-03-2024}{Added force-based proportional damping}{}
 \vtlogentry{1.164}{EV}{03-04-2024}{Extended force-based proportional damping}{}
 \vtlogentry{1.165}{EV}{25-04-2024}{Renamed S to U in slices-file}{}
-\vtlogentry{1.166}{EV}{21-05-2024}{Add effective working folder}{}
+\vtlogentry{1.166}{EV}{21-05-2024}{Added effective working folder}{}
 \vtlogentry{1.167}{EV}{16-06-2024}{Version for release v24.1}{}
-\vtlogentry{1.168}{EV}{06-07-2024}{Add ${\tt V}=2$, friction variation in
+\vtlogentry{1.168}{EV}{06-07-2024}{Added ${\tt V}=2$, friction variation in
                         track direction }{}
+\vtlogentry{1.169}{EV}{20-08-2024}{Require total profile length in
+                $[5,500]\unit{mm}$}{}
+\vtlogentry{1.170}{EV}{04-11-2024}{Added $g_{miss}$ in blending approach}{}
+\vtlogentry{1.171}{EV}{06-11-2024}{Added massless rail model with ${\tt N}=0$}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -247,9 +251,9 @@ The software was transferred to the company Vtech CMCC in 2020, that now
 continues this development and distribution. Research is being done to
 extend CONTACT for rails and wheels with variable profile cross-section,
 i.e.\ switches and crossings \cite{Vollebregt2023a-iavsd2023} and wheel
-out-of-roundness \cite{Vollebregt2024b-railways}. When such new
-functionality is achieved, this will be included in future versions of
-this document.
+out-of-roundness \cite{Vollebregt2024b-railways,
+Vollebregt2024c-contact-geom}. When such new functionality is achieved,
+this will be included in future versions of this document.
 
 \section{Structure of this report}
 
@@ -616,22 +620,21 @@ $^*$ Options ${\tt B}=2$ to 4 are not yet available in module 1.
 \item[1] -- total vertical force \var{FZ} prescribed.
 \end{description}
 
-\magenta{
 \item[F$_1$ - FORCE] \label{f1-digit} : specifies the type of {\em
         tangential forces\/} that are prescribed:
 \begin{description}
 \item[0] -- using prescribed wheel-set positions and velocities rather than
         tangential forces;
+\magenta{
 \item[1] -- total force \var{FX\_WS} prescribed instead of pitch velocity
         $\omega_{ws}=\var{VPITCH}$, that will be determined.
+}
 %\item[2] -- total moment \var{MY\_WS} prescribed instead of pitch velocity
 %        $\omega_{ws}=\var{VPITCH}$, that will be determined.
 \item[3] -- use of massless rail model with rail deflections {\tt DYDEFL},
         {\tt DZDEFL} that will be determined, instead of fully prescribed
-        lateral/vertical rail positions. Currently available only in
-        combination with ${\tt N}_1=1$.
+        lateral/vertical rail positions.
 \end{description}
-}
 
 \item[S - STRESS]\label{s-digit} : determines the operation of the subprogram
         STRESS for calculating {\em subsurface stresses\/} per case:
@@ -1013,6 +1016,12 @@ interpretation.
 \begin{description}
 \item[0] -- set the extra term equal to zero;
 \item[1] -- maintain the extra term of the previous case;
+\magenta{
+\item[2] -- add extra term $w_y=-(x-x_o)\phi$, discarding spin contribution
+        in $y$ direction;
+\item[3] -- add extra term $w_x= (y-y_o)\phi$, discarding spin contribution
+        in $x$ direction;
+}
 \item[9] -- read a new extra term from the input (file).
 \end{description}
 
@@ -1156,22 +1165,21 @@ These rail irregularities may be static/permanent, but may be due to track
 flexibility too. In such a case, the corresponding velocities
 $v_{y,r}=\Delta\dot{y}_{r}, \ldots$ may be specified also.
 
-\magenta{
 \paragraph{Massless rail model}
 
 Rail deflections may be computed resulting from the lateral and
 vertical contact forces.
 \begin{eqnarray}\label{eq:cntc_defl}
-   F_{y(tr)} - k^*_y \delta y_{defl} + F^*_y = 0 &\leftrightarrow&
-   \delta y_{\defl} = \frac{F_{y(tr)} + F^*_y}{ k^*_y } , \\
-   F_{z(tr)} - k^*_z \delta z_{defl} + F^*_z = 0 &\leftrightarrow&
-   \delta z_{\defl} = \frac{F_{z(tr)} + F^*_z}{ k^*_z } .
+   F_{y(tr)} - k_y\,\delta y_{defl} + F^*_y = 0 &\leftrightarrow&
+   \delta y_{\defl} = \frac{F_{y(tr)} + F^*_y}{ k_y } , \\
+   F_{z(tr)} - k_z\,\delta z_{defl} + F^*_z = 0 &\leftrightarrow&
+   \delta z_{\defl} = \frac{F_{z(tr)} + F^*_z}{ k_z } .
 \end{eqnarray}
 Here $F_y^*, F_z^*$ are prescribed external forces on the rail.
 This can be used to implement a massless rail with stiffness and damping:
 \begin{equation}\label{eq:massless}
    F_{y(tr)}^{n+1} + F^{n+1}_{\defl,y} = 0, \;\;
-   F^{n+1}_{\defl,y} = -k_y \delta y^{n+1}_{defl} - c_y \frac{\delta
+   F^{n+1}_{\defl,y} = -k^*_y\,\delta y^{n+1}_{defl} - c^*_y \frac{\delta
         y^{n+1}_{defl} - \delta y^n_{defl}}{ \delta t }
 \end{equation}
 Here $F_{y(tr)}^{n+1}$ is the contact force on the rail, at the end of a
@@ -1179,10 +1187,9 @@ time step in a time integration procedure, $F_{\defl,y}$ the lateral force
 from the ground on the rail, with balance equation $\sum F=0$.
 Equation (\ref{eq:cntc_defl}) corresponds to (\ref{eq:massless}) with
 \begin{equation}
-   k^*_y = k_y + \frac{c_y}{\delta t}, \;\; 
-   F^*_y = \frac{ c_y \delta y^n}{\delta t} .
+   k_y = k^*_y + \frac{c^*_y}{\delta t}, \;\; 
+   F^*_y = \frac{ c^*_y\,\delta y_{defl}^n}{\delta t} .
 \end{equation}
-}
 
 \paragraph{Roller rig configurations}
 
@@ -1328,10 +1335,10 @@ to read existing files and transform into the form as needed by CONTACT.
 
 \paragraph{Supported formats}
 
-Constant rail profiles may be provided in SIMPACK {\tt prr}-format or Miniprof
-{\tt ban}-format, with the format taken from the file extension, or as a
-2-column table with $(y_i,z_i)$-values if another file extension is used.
-Variable rail profiles may be provided in a slices-file with {\tt
+Constant rail profiles may be provided in SIMPACK {\tt prr}-format or
+Miniprof {\tt ban}-format, with the format taken from the file extension,
+or as a 2-column table with $(y_i,z_i)$-values if another file extension is
+used.  Variable rail profiles may be provided in a slices-file with {\tt
 slcs} file extension. Constant wheel profiles may be provided in SIMPACK
 {\tt prw}-format or Miniprof {\tt whl}-format, with the actual format taken
 from the file extension, or as a 2-column table if another file extension
@@ -1372,9 +1379,18 @@ SIMPACK profiles are processed first according to the options that are
 specified in the {\tt prr}- or {\tt prw}-file (mirroring, reordering,
 clipping), except smoothing. After this, the conversions specified in the
 {\tt inp}-file are also applied, concerning mirroring, scaling, and
-smoothing. Miniprof profiles have no options specified in the {\tt ban}-
-and {\tt whl}-files themselves. They are subject to the conversions
-specified in the {\tt inp}-file provided to CONTACT.
+smoothing. 
+
+Miniprof profiles have no options specified in the {\tt ban}- and {\tt 
+whl}-files themselves. They are subject to the conversions specified in
+the {\tt inp}-file provided to CONTACT. This usually needs ${\tt mirror\_y}
+=1$, mirroring the flange/track center from the right to the left side of
+the picture, and ${\tt mirror\_z}=1$, to flip the foot of the rail from
+negative to positive $z$.
+
+The total length of the profile is required to be between $5$ and
+$500\unit{mm}$ (summed chord length, Equation (\ref{eq:summed_chord})).
+This is used to detect issues with unit conversion ({\tt scale\_yz}).
 
 \paragraph{Curation of anomolous input data}
 
@@ -1586,12 +1602,12 @@ $u_{slc}$-positions in increasing order and at least $0.001\unit{mm}$ apart.
 The slices will each be resampled to a uniform spacing in order to define
 `interpolation paths' in longitudinal direction. To obtain a good 3D
 surface model, interpolation paths need to have smooth functions $y(u_{\fc}),
-z(u_{\fc})$, and should therefore not run across sharp geometrical features.
-This is steered by dividing slices laterally into different `parts' that are
-resampled separately as illustrated in Figure \ref{fig:slcs_features}. The
-break points in a slice, also called `features', are $s_f, f=1\cdots
-n_{feat}$, with $s_f$ the `summed chord length' to the start of the slice
-(see below) given in $\unit{mm}$.
+z(u_{\fc})$ with small 3rd derivatives, and should therefore not run across
+sharp geometrical features. This is steered by dividing slices laterally
+into different `parts' that are resampled separately as illustrated in
+Figure \ref{fig:slcs_features}. The break points in a slice, also called
+`features', are $s_f, f=1\cdots n_{feat}$, with $s_f$ the `summed chord
+length' to the start of the slice (see below) given in $\unit{mm}$.
 
 \begin{alltt}\small
 %  - S_F positions at geometrical features at start/end of each part per slice
@@ -1620,7 +1636,7 @@ as
     \delta z_i = z_{i+1}-z_i, \;
     \delta s_i = \sqrt{ \delta y_i^2 + \delta z_i^2 }, \nonumber \\
     s_1 = 0, \; s_{i+1} = s_i + \delta s_i , \;\;
-                i = 1 \cdots n-1.
+                i = 1 \cdots n-1. \label{eq:summed_chord}
 \end{eqnarray}
 This uses the numbering of the points as obtained after mirroring and
 reordering, with point $1$ at the track center side of a rail profile
@@ -1783,16 +1799,14 @@ is considered.
         positive using the right-hand rule.}
 \end{inputvars}
 
-\magenta{
 The massless rail model of Equation (\ref{eq:cntc_defl}) is activated using
 control digit ${\tt F}_1=3$, and takes the following inputs:
 \begin{inputvars}
-\inpvar{KYRAIL}{\bunit{N/mm}}{Effective lateral rail stiffness $k^*_y$.}
+\inpvar{KYRAIL}{\bunit{N/mm}}{Effective lateral rail stiffness $k_y$.}
 \inpvar{FYRAIL}{\bunit{N}}{Prescribed lateral force $F_y^*$ on the rail.}
-\inpvar{KZRAIL}{\bunit{N/mm}}{Effective vertical rail stiffness $k^*_z$.}
+\inpvar{KZRAIL}{\bunit{N/mm}}{Effective vertical rail stiffness $k_z$.}
 \inpvar{FZRAIL}{\bunit{N}}{Prescribed vertical force $F_z^*$ on the rail.}
 \end{inputvars}
-}
  
 \section{Wheelset geometry \& state}
 \label{sec:wheelset_geom}
@@ -1974,9 +1988,14 @@ $d > d_{turn}$. Else,
 \item One combined contact patch is used with full solution when $d\le
         d_{comb}$.
 \end{itemize}
-The blending approach is described in \cite{Vollebregt2020b-wrgeom,
-Vollebregt2020c-distr-force}. The turning of contact angles is a further
-extension, suppressing jump discontinuities in total forces at slight
+Distances $d$ are measured using the extent $[x_{sta},x_{end}],
+[y_{sta},y_{end}], [z_{sta},z_{end}]$ of interpenetration areas. These
+bounds are shifted towards locations where new contact is about to appear,
+so-called near misses with gap $0\le g<g_{miss}$.
+
+The initial blending approach is described in \cite{Vollebregt2020b-wrgeom,
+Vollebregt2020c-distr-force}. `Turning' and `near misses' were added
+subsequently to suppress jump discontinuities in total forces at slight
 changes in the input positions.
 \begin{inputvars}
 \inpvar{A\_SEP}{\bunit{rad}}{Threshold angle $\alpha_{sep}$ for the angle
@@ -1985,9 +2004,13 @@ changes in the input positions.
         are processed separately.}
 \inpvar{D\_COMB}{\bunit{mm}}{Threshold distance $d_{comb}$ below which
         patches are combined fully, if not prohibited by the angle threshold.}
+\inpbreak
 \inpvar{D\_TURN}{\bunit{mm}}{Threshold distance $d_{turn}$ below which
         reference angle turning is used for patches that are processed
         separately. Default $2 d_{sep}-d_{comb}$.}
+\inpvar{G\_MISS}{\bunit{mm}}{Threshold gap $g_{miss}$ for near miss
+        contact patches ($g\ge 0$). Near misses are considered when
+        $g<g_{miss}$. Default $-1$, ignoring near miss contact patches.}
 \end{inputvars}
 For each contact patch that remains after combination, CONTACT determines a
 so-called {\em contact reference position\/}. In steady rolling (${\tt
@@ -3796,6 +3819,8 @@ multiplication with $V$.
 Note: the elastic energy is not computed when ${\tt B}=2$ or 3 is used, since
 the normal displacements $u_{In}$ are then not available. A zero is
 displayed in the output instead.
+% FRIC [N m/s] = [J/s] = [W]
+% Usetab: [N] = [J/m]
 
 Note: the frictional power computed by CONTACT suffers from a substantial
 discretisation error. In certain cases the following macroscopic quantity
@@ -6676,9 +6701,9 @@ routines, providing appropriate options for their interpretation.
         method: $0$ for original smoothing spline (default, for now), $1$
         for weighted smoothing spline with 2nd order penalty, $2$ for
         the weighted B-spline approach with 3rd order penalty.
-\item[\tt rparam(1) - sclfac]: scaling factor to convert input data
+\item[\tt rparam(1) - scale\_yz]: scaling factor to convert input data
         to $\bunit{mm}$, e.g.\ $10^3$ for data given in $\bunit{m}$. If ${\tt
-        sclfac}\le 0$ (default), this will be obtained from the active unit
+        scale\_yz}\le 0$ (default), this will be obtained from the active unit
         convention (Section \ref{sec:units}).
 \item[\tt rparam(2) - smooth]: smoothness parameter $\lambda$ as
         discussed in Section \ref{sec:track_geom}, with smoothing disabled
@@ -6700,7 +6725,7 @@ routines, providing appropriate options for their interpretation.
 \end{description}
 Additional configuration parameters are read from (Simpack) {\tt prr} and
 {\tt prw} files. No further scaling should then be applied (${\tt
-sclfac}=1$). Simpack's approximation smoothing value is disregarded,
+scale\_yz}=1$). Simpack's approximation smoothing value is disregarded,
 smoothing is implemented in a different way in CONTACT.
 
 If a rail or wheel profile could not be found or could not be processed
@@ -7344,7 +7369,7 @@ if H=3, M=4: [ BETAPL                              ]
 
 % Information needed for the grid discretization (section \ref{sec:wr_potcon}):
 
-if D>=2:     [ DX    DS   DQREL   A\_SEP   D\_SEP   D\_COMB  \{D\_TURN\} ]
+if D>=2:     [ DX    DS   DQREL   A\_SEP   D\_SEP   D\_COMB  \{D\_TURN   G\_MISS\} ]
 
 % Information on the track geometry (section \ref{sec:track_geom}) \& rail profile (section \ref{sec:profiles}):
 
@@ -7354,16 +7379,16 @@ if Z=1,3:
       if CONFIG=4,5:  [  GAUGHT    GAUGSQ   GAUGWD   NOMRADR  ]  if GAUGHT >  0
                  or:  [  GAUGHT    RAILY0   RAILZ0   NOMRADR  ]  if GAUGHT <= 0
 
-if Z=3:        [ 'RFNAME'  MIRRORY  SCLFAC    SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
+if Z=3:        [ 'RFNAME'  MIRRORY  SCALEYZ   SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
 if PRFOPT>=1:  [  ISMOOTH  ZIGTHRS  KINKHIGH  KINKLOW  KINKWID ]
 \magenta{if PRFOPT>=2:  [  ERRHND   MAXOMIT  ]}
 if Z=2,3:      [  DYRAIL   DZRAIL   DROLLR    VYRAIL   VZRAIL   VROLLR  ]
-\magenta{if Z=2,3, F=3: [  KYRAIL   FYRAIL   KZRAIL    FZRAIL                    ]}
+if Z=2,3, F=3: [  KYRAIL   FYRAIL   KZRAIL    FZRAIL                    ]
 
 % Information on wheelset geometry (section \ref{sec:wheelset_geom}) \& wheel profile (section \ref{sec:profiles}):
 
 if E=3,5:      [  FBDIST   FBPOS     NOMRADW   ] 
-if E=3,5:      [ 'WFNAME'  MIRRORY   SCLFAC    SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
+if E=3,5:      [ 'WFNAME'  MIRRORY   SCALEYZ   SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
 if PRFOPT>=1:  [  ISMOOTH  ZIGTHRS   KINKHIGH  KINKLOW  KINKWID ]
 \magenta{if PRFOPT>=2:  [  ERRHND   MAXOMIT  ]}
 
@@ -8543,7 +8568,6 @@ grooved rail profile (Figure \ref{fig:rail_profiles} (k)), a narrow
 circular wheel (Figure \ref{fig:wheel_profiles} (e)) may have its lowest
 $z$-values larger than the lowest $z$ on the rail. In that case, the wheel
 profile may not be extended by constant extrapolation.
-
 }
 
 \end{document}

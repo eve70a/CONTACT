@@ -8,16 +8,15 @@ end
 
 expnam = 'testbank';
 
-% show_cases       = [ 18:23, 27:32 ];
+% show_cases       = [ 18:23, 27:39 ]; % testbank.inp: cases using module 1
 show_cases       = [ 35 ];
 fig_ofs          = 0;
 pause_after_plot = 0 * (length(show_cases)>1);
 print_figures    = 0;
 
-
 % list all cases used in testbank.inp
 
-ncase  = 35;
+ncase  = 39;
 module = 3 * ones(1, ncase);
 nam    = repmat(' ', ncase,1);
 ax1    = zeros(ncase, 4);
@@ -80,6 +79,22 @@ icase = 34; nam(icase,1:30)    = 'u.guide planar combination    '; module(icase)
             wfname(icase,1:30) = 'worn_high_mileage.prw         '; wmirrory(icase) = 0;
             ax1(icase,:) = [ 690 790 -20 40];
 icase = 35; nam(icase,1:30)    = 'u.guide conformal combination '; module(icase)   = 1;
+            rfname(icase,1:30) = 'site_b_hr.prr                 '; rmirrory(icase) = 0; rmirrorz(icase) = 0;
+            wfname(icase,1:30) = 'worn_high_mileage.prw         '; wmirrory(icase) = 0;
+            ax1(icase,:) = [ 690 790 -20 40];
+icase = 36; nam(icase,1:30)    = 'conformal with massless rail  '; module(icase)   = 1;
+            rfname(icase,1:30) = 'site_b_hr.prr                 '; rmirrory(icase) = 0; rmirrorz(icase) = 0;
+            wfname(icase,1:30) = 'worn_high_mileage.prw         '; wmirrory(icase) = 0;
+            ax1(icase,:) = [ 690 790 -20 40];
+icase = 37; nam(icase,1:30)    = 'massless rail w. initial estim'; module(icase)   = 1;
+            rfname(icase,1:30) = 'site_b_hr.prr                 '; rmirrory(icase) = 0; rmirrorz(icase) = 0;
+            wfname(icase,1:30) = 'worn_high_mileage.prw         '; wmirrory(icase) = 0;
+            ax1(icase,:) = [ 690 790 -20 40];
+icase = 38; nam(icase,1:30)    = 'trans.shift, initial step     '; module(icase)   = 1;
+            rfname(icase,1:30) = 'site_b_hr.prr                 '; rmirrory(icase) = 0; rmirrorz(icase) = 0;
+            wfname(icase,1:30) = 'worn_high_mileage.prw         '; wmirrory(icase) = 0;
+            ax1(icase,:) = [ 690 790 -20 40];
+icase = 39; nam(icase,1:30)    = 'trans.shift, split patches    '; module(icase)   = 1;
             rfname(icase,1:30) = 'site_b_hr.prr                 '; rmirrory(icase) = 0; rmirrorz(icase) = 0;
             wfname(icase,1:30) = 'worn_high_mileage.prw         '; wmirrory(icase) = 0;
             ax1(icase,:) = [ 690 790 -20 40];

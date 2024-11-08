@@ -441,7 +441,7 @@ contains
       real(kind=8)       :: dbles(mxnval), dx_prv, ds_prv
       character(len=256) :: strngs(mxnval)
 
-      call readline(lunit, ncase, linenr, 'discretisation parameters', 'dddaddD', ints, dbles,          &
+      call readline(lunit, ncase, linenr, 'discretisation parameters', 'dddaddDD', ints, dbles,         &
                      flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
       zerror = zerror .or. (ierror.ne.0)
       discr%dx        = dbles(1)
@@ -455,6 +455,7 @@ contains
       else
          discr%dist_turn = 2d0 * discr%dist_sep - 1d0 * discr%dist_comb
       endif
+      if (nval.ge.8) discr%gap_miss  = dbles(8)
 
       zerror = zerror .or. .not.check_range ('DX', discr%dx, 1d-8, 1d20)
       zerror = zerror .or. .not.check_range ('DS', discr%ds, 1d-8, 1d20)

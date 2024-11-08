@@ -1,7 +1,8 @@
 % Con93 testbank.
 
+% Case 1: Cattaneo shift, penetration and creepages prescribed
+
  3  MODULE
-% Next Case - Cattaneo shift, penetration and creepages prescribed
   201000       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -16,8 +17,9 @@
      .0056566    .0     .0056566    .0     .0     .0     B(I), I=1, 6
 %    UNRESTRICTED PLANFORM
 
+% Case 2: Cattaneo shift, bilinear loading, penetration and creepages prescribed
+
  3  MODULE
-% Next Case - Cattaneo shift, bilinear loading, penetration and creepages prescribed
   201000       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   023020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -32,8 +34,9 @@
      .0056566    .0     .0056566    .0     .0     .0     B(I), I=1, 6
 %    UNRESTRICTED PLANFORM
 
+% Case 3: Kalker90, fig5.20: Subsurface stresses in the half-space (z>=0). 
+
  3  MODULE
-% Next Case - Kalker90, fig5.20: Subsurface stresses in the half-space (z>=0). 
   200103       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000541     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -55,8 +58,9 @@
   -1.0  0.2  1.0
    0            ISUBS
 
+% Case 4: cf. previous case, now Fx=0.999, re-use subsurface points
+
  3  MODULE
-% Next Case - cf. previous case, now Fx=0.999, re-use subsurface points
   203111       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000541     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -68,8 +72,9 @@
    -3                                               IPOTCN
     3    3     0.500       0.500      3.000         MX,MY,AA,BB,SCALE
 
+% Case 5: m17002, bilinear loading, re-use subsurface points
+
  3  MODULE
-% Next Case - m17002, bilinear loading, re-use subsurface points
   200101       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   023020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000541     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -80,8 +85,9 @@
    -3                                               IPOTCN
     3    3     0.500       0.500      3.000         MX,MY,AA,BB,SCALE
 
+% Case 6: Carter2d example met ConvexGS en DQ = 5*DX
+
  3  MODULE
-% Next Case - Carter2d example met ConvexGS en DQ = 5*DX
   203100      P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020      L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
  0200241    H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -96,8 +102,9 @@
    1   1                                       IBASE, IPLAN
    0.001   0.0   0.0   0.0   0.0   0.0         B1,B2,B3,B4,B5,B6
 
+% Case 7: Steady state rolling via Non-Hertzian module, Srel=1.0
+
  3  MODULE
-% Next Case - Steady state rolling via Non-Hertzian module, Srel=1.0
   203100       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -116,8 +123,9 @@
  .0000       .0000     .0000       B(I), I=4, 6
 %    UNRESTRICTED PLANFORM
 
+% Case 8: Steady state rolling with variable friction, NVF = MY
+
  3  MODULE
-% Next Case - Steady state rolling with variable friction, NVF = MY
   203100     P-B-T-N-F-S          PVTIME, BOUND, TANG, NORM, FORCE, STRESS
  3022020   V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, RZNORM, EXRHS
  0000341   H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -176,8 +184,9 @@
    0.590      0.590                                 FSTAT, FKIN
    0.600      0.600                                 FSTAT, FKIN
 
+% Case 9: A non-quasi-identical case con93.non_quasi.inp, Panagiotopoulos
+
  3  MODULE
-% Next Case - A non-quasi-identical case con93.non_quasi.inp, Panagiotopoulos
   203110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESSS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHSS
   000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURNN
@@ -194,8 +203,9 @@
 0.3332E-03 0.000    0.3332E-03 0.000     0.000     0.000     B(I), I=1, 6
 %    UNRESTRICTED PLANFORM
 
+% Case 10: Cattaneo shift, normal and tangential forces prescribed
+
  3  MODULE
-% Next Case - Cattaneo shift, normal and tangential forces prescribed
   201120       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -210,8 +220,9 @@
  .0056566    .0000     .0056566    .0000     .0000     .0000     B(I), I=1, 6
 %    UNRESTRICTED PLANFORM
 
+% Case 11: Mindlin multi-step shift, tangential forces prescribed
+
  3  MODULE
-% Next Case - Mindlin multi-step shift, tangential forces prescribed
   001020       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -226,8 +237,9 @@
  .0056566    .0000     .0056566    .0000     .0000     .0000     B(I), I=1, 6
 %    UNRESTRICTED PLANFORM
 
+% Case 12: Steady state rolling via Fastsim algorithm, parab.tract.bound
+
  3  MODULE
-% Next Case - Steady state rolling via Fastsim algorithm, parab.tract.bound
   233110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022320       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -240,8 +252,9 @@
    -1                                               IPOTCN
    40   40     0.004219   0.004219   1.000          MX,MY,AA,BB,SCALE
 
+% Case 13: Cattaneo shift via Hertz-option (T=1, P=2), 41x41 grid
+
  3  MODULE
-% Next Case - Cattaneo shift via Hertz-option (T=1, P=2), 41x41 grid
   221110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000340     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -252,7 +265,8 @@
    -3                                               IPOTCN
    41   41     4.100       4.100      1.17143       MX,MY,AA,BB,SCALE
 
-% Next Case - Transient rolling (T=2, P=0) voor Srel=1.0, stap  1, Xtot=0.2
+% Case 14: Transient rolling (T=2, P=0) voor Srel=1.0, stap  1, Xtot=0.2
+
   002110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   010340     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -264,7 +278,8 @@
    -3                                               IPOTCN
    41   41     4.100       4.100      1.17143       MX,MY,AA,BB,SCALE
 
-% Next Case - Transient rolling (T=2, P=0) voor Srel=1.0, stap  2, Xtot=0.4
+% Case 15: Transient rolling (T=2, P=0) voor Srel=1.0, stap  2, Xtot=0.4
+
   002110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   000000       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   010340     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -272,7 +287,8 @@
    0.7563      0.6570      0.000      0.000         FN, FX, CETA, CPHI
    0.4013      0.4013                               FSTAT, FKIN
 
-% Next Case - Transient rolling (T=2, P=0) voor Srel=4.0, stap  3, Xtot=1.2
+% Case 16: Transient rolling (T=2, P=0) voor Srel=4.0, stap  3, Xtot=1.2
+
   002100       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   010341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -284,8 +300,9 @@
    -2                                               IPOTCN
    41   41    0.2963E-2    1.000      1.17143       MX,MY,A1,AOB,SCALE
 
+% Case 17: Transient rolling via Non-Hertzian module, Srel=2.0, Xtot=1.6
+
  3  MODULE
-% Next Case - Transient rolling via Non-Hertzian module, Srel=2.0, Xtot=1.6
   202110       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   022020       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -301,8 +318,9 @@
  .002963     .0000     .002963     .0000     .0000     .0000     B(I), I=1, 6
 %    UNRESTRICTED PLANFORM
 
+% Case 18: w/r contact with large roll & rail irregularities
+
  1  MODULE
-% Next Case - w/r contact with large roll & rail irregularities
  1200100   C-P-B-T-N-F-S   CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
  0022033   V-L-D-C-M-Z-E   VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
  0001321   H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -320,8 +338,9 @@
   0.0  -50.0  10000. -10.00d     0.0000  0.0     S, Y, FZ, ROLL, YAW, PITCH
  2000. 0.0    0.0   0.0        0.0    -4.348176 VS,VY,VZ, VROLL,VYAW,VPITCH
 
+% Case 19: w/r contact with circular wheel profile on flat inclined surface
+
   1 MODULE
-% Next Case - w/r contact with circular wheel profile on flat inclined surface
  1200100   C-P-B-T-N-F-S   CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
  0022033   V-L-D-C-M-Z-E   VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
  0001321   H-G-I-A-O-W-R   HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
@@ -339,7 +358,7 @@
   0.0  0.0  10000.  0.000d     2.00d   0.0      S, Y, FZ, ROLL, YAW, PITCH
  2000. 0.0    0.0   0.0        0.0    -4.348176 VS,VY,VZ, VROLL,VYAW,VPITCH
 
-% Roller contact, vertical section in wheel profile, w-on-roller contact locus
+% Case 20: Roller contact, vertical section in wheel profile, w-on-roller contact locus
 
  1  MODULE
  5203000      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
@@ -359,7 +378,7 @@
   0.0    0.0   0.01650   0.0   0.2105263E-04   0.0    X, Y, Z, ROLL, YAW, PITCH
   0.0    0.0   0.000     0.0   0.000           0.0    VPITCH_ROL, VY, VZ, VROLL, VYAW, VPITCH
 
-% compressible sheet, combining nearby patches
+% Case 21: Compressible sheet, combining nearby patches
 
  1  MODULE
  5210000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
@@ -380,7 +399,8 @@
   0.0   -5.5  0.0550  0.0        0.0000  0.0    S, Y, FZ, ROLL, YAW, PITCH
   0.0010         0.0  0.0  0.0  0.0 -0.0045     RPITCH,VY,VZ, VROLL,VYAW,VPITCH
 
-% Steady curving example
+% Case 22: Steady curving example, high rail
+
   1  MODULE
  0203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
  1022033    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
@@ -400,6 +420,8 @@
   0.0 -12.916008 124393.2 0.1413332E-02 -0.7708929E-02 0.0   S, Y, FZ, ROLL, YAW, PITCH
   14305.28 0.0  0.0  0.0  0.0  -33.79094        VS, VY, VZ, VROLL, VYAW, VPITCH
 
+% Case 23: Steady curving example, low rail
+
   1  MODULE
  1203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
  1101031    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
@@ -410,8 +432,9 @@
    0.00  0.00  0.00  0.00  0.00  0.00           DY, DZ, DROLLR, VY, VZ, VROLL
   0.0 -14.471209 71386.1 0.1413332E-02 -0.7708929E-02 0.0   S, Y, FZ, ROLL, YAW, PITCH
 
+% Case 24: A non-quasi-identical case con93.non_quasi.inp, Panagiotopoulos
+
  3  MODULE
-% Next Case - A non-quasi-identical case con93.non_quasi.inp, Panagiotopoulos
   203000       P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESSS
   022029       L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHSS
   000341     H-G-I-A-O-W-R    HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURNN
@@ -455,8 +478,8 @@
   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0
   .0 .0  .0 .0   .0 .0   .0 .0   .0 .0  
 
-% m14010, dissim_cases.inp, Scenario 7: dissimilar materials,
-%         friction 0.4, pressing down, then tilted in 1 step
+% Case 25: m14010, dissim_cases.inp, Scenario 7: dissimilar materials,
+%                  friction 0.4, pressing down, then tilted in 1 step
 
  3  MODULE
   201100      P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
@@ -471,6 +494,8 @@
    1   1                                       IBASE, IPLAN
    0.00    0.0   0.0   0.0   0.0   0.0         B1,B2,B3,B4,B5,B6
 
+% Case 26: Same, tilted
+
  3  MODULE
   001100      P-B-T-N-F-S      PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   100020      L-D-C-M-Z-E      FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
@@ -480,7 +505,9 @@
    1   1                                       IBASE, IPLAN
    0.00    0.0   0.0  -0.031816   0.0   0.0    B1,B2,B3,B4,B5,B6
 
- 1  MODULE   % rail with dents
+% Case 27: rail with dents
+
+ 1  MODULE
  0203100      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
  1022033      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
  0001321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
@@ -500,7 +527,9 @@
   0.0  -10.35066   141539.6  0.766666E-03 -0.3624925E-02   0.0   S, Y, FZ, ROLL, YAW, PITCH
   12964.16   0.0   0.0   0.0   0.0  -28.23635             VS, VY, VZ, VROLL, VYAW, VPITCH
 
- 1  MODULE   % rail with dents
+% Case 28: rail with dents, many kinks
+
+ 1  MODULE
  0203100      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
  1022033      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
  0001321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
@@ -520,7 +549,9 @@
   0.0  -10.35066   141539.6  0.766666E-03 -0.3624925E-02   0.0   S, Y, FZ, ROLL, YAW, PITCH
   12964.16   0.0   0.0   0.0   0.0  -28.23635             VS, VY, VZ, VROLL, VYAW, VPITCH
 
- 1  MODULE   % contact at 1st rail point, bottom of flange
+% Case 29: contact at 1st rail point, bottom of flange
+
+ 1  MODULE   
  0203100      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
  1022033      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
  0101321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
@@ -539,7 +570,9 @@
   0.0   -7.41379   190558.5 -0.197988E-03  0.8106596E-03   0.0   S, Y, FZ, ROLL, YAW, PITCH
   17881.60   0.0   0.0   0.0   0.0  -39.02267             VS, VY, VZ, VROLL, VYAW, VPITCH
 
- 1  MODULE   % guard rail with narrow potential contact
+% Case 30: guard rail with narrow potential contact
+
+ 1  MODULE   
  1203000      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
  1022033      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
  0101321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
@@ -561,7 +594,9 @@
   9270.268       0.000000       0.000000                  % VS, VY, VZ
   0.000000       0.000000      -21.48043                  % VROLL, VYAW, VPITCH
 
- 1  MODULE   % guard rail, wheel with measurement noise at bottom of flange
+% Case 31: guard rail, wheel with measurement noise at bottom of flange
+
+ 1  MODULE
  1203000      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
  1111003      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
  0101321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
@@ -573,7 +608,9 @@
   5273.731       0.000000       0.000000                  % VS, VY, VZ
   0.000000      0.2835444E-01  -12.2228592                % VROLL, VYAW, VPITCH
 
- 1  MODULE   % guard rail, wheel with measurement noise at bottom of flange
+% Case 32: guard rail, wheel with measurement noise at bottom of flange
+
+ 1  MODULE
  1203100      C-P-B-T-N-F-S      CONFIG, PVTIME, BOUND,  TANG,   NORM,   FORCE,  STRESS
  1111003      V-L-D-C-M-Z-E      VARFRC, FRCLAW, DISCNS, INFLCF, MATER,  ZTRACK, EWHEEL
  0101321      H-G-I-A-O-W-R        HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN
@@ -586,7 +623,8 @@
   0.000000      0.1558689E-01  -6.71250858                % VROLL, VYAW, VPITCH
 
 % Pictures for illustrating multiple patches and combination in user guide
-%  - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 4 - 8
+
+% Case 33: - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 4 - 8
 
  1  MODULE
  1203000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
@@ -609,21 +647,47 @@
   15000.00       0.000000       0.000000                  % VS, VY, VZ
   0.000000       0.000000      -32.10000                  % VROLL, VYAW, FX
 
-%  - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 8 - 12
+% Case 34: - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 8 - 12
+
  1  MODULE
  1203000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
  1121000        V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
  0101321        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
   0.400    0.400    1.000    90d   10.0    6.0   14.0     DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN
 
-%  - Conformal contact method, combination distance 20 - 30
+% Case 35: - Conformal contact method, combination distance 20 - 30
+
  1  MODULE
  1203000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
  1141000        V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
  0101321        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
   0.400   0.400     1.000    90d   30.0   20.0   40.0     DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN
 
-% Test-case for transient shift + N=0: initialize from zero tractions
+% Case 36: - Massless rail F=3 with N=0, producing dy_defl = 0.7, dz_defl = 1.0
+
+ 1  MODULE
+ 1203030        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1111022        V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0101221        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   0.00000       0.00000       0.00000                    % DY, DZ, DROLLR
+   0.00000       0.00000       0.00000                      VY, VZ, VROLL
+  10000.00      -68230.0      10000.00     -30000.00      KYRAIL, FYRAIL, KZRAIL, FZRAIL
+  0.0     15.55   2.0884  -0.0013   0.0050      0.0       S, Y, Z, ROLL, YAW, PITCH
+ 15000.0   0.00     0.00   0.000    0.000     -32.10000   VS, VY, VZ, VROLL, VYAW, VPITCH
+
+% Case 37: - Massless rail using I = 1
+
+ 1  MODULE
+ 1203030        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
+ 1111022        V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 0111221        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
+   0.00000       0.00000       0.00000                    % DY, DZ, DROLLR
+   0.00000       0.00000       0.00000                      VY, VZ, VROLL
+  10000.00      -68130.0      10000.00     -30000.00      KYRAIL, FYRAIL, KZRAIL, FZRAIL
+  0.0     15.551  2.0884  -0.0013   0.0050      0.0       S, Y, Z, ROLL, YAW, PITCH
+ 15000.0   0.00     0.00   0.000    0.000     -32.10000   VS, VY, VZ, VROLL, VYAW, VPITCH
+
+% Case 38: Transient shift + N=0: initialize from zero tractions
 
  1  MODULE
  1201000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
@@ -644,7 +708,7 @@
   0.0     14.74   1.212   -0.0013   0.0050      0.0       S, Y, Z, ROLL, YAW, PITCH
   0.400     0.0   0.0      0.0      0.0    -0.00086667    SHFT_S, SHFT_Y, SHFT_Z, SHFT_ROL,_YAW,_WPIT
 
-% Test-case for transient + N=0 + splitting large contact into two contact patches
+% Case 39: Transient shift + N=0 + splitting large contact into two contact patches
 
   1 MODULE
  1001000    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS

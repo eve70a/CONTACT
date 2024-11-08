@@ -120,7 +120,7 @@ for iwhe = 1 : 2 % "wheel number"
 
    iswheel = 0; % 0 = rail, 1 = wheel
    mirror_y = 0; iparam = [iswheel, 0, mirror_y];
-   sclfac = 1; smooth = 0; rparam = [sclfac, smooth];
+   scale_yz = 1; smooth = 0; rparam = [scale_yz, smooth];
 
    cntc_setprofileinputfname(iwhe, 'MBench_UIC60_v3.prr', iparam, rparam);
 
@@ -132,12 +132,12 @@ for iwhe = 1 : 2 % "wheel number"
 
    % wheel profile, provided to CONTACT as a table of values
 
-   mirror_y = []; mirror_z = []; sclfac = []; idebug = 0;
-   tmp = read_profile('MBench_S1002_v3.prw',[], mirror_y, mirror_z, sclfac, idebug);
+   mirror_y = []; mirror_z = []; scale_yz = []; idebug = 0;
+   tmp = read_profile('MBench_S1002_v3.prw',[], mirror_y, mirror_z, scale_yz, idebug);
    values = [tmp.ProfileY, tmp.ProfileZ];
 
    iswheel = 1; mirror_y = 0; iparam = [iswheel, 0, mirror_y];
-   sclfac = 1; smooth = 0; rparam = [sclfac, smooth];
+   scale_yz = 1; smooth = 0; rparam = [scale_yz, smooth];
 
    cntc_setprofileinputvalues(iwhe, values, iparam, rparam);
 
@@ -365,8 +365,8 @@ if (~isempty(show_fig))
 
    % read rail profile, convert to track coordinates
 
-   mirror_y = []; mirror_z = []; sclfac = []; idebug = 0;
-   prr = read_profile('MBench_UIC60_v3.prr',[], mirror_y, mirror_z, sclfac, idebug);
+   mirror_y = []; mirror_z = []; scale_yz = []; idebug = 0;
+   prr = read_profile('MBench_UIC60_v3.prr',[], mirror_y, mirror_z, scale_yz, idebug);
    prr.gaught = 14; prr.gaugwd = 1435;
    ix  = find(prr.ProfileZ<prr.gaught, 1, 'first');
    prr.ProfileY = prr.gaugwd/2 + prr.ProfileY - prr.ProfileY(ix);

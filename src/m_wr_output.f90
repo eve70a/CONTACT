@@ -307,7 +307,7 @@ contains
          endif
          if (ic%config.le.1) then
             ! wheelset on track: print S_WS, VX_WS
-            write(lout, 4001) 'S', fmt_gs(12,nd,4,ws%s), fmt_gs(12,4,4,ws%y), trim(strng(1)),           &
+            write(lout, 4001) 'S', fmt_gs(12,nd,6,ws%s), fmt_gs(12,4,4,ws%y), trim(strng(1)),           &
                    fmt_gs(12,nd,4,ws%roll), fmt_gs(12,nd,4,ws%yaw), fmt_gs(12,nd,4,ws%pitch)
             write(lout, 4002) fmt_gs(12,4,4,ws%vs), fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),               &
                    fmt_gs(12,4,4,ws%vroll), fmt_gs(12,4,4,ws%vyaw), ws%vpitch

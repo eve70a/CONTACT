@@ -38,37 +38,44 @@ private
 !--data to keep track of iterates in Brent's algorithm
 !       Brent's method keeps four iterates [a, b, c, d] with function values [fa, fb, fc, fd]
 !           b is the best guess, a is neighbour of b with opposite residual, c == b^{k-1}, d == b^{k-2}
-!       we additionally use [x0, x1] for the bracket, and we store all iterates in xk_all (sorted)
+!       we additionally use [x0, x1] for the bracket, and we store all iterates in itdata (sorted)
+
+   type :: t_brent_one_it
+      integer      :: k, np
+      real(kind=8) :: xk, rk
+
+      ! k           iteration number
+      ! xk          x-value of iteration
+      ! rk          residual value of iteration
+      ! np          number of contact patches
+   end type t_brent_one_it
 
    type :: t_brent_its
-      integer                                 :: ikarg, maxit, numit
-      real(kind=8)                            :: ftarg
-      integer,      dimension(:), allocatable :: k_all, np_all
-      real(kind=8), dimension(:), allocatable :: xk_all, rk_all
-      integer                                 :: k_0, k_1, k_a, k_b, k_c, k_d
-      real(kind=8), pointer     :: x_a => NULL(), x_b => NULL(), x_c => NULL(), x_d => NULL(),          &
-                                   r_a => NULL(), r_b => NULL(), r_c => NULL(), r_d => NULL()
-      real(kind=8), pointer     :: x_0 => NULL(), r_0 => NULL(), x_1 => NULL(), r_1 => NULL()
-      real(kind=8), pointer     :: x_k => NULL(), x_km1 => NULL(), x_km2 => NULL()
+      integer                          :: ikarg, maxit, numit
+      real(kind=8)                     :: ftarg
+      type(t_brent_one_it), pointer    :: it_0 => NULL(), it_1 => NULL(), it_a => NULL(),               &
+                                          it_b => NULL(), it_c => NULL(), it_d => NULL(),               &
+                                          it_k => NULL(), it_km1 => NULL(), it_km2 => NULL()
+      type(t_brent_one_it), dimension(:), allocatable :: itdata
 
-      ! ikarg       meta-information on type of problem: ikarg==ikYDIR for solving Fy, 
-      !                ikZDIR when solving Fz vs. z_ws, -ikZDIR when solving Fz vs. dz_defl
+      ! ikarg       meta-information on type of problem: 
+      !                -ikYDIR for solving Fy(y_shift), left side,
+      !                 ikYDIR for solving Fy(y_shift), right side,
+      !                 ikZDIR when solving Fz(z_ws),
+      !                -ikZDIR when solving Ftot(z_shift)
       ! maxit       size of arrays used, max. #iterates
       ! numit       actual #iterates stored
       ! ftarg       target force value
-      ! xk_all      x-values used sorted in ascending order
-      ! rk_all      residual values corresponding to x-values used
-      ! k_all       iteration numbers corresponding to x-values used (starting at k=0?)
-      ! np_all      number of contact patches in each iteration
-      ! k_0, k_1    iteration numbers of current bracket points, <0 as long as no bracket is found
-      ! x_0, r_0    lower side of current bracket
-      ! k_a--k_d    iteration numbers of current/previous best guesses
-      ! x_1, r_1    upper side of current bracket
-      ! x_a, r_a    contra-point to current best guess (other end of bracket)
-      ! x_b, r_b    current best guess
-      ! x_c, r_c    previous best guess
-      ! x_d, r_d    previous previous best guess
-      ! x_k, x_km1, x_km2   most recent iterates x^k, x^{k-1}, x^{k-2}
+      ! itdata      per-iteration data sorted on x in ascending order
+      ! it_0        lower side of current bracket, NULL as long as no bracket is found
+      ! it_1        upper side of current bracket, NULL as long as no bracket is found
+      ! it_a        contra-point to current best guess (other end of bracket)
+      ! it_b        current best guess
+      ! it_c        previous best guess
+      ! it_d        previous previous best guess
+      ! it_k        most recent iterate x^k
+      ! it_km1      previous iterate x^{k-1}
+      ! it_km2      previous iterate x^{k-2}
    end type t_brent_its
 
 contains
@@ -83,18 +90,13 @@ contains
       integer                   :: ikarg, maxit
       real(kind=8)              :: ftarg
 
-      ! call write_log(' brent_its_init...')
       its%ikarg = ikarg
       its%maxit = max(1, min(10000, maxit))
       its%numit = 0
       its%ftarg = ftarg
-      allocate(its%k_all(its%maxit))
-      allocate(its%np_all(its%maxit))
-      allocate(its%xk_all(its%maxit))
-      allocate(its%rk_all(its%maxit))
+      allocate(its%itdata(its%maxit))
 
       call brent_its_update_ptr(its)
-      ! call write_log(' brent_its_init ok...')
    end subroutine brent_its_init
 
 !------------------------------------------------------------------------------------------------------------
@@ -105,7 +107,7 @@ contains
 !--subroutine arguments:
       type(t_brent_its), target :: its
 
-      deallocate(its%k_all, its%np_all, its%xk_all, its%rk_all)
+      deallocate(its%itdata)
    end subroutine brent_its_destroy
 
 !------------------------------------------------------------------------------------------------------------
@@ -124,165 +126,115 @@ contains
       brent_its_find_k = -1
       if (k.ge.0 .and. k.le.its%numit-1) then
          do it = 1, its%numit
-            if (its%k_all(it).eq.k) brent_its_find_k = it
+            if (its%itdata(it)%k.eq.k) brent_its_find_k = it
          enddo
       endif
-
-      ! write(bufout,*) 'found k=',k,' at it=', brent_its_find_k
-      ! call write_log(1, bufout)
 
    end function brent_its_find_k
 
 !------------------------------------------------------------------------------------------------------------
 
    subroutine brent_its_update_ptr(its)
-!--purpose: update the pointers x_a--x_d for current and previous best points
+!--purpose: update the pointers it_0--it_1 (bracket), it_a--it_d for current and previous best points,
+!                               it_k, it_km1, it_km2 (current/previous iterates)
       implicit none
 !--subroutine arguments:
       type(t_brent_its), target :: its
 !--local variables
       integer      :: it, it_br0, imin
-
-      ! call write_log(' brent_its_update_ptr...')
+      real(kind=8) :: rmin
 
       if (its%numit.le.0) then
 
-         its%k_0 = -1           ! current bracket
-         its%k_1 = -1
-         its%x_0 => NULL()
-         its%r_0 => NULL()
-         its%x_1 => NULL()
-         its%r_1 => NULL()
+         its%it_0   => NULL()   ! current bracket
+         its%it_1   => NULL()
 
-         its%k_a = -1           ! points a, b, c, d
-         its%k_b = -1
-         its%k_c = -1
-         its%k_d = -1
-         its%x_a => NULL()
-         its%x_b => NULL()
-         its%x_c => NULL()
-         its%x_d => NULL()
-         its%r_a => NULL()
-         its%r_b => NULL()
-         its%r_c => NULL()
-         its%r_d => NULL()
+         its%it_a   => NULL()   ! points a, b, c, d
+         its%it_b   => NULL()
+         its%it_c   => NULL()
+         its%it_d   => NULL()
 
-         its%x_k   => NULL()    ! most recent iterates
-         its%x_km1 => NULL()
-         its%x_km2 => NULL()
+         its%it_k   => NULL()   ! most recent iterates
+         its%it_km1 => NULL()
+         its%it_km2 => NULL()
 
       elseif (its%numit.le.1) then
 
-         its%k_0 =  -1
-         its%k_1 =  -1
-         its%x_0 => its%xk_all(1)
-         its%x_1 => its%xk_all(1)
-         its%r_0 => its%rk_all(1)
-         its%r_1 => its%rk_all(1)
+         its%it_0   => NULL()
+         its%it_1   => NULL()
 
-         its%k_a =  its%k_all(1)
-         its%k_b =  its%k_all(1)
-         its%k_c =  its%k_all(1)
-         its%k_d =  its%k_all(1)
-         its%x_a => its%xk_all(1)
-         its%x_b => its%xk_all(1)
-         its%x_c => its%xk_all(1)
-         its%x_d => its%xk_all(1)
-         its%r_a => its%rk_all(1)
-         its%r_b => its%rk_all(1)
-         its%r_c => its%rk_all(1)
-         its%r_d => its%rk_all(1)
+         its%it_a   => its%itdata(1)
+         its%it_b   => its%itdata(1)
+         its%it_c   => its%itdata(1)
+         its%it_d   => its%itdata(1)
 
-         its%x_k   => its%xk_all(1)
-         its%x_km1 => its%xk_all(1)
-         its%x_km2 => its%xk_all(1)
+         its%it_k   => its%itdata(1)
+         its%it_km1 => its%itdata(1)
+         its%it_km2 => its%itdata(1)
+
       else
 
          ! cycle previous best iterates
 
-         its%k_d =  its%k_c
-         its%k_c =  its%k_b
-
-         it = brent_its_find_k(its, its%k_c)
-         its%x_c => its%xk_all(it)
-         its%r_c => its%rk_all(it)
-
-         it = brent_its_find_k(its, its%k_d)
-         its%x_d => its%xk_all(it)
-         its%r_d => its%rk_all(it)
+         it = brent_its_find_k(its, its%it_c%k)         ! Note: using it_c
+         its%it_d   => its%itdata(it)                   ! Note: point to itdata() instead of it_c
+         it = brent_its_find_k(its, its%it_b%k)
+         its%it_c   => its%itdata(it)
 
          ! determine current best iterate
 
          if (brent_its_has_bracket(its, it_br0)) then
-            if (abs(its%rk_all(it_br0)).lt.abs(its%rk_all(it_br0+1))) then
+            if (abs(its%itdata(it_br0)%rk).lt.abs(its%itdata(it_br0+1)%rk)) then
                imin = it_br0
             else
                imin = it_br0 + 1
             endif
          else
-            imin = idamin(its%numit, its%rk_all, 1)
+            imin = 0
+            rmin = 1d99
+            do it = 1, its%numit
+               if (abs(its%itdata(it)%rk).lt.rmin) then
+                  imin = it
+                  rmin = abs(its%itdata(it)%rk)
+               endif
+            enddo
          endif
 
-         its%k_b =  its%k_all(imin)
-         its%x_b => its%xk_all(imin)
-         its%r_b => its%rk_all(imin)
+         its%it_b   => its%itdata(imin)
 
          ! determine contra-point of current bracket (no bracket: sensible adjacent point)
 
          if (imin.le.1) then
-            its%k_a =  its%k_all(imin+1)
-            its%x_a => its%xk_all(imin+1)
-            its%r_a => its%rk_all(imin+1)
+            its%it_a   => its%itdata(imin+1)
          elseif (imin.ge.its%numit) then
-            its%k_a =  its%k_all(imin-1)
-            its%x_a => its%xk_all(imin-1)
-            its%r_a => its%rk_all(imin-1)
-         elseif (its%rk_all(imin-1)*its%r_b.lt.0d0) then
-            its%k_a =  its%k_all(imin-1)
-            its%x_a => its%xk_all(imin-1)
-            its%r_a => its%rk_all(imin-1)
+            its%it_a   => its%itdata(imin-1)
+         elseif (its%itdata(imin-1)%rk * its%it_b%rk.lt.0d0) then
+            its%it_a   => its%itdata(imin-1)
          else
-            its%k_a =  its%k_all(imin+1)
-            its%x_a => its%xk_all(imin+1)
-            its%r_a => its%rk_all(imin+1)
+            its%it_a   => its%itdata(imin+1)
          endif
 
          ! set pointers to bracket
 
          if (.not.brent_its_has_bracket(its, it_br0)) then
-            its%k_0 =  -1
-            its%k_1 =  -1
-            its%x_0 => NULL()
-            its%x_1 => NULL()
-            its%r_0 => NULL()
-            its%r_1 => NULL()
-         elseif (its%x_a.lt.its%x_b) then
-            its%k_0 =  its%k_a
-            its%k_1 =  its%k_b
-            its%x_0 => its%xk_all(imin-1)
-            its%x_1 => its%xk_all(imin)
-            its%r_0 => its%rk_all(imin-1)
-            its%r_1 => its%rk_all(imin)
+            its%it_0 => NULL()
+            its%it_1 => NULL()
+         elseif (its%it_a%xk.lt.its%it_b%xk) then
+            its%it_0 => its%it_a
+            its%it_1 => its%it_b
          else
-            its%k_0 =  its%k_b
-            its%k_1 =  its%k_a
-            its%x_0 => its%xk_all(imin)
-            its%x_1 => its%xk_all(imin+1)
-            its%r_0 => its%rk_all(imin)
-            its%r_1 => its%rk_all(imin+1)
+            its%it_0 => its%it_b
+            its%it_1 => its%it_a
          endif
 
          ! set pointers to most recent iterates
 
-         ! write(bufout,*) 'k=',its%numit,', it=', brent_its_find_k(its, its%numit)
-         ! call write_log(1, bufout)
-
          it = brent_its_find_k(its,       its%numit-1)
-         its%x_k   => its%xk_all(it)
+         its%it_k   => its%itdata(it)
          it = brent_its_find_k(its,       its%numit-2)
-         its%x_km1 => its%xk_all(it)
+         its%it_km1 => its%itdata(it)
          it = brent_its_find_k(its, max(0,its%numit-3))
-         its%x_km2 => its%xk_all(it)
+         its%it_km2 => its%itdata(it)
 
       endif
       ! call write_log(' brent_its_update_ptr ok...')
@@ -295,9 +247,9 @@ contains
 !--purpose: insert an iterate in the sorted structure for Brent's algorithm
       implicit none
 !--subroutine arguments:
-      type(t_brent_its)      :: its
-      integer                :: k, npatch, my_ierror
-      real(kind=8)           :: xk, rk
+      type(t_brent_its), target :: its
+      integer                   :: k, npatch, my_ierror
+      real(kind=8)              :: xk, rk
 !--local variables
       integer           :: i, j
       logical           :: ldone
@@ -309,34 +261,34 @@ contains
          call write_log(1, bufout)
       endif
 
-      ! determine first position i with xk < xk_all(i)
+      ! determine first position i with xk < its%xk(i)
 
       i     = 0
       ldone = (i.ge.its%numit)
       do while (.not.ldone)
          i     = i + 1
          ldone = .true.
-         if (i.le.its%numit) ldone = (xk.lt.its%xk_all(i))
+         if (i.le.its%numit) ldone = (xk.lt.its%itdata(i)%xk)
       enddo
 
       ! shift iterates [i--end] one position
 
       do j = its%numit, max(i,1), -1
-         its%k_all(j+1)  = its%k_all(j)
-         its%np_all(j+1) = its%np_all(j)
-         its%xk_all(j+1) = its%xk_all(j)
-         its%rk_all(j+1) = its%rk_all(j)
+         its%itdata(j+1) = its%itdata(j)
+         ! update pointers it_b, it_c, used in update_ptr
+         if (its%it_b%k.eq.its%itdata(j)%k) its%it_b => its%itdata(j+1)
+         if (its%it_c%k.eq.its%itdata(j)%k) its%it_c => its%itdata(j+1)
       enddo
 
       ! insert iterate at position i
 
       if (i.le.0) i = 1
 
-      its%numit     = its%numit + 1
-      its%k_all(i)  = k
-      its%np_all(i) = npatch
-      its%xk_all(i) = xk
-      its%rk_all(i) = rk
+      its%numit        = its%numit + 1
+      its%itdata(i)%k  = k
+      its%itdata(i)%np = npatch
+      its%itdata(i)%xk = xk
+      its%itdata(i)%rk = rk
 
       ! update pointers to current and previous best estimates
 
@@ -360,7 +312,7 @@ contains
 
       it = -1
       do j = 1, its%numit
-         if (its%k_all(j).eq.k) it = j
+         if (its%itdata(j)%k.eq.k) it = j
       enddo
 
       if (it.eq.-1) then
@@ -369,21 +321,26 @@ contains
          dfdx = 0d0
       elseif (it.le.1) then
          ! forward difference
-         dfdx = (its%rk_all(it+1) - its%rk_all(it)) / max(tiny, its%xk_all(it+1) - its%xk_all(it))
+         dfdx = (its%itdata(it+1)%rk - its%itdata(it)%rk) /                                             &
+                                                max(tiny, its%itdata(it+1)%xk - its%itdata(it)%xk)
       elseif (it.ge.its%numit) then
          ! backward difference
-         dfdx = (its%rk_all(it) - its%rk_all(it-1)) / max(tiny, its%xk_all(it) - its%xk_all(it-1))
+         dfdx = (its%itdata(it)%rk - its%itdata(it-1)%rk) /                                             &
+                                                max(tiny, its%itdata(it)%xk - its%itdata(it-1)%xk)
          ! initial estimate for dFz/dpen: Fz ~ pen^1.5
          if (its%ikarg.eq.ikZDIR .and. it.eq.2) dfdx = 1.5d0 * dfdx
       elseif (.false.) then
          ! central difference
-         dfdx = (its%rk_all(it+1) - its%rk_all(it-1)) / max(tiny, its%xk_all(it+1) - its%xk_all(it-1))
-      elseif (abs(its%rk_all(it+1)).lt.abs(its%rk_all(it-1))) then
+         dfdx = (its%itdata(it+1)%rk - its%itdata(it-1)%rk) /                                           &
+                                                max(tiny, its%itdata(it+1)%xk - its%itdata(it-1)%xk)
+      elseif (abs(its%itdata(it+1)%rk).lt.abs(its%itdata(it-1)%rk)) then
          ! forward difference
-         dfdx = (its%rk_all(it+1) - its%rk_all(it)) / max(tiny, its%xk_all(it+1) - its%xk_all(it))
+         dfdx = (its%itdata(it+1)%rk - its%itdata(it)%rk) /                                             &
+                                                max(tiny, its%itdata(it+1)%xk - its%itdata(it)%xk)
       else
          ! backward difference
-         dfdx = (its%rk_all(it) - its%rk_all(it-1)) / max(tiny, its%xk_all(it) - its%xk_all(it-1))
+         dfdx = (its%itdata(it)%rk - its%itdata(it-1)%rk) /                                             &
+                                                max(tiny, its%itdata(it)%xk - its%itdata(it-1)%xk)
       endif
       brent_sensitivity_k = dfdx
 
@@ -417,24 +374,24 @@ contains
          it   = brent_its_find_k(its, k)
          dfdx = brent_sensitivity_k(k, its, idebug_br)
 
-         write(str12(1), '(f12.4)') its%xk_all(it)
-         str12(2) = fmt_gs(12, 4, 4, its%rk_all(it)+its%ftarg)
+         write(str12(1), '(f12.4)') its%itdata(it)%xk
+         str12(2) = fmt_gs(12, 4, 4, its%itdata(it)%rk+its%ftarg)
          str12(3) = fmt_gs(12, 4, 4, dfdx)
-         if (its%ikarg.eq.ikYDIR) then
-            write(bufout,1020) its%k_all(it), (str12(j),j=1,3), its%np_all(it)
+         if (abs(its%ikarg).eq.ikYDIR) then
+            write(bufout,1020) its%itdata(it)%k, (str12(j),j=1,3), its%itdata(it)%np
          elseif (its%ikarg.eq. ikZDIR) then
-            write(bufout,1030) its%k_all(it), (str12(j),j=1,3)
+            write(bufout,1030) its%itdata(it)%k, (str12(j),j=1,3)
          elseif (its%ikarg.eq.-ikZDIR) then
-            write(bufout,1040) its%k_all(it), (str12(j),j=1,3)
+            write(bufout,1040) its%itdata(it)%k, (str12(j),j=1,3)
          else
             call write_log(' Internal error (Brent): invalid ikarg')
             call abort_run()
          endif
          call write_log(1, bufout)
 
- 1020    format(2x, i4,', BR,  dyrail, Fy: ',2a,', dFy/dy:',a,',',i3,' patches')
+ 1020    format(2x, i4,', BR,  yshift, Fytot: ',2a,', dFy/dy:',a,',',i3,' patches')
  1030    format(4x, i6,', NR,  z_ws, Fz: ',2a,', dFz/dz:',a)
- 1040    format(4x, i6,', NR,  dz_defl, Ftot: ',2a,', dFz/dz:',a)
+ 1040    format(4x, i6,', NR,  zshift, Fztot: ',2a,', dFz/dz:',a)
 
       endif
 
@@ -445,17 +402,17 @@ contains
          it   = brent_its_find_k(its, k)
          dfdx = brent_sensitivity_k(k, its, idebug_br)
 
-         write(str12(1), '(f12.4)') its%xk_all(it)
-         str12(2) = fmt_gs(12, 4, 4, its%rk_all(it)+its%ftarg)
-         str12(3) = fmt_gs(12, 4, 4, its%rk_all(it))
+         write(str12(1), '(f12.4)') its%itdata(it)%xk
+         str12(2) = fmt_gs(12, 4, 4, its%itdata(it)%rk+its%ftarg)
+         str12(3) = fmt_gs(12, 4, 4, its%itdata(it)%rk)
          str12(4) = fmt_gs(12, 4, 4, dfdx)
 
-         if (its%ikarg.eq.ikYDIR) then
-            write(bufout,2020) its%k_all(it), (str12(j),j=1,4), its%np_all(it)
+         if (abs(its%ikarg).eq.ikYDIR) then
+            write(bufout,2020) its%itdata(it)%k, (str12(j),j=1,4), its%itdata(it)%np
          elseif (its%ikarg.eq. ikZDIR) then
-            write(bufout,2030) its%k_all(it), (str12(j),j=1,4)
+            write(bufout,2030) its%itdata(it)%k, (str12(j),j=1,4)
          elseif (its%ikarg.eq.-ikZDIR) then
-            write(bufout,2040) its%k_all(it), (str12(j),j=1,4)
+            write(bufout,2040) its%itdata(it)%k, (str12(j),j=1,4)
          endif
          call write_log(1, bufout)
       endif
@@ -469,49 +426,49 @@ contains
          call write_log(1, bufout)
 
          do it = 1, its%numit
-            dfdx = brent_sensitivity_k(its%k_all(it), its, idebug_br)
+            dfdx = brent_sensitivity_k(its%itdata(it)%k, its, idebug_br)
 
             strptr = ' <--'
-            if (its%k_all(it).eq.its%k_0) strptr = trim(strptr) // ' x0,'
-            if (its%k_all(it).eq.its%k_1) strptr = trim(strptr) // ' x1,'
-            if (its%k_all(it).eq.its%k_a) strptr = trim(strptr) // ' A,'
-            if (its%k_all(it).eq.its%k_b) strptr = trim(strptr) // ' B,'
-            if (its%k_all(it).eq.its%k_c) strptr = trim(strptr) // ' C,'
-            if (its%k_all(it).eq.its%k_d) strptr = trim(strptr) // ' D,'
+            if (associated(its%it_0) .and. its%itdata(it)%k.eq.its%it_0%k) strptr = trim(strptr) // ' x0,'
+            if (associated(its%it_1) .and. its%itdata(it)%k.eq.its%it_1%k) strptr = trim(strptr) // ' x1,'
+            if (its%itdata(it)%k.eq.its%it_a%k) strptr = trim(strptr) // ' A,'
+            if (its%itdata(it)%k.eq.its%it_b%k) strptr = trim(strptr) // ' B,'
+            if (its%itdata(it)%k.eq.its%it_c%k) strptr = trim(strptr) // ' C,'
+            if (its%itdata(it)%k.eq.its%it_d%k) strptr = trim(strptr) // ' D,'
             if (idebug_br.le.1 .or. len(trim(strptr)).le.4) strptr = ' '
             ilen = max(1, len(trim(strptr)))
 
             if (idebug_br.ge.6 .or. .true.) then
-               str16(1) = fmt_gs(16, 8, 8, its%xk_all(it))
-               str16(2) = fmt_gs(16, 8, 8, its%rk_all(it)+its%ftarg)
-               str16(3) = fmt_gs(16, 8, 8, its%rk_all(it))
+               str16(1) = fmt_gs(16, 8, 8, its%itdata(it)%xk)
+               str16(2) = fmt_gs(16, 8, 8, its%itdata(it)%rk+its%ftarg)
+               str16(3) = fmt_gs(16, 8, 8, its%itdata(it)%rk)
                str16(4) = fmt_gs(16, 8, 8, dfdx)
-               if (its%ikarg.eq.ikYDIR) then
-                  write(bufout,2020) its%k_all(it), (str16(j),j=1,4), its%np_all(it), strptr(1:ilen-1)
+               if (abs(its%ikarg).eq.ikYDIR) then
+                  write(bufout,2020) its%itdata(it)%k, (str16(j),j=1,4), its%itdata(it)%np, strptr(1:ilen-1)
                elseif (its%ikarg.eq. ikZDIR) then
-                  write(bufout,2030) its%k_all(it), (str16(j),j=1,4), strptr(1:ilen-1)
+                  write(bufout,2030) its%itdata(it)%k, (str16(j),j=1,4), its%itdata(it)%np, strptr(1:ilen-1)
                elseif (its%ikarg.eq.-ikZDIR) then
-                  write(bufout,2040) its%k_all(it), (str16(j),j=1,4), strptr(1:ilen-1)
+                  write(bufout,2040) its%itdata(it)%k, (str16(j),j=1,4), strptr(1:ilen-1)
                endif
             else
-               write(str12(1), '(f12.4)') its%xk_all(it)
-               str12(2) = fmt_gs(12, 4, 4, its%rk_all(it)+its%ftarg)
-               str12(3) = fmt_gs(12, 4, 4, its%rk_all(it))
+               write(str12(1), '(f12.4)') its%itdata(it)%xk
+               str12(2) = fmt_gs(12, 4, 4, its%itdata(it)%rk+its%ftarg)
+               str12(3) = fmt_gs(12, 4, 4, its%itdata(it)%rk)
                str12(4) = fmt_gs(12, 4, 4, dfdx)
-               if (its%ikarg.eq.ikYDIR) then
-                  write(bufout,2020) its%k_all(it), (str12(j),j=1,4), its%np_all(it), strptr(1:ilen-1)
+               if (abs(its%ikarg).eq.ikYDIR) then
+                  write(bufout,2020) its%itdata(it)%k, (str12(j),j=1,4), its%itdata(it)%np, strptr(1:ilen-1)
                elseif (its%ikarg.eq. ikZDIR) then
-                  write(bufout,2030) its%k_all(it), (str12(j),j=1,4), strptr(1:ilen-1)
+                  write(bufout,2030) its%itdata(it)%k, (str12(j),j=1,4), its%itdata(it)%np, strptr(1:ilen-1)
                elseif (its%ikarg.eq.-ikZDIR) then
-                  write(bufout,2040) its%k_all(it), (str12(j),j=1,4), strptr(1:ilen-1)
+                  write(bufout,2040) its%itdata(it)%k, (str12(j),j=1,4), strptr(1:ilen-1)
                endif
             endif
             call write_log(1, bufout)
          enddo
 
- 2020    format(2x, i4,', BR,  dy, Fy, res:',3a,', dFy/dy:',a,',',i3,' patches',a)
- 2030    format(4x, i6,', NR,  z_ws, Fz:',2a,', res: ',a,', dFz/dz:',2a)
- 2040    format(4x, i6,', NR,  dz_defl, Ftot:',2a,', res: ',a,', dFz/dz:',2a)
+ 2020    format(2x, i4,', BR,  yshift, Fytot, res:',3a,', dFy/dy:',a,',',i3,' patches',a)
+ 2030    format(4x, i6,', NR,  z_ws, Fz:',2a,', res: ',a,', dFz/dz:',a,',',i3,' patches',a)
+ 2040    format(4x, i6,', NR,  zshift, Fztot:',2a,', res: ',a,', dFz/dz:',2a)
 
          call write_log(' --- end of brent iteration table -----------------------' //                  &
                                                    '------------------------------------------------')
@@ -537,7 +494,7 @@ contains
          it = 0
       else
          it = 1
-         do while(it.lt.its%numit .and. its%rk_all(it)*its%rk_all(it+1).ge.0d0)
+         do while(it.lt.its%numit .and. its%itdata(it)%rk*its%itdata(it+1)%rk.ge.0d0)
             it = it + 1
          enddo
          brent_its_has_bracket = (it.lt.its%numit)
@@ -563,21 +520,21 @@ contains
       if (its%numit.le.3 .or. .not.brent_its_has_bracket(its)) then
          brent_its_has_jump = .false.
       else
-         it0 = brent_its_find_k(its, its%k_0)
-         it1 = brent_its_find_k(its, its%k_1)
+         it0 = brent_its_find_k(its, its%it_0%k)
+         it1 = brent_its_find_k(its, its%it_1%k)
 
-         dx_brack   = (its%x_1 - its%x_0)
-         dfdx_brack = (its%r_1 - its%r_0) / dx_brack
+         dx_brack   = (its%it_1%xk - its%it_0%xk)
+         dfdx_brack = (its%it_1%rk - its%it_0%rk) / dx_brack
 
          if (it0.gt.1) then
             ! backward difference
-            dfdx_left = (its%r_0 - its%rk_all(it0-1)) / (its%x_0 - its%xk_all(it0-1))
+            dfdx_left = (its%it_0%rk - its%itdata(it0-1)%rk) / (its%it_0%xk - its%itdata(it0-1)%xk)
          else
             dfdx_left = 1d20
          endif
          if (it1.lt.its%numit) then
             ! forward difference
-            dfdx_right = (its%rk_all(it1+1) - its%r_1) / (its%xk_all(it1+1) - its%x_1)
+            dfdx_right = (its%itdata(it1+1)%rk - its%it_1%rk) / (its%itdata(it1+1)%xk - its%it_1%xk)
          else
             dfdx_right = 1d20
          endif
@@ -588,7 +545,7 @@ contains
                               abs(dfdx_brack) .gt. jump_thrs_df*max(abs(dfdx_left), abs(dfdx_right))
 
          if (brent_its_has_jump .and. idebug_br.ge.-1) then
-            write(bufout,'(2(a,f12.6),a)') '  ...detected jump in x=[', its%x_0,',', its%x_1,']'
+            write(bufout,'(2(a,f12.6),a)') '  ...detected jump in x=[', its%it_0%xk,',', its%it_1%xk,']'
             call write_log(1, bufout)
             write(bufout,'(3(a,g12.4))') '     df/dx=', dfdx_left,',', dfdx_brack,',', dfdx_right
             call write_log(1, bufout)
@@ -622,17 +579,17 @@ contains
          ! dummy output for x_new: bisection
 
          if (its%numit.le.1) then
-            x0_new  = its%xk_all(1)
+            x0_new  = its%itdata(1)%xk
          else
-            x0_new  = 0.5d0 * (its%xk_all(1) + its%xk_all(2))
+            x0_new  = 0.5d0 * (its%itdata(1)%xk + its%itdata(2)%xk)
          endif
 
       else
 
          ! determine left/right sides of current bracket
 
-         it0 = brent_its_find_k(its, its%k_0)
-         it1 = brent_its_find_k(its, its%k_1)
+         it0 = brent_its_find_k(its, its%it_0%k)
+         it1 = brent_its_find_k(its, its%it_1%k)
 
          if (it0.le.1) then
 
@@ -642,51 +599,51 @@ contains
 
             ! dummy output for x_new: bisection
 
-            x0_new    = 0.5d0 * (its%x_0 + its%x_1)
+            x0_new    = 0.5d0 * (its%it_0%xk + its%it_1%xk)
 
          elseif (it1.ge.its%numit) then
 
             ! bracket is last segment of list: compare left to current stiffness
 
-            dfdx_left  = (its%r_0 - its%rk_all(it0-1)) / (its%x_0 - its%xk_all(it0-1))
-            dfdx_brack = (its%r_1 - its%r_0)           / (its%x_1 - its%x_0)
+            dfdx_left  = (its%it_0%rk - its%itdata(it0-1)%rk) / (its%it_0%xk - its%itdata(it0-1)%xk)
+            dfdx_brack = (its%it_1%rk - its%it_0%rk)          / (its%it_1%xk - its%it_0%xk)
             dfdx_right = 0d0
 
             brent_its_has_chng_stiff = (dfdx_brack .gt. stiff_thrs*dfdx_left)
 
             if (brent_its_has_chng_stiff) then
-               x0_new = (1d0-frac_last) * its%x_0 + frac_last * its%x_1
+               x0_new = (1d0-frac_last) * its%it_0%xk + frac_last * its%it_1%xk
             else
-               x0_new = 0.5d0 * (its%x_0 + its%x_1)
+               x0_new = 0.5d0 * (its%it_0%xk + its%it_1%xk)
             endif
 
          else
 
             ! bracket has left and right segments: compare left to right stiffness
 
-            dfdx_left  = (its%r_0 - its%rk_all(it0-1)) / (its%x_0 - its%xk_all(it0-1))
-            dfdx_brack = (its%r_1 - its%r_0)           / (its%x_1 - its%x_0)
-            dfdx_right = (its%rk_all(it1+1) - its%r_1) / (its%xk_all(it1+1) - its%x_1)
+            dfdx_left  = (its%it_0%rk - its%itdata(it0-1)%rk) / (its%it_0%xk - its%itdata(it0-1)%xk)
+            dfdx_brack = (its%it_1%rk - its%it_0%rk)          / (its%it_1%xk - its%it_0%xk)
+            dfdx_right = (its%itdata(it1+1)%rk - its%it_1%rk) / (its%itdata(it1+1)%xk - its%it_1%xk)
 
             brent_its_has_chng_stiff = (dfdx_right .gt. stiff_thrs*dfdx_left)
 
             ! in case stiffness changes: use extrapolation from both sides
 
             if (brent_its_has_chng_stiff) then
-               x0_left  = its%x_0 - its%r_0 / dfdx_left
-               x0_right = its%x_1 - its%r_1 / dfdx_right
+               x0_left  = its%it_0%xk - its%it_0%rk / dfdx_left
+               x0_right = its%it_1%xk - its%it_1%rk / dfdx_right
 
                x0_new   = min(x0_left, x0_right)
-               x0_new   = max(x0_new, its%x_0+0.0001d0*(its%x_1-its%x_0))
+               x0_new   = max(x0_new, its%it_0%xk+0.0001d0*(its%it_1%xk-its%it_0%xk))
             else
-               x0_new   = 0.5d0 * (its%x_0 + its%x_1)
+               x0_new   = 0.5d0 * (its%it_0%xk + its%it_1%xk)
             endif
 
          endif
 
          if (brent_its_has_chng_stiff .and. idebug_br.ge.1) then
-            write(bufout,'(2(a,f12.6),3(a,g14.6))') '  ...stiffness changing in x=[', its%x_0, ',',     &
-                its%x_1,'], df/dx=', dfdx_left,',', dfdx_brack,',', dfdx_right
+            write(bufout,'(2(a,f12.6),3(a,g14.6))') '  ...stiffness changing in x=[', its%it_0%xk, ',', &
+                its%it_1%xk,'], df/dx=', dfdx_left,',', dfdx_brack,',', dfdx_right
             call write_log(1, bufout)
          endif
       endif
@@ -705,109 +662,103 @@ contains
       type(t_brent_its)                :: its
       real(kind=8),      intent(out)   :: x_new
 !--local variables:
-      logical         :: use_inv_interp = .false.
+      logical         :: use_inv_interp = .true.
       logical         :: ztest(5)
-      real(kind=8)    :: dx, dr, dx_est, dx_max, dx_new, sgn
+      real(kind=8)    :: dx, dr, dx_est, dx_max, dx_new
 
-      ! vertical problem Fz = Fz(z_ws) has positive slope, Fz = Fz(dz_defl) has negative slope
-
-      sgn = 1d0
-      if (its%ikarg.eq.-ikZDIR) sgn = -1d0
+      associate(x_a => its%it_a%xk, x_b   => its%it_b%xk,   x_c   => its%it_c%xk,                       &
+                x_k => its%it_k%xk, x_km1 => its%it_km1%xk, x_km2 => its%it_km2%xk,                     &
+                r_a => its%it_a%rk, r_b   => its%it_b%rk,   r_c   => its%it_c%rk)
 
       !------------------------------------------------------------------------------------------------
-      ! case 1: searching a bracket for solving Fz(z_ws) or Ftot(dz_defl)
+      ! case 1: searching a bracket for solving Fz(z_ws) or Ftot(z_shift)
       !------------------------------------------------------------------------------------------------
 
       if (.not.brent_its_has_bracket(its) .and. abs(its%ikarg).eq.ikZDIR) then
 
-         ! search bracket -- solving Fz
+         ! search bracket -- solving F_z or F_{tot,z}
 
-         dr = sgn * (its%rk_all(its%numit) - its%rk_all(1))
+         dr = its%itdata(its%numit)%rk - its%itdata(1)%rk
 
          if (dr.le.0d0 .and. k.le.5) then
 
-            ! case 1.a: Fz decreasing (Ftot increasing) across brent-table: 
-            !                               double the step to reach positive sgn*dFz/dz
+            ! case 1.a: Fz decreasing across brent-table: 
+            !                               double the step to reach positive dFz/dz
 
-            x_new = its%xk_all(1) + 2d0 * (its%xk_all(its%numit) - its%xk_all(1))
+            x_new = its%itdata(1)%xk + 2d0 * (its%itdata(its%numit)%xk - its%itdata(1)%xk)
             if (idebug_br.ge.2) call write_log(' negative slope Fz, double step x(0)->x(k)')
 
          elseif (k.le.3) then
 
-            ! case 1.b: start of iteration: extrapolate using current estimate dfx_dx (at end of table)
-            !                               add factor 1.05 to favour overshoot, to get a bracket
+            ! case 1.b: start of iteration: extrapolate using current estimate dFz/dz (at end of table)
+            !                               we could add a factor 1.05 to favour overshoot, to get a bracket
             !                               maximum step: dpen <= 0.5 * pen, new pen <= 1.5 * pen
 
-            x_new  = its%x_b - 1.00d0 * its%r_b / dfx_dx
-            dx_max = 0.5d0 * (its%x_b - its%xk_all(1))
+            x_new  = x_b - r_b / dfx_dx
+            dx_max = 0.5d0 * (x_b - its%itdata(1)%xk)
 
-            if (idebug_br.ge.3 .and. x_new.gt.its%x_b+dx_max) then
-               write(bufout,'(4(a,f9.4))') ' brent_set_xnew: x_0=', its%xk_all(1),', x_k=', its%x_b,       &
-                   ', x_new=',x_new,' >', its%x_b+dx_max
+            if (idebug_br.ge.3 .and. x_new.gt.x_b+dx_max) then
+               write(bufout,'(4(a,f9.4))') ' brent_set_xnew: x_0=', its%itdata(1)%xk,', x_k=', x_b,     &
+                   ', x_new=',x_new,' >', x_b+dx_max
                call write_log(1, bufout)
             endif
-            x_new  = min(x_new, its%x_b+dx_max)
+            x_new  = min(x_new, x_b+dx_max)
 
          else
 
-            ! after some iterations: extrapolate at end/start of table, using full table [x_0, x_n]
+            ! after some iterations: extrapolate at end of table, using full table [x_0, x_n]
             !                        maximum step: new x in range [1.05, 1.2] * current interval
 
-            dx     = its%xk_all(its%numit) - its%xk_all(1)
-            dr     = its%rk_all(its%numit) - its%rk_all(1)
+            dx     = its%itdata(its%numit)%xk - its%itdata(1)%xk
+            dr     = its%itdata(its%numit)%rk - its%itdata(1)%rk
 
-            if (its%ikarg.eq.ikZDIR) then
-               dx_new = - its%rk_all(its%numit) * dx / dr
-               dx_new = max(0.05d0*dx, min(0.2d0*dx, dx_new))
-               x_new  = its%xk_all(its%numit) + dx_new
-            else        ! dx>0, dx_new<0
-               dx_new = - its%rk_all(1) * dx / dr
-               dx_new = min(-0.05d0*dx, max(-0.2d0*dx, dx_new))
-               x_new  = its%xk_all(1) + dx_new
-            endif
-
-            ! write(bufout,*) 'dx_new=',dx_new,', x_new=',x_new
-            ! call write_log(1, bufout)
+            dx_new = - its%itdata(its%numit)%rk * dx / dr
+            dx_new = max(0.05d0*dx, min(0.2d0*dx, dx_new))
+            x_new  = its%itdata(its%numit)%xk + dx_new
 
          endif
 
       !------------------------------------------------------------------------------------------------
-      ! case 2: searching a bracket for solving dy_rail - Fy
+      ! case 2: searching a bracket for solving Ftoty(y_shift)
       !------------------------------------------------------------------------------------------------
 
-      elseif (.not.brent_its_has_bracket(its) .and. its%ikarg.eq.ikYDIR) then
+      elseif (.not.brent_its_has_bracket(its) .and. abs(its%ikarg).eq.ikYDIR) then
 
-         ! dy_rail <--> Fy: extrapolate at start or end of table, with point B == either x_0 or x_n
+         ! y_shift <--> Fy: extrapolate at start or end of table, with point B == either x_0 or x_n
          !                  max. step == fac_dx * | x_n - x_0 |
 
-         dx = its%xk_all(its%numit) - its%xk_all(1)
-         dr = its%rk_all(its%numit) - its%rk_all(1)
+         dx = its%itdata(its%numit)%xk - its%itdata(1)%xk
+         dr = its%itdata(its%numit)%rk - its%itdata(1)%rk
 
-         if (its%rk_all(1).lt.0d0) then
+         ! left side: expecting flange contact at y_shift < 0, Fy on rail < 0
+         ! right side: expecting flange contact at y_shift > 0, Fy on rail > 0
+         ! to increase Fy, use y_shift > 0
 
-            ! expecting Fy(-50) > 0, extrapolate at start of table + 5% to shoot past zero
+         if (its%itdata(1)%rk.gt.0d0) then
+
+            ! expecting Fy(-50) < 0, extrapolate at start of table + 5% to shoot past zero
             !                        require step dx_new \in [ -1.5, -0.1 ] * (x_n - x_0)
 
-            dx_est = -its%r_b * dx / dr * 1.05d0
+            dx_est = -r_b * dx / dr * 1.05d0
             dx_new = max(-1.5d0*dx, min(-0.1d0*dx, dx_est))
-            x_new  =  its%xk_all(1) + dx_new
+            x_new  =  its%itdata(1)%xk + dx_new
 
          else
 
-            ! expecting Fy(50) < 0, extrapolate at end of table + 5% to shoot past zero
+            ! expecting Fy(50) > 0, extrapolate at end of table + 5% to shoot past zero
             !                       require step dx_new \in [ 0.1, 1.5 ] * (x_n - x_0)
 
-            dx = its%xk_all(its%numit) - its%xk_all(1)
-            dr = its%rk_all(its%numit) - its%rk_all(1)
+            dx = its%itdata(its%numit)%xk - its%itdata(1)%xk
+            dr = its%itdata(its%numit)%rk - its%itdata(1)%rk
 
-            dx_est = -its%r_b * dx / dr * 1.05d0
+            dx_est = -r_b * dx / dr * 1.05d0
             dx_new = max(0.1d0*dx, min(1.5d0*dx, dx_est))
-            x_new  =  its%xk_all(its%numit) + dx_new
+            x_new  =  its%itdata(its%numit)%xk + dx_new
 
          endif
 
          if (idebug_br.ge.3) then
-            write(bufout,'(3(a,g12.4))') ' extrapolated dx_new=',dx_est,', clipped=',dx_new,         &
+            write(bufout,'(3(a,g12.4))') ' extrapolated dx_new=',dx_est,', clipped=',dx_new,            &
                      ', x_new=',x_new
             call write_log(1, bufout)
          endif
@@ -818,15 +769,15 @@ contains
 
       else
 
-         if (use_inv_interp .and. abs(its%r_a-its%r_c).gt.tiny .and. abs(its%r_b-its%r_c).gt.tiny) then
+         if (use_inv_interp .and. abs(r_a-r_c).gt.tiny .and. abs(r_b-r_c).gt.tiny) then
 
             ! attempt inverse quadratic interpolation
 
-            x_new = its%x_a * its%r_b * its%r_c / ((its%r_a-its%r_b) * (its%r_a-its%r_c)) +             &
-                    its%x_b * its%r_a * its%r_c / ((its%r_b-its%r_a) * (its%r_b-its%r_c)) +             &
-                    its%x_c * its%r_a * its%r_b / ((its%r_c-its%r_a) * (its%r_c-its%r_b))
+            x_new = x_a * r_b * r_c / ((r_a-r_b) * (r_a-r_c)) +                                         &
+                    x_b * r_a * r_c / ((r_b-r_a) * (r_b-r_c)) +                                         &
+                    x_c * r_a * r_b / ((r_c-r_a) * (r_c-r_b))
             if (idebug_br.ge.3) then
-               write(bufout,'(a,2g12.4,a,f12.4)') ' dfk=', abs(its%r_a-its%r_c), abs(its%r_b-its%r_c),  &
+               write(bufout,'(a,2g12.4,a,f12.4)') ' dfk=', abs(r_a-r_c), abs(r_b-r_c),                  &
                                       ', inverse interpolation: x_new =', x_new
                call write_log(1, bufout)
             endif
@@ -835,20 +786,20 @@ contains
 
             ! attempt the secant method using dfx_dx obtained from calling subroutine
 
-            x_new = its%x_b - its%r_b / dfx_dx
+            x_new = x_b - r_b / dfx_dx
             if (idebug_br.ge.3) then
                write(bufout,'(a,g12.4,10x,a,f12.6)') ' dfx_dx=', dfx_dx,                                &
                                       ', secant method: x_new =', x_new
                call write_log(1, bufout)
             endif
 
-         elseif (abs(its%r_b-its%r_c).gt.tiny) then
+         elseif (abs(r_b-r_c).gt.tiny) then
 
             ! attempt the secant method using current and previous iterates
 
-            x_new = its%x_b - its%r_b * (its%x_b-its%x_c) / (its%r_b-its%r_c)
+            x_new = x_b - r_b * (x_b-x_c) / (r_b-r_c)
             if (idebug_br.ge.3) then
-               write(bufout,'(a,2g12.4,a,f12.6)') ' dfk=', abs(its%r_a-its%r_c), abs(its%r_b-its%r_c),  &
+               write(bufout,'(a,2g12.4,a,f12.6)') ' dfk=', abs(r_a-r_c), abs(r_b-r_c),                  &
                                       ', secant method: x_new =', x_new
                call write_log(1, bufout)
             endif
@@ -857,36 +808,36 @@ contains
    
             ! attempt linear interpolation (equals secant when c==a)
    
-            x_new = its%x_b - its%r_b * (its%x_b-its%x_a) / (its%r_b-its%r_a)
+            x_new = x_b - r_b * (x_b-x_a) / (r_b-r_a)
             if (idebug_br.ge.3) then
-               write(bufout,'(a,2g12.4,a,f12.4)') ' dfk=', abs(its%r_a-its%r_c), abs(its%r_b-its%r_c),  &
+               write(bufout,'(a,2g12.4,a,f12.4)') ' dfk=', abs(r_a-r_c), abs(r_b-r_c),  &
                                       ', linear interpolation: x_new =', x_new
                call write_log(1, bufout)
             endif
          endif
 
-         ztest(1) = (x_new-(3d0*its%x_a+its%x_b)/4d0) * (x_new-its%x_b) .gt. 0d0
-         ztest(2) =      used_bisec .and. abs(x_new-its%x_b) .ge. 0.5d0*abs(its%x_k  -its%x_km1)
-         ztest(3) = .not.used_bisec .and. abs(x_new-its%x_b) .ge. 0.5d0*abs(its%x_km1-its%x_km2)
-         ztest(4) =      used_bisec .and. abs(its%x_k  -its%x_km1) .lt. tol_xk
-         ztest(5) = .not.used_bisec .and. abs(its%x_km1-its%x_km2) .lt. tol_xk
+         ztest(1) = (x_new-(3d0*x_a+x_b)/4d0) * (x_new-x_b) .gt. 0d0
+         ztest(2) =      used_bisec .and. abs(x_new-x_b) .ge. 0.5d0*abs(x_k -x_km1)
+         ztest(3) = .not.used_bisec .and. abs(x_new-x_b) .ge. 0.5d0*abs(x_km1-x_km2)
+         ztest(4) =      used_bisec .and. abs(x_k  -x_km1) .lt. tol_xk
+         ztest(5) = .not.used_bisec .and. abs(x_km1-x_km2) .lt. tol_xk
 
          if (idebug_br.ge.4) then
             if (ztest(1)) then
-               write(bufout,*) ' 1: |x_new=',x_new,' not in [', (3d0*its%x_a+its%x_b)/4d0, ',', its%x_b, ']'
+               write(bufout,*) ' 1: |x_new=',x_new,' not in [', (3d0*x_a+x_b)/4d0, ',', x_b, ']'
                call write_log(1, bufout)
             elseif (ztest(2)) then
                ! call brent_its_print(k, its, ic, idebug_br+2)
-               write(bufout,*) ' 2: |x_new-its%x_b|=',abs(x_new-its%x_b),' >= ',0.5d0*abs(its%x_k-its%x_km1)
+               write(bufout,*) ' 2: |x_new-its%x_b|=',abs(x_new-x_b),' >= ',0.5d0*abs(x_k-x_km1)
                call write_log(1, bufout)
             elseif (ztest(3)) then
-               write(bufout,*) ' 3: |x_new-its%x_b|=',abs(x_new-its%x_b),' >= ',0.5d0*abs(its%x_km1-its%x_km2)
+               write(bufout,*) ' 3: |x_new-its%x_b|=',abs(x_new-x_b),' >= ',0.5d0*abs(x_km1-x_km2)
                call write_log(1, bufout)
             elseif (ztest(4)) then
-               write(bufout,*) ' 4: |x_k  -its%x_km1|=',abs(its%x_k  -its%x_km1),' <= tol=', tol_xk
+               write(bufout,*) ' 4: |x_k  -its%x_km1|=',abs(x_k  -x_km1),' <= tol=', tol_xk
                call write_log(1, bufout)
             elseif (ztest(5)) then
-               write(bufout,*) ' 5: |x_km1-its%x_km2|=',abs(its%x_km1-its%x_km2),' <= tol=', tol_xk
+               write(bufout,*) ' 5: |x_km1-its%x_km2|=',abs(x_km1-x_km2),' <= tol=', tol_xk
                call write_log(1, bufout)
             endif
          endif
@@ -895,13 +846,14 @@ contains
 
          if ( ztest(1) .or. ztest(2) .or. ztest(3) .or. ztest(4) .or. ztest(5) ) then
             if (idebug_br.ge.3) call write_log('  ...reject estimate, using bisection')
-            x_new = 0.5d0 * (its%x_a + its%x_b)
+            x_new = 0.5d0 * (x_a + x_b)
             used_bisec = .true.
          else
             used_bisec = .false.
          endif
 
       endif ! not has_bracket
+      end associate
 
    end subroutine brent_set_xnew
 

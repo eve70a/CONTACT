@@ -8,7 +8,7 @@
 %
 %  for w/r contact, icp = -1:
 %    0: w/r contact, fixed grid sizes,  params = [ dx, ds, n.a. ]
-%   -1: w/r contact, fixed grid sizes,  params = [ dx, ds, a_sep, d_sep, d_comb, [d_turn] ]
+%   -1: w/r contact, fixed grid sizes,  params = [ dx, ds, a_sep, d_sep, d_comb, [d_turn, g_miss] ]
 %
 %  for generic contact, icp > 0:
 %    1: lower-left + grid sizes,        params = [ mx, my, xl , yl , dx , dy  ]
@@ -17,7 +17,7 @@
 %    4: 1st center + last center,       params = [ mx, my, xc1, yc1, xcm, ycm ]
 %
 %  dimensions: mx, my [-],   a_sep [angle],
-%              dx, ds, dy, d_sep, d_comb, d_turn, xl, yl, xh, yh, xc1, yc1, xcm, ycm [length]
+%              dx, ds, dy, d_sep, d_comb, d_turn, g_miss, xl, yl, xh, yh, xc1, yc1, xcm, ycm [length]
 %------------------------------------------------------------------------------------------------------------
 
 % Copyright 2008-2023 by Vtech CMCC.

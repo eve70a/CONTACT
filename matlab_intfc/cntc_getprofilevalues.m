@@ -13,18 +13,26 @@
 %                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
 %                     4: arc    get arc-length parameter s along profile
 %                     5: angl   get surface inclination atan2(dz, dy) [angle]
+%                     6: 2d-u   evaluate varprof [xyz]_r or [xyz]_w for cross-section at constant u_i = x_i
+%                     7: 2d-v   evaluate varprof [xyz]_r or [xyz]_w for interpolation path at constant v_j
+%                     8: 2d-y   evaluate varprof [xyz]_r or [xyz]_w for longitudinal slice at constant y_j
+%                     9: spl2d  dump 2D spline data-structure for inspection in Matlab
 %  iparam         - integer configuration parameters
 %                     1: itype     0 = rail, 1 = wheel profile
 %                     2: isampl   -1 = sampling cf. original input data;
-%                                  0 = sampling cf. spline representation (default);
-%                                  1 = sampling cf. spline representation at spacing ds_out
+%                                  0 = sampling cf. spline representation (default for tasks 0--5);
+%                                  1 = sampling cf. spline representation at spacing ds_out (required for
+%                                      tasks 6--8)
 %                            kchk>=2 = sampling cf. spline representation with integer refinement factor
 %  rparam         - real configuration parameters
-%                     1: ds_out  step-size ds used with sampling method isampl=1, default 1mm
-%                     2: x_out   for variable profiles: longitudinal position x_r [mm] (task=1) or
-%                                x_tr [mm] (task=2) or circumferential position th_w [rad] on wheel
+%                     1: ds_out  step-size ds/du/dv used with sampling method isampl=1, default 1mm
+%                     2: c1_out  sample position on variable profiles (task 1, 2: x_out)
+%                     3: c2_sta  start of sample range on variable profiles
+%                     4: c2_end  end of sample range on variable profiles
+%                   task 6: c1 = u, c2 = v; task 7: c1 = v, c2 = u; task 8: c1 = y, c2 = u.
 %
-%  tasks 1,2,4: no unit conversion or scaling are applied for profile values
+%  units: s,x,y,z [mm], th [rad], u,v [-]
+%  tasks 1--9: no unit conversion or scaling are applied for profile values
 %------------------------------------------------------------------------------------------------------------
 
 % Copyright 2008-2023 by Vtech CMCC.
@@ -45,7 +53,7 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
       disp('ERROR in cntc_getprofilevalues: itask is mandatory.');
       return
    end
-   if (itask<-1 | itask>5)
+   if (itask<-1 | itask>9)
       disp(sprintf('ERROR in cntc_getprofilevalues: itask=%d not available.', itask));
       return
    end
@@ -65,15 +73,18 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
       lenarr = 2;
       p_val  = libpointer('doublePtr',zeros(lenarr,1));
 
-      calllib(libname,'cntc_getprofilevalues_new', ire, itask, nints, iparam, nreals, rparam, 1, p_val);
+      calllib(libname,'cntc_getprofilevalues_new', ire, itask, nints, iparam, nreals, rparam, lenarr, p_val);
       values = round(p_val.value);
 
-   elseif (itask>=0 & itask<=5)
+   elseif (itask>=0 & itask<=8)
 
-      % task 0--5: first get the number of points in the profile at requested s sampling positions
+      % task 0--8: first get the number of points in the profile at requested s sampling positions
+
+      itask_npnt = 0;
+      if (itask>=6), itask_npnt = itask; end
 
       p_npnt = libpointer('doublePtr',-1);
-      calllib(libname,'cntc_getprofilevalues_new', ire, 0, nints, iparam, nreals, rparam, 1, p_npnt);
+      calllib(libname,'cntc_getprofilevalues_new', ire, itask_npnt, nints, iparam, nreals, rparam, 1, p_npnt);
 
       npnt = round(p_npnt.value);
 
@@ -89,9 +100,9 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
 
          values = [ npnt ];
 
-      elseif (itask>=1 & itask<=5)
+      elseif (itask>=1 & itask<=8)
 
-         lenarr = [ npnt*2, npnt*2, 6, npnt, npnt ];
+         lenarr = [ npnt*2, npnt*2, 6, npnt, npnt, npnt*3, npnt*3, npnt*3, 1 ];
          lenarr = lenarr(itask);
          p_val  = libpointer('doublePtr',zeros(lenarr,1));
 
@@ -101,9 +112,22 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
 
          if (itask==1 | itask==2)
             values = reshape(values, npnt, 2);
+         elseif (itask==6 | itask==7 | itask==8)
+            values = reshape(values, npnt, 3);
+            ix = find(values(:,1)> 98d9); values(ix,1) = NaN;
+            ix = find(values(:,2)>998d0); values(ix,2) = NaN;
+            ix = find(values(:,3)>998d0); values(ix,3) = NaN;
          end
 
-      end % (itask==0 | 1--5)
+      end % (itask==0 | 1--8)
+
+   elseif (itask==9)    % dump spline structure in m-file
+
+      lenarr = 1;
+      p_val  = libpointer('doublePtr',zeros(lenarr,1));
+
+      calllib(libname,'cntc_getprofilevalues_new', ire, itask, nints, iparam, nreals, rparam, lenarr, p_val);
+      values = [];
 
    else
 

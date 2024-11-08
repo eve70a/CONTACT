@@ -85,6 +85,8 @@ end module m_errormsg
 ! check_overall_order:   211  == wheel profile y-values should be descending
 ! check_overall_order:   212  == rail profile y-values should be ascending
 ! profile_check_bowtie:  323  == profile has intersections between different segments
+! profile_finish_grid:   241  == length of profile curve less than minimum
+! profile_finish_grid:   242  == length of profile curve more than maximum
 !
 ! -------------- file m_varprof:
 ! profile_read_varprf:   151  == incorrect parameters nslc, nintrup, or npart

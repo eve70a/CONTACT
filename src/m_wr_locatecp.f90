@@ -26,6 +26,7 @@ private compute_wr_locus
 private locus_prismatic
 private locus_iterate_varprof
 private locus_iterate_roller
+private check_boundbox_overlap
 private make_surfc_inclination
 private locate_interpen_1d
 private locate_interpen_2d
@@ -311,7 +312,7 @@ contains
       type(p_cpatch)                  :: newcps(MAX_LOC_MIN)
       integer,          intent(out)   :: my_ierror
 !--local variables:
-      integer,       parameter :: max_n_miss = 1
+      integer,       parameter :: max_n_miss = 2
       integer                  :: sub_ierror, numcp0, icp
       logical                  :: rgn_has_overlap
       real(kind=8)             :: sgn, rgn_gap_min
@@ -399,13 +400,15 @@ contains
             if (ic%x_locate.ge.2) call write_log(' --- calling locate_interpen_1d ---')
             call locate_interpen_1d(meta, ic, sf_whl, sf_rai, sf_incl, region%mview, sgn, ws%nom_radius, &
                         trk%nom_radius, rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, max_n_miss,  &
-                        numnew, newcps)
+                        numnew, newcps, sub_ierror)
+            if (my_ierror.eq.0) my_ierror = sub_ierror
          else
             if (ic%x_locate.ge.2) call write_log(' --- calling locate_interpen_2d ---')
             call timer_start(itimer_interp6)
             call locate_interpen_2d(meta, ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, discr%dx,           &
                         ws%nom_radius, rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, max_n_miss,   &
-                        numnew, newcps)
+                        numnew, newcps, sub_ierror)
+            if (my_ierror.eq.0) my_ierror = sub_ierror
             call timer_stop(itimer_interp6)
          endif
 
@@ -518,7 +521,8 @@ contains
 
       if (numnew.ge.2) then
          ! call write_log(' --- calling combine_cpatches ---')
-         call combine_cpatches( ic, numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_comb)
+         call combine_cpatches( ic, numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_comb,    &
+                discr%gap_miss)
       endif
 
       ! turn contact reference angles for 'true' contact patches that lie close together
@@ -593,7 +597,7 @@ contains
 
          ! call write_log(' --- calling estimate_curvatures_v2 ---')
          ! if (cp%gap_min.lt.0d0)  &
-         call estimate_curvatures_v2( ic, cp, ws, prr_trk, trk%nom_radius)
+         call estimate_curvatures_v2( ic, icp, cp, ws, prr_trk, trk%nom_radius)
 
          ! compute curved contact reference surface, pot.contact for conformal contact approach
 
@@ -692,6 +696,29 @@ contains
          do icpn = 1, numnew
             newcps(icpn)%cp%prev_icp(1:MAX_NUM_CPS) = 0
          enddo
+
+         if (ic%x_cpatch.ge.3) then
+            do icpo = 1, min(numnew, numtot)
+               associate( cp0 => allcps(icpo)%cp, cp1 => newcps(icpo)%cp )
+               write(bufout,'(a,i3,4(a,f9.3),a,f12.6)') ' icp=',icpo,': old y=[', cp0%ysta,',',cp0%yend, &
+                              '], new y=[', cp1%ysta,',', cp1%yend,'], gap=',cp1%gap_min
+               call write_log(1, bufout)
+               end associate
+            enddo
+            do icpo = numnew+1, numtot
+               associate( cp0 => allcps(icpo)%cp )
+               write(bufout,'(a,i3,2(a,f9.3),a)') ' icp=',icpo,': old y=[', cp0%ysta,',', cp0%yend, ']'
+               call write_log(1, bufout)
+               end associate
+            enddo
+            do icpn = numtot+1, numnew
+               associate( cp1 => newcps(icpn)%cp )
+               write(bufout,'(a,i3,a,30x,2(a,f9.3),a,f12.6)') ' icp=',icpn,':','new y=[', cp1%ysta,',', &
+                        cp1%yend,'], gap=',cp1%gap_min
+               call write_log(1, bufout)
+               end associate
+            enddo
+         endif
 
       else
 
@@ -964,7 +991,7 @@ contains
       iestim = ic%iestim
       if (meta%itforce.ge.1) iestim = 1
 
-      if (ic%pvtime.eq.2 .and. iestim.eq.0) then
+      if (ic%pvtime.eq.2) then
 
          ! gds not used: destroy remaining contact patches (gds) of the previous iteration
 
@@ -1005,6 +1032,11 @@ contains
                numtot_new = numtot_new + 1
                icpn       = numtot_new
 
+               if (numtot_new.gt.MAX_NUM_CPS) then
+                  write(bufout,'(2(a,i0))') ' Internal error: wr_update_allcps: numtot_new= ',          &
+                        numtot_new,' > MAX= ', MAX_NUM_CPS
+                  call abort_run()
+               endif
                if (ic%x_cpatch.ge.1 .and. associated(allcps(icpo)%cp%gd)) then
                   write(bufout,'(2(a,i3))') ' wr_update_allcps: move unused gd from icpo=',icpo,        &
                         ' to icpn=',icpn
@@ -1250,29 +1282,7 @@ contains
       call grid_get_boundbox(sf_rai, bbr)
       call timer_stop(itimer_interp5)
 
-      if (bbw%y(1).gt.bbr%y(8) .or. bbr%y(1).gt.bbw%y(8)) then
-         has_overlap = .false.
-         write(bufout,'(2a,/,2(2(a,f10.3),a,:,/))') ' WARNING: the wheel and rail are LATERALLY in ',   &
-                        'different places.',                                                            &
-                        '          the wheel grid has y = [', bbw%y(1),',', bbw%y(8),'],',              &
-                        '          the  rail grid has y = [', bbr%y(1),',', bbr%y(8),'].'
-         call write_log(3, bufout)
-      endif
-
-      if (ic%norm.le.0 .and. minval(bbw%z).gt.maxval(bbr%z)) then
-         has_overlap = .false.
-         gap_min     = maxval(bbr%z) - minval(bbw%z)
-         write(bufout,'(2a,/,2(2(a,f10.3),a,:,/))') ' WARNING: the wheel and rail are VERTICALLY in ',  &
-                        'different places.',                                                            &
-                        '          the wheel grid has z = [', minval(bbw%z),',', maxval(bbw%z),'],',    &
-                        '          the  rail grid has z = [', minval(bbr%z),',', maxval(bbr%z),'].'
-         call write_log(3, bufout)
-      endif
-
-      if (bbw%x(1).gt.bbr%x(8) .or. bbr%x(1).gt.bbw%x(8)) then
-         has_overlap = .false.
-         call write_log(' Internal error: x-ranges dont overlap')
-      endif
+      call check_boundbox_overlap(ic, ws, bbr, bbw, has_overlap, gap_min)
 
       ! interpolate wheel surface to the mesh used for the gap function
 
@@ -1659,10 +1669,10 @@ contains
       ! select point for debugging
 
       iw_dbg = -143
-      yw_dbg = 0d0
+      yw_dbg = -12.8d0
       if (.false.) then
          do iw = 1, nw
-            if (abs(prw%y(iw)-yw_dbg).lt.0.1d0) iw_dbg = iw
+            if (abs(prw%y(iw)-yw_dbg).lt.0.2d0) iw_dbg = iw
          enddo
       endif
       if (iw_dbg.gt.nw) iw_dbg = -1
@@ -1782,15 +1792,15 @@ contains
 
       ! - y-range: considering all y of the rail profile
       !            fac_dyds=0.5 gives steps of size ds along the surface where surface inclined by 60deg
-      !            the resulting grid may be a little smaller at ymax
 
       call grid_get_yrange(prr_rgn, ymin, ymax)
       dy   = fac_dyds * ds_cp
+      ny   = ceiling((ymax-ymin)/dy) + 1
 
       call grid_create_uniform(sf_rai, nxarg=1, x0arg=0d0, x1arg=0d0,                                 &
-                                         y0arg=ymin, dyarg=dy, y1arg=ymax, zarg=0d0)
+                                         y0arg=ymin, dyarg=dy, nyarg=ny, zarg=0d0)
       call grid_create_uniform(sf_whl, nxarg=1, x0arg=0d0, x1arg=0d0,                                 &
-                                         y0arg=ymin, dyarg=dy, y1arg=ymax, zarg=0d0)
+                                         y0arg=ymin, dyarg=dy, nyarg=ny, zarg=0d0)
 
       call grid_get_dimens(sf_rai, nx, ny)
 
@@ -1817,53 +1827,16 @@ contains
 
       ! Extend bounding box to support contact for two flat profiles
 
-      if (bbw%z(8)-bbw%z(1).lt.0.001) then
+      if (bbw%z(8)-bbw%z(1).lt.0.001d0) then
          if (ic%x_locate.ge.2) call write_log(' wheel: flat profile')
-         bbw%z(1) = bbw%z(1) - 0.05
+         bbw%z(1) = bbw%z(1) - 0.05d0
       endif
-      if (bbr%z(8)-bbr%z(1).lt.0.001) then
+      if (bbr%z(8)-bbr%z(1).lt.0.001d0) then
          if (ic%x_locate.ge.2) call write_log(' rail: flat profile')
-         bbr%z(8) = bbr%z(8) + 0.05
+         bbr%z(8) = bbr%z(8) + 0.05d0
       endif
 
-      if (bbw%y(1).gt.bbr%y(8) .or. bbr%y(1).gt.bbw%y(8)) then
-         has_overlap = .false.
-         if (maxval(abs(bbw%y)).gt.9999. .or. maxval(abs(bbr%y)).gt.9999.) then
-            write(bufout,'(2a,/,2(5a,:,/))') ' WARNING: the wheel and rail are laterally in ',          &
-                           'different places.',                                                         &
-                           '          the wheel grid has y=[', fmt_gs(9,3,3,bbw%y(1)),',',              &
-                                                               fmt_gs(9,3,3,bbw%y(8)),'],',             &
-                           '          the  rail grid has y=[', fmt_gs(9,3,3,bbr%y(1)),',',              &
-                                                               fmt_gs(9,3,3,bbr%y(8)),'].'
-         else
-            write(bufout,'(2a,/,2(2(a,f8.3),a,:,/))') ' WARNING: the wheel and rail are laterally in ', &
-                           'different places.',                                                         &
-                           '          the wheel grid has y=[', bbw%y(1),',', bbw%y(8),'],',             &
-                           '          the  rail grid has y=[', bbr%y(1),',', bbr%y(8),'].'
-         endif
-         call write_log(3, bufout)
-      endif
-
-      if (ic%norm.le.0 .and. minval(bbw%z).gt.maxval(bbr%z)) then
-         has_overlap = .false.
-         gap_min     = maxval(bbr%z) - minval(bbw%z)
-         if (maxval(abs(bbw%z)).gt.9999. .or. maxval(abs(bbr%z)).gt.9999.) then
-            write(bufout,'(2a,/,2(5a,:,/))') ' WARNING: the wheel and rail are vertically in ',         &
-                        'different places.',                                                            &
-                        '          the wheel grid has z=[', fmt_gs(8,3,3,minval(bbw%z)),',',            &
-                                                            fmt_gs(8,3,3,maxval(bbw%z)),'],',           &
-                        '          the  rail grid has z=[', fmt_gs(8,3,3,minval(bbr%z)),',',            &
-                                                            fmt_gs(8,3,3,maxval(bbr%z)),'].'
-         else
-            write(bufout,'(2a,/,2(2(a,f8.3),a,:,/))') ' WARNING: the wheel and rail are vertically ',   &
-                        'in different places.',                                                         &
-                        '          the wheel grid has z=[', minval(bbw%z),',', maxval(bbw%z),'],',      &
-                        '          the  rail grid has z=[', minval(bbr%z),',', maxval(bbr%z),'].'
-         endif
-         call write_log(3, bufout)
-      endif
-
-      ! no check needed on bbw%x versus bbr%x -- prw_lc describes the x-values for both wheel and rail
+      call check_boundbox_overlap(ic, ws, bbr, bbw, has_overlap, gap_min)
 
       ! for debugging: bounding-boxes of prw_lc, sf_whl and sf_rai
 
@@ -1972,17 +1945,18 @@ contains
       real(kind=8),    intent(in)  :: dz_dy(nw)
 !--local variables:
       real(kind=8), parameter :: f_bisec = 0.5d0
-      logical      ::    lstop
+      logical            :: lstop
       integer            :: iter, maxit, iw, iw_max, j, nout, sub_ierror
-      real(kind=8)       :: ry, rnom_z, a_y, denom, x_new, dx0, dx1, dx_max, d2zdx2, epslc, exterval
+      real(kind=8)       :: ry, rnom_z, a_y, denom, dx0, dx1, dx_max, d2zdx2, epslc, exterval, x_new
       real(kind=8), dimension(:), allocatable :: dzdx_vprf, x_lbnd, x_ubnd, dzdx_lbnd, dzdx_ubnd
+      logical,      dimension(:), allocatable :: idone
       type(t_grid)       :: rsurf
       character(len=10)  :: tmpnam
 
       ! wheel-on-varprof: iterative calculation of contact locus
 
       associate( r => rw_vw%rot )      ! orientation / rotation matrix for wheel in view system
-      allocate(dzdx_vprf(nw), x_lbnd(nw), x_ubnd(nw), dzdx_lbnd(nw), dzdx_ubnd(nw))
+      allocate(dzdx_vprf(nw), x_lbnd(nw), x_ubnd(nw), dzdx_lbnd(nw), dzdx_ubnd(nw), idone(nw))
 
       ! evaluate the rail profile for an intpol.path in x-direction
 
@@ -2032,14 +2006,15 @@ contains
             x_ubnd(iw) = 0d0
          endif
 
-         if (x_locate.ge.5) then
-            write(bufout,'(a,i4,3(a,f12.3),a)') ' y(',iw,')=',prr_lc%y(iw),': x in [',x_lbnd(iw),',',   &
+         if (x_locate.ge.5 .or. (x_locate.ge.2 .and. iw.eq.iw_dbg)) then
+            write(bufout,'(a,i4,3(a,f12.3),a)') ' yr(',iw,')=',prr_lc%y(iw),': xr in [',x_lbnd(iw),',', &
                    x_ubnd(iw),']'
             call write_log(1, bufout)
          endif
       enddo
 
       dzdx_vprf(1:nw) = 0d0
+      idone(1:nw)     = .false.
 
       ! Perform iterations to compute the contact locus
 
@@ -2051,7 +2026,7 @@ contains
       do while(.not.lstop .and. iter.lt.maxit)
          iter = iter + 1
 
-         if (iw_dbg.ge.1 .and. x_locate.ge.3) then
+         if (iw_dbg.ge.1 .and. .not.idone(iw_dbg) .and. x_locate.ge.3) then
             write(bufout,'(a,i3,a,f9.4)') ' starting iter=',iter,', printing data for yw=',prw_lc%y(iw_dbg)
             call write_log(1, bufout)
          endif
@@ -2091,8 +2066,8 @@ contains
          endif
          call cartgrid_2glob(prr_lc, rr_vw)
 
-         if (iw_dbg.ge.1 .and. x_locate.ge.2) then
-            write(bufout,'(2(a,f12.6))') ' x_lc  =',prw_lc%x(iw_dbg),', dzdx_vprf=',dzdx_vprf(iw_dbg)
+         if (iw_dbg.ge.1 .and. .not.idone(iw_dbg) .and. x_locate.ge.2) then
+            write(bufout,'(2(a,g14.6))') ' x_lc  =',prw_lc%x(iw_dbg),', dzdx_vprf=',dzdx_vprf(iw_dbg)
             call write_log(1, bufout)
          endif
 
@@ -2103,120 +2078,139 @@ contains
 
          do iw = 1, nw
 
-            ry     = ws%nom_radius + prw%z(iw)
+            if (idone(iw)) then
 
-            ! compute z_lc at x_lc
+               ! skip points with previous update |dx| < epslc
 
-            if (ry**2-prw_lc%x(iw)**2.gt.0d0) then
-               prw_lc%z(iw) = sqrt( ry**2 - prw_lc%x(iw)**2 ) - ws%nom_radius
             else
-               prw_lc%z(iw) = -999d0
-            endif
 
-            rnom_z = ws%nom_radius + prw_lc%z(iw)
+               ry     = ws%nom_radius + prw%z(iw)
 
-            ! compute denominator using 3rd column of R^T, 3rd row of R
+               ! compute z_lc at x_lc
 
-            a_y   = ry * dz_dy(iw)
-            denom = prw_lc%x(iw) * r%el(3,1) - a_y * r%el(3,2) + rnom_z * r%el(3,3)
-
-            ! compute estimate for d2z_dx2
-
-            dx0 = x_ubnd(iw) - x_lbnd(iw)
-            if (dx0.le.epslc .or. dx0.gt.0.1d0*ws%nom_radius) then
-               d2zdx2 = 0d0
-            else
-               d2zdx2 = ( dzdx_ubnd(iw) - dzdx_lbnd(iw) ) / dx0
-               d2zdx2 = max(-0.5d0/denom, d2zdx2)
-               d2zdx2 = min( 0.5d0/denom, d2zdx2)
-               if (iw.eq.iw_dbg .and. x_locate.ge.3) then
-                  write(bufout,'(5(a,f12.6))') ' d2zdx2 = (', dzdx_ubnd(iw),' - ',dzdx_lbnd(iw),        &
-                        ' ) / (',x_ubnd(iw),' - ',x_lbnd(iw),' ) =', d2zdx2
-                  call write_log(1, bufout)
-               endif
-            endif
-
-            x_new = ( a_y * r%el(1,2) - denom * dzdx_vprf(iw) + denom * d2zdx2 * prw_lc%x(iw) ) /       &
-                                                                        ( r%el(1,1) + denom * d2zdx2 )
-
-            if (iw.eq.iw_dbg .and. x_locate.ge.2) then
-               write(bufout,'(2(a,i4),7(a,f11.6))') ' it=',iter,', iw=',iw,': denom=  ',denom,' =  ',   &
-                    prw_lc%x(iw),' * ',r%el(3,1),' - ',a_y,' * ',r%el(3,2),' + ',rnom_z,' * ',r%el(3,3)
-               call write_log(1, bufout)
-               write(bufout,'(2(a,i4),5(a,f11.6),a,f11.3,2(a,f11.6),a)') ' it=',iter,', iw=',iw,        &
-                    ': x_new=  ', x_new,' = (', a_y,' * ', r%el(1,2),' - ', denom,' * ', dzdx_vprf(iw), &
-                    ' + ', denom * d2zdx2 * prw_lc%x(iw), ') / ( ', r%el(1,1), ' + ', denom * d2zdx2, ' )'
-               call write_log(1, bufout)
-            endif
-
-            dx1 = x_new - prw_lc%x(iw)
-            if (dx1.lt.0d0) then
-               dx0 = x_lbnd(iw) - prw_lc%x(iw)
-            else
-               dx0 = x_ubnd(iw) - prw_lc%x(iw)
-            endif
-
-            if (iw.eq.iw_dbg) then
-               write(bufout,'(2(a,i4),4(a,f12.6))') ' it=',iter,', iw=',iw,', x_prev=', prw_lc%x(iw),   &
-                        ', x_new=',x_new,', lbnd=',x_lbnd(iw),', ubnd=',x_ubnd(iw)
-               call write_log(1, bufout)
-               if (dx1.gt.0d0) then
-                  write(bufout,'(42x,a,f12.6,a,21x,2(a,f12.6))') 'dx1=',dx1,',','dx0=',dx0,', ratio=',dx1/dx0
+               if (ry**2-prw_lc%x(iw)**2.gt.0d0) then
+                  prw_lc%z(iw) = sqrt( ry**2 - prw_lc%x(iw)**2 ) - ws%nom_radius
                else
-                  write(bufout,'(42x,a,f12.6,2(a,f12.6))') 'dx1=',dx1,',  dx0=',dx0,          &
-                                                                     ',                    ratio=',dx1/dx0
+                  prw_lc%z(iw) = -999d0
                endif
-               call write_log(1, bufout)
-            endif
 
-            ! use bisection step when x_new jumps out of the bracket [lbnd, ubnd],
-            !  or when jumping from one side of the bracket to the other
+               rnom_z = ws%nom_radius + prw_lc%z(iw)
 
-            if (x_new.lt.x_lbnd(iw)) then
-               x_new = f_bisec * x_lbnd(iw) + (1d0 - f_bisec) * prw_lc%x(iw)
-               if (iw.eq.iw_dbg) then
-                  write(bufout,'(2(a,f12.6))') ' x_new < lbnd =',x_lbnd(iw),', bisection x_new =', x_new
-                  call write_log(1, bufout)
-               endif
-            elseif (x_new.gt.x_ubnd(iw)) then
-               x_new = f_bisec * x_ubnd(iw) + (1d0 - f_bisec) * prw_lc%x(iw)
-               if (iw.eq.iw_dbg) then
-                  write(bufout,'(2(a,f12.6))') ' x_new > ubnd =',x_ubnd(iw),', bisection x_new =', x_new
-                  call write_log(1, bufout)
-               endif
-            else
-               if (dx1/dx0.gt.0.7d0) then
-                  x_new = prw_lc%x(iw) + 0.7d0 * dx0
+               ! compute denominator using 3rd column of R^T, 3rd row of R
+
+               a_y   = ry * dz_dy(iw)
+               denom = prw_lc%x(iw) * r%el(3,1) - a_y * r%el(3,2) + rnom_z * r%el(3,3)
+
+               ! compute estimate for d2z_dx2
+
+               dx0 = x_ubnd(iw) - x_lbnd(iw)
+               if (dx0.le.epslc .or. dx0.gt.0.1d0*ws%nom_radius) then
+                  d2zdx2 = 0d0
+               else
+                  d2zdx2 = ( dzdx_ubnd(iw) - dzdx_lbnd(iw) ) / dx0
+                  d2zdx2 = max(-0.5d0/denom, d2zdx2)
+                  d2zdx2 = min( 0.5d0/denom, d2zdx2)
                   if (iw.eq.iw_dbg .and. x_locate.ge.3) then
-                     write(bufout,'(30x,a,f12.6)') ' clipped x_new =', x_new
+                     write(bufout,'(5(a,f12.6))') ' d2zdx2 = (', dzdx_ubnd(iw),' - ',dzdx_lbnd(iw),     &
+                           ' ) / (',x_ubnd(iw),' - ',x_lbnd(iw),' ) =', d2zdx2
                      call write_log(1, bufout)
                   endif
                endif
-            endif
 
-            ! update the bracket [lbnd, ubnd]
+               x_new = ( a_y * r%el(1,2) - denom * dzdx_vprf(iw) + denom * d2zdx2 * prw_lc%x(iw) ) /    &
+                                                                        ( r%el(1,1) + denom * d2zdx2 )
 
-            if (x_new.gt.prw_lc%x(iw)) then
-               x_lbnd(iw)    = prw_lc%x(iw)
-               dzdx_lbnd(iw) = dzdx_vprf(iw)
-            endif
-            if (x_new.lt.prw_lc%x(iw)) then
-               x_ubnd(iw)    = prw_lc%x(iw)
-               dzdx_ubnd(iw) = dzdx_vprf(iw)
-            endif
+               if (iw.eq.iw_dbg .and. x_locate.ge.2) then
+                  write(bufout,'(2(a,i4),7(a,g12.4))') ' it=',iter,', iw=',iw,': denom=  ',denom,' =  ', &
+                     prw_lc%x(iw),' * ',r%el(3,1),' - ',a_y,' * ',r%el(3,2), ' + ',rnom_z,' * ',r%el(3,3)
+                  call write_log(1, bufout)
+                  write(bufout,'(2(a,i4),8(a,g12.4),a)') ' it=',iter,', iw=',iw,': x_new=  ', x_new,    &
+                     ' = (', a_y,' * ', r%el(1,2),' - ', denom,' * ',dzdx_vprf(iw), ' + ',              &
+                     denom * d2zdx2 * prw_lc%x(iw), ') / ( ', r%el(1,1), ' + ', denom * d2zdx2,' )'
+                  call write_log(1, bufout)
+               endif
 
-            ! avoid too large x-values, creating distorted (multi-valued) y_vw
+               dx1 = x_new - prw_lc%x(iw)
+               if (dx1.lt.0d0) then
+                  dx0 = x_lbnd(iw) - prw_lc%x(iw)
+               else
+                  dx0 = x_ubnd(iw) - prw_lc%x(iw)
+               endif
 
-            x_new = max(-0.5d0*ws%nom_radius, min(0.5d0*ws%nom_radius, x_new))
+               if (iw.eq.iw_dbg) then
+                  write(bufout,'(2(a,i4),4(a,g12.4))') ' it=',iter,', iw=',iw,', x_prev= ', prw_lc%x(iw), &
+                           ', x_new=',x_new,', lbnd=',x_lbnd(iw),',  ubnd=',x_ubnd(iw)
+                  call write_log(1, bufout)
+                  if (dx1.gt.0d0) then
+                     write(bufout,'(43x,a,g12.4,a,21x,2(a,g12.4))') 'dx1=',dx1,',','dx0=',dx0,          &
+                                                                            ', ratio=',dx1/max(1d-6,dx0)
+                  else
+                     write(bufout,'(43x,3(a,g12.4))') 'dx1=',dx1,',  dx0=',dx0,', ratio=',dx1/max(1d-6,dx0)
+                  endif
+                  call write_log(1, bufout)
+               endif
 
-            ! determine maximum update
+               ! use bisection step when x_new jumps out of the bracket [lbnd, ubnd],
+               !  or when jumping from one side of the bracket to the other
 
-            if (abs(x_new - prw_lc%x(iw)).gt.dx_max) then
-               iw_max = iw
-               dx_max = abs(x_new - prw_lc%x(iw))
-            endif
+               if (x_new.lt.x_lbnd(iw)) then
+                  x_new = f_bisec * x_lbnd(iw) + (1d0 - f_bisec) * prw_lc%x(iw)
+                  if (iw.eq.iw_dbg) then
+                     write(bufout,'(2(a,f12.6))') ' x_new < lbnd =',x_lbnd(iw),', bisection x_new =',x_new
+                     call write_log(1, bufout)
+                  endif
+               elseif (x_new.gt.x_ubnd(iw)) then
+                  x_new = f_bisec * x_ubnd(iw) + (1d0 - f_bisec) * prw_lc%x(iw)
+                  if (iw.eq.iw_dbg) then
+                     write(bufout,'(2(a,f12.6))') ' x_new > ubnd =',x_ubnd(iw),', bisection x_new =',x_new
+                     call write_log(1, bufout)
+                  endif
+               else
+                  if (dx1/max(1d-6,dx0).gt.0.7d0) then
+                     x_new = prw_lc%x(iw) + 0.7d0 * dx0
+                     if (iw.eq.iw_dbg .and. x_locate.ge.3) then
+                        write(bufout,'(30x,a,f12.6)') ' clipped x_new =', x_new
+                        call write_log(1, bufout)
+                     endif
+                  endif
+               endif
 
-            prw_lc%x(iw) = x_new
+               ! update the bracket [lbnd, ubnd]
+
+               if (x_new.gt.prw_lc%x(iw)) then
+                  x_lbnd(iw)    = prw_lc%x(iw)
+                  dzdx_lbnd(iw) = dzdx_vprf(iw)
+               endif
+               if (x_new.lt.prw_lc%x(iw)) then
+                  x_ubnd(iw)    = prw_lc%x(iw)
+                  dzdx_ubnd(iw) = dzdx_vprf(iw)
+               endif
+
+               ! avoid too large x-values, creating distorted (multi-valued) y_vw
+
+               x_new = max(-0.5d0*ws%nom_radius, min(0.5d0*ws%nom_radius, x_new))
+
+               ! determine maximum update
+
+               if (abs(x_new - prw_lc%x(iw)).gt.dx_max) then
+                  iw_max = iw
+                  dx_max = abs(x_new - prw_lc%x(iw))
+               endif
+
+               ! check convergence for this point
+
+               if (abs(x_new - prw_lc%x(iw)).lt.epslc) idone(iw) = .true.
+
+               if (iw.eq.iw_dbg .and. x_locate.ge.1 .and. idone(iw)) then
+                  write(bufout,'(9x,a,i4,a,i4)') ' iw=',iw,': converged in iteration',iter
+                  call write_log(1, bufout)
+               endif
+
+               ! update value
+
+               prw_lc%x(iw) = x_new
+
+            endif ! |prw_lc-x_prev| < dx
 
          enddo ! iw
 
@@ -2228,15 +2222,11 @@ contains
 
          lstop = (dx_max.lt.epslc)
 
-         if (x_locate.ge.2 .and. .false.) then
-            if (iter.le.9) then
-               write(tmpnam,'(a,i1)') 'prr_lc', iter
-            elseif (iter.le.99) then
-               write(tmpnam,'(a,i2)') 'prr_lc', iter
-            else
-               write(tmpnam,'(a,i3)') 'prr_lc', iter
-            endif
+         if (x_locate.ge.2 .and. lstop .and. .false.) then
+            write(tmpnam,'(a,i0)') 'prw_lc', iter
             call grid_print(prw_lc, tmpnam, 5)
+            write(tmpnam,'(a,i0)') 'prr_lc', iter
+            call grid_print(prr_lc, tmpnam, 5)
          endif
 
       enddo ! while(not lstop)
@@ -2398,6 +2388,85 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine check_boundbox_overlap(ic, ws, bbr, bbw, has_overlap, gap_min)
+!--purpose: check bounding boxes, print warning if rail and wheel are in different places
+      implicit none
+!--subroutine arguments:
+      type(t_ic)                    :: ic
+      type(t_wheelset)              :: ws
+      type(t_grid)                  :: bbr, bbw         ! right-side (mirrored) view
+      logical,      intent(inout)   :: has_overlap
+      real(kind=8), intent(inout)   :: gap_min
+!--local variables:
+      real(kind=8)  :: ywsta, ywend, yrsta, yrend
+
+      ! undo mirroring from left to right side configuration
+
+      if (ic%is_left_side()) then
+         ywsta = -bbw%y(8)
+         ywend = -bbw%y(1)
+         yrsta = -bbr%y(8)
+         yrend = -bbr%y(1)
+      else
+         ywsta =  bbw%y(1)
+         ywend =  bbw%y(8)
+         yrsta =  bbr%y(1)
+         yrend =  bbr%y(8)
+      endif
+
+      ! check overlap in lateral direction
+
+      if (ywsta.gt.yrend .or. yrsta.gt.ywend) then
+         has_overlap = .false.
+         call write_log(' WARNING: the wheel and rail are LATERALLY in different places.')
+
+         if (maxval(abs(bbw%y)).gt.9999. .or. maxval(abs(bbr%y)).gt.9999.) then
+            write(bufout,'(2(5a,:,/))') &
+                           '          the wheel grid has y=[', fmt_gs(9,3,3,ywsta),',',                 &
+                                                               fmt_gs(9,3,3,ywend),'],',                &
+                           '          the  rail grid has y=[', fmt_gs(9,3,3,yrsta),',',                 &
+                                                               fmt_gs(9,3,3,yrend),'].'
+         else
+            write(bufout,'(2(2(a,f10.3),a,:,/))')                                                       &
+                           '          the wheel grid has y = [', ywsta,',', ywend,'],',                 &
+                           '          the  rail grid has y = [', yrsta,',', yrend,'].'
+         endif
+         call write_log(2, bufout)
+      endif
+
+      ! if N=0, check overlap in vertical direction
+
+      if (ic%norm.le.0 .and. minval(bbw%z).gt.maxval(bbr%z)) then
+         has_overlap = .false.
+         gap_min     = maxval(bbr%z) - minval(bbw%z)
+         call write_log(' WARNING: the wheel and rail are VERTICALLY in different places.')
+
+         if (maxval(abs(bbw%z)).gt.9999. .or. maxval(abs(bbr%z)).gt.9999.) then
+            write(bufout,'(2(5a,:,/))')                                                                 &
+                        '          the wheel grid has z=[', fmt_gs(8,3,3,minval(bbw%z)),',',            &
+                                                            fmt_gs(8,3,3,maxval(bbw%z)),'],',           &
+                        '          the  rail grid has z=[', fmt_gs(8,3,3,minval(bbr%z)),',',            &
+                                                            fmt_gs(8,3,3,maxval(bbr%z)),'].'
+         else
+            write(bufout,'(2(2(a,f8.3),a,:,/))')                                                        &
+                        '          the wheel grid has z=[', minval(bbw%z),',', maxval(bbw%z),'],',      &
+                        '          the  rail grid has z=[', minval(bbr%z),',', maxval(bbr%z),'].'
+
+         endif
+         call write_log(2, bufout)
+      endif
+
+      ! when using the grid-based approach, check overlap in longitudinal direction
+
+      if (use_brute(ic, ws%whl%prw) .and. (bbw%x(1).gt.bbr%x(8) .or. bbr%x(1).gt.bbw%x(8))) then
+         has_overlap = .false.
+         call write_log(' Internal error: x-ranges dont overlap')
+      endif
+
+   end subroutine check_boundbox_overlap
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine make_surfc_inclination( prr, g, sf_incl, x_locate )
 !--purpose: estimate the surface inclination angles of rail profile prr at y-locations of grid g (sf_rai)
       implicit none
@@ -2448,7 +2517,7 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine locate_interpen_1d(meta, ic, sf_whl, sf_rai, sf_incl, m_vw, sgn, nom_radius, roller_radius, &
-                                 gap_min, delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps)
+                                 gap_min, delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps, ierror)
 !--purpose: find the points in the contact locus on the wheel with (locally) maximum interpenetration,
 !           define the corresponding interpenetration regions
       implicit none
@@ -2470,6 +2539,7 @@ contains
       integer,      intent(in)    :: max_n_miss          ! max #near misses (gap>=0)
       integer,      intent(inout) :: numnew              ! number of contact problems
       type(p_cpatch)              :: newcps(MAX_LOC_MIN) ! data of contact problems
+      integer,      intent(out)   :: ierror
 !--local variables:
       logical            :: has_zero
       integer            :: lgap, ios, ix, iy, iy_sta, iy_end, iy_min, nguard, numcp0, icp, n_miss
@@ -2484,6 +2554,8 @@ contains
       if (ic%x_locate.ge.4) call write_log('--- start subroutine locate_interpen_1d ---')
       associate( nx => sf_whl%nx, ny => sf_whl%ny, x  => sf_whl%x,  y  => sf_whl%y,                     &
                  zw => sf_whl%z,  zr => sf_rai%z )
+
+      ierror = 0
 
       if (nx.ne.1 .or. ny.le.1) then
          write(bufout,'(2(a,i4))') ' ERROR: locate_interpen_1d: grid should be 1 x ny, got',nx,' x',ny
@@ -2503,7 +2575,7 @@ contains
          endif
       enddo
 
-      if (.false. .and. ic%x_locate.ge.2) then
+      if (.true. .and. ic%x_locate.ge.2) then
          call write_log(' Dump 1d gap-function to dump_gap1d.m ...')
          lgap = get_lunit_tmp_use()
          call make_absolute_path('dump_gap1d.m', meta%outdir, fulnam)
@@ -2589,25 +2661,31 @@ contains
          endif
       enddo
 
+      ! in the first case, no contact is permitted on start/end of rail profile
+
+      if (meta%ncase.le.1 .and. nummin.ge.1) then
+         iy = locmin(2,ilcmin)
+         if (iy.le.1 .or. iy.ge.ny) then
+             ierror = 1
+             call write_log(' ERROR: contact detected at the first or last rail profile point,' // &
+                ' the rail could be upside down?')
+         endif
+      endif
+         
       ! 5. process list of local minima "(ix,iy)", find potential contact areas
 
       numcp0 = numnew
       numrem = nummin
+      icp    = numcp0
       n_miss = 0
-      do while(numrem.gt.0 .and. (gap_locmin.lt.0d0 .or. n_miss.lt.max_n_miss))
+      do while(ierror.eq.0 .and. numrem.gt.0 .and. (gap_locmin.lt.0d0 .or. n_miss.lt.max_n_miss))
 
          ! 5.a increment the number of contact patches
 
          numnew = numnew + 1
          if (gap_locmin.ge.0d0) n_miss = n_miss + 1     ! `near miss' contact patches with gap>=0
          icp    = min(MAX_LOC_MIN, numnew)
-         if (.not.associated(newcps(icp)%cp)) then
-            if (ic%x_locate.ge.3) then
-               write(bufout,'(a,i3)') ' locate_interpen_1d: allocate newcps icp=',icp
-               call write_log(1, bufout)
-            endif
-            allocate(newcps(icp)%cp)
-         endif
+         call cp_init(newcps(icp), icp, ic)
          cp => newcps(icp)%cp
          cp%gap_min = gap_locmin
 
@@ -2764,17 +2842,17 @@ contains
 
          ! 5.k remove all local minima contained in this interpenetration region
 
+         if (ic%x_locate.ge.2) then
+            write(bufout,'(a,i4)')    ' processed  local minimum',ilcmin
+            call write_log(1, bufout)
+         endif
+
          do ilm = 1, nummin
             iy = locmin(2,ilm)
             if (iy.ge.iy_sta .and. iy.le.iy_end) then
-               if (ic%x_locate.ge.2) then
-                  if (ilm.eq.ilcmin) then
-                     write(bufout,'(a,i4,2a)') ' processed  local minimum',ilm,', contained within ',   &
+               if (ic%x_locate.ge.2 .and. ilm.ne.ilcmin) then
+                  write(bufout,'(a,i4,2a)') ' discarding local minimum',ilm,', contained within ',      &
                         'interpen.region'
-                  else
-                     write(bufout,'(a,i4,2a)') ' discarding local minimum',ilm,', contained within ',   &
-                        'interpen.region'
-                  endif
                   call write_log(1, bufout)
                endif
                locmin(1,ilm) = -1
@@ -2822,7 +2900,7 @@ contains
 !------------------------------------------------------------------------------------------------------------
 
    subroutine locate_interpen_2d(meta, ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, dx, nom_radius, gap_min, &
-                                 delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps)
+                                 delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps, ierror)
 !--purpose: find the points in the wheel mesh with (locally) minimum gap / maximum interpenetration,
 !           define the corresponding interpenetration regions
       implicit none
@@ -2844,6 +2922,7 @@ contains
       integer,      intent(in)    :: max_n_miss          ! max #near misses (gap>=0)
       integer,      intent(inout) :: numnew              ! number of contact problems
       type(p_cpatch)              :: newcps(MAX_LOC_MIN) ! data of contact problems
+      integer,      intent(out)   :: ierror
 !--local variables:
       logical        :: has_uv
       integer        :: lgap, ios, ix, iy, iy_sta, iy_end, ix_sta, ix_end, ii_min, nguard, icheck
@@ -2858,6 +2937,8 @@ contains
       if (ic%x_locate.ge.4) call write_log('--- start subroutine locate_interpen_2d ---')
       associate( nx => sf_whl%nx, ny => sf_whl%ny, x  => sf_whl%x,  y  => sf_whl%y,                     &
                  zw => sf_whl%z,  uw => uv_whl%vx, vw => uv_whl%vy, zr => sf_rai%z )
+
+      ierror = 0
 
       ! (u,v) coordinates are optionally computed for variable wheel profiles
 
@@ -2962,12 +3043,24 @@ contains
          endif
       enddo
 
+      ! in the first case, no contact is permitted on start/end of rail profile
+
+      if (meta%ncase.le.1 .and. nummin.ge.1) then
+         iy = locmin(2,ilcmin)
+         if (iy.le.1 .or. iy.ge.ny) then
+             ierror = 1
+             call write_log(' ERROR: contact detected at the first or last rail profile point,' // &
+                ' the rail could be upside down?')
+         endif
+      endif
+         
       ! 5. process list of local minima "(ix,iy)", find potential contact areas
 
       numcp0 = numnew
       numrem = nummin
+      icp    = numcp0
       n_miss = 0
-      do while(numrem.gt.0 .and. (gap_locmin.lt.0d0 .or. n_miss.lt.max_n_miss))
+      do while(ierror.eq.0 .and. numrem.gt.0 .and. (gap_locmin.lt.0d0 .or. n_miss.lt.max_n_miss))
 
          ! 5.a increment the number of contact patches
 
@@ -3590,8 +3683,8 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine combine_cpatches( ic, numnew, newcps, angl_sep, dist_sep, dist_comb)
-!--purpose: combine contact problems with overlapping x_r or sr-positions or lying too close together.
+   subroutine combine_cpatches( ic, numnew, newcps, angl_sep, dist_sep, dist_comb, gap_miss)
+!--purpose: combine contact problems with overlapping x_r or s_r-positions or lying too close together.
 !            1)          distance <= d_comb : combined fully
 !            2) d_comb < distance <= d_sep  : kept as separate sub-patches within single cpatch
       implicit none
@@ -3599,12 +3692,13 @@ contains
       type(t_ic)                  :: ic
       type(p_cpatch)              :: newcps(numnew)     ! data of contact problems
       integer,      intent(inout) :: numnew
-      real(kind=8), intent(in)    :: angl_sep, dist_sep, dist_comb
+      real(kind=8), intent(in)    :: angl_sep, dist_sep, dist_comb, gap_miss
 !--local variables:
-      logical, parameter         :: debug_comb = .false.
-      integer                    :: ipass, icp, jcp, kcp, isub, jsub
-      real(kind=8)               :: dist, angl
+      logical,      parameter    :: debug_comb = .false.
+      integer                    :: n_miss, ipass, icp, jcp, kcp, isub, jsub, n_true
+      real(kind=8)               :: dist, angl, theta, xnew, ynew, znew
       type(p_cpatch)             :: tmp_cp
+      real(kind=8), dimension(:,:), allocatable  :: all_dist
 
       if (ic%x_locate.ge.2 .or. debug_comb) then
          write(bufout,'(a,f6.2,a,f5.1,a)') ' Separating patches with more than', angl_sep,' rad or',    &
@@ -3612,6 +3706,112 @@ contains
          call write_log(1, bufout)
          write(bufout,'(a,13x,f5.1,a)') ' Combining patches with less than ', dist_comb,' mm separation'
          call write_log(1, bufout)
+      endif
+
+      ! compute distances between any two contact patches
+
+      allocate(all_dist(numnew,numnew))
+
+      do icp = 1, numnew
+         do jcp = 1, numnew
+            associate( cp1 => newcps(icp)%cp, cp2 => newcps(jcp)%cp )
+            if (icp.eq.jcp) then
+               all_dist(icp,jcp) = 0d0
+            else
+               all_dist(icp,jcp) = cpatch_distance(cp1%xsta, cp1%xend, cp1%ysta, cp1%yend, cp1%zsta,    &
+                                      cp1%zend, cp2%xsta, cp2%xend, cp2%ysta, cp2%yend, cp2%zsta,       &
+                                      cp2%zend)
+            endif
+            end associate
+         enddo
+      enddo
+
+      if (ic%x_locate.ge.3 .or. debug_comb) then
+         call write_log(' a priori distance between contact patches:')
+         do icp = numnew, 1, -1
+            write(bufout,'(a,i3,a,8f8.3)') ' icp=',icp,': dist=',(all_dist(icp,jcp), jcp=numnew,1,-1)
+            call write_log(1, bufout)
+         enddo
+      endif
+
+      ! expand true patches towards near misses with gap < gap_miss:
+      !    smooth transition where new patches appear in between existing patches
+
+      n_miss = 0
+      do icp = 1, numnew
+         if (newcps(icp)%cp%gap_min.ge.0d0) n_miss = n_miss + 1
+      enddo
+      n_true = numnew - n_miss
+
+      do icp = 1, n_true
+         do jcp = n_true+1, numnew
+            associate( cp1 => newcps(icp)%cp, cp2 => newcps(jcp)%cp )
+            !write(bufout,'(2(a,i0),2(a,f7.3))') ' true ',icp,', miss ',jcp,': dist=',all_dist(icp,jcp), &
+            !    ', gap=',cp2%gap_min
+            !call write_log(1, bufout)
+            if (cp2%gap_min.lt.gap_miss .and. all_dist(icp,jcp).le.dist_comb) then
+               theta = max(0d0, 1d0-cp2%gap_min/gap_miss)
+               if (ic%x_locate.ge.3 .or. debug_comb) then
+                  write(bufout,'(2(a,i0),3(a,f8.3))') ' Expand true patch ',icp,' towards near miss ',  &
+                                        jcp,' at ytr=',cp2%ysta,', gap=',cp2%gap_min,', theta=',theta
+                  call write_log(1, bufout)
+               endif
+
+               xnew  = cp2%xsta
+               if (xnew.lt.cp1%xsta) then
+                  cp1%xsta = theta * xnew + (1d0 - theta) * cp1%xsta
+               elseif (xnew.gt.cp1%xend) then
+                  cp1%xend = (1d0 - theta) * cp1%xend + theta * xnew
+               endif
+
+               ynew  = cp2%ysta
+               znew  = cp2%zsta
+               if (ynew.lt.cp1%ysta) then
+                  cp1%ysta = theta * ynew + (1d0 - theta) * cp1%ysta
+                  cp1%zsta = theta * znew + (1d0 - theta) * cp1%zsta
+               elseif (ynew.gt.cp1%yend) then
+                  cp1%yend = (1d0 - theta) * cp1%yend + theta * ynew
+                  cp1%zend = (1d0 - theta) * cp1%zend + theta * znew
+               endif
+            endif
+            end associate
+         enddo
+      enddo
+
+      ! print extent of true patches used for combination / separation
+
+      if (ic%x_locate.ge.3 .or. debug_comb) then
+         do icp = n_true, 1, -1
+            associate( cp1 => newcps(icp)%cp )
+            write(bufout,'(a,i3,6(a,f8.3),a)') '   ...patch i=',icp,': xlim=[',cp1%xsta,',',cp1%xend,   &
+                                 '], ylim=[',cp1%ysta,',',cp1%yend,'], zlim=[',cp1%zsta,',',cp1%zend,']'
+            call write_log(1, bufout)
+            end associate
+         enddo
+      endif
+
+      ! re-compute distances between any two contact patches
+
+      do icp = 1, n_true
+         do jcp = 1, n_true
+            associate( cp1 => newcps(icp)%cp, cp2 => newcps(jcp)%cp )
+            if (icp.eq.jcp) then
+               all_dist(icp,jcp) = 0d0
+            else
+               all_dist(icp,jcp) = cpatch_distance(cp1%xsta, cp1%xend, cp1%ysta, cp1%yend, cp1%zsta,    &
+                                      cp1%zend, cp2%xsta, cp2%xend, cp2%ysta, cp2%yend, cp2%zsta,       &
+                                      cp2%zend)
+            endif
+            end associate
+         enddo
+      enddo
+
+      if (ic%x_locate.ge.3 .or. debug_comb) then
+         call write_log(' after expansion towards near misses:')
+         do icp = n_true, 1, -1
+            write(bufout,'(a,i3,a,8f8.3)') ' icp=',icp,': dist=',(all_dist(icp,jcp), jcp=n_true,1,-1)
+            call write_log(1, bufout)
+         enddo
       endif
 
       do ipass = 1, 2
@@ -3903,7 +4103,7 @@ contains
 
             ! compute interpolation factor
 
-            fac = (dist_turn - dist) / (dist_turn - dist_sep)
+            fac = ((dist_turn - dist) / (dist_turn - dist_sep))**(1.0d0)
 
             ! add fac * difference --> accomodating turning from two adjacent contact patches
 
@@ -4684,15 +4884,16 @@ contains
 
       if (ry.lt.0.001d0) then
          if (x_locate.ge.1) then
-            write(bufout,'(a,g12.4,a)') ' v1: Small or negative ry found (',ry,'), using positive value instead'
+            write(bufout,'(a,g12.4,a)') ' v1: Small or negative ry found (',ry,                         &
+                '), using positive value instead'
             call write_log(1, bufout)
          endif
          ry = max(ry, rx/30d0)
          b1 = 0.5d0 / ry
       elseif (ry.gt.6001d0) then        ! Rw=10, Rr=-10.02 --> 5010
          if (x_locate.ge.1) then
-            write(bufout,'(a,g12.4,a)') ' v1: The effective radius ry seems unrealistically large (', ry,   &
-                   '), truncating'
+            write(bufout,'(a,g12.4,a)') ' v1: The effective radius ry seems unrealistically large (',   &
+                   ry, '), truncating'
             call write_log(1, bufout)
          endif
          ry = 5000d0
@@ -4703,11 +4904,12 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine estimate_curvatures_v2( ic, cp, ws, prr, roller_radius)
+   subroutine estimate_curvatures_v2( ic, icp, cp, ws, prr, roller_radius)
 !--purpose: estimate curvatures for a contact patch
       implicit none
 !--subroutine arguments:
       type(t_ic)                :: ic
+      integer,      intent(in)  :: icp
       type(t_cpatch)            :: cp
       type(t_wheelset)          :: ws
       type(t_grid), intent(in)  :: prr
@@ -4736,9 +4938,10 @@ contains
       ! lateral: compute curvatures of profiles at contact reference position
 
       ! method 1: \delta s = \delta\alpha/\kappa over full width of interpenetration area
+      !           interpenetration may occur across the full rail head, clipping at +/- 10mm
 
-      sarr(1)  = cp%sr_ref + cp%sp_sta
-      sarr(2)  = cp%sr_ref + cp%sp_end
+      sarr(1)  = cp%sr_ref + max(-10d0,cp%sp_sta)
+      sarr(2)  = cp%sr_ref + min( 10d0,cp%sp_end)
       call spline_get_dzdy_at_s(prr%spl, 2, sarr, dzdy, sub_ierror)
       alpha(1) = atan(dzdy(1))
       alpha(2) = atan(dzdy(2))
@@ -4787,7 +4990,7 @@ contains
             write(bufout,'(a,g12.4,a)') ' Small or negative ry found (',ry,'), using positive value instead'
             call write_log(1, bufout)
          endif
-         ry = max(ry, rx/30d0)
+         ry = max(ry, 20d0*rx)
          b1 = 0.5d0 / ry
       elseif (ry.gt.6001d0) then        ! Rw=10, Rr=-10.02 --> 5010
          if (ic%x_locate.ge.2) then
@@ -4801,14 +5004,18 @@ contains
 
       ! store results in problem datastructure
 
-      ws%a1 = a1
-      ws%b1 = b1
+      cp%a1 = a1
+      cp%b1 = b1
 
-      if (ic%x_locate.ge.2) then
-         write(bufout,'(a,g12.4,a,f10.3)') ' new_curvatures: a1=',a1,', rx=', 0.5d0/a1
-         call write_log(1, bufout)
-         write(bufout,'(a,g12.4,a,f10.3)') '                 b1=',b1,', ry=', 0.5d0/b1
-         call write_log(1, bufout)
+      if (icp.eq.1 .or. cp%gap_min.le.ws%gap_min+1d-6) then
+         ws%a1 = a1
+         ws%b1 = b1
+
+         if (ic%x_locate.ge.2) then
+            write(bufout,'(2(a,g12.4,a,f10.3,:,a,i2,/))') ' new_curvatures: a1=',a1,', rx=', 0.5d0/a1,  &
+                                            ', icp=',icp, '                 b1=',b1,', ry=', 0.5d0/b1
+            call write_log(2, bufout)
+         endif
       endif
 
    end subroutine estimate_curvatures_v2
@@ -4824,6 +5031,7 @@ contains
       integer,      intent(in)  :: x_locate, iy_min
       real(kind=8), intent(out) :: xmin, ymin, gmin, zrmin
 !--local variables:
+      real(kind=8), parameter :: dg_max = 1d0
       integer      :: iy
       real(kind=8) :: dy, a, b, c
 
@@ -4847,6 +5055,23 @@ contains
          gmin  = gap(iy)
          zrmin = zr(iy)
 
+      elseif (abs(gap(iy-1)-gap(iy)).ge.dg_max .or. abs(gap(iy+1)-gap(iy)).ge.dg_max) then
+
+         ! use value at grid point "iy" if large differences in gap with adjacent points
+
+         xmin  = x(iy)
+         ymin  = y(iy)
+         gmin  = gap(iy)
+         zrmin = zr(iy)
+
+         if (x_locate.ge.3) then
+            write(bufout,'(2(3(a,f12.6),a,:,/))')                                                       &
+                ' estimate_minimum: y_{i-1}=', y(iy-1), ', y_i=', y(iy), ', y_{i+1}=',y(iy+1),',',      &
+                '                   g_{i-1}=', gap(iy-1), ', g_i=', gap(iy), ', g_{i+1}=', gap(iy+1),   &
+                ', steps dg too large'
+            call write_log(2, bufout)
+         endif
+
       else
 
          ! use quadratic fit gap = a * (y-y0)^2 + b * (y-y0) + c
@@ -4856,7 +5081,7 @@ contains
          b    = (gap(iy+1)               - gap(iy-1)) / (2d0 * dy)
          c    =                  gap(iy)
 
-         ymin = -b / (2d0*a)
+         ymin = -b / (2d0*a)                    ! here ymin is relative to y(iy)
          gmin =  a * ymin**2 + b * ymin + c
 
          if (x_locate.ge.3) then
@@ -4984,11 +5209,11 @@ contains
             if (is_locmin) then
 
                if (x_locate.ge.2) then
-                  write(bufout,124) ' found local minimum, gap =',gap(ii), ' at (',              &
+                  write(bufout,124) nummin+1, ': found local minimum, gap =',gap(ii), ' at (',          &
                         x(ii), ',', sgn*y(ii), ',', zr(ii),'), ix=',ix,', iy=',iy
                   call write_log(1, bufout)
                endif
- 124           format(a,f12.6,a,f11.6,2(a,f12.6),2(a,i5))
+ 124           format(i3,a,f12.6,a,f11.6,2(a,f12.6),2(a,i5))
 
                if (x_locate.ge.4) then
                    write(bufout,125) ' XS:',x(ii_s),  ', XE:',x(ii_e),  ', XN:',x(ii_n),  ', XW:',x(ii_w)

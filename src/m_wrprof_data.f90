@@ -19,7 +19,13 @@ public
 
    public  t_cpatch
    public  p_cpatch
+
    public  cp_init
+   interface cp_init
+      module procedure tpatch_init
+      module procedure ppatch_init
+   end interface cp_init
+
    public  cp_destroy
    interface cp_destroy
       module procedure tpatch_destroy
@@ -57,7 +63,7 @@ public
       integer      :: npot_max
       real(kind=8) :: dx, ds
       real(kind=8) :: dqrel
-      real(kind=8) :: angl_sep, dist_turn, dist_sep, dist_comb
+      real(kind=8) :: angl_sep, dist_turn, dist_sep, dist_comb, gap_miss
 
       ! npot_max  [-]   maximum number of elements (npot=mx*my) permitted in potential contact area
       ! dx        [mm]  size of rectangular elements in rolling direction (x)
@@ -67,6 +73,8 @@ public
       ! dist_turn [mm]  distance threshold: contact angles are turned when dist_sep <= dist <= dist_turn
       ! dist_sep  [mm]  upper dist. threshold: contact patches are separated when dist >= dist_sep
       ! dist_comb [mm]  lower dist. threshold: contact patches are combined when dist <= dist_comb
+      ! gap_miss  [mm]  parameter used in expansion of true patches towards near misses with
+      !                 min.gap <= gap_miss
 
    end type t_discret
 
@@ -90,7 +98,7 @@ public
 
    type :: t_cpatch
       type(t_vec)      :: micp
-      real(kind=8)     :: gap_min, totgap, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap
+      real(kind=8)     :: gap_min, a1, b1, totgap, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap
       real(kind=8)     :: xsta, xend, ysta, yend, zsta, zend, usta, uend, vsta, vend
       type(t_marker)   :: mref, mpot
       real(kind=8)     :: delttr
@@ -99,6 +107,7 @@ public
       integer          :: nsub
       real(kind=8), dimension(:,:), pointer :: xyzlim => NULL(), f_sep2 => NULL()
       integer          :: prev_icp(MAX_NUM_CPS)
+      real(kind=8)     :: c_hz, fs_rel
       type(t_vec)      :: ftrk, ttrk, fws, tws
       type(t_grid)     :: rail_srfc, whl_srfc, curv_ref
       type(t_gridfnc3) :: curv_nrm, curv_incln
@@ -108,6 +117,7 @@ public
       ! variables concerning the interpenetration region:
       ! micp             position of maximum interpenetration in contact patch wrt the track coordinate system
       ! gap_min   [mm]   minimum vertical gap for this contact patch
+      ! a1, b1    [1/mm] curvature estimates for this contact patch
       ! totgap    [?]    integral of gap (squared) used for weighted center
       ! wgt_xgap  [mm]   weighted average of x-values for interpenetration area
       ! wgt_ygap  [mm]   weighted average of y-values for interpenetration area
@@ -156,6 +166,8 @@ public
       !
       ! for actual computation:
       ! has_own_subs     cp has specific subs-data or use subs-data of overall problem?
+      ! c_hz      [?]    constant C in approximate power law Fn ~ C pen^1.5
+      ! fs_rel    [-]    relative lateral force Fs / Fn
       ! ftrk      [N]    total forces on rail in global track directions
       ! ttrk      [N.mm] total moments on rail about rail profile marker in global track directions
       ! fws       [N]    total forces on rail in wheelset coordinates
@@ -547,8 +559,9 @@ contains
       wtd%discr%dqrel     = 1d0
       wtd%discr%angl_sep  = pi
       wtd%discr%dist_turn = 12d0
-      wtd%discr%dist_sep  = 8d0
-      wtd%discr%dist_comb = 4d0
+      wtd%discr%dist_sep  =  8d0
+      wtd%discr%dist_comb =  4d0
+      wtd%discr%gap_miss  = -1d0
 
       ! initialize kinematic parameter settings
 
@@ -568,7 +581,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine cp_init(cp)
+   subroutine tpatch_init(cp)
 !--purpose: Initialize a contact-patch data-structure
       implicit none
 !--subroutine parameters:
@@ -589,11 +602,36 @@ contains
       if (associated(cp%gd)) call gd_destroy(cp%gd)
       cp%gd => NULL()
       cp%prev_icp(1:MAX_NUM_CPS) = 0
+      cp%gap_min = -1d0
+      cp%a1      = -1d0
+      cp%b1      = -1d0
+      cp%c_hz    = -1d0
+      cp%fs_rel  =  0d0
 
-!     real(kind=8)     :: gap_min, totgap, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap
+!     real(kind=8)     :: gap_min, a1, b1, totgap, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap
 !     real(kind=8)     :: delttr ...
 
-   end subroutine cp_init
+   end subroutine tpatch_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine ppatch_init(p_cp, icp, ic)
+!--purpose: Initialize a contact-patch data-structure
+      implicit none
+!--subroutine parameters:
+      type(p_cpatch)    :: p_cp
+      integer           :: icp
+      type(t_ic)        :: ic
+
+      if (.not.associated(p_cp%cp)) then
+         if (ic%x_locate.ge.3) then
+            write(bufout,'(a,i3)') ' ppatch_init: allocate icp=',icp
+            call write_log(1, bufout)
+         endif
+         allocate(p_cp%cp)
+      endif
+      call tpatch_init(p_cp%cp)
+   end subroutine ppatch_init
 
 !------------------------------------------------------------------------------------------------------------
 

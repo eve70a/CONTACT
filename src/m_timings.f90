@@ -69,7 +69,7 @@ public  timer_reset
 integer            :: LOUTTM = 6
 
 ! Level of debug-output of these routines, 0==none; see timer_output_config.
-integer            :: idebug = 2
+integer            :: idebug = 0
 
 ! Stop program when more than maxerr errors occurred; see timer_error_config
 integer            :: maxerr = 0
