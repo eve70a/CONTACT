@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.171)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.173)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -82,6 +82,7 @@
                 $[5,500]\unit{mm}$}{}
 \vtlogentry{1.170}{EV}{04-11-2024}{Added $g_{miss}$ in blending approach}{}
 \vtlogentry{1.171}{EV}{06-11-2024}{Added massless rail model with ${\tt N}=0$}{}
+\vtlogentry{1.173}{EV}{10-12-2024}{Added note on $z$ mirroring}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -1375,6 +1376,11 @@ order.
         ${\tt scale\_yz}=1000$ to convert profile values given in $\bunit{m}$
         to $\bunit{mm}$.} 
 \end{inputvars}
+Auto-detection for mirroring of $z$-values is based on wheel and rail side
+faces (pointing to positive $z$ for rails, negative $z$ for wheels). The
+heuristic may fail if no side faces are included or can be distinguished
+in the profile.
+
 SIMPACK profiles are processed first according to the options that are
 specified in the {\tt prr}- or {\tt prw}-file (mirroring, reordering,
 clipping), except smoothing. After this, the conversions specified in the
@@ -8553,19 +8559,27 @@ A variety of wheel profiles is shown in Figure \ref{fig:wheel_profiles}.
         (a, b), at the flange back (c), or anywhere else (d).
 \item The profiles can be given with $z$ positive downwards (a, b, c) or
         upwards (d).
-\item A wheel may have one (a--d), no (e--h), or two flanges (i).
+\item A wheel may have one (a--e), no (f--i), or two flanges (j).
+\item A flange may be truncated before the maximum height (e).
 \item For testing purposes, wheels may be defined with a circular
-        cross-section (e) or as a flat/conical section (f).
+        cross-section (f) or as a flat/conical section (g).
 \item Idealized two-dimensional contacts require a logarithmical drop at
-        the sides (g), to avoid pressure concentration.
+        the sides (h), to avoid pressure concentration.
 \item Profiles may have nearly or exactly vertical sides at the back of
-        the flange (a--d, i) or at the sides of a roller (i).
+        the flange (a--d, j) or at the sides of a roller (i).
 \end{itemize}
 Wheel profiles can be narrower or wider than the rail profile. In case of a
 grooved rail profile (Figure \ref{fig:rail_profiles} (k)), a narrow
-circular wheel (Figure \ref{fig:wheel_profiles} (e)) may have its lowest
+circular wheel (Figure \ref{fig:wheel_profiles} (f)) may have its lowest
 $z$-values larger than the lowest $z$ on the rail. In that case, the wheel
 profile may not be extended by constant extrapolation.
+
+Automatic detection of the $z$ orientation is based on the idea that the
+whereas the profile itself may bend down (hollow wear (e), two flanges
+(j)), the curve tends upwards eventually. If the profile is
+extended long enough, $\min(z_i)$ should lie at the start or end of the
+curve. If $\max(z_i)$ is found at the extremities and $\min(z_i)$ in the
+interior then mirroring is activated.
 }
 
 \end{document}

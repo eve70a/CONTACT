@@ -1,9 +1,9 @@
 
-show_all = 1; % 9 profiles in one plot
+show_all = 1; % 10 profiles in one plot
 show_one = 0; % nice picture of std profile
 print_fig = 1;
 
-v = ver; v = sscanf(v.Version, '%f');
+v = ver('Matlab'); v = sscanf(v.Version, '%f');
 
 if (v<=8.65)
    % Vortech82:
@@ -17,14 +17,14 @@ else
 end
 
 if (~exist('plot3d') | ~exist('plot_arrow'))
-   addpath('../../../contact/matlab');
-   addpath('../../../contact/matlab_intern');
+   addpath('../../matlab');
+   addpath('../../matlab_intern');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Read/create a variety of rail profiles
 
-prw1 = read_profile('../../../../../contact/examples/MBench_S1002_v3.prw');
+prw1 = read_profile('../../examples/MBench_S1002_v3.prw');
 
 % create prw2 for left wheel
 
@@ -43,14 +43,14 @@ prw3 = prw1;
 prw3.ProfileY = prw3.ProfileY - min(prw3.ProfileY);
 prw3.ProfileZ = prw3.ProfileZ + 5;
 
-prw4 = read_miniprof('../../../../old-2017-2020/m18002-support-oldknow/2-miniprof-format/20050510-0891.whl');
+prw4 = read_miniprof('../../../meldingen/old-2017-2020/m18002-support-oldknow/2-miniprof-format/20050510-0891.whl');
 
-prw5 = read_profile('../../../../../Projecten/Langeveld/m19001-evenaar-sommen/2-profielen/wheel1_p1.whl');
+prw5 = read_profile('../../../Projecten/Langeveld/m19001-evenaar-sommen/2-profielen/wheel1_p1.whl');
 
-prw6 = read_profile('../../6-circ-profile/profiles/circ_r50.prw');
-prw7 = read_profile('../../6-circ-profile/profiles/flat_ang200.prw');
+prw6 = read_profile('../../testbank/profiles/circ_r50.prw');
+prw7 = read_profile('../../testbank/profiles/flat_ang200.prw');
 
-prw8 = read_simpack('../../../../../Projecten/SouthObserv/1-log-profile/wheel_log_v1.prw');
+prw8 = read_simpack('../../../Projecten/SouthObserv/1-log-profile/wheel_log_v1.prw');
 % scale to 120 mm width, flip z positive downwards
 prw8.ProfileY = (60/87) * prw8.ProfileY;
 prw8.ProfileZ = -prw8.ProfileZ;
@@ -82,10 +82,17 @@ prw9.ProfileY = [ -fliplr(prw9.ProfileY), prw9.ProfileY(2:end) ];
 prw9.ProfileZ = [  fliplr(prw9.ProfileZ), prw9.ProfileZ(2:end) ];
 
 is_wheel = 1;
-prw10 = read_profile('../../../../../contact/testbank/profiles/fr_ol.csv', is_wheel);
+prw10 = read_profile('../../testbank/profiles/fr_ol.csv', is_wheel);
 prw10.ProfileY = prw10.ProfileY - mean(prw10.ProfileY);
 prw10.ProfileY = [prw10.ProfileY(12); prw10.ProfileY(12:end); prw10.ProfileY(end)];
 prw10.ProfileZ = [prw10.ProfileZ(12)-6.5; prw10.ProfileZ(12:end); prw10.ProfileZ(end)-5];
+
+% create hollow worn wheel without full flange
+
+ny = length(prw1.ProfileY); iy0 = round(0.10*ny); iy1 = round(0.82*ny); iy  = [iy0:iy1];
+prw11 = struct;
+prw11.ProfileY = prw1.ProfileY(iy);
+prw11.ProfileZ = prw1.ProfileZ(iy) - 2 + 0.002 * max(0, prw1.ProfileY(iy)).^2;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Plot a variety of rail profiles in one picture
@@ -128,39 +135,46 @@ if (show_all)
    text(0.92, 0.18, 'd)', 'units','normalized', 'horizontalalignment','right')
 
    subplot(nrow,ncol,5);
+   plot( prw11.ProfileY, prw11.ProfileZ)
+   set(gca,'ydir','reverse');
+   axis equal
+   axis([-80 70 -20 50]); grid on
+   text(0.92, 0.18, 'e)', 'units','normalized', 'horizontalalignment','right')
+
+   subplot(nrow,ncol,6);
    plot(prw6.ProfileY, prw6.ProfileZ)
    set(gca,'ydir','reverse');
    axis equal
    axis([-75 75 -55 15]); grid on
-   text(0.08, 0.18, 'e)', 'units','normalized')
+   text(0.08, 0.18, 'f)', 'units','normalized')
 
-   subplot(nrow,ncol,6);
+   subplot(nrow,ncol,7);
    plot(prw7.ProfileY, prw7.ProfileZ)
    set(gca,'ydir','reverse');
    axis equal
    axis([-75 75 -30 40]); grid on
-   text(0.08, 0.18, 'f)', 'units','normalized')
+   text(0.08, 0.18, 'g)', 'units','normalized')
 
-   subplot(nrow,ncol,7);
+   subplot(nrow,ncol,8);
    plot(prw8.ProfileY, prw8.ProfileZ)
    set(gca,'ydir','reverse');
    axis equal
    axis([-75 75 -35 35]); grid on
-   text(0.08, 0.18, 'g)', 'units','normalized')
+   text(0.08, 0.18, 'h)', 'units','normalized')
 
-   subplot(nrow,ncol,8);
+   subplot(nrow,ncol,9);
    plot(prw10.ProfileY, prw10.ProfileZ)
    set(gca,'ydir','reverse');
    axis equal
    axis([-15 15 -12 2]); grid on
-   text(0.94, 0.18, 'h)', 'units','normalized', 'horizontalalignment','right')
+   text(0.94, 0.18, 'i)', 'units','normalized', 'horizontalalignment','right')
 
-   subplot(nrow,ncol,9);
+   subplot(nrow,ncol,10);
    plot(prw9.ProfileY, prw9.ProfileZ)
    set(gca,'ydir','reverse');
    axis equal
    axis([-75 75 -20 50]); grid on
-   text(0.25, 0.18, 'i)', 'units','normalized');
+   text(0.25, 0.18, 'j)', 'units','normalized');
 
    if (print_fig)
       set(gcf,'paperpositionmode','auto');

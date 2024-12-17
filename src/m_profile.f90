@@ -2438,22 +2438,22 @@ contains
 
       if (is_wheel.eq.1) then
 
-         ! wheel: maximum z-value should occur in the interior, at the flange of the wheel
-         !        minimum z-value should occur at either side, at the field side of the wheel
+         ! wheel: (maximum z-value should occur in the interior, at the flange of the wheel, if present)
+         !        minimum z-value should occur at either side, at a side face of the wheel
          !        note that minimum z-value may lie in the interior for hollow worn wheels
          ! mirror z when minimum z-value does not occur in starting or trailing 5% of the profile points
 
          if (frac_min.lt.0.05 .or. frac_min.gt.0.95) then
-            mirror_z = 0
+            mirror_z = -1
          elseif (frac_max.lt.0.05 .or. frac_max.gt.0.95) then
-            mirror_z = 1
+            mirror_z =  1
          else
             ixm     = nint( npoint * (frac_min+frac_max)/2d0 )
             z_strgt = (points(izmin,2)+points(izmax,2)) / 2d0
             if (points(ixm,2).gt.z_strgt) then
-               mirror_z = 1  ! mirror when profile z > straight line
+               mirror_z =  1  ! mirror when profile z > straight line
             else
-               mirror_z = 0
+               mirror_z = -1
             endif
             call write_log(' hollow worn wheel?')
             call write_log(trim(fname))

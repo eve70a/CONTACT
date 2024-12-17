@@ -107,20 +107,20 @@ if (~is_slices)
          mirror_z = -1;
       else
          if (is_wheel)
-            % mirror z if lowest z-value occurs in interior (flange)
+            % wheel: lowest z-values found on side faces, left or right side
             [minz,ix0]  = min(p.ProfileZ);
             [maxz,ix1]  = max(p.ProfileZ);
             if (ix0<0.05*ny | ix0>0.95*ny)
-               mirror_z = -1;  % lowest z at start or end
+               mirror_z = -1;  % lowest z at start or end -- side faces in correct orientation
             elseif (ix1<0.05*ny | ix1>0.95*ny)
-               mirror_z =  1;  % highest z at start or end
+               mirror_z =  1;  % highest z at start or end -- side faces in flipped orientation
             else
-                  ix_m = round(mean([ix0 ix1]));
+               ix_m = round(mean([ix0 ix1]));
                z_m = mean([minz, maxz]);
                mirror_z = (p.ProfileZ(ix_m) > z_m); % mirror when profile z > straight line
             end
          else
-            % mirror z if lowest z-value does not occur on the tread of the rail
+            % rail: lowest z-values found on rail tread, in the interior
             [~,ix]   = min(p.ProfileZ);
             mirror_z = (ix<0.1*ny | ix>0.9*ny);
          end
