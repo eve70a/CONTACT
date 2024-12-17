@@ -61,8 +61,8 @@ function [ opts3 ] = plot3d(sol, opt3, prr, prw, subs)
 %    vecwidth: line-width for vectors on vector-plots;
 %    addeldiv: show contours of element divisions on top of results. <=0: no contours; >=1: show contact
 %              area, >=2: show adhesion area. Available in 2D plots, e.g. view [0 90]
-%    eldivcol: color specification for element division, e.g. ['b';'m';'g']
-%              or [0 0 0.56; 0.5 0 0; 0.8 0.25 0.42]
+%    eldivcol: color specification for element division, e.g. ['b';'m';'g'] (column vector)
+%              or [0 0 0.56; 0.5 0 0; 0.8 0.25 0.42] for adhesion area, contact area, plasticity areas
 %    eldivwid: line-width for contours for element division;
 %    colormap: this changes the colormap for 3D plots;
 %    addplot:  clear current subplot (-1), clear figure (0) or do not clear (1) the figure before plotting.
