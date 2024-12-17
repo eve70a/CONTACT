@@ -27,7 +27,9 @@ private
    private tang_solver
    private char_creep
    public  sens_tang
+   private fastsim_params
    private modif_fastsim
+   private modif_fastrip
    private gdsteady
    private compute_dp
    private project_searchdir
@@ -414,6 +416,13 @@ contains
          it  = 0
          err = 0d0
          call timer_stop(itimer_fastsim)
+      elseif (solv%solver_eff.eq.isolv_fastrp) then
+         imeth = 1
+         call timer_start(itimer_fastrip)
+         call modif_fastrip(ic, cgrid, mater, fric, kin, wstot, outpt1)
+         it  = 0
+         err = 0d0
+         call timer_stop(itimer_fastrip)
       elseif (solv%solver_eff.eq.isolv_cnvxgs) then
          imeth = 1
          call timer_start(itimer_cnvxgs)
@@ -1035,6 +1044,213 @@ contains
 
       end associate
       end subroutine modif_fastsim
+
+!------------------------------------------------------------------------------------------------------------
+
+      subroutine modif_fastrip(ic, cgrid, mater, fric, kin, ws, outpt)
+!--purpose: solve the tangential problem using the modified FASTRIP approach according to [Sichani2016b]
+!           with slope reduction according to [Spiryagin2013]
+      implicit none
+!--subroutine arguments:
+      type(t_ic)               :: ic
+      type(t_grid)             :: cgrid
+      type(t_material)         :: mater
+      type(t_friclaw)          :: fric
+      type(t_kincns)           :: kin
+      type(t_gridfnc3)         :: ws
+      type(t_output)           :: outpt
+!--local variables :
+      integer      :: ii, ix, ixsta, ixinc, ixend, iy
+      real(kind=8) :: nu, mu, aa, bb, aob, cxx, cyy, cyz, cksi_p, ceta_p, cphi_p, xsta, xend, aa_j,     &
+                      pmax, ptabs, y_j, dd_j, kappa, lambda, lambdap, sq_cnt, sq_adh
+
+      associate(mx    => cgrid%nx,  my    => cgrid%ny,  flx   => mater%flx, k_eff => mater%k_eff,       &
+                igs   => outpt%igs, mus   => outpt%mus, ps    => outpt%ps,  us    => outpt%us,          &
+                uv    => outpt%uv,  ss    => outpt%ss)
+
+      if (ic%tang.ne.3) then
+         call write_log(' ERROR: FaStrip is supported only for steady state rolling (T=3).')
+         call abort_run()
+      endif
+      if (abs(kin%chi-pi).ge.0.01d0 .and. abs(kin%chi).Gt.0.01d0) then
+         call write_log(' ERROR: FaStrip requires the rolling direction be 0 or 180deg.')
+         call abort_run()
+      endif
+
+      ! Compute semi-axes of equivalent ellipse
+
+      call equiv_ellipse(igs, aa, bb)
+
+      ! basic implementation for Hertzian cases
+
+      ! 1. inputs for Hertzian case
+
+      nu   = mater%nu
+      mu   = fric%fstat()
+      pmax = 1.5d0 * kin%fntrue / (pi * aa * bb)
+
+      ! 2. preparations: Kalker coefficients, flexibilities
+
+      aob  = aa / bb
+      call linrol(nu, aob, cxx, cyy, cyz)
+
+      ! non-dimensional creepages for strip theory
+
+      cksi_p = -mater%ga * 4d0 * (1d0-nu) * cxx * kin%cksi / (2d0 * mu * pmax * pi**2)
+      ceta_p = -mater%ga * 4d0 * (1d0-nu) * cyy * kin%ceta / (2d0 * mu * pmax * pi**2)
+      cphi_p = -mater%ga * 3d0 * sqrt(aa*bb) * cyz * kin%cphi / (2d0 * mu * pmax * pi)
+
+      ! call fastsim_params to set the effective coefficient of friction f_eff and slope reduction k_eff
+
+      call fastsim_params(ic, mater, fric, kin, cgrid, igs, ws, mus)
+
+      ! Points are processed from the leading to trailing edge
+      ! Set loop start/increment/end on the basis of the rolling direction (0 or 180 deg)
+
+      if (abs(kin%chi-pi).lt.0.01d0) then
+         ixsta = 1
+         ixinc = 1
+         ixend = mx
+      else
+         ixsta = mx
+         ixinc = -1
+         ixend = 1
+      endif
+
+      ! loop over all rows of the grid -- independent calculations
+
+      do iy = 1, my
+
+         ii   = 1 + (iy-1)*mx
+         y_j  = cgrid%y(ii)
+
+         ! 3. determine contact length for strip y_j: [xsta(j), xend(j)]
+
+            xsta   =  99d9
+            xend   = -99d9
+            do ix = 1, mx
+               ii = ix + (iy-1)*mx
+               if (igs%el(ii).ge.Adhes) then
+               xsta  = min(xsta, cgrid%x(ii)-0.5d0*cgrid%dx)
+               xend  = max(xend, cgrid%x(ii)+0.5d0*cgrid%dx)
+               endif
+            enddo
+            aa_j = max(1d-10, 0.5d0 * (xend - xsta))
+
+         ! 4. Fastsim, 3 flexibilities. process points ix within row iy in the appropriate order
+
+         do ix = ixsta, ixend, ixinc
+            ii = ix + (iy-1)*mx
+
+            ! Set U' by copying U of the previous point -- assuming dq == dx
+
+            if (ix.eq.ixsta) then
+               uv%vx(ii) = 0d0
+               uv%vy(ii) = 0d0
+            else
+               uv%vx(ii) = us%vx(ii-ixinc)
+               uv%vy(ii) = us%vy(ii-ixinc)
+            endif
+
+            if (igs%el(ii).le.Exter) then
+
+               ! Exterior elements: no traction, no slip
+
+               ps%vx(ii) = 0d0
+               ps%vy(ii) = 0d0
+               us%vx(ii) = 0d0
+               us%vy(ii) = 0d0
+               ss%vx(ii) = 0d0
+               ss%vy(ii) = 0d0
+            else
+
+               ! Interior elements: time-step equation, implicit Euler:
+               !    U(i) - U'(i) = S(i) - W(i) = dq*s(i) - dq*w(i)
+
+               ! First assume adhesion, s(i)=0
+
+               igs%el(ii)   = Adhes
+
+               ss%vx(ii) = 0d0
+               ss%vy(ii) = 0d0
+
+               us%vx(ii) = uv%vx(ii) - ws%vx(ii)
+               us%vy(ii) = uv%vy(ii) - ws%vy(ii)
+
+               ps%vx(ii) = us%vx(ii) * k_eff / flx(1)
+               ps%vy(ii) = us%vy(ii) * k_eff / flx(2)
+
+               ! Check traction bound for element I
+
+               ptabs = sqrt(ps%vx(ii)**2 + ps%vy(ii)**2)
+
+               if (ptabs.gt.mu*ps%vn(ii)) then
+
+                  ! Solve equations for slip in element i
+
+                  igs%el(ii)   = Slip
+
+                  ! The direction of the tractions ( // W ) is ok, scale tractions
+
+                  ps%vx(ii) = ps%vx(ii) * mu * ps%vn(ii) / ptabs
+                  ps%vy(ii) = ps%vy(ii) * mu * ps%vn(ii) / ptabs
+
+                  us%vx(ii) = flx(1) * ps%vx(ii) / k_eff
+                  us%vy(ii) = flx(2) * ps%vy(ii) / k_eff
+
+                  ! Compute slip: dq*s(i) = U(i) - U'(i) + dq*w(i)
+
+                  ss%vx(ii) = us%vx(ii) - uv%vx(ii) + ws%vx(ii)
+                  ss%vy(ii) = us%vy(ii) - uv%vy(ii) + ws%vy(ii)
+               endif
+            endif
+         enddo ! ix, Fastsim 3 flexibilities
+
+         ! 7. compute length of slip area in strip theory
+
+         if (abs(cphi_p).ge.1d0-1d-6) then
+            dd_j = aa_j
+         else
+            dd_j = (sqrt( ceta_p**2 + (1d0 - cphi_p**2) * (cksi_p - cphi_p * y_j / aa)**2 ) +           &
+                                                ceta_p * cphi_p) / (1d0 - cphi_p**2) * aa / (1d0 - nu)
+         endif
+
+         ! 8. compute strip theory stress scaling factors
+
+         kappa   = (cksi_p - cphi_p * y_j / aa) /                                                       &
+                   sqrt( max(1d-20, ( cksi_p - cphi_p * y_j / aa)**2 + (ceta_p + cphi_p * dd_j / aa)**2 ) )
+
+         lambda  = (ceta_p + cphi_p * dd_j / aa) /                                                      &
+                   sqrt( max(1d-20, ( cksi_p - cphi_p * y_j / aa)**2 + (ceta_p + cphi_p * dd_j / aa)**2 ) )
+
+         lambdap = lambda - cphi_p
+
+         ! 9. compute strip theory tractions within strip-theory's adhesion area
+
+         do ix = 1, mx
+            ii = ix + (iy-1)*mx
+            if (igs%el(ii).ge.Adhes .and. cgrid%x(ii).gt.-aa_j+2d0*dd_j) then
+               igs%el(ii) = Adhes
+
+               sq_cnt = sqrt( max(0d0, aa_j**2 - cgrid%x(ii)**2 ) )
+               sq_adh = sqrt( max(0d0, (aa_j - dd_j)**2 - (cgrid%x(ii) - dd_j)**2 ) )
+
+               ps%vx(ii) = mu * pmax * (kappa  * sq_cnt - kappa   * sq_adh) / aa
+               ps%vy(ii) = mu * pmax * (lambda * sq_cnt - lambdap * sq_adh) / aa
+
+            if (isnan(ps%vx(ii)) .or. isnan(ps%vy(ii))) then
+                  write(bufout,'(2(a,i4),2(a,g12.4))') ' iy=',iy,', ix=',ix,': px=',ps%vx(ii),          &
+                        ', py=',ps%vy(ii)
+               call write_log(1, bufout)
+            endif
+            endif
+
+         enddo
+
+      enddo ! row iy
+
+      end associate
+      end subroutine modif_fastrip
 
 !------------------------------------------------------------------------------------------------------------
 

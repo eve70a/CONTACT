@@ -142,6 +142,8 @@ contains
          if (ic%tang.ne.0) then
             if (ic%mater.ge.2 .and. ic%mater.le.3) then
                write(lout, 8020)
+            elseif (ic%mater.eq.5) then
+               write(lout, 8025)
             else
                if (ic%tang.eq.1) write(lout, 8021)
                if (ic%tang.eq.2) write(lout, 8022)
@@ -151,6 +153,7 @@ contains
  8021       format (' SHIFT TRANSIENT')
  8022       format (' TRANSIENT ROLLING')
  8023       format (' STEADY STATE ROLLING')
+ 8025       format (' STEADY STATE ROLLING,  "FASTRIP APPROACH"')
 
             if (ic%force3.eq.0) write(lout, 8030)
             if (ic%force3.eq.1) write(lout, 8031)
@@ -277,13 +280,14 @@ contains
          if (ic%mater.eq.2) write(lout,8121) mater%flx(1)
  8121    format (/, 1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/, 2x, 3x,'FLX',/, 2x, g12.4)
 
-         if (ic%mater.eq.3) write(lout,8131) mater%flx(1), mater%flx(2), mater%flx(3)
+         if (ic%mater.eq.3 .or. ic%mater.eq.5) write(lout,8131) mater%flx(1), mater%flx(2), mater%flx(3)
  8131    format (/, 1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/,                                        &
                  2x, 3x,'FLX1',5x, 3x,'FLX2',5x, 3x,'FLX3',/, 2x, 3g12.4)
 
-         if (ic%mater.eq.2 .or. ic%mater.eq.3) write(lout,8135) mater%k0_mf, mater%alfamf,              &
-            mater%betamf, mater%k_eff
- 8135    format (/, 1x,'MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS',/,                                 &
+         if (ic%mater.eq.2 .or. ic%mater.eq.3) write(lout,8135) 'FASTSIM', mater%k0_mf, mater%alfamf,   &
+                mater%betamf, mater%k_eff
+         if (ic%mater.eq.5) write(lout,8135) 'FASTRIP', mater%k0_mf, mater%alfamf, mater%betamf, mater%k_eff
+ 8135    format (/, 1x,'MODIFIED ',a,' SLOPE REDUCTION PARAMETERS',/,                                   &
                  2x, 3x,'K0_MF',4x, 3x,'ALFAMF',3x, 3x,'BETAMF',3x, 3x,'K_EFF',/, 2x, 4g12.4)
 
          if (ic%mater.eq.4) write(lout,8141) mater%gg3, mater%laythk, mater%tau_c0, mater%k_tau
@@ -372,10 +376,10 @@ contains
          endif
 
          !  - compute tangential part of us 
-         !    Note: maintain the stored tangential part of us when M=2 or 3.
+         !    Note: maintain the stored tangential part of us when M=2, 3 or 5 (Fastsim/FaStrip).
          !    TODO: exploit that tangential tractions are zero when T=0?
 
-         if (ic%mater.ne.2 .and. ic%mater.ne.3) then
+         if (ic%mater.ne.2 .and. ic%mater.ne.3 .and. ic%mater.ne.5) then
             if (abs(ic%matfil_surf).ge.2 .or. .false.) then
                call VecAijPj(igs1, AllElm, us1, ikTANG, ps1, jkALL, cs)
             else
@@ -394,10 +398,10 @@ contains
             call VecAijPj(igs1, AllInt, uv1, ikZDIR, pv1, jkALL, cv)
          endif
 
-         !  - maintain the stored tangential part of uv when M=2 or 3
+         !  - maintain the stored tangential part of uv when M=2, 3 or 5 (Fastsim/FaStrip)
          !    TODO: exploit that tangential tractions are zero when T=0?
 
-         if (ic%mater.ne.2 .and. ic%mater.ne.3) then
+         if (ic%mater.ne.2 .and. ic%mater.ne.3 .and. ic%mater.ne.5) then
             call VecAijPj(igs1, AllInt, uv1, ikTANG, pv1, jkALL, cv)
          endif
 
@@ -917,9 +921,9 @@ subroutine writmt (meta, ic, cgrid, potcon, mater, fric, kin, geom, outpt1, mirr
                 'FG2',11x, 'TC1',11x, 'TC2',11x, 20(a3,:,11x))
  172     format(i7,1x,i4,2x, 20g14.6)
 
-      elseif (ic%mater.eq.2 .or. ic%mater.eq.3) then
+      elseif (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5) then
 
-         write(lmat,181) ('-', j=12,ncol)
+         write(lmat,181) ('-', j=12,ncol)               ! skipping poiss(2) for lack of columns
          write(lmat,182) ic%tang, ic%mater, (mater%gg(j), j=1,2), (mater%poiss(j), j=1,1),              &
                (mater%flx(j), j=1,3), mater%k0_mf, mater%alfamf, mater%betamf, (0., j=12,ncol)
  181     format('%    T',4x, 'M',6x, 'GG1',11x, 'GG2',11x, 'POISS1',8x, 'FLX1',10x, 'FLX2',10x,         &

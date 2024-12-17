@@ -67,6 +67,11 @@ contains
       frclaw    = fric%frclaw_eff
       use_out_it = ((frclaw.ge.2 .and. frclaw.le.4) .or. frclaw.eq.6)
 
+      if (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5) then
+         call write_log(' Internal error: stang called for Fastsim/Fastrip')
+         call abort_run()
+      endif
+
       ! dup: nullify, copy structure and el.div from ps1, initialize at 0:
 
       call gf3_copy_struc(ps1, wsfix1, 'tang:wsfix1', .true.)
@@ -94,9 +99,7 @@ contains
       ! write type of problem to trace output
 
       if (ic%flow.ge.4 .or. (ic%flow.ge.2 .and. use_out_it)) then
-         if (ic%mater.ge.2 .and. ic%mater.le.3) then
-            call write_log(' TANG: STEADY STATE ROLLING BY THE FASTSIM APPROACH')
-         elseif (ic%tang.eq.1) then
+         if (ic%tang.eq.1) then
             call write_log(' TANG: SHIFT TRANSIENT')
          elseif (ic%tang.eq.2) then
             call write_log(' TANG: TRANSIENT ROLLING CONTACT')
@@ -391,7 +394,7 @@ contains
             endif
 
             call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg, outpt1,    &
-                        imeth, info, it, errpt)
+                                imeth, info, it, errpt)
             itgs = itgs + it
 
             if (ic%x_nmdbg.ge.5) then
@@ -1155,6 +1158,7 @@ contains
 !--purpose: Tang calculates the tangential traction ps(i,ik), i=1..npot, ik=1,2, with the normal
 !           pressure and contact area fixed. This normal pressure is not affected.
 !           The kind of problem (shift, transient/steady rolling) is specified by ic%tang.
+!           Version for Fastsim and FaStrip.
       implicit none
 !--subroutine parameters :
       type(t_ic)               :: ic
@@ -1195,8 +1199,8 @@ contains
 
       ! check restrictions
 
-      if (ic%mater.lt.2 .or. ic%mater.gt.3) then
-         call write_log(' ERROR: tang_fastsim should only be called for Fastsim.')
+      if (ic%mater.ne.2 .and. ic%mater.ne.3 .and. ic%mater.ne.5) then
+         call write_log(' ERROR: tang_fastsim should only be called for Fastsim or FaStrip.')
          call abort_run()
       endif
       if (ic%tang.lt.2 .or. ic%tang.gt.3) then
@@ -1207,8 +1211,12 @@ contains
       ! write type of problem to trace output
 
       if (ic%flow.ge.3) then
-         if (ic%tang.eq.2) then
+         if     (ic%tang.eq.2 .and. ic%mater.eq.5) then
+            call write_log(' TANG: TRANSIENT ROLLING CONTACT USING FASTRIP')
+         elseif (ic%tang.eq.2) then
             call write_log(' TANG: TRANSIENT ROLLING CONTACT USING FASTSIM')
+         elseif (ic%tang.eq.3 .and. ic%mater.eq.5) then
+            call write_log(' TANG: STEADY STATE ROLLING BY THE FASTRIP APPROACH')
          elseif (ic%tang.eq.3) then
             call write_log(' TANG: STEADY STATE ROLLING BY THE FASTSIM APPROACH')
          endif
@@ -1250,8 +1258,14 @@ contains
 
       ! Set the actual solver to be used
       !   M  = 2, 3 : FASTSIM
+      !   M  = 5    : FASTRIP
 
-      solv%solver_eff = isolv_fastsm
+      if (ic%mater.eq.5) then
+         solv%solver_eff = isolv_fastrp
+      else
+         solv%solver_eff = isolv_fastsm
+      endif
+
       ittang = 1
       itgs   = 0
 
@@ -1263,7 +1277,7 @@ contains
       endif
 
       call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg, outpt1, imeth,   &
-                  info, it, errpt)
+                        info, it, errpt)
 
       if (ic%x_nmdbg.ge.5) then
          call stang_nmdbg ('solution of solvpt:', 6, ic, cgrid, igs1, ledg, ps1, mus1, tmp, wsfix1,     &
@@ -1335,6 +1349,8 @@ contains
       if (ic%flow.ge.3) then
          if (ic%mater.ge.2 .and. ic%mater.le.3) then
             call write_log(' TANG: STEADY STATE ROLLING BY THE FASTSIM APPROACH')
+         elseif (ic%mater.eq.5) then
+            call write_log(' TANG: STEADY STATE ROLLING BY THE FASTRIP APPROACH')
          elseif (ic%tang.eq.1) then
             call write_log(' TANG: SHIFT TRANSIENT')
          elseif (ic%tang.eq.2) then

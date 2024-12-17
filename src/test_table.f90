@@ -22,8 +22,9 @@ program test_table
    integer                 :: ire, icp, imodul, ver, ierr, iout, l_path, l_expnam, icount, ithrd, nthrd
    integer                 :: mx, my, ipotcn, gdigit, ldigit, mdigit, maxgs, maxnr, maxin, maxout,      &
                               inislp, kdowfb
-   real(kind=8)            :: g1, nu1, scale, fstat, fkin, veloc, eps, omegah, omegas, omgslp,          &
-                              fdecay, betath, d_ifc, d_lin, d_cns, d_slp, pow_s, a1, aob, dx, dy
+   real(kind=8)            :: g1, nu1, k0mf, alfamf, betamf, scale, fstat, fkin, veloc, eps, omegah,    &
+                              omegas, omgslp, fdecay, betath, d_ifc, d_lin, d_cns, d_slp, pow_s,        &
+                              a1, aob, dx, dy
    real(kind=8)            :: cmgn, cang, cksi, ceta, cphi, fn, fx, fy, mz, carea, harea, sarea
    integer                 :: iell, ispin, ivang, ivmgn, irem, icase
    integer, parameter      :: num_ellip   = 5
@@ -45,7 +46,7 @@ program test_table
 #include "contact_addon.ifc"
 
    ! Handle optional command line arguments
-   ! Usage: test_table [mx] [expnam] [gdigit] [fdecay]
+   ! Usage: test_table [mx] [expnam] [mdigit] [gdigit] [fdecay]
 
    mx     = 11
    icount = command_argument_count()
@@ -61,12 +62,18 @@ program test_table
    endif
    if (icount.ge.3) then
       call get_command_argument(3, tmpstr, status=ierr)
+      if (ierr.ge.0) read(tmpstr,'(i)') mdigit
+   else
+      mdigit = 0
+   endif
+   if (icount.ge.4) then
+      call get_command_argument(4, tmpstr, status=ierr)
       if (ierr.ge.0) read(tmpstr,'(i)') gdigit
    else
       gdigit = 0
    endif
-   if (icount.ge.4) then
-      call get_command_argument(4, tmpstr, status=ierr)
+   if (icount.ge.5) then
+      call get_command_argument(5, tmpstr, status=ierr)
       if (ierr.ge.0) read(tmpstr,'(f)') fdecay
    else
       fdecay = 1d0
@@ -111,6 +118,7 @@ program test_table
       flags(4) = CNTC_ic_output ; values(4) = 0
       flags(5) = CNTC_ic_flow   ; values(5) = 2
       flags(6) = CNTC_ic_tang   ; values(6) = 3
+    ! flags(7) = CNTC_ic_bound  ; values(7) = 3  ! 2 = elliptical traction bound, 3 = parabolical
 
       call cntc_setFlags(ire, icp, mxflgs, flags, values)
 
@@ -120,11 +128,17 @@ program test_table
       rparam(1:2) = (/ fstat, fkin /)
       call cntc_setFrictionMethod(ire, icp, ldigit, 2, rparam)
 
-      mdigit = 0
       g1     = 1d0
       nu1    = 0.28d0
-      rparam(1:4) = (/ nu1, nu1, g1, g1 /)
-      call cntc_setMaterialParameters(ire, icp, mdigit, 4, rparam)
+      k0mf   = 1d0
+      alfamf = 1d0
+      betamf = 1d0
+      rparam(1:7) = (/ nu1, nu1, g1, g1, k0mf, alfamf, betamf /)
+      if (mdigit.eq.0) then
+         call cntc_setMaterialParameters(ire, icp, mdigit, 4, rparam)
+      elseif (mdigit.eq.3 .or. mdigit.eq.5) then
+         call cntc_setMaterialParameters(ire, icp, mdigit, 7, rparam)
+      endif
 
       veloc = 30000d0
       call cntc_setReferenceVelocity(ire, icp, veloc)

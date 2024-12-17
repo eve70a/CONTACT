@@ -110,9 +110,9 @@ public
 
    ! codes for the different solvers
 
-   integer, parameter :: isolv_fastsm     = 0, isolv_normcg     = 1,                            &
-                         isolv_tangcg     = 2, isolv_cnvxgs     = 3, isolv_stdygs = 4,          &
-                         isolv_gdstdy     = 7
+   integer, parameter :: isolv_fastrp = -1, isolv_fastsm =  0, isolv_normcg =  1,                       &
+                         isolv_tangcg =  2, isolv_cnvxgs =  3, isolv_stdygs =  4,                       &
+                         isolv_gdstdy =  7
 
    !---------------------------------------------------------------------------------------------------------
 
@@ -293,8 +293,9 @@ public
       !              2 = simplified theory with flexibility L;
       !              3 = simplified theory with flexibilities L1,L2,L3.
       !              4 = linearly elastic material + elasto-plastic third body layer
-      !              5 = reserved (pseudo-viscous damping)
-      !              6 = reserved (vertical slice/gap)
+      !              5 = FaStrip method, combination of strip theory + simplified theory
+      !              6 = reserved (pseudo-viscous damping)
+      !              7 = reserved (vertical slice/gap)
       !              Note: the m-digit is copied to t_material
       ! m2, mater2  type of damping model to be used:
       !              0 = no damping

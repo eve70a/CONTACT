@@ -82,6 +82,7 @@
                 $[5,500]\unit{mm}$}{}
 \vtlogentry{1.170}{EV}{04-11-2024}{Added $g_{miss}$ in blending approach}{}
 \vtlogentry{1.171}{EV}{06-11-2024}{Added massless rail model with ${\tt N}=0$}{}
+\vtlogentry{1.172}{EV}{05-12-2024}{Added ${\tt M}=5$ for FaStrip solver}{}
 \vtlogentry{1.173}{EV}{10-12-2024}{Added note on $z$ mirroring}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
@@ -754,8 +755,10 @@ $^*$ Option ${\tt C}_3=9$ is not available in module 1.
 \item[4] -- elastic contact with interfacial layer and near-surface plastic
         deformation (\S \ref{sec:intfc_layer}).
 \magenta{
-\item[5] -- reserved for pseudo-viscous damping;
-\item[6] -- reserved for two quarter-spaces with vertical gap in between.
+\item[5] -- FaStrip method, combination of strip theory and simplified
+        theory (\S \ref{sec:fastsim});
+\item[6] -- reserved for pseudo-viscous damping;
+\item[7] -- reserved for two quarter-spaces with vertical gap in between.
 }
 \end{description}
 
@@ -2418,7 +2421,7 @@ estimated for the actual contact area.
 The modifications proposed in \cite{Spiryagin2013} are based on a variable
 flexibility, increasing with the ratio of the slip area to the area
 of adhesion:
-\begin{equation}
+\begin{equation}\label{eq:k_modif_fs}
    L_{\eff} = \frac{L}{k}, \;\;\mbox{with}\;\;
    k = k_0 \left( \alpha_{inf} + 
                 \frac{1-\alpha_{inf}}{1+\beta\varepsilon} \right) .
@@ -2426,8 +2429,8 @@ of adhesion:
 This increases the flexibility when $k<1$. The input parameters are as
 follows:
 \begin{inputvars}
-\inpvar{K0\_MF}{\bunit{-}}{Initial value $k_0$ of Kalker's reduction factor at creep
-        values close to zero, $0<k_0\le 1$.}
+\inpvar{K0\_MF}{\bunit{-}}{Initial value $k_0$ of Kalker's reduction factor
+        at creep values close to zero, $0<k_0\le 1$.}
 \inpvar{ALFAMF}{\bunit{-}}{Fraction $\alpha_{inf}=k_\infty/k_0$ of the reduction
         factor at creep values approaching infinity, $0\le\alpha_{inf}\le 1$.}
 \inpvar{BETAMF}{\bunit{-}}{Non-dimensional parameter $\beta$ that governs how
@@ -2455,6 +2458,15 @@ problem when ${\tt B}=0$ and in the calculation of subsurface stresses,
 which are both based on the full half-space approach.
 % - L1, L2, L3 depend on \nu
 % - subsurface stresses using full half-space solution
+
+\magenta{
+A further option is the Modified FaStrip approach (${\tt M}=5$). FaStrip
+combines the simplfied theory with strip theory to improve the stress
+distribution compared to Fastsim \cite{Sichani2016b-fastrip}. The method
+is extended to non-Hertzian situations using an equivalent ellipse as used
+for ${\tt M}=3$, and incorporates effects of interfacial layers using
+variable flexibility according to Equation (\ref{eq:k_modif_fs}).
+}
 
 \subsection{Interfacial layer of contaminants}
 \label{sec:intfc_layer}
@@ -3602,8 +3614,8 @@ solvers described below at item \ref{itm:it_solvers}.
 \end{enumerate}
 
 \end{enumerate}
-These iterations are mostly bypassed when using the KPEC, ANALYN and FASTSIM
-approaches. 
+These iterations are mostly bypassed when using the KPEC, ANALYN and
+FASTSIM\magenta{, FaStrip } approaches. 
 
 The nesting of algorithms is changed in the analysis of wheel/rail
 contact (Chapter \ref{chp:module1}), adding a new outermost level 0 for
@@ -6629,7 +6641,8 @@ configuration of the accuracy with which sensitivities are computed.
 This subroutine configures the material parameters of Section
 \ref{sec:matcns}: basic elasticity parameters $G, \nu$, needed always, and
 added parameters for visco-elastic materials (${\tt M}=1$, Section
-\ref{sec:visc_elast}), the Modified Fastsim algorithm (${\tt M}=2$ or 3,
+\ref{sec:visc_elast}), the Modified Fastsim \magenta{and FaStrip}
+algorithm\magenta{s} (${\tt M}=2$ or 3\magenta{, 5},
 Section \ref{sec:fastsim}), and the interfacial layer of ${\tt M}=4$
 (Section \ref{sec:intfc_layer}).
 
@@ -7363,7 +7376,7 @@ if INFLCF>=2:
 \magenta{      if BOUND =1: [ FLXZ                           ]
 }      if MATER =1: [ FG1     FG2       VT1     VT2  ]
       if MATER =2: [ FLX     K0\_MF   ALFAMF  BETAMF ]
-      if MATER =3: [         K0\_MF   ALFAMF  BETAMF ]
+      if MATER =3\magenta{,5}: [         K0\_MF   ALFAMF  BETAMF ]
       if MATER =4: [ GG3     LAYTHK  TAU\_C0  K\_TAU  ]
 
 % Material parameters for damping and temperature calculation (section \ref{sec:matcns}):
@@ -7487,7 +7500,7 @@ if C>=2:\magenta{
 \magenta{      if B=1: [ FLXZ                        ]
 }      if M=1: [ FG 1, 2   VT 1, 2           ]
       if M=2: [ FLX  K0\_MF   ALFAMF  BETAMF ]
-      if M=3: [      K0\_MF   ALFAMF  BETAMF ]
+      if M=3\magenta{,5}: [      K0\_MF   ALFAMF  BETAMF ]
       if M=4: [ GG3  LAYTHK  TAU\_C0  K\_TAU  ]
 
 % Material parameters for damping and temperature calculation (section \ref{sec:matcns}):
@@ -8426,7 +8439,8 @@ used in CONTACT. The pressure distribution is approximated the same as in
 the KP-method, and is solved in the same way. 
 An implementation of the ANALYN method is also provided \cite{Sichani2014b}.
 For the tangential contact problem, CONTACT provides an implementation of
-Modified FASTSIM \cite{Spiryagin2013}.
+Modified FASTSIM \cite{Spiryagin2013}\magenta{\ and an extended version of
+the FaStrip approach \cite{Sichani2016b-fastrip}}.
 
 Using these fast algorithms, one may benefit from CONTACT's detailed
 contact search algorithms without jeopardizing the speed of the simulation.

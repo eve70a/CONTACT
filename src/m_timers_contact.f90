@@ -38,7 +38,8 @@ integer, parameter :: itimer_cnvxgs             = itimer_tangcg    + 1
 integer, parameter :: itimer_stdygs             = itimer_cnvxgs    + 1
 integer, parameter :: itimer_gdstdy             = itimer_stdygs    + 1
 integer, parameter :: itimer_fastsim            = itimer_gdstdy    + 1
-integer, parameter :: itimer_temper             = itimer_fastsim   + 1
+integer, parameter :: itimer_fastrip            = itimer_fastsim   + 1
+integer, parameter :: itimer_temper             = itimer_fastrip   + 1
 
 integer, parameter :: itimer_initcf             = itimer_temper    + 1
 integer, parameter :: itimer_input              = itimer_initcf    + 1
@@ -155,6 +156,7 @@ integer, intent(in),  optional :: mxthrd
    call timer_name(itimer_stdygs    , namtmr='Tang: StedyGS solver')
    call timer_name(itimer_gdstdy    , namtmr='Tang: GDstedy solver')
    call timer_name(itimer_fastsim   , namtmr='Tang: Fastsim solver')
+   call timer_name(itimer_fastrip   , namtmr='Tang: Fastrip solver')
    call timer_name(itimer_temper    , namtmr='Temperature calc.   ')
 
    call timer_name(itimer_initcf    , namtmr='Initial time-step   ')

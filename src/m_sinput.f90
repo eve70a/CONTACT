@@ -430,7 +430,7 @@ contains
       zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress,  0, 3)
       zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp,  0, 4, 6, 6)
       zerror = zerror .or. .not.check_irng ('gap weighting',    ic%gapwgt,  0, 2)
-      zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater,   0, 4)
+      zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater,   0, 5)
 
       zerror = zerror .or. .not.check_irng ('Control digit X',  ic%xflow,   0, 1)
       zerror = zerror .or. .not.check_2rng ('Control digit H',  ic%heat,    0, 1, 3, 3)
@@ -591,7 +591,7 @@ contains
                  '               L=',i3,', H='i3,'.')
       endif
 
-      if (ic%frclaw_inp.eq.6 .and. (ic%mater.eq.2 .or. ic%mater.eq.3)) then
+      if (ic%frclaw_inp.eq.6 .and. (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5)) then
          zerror = .true.
          write(lout, 2074) ic%frclaw_inp, ic%mater
          write(   *, 2074) ic%frclaw_inp, ic%mater
@@ -933,9 +933,9 @@ contains
          mater%betamf   = dbles(4)
       endif
 
-      ! M=3: read parameters of slope reduction for modified Fastsim algorithm
+      ! M=3: read parameters of slope reduction for modified Fastsim/FaStrip algorithm
 
-      if (ic%mater.eq.3) then
+      if (ic%mater.eq.3 .or. ic%mater.eq.5) then
          call readline(linp, ncase, linenr, 'slope reduction parameters', 'ddd', ints, dbles,        &
                        flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
          zerror = zerror .or. (ierror.ne.0)
@@ -984,7 +984,7 @@ contains
       if (ic%mater.eq.2) then
          zerror = zerror .or. .not.check_range ('FLX', mater%flx(1), 1d-10, 1d20)
       endif
-      if (ic%mater.eq.2 .or. ic%mater.eq.3) then
+      if (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5) then
          zerror = zerror .or. .not.check_range ('K0_MF', mater%k0_mf, 1d-10, 1d0)
          zerror = zerror .or. .not.check_range ('ALFAMF', mater%alfamf, 0d0, 1d0)
          zerror = zerror .or. .not.check_range ('BETAMF', mater%betamf, 0d0, 1d20)
@@ -1292,7 +1292,7 @@ contains
          if (zerror) then
             write(lout, 3007) ic%pvtime, ic%iestim, delt_x, delt_y, p1%dx, p1%dy
             write(   *, 3007) ic%pvtime, ic%iestim, delt_x, delt_y, p1%dx, p1%dy
- 3007       format (' Input: ERROR: P=',i3,', I=',i3,', grid offsets DELTX =',g12.4,', DELTY =',g12.4, /, &
+ 3007       format (' Input: ERROR: P=',i3,', I=',i3,', grid shifts  DELTX =',g12.4,', DELTY =',g12.4, /, &
                     '               must be integer multiples of DX  =',g12.4,', DY    =',g12.4)
          endif
 
@@ -1721,7 +1721,7 @@ contains
          if (ic%mater.eq.2) then
             write(linp, 5402) mater%flx(1), mater%k0_mf, mater%alfamf, mater%betamf
  5402       format (4g12.4, 10x, 'FLX, K0_MF, ALFA, BETA')
-         elseif (ic%mater.eq.3) then
+         elseif (ic%mater.eq.3 .or. ic%mater.eq.5) then
             write(linp, 5403) mater%k0_mf, mater%alfamf, mater%betamf
  5403       format (3g12.4, 22x, 'K0_MF, ALFAMF, BETAMF')
          endif

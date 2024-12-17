@@ -132,7 +132,7 @@ contains
 !--local variables :
       logical  :: is_fastsm, is_roll, is_ssrol
 
-      is_fastsm = ic%mater.eq.2 .or. ic%mater.eq.3
+      is_fastsm = ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5
       is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3
       is_ssrol  = ic%tang.eq.3
 
@@ -146,8 +146,8 @@ contains
 
       if (is_ssrol .and. is_fastsm) then
 
-         ! set DQ == DX when using steady rolling w. Fastsim (T=3, M=2/3)
-         ! force CHI = 0 or pi when using steady rolling w. Fastsim (T=3, M=2/3)
+         ! set DQ == DX when using steady rolling w. Fastsim/FaStrip (T=3, M=2/3/5)
+         ! force CHI = 0 or pi when using steady rolling w. Fastsim/FaStrip (T=3, M=2/3/5)
 
          kin%dq  = cgrid%dx
          if (abs(kin%chi).gt.0.01d0 .and. abs(kin%chi-pi).gt.0.01d0) then
@@ -199,9 +199,7 @@ contains
 
       ! compute the time step size, with dq in [mm], veloc in [mm/s]
 
-      if (is_roll .or. ic%mater.ne.5) then
-         kin%dt = kin%dq / max(1d-10, kin%veloc)
-      endif
+      kin%dt = kin%dq / max(1d-10, kin%veloc)
 
    end subroutine check_roll_stepsize
 
@@ -534,7 +532,7 @@ contains
 
       ! M=3, using FASTSIM approach with 3 flexibilities: scale spin creepage by factors L1/L3 and L2/L3
 
-      if (ic%mater.eq.3) then
+      if (ic%mater.eq.3 .or. ic%mater.eq.5) then
          facx = mater%flx(1) / mater%flx(3)
          facy = mater%flx(2) / mater%flx(3)
       else

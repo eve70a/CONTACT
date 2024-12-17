@@ -46,7 +46,7 @@ contains
 
       call timer_start(itimer_output)
 
-      associate( ws    => wtd%ws,    trk  => wtd%trk, ic  => wtd%ic, mater => wtd%mater,                &
+      associate( ws    => wtd%ws,    trk     => wtd%trk,     ic       => wtd%ic,    mater => wtd%mater, &
                  discr => wtd%discr, my_rail => wtd%trk%rai, my_wheel => wtd%ws%whl)
 
       is_roll      = (ic%tang.eq.2 .or. ic%tang.eq.3)
@@ -136,6 +136,8 @@ contains
 
             if (ic%mater.ge.2 .and. ic%mater.le.3) then
                write(lout, 1300) trim(strng(2))
+            elseif (ic%mater.eq.5) then
+               write(lout, 1305) trim(strng(2))
             else
                if (ic%tang.eq.1) write(lout, 1301) trim(strng(2))
                if (ic%tang.eq.2) write(lout, 1302) trim(strng(2))
@@ -145,6 +147,7 @@ contains
  1301       format (' SHIFT TRANSIENT, ',a,' PRESCRIBED')
  1302       format (' TRANSIENT ROLLING, ',a,' PRESCRIBED')
  1303       format (' STEADY STATE ROLLING, ',a,' PRESCRIBED')
+ 1305       format (' STEADY STATE ROLLING, "FASTRIP APPROACH", ',a,' PRESCRIBED')
 
             if (wtd%mater%gencr_eff.eq.4 .and. mater%if_meth.eq.0) write(lout, 1400) mater%if_ver
             if (mater%gencr_eff.eq.4 .and. mater%if_meth.eq.1) write(lout, 1401) mater%if_ver
@@ -199,8 +202,10 @@ contains
  2121    format (1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/, 2x, 3x,'FLX',/, 2x, g12.4,/)
 
          if (ic%tang.gt.0 .and. (ic%mater.eq.2 .or. ic%mater.eq.3))                                     &
-                write(lout,2135) mater%k0_mf, mater%alfamf, mater%betamf
- 2135    format (1x,'MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS',/,                                    &
+                write(lout,2135) 'FASTSIM', mater%k0_mf, mater%alfamf, mater%betamf
+         if (ic%tang.gt.0 .and.  ic%mater.eq.5)                                                         &
+                write(lout,2135) 'FASTRIP', mater%k0_mf, mater%alfamf, mater%betamf
+ 2135    format (1x,'MODIFIED ',a,' SLOPE REDUCTION PARAMETERS',/,                                      &
                  2x, 3x,'K0_MF',4x, 3x,'ALFAMF',3x, 3x,'BETAMF', /, 2x, 3g12.4,/)
 
          if (ic%tang.gt.0 .and. ic%mater.eq.4)                                                          &
@@ -469,19 +474,20 @@ contains
 
             endif
 
-            !  M = 3: report actual flexibilities, M = 2, 3: report on actual K_EFF
+            !  M = 3, 5: report actual flexibilities, M = 2, 3, 5: report on actual K_EFF
 
-            if (ic%tang.gt.0 .and. ic%mater.eq.3) then
+            if (ic%tang.gt.0 .and. (ic%mater.eq.3 .or. ic%mater.eq.5)) then
                write(lout,6231) gd%mater%flx(1), gd%mater%flx(2), gd%mater%flx(3)
  6231          format (1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/,                                     &
                  2x, 3x,'FLX1',5x, 3x,'FLX2',5x, 3x,'FLX3',/, 2x, 3g12.4,/)
             endif
 
-            if (ic%tang.gt.0 .and. (ic%mater.eq.2 .or. ic%mater.eq.3)) then
-               write(lout,6251) gd%mater%k_eff
- 6251          format (1x,'MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS',/,                              &
+            if (ic%tang.gt.0 .and. (ic%mater.eq.2 .or. ic%mater.eq.3))                                  &
+               write(lout,6251) 'FASTSIM', gd%mater%k_eff
+            if (ic%tang.gt.0 .and.  ic%mater.eq.5)                                                      &
+               write(lout,6251) 'FASTRIP', gd%mater%k_eff
+ 6251       format (1x,'MODIFIED ',a,' SLOPE REDUCTION PARAMETERS',/,                                   &
                  2x, 3x,'K0_EFF',4x, /, 2x, 1g12.4,/)
-            endif
 
             ! report on creepages
 

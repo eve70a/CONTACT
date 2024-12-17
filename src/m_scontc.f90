@@ -44,14 +44,15 @@ contains
 !--local variables :
       integer, parameter :: idebug = 0
       integer  :: ihertz, nerror
-      logical  :: is_fastsm, is_roll, is_ssrol
+      logical  :: is_fastsm, auto_flx, is_roll, is_ssrol
 
       associate( potcon_inp => gd%potcon_inp, potcon_cur => gd%potcon_cur, cgrid      => gd%cgrid_cur,  &
                  meta   => gd%meta,   ic     => gd%ic,     mater  => gd%mater,  hertz  => gd%hertz,     &
                  geom   => gd%geom,   fric   => gd%fric,   kin    => gd%kin,    influ  => gd%influ,     &
                  solv   => gd%solv,   outpt1 => gd%outpt1, subs   => gd%subs)
 
-      is_fastsm = ic%mater.eq.2 .or. ic%mater.eq.3
+      is_fastsm = ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5
+      auto_flx  =                    ic%mater.eq.3 .or. ic%mater.eq.5
       is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3
       is_ssrol  = ic%tang.eq.3
 
@@ -85,9 +86,9 @@ contains
          call potcon_hertz(hertz, potcon_inp)
       endif
 
-      ! M=3: calculate flexibilities L1,L2,L3 from Hertzian contact ellipse
+      ! Fastsim/FaStrip + Hertzian option: calculate flexibilities L1,L2,L3 from contact ellipse
 
-      if (ic%mater.eq.3 .and. potcon_inp%ipotcn.le.-1) then
+      if (auto_flx .and. potcon_inp%ipotcn.le.-1) then
          if (idebug.ge.5) call write_log(' contac: calling simpflex')
          call simpflex(ic, hertz%aa, hertz%bb, mater, fric%fstat(), kin, 0)
       endif
@@ -145,9 +146,9 @@ contains
       endif
 
       ! compute the constant part in the rigid slip, i.e. excluding creepages that are unknown
-      ! note for Fastsim + 3 flexibilities + non-Hertzian: flexibilities not yet filled in
+      ! skipped for Fastsim/FaStrip with non-Hertzian option: flexibilities not yet filled in
 
-      if (ic%mater.ne.3 .or. potcon_cur%ipotcn.lt.0) then
+      if (.not.auto_flx .or. potcon_cur%ipotcn.le.-1) then
          if (idebug.ge.5) call write_log(' contac: calling set_tang_rhs')
          call set_tang_rhs(ic, mater, cgrid, kin, geom)
       endif
@@ -370,7 +371,7 @@ contains
       integer,          parameter :: idebug = 0
       type(t_gridfnc3)            :: po1
       integer                     :: ii, it, itout, j, ncon
-      logical                     :: is_ssrol
+      logical                     :: is_ssrol, is_fastsm, auto_flx
       real(kind=8)                :: dif, difid, a_equiv, b_equiv
       character(len=12)           :: strng(4)
 
@@ -380,7 +381,9 @@ contains
 
       call gf3_new(po1, 'panprc:po1', cgrid, ps1%eldiv, nulify=.true.)
 
-      is_ssrol = ic%tang.eq.3
+      is_ssrol  = ic%tang.eq.3
+      is_fastsm = ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5
+      auto_flx  =                    ic%mater.eq.3 .or. ic%mater.eq.5
 
       solv%itnorm = 0
       solv%ittang = 0
@@ -421,15 +424,15 @@ contains
             solv%itnorm = -1
          endif
 
-         ! Fastsim with 3 flexiblities + non-Hertzian 
+         ! Fastsim/FaStrip with 3 flexiblities + non-Hertzian
 
-         if (ic%mater.eq.3 .and. potcon%ipotcn.ge.1) then
+         if (auto_flx .and. potcon%ipotcn.ge.1) then
 
             ! Compute semi-axes of equivalent ellipse
 
             call equiv_ellipse(igs1, a_equiv, b_equiv)
 
-            ! M=3: calculate flexibilities L1,L2,L3 from Hertzian contact ellipse
+            ! M=3,5: calculate flexibilities L1,L2,L3 from equivalent contact ellipse
 
             if (idebug.ge.5) call write_log('panprc: calling simpflex')
             call simpflex(ic, a_equiv, b_equiv, mater, fric%fstat(), kin, 0)
@@ -473,7 +476,7 @@ contains
             call stang_empty(ic, mater, cgrid, fric, solv, outpt1, it, hs1, infl)
             dif = 0d0
 
-         elseif (ic%mater.eq.2 .or. ic%mater.eq.3) then
+         elseif (is_fastsm) then
 
             ! Using Fastsim: Compute the new tangential traction, Pan.process is done
 

@@ -900,7 +900,7 @@ contains
          if (ic%mater.eq.2) then
             write(linp, 5402) mater%flx(1), mater%k0_mf, mater%alfamf, mater%betamf
  5402       format (4g12.4, 10x, 'FLX, K0_MF, ALFA, BETA')
-         elseif (ic%mater.eq.3) then
+         elseif (ic%mater.eq.3 .or. ic%mater.eq.5) then
             write(linp, 5403) mater%k0_mf, mater%alfamf, mater%betamf
  5403       format (3g12.4, 22x, 'K0_MF, ALFAMF, BETAMF')
          endif

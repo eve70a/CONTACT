@@ -898,7 +898,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
          call write_log(' ERROR: the M-digit cannot be set by cntc_setflags (anymore).')
          call write_log('        use cntc_setmaterialparameters instead.')
-         ! my_ic%mater  = max(0, min(4, values(i)))
+         ! my_ic%mater  = max(0, min(5, values(i)))
 
       elseif (params(i).eq.CNTC_ic_iestim) then         ! set I-digit in the RE-CP-data
 
@@ -1351,6 +1351,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 !    2: modified Fastsim, 1 flexibility    params = [ nu1, nu2, g1, g2, flx, k0_mf, alfamf, betamf ]
 !    3: modified Fastsim, 3 flexibilities  params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
 !    4: elastic + elasto-plastic 3rd body  params = [ nu1, nu2, g1, g2, g3, laythk, tau_c0, k_tau ]
+!    5: modified FaStrip                   params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
 ! values >= 10 are used to configure the M2-digit, M2 = imeth - 10
 !   12: force-based proportional damping   params = [ cdampn, cdampt, dfnmax, dftmax ]
 !
@@ -1368,7 +1369,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    integer,      intent(in) :: nparam         ! number of parameters in rparam
    real(kind=8), intent(in) :: rparam(nparam) ! material parameters, dependent on m-digit
 !--local variables:
-   integer, parameter  :: nparam_loc(0:12) = (/ 4, 8, 8, 7, 8, 0, 0, 0, 0, 0, 0, 0, 4 /)
+   integer, parameter  :: nparam_loc(0:12) = (/ 4, 8, 8, 7, 8, 7, 0, 0, 0, 0, 0, 0, 4 /)
    logical             :: set_m_digit, set_m2_digit
    integer             :: ierror
    character(len=*), parameter :: subnam = 'cntc_setMaterialParameters'
@@ -1382,7 +1383,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 
    ! check value of M-digit. 
 
-   set_m_digit  = (imeth.ge.0 .and. imeth.le.4)
+   set_m_digit  = (imeth.ge.0 .and. imeth.le.5)
    set_m2_digit = (imeth.ge.10 .and. imeth.le.12)
    if (.not.set_m_digit .and. .not.set_m2_digit) then
       write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)), ' method',imeth,' does not exist.'
@@ -1394,7 +1395,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 
    if ((nparam_loc(imeth).eq.0 .and. nparam.ge.2) .or.                                                  &
        (nparam_loc(imeth).ne.0 .and. nparam.ne.nparam_loc(imeth))) then
-      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,icp)),' method',imeth,' needs ',             &
+      write(bufout,'(2a,2(i0,a))') trim(pfx_str(subnam,ire,icp)),' method ',imeth,' needs ',            &
                 nparam_loc(imeth),' parameters.'
       call write_log(1, bufout)
       return
@@ -1469,9 +1470,10 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
             call write_log(1, bufout)
          endif
 
-      elseif (imeth.eq.3) then
+      elseif (imeth.eq.3 .or. imeth.eq.5) then
 
-         ! Fastsim, 3 flexiblities - params(5--7) == k0_mf, alfamf, betamf
+         ! 3: Fastsim, 3 flexiblities - params(5--7) == k0_mf, alfamf, betamf
+         ! 5: FaStrip                 - params(5--7) == k0_mf, alfamf, betamf
 
          my_mater%k0_mf    = max(1d-6, rparam(5)) ! [-]
          my_mater%alfamf   = max(1d-6, rparam(6))
