@@ -380,6 +380,7 @@ contains
 
       ! copy kinematic parameters
 
+      gd%kin%dt         = kin%dt
       gd%kin%facphi     = kin%facphi
       gd%kin%use_muscal = kin%use_muscal
 
@@ -868,6 +869,11 @@ contains
       type(t_marker)    :: mwhl_trk
 
       associate(my_rail => trk%rai, my_wheel => ws%whl, gd => cp%gd)
+
+      ! compute derived quantities for use in total-force iteration
+
+      cp%c_hz   = gd%kin%fntrue / max(1d-9, gd%kin%pen)**(1.5)
+      cp%fs_rel = gd%kin%fyrel * gd%kin%muscal
 
       ! rotate forces from contact-reference coordinates to global coordinates
 

@@ -1099,9 +1099,8 @@ contains
 
       k               = 0
       wtd%meta%itforc_out = k
-      eps_out         =       wtd%solv%eps
+      eps_out         = wtd%solv%eps
       eps_inn         = max(1d-4, 10d0 * wtd%solv%eps)
-      wtd%solv%eps    = eps_inn
 
       tol_xk          = eps_out
       tol_fk          = max(1d-6, eps_out * abs(ftarg(1)))
@@ -1115,7 +1114,9 @@ contains
          call set_y_shift(wtd, y_shift)
       endif
 
+      wtd%solv%eps    = eps_inn
       call wr_contact_fz_brent(wtd, iestim_br, sub_ierror)
+      wtd%solv%eps    = eps_out
       if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
       ! store first point { x_1, r_1 } for initial estimate y_shift
@@ -1159,7 +1160,9 @@ contains
          k         = 1
          wtd%meta%itforc_out = k
          iestim_br = 0
+         wtd%solv%eps = eps_inn
          call wr_contact_fz_brent(wtd, iestim_br, sub_ierror)
+         wtd%solv%eps = eps_out
          if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
          ! store second point { x_2, r_2 } for second guess y_shift
@@ -1177,6 +1180,7 @@ contains
       ! while not "done" do
 
       used_bisec = .false.
+      eps_inn    = eps_out
 
       do while (.not.ldone .and. my_ierror.eq.0)
 
@@ -1229,10 +1233,9 @@ contains
             wtd%ws%z = wtd%ws%z + sgn * sin(alph) * (y_shift - yshift_prv)
          endif
 
-         eps_inn         = eps_out
-         wtd%solv%eps    = eps_inn
-
+         wtd%solv%eps = eps_inn
          call wr_contact_fz_brent(wtd, iestim_br, sub_ierror)
+         wtd%solv%eps = eps_out
          if (my_ierror.eq.0 .and. sub_ierror.ne.-2) my_ierror = sub_ierror    ! ignore -2: |res|>tol
 
          ! store new point { x_k, r_k } for y_shift

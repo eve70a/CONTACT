@@ -4103,7 +4103,7 @@ contains
 
             ! compute interpolation factor
 
-            fac = ((dist_turn - dist) / (dist_turn - dist_sep))**(1.0d0)
+            fac = (dist_turn - dist) / (dist_turn - dist_sep)
 
             ! add fac * difference --> accomodating turning from two adjacent contact patches
 
