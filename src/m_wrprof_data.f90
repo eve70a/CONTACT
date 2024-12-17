@@ -313,6 +313,13 @@ public
    end type t_trackdata
 
    !---------------------------------------------------------------------------------------------------------
+   ! additional data for user subroutine to Simpack Rail:
+
+   type :: t_simpack
+
+   end type t_simpack
+
+   !---------------------------------------------------------------------------------------------------------
    ! codes for computation of sensitivities of w/r problems
 
    integer, parameter :: nwsens_out = 3, nwsens_in  = 3
@@ -344,6 +351,7 @@ public
 
       type(t_wheelset) :: ws      ! half wheel-set data, including wheel profile
       type(t_trackdata):: trk     ! half track/roller data, including rail profile
+      type(t_simpack)  :: spck    ! additional data for user subroutine to Simpack
       integer          :: numcps  ! number of 'true' contact problems (gap<0) at current time
       integer          :: n_miss  ! number of 'near miss' contact problems (gap>=0) at current time
       integer          :: numtot  ! total number of contact problems held in allcps
@@ -509,6 +517,17 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine simpack_init(spck)
+!--purpose: Initialize the additional data for the Simpack user-subroutine
+      implicit none
+!--subroutine parameters:
+      type(t_simpack)       :: spck
+!--local variables:
+
+   end subroutine simpack_init
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine wrprof_init(wtd)
 !--purpose: Initialize a wheelset/track data-structure
       implicit none
@@ -546,6 +565,10 @@ contains
       ! initialize track geometry and rail data
 
       call trackdata_init(wtd%trk)
+
+      ! initialize data for user subroutine to Simpack
+
+      call simpack_init(wtd%spck)
 
       ! initialize friction data
 

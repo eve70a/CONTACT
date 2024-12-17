@@ -325,6 +325,7 @@ contains
          ! gd%kin%veloc =   ws%vs
          ! gd%kin%veloc =  (ws%vs - ws%vpitch * ws%nom_radius) / 2d0
          vs_est = vq_tvel_trk%x() - pitch_tvel_trk%x()
+         ! gd%kin%veloc   =   abs(vs_est)
          gd%kin%veloc   =  (abs(vs_est) + abs(pitch_tvel_trk%x())) / 2d0
          if (abs(vs_est).ge.abs(pitch_tvel_trk%x()) .and. vs_est.ge.0d0) then
             gd%kin%chi  = 0d0
@@ -333,7 +334,14 @@ contains
          else
             gd%kin%chi  = pi
          endif
-         gd%kin%dq      =  dqrel * gd%cgrid_inp%dx
+         if (.true.) then
+            gd%kin%dq      =  dqrel * gd%cgrid_inp%dx
+         else
+            gd%kin%dq      =  gd%kin%veloc * gd%kin%dt
+            write(bufout,'(6(a,g12.4))') ' dq1=',dqrel*gd%cgrid_inp%dx,' =',dqrel,' *',gd%cgrid_inp%dx, &
+                                         ', dq2=',gd%kin%dq,' =',gd%kin%veloc,' *',gd%kin%dt
+            call write_log(1, bufout)
+         endif
       else
          vs_est = -vp_tvel_cp%x()
          gd%kin%veloc   =  abs(vp_tvel_cp%x() + vq_tvel_cp%x()) / 2d0

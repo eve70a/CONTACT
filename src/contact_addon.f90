@@ -1606,7 +1606,8 @@ end subroutine cntc_setTemperatureData
 subroutine cntc_setTimestep(ire, icp, dt) &
    bind(c,name=CNAME_(cntc_settimestep))
 !--function: set the time step size dt for a contact problem, particularly for T=0 or 1
-!--category: 1, "m=3 only, cp":     available for module 3 only, working on cp data
+!--category: 5, "m=any, wtd":       available for modules 1 and 3, in module 1 working on wtd data
+!                                   dt is currently ignored in module 1.
    implicit none
 !--subroutine arguments:
    integer,      intent(in) :: ire            ! result element ID
@@ -1620,7 +1621,7 @@ subroutine cntc_setTimestep(ire, icp, dt) &
 #endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
-   call cntc_activate(ire, icp, 3, 1, subnam, ierror)
+   call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
    my_kin%dt  = dt

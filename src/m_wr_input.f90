@@ -46,7 +46,7 @@ contains
 
       associate( ic    => wtd%ic,    meta  => wtd%meta, mater => wtd%mater, discr => wtd%discr,         &
                  kin   => wtd%kin,   fric  => wtd%fric, solv  => wtd%solv,  subs  => wtd%subs,          &
-                 ws    => wtd%ws,    trk   => wtd%trk,  my_wheel => wtd%ws%whl,                         &
+                 ws    => wtd%ws,    trk   => wtd%trk,  spck  => wtd%spck,  my_wheel => wtd%ws%whl,     &
                  my_rail => wtd%trk%rai)
 
       ldebug = 1
@@ -162,7 +162,7 @@ contains
       ! Read input for Z1-digit: track/roller rig design dimensions, profile(s), deviation
       !------------------------------------------------------------------------------------------------------
 
-      call trackdata_input(inpdir, lunit, ncase, linenr, modul, ic, trk, ldebug, ieof, lstop, zerror)
+      call trackdata_input(inpdir, lunit, ncase, linenr, modul, ic, trk, spck, ldebug, ieof, lstop, zerror)
 
       if (my_rail%prr%fname.eq.' ' .and. (ic%ztrack.eq.0 .or. ic%ztrack.eq.2)) then
          zerror = .true.
@@ -175,7 +175,8 @@ contains
       ! Read input for E-digit: wheel-set dimensions, profile, position and velocity
       !------------------------------------------------------------------------------------------------------
 
-      call wheelset_input(inpdir, lunit, ncase, linenr, modul, ic, ws, trk, ldebug, ieof, lstop, zerror)
+      call wheelset_input(inpdir, lunit, ncase, linenr, modul, ic, ws, trk, spck, ldebug, ieof, lstop,  &
+                zerror)
 
       if (my_wheel%prw%fname.eq.' ' .and.                                                               &
           (ic%ewheel.eq.1 .or. ic%ewheel.eq.2 .or. ic%ewheel.eq.4)) then
@@ -255,7 +256,7 @@ contains
 
       associate( ic    => wtd%ic,    meta  => wtd%meta, mater => wtd%mater, discr => wtd%discr,         &
                  kin   => wtd%kin,   fric  => wtd%fric, solv  => wtd%solv,  subs  => wtd%subs,          &
-                 ws    => wtd%ws,    trk   => wtd%trk,  my_wheel => wtd%ws%whl,                         &
+                 ws    => wtd%ws,    trk   => wtd%trk,  spck  => wtd%spck,  my_wheel => wtd%ws%whl,     &
                  my_rail => wtd%trk%rai)
 
       ieof   = -1 ! eof is considered an error
@@ -387,11 +388,13 @@ contains
 
          ! Read input for Z1-digit: track/roller rig design dimensions, profile(s), deviation
 
-         call trackdata_input(inpdir, lspck, ncase, linenr, modul, ic, trk, ldebug, ieof, lstop, zerror)
+         call trackdata_input(inpdir, lspck, ncase, linenr, modul, ic, trk, spck, ldebug, ieof, lstop,  &
+                zerror)
 
          ! Read input for E-digit: wheel-set dimensions, profile, position and velocity
 
-         call wheelset_input(inpdir, lspck, ncase, linenr, modul, ic, ws, trk, ldebug, ieof, lstop, zerror)
+         call wheelset_input(inpdir, lspck, ncase, linenr, modul, ic, ws, trk, spck, ldebug, ieof,      &
+                lstop, zerror)
 
          ! read subsurface points
 
@@ -459,7 +462,7 @@ contains
 
       zerror = zerror .or. .not.check_range ('DX', discr%dx, 1d-8, 1d20)
       zerror = zerror .or. .not.check_range ('DS', discr%ds, 1d-8, 1d20)
-      zerror = zerror .or. .not.check_range ('DQREL', discr%dqrel, 1d-5, 10d0)
+      zerror = zerror .or. .not.check_range ('DQREL', discr%dqrel, 5d-7, 10d0)
 
       ! in transient cases, check element sizes of new/previous case
 
@@ -496,7 +499,8 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine trackdata_input(inpdir, lunit, ncase, linenr, modul, ic, trk, ldebug, ieof, lstop, zerror)
+   subroutine trackdata_input(inpdir, lunit, ncase, linenr, modul, ic, trk, spck, ldebug, ieof, lstop,  &
+                        zerror)
 !--purpose: read material parameters for temperature calculation
       implicit none
 !--subroutine arguments:
@@ -505,6 +509,7 @@ contains
       integer, intent(inout)    :: linenr, ieof
       type(t_ic)                :: ic
       type(t_trackdata)         :: trk
+      type(t_simpack)           :: spck
       logical, intent(in)       :: lstop
       logical, intent(inout)    :: zerror
 !--local variables:
@@ -620,7 +625,8 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wheelset_input(inpdir, lunit, ncase, linenr, modul, ic, ws, trk, ldebug, ieof, lstop, zerror)
+   subroutine wheelset_input(inpdir, lunit, ncase, linenr, modul, ic, ws, trk, spck, ldebug, ieof,      &
+                lstop, zerror)
 !--purpose: read input for E-digit: wheel-set dimensions, profile, position and velocity
       implicit none
 !--subroutine arguments:
@@ -630,6 +636,7 @@ contains
       type(t_ic)                :: ic
       type(t_wheelset)          :: ws
       type(t_trackdata)         :: trk
+      type(t_simpack)           :: spck
       logical, intent(in)       :: lstop
       logical, intent(inout)    :: zerror
 !--local variables:
@@ -793,8 +800,8 @@ contains
 
       call ic_copy(wtd%ic, tmp_ic)      ! create local copy of configuration
 
-      associate(ic    => tmp_ic,   mater => wtd%mater, discr => wtd%discr, kin   => wtd%kin,        &
-                fric  => wtd%fric, solv  => wtd%solv,  ws    => wtd%ws,    trk   => wtd%trk  )
+      associate(ic    => tmp_ic,   mater => wtd%mater, discr => wtd%discr, kin   => wtd%kin,            &
+                fric  => wtd%fric, solv  => wtd%solv,  ws    => wtd%ws,    trk   => wtd%trk)
 
       if (ic%wrtinp.ge.2) then
          ic%frclaw_inp  = wtd%fric%frclaw_eff     ! write friction to inp-file
@@ -804,7 +811,6 @@ contains
          if (max(mater%cdampn,mater%cdampt).ge.1d-15) ic%mater2 = 2
          ic%ewheel      = max(3, ic%ewheel)       ! TODO: check writing of wheelset flexibility
          ic%ztrack      = 3
-
       endif
 
       if (ncase.gt.0) write(linp,'(a,i0)') '% Next case ', ncase
@@ -1016,8 +1022,8 @@ contains
             write(linp, 8201) ws%x, ws%y, ws%fz_inp, 'X', 'FZ'
          endif
          write(linp, 8203) ws%roll, ws%yaw, ws%pitch
- 8201    format( 3(g14.7, 1x), 13x, '% ',a,', Y, ',a)
- 8203    format( 3(g14.7, 1x), 13x, '% ROLL, YAW, PITCH')
+ 8201    format( 3(g15.8, 1x), 13x, '% ',a,', Y, ',a)
+ 8203    format( 3(g15.8, 1x), 13x, '% ROLL, YAW, PITCH')
       endif
 
       if (ic%ewheel.ge.2) then
@@ -1026,7 +1032,7 @@ contains
          else
             write(linp, 8301) trk%vpitch_rol, ws%vy,     ws%vz, 'VPITCH_ROL'
          endif
- 8301    format( 3(g14.7, 1x), 13x, '% ',a,', VY, VZ')
+ 8301    format( 3(g15.8, 1x), 13x, '% ',a,', VY, VZ')
 
          if (ic%force1.eq.0 .or. ic%force1.eq.3) then
             write(linp, 8303) ws%vroll, ws%vyaw,   ws%vpitch, 'VPITCH'
@@ -1035,7 +1041,7 @@ contains
          elseif (ic%force1.eq.2) then
             write(linp, 8303) ws%vroll, ws%vyaw,   ws%my_inp, 'MY'
          endif
- 8303    format( 2(g14.7, 1x), g16.9, 12x, '% VROLL, VYAW, ',a)
+ 8303    format( 2(g15.8, 1x), g16.9, 12x, '% VROLL, VYAW, ',a)
       endif
 
       ! write flexible wheelset deviations
