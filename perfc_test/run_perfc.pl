@@ -44,8 +44,8 @@ my $test_2dcases=1;
 my $test_parall=1;
 
 # shortest tests only: about  5 min
-# including "1min":    about 20 min
-# including "10min":   about  1 hour
+# including "1min":    about 15 min
+# including "10min":   about 40 min
 
 # run tests that may take around one minute / 10 minutes to compute?
 my $test_1min=1;
@@ -122,9 +122,9 @@ if ( $test_tang == 1 ) {
 
 if ( $test_mbench == 1 ) {
    my @list=("20kn_coarseprf", "20kn_dx05_zpos", "20kn_dx02_zpos",
-             "100kn_coarseprf", "100kn_dx05_zpos" );
+             "100kn_coarseprf", "100kn_dx05_zpos", "100kn_dx02_zpos" );
    if ( $test_1min > 0 ) {
-      @list=(@list, "20kn_dx02_fz", "100kn_dx02_zpos", "100kn_dx02_fz" );
+      @list=(@list, "20kn_dx02_fz", "100kn_dx02_fz" );
    }
    foreach my $tst ( @list ) {
       print " Starting problem mbench_$tst -------------------------\n";
