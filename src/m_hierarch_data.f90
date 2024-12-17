@@ -174,6 +174,7 @@ public
       integer :: return
       integer :: ilvout
       logical :: print_pmax
+      logical :: print_uxavg
 
    contains
       procedure :: is_left_side     => ic_is_left_side
@@ -396,7 +397,8 @@ public
       ! r, return   return to main program.
       !              0 = calculate, stay in module, 1 = calculate and return,
       !              2 = skip calculation, stay, 3 = skip calculation and return
-      ! print_pmax  .true.: compute/show pmax with aggregate results per patch
+      ! print_pmax  .true.: compute/show pmax in aggregate results per patch
+      ! print_uxavg .true.: compute/show ux_avg in aggregate results per patch
       !    ilvout   level of output to screen and .out-file, mainly for testing
       !              0 = minimum output, 1 = normal output
 
@@ -996,7 +998,8 @@ contains
       ic%x_nmdbg  = 0
       ic%wrtinp   = 0
       ic%return   = 1
-      ic%print_pmax = .true.
+      ic%print_pmax  = .true.
+      ic%print_uxavg = .false.
       ic%ilvout   = 1
 
    end subroutine ic_init

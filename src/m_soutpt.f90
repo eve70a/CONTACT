@@ -69,9 +69,9 @@ contains
       type(t_probdata)         :: gd
 !--local variables :
       integer, parameter       :: idebug = 3, nd = 4
-      integer      :: ii, i, j, iin, iout, lstrow, ncon, nadh, nslip, nplast, nexter
+      integer      :: ik, ii, i, j, iin, iout, lstrow, ncon, nadh, nslip, nplast, nexter
       logical      :: znewln, is_roll, is_ssrol, use_plast
-      real(kind=8) :: tmp1mx, tmp2mx, hmp, trcbnd, ptabs, ptarg, rhsx, rhsy, fxtrue, fytrue
+      real(kind=8) :: tmp1mx, tmp2mx, hmp, trcbnd, ptabs, ptarg, rhsx, rhsy, fxtrue, fytrue, us_avg(3)
       character(len= 9) :: str_muscal
       character(len=12) :: strng(max(20, nsens_in*nsens_out))
       type(t_gridfnc3) :: tmp
@@ -486,6 +486,14 @@ contains
          pmax  = 0d0
          if (ic%print_pmax) pmax  = gf3_max(AllElm, ps1, ikZDIR)
 
+         ! compute average displacement differences
+
+         if (ic%print_uxavg) then
+            do ik = 1, 3
+               us_avg(ik) = gf3_sum(AllInt, us1, ik) / real(ncon)
+            enddo
+         endif
+
       endif ! true
 
       ! Here ends the calculating module of output.
@@ -545,6 +553,10 @@ contains
          strng(9)  = fmt_gs(12,nd, 4, pmax)
          ! write(strng(9),'(f12.8)') pmax
       endif
+      if (ic%print_uxavg) then
+         strng(8)  = '  UX_AVG    '
+         strng(10) = fmt_gs(12,nd, 4, us_avg(1))
+      endif
       if (ic%heat.ge.1) then
          tmp1mx = gf3_max(AllElm, temp1, ikZDIR)
          tmp2mx = gf3_max(AllElm, temp2, ikZDIR)
@@ -559,7 +571,7 @@ contains
          endif
       endif
 
-      if (ic%heat.ge.1) then
+      if (ic%heat.ge.1 .or. ic%print_uxavg) then
          write(lout,8511) (strng(j), j=1,2), strng(7), strng(8)
          write(lout,8512) (strng(j), j=3,6), strng(9), strng(10)
       elseif (ic%print_pmax) then

@@ -6,7 +6,7 @@ function [creep, force, subs_max] = parse_out3(fname, use_struct, idebug)
 %
 % Reads CONTACT output for basic contact cases (module 3) from out-file fname and 
 % returns the overall values from it:
-%   creep    = struct with creepages    [pen, cksi, ceta, cphi, ncon, nadh, nslip; nplast]
+%   creep    = struct with creepages    [pen, cksi, ceta, cphi, uxavg, ncon, nadh, nslip, nplast]
 %   force    = struct with total forces [fn, fx, fy, mz, el.en, fricw, pmax, temp1, temp2]
 %   subs_max = struct with maximum subsurface stresses and locations
 %                                       [sighyd, sigvm, sigtr, sigma1, sigma3, sigxx, sigyy, sigzz]
@@ -59,7 +59,7 @@ nsubs_keys = size(subs_keys,1);
 
 % parse the contents of the file
 
-pen = []; cksi = []; ceta = []; cphi = [];
+pen = []; cksi = []; ceta = []; cphi = []; uxavg = [];
 fn = []; fx = []; fy = []; mz = []; elen = []; fric = []; pmax = []; temp1 = []; temp2 = [];
 ncon = []; nadh = []; nslip = []; nplast = [];
 subs_max = [];
@@ -82,7 +82,7 @@ while(~feof(f))
 
       % initialize output-values for this case
 
-      pen(icase)=NaN;  cksi(icase)=NaN; ceta(icase)=NaN;  cphi(icase)=NaN;
+      pen(icase)=NaN;  cksi(icase)=NaN; ceta(icase)=NaN;  cphi(icase)=NaN;   uxavg(icase)=NaN;
       fn(icase)=NaN;   fx(icase)=NaN;   fy(icase)=NaN;    mz(icase)=NaN;
       elen(icase)=NaN; fric(icase)=NaN; pmax(icase)=NaN;  temp1(icase)=NaN;  temp2(icase)=NaN;
       ncon(icase)=NaN; nadh(icase)=NaN; nslip(icase)=NaN; nplast(icase)=NaN;
@@ -163,6 +163,9 @@ while(~feof(f))
       end
       if (~isempty(strfind(s2, 'PMAX')))        % >= v22.1
          pmax(icase)  = tmp(5);
+      end
+      if (~isempty(strfind(s2, 'UX_AVG')))       % >= v24.2
+         uxavg(icase) = tmp(6);
       end
       if (~isempty(strfind(s2, 'MAX(T1,T2)')))  % >= v22.1
          temp1(icase) = tmp(6);
@@ -246,7 +249,7 @@ fclose(f);
 
 if (use_struct)
    sol = struct;
-   sol.creep = struct('pen',pen, 'cksi',cksi, 'ceta',ceta, 'cphi',cphi, ...
+   sol.creep = struct('pen',pen, 'cksi',cksi, 'ceta',ceta, 'cphi',cphi, 'uxavg',uxavg, ...
                       'ncon',ncon, 'nadh',nadh, 'nslip',nslip, 'nplast',nplast);
    sol.force = struct('fn',fn, 'fx',fx, 'fy',fy, 'mz',mz, 'elen',elen, ...
                       'pmax',pmax, 'temp1',temp1, 'temp2',temp2);
