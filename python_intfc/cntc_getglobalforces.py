@@ -49,7 +49,7 @@ from ctypes                import c_int, c_double, POINTER
 
 def cntc_getglobalforces(ire=1, icp=-1):
 
-    lenarr = 30
+    lenarr = 24
     values = np.zeros(lenarr, dtype=c_double)
 
     cntc_dll.cntc_getglobalforces(c_int(ire), c_int(icp), c_int(lenarr), 

@@ -53,7 +53,7 @@ function [ values ] = cntc_getglobalforces(ire, icp)
       icp = -1;   % default: sum over all contact patches
    end
 
-   lenarr = 30;
+   lenarr = 24;
    p_values = libpointer('doublePtr',zeros(lenarr,1));
 
    calllib(libname,'cntc_getglobalforces', ire, icp, lenarr, p_values);
