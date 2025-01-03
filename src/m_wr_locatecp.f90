@@ -313,7 +313,7 @@ contains
       integer,          intent(out)   :: my_ierror
 !--local variables:
       integer,       parameter :: max_n_miss = 2
-      integer                  :: sub_ierror, numcp0, icp
+      integer                  :: sub_ierror, numcp0, icp, nr
       logical                  :: rgn_has_overlap
       real(kind=8)             :: sgn, rgn_gap_min
       type(t_vec)              :: vec_trk
@@ -357,12 +357,14 @@ contains
       call cartgrid_2glob(prr_rgn, rai_vw)
 
       if (ic%x_locate.ge.3) then
-         write(bufout,123) 'rail(1): y"=',sgn*prr_rgn%y(1),', z"=',prr_rgn%z(1)
+         nr = prr_rgn%ntot
+         write(bufout,123) ' rail: y(1)"=',sgn*prr_rgn%y(1),', z(1)"=',prr_rgn%z(1),', n=',nr,          &
+                           ', y(n)"=',sgn*prr_rgn%y(nr),', z(n)"=',prr_rgn%z(nr)
          call write_log(1, bufout)
- 123     format(1x, 3(a, f12.6, :))
+ 123     format(2(a,f12.6),a,i0,2(a,f12.6))
       endif
 
-      ! no trimming, add top-view for consistent uni-valued interpolation
+      ! no trimming, rail may have underside included. add top-view for consistent uni-valued interpolation
       ! TODO: avoid top-view by appropriately defined 'region' and 'view direction'
 
       if (ic%x_locate.ge.3) call spline_set_debug(2)
@@ -1114,7 +1116,7 @@ contains
 !--local variables:
       logical                 :: is_prismatic
       integer                 :: nslc, nr, nx, ny, is_right, sub_ierror
-      real(kind=8)            :: fac_dyds, xmin_vw, xmax_vw, dx_vw, ymin, ymax, dy, sgn, z_axle
+      real(kind=8)            :: fac_dyds, xmin_vw, xmax_vw, dx_vw, ymin, ymax, ymid, yrng, dy, sgn, z_axle
       type(t_marker)          :: rw_trk, rw_vw, rr_vw
       type(t_rail),   pointer :: my_rail
       type(t_wheel),  pointer :: my_wheel
@@ -1194,9 +1196,14 @@ contains
       fac_dyds = 0.5d0
       if (ic%use_steep_slopes()) fac_dyds = 0.2d0
 
-      ymin = prr_rgn%y(2)
-      ymax = prr_rgn%y(nr-1)
       dy   = fac_dyds * ds_cp * 1.5d0   ! increase step by 1.5 to gain some performance
+
+      call grid_get_yrange(prr_rgn, ymin, ymax)
+      ymid = (ymin+ymax) / 2d0
+      yrng = (ymax-ymin)
+      ny   = floor(yrng / dy) + 1
+      ymin = ymid - (ny-1)*dy/2d0
+      ymax = ymid + (ny-1)*dy/2d0
 
       call grid_create_uniform(gap_mesh, x0arg=xmin_vw, dxarg=dx_vw, x1arg=xmax_vw,                     &
                                          y0arg=ymin, dyarg=dy, y1arg=ymax, zarg=0d0)
