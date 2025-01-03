@@ -23,8 +23,7 @@ program test_table
    integer                 :: mx, my, ipotcn, gdigit, ldigit, mdigit, maxgs, maxnr, maxin, maxout,      &
                               inislp, kdowfb
    real(kind=8)            :: g1, nu1, k0mf, alfamf, betamf, scale, fstat, fkin, veloc, eps, omegah,    &
-                              omegas, omgslp, fdecay, betath, d_ifc, d_lin, d_cns, d_slp, pow_s,        &
-                              a1, aob, dx, dy
+                              omegas, omgslp, fdecay, betath, d_ifc, d_lin, d_cns, d_slp, pow_s, dx, dy
    real(kind=8)            :: cmgn, cang, cksi, ceta, cphi, fn, fx, fy, mz, carea, harea, sarea
    integer                 :: iell, ispin, ivang, ivmgn, irem, icase
    integer, parameter      :: num_ellip   = 5
@@ -32,14 +31,14 @@ program test_table
    integer, parameter      :: num_vecangl = 7
    integer, parameter      :: num_vecmagn = 23
    integer, parameter      :: ncase = num_ellip * num_spin * num_vecangl * num_vecmagn
-   real(kind=8), parameter :: ellip(num_ellip)   = (/ 0.2      , 0.5      , 1.0      , 2.0      , 5.0       /)
-   real(kind=8), parameter :: cp   (num_ellip)   = (/ 0.9063561, 0.7580279, 0.6463304, 0.5351031, 0.3978158 /)
-   real(kind=8), parameter :: rho  (num_ellip)   = (/ 1.844071 , 1.479543 , 1.0      , 0.5204566, 0.1559291 /)
-   real(kind=8), parameter :: spin   (num_spin)    = (/ 0.0, 0.5, 1.0, 2.0 /)
+   real(kind=8), parameter :: ellip(num_ellip)     = (/ 0.2, 0.5, 1.0,  2.0,  5.0 /)
+   real(kind=8), parameter :: aa(num_ellip)        = (/ 4.0, 6.0, 9.0, 12.0, 20.0 /)
+   real(kind=8), parameter :: spin   (num_spin)    = (/ 0.0, 0.5, 1.0,  2.0 /)
    real(kind=8), parameter :: vecangl(num_vecangl) = (/ -pi/2, -pi/3, -pi/6, 0d0, pi/6, pi/3, pi/2 /)
    real(kind=8), parameter :: vecmagn(num_vecmagn) = (/ 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.1, 1.4, &
                                                         1.7, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 7.0, 8.0, &
                                                         9.0, 10., 12.  /)
+   real(kind=8)            :: cp(num_ellip), rho(num_ellip)
    integer                 :: ncon_list(ncase), nslp_list(ncase)
    real(kind=8)            :: fx_list(ncase), fy_list(ncase), mz_list(ncase)
 !--external functions used:
@@ -128,7 +127,7 @@ program test_table
       rparam(1:2) = (/ fstat, fkin /)
       call cntc_setFrictionMethod(ire, icp, ldigit, 2, rparam)
 
-      g1     = 1d0
+      g1     = 82000d0
       nu1    = 0.28d0
       k0mf   = 1d0
       alfamf = 1d0
@@ -140,11 +139,13 @@ program test_table
          call cntc_setMaterialParameters(ire, icp, mdigit, 7, rparam)
       endif
 
-      veloc = 30000d0
+      veloc = 10000d0
       call cntc_setReferenceVelocity(ire, icp, veloc)
 
-      fn  = 1d0
+      fn    = g1
       call cntc_setNormalForce(ire, icp, fn)
+
+      call cntc_setCreepages(ire, icp, 0d0, 0d0, 0d0)
 
       maxgs   = 299
       maxnr   =  30
@@ -178,15 +179,45 @@ program test_table
          call cntc_setSolverFlags(ire, icp, gdigit, 4, iparam, 1, rparam)
       endif
 
-   end do
+      ! loop over ellipticity values, compute Hertzian cases to get rho and cp
+
+      do iell = 1, num_ellip
+
+         ! set the semi-axes for the case
+
+         ipotcn = -3       ! semi-axes aa, bb
+         scale  = real(mx) / real(max(1, mx-4))
+
+         rparam(1) = real(mx)
+         rparam(2) = real(my)
+         rparam(3) = aa(iell)
+         rparam(4) = aa(iell) / ellip(iell)
+         rparam(5) = scale
+         call cntc_setHertzContact(ire, icp, ipotcn, 5, rparam)
+
+         ! solve the contact problem
+
+         call cntc_calculate(ire, icp, ierr)
+
+         ! get parameters of Hertzian solution
+
+         call cntc_getHertzContact(ire, icp, 6, rparam)
+         rho(iell) = rparam(5)
+         cp(iell)  = rparam(6)
+         write(*,'(a,i0,a,f5.1,2(a,g12.4))') 'iell=',iell,', a/b=',ellip(iell),': rho=',rho(iell),      &
+                        ', cp=',cp(iell)
+
+      enddo ! iell
+
+   enddo ! ire
 
    ! Calculate and print results for both Result Elements
 
 !$omp parallel &
 !$omp    default(none)  &
-!$omp    shared(icp, mx, my, fx_list, fy_list, mz_list, ncon_list, nslp_list, fstat)                    &
-!$omp    private(ithrd, ire, ivmgn, ivang, ispin, iell, irem, ierr, ipotcn, a1, aob, scale, dx, dy,     &
-!$omp            rparam,    cmgn, cang, cksi, ceta, cphi, fn, fx, fy, mz, carea, harea, sarea)
+!$omp    shared(icp, mx, my, cp, rho, fx_list, fy_list, mz_list, ncon_list, nslp_list, fstat)           &
+!$omp    private(ithrd, ire, ivmgn, ivang, ispin, iell, irem, ierr, ipotcn, scale, dx, dy,              &
+!$omp            flags, values, rparam, cmgn, cang, cksi, ceta, cphi, fn, fx, fy, mz, carea, harea, sarea)
 !$omp do
    do icase = 1, ncase
 
@@ -214,22 +245,17 @@ program test_table
       irem  = (irem - (ispin-1)) / num_spin
       iell  = mod(irem   , num_ellip  ) + 1
 
-      ! set the ellipticity for the case
+      ! set the semi-axes for the case
 
-      ipotcn = -2       ! ellipticity aob
-      a1     = 1d0
-      aob    = ellip(iell)
+      ipotcn = -3       ! semi-axes aa, bb
       scale  = real(mx) / real(max(1, mx-4))
 
       rparam(1) = real(mx)
       rparam(2) = real(my)
-      rparam(3) = a1
-      rparam(4) = aob
+      rparam(3) = aa(iell)
+      rparam(4) = aa(iell) / ellip(iell)
       rparam(5) = scale
       call cntc_setHertzContact(ire, icp, ipotcn, 5, rparam)
-
-      ! solve the Hertzian problem: obtain Cp, Rho, Dx, Dy
-      ! call hzsol(gd%ic, gd%geom, gd%potcon, gd%hertz, gd%kin, gd%mater)
 
       ! set the creepages - undo scaling of non-dimensionalised values
 
@@ -247,15 +273,13 @@ program test_table
                 ', spin=',spin(ispin), ', angl=',vecangl(ivang),', mgn=',vecmagn(ivmgn)
       endif
 
-#ifndef _OPENMP
+      flags = 0 ; values = 0
       if (icase.eq.1) then
-         flags = 0 ; values = 0
          flags(1) = CNTC_ic_output ; values(1) = 2
       else
          flags(1) = CNTC_ic_output ; values(1) = 0
       endif
       call cntc_setFlags(ire, icp, 1, flags, values)
-#endif
 
       ! solve the contact problem
 
