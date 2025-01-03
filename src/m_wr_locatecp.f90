@@ -2768,7 +2768,7 @@ contains
          ! 5.i compute improved estimates for ysta, yend using interpolation
 
          if (cp%gap_min.ge.0d0) then
-            ii_s = locmin(2,ilcmin)
+            ii_s = locmin(2,ilcmin)     ! positive gap: empty interval [ysta,yend]
             ysta = y(ii_s)
             zsta = zr(ii_s)
             ii_n = ii_s
@@ -2788,6 +2788,7 @@ contains
                ysta = y(ii_s) - gap(ii_s) * (y(ii_s+1) - y(ii_s)) / dgap
                zsta = zr(ii_s) - gap(ii_s) * (zr(ii_s+1) - zr(ii_s)) / dgap
             endif
+
             dgap = gap(ii_n-1) - gap(ii_n)
             has_zero = (gap(ii_n)*gap(ii_n-1).le.-1d-12 .and. abs(dgap).ge.1d-9)
             if (.not.has_zero) then
@@ -2827,8 +2828,8 @@ contains
 
          ! 5.j extend pot.contact beyond first/last points of gap function (???)
 
-         if (iy_sta.eq. 1) cp%ysta = min(cp%ysta, 2d0*cp%wgt_ygap - y(ii_n))
-         if (iy_end.eq.ny) cp%yend = max(cp%yend,                   y(ii_s))
+         if (iy_sta.eq. 1) cp%ysta = min(cp%ysta, cp%wgt_ygap - (y(ii_n) - cp%wgt_ygap))
+         if (iy_end.eq.ny) cp%yend = max(cp%yend, cp%wgt_ygap + (cp%wgt_ygap - y(ii_s)))
 
          if (ic%x_locate.ge.3) then
             write(bufout,'(2(a,i4,a,f12.6))') '   y(',iy_sta,')=', y(ii_s),  ',   y(',iy_end,')=',y(ii_n)
