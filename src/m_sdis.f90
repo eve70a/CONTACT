@@ -90,7 +90,8 @@ contains
 
       ! (re-)allocate hs1 at the appropriate size
 
-      call gf3_new(geom%hs1, 'geom%hs1', cgrid)
+      call gf3_new(geom%hs1,   'geom%hs1',   cgrid)
+      call gf3_new(geom%exrhs, 'geom%exrhs', cgrid)
 
       ! (re-)allocate arrays for friction coefficients, tractions, displacements and shift
 
@@ -510,14 +511,22 @@ contains
       logical                   :: is_roll
       real(kind=8)              :: facx, facy, xofs_dq, yofs_dq
 
-      associate(cksi   => kin%cksi,   ceta   => kin%ceta,   cphi   => kin%cphi,                         &
+      associate(cksi   => kin%cksi,   ceta   => kin%ceta,   cphi   => kin%cphi, prmrig => geom%prmrig,  &
                 spinxo => kin%spinxo, spinyo => kin%spinyo, hs1    => geom%hs1, exrhs  => geom%exrhs)
 
       is_roll = ic%tang.eq.2 .or. ic%tang.eq.3
 
       if (ic%rztang.ne.1 .and. ic%rztang.ne.9) then
-         call gf3_new(exrhs, 'geom%exrhs', cgrid)
          call gf3_set(AllElm, 0d0, exrhs, ikTANG)
+      endif
+
+      if (ic%rztang.eq.9) then
+         ! unpack parameters for rigid slip: extra rhs
+
+         do ii = 1, cgrid%ntot
+            geom%exrhs%vx(ii) = prmrig(2*ii-1)
+            geom%exrhs%vy(ii) = prmrig(2*ii  )
+         enddo
       endif
 
       ! offset 1/6 dq used in rolling problems:

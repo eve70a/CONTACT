@@ -444,8 +444,8 @@ contains
       real(kind=8)          :: dqrel
 !--local variables:
       logical, parameter    :: project_on_cref = .false.
-      integer               :: ii, iimin, iidbg, is_right
-      real(kind=8)          :: sgn, dst2, dstmin, zmin, zmax
+      integer               :: npot, ii, iimin, iidbg, is_right
+      real(kind=8)          :: sgn, dst2, dstmin, zmin, zmax, veloci
       type(t_marker)        :: m_rol, mrol_cp, mr_rol, mr_cp, mw_arm, mw_trk, mw_cp, mws_cp
       type(t_vec)           :: rail_tvel_rol, rail_rvel_rol, rail_tvel_trk, rail_rvel_trk,              &
                                rail_tvel_cp, rail_rvel_cp,                                              &
@@ -742,7 +742,7 @@ contains
       gd%kin%cksi   = 0d0
       gd%kin%ceta   = 0d0
       gd%kin%cphi   = 0d0
-      gd%ic%rztang  = 1
+      gd%ic%rztang  = 9
 
       if (idebug.ge.4) then
          call write_log(' velocity of contact point on wheel w.r.t. O_trk')
@@ -782,27 +782,26 @@ contains
          endif
       endif
 
-      ! store rigid slip in exrhs: { velocity of rail/roller (1) - velocity of wheel (2) } / ref. velocity
+      ! store rigid slip in prmrig: { velocity of rail/roller (1) - velocity of wheel (2) } / ref. velocity
 
-      call gf3_new(gd%geom%exrhs, 'geom%exrhs', gf_tvel_rail%grid)
-      call gf3_copy(AllElm, gf_tvel_rail, gd%geom%exrhs, ikTANG)
-      call gf3_axpy(AllElm, -1d0, gf_tvel_whl, gd%geom%exrhs, ikTANG)
+      npot = gd%cgrid_inp%ntot
+      call reallocate_arr(gd%geom%prmrig, 2*npot) ! elements ordered wx1,wy1, wx2,wy2, wx3,...
 
-      if (abs(gd%kin%veloc).gt.1d-6) then
-         call gf3_scal(AllElm, 1d0/gd%kin%veloc, gd%geom%exrhs, ikTANG)
-      endif
+      veloci = 1d0
+      if (abs(gd%kin%veloc).gt.1d-6) veloci = 1d0 / gd%kin%veloc
 
-      ! move planar part from exrhs to creepages cksi, ceta, cphi
+      do ii = 1, npot
+         gd%geom%prmrig(2*ii-1) = (gf_tvel_rail%vx(ii) - gf_tvel_whl%vx(ii)) * veloci
+         gd%geom%prmrig(2*ii  ) = (gf_tvel_rail%vy(ii) - gf_tvel_whl%vy(ii)) * veloci
+      enddo
+
+      ! move planar part from prmrig to creepages cksi, ceta, cphi
 
       if (idebug.ge.4) then
-         write(bufout,'(a,i0,a)') ' patch icp= ',icp,': extracting planar creepages from exrhs'
+         write(bufout,'(a,i0,a)') ' patch icp= ',icp,': extracting planar creepages from prmrig'
          call write_log(1, bufout)
       endif
-      call extract_creepages( gd%ic, gd%cgrid_inp, gd%kin, gd%geom%prmudf, gd%geom%exrhs )
-
-      if (idebug.ge.4) then
-         call gf3_print(gd%geom%exrhs, 'exrhs', ikTANG, 4)
-      endif
+      call extract_creepages( gd%ic, gd%cgrid_inp, gd%kin, gd%geom%prmudf, gd%geom%prmrig )
 
       call gf3_destroy(gf_tvel_rail)
       call gf3_destroy(gf_tvel_whl)
@@ -814,15 +813,14 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine extract_creepages( ic, cgrid, kin, prmudf, exrhs )
-!--purpose: define equivalent creepages, extracting contributions from exrhs
+   subroutine extract_creepages( ic, cgrid, kin, prmudf, prmrig )
+!--purpose: define equivalent creepages, extracting contributions from prmrig
       implicit none
 !--subroutine arguments:
       type(t_ic)                 :: ic
       type(t_grid)               :: cgrid
       type(t_kincns)             :: kin
-      type(t_gridfnc3)           :: exrhs
-      real(kind=8), dimension(:) :: prmudf
+      real(kind=8), dimension(:) :: prmudf, prmrig
 !--local variables:
       logical               :: is_roll
       integer               :: ii, ncon
@@ -869,9 +867,9 @@ contains
             x_avg   = x_avg   + xofs
             y_avg   = y_avg   + yofs
             dst_avg = dst_avg + xofs**2 + yofs**2
-            wx_avg  = wx_avg  + exrhs%vx(ii)
-            wy_avg  = wy_avg  + exrhs%vy(ii)
-            wz_avg  = wz_avg  + xofs * exrhs%vy(ii) - yofs * exrhs%vx(ii)
+            wx_avg  = wx_avg  + prmrig(2*ii-1)
+            wy_avg  = wy_avg  + prmrig(2*ii  )
+            wz_avg  = wz_avg  + xofs * prmrig(2*ii) - yofs * prmrig(2*ii-1)
          endif
       enddo
 
@@ -903,16 +901,15 @@ contains
       kin%cksi =  wx_avg + y_avg * kin%cphi
       kin%ceta =  wy_avg - x_avg * kin%cphi
 
-      ! extract (cksi, ceta, cphi) from exrhs
+      ! extract (cksi, ceta, cphi) from prmrig
 
       do ii = 1, npot
          xofs   = x(ii) + xofs_dq - kin%spinxo
          yofs   = y(ii) + yofs_dq - kin%spinyo
-         exrhs%vx(ii) = exrhs%vx(ii) - kin%cksi + yofs * kin%cphi
-         exrhs%vy(ii) = exrhs%vy(ii) - kin%ceta - xofs * kin%cphi
+         prmrig(2*ii-1) = prmrig(2*ii-1) - kin%cksi + yofs * kin%cphi   ! wx
+         prmrig(2*ii  ) = prmrig(2*ii  ) - kin%ceta - xofs * kin%cphi   ! wy
       enddo
 
-      if (ic%x_nmdbg.ge.1) call gf3_check_nan(exrhs, 'extract_creepage: exrhs', AllElm, ikTANG, 2)
       end associate
 
    end subroutine extract_creepages

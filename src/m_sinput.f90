@@ -52,10 +52,9 @@ contains
 !--local variables:
       logical, parameter :: lstop  = .true.
       integer        :: ncase, ieof, ierror
-      integer        :: ii, line0, idebug, npot
+      integer        :: line0, idebug, npot
       logical        :: zerror
       integer        :: idum(1)
-      real(kind=8), dimension(:), allocatable :: tmp
 
       ncase = meta%ncase
       ieof  = -1 ! eof=error
@@ -284,19 +283,14 @@ contains
 
       if (ic%rztang.eq.9) then
 
-         ! re-allocate exrhs at the appropriate size
-
-         call gf3_new(geom%exrhs, 'geom%exrhs', cgrid)
+         ! re-allocate prmrig at the appropriate size
 
          npot = potcon_inp%npot
-         allocate(tmp(2*npot))
+         call reallocate_arr(geom%prmrig, 2*npot)
+
          call read1darr(linp, ncase, linenr, 'extra term in rigid slip of elements', 'd', 2*npot,       &
-                           idum, tmp, idebug, lstop, ierror)
-         do ii = 1, npot
-            geom%exrhs%vx(ii) = tmp(2*ii-1)
-            geom%exrhs%vy(ii) = tmp(2*ii  )
-         enddo
-         deallocate(tmp)
+                           idum, geom%prmrig, idebug, lstop, ierror)
+         zerror = zerror .or. (ierror.ne.0)
       endif
 
       !------------------------------------------------------------------------------------------------------

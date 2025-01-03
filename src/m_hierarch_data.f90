@@ -635,6 +635,7 @@ public
       integer                                      :: nn, npatch
       real(kind=8),    dimension(:),   allocatable :: prmudf 
       real(kind=8),    dimension(:),   allocatable :: prmpln 
+      real(kind=8),    dimension(:),   allocatable :: prmrig
       real(kind=8),    dimension(:,:), allocatable :: xylim     ! (npatch,4)
       real(kind=8),    dimension(:,:), allocatable :: facsep    ! (npatch,npatch)
       type(t_gridfnc3)                             :: exrhs
@@ -655,6 +656,7 @@ public
       !                data stored in xylim(1:np,4), facsep(1:np,1:np).
       ! prmudf [?]     parameters for computing the undeformed distance
       ! prmpln [?]     coefficients of the planform
+      ! prmrig [?]     parameters for computing the rigid slip
       ! xylim  [mm]    extent [xl,xh] x [yl,yh] of (sub-)patches in the potential contact area
       ! facsep [-]     multiplication factors for effect of pressures on displacements between (sub-)patches
       ! exrhs [mm|-]   extra term of the rigid slip (T=1, [mm]) or creepage (T=2-3, [-])
@@ -2405,10 +2407,12 @@ end subroutine potcon_get_overlap
 
       ! resize hs1 for right-hand side
 
-      call gf3_resize(geom%hs1, cgrid_new, 1d0)
-      call gf3_resize(geom%hv1, cgrid_new, 1d0)
-      if (keep_ptr) geom%hs1%grid  => cgrid
-      if (keep_ptr) geom%hv1%grid  => cgrid
+      call gf3_resize(geom%hs1,   cgrid_new, 1d0)
+      call gf3_resize(geom%hv1,   cgrid_new, 1d0)
+      call gf3_resize(geom%exrhs, cgrid_new, 1d0)
+      if (keep_ptr) geom%hs1%grid   => cgrid
+      if (keep_ptr) geom%hv1%grid   => cgrid
+      if (keep_ptr) geom%exrhs%grid => cgrid
 
       ! resize arrays for friction coefficients, tractions, displacements and shift
 
