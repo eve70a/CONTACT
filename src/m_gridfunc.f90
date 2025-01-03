@@ -1063,6 +1063,9 @@ subroutine gf3_copy(iigs, f1, f2, ikarg)
    if (.not.f1%is_defined()) then
       call write_log(' gf3_copy: Internal error: input grid-func not initialized properly.')
       call abort_run()
+   elseif (.not.f1%grid%is_defined()) then
+      call write_log(' gf3_copy: Internal error: no grid defined on input grid-func.')
+      call abort_run()
    elseif (.not.f2%is_defined()) then
       call write_log(' gf3_copy: Internal error: output grid-func not initialized properly.')
       call abort_run()
