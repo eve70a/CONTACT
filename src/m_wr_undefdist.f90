@@ -35,13 +35,15 @@ contains
       type(t_cpatch)        :: cp
       type(t_probdata)      :: gd
 !--local variables:
+      real(kind=8), parameter :: frac_err_ud = 0.03d0, thres_ts = 1d0 / (1d0+frac_err_ud)
       logical                 :: is_prismatic, use_bicubic
       character(len=5)        :: nam_side
-      integer                 :: lud, ios, nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ixdbg, &
-                                 iydbg, iu, iv, icount, ierror
+      integer                 :: lud, ios, nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ii0,   &
+                                 ii1, ixdbg, iydbg, iu, iv, icount, ierror
       real(kind=8)            :: xslc1, hmin, h_ii, xmin, xmax, ymin, ymax, zmin, zmax, smin, smax,     &
                                  swsta, swmid, swend, ds, dx_cp, zp_sta, zp_end, z_axle, xtr_sta,       &
-                                 vy_ref, vz_ref, vy_iy, vz_iy, delt_iy, vlen_inv
+                                 vy_ref, vz_ref, vy_iy, vz_iy, delt_iy, vlen_inv, t_s, t_n, dst_inv,    &
+                                 ts_min
       real(kind=8)            :: rmin, rmax, th_min, th_max, dth, v_min, v_max, dv
       real(kind=8),   dimension(:), allocatable :: u_out, v_out
       type(t_vec)             :: vtmp(4)
@@ -591,6 +593,49 @@ contains
 
          enddo
       enddo
+
+      ! in the planar contact approach: check angle variation within interpenetration area
+      !  - rail surface inclination w.r.t. reference plane
+
+      if (.not.ic%is_conformal()) then
+         ts_min = 1d0
+         icount = 0
+         do iy = 1, cgrid%ny-1
+            do ix = 1, cgrid%nx
+               ii0 = ix + (iy-1) * cgrid%nx
+               ii1 = ix + (iy  ) * cgrid%nx
+               if (max(gd%geom%prmudf(ii0),gd%geom%prmudf(ii1)).lt.-0.04d0) then
+                  t_s = rail_srfc%y(ii1) - rail_srfc%y(ii0)
+                  t_n = rail_srfc%z(ii1) - rail_srfc%z(ii0)
+                  dst_inv = 1d0 / max(1d-8, sqrt(t_s**2 + t_n**2))
+                  t_s = t_s * dst_inv
+                  t_n = t_n * dst_inv
+                  ts_min = min(ts_min, abs(t_s))
+                  if (abs(t_s).lt.thres_ts) then
+                     icount = icount + 1
+                     if (idebug.ge.2) then
+                        write(bufout,'(2(a,i4),3(a,f8.4),a,f8.2,a)') ' ix=',ix,', iy=',iy,': h=',      &
+                                gd%geom%prmudf(ii0), ', local tangent (t_s,t_n)=',t_s,',',t_n,          &
+                                ', alph=',acos(t_s)*180d0/pi,' deg'
+                        call write_log(1, bufout)
+                     endif
+                  endif
+               endif
+            enddo
+         enddo
+
+         if (icount.gt.0) then
+            call write_log(' Warning: large angle variation within contact patch, ignored in the ' //   &
+                        'planar contact approach')
+            write(bufout,'(a,i0,2a)') '          there are ',icount,' points with large slope of ',     &
+                        'rail surface w.r.t. tangent plane'
+            call write_log(1, bufout)
+            write(bufout,'(a,f6.3,2(a,f5.1),a)') '          min(t_s) =',ts_min,', slope',               &
+                        acos(ts_min)*180d0/pi,' deg,',100d0*(1d0/ts_min-1d0),                           &
+                        '% error in undeformed distance computation'
+            call write_log(1, bufout)
+         endif
+      endif
 
       ! 7. put the minimum of h in the approach pen, shift h such that minimum is 0
 
