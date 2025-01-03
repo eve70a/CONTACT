@@ -372,23 +372,23 @@ module subroutine spline_set_topview_sections(spl, view_minz, max_ntop, nsec_top
          ! print information visibility of each section
          ! ldebug=1: final, visible only; 2: final, all; 3: after each flooding, all
 
-      endif ! has_minz
+         if (ldebug.ge.3) then
+            write(bufout,'(a,i3,a)') ' trimmed using the extent of iuni=',iuni,':'
+            call write_log(1, bufout)
+         endif
 
-      if (ldebug.ge.3) then
-         write(bufout,'(a,i3,a)') ' after processing iuni=',iuni,':'
-         call write_log(1, bufout)
-      endif
+      endif ! has_minz
 
       do ksec = 1, nuni
          if (sec_ymax(ksec).gt.sec_ymin(ksec)) then
             write(bufout,'(a,i3,2(a,f14.6),a)') '    iuni',ksec,': y = [',sec_ymin(ksec),',',           &
                            sec_ymax(ksec),']: visible'
-            if ((ldebug.ge.2 .and. iuni.ge.nuni) .or. (ldebug.ge.3 .and. has_minz(iuni)))               &
+            if ((ldebug.eq.2 .and. iuni.ge.nuni) .or. (ldebug.ge.3 .and. has_minz(iuni)))               &
                call write_log(1, bufout)
          else
             write(bufout,'(a,i3,2(a,f14.6),a)') '    iuni',ksec,': y = [',sec_ymin(ksec),',',           &
                            sec_ymax(ksec),']: not visible'
-            if ((ldebug.ge.2 .and. iuni.ge.nuni) .or. (ldebug.ge.3 .and. has_minz(iuni)))               &
+            if ((ldebug.eq.2 .and. iuni.ge.nuni) .or. (ldebug.ge.3 .and. has_minz(iuni)))               &
                call write_log(1, bufout)
          endif
       enddo
