@@ -4180,7 +4180,11 @@ contains
          zc_rol = mtrk%z() + nom_radius
          ! correct cref_z for offset in x
          r_y    = zc_rol - cref_z
+         if (nom_radius.gt.0d0) then
          cref_z = zc_rol - sqrt( r_y**2 - cref_x**2 )
+         else
+            cref_z = zc_rol + sqrt( r_y**2 - cref_x**2 )
+         endif
 
          if (ic%x_locate.ge.2) then
             write(bufout,'(4(a,f12.4))') ' zc_rol=',zc_rol,', r_y=',r_y,', cref_x=',cref_x,             &

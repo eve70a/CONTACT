@@ -1135,7 +1135,7 @@ function [ xsurf, ysurf, zsurf ] = make_3d_surface( sol, opt, want_rail, ...
       xsurf = xi' * ones(1,ns);
       ysurf = ones(nx,1) * prf.ProfileY(js)';
       r_y   = nom_radius - prf.ProfileZ(js)';
-      zsurf = nom_radius - sqrt( max(0, (ones(nx,1)*r_y).^2 - xsurf.^2) );
+      zsurf = nom_radius - sign(nom_radius) * sqrt( max(0, (ones(nx,1)*r_y).^2 - xsurf.^2) );
 
    elseif (~want_rail & ~has_slcw)
 
