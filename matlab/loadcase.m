@@ -217,6 +217,8 @@ elseif (fmtmat>=1801)
    sol.meta.ipatch   = tmp(irow,9);
    sol.meta.rnom_whl = tmp(irow,10);
    sol.meta.rnom_rol = tmp(irow,11);
+   sol.meta.spinxo   = 0;
+   sol.meta.spinyo   = 0;
    irow = irow + 1;
 else
    sol.meta.tim      = 0;
@@ -241,6 +243,8 @@ else
    sol.meta.ipatch   = 0;
    sol.meta.rnom_whl = 460;
    sol.meta.rnom_rol = 800;
+   sol.meta.spinxo   = 0;
+   sol.meta.spinyo   = 0;
    if (fmtmat>=1401)
       sol.meta.tim      = tmp(irow,1);
       sol.meta.xcp_r    = tmp(irow,2);
