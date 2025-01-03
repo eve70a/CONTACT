@@ -4505,7 +4505,7 @@ contains
       type(t_gridfnc3)        :: rnrm, wnrm
       integer                 :: iter, iy_ref, iy, iy0, iy1, ky, my, ny, sub_ierror
       real(kind=8)            :: fac_sc, sc_ref, sr_sta, sr_end, z_axle, x_err, yi, dy, dz,     &
-                                 ds_min, cref_x, rref, dzrol, sgn
+                                 ds_min, cref_x, rref, dzrol, sgn, nrm_vx, nrm_vy, nrm_vn, nrm_len
       real(kind=8), dimension(:), allocatable :: si, xw
 
       if (ic%x_locate.ge.3) call write_log(' compute_curved_potcon: starting')
@@ -4690,9 +4690,27 @@ contains
       iy1 = iy_ref+1
       do iy = 1, ny
          yi = 0.5 * (rsrf%y(iy) + wsrf%y(iy))
-         if (yi.ge.cp%ysta .and. yi.le.cp%yend) then
+
+         ! compute length averaged normal vector on csrf: (rnrm - wnrm) / 2
+         ! length << 1 means that surfaces are turning away from each other
+         ! length = 0.9 corresponds to 2*acos(0.9) = 52deg between n_r and n_w.
+
+         nrm_vx = 0.5d0 * (rnrm%vx(iy) - wnrm%vx(iy))
+         nrm_vy = 0.5d0 * (rnrm%vy(iy) - wnrm%vy(iy))
+         nrm_vn = 0.5d0 * (rnrm%vn(iy) - wnrm%vn(iy))
+         nrm_len = sqrt( nrm_vx**2 + nrm_vy**2 + nrm_vn**2 )
+
+         if (yi.ge.cp%ysta .and. yi.le.cp%yend .and. nrm_len.gt.0.9d0) then
+
             iy0 = min(iy0, iy)
             iy1 = max(iy1, iy)
+          ! write(bufout,'(a,i0,4(a,f9.4))') ' keeping iy=',iy,': n=[',nrm_vx,',',nrm_vy,',',nrm_vn,    &
+          !             '], len=',nrm_len
+          ! call write_log(1, bufout)
+         else
+          ! write(bufout,'(a,i0,4(a,f9.4))') ' dropping iy=',iy,': n=[',nrm_vx,',',nrm_vy,',',nrm_vn,   &
+          !             '], len=',nrm_len
+          ! call write_log(1, bufout)
          endif
       enddo
 
