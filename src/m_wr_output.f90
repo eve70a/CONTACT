@@ -356,10 +356,14 @@ contains
  5000       format(' ----- NO CONTACT FOUND FOR THIS WHEEL / WHEEL-SET -----')
          endif
 
-         if (ic%output_surf.ge.2 .and. ic%config.le.1) then
-            write(lout,5010) 'RAIL'
+         if (ic%output_surf.ge.4 .and. ic%config.le.1) then
+            write(lout,5010) ' AND MOMENTS ', 'RAIL'
+         elseif (ic%output_surf.ge.4) then
+            write(lout,5010) ' AND MOMENTS ', 'ROLLER'
+         elseif (ic%output_surf.ge.2 .and. ic%config.le.1) then
+            write(lout,5010) ' ', 'RAIL'
          elseif (ic%output_surf.ge.2) then
-            write(lout,5010) 'ROLLER'
+            write(lout,5010) ' ', 'ROLLER'
          endif
          write(lout,5011)
          write(lout,5013) fmt_gs(12,nd,4,wtd%ftrk%x()), fmt_gs(12,nd,4,sgn*wtd%ftrk%y()),               &
@@ -372,7 +376,7 @@ contains
                fmt_gs(12,4,4,wtd%ttrk%z()), fmt_gs(12,4,4,wtd%tws%x()), fmt_gs(12,4,4,sgn*wtd%tws%y()), &
                fmt_gs(12,4,4,wtd%tws%z())
          endif
- 5010    format (1x, /, ' TOTAL FORCES AND MOMENTS ON ',a)
+ 5010    format (1x, /, ' TOTAL FORCES',a,'ON ',a)
  5011    format (2x, 3x,'FX(TR)',3x, 3x,'FY(TR)',3x, 3x,'FZ(TR)',3x, 3x,'FX(WS)',3x, 3x,'FY(WS)',3x,    &
                      3x,'FZ(WS)')
  5012    format (/,2x, 3x,'MX@R(TR)',1x, 3x,'MY@R(TR)',1x, 3x,'MZ@R(TR)',1x, 3x,'MX@W(WS)',1x,          &
