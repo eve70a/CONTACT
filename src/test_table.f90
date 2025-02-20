@@ -20,10 +20,8 @@ program test_table
    integer                 :: flags(mxflgs), values(mxflgs), iparam(mxflgs)
    real(kind=8)            :: rparam(mxflgs)
    integer                 :: ire, icp, imodul, ver, ierr, iout, l_path, l_expnam, icount, ithrd, nthrd
-   integer                 :: mx, my, ipotcn, gdigit, ldigit, mdigit, maxgs, maxnr, maxin, maxout,      &
-                              inislp, kdowfb
-   real(kind=8)            :: g1, nu1, k0mf, alfamf, betamf, scale, fstat, fkin, veloc, eps, omegah,    &
-                              omegas, omgslp, fdecay, betath, d_ifc, d_lin, d_cns, d_slp, pow_s, dx, dy
+   integer                 :: mx, my, ipotcn, gdigit, ldigit, bdigit, mdigit, maxgs, maxnr, maxin, maxout
+   real(kind=8)            :: g1, nu1, k0mf, alfamf, betamf, scale, fstat, fkin, veloc, eps, dx, dy
    real(kind=8)            :: cmgn, cang, cksi, ceta, cphi, fn, fx, fy, mz, carea, harea, sarea
    integer                 :: iell, ispin, ivang, ivmgn, irem, icase
    integer, parameter      :: num_ellip   = 5
@@ -45,7 +43,7 @@ program test_table
 #include "contact_addon.ifc"
 
    ! Handle optional command line arguments
-   ! Usage: test_table [mx] [expnam] [mdigit] [gdigit] [fdecay]
+   ! Usage: test_table [mx] [expnam] [mdigit] [bdigit]
 
    mx     = 11
    icount = command_argument_count()
@@ -67,15 +65,9 @@ program test_table
    endif
    if (icount.ge.4) then
       call get_command_argument(4, tmpstr, status=ierr)
-      if (ierr.ge.0) read(tmpstr,'(i)') gdigit
+      if (ierr.ge.0) read(tmpstr,'(i)') bdigit
    else
-      gdigit = 0
-   endif
-   if (icount.ge.5) then
-      call get_command_argument(5, tmpstr, status=ierr)
-      if (ierr.ge.0) read(tmpstr,'(f)') fdecay
-   else
-      fdecay = 1d0
+      bdigit = 0    ! 0 = computed pn, 2 = elliptical traction bound, 3 = parabolical
    endif
    my  = mx
 
@@ -117,7 +109,12 @@ program test_table
       flags(4) = CNTC_ic_output ; values(4) = 0
       flags(5) = CNTC_ic_flow   ; values(5) = 2
       flags(6) = CNTC_ic_tang   ; values(6) = 3
-    ! flags(7) = CNTC_ic_bound  ; values(7) = 3  ! 2 = elliptical traction bound, 3 = parabolical
+      if (bdigit.ne.0 .and. bdigit.ne.2 .and. bdigit.ne.3) then
+         write(*,*) ' incorrect bdigit=',bdigit
+         stop
+      else
+         flags(7) = CNTC_ic_bound  ; values(7) = bdigit
+      endif
 
       call cntc_setFlags(ire, icp, mxflgs, flags, values)
 
@@ -137,6 +134,9 @@ program test_table
          call cntc_setMaterialParameters(ire, icp, mdigit, 4, rparam)
       elseif (mdigit.eq.3 .or. mdigit.eq.5) then
          call cntc_setMaterialParameters(ire, icp, mdigit, 7, rparam)
+      else
+         write(*,*) ' incorrect mdigit=',mdigit
+         stop
       endif
 
       veloc = 10000d0
@@ -147,37 +147,16 @@ program test_table
 
       call cntc_setCreepages(ire, icp, 0d0, 0d0, 0d0)
 
+      gdigit  =   0
       maxgs   = 299
       maxnr   =  30
       maxin   =   1
       maxout  =   1
       eps     =   1d-6
-      omegah  =  0.5d0
-      omegas  =  0.5d0
-      omgslp  =  1.0d0
-      inislp  =   1
-      ! fdecay given on command line: input argument
-      kdowfb  =   1
-      betath  =  0.05d0
-      d_ifc   =  2.0d0
-      d_lin   = -1.0d0
-      d_cns   =  1.0d0
-      d_slp   =  2.6d0
-      pow_s   =  1.0d0
 
-      if (gdigit.eq.2) then
-         iparam(1:5) = (/ maxgs, maxin, maxnr, maxout, inislp /)
-         rparam(1:4) = (/ eps, omegah, omegas, omgslp /)
-         call cntc_setSolverFlags(ire, icp, gdigit, 5, iparam, 4, rparam)
-      elseif (gdigit.eq.5) then
-         iparam(1:5) = (/ maxgs, maxin, maxnr, maxout, kdowfb /)
-         rparam(1:8) = (/ eps, fdecay, betath, d_ifc, d_lin, d_cns, d_slp, pow_s /)
-         call cntc_setSolverFlags(ire, icp, gdigit, 5, iparam, 8, rparam)
-      else ! use gdigit = 0
-         iparam(1:4) = (/ maxgs, maxin, maxnr, maxout /)
-         rparam(1:1) = (/ eps /)
-         call cntc_setSolverFlags(ire, icp, gdigit, 4, iparam, 1, rparam)
-      endif
+      iparam(1:4) = (/ maxgs, maxin, maxnr, maxout /)
+      rparam(1:1) = (/ eps /)
+      call cntc_setSolverFlags(ire, icp, gdigit, 4, iparam, 1, rparam)
 
       ! loop over ellipticity values, compute Hertzian cases to get rho and cp
 
