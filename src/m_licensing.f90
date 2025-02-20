@@ -56,13 +56,14 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine WriteVersion(num_version, version, license)
+subroutine WriteVersion(num_version, version, license, show_error)
 !--purpose: write version strings and license info to out-file/screen/..
    implicit none
 !--subroutine arguments:
    integer            :: num_version
    character(len=*)   :: version(num_version)
    type(t_license)    :: license
+   logical            :: show_error
 !--local variables:
    integer            :: iv, len1
    character(len=80)  :: spaces
@@ -93,7 +94,7 @@ subroutine WriteVersion(num_version, version, license)
 
    ! Display error message if no valid license was found
 
-   if (.not.license%is_valid) then
+   if (.not.license%is_valid .and. show_error) then
       write(bufout,124)  c_trim(my_license%license_error)
       call write_log(1, bufout)
    endif

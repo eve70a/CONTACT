@@ -45,6 +45,7 @@ public
                                                        ! -1: finalized; 1: initialized
    integer,      parameter  :: caddon_version     = 100 * my_version_major + 10 * my_version_minor      &
                                                         + my_version_update
+   logical                  :: show_lic_error     = .true.  ! suppress errors in case of license management
 
    ! administration of "result elements" == "rail-wheel pairs" == "wheels"
 

@@ -8,6 +8,7 @@
 %       character  outdir(*)    - [optional] output folder
 %       character  expnam(*)    - [optional] experiment name, default 'contact_addon'
 %       integer    idebug       - [optional] show (1) or hide (0) error messages
+%       integer    skip_init    - [optional] skip (1) or call (0) initializations
 %  out: integer    CNTC         - struct with 'magic numbers' for configuring CONTACT
 %       integer    ifcver       - version of the CONTACT add-on
 %       integer    ierror       - error flag
@@ -19,9 +20,28 @@
 
 % category 0: m=*, glob   - no icp needed
 
-function [ CNTC, ifcver, ierror ] = cntc_initlibrary(c_wrkdir, c_outdir, c_expnam, idebug);
+function [ CNTC, ifcver, ierror ] = cntc_initlibrary(c_wrkdir, c_outdir, c_expnam, idebug, skip_init);
 
    global libname;
+
+   if (nargin<1 | isempty(c_wrkdir))
+      c_wrkdir = ' ';
+   end
+   if (nargin<2 | isempty(c_outdir))
+      c_outdir = ' ';
+   end
+   if (nargin<3 | isempty(c_expnam))
+      c_expnam = ' ';
+   end
+   if (nargin<4 | isempty(idebug))
+      idebug = 1;
+   end
+   if (nargin<5 | isempty(skip_init))
+      skip_init = 0;
+   end
+
+   % return a struct with 'magic numbers' for setting flags later on
+   CNTC = cntc_getmagicnumbers();
 
    % retrieve current directory, form library name
    [pathstr, name, ext] = fileparts(which('cntc_initlibrary'));
@@ -54,42 +74,32 @@ function [ CNTC, ifcver, ierror ] = cntc_initlibrary(c_wrkdir, c_outdir, c_expna
    end
 
    % initialize the internal data of the library, open its output streams
-   if (nargin<1 | isempty(c_wrkdir))
-      c_wrkdir = ' ';
-   end
-   if (nargin<2 | isempty(c_outdir))
-      c_outdir = ' ';
-   end
-   if (nargin<3 | isempty(c_expnam))
-      c_expnam = ' ';
-   end
-   if (nargin<4 | isempty(idebug))
-      idebug = 1;
-   end
-   len_wrkdir = length(c_wrkdir);
-   len_outdir = length(c_outdir);
-   len_expnam = length(c_expnam);
-   ioutput = 0;
+   if (skip_init)
+      ifcver = 0;
+      ierror = 0;
+   else
+      len_wrkdir = length(c_wrkdir);
+      len_outdir = length(c_outdir);
+      len_expnam = length(c_expnam);
+      ioutput = 0;
 
-   p_ierr = libpointer('int32Ptr',-1);
-   p_ver  = libpointer('int32Ptr',-1);
+      p_ierr = libpointer('int32Ptr',-1);
+      p_ver  = libpointer('int32Ptr',-1);
 
-   p_ierr.value = 0;
-   calllib(libname,'cntc_initializefirst_new', p_ver, p_ierr, ioutput, c_wrkdir, c_outdir, c_expnam, ...
-                                                                    len_wrkdir, len_outdir, len_expnam);
-   % disp(sprintf('test_caddon: obtained ver=%d, ierr=%d', p_ver.value, p_ierr.value));
+      p_ierr.value = 0;
+      calllib(libname,'cntc_initializefirst_new', p_ver, p_ierr, ioutput, c_wrkdir, c_outdir, c_expnam, ...
+                                                                       len_wrkdir, len_outdir, len_expnam);
+      % disp(sprintf('test_caddon: obtained ver=%d, ierr=%d', p_ver.value, p_ierr.value));
 
-   ifcver = double(p_ver.value);
-   ierror = double(p_ierr.value);
+      ifcver = double(p_ver.value);
+      ierror = double(p_ierr.value);
 
-   % return a struct with 'magic numbers' for setting flags later on
-
-   CNTC = cntc_getmagicnumbers();
-
-   if (idebug>=1 & ierror==CNTC.err_allow)
-      disp(sprintf('cntc_initlibrary: no license found or license invalid, check output-file (%d).',ierror));
-   elseif (idebug>=1 & ierror<0)
-      disp(sprintf('cntc_initlibrary: an error occurred in the CONTACT library (%d).',ierror));
+      if (idebug>=1 & ierror==CNTC.err_allow)
+         disp(sprintf('cntc_initlibrary: no license found or license invalid, check output-file (%d).',...
+                        ierror));
+      elseif (idebug>=1 & ierror<0)
+         disp(sprintf('cntc_initlibrary: an error occurred in the CONTACT library (%d).',ierror));
+      end
    end
 
 end % function cntc_initlibrary

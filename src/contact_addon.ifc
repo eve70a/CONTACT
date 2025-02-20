@@ -48,7 +48,7 @@ subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir,
 !--subroutine arguments:
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
-   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
+   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = out-file+screen
    character(kind=C_CHAR), intent(in)    :: c_wrkdir(*)  ! C-string: effective working folder
    character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
    character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name

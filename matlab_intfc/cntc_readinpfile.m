@@ -26,7 +26,7 @@ function [ ierror ] = cntc_readinpfile(ire, inp_type, c_fname)
    if (nargin<2)
       inp_type = [];
    end
-   if (~any(inp_type==[CNTC.inp_spck]))
+   if (~any(inp_type==[CNTC.inp_modul1 CNTC.inp_spck]))
       disp('ERROR(readinpfile): inp_type must be CNTC.inp_spck');
       return;
    end

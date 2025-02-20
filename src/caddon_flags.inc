@@ -23,6 +23,7 @@
                                  ! length in [in], veloc in [???], force in [lbf], on body 1
 
       CNTC_inp_vamp   = 1984, &  ! code for cntc_readinpfile for input to CONTACT add-on to Vampire (n.y.a.)
+      CNTC_inp_modul1 = 1988, &  ! code for cntc_readinpfile for input to CONTACT module 1
       CNTC_inp_spck   = 1990, &  ! code for cntc_readinpfile for input to Simpack user-subroutine
       CNTC_inp_gensys = 1992, &  ! code for cntc_readinpfile for input to CONTACT add-on to GENSYS (n.y.a.)
                      

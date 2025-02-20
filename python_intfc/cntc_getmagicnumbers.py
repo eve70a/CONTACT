@@ -30,6 +30,7 @@ def cntc_getmagicnumbers():
                                #             length in [in], veloc in [???], force in [lbf], on body 1
   
     CNTC['inp_vamp']   = 1984; # code for cntc_readinpfile for input to CONTACT add-on to Vampire (n.y.a.)
+    CNTC['inp_modul1'] = 1988; # code for cntc_readinpfile for input to CONTACT module 1
     CNTC['inp_spck']   = 1990; # code for cntc_readinpfile for input to Simpack user-subroutine
     CNTC['inp_gensys'] = 1992; # code for cntc_readinpfile for input to CONTACT add-on to GENSYS (n.y.a.)
                      

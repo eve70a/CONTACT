@@ -244,7 +244,7 @@ subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir,
 !--subroutine arguments:
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
-   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
+   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = out-file+screen
    character(kind=C_CHAR), intent(in)    :: c_wrkdir(*)  ! C-string: effective working folder
    character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
    character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
@@ -390,7 +390,7 @@ subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir,
    ! call write_log(1, bufout)
 
 #  include 'VERSION'
-   call WriteVersion(num_version, version, my_license)
+   call WriteVersion(num_version, version, my_license, show_lic_error)
 
    ! Initialize the indirection table for result elements
 
@@ -779,7 +779,12 @@ subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
 
    ! read contents of input-file dependent on type of input
 
-   if (inp_type.eq.CNTC_inp_spck) then
+   if (inp_type.eq.CNTC_inp_modul1) then
+
+      call wr_input_modul1(f_fname, wtd, ierror)
+      if (ierror.ne.0) ierror = CNTC_err_input
+
+   elseif (inp_type.eq.CNTC_inp_spck) then
 
       call wr_input_spck(f_fname, wtd, ierror)
       if (ierror.ne.0) ierror = CNTC_err_input
@@ -3068,7 +3073,7 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
 
    ! store the supplied values
 
-   my_ic%ztrack = ztrack
+   my_ic%ztrack = 3
 
    if (ztrack.eq.1) then
 

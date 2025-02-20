@@ -20,7 +20,9 @@ private
    integer, parameter :: modul_spck       = 11
 
    public  wr_input
+   public  wr_input_modul1
    public  wr_input_spck
+   private warn_ic_changed
    public  discret_input
    public  trackdata_input
    public  wheelset_input
@@ -30,16 +32,16 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_input (inpdir, lunit, inp, ncase, linenr, wtd)
+   subroutine wr_input (inpdir, lunit, inp, ncase, linenr, wtd, lstop, ierror)
 !--purpose: Input-routine for a W/R contact case. 
       implicit none
 !--subroutine arguments:
       character*(*), intent(in) :: inpdir
-      integer                   :: lunit, inp, linenr, ncase
+      integer                   :: lunit, inp, linenr, ncase, ierror
+      logical                   :: lstop
       type(t_ws_track)          :: wtd
 !--local variables:
       integer,      parameter :: mxnval = 20, modul = 1
-      logical,      parameter :: lstop  = .true.
       integer            :: line0, ldebug, ieof
       logical            :: zerror
       character(len=16)  :: namside
@@ -49,6 +51,7 @@ contains
                  ws    => wtd%ws,    trk   => wtd%trk,  spck  => wtd%spck,  my_wheel => wtd%ws%whl,     &
                  my_rail => wtd%trk%rai)
 
+      ierror = 0
       ldebug = 1
       ieof   = -1 ! eof=error
 
@@ -57,7 +60,12 @@ contains
 
       if (inp.le.1) then
          call write_log('ERROR: screen input not supported in MODULE 1')
-         call abort_run()
+         if (lstop) then
+             call abort_run()
+         else
+            ierror = CNTC_err_input
+            return
+         endif
       endif
 
       !------------------------------------------------------------------------------------------------------
@@ -87,8 +95,14 @@ contains
       endif
 
       if (zerror) then
-         call write_log(' Errors found. Aborting.')
-         call abort_run()
+         if (lstop) then
+            call write_log(' Errors found. Aborting.')
+            call abort_run()
+         else
+            call write_log(' Errors found. Returning.')
+            ierror = CNTC_err_input
+            return
+         endif
       endif
 
       ! set level of debug-output of input-routines. 0 = errors, 1 = warnings/info, >=2 = flow/debug
@@ -197,8 +211,14 @@ contains
       ! abort on errors
 
       if (zerror) then
-         call write_log(' Errors found. Aborting.')
-         call abort_run()
+         if (lstop) then
+            call write_log(' Errors found. Aborting.')
+            call abort_run()
+         else
+            call write_log(' Errors found. Returning.')
+            ierror = CNTC_err_input
+            return
+         endif
       endif
 
       if (ldebug.ge.3) call write_log('--- end subroutine wr_input ---')
@@ -208,28 +228,79 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   logical function warn_ic_changed (descrp, ic1, ic2, lprint)
-!--purpose: perform check on ic-values ic1 == ic2
+   subroutine wr_input_modul1 (fname, wtd, ierror)
+!--purpose: Input-routine for initialization of a W/R configuration in the CONTACT library
       implicit none
-      character(len=*)  :: descrp
-      integer           :: ic1, ic2
-      logical, optional :: lprint
-      logical           :: zwarn, my_lprint
+!--subroutine arguments:
+      character(len=*)          :: fname
+      type(t_ws_track)          :: wtd
+      integer,      intent(out) :: ierror
+!--local variables:
+      integer,      parameter :: mxnval = 20
+      logical,      parameter :: lstop  = .false.
+      integer          :: ints(mxnval), linp, ldebug, inp, ncase, linenr, ix, nval, ieof, modul
+      logical          :: flags(mxnval)
+      real(kind=8)     :: dbles(mxnval)
+      character*256    :: strngs(mxnval), inpdir, fulnam
 
-      my_lprint = .false.
-      if (present(lprint)) my_lprint = lprint
+      ierror = 0
 
-      zwarn = .false.
-      if (ic1.ne.ic2) then
-         zwarn = .true.
-         if (my_lprint) then
-            write(bufout, 1000) descrp, ic1
-            call write_log(1, bufout)
- 1000       format (' Warning: Control digit ',a,' =',i2,' cannot be changed through the Simpack inp-file.')
-         endif
+      ldebug = 0
+      if (ldebug.ge.2) call write_log('--- Start subroutine wr_input_modul1 ---')
+
+      ! determine full path-name, pre-pending wrkdir when necessary
+
+      call make_absolute_path(fname, wtd%meta%wrkdir, fulnam)
+
+      linp  = get_lunit_tmp_use()
+      open(linp, file=fulnam, status='old', err=985)
+
+      ! determine the folder name from the input filename
+
+      inpdir = ' '
+      ix = index_pathsep(fulnam, back=.true.)
+      if (ix.gt.0) then
+         inpdir = fulnam(1:ix-1) // path_sep
       endif
-      warn_ic_changed = zwarn
-   end function warn_ic_changed
+
+      ! Get the module-number for first case
+
+      ldebug = 1
+      ieof   = -1 ! eof=error
+      call readLine(linp, ncase, linenr, 'module number', 'i', ints, dbles, flags, strngs, mxnval,      &
+                    nval, ldebug, ieof, lstop, ierror)
+      modul = 0
+      if (ierror.eq.0) modul = ints(1)
+
+      if (modul.ne.1) then
+
+         write(bufout,7200) modul, linenr
+         call write_log(2, bufout)
+ 7200    format (/' ERROR: invalid module number (',i6,') at line',i6,', skip reading inp-file')
+         ierror = -1
+      
+      else
+
+         inp    =  2
+         ncase  =  0
+         linenr =  0
+         call wr_input (inpdir, linp, inp, ncase, linenr, wtd, .false., ierror)
+
+      endif
+
+      close(linp)
+      call free_lunit_tmp_use(linp)
+
+      return
+
+ 985  continue
+         ierror = -2
+         write(bufout,'(3a)') ' ERROR: cannot open input-file: "', trim(fulnam),'"'
+         call write_log(1, bufout)
+         call free_lunit_tmp_use(linp)
+         return
+
+   end subroutine wr_input_modul1
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -423,6 +494,31 @@ contains
 
       end associate
    end subroutine wr_input_spck
+
+!------------------------------------------------------------------------------------------------------------
+
+   logical function warn_ic_changed (descrp, ic1, ic2, lprint)
+!--purpose: perform check on ic-values ic1 == ic2
+      implicit none
+      character(len=*)  :: descrp
+      integer           :: ic1, ic2
+      logical, optional :: lprint
+      logical           :: zwarn, my_lprint
+
+      my_lprint = .false.
+      if (present(lprint)) my_lprint = lprint
+
+      zwarn = .false.
+      if (ic1.ne.ic2) then
+         zwarn = .true.
+         if (my_lprint) then
+            write(bufout, 1000) descrp, ic1
+            call write_log(1, bufout)
+ 1000       format (' Warning: Control digit ',a,' =',i2,' cannot be changed through the Simpack inp-file.')
+         endif
+      endif
+      warn_ic_changed = zwarn
+   end function warn_ic_changed
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -848,7 +944,7 @@ contains
  1104 format(i8.7, 6x, '  H-G-I-A-O-W-R         HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN')
  1105 format(i8.7, 6x, 'X-H-G-I-A-O-W-R  XFLOW, HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW,   RETURN')
  1106 format(i8.7, 6x, '  P-S-F-L-C-I-N       PROFIL, SMOOTH, FORCE,  LOCATE, CPATCH, INFLCF, NMDBG' )
- 1107 format(i8.7, 6x, '  P-S-F-L-C-I-N  R    PROFIL, SMOOTH, FORCE,  LOCATE, CPATCH, INFLCF, NMDBG,  READLN')
+ 1107 format(i8.7,i3,4x,' P-S-F-L-C-I-N  R    PROFIL, SMOOTH, FORCE,  LOCATE, CPATCH, INFLCF, NMDBG,  READLN')
 
       ! write parameters for the iterative solution algorithms
 

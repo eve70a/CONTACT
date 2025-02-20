@@ -21,6 +21,7 @@ program contact
 
    integer, parameter :: max_version = 20
    integer            :: num_version, ix
+   logical            :: show_error
    character*256      :: version(max_version)
 
    ! Work variables for reading from stdin or the input-file
@@ -76,7 +77,8 @@ program contact
    ! Include file with version identification, display to the screen
 
 #  include "VERSION"
-   call WriteVersion(num_version, version, my_license)
+   show_error = (imode.ge.2)
+   call WriteVersion(num_version, version, my_license, show_error)
 
    ! IMODE = 1: License Management actions
 

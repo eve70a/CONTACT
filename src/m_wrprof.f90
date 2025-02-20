@@ -51,7 +51,7 @@ contains
          ! read and test new input quantities
 
          call timer_start(itimer_input)
-         call wr_input(wtd%meta%wrkdir, linp, inp, wtd%meta%ncase, linenr, wtd)
+         call wr_input(wtd%meta%wrkdir, linp, inp, wtd%meta%ncase, linenr, wtd, .true., ierror)
          call timer_stop(itimer_input)
 
          ! determine the initial contact points, setup & solve the contact problems, output results
