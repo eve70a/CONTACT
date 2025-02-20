@@ -517,6 +517,7 @@ if (strcmp(myopt.field,'ptarg'))
    if (isempty(myopt.zrange))
       ix = find(eldiv>=1);
       rng=[ min(min(ptarg(ix))), max(max(ptarg(ix))) ];
+      if (abs(diff(rng))<1e-10), rng = rng + [-1 1]; end
       rng=rng + 0.05*[-1 1]*(rng(2)-rng(1));
       set(gca,'clim', rng);
    end
@@ -660,7 +661,11 @@ if (strcmp(myopt.field,'fricdens'))
 
    % unit [W / mm2] = ([mm/s]/1000) * [-]  * [ N/mm2],   [W] = [J/s] = [N.m/s]
    % note: srel is dimensionless, using V.dt=dq=1 in shifts (T=1)
-   fricdens = sol.kincns.veloc/1000 * sol.srel .* sqrt(sol.px.^2 + sol.py.^2);
+   if (isfield(sol,'fricdens'))
+      fricdens = sol.fricdens;  % computed by diffcase
+   else
+      fricdens = sol.kincns.veloc/1000 * sol.srel .* sqrt(sol.px.^2 + sol.py.^2);
+   end
    show_scalar_field(sol, fricdens, myopt);
    title ([pfxtit, 'Frictional power density']);
 
@@ -685,24 +690,34 @@ if (user_added_fld & isfield(sol, myopt.field))
 end
 if (strcmp(myopt.field,'eldiv'))
 
-   myopt.zrange = [-0.1 2.1];
    eldiv = derived_data(sol, myopt, 'eldiv');
-   ix = find(eldiv==3); eldiv(ix) = 1.5; % set Plast(3) between Adhes(1) and Slip(2)
-   show_scalar_field(sol, eldiv, myopt);
-   h = get(gcf,'children'); ix = strmatch('Colorbar', get(h,'tag'));
-   if (length(ix)==1)
-      jx = find(sol.eldiv==3);
-      if (~isempty(jx))
-         set(h(ix),'ytick',[0,1,1.5,2],'yticklabel',['exter';'stick';'plast';'slip ']);
-      else
-         set(h(ix),'ytick',[0,1,2],'yticklabel',['exter';'stick';'slip ']);
+   diff_eldiv = (min(min(eldiv))<=-10 | max(max(eldiv))>=10);
+   myopt.zrange = [-0.5 3.5];
+   if (~diff_eldiv)
+      % jx = find(eldiv==3); eldiv(jx) = 1.5; % set Plast(3) between Adhes(1) and Slip(2)
+      show_scalar_field(sol, eldiv, myopt);
+      colormap(eldiv_color(4));
+      h = findobj(gcf,'Type','Colorbar');
+      if (~isempty(h))
+         h=h(1);
+         set(h, 'ytick', [0:3], 'yticklabel',strvcat('exter','stick','slip','plast'));
+         y0 = -0.5; y1 = 3.5;
+         if (isnan(myopt.exterval)), y0 = 0.5; end
+         if (isempty(find(eldiv==3))), y1 = 2.5; end
+         set(h,'ylim',[y0 y1]);
       end
-      if (isnan(myopt.exterval))
-         set(h(ix),'ylim',[0.9 2.1]);
+   else
+      eldiv = recode_eldiv(eldiv);
+      show_scalar_field(sol, eldiv, myopt);
+      colormap(eldiv_color(12));
+      h = findobj(gcf,'Type','Colorbar');
+      if (~isempty(h))
+         h=h(1);
+         set(h, 'ylim',[-0.5,2.5], 'ytick', [-1:7]/3, ...
+                'yticklabel',strvcat('H->E','E','S->E','E->H','H','S->H','E->S','S','H->S'));
       end
    end
    title ([pfxtit, 'The element divisions']);
-
 end
 if (strcmp(myopt.field,'eldiv_spy'))
 
@@ -1646,8 +1661,19 @@ function [ ] = show_eldiv_contour(sol, opt)
    if (~isempty(sol.y_offset)), ycentr = ycentr + sol.y_offset; end
    xcentr = xcentr * opt.xstretch;
 
+   % diffcase: difference of two element divisions: 
+   % matrix(e1, e2):   [ 0, -10, -20, -30 ;
+   %                    10,   1, -21, -31 ;
+   %                    20,  21,   2, -32 ;
+   %                    30,  31,  32,   3] 
+
    eldiv = derived_data(sol, opt, 'eldiv');
-   eldiv = mod(eldiv,10); % diffcase: difference is stored in tens-digit
+   diff_eldiv = (min(min(eldiv))<=-10 | max(max(eldiv))>=10);
+   if (diff_eldiv)
+      ix = find(eldiv==10); eldiv(ix)=1;
+      ix = find(eldiv==20 | eldiv==21); eldiv(ix)=2;
+      ix = find(eldiv==30 | eldiv==31 | eldiv==32); eldiv(ix)=3;
+   end
    eldiv = eldiv(iy_plot,ix_plot);
 
    % expand selection 'eldiv' and x/ycentr when there are elements in
@@ -2091,8 +2117,6 @@ end % function plot_ranges
 function [ f1, f2, f3, f4, f5, f6 ] = ...
                          derived_data(sol, opt, n1, n2, n3, n4, n5, n6)
 
-px = sol.px; py = sol.py; eldiv = sol.eldiv;
-
 nfield = nargin - 2;
 for ifield = 1 : nfield
    % get name of requested derived field, by copying n1, n2, .. or n6
@@ -2100,15 +2124,15 @@ for ifield = 1 : nfield
 
    % compute the derived field
    if (strcmp(nam,'eldiv'))
-      field = eldiv;
+      field = sol.eldiv;
    elseif (strcmp(nam,'px'))
-      field = px;
+      field = sol.px;
    elseif (strcmp(nam,'py'))
-      field = py;
+      field = sol.py;
    elseif (strcmp(nam,'pt'))
-      field = sqrt(px.^2 + py.^2);
+      field = sqrt(sol.px.^2 + sol.py.^2);
    elseif (strcmp(nam,'ptarg'))
-      field = 180/pi*atan2(py, px);   % range [-180,180]
+      field = 180/pi*atan2(sol.py, sol.px);   % range [-180,180]
    elseif (strcmp(nam,'pxdir'))
       field = sol.px ./ max(1d-9,sqrt(sol.px.^2 + sol.py.^2));
    elseif (strcmp(nam,'sabs'))
@@ -2678,6 +2702,66 @@ function [ rgb ] = matlab_color( num )
    rgb = matlab_colors(num, :);
 
 end % function matlab_color
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [ el_new ] = recode_eldiv( el )
+
+% function [ el ] = recode_eldiv( el )
+%
+% map eldiv difference -32 : 32 obtaind from diffcase to contiguous -1 : 8
+
+   % ignore Plast, treat as Slip
+
+   ix = find(el==  3 ); el(ix) =   2;
+   ix = find(el<=-30 ); el(ix) = el(ix) + 10;
+   ix = find(el>= 30 ); el(ix) = el(ix) - 10;
+
+   el_new = zeros(size(el));
+
+   ix = find( el== 21 ); el_new(ix) =  7/3;   % 2:H --> 1:S
+   ix = find( el==  2 ); el_new(ix) =  6/3;   % 2:S
+   ix = find( el== 20 ); el_new(ix) =  5/3;   % 2:E --> 1:S
+
+   ix = find( el==-21 ); el_new(ix) =  4/3;   % 2:S --> 1:H
+   ix = find( el==  1 ); el_new(ix) =  3/3;   % 2:H
+   ix = find( el== 10 ); el_new(ix) =  2/3;   % 2:E --> 1:H
+
+   ix = find( el==-20 ); el_new(ix) =  1/3;   % 2:S --> 1:E
+   ix = find( el==  0 ); el_new(ix) =  0/3;   % 2:E
+   ix = find( el==-10 ); el_new(ix) = -1/3;   % 2:H --> 1:E
+
+end % function recode_eldiv
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [ rgb ] = eldiv_color( numcol )
+
+   if (numcol==12)  % difference of two element divisions
+      rgb = [
+          0.2422    0.1504    0.6603
+          0.2806    0.2819    0.9255  % E
+          0.2311    0.4497    0.9995
+          0.6308    0.8987    0.8890
+          0.0770    0.7468    0.7224  % H
+          0.2300    0.6500    0.6500
+          0.9879    0.9743    0.7425
+          0.9597    0.9143    0.1418  % S
+          0.9606    0.7285    0.2312
+          0.9606    0.7285    0.2312
+          0.9606    0.7285    0.2312
+          0.9606    0.7285    0.2312
+      ];
+   else         % one element division
+      rgb = [
+          0.2806    0.2819    0.9255 % E
+          0.0770    0.7468    0.7224 % H
+          0.9597    0.9143    0.1418 % S
+          0.9879    0.9743    0.7425 % P
+      ];
+   end
+
+end % function eldiv_color
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
