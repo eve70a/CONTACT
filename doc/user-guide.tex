@@ -599,7 +599,7 @@ model, ${\tt M}_2>0$.}
         using a modified ANALYN method.
 \end{description}
 $^\dagger$ Options 2 to 6 are approximate by nature. They are primarily meant
-to be used together with FASTSIM (${\tt M}=2, 3$).
+to be used together with FASTSIM or FASTRIP (${\tt M}=2, 3, 5$).
 
 $^*$ Options ${\tt B}=2$ to 4 are not yet available in module 1.
 
@@ -750,14 +750,14 @@ $^*$ Option ${\tt C}_3=9$ is not available in module 1.
 \item[1] -- viscoelastic contact (\S \ref{sec:visc_elast});
 }
 \item[2] -- simplified theory with a single, user-defined flexibility value
-        (modified Fastsim, \S \ref{sec:fastsim});
+        (Modified Fastsim, \S \ref{sec:fastsim});
 \item[3] -- simplified theory with three automatically computed flexibility
-        values (modified Fastsim, \S \ref{sec:fastsim});
+        values (Modified Fastsim, \S \ref{sec:fastsim});
 \item[4] -- elastic contact with interfacial layer and near-surface plastic
         deformation (\S \ref{sec:intfc_layer}).
+\item[5] -- Modified FaStrip method, combination of strip theory and
+        simplified theory (\S \ref{sec:fastsim});
 \magenta{
-\item[5] -- FaStrip method, combination of strip theory and simplified
-        theory (\S \ref{sec:fastsim});
 \item[6] -- reserved for pseudo-viscous damping;
 \item[7] -- reserved for two quarter-spaces with vertical gap in between.
 }
@@ -2398,15 +2398,17 @@ This option is activated with ${\tt B}=1$ (page \pageref{b-digit}).
 \subsection{Flexibilities of the simplified theory}
 \label{sec:fastsim}
 
-CONTACT provides the `Modified FASTSIM' algorithm \cite{Spiryagin2013} for
-quick approximation of the tangential surface tractions $\vec{p}_t$ using
-the simplified theory \cite{Kalker1973,Kalker1982a-fastsim}. This uses the
-simplified material model (${\tt M}=2,3$), also called the Winkler
-foundation approach. The surface particles are assumed to be moving
-independently of each other, with response $\vec{u}_t$ linear in the
-surface traction $\vec{p}_t$. This may be viewed as if the bodies
-consisted of a set of independent springs with (combined) flexibility
-parameter $L$.
+CONTACT provides the `Modified Fastsim' \cite{Spiryagin2013} and `Modified
+FaStrip' algorithms \cite{Vollebregt2025a-indicators} for quick approximation
+of the tangential surface tractions $\vec{p}_t$. 
+
+Modified Fastsim relies on simplified theory \cite{Kalker1973,
+Kalker1982a-fastsim}. This uses the simplified material model
+(${\tt M}=2,3$), also called the Winkler foundation approach. The surface
+particles are assumed to be moving independently of each other, with
+response $\vec{u}_t$ linear in the surface traction $\vec{p}_t$. This
+may be viewed as if the bodies consisted of a set of independent springs
+with (combined) flexibility parameter $L$.
 \begin{inputvars}
 \inpvar{FLX}{\bunit{mm^3/N}}{Flexibility parameter $L$.}
 \end{inputvars}
@@ -2414,14 +2416,23 @@ In Hertzian problems (Sections \ref{sec:hertz3d}--\ref{sec:sdec}),
 three different flexibilities $L'_\xi$, $L'_\eta$ and $L'_\phi$ may be
 used for longitudinal, lateral and spin creepage respectively. These
 flexibilities are computed automatically when ${\tt M}=3$, using the
-blending approach of \cite{Vollebregt2022a-1flex}. For non-Hertzian
-problems (\S \ref{sec:nonhzvar}, \ref{sec:ibase}), these flexibilities
-are based on an equivalent ellipse with semi-axes $a_{eqv}, b_{eqv}$,
-estimated for the actual contact area.
+blending approach of \cite{Vollebregt2022a-1flex}. 
 
-The modifications proposed in \cite{Spiryagin2013} are based on a variable
-flexibility, increasing with the ratio of the slip area to the area
-of adhesion:
+For non-Hertzian problems (\S \ref{sec:nonhzvar}, \ref{sec:ibase}), these
+flexibilities are based on an equivalent ellipse with semi-axes $a_{eqv},
+b_{eqv}$, estimated for the actual contact area.
+
+Modified FaStrip (${\tt M}=5$) combines the simplified theory with strip
+theory \cite{Kalker1966a-strip,Sichani2016b-fastrip}. This generally
+improves the stress distribution compared to Modified Fastsim
+\cite{Vollebregt2025a-indicators}.
+
+Modifications are provided compared to the original Fastsim and FaStrip
+methods that account for the effects of interfacial layers, reducing the
+initial slope of the creep-force characteristic and slowing down the
+transition to saturation. As proposed in \cite{Spiryagin2013}, these
+modifications are based on variation of the flexibilities used,
+increasing with the ratio of the slip area to the area of adhesion:
 \begin{equation}\label{eq:k_modif_fs}
    L_{\eff} = \frac{L}{k}, \;\;\mbox{with}\;\;
    k = k_0 \left( \alpha_{inf} + 
@@ -2447,11 +2458,10 @@ The simplified theory is not realistic for computing the normal problem.
 For this the full half-space approach is used (option ${\tt B}=0$). In
 Hertzian problems, elliptical or parabolical traction bounds may be
 used as alternatives, by setting ${\tt B}=2$ or 3. Of these options the
-parabolical traction bound is advised. The elliptical traction bound and
-the half-space solution cannot predict the shapes of adhesion and slip
-areas well in cases with large spin, where there should be slipping near
-the leading edge of the contact area. For non-Hertzian cases, two
-approximate methods provided are KPEC (${\tt B}=5$) or ANALYN (${\tt B}=6$).
+elliptical traction bound is advised. The parabolical traction bound
+permits $33\%$ higher tractions and consequent changes in the distribution
+of wear or damage indicators. For non-Hertzian cases, two approximate
+methods provided are KPEC (${\tt B}=5$) or ANALYN (${\tt B}=6$).
 
 When using the simplified theory, the material parameters of Section
 \ref{sec:lin_elast} must still be specified. These are used in the normal
@@ -2459,15 +2469,6 @@ problem when ${\tt B}=0$ and in the calculation of subsurface stresses,
 which are both based on the full half-space approach.
 % - L1, L2, L3 depend on \nu
 % - subsurface stresses using full half-space solution
-
-\magenta{
-A further option is the Modified FaStrip approach (${\tt M}=5$). FaStrip
-combines the simplfied theory with strip theory to improve the stress
-distribution compared to Fastsim \cite{Sichani2016b-fastrip}. The method
-is extended to non-Hertzian situations using an equivalent ellipse as used
-for ${\tt M}=3$, and incorporates effects of interfacial layers using
-variable flexibility according to Equation (\ref{eq:k_modif_fs}).
-}
 
 \subsection{Interfacial layer of contaminants}
 \label{sec:intfc_layer}
@@ -3624,8 +3625,8 @@ solvers described below at item \ref{itm:it_solvers}.
 \end{enumerate}
 
 \end{enumerate}
-These iterations are mostly bypassed when using the KPEC, ANALYN and
-FASTSIM\magenta{, FaStrip } approaches. 
+These iterations are mostly bypassed when using the KPEC, ANALYN,
+FASTSIM, and FASTRIP approaches. 
 
 The nesting of algorithms is changed in the analysis of wheel/rail
 contact (Chapter \ref{chp:module1}), adding a new outermost level 0 for
@@ -5723,15 +5724,16 @@ is concerned, but whether they occur in reality is still unknown.
 
 The input-file {\tt fastsim.inp} illustrates the use of the FASTSIM
 approach using the CONTACT program. A single Hertzian case with aspect
-ratio $a/b=2$ is solved three times using different solution methods.
+ratio $a/b=2$ is solved four times using different solution methods.
 \begin{enumerate}
 \item The first case uses the original CONTACT algorithm, by selecting
         ${\tt B}=0$ and ${\tt M}=0$.
-\item The second case uses the FASTSIM algorithm in the recommended way,
-        i.e.\ with parabolic traction bound. This is achieved by setting
-        ${\tt B}=3$ and ${\tt M}=3$.
-\item The third case uses the FASTSIM algorithm together with an elliptical
-        traction bound: ${\tt B}=0$ or 2, ${\tt M}=3$.
+\item The second case uses the FASTSIM algorithm with parabolic traction
+        bound. This is achieved by setting ${\tt B}=3$ and ${\tt M}=3$.
+\item The third case uses the FASTSIM algorithm in the recommended way,
+        with an elliptical traction bound: ${\tt B}=0$ or 2, ${\tt M}=3$.
+\item The fourth case uses the FASTRIP algorithm in the recommended way,
+        with an elliptical traction bound: ${\tt B}=0$ or 2, ${\tt M}=5$.
 \end{enumerate}
 \begin{alltt}\small
 % second case: FASTSIM algorithm, parabolical traction bound (M=3, B=3)
@@ -5748,38 +5750,43 @@ ratio $a/b=2$ is solved three times using different solution methods.
    44   44     8.000      4.000      1.100          MX,MY,AA,BB,SCALE
 \end{alltt}
 Figure \ref{fig:eldiv_fastsim} illustrates the tangential tractions that
-are obtained. It can be seen that the parabolical traction bound gives
-results that compare better to those of the half-space approach. The total
-forces compare quite well in this case: $F_y=-0.61$ for CONTACT, and
-$-0.64$ and $-0.59$ for FASTSIM with parabolic and elliptical traction bound
-respectively. Note that these results are affected by the discretisation
-that is used, and that no general conclusions can be drawn on basis of a
-single case. For more information on the accuracy of the FASTSIM approach
-(and USETAB, Polach's method) when compared to CONTACT see
-\cite{Vollebregt2011a-assessm}. For a comparison of parabolical and elliptical
-traction bounds and one versus three flexibilities see
-\cite{Vollebregt2010b-fastsim2,Vollebregt2022a-1flex}.
+are obtained. Both Fastrip and Fastsim with parabolical traction bound give
+qualitatively reasonable approximations of adhesion and slip areas. Note
+that for the parabolical bound, tangential tractions are raised at the
+center and reduced on the sides compared to the half-space approach. 
+
+The total forces compare quite well in this case: $F_y=-0.61$ for CONTACT,
+and $-0.64, -0.64$ and $-0.60$ for FASTRIP, FASTSIM with parabolic and
+elliptical traction bound respectively. Note that these results are
+affected by the discretisation that is used, and that no general
+conclusions can be drawn on basis of a single case. For more
+information on the accuracy of the FASTSIM approach (and USETAB, Polach's
+method) when compared to CONTACT see \cite{Vollebregt2011a-assessm}. For
+a comparison of parabolical and elliptical traction bounds and one versus
+three flexibilities see \cite{Vollebregt2010b-fastsim2,Vollebregt2022a-1flex}.
 
 \begin{figure}[bt]
 \centering
-\psfig{figure=fig/fastsim_eldiv_cntc,width=3.2in,trim=30 105 30 140,clip=}
+\psfig{figure=fig/fastsim_eldiv_cntc,width=3.2in,trim=20 95 15 110,clip=}
+\psfig{figure=fig/fastsim_eldiv_ellip,width=3.2in,trim=20 95 15 110,clip=}
 
-\psfig{figure=fig/fastsim_eldiv_parab,width=3.2in,trim=30 105 30 140,clip=}
-\psfig{figure=fig/fastsim_eldiv_ellip,width=3.2in,trim=30 105 30 140,clip=}
+\psfig{figure=fig/fastrip_eldiv,width=3.2in,trim=20 95 15 110,clip=}
+\psfig{figure=fig/fastsim_eldiv_parab,width=3.2in,trim=20 95 15 110,clip=}
 \caption{\em Tangential tractions in a steady state rolling problem with
-large spin. Top: results for the CONTACT
-(half-space) algorithm on a $40\times 40$ grid. Bottom: results for the
-FASTSIM algorithm with parabolical (B=3, left) and elliptical traction
-bound (B=2, right), computed on $200\times 200$ grids.}
+        large spin. Top-left: results for the CONTACT (half-space)
+        algorithm on a $40\times 40$ grid. Bottom, right: results for
+        FaStrip and for Fastsim with elliptical and parabolical traction
+        bounds, computed on $200\times 200$ grids.}
 \label{fig:eldiv_fastsim}
 \end{figure}
 
 The pictures are created with the Matlab program {\tt plot3d} (Section
 \ref{sec:plot_surf}), in which the following settings are used:
 \begin{alltt}\small
-s = loadcase('fastsim'); opt = plot3d;
-opt.field='ptabs+vec'; opt.numvecx=22; opt.numvecy=12;
-opt.exterval=NaN; opt.zrange=[0 400];
+s = loadcase('fastsim'); 
+opt = plot3d; opt.field='ptabs+vec'; 
+opt.numvecx=22; opt.numvecy=12; opt.vecwidth=1;
+opt.exterval=NaN; opt.zrange=[0 400]; opt.eldivwid=1;
 plot3d(s, opt); shading flat; axis equal;
 \end{alltt}
 
@@ -6651,10 +6658,9 @@ configuration of the accuracy with which sensitivities are computed.
 This subroutine configures the material parameters of Section
 \ref{sec:matcns}: basic elasticity parameters $G, \nu$, needed always, and
 added parameters for visco-elastic materials (${\tt M}=1$, Section
-\ref{sec:visc_elast}), the Modified Fastsim \magenta{and FaStrip}
-algorithm\magenta{s} (${\tt M}=2$ or 3\magenta{, 5},
-Section \ref{sec:fastsim}), and the interfacial layer of ${\tt M}=4$
-(Section \ref{sec:intfc_layer}).
+\ref{sec:visc_elast}), the Modified Fastsim and FaStrip algorithms (${\tt 
+M}=2, 3$ or $5$, Section \ref{sec:fastsim}), and the interfacial layer
+of ${\tt M}=4$ (Section \ref{sec:intfc_layer}).
 
 \paragraph{cntc\_setfrictionmethod}
 
