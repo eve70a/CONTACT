@@ -1053,6 +1053,7 @@ subroutine simpflex(ic, aa, bb, mater, fstat, kin, idebug)
    real(kind=8),     intent(in)  :: aa, bb, fstat
    integer,          intent(in)  :: idebug
 !--local variables:
+   logical, parameter :: use_blending = .true.
    real(kind=8)   :: aob, cc, cxx, cyy, cyz, ch_ksi, ch_eta, ch_phi, f3, f4, f_crp, f_wgt,              &
                      crss_numer, crss_denom, l_crss
 
@@ -1107,7 +1108,7 @@ subroutine simpflex(ic, aa, bb, mater, fstat, kin, idebug)
 
    ! if creepages provided (F=0): apply blending approach
 
-   if (ic%force3.le.0) then
+   if (use_blending .and. ic%force3.le.0) then
 
       ! compute combined flexibility L_crss -- obtained setting cross terms \eta\phi = 0
 
@@ -1120,8 +1121,8 @@ subroutine simpflex(ic, aa, bb, mater, fstat, kin, idebug)
 
       ! apply blending approach, gradually shifting from 3 flexibilities to 1 flexibility at large creepage
 
-      f_crp  = sqrt( (cksi**2 + ceta**2 + cphi**2) / (ch_ksi**2 + ch_eta**2 + ch_phi**2) )
-      f_wgt  = min(1d0, max(0d0, (f_crp - 0d0)/(3d0 - 0d0) ))
+      f_crp = max(1d-10, sqrt( (cksi**2 + ceta**2) / (ch_ksi**2 + ch_eta**2) ))
+      f_wgt = min(1d0, max(0d0, (f_crp - 0d0)/(3d0 - 0d0) ))
       if (idebug.ge.1) then
          write(bufout,'(3(a,g12.5))') '      f_crp=',f_crp,', f_wgt=',f_wgt,', L_crss=',l_crss
          call write_log(1, bufout)
