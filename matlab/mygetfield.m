@@ -16,5 +16,10 @@ function result = mygetfield(struct,field);
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
-result = eval(['struct.',field]);
+len = length(struct);
+if (len<=1)
+   result = eval(['struct.',field]);
+else
+   eval(sprintf('result = []; for i = 1 : len, result(i) = struct(i).%s; end', field));
+end
 
