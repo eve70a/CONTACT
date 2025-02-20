@@ -432,7 +432,7 @@ contains
       elseif (solv%solver_eff.eq.isolv_tangcg) then
          call timer_start(itimer_tangcg)
          imeth = 2
-         call tangcg(ic, npot, maxit_loc, eps_loc, is_sens, wstot, infl, outpt1, it, err)
+         call tangcg(ic, npot, maxit_loc, eps_loc, is_sens, wstot, infl, mater%tau_c0, outpt1, it, err)
          call timer_stop(itimer_tangcg)
       elseif (solv%solver_eff.eq.isolv_stdygs) then
          imeth = 1
@@ -455,7 +455,7 @@ contains
          ! attempt solution using GDsteady
          imeth = 3
          call timer_start(itimer_gdstdy)
-         call gdsteady(ic, npot, mater, maxit_loc, eps_loc, wstot, infl, outpt1, solv, it, err, lstagn)
+         call gdsteady(ic, npot, mater, kin, maxit_loc, eps_loc, wstot, infl, outpt1, solv, it, err, lstagn)
          call timer_stop(itimer_gdstdy)
 
          if (lstagn .and. .true.) then
@@ -1060,13 +1060,18 @@ contains
       type(t_gridfnc3)         :: ws
       type(t_output)           :: outpt
 !--local variables :
-      integer      :: ii, ix, ixsta, ixinc, ixend, iy
-      real(kind=8) :: nu, mu, aa, bb, aob, cxx, cyy, cyz, cksi_p, ceta_p, cphi_p, xsta, xend, aa_j,     &
-                      pmax, ptabs, y_j, dd_j, kappa, lambda, lambdap, sq_cnt, sq_adh
+      logical, parameter :: check_tract_bound = .true., use_full_sliding = .false.
+      integer, parameter :: iydbg = -33
+      integer      :: ii, ii1st, ix, ixsta, ixinc, ixend, iy, ncon_j
+      real(kind=8) :: mu, aa, bb, aob, cxx, cyy, cyz, cksi_p, ceta_p, cphi_p, fn, xsta, xmid, xend,     &
+                      aa_j, pmax, ptabs, y_j, dd_j, kappa, lambda, lambda_p, sq_cnt, sq_adh,            &
+                      f_x, f_y, f_t, ft_max
 
-      associate(mx    => cgrid%nx,  my    => cgrid%ny,  flx   => mater%flx, k_eff => mater%k_eff,       &
+      associate(mx    => cgrid%nx,  my    => cgrid%ny,  dx    => cgrid%dx,                              &
+                cksi  => kin%cksi,  ceta  => kin%ceta,  cphi  => kin%cphi,  dq    => kin%dq,            &
+                ga    => mater%ga,  nu    => mater%nu,  flx   => mater%flx, k_eff => mater%k_eff,       &
                 igs   => outpt%igs, mus   => outpt%mus, ps    => outpt%ps,  us    => outpt%us,          &
-                uv    => outpt%uv,  ss    => outpt%ss)
+                uv    => outpt%uv,  ss    => outpt%ss  )
 
       if (ic%tang.ne.3) then
          call write_log(' ERROR: FaStrip is supported only for steady state rolling (T=3).')
@@ -1085,20 +1090,27 @@ contains
 
       ! 1. inputs for Hertzian case
 
-      nu   = mater%nu
       mu   = fric%fstat()
-      pmax = 1.5d0 * kin%fntrue / (pi * aa * bb)
-
-      ! 2. preparations: Kalker coefficients, flexibilities
+      fn   = kin%fntrue
+      pmax = 1.5d0 * fn / (pi * aa * bb)
+      
+      ! 2. preparations: Kalker coefficients, non-dimensional creepages for strip theory
 
       aob  = aa / bb
       call linrol(nu, aob, cxx, cyy, cyz)
 
-      ! non-dimensional creepages for strip theory
+      cksi_p = -ga * 4d0 * (1d0-nu) * cxx * cksi / (2d0 * mu * pmax * pi**2)
+      ceta_p = -ga * 4d0 * (1d0-nu) * cyy * ceta / (2d0 * mu * pmax * pi**2)
+      cphi_p = -ga * 3d0 * sqrt(aa*bb) * cyz * cphi / (2d0 * mu * pmax * pi)
 
-      cksi_p = -mater%ga * 4d0 * (1d0-nu) * cxx * kin%cksi / (2d0 * mu * pmax * pi**2)
-      ceta_p = -mater%ga * 4d0 * (1d0-nu) * cyy * kin%ceta / (2d0 * mu * pmax * pi**2)
-      cphi_p = -mater%ga * 3d0 * sqrt(aa*bb) * cyz * kin%cphi / (2d0 * mu * pmax * pi)
+      if (.false.) then
+         write(bufout,'(4(a,f16.8))') ' cxx=',cxx,', cx=  ',4*(1-nu)/pi**2*cxx,', pmax=',pmax,', ksi=',cksi
+         call write_log(1, bufout)
+         write(bufout,'(4(a,f16.8))') ' cyz=',cyz,', cphi=',3/pi*sqrt(bb/aa)*cyz,', pmax=',pmax,', phi=',cphi
+         call write_log(1, bufout)
+         write(bufout,'(3(a,f16.8))') ' ksi=',cksi_p,', eta= ',ceta_p,', phi= ',cphi_p
+         call write_log(1, bufout)
+      endif
 
       ! call fastsim_params to set the effective coefficient of friction f_eff and slope reduction k_eff
 
@@ -1124,21 +1136,25 @@ contains
          ii   = 1 + (iy-1)*mx
          y_j  = cgrid%y(ii)
 
-         ! 3. determine contact length for strip y_j: [xsta(j), xend(j)]
+         ! 3. determine contact length for strip y_j, [xsta(j), xend(j)], using element division
 
-            xsta   =  99d9
-            xend   = -99d9
-            do ix = 1, mx
-               ii = ix + (iy-1)*mx
-               if (igs%el(ii).ge.Adhes) then
-               xsta  = min(xsta, cgrid%x(ii)-0.5d0*cgrid%dx)
-               xend  = max(xend, cgrid%x(ii)+0.5d0*cgrid%dx)
-               endif
-            enddo
-            aa_j = max(1d-10, 0.5d0 * (xend - xsta))
+         ncon_j = 0
+         xsta   =  99d9
+         xend   = -99d9
+         do ix = 1, mx
+            ii = ix + (iy-1)*mx
+            if (igs%el(ii).ge.Adhes) then
+               ncon_j = ncon_j + 1
+               xsta  = min(xsta, cgrid%x(ii)-0.5d0*dx)
+               xend  = max(xend, cgrid%x(ii)+0.5d0*dx)
+            endif
+         enddo
+         aa_j = max(1d-10, 0.5d0 * (xend - xsta))
+         xmid = 0.5d0 * (xsta + xend)
 
          ! 4. Fastsim, 3 flexibilities. process points ix within row iy in the appropriate order
 
+         ii1st  = 0
          do ix = ixsta, ixend, ixinc
             ii = ix + (iy-1)*mx
 
@@ -1163,6 +1179,10 @@ contains
                ss%vx(ii) = 0d0
                ss%vy(ii) = 0d0
             else
+
+               ! store index of first interior point
+
+               if (ii1st.le.0) ii1st = ii
 
                ! Interior elements: time-step equation, implicit Euler:
                !    U(i) - U'(i) = S(i) - W(i) = dq*s(i) - dq*w(i)
@@ -1192,8 +1212,8 @@ contains
 
                   ! The direction of the tractions ( // W ) is ok, scale tractions
 
-                  ps%vx(ii) = ps%vx(ii) * mu * ps%vn(ii) / ptabs
-                  ps%vy(ii) = ps%vy(ii) * mu * ps%vn(ii) / ptabs
+                  ps%vx(ii) = ps%vx(ii) * mu*ps%vn(ii)/ptabs
+                  ps%vy(ii) = ps%vy(ii) * mu*ps%vn(ii)/ptabs
 
                   us%vx(ii) = flx(1) * ps%vx(ii) / k_eff
                   us%vy(ii) = flx(2) * ps%vy(ii) / k_eff
@@ -1208,11 +1228,25 @@ contains
 
          ! 7. compute length of slip area in strip theory
 
-         if (abs(cphi_p).ge.1d0-1d-6) then
-            dd_j = aa_j
+         if (abs(cphi_p-1d0).le.1d-6) then
+
+            dd_j = aa_j + 1d0           ! original: use full sliding if cphi_p == 1
+
+         elseif (use_full_sliding .and. abs(cphi_p).ge.1d0-1d-6) then
+
+            dd_j = aa_j + 1d0           ! `full sliding approach': use sliding if (1-chpi_p**2) <= 0
+
          else
-            dd_j = (sqrt( ceta_p**2 + (1d0 - cphi_p**2) * (cksi_p - cphi_p * y_j / aa)**2 ) +           &
-                                                ceta_p * cphi_p) / (1d0 - cphi_p**2) * aa / (1d0 - nu)
+
+            dd_j = ( sqrt( ceta_p**2 + (1d0 - cphi_p**2) * (cksi_p - cphi_p * y_j / aa)**2 ) +          &
+                        ceta_p * cphi_p ) / (1d0 - cphi_p**2) * aa / (1d0 - nu)
+            if (dd_j.lt.0d0) dd_j = aa_j + 1d0  ! full sliding
+
+            if (.false. .or. iy.eq.iydbg) then
+               write(bufout,'(a,i3,a,f5.2,3(a,f10.6))') ' iy=',iy,', y_j=',y_j,': a_y=',aa_j,           &
+                        ', d=',dd_j,', x_intf=', -aa_j+2d0*dd_j
+               call write_log(1, bufout)
+            endif
          endif
 
          ! 8. compute strip theory stress scaling factors
@@ -1223,30 +1257,64 @@ contains
          lambda  = (ceta_p + cphi_p * dd_j / aa) /                                                      &
                    sqrt( max(1d-20, ( cksi_p - cphi_p * y_j / aa)**2 + (ceta_p + cphi_p * dd_j / aa)**2 ) )
 
-         lambdap = lambda - cphi_p
+         lambda_p = lambda - cphi_p
+
+         if (.false. .or. iy.eq.iydbg) then
+            write(bufout,'(6(a,f12.6))') ' y_j=',y_j,', aa_j=',aa_j,', dd_j=',dd_j,', kappa=',kappa,    &
+                        ', lambda=',lambda
+            call write_log(1, bufout)
+         endif
 
          ! 9. compute strip theory tractions within strip-theory's adhesion area
 
+         ft_max = 0d0
          do ix = 1, mx
             ii = ix + (iy-1)*mx
             if (igs%el(ii).ge.Adhes .and. cgrid%x(ii).gt.-aa_j+2d0*dd_j) then
-               igs%el(ii) = Adhes
 
-               sq_cnt = sqrt( max(0d0, aa_j**2 - cgrid%x(ii)**2 ) )
-               sq_adh = sqrt( max(0d0, (aa_j - dd_j)**2 - (cgrid%x(ii) - dd_j)**2 ) )
+               sq_cnt = sqrt( max(0d0, aa_j**2 - cgrid%x(ii)**2 ) ) / aa
+               sq_adh = sqrt( max(0d0, (aa_j - dd_j)**2 - (cgrid%x(ii) - dd_j)**2 ) ) / aa
 
-               ps%vx(ii) = mu * pmax * (kappa  * sq_cnt - kappa   * sq_adh) / aa
-               ps%vy(ii) = mu * pmax * (lambda * sq_cnt - lambdap * sq_adh) / aa
-
-            if (isnan(ps%vx(ii)) .or. isnan(ps%vy(ii))) then
-                  write(bufout,'(2(a,i4),2(a,g12.4))') ' iy=',iy,', ix=',ix,': px=',ps%vx(ii),          &
-                        ', py=',ps%vy(ii)
-               call write_log(1, bufout)
+               f_x = kappa  * sq_cnt - kappa    * sq_adh
+               f_y = lambda * sq_cnt - lambda_p * sq_adh
+               f_t = f_x**2 + f_y**2
+               ft_max = max(ft_max, f_t)
             endif
-            endif
-
          enddo
 
+         if (.not.check_tract_bound .or. ft_max.le.1d0) then
+            do ix = 1, mx
+               ii = ix + (iy-1)*mx
+               if (igs%el(ii).ge.Adhes .and. cgrid%x(ii).gt.-aa_j+2d0*dd_j) then
+
+                  ! assigned to adhesion according to strip theory
+
+                  igs%el(ii) = Adhes
+
+                  sq_cnt = sqrt( max(0d0, aa_j**2 - cgrid%x(ii)**2 ) ) / aa
+                  sq_adh = sqrt( max(0d0, (aa_j - dd_j)**2 - (cgrid%x(ii) - dd_j)**2 ) ) / aa
+
+                  ps%vx(ii) = mu * pmax * (kappa  * sq_cnt - kappa    * sq_adh)
+                  ps%vy(ii) = mu * pmax * (lambda * sq_cnt - lambda_p * sq_adh)
+
+               elseif (igs%el(ii).ge.Adhes) then
+
+                  ! assigned to slip according to strip theory
+
+                  igs%el(ii) = Slip
+                  ptabs = max(1d-10, sqrt(ps%vx(ii)**2 + ps%vy(ii)**2))
+                  ps%vx(ii) = ps%vx(ii) * mu*ps%vn(ii)/ptabs
+                  ps%vy(ii) = ps%vy(ii) * mu*ps%vn(ii)/ptabs
+
+               endif
+
+               if (isnan(ps%vx(ii)) .or. isnan(ps%vy(ii))) then
+                  write(bufout,'(2(a,i4),2(a,g12.4))') ' iy=',iy,', ix=',ix,': px=',ps%vx(ii),', py=',ps%vy(ii)
+                  call write_log(1, bufout)
+                  call abort_run()
+               endif
+            enddo
+         endif
       enddo ! row iy
 
       end associate
@@ -1258,7 +1326,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-      subroutine tangcg(ic, npot, maxcg, eps, is_sens, ws, infl, outpt, itcg, err)
+      subroutine tangcg(ic, npot, maxcg, eps, is_sens, ws, infl, tau_c0, outpt, itcg, err)
 !--purpose: Nonlinear Conjugate Gradient type solver for the system of equations and constraints in TANG with
 !           fixed creepages. Variant 9 including inner iterations and FFT-based preconditioner. Matrix-free
 !           implementation, using routine VecAijPj for evaluating "A * v", with A represented by cs.
@@ -1267,7 +1335,7 @@ contains
       type(t_ic),       intent(in)      :: ic
       integer,          intent(in)      :: npot, maxcg
       logical,          intent(in)      :: is_sens
-      real(kind=8),     intent(in)      :: eps
+      real(kind=8),     intent(in)      :: eps, tau_c0
       type(t_gridfnc3), intent(in)      :: ws
       type(t_influe),   intent(in)      :: infl
       type(t_output)                    :: outpt
@@ -1277,21 +1345,22 @@ contains
       integer, parameter :: num_inn = 4
       integer, parameter :: itdbg = 500
       real(kind=8), parameter :: small = 1d-6
-      logical            :: use_fftprec, lchanged
+      logical            :: use_fftprec, use_plast, lchanged
       type(t_gridfnc3)   :: g, n, t, r, z, v, q, pold, ps0, tmp
       integer            :: mx, my, nadh, nslip, nplast, nexter, imvp, it_inn, ii, iidbg, iidbgx,       &
                             iidbgy, ic_nmdbg
       real(kind=8)       :: alpha, beta, rv, zq, vq, snrm, perp, ga, ptabs, facnel, dif, dif1, difid,   &
                             difinn, ptang, trsinn, conv
 
-      associate(cs   => infl%cs,  ms   => infl%ms, igs  => outpt%igs, mu   => outpt%mus,                &
-                ps   => outpt%ps, ss   => outpt%ss)
+      associate(cs   => infl%cs,  ms   => infl%ms,  igs  => outpt%igs,  mu   => outpt%mus,              &
+                ps   => outpt%ps, ss   => outpt%ss, upls => outpt%upls, uplv => outpt%uplv)
 
       mx = ps%grid%nx
       my = ps%grid%ny
       ga = cs%ga
       ic_nmdbg = ic%x_nmdbg
       iidbg = min(npot, 196)
+      use_plast = tau_c0.gt.1d-10 .and. tau_c0.le.1d10
 
 #if defined WITH_MKLFFT
       use_fftprec = (ic%mater.ne.1)
@@ -1353,6 +1422,14 @@ contains
       endif
 #endif
 
+      ! Plasticity is solved using the slip equations
+
+      if (use_plast) then
+         do ii = 1, npot
+            if (igs%el(ii).eq.Plast) igs%el(ii)  = Slip
+         enddo
+      endif
+
       ! count number of elements in H, S for switching off preconditioner
 
       call eldiv_count(igs, nadh, nslip, nplast, nexter)
@@ -1365,6 +1442,7 @@ contains
 
       do ii = 1, npot
          g%vt(ii) = mu%vt(ii) * ps%vn(ii)
+         if (use_plast) g%vt(ii) = min(tau_c0, g%vt(ii))
       enddo
 
       ! This routine uses a relative stop-criterion on the updates dif == ||pk - pk-1||_rms, which are
@@ -1814,6 +1892,27 @@ contains
  6200    format (14x, 'TangCG:', i4, ' iterations. |Pk - Pk-1|,', ' C_est:', g12.4, f8.4)
       endif
 
+      ! Extension for elastic-perfectly plastic material with k_tau = 0
+      ! move Slip --> Plast as indicated by mu*pn > tau_c0
+
+      if (use_plast) then
+         do ii = 1, npot
+            if (igs%el(ii).eq.Slip .and. mu%vt(ii)*ps%vn(ii).gt.tau_c0) then
+               igs%el(ii)  = Plast
+               upls%vx(ii) = uplv%vx(ii) - ss%vx(ii)
+               upls%vy(ii) = uplv%vy(ii) - ss%vy(ii)
+               ss%vx(ii)   = 0d0
+               ss%vy(ii)   = 0d0
+            elseif (igs%el(ii).eq.Exter) then
+               upls%vx(ii) = 0d0
+               upls%vy(ii) = 0d0
+            else
+               upls%vx(ii) = uplv%vx(ii)
+               upls%vy(ii) = uplv%vy(ii)
+            endif
+         enddo
+      endif
+
       call gf3_destroy(g)
       call gf3_destroy(n)
       call gf3_destroy(t)
@@ -1857,7 +1956,7 @@ contains
       integer            :: i, ista, iinc, iend, ii, ix, iy, ixinc, iym, mx, my, npot, nadh, nslip,     &
                             nplst, nexter, elprv, idebug, difmax_i, nadh_th, nslip_th, nplst_th,        &
                             difmax_i_th
-      real(kind=8)       :: coefs(2,2), coefsv(2,2), tau_c0, k_tau, dif1, difid, pr(3), s(2), dupl(2),  &
+      real(kind=8)       :: coefs(2,2), coefsv(2,2), k_tau, dif1, difid, pr(3), s(2), dupl(2),          &
                             tauc, tauv, facnel, flx, dif, difmax, dif_th, difmax_th
       logical            :: is_ssrol, use_plast, zledge
       type(t_gridfnc3)   :: ps0, tmp
@@ -1865,18 +1964,17 @@ contains
 
       associate( cs    => infl%cs,      csv  => infl%csv,    igs   => outpt1%igs,                       &
                  mus   => outpt1%mus,   ps   => outpt1%ps,   ss    => outpt1%ss,                        &
-                 upls  => outpt1%upls,  uplv => outpt1%uplv, taucs => outpt1%taucs,                     &
-                 taucv => outpt1%taucv, ubnd => ledg%ubnd,   ii2j  => ledg%ii2j%val)
+                 tau_c0 => mater%tau_c0,  upls  => outpt1%upls,  uplv  => outpt1%uplv,                  &
+                 taucs  => outpt1%taucs,  taucv => outpt1%taucv, ubnd  => ledg%ubnd,                    &
+                 ii2j   => ledg%ii2j%val)
 
       mx     = cgrid%nx
       my     = cgrid%ny
       npot   = cgrid%ntot
       k_tau  = mater%k_tau
-      tau_c0 = mater%tau_c0
 
       is_ssrol  = ic%tang.eq.3
-      use_plast = ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10
-      if (.not.use_plast) tau_c0 = 1d20
+      use_plast = ic%mater.eq.4 .and. tau_c0.gt.1d-10 .and. tau_c0.le.1d10
 
       ! save initial estimate for modified stopping criterion
 
@@ -2054,10 +2152,10 @@ contains
 
                if (.not.is_ssrol .or. zledge) then
                   call plstrc(ii, ix, iy, igs%el(ii), coefs,  eps, omegah, omegas, pr, mus%vt(ii),      &
-                                tau_c0, k_tau, tauv, tauc, s, dupl, idebug)
+                                use_plast, tau_c0, k_tau, tauv, tauc, s, dupl, idebug)
                else
                   call plstrc(ii, ix, iy, igs%el(ii), coefsv, eps, omegah, omegas, pr, mus%vt(ii),      &
-                                tau_c0, k_tau, tauv, tauc, s, dupl, idebug)
+                                use_plast, tau_c0, k_tau, tauv, tauc, s, dupl, idebug)
                endif
 
                if (igs%el(ii).ne.elprv .and. (ic%x_nmdbg.ge.4 .or. ic%flow.ge.7)) then
@@ -2235,26 +2333,25 @@ contains
       integer          :: iidbg, ii, ix, ixsta, ixinc, ixend, iy, iym, j, jj, jx, mx, my,                  &
                           elprv, npot, nadh, nslip, nplst, nexter, difmax_ii, idebug
       logical          :: use_plast
-      real(kind=8)     :: coef(2,2), k_tau, tau_c0, pr(3), s(2), ptabs, ptbnd, dupl(2), tauc, tauv,     &
+      real(kind=8)     :: coef(2,2), k_tau, pr(3), s(2), ptabs, ptbnd, dupl(2), tauc, tauv,             &
                           dif, dif1, difid, facnel, difmax, flx
       type(t_gridfnc3) :: dp, du, ps0, tmp
       character(len=1), parameter :: aset(0:3) = (/ 'E', 'H', 'S', 'P' /)
 
-      associate(cs   => infl%cs,   csv  => infl%csv,  igs  => outpt1%igs,  mus  => outpt1%mus,          &
-                ps   => outpt1%ps, ss   => outpt1%ss, upls => outpt1%upls, uplv => outpt1%uplv,         &
-                taucs => outpt1%taucs, taucv => outpt1%taucv)
+      associate(cs     => infl%cs,      csv   => infl%csv,     igs   => outpt1%igs,                     &
+                mus    => outpt1%mus,   ps    => outpt1%ps,    ss    => outpt1%ss,                      &
+                tau_c0 => mater%tau_c0, taucs => outpt1%taucs, taucv => outpt1%taucv,                   &
+                upls   => outpt1%upls,  uplv  => outpt1%uplv)
 
       mx     = cgrid%nx
       my     = cgrid%ny
       npot   = cgrid%ntot
       k_tau  = mater%k_tau
-      tau_c0 = mater%tau_c0
 
       iidbg  = -1
       ! iidbg  = 91 + mx*(54-1)
 
-      use_plast = ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10
-      if (.not.use_plast) tau_c0 = 1d20
+      use_plast = ic%mater.eq.4 .and. tau_c0.gt.1d-10 .and. tau_c0.le.1d10
 
       ! Set loop start/increment/end for processing rows on the basis of rolling direction (0 or 180 deg)
 
@@ -2412,7 +2509,7 @@ contains
                   idebug = 0
                   if (ic%x_nmdbg.ge.2 .and. ii.eq.iidbg .and. itgs.ge.1 .and. itgs.le.-5) idebug = 5
                   call plstrc(ii, ix, iy, igs%el(ii), coef, eps, omegah, omegas, pr, mus%vt(ii),       &
-                                 tau_c0, k_tau, tauv, tauc, s, dupl, idebug)
+                                 use_plast, tau_c0, k_tau, tauv, tauc, s, dupl, idebug)
 
                   if (igs%el(ii).ne.elprv .and. (ic%x_nmdbg.ge.4 .or. ic%flow.ge.7)) then
                      write(bufout,'(a,i4,2(a,i3),4a)') ' it=',itgs,': moving element (',cgrid%ix(ii),   &
@@ -2655,15 +2752,15 @@ contains
       real(kind=8)            :: taucs, dupl(2)
 
       taucs = taucv
-      call plstrc(ii, ix, iy, el, coef, eps, omegah, omegas, pr, mus, tau_c0, k_tau, taucv, taucs,      &
-                  s, dupl, idebug)
+      call plstrc(ii, ix, iy, el, coef, eps, omegah, omegas, pr, mus, .false., tau_c0, k_tau, taucv,    &
+                        taucs, s, dupl, idebug)
 
       end subroutine elmtrc
 
 !------------------------------------------------------------------------------------------------------------
 
-      subroutine plstrc (ii, ix, iy, el, coef, eps, omegah, omegas, pr, mus, tau_c0, k_tau, taucv,      &
-                        taucs, s, dupl, idebug)
+      subroutine plstrc (ii, ix, iy, el, coef, eps, omegah, omegas, pr, mus, use_plast, tau_c0, k_tau,  &
+                        taucv, taucs, s, dupl, idebug)
 !--Purpose: solve the tractions for one element ii=(ix,iy), and thereby determine whether it should
 !           be in the Adhesion, Slip or Plasticity area.
 !
@@ -2725,6 +2822,7 @@ contains
 !--subroutine arguments:
       implicit none
       integer,        intent(in)    :: ii, ix, iy, idebug
+      logical,        intent(in)    :: use_plast
       integer,        intent(inout) :: el
       real(kind=8),   intent(in)    :: eps, omegah, omegas, coef(2,2), k_tau, taucv, tau_c0
       real(kind=8),   intent(inout) :: pr(3), mus, s(2), taucs
@@ -2746,6 +2844,8 @@ contains
 
       ! precondition: required relative accuracy, multiplication factor on eps.
       !      Note that eps is for 2-norm over all elements, here we consider a single element only.
+
+      if (.not.use_plast) taucs = 1d20
 
       if (idebug.ge.5) then
          write(bufout,'(a,i7,2(a,i3),2a)') ' Element',ii,' (',ix,',',iy,'): input state ',aset(el)
@@ -2801,7 +2901,7 @@ contains
 
             dupl(1) = 0.d0
             dupl(2) = 0.d0
-            taucs   = taucv
+            if (use_plast) taucs   = taucv
 
             ! 1) solve 2x2 system of equations for update dp
 
@@ -2890,7 +2990,7 @@ contains
             ! set plasticity part of solution: dupl = 0, taucs = unchanged
 
             dupl(1:2) = 0.d0
-            taucs     = taucv
+            if (use_plast) taucs     = taucv
 
             ! Set initial estimate for pr, sabs
 
@@ -3069,7 +3169,7 @@ contains
             ! something close to a quasi-Newton iteration with (theta, taucs) as independent variables
             ! initial estimate: tau_c = tau_old, theta = opposite to imposed slip
 
-            taucs     = taucv
+            if (use_plast) taucs     = taucv
             theta     = atan2(-si0(2),-si0(1))
             theta_prv = 0d0
 
@@ -3129,7 +3229,7 @@ contains
 
             enddo ! while itnr
 
-            taucs = taucv + k_tau * dupl_abs
+            if (use_plast) taucs = taucv + k_tau * dupl_abs
             taucs = max(0.1d0*tau_c0, taucs)
 
             violat = 0

@@ -82,7 +82,6 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 if (~isempty(strmatch('catt2d_plast',expnam)))
-   close(1); % reset size - modified by other examples
    for icase = [ 1, 2, 5, 10, 25, 50]
       s = loadcase('catt2d_plast', icase);
       if (~isfield(s,'taucrt'))
@@ -145,8 +144,8 @@ if (~isempty(strmatch('catt3d_plast',expnam)))
 
    [~,iy0] = min(abs(s2.y));
 
-   figure(1); clf;
-   p = get(gcf,'position'); p(3:4)=[800 600]; set(gcf,'position',p);
+   figure(101); clf;    % fig number > max(case) used above
+   p = get(gcf,'position'); p(2)=min(400,p(2)); p(3:4)=[800 600]; set(gcf,'position',p);
 
    subplot(2,3,4);
    plot(s2.x, -s2.px(iy0,:), '-', s2.x, s2.mu(iy0,:).*s2.pn(iy0,:), '--', ...
@@ -238,7 +237,7 @@ if (~isempty(strmatch('mbench_a22_left',expnam)))
    opt.numvecx = 5;
    opt.vecwidth = 2;
 
-   figure(1); clf;
+   figure(102); clf;     % fig number > max(case) used above
    p = get(gcf,'position'); p(3)=2*p(4); set(gcf,'position',p);
    plot3d(s4, opt);
    v=get(gca,'dataaspectratio'); v(2)=v(1); set(gca,'dataaspectratio',v);
@@ -264,6 +263,12 @@ if (~isempty(strmatch('mbench_a22_left',expnam)))
       print -djpeg95 figs/mbench_slices.jpg
    end
 
+   figure(103); clf;     % fig number > max(case) used above
+   opt.field = 'eldiv';
+   p = get(gcf,'position'); p(3)=2*p(4); set(gcf,'position',p);
+   plot3d(s4, opt);
+
+
    if (pause_after_plot), pause; end
    clear iy2 iy3 s4 opt;
 end
@@ -273,7 +278,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 if (~isempty(strmatch('tractcurve_plast',expnam)))
-   [c, f] = parse_out3('tractcurve_plast');
+   [c, f] = parse_out3('tractcurve_plast', 0);
    cksi = reshape(c(:,2), 30, 8);
    fx = reshape(f(:,2), 30, 8);
    fstat = 0.33;

@@ -4181,7 +4181,7 @@ contains
          ! correct cref_z for offset in x
          r_y    = zc_rol - cref_z
          if (nom_radius.gt.0d0) then
-         cref_z = zc_rol - sqrt( r_y**2 - cref_x**2 )
+            cref_z = zc_rol - sqrt( r_y**2 - cref_x**2 )
          else
             cref_z = zc_rol + sqrt( r_y**2 - cref_x**2 )
          endif
@@ -4516,7 +4516,7 @@ contains
       type(t_grid)            :: rsrf, wsrf
       type(t_gridfnc3)        :: rnrm, wnrm
       integer                 :: iter, iy_ref, iy, iy0, iy1, ky, my, ny, sub_ierror
-      real(kind=8)            :: fac_sc, sc_ref, sr_sta, sr_end, z_axle, x_err, yi, dy, dz,     &
+      real(kind=8)            :: fac_sc, sc_ref, sr_sta, sr_end, z_axle, x_err, yi, dy, dz,             &
                                  ds_min, cref_x, rref, dzrol, sgn, nrm_vx, nrm_vy, nrm_vn, nrm_len
       real(kind=8), dimension(:), allocatable :: si, xw
 

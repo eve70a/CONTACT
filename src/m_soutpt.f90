@@ -71,10 +71,11 @@ contains
       integer, parameter       :: idebug = 3, nd = 4
       integer      :: ik, ii, i, j, iin, iout, lstrow, ncon, nadh, nslip, nplast, nexter
       logical      :: znewln, is_roll, is_ssrol, use_plast
-      real(kind=8) :: tmp1mx, tmp2mx, hmp, trcbnd, ptabs, ptarg, rhsx, rhsy, fxtrue, fytrue, us_avg(3)
+      real(kind=8) :: tmp1mx, tmp2mx, hmp, trcbnd, ptabs, ptarg, rhsx, rhsy, fxtrue, fytrue, us_avg(3), &
+                      frpow0
       character(len= 9) :: str_muscal
       character(len=12) :: strng(max(20, nsens_in*nsens_out))
-      type(t_gridfnc3) :: tmp
+      type(t_gridfnc3) :: dupl
 
       call timer_start(itimer_output)
       associate(ic     => gd%ic,            mater  => gd%mater,         pot    => gd%potcon_cur,        &
@@ -91,11 +92,12 @@ contains
                 mus1   => gd%outpt1%mus,    igs1   => gd%outpt1%igs,    igv1   => gd%outpt1%igv,        &
                 ps1    => gd%outpt1%ps,     pv1    => gd%outpt1%pv,     us1    => gd%outpt1%us,         &
                 uv1    => gd%outpt1%uv,     ss1    => gd%outpt1%ss,     shft1  => gd%outpt1%shft,       &
-                taucs  => gd%outpt1%taucs,  temp1  => gd%outpt1%temp1,  temp2  => gd%outpt1%temp2,      &
+                taucs  => gd%outpt1%taucs,  upls   => gd%outpt1%upls,   uplv   => gd%outpt1%uplv,       &
+                temp1  => gd%outpt1%temp1,  temp2  => gd%outpt1%temp2,                                  &
                 mxtrue => gd%outpt1%mxtrue, mytrue => gd%outpt1%mytrue, mztrue => gd%outpt1%mztrue,     &
                 elen   => gd%outpt1%elen,   frpow  => gd%outpt1%frpow,  pmax   => gd%outpt1%pmax)
 
-      call gf3_new(tmp, 'output:tmp', gd%cgrid_cur, nulify=.true.)
+      call gf3_new(dupl, 'output:dupl', gd%cgrid_cur, nulify=.true.)
 
       is_roll  = ic%tang.eq.2 .or. ic%tang.eq.3
       is_ssrol = ic%tang.eq.3
@@ -483,7 +485,15 @@ contains
          ! this the absolute slip velocity. Array ss = S_t contains the shift distance [mm]. This is divided
          ! by 1000 dt to get the absolute velocity sa_t in [m/s].
 
-         frpow  = dxdy * gf3_dot(AllElm, ps1, ss1, ikTANG) / (1d3 * gd%kin%dt)
+         if (use_plast) then
+            call gf3_copy(AllElm, upls, dupl, ikTANG)
+            call gf3_axpy(AllElm, -1d0, uplv, dupl, ikTANG)
+            frpow0 = -dxdy * gf3_dot(AllElm, ps1, dupl, ikTANG) / (1d3 * gd%kin%dt)
+         else
+            frpow0 = 0d0
+         endif
+
+         frpow  = frpow0 + dxdy * gf3_dot(AllElm, ps1, ss1, ikTANG) / (1d3 * gd%kin%dt)
 
          ! compute the maximum pressure
 
@@ -771,7 +781,7 @@ contains
 
       gd%kin%penv = pen
 
-      call gf3_destroy(tmp)
+      call gf3_destroy(dupl)
       call timer_stop(itimer_output)
 
       end associate

@@ -6,7 +6,7 @@
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
 
-      subroutine gdsteady(ic, npot, mater, maxgd, eps, ws, infl, outpt, solv, itgd, err, lstagn)
+      subroutine gdsteady(ic, npot, mater, kin, maxgd, eps, ws, infl, outpt, solv, itgd, err, lstagn)
 !--purpose: Nonlinear Gradient Descent type solver for the equations and constraints for steady
 !           rolling with fixed creepages. Matrix-free implementation, using routine VecAijPj for
 !           evaluating "A * v", with A represented by cs.
@@ -15,6 +15,7 @@
       type(t_ic),       intent(in)      :: ic
       integer,          intent(in)      :: npot, maxgd
       type(t_material)                  :: mater
+      type(t_kincns)                    :: kin
       real(kind=8),     intent(in)      :: eps
       type(t_gridfnc3), intent(in)      :: ws
       type(t_influe)                    :: infl
@@ -29,25 +30,18 @@
       character(len=1), parameter :: aset(0:3) = (/ 'E', 'H', 'S', 'P' /)
       logical            :: lchanged, use_plast
       type(t_eldiv)      :: igsold, igsopt
-      type(t_gridfnc3)   :: g, dp, dupl, dscl, n, t, r, dv, v, q, D_q, psopt, ssopt, pold, tmp
+      type(t_gridfnc3)   :: g, dp, dscl, n, t, r, dv, v, q, D_q, psopt, ssopt, pold, tmp
       integer            :: mx, my, nadh, nslip, nplast, nexter, newadh, newslp, imvp, it_inn, it_fb,   &
-                            ii, iym, iidbg, ixdbg, iydbg, its_j, tot_j, ltmp
-      real(kind=8)       :: alpha, alpha0, alpha1, beta, coefs(2,2), cosdth, facnel, flx, ga, k_tau,    &
-                            tau_c0, snrm, st, ptabs, dif, dif1, difid, difinn, conv,      &
-                            resmax, resrms, rii, res_dp, facdif
+                            ixsta, ixinc, ixend, ix, iy, ii, iym, iidbg, ixdbg, iydbg, its_j, tot_j, ltmp
+      real(kind=8)       :: alpha, alpha0, alpha1, beta, coefs(2,2), cosdth, facnel, flx, ga, snrm, st, &
+                            ptabs, dif, dif1, difid, difinn, conv, resmax, resrms, rii, res_dp, facdif
 
-      associate(cs    => infl%cs,     igs   => outpt%igs,   mus  => outpt%mus,                          &
-                ps    => outpt%ps,    ss    => outpt%ss,                                                &
-                taucs => outpt%taucs, taucv => outpt%taucv, upls => outpt%upls, uplv => outpt%uplv )
+      associate(cs    => infl%cs,     igs   => outpt%igs,  mus  => outpt%mus,   tau_c0 => mater%tau_c0, &
+                ps    => outpt%ps,    ss    => outpt%ss,   upls => outpt%upls,  uplv   => outpt%uplv)
 
       mx     = ps%grid%nx
       my     = ps%grid%ny
       ga     = cs%ga
-      k_tau  = mater%k_tau
-      tau_c0 = mater%tau_c0
-
-      use_plast = ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10
-      if (.not.use_plast) tau_c0 = 1d20
 
       if (.false.) then
          ixdbg = 8
@@ -79,6 +73,32 @@
          coefs(2,2) = cs%ga_inv * cs%cy(0,0,iym,2,2) + flx
       endif
 
+      use_plast = ic%mater.eq.4 .and. tau_c0.gt.1d-10 .and. tau_c0.le.1d10
+      if (use_plast .and. abs(mater%k_tau).gt.1d-6) then
+         write(bufout,'(a,g12.4,a)') ' ERROR: GDsteady: plastic 3rd body layer with K_TAU=',mater%k_tau, &
+              ' not yet supported'
+         call write_log(1, bufout)
+         call abort_run()
+      endif
+
+      ! Set loop start/increment/end for processing rows on the basis of rolling direction (0 or 180 deg)
+
+      if (use_plast) then
+         if (abs(kin%chi).lt.0.01d0) then
+            ixsta = 1      ! ixsta == trailing edge
+            ixinc = 1      ! ixinc == rolling direction
+            ixend = mx     ! ixend == leading edge
+         elseif (abs(kin%chi-pi).lt.0.01d0) then
+            ixsta = mx
+            ixinc = -1
+            ixend = 1
+         else
+            write(bufout,*) 'ERROR: in GDsteady, the rolling direction should be 0 or 180deg'
+            call write_log(1, bufout)
+            call abort_run()
+         endif
+      endif
+
       ! Initialize grid functions.
       ! Note: they should all be zero in the exterior area at all times.
       !       g is the traction bound, n, t normal and tangential directions,
@@ -90,7 +110,6 @@
       call eldiv_new(igsopt, ps%grid, nulify=.true.)
       call gf3_copy_struc(ps, g    , 'gdstdy:g'    , lzero=.true.)
       call gf3_copy_struc(ps, dp   , 'gdstdy:dp'   , lzero=.true.)
-      call gf3_copy_struc(ps, dupl , 'gdstdy:dupl' , lzero=.true.)
       call gf3_copy_struc(ps, dscl , 'gdstdy:dscl' , lzero=.true.)
       call gf3_copy_struc(ps, n    , 'gdstdy:n'    , lzero=.true.)
       call gf3_copy_struc(ps, t    , 'gdstdy:t'    , lzero=.true.)
@@ -109,6 +128,14 @@
                 dvy    => dv%vy,   vx  => v%vx,   vy  => v%vy,   qx  => q%vx,   qy  => q%vy,   &
                 dpx    => dp%vx,   dpy => dp%vy )
 
+      ! Plasticity with k_tau=0 is solved using the slip equations
+
+      if (use_plast) then
+         do ii = 1, npot
+            if (igs%el(ii).eq.Plast) igs%el(ii)  = Slip
+         enddo
+      endif
+
       ! correction factor for rms-norm: pot.con versus actual contact
 
       call eldiv_count(igs, nadh, nslip, nplast, nexter)
@@ -118,6 +145,7 @@
 
       do ii = 1, npot
          trcbnd(ii) = mus%vt(ii) * pn(ii)
+         if (use_plast) trcbnd(ii) = min(trcbnd(ii), tau_c0)
       enddo
 
       ! set default dscl == 1
@@ -173,8 +201,7 @@
 
       ! 1. Compute diagonal scaling factors for current tractions/slip
 
-      call compute_diagscaling(igs, mus, tau_c0, k_tau, taucv, taucs, coefs, ps, ss, dupl, solv,        &
-                dscl, idebug, iidbg)
+      call compute_diagscaling(igs, mus, coefs, ps, ss, solv, dscl, idebug, iidbg)
 
       ! call gf3_print(dscl, 'dscl', ikZDIR, 4)
 
@@ -345,7 +372,7 @@
 
          ! 9.c compute locally optimized tangential tractions using elmtrc
 
-         call solve_elmtrc(igs, mus, tau_c0, k_tau, taucv, taucs, coefs, ps, ss, dupl, igsopt, psopt, ssopt)
+         call solve_elmtrc(igs, mus, coefs, ps, ss, igsopt, psopt, ssopt)
 
          ! 10. activate constraints where traction bound is reached
 
@@ -392,8 +419,7 @@
 
          ! 1. Compute diagonal scaling factors for current tractions/slip
 
-         call compute_diagscaling(igs, mus, tau_c0, k_tau, taucv, taucs, coefs, ps, ss, dupl, solv,     &
-                dscl, idebug, iidbg)
+         call compute_diagscaling(igs, mus, coefs, ps, ss, solv, dscl, idebug, iidbg)
          if (itgd.le.-1) call gf3_print(dscl, 'dscl', ikZDIR, 4)
 
          ! 2. Compute scaled residual r
@@ -464,6 +490,37 @@
 
       enddo
 
+      ! Extension for elastic-perfectly plastic material with k_tau = 0
+      ! move Slip --> Plast as indicated by mu*pn > tau_c0
+
+      if (use_plast) then
+         do iy = 1, my
+            do ix = ixend, ixsta, -ixinc
+               ii = ix + (iy-1)*mx
+               if (ix.eq.ixend) then
+                  uplv%vx(ii) = 0d0
+                  uplv%vy(ii) = 0d0
+               else
+                  uplv%vx(ii) = upls%vx(ii+ixinc)
+                  uplv%vy(ii) = upls%vy(ii+ixinc)
+               endif
+               if (igs%el(ii).eq.Slip .and. mus%vt(ii)*ps%vn(ii).gt.tau_c0) then
+                  igs%el(ii)  = Plast
+                  upls%vx(ii) = uplv%vx(ii) - ss%vx(ii)
+                  upls%vy(ii) = uplv%vy(ii) - ss%vy(ii)
+                  ss%vx(ii)   = 0d0
+                  ss%vy(ii)   = 0d0
+               elseif (igs%el(ii).eq.Exter) then
+                  upls%vx(ii) = 0d0
+                  upls%vy(ii) = 0d0
+               else
+                  upls%vx(ii) = uplv%vx(ii)
+                  upls%vy(ii) = uplv%vy(ii)
+               endif
+            enddo
+         enddo
+      endif
+
       ! determine rms and maximum value of residual slip
 
       resmax = -1d0
@@ -531,7 +588,6 @@
       call eldiv_destroy(igsopt)
       call gf3_destroy(g)
       call gf3_destroy(dp)
-      call gf3_destroy(dupl)
       call gf3_destroy(dscl)
       call gf3_destroy(n)
       call gf3_destroy(t)
@@ -792,21 +848,21 @@
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine solve_elmtrc(igs, mus, tau_c0, k_tau, taucv, taucs, coefs, ps, ss, dupl, igsopt, psopt, ssopt)
+   subroutine solve_elmtrc(igs, mus, coefs, ps, ss, igsopt, psopt, ssopt)
 !--purpose: compute locally optimized tangential tractions using elmtrc
-!           TODO: extension for plasticity, tauc instead of mus*pn
+!           TODO: extension for plasticity in third body layer, plstrc instead of elmtrc
       implicit none
 !--subroutine arguments:
       type(t_eldiv),    intent(in)      :: igs
-      type(t_gridfnc3), intent(in)      :: mus, ps, ss, dupl, taucv, taucs
-      real(kind=8),     intent(in)      :: tau_c0, k_tau, coefs(2,2)
+      type(t_gridfnc3), intent(in)      :: mus, ps, ss
+      real(kind=8),     intent(in)      :: coefs(2,2)
       type(t_eldiv),    intent(inout)   :: igsopt
       type(t_gridfnc3), intent(inout)   :: psopt, ssopt
 !--local variables:
       integer,      parameter :: dbgelm = 0
       real(kind=8), parameter :: omegah = 1d0, omegas = 1d0, epselm = 1d-6
       integer      :: ii, mx, my, npot, elnew, iidum
-      real(kind=8) :: pr(3), si(2), taucvi, taucsi, dupli(2)
+      real(kind=8) :: pr(3), si(2)
 !--functions used :
       integer ix4ii, iy4ii
 !--statement functions for computing ix,iy from ii:
@@ -821,15 +877,12 @@
 
          pr     = (/ ps%vx(ii), ps%vy(ii), ps%vn(ii) /)
          si     = (/ ss%vx(ii), ss%vy(ii) /)
-         dupli  = (/ dupl%vx(ii), dupl%vy(ii) /)
-         taucvi = taucv%vt(ii)
-         taucsi = taucs%vt(ii)
             
          ! compute solution by updating element ii only
 
          elnew = igs%el(ii)
-         call plstrc(ii, ix4ii(ii), iy4ii(ii), elnew, coefs, epselm, omegah, omegas, pr, mus%vt(ii),    &
-                        tau_c0, k_tau, taucvi, taucsi, si, dupli, dbgelm)
+         call elmtrc(ii, ix4ii(ii), iy4ii(ii), elnew, coefs, epselm, omegah, omegas, pr, mus%vt(ii),    &
+                        si, dbgelm)
 
          ! return in psopt, ssopt
 
@@ -845,24 +898,22 @@
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine compute_diagscaling(igs, mus, tau_c0, k_tau, taucv, taucs, coefs, ps, ss, dupl, solv,     &
-                dscl, idebug, iidbg)
+   subroutine compute_diagscaling(igs, mus, coefs, ps, ss, solv, dscl, idebug, iidbg)
 !--purpose: determine diagonal scaling for gdsteady method
-!           TODO: extension for plasticity, tauc instead of mus*pn
+!           TODO: extension for plasticity in 3rd body layer, using plstrc instead of elmtrc
       implicit none
 !--subroutine arguments:
       type(t_eldiv),    intent(in)      :: igs
-      type(t_gridfnc3)                  :: mus, taucv, taucs, ps, ss, dupl, dscl
+      type(t_gridfnc3)                  :: mus, ps, ss, dscl
       type(t_solvers),  intent(in)      :: solv
-      real(kind=8),     intent(in)      :: tau_c0, k_tau, coefs(2,2)
+      real(kind=8),     intent(in)      :: coefs(2,2)
       integer,          intent(in)      :: idebug, iidbg
 !--local variables:
       real(kind=8),     parameter :: tiny_err = 1d-6, epselm = 1d-6
       real(kind=8),     parameter :: omegah = 1d0, omegas = 1d0, omgscl = 1.00d0
       character(len=1), parameter :: aset(0:3) = (/ 'E', 'H', 'S', 'P' /)
       integer      :: ii, ix, iy, jx, mx, my, npot, elnew, dbgelm, iidum
-      real(kind=8) :: th_p0, th_p1, th_s0, th_s1, err_0, upd_p, upd_s, fac_s, dscl_new,                 &
-                      pr(3), si(2), dupli(2), taucvi, taucsi
+      real(kind=8) :: th_p0, th_p1, th_s0, th_s1, err_0, upd_p, upd_s, fac_s, dscl_new, pr(3), si(2)
 !--functions used :
       integer ix4ii, iy4ii
 !--statement functions for computing ix,iy from ii:
@@ -870,8 +921,7 @@
       iy4ii(iidum) = (iidum-1)/mx+1
 
       associate(eldiv => igs%el, px    => ps%vx,   py    => ps%vy,   pn   => ps%vn,                   &
-                mus   => mus%vt, sx    => ss%vx,   sy    => ss%vy,   dscl => dscl%vn,                 &
-                                 duplx => dupl%vx, duply => dupl%vy)
+                mus   => mus%vt, sx    => ss%vx,   sy    => ss%vy,   dscl => dscl%vn)
 
       mx   = ps%grid%nx
       my   = ps%grid%ny
@@ -886,9 +936,6 @@
 
             pr     = (/ px(ii), py(ii), ps%vn(ii) /)
             si     = (/ sx(ii), sy(ii) /)
-            dupli  = (/ duplx(ii), duply(ii) /)
-            taucvi = taucv%vt(ii)
-            taucsi = taucs%vt(ii)
             
             ! compute initial angle error
             th_p0 = atan2( pr(2),  pr(1))
@@ -914,8 +961,8 @@
                elnew = eldiv(ii)
                dbgelm = 0
                if (idebug.ge.5 .and. ii.eq.iidbg) dbgelm = 2
-               call plstrc(ii, ix4ii(ii), iy4ii(ii), elnew, coefs, epselm, omegah, omegas, pr,          &
-                               mus(ii), tau_c0, k_tau, taucvi, taucsi, si, dupli, dbgelm)
+               call elmtrc(ii, ix4ii(ii), iy4ii(ii), elnew, coefs, epselm, omegah, omegas, pr,          &
+                               mus(ii), si, dbgelm)
 
                if (elnew.eq.Slip) then
 

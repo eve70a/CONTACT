@@ -1453,7 +1453,7 @@ contains
    m%betamf  = 1d0
    m%gg3     = 1d0
    m%laythk  = 0d0
-   m%tau_c0  = 1d20
+   m%tau_c0  = 0d0
    m%k_tau   = 0d0
    m%cdampn  = 0d0
    m%cdampt  = 0d0

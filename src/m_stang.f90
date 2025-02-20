@@ -46,9 +46,9 @@ contains
       type(t_eldiv)               :: igsprv
       type(t_leadedge)            :: ledg
       integer, allocatable        :: iel(:)
-      logical                     :: zready, zreasl, is_roll, is_ssrol, use_plast, use_out_it
+      logical                     :: zready, zreasl, is_roll, is_ssrol, use_plast, perf_plast, use_out_it
       integer                     :: i, ii, ix, ixsta, ixinc, ixend, iy, j, k, icount, info, it,        &
-                                     itslp, nadh, nslip, nplast, nexter, newins,    &
+                                     itslp, nadh, nslip, nplast, nexter, newins,                        &
                                      newadh, smller, smllww, imeth, itgs, frclaw
       real(kind=8)                :: ww, pabs, dif, difid, errpt, tol, tol1, tol2, theta, omgslp
       character(len=12)           :: strng(2)
@@ -61,10 +61,11 @@ contains
                  cv   => infl%cv,    igs1  => outpt1%igs, mus1  => outpt1%mus, muv1  => outpt1%muv,     &
                  ps1  => outpt1%ps,  ss1   => outpt1%ss,  temp1 => outpt1%temp1)
 
-      is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3 
-      is_ssrol  = ic%tang.eq.3
-      use_plast = ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10
-      frclaw    = fric%frclaw_eff
+      is_roll    = ic%tang.eq.2 .or. ic%tang.eq.3 
+      is_ssrol   = ic%tang.eq.3
+      use_plast  = ic%mater.eq.4 .and. mater%tau_c0.gt.1d-10 .and. mater%tau_c0.le.1d10
+      perf_plast = use_plast .and. abs(mater%k_tau).lt.1d-6
+      frclaw     = fric%frclaw_eff
       use_out_it = ((frclaw.ge.2 .and. frclaw.le.4) .or. frclaw.eq.6)
 
       if (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5) then
@@ -140,6 +141,7 @@ contains
 
       ! Set the actual solver to be used
       !   M  = 2, 3 : FASTSIM
+      !   M  = 5    : FASTRIP
       !   G  = 0, 4 : default solver
       !                T = 3            : SteadyGS
       !                T = 1, 2, M = 4  : ConvexGS
@@ -150,6 +152,8 @@ contains
 
       if (mater%mater_eff.eq.2 .or. mater%mater_eff.eq.3) then
          solv%solver_eff = isolv_fastsm
+      elseif (mater%mater_eff.eq.5) then
+         solv%solver_eff = isolv_fastrp
       elseif (is_ssrol) then
          if (solv%gausei_eff.eq.5 .and. ixsta.eq.1) then
             if (ixsta.ne.1) then
@@ -163,10 +167,10 @@ contains
             solv%solver_eff = isolv_cnvxgs      ! G=2
          endif
       else
-         if (solv%gausei_eff.ne.2 .and. mater%mater_eff.ne.4) then
-            solv%solver_eff = isolv_tangcg      ! G=0, 3, 4 or 5
+         if (solv%gausei_eff.ne.2 .and. (.not.use_plast .or. perf_plast)) then
+            solv%solver_eff = isolv_tangcg      ! G=0, 3, 4, 5, or M=4 with k_tau=0
          else
-            solv%solver_eff = isolv_cnvxgs      ! G=2 or M=4
+            solv%solver_eff = isolv_cnvxgs      ! G=2 or M=4, k_tau<>0
          endif
       endif
 
@@ -394,7 +398,7 @@ contains
             endif
 
             call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg, outpt1,    &
-                                imeth, info, it, errpt)
+                        imeth, info, it, errpt)
             itgs = itgs + it
 
             if (ic%x_nmdbg.ge.5) then
@@ -748,10 +752,10 @@ contains
       integer                  :: k
       integer, dimension(:)    :: iel(k)
 !--local variables :
-      type(t_gridfnc3)          :: wsrig, usn, ust, uvn, uvt
-      integer                   :: i, ii, iy, ik, j, iidum
-      logical                   :: is_ssrol
-      character(len=100)        :: namdbg
+      logical                  :: is_ssrol
+      integer                  :: i, ii, iy, ik, j, iidum
+      type(t_gridfnc3)         :: wsrig, usn, ust, uvn, uvt
+      character(len=100)       :: namdbg
 !--functions used :
       integer ix4ii, iy4ii
 !--statement functions for computing ix,iy from ii:
@@ -767,35 +771,36 @@ contains
       call gf3_new(usn,   'tang:usn',   cgrid, igs, .true.)
       call gf3_new(ust,   'tang:ust',   cgrid, igs, .true.)
 
-      is_ssrol = ic%tang.eq.3
+      is_ssrol  = ic%tang.eq.3
 
-      ! Central in the TANG algorithm stands the shift S per element I and tangential direction t (=2,3).
-      ! It consists of 5 terms:
-      !                                          ,      ,
-      !    S    = W           +  un  + ut   -  un   - ut            (1a)
-      !     It     It              It    It      It     It
-      ! 
-      !                                         bnd     bnd
-      !    S    = W  . facdt  +  un  + ut   - un    - ut            (1b)
-      !     It     It              It    It     It      It
-      ! 
+      ! Central in the TANG algorithm stands the shift S per element I and tangential direction t (=1,2).
+      ! It consists of 7 terms:
+      !                                          ,      ,                ,
+      !    S    = W           +  un  + ut   -  un   - ut    + upl   - upl               (1a)
+      !     It     It              It    It      It     It       It      It
+      !
+      !                                         bnd     bnd              ,
+      !    S    = W  . facdt  +  un  + ut   - un    - ut    + upl   - upl               (1b)
+      !     It     It              It    It     It      It       It      It
+      !
       ! (1a) is used in the interior, (1b) at the leading edge boundary.
       ! The fixed terms are collected in wsfix, the other terms are computed later on in solvpt,
       ! depending on the problem that is solved (T-digit, F-digit, K-parameter).
       ! 
       ! here I      stands for an element (i, ii),
       !      t      stands for tau, i.e. ik,
-      !      W      is the rigid slip, prescribed by Cksi, Ceta, Cphi and ExRhs,
+      !      W      is the rigid shift, prescribed by Cksi, Ceta, Cphi and ExRhs,
       !              stored in array Hs, except for unknown Cksi, Ceta,
-      !      u      is the tangential displacement difference of the new time instance
-      !              (consisting of usn+ust),
-      !      u'     is the tangential displacement difference of the previous time instance
-      !              (consisting of uvn+uvt).
+      !      u      is the elastic displacement difference of the new time instance, consisting of usn+ust,
+      !      u'     is the elastic displacement difference of the previous time instance, uvn+uvt.
+      !      upl    is the plastic displacement difference at the new time instance, tangential only
+      !      upl'   is the plastic displacement difference at the previous time instance, tangential only
+      !             dupl = upl - upl' is used as unknown, no terms added to wsfix
       !      facdt  is the fraction of the time-step that points are in the contact area
       !      u^bnd  is the displacement difference at the leading edge
       ! 
       ! Equation (1b) is applied near the leading edge, i.e. where ii2j(ii) > 0.
-      ! Equation (1a) is applied in the interior. In equation (1a) a factor facdt is used as well with facdt=1.
+      ! Equation (1a) is applied in the interior. Implemented with a factor facdt with facdt=1.
       ! 
       ! The displacement differences are computed using the tractions and influence coefficients:
       ! 
@@ -1277,7 +1282,7 @@ contains
       endif
 
       call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg, outpt1, imeth,   &
-                        info, it, errpt)
+                  info, it, errpt)
 
       if (ic%x_nmdbg.ge.5) then
          call stang_nmdbg ('solution of solvpt:', 6, ic, cgrid, igs1, ledg, ps1, mus1, tmp, wsfix1,     &

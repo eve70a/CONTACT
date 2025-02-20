@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.173)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.174)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -84,6 +84,7 @@
 \vtlogentry{1.171}{EV}{06-11-2024}{Added massless rail model with ${\tt N}=0$}{}
 \vtlogentry{1.172}{EV}{05-12-2024}{Added ${\tt M}=5$ for FaStrip solver}{}
 \vtlogentry{1.173}{EV}{10-12-2024}{Added note on $z$ mirroring}{}
+\vtlogentry{1.174}{EV}{05-02-2025}{Added TangCG for $k_\tau=0$}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -1469,7 +1470,7 @@ the low threshold.
 \inpvar{KINKLOW}{\bunit{rad}}{Angle threshold $\Delta\alpha_{low}$ for
         neighbouring points at kink pattern detection. Default
         $\Delta\alpha_{high}/5$.}
-\inpvar{KINKWID}{\bunit{mm}}{Half-width of winduw used for kink pattern
+\inpvar{KINKWID}{\bunit{mm}}{Half-width of window used for kink pattern
         detection. Default: checking profile points within $2\unit{mm}$ on
         either side of possible kink locations.}
 \end{inputvars}
@@ -2538,10 +2539,19 @@ parameters:
 \inpvar{K\_TAU}{\bunit{N/mm^3}}{Rate of increase $k_\tau$ of the yield limit
         $\tau_c$ with accumulated plastic deformation.}
 \end{inputvars}
+The parameters $h^{(3)}$ and $G^{(3)}$ are combined to an effective
+flexibility $h^{(3)}/G^{(3)}$. There will be no effect on the results if
+both are multiplied by the same factor.
+
 It is possible to use the tangential plasticity feature of CONTACT without
 using a third body layer. This is accomplished by setting $h^{(3)}=0$.
 In that case, plasticity is thought to occur near the surface of the softer
 one of the primary bodies, cf.\ $u_{pl}^{(1)}$ in Figure \ref{fig:intfc_layer}.
+
+Situations are easier to solve when using $k_\tau=0$ than with $k_\tau\neq
+0$. This holds especially for transient situations (${\tt T}=1,2$) where
+the algorithm TangCG is enabled for $k_\tau=0$ while ConvexGS is used for
+$k_\tau\neq 0$.
 
 \subsection{Influence coefficients for conformal contact}
 \label{sec:num_infl}

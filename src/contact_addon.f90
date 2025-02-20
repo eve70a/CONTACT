@@ -1498,7 +1498,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
          my_mater%laythk   = max(1d-9, rparam(6) * my_scl%len)
          my_mater%tau_c0   = rparam(7) * my_scl%forc / my_scl%area
          my_mater%k_tau    = rparam(8) * my_scl%forc / my_scl%area / my_scl%len
-         if (my_mater%tau_c0.le.1d-10) my_mater%tau_c0 = 1d20
+         if (my_mater%tau_c0.ge.1d10) my_mater%tau_c0 = 0d0
 
          if (idebug.ge.2) then
             write(bufout,'(2a,i1,a,f7.1,a,f6.3,a,/, 43x,a,g9.1,a,f7.1,a)') trim(pfx_str(subnam,ire,icp)),  &
@@ -2124,7 +2124,7 @@ subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
       laythk   = max(1d-9, params(2) * my_scl%len)
       tau_c0   = params(3) * my_scl%forc / my_scl%area
       k_tau    = params(4) * my_scl%forc / my_scl%area / my_scl%len
-      if (tau_c0.le.1d-10) tau_c0 = 1d20
+      if (tau_c0.ge.1d10) tau_c0 = 0d0
 
       my_ic%mater     = 4
       my_mater%gg3    = gg3

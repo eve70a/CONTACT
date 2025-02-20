@@ -1,5 +1,5 @@
 
-print_fig = 1;
+print_fig = 0;
 show_A = 1;
 show_B = 0;
 show_u_el = 0;
@@ -21,7 +21,8 @@ k_u    = (tau_c1 - tau_c0) ./ (utot_c1 - utot_c0);
 k_tau  = G_el .* k_u ./ (G_el - k_u);
 
 for ic = 1:n_curv
-   disp(sprintf('%9s: utot_c0=%3d, tau_c0=%3d, G_el= %4.2f, k_u=%6.3f, k_tau=%8.4f', nams(ic,:), utot_c0(ic), tau_c0(ic), G_el(ic), k_u(ic), k_tau(ic)));
+   disp(sprintf('%9s: utot_c0=%3d, tau_c0=%3d, G_el= %4.2f, k_u=%6.3f, k_tau=%8.1f', ...
+                nams(ic,:), utot_c0(ic), tau_c0(ic), G_el(ic), k_u(ic), 1e3*k_tau(ic)));
 end
 
 % define range of displacements for curves
@@ -47,14 +48,14 @@ figure(1); clf; hold on;
 plot(u_tot, tau);
 grid on;
 axis([0 600 0 620]);
-xlabel('total displacement u_{tot} [\mu m]');
-ylabel('shear stress \tau [MPa]');
+xlabel('total displacement $u_{tot}\ \mathrm{[\mu{}m]}$', 'interpreter','latex');
+ylabel('shear stress $\tau$ [MPa]', 'interpreter','latex');
 % legend(nams, 'location','south');
 
-text(300, 515, 'k_u= 0', 'horizontalalignment','center');
-text(580, 430, sprintf('k_u=%4.1f', k_u(2)), 'horizontalalignment','right');
-text(580, 250, sprintf('k_u=%5.1f', k_u(3)), 'horizontalalignment','right');
-text(580,  60, sprintf('k_u=%5.2f', k_u(4)), 'horizontalalignment','right');
+text(300, 515, '$k_u= 0$ [MPa/mm]', 'horizontalalignment','center','interpreter','latex');
+text(580, 430, sprintf('$k_u=%4.0f$', 1e3*k_u(2)), 'horizontalalignment','right','interpreter','latex');
+text(580, 250, sprintf('$k_u=%5.0f$', 1e3*k_u(3)), 'horizontalalignment','right','interpreter','latex');
+text(580,  60, sprintf('$k_u=%5.0f$', 1e3*k_u(4)), 'horizontalalignment','right','interpreter','latex');
 
 % show decomposition of u_tot into upl + uel
 
@@ -75,14 +76,14 @@ if (show_A)
    if (show_u_el)
       x = [0 0 0 uel_A*[1 1 1 1] utot_A*[1 1 1]];
       y = tau_A + 15*[-1 1 0 [0 -1 1 0] [0 -1 1]];
-      text(50, 310, 'u_{el}', 'horizontalalignment','right');
+      text(50, 310, '$u_{el}$', 'horizontalalignment','right', 'interpreter','latex');
    else
       x = [uel_A*[1 1 1 1] utot_A*[1 1 1]];
       y = tau_A + 15*[[0 -1 1 0] [0 -1 1]];
    end
    plot(x, y, 'k', 'linewidth',1);
    plot([ 130 120], [295 270], 'k', 'linewidth',1);
-   text(150, 310, 'u_{pl}', 'horizontalalignment','center');
+   text(150, 310, '$u_{pl}$', 'horizontalalignment','center', 'interpreter','latex');
 end
 
 % point B: sand, utot = 300
@@ -103,7 +104,7 @@ if (show_B)
    end
    plot(x, y, 'k', 'linewidth',1);
 
-   % text(50, 310, 'u_{el}', 'horizontalalignment','right');
+   % text(50, 310, '$u_{el}$', 'horizontalalignment','right', 'interpreter','latex');
    plot([ 120 130 ], [345 325 ], 'k', 'linewidth',1);
 end
 
@@ -114,8 +115,9 @@ tmp_x = utot_A + (tmp_y - tau_A) / G_el(2);
 set(gca,'colororderindex',2);
 plot(tmp_x, tmp_y, '--');
 
-text(utot_A+15, tau_A, '\leftarrow unloading', 'rotation', 75, 'horizontalalignment','right');
-text(240, 255, 'further loading \rightarrow', 'rotation', 17);
+text(utot_A+15, tau_A, '$\leftarrow$ unloading', 'rotation', 75, 'horizontalalignment','right', ...
+                                                                'interpreter','latex');
+text(240, 255, 'further loading $\rightarrow$', 'rotation', 17, 'interpreter','latex');
 
 if (print_fig)
    print -djpeg95 hou1997_schm_utot.jpg
@@ -132,14 +134,14 @@ figure(2); clf; hold on;
 plot(u_pl, tau_c);
 axis([0 600 0 620]);
 grid on
-xlabel('plastic displacement u^*_{pl} [\mu m]');
-ylabel('yield limit \tau_c [MPa]');
+xlabel('plastic displacement $u^*_{pl}\ \mathrm{[\mu{}m]}$', 'interpreter','latex');
+ylabel('yield limit $\tau_c$ [MPa]','interpreter','latex');
 % legend(nams, 'location','south');
 
-text(300, 515, 'k_\tau= 0', 'horizontalalignment','center');
-text(580, 470, sprintf('k_\\tau=%6.3f', k_tau(2)), 'horizontalalignment','right');
-text(580, 250, sprintf('k_\\tau=%7.3f', k_tau(3)), 'horizontalalignment','right');
-text(580,  60, sprintf('k_\\tau=%7.4f', k_tau(4)), 'horizontalalignment','right');
+text(300, 515, '$k_\tau= 0$ [MPa/mm]', 'horizontalalignment','center','interpreter','latex');
+text(580, 470, sprintf('$k_\\tau=%4.0f$', 1e3*k_tau(2)), 'horizontalalignment','right','interpreter','latex');
+text(580, 250, sprintf('$k_\\tau=%5.0f$', 1e3*k_tau(3)), 'horizontalalignment','right','interpreter','latex');
+text(580,  60, sprintf('$k_\\tau=%5.1f$', 1e3*k_tau(4)), 'horizontalalignment','right','interpreter','latex');
 
 % plot position A
 
@@ -170,8 +172,9 @@ tmp_x = upl_A + [ 0  0 ];
 set(gca,'colororderindex',2);
 plot(tmp_x, tmp_y, '--');
 
-text(upl_A+15, tau_A, '\leftarrow unloading', 'rotation', 90, 'horizontalalignment','right');
-text(188, 255, 'further loading \rightarrow', 'rotation', 18);
+text(upl_A+15, tau_A, '$\leftarrow$ unloading', 'rotation', 90, 'horizontalalignment','right', ...
+                                'interpreter','latex');
+text(188, 255, 'further loading $\rightarrow$', 'rotation', 18, 'interpreter','latex');
 
 if (print_fig)
    print -djpeg95 hou1997_schm_tauc.jpg

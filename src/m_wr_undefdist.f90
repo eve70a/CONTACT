@@ -682,6 +682,7 @@ contains
          write(lud,*) 'nr_ud=reshape(tmp(:,7),mx,my);'
          write(lud,*) 'delta=reshape(tmp(:,8),mx,my);'
          write(lud,*) 'h_ud =reshape(tmp(:,9),mx,my);'
+         write(lud,*) 'clear tmp;'
          close(lud)
          call free_lunit_tmp_use(lud)
          goto 999

@@ -162,23 +162,23 @@ contains
          ! force CHI = 0 or pi when using steady rolling w. SteadyGS (T=3, G<>2) or when M=4 (T=1,3)
          ! force DQ == DX when using steady rolling w. SteadyGS (T=3, G<>2), also when M=1 (visc.)
 
-         if (abs(kin%chi).gt.0.01d0 .and. abs(kin%chi-pi).gt.0.01d0) then
+         if (ic%tang.ge.1 .and. abs(kin%chi).gt.0.01d0 .and. abs(kin%chi-pi).gt.0.01d0) then
             if (ic%ilvout.ge.1) then
                if (solv%gausei_eff.ne.2 .and. is_ssrol) then
-                  write (bufout, 4002) kin%chi, 'steady state rolling with solver SteadyGS'
+                  write (bufout, 4002) kin%chi, 'solver SteadyGS'
                else
-                  write (bufout, 4002) kin%chi, 'solver ConvexGS with plasticity'
+                  write (bufout, 4002) kin%chi, 'solver ConvexGS'
                endif
                call write_log(2, bufout)
             endif
             kin%chi = 0d0
          endif
-         if (abs(kin%dq-cgrid%dx).gt.0.01*cgrid%dx) then
+         if (ic%tang.ge.1 .and. abs(kin%dq-cgrid%dx).gt.0.01*cgrid%dx) then
             if (ic%ilvout.ge.1) then
                if (solv%gausei_eff.ne.2 .and. is_ssrol) then
-                  write (bufout, 4003) cgrid%dx, kin%dq, 'steady state rolling with solver SteadyGS'
+                  write (bufout, 4003) cgrid%dx, kin%dq, 'solver SteadyGS'
                else
-                  write (bufout, 4003) cgrid%dx, kin%dq, 'solver ConvexGS with plasticity'
+                  write (bufout, 4003) cgrid%dx, kin%dq, 'solver ConvexGS'
                endif
                call write_log(2, bufout)
             endif
@@ -186,9 +186,8 @@ contains
          kin%dq  = cgrid%dx
       endif
 
- 4002 format (' Warning: using CHI = 0 instead of',f6.1,' rad'/, 17x,                                   &
-              'for steady state rolling with ',a,'.')
- 4003 format (' Warning: Using DQ = DX =',g12.4, ' (instead of',g12.4,')', /, 17x, 'for ',a,'.')
+ 4002 format (' Warning: using CHI = 0 instead of',f6.1,' rad for ',a,'.')
+ 4003 format (' Warning: Using DQ = DX =',g12.4, ' instead of',g12.4,' for ',a,'.')
 
       ! set appropriate chi, dq, veloc for shifts
 

@@ -1,10 +1,11 @@
 
-show_fig = [1 2 3 4];
+show_fig = [1 2 3 4 5];
 
 s1 = loadcase('catt3d_plast',1);
 s2 = loadcase('catt3d_plast',2);
 s3 = loadcase('catt3d_plast',59);
-dif = diffcase(s1, s2);
+s61 = loadcase('catt3d_plast',61);
+s63 = loadcase('catt3d_plast',63);
 iy0 = 17;
 
 if (any(show_fig==1))
@@ -40,8 +41,19 @@ if (any(show_fig==3))
 end
 
 if (any(show_fig==4))
+   dif = diffcase(s1, s2);
    figure(4);
    opt = plot3d;
    opt.field = 'taucrt';
    plot3d(dif, opt);
+   title('Difference \tau_{crt}, SteadyGS-ConvexGS')
+end
+
+if (any(show_fig==5))
+   dif = diffcase(s61, s63);
+   figure(5);
+   opt = plot3d;
+   opt.field = 'uplsx';
+   plot3d(dif, opt);
+   title('Difference uplsx ConvexGS-TangCG')
 end

@@ -948,7 +948,7 @@ contains
          mater%laythk = dbles(2)
          mater%tau_c0 = dbles(3)
          mater%k_tau  = dbles(4)
-         if (mater%tau_c0.le.1d-10) mater%tau_c0 = 1d20
+         if (mater%tau_c0.ge.1d10) mater%tau_c0 = 0d0
       endif
 
       if (ic%mater.eq.4) mater%flx(1:3) = mater%laythk / mater%gg3
