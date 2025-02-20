@@ -8,10 +8,9 @@
 %    params(nparam) - depending on method that is used
 %
 %    E=0  : keep wheelset flexibility from previous specification, ignore params provided
-%    E=1-4: no wheelset flexibility               params = []
-%    E=5,7: new wheelset flexibility parameters   params = [dxwhl, dywhl, dzwhl, drollw, dyaww, dpitchw,
+%    E=1-3: no wheelset flexibility               params = []
+%    E=4,5: new wheelset flexibility parameters   params = [dxwhl, dywhl, dzwhl, drollw, dyaww, dpitchw,
 %                                                           vxwhl, vywhl, vzwhl, vrollw, vyaww, vpitchw],
-%    E=6,8: same as 5,7, with separate values for both sides of the wheelset
 %
 %    dimensions:   dxwhl, dywhl, dzwhl [length],  drollw, dyaww, dpitchw [angle]
 %                  vxwhl, vywhl, vzwhl [veloc],   vrollw, vyaww, vpitchw [ang.veloc]

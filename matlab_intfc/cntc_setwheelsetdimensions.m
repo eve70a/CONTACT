@@ -7,8 +7,8 @@
 %  nparam         - number of parameters provided
 %  params(nparam) - depending on method that is used
 %
-%  E=1-2, 5-6: keep old wheelset dimensions, ignore params provided
-%  E=3-4, 7-8: new wheelset geometry   params = [fbdist, fbpos, nomrad]
+%  E=0-2, 4: no new geometry         params = []
+%  E=3, 5:   new wheelset geometry   params = [fbdist, fbpos, nomrad]
 %
 %  dimensions:  fbdist, fbpos, nomrad [length]
 %------------------------------------------------------------------------------------------------------------

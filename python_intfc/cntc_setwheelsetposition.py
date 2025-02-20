@@ -8,7 +8,7 @@
 #  params(nparam) - depending on method that is used
 #
 #  E=0  : keep wheelset position from previous specification, ignore params provided
-#  E=1-8: new wheelset position   params = [s, y, z, roll, yaw, pitch]
+#  E=1-5: new wheelset position     params = [ s_ws, y_ws, z_ws, roll, yaw, pitch ]
 #
 #  dimensions:   s_ws, y_ws, z_ws [length],       roll, yaw, pitch [angle]
 #------------------------------------------------------------------------------------------------------------
