@@ -90,15 +90,17 @@ else
    ix = length('GAUGEPOINT') + 1;
    p.GaugePoint = strtrim(s(ix:end));
 
-   ix = strfind('CUSTOM', p.GaugePoint);
-   if (~isempty(ix))
-      p.GaugeHeight = sscanf(p.GaugePoint(ix+6:end), ' %f');
+   if (strcmp(p.GaugePoint, 'US'))
+      p.GaugeHeight = 5/8 * inch;
    elseif (strfind('EUROPEAN', p.GaugePoint))
       p.GaugeHeight = 14;
-   elseif (strfind('US', p.GaugePoint))
-      p.GaugeHeight = 5/8 * inch;
    else
-      disp(['Error: unknown gauge point ',p.GaugePoint]);
+      ix = strfind('CUSTOM', p.GaugePoint);
+      if (~isempty(ix))
+         p.GaugeHeight = sscanf(p.GaugePoint(ix+6:end), ' %f');
+      else
+         disp(['Error: unknown gauge point ',p.GaugePoint]);
+      end
    end
 end
 
