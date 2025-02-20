@@ -460,7 +460,7 @@ sol.ux(ir)    = tmp(irow:iend,3+idum+5);
 sol.uy(ir)    = tmp(irow:iend,3+idum+6);
 sol.srel(ir)  = tmp(irow:iend,3+idum+7);
 iofs = 3+idum+7;
-if (has_plast)
+if (has_plast & fmtmat>=1902)
    sol.taucrt(ir) = tmp(irow:iend,iofs+1);
    sol.uplsx(ir)  = tmp(irow:iend,iofs+2);
    sol.uplsy(ir)  = tmp(irow:iend,iofs+3);
@@ -482,7 +482,7 @@ sol.un    = reshape(sol.un   ,mx,my)';
 sol.ux    = reshape(sol.ux   ,mx,my)';
 sol.uy    = reshape(sol.uy   ,mx,my)';
 sol.srel  = reshape(sol.srel ,mx,my)';
-if (has_plast)
+if (has_plast & fmtmat>=1902)
    sol.taucrt = reshape(sol.taucrt,mx,my)';
    sol.uplsx  = reshape(sol.uplsx ,mx,my)';
    sol.uplsy  = reshape(sol.uplsy ,mx,my)';
@@ -503,10 +503,10 @@ end
 
 % compute the traction bound
 
-if (~has_plast)
-   sol.trcbnd =     sol.mu .* sol.pn;
-else
+if (has_plast & fmtmat>=1902)
    sol.trcbnd = min(sol.mu .* sol.pn, sol.taucrt);
+else
+   sol.trcbnd =     sol.mu .* sol.pn;
 end
 
 end % function fill_struct
