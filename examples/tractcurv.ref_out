@@ -2,14 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Warning: Using DQ = DX =  0.2889     (instead of  0.5000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.2889     instead of  0.5000     for solver SteadyGS.
+ Case     1
  NORM
        1, Norm: size of Contact, Exterior :   1376    736
       Norm: final element division: C, E=   1384    728  ItCG=     7
@@ -3280,8 +3280,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    31
- Warning: Using DQ = DX =  0.2889     (instead of  0.5000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.2889     instead of  0.5000     for solver SteadyGS.
+ Case    31
  NORM
        1, Norm: size of Contact, Exterior :   1376    736
       Norm: final element division: C, E=   1384    728  ItCG=     7
@@ -3319,7 +3319,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -3437,7 +3437,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -3557,7 +3557,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -3677,7 +3677,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -3797,7 +3797,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -3917,7 +3917,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -4037,7 +4037,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -4157,7 +4157,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -4277,7 +4277,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -4397,7 +4397,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -4517,7 +4517,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -4637,7 +4637,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -4757,7 +4757,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -4877,7 +4877,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -4997,7 +4997,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -5117,7 +5117,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -5237,7 +5237,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -5357,7 +5357,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -5477,7 +5477,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -5599,7 +5599,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -5721,7 +5721,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -5843,7 +5843,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -5965,7 +5965,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -6087,7 +6087,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -6209,7 +6209,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -6331,7 +6331,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -6451,7 +6451,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -6571,7 +6571,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -6691,7 +6691,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -6811,7 +6811,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250      0.1000E+21   0.000    
+     8200.       1.250       0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -7031,7 +7031,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6704E-04  0.4579E-04
+    0.5491E-04  0.6701E-04  0.4581E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -7143,7 +7143,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6632E-04  0.4633E-04
+    0.5491E-04  0.6626E-04  0.4637E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -7255,7 +7255,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6560E-04  0.4687E-04
+    0.5491E-04  0.6552E-04  0.4693E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -7367,7 +7367,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6488E-04  0.4741E-04
+    0.5491E-04  0.6477E-04  0.4749E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -7479,7 +7479,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6416E-04  0.4795E-04
+    0.5491E-04  0.6403E-04  0.4805E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -7591,7 +7591,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6345E-04  0.4849E-04
+    0.5491E-04  0.6328E-04  0.4861E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -7703,7 +7703,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6273E-04  0.4903E-04
+    0.5491E-04  0.6254E-04  0.4917E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -7815,7 +7815,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6201E-04  0.4957E-04
+    0.5491E-04  0.6179E-04  0.4973E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -7927,7 +7927,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6129E-04  0.5010E-04
+    0.5491E-04  0.6105E-04  0.5029E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -8039,7 +8039,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6058E-04  0.5064E-04
+    0.5491E-04  0.6030E-04  0.5085E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -8151,7 +8151,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.5986E-04  0.5118E-04
+    0.5491E-04  0.5956E-04  0.5141E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -8263,7 +8263,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.5914E-04  0.5172E-04
+    0.5491E-04  0.5881E-04  0.5197E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -8375,7 +8375,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.5842E-04  0.5226E-04
+    0.5491E-04  0.5807E-04  0.5253E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -8487,7 +8487,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.5771E-04  0.5280E-04
+    0.5491E-04  0.5732E-04  0.5309E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -8599,7 +8599,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.5699E-04  0.5334E-04
+    0.5491E-04  0.5658E-04  0.5365E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -10391,7 +10391,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6611E-04  0.4649E-04
+    0.5491E-04  0.6605E-04  0.4653E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -10503,7 +10503,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6446E-04  0.4772E-04
+    0.5491E-04  0.6434E-04  0.4782E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -10615,7 +10615,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6282E-04  0.4896E-04
+    0.5491E-04  0.6263E-04  0.4910E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -10727,7 +10727,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.6117E-04  0.5019E-04
+    0.5491E-04  0.6092E-04  0.5038E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -10839,7 +10839,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.5953E-04  0.5143E-04
+    0.5491E-04  0.5921E-04  0.5167E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -10951,7 +10951,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.5789E-04  0.5267E-04
+    0.5491E-04  0.5751E-04  0.5295E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -11063,7 +11063,7 @@
 
  SIMPLIFIED THEORY MATERIAL CONSTANTS
      FLX1        FLX2        FLX3
-    0.5491E-04  0.5624E-04  0.5390E-04
+    0.5491E-04  0.5580E-04  0.5424E-04
 
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
@@ -13616,18 +13616,18 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        8.6 | 100.0 |       11.9 | 100.0 |
-|Non-Hertzian cases   |      120 |        8.6 | 100.0 |       11.9 | 100.0 |
-|Panag.process        |      120 |        8.5 |  98.4 |       11.2 |  94.3 |
-|Algorithm Norm       |       60 |        0.1 |   0.7 |        0.2 |   1.5 |
-|Algorithm Tang       |      120 |        8.4 |  97.5 |       11.0 |  92.8 |
-|Output quantities    |      120 |        0.1 |   1.3 |        0.6 |   5.4 |
+|Total                |        1 |       12.2 | 100.0 |       12.9 | 100.0 |
+|Non-Hertzian cases   |      120 |       12.2 | 100.0 |       12.9 | 100.0 |
+|Panag.process        |      120 |       11.8 |  97.4 |       12.2 |  94.9 |
+|Algorithm Norm       |       60 |        0.2 |   1.7 |        0.2 |   1.3 |
+|Algorithm Tang       |      120 |       11.6 |  95.6 |       12.0 |  93.4 |
+|Output quantities    |      120 |        0.3 |   2.4 |        0.6 |   4.7 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       60 |        0.0 |   0.5 |        0.1 |   1.1 |
-|Tang: StedyGS solver |      154 |        8.4 |  97.5 |       10.8 |  91.4 |
+|Norm: ConjGrd solver |       60 |        0.2 |   1.3 |        0.2 |   1.2 |
+|Tang: StedyGS solver |      154 |       11.5 |  94.2 |       11.9 |  92.4 |
 |Tang: Fastsim solver |       60 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |      120 |        0.0 |   0.2 |        0.0 |   0.1 |
+|Reading input-file   |      120 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |      120 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|

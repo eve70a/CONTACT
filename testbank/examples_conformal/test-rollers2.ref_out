@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -57,7 +57,7 @@
          100.0       0.000       0.000       0.000       0.000  -1.0000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        0.000       0.000   9.722E+04       0.000       0.000   9.722E+04
 
@@ -182,7 +182,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        0.000       0.000   9.716E+04       0.000       0.000   9.716E+04
 
@@ -301,7 +301,7 @@
          95.53      -29.55       0.000       0.000       0.000  -1.0000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    5.166E-03  -1.736E-02   9.716E+04   1.006E-02  -1.506E-02   9.716E+04
 
@@ -420,7 +420,7 @@
         -95.53       29.55       0.000       0.000       0.000   1.0000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -5.166E-03   1.736E-02   9.716E+04  -1.006E-02   1.506E-02   9.716E+04
 
@@ -545,7 +545,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
      -0.9974   2.707E-09   9.720E+04     -0.9974   2.707E-09   9.720E+04
 
@@ -673,7 +673,7 @@
      0.2500000       0.000       0.000       0.000       0.000  -0.7500000
 
 
- TOTAL FORCES AND MOMENTS ON ROLLER
+ TOTAL FORCES ON ROLLER
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       0.1411  -1.297E-08   9.719E+04      0.1411  -1.297E-08   9.719E+04
 
@@ -801,7 +801,7 @@
      0.2388340      -29.55       0.000       0.000       0.000  -0.7500000
 
 
- TOTAL FORCES AND MOMENTS ON ROLLER
+ TOTAL FORCES ON ROLLER
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2.862   1.184E-02   9.882E+04      -2.738     -0.8345   9.882E+04
 
@@ -911,7 +911,7 @@
     -0.2388340       29.55       0.000       0.000       0.000   0.7500000
 
 
- TOTAL FORCES AND MOMENTS ON ROLLER
+ TOTAL FORCES ON ROLLER
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        2.862  -1.184E-02   9.882E+04       2.738      0.8345   9.882E+04
 
@@ -1041,7 +1041,7 @@
      0.2500000       0.000       0.000       0.000       0.000  -0.7500000
 
 
- TOTAL FORCES AND MOMENTS ON ROLLER
+ TOTAL FORCES ON ROLLER
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       0.2079  -8.354E-04   9.719E+04      0.2079  -8.354E-04   9.719E+04
 
@@ -1169,7 +1169,7 @@
      0.2438100       0.000       0.000       0.000       0.000  -0.7500000
 
 
- TOTAL FORCES AND MOMENTS ON ROLLER
+ TOTAL FORCES ON ROLLER
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -18.05      -5588.   9.891E+04      -18.05      -5588.   9.891E+04
 
@@ -1301,7 +1301,7 @@
      0.2438100       0.000       0.000       0.000       0.000  -0.7500000
 
 
- TOTAL FORCES AND MOMENTS ON ROLLER
+ TOTAL FORCES ON ROLLER
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -21.47      -5698.   9.870E+04      -21.47      -5698.   9.870E+04
 
@@ -1429,7 +1429,7 @@
      0.2451499       0.000       0.000       0.000       0.000  -0.7500000
 
 
- TOTAL FORCES AND MOMENTS ON ROLLER
+ TOTAL FORCES ON ROLLER
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        1.806  -1.946E+04   9.549E+04       1.806       6390.   9.725E+04
 
@@ -1514,23 +1514,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        2.1 | 100.0 |        2.6 | 100.0 |
-|Wheel-rail cases     |       12 |        2.1 | 100.0 |        2.6 |  99.8 |
-|W/r profiles         |       14 |        0.0 |   1.5 |        0.1 |   5.8 |
-|Geometric analysis   |       12 |        0.0 |   0.0 |        0.0 |   0.8 |
-|Panag.process        |       12 |        2.1 |  97.8 |        2.3 |  89.5 |
-|Algorithm Norm       |       12 |        0.1 |   2.9 |        0.1 |   2.3 |
-|Algorithm Tang       |       12 |        2.0 |  94.9 |        2.3 |  87.1 |
-|Output quantities    |       24 |        0.0 |   0.7 |        0.1 |   2.8 |
+|Total                |        1 |        2.5 | 100.0 |        2.7 | 100.0 |
+|Wheel-rail cases     |       12 |        2.5 | 100.0 |        2.7 | 100.0 |
+|W/r profiles         |       14 |        0.1 |   2.5 |        0.1 |   5.2 |
+|Geometric analysis   |       12 |        0.0 |   0.0 |        0.0 |   1.8 |
+|Panag.process        |       12 |        2.4 |  96.8 |        2.4 |  89.0 |
+|Algorithm Norm       |       12 |        0.1 |   3.8 |        0.1 |   2.8 |
+|Algorithm Tang       |       12 |        2.3 |  93.0 |        2.3 |  86.1 |
+|Output quantities    |       24 |        0.0 |   0.0 |        0.1 |   3.1 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       12 |        0.0 |   1.5 |        0.0 |   1.4 |
-|Tang: StedyGS solver |       12 |        2.0 |  94.9 |        2.3 |  86.7 |
+|Norm: ConjGrd solver |       12 |        0.0 |   1.9 |        0.1 |   2.2 |
+|Tang: StedyGS solver |       12 |        2.3 |  92.4 |        2.3 |  85.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       12 |        0.0 |   1.5 |        0.1 |   5.8 |
-|Contact location     |       12 |        0.0 |   0.0 |        0.0 |   0.4 |
-|Undeformed distance  |       12 |        0.0 |   0.0 |        0.0 |   0.4 |
-| - Interp whl_srfc   |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |       12 |        0.0 |   0.0 |        0.0 |   0.9 |
-|Initial state/estim. |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       12 |        0.1 |   2.5 |        0.1 |   5.2 |
+|Contact location     |       12 |        0.0 |   0.0 |        0.0 |   1.0 |
+|Undeformed distance  |       12 |        0.0 |   0.0 |        0.0 |   0.8 |
+| - Interp whl_srfc   |       12 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Influence coeffic.   |       12 |        0.0 |   0.6 |        0.0 |   0.9 |
+|Initial state/estim. |       12 |        0.0 |   0.0 |        0.0 |   0.1 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

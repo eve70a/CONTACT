@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -36,22 +36,19 @@
  reading wheel profile "..\profiles\MBench_S1002_v3.prw"
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         0, NR,  z_ws, Fz:      -0.9528       0.000, dFz/dz:       0.000
+         0, NR,  z_ws, Fz:      -0.9535       0.000, dFz/dz:       0.000
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         1, NR,  z_ws, Fz:      -0.9287       6574., dFz/dz:   4.101E+05
+         1, NR,  z_ws, Fz:      -0.9289       6443., dFz/dz:   3.926E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         2, NR,  z_ws, Fz:      -0.9234   1.033E+04, dFz/dz:   7.063E+05
+         2, NR,  z_ws, Fz:      -0.9240       9877., dFz/dz:   6.987E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         3, NR,  z_ws, Fz:      -0.9239       9980., dFz/dz:   7.486E+05
+         3, NR,  z_ws, Fz:      -0.9238   1.000E+04, dFz/dz:   7.448E+05
  varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
  WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         4, NR,  z_ws, Fz:      -0.9238      10000., dFz/dz:   7.447E+05
- varprof_intpol_grid_old: requested profile at 385 positions s_ws+x in [   102.500,   217.500]
- WARNING: 130 positions lie after last slice at u_n=   178.810, using constant extrapolation
-         5, NR,  z_ws, Fz:      -0.9238   1.000E+04, dFz/dz:   7.471E+05
+         4, NR,  z_ws, Fz:      -0.9238   1.000E+04, dFz/dz:   7.447E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -99,18 +96,18 @@
          2000.       0.000       0.000       0.000       0.000  -4.3481181
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       298.4       3374.   1.000E+04       298.4       3374.   1.000E+04
+       298.4       3373.   1.000E+04       298.4       3373.   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -2.4600    782.0808     -1.5177     -0.0500     32.0808     -1.5177
+     -2.4600    782.0806     -1.5177     -0.0500     32.0806     -1.5177
 
      XCP(W)      YCP(W)      ZCP(W)
-     -2.4600     28.5608     -0.5939
+     -2.4600     28.5606     -0.5939
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -119,38 +116,38 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         6171.       1611.       152.9      -141.2   4.516E-02      -3.698
+         6171.       1611.       152.9      -141.4   4.516E-02      -3.697
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     7.526E-02      0.8704   8.261E-02   1.726E-02       634.5
+     7.525E-02      0.8704   8.262E-02   1.725E-02       634.5
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   1364    437    138    299      1      1
+   1276    437    138    299      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    25   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    24   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . .
-    23   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . .
-    22   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . .
-    21   . . . . . S S S S S S S S S S S S S S S S S S * * * * S . . . .
-    20   . . . . S S S S S S S S S S S S S S S S S S * * * * * * S . . .
-    19   . . . S S S S S S S S S S S S S S S S S S * * * * * * * * * . .
-    18   . . S S S S S S S S S S S S S S S S S S * * * * * * * * * * * .
-    17   . . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * .
-    16   . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * .
+    24   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    23   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . .
+    22   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . .
+    21   . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . .
+    20   . . . . . S S S S S S S S S S S S S S S S S S * * * * S . . . .
+    19   . . . . S S S S S S S S S S S S S S S S S S * * * * * * S . . .
+    18   . . . S S S S S S S S S S S S S S S S S S * * * * * * * * * . .
+    17   . . S S S S S S S S S S S S S S S S S S * * * * * * * * * * * .
+    16   . . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * .
     15   . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * .
-    14   . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * . .
-    13   . . S S S S S S S S S S S S S S S S * * * * * * * * * * * . . .
-    12   . . . S S S S S S S S S S S S S S S S S S * * * * * * * . . . .
-    11   . . . . . S S S S S S S S S S S S S S S S S S * * * * S . . . .
-    10   . . . . . . . S S S S S S S S S S S S S S S S S S * * * S . . .
-     9   . . . . . . . . S S S S S S S S S S S S S S S * * * * * * * . .
-     8   . . . . . . . . S S S S S S S S S S S S S * * * * * * * * * . .
-     7   . . . . . . . S S S S S S S S S S S S * * * * * * * * * . . . .
-     6   . . . . . . . S S S S S S S S S S S S * * * * . . . . . . . . .
-     5   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    14   . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * * .
+    13   . S S S S S S S S S S S S S S S S * * * * * * * * * * * * * . .
+    12   . . S S S S S S S S S S S S S S S S * * * * * * * * * * * . . .
+    11   . . . S S S S S S S S S S S S S S S S S S * * * * * * * . . . .
+    10   . . . . . S S S S S S S S S S S S S S S S S S * * * * S . . . .
+     9   . . . . . . . S S S S S S S S S S S S S S S S S S * * * S . . .
+     8   . . . . . . . . S S S S S S S S S S S S S S S * * * * * * * . .
+     7   . . . . . . . . S S S S S S S S S S S S S * * * * * * * * * . .
+     6   . . . . . . . S S S S S S S S S S S S * * * * * * * * * . . . .
+     5   . . . . . . . S S S S S S S S S S S S * * * * . . . . . . . . .
+     4   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
                1                   2                   3
          7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8
      X  -->        Chi=  0.00 degrees
@@ -159,27 +156,27 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.1767    718.1999      6.2004     -0.7644    -31.8001      6.2004
+      4.1777    718.2019      6.1984     -0.7640    -31.7981      6.1984
 
      XCP(W)      YCP(W)      ZCP(W)
-      4.1767    -35.3201      7.1242
+      4.1777    -35.3181      7.1223
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           2016.   1.547E-02   6.236E-03   1.493E-03
+     0.000      0.2000           2016.   1.546E-02   6.235E-03   1.492E-03
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         4791.      -1313.      -557.5      -265.4   4.373E-02      -48.50
+         4790.      -1313.      -557.3      -268.6   4.373E-02      -48.49
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     5.843E-02     -0.9135     -0.3879   2.054E-02       1584.
+     5.842E-02     -0.9135     -0.3878   2.054E-02       1584.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    598    127      0    127      1      1
+    598    128      0    128      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     13   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
@@ -189,7 +186,7 @@
      9   . . . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . .
      8   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
      7   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     6   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     6   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
      5   . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
      4   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
      3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -206,26 +203,26 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.7 | 100.0 |        0.9 | 100.0 |
-|Wheel-rail cases     |        1 |        0.7 | 100.0 |        0.9 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   2.4 |        0.2 |  25.1 |
-|Geometric analysis   |        6 |        0.6 |  92.9 |        0.6 |  63.0 |
-|Panag.process        |       10 |        0.0 |   4.8 |        0.1 |   7.6 |
-|Algorithm Norm       |       10 |        0.0 |   0.0 |        0.0 |   3.1 |
-|Algorithm Tang       |       10 |        0.0 |   4.8 |        0.0 |   4.5 |
-|Output quantities    |       11 |        0.0 |   0.0 |        0.0 |   2.1 |
+|Total                |        1 |        0.8 | 100.0 |        0.8 | 100.0 |
+|Wheel-rail cases     |        1 |        0.8 | 100.0 |        0.8 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   5.8 |        0.2 |  25.0 |
+|Geometric analysis   |        5 |        0.7 |  86.5 |        0.5 |  65.4 |
+|Panag.process        |        8 |        0.0 |   5.8 |        0.1 |   6.8 |
+|Algorithm Norm       |        8 |        0.0 |   1.9 |        0.0 |   1.3 |
+|Algorithm Tang       |        8 |        0.0 |   3.8 |        0.0 |   5.5 |
+|Output quantities    |        9 |        0.0 |   1.9 |        0.0 |   1.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       10 |        0.0 |   0.0 |        0.0 |   1.6 |
-|Tang: StedyGS solver |       10 |        0.0 |   2.4 |        0.0 |   4.5 |
+|Norm: ConjGrd solver |        8 |        0.0 |   1.9 |        0.0 |   1.0 |
+|Tang: StedyGS solver |        8 |        0.0 |   3.8 |        0.0 |   3.4 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   2.4 |        0.2 |  25.1 |
-|Contact location     |        6 |        0.6 |  88.1 |        0.6 |  59.4 |
-| - Interp sf_whl     |        6 |        0.1 |  21.4 |        0.2 |  17.0 |
-| - Other calc.       |       12 |        0.0 |   4.8 |        0.0 |   4.8 |
-| - Locate interpen   |        6 |        0.0 |   2.4 |        0.0 |   1.1 |
-|Undeformed distance  |       10 |        0.0 |   4.8 |        0.0 |   3.6 |
-| - Interp whl_srfc   |       10 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |       10 |        0.0 |   0.0 |        0.0 |   0.5 |
-|Initial state/estim. |       10 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        1 |        0.0 |   5.8 |        0.2 |  25.0 |
+|Contact location     |        5 |        0.7 |  80.8 |        0.5 |  59.6 |
+| - Interp sf_whl     |        5 |        0.2 |  19.2 |        0.1 |  16.8 |
+| - Other calc.       |       10 |        0.0 |   5.8 |        0.0 |   3.2 |
+| - Locate interpen   |        5 |        0.0 |   3.8 |        0.0 |   1.7 |
+|Undeformed distance  |        8 |        0.0 |   5.8 |        0.0 |   5.9 |
+| - Interp whl_srfc   |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

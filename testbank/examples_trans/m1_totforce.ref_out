@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -12,8 +12,8 @@
  reading wheel profile "..\profiles\flat_plane.prw"
          0, NR,  z_ws, Fz:      -0.3820       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.2214       235.9, dFz/dz:       2203.
-         2, NR,  z_ws, Fz:      -0.2209       237.0, dFz/dz:       2205.
-         3, NR,  z_ws, Fz:      -0.2209       237.0, dFz/dz:       2207.
+         2, NR,  z_ws, Fz:      -0.2210       236.8, dFz/dz:       2204.
+         3, NR,  z_ws, Fz:      -0.2209       237.0, dFz/dz:       2206.
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -67,7 +67,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -1.323      -22.23       237.0      -1.412      -22.22       237.0
 
@@ -190,7 +190,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2.614      -23.65       237.0      -2.708      -23.64       237.0
 
@@ -313,7 +313,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -3.874      -24.99       237.0      -3.974      -24.98       237.0
 
@@ -338,7 +338,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          238.3      -3.874      -4.249       49.06   1.532E-02  -2.470E-07
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.191  -4.064E-02  -4.458E-02    0.160497       7.084
+         1.191  -4.064E-02  -4.458E-02    0.160498       7.084
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -436,7 +436,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -5.100      -26.27       237.0      -5.205      -26.25       237.0
 
@@ -559,7 +559,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -6.299      -27.47       237.0      -6.409      -27.45       237.0
 
@@ -682,7 +682,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -7.469      -28.61       237.0      -7.583      -28.58       237.0
 
@@ -805,7 +805,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -8.605      -29.68       237.0      -8.723      -29.65       237.0
 
@@ -928,7 +928,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -9.711      -30.69       237.0      -9.834      -30.66       237.0
 
@@ -1051,7 +1051,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -10.79      -31.65       237.0      -10.92      -31.60       237.0
 
@@ -1174,7 +1174,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -11.84      -32.54       237.0      -11.97      -32.49       237.0
 
@@ -1199,7 +1199,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          238.9      -11.84      -11.77       128.8   1.549E-02  -4.951E-06
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.195     -0.1239     -0.1232    0.160793       7.091
+         1.195     -0.1239     -0.1231    0.160793       7.091
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1297,7 +1297,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -12.85      -33.38       237.0      -12.99      -33.33       237.0
 
@@ -1420,7 +1420,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -13.84      -34.16       237.0      -13.98      -34.11       237.0
 
@@ -1543,7 +1543,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -14.80      -34.90       237.0      -14.94      -34.84       237.0
 
@@ -1666,7 +1666,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -15.73      -35.59       237.0      -15.88      -35.52       237.0
 
@@ -1789,7 +1789,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -16.63      -36.22       237.0      -16.78      -36.16       237.0
 
@@ -1912,7 +1912,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -17.51      -36.82       237.0      -17.65      -36.75       237.0
 
@@ -1937,7 +1937,7 @@
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.3      -17.51      -16.03       167.4   1.565E-02  -1.251E-05
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.197     -0.1829     -0.1675    0.160960       7.094
+         1.197     -0.1829     -0.1675    0.160961       7.094
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2035,7 +2035,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -18.35      -37.37       237.0      -18.50      -37.30       237.0
 
@@ -2158,7 +2158,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -19.17      -37.88       237.0      -19.32      -37.81       237.0
 
@@ -2281,7 +2281,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -19.96      -38.36       237.0      -20.12      -38.28       237.0
 
@@ -2404,7 +2404,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -20.73      -38.80       237.0      -20.88      -38.71       237.0
 
@@ -2527,7 +2527,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -21.46      -39.20       237.0      -21.62      -39.12       237.0
 
@@ -2650,7 +2650,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -22.18      -39.58       237.0      -22.33      -39.49       237.0
 
@@ -2773,7 +2773,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -22.86      -39.92       237.0      -23.02      -39.83       237.0
 
@@ -2896,7 +2896,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -23.52      -40.24       237.0      -23.68      -40.15       237.0
 
@@ -3019,7 +3019,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -24.15      -40.53       237.0      -24.32      -40.43       237.0
 
@@ -3142,7 +3142,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -24.76      -40.80       237.0      -24.92      -40.70       237.0
 
@@ -3265,7 +3265,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -25.35      -41.04       237.0      -25.51      -40.94       237.0
 
@@ -3388,7 +3388,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -25.90      -41.27       237.0      -26.07      -41.17       237.0
 
@@ -3511,7 +3511,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -26.44      -41.48       237.0      -26.61      -41.37       237.0
 
@@ -3634,7 +3634,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -26.95      -41.67       237.0      -27.12      -41.57       237.0
 
@@ -3757,7 +3757,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -27.44      -41.85       237.0      -27.61      -41.74       237.0
 
@@ -3880,7 +3880,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -27.91      -42.02       237.0      -28.08      -41.91       237.0
 
@@ -4003,7 +4003,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -28.35      -42.17       237.0      -28.52      -42.06       237.0
 
@@ -4126,7 +4126,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -28.78      -42.32       237.0      -28.95      -42.20       237.0
 
@@ -4249,7 +4249,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -29.18      -42.46       237.0      -29.35      -42.34       237.0
 
@@ -4372,7 +4372,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -29.56      -42.59       237.0      -29.73      -42.47       237.0
 
@@ -4455,7 +4455,7 @@
  Case    37
          0, NR,  z_ws, Fz:      -0.3820       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.2201       237.0, dFz/dz:       2196.
-         2, NR,  z_ws, Fz:      -0.2201       237.0, dFz/dz:       2210.
+         2, NR,  z_ws, Fz:      -0.2201       237.0, dFz/dz:       2209.
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -4495,7 +4495,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -29.92      -42.72       237.0      -30.09      -42.60       237.0
 
@@ -4618,7 +4618,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -30.26      -42.84       237.0      -30.43      -42.72       237.0
 
@@ -4741,7 +4741,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -30.59      -42.96       237.0      -30.76      -42.83       237.0
 
@@ -4864,7 +4864,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -30.90      -43.07       237.0      -31.07      -42.94       237.0
 
@@ -4987,7 +4987,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -31.19      -43.17       237.0      -31.37      -43.05       237.0
 
@@ -5110,7 +5110,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -31.48      -43.27       237.0      -31.65      -43.14       237.0
 
@@ -5233,7 +5233,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -31.74      -43.36       237.0      -31.92      -43.23       237.0
 
@@ -5356,7 +5356,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -32.00      -43.45       237.0      -32.17      -43.32       237.0
 
@@ -5479,7 +5479,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -32.25      -43.53       237.0      -32.42      -43.40       237.0
 
@@ -5602,7 +5602,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -32.48      -43.61       237.0      -32.65      -43.47       237.0
 
@@ -5725,7 +5725,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -32.70      -43.68       237.0      -32.88      -43.55       237.0
 
@@ -5848,7 +5848,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -32.92      -43.74       237.0      -33.09      -43.61       237.0
 
@@ -5971,7 +5971,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -33.12      -43.81       237.0      -33.30      -43.67       237.0
 
@@ -6094,7 +6094,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -33.32      -43.87       237.0      -33.49      -43.73       237.0
 
@@ -6217,7 +6217,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -33.50      -43.92       237.0      -33.68      -43.79       237.0
 
@@ -6340,7 +6340,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -33.68      -43.97       237.0      -33.86      -43.84       237.0
 
@@ -6463,7 +6463,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -33.85      -44.02       237.0      -34.03      -43.89       237.0
 
@@ -6586,7 +6586,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -34.02      -44.07       237.0      -34.19      -43.93       237.0
 
@@ -6709,7 +6709,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -34.17      -44.11       237.0      -34.35      -43.97       237.0
 
@@ -6832,7 +6832,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -34.32      -44.15       237.0      -34.50      -44.01       237.0
 
@@ -6955,7 +6955,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -34.46      -44.19       237.0      -34.64      -44.05       237.0
 
@@ -7078,7 +7078,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -34.60      -44.22       237.0      -34.78      -44.08       237.0
 
@@ -7201,7 +7201,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -34.73      -44.25       237.0      -34.91      -44.12       237.0
 
@@ -7324,7 +7324,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -34.86      -44.28       237.0      -35.03      -44.14       237.0
 
@@ -7407,7 +7407,7 @@
  Case    61
          0, NR,  z_ws, Fz:      -0.3820       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:      -0.2200       237.0, dFz/dz:       2195.
-         2, NR,  z_ws, Fz:      -0.2200       237.0, dFz/dz:       2132.
+         2, NR,  z_ws, Fz:      -0.2200       237.0, dFz/dz:       2131.
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -7447,7 +7447,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -34.98      -44.31       237.0      -35.15      -44.17       237.0
 
@@ -7569,7 +7569,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.09      -44.34       237.0      -35.27      -44.20       237.0
 
@@ -7692,7 +7692,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.20      -44.36       237.0      -35.38      -44.22       237.0
 
@@ -7814,7 +7814,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.30      -44.39       237.0      -35.48      -44.24       237.0
 
@@ -7937,7 +7937,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.40      -44.41       237.0      -35.58      -44.27       237.0
 
@@ -8059,7 +8059,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.50      -44.43       237.0      -35.67      -44.28       237.0
 
@@ -8182,7 +8182,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.59      -44.45       237.0      -35.76      -44.30       237.0
 
@@ -8304,7 +8304,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.67      -44.46       237.0      -35.85      -44.32       237.0
 
@@ -8427,7 +8427,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.76      -44.48       237.0      -35.93      -44.34       237.0
 
@@ -8549,7 +8549,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.83      -44.49       237.0      -36.01      -44.35       237.0
 
@@ -8672,7 +8672,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.91      -44.51       237.0      -36.09      -44.37       237.0
 
@@ -8794,7 +8794,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -35.98      -44.52       237.0      -36.16      -44.38       237.0
 
@@ -8916,7 +8916,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -36.05      -44.53       237.0      -36.23      -44.39       237.0
 
@@ -9039,7 +9039,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -36.12      -44.55       237.0      -36.30      -44.40       237.0
 
@@ -9161,7 +9161,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -36.18      -44.56       237.0      -36.36      -44.41       237.0
 
@@ -9283,7 +9283,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -36.24      -44.57       237.0      -36.42      -44.42       237.0
 
@@ -9406,7 +9406,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -36.30      -44.58       237.0      -36.48      -44.43       237.0
 
@@ -9528,7 +9528,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -36.35      -44.59       237.0      -36.53      -44.44       237.0
 
@@ -9650,7 +9650,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -36.41      -44.59       237.0      -36.58      -44.45       237.0
 
@@ -9772,7 +9772,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -36.46      -44.60       237.0      -36.63      -44.46       237.0
 
@@ -9895,7 +9895,7 @@
          0.000       0.000       0.000       0.000       0.000       0.000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -36.50      -44.61       237.0      -36.68      -44.46       237.0
 
@@ -9982,23 +9982,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.7 | 100.0 |        3.4 | 100.0 |
-|Wheel-rail cases     |       81 |        0.7 | 100.0 |        3.4 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   2.2 |        0.0 |   0.9 |
-|Geometric analysis   |      152 |        0.1 |  13.3 |        0.3 |   9.9 |
-|Panag.process        |      151 |        0.4 |  62.2 |        1.7 |  48.7 |
-|Algorithm Norm       |      151 |        0.1 |   8.9 |        0.5 |  14.9 |
-|Algorithm Tang       |      151 |        0.4 |  53.3 |        1.1 |  33.6 |
-|Output quantities    |      232 |        0.1 |   8.9 |        0.5 |  14.9 |
+|Total                |        1 |        3.4 | 100.0 |        3.9 | 100.0 |
+|Wheel-rail cases     |       81 |        3.4 | 100.0 |        3.9 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.5 |        0.0 |   0.4 |
+|Geometric analysis   |      152 |        0.4 |  12.6 |        0.4 |  10.6 |
+|Panag.process        |      151 |        1.8 |  52.6 |        1.9 |  48.7 |
+|Algorithm Norm       |      151 |        0.6 |  18.6 |        0.7 |  17.5 |
+|Algorithm Tang       |      151 |        1.1 |  33.5 |        1.2 |  30.2 |
+|Output quantities    |      232 |        0.3 |   7.9 |        0.6 |  16.3 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      151 |        0.1 |   8.9 |        0.4 |  12.0 |
-|Tang: TangCG solver  |      151 |        0.3 |  48.9 |        1.0 |  28.0 |
+|Norm: ConjGrd solver |      151 |        0.5 |  14.4 |        0.6 |  14.2 |
+|Tang: TangCG solver  |      151 |        1.1 |  32.6 |        1.0 |  25.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       81 |        0.0 |   2.2 |        0.0 |   0.9 |
-|Contact location     |      152 |        0.1 |   8.9 |        0.2 |   6.2 |
-|Undeformed distance  |      151 |        0.0 |   4.4 |        0.1 |   3.5 |
-| - Interp whl_srfc   |      151 |        0.0 |   0.0 |        0.1 |   1.8 |
-|Influence coeffic.   |        4 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Initial state/estim. |      151 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Reading input-file   |       81 |        0.0 |   0.5 |        0.0 |   0.5 |
+|Contact location     |      152 |        0.3 |   8.4 |        0.2 |   5.8 |
+|Undeformed distance  |      151 |        0.1 |   3.7 |        0.2 |   4.8 |
+| - Interp whl_srfc   |      151 |        0.0 |   1.4 |        0.1 |   2.2 |
+|Influence coeffic.   |        4 |        0.0 |   0.0 |        0.0 |   0.4 |
+|Initial state/estim. |      151 |        0.0 |   0.0 |        0.0 |   0.1 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

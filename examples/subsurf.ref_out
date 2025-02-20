@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -193,11 +193,11 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.1 | 100.0 |        0.3 | 100.0 |
-|Non-Hertzian cases   |        2 |        0.1 | 100.0 |        0.3 | 100.0 |
-|Subsurface points    |        2 |        0.0 |   0.0 |        0.0 |   2.4 |
-|Panag.process        |        2 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Total                |        1 |        0.3 | 100.0 |        0.3 | 100.0 |
+|Non-Hertzian cases   |        2 |        0.3 | 100.0 |        0.3 | 100.0 |
+|Subsurface points    |        2 |        0.0 |   5.6 |        0.0 |   8.9 |
+|Panag.process        |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Algorithm Tang       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Output quantities    |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
@@ -207,7 +207,7 @@ Performance timers:
 |Reading input-file   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        2 |        0.0 |   0.0 |        0.0 |   3.0 |
-|Subsurf writing      |        4 |        0.1 | 100.0 |        0.3 |  94.3 |
+|Writing output-files |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurf writing      |        4 |        0.3 |  94.4 |        0.2 |  91.1 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

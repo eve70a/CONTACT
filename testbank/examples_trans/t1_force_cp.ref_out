@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -11,46 +11,62 @@
  reading rail  profile "..\profiles\site_b_hr.prr"
  reading wheel profile "..\profiles\worn_high_mileage.prw"
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 465 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.847, slope 32.1 deg, 18.1% error in undeformed distance computation
       Norm: final element division: C, E=   1796   5134  ItCG=    14
       Tang: final element division: A, S=   1106    690  ItCG=    25
       Norm: final element division: C, E=    133    426  ItCG=    12
       Tang: final element division: A, S=      0    133  ItCG=    10
          1, NR,  z_ws, Fz:       1.2376   1.819E+05, dFz/dz:   2.461E+06
-      Norm: final element division: C, E=   1450   4874  ItCG=    13
-      Tang: final element division: A, S=    791    659  ItCG=    21
-      Norm: final element division: C, E=     97    347  ItCG=     9
-      Tang: final element division: A, S=      0     97  ItCG=     7
-         2, NR,  z_ws, Fz:       1.2197   1.356E+05, dFz/dz:   2.585E+06
-      Norm: final element division: C, E=   1399   4628  ItCG=    10
-      Tang: final element division: A, S=    730    669  ItCG=    17
-      Norm: final element division: C, E=     90    342  ItCG=     9
-      Tang: final element division: A, S=      0     90  ItCG=     4
-         3, NR,  z_ws, Fz:       1.2156   1.282E+05, dFz/dz:   1.805E+06
-      Norm: final element division: C, E=   1401   4626  ItCG=     8
-      Tang: final element division: A, S=    724    677  ItCG=    15
-      Norm: final element division: C, E=     90    330  ItCG=     6
-      Tang: final element division: A, S=      0     90  ItCG=     4
-         4, NR,  z_ws, Fz:       1.2149   1.278E+05, dFz/dz:   5.948E+05
-      Norm: final element division: C, E=   1398   4629  ItCG=    10
-      Tang: final element division: A, S=    717    681  ItCG=    16
-      Norm: final element division: C, E=     87    333  ItCG=     8
-      Tang: final element division: A, S=      0     87  ItCG=     5
-         5, NR,  z_ws, Fz:       1.2136   1.271E+05, dFz/dz:   5.488E+05
-      Norm: final element division: C, E=   1396   4631  ItCG=     7
-      Tang: final element division: A, S=    716    680  ItCG=    15
-      Norm: final element division: C, E=     87    333  ItCG=     5
-      Tang: final element division: A, S=      0     87  ItCG=     2
-         6, NR,  z_ws, Fz:       1.2135   1.270E+05, dFz/dz:   4.115E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 296 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.867, slope 29.8 deg, 15.3% error in undeformed distance computation
+      Norm: final element division: C, E=   1397   4630  ItCG=    13
+      Tang: final element division: A, S=    720    677  ItCG=    22
+      Norm: final element division: C, E=     88    332  ItCG=    10
+      Tang: final element division: A, S=      0     88  ItCG=     5
+         2, NR,  z_ws, Fz:       1.2145   1.275E+05, dFz/dz:   2.351E+06
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 295 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.868, slope 29.8 deg, 15.3% error in undeformed distance computation
+      Norm: final element division: C, E=   1398   4629  ItCG=     8
+      Tang: final element division: A, S=    719    679  ItCG=    13
+      Norm: final element division: C, E=     88    332  ItCG=     6
+      Tang: final element division: A, S=      0     88  ItCG=     2
+         3, NR,  z_ws, Fz:       1.2142   1.274E+05, dFz/dz:   5.749E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 292 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.880, slope 28.3 deg, 13.6% error in undeformed distance computation
+      Norm: final element division: C, E=   1396   4631  ItCG=     8
+      Tang: final element division: A, S=    717    679  ItCG=    14
+      Norm: final element division: C, E=     87    333  ItCG=     7
+      Tang: final element division: A, S=      0     87  ItCG=     3
+         4, NR,  z_ws, Fz:       1.2136   1.270E+05, dFz/dz:   5.030E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.880, slope 28.3 deg, 13.6% error in undeformed distance computation
       Norm: final element division: C, E=   1396   4631  ItCG=     6
       Tang: final element division: A, S=    716    680  ItCG=    13
       Norm: final element division: C, E=     87    333  ItCG=     5
+      Tang: final element division: A, S=      0     87  ItCG=     4
+         5, NR,  z_ws, Fz:       1.2135   1.270E+05, dFz/dz:   4.081E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.880, slope 28.3 deg, 13.6% error in undeformed distance computation
+      Norm: final element division: C, E=   1396   4631  ItCG=     6
+      Tang: final element division: A, S=    716    680  ItCG=    11
+      Norm: final element division: C, E=     87    333  ItCG=     5
       Tang: final element division: A, S=      0     87  ItCG=     3
-         7, NR,  z_ws, Fz:       1.2135   1.270E+05, dFz/dz:   3.982E+05
-      Norm: final element division: C, E=   1396   4631  ItCG=     4
-      Tang: final element division: A, S=    716    680  ItCG=     2
+         6, NR,  z_ws, Fz:       1.2135   1.270E+05, dFz/dz:   3.970E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.880, slope 28.3 deg, 13.6% error in undeformed distance computation
+      Norm: final element division: C, E=   1396   4631  ItCG=     3
+      Tang: final element division: A, S=    716    680  ItCG=     5
       Norm: final element division: C, E=     87    333  ItCG=     3
-      Tang: final element division: A, S=      0     87  ItCG=     3
-         8, NR,  z_ws, Fz:       1.2135   1.270E+05, dFz/dz:   4.015E+05
+      Tang: final element division: A, S=      0     87  ItCG=     2
+         7, NR,  z_ws, Fz:       1.2135   1.270E+05, dFz/dz:   4.120E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -100,7 +116,7 @@
         0.4000       0.000       0.000       0.000       0.000  -0.0008667
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    2.499E+04   2.779E+04   1.270E+05   2.513E+04   2.750E+04   1.270E+05
 
@@ -127,9 +143,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.271E+05   2.576E+04      -3519.   5.814E+04       4.112  -1.817E-02
+     1.271E+05   2.576E+04      -3519.   5.813E+04       4.112  -1.817E-02
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-         1.551      0.5788  -7.907E-02   7.850E-02       1695.
+         1.551      0.5788  -7.908E-02   7.850E-02       1695.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -299,14 +315,34 @@
 
  Case     2
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 465 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.847, slope 32.1 deg, 18.1% error in undeformed distance computation
          1, NR,  z_ws, Fz:       1.2376   1.813E+05, dFz/dz:   2.454E+06
-         2, NR,  z_ws, Fz:       1.2199   1.359E+05, dFz/dz:   2.560E+06
-         3, NR,  z_ws, Fz:       1.2156   1.282E+05, dFz/dz:   1.814E+06
-         4, NR,  z_ws, Fz:       1.2150   1.278E+05, dFz/dz:   5.817E+05
-         5, NR,  z_ws, Fz:       1.2136   1.271E+05, dFz/dz:   5.367E+05
-         6, NR,  z_ws, Fz:       1.2135   1.270E+05, dFz/dz:   4.018E+05
-         7, NR,  z_ws, Fz:       1.2134   1.270E+05, dFz/dz:   3.875E+05
-         8, NR,  z_ws, Fz:       1.2134   1.270E+05, dFz/dz:   3.833E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 297 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.867, slope 29.8 deg, 15.3% error in undeformed distance computation
+         2, NR,  z_ws, Fz:       1.2147   1.276E+05, dFz/dz:   2.340E+06
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 295 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.868, slope 29.8 deg, 15.3% error in undeformed distance computation
+         3, NR,  z_ws, Fz:       1.2144   1.274E+05, dFz/dz:   5.896E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 292 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.880, slope 28.3 deg, 13.6% error in undeformed distance computation
+         4, NR,  z_ws, Fz:       1.2136   1.271E+05, dFz/dz:   5.057E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.880, slope 28.3 deg, 13.6% error in undeformed distance computation
+         5, NR,  z_ws, Fz:       1.2135   1.270E+05, dFz/dz:   4.010E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.880, slope 28.3 deg, 13.6% error in undeformed distance computation
+         6, NR,  z_ws, Fz:       1.2134   1.270E+05, dFz/dz:   3.867E+05
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.880, slope 28.3 deg, 13.6% error in undeformed distance computation
+         7, NR,  z_ws, Fz:       1.2134   1.270E+05, dFz/dz:   3.833E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -342,7 +378,7 @@
      4.000E-03       0.000       0.000       0.000       0.000  -0.0000087
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    2.470E+04   2.777E+04   1.270E+05   2.484E+04   2.748E+04   1.270E+05
 
@@ -546,23 +582,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.3 | 100.0 |        0.7 | 100.0 |
-|Wheel-rail cases     |        2 |        0.3 | 100.0 |        0.7 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   1.5 |
-|Geometric analysis   |       18 |        0.0 |   0.0 |        0.1 |   7.8 |
-|Panag.process        |       32 |        0.2 |  77.8 |        0.5 |  72.4 |
-|Algorithm Norm       |       32 |        0.1 |  33.3 |        0.2 |  26.9 |
-|Algorithm Tang       |       32 |        0.1 |  44.4 |        0.3 |  45.4 |
-|Output quantities    |       34 |        0.0 |  16.7 |        0.0 |   5.1 |
+|Total                |        1 |        0.5 | 100.0 |        0.5 | 100.0 |
+|Wheel-rail cases     |        2 |        0.5 | 100.0 |        0.5 |  99.4 |
+|W/r profiles         |        2 |        0.0 |   3.3 |        0.0 |   1.3 |
+|Geometric analysis   |       16 |        0.0 |   0.0 |        0.1 |  11.6 |
+|Panag.process        |       28 |        0.4 |  86.7 |        0.3 |  61.7 |
+|Algorithm Norm       |       28 |        0.1 |  30.0 |        0.1 |  24.3 |
+|Algorithm Tang       |       28 |        0.3 |  56.7 |        0.2 |  35.2 |
+|Output quantities    |       30 |        0.0 |   0.0 |        0.1 |  13.8 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       32 |        0.1 |  33.3 |        0.2 |  21.8 |
-|Tang: TangCG solver  |       32 |        0.1 |  44.4 |        0.3 |  39.1 |
+|Norm: ConjGrd solver |       28 |        0.1 |  23.3 |        0.1 |  23.0 |
+|Tang: TangCG solver  |       28 |        0.2 |  53.3 |        0.2 |  29.7 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        2 |        0.0 |   0.0 |        0.0 |   1.5 |
-|Contact location     |       18 |        0.0 |   0.0 |        0.0 |   0.8 |
-|Undeformed distance  |       32 |        0.0 |   0.0 |        0.1 |   7.0 |
-| - Interp whl_srfc   |       32 |        0.0 |   0.0 |        0.0 |   3.4 |
-|Influence coeffic.   |       18 |        0.0 |   0.0 |        0.0 |   4.1 |
-|Initial state/estim. |       32 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        2 |        0.0 |   3.3 |        0.0 |   1.3 |
+|Contact location     |       16 |        0.0 |   0.0 |        0.0 |   3.7 |
+|Undeformed distance  |       28 |        0.0 |   0.0 |        0.0 |   7.9 |
+| - Interp whl_srfc   |       28 |        0.0 |   0.0 |        0.0 |   2.6 |
+|Influence coeffic.   |       16 |        0.0 |   0.0 |        0.0 |   2.2 |
+|Initial state/estim. |       28 |        0.0 |   0.0 |        0.0 |   0.6 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

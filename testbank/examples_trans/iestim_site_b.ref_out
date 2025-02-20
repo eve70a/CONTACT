@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -69,7 +69,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        65.14       169.0       284.1       65.99       168.3       284.3
 
@@ -164,7 +164,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        543.2       1414.       2368.       550.3       1408.       2370.
 
@@ -269,7 +269,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        1975.       3372.       7560.       1992.       3352.       7564.
 
@@ -431,7 +431,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        5402.       5946.   1.875E+04       5432.       5895.   1.876E+04
 
@@ -605,7 +605,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        9909.       9032.   3.327E+04       9954.       8939.   3.328E+04
 
@@ -827,7 +827,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.528E+04   1.308E+04   5.089E+04   1.534E+04   1.294E+04   5.091E+04
 
@@ -1060,7 +1060,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    2.136E+04   1.800E+04   7.111E+04   2.145E+04   1.780E+04   7.114E+04
 
@@ -1300,7 +1300,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    2.801E+04   2.358E+04   9.338E+04   2.813E+04   2.332E+04   9.341E+04
 
@@ -1500,6 +1500,9 @@
  cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  45,  26, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 100 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.947, slope 18.8 deg,  5.6% error in undeformed distance computation
  cgrid_inp: mx,my=  34,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  30,  10, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -1544,7 +1547,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    4.155E+04   2.701E+04   1.224E+05   4.168E+04   2.664E+04   1.224E+05
 
@@ -1750,6 +1753,9 @@
  cgrid_inp: mx,my=  51, 124, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  43,  80, dx,dy=   0.400,   0.400
     no initial estimate (large change npot)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 349 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.868, slope 29.8 deg, 15.3% error in undeformed distance computation
  cgrid_inp: mx,my=  37,  12, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  34,  11, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -1792,7 +1798,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    4.663E+04   2.839E+04   1.369E+05   4.677E+04   2.798E+04   1.369E+05
 
@@ -2001,6 +2007,9 @@
  cgrid_inp: mx,my=  53, 125, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  51, 124, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 422 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.851, slope 31.6 deg, 17.5% error in undeformed distance computation
  cgrid_inp: mx,my=  41,  13, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  37,  12, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -2043,7 +2052,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    5.513E+04   3.379E+04   1.625E+05   5.529E+04   3.330E+04   1.626E+05
 
@@ -2249,6 +2258,9 @@
  cgrid_inp: mx,my=  51, 124, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  53, 125, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 349 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.868, slope 29.8 deg, 15.3% error in undeformed distance computation
  cgrid_inp: mx,my=  37,  12, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  41,  13, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -2291,7 +2303,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    4.663E+04   2.839E+04   1.369E+05   4.677E+04   2.798E+04   1.369E+05
 
@@ -2505,6 +2517,9 @@
  cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  51, 124, dx,dy=   0.400,   0.400
     no initial estimate (large change npot)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 100 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.947, slope 18.8 deg,  5.6% error in undeformed distance computation
  cgrid_inp: mx,my=  34,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  37,  12, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -2549,7 +2564,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    4.155E+04   2.701E+04   1.224E+05   4.168E+04   2.664E+04   1.224E+05
 
@@ -2803,7 +2818,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    2.801E+04   2.358E+04   9.338E+04   2.813E+04   2.332E+04   9.341E+04
 
@@ -3047,7 +3062,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    2.136E+04   1.800E+04   7.111E+04   2.145E+04   1.780E+04   7.114E+04
 
@@ -3287,7 +3302,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
    1.528E+04   1.308E+04   5.089E+04   1.534E+04   1.294E+04   5.091E+04
 
@@ -3520,7 +3535,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        9909.       9032.   3.327E+04       9954.       8939.   3.328E+04
 
@@ -3737,7 +3752,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        5402.       5946.   1.875E+04       5432.       5895.   1.876E+04
 
@@ -3905,7 +3920,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        1975.       3372.       7560.       1992.       3352.       7564.
 
@@ -4062,7 +4077,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        543.2       1414.       2368.       550.3       1408.       2370.
 
@@ -5377,23 +5392,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.5 | 100.0 |        1.0 | 100.0 |
-|Wheel-rail cases     |       21 |        0.5 | 100.0 |        1.0 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.8 |
-|Geometric analysis   |       21 |        0.0 |   0.0 |        0.1 |   7.1 |
-|Panag.process        |       48 |        0.4 |  79.3 |        0.6 |  55.5 |
-|Algorithm Norm       |       48 |        0.2 |  37.9 |        0.3 |  26.3 |
-|Algorithm Tang       |       48 |        0.2 |  41.4 |        0.3 |  29.2 |
-|Output quantities    |       69 |        0.0 |   3.4 |        0.2 |  16.3 |
+|Total                |        1 |        1.1 | 100.0 |        1.3 | 100.0 |
+|Wheel-rail cases     |       21 |        1.1 | 100.0 |        1.3 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Geometric analysis   |       21 |        0.1 |   7.0 |        0.1 |   6.5 |
+|Panag.process        |       48 |        0.7 |  63.4 |        0.8 |  58.6 |
+|Algorithm Norm       |       48 |        0.3 |  23.9 |        0.3 |  23.1 |
+|Algorithm Tang       |       48 |        0.4 |  39.4 |        0.5 |  35.4 |
+|Output quantities    |       69 |        0.1 |   9.9 |        0.2 |  16.7 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       48 |        0.1 |  20.7 |        0.1 |  12.4 |
-|Tang: StedyGS solver |       48 |        0.2 |  41.4 |        0.3 |  29.2 |
+|Norm: ConjGrd solver |       48 |        0.1 |  12.7 |        0.1 |   8.7 |
+|Tang: StedyGS solver |       48 |        0.4 |  38.0 |        0.4 |  32.7 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       21 |        0.0 |   0.0 |        0.0 |   2.9 |
-|Contact location     |       21 |        0.0 |   0.0 |        0.0 |   4.7 |
-|Undeformed distance  |       48 |        0.0 |   0.0 |        0.0 |   1.9 |
-| - Interp whl_srfc   |       48 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |       16 |        0.0 |   3.4 |        0.0 |   2.4 |
+|Reading input-file   |       21 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Contact location     |       21 |        0.0 |   2.8 |        0.0 |   2.7 |
+|Undeformed distance  |       48 |        0.0 |   4.2 |        0.0 |   1.6 |
+| - Interp whl_srfc   |       48 |        0.0 |   2.8 |        0.0 |   1.6 |
+|Influence coeffic.   |       16 |        0.0 |   2.8 |        0.0 |   2.3 |
 |Initial state/estim. |       48 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

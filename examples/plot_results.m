@@ -11,7 +11,7 @@ expnam = strvcat('cattaneo', 'carter2d', 'bentall', 'visc_cylindr', 'catt_to_car
                  'ertz_temperature', 'plastic_3bl', 'fastsim', 'veldep_fric');
 % expnam = strvcat('kpec');
 % expnam = strvcat('plastic_3bl');
-% expnam = strvcat('wheelflat');
+expnam = strvcat('fastsim');
 
 pause_after_plot = 1 * (size(expnam,1)>1);
 print_figures = 0;
@@ -38,7 +38,7 @@ if (~isempty(strmatch('cattaneo',expnam)))
    opt2.yslc = 0.0;
    opt2.facpt = -1.0;
    plot2d(s, opt2);
-   if (print_figures), print -djpeg75 cattaneo_px_y0.jpg; end
+   if (print_figures), print -djpeg95 cattaneo_px_y0.jpg; end
 
    if (pause_after_plot), pause; end
    clear s opt2;
@@ -53,7 +53,7 @@ if (~isempty(strmatch('carter2d',expnam)))
    opt2.yslc = 0.0;
    opt2.facpt = 1.0;
    plot2d(s, opt2);
-   if (print_figures), print -djpeg75 carter2d_px.jpg; end
+   if (print_figures), print -djpeg95 carter2d_px.jpg; end
 
    if (pause_after_plot), pause; end
    clear s opt2;
@@ -99,9 +99,9 @@ if (~isempty(strmatch('bentall',expnam)))
 
       if (print_figures)
          if (icase==5)
-            print -djpeg75 bentall_px_fxpos.jpg
+            print -djpeg95 bentall_px_fxpos.jpg
          elseif (icase==6)
-            print -djpeg75 bentall_px_fxneg.jpg
+            print -djpeg95 bentall_px_fxneg.jpg
          end
       end
    end
@@ -161,7 +161,7 @@ if (~isempty(strmatch('visc_cylindr',expnam)))
           'elastic, G=571.5 MPa', ...
           'elastic, G=1143 MPa','Location','NorthWest')
    title('Tractions for varying relaxation distance')
-   if (print_figures), print -djpeg75 visc_cylindr.jpg; end
+   if (print_figures), print -djpeg95 visc_cylindr.jpg; end
 
    if (pause_after_plot), pause; end
    clear sol_vt0 sol_vt9 sol_vt45 sol_G571 sol_G1143 
@@ -180,13 +180,13 @@ if (~isempty(strmatch('catt_to_cart',expnam)))
    set(gca,'ColorOrderIndex',4);
    l=plot(s3.x-12*s3.dx, -s3.px(17,:), '-*');  % row 17 == centerline y=0.
    l=plot(v3.x-12*v3.dx, -v3.px(17,:), '--o');
-   if (print_figures), print -djpeg75 catt_distc_12dx.jpg; end
+   if (print_figures), print -djpeg95 catt_distc_12dx.jpg; end
 
    figure(2); clf; hold on;
    opt=plot3d; opt.field='eldiv'; opt.ixrange = [1 999];
    plot3d(r3,opt);
    title('T = 2, transient rolling');
-   if (print_figures), print -djpeg75 catt_eldiv_3units.jpg; end
+   if (print_figures), print -djpeg95 catt_eldiv_3units.jpg; end
 
    figure(3); clf; hold on;
    plot3d(s3,opt);
@@ -225,7 +225,7 @@ if (~isempty(strmatch('subsurf',expnam)))
    ylabel('stress [N/mm^2]');
    % set(gca,'position',[0.2 0.1 0.5 0.8])
    set(gca,'dataaspectratio',[1.5 1 1]);
-   if (print_figures), print -djpeg75 subsurf_zaxis.jpg; end
+   if (print_figures), print -djpeg95 subsurf_zaxis.jpg; end
 
    figure(2); clf; hold on;
    opt = plotstrs; opt.yslc = 0; opt.field = 'uz';
@@ -237,7 +237,7 @@ if (~isempty(strmatch('subsurf',expnam)))
    h = findobj(gcf,'Type','colorbar');
    set(h,'ylim',[0 0.40], 'ytick',opt.cntrlvl);
    title('');
-   if (print_figures), print -djpeg75 subsurf_uz.jpg; end
+   if (print_figures), print -djpeg95 subsurf_uz.jpg; end
 
    if (pause_after_plot), pause; end
    clear c dif h ix j l mx s s1a s1b s2a s2b opt;
@@ -269,7 +269,7 @@ if (~isempty(strmatch('spence35',expnam)))
    % title('Spence compression, 35 x 35 elements, final stage');
    title('');
    set(gca,'box','on')
-   if (print_figures), print -djpeg75 spence_ptvec_case35.jpg; end
+   if (print_figures), print -djpeg95 spence_ptvec_case35.jpg; end
 
    % plot tangential tractions along radial line, traction bound, Hertzian
 
@@ -291,7 +291,7 @@ if (~isempty(strmatch('spence35',expnam)))
    fac = max(max(s35.pn))/pmax;
    l=text(3.6,0.0042,sprintf('Max p_n=%4.2f*p_{hz}',fac),'horizontalalignment','right');
    set(gca,'box','on')
-   if (print_figures), print -djpeg75 spence_px.jpg; end
+   if (print_figures), print -djpeg95 spence_px.jpg; end
 
    if (pause_after_plot), pause; end
    for i=1:35, eval(sprintf('clear s%d str%d',i,i)); end
@@ -326,7 +326,7 @@ if (~isempty(strmatch('mbench',expnam)))
    text(0, 0.95, 'Case A-2.2, 5 mm, 12.0 mrad', 'units', 'normalized')
    text(0, 0.87, 'Left wheel', 'units', 'normalized');
 
-   if (print_figures), print -djpeg75 mbench_a22_5mm_lft_prr.jpg; end
+   if (print_figures), print -djpeg95 mbench_a22_5mm_lft_prr.jpg; end
 
    figure(2); clf;
    if (~isempty(r11b))
@@ -346,7 +346,7 @@ if (~isempty(strmatch('mbench',expnam)))
    text(0, 0.95, 'Case A-2.2, 5 mm, 12.0 mrad', 'units', 'normalized')
    text(0, 0.87, 'Right wheel', 'units', 'normalized');
 
-   if (print_figures), print -djpeg75 mbench_a22_5mm_rgt_prr.jpg; end
+   if (print_figures), print -djpeg95 mbench_a22_5mm_rgt_prr.jpg; end
 
    figure(3); clf;
    plot3d(l13, opt, prr);
@@ -361,7 +361,7 @@ if (~isempty(strmatch('mbench',expnam)))
    text(0, 0.95, 'Case A-2.2, 6 mm, 14.4 mrad', 'units', 'normalized')
    text(0, 0.87, 'Left wheel', 'units', 'normalized');
 
-   if (print_figures), print -djpeg75 mbench_a22_6mm_lft_prr.jpg; end
+   if (print_figures), print -djpeg95 mbench_a22_6mm_lft_prr.jpg; end
 
    figure(4); clf;
    plot3d(r13, opt, prr);
@@ -375,7 +375,7 @@ if (~isempty(strmatch('mbench',expnam)))
    text(0, 0.95, 'Case A-2.2, 6 mm, 14.4 mrad', 'units', 'normalized')
    text(0, 0.87, 'Right wheel', 'units', 'normalized');
 
-   if (print_figures), print -djpeg75 mbench_a22_6mm_rgt_prr.jpg; end
+   if (print_figures), print -djpeg95 mbench_a22_6mm_rgt_prr.jpg; end
 
    opt = plot3d; opt.field='pn'; opt.rw_surfc='both'; opt.typplot='rw_rear';
 
@@ -671,7 +671,7 @@ if (~isempty(strmatch('conformal',expnam)))
    set(h(2),'xticklabel',[]);
    ylabel(c, 'Traction [N/mm^2]');
 
-   if (print_figures), print -djpeg75 conform_ptabs1.jpg; end
+   if (print_figures), print -djpeg95 conform_ptabs1.jpg; end
 
    opt.zrange=[0 130];
    opt.vecscale=0.005;
@@ -698,7 +698,7 @@ if (~isempty(strmatch('conformal',expnam)))
    set(h(2),'xticklabel',[]);
    ylabel(c, 'Traction [N/mm^2]');
 
-   if (print_figures), print -djpeg75 conform_ptabs2.jpg; end
+   if (print_figures), print -djpeg95 conform_ptabs2.jpg; end
    if (pause_after_plot), pause; end
    clear b t1 t3 t4 t5 dif3 dif4 opt c h l p;
 end
@@ -801,10 +801,11 @@ end
 % 5.12: The use of the FASTSIM algorithm
 
 if (~isempty(strmatch('fastsim',expnam)))
-   s1 = loadcase('fastsim'); 
-   s4 = loadcase('fastsim',4); 
-   s5 = loadcase('fastsim',5); 
-   s6 = loadcase('fastsim',6); 
+   cntc = loadcase('fastsim');   % CONTACT
+   fs_par = loadcase('fastsim',5); % Fastsim parab, fine
+   fs_ell = loadcase('fastsim',6); % Fastsim ellip, fine
+   fstrp  = loadcase('fastsim',7); % Fastrip, fine
+   fs_rev = loadcase('fastsim',8); % Fastsim parab, fine, reversed
    opt = plot3d;
    if (1==1)
       opt.field='ptabs+vec'; opt.zrange=[0 400];
@@ -818,21 +819,34 @@ if (~isempty(strmatch('fastsim',expnam)))
       f = 0.4;
       nam_plot = 'slip';
    end
+   opt.eldivwid = 1;
+   opt.vecwidth = 1;
    opt.exterval=NaN;
 
    figure(1); clf; hold on;
-   plot3d(s1, opt); 
+   plot3d(cntc, opt); 
    shading flat
    axis equal
    axis([-8.8 8.8 -4.4 4.4]);
    l1=plot3([6.0, 7.2],[-1.6 -2.4],[f f],'m'); t1=text(6.8,-2.8,'Adhesion');
    l2=plot3([4.4, 5.2],[-3.2 -3.6],[f f],'m'); t2=text(5.4,-3.8,'Slip');
    set([l1,l2],'linewidth',2); set([t1,t2],'fontsize',14);
-   title('');
-   if (print_figures), print('-djpeg75',['fastsim_',nam_plot,'_cntc.jpg']); end
+   title('Full theory');
+   if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_cntc.jpg']); end
 
    figure(2); clf; hold on;
-   plot3d(s4, opt); 
+   plot3d(fs_par, opt); 
+   shading flat
+   axis equal
+   axis([-8.8 8.8 -4.4 4.4]);
+   l1=plot3([-6.0,-4.8],[-3.2 -2.4],[f f],'m'); t1=text(-6.8,-3.6,'Slip');
+   l2=plot3([ 6.0, 7.2],[-1.6 -2.4],[f f],'m'); t2=text( 6.8,-2.8 ,'Adhesion');
+   set([l1,l2],'linewidth',2); set([t1,t2],'fontsize',14);
+   title('Fastsim-parabolical');
+   if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_parab.jpg']); end
+
+   figure(3); clf; hold on;
+   plot3d(fs_ell, opt); 
    shading flat
    axis equal
    axis([-8.8 8.8 -4.4 4.4]);
@@ -840,33 +854,33 @@ if (~isempty(strmatch('fastsim',expnam)))
    l2=plot3([-6.0,-4.8],[-3.2 -2.4],[f f],'m'); t2=text(-6.8,-3.6,'Slip');
    l3=plot3([ 6.0, 7.2],[-1.6 -2.4],[f f],'m'); t3=text( 6.8,-2.8 ,'Adhesion');
    set([l1,l2,l3],'linewidth',2); set([t1,t2,t3],'fontsize',14);
-   title('');
-   if (print_figures), print('-djpeg75',['fastsim_',nam_plot,'_ellip.jpg']); end
+   title('Fastsim-elliptical');
+   if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_ellip.jpg']); end
 
-   figure(3); clf; hold on;
-   plot3d(s5, opt); 
+   figure(4); clf; hold on;
+   plot3d(fstrp, opt); 
    shading flat
    axis equal
    axis([-8.8 8.8 -4.4 4.4]);
    l1=plot3([-6.0,-4.8],[-3.2 -2.4],[f f],'m'); t1=text(-6.8,-3.6,'Slip');
    l2=plot3([ 6.0, 7.2],[-1.6 -2.4],[f f],'m'); t2=text( 6.8,-2.8 ,'Adhesion');
    set([l1,l2],'linewidth',2); set([t1,t2],'fontsize',14);
-   title('');
-   if (print_figures), print('-djpeg75',['fastsim_',nam_plot,'_parab.jpg']); end
+   title('FaStrip');
+   if (print_figures), print('-djpeg95',['fastrip_',nam_plot,'.jpg']); end
 
-   figure(4); clf; hold on;
-   plot3d(s6, opt); 
+   figure(5); clf; hold on;
+   plot3d(fs_rev, opt); 
    shading flat
    axis equal
    axis([-8.8 8.8 -4.4 4.4]);
    l1=plot3([ 6.0, 4.8],[-3.2 -2.4],[f f],'m'); t1=text( 6.0,-3.6,'Slip');
    l2=plot3([-6.0,-7.2],[-1.6 -3.0],[f f],'m'); t2=text(-8.6,-3.6 ,'Adhesion');
    set([l1,l2],'linewidth',2); set([t1,t2],'fontsize',14);
-   title('');
-   if (print_figures), print('-djpeg75',['fastsim_',nam_plot,'_revers.jpg']); end
+   title('Fastsim-parabolical, reversed');
+   if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_revers.jpg']); end
 
    if (pause_after_plot), pause; end
-   clear nam_plot s1 s4 s5 s6 opt c l1 l2 l3 t1 t2 t3 f;
+   clear nam_plot cntc fs_par fs_ell fstrp fs_rev opt c l1 l2 l3 t1 t2 t3 f;
 end
 
 % 5.12* : Velocity-dependent friction
@@ -909,7 +923,7 @@ if (~isempty(strmatch('veldep_fric',expnam)))
 
    if (print_figures)
       l=num2str(s1.fric.frclaw); grd=num2str(s1.dx); grd=[grd(1),grd(3:end)];
-      eval(['print -djpeg75 veldep_l',l,'_dx',grd,'_mult.jpg']);
+      eval(['print -djpeg95 veldep_l',l,'_dx',grd,'_mult.jpg']);
    end
 
    figure(2); clf; hold on
@@ -931,7 +945,7 @@ if (~isempty(strmatch('veldep_fric',expnam)))
    if (print_figures)
       l=num2str(s1.fric.frclaw); grd=num2str(s1.dx); grd=[grd(1),grd(3:end)];
       t=num2str(52-3);
-      eval(['print -djpeg75 veldep_l',l,'_dx',grd,'_t',t,'.jpg']);
+      eval(['print -djpeg95 veldep_l',l,'_dx',grd,'_t',t,'.jpg']);
    end
 
    if (pause_after_plot), pause; end

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -42,7 +42,7 @@
  **         cntc_setFrictionMethod(  2.2): L= 5, Fkin= 0.18, Fexp1= 0.12 [-],
                                            Sabsh1= 1250.0, Mem_s0=   10.0 [mm/s], Memdst= 0.00 [mm]
  **     cntc_setMaterialParameters(  2.2): M=4, Gg3=  100.0 [N/mm2], Laythk= 0.010 [mm]
-                                             Tau_c0=  0.1E+21 [N/mm2], K_tau=    0.0 [N/mm3]
+                                             Tau_c0=   0.     [N/mm2], K_tau=    0.0 [N/mm3]
  **     cntc_setMaterialParameters(  2.2): G=82000.0 [N/mm2], Nu= 0.28, K= 0.00 [-]
  **            cntc_setNormalForce(  2.2): normal force= 42083.00 [N]
  **             cntc_setPotContact(  2.2): coordinates xl,yl=  -7.250  -7.250 [mm]
@@ -204,7 +204,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     100.0      0.1000E-01  0.1000E+21   0.000    
+     100.0      0.1000E-01   0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -325,7 +325,7 @@
 
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
-     100.0      0.1000E-01  0.1000E+21   0.000    
+     100.0      0.1000E-01   0.000       0.000    
  
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
@@ -508,14 +508,14 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
-|Panag.process        |        4 |        0.0 |  75.0 |        0.1 |  97.0 |
-|Algorithm Norm       |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |        4 |        0.0 |  75.0 |        0.1 |  97.0 |
-|Output quantities    |        4 |        0.0 |   0.0 |        0.0 |   3.0 |
+|Total                |        1 |        0.0 | 100.0 |        0.1 | 100.0 |
+|Panag.process        |        4 |        0.0 | 100.0 |        0.1 | 100.0 |
+|Algorithm Norm       |        4 |        0.0 |   0.0 |        0.0 |  64.0 |
+|Algorithm Tang       |        4 |        0.0 | 100.0 |        0.0 |  36.0 |
+|Output quantities    |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Norm: ConjGrd solver |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       10 |        0.0 |  75.0 |        0.1 |  97.0 |
+|Tang: StedyGS solver |       10 |        0.0 | 100.0 |        0.0 |  36.0 |
 |--------------------------------------------------------------------------|
-|Cp. 2 on Res.el.  2  |        2 |        0.0 |   0.0 |        0.0 |  47.0 |
+|Cp. 2 on Res.el.  2  |        2 |        0.0 |  33.3 |        0.0 |  66.0 |
 |--------------------------------------------------------------------------|

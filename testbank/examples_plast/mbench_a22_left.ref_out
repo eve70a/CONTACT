@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -12,10 +12,9 @@
  reading wheel profile "..\profiles\MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:       0.1821       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.1976       9438., dFz/dz:   9.174E+05
-         2, NR,  z_ws, Fz:       0.1979       9802., dFz/dz:   1.043E+06
-         3, NR,  z_ws, Fz:       0.1982   1.008E+04, dFz/dz:   1.054E+06
-         4, NR,  z_ws, Fz:       0.1981      10000., dFz/dz:   1.059E+06
-         5, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.062E+06
+         2, NR,  z_ws, Fz:       0.1982   1.007E+04, dFz/dz:   1.048E+06
+         3, NR,  z_ws, Fz:       0.1981       9999., dFz/dz:   1.059E+06
+         4, NR,  z_ws, Fz:       0.1981   1.000E+04, dFz/dz:   1.060E+06
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -67,7 +66,7 @@
          2000.       0.000       0.000       0.000       0.000  -4.3567500
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
       -2274.      -229.3   1.000E+04      -2274.      -229.3   1.000E+04
 
@@ -87,7 +86,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.000E+04      -2274.       60.66       1812.   6.486E-02      -3.730
+     1.000E+04      -2274.       60.66       1812.   6.486E-02      -8.209
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
         0.1220     -0.7578   2.021E-02   1.596E-02       338.4
 
@@ -190,23 +189,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.7 | 100.0 |        0.8 | 100.0 |
-|Wheel-rail cases     |        1 |        0.7 | 100.0 |        0.8 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   2.9 |
-|Geometric analysis   |        6 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Panag.process        |        5 |        0.7 |  95.6 |        0.7 |  88.8 |
-|Algorithm Norm       |        5 |        0.0 |   2.2 |        0.0 |   2.1 |
-|Algorithm Tang       |        5 |        0.7 |  93.3 |        0.7 |  86.7 |
-|Output quantities    |        6 |        0.0 |   2.2 |        0.0 |   4.7 |
+|Total                |        1 |        0.7 | 100.0 |        0.7 | 100.0 |
+|Wheel-rail cases     |        1 |        0.7 | 100.0 |        0.7 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |        5 |        0.0 |   4.7 |        0.0 |   0.0 |
+|Panag.process        |        4 |        0.6 |  90.7 |        0.6 |  92.6 |
+|Algorithm Norm       |        4 |        0.0 |   0.0 |        0.0 |   5.0 |
+|Algorithm Tang       |        4 |        0.6 |  88.4 |        0.6 |  87.6 |
+|Output quantities    |        5 |        0.0 |   0.0 |        0.0 |   1.8 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        5 |        0.0 |   2.2 |        0.0 |   2.1 |
-|Tang: StedyGS solver |        5 |        0.6 |  91.1 |        0.7 |  85.4 |
+|Norm: ConjGrd solver |        4 |        0.0 |   0.0 |        0.0 |   2.7 |
+|Tang: StedyGS solver |        4 |        0.6 |  86.0 |        0.6 |  87.1 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   2.9 |
-|Contact location     |        6 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Undeformed distance  |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-| - Interp whl_srfc   |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   1.5 |
-|Initial state/estim. |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |        5 |        0.0 |   2.3 |        0.0 |   0.0 |
+|Undeformed distance  |        4 |        0.0 |   2.3 |        0.0 |   0.0 |
+| - Interp whl_srfc   |        4 |        0.0 |   2.3 |        0.0 |   0.0 |
+|Influence coeffic.   |        4 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Initial state/estim. |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

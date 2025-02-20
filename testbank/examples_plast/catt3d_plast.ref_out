@@ -2,14 +2,12 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
-                 for steady state rolling with solver SteadyGS.
  NORM
        1, Norm: size of Contact, Exterior :    697    425
       Norm: final element division: C, E=    621    501  ItCG=     7
@@ -48,7 +46,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1306       0.000       0.000   1.495E-05  -1.011E-02
+        0.4705      0.1306       0.000       0.000   1.495E-05  -1.217E-02
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6918       0.000   7.258E-02   1.834E-02
 
@@ -104,8 +102,6 @@
      X  -->        Chi=  0.00 degrees
 
  Case     2
- Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
-                 for solver ConvexGS with plasticity.
  NORM
        1, Norm: size of Contact, Exterior :    697    425
       Norm: final element division: C, E=    621    501  ItCG=     7
@@ -144,7 +140,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1306       0.000       0.000   1.495E-05  -1.011E-02
+        0.4705      0.1306       0.000       0.000   1.495E-05  -1.217E-02
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6918       0.000   7.258E-02   1.834E-02
 
@@ -200,8 +196,6 @@
      X  -->        Chi=  0.00 degrees
 
  Case     3
- Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
-                 for solver ConvexGS with plasticity.
  NORM
        1, Norm: size of Contact, Exterior :    697    425
       Norm: final element division: C, E=    621    501  ItCG=     7
@@ -246,7 +240,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1306       0.000       0.000   1.482E-05  -6.160E-04
+        0.4705      0.1306       0.000       0.000   1.482E-05  -6.290E-04
      FN/G       CREEP X     FY/FSTAT/FN  APPROACH     PMAX    
         0.4705  -7.571E-02       0.000   7.258E-02   1.834E-02
 
@@ -302,8 +296,6 @@
      X  -->        Chi=  0.00 degrees
 
  Case     4
- Warning: Using DQ = DX =  0.2500     (instead of   1.000    )
-                 for solver ConvexGS with plasticity.
  NORM
        1, Norm: size of Contact, Exterior :    621    501
       Norm: final element division: C, E=    621    501  ItCG=     1
@@ -342,7 +334,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1329       0.000       0.000   1.489E-05  -1.521E-04
+        0.4705      0.1329       0.000       0.000   1.489E-05  -1.656E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7041       0.000   7.258E-02   1.834E-02
 
@@ -407,7 +399,7 @@
       Tang: final element division: A, S, P=    316    216     89  ItGS=    29
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1349       0.000       0.000   1.494E-05  -1.694E-04
+        0.4705      0.1349       0.000       0.000   1.494E-05  -1.910E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7147       0.000   7.258E-02   1.834E-02
 
@@ -421,7 +413,7 @@
       Tang: final element division: A, S, P=    291    212    118  ItGS=    28
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1367       0.000       0.000   1.500E-05  -1.850E-04
+        0.4705      0.1367       0.000       0.000   1.500E-05  -2.165E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7239       0.000   7.258E-02   1.834E-02
 
@@ -435,7 +427,7 @@
       Tang: final element division: A, S, P=    270    214    137  ItGS=    27
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1381       0.000       0.000   1.505E-05  -1.998E-04
+        0.4705      0.1381       0.000       0.000   1.505E-05  -2.443E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7315       0.000   7.258E-02   1.834E-02
 
@@ -449,7 +441,7 @@
       Tang: final element division: A, S, P=    250    222    149  ItGS=    27
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1393       0.000       0.000   1.509E-05  -2.181E-04
+        0.4705      0.1393       0.000       0.000   1.509E-05  -2.762E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7375       0.000   7.258E-02   1.834E-02
 
@@ -463,7 +455,7 @@
       Tang: final element division: A, S, P=    225    226    170  ItGS=    28
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1401       0.000       0.000   1.512E-05  -2.377E-04
+        0.4705      0.1401       0.000       0.000   1.512E-05  -3.124E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7417       0.000   7.258E-02   1.834E-02
 
@@ -477,7 +469,7 @@
       Tang: final element division: A, S, P=    207    231    183  ItGS=    28
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1405       0.000       0.000   1.514E-05  -2.601E-04
+        0.4705      0.1405       0.000       0.000   1.514E-05  -3.523E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7442       0.000   7.258E-02   1.834E-02
 
@@ -491,7 +483,7 @@
       Tang: final element division: A, S, P=    196    239    186  ItGS=    28
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1406       0.000       0.000   1.515E-05  -2.878E-04
+        0.4705      0.1406       0.000       0.000   1.515E-05  -4.042E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7444       0.000   7.258E-02   1.834E-02
 
@@ -505,7 +497,7 @@
       Tang: final element division: A, S, P=    207    241    173  ItGS=    28
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1404       0.000       0.000   1.515E-05  -3.101E-04
+        0.4705      0.1404       0.000       0.000   1.515E-05  -4.380E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7433       0.000   7.258E-02   1.834E-02
 
@@ -519,7 +511,7 @@
       Tang: final element division: A, S, P=    220    252    149  ItGS=    28
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1401       0.000       0.000   1.515E-05  -3.328E-04
+        0.4705      0.1401       0.000       0.000   1.515E-05  -4.493E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7418       0.000   7.258E-02   1.834E-02
 
@@ -533,7 +525,7 @@
       Tang: final element division: A, S, P=    233    256    132  ItGS=    28
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1397       0.000       0.000   1.515E-05  -3.513E-04
+        0.4705      0.1397       0.000       0.000   1.515E-05  -4.567E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7399       0.000   7.258E-02   1.834E-02
 
@@ -547,7 +539,7 @@
       Tang: final element division: A, S, P=    243    265    113  ItGS=    28
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1393       0.000       0.000   1.514E-05  -3.722E-04
+        0.4705      0.1393       0.000       0.000   1.514E-05  -4.662E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7376       0.000   7.258E-02   1.834E-02
 
@@ -561,7 +553,7 @@
       Tang: final element division: A, S, P=    250    269    102  ItGS=    27
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1387       0.000       0.000   1.513E-05  -3.928E-04
+        0.4705      0.1387       0.000       0.000   1.513E-05  -4.769E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7348       0.000   7.258E-02   1.834E-02
 
@@ -575,7 +567,7 @@
       Tang: final element division: A, S, P=    260    276     85  ItGS=    27
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1381       0.000       0.000   1.511E-05  -4.118E-04
+        0.4705      0.1381       0.000       0.000   1.511E-05  -4.849E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7317       0.000   7.258E-02   1.834E-02
 
@@ -589,7 +581,7 @@
       Tang: final element division: A, S, P=    263    277     81  ItGS=    26
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1375       0.000       0.000   1.510E-05  -4.256E-04
+        0.4705      0.1375       0.000       0.000   1.510E-05  -4.911E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7283       0.000   7.258E-02   1.834E-02
 
@@ -603,7 +595,7 @@
       Tang: final element division: A, S, P=    261    277     83  ItGS=    26
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1369       0.000       0.000   1.508E-05  -4.194E-04
+        0.4705      0.1369       0.000       0.000   1.508E-05  -4.842E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7251       0.000   7.258E-02   1.834E-02
 
@@ -617,7 +609,7 @@
       Tang: final element division: A, S, P=    261    275     85  ItGS=    25
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1364       0.000       0.000   1.507E-05  -4.111E-04
+        0.4705      0.1364       0.000       0.000   1.507E-05  -4.767E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7222       0.000   7.258E-02   1.834E-02
 
@@ -631,7 +623,7 @@
       Tang: final element division: A, S, P=    263    270     88  ItGS=    24
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1359       0.000       0.000   1.506E-05  -3.978E-04
+        0.4705      0.1359       0.000       0.000   1.506E-05  -4.672E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7196       0.000   7.258E-02   1.834E-02
 
@@ -645,7 +637,7 @@
       Tang: final element division: A, S, P=    265    264     92  ItGS=    23
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1354       0.000       0.000   1.505E-05  -3.911E-04
+        0.4705      0.1354       0.000       0.000   1.505E-05  -4.616E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7172       0.000   7.258E-02   1.834E-02
 
@@ -659,7 +651,7 @@
       Tang: final element division: A, S, P=    265    264     92  ItGS=    22
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1350       0.000       0.000   1.504E-05  -3.832E-04
+        0.4705      0.1350       0.000       0.000   1.504E-05  -4.535E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7152       0.000   7.258E-02   1.834E-02
 
@@ -673,7 +665,7 @@
       Tang: final element division: A, S, P=    267    264     90  ItGS=    21
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1347       0.000       0.000   1.503E-05  -3.750E-04
+        0.4705      0.1347       0.000       0.000   1.503E-05  -4.477E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7134       0.000   7.258E-02   1.834E-02
 
@@ -687,7 +679,7 @@
       Tang: final element division: A, S, P=    269    264     88  ItGS=    19
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1344       0.000       0.000   1.503E-05  -3.693E-04
+        0.4705      0.1344       0.000       0.000   1.503E-05  -4.434E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7118       0.000   7.258E-02   1.834E-02
 
@@ -701,7 +693,7 @@
       Tang: final element division: A, S, P=    270    263     88  ItGS=    18
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1341       0.000       0.000   1.502E-05  -3.651E-04
+        0.4705      0.1341       0.000       0.000   1.502E-05  -4.401E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7103       0.000   7.258E-02   1.834E-02
 
@@ -715,7 +707,7 @@
       Tang: final element division: A, S, P=    270    259     92  ItGS=    17
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1339       0.000       0.000   1.502E-05  -3.624E-04
+        0.4705      0.1339       0.000       0.000   1.502E-05  -4.378E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7089       0.000   7.258E-02   1.834E-02
 
@@ -729,7 +721,7 @@
       Tang: final element division: A, S, P=    272    255     94  ItGS=    17
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1336       0.000       0.000   1.501E-05  -3.603E-04
+        0.4705      0.1336       0.000       0.000   1.501E-05  -4.354E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7077       0.000   7.258E-02   1.834E-02
 
@@ -743,7 +735,7 @@
       Tang: final element division: A, S, P=    272    255     94  ItGS=    17
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1334       0.000       0.000   1.501E-05  -3.586E-04
+        0.4705      0.1334       0.000       0.000   1.501E-05  -4.333E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7065       0.000   7.258E-02   1.834E-02
 
@@ -757,7 +749,7 @@
       Tang: final element division: A, S, P=    272    255     94  ItGS=    17
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1332       0.000       0.000   1.500E-05  -3.570E-04
+        0.4705      0.1332       0.000       0.000   1.500E-05  -4.313E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7054       0.000   7.258E-02   1.834E-02
 
@@ -771,7 +763,7 @@
       Tang: final element division: A, S, P=    274    255     92  ItGS=    17
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1330       0.000       0.000   1.500E-05  -3.555E-04
+        0.4705      0.1330       0.000       0.000   1.500E-05  -4.294E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7043       0.000   7.258E-02   1.834E-02
 
@@ -785,7 +777,7 @@
       Tang: final element division: A, S, P=    274    255     92  ItGS=    17
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1328       0.000       0.000   1.499E-05  -3.542E-04
+        0.4705      0.1328       0.000       0.000   1.499E-05  -4.277E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7034       0.000   7.258E-02   1.834E-02
 
@@ -799,7 +791,7 @@
       Tang: final element division: A, S, P=    274    253     94  ItGS=    17
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1326       0.000       0.000   1.499E-05  -3.529E-04
+        0.4705      0.1326       0.000       0.000   1.499E-05  -4.261E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7025       0.000   7.258E-02   1.834E-02
 
@@ -813,7 +805,7 @@
       Tang: final element division: A, S, P=    278    253     90  ItGS=    16
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1325       0.000       0.000   1.499E-05  -3.517E-04
+        0.4705      0.1325       0.000       0.000   1.499E-05  -4.246E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7017       0.000   7.258E-02   1.834E-02
 
@@ -827,7 +819,7 @@
       Tang: final element division: A, S, P=    278    253     90  ItGS=    16
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1323       0.000       0.000   1.498E-05  -3.506E-04
+        0.4705      0.1323       0.000       0.000   1.498E-05  -4.232E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7009       0.000   7.258E-02   1.834E-02
 
@@ -841,7 +833,7 @@
       Tang: final element division: A, S, P=    278    247     96  ItGS=    16
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1322       0.000       0.000   1.498E-05  -3.497E-04
+        0.4705      0.1322       0.000       0.000   1.498E-05  -4.219E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.7002       0.000   7.258E-02   1.834E-02
 
@@ -855,7 +847,7 @@
       Tang: final element division: A, S, P=    278    247     96  ItGS=    16
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1321       0.000       0.000   1.498E-05  -3.490E-04
+        0.4705      0.1321       0.000       0.000   1.498E-05  -4.207E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6996       0.000   7.258E-02   1.834E-02
 
@@ -869,7 +861,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    16
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1320       0.000       0.000   1.498E-05  -3.483E-04
+        0.4705      0.1320       0.000       0.000   1.498E-05  -4.196E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6990       0.000   7.258E-02   1.834E-02
 
@@ -883,7 +875,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    16
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1319       0.000       0.000   1.497E-05  -3.476E-04
+        0.4705      0.1319       0.000       0.000   1.497E-05  -4.185E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6984       0.000   7.258E-02   1.834E-02
 
@@ -897,7 +889,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    15
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1318       0.000       0.000   1.497E-05  -3.469E-04
+        0.4705      0.1318       0.000       0.000   1.497E-05  -4.175E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6979       0.000   7.258E-02   1.834E-02
 
@@ -911,7 +903,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    15
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1317       0.000       0.000   1.497E-05  -3.463E-04
+        0.4705      0.1317       0.000       0.000   1.497E-05  -4.166E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6974       0.000   7.258E-02   1.834E-02
 
@@ -925,7 +917,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    15
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1316       0.000       0.000   1.497E-05  -3.456E-04
+        0.4705      0.1316       0.000       0.000   1.497E-05  -4.157E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6970       0.000   7.258E-02   1.834E-02
 
@@ -939,7 +931,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    14
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1315       0.000   9.485E-07   1.497E-05  -3.450E-04
+        0.4705      0.1315       0.000   9.485E-07   1.497E-05  -4.150E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6966       0.000   7.258E-02   1.834E-02
 
@@ -953,7 +945,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    14
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1315       0.000   1.012E-06   1.497E-05  -3.445E-04
+        0.4705      0.1315       0.000   1.012E-06   1.497E-05  -4.142E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6962       0.000   7.258E-02   1.834E-02
 
@@ -967,7 +959,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    14
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1314       0.000   1.011E-06   1.496E-05  -3.440E-04
+        0.4705      0.1314       0.000   1.011E-06   1.496E-05  -4.136E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6959       0.000   7.258E-02   1.834E-02
 
@@ -981,7 +973,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    14
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1313       0.000   9.524E-07   1.496E-05  -3.435E-04
+        0.4705      0.1313       0.000   9.524E-07   1.496E-05  -4.130E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6956       0.000   7.258E-02   1.834E-02
 
@@ -995,7 +987,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    14
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1313       0.000       0.000   1.496E-05  -3.431E-04
+        0.4705      0.1313       0.000       0.000   1.496E-05  -4.124E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6953       0.000   7.258E-02   1.834E-02
 
@@ -1009,7 +1001,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    13
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1312       0.000       0.000   1.496E-05  -3.427E-04
+        0.4705      0.1312       0.000       0.000   1.496E-05  -4.119E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6950       0.000   7.258E-02   1.834E-02
 
@@ -1023,7 +1015,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    13
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1312       0.000       0.000   1.496E-05  -3.423E-04
+        0.4705      0.1312       0.000       0.000   1.496E-05  -4.114E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6948       0.000   7.258E-02   1.834E-02
 
@@ -1037,7 +1029,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    13
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1311       0.000       0.000   1.496E-05  -3.420E-04
+        0.4705      0.1311       0.000       0.000   1.496E-05  -4.110E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6945       0.000   7.258E-02   1.834E-02
 
@@ -1051,7 +1043,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    13
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1311       0.000       0.000   1.496E-05  -3.416E-04
+        0.4705      0.1311       0.000       0.000   1.496E-05  -4.106E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6943       0.000   7.258E-02   1.834E-02
 
@@ -1065,7 +1057,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    12
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1311       0.000       0.000   1.496E-05  -3.412E-04
+        0.4705      0.1311       0.000       0.000   1.496E-05  -4.102E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6941       0.000   7.258E-02   1.834E-02
 
@@ -1079,7 +1071,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    12
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1310       0.000       0.000   1.496E-05  -3.409E-04
+        0.4705      0.1310       0.000       0.000   1.496E-05  -4.099E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6940       0.000   7.258E-02   1.834E-02
 
@@ -1093,7 +1085,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    12
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1310       0.000  -9.648E-07   1.496E-05  -3.406E-04
+        0.4705      0.1310       0.000  -9.648E-07   1.496E-05  -4.096E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6938       0.000   7.258E-02   1.834E-02
 
@@ -1107,7 +1099,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    12
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1310       0.000  -1.031E-06   1.496E-05  -3.404E-04
+        0.4705      0.1310       0.000  -1.031E-06   1.496E-05  -4.093E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6936       0.000   7.258E-02   1.834E-02
 
@@ -1121,7 +1113,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    12
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1309       0.000  -1.048E-06   1.496E-05  -3.401E-04
+        0.4705      0.1309       0.000  -1.048E-06   1.496E-05  -4.090E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6935       0.000   7.258E-02   1.834E-02
 
@@ -1135,7 +1127,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    11
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1309       0.000       0.000   1.495E-05  -3.399E-04
+        0.4705      0.1309       0.000       0.000   1.495E-05  -4.087E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6934       0.000   7.258E-02   1.834E-02
 
@@ -1149,7 +1141,7 @@
       Tang: final element division: A, S, P=    280    245     96  ItGS=    11
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1309       0.000       0.000   1.495E-05  -3.397E-04
+        0.4705      0.1309       0.000       0.000   1.495E-05  -4.085E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6932       0.000   7.258E-02   1.834E-02
 
@@ -1192,7 +1184,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-        0.4705      0.1309       0.000       0.000   1.495E-05  -3.395E-04
+        0.4705      0.1309       0.000       0.000   1.495E-05  -4.083E-04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
         0.4705      0.6931       0.000   7.258E-02   1.834E-02
 
@@ -1247,6 +1239,222 @@
          1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
+ Case    60
+ NORM
+       1, Norm: size of Contact, Exterior :    697    425
+      Norm: final element division: C, E=    621    501  ItCG=     9
+
+ TANG: TRANSIENT ROLLING CONTACT
+       1, Tang: size of Adhes, Slip, Plast area :     621      0      0
+      Tang: final element division: A, S, P=    136    267    218  ItGS=    40
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+        0.4705      0.1055  -1.101E-03     -0.2158   1.482E-05  -3.552E-03
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705      0.5588  -5.830E-03   7.258E-02   1.834E-02
+
+ Case    61
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
+
+ TANG: TRANSIENT ROLLING CONTACT
+       1, Tang: size of Adhes, Slip, Plast area :     136    267    218
+      Tang: final element division: A, S, P=    234    165    222  ItGS=    48
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 2, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ TRANSIENT ROLLING
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-06
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000      0.5000E-02   0.000    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.4013      0.4013    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2500           1000.  -3.400E-03       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+        0.4705      0.1083  -4.156E-03     -0.1917   1.482E-05  -3.178E-04
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705      0.5735  -2.201E-02   7.258E-02   1.834E-02
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+    1122    621    234    165    222      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S S S S * S . . . . . . . . . .
+    28   . . . . . . . . S S S S S S S S S S S S S S S * * . . . . . . . . .
+    27   . . . . . . . S S S S S S S | | | | | S S S S * * * . . . . . . . .
+    26   . . . . . . S S S S S S | | | | | | | | | S S * * * * . . . . . . .
+    25   . . . . . S S S S S | | | | | | | | | | | | | S * * * * . . . . . .
+    24   . . . . S S S S S | | | | | | | | | | | | | | | S * * * S . . . . .
+    23   . . . . S S S S | | | | | | | | | | | | | | | | | * * * * . . . . .
+    22   . . . S S S S S | | | | | | | | | | | | | | | | | * * * * S . . . .
+    21   . . . S S S S | | | | | | | | | | | | | | | | | | | * * * * . . . .
+    20   . . . S S S S | | | | | | | | | | | | | | | | | | | * * * * . . . .
+    19   . . . S S S | | | | | | | | | | | | | | | | | | | | * * * * . . . .
+    18   . . S S S S | | | | | | | | | | | | | | | | | | | | * * * * S . . .
+    17   . . S S S S | | | | | | | | | * * | | | | | | | | | * * * * S . . .
+    16   . . S S S S | | | | | | * * * * * * * | | | | | | | * * * * S . . .
+    15   . . . S S S | | | | | * * * * * * * * * | | | | | | * * * * . . . .
+    14   . . . S S S S | | | | * * * * * * * * * * | | | | | * * * * . . . .
+    13   . . . S S S S | | | * * * * * * * * * * * * | | | * * * * * . . . .
+    12   . . . S S S S S | | * * * * * * * * * * * * | | | * * * * S . . . .
+    11   . . . . S S S S | | * * * * * * * * * * * * | | * * * * * . . . . .
+    10   . . . . S S S S S | * * * * * * * * * * * * | * * * * * * . . . . .
+     9   . . . . . S S S S S * * * * * * * * * * * * * * * * * * . . . . . .
+     8   . . . . . . S S S S * * * * * * * * * * * * * * * * * . . . . . . .
+     7   . . . . . . . S S S S * * * * * * * * * * * * * * * . . . . . . . .
+     6   . . . . . . . . S S S S * * * * * * * * * * * * * . . . . . . . . .
+     5   . . . . . . . . . S S S S * * * * * * * * * * S . . . . . . . . . .
+     4   . . . . . . . . . . . S S S S * * * * * * S . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . * * S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
+     X  -->        Chi=  0.00 degrees
+
+ Case    62
+ NORM
+       1, Norm: size of Contact, Exterior :    697    425
+      Norm: final element division: C, E=    621    501  ItCG=     9
+
+ TANG: TRANSIENT ROLLING CONTACT
+       1, Tang: size of Adhes, Slip, Plast area :     621      0      0
+      Tang: final element division: A, S, P=    136    267    218  ItCG=    34
+
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+        0.4705      0.1055  -1.101E-03     -0.2158   1.482E-05  -3.552E-03
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705      0.5588  -5.830E-03   7.258E-02   1.834E-02
+
+ Case    63
+ NORM
+       1, Norm: size of Contact, Exterior :    621    501
+      Norm: final element division: C, E=    621    501  ItCG=     1
+
+ TANG: TRANSIENT ROLLING CONTACT
+       1, Tang: size of Adhes, Slip, Plast area :     136    267    218
+      Tang: final element division: A, S, P=    234    165    222  ItCG=    48
+
+ 
+  PBTNFS.            PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
+  LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 2, MATER  4, RZNORM 0, RZTANG 0
+ HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 1, MATFIL 2, OUTPUT 3, FLOW   4, RETURN 1
+ NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
+ TRANSIENT ROLLING
+ CREEPAGE PRESCRIBED
+ JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
+
+ MATERIAL CONSTANTS
+     NU          G           AK          EPS
+    0.2800       1.000       0.000      0.1000E-06
+
+    POISS(1)    POISS(2)     GG(1)       GG(2)
+    0.2800      0.2800       1.000       1.000    
+
+ INTERFACIAL LAYER PARAMETERS
+     GG3         LAYTHK      TAU_C0      K_TAU
+     1.000       0.000      0.5000E-02   0.000    
+ 
+ FRICTION LAW PARAMETERS
+     FSTAT       FKIN
+    0.4013      0.4013    
+ 
+ KINEMATIC CONSTANTS
+     CHI         DQ          VELOC       CKSI        CETA        CPHI
+     0.000      0.2500           1000.  -3.400E-03       0.000       0.000
+
+ TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
+     FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
+        0.4705      0.1083  -4.156E-03     -0.1917   1.482E-05  -3.178E-04
+     FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
+        0.4705      0.5735  -2.201E-02   7.258E-02   1.834E-02
+
+ THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
+ A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
+         DF/DPEN     DF/DKSI     DF/DETA     DF/DPHI
+   FN         0.00        0.00        0.00        0.00
+   FX         0.00        0.00        0.00        0.00
+   FY         0.00        0.00        0.00        0.00
+
+ CONTACT STATISTICS
+ N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
+ POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
+    NPOT   NCON   NADH  NSLIP  NPLAST INORM  ITANG
+    1122    621    234    165    222      1      1
+
+ FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
+    33   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . S S S S S S S S S S S . . . . . . . . . . . .
+    29   . . . . . . . . . S S S S S S S S S S S S S * S . . . . . . . . . .
+    28   . . . . . . . . S S S S S S S S S S S S S S S * * . . . . . . . . .
+    27   . . . . . . . S S S S S S S | | | | | S S S S * * * . . . . . . . .
+    26   . . . . . . S S S S S S | | | | | | | | | S S * * * * . . . . . . .
+    25   . . . . . S S S S S | | | | | | | | | | | | | S * * * * . . . . . .
+    24   . . . . S S S S S | | | | | | | | | | | | | | | S * * * S . . . . .
+    23   . . . . S S S S | | | | | | | | | | | | | | | | | * * * * . . . . .
+    22   . . . S S S S S | | | | | | | | | | | | | | | | | * * * * S . . . .
+    21   . . . S S S S | | | | | | | | | | | | | | | | | | | * * * * . . . .
+    20   . . . S S S S | | | | | | | | | | | | | | | | | | | * * * * . . . .
+    19   . . . S S S | | | | | | | | | | | | | | | | | | | | * * * * . . . .
+    18   . . S S S S | | | | | | | | | | | | | | | | | | | | * * * * S . . .
+    17   . . S S S S | | | | | | | | | * * | | | | | | | | | * * * * S . . .
+    16   . . S S S S | | | | | | * * * * * * * | | | | | | | * * * * S . . .
+    15   . . . S S S | | | | | * * * * * * * * * | | | | | | * * * * . . . .
+    14   . . . S S S S | | | | * * * * * * * * * * | | | | | * * * * . . . .
+    13   . . . S S S S | | | * * * * * * * * * * * * | | | * * * * * . . . .
+    12   . . . S S S S S | | * * * * * * * * * * * * | | | * * * * S . . . .
+    11   . . . . S S S S | | * * * * * * * * * * * * | | * * * * * . . . . .
+    10   . . . . S S S S S | * * * * * * * * * * * * | * * * * * * . . . . .
+     9   . . . . . S S S S S * * * * * * * * * * * * * * * * * * . . . . . .
+     8   . . . . . . S S S S * * * * * * * * * * * * * * * * * . . . . . . .
+     7   . . . . . . . S S S S * * * * * * * * * * * * * * * . . . . . . . .
+     6   . . . . . . . . S S S S * * * * * * * * * * * * * . . . . . . . . .
+     5   . . . . . . . . . S S S S * * * * * * * * * * S . . . . . . . . . .
+     4   . . . . . . . . . . . S S S S * * * * * * S . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . * * S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
+     X  -->        Chi=  0.00 degrees
+
 Parallel run using  2 threads
 Performance timers:
 |--------------------------------------------------------------------------|
@@ -1254,20 +1462,21 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.2 | 100.0 |        2.0 | 100.0 |
-|Non-Hertzian cases   |       59 |        1.2 | 100.0 |        1.9 |  99.9 |
-|Panag.process        |       59 |        1.2 |  98.7 |        1.9 |  96.4 |
-|Algorithm Norm       |       59 |        0.0 |   1.3 |        0.1 |   4.2 |
-|Algorithm Tang       |       59 |        1.2 |  97.4 |        1.8 |  91.2 |
-|Output quantities    |       59 |        0.0 |   0.0 |        0.0 |   2.0 |
+|Total                |        1 |        2.0 | 100.0 |        2.2 | 100.0 |
+|Non-Hertzian cases   |       63 |        2.0 | 100.0 |        2.2 | 100.0 |
+|Panag.process        |       63 |        1.9 |  96.0 |        2.1 |  93.9 |
+|Algorithm Norm       |       63 |        0.0 |   2.4 |        0.0 |   1.6 |
+|Algorithm Tang       |       63 |        1.8 |  93.6 |        2.0 |  91.0 |
+|Output quantities    |       63 |        0.0 |   0.0 |        0.0 |   2.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       59 |        0.0 |   0.0 |        0.0 |   1.1 |
-|Tang: ConvxGS solver |       63 |        1.1 |  93.6 |        1.7 |  85.3 |
-|Tang: StedyGS solver |        1 |        0.0 |   1.3 |        0.0 |   1.7 |
+|Norm: ConjGrd solver |       63 |        0.0 |   0.0 |        0.0 |   0.5 |
+|Tang: TangCG solver  |        2 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Tang: ConvxGS solver |       65 |        1.7 |  88.8 |        1.9 |  85.7 |
+|Tang: StedyGS solver |        1 |        0.0 |   1.6 |        0.0 |   1.3 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       59 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Initial state/estim. |       59 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        5 |        0.0 |   1.3 |        0.0 |   0.8 |
+|Reading input-file   |       63 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Influence coeffic.   |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |       63 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |        7 |        0.0 |   1.6 |        0.1 |   3.7 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

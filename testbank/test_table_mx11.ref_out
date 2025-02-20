@@ -2,11 +2,11 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
- Case     1 for contact problem  1 on result element  1
+ Case     6 for contact problem  1 on result element  1
  
   PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
   LDCMZE.            FRCLAW 0, DISCNS 2, INFLCF 2, MATER  0, RZNORM 2, RZTANG 0
@@ -17,19 +17,18 @@
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
  3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:   1.000      0.2000    
- THE CURVATURES A1,B1 ARE:                    1.000      0.8456E-01
- BASIC SEMIAXES AA,BB, RATIO                 0.4053       2.027      0.2000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1.844      0.9064    
- POTENTIAL CONTACT, SCALE:                  -0.6370      -3.185       1.571    
- DISCRETISATION MX,MY, DX,DY:                  11    11  0.1158      0.5791    
+ SEMIAXES PRESCRIBED, AA,BB:                  4.000       20.00    
+ THE CURVATURES A1,B1 ARE:                   0.1041E-02  0.8799E-04
+ EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1772.       8.944    
+ POTENTIAL CONTACT, SCALE:                   -6.286      -31.43       1.571    
+ DISCRETISATION MX,MY, DX,DY:                  11    11   1.143       5.714    
 
  MATERIAL CONSTANTS
      NU          G           AK          EPS
-    0.2800       1.000       0.000      0.1000E-05
+    0.2800      0.8200E+05   0.000      0.1000E-05
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800       1.000       1.000    
+    0.2800      0.2800      0.8200E+05  0.8200E+05
  
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -37,13 +36,13 @@
  
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.1158       3.000E+04       0.000       0.000       0.000
+     0.000       1.143       1.000E+04       0.000       0.000       0.000
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-         1.000       0.000       0.000       0.000   2.038E-04       0.000
+     8.200E+04       0.000       0.000       0.000       1.693       0.000
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         1.000       0.000       0.000    0.509770      0.5828
+         1.000       0.000       0.000   5.166E-02       490.7
 
  THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
  A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
@@ -63,14 +62,14 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.8 | 100.0 |        1.9 | 100.0 |
-|Panag.process        |     3220 |        1.4 |  76.3 |        1.5 |  80.1 |
-|Algorithm Norm       |     3220 |        0.7 |  37.7 |        0.8 |  45.4 |
-|Algorithm Tang       |     3220 |        0.7 |  36.8 |        0.6 |  34.1 |
-|Output quantities    |     3220 |        0.2 |  11.4 |        0.1 |   7.5 |
+|Total                |        1 |        1.5 | 100.0 |        1.6 | 100.0 |
+|Panag.process        |     3225 |        1.2 |  80.8 |        1.2 |  80.6 |
+|Algorithm Norm       |     3225 |        0.6 |  40.4 |        0.6 |  37.8 |
+|Algorithm Tang       |     3225 |        0.6 |  39.4 |        0.7 |  42.8 |
+|Output quantities    |     3225 |        0.2 |  11.1 |        0.2 |  10.8 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |     3220 |        0.6 |  32.5 |        0.7 |  39.7 |
-|Tang: StedyGS solver |     3220 |        0.5 |  28.9 |        0.5 |  27.7 |
+|Norm: ConjGrd solver |     3225 |        0.5 |  33.3 |        0.5 |  34.5 |
+|Tang: StedyGS solver |     3225 |        0.6 |  36.4 |        0.6 |  40.6 |
 |--------------------------------------------------------------------------|
-|Cp. 1 on Res.el.  1  |     3220 |        1.8 | 100.0 |        1.9 |  99.1 |
+|Cp. 1 on Res.el.  1  |     3225 |        1.5 |  98.0 |        1.5 |  99.1 |
 |--------------------------------------------------------------------------|

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -30,19 +30,19 @@
       Tang: final element division: A, S=      0     62  ItGS=     5
          1, NR,  z_ws, Fz:       1.1441       3563., dFz/dz:   3.087E+05
  itout =  0, itinn =  2, ittot =  3
- z_ws=   1.1445
+ z_ws=   1.1446
  wr_connect_cps: There are 3 new patches and 3 old patches (1 prev iter, 2 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: not connected to any previous patches.
  wr_connect_cps: new icp=  3: not connected to any previous patches.
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  Obtained  1 true contact patches and  2 near misses (gap>=0)
- cgrid_inp: mx,my=  23,  12, dx,dy=   0.400,   0.400
+ cgrid_inp: mx,my=  24,  12, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  23,  12, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=     63    213  ItCG=     9
-      Tang: final element division: A, S=      0     63  ItGS=     4
-         2, NR,  z_ws, Fz:       1.1445       3686., dFz/dz:   3.126E+05
+      Norm: final element division: C, E=     65    223  ItCG=     8
+      Tang: final element division: A, S=      0     65  ItGS=     4
+         2, NR,  z_ws, Fz:       1.1446       3726., dFz/dz:   3.134E+05
  itout =  0, itinn =  3, ittot =  4
  z_ws=   1.1445
  wr_connect_cps: There are 3 new patches and 3 old patches (1 prev iter, 2 near miss, 0 other/prev.time)
@@ -52,47 +52,12 @@
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  Obtained  1 true contact patches and  2 near misses (gap>=0)
  cgrid_inp: mx,my=  23,  12, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  23,  12, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=     64    212  ItCG=     7
-      Tang: final element division: A, S=      0     64  ItGS=     3
-         3, NR,  z_ws, Fz:       1.1445       3699., dFz/dz:   3.153E+05
- itout =  0, itinn =  4, ittot =  5
- z_ws=   1.1454
- wr_connect_cps: There are 3 new patches and 3 old patches (1 prev iter, 2 near miss, 0 other/prev.time)
- wr_connect_cps: new icp=  1: not connected to any previous patches.
- wr_connect_cps: new icp=  2: connected to old icp=  1
- wr_connect_cps: new icp=  3: not connected to any previous patches.
- wr_update_allcps: move gd from icpo=  1 to icpn=  2
- Obtained  2 true contact patches and  1 near misses (gap>=0)
- wr_setup_cp: allocate gd for icp=  1
- cgrid_inp: mx,my=   7,  15, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=   1,   1, dx,dy=   2.000,   2.000
-    no initial estimate (new patch)...
- cgrid_inp: mx,my=  25,  12, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  23,  12, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=     26     79  ItCG=     9
-      Tang: final element division: A, S=      0     26  ItGS=     3
-      Norm: final element division: C, E=     68    232  ItCG=     9
-      Tang: final element division: A, S=      0     68  ItGS=     4
-         4, NR,  z_ws, Fz:       1.1454       4113., dFz/dz:   4.666E+05
- itout =  0, itinn =  5, ittot =  6
- z_ws=   1.1445
- wr_connect_cps: There are 3 new patches and 3 old patches (2 prev iter, 1 near miss, 0 other/prev.time)
- wr_connect_cps: new icp=  1: connected to old icp=  2
- wr_connect_cps: new icp=  2: not connected to any previous patches.
- wr_connect_cps: new icp=  3: not connected to any previous patches.
- wr_update_allcps: move gd from icpo=  2 to icpn=  1
- wr_contact: destroy gd for icpo=  1
- Obtained  1 true contact patches and  2 near misses (gap>=0)
- cgrid_inp: mx,my=  23,  12, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  25,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  24,  12, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
       Norm: final element division: C, E=     64    212  ItCG=     8
-      Tang: final element division: A, S=      0     64  ItGS=     4
-         5, NR,  z_ws, Fz:       1.1445       3700., dFz/dz:   3.155E+05
- itout =  0, itinn =  6, ittot =  7
+      Tang: final element division: A, S=      0     64  ItGS=     3
+         3, NR,  z_ws, Fz:       1.1445       3700., dFz/dz:   3.162E+05
+ itout =  0, itinn =  4, ittot =  5
  z_ws=   1.1445
  wr_connect_cps: There are 3 new patches and 3 old patches (1 prev iter, 2 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
@@ -103,9 +68,9 @@
  cgrid_inp: mx,my=  23,  12, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  23,  12, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=     64    212  ItCG=     4
+      Norm: final element division: C, E=     64    212  ItCG=     3
       Tang: final element division: A, S=      0     64  ItGS=     2
-         6, NR,  z_ws, Fz:       1.1445       3700., dFz/dz:   3.152E+05
+         4, NR,  z_ws, Fz:       1.1445       3700., dFz/dz:   3.153E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -155,7 +120,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        848.9       2214.       3700.       860.0       2205.       3703.
 
@@ -234,40 +199,33 @@
       Tang: final element division: A, S=      0    144  ItGS=     5
          1, NR,  z_ws, Fz:       1.1658   2.681E+04, dFz/dz:   1.030E+06
  itout =  0, itinn =  2, ittot =  3
- z_ws=   1.1705
+ z_ws=   1.1695
  wr_connect_cps: There are 3 new patches and 3 old patches (2 prev iter, 1 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_connect_cps: new icp=  3: not connected to any previous patches.
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  wr_update_allcps: move gd from icpo=  2 to icpn=  2
- Obtained  3 true contact patches and  0 near misses (gap>=0)
+ Obtained  2 true contact patches and  1 near misses (gap>=0)
  cgrid_inp: mx,my=  27,  49, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  25,  45, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
  cgrid_inp: mx,my=  35,  20, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  33,  18, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
- wr_setup_cp: allocate gd for icp=  3
- cgrid_inp: mx,my=   7,   5, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=   1,   1, dx,dy=   2.000,   2.000
-    no initial estimate (new patch)...
-      Norm: final element division: C, E=    435    888  ItCG=    11
-      Tang: final element division: A, S=      0    435  ItGS=     4
-      Norm: final element division: C, E=    163    537  ItCG=    10
-      Tang: final element division: A, S=      0    163  ItGS=     5
-      Norm: final element division: C, E=      3     32  ItCG=     4
-      Tang: final element division: A, S=      0      3  ItGS=     3
-         2, NR,  z_ws, Fz:       1.1705   3.409E+04, dFz/dz:   1.547E+06
+      Norm: final element division: C, E=    416    907  ItCG=    11
+      Tang: final element division: A, S=      0    416  ItGS=     4
+      Norm: final element division: C, E=    158    542  ItCG=     9
+      Tang: final element division: A, S=      0    158  ItGS=     4
+         2, NR,  z_ws, Fz:       1.1695   3.245E+04, dFz/dz:   1.532E+06
  itout =  0, itinn =  3, ittot =  4
- z_ws=   1.1695
- wr_connect_cps: There are 3 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
+ z_ws=   1.1696
+ wr_connect_cps: There are 3 new patches and 3 old patches (2 prev iter, 1 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
  wr_connect_cps: new icp=  3: not connected to any previous patches.
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  wr_update_allcps: move gd from icpo=  2 to icpn=  2
- wr_contact: destroy gd for icpo=  3
  Obtained  2 true contact patches and  1 near misses (gap>=0)
  cgrid_inp: mx,my=  27,  49, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  27,  49, dx,dy=   0.400,   0.400
@@ -275,11 +233,11 @@
  cgrid_inp: mx,my=  35,  20, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  35,  20, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=    416    907  ItCG=    10
-      Tang: final element division: A, S=      0    416  ItGS=     4
-      Norm: final element division: C, E=    158    542  ItCG=     7
-      Tang: final element division: A, S=      0    158  ItGS=     4
-         3, NR,  z_ws, Fz:       1.1695   3.245E+04, dFz/dz:   1.599E+06
+      Norm: final element division: C, E=    416    907  ItCG=     6
+      Tang: final element division: A, S=      0    416  ItGS=     3
+      Norm: final element division: C, E=    158    542  ItCG=     5
+      Tang: final element division: A, S=      0    158  ItGS=     3
+         3, NR,  z_ws, Fz:       1.1696   3.257E+04, dFz/dz:   1.572E+06
  itout =  0, itinn =  4, ittot =  5
  z_ws=   1.1695
  wr_connect_cps: There are 3 new patches and 3 old patches (2 prev iter, 1 near miss, 0 other/prev.time)
@@ -300,26 +258,6 @@
       Norm: final element division: C, E=    158    542  ItCG=     5
       Tang: final element division: A, S=      0    158  ItGS=     3
          4, NR,  z_ws, Fz:       1.1695   3.250E+04, dFz/dz:   1.572E+06
- itout =  0, itinn =  5, ittot =  6
- z_ws=   1.1695
- wr_connect_cps: There are 3 new patches and 3 old patches (2 prev iter, 1 near miss, 0 other/prev.time)
- wr_connect_cps: new icp=  1: connected to old icp=  1
- wr_connect_cps: new icp=  2: connected to old icp=  2
- wr_connect_cps: new icp=  3: not connected to any previous patches.
- wr_update_allcps: move gd from icpo=  1 to icpn=  1
- wr_update_allcps: move gd from icpo=  2 to icpn=  2
- Obtained  2 true contact patches and  1 near misses (gap>=0)
- cgrid_inp: mx,my=  27,  49, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  27,  49, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
- cgrid_inp: mx,my=  35,  20, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  35,  20, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=    416    907  ItCG=     4
-      Tang: final element division: A, S=      0    416  ItGS=     2
-      Norm: final element division: C, E=    158    542  ItCG=     3
-      Tang: final element division: A, S=      0    158  ItGS=     2
-         5, NR,  z_ws, Fz:       1.1695   3.250E+04, dFz/dz:   1.572E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -355,7 +293,7 @@
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
        9669.       8869.   3.250E+04       9713.       8778.   3.251E+04
 
@@ -511,111 +449,118 @@
       Tang: final element division: A, S=      0     61  ItGS=     5
          1, NR,  z_ws, Fz:       1.2035   1.015E+05, dFz/dz:   1.986E+06
  itout =  0, itinn =  2, ittot =  3
- z_ws=   1.2109
- wr_connect_cps: There are 3 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
- wr_connect_cps: new icp=  1: connected to old icp=  1
- wr_connect_cps: new icp=  2: connected to old icp=  2
- wr_connect_cps: new icp=  3: connected to old icp=  3
+ z_ws=   1.2140
+ wr_connect_cps: There are 2 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
+ wr_connect_cps: new icp=  1: connected to old icp=  1  2
+ wr_connect_cps: new icp=  2: connected to old icp=  3
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
- wr_update_allcps: move gd from icpo=  2 to icpn=  2
- wr_update_allcps: move gd from icpo=  3 to icpn=  3
- Obtained  3 true contact patches and  0 near misses (gap>=0)
- cgrid_inp: mx,my=  43,  83, dx,dy=   0.400,   0.400
+ wr_update_allcps: move gd from icpo=  3 to icpn=  2
+ wr_contact: destroy gd for icpo=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  41,  73, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
- cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  45,  26, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
- cgrid_inp: mx,my=  34,  11, dx,dy=   0.400,   0.400
+    no initial estimate (large change npot)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 292 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.879, slope 28.4 deg, 13.7% error in undeformed distance computation
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  31,  10, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=   1084   2485  ItCG=    12
-      Tang: final element division: A, S=      0   1084  ItGS=     5
-      Norm: final element division: C, E=    337    979  ItCG=    10
-      Tang: final element division: A, S=      0    337  ItGS=     6
-      Norm: final element division: C, E=     69    305  ItCG=    12
-      Tang: final element division: A, S=      0     69  ItGS=     5
-         2, NR,  z_ws, Fz:       1.2109   1.265E+05, dFz/dz:   3.370E+06
+      Norm: final element division: C, E=   1401   4626  ItCG=    13
+      Tang: final element division: A, S=      0   1401  ItGS=     6
+      Norm: final element division: C, E=     87    298  ItCG=    13
+      Tang: final element division: A, S=      0     87  ItGS=     5
+         2, NR,  z_ws, Fz:       1.2140   1.278E+05, dFz/dz:   2.484E+06
  itout =  0, itinn =  3, ittot =  4
- z_ws=   1.2112
- wr_connect_cps: There are 3 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
+ z_ws=   1.2139
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
- wr_connect_cps: new icp=  3: connected to old icp=  3
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  wr_update_allcps: move gd from icpo=  2 to icpn=  2
- wr_update_allcps: move gd from icpo=  3 to icpn=  3
- Obtained  3 true contact patches and  0 near misses (gap>=0)
- cgrid_inp: mx,my=  43,  83, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  43,  83, dx,dy=   0.400,   0.400
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
- cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  47,  28, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 291 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.879, slope 28.4 deg, 13.7% error in undeformed distance computation
  cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  34,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=   1088   2481  ItCG=     8
-      Tang: final element division: A, S=      0   1088  ItGS=     4
-      Norm: final element division: C, E=    336    980  ItCG=     8
-      Tang: final element division: A, S=      0    336  ItGS=     6
-      Norm: final element division: C, E=     70    315  ItCG=     8
-      Tang: final element division: A, S=      0     70  ItGS=     4
-         3, NR,  z_ws, Fz:       1.2112   1.278E+05, dFz/dz:   4.615E+06
+      Norm: final element division: C, E=   1402   4625  ItCG=     8
+      Tang: final element division: A, S=      0   1402  ItGS=     3
+      Norm: final element division: C, E=     87    298  ItCG=     5
+      Tang: final element division: A, S=      0     87  ItGS=     3
+         3, NR,  z_ws, Fz:       1.2139   1.277E+05, dFz/dz:   4.829E+05
  itout =  0, itinn =  4, ittot =  5
- z_ws=   1.2111
- wr_connect_cps: There are 3 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
+ z_ws=   1.2135
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
- wr_connect_cps: new icp=  3: connected to old icp=  3
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  wr_update_allcps: move gd from icpo=  2 to icpn=  2
- wr_update_allcps: move gd from icpo=  3 to icpn=  3
- Obtained  3 true contact patches and  0 near misses (gap>=0)
- cgrid_inp: mx,my=  43,  83, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  43,  83, dx,dy=   0.400,   0.400
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
- cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  47,  28, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.879, slope 28.5 deg, 13.7% error in undeformed distance computation
  cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=   1087   2482  ItCG=     7
-      Tang: final element division: A, S=      0   1087  ItGS=     3
-      Norm: final element division: C, E=    336    980  ItCG=     6
-      Tang: final element division: A, S=      0    336  ItGS=     5
-      Norm: final element division: C, E=     70    315  ItCG=     5
-      Tang: final element division: A, S=      0     70  ItGS=     3
-         4, NR,  z_ws, Fz:       1.2111   1.275E+05, dFz/dz:   4.540E+06
+      Norm: final element division: C, E=   1404   4623  ItCG=     9
+      Tang: final element division: A, S=      0   1404  ItGS=     4
+      Norm: final element division: C, E=     85    300  ItCG=     8
+      Tang: final element division: A, S=      0     85  ItGS=     4
+         4, NR,  z_ws, Fz:       1.2135   1.275E+05, dFz/dz:   4.738E+05
  itout =  0, itinn =  5, ittot =  6
- z_ws=   1.2111
- wr_connect_cps: There are 3 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
+ z_ws=   1.2134
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
- wr_connect_cps: new icp=  3: connected to old icp=  3
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  wr_update_allcps: move gd from icpo=  2 to icpn=  2
- wr_update_allcps: move gd from icpo=  3 to icpn=  3
- Obtained  3 true contact patches and  0 near misses (gap>=0)
- cgrid_inp: mx,my=  43,  83, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  43,  83, dx,dy=   0.400,   0.400
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
- cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  47,  28, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.879, slope 28.5 deg, 13.7% error in undeformed distance computation
  cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=   1087   2482  ItCG=     4
-      Tang: final element division: A, S=      0   1087  ItGS=     2
-      Norm: final element division: C, E=    336    980  ItCG=     4
-      Tang: final element division: A, S=      0    336  ItGS=     3
-      Norm: final element division: C, E=     70    315  ItCG=     3
-      Tang: final element division: A, S=      0     70  ItGS=     2
-         5, NR,  z_ws, Fz:       1.2111   1.275E+05, dFz/dz:   4.539E+06
+      Norm: final element division: C, E=   1404   4623  ItCG=     6
+      Tang: final element division: A, S=      0   1404  ItGS=     2
+      Norm: final element division: C, E=     85    300  ItCG=     5
+      Tang: final element division: A, S=      0     85  ItGS=     3
+         5, NR,  z_ws, Fz:       1.2134   1.275E+05, dFz/dz:   3.977E+05
+ itout =  0, itinn =  6, ittot =  7
+ z_ws=   1.2134
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.879, slope 28.5 deg, 13.7% error in undeformed distance computation
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1404   4623  ItCG=     5
+      Tang: final element division: A, S=      0   1404  ItGS=     2
+      Norm: final element division: C, E=     85    300  ItCG=     4
+      Tang: final element division: A, S=      0     85  ItGS=     2
+         6, NR,  z_ws, Fz:       1.2134   1.275E+05, dFz/dz:   3.962E+05
 
- WHEEL-RAIL CONTACT, RIGHT WHEEL,  3 CONTACT PATCHES
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 1
@@ -643,24 +588,24 @@
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       14.74      1.2111  -1.300E-03   5.000E-03       0.000
+         0.000       14.74      1.2134  -1.300E-03   5.000E-03       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   4.372E+04   2.628E+04   1.275E+05   4.385E+04   2.590E+04   1.275E+05
+   4.366E+04   2.624E+04   1.275E+05   4.379E+04   2.586E+04   1.275E+05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.5535    754.6531      0.4194     -0.1996      5.4888      0.4193
+     -3.1251    745.6767      1.1863     -0.2124     -3.4876      1.1863
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.1432     65.6448      0.1698
+      0.5267     56.6655      0.9227
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -668,147 +613,145 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.463E+04  -5.060E-02   4.840E-03   4.322E-04
+     0.000      0.4000       1.464E+04  -4.888E-02   5.012E-03   4.594E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     7.937E+04   2.764E+04      -2700.      -7201.       2.457  -2.063E+04
+     1.271E+05   4.417E+04      -5020.   1.152E+05       4.491  -3.110E+04
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.9679      0.9951  -9.719E-02   6.694E-02       806.6
+         1.550      0.9929     -0.1128   7.866E-02       1702.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   3569   1087      0   1087      1      1
+   6027   1404      0   1404      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    77   o . . . . . . . . . . . . . . . . . . . . . . . . . o
-    76   . . . . . . . . . . S S S S S S . . . . . . . . . . .
-    75   . . . . . . S S S S S S S S S S S S S S . . . . . . .
-    74   . . . . S S S S S S S S S S S S S S S S S S . . . . .
-    73   . . . S S S S S S S S S S S S S S S S S S S S S . . .
-    72   . . S S S S S S S S S S S S S S S S S S S S S S . . .
-    71   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    70   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    69   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    68   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    67   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    66   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    65   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    64   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    63   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    62   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    61   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    60   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    59   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    58   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    57   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    56   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    55   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    54   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    53   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    52   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    51   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    50   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    49   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    48   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    47   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    46   . . . S S S S S S S S S S S S S S S S S S S S S S . .
-    45   . . . S S S S S S S S S S S S S S S S S S S S S . . .
-    44   . . . S S S S S S S S S S S S S S S S S S S S S . . .
-    43   . . . . S S S S S S S S S S S S S S S S S S S S . . .
-    42   . . . . S S S S S S S S S S S S S S S S S S S S . . .
-    41   . . . . S S S S S S S S S S S S S S S S S S S . . . .
-    40   . . . . S S S S S S S S S S S S S S S S S S S . . . .
-    39   . . . . S S S S S S S S S S S S S S S S S S S . . . .
-    38   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    37   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    36   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    35   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    34   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    33   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    32   . . . . . . S S S S S S S S S S S S S S S S . . . . .
-    31   . . . . . . S S S S S S S S S S S S S S S S . . . . .
-    30   . . . . . . . S S S S S S S S S S S S S S . . . . . .
-    29   . . . . . . . . S S S S S S S S S S S S . . . . . . .
-    28   . . . . . . . . . S S S S S S S S S S . . . . . . . .
-    27   . . . . . . . . . . S S S S S S S S . . . . . . . . .
-    26   . . . . . . . . . . S S S S S S S S . . . . . . . . .
-    25   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    24   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    23   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    22   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    21   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    20   . . . . . . . . . . . . S S S S S . . . . . . . . . .
-    19   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    18   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    17   . . . . . . . . . . . . S S S S S . . . . . . . . . .
-    16   . . . . . . . . . . . . . S S . . . . . . . . . . . .
-    15   o . . . . . . . . . . . . . . . . . . . . . . . . . o
-           1                   2                   3
-         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+   117   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+   116   . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . . . . . . . .
+   115   . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . .
+   114   . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+   113   . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+   112   . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   111   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   110   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   109   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   108   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   107   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   106   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   105   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   104   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   103   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   102   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+   101   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+   100   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    99   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    98   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    97   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    96   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    95   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    94   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    93   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    92   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    91   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    90   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    89   . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    88   . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    87   . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    86   . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    85   . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    84   . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    83   . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    82   . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    81   . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    80   . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    79   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    78   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    77   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    76   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    75   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    74   . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    73   . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    72   . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    71   . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . . . . . . .
+    70   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . . . . . . .
+    69   . . . . . . . . . . S S S S S S S S S S S S . . . . . . . . . . . . . . . .
+    68   . . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . . . . . . .
+    67   . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . . . . .
+    66   . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . .
+    65   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    64   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    63   . . . . . . . . . . . . . . . S S . . . . . . . . . . . . . . . . . . . . .
+    62   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . . . . . .
+    61   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    60   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    59   . . . . . . . . . . . . . . S S S S S . . . . . . . . . . . . . . . . . . .
+    58   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    57   . . . . . . . . . . . . . . . . S . . . . . . . . . . . . . . . . . . . . .
+    56   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    55   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    54   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    53   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    52   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    51   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    50   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    49   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    48   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    47   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    46   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    45   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    44   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    43   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    42   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    41   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    40   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    39   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    38   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    37   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    36   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    35   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    34   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    33   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    29   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    28   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    27   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    26   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    25   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    24   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    23   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    22   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    21   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    20   . . . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . . .
+    19   . . . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    18   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    17   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    16   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    15   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    14   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    13   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    12   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    11   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    10   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     9   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
+     8   . . . . . . . . . . . . . . . S S S S S S S S S S S S . . . . . . . . . . .
+     7   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+               1                   2                   3                   4
+         7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -2.0554    723.3898      7.3757     -0.2493    -25.7745      7.3757
+      4.0767    714.2606     28.3521     -1.2698    -34.9037     28.3521
 
      XCP(W)      YCP(W)      ZCP(W)
-      1.4849     34.3654      7.0855
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3500      0.3500    
-
- KINEMATIC CONSTANTS
-     CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.474E+04  -3.514E-02   5.556E-03   5.345E-04
-
-
- TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     4.796E+04   1.655E+04      -2733.      -2022.       1.632      -8772.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.5849      0.9856     -0.1628   7.485E-02       1658.
-
- CONTACT STATISTICS
- N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
- POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
-    NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   1316    336      0    336      1      1
-
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    20   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    19   . . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . . .
-    18   . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . .
-    17   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
-    16   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
-    15   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
-    14   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-    13   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-    12   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-    11   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
-    10   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
-     9   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
-     8   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . .
-     7   . . . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . .
-     6   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-                 1                   2                   3                   4
-         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
-     X  -->        Chi=  0.00 degrees
-
- ----- DATA FOR CONTACT PATCH  3 -----
-
- CONTACT REFERENCE LOCATION
-     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0760    714.2581     28.3600     -1.2698    -34.9062     28.3600
-
-     XCP(W)      YCP(W)      ZCP(W)
-      7.5704     25.1759     28.0579
+      7.5711     25.1784     28.0476
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -816,119 +759,217 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.508E+04   1.015E-02   1.688E-02   2.033E-03
+     0.000      0.4000       1.508E+04   1.013E-02   1.689E-02   2.033E-03
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         4427.      -470.5      -739.5      -220.6   2.282E-02      -268.1
+         4809.      -511.3      -802.5      -255.1   2.617E-02      -291.4
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     5.398E-02     -0.5315     -0.8353   1.199E-02       660.2
+     5.864E-02     -0.5316     -0.8344   1.265E-02       685.6
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    385     70      0     70      1      1
+    385     85      0     85      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     7   . . . . . . . . . . . . . . S . . . . . . . . . . . . .
-     6   . . . . . S S S S S S S S S S S S S S S S S S S . . . .
-     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     4   . S S S S S S S S S S S S S S S S S S S S S S S S . . .
-     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . o
-                   1                   2                   3
-         5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
+    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     7   . . . . . . . . . . . . . . . . S S S S S . . . . . . . . . . . . . .
+     6   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     5   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+     4   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     3   . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
  Case     4
  itout =  0, itinn =  1, ittot =  1
- z_ws=   1.2111
- wr_connect_cps: There are 3 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
+ z_ws=   1.2134
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
- wr_connect_cps: new icp=  3: connected to old icp=  3
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  wr_update_allcps: move gd from icpo=  2 to icpn=  2
- wr_update_allcps: move gd from icpo=  3 to icpn=  3
- Obtained  3 true contact patches and  0 near misses (gap>=0)
- cgrid_inp: mx,my=  43,  83, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  43,  83, dx,dy=   0.400,   0.400
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
- cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  47,  28, dx,dy=   0.400,   0.400
- using initial estimate (new case, user setting)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.879, slope 28.5 deg, 13.7% error in undeformed distance computation
  cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
-      Norm: final element division: C, E=   1087   2482  ItCG=     1
-      Tang: final element division: A, S=      0   1087  ItGS=     1
-      Norm: final element division: C, E=    336    980  ItCG=     1
-      Tang: final element division: A, S=      0    336  ItGS=     1
-      Norm: final element division: C, E=     70    315  ItCG=     1
-      Tang: final element division: A, S=      0     70  ItGS=     1
+      Norm: final element division: C, E=   1404   4623  ItCG=     1
+      Tang: final element division: A, S=      0   1404  ItGS=     1
+      Norm: final element division: C, E=     85    300  ItCG=     1
+      Tang: final element division: A, S=      0     85  ItGS=     1
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       1.2111   1.275E+05, dFz/dz:   2.268E+06
+         1, NR,  z_ws, Fz:       1.2134   1.275E+05, dFz/dz:   2.207E+06
  itout =  0, itinn =  2, ittot =  2
- z_ws=   1.2112
- wr_connect_cps: There are 3 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
+ z_ws=   1.2136
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
- wr_connect_cps: new icp=  3: connected to old icp=  3
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  wr_update_allcps: move gd from icpo=  2 to icpn=  2
- wr_update_allcps: move gd from icpo=  3 to icpn=  3
- Obtained  3 true contact patches and  0 near misses (gap>=0)
- cgrid_inp: mx,my=  43,  83, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  43,  83, dx,dy=   0.400,   0.400
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
- cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  47,  28, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 288 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.879, slope 28.4 deg, 13.7% error in undeformed distance computation
  cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=   1090   2479  ItCG=     8
-      Tang: final element division: A, S=      0   1090  ItGS=     4
-      Norm: final element division: C, E=    335    981  ItCG=     7
-      Tang: final element division: A, S=      0    335  ItGS=     5
-      Norm: final element division: C, E=     71    314  ItCG=     7
-      Tang: final element division: A, S=      0     71  ItGS=     4
-         2, NR,  z_ws, Fz:       1.2112   1.281E+05, dFz/dz:   4.545E+06
+      Norm: final element division: C, E=   1403   4624  ItCG=     8
+      Tang: final element division: A, S=      0   1403  ItGS=     4
+      Norm: final element division: C, E=     87    298  ItCG=     8
+      Tang: final element division: A, S=      0     87  ItGS=     4
+         2, NR,  z_ws, Fz:       1.2136   1.276E+05, dFz/dz:   4.144E+05
  itout =  0, itinn =  3, ittot =  3
- z_ws=   1.2112
- wr_connect_cps: There are 3 new patches and 3 old patches (3 prev iter, 0 near miss, 0 other/prev.time)
+ z_ws=   1.2138
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
  wr_connect_cps: new icp=  1: connected to old icp=  1
  wr_connect_cps: new icp=  2: connected to old icp=  2
- wr_connect_cps: new icp=  3: connected to old icp=  3
  wr_update_allcps: move gd from icpo=  1 to icpn=  1
  wr_update_allcps: move gd from icpo=  2 to icpn=  2
- wr_update_allcps: move gd from icpo=  3 to icpn=  3
- Obtained  3 true contact patches and  0 near misses (gap>=0)
- cgrid_inp: mx,my=  43,  83, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  43,  83, dx,dy=   0.400,   0.400
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
- cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
- cgrid_cur: mx,my=  47,  28, dx,dy=   0.400,   0.400
- using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 289 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.879, slope 28.4 deg, 13.7% error in undeformed distance computation
  cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
  using initial estimate (prev.iteration)...
-      Norm: final element division: C, E=   1089   2480  ItCG=     7
-      Tang: final element division: A, S=      0   1089  ItGS=     3
-      Norm: final element division: C, E=    335    981  ItCG=     6
-      Tang: final element division: A, S=      0    335  ItGS=     5
-      Norm: final element division: C, E=     71    314  ItCG=     5
-      Tang: final element division: A, S=      0     71  ItGS=     3
-         3, NR,  z_ws, Fz:       1.2112   1.280E+05, dFz/dz:   4.547E+06
+      Norm: final element division: C, E=   1402   4625  ItCG=     8
+      Tang: final element division: A, S=      0   1402  ItGS=     4
+      Norm: final element division: C, E=     87    298  ItCG=     6
+      Tang: final element division: A, S=      0     87  ItGS=     4
+         3, NR,  z_ws, Fz:       1.2138   1.277E+05, dFz/dz:   5.038E+05
+ itout =  0, itinn =  4, ittot =  4
+ z_ws=   1.2182
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  51, 124, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 325 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.867, slope 29.8 deg, 15.3% error in undeformed distance computation
+ cgrid_inp: mx,my=  37,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1423   4901  ItCG=    11
+      Tang: final element division: A, S=      0   1423  ItGS=     5
+      Norm: final element division: C, E=     99    345  ItCG=     9
+      Tang: final element division: A, S=      0     99  ItGS=     5
+         4, NR,  z_ws, Fz:       1.2182   1.323E+05, dFz/dz:   1.070E+06
+ itout =  0, itinn =  5, ittot =  5
+ z_ws=   1.2141
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  51, 124, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 294 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.879, slope 28.4 deg, 13.7% error in undeformed distance computation
+ cgrid_inp: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  37,  12, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1402   4625  ItCG=    11
+      Tang: final element division: A, S=      0   1402  ItGS=     5
+      Norm: final element division: C, E=     88    297  ItCG=    11
+      Tang: final element division: A, S=      0     88  ItGS=     5
+         5, NR,  z_ws, Fz:       1.2141   1.278E+05, dFz/dz:   5.134E+05
+ itout =  0, itinn =  6, ittot =  6
+ z_ws=   1.2144
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 296 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.867, slope 29.9 deg, 15.4% error in undeformed distance computation
+ cgrid_inp: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  11, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1399   4628  ItCG=     8
+      Tang: final element division: A, S=      0   1399  ItGS=     4
+      Norm: final element division: C, E=     88    332  ItCG=     6
+      Tang: final element division: A, S=      0     88  ItGS=     4
+         6, NR,  z_ws, Fz:       1.2144   1.280E+05, dFz/dz:   5.630E+05
+ itout =  0, itinn =  7, ittot =  7
+ z_ws=   1.2144
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 296 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.867, slope 29.9 deg, 15.4% error in undeformed distance computation
+ cgrid_inp: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1399   4628  ItCG=     6
+      Tang: final element division: A, S=      0   1399  ItGS=     3
+      Norm: final element division: C, E=     88    332  ItCG=     5
+      Tang: final element division: A, S=      0     88  ItGS=     3
+         7, NR,  z_ws, Fz:       1.2144   1.280E+05, dFz/dz:   5.835E+05
+ itout =  0, itinn =  8, ittot =  8
+ z_ws=   1.2144
+ wr_connect_cps: There are 2 new patches and 2 old patches (2 prev iter, 0 near miss, 0 other/prev.time)
+ wr_connect_cps: new icp=  1: connected to old icp=  1
+ wr_connect_cps: new icp=  2: connected to old icp=  2
+ wr_update_allcps: move gd from icpo=  1 to icpn=  1
+ wr_update_allcps: move gd from icpo=  2 to icpn=  2
+ Obtained  2 true contact patches and  0 near misses (gap>=0)
+ cgrid_inp: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  49, 123, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+ Warning: large angle variation within contact patch, ignored in the planar contact approach
+          there are 296 points with large slope of rail surface w.r.t. tangent plane
+          min(t_s) = 0.867, slope 29.9 deg, 15.4% error in undeformed distance computation
+ cgrid_inp: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ cgrid_cur: mx,my=  35,  12, dx,dy=   0.400,   0.400
+ using initial estimate (prev.iteration)...
+      Norm: final element division: C, E=   1399   4628  ItCG=     4
+      Tang: final element division: A, S=      0   1399  ItGS=     2
+      Norm: final element division: C, E=     88    332  ItCG=     3
+      Tang: final element division: A, S=      0     88  ItGS=     2
+         8, NR,  z_ws, Fz:       1.2144   1.280E+05, dFz/dz:   5.866E+05
 
- WHEEL-RAIL CONTACT, RIGHT WHEEL,  3 CONTACT PATCHES
+ WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 1, INFLCF 1, MATER  0, ZTRACK 0, EWHEEL 1
@@ -956,24 +997,24 @@
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       14.74      1.2112  -1.300E-03   5.000E-03       0.000
+         0.000       14.74      1.2144  -1.300E-03   5.000E-03       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
 
 
- TOTAL FORCES AND MOMENTS ON RAIL
+ TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   4.388E+04   2.621E+04   1.280E+05   4.401E+04   2.582E+04   1.280E+05
+   4.379E+04   2.640E+04   1.280E+05   4.392E+04   2.602E+04   1.280E+05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.5534    754.6491      0.4196     -0.2041      5.4848      0.4196
+     -3.1268    745.6957      1.1842     -0.2118     -3.4687      1.1842
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.1433     65.6408      0.1699
+      0.5251     56.6844      0.9196
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -981,147 +1022,145 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.463E+04  -5.060E-02   4.837E-03   4.420E-04
+     0.000      0.4000       1.464E+04  -4.888E-02   5.011E-03   4.581E-04
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     7.959E+04   2.772E+04      -2707.      -7240.       2.469  -2.069E+04
+     1.275E+05   4.432E+04      -5029.   1.120E+05       4.517  -3.123E+04
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.9706      0.9951  -9.719E-02   6.710E-02       808.4
+         1.555      0.9929     -0.1127   7.952E-02       1700.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   3569   1089      0   1089      1      1
+   6027   1399      0   1399      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    77   o . . . . . . . . . . . . . . . . . . . . . . . . . o
-    76   . . . . . . . . . . S S S S S S . . . . . . . . . . .
-    75   . . . . . . S S S S S S S S S S S S S S . . . . . . .
-    74   . . . . S S S S S S S S S S S S S S S S S S . . . . .
-    73   . . . S S S S S S S S S S S S S S S S S S S S S . . .
-    72   . . S S S S S S S S S S S S S S S S S S S S S S . . .
-    71   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    70   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    69   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    68   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    67   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    66   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    65   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    64   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    63   . S S S S S S S S S S S S S S S S S S S S S S S S . .
-    62   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    61   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    60   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    59   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    58   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    57   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    56   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    55   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    54   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    53   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    52   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    51   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    50   . S S S S S S S S S S S S S S S S S S S S S S S S S .
-    49   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    48   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    47   . . S S S S S S S S S S S S S S S S S S S S S S S . .
-    46   . . . S S S S S S S S S S S S S S S S S S S S S S . .
-    45   . . . S S S S S S S S S S S S S S S S S S S S S . . .
-    44   . . . S S S S S S S S S S S S S S S S S S S S S . . .
-    43   . . . . S S S S S S S S S S S S S S S S S S S S . . .
-    42   . . . . S S S S S S S S S S S S S S S S S S S S . . .
-    41   . . . . S S S S S S S S S S S S S S S S S S S . . . .
-    40   . . . . S S S S S S S S S S S S S S S S S S S . . . .
-    39   . . . . S S S S S S S S S S S S S S S S S S S . . . .
-    38   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    37   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    36   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    35   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    34   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    33   . . . . . S S S S S S S S S S S S S S S S S S . . . .
-    32   . . . . . . S S S S S S S S S S S S S S S S . . . . .
-    31   . . . . . . S S S S S S S S S S S S S S S S . . . . .
-    30   . . . . . . . S S S S S S S S S S S S S S . . . . . .
-    29   . . . . . . . . S S S S S S S S S S S S . . . . . . .
-    28   . . . . . . . . . S S S S S S S S S S . . . . . . . .
-    27   . . . . . . . . . . S S S S S S S S . . . . . . . . .
-    26   . . . . . . . . . . S S S S S S S S . . . . . . . . .
-    25   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    24   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    23   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    22   . . . . . . . . . . . . S S S S . . . . . . . . . . .
-    21   . . . . . . . . . . . . S S S S S . . . . . . . . . .
-    20   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    19   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    18   . . . . . . . . . . . S S S S S S . . . . . . . . . .
-    17   . . . . . . . . . . . . S S S S S . . . . . . . . . .
-    16   . . . . . . . . . . . . . S S . . . . . . . . . . . .
-    15   o . . . . . . . . . . . . . . . . . . . . . . . . . o
-           1                   2                   3
-         9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+   117   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+   116   . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . . . . . . . .
+   115   . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . . .
+   114   . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+   113   . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+   112   . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   111   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   110   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   109   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   108   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   107   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   106   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   105   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   104   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   103   . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+   102   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+   101   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+   100   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    99   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    98   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    97   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    96   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    95   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    94   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    93   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    92   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    91   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    90   . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . .
+    89   . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    88   . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    87   . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . .
+    86   . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    85   . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    84   . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    83   . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    82   . . . . . . S S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    81   . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    80   . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    79   . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    78   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    77   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    76   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    75   . . . . . . . S S S S S S S S S S S S S S S S S S . . . . . . . . . . . . .
+    74   . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    73   . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    72   . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . . . .
+    71   . . . . . . . . S S S S S S S S S S S S S S S . . . . . . . . . . . . . . .
+    70   . . . . . . . . . S S S S S S S S S S S S S S . . . . . . . . . . . . . . .
+    69   . . . . . . . . . . S S S S S S S S S S S S . . . . . . . . . . . . . . . .
+    68   . . . . . . . . . . . S S S S S S S S S S . . . . . . . . . . . . . . . . .
+    67   . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . . . . .
+    66   . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . . . . . . . .
+    65   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    64   . . . . . . . . . . . . . . . S S S . . . . . . . . . . . . . . . . . . . .
+    63   . . . . . . . . . . . . . . . S S . . . . . . . . . . . . . . . . . . . . .
+    62   . . . . . . . . . . . . . . . S S . . . . . . . . . . . . . . . . . . . . .
+    61   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    60   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    59   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    58   . . . . . . . . . . . . . . S S S S . . . . . . . . . . . . . . . . . . . .
+    57   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    56   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    55   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    54   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    53   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    52   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    51   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    50   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    49   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    48   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    47   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    46   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    45   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    44   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    43   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    42   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    41   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    40   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    39   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    38   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    37   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    36   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    35   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    34   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    33   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    32   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    31   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    30   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    29   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    28   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    27   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    26   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    25   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    24   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    23   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    22   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    21   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    20   . . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . . . . .
+    19   . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . . . . .
+    18   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
+    17   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    16   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    15   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    14   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
+    13   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
+    12   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
+    11   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+    10   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     9   . . . . . . . . . . . . S S S S S S S S S S S S S S S S S S S . . . . . . .
+     8   . . . . . . . . . . . . . . . S S S S S S S S S S S S S . . . . . . . . . .
+     7   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+               1                   2                   3                   4
+         7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4
      X  -->        Chi=  0.00 degrees
 
  ----- DATA FOR CONTACT PATCH  2 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -2.0554    723.3901      7.3755     -0.2378    -25.7743      7.3755
+      4.0769    714.2616     28.3489     -1.2699    -34.9027     28.3489
 
      XCP(W)      YCP(W)      ZCP(W)
-      1.4849     34.3657      7.0852
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3500      0.3500    
-
- KINEMATIC CONSTANTS
-     CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.474E+04  -3.514E-02   5.533E-03   5.103E-04
-
-
- TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     4.820E+04   1.663E+04      -2732.      -1889.       1.649      -8814.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.5878      0.9859     -0.1620   7.523E-02       1668.
-
- CONTACT STATISTICS
- N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
- POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
-    NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   1316    335      0    335      1      1
-
- FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    20   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    19   . . . . . . . . . . . . . . S S S S S S S . . . . . . . . . . . . . . . .
-    18   . . . . . . . . . S S S S S S S S S S S S S S S S S . . . . . . . . . . .
-    17   . . . . . . S S S S S S S S S S S S S S S S S S S S S S S . . . . . . . .
-    16   . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
-    15   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
-    14   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-    13   . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-    12   . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S .
-    11   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . .
-    10   . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S S S . . .
-     9   . . . . . . . S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
-     8   . . . . . . . . . S S S S S S S S S S S S S S S S S S S S S S . . . . . .
-     7   . . . . . . . . . . . . S S S S S S S S S S S S S S S S . . . . . . . . .
-     6   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
-                 1                   2                   3                   4
-         6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
-     X  -->        Chi=  0.00 degrees
-
- ----- DATA FOR CONTACT PATCH  3 -----
-
- CONTACT REFERENCE LOCATION
-     XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0760    714.2583     28.3596     -1.2698    -34.9061     28.3596
-
-     XCP(W)      YCP(W)      ZCP(W)
-      7.5705     25.1761     28.0574
+      7.5714     25.1794     28.0435
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -1129,35 +1168,36 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.508E+04   1.015E-02   1.688E-02   2.033E-03
+     0.000      0.4000       1.508E+04   1.012E-02   1.689E-02   2.033E-03
 
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         4444.      -472.3      -742.4      -222.3   2.297E-02      -269.1
+         4977.      -529.3      -830.2      -270.5   2.766E-02      -301.6
      FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-     5.419E-02     -0.5315     -0.8353   1.202E-02       662.2
+     6.070E-02     -0.5318     -0.8340   1.293E-02       691.6
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-    385     71      0     71      1      1
+    420     88      0     88      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-    11   o . . . . . . . . . . . . . . . . . . . . . . . . . . o
-    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     8   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     7   . . . . . . . . . . . . . . S S . . . . . . . . . . . .
-     6   . . . . . S S S S S S S S S S S S S S S S S S S . . . .
-     5   . S S S S S S S S S S S S S S S S S S S S S S S S S S .
-     4   . S S S S S S S S S S S S S S S S S S S S S S S S . . .
-     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . o
-                   1                   2                   3
-         5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
+    12   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+    11   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    10   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     9   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     8   . . . . . . . . . . . . . . . . S S S S S S . . . . . . . . . . . . .
+     7   . . . . . . . . S S S S S S S S S S S S S S S S S S S S S . . . . . .
+     6   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S S . . . .
+     5   . . . . S S S S S S S S S S S S S S S S S S S S S S S S S S . . . . .
+     4   . . . . . . . . . . . . S S S S S S S S . . . . . . . . . . . . . . .
+     3   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     2   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+     1   o . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . o
+                           1                   2                   3
+         1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
      X  -->        Chi=  0.00 degrees
 
 Parallel run using  2 threads
@@ -1167,23 +1207,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.2 | 100.0 |        0.4 | 100.0 |
-|Wheel-rail cases     |        4 |        0.2 | 100.0 |        0.4 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   3.6 |
-|Geometric analysis   |       22 |        0.0 |   0.0 |        0.1 |  17.1 |
-|Panag.process        |       42 |        0.1 |  80.0 |        0.3 |  58.1 |
-|Algorithm Norm       |       42 |        0.0 |  30.0 |        0.1 |  20.7 |
-|Algorithm Tang       |       42 |        0.1 |  50.0 |        0.2 |  37.4 |
-|Output quantities    |       46 |        0.0 |  10.0 |        0.0 |   6.2 |
+|Total                |        1 |        0.7 | 100.0 |        0.8 | 100.0 |
+|Wheel-rail cases     |        4 |        0.7 | 100.0 |        0.8 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   2.4 |        0.0 |   0.5 |
+|Geometric analysis   |       25 |        0.0 |   2.4 |        0.1 |   9.7 |
+|Panag.process        |       41 |        0.5 |  81.0 |        0.6 |  76.8 |
+|Algorithm Norm       |       41 |        0.1 |  14.3 |        0.2 |  23.5 |
+|Algorithm Tang       |       41 |        0.4 |  66.7 |        0.4 |  53.1 |
+|Output quantities    |       45 |        0.0 |   7.1 |        0.0 |   5.6 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       42 |        0.0 |  10.0 |        0.0 |  10.0 |
-|Tang: StedyGS solver |       42 |        0.1 |  50.0 |        0.2 |  34.9 |
+|Norm: ConjGrd solver |       41 |        0.0 |   7.1 |        0.1 |  16.8 |
+|Tang: StedyGS solver |       41 |        0.4 |  64.3 |        0.4 |  49.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        4 |        0.0 |   0.0 |        0.0 |   3.6 |
-|Contact location     |       22 |        0.0 |   0.0 |        0.1 |  12.1 |
-|Undeformed distance  |       42 |        0.0 |   0.0 |        0.0 |   0.0 |
-| - Interp whl_srfc   |       42 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |       18 |        0.0 |  10.0 |        0.0 |   5.9 |
-|Initial state/estim. |       42 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        4 |        0.0 |   2.4 |        0.0 |   0.5 |
+|Contact location     |       25 |        0.0 |   0.0 |        0.0 |   4.4 |
+|Undeformed distance  |       41 |        0.0 |   2.4 |        0.0 |   3.4 |
+| - Interp whl_srfc   |       41 |        0.0 |   2.4 |        0.0 |   1.5 |
+|Influence coeffic.   |       13 |        0.0 |   0.0 |        0.0 |   0.7 |
+|Initial state/estim. |       41 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

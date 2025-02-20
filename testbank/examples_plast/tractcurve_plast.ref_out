@@ -2,14 +2,14 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2621 $, $Date:: 2024-11-08$        |
+   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
- Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.3152     instead of  0.1000     for solver SteadyGS.
+ Case     1
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
       Norm: final element division: C, E=   1276    660  ItCG=     7
@@ -3280,8 +3280,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    31
- Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.3152     instead of  0.1000     for solver SteadyGS.
+ Case    31
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
       Norm: final element division: C, E=   1276    660  ItCG=     7
@@ -3554,7 +3554,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -1.674E+04       0.000       0.000       3.360      -113.5
+     1.067E+05  -1.674E+04       0.000       0.000       3.360      -120.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.4754       0.000   7.651E-02       640.7
 
@@ -3667,7 +3667,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.279E+04       0.000       0.000       3.441      -232.3
+     1.067E+05  -2.279E+04       0.000       0.000       3.441      -254.9
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6472       0.000   7.651E-02       640.7
 
@@ -3780,7 +3780,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.744E+04       0.000       0.000       3.519      -382.6
+     1.067E+05  -2.744E+04       0.000       0.000       3.519      -416.5
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.7792       0.000   7.651E-02       640.7
 
@@ -3893,7 +3893,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.085E+04       0.000       0.000       3.586      -553.3
+     1.067E+05  -3.085E+04       0.000       0.000       3.586      -591.4
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8762       0.000   7.651E-02       640.7
 
@@ -4006,7 +4006,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.320E+04       0.000       0.000       3.635      -730.6
+     1.067E+05  -3.320E+04       0.000       0.000       3.635      -768.8
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9430       0.000   7.651E-02       640.7
 
@@ -4119,7 +4119,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.461E+04       0.000       0.000       3.666      -901.3
+     1.067E+05  -3.461E+04       0.000       0.000       3.666      -939.5
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9828       0.000   7.651E-02       640.7
 
@@ -4232,7 +4232,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.514E+04       0.000       0.000       3.677      -1056.
+     1.067E+05  -3.514E+04       0.000       0.000       3.677      -1094.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9979       0.000   7.651E-02       640.7
 
@@ -4345,7 +4345,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.518E+04       0.000       0.000       3.678      -1198.
+     1.067E+05  -3.518E+04       0.000       0.000       3.678      -1236.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9991       0.000   7.651E-02       640.7
 
@@ -4458,7 +4458,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.518E+04       0.000       0.000       3.678      -1339.
+     1.067E+05  -3.518E+04       0.000       0.000       3.678      -1377.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9993       0.000   7.651E-02       640.7
 
@@ -4571,7 +4571,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.519E+04       0.000       0.000       3.678      -1480.
+     1.067E+05  -3.519E+04       0.000       0.000       3.678      -1518.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9994       0.000   7.651E-02       640.7
 
@@ -4684,7 +4684,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.519E+04       0.000       0.000       3.678      -1621.
+     1.067E+05  -3.519E+04       0.000       0.000       3.678      -1659.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9995       0.000   7.651E-02       640.7
 
@@ -4797,7 +4797,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.520E+04       0.000       0.000       3.678      -1762.
+     1.067E+05  -3.520E+04       0.000       0.000       3.678      -1800.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9996       0.000   7.651E-02       640.7
 
@@ -4910,7 +4910,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.520E+04       0.000       0.000       3.678      -1903.
+     1.067E+05  -3.520E+04       0.000       0.000       3.678      -1941.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9996       0.000   7.651E-02       640.7
 
@@ -5023,7 +5023,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.520E+04       0.000       0.000       3.678      -2044.
+     1.067E+05  -3.520E+04       0.000       0.000       3.678      -2082.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9997       0.000   7.651E-02       640.7
 
@@ -5136,7 +5136,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.520E+04       0.000       0.000       3.678      -2748.
+     1.067E+05  -3.520E+04       0.000       0.000       3.678      -2786.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9998       0.000   7.651E-02       640.7
 
@@ -5249,7 +5249,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678      -3452.
+     1.067E+05  -3.521E+04       0.000       0.000       3.678      -3491.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9999       0.000   7.651E-02       640.7
 
@@ -5362,7 +5362,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678      -6974.
+     1.067E+05  -3.521E+04       0.000       0.000       3.678      -7012.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -5475,7 +5475,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.049E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.053E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -5588,7 +5588,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.402E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.405E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -5701,7 +5701,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.754E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.758E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -5814,7 +5814,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -2.634E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -2.638E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -5927,7 +5927,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -3.514E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -3.518E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -6040,7 +6040,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.395E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.398E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -6153,7 +6153,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.275E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.279E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -6266,7 +6266,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.155E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.159E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -6379,7 +6379,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.035E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.039E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -6492,7 +6492,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.916E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.919E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -6605,7 +6605,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.796E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.800E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301      -1.000       0.000   7.651E-02       640.7
 
@@ -6672,8 +6672,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    61
- Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.3152     instead of  0.1000     for solver SteadyGS.
+ Case    61
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
       Norm: final element division: C, E=   1276    660  ItCG=     7
@@ -6946,7 +6946,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -1.673E+04       0.000       0.000       3.360      -108.7
+     1.067E+05  -1.673E+04       0.000       0.000       3.360      -120.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.4750       0.000   7.651E-02       640.7
 
@@ -7059,7 +7059,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.267E+04       0.000       0.000       3.438      -202.3
+     1.067E+05  -2.267E+04       0.000       0.000       3.438      -254.1
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6439       0.000   7.651E-02       640.7
 
@@ -7172,7 +7172,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.714E+04       0.000       0.000       3.512      -319.4
+     1.067E+05  -2.714E+04       0.000       0.000       3.512      -412.7
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.7709       0.000   7.651E-02       640.7
 
@@ -7285,7 +7285,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.041E+04       0.000       0.000       3.574      -460.0
+     1.067E+05  -3.041E+04       0.000       0.000       3.574      -583.6
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8637       0.000   7.651E-02       640.7
 
@@ -7398,7 +7398,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.271E+04       0.000       0.000       3.622      -617.2
+     1.067E+05  -3.271E+04       0.000       0.000       3.622      -758.0
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9290       0.000   7.651E-02       640.7
 
@@ -7511,7 +7511,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.417E+04       0.000       0.000       3.654      -781.5
+     1.067E+05  -3.417E+04       0.000       0.000       3.654      -928.0
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9705       0.000   7.651E-02       640.7
 
@@ -7624,7 +7624,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.481E+04       0.000       0.000       3.669      -937.8
+     1.067E+05  -3.481E+04       0.000       0.000       3.669      -1084.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9887       0.000   7.651E-02       640.7
 
@@ -7737,7 +7737,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.500E+04       0.000       0.000       3.673      -1083.
+     1.067E+05  -3.500E+04       0.000       0.000       3.673      -1230.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9939       0.000   7.651E-02       640.7
 
@@ -7850,7 +7850,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.510E+04       0.000       0.000       3.676      -1227.
+     1.067E+05  -3.510E+04       0.000       0.000       3.676      -1374.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9968       0.000   7.651E-02       640.7
 
@@ -7963,7 +7963,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.516E+04       0.000       0.000       3.677      -1370.
+     1.067E+05  -3.516E+04       0.000       0.000       3.677      -1517.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9984       0.000   7.651E-02       640.7
 
@@ -8076,7 +8076,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.518E+04       0.000       0.000       3.678      -1512.
+     1.067E+05  -3.518E+04       0.000       0.000       3.678      -1659.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9992       0.000   7.651E-02       640.7
 
@@ -8189,7 +8189,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.519E+04       0.000       0.000       3.678      -1653.
+     1.067E+05  -3.519E+04       0.000       0.000       3.678      -1800.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9995       0.000   7.651E-02       640.7
 
@@ -8302,7 +8302,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.520E+04       0.000       0.000       3.678      -1794.
+     1.067E+05  -3.520E+04       0.000       0.000       3.678      -1941.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9996       0.000   7.651E-02       640.7
 
@@ -8415,7 +8415,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.520E+04       0.000       0.000       3.678      -1935.
+     1.067E+05  -3.520E+04       0.000       0.000       3.678      -2082.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9997       0.000   7.651E-02       640.7
 
@@ -8528,7 +8528,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.520E+04       0.000       0.000       3.678      -2639.
+     1.067E+05  -3.520E+04       0.000       0.000       3.678      -2786.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9998       0.000   7.651E-02       640.7
 
@@ -8641,7 +8641,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678      -3344.
+     1.067E+05  -3.521E+04       0.000       0.000       3.678      -3491.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9999       0.000   7.651E-02       640.7
 
@@ -8754,7 +8754,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678      -6865.
+     1.067E+05  -3.521E+04       0.000       0.000       3.678      -7012.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -8867,7 +8867,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.039E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.053E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -8980,7 +8980,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.391E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.405E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -9093,7 +9093,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.743E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.758E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -9206,7 +9206,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -2.623E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -2.638E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -9319,7 +9319,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -3.503E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -3.518E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -9432,7 +9432,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.384E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.398E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -9545,7 +9545,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.264E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.279E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -9658,7 +9658,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.144E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.159E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -9771,7 +9771,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.025E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.039E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -9884,7 +9884,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.905E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.919E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -9997,7 +9997,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.785E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.800E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301      -1.000       0.000   7.651E-02       640.7
 
@@ -10064,8 +10064,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case    91
- Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.3152     instead of  0.1000     for solver SteadyGS.
+ Case    91
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
       Norm: final element division: C, E=   1276    660  ItCG=     7
@@ -10338,7 +10338,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -1.672E+04       0.000       0.000       3.360      -104.5
+     1.067E+05  -1.672E+04       0.000       0.000       3.360      -120.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.4748       0.000   7.651E-02       640.7
 
@@ -10451,7 +10451,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.255E+04       0.000       0.000       3.436      -174.5
+     1.067E+05  -2.255E+04       0.000       0.000       3.436      -253.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6405       0.000   7.651E-02       640.7
 
@@ -10564,7 +10564,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.677E+04       0.000       0.000       3.504      -252.2
+     1.067E+05  -2.677E+04       0.000       0.000       3.504      -407.6
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.7601       0.000   7.651E-02       640.7
 
@@ -10677,7 +10677,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.969E+04       0.000       0.000       3.556      -339.7
+     1.067E+05  -2.969E+04       0.000       0.000       3.556      -570.6
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8432       0.000   7.651E-02       640.7
 
@@ -10790,7 +10790,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.167E+04       0.000       0.000       3.595      -433.4
+     1.067E+05  -3.167E+04       0.000       0.000       3.595      -734.6
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8993       0.000   7.651E-02       640.7
 
@@ -10903,7 +10903,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.284E+04       0.000       0.000       3.619      -538.5
+     1.067E+05  -3.284E+04       0.000       0.000       3.619      -892.8
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9328       0.000   7.651E-02       640.7
 
@@ -11016,7 +11016,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.332E+04       0.000       0.000       3.630      -644.9
+     1.067E+05  -3.332E+04       0.000       0.000       3.630      -1039.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9463       0.000   7.651E-02       640.7
 
@@ -11129,7 +11129,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.356E+04       0.000       0.000       3.636      -753.8
+     1.067E+05  -3.356E+04       0.000       0.000       3.636      -1181.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9532       0.000   7.651E-02       640.7
 
@@ -11242,7 +11242,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.378E+04       0.000       0.000       3.641      -869.3
+     1.067E+05  -3.378E+04       0.000       0.000       3.641      -1323.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9595       0.000   7.651E-02       640.7
 
@@ -11355,7 +11355,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.398E+04       0.000       0.000       3.646      -992.8
+     1.067E+05  -3.398E+04       0.000       0.000       3.646      -1467.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9651       0.000   7.651E-02       640.7
 
@@ -11468,7 +11468,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.416E+04       0.000       0.000       3.651      -1119.
+     1.067E+05  -3.416E+04       0.000       0.000       3.651      -1611.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9701       0.000   7.651E-02       640.7
 
@@ -11581,7 +11581,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.431E+04       0.000       0.000       3.655      -1250.
+     1.067E+05  -3.431E+04       0.000       0.000       3.655      -1756.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9745       0.000   7.651E-02       640.7
 
@@ -11694,7 +11694,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.445E+04       0.000       0.000       3.659      -1385.
+     1.067E+05  -3.445E+04       0.000       0.000       3.659      -1900.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9785       0.000   7.651E-02       640.7
 
@@ -11807,7 +11807,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.458E+04       0.000       0.000       3.662      -1523.
+     1.067E+05  -3.458E+04       0.000       0.000       3.662      -2045.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9820       0.000   7.651E-02       640.7
 
@@ -11920,7 +11920,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.499E+04       0.000       0.000       3.673      -2243.
+     1.067E+05  -3.499E+04       0.000       0.000       3.673      -2769.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9936       0.000   7.651E-02       640.7
 
@@ -12033,7 +12033,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.515E+04       0.000       0.000       3.677      -2958.
+     1.067E+05  -3.515E+04       0.000       0.000       3.677      -3485.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9984       0.000   7.651E-02       640.7
 
@@ -12146,7 +12146,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678      -6484.
+     1.067E+05  -3.521E+04       0.000       0.000       3.678      -7012.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -12259,7 +12259,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.001E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.053E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -12372,7 +12372,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.353E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.405E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -12485,7 +12485,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.705E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.758E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -12598,7 +12598,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -2.585E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -2.638E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -12711,7 +12711,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -3.465E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -3.518E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -12824,7 +12824,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.346E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.398E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -12937,7 +12937,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.226E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.279E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -13050,7 +13050,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.106E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.159E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -13163,7 +13163,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.986E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.039E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -13276,7 +13276,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.867E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.919E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -13389,7 +13389,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.747E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.800E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301      -1.000       0.000   7.651E-02       640.7
 
@@ -13456,8 +13456,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case   121
- Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.3152     instead of  0.1000     for solver SteadyGS.
+ Case   121
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
       Norm: final element division: C, E=   1276    660  ItCG=     7
@@ -13730,7 +13730,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -1.671E+04       0.000       0.000       3.360      -103.5
+     1.067E+05  -1.671E+04       0.000       0.000       3.360      -120.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.4747       0.000   7.651E-02       640.7
 
@@ -13843,7 +13843,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.250E+04       0.000       0.000       3.435      -161.9
+     1.067E+05  -2.250E+04       0.000       0.000       3.435      -252.7
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6389       0.000   7.651E-02       640.7
 
@@ -13956,7 +13956,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.655E+04       0.000       0.000       3.499      -220.7
+     1.067E+05  -2.655E+04       0.000       0.000       3.499      -404.7
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.7540       0.000   7.651E-02       640.7
 
@@ -14069,7 +14069,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.923E+04       0.000       0.000       3.546      -279.6
+     1.067E+05  -2.923E+04       0.000       0.000       3.546      -562.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8302       0.000   7.651E-02       640.7
 
@@ -14182,7 +14182,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.092E+04       0.000       0.000       3.577      -339.6
+     1.067E+05  -3.092E+04       0.000       0.000       3.577      -717.8
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8780       0.000   7.651E-02       640.7
 
@@ -14295,7 +14295,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.181E+04       0.000       0.000       3.594      -409.0
+     1.067E+05  -3.181E+04       0.000       0.000       3.594      -865.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9033       0.000   7.651E-02       640.7
 
@@ -14408,7 +14408,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.208E+04       0.000       0.000       3.599      -481.9
+     1.067E+05  -3.208E+04       0.000       0.000       3.599      -1001.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9110       0.000   7.651E-02       640.7
 
@@ -14521,7 +14521,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.221E+04       0.000       0.000       3.603      -549.8
+     1.067E+05  -3.221E+04       0.000       0.000       3.603      -1134.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9148       0.000   7.651E-02       640.7
 
@@ -14634,7 +14634,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.234E+04       0.000       0.000       3.605      -623.8
+     1.067E+05  -3.234E+04       0.000       0.000       3.605      -1268.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9184       0.000   7.651E-02       640.7
 
@@ -14747,7 +14747,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.246E+04       0.000       0.000       3.608      -701.7
+     1.067E+05  -3.246E+04       0.000       0.000       3.608      -1402.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9219       0.000   7.651E-02       640.7
 
@@ -14860,7 +14860,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.258E+04       0.000       0.000       3.611      -777.1
+     1.067E+05  -3.258E+04       0.000       0.000       3.611      -1538.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9253       0.000   7.651E-02       640.7
 
@@ -14973,7 +14973,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.269E+04       0.000       0.000       3.614      -861.4
+     1.067E+05  -3.269E+04       0.000       0.000       3.614      -1674.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9285       0.000   7.651E-02       640.7
 
@@ -15086,7 +15086,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.281E+04       0.000       0.000       3.617      -940.6
+     1.067E+05  -3.281E+04       0.000       0.000       3.617      -1811.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9317       0.000   7.651E-02       640.7
 
@@ -15199,7 +15199,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.291E+04       0.000       0.000       3.619      -1029.
+     1.067E+05  -3.291E+04       0.000       0.000       3.619      -1948.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9348       0.000   7.651E-02       640.7
 
@@ -15312,7 +15312,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.340E+04       0.000       0.000       3.631      -1489.
+     1.067E+05  -3.340E+04       0.000       0.000       3.631      -2645.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9486       0.000   7.651E-02       640.7
 
@@ -15425,7 +15425,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.381E+04       0.000       0.000       3.642      -2022.
+     1.067E+05  -3.381E+04       0.000       0.000       3.642      -3353.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9602       0.000   7.651E-02       640.7
 
@@ -15538,7 +15538,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.494E+04       0.000       0.000       3.671      -5347.
+     1.067E+05  -3.494E+04       0.000       0.000       3.671      -6959.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9924       0.000   7.651E-02       640.7
 
@@ -15651,7 +15651,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.519E+04       0.000       0.000       3.678      -8913.
+     1.067E+05  -3.519E+04       0.000       0.000       3.678  -1.053E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9995       0.000   7.651E-02       640.7
 
@@ -15764,7 +15764,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.244E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.405E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -15877,7 +15877,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.596E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -1.758E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -15990,7 +15990,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -2.476E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -2.638E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -16103,7 +16103,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -3.357E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -3.518E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -16216,7 +16216,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.237E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.398E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -16329,7 +16329,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.117E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.279E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -16442,7 +16442,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.997E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.159E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -16555,7 +16555,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.878E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.039E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -16668,7 +16668,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.758E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.919E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -16781,7 +16781,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.638E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.800E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301      -1.000       0.000   7.651E-02       640.7
 
@@ -16848,8 +16848,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case   151
- Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.3152     instead of  0.1000     for solver SteadyGS.
+ Case   151
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
       Norm: final element division: C, E=   1276    660  ItCG=     7
@@ -17122,7 +17122,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -1.671E+04       0.000       0.000       3.360      -103.2
+     1.067E+05  -1.671E+04       0.000       0.000       3.360      -120.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.4747       0.000   7.651E-02       640.7
 
@@ -17235,7 +17235,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.247E+04       0.000       0.000       3.435      -159.7
+     1.067E+05  -2.247E+04       0.000       0.000       3.435      -252.4
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6383       0.000   7.651E-02       640.7
 
@@ -17348,7 +17348,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.645E+04       0.000       0.000       3.497      -208.2
+     1.067E+05  -2.645E+04       0.000       0.000       3.497      -403.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.7513       0.000   7.651E-02       640.7
 
@@ -17461,7 +17461,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.901E+04       0.000       0.000       3.541      -252.2
+     1.067E+05  -2.901E+04       0.000       0.000       3.541      -558.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8240       0.000   7.651E-02       640.7
 
@@ -17574,7 +17574,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.055E+04       0.000       0.000       3.569      -302.2
+     1.067E+05  -3.055E+04       0.000       0.000       3.569      -709.5
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8676       0.000   7.651E-02       640.7
 
@@ -17687,7 +17687,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.129E+04       0.000       0.000       3.582      -359.2
+     1.067E+05  -3.129E+04       0.000       0.000       3.582      -851.6
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8887       0.000   7.651E-02       640.7
 
@@ -17800,7 +17800,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.145E+04       0.000       0.000       3.585      -417.3
+     1.067E+05  -3.145E+04       0.000       0.000       3.585      -981.7
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8932       0.000   7.651E-02       640.7
 
@@ -17913,7 +17913,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.150E+04       0.000       0.000       3.586      -472.9
+     1.067E+05  -3.150E+04       0.000       0.000       3.586      -1109.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8947       0.000   7.651E-02       640.7
 
@@ -18026,7 +18026,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.155E+04       0.000       0.000       3.587      -529.2
+     1.067E+05  -3.155E+04       0.000       0.000       3.587      -1237.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8961       0.000   7.651E-02       640.7
 
@@ -18139,7 +18139,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.160E+04       0.000       0.000       3.588      -586.4
+     1.067E+05  -3.160E+04       0.000       0.000       3.588      -1365.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8974       0.000   7.651E-02       640.7
 
@@ -18252,7 +18252,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.164E+04       0.000       0.000       3.589      -648.4
+     1.067E+05  -3.164E+04       0.000       0.000       3.589      -1494.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8987       0.000   7.651E-02       640.7
 
@@ -18365,7 +18365,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.169E+04       0.000       0.000       3.590      -709.1
+     1.067E+05  -3.169E+04       0.000       0.000       3.590      -1623.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9000       0.000   7.651E-02       640.7
 
@@ -18478,7 +18478,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.173E+04       0.000       0.000       3.591      -768.3
+     1.067E+05  -3.173E+04       0.000       0.000       3.591      -1752.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9012       0.000   7.651E-02       640.7
 
@@ -18591,7 +18591,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.178E+04       0.000       0.000       3.592      -824.4
+     1.067E+05  -3.178E+04       0.000       0.000       3.592      -1881.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9025       0.000   7.651E-02       640.7
 
@@ -18704,7 +18704,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.199E+04       0.000       0.000       3.597      -1136.
+     1.067E+05  -3.199E+04       0.000       0.000       3.597      -2534.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9085       0.000   7.651E-02       640.7
 
@@ -18817,7 +18817,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.219E+04       0.000       0.000       3.602      -1471.
+     1.067E+05  -3.219E+04       0.000       0.000       3.602      -3193.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9142       0.000   7.651E-02       640.7
 
@@ -18930,7 +18930,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.307E+04       0.000       0.000       3.623      -3389.
+     1.067E+05  -3.307E+04       0.000       0.000       3.623      -6587.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9392       0.000   7.651E-02       640.7
 
@@ -19043,7 +19043,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.375E+04       0.000       0.000       3.640      -5757.
+     1.067E+05  -3.375E+04       0.000       0.000       3.640  -1.010E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9586       0.000   7.651E-02       640.7
 
@@ -19156,7 +19156,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.427E+04       0.000       0.000       3.653      -8668.
+     1.067E+05  -3.427E+04       0.000       0.000       3.653  -1.368E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9732       0.000   7.651E-02       640.7
 
@@ -19269,7 +19269,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.464E+04       0.000       0.000       3.663  -1.193E+04
+     1.067E+05  -3.464E+04       0.000       0.000       3.663  -1.729E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9837       0.000   7.651E-02       640.7
 
@@ -19382,7 +19382,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.509E+04       0.000       0.000       3.675  -2.087E+04
+     1.067E+05  -3.509E+04       0.000       0.000       3.675  -2.629E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9966       0.000   7.651E-02       640.7
 
@@ -19495,7 +19495,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.520E+04       0.000       0.000       3.678  -2.975E+04
+     1.067E+05  -3.520E+04       0.000       0.000       3.678  -3.517E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.9997       0.000   7.651E-02       640.7
 
@@ -19608,7 +19608,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -3.856E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.398E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -19721,7 +19721,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -4.736E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.279E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -19834,7 +19834,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -5.617E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.159E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -19947,7 +19947,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -6.497E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.039E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -20060,7 +20060,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.377E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -7.919E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -1.0000       0.000   7.651E-02       640.7
 
@@ -20173,7 +20173,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.258E+04
+     1.067E+05  -3.521E+04       0.000       0.000       3.678  -8.800E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301      -1.000       0.000   7.651E-02       640.7
 
@@ -20240,8 +20240,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case   181
- Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.3152     instead of  0.1000     for solver SteadyGS.
+ Case   181
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
       Norm: final element division: C, E=   1276    660  ItCG=     7
@@ -20514,7 +20514,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -1.671E+04       0.000       0.000       3.360      -102.6
+     1.067E+05  -1.671E+04       0.000       0.000       3.360      -120.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.4746       0.000   7.651E-02       640.7
 
@@ -20627,7 +20627,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.246E+04       0.000       0.000       3.434      -157.2
+     1.067E+05  -2.246E+04       0.000       0.000       3.434      -252.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6380       0.000   7.651E-02       640.7
 
@@ -20740,7 +20740,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.641E+04       0.000       0.000       3.496      -202.7
+     1.067E+05  -2.641E+04       0.000       0.000       3.496      -402.7
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.7500       0.000   7.651E-02       640.7
 
@@ -20853,7 +20853,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.891E+04       0.000       0.000       3.539      -245.4
+     1.067E+05  -2.891E+04       0.000       0.000       3.539      -556.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8210       0.000   7.651E-02       640.7
 
@@ -20966,7 +20966,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.037E+04       0.000       0.000       3.565      -289.6
+     1.067E+05  -3.037E+04       0.000       0.000       3.565      -705.5
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8626       0.000   7.651E-02       640.7
 
@@ -21079,7 +21079,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.104E+04       0.000       0.000       3.576      -339.8
+     1.067E+05  -3.104E+04       0.000       0.000       3.576      -844.9
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8816       0.000   7.651E-02       640.7
 
@@ -21192,7 +21192,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.114E+04       0.000       0.000       3.578      -391.0
+     1.067E+05  -3.114E+04       0.000       0.000       3.578      -972.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8844       0.000   7.651E-02       640.7
 
@@ -21305,7 +21305,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.115E+04       0.000       0.000       3.578      -441.2
+     1.067E+05  -3.115E+04       0.000       0.000       3.578      -1097.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8846       0.000   7.651E-02       640.7
 
@@ -21418,7 +21418,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.115E+04       0.000       0.000       3.578      -491.5
+     1.067E+05  -3.115E+04       0.000       0.000       3.578      -1222.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8847       0.000   7.651E-02       640.7
 
@@ -21531,7 +21531,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.116E+04       0.000       0.000       3.578      -541.7
+     1.067E+05  -3.116E+04       0.000       0.000       3.578      -1346.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8848       0.000   7.651E-02       640.7
 
@@ -21644,7 +21644,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.116E+04       0.000       0.000       3.578      -592.0
+     1.067E+05  -3.116E+04       0.000       0.000       3.578      -1471.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8849       0.000   7.651E-02       640.7
 
@@ -21757,7 +21757,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.116E+04       0.000       0.000       3.578      -642.2
+     1.067E+05  -3.116E+04       0.000       0.000       3.578      -1596.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8849       0.000   7.651E-02       640.7
 
@@ -21870,7 +21870,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.116E+04       0.000       0.000       3.578      -692.5
+     1.067E+05  -3.116E+04       0.000       0.000       3.578      -1721.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8850       0.000   7.651E-02       640.7
 
@@ -21983,7 +21983,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.116E+04       0.000       0.000       3.578      -742.8
+     1.067E+05  -3.116E+04       0.000       0.000       3.578      -1845.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8850       0.000   7.651E-02       640.7
 
@@ -22096,7 +22096,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578      -994.2
+     1.067E+05  -3.117E+04       0.000       0.000       3.578      -2469.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8851       0.000   7.651E-02       640.7
 
@@ -22209,7 +22209,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578      -1246.
+     1.067E+05  -3.117E+04       0.000       0.000       3.578      -3092.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -22322,7 +22322,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578      -2503.
+     1.067E+05  -3.117E+04       0.000       0.000       3.578      -6210.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -22435,7 +22435,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578      -3760.
+     1.067E+05  -3.117E+04       0.000       0.000       3.578      -9327.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -22548,7 +22548,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578      -5018.
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -1.244E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -22661,7 +22661,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578      -6275.
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -1.556E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -22774,7 +22774,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578      -9418.
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -2.335E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -22887,7 +22887,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578  -1.256E+04
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -3.115E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -23000,7 +23000,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578  -1.571E+04
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -3.894E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -23113,7 +23113,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578  -1.885E+04
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -4.673E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -23226,7 +23226,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578  -2.199E+04
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -5.452E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -23339,7 +23339,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578  -2.514E+04
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -6.232E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -23452,7 +23452,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578  -2.828E+04
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -7.011E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -23565,7 +23565,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.117E+04       0.000       0.000       3.578  -3.142E+04
+     1.067E+05  -3.117E+04       0.000       0.000       3.578  -7.790E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8852       0.000   7.651E-02       640.7
 
@@ -23632,8 +23632,8 @@
      X  -->        Chi=  0.00 degrees
 
  Case   211
- Warning: Using DQ = DX =  0.3152     (instead of  0.1000    )
-                 for steady state rolling with solver SteadyGS.
+ Warning: Using DQ = DX =  0.3152     instead of  0.1000     for solver SteadyGS.
+ Case   211
  NORM
        1, Norm: size of Contact, Exterior :   1264    672
       Norm: final element division: C, E=   1276    660  ItCG=     7
@@ -23906,7 +23906,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -1.671E+04       0.000       0.000       3.360      -102.6
+     1.067E+05  -1.671E+04       0.000       0.000       3.360      -120.2
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.4746       0.000   7.651E-02       640.7
 
@@ -24019,7 +24019,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.246E+04       0.000       0.000       3.434      -157.1
+     1.067E+05  -2.246E+04       0.000       0.000       3.434      -252.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6379       0.000   7.651E-02       640.7
 
@@ -24132,7 +24132,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.639E+04       0.000       0.000       3.496      -200.9
+     1.067E+05  -2.639E+04       0.000       0.000       3.496      -402.5
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.7496       0.000   7.651E-02       640.7
 
@@ -24245,7 +24245,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.887E+04       0.000       0.000       3.538      -241.3
+     1.067E+05  -2.887E+04       0.000       0.000       3.538      -555.6
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8200       0.000   7.651E-02       640.7
 
@@ -24358,7 +24358,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.031E+04       0.000       0.000       3.563      -282.5
+     1.067E+05  -3.031E+04       0.000       0.000       3.563      -704.1
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8608       0.000   7.651E-02       640.7
 
@@ -24471,7 +24471,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.095E+04       0.000       0.000       3.574      -332.0
+     1.067E+05  -3.095E+04       0.000       0.000       3.574      -842.6
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8791       0.000   7.651E-02       640.7
 
@@ -24584,7 +24584,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.103E+04       0.000       0.000       3.576      -382.4
+     1.067E+05  -3.103E+04       0.000       0.000       3.576      -968.9
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8814       0.000   7.651E-02       640.7
 
@@ -24697,7 +24697,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.102E+04       0.000       0.000       3.575      -431.9
+     1.067E+05  -3.102E+04       0.000       0.000       3.575      -1093.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8811       0.000   7.651E-02       640.7
 
@@ -24810,7 +24810,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.101E+04       0.000       0.000       3.575      -478.1
+     1.067E+05  -3.101E+04       0.000       0.000       3.575      -1216.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8807       0.000   7.651E-02       640.7
 
@@ -24923,7 +24923,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.100E+04       0.000       0.000       3.575      -527.4
+     1.067E+05  -3.100E+04       0.000       0.000       3.575      -1340.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8803       0.000   7.651E-02       640.7
 
@@ -25036,7 +25036,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.098E+04       0.000       0.000       3.574      -576.6
+     1.067E+05  -3.098E+04       0.000       0.000       3.574      -1463.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8799       0.000   7.651E-02       640.7
 
@@ -25149,7 +25149,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.097E+04       0.000       0.000       3.574      -622.2
+     1.067E+05  -3.097E+04       0.000       0.000       3.574      -1586.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8795       0.000   7.651E-02       640.7
 
@@ -25262,7 +25262,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.095E+04       0.000       0.000       3.574      -671.2
+     1.067E+05  -3.095E+04       0.000       0.000       3.574      -1709.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8791       0.000   7.651E-02       640.7
 
@@ -25375,7 +25375,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.094E+04       0.000       0.000       3.573      -720.2
+     1.067E+05  -3.094E+04       0.000       0.000       3.573      -1832.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8787       0.000   7.651E-02       640.7
 
@@ -25488,7 +25488,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.086E+04       0.000       0.000       3.572      -943.7
+     1.067E+05  -3.086E+04       0.000       0.000       3.572      -2445.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8764       0.000   7.651E-02       640.7
 
@@ -25601,7 +25601,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.078E+04       0.000       0.000       3.570      -1171.
+     1.067E+05  -3.078E+04       0.000       0.000       3.570      -3054.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8740       0.000   7.651E-02       640.7
 
@@ -25714,7 +25714,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -3.034E+04       0.000       0.000       3.560      -2279.
+     1.067E+05  -3.034E+04       0.000       0.000       3.560      -6045.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8617       0.000   7.651E-02       640.7
 
@@ -25827,7 +25827,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.988E+04       0.000       0.000       3.551      -3279.
+     1.067E+05  -2.988E+04       0.000       0.000       3.551      -8942.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8487       0.000   7.651E-02       640.7
 
@@ -25940,7 +25940,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.941E+04       0.000       0.000       3.541      -4213.
+     1.067E+05  -2.941E+04       0.000       0.000       3.541  -1.174E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8351       0.000   7.651E-02       640.7
 
@@ -26053,7 +26053,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.890E+04       0.000       0.000       3.531      -5105.
+     1.067E+05  -2.890E+04       0.000       0.000       3.531  -1.443E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.8209       0.000   7.651E-02       640.7
 
@@ -26166,7 +26166,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.757E+04       0.000       0.000       3.506      -7071.
+     1.067E+05  -2.757E+04       0.000       0.000       3.506  -2.066E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.7829       0.000   7.651E-02       640.7
 
@@ -26279,7 +26279,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.612E+04       0.000       0.000       3.481      -8940.
+     1.067E+05  -2.612E+04       0.000       0.000       3.481  -2.610E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.7419       0.000   7.651E-02       640.7
 
@@ -26392,7 +26392,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.461E+04       0.000       0.000       3.457  -1.088E+04
+     1.067E+05  -2.461E+04       0.000       0.000       3.457  -3.074E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6988       0.000   7.651E-02       640.7
 
@@ -26505,7 +26505,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.302E+04       0.000       0.000       3.434  -1.279E+04
+     1.067E+05  -2.302E+04       0.000       0.000       3.434  -3.451E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6538       0.000   7.651E-02       640.7
 
@@ -26618,7 +26618,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.146E+04       0.000       0.000       3.414  -1.476E+04
+     1.067E+05  -2.146E+04       0.000       0.000       3.414  -3.754E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.6095       0.000   7.651E-02       640.7
 
@@ -26731,7 +26731,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -2.011E+04       0.000       0.000       3.398  -1.682E+04
+     1.067E+05  -2.011E+04       0.000       0.000       3.398  -4.021E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.5712       0.000   7.651E-02       640.7
 
@@ -26844,7 +26844,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -1.898E+04       0.000       0.000       3.385  -1.894E+04
+     1.067E+05  -1.898E+04       0.000       0.000       3.385  -4.270E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.5391       0.000   7.651E-02       640.7
 
@@ -26957,7 +26957,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     1.067E+05  -1.803E+04       0.000       0.000       3.374  -2.104E+04
+     1.067E+05  -1.803E+04       0.000       0.000       3.374  -4.506E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          1.301     -0.5121       0.000   7.651E-02       640.7
 
@@ -27030,15 +27030,15 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       19.8 | 100.0 |       28.6 | 100.0 |
-|Non-Hertzian cases   |      240 |       19.8 | 100.0 |       28.6 |  99.9 |
-|Panag.process        |      240 |       19.7 |  99.8 |       26.7 |  93.4 |
-|Algorithm Norm       |      240 |        0.0 |   0.0 |        0.6 |   2.2 |
-|Algorithm Tang       |      240 |       19.7 |  99.8 |       26.0 |  91.0 |
-|Output quantities    |      240 |        0.0 |   0.2 |        1.8 |   6.2 |
+|Total                |        1 |       27.5 | 100.0 |       28.8 | 100.0 |
+|Non-Hertzian cases   |      240 |       27.5 | 100.0 |       28.8 | 100.0 |
+|Panag.process        |      240 |       26.9 |  97.9 |       27.4 |  95.2 |
+|Algorithm Norm       |      240 |        0.6 |   2.2 |        0.6 |   2.2 |
+|Algorithm Tang       |      240 |       26.2 |  95.6 |       26.6 |  92.6 |
+|Output quantities    |      240 |        0.6 |   2.0 |        1.3 |   4.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      240 |        0.0 |   0.0 |        0.6 |   1.9 |
-|Tang: StedyGS solver |      240 |       19.7 |  99.7 |       25.8 |  90.2 |
+|Norm: ConjGrd solver |      240 |        0.6 |   2.0 |        0.6 |   2.0 |
+|Tang: StedyGS solver |      240 |       26.0 |  94.6 |       26.4 |  91.9 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |      240 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
