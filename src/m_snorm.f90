@@ -21,6 +21,7 @@ public  snorm_kpec_wrapper
 private snorm_kpec_method
 private kpec_equiv_ellipse
 private snorm_analyn_method
+private curvature_hx
 public  test_fft
 
 contains
@@ -641,7 +642,8 @@ contains
       do iy = 1, my
          ii       = 1 + (iy-1) * mx
          yi       = y(ii)
-         eps_kpec = max(0d0, (a1 * aa**2 - (a1 * aa**2 - b1 * bb**2) * ((yi - ymid) / bb)**2) / pentot)
+         eps_kpec = (a1 * aa**2 - (a1 * aa**2 - b1 * bb**2) * ((yi - ymid) / bb)**2) / pentot
+         eps_kpec = max(0d0, min(1d0, eps_kpec))
          hsthrs   = (1d0 - eps_kpec) * hsmin
          if (idebug.ge.3) then
             if (iy.eq.1) then
@@ -984,9 +986,10 @@ contains
          xlc_y  = x(ixmin,iy)
          g_y    = htot(ixmin,iy) + pentot
 
-         ! determine curvatures A(iy), B(iy)
+         ! determine curvatures a1(iy), b1(iy)
 
-         a1_y   = 0.5d0 * (htot(ixmin+1,iy) - 2d0*htot(ixmin,iy) + htot(ixmin-1,iy)) / dx**2
+         call curvature_hx (mx, my, dx, iy, ixmin, htot, a1_y, idebug)
+
          if (iy.le.1) then
             b1_y   = 0.5d0 * (htot(ixmin,iy+2) - 2d0*htot(ixmin,iy+1) + htot(ixmin,iy)) / dy**2
          elseif (iy.ge.my) then
@@ -1089,6 +1092,99 @@ contains
       enddo ! iy
 
    end subroutine snorm_analyn_method
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine curvature_hx (mx, my, dx, iy, ixmin, htot, a1_y, idebug)
+!--purpose: Estimate x-curvature of htot at (ixmin,iy)
+      implicit none
+!--subroutine parameters :
+      integer                   :: mx, my, iy, ixmin, idebug
+      real(kind=8), intent(in)  :: dx, htot(mx,my)
+      real(kind=8), intent(out) :: a1_y
+!--local variables :
+      logical, parameter :: use_centr_diff = .false.
+      integer, parameter :: max_kmax = 10
+      logical            :: lfound
+      integer            :: k, kmax
+      real(kind=8)       :: a00, a11, a22, ai00, ai02, ai20, ai22, b0, b1, b2, c0, c1, c2, det
+
+      ! determine span ixmin+[-kmax,kmax] with htot(ix) <= 0.3*htot(ixmin) < 0
+
+      kmax   = 1
+      lfound = .false.
+      do while(.not.lfound)
+         if (kmax.ge.max_kmax) then
+            lfound = .true.
+         elseif (ixmin-kmax.le.1 .or. ixmin+kmax.ge.mx) then
+            lfound = .true.
+         elseif (htot(ixmin,iy).ge.0d0) then
+            lfound = .true.
+         elseif (max(htot(ixmin-kmax-1,iy),htot(ixmin+kmax+1,iy)).gt.0.3d0*htot(ixmin,iy)) then
+            lfound = .true.
+         else
+            kmax = kmax + 1
+         endif
+      enddo
+
+      if (use_centr_diff) then
+
+         ! determine curvature a1(iy) using central difference over interval [-kmax,kmax]
+
+         ! affected by resolution of htot especially for kmax=1 when using bilinear interpolation
+         ! in wr_ud_planar.
+
+         a1_y   = 0.5d0 * (htot(ixmin+kmax,iy) - 2d0*htot(ixmin,iy) + htot(ixmin-kmax,iy)) / (kmax*dx)**2
+
+      else
+
+         ! determine curvature a1(iy) using least squares over interval [-kmax,kmax]
+
+         ! for larger kmax, the result is dominated by the values of htot at offset +/-kmax
+
+         a00  = 0d0
+         a11  = 0d0
+         a22  = 0d0
+         b0   = 0d0
+         b1   = 0d0
+         b2   = 0d0
+         do k = -kmax, kmax
+            a00 = a00 + 1d0
+            a11 = a11 + (1d0 * k)**2
+            a22 = a22 + (1d0 * k)**4
+            b0  = b0 + htot(ixmin+k,iy)
+            b1  = b1 + htot(ixmin+k,iy) * k
+            b2  = b2 + htot(ixmin+k,iy) * k**2
+         enddo
+
+         ! system matrix A^T * A = [ a00, 0, a11;  0, a11, 0;  a11, 0, a22 ]
+         ! right hand side A^T b = [ b0; b1; b2 ]
+
+         c1   =   b1 / a11
+         det  =  a00 * a22 - a11**2
+         ai00 =  a22 / det
+         ai02 = -a11 / det
+         ai20 = -a11 / det
+         ai22 =  a00 / det
+         c0   = ai00 * b0 + ai02 * b2
+         c2   = ai20 * b0 + ai22 * b2
+
+         ! write(bufout,'(4(a,f12.4),a)') ' 2x2 matrix A: [',a00,',',a11,'; ',a11,',',a22,']'
+         ! call write_log(1, bufout)
+         ! write(bufout,'(4(a,f12.4),a)') ' inverse:      [',ai00,',',ai02,'; ',ai20,',',ai22,']'
+         ! call write_log(1, bufout)
+
+         if (idebug.ge.5) then
+            a1_y   = 0.5d0 * (htot(ixmin+kmax,iy) - 2d0*htot(ixmin,iy) + htot(ixmin-kmax,iy)) / (kmax*dx)**2
+            write(bufout,'(2(a,i0),2(a,f12.6))') ' iy=',iy,': kmax=',kmax,', a1_y_centr =', a1_y,       &
+                ', a1_lsqr =',c2/dx**2
+            call write_log(1, bufout)
+         endif
+
+         a1_y = c2 / dx**2
+      endif
+
+   end subroutine curvature_hx
 
 !------------------------------------------------------------------------------------------------------------
 
