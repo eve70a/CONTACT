@@ -1,16 +1,17 @@
-function [ p_out ] = modify_profile(p_in, is_wheel, mirror_y, mirror_z, reverse_order, point_dist_min, ...
-                                    delete_foldback, scale_yz, make_plot, idebug)
+function [ p_out ] = modify_profile(p_in, is_wheel, mirror_y, mirror_z, scale_yz, y_tape, ...
+                                    reverse_order, point_dist_min, delete_foldback, make_plot, idebug)
 
-% function [ p_out ] = modify_profile(p_in, is_wheel, mirror_y, mirror_z, reverse_order, point_dist_min, ...
-%                                     delete_foldback, scale_yz, make_plot, idebug)
+% function [ p_out ] = modify_profile(p_in, is_wheel, mirror_y, mirror_z, scale_yz, y_tape, ...
+%                                     reverse_order, point_dist_min, delete_foldback, make_plot, idebug)
 %
 % apply a number of common filters to the input profile p_in
 %   - mirror_y         - change y(i)  --> -y(i)    <=0 means no, >=1 yes
 %   - mirror_z         - change z(i)  --> -z(i)    <=0 means no, >=1 yes
+%   - scale_yz         - scale y(i), z(i) --> scale*y(i), scale*z(i)
+%   - y_tape           - align wheel vertically with z_tape = 0 at y = y_tape
 %   - reverse_order    - change [1:n] --> [n:-1:1]
 %   - point_dist_min   - delete points that lie too close together
 %   - delete_foldback  - identify & remove points where y(i+1)<y(i) (rail) or y(i+1)>y(i) (wheel)
-%   - scale_yz         - scale y(i), z(i) --> scale*y(i), scale*z(i)
 
 % Copyright 2008-2023 by Vtech CMCC.
 %
@@ -25,22 +26,25 @@ end
 if (nargin<4 | isempty(mirror_z))
    mirror_z = 0;
 end
-if (nargin<5 | isempty(reverse_order))
-   reverse_order = 0;
-end
-if (nargin<6 | isempty(point_dist_min))
-   point_dist_min = -1;
-end
-if (nargin<7 | isempty(delete_foldback))
-   delete_foldback = 0;
-end
-if (nargin<8 | isempty(scale_yz))
+if (nargin<5 | isempty(scale_yz))
    scale_yz = 1;
 end
-if (nargin<9 | isempty(make_plot))
+if (nargin<6 | isempty(y_tape))
+   y_tape   = [];
+end
+if (nargin<7 | isempty(reverse_order))
+   reverse_order = 0;
+end
+if (nargin<8 | isempty(point_dist_min))
+   point_dist_min = -1;
+end
+if (nargin<9 | isempty(delete_foldback))
+   delete_foldback = 0;
+end
+if (nargin<10 | isempty(make_plot))
    make_plot = 0;
 end
-if (nargin<10 | isempty(idebug))
+if (nargin<11 | isempty(idebug))
    idebug = 1;
 end
 
@@ -81,7 +85,28 @@ if (mirror_z>0)
    p_out.ProfileAngle = -p_out.ProfileAngle;
 end
 
-% modification 3: reverse the order of the data points
+% modification 3: scale y,z-coordinates
+
+if (scale_yz~=1)
+   if (idebug>=1)
+      disp(sprintf('Scaling y,z-values with factor %3.1f to convert to mm...',scale_yz));
+   end
+   p_out.ProfileY     = scale_yz * p_out.ProfileY;
+   p_out.ProfileZ     = scale_yz * p_out.ProfileZ;
+   p_out.ProfileCurvature = p_out.ProfileCurvature / scale_yz;
+end
+
+% modification 4: align wheel z at tape circle line
+
+if (is_wheel & ~isempty(y_tape))
+   z_tape = interp1(p_out.ProfileY, p_out.ProfileZ, y_tape);
+   if (idebug>=1)
+      disp(sprintf('Shifting wheel z-values by dz = %4.2f to have z=0 at y_tape = %3.1f...',-z_tape, y_tape));
+   end
+   p_out.ProfileZ     = p_out.ProfileZ - z_tape;
+end
+
+% modification 5: reverse the order of the data points
 
 if (reverse_order)
    if (idebug>=1)
@@ -93,7 +118,7 @@ if (reverse_order)
    p_out.ProfileCurvature = flipud(p_out.ProfileCurvature);
 end
 
-% modification 4: remove points that lie too close together
+% modification 6: remove points that lie too close together
 
 if (point_dist_min>=1e-6)
    np   = length(p_out.ProfileY);
@@ -130,7 +155,7 @@ if (point_dist_min>=1e-6)
    p_out.ProfileCurvature = p_out.ProfileCurvature(ix1);
 end
 
-% modification 5: remove points where the profile folds back
+% modification 7: remove points where the profile folds back
 %                 (i.e. where the function y --> z(y) is multi-valued)
 
 if (~delete_foldback)
@@ -227,17 +252,6 @@ else
       p_out.ProfileAngle     = points2(:,3);
       p_out.ProfileCurvature = points2(:,4);
    end
-end
-
-% modification 6: scale y,z-coordinates
-
-if (scale_yz~=1)
-   if (idebug>=1)
-      disp(sprintf('Scaling y,z-values with factor %3.1f to convert to mm...',scale_yz));
-   end
-   p_out.ProfileY     = scale_yz * p_out.ProfileY;
-   p_out.ProfileZ     = scale_yz * p_out.ProfileZ;
-   p_out.ProfileCurvature = p_out.ProfileCurvature / scale_yz;
 end
 
 % combine the columns into array ProfileData

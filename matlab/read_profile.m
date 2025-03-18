@@ -1,7 +1,8 @@
-function [ p ] = read_profile(fname, is_wheel, mirror_y, mirror_z, scale_yz, rgt_side, idebug, make_plot)
+function [ p ] = read_profile(fname, is_wheel, mirror_y, mirror_z, scale_yz, y_tape, rgt_side, ...
+                                                                                        idebug, make_plot)
 
-% function [ p ] = read_profile(fname, [is_wheel], [mirror_y], [mirror_z], [scale_yz], [rgt_side], ...
-%                                                                          [idebug], [make_plot])
+% function [ p ] = read_profile(fname, [is_wheel], [mirror_y], [mirror_z], [y_tape], [scale_yz], ...
+%                                                                          [rgt_side], [idebug], [make_plot])
 %
 % Main routine for reading wheel/rail profiles. 
 % Switches between Slices, SIMPACK, MiniProf and Vampire files using the filename extension.
@@ -11,6 +12,7 @@ function [ p ] = read_profile(fname, is_wheel, mirror_y, mirror_z, scale_yz, rgt
 % mirror_y    - -1 or 0 for no, 1 for yes
 % mirror_z    - -1 for no, 0 for automatic, 1 for yes
 % scale_yz    - scale-factor to convert to mm, e.g. 1000. for data in meters
+% y_tape      - empty or tape circle position for wheel vertical alignment
 % rgt_side    - Vampire format: select right side (1, default) or left side (0)
 % make_plot   - <=0 for no, fig.number for yes
 
@@ -37,13 +39,16 @@ if (scale_yz<1e-11)
    disp('ERROR(read_profile): scale_yz must be > 0');
    return;
 end
-if (nargin<6 | isempty(rgt_side))
+if (nargin<6)
+   y_tape = [];
+end
+if (nargin<7 | isempty(rgt_side))
    rgt_side = 1;
 end
-if (nargin<7 | isempty(idebug))
+if (nargin<8 | isempty(idebug))
    idebug = 0;
 end
-if (nargin<8 | isempty(make_plot))
+if (nargin<9 | isempty(make_plot))
    make_plot = 0;
 end
 
@@ -143,8 +148,8 @@ if (~is_slices)
       point_dist_min = 1e-7; % m
    end
 
-   p = modify_profile(p, is_wheel, mirror_y, mirror_z, reverse_order, point_dist_min, ...
-                                             delete_foldback, scale_yz, make_plot, idebug);
+   p = modify_profile(p, is_wheel, mirror_y, mirror_z, scale_yz, y_tape, reverse_order, ...
+                                             point_dist_min, delete_foldback, make_plot, idebug);
 
    % check for big gaps in the data
 
