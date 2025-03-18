@@ -4969,8 +4969,8 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !   1 - XCP_TR    - x-position of the contact reference point in track coordinates
 !   2 - YCP_TR    - y-position of the contact reference point in track coordinates
 !   3 - ZCP_TR    - z-position of the contact reference point in track coordinates
-!   4 - DELTCP_TR - contact reference angle: rotation about track x-axis from the track positive z-axis to the
-!                   contact positive n-axis, with sign according the right-hand rule
+!   4 - DELTCP_TR - contact reference angle: rotation about track x-axis from the track positive z-axis to
+!                   the contact positive n-axis, with sign according the right-hand rule
 !
 !   5 - XCP_R     - x-position of the contact reference point in rail profile coordinates
 !   6 - YCP_R     - y-position of the contact reference point in rail profile coordinates
@@ -4987,6 +4987,9 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !  15 - XPN_TR    - x-position of the pressure center of gravity in track coordinates
 !  16 - YPN_TR    - y-position of the pressure center of gravity in track coordinates
 !
+!  18 - DY_DEFL   - lateral rail shift according to massless rail deflection
+!  19 - DZ_DEFL   - vertical rail shift according to massless rail deflection
+!
 !  21 - XW_TR     - x-position of wheel profile marker in track coordinates
 !  22 - YW_TR     - y-position of wheel profile marker in track coordinates
 !  23 - ZR_TR     - z-position of wheel profile marker in track coordinates
@@ -4997,8 +5000,16 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !  27 - ZR_TR     - z-position of rail profile marker in track coordinates
 !  28 - ROLLR_TR  - roll angle of rail profile marker in track coordinates
 !
-!  31 - DY_DEFL   - lateral rail shift according to massless rail deflection
-!  32 - DZ_DEFL   - vertical rail shift according to massless rail deflection
+!  30 - XCP_WS    - x-position of the contact reference point in wheelset coordinates
+!  31 - YCP_WS    - y-position of the contact reference point in wheelset coordinates
+!  32 - ZCP_WS    - z-position of the contact reference point in wheelset coordinates
+!  33 - DELTCP_WS - rotation about wheelset x-axis from wheelset positive z-axis to contact positive n-axis
+!
+!  34 - XW_WS     - x-position of wheel profile marker in wheelset coordinates
+!  35 - YW_WS     - y-position of wheel profile marker in wheelset coordinates
+!  36 - ZR_WS     - z-position of wheel profile marker in wheelset coordinates
+!  37 - ROLLW_WS  - roll angle of wheel profile marker in wheelset coordinates
+!  38 - YAWW_WS   - yaw angle of wheel profile marker in wheelset coordinates
 !
 !  The "contact reference point" is the origin of the contact local coordinate system. It is determined by
 !  a heuristic rule and is centered within the contact patch in a weighted sense.
@@ -5012,7 +5023,7 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !--local variables:
    integer                     :: ierror, ii
    real(kind=8)                :: sgn, sum_pn, sum_xpn, sum_ypn
-   type(t_marker)              :: m_pn
+   type(t_marker)              :: m_pn, mref_ws
    character(len=*), parameter :: subnam = 'cntc_getContactLocation'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_getContactLocation
@@ -5038,17 +5049,20 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       sgn = 1d0
       if (my_ic%is_left_side()) sgn = -1d0
 
+      !  1-- 4: contact reference marker in track frame
       if (lenarr.ge.1) rvalues(1)   =       meta%xcp_tr    / my_scl%len
       if (lenarr.ge.2) rvalues(2)   = sgn * meta%ycp_tr    / my_scl%len
       if (lenarr.ge.3) rvalues(3)   =       meta%zcp_tr    / my_scl%len
       if (lenarr.ge.4) rvalues(4)   = sgn * meta%deltcp_tr / my_scl%angle
 
+      !  5-- 9: contact reference marker in rail frame
       if (lenarr.ge.5) rvalues(5)   =       meta%xcp_r     / my_scl%len
       if (lenarr.ge.6) rvalues(6)   = sgn * meta%ycp_r     / my_scl%len
       if (lenarr.ge.7) rvalues(7)   =       meta%zcp_r     / my_scl%len
       if (lenarr.ge.8) rvalues(8)   =       meta%scp_r     / my_scl%len
       if (lenarr.ge.9) rvalues(9)   = sgn * meta%deltcp_r  / my_scl%angle
 
+      ! 10--14: contact reference marker in wheel frame
       if (lenarr.ge.10) rvalues(10) =       meta%xcp_w     / my_scl%len
       if (lenarr.ge.11) rvalues(11) = sgn * meta%ycp_w     / my_scl%len
       if (lenarr.ge.12) rvalues(12) =       meta%zcp_w     / my_scl%len
@@ -5076,26 +5090,41 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
          m_pn = marker_2glob( m_pn, cp%mref )
       endif
 
+      ! 15--16: pressure center of gravity
       if (lenarr.ge.15) rvalues(15) =       m_pn%x() / my_scl%len
       if (lenarr.ge.16) rvalues(16) = sgn * m_pn%y() / my_scl%len
-
       if (lenarr.ge.17) rvalues(17) = 0d0
-      if (lenarr.ge.18) rvalues(18) = 0d0
-      if (lenarr.ge.19) rvalues(19) = 0d0
+
+      ! 18--19: massless rail deflections
+      if (lenarr.ge.18) rvalues(18) =       wtd%trk%dy_defl / my_scl%len
+      if (lenarr.ge.19) rvalues(19) =       wtd%trk%dz_defl / my_scl%len
       if (lenarr.ge.20) rvalues(20) = 0d0
 
+      ! 21--25: wheel marker in track frame
       if (lenarr.ge.21) rvalues(21) =       meta%x_w        / my_scl%len
       if (lenarr.ge.22) rvalues(22) = sgn * meta%y_w        / my_scl%len
       if (lenarr.ge.23) rvalues(23) =       meta%z_w        / my_scl%len
       if (lenarr.ge.24) rvalues(24) = sgn * meta%roll_w     / my_scl%angle
       if (lenarr.ge.25) rvalues(25) = sgn * meta%yaw_w      / my_scl%angle
 
+      ! 26--28: rail marker in track frame
       if (lenarr.ge.26) rvalues(26) = sgn * meta%y_r        / my_scl%len
       if (lenarr.ge.27) rvalues(27) =       meta%z_r        / my_scl%len
       if (lenarr.ge.28) rvalues(28) = sgn * meta%roll_r     / my_scl%angle
 
-      if (lenarr.ge.31) rvalues(31) =       wtd%trk%dy_defl / my_scl%len
-      if (lenarr.ge.32) rvalues(32) =       wtd%trk%dz_defl / my_scl%len
+      ! 30--33: contact reference marker in wheelset frame
+      mref_ws  = marker_2loc( cp%mref, wtd%ws%m_trk )
+      if (lenarr.ge.30) rvalues(30) =       mref_ws%x()    / my_scl%len
+      if (lenarr.ge.31) rvalues(31) = sgn * mref_ws%y()    / my_scl%len
+      if (lenarr.ge.32) rvalues(32) =       mref_ws%z()    / my_scl%len
+      if (lenarr.ge.33) rvalues(33) = sgn * mref_ws%roll() / my_scl%angle
+
+      ! 34--38: wheel marker in wheelset frame
+      if (lenarr.ge.34) rvalues(34) =       my_wheel%m_ws%x()    / my_scl%len
+      if (lenarr.ge.35) rvalues(35) = sgn * my_wheel%m_ws%y()    / my_scl%len
+      if (lenarr.ge.36) rvalues(36) =       my_wheel%m_ws%z()    / my_scl%len
+      if (lenarr.ge.37) rvalues(37) = sgn * my_wheel%m_ws%roll() / my_scl%angle
+      if (lenarr.ge.38) rvalues(38) = sgn * my_wheel%m_ws%yaw()  / my_scl%angle
       end associate
    endif
 
