@@ -4598,7 +4598,11 @@ contains
       if (ic%is_roller()) then
          cref_x = cp%mref%x()
          rref   = nom_radius + mtrk%z() - cp%mref%z()
-         dzrol  = rref - sqrt(rref**2 - cref_x**2) 
+         if (nom_radius.gt.0d0) then
+            dzrol  = rref - sqrt(rref**2 - cref_x**2) 
+         else
+            dzrol  = rref + sqrt(rref**2 - cref_x**2) 
+         endif
          rsrf%z(1:ny) = rsrf%z(1:ny) + dzrol
 
          if (ic%x_locate.ge.2) then

@@ -790,8 +790,8 @@ contains
 
       ! copy tractions on curved sc reference to work variable, rotate to planar sp coordinates
 
-      if (idebug.ge.2) call grid_print(cp%curv_ref, 'curv-srfc', 5)
-      if (idebug.ge.4) call grid_print(curv_cp, 'curv-cp', 5)
+      if (idebug.ge.2) call grid_print(cp%curv_ref, 'curv_ref', 5)
+      if (idebug.ge.4) call grid_print(curv_cp, 'curv_cp', 5)
 
       nref = -cp%mref%kvec()
       if (idebug.ge.3) then
