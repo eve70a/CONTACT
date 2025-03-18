@@ -1962,8 +1962,8 @@ contains
       type(t_gridfnc3)   :: ps0, tmp
       character(len=1), parameter :: aset(0:3) = (/ 'E', 'H', 'S', 'P' /)
 
-      associate( cs    => infl%cs,      csv  => infl%csv,    igs   => outpt1%igs,                       &
-                 mus   => outpt1%mus,   ps   => outpt1%ps,   ss    => outpt1%ss,                        &
+      associate( cs     => infl%cs,       csv   => infl%csv,     igs   => outpt1%igs,                   &
+                 mus    => outpt1%mus,    ps    => outpt1%ps,    ss    => outpt1%ss,                    &
                  tau_c0 => mater%tau_c0,  upls  => outpt1%upls,  uplv  => outpt1%uplv,                  &
                  taucs  => outpt1%taucs,  taucv => outpt1%taucv, ubnd  => ledg%ubnd,                    &
                  ii2j   => ledg%ii2j%val)
@@ -2168,7 +2168,7 @@ contains
 
                dif_th = dif_th + (ps%vx(ii)-pr(1))**2 + (ps%vy(ii)-pr(2))**2
 
-               if (abs(ps%vx(ii)-pr(1)).gt.difmax_th .or.                                       &
+               if (abs(ps%vx(ii)-pr(1)).gt.difmax_th .or.                                               &
                    abs(ps%vy(ii)-pr(2)).gt.difmax_th) then
                   difmax_th = max(difmax_th, abs(ps%vx(ii)-pr(1)))
                   difmax_th = max(difmax_th, abs(ps%vy(ii)-pr(2)))
@@ -2330,7 +2330,7 @@ contains
       real(kind=8), intent(in)  :: omegah, omegas, eps
       real(kind=8), intent(out) :: err, conv
 !--local variables :
-      integer          :: iidbg, ii, ix, ixsta, ixinc, ixend, iy, iym, j, jj, jx, mx, my,                  &
+      integer          :: iidbg, ii, ix, ixsta, ixinc, ixend, iy, iym, j, jj, jx, mx, my,               &
                           elprv, npot, nadh, nslip, nplst, nexter, difmax_ii, idebug
       logical          :: use_plast
       real(kind=8)     :: coef(2,2), k_tau, pr(3), s(2), ptabs, ptbnd, dupl(2), tauc, tauv,             &

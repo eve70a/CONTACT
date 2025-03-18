@@ -454,6 +454,7 @@ contains
             cp%c_hz = fn_hz / max(1d-9,pen)**(1.5)
             new_c_hz(icp) = .true.
             cp%fs_rel = wtd%fric%fstat_min() * sin(cp%delttr)
+            if (wtd%ic%tang.eq.0) cp%fs_rel = 0d0
 
             if (x_force.ge.4) then
                write(bufout,'(2(a,g12.4),a,i0,2(a,g12.4))') ' e_star=',e_star,', eps=',epshz,           &
