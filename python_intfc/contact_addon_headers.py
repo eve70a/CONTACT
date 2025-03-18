@@ -414,12 +414,12 @@ def contact_addon_headers( cntc_dll ):
     cntc_dll.cntc_getdisplacements.argtypes       = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
                                                       POINTER(c_double), POINTER(c_double), POINTER(c_double) ]
     
-    # void cntc_getparameters                       ( int *ire,          int *icp,          int *lenarr,
-    #                                                 double *values );
+    # void cntc_getparameters                       ( int *ire,          int *icp,          int *itask,
+    #                                                 int *lenarr,       double *values );
     
     cntc_dll.cntc_getparameters.restype           = None
     cntc_dll.cntc_getparameters.argtypes          = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
-                                                      POINTER(c_double) ]
+                                                      POINTER(c_int),    POINTER(c_double) ]
 
     # void cntc_getsensitivities                    ( int *ire,          int *icp,          int *lenout,
     #                                                 int *lenin,        double *sens );

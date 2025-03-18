@@ -50,7 +50,8 @@ function [ sol ] = cntc_getcpresults(ire, icp)
 
    % get material / kinematic parameters needed
 
-   values = cntc_getparameters(ire, icp);
+   itask  = 1;
+   values = cntc_getparameters(ire, icp, itask);
    sol.kincns.veloc  = values.veloc;
    sol.kincns.chi    = values.chi;
    sol.kincns.dq     = values.dq;

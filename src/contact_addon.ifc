@@ -686,12 +686,13 @@ end subroutine cntc_getFlags
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_getParameters(ire, icp, lenarr, values) &
+subroutine cntc_getParameters(ire, icp, itask, lenarr, values) &
    bind(c,name=CNAME_(cntc_getparameters))
 !--function: internal routine for getting parameters needed in getcpresults
 !--subroutine arguments:
    integer,      intent(in)  :: ire            ! result element ID
    integer,      intent(in)  :: icp            ! contact problem ID
+   integer,      intent(in)  :: itask          ! task: selected group of parameters
    integer,      intent(in)  :: lenarr         ! length of values array
    real(kind=8), intent(out) :: values(lenarr) ! values of the parameters obtained from CONTACT
 end subroutine cntc_getParameters

@@ -84,7 +84,7 @@ void subs_calculate(int *ire, int *icp, int *ierror);
 
 void cntc_getflags(int *ire, int *icp, int *nparam, int *iparam, int *values);
 
-void cntc_getparameters(int *ire, int *icp, int *lenarr, double *values);
+void cntc_getparameters(int *ire, int *icp, int *itask, int *lenarr, double *values);
 
 void cntc_getprofilevalues(int *ire, int *itask, int *nints, int *iparam, int *lenarr, double *values);
 

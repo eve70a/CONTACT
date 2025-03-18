@@ -4295,19 +4295,22 @@ end subroutine cntc_getFlags
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_getParameters(ire, icp, lenarr, values) &
+subroutine cntc_getParameters(ire, icp, itask, lenarr, values) &
    bind(c,name=CNAME_(cntc_getparameters))
-!--function: internal routine for getting parameters needed in getcpresults
+!--function: internal routine for retrieving various parameters from a contact problem
+!            itask: selected group of parameters (1: cntc_getcpresults, 2: material, 3: friction)
 !--category: 6, "m=any, cp":        available for modules 1 and 3, in module 1 working on cp data
    implicit none
 !--subroutine arguments:
    integer,      intent(in)  :: ire            ! result element ID
    integer,      intent(in)  :: icp            ! contact problem ID
+   integer,      intent(in)  :: itask          ! task: selected group of parameters
    integer,      intent(in)  :: lenarr         ! length of values array
    real(kind=8), intent(out) :: values(lenarr) ! values of the parameters obtained from CONTACT
 !--local variables:
    character(len=*), parameter :: subnam = 'cntc_getParameters'
-   integer  :: ierror
+   integer  :: imodul, ivf, iof, ierror
+   type(t_friclaw), pointer :: fric
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_getParameters
 #endif
@@ -4317,12 +4320,73 @@ subroutine cntc_getParameters(ire, icp, lenarr, values) &
 
    if (ierror.lt.0) return
 
+   if (itask.eq.1) then
+
+      ! 1: parameters used by plot3d
+
    if (lenarr.ge.1) values(1) = gd%kin%veloc    / my_scl%veloc
    if (lenarr.ge.2) values(2) = gd%kin%chi      / my_scl%angle
    if (lenarr.ge.3) values(3) = gd%kin%dq       / my_scl%len
    if (lenarr.ge.4) values(4) = gd%kin%spinxo   / my_scl%len
    if (lenarr.ge.5) values(5) = gd%kin%spinyo   / my_scl%len
    if (lenarr.ge.6) values(6) = gd%mater%tau_c0 * my_scl%area
+
+   elseif (itask.eq.2) then
+
+      ! 2: material parameters
+
+      if (lenarr.ge. 1) values( 1) = gd%mater%gg(1) * my_scl%area
+      if (lenarr.ge. 2) values( 2) = gd%mater%gg(2) * my_scl%area
+      if (lenarr.ge. 3) values( 3) = gd%mater%ga    * my_scl%area
+      if (lenarr.ge. 4) values( 4) = gd%mater%poiss(1)
+      if (lenarr.ge. 5) values( 5) = gd%mater%poiss(2)
+      if (lenarr.ge. 6) values( 6) = gd%mater%nu
+      if (lenarr.ge. 7) values( 7) = gd%mater%ak
+      if (lenarr.ge. 8) values( 8) = gd%mater%flx(1) / my_scl%len**3
+      if (lenarr.ge. 9) values( 9) = gd%mater%flx(2) / my_scl%len**3
+      if (lenarr.ge.10) values(10) = gd%mater%flx(3) / my_scl%len**3
+      if (lenarr.ge.11) values(11) = gd%mater%k0_mf
+      if (lenarr.ge.12) values(12) = gd%mater%alfamf
+      if (lenarr.ge.13) values(13) = gd%mater%betamf
+      if (lenarr.ge.14) values(14) = gd%mater%k_eff
+      if (lenarr.ge.15) values(15) = gd%mater%gg3    * my_scl%area
+      if (lenarr.ge.16) values(16) = gd%mater%laythk / my_scl%len
+      if (lenarr.ge.17) values(17) = gd%mater%tau_c0 * my_scl%area
+      if (lenarr.ge.18) values(18) = gd%mater%k_tau  * my_scl%area * my_scl%len
+      if (lenarr.ge.19) values(19) = gd%mater%cdampn
+      if (lenarr.ge.20) values(20) = gd%mater%cdampt
+      if (lenarr.ge.21) values(21) = gd%mater%dfnmax
+      if (lenarr.ge.22) values(22) = gd%mater%dftmax
+        ! visco-elastic: fg, tc, vt, akv, gav, nuv
+        ! temperature: bktemp, heatcp, lambda, dens, betapl
+        ! elastic layer: flx_z
+        ! numerical infl.coef: if_meth, if_ver
+
+   elseif (itask.eq.3) then
+
+      ! 3: friction parameters
+
+      imodul = ire_module(ix_reid(ire))
+      if (imodul.eq.1) then
+         fric => wtd%fric
+      else
+         fric => gd%fric
+      endif
+
+      if (lenarr.ge.1) values(1) = fric%frclaw_eff
+      if (lenarr.ge.2) values(2) = max(1, fric%nvf)
+      if (lenarr.ge.3) values(3) = fric%memdst
+      if (lenarr.ge.4) values(4) = fric%mem_s0
+      do ivf = 1, max(1, fric%nvf)
+         iof = 4 + 3*(ivf-1)
+         if (lenarr.ge.iof+1) values(iof+1) = fric%paramvf  (ivf)
+         if (lenarr.ge.iof+2) values(iof+2) = fric%fstat_arr(ivf)
+         if (lenarr.ge.iof+3) values(iof+3) = fric%fkin_arr (ivf)
+         ! slip-velocity dependent friction: flin1/2, frat1/2, fexp1/2, sabsh1/2
+         ! temperature dependent friction: fref, tref, dfheat, dheat?
+      enddo
+
+   endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getParameters
