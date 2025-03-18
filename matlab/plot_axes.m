@@ -1,14 +1,13 @@
 
-function [ h ] = plot_axes(O, scl, theta, zpos, axnams, col, mrksiz, ...
-                           siz_o, fontsiz, txtcol, th_txt, fac_txt, ...
+function [ h ] = plot_axes(O, scl, theta, zpos, axnams, col, mrksiz, siz_o, ...
+                           fontsiz, txtcol, th_txt, fac_txt, ...
                            no_orie, no_head, left_hnd)
 
-% function [ h ] = plot_axes(O, scl, theta, zpos, axnams, col, mrksiz, ...
-%                            siz_o, fontsiz, txtcol, th_txt, fac_txt, ...
+% function [ h ] = plot_axes(O, scl, theta, zpos, axnams, col, mrksiz, siz_o, ...
+%                            fontsiz, txtcol, th_txt, fac_txt, ...
 %                            no_orie, no_head, left_hnd)
 %
-% plot coordinate axes Oxyz when looked upon from either +inf or -inf
-% at one coordinate axis.
+% plot coordinate axes Oxyz when looked upon from either +inf or -inf at one coordinate axis (2D version).
 %
 % O        = position of origin on the current axes
 % scl      = length of vectors on the current axes
@@ -42,6 +41,9 @@ if (nargin<1 | isempty(O))
 end
 if (size(O,2)>size(O,1))
    O = O';
+end
+if (size(O,1)>2)
+   O = O(1:2);
 end
 if (nargin<2 | isempty(scl))
    scl = 1;
@@ -206,11 +208,9 @@ if (no_orie<=0)
    h( 9) = plot(Orot(1)+ivec(1)*f, Orot(2)+ivec(2)*f, 'color',col);
    h(10) = plot(Orot(1)+jvec(1)*f, Orot(2)+jvec(2)*f, 'color',col);
    if (fac_ang*fac_y>0)
-      h(11:12) = circ_arrow(Orot, 0.15*scl, theta-120, theta+150, col, ...
-                                  0.7*scl_head, 0.8);
+      h(11:12) = circ_arrow(Orot, 0.15*scl, theta-120, theta+150, col, 0.7*scl_head, 0.8);
    else
-      h(11:12) = circ_arrow(Orot, 0.15*scl, theta+120, theta-150, col, ...
-                                  0.7*scl_head, 0.8);
+      h(11:12) = circ_arrow(Orot, 0.15*scl, theta+120, theta-150, col, 0.7*scl_head, 0.8);
    end
 end
 

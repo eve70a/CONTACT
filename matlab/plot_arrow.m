@@ -72,7 +72,7 @@ tng  = vec;
 if (is_3d)
    nrm  = cross(tng, pln);
 else
-   asp  = get(gca,'dataaspectratio') ./ get(gca,'plotboxaspectratio');
+   asp  = get(gca,'dataaspectratio');
    nrm  = [-tng(2)*asp(1)/asp(2); tng(1)*asp(2)/asp(1)];
 end
 

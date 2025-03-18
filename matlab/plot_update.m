@@ -14,6 +14,8 @@ function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, nor
 % show_angl == add markers at specified surface inclinations [ show_angl ] (deg)
 % add_plot  == clear current figure (0) or add plot to figure (1)
 % force_spline == assume different s parameterization even if #points is equal
+%
+% l, n      == handles to graphics objects
 
 % Copyright 2008-2023 by Vtech CMCC.
 %
@@ -125,7 +127,7 @@ dst_t = ty .* dst_y + tz .* dst_z;
 if (norm_dist>0)
    [dst_max, ixm] = max(abs(dst_n));
 elseif (norm_dist==0)
-   [dst_max, ixm] = max(dst_y.^2 + dst_z.^2);
+   [dst_max, ixm] = max(sqrt(dst_y.^2 + dst_z.^2));
 else
    [dst_max, ixm] = max(abs(dst_t));
 end
