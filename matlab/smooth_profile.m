@@ -16,8 +16,10 @@ function [ p_out, spl ] = smooth_profile( p_in, l_filt, lambda, ds_sampl, ikinks
 % enable detection of accelerations (-1, default), disable ([]) or set manually [accel1, accel2, ...]
 % use uniform weighting (use_wgt<=0), by segment length (1, default), increase wgt for curvature (2)
 % using PP-spline (use_bspline=0) or B-spline (use_bspline=1, default) with target step ds_bspl.
+%
+% preferred approach: set l_filt, lambda=[], ikinks=-1, use_wgt=1, use_bspline=1, ds_bspl=[]
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2025 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -42,8 +44,8 @@ end
 if (nargin<8 | isempty(use_bspline))
    use_bspline = 1;
 end
-if (nargin<9 | isempty(ds_bspl))
-   ds_bspl = 2;
+if (nargin<9)
+   ds_bspl = [];
 end
 if (nargin<10 | isempty(idebug))
    idebug = 0;
@@ -71,10 +73,19 @@ elseif (~isempty(l_filt) & ~isempty(lambda))
    return;
 elseif (~isempty(l_filt))
    if (use_deriv==3)
-      lambda = l_filt^6 / (64*pi^6);
+      lambda = (l_filt / (2*pi))^6;
    else
-      lambda = l_filt^4 / (16*pi^4);
+      lambda = (l_filt / (2*pi))^4;
    end
+else
+   if (use_deriv==3)
+      l_filt = 2*pi * lambda^(1/6);
+   else
+      l_filt = 2*pi * lambda^(1/4);
+   end
+end
+if (isempty(ds_bspl))
+   ds_bspl = max(0.001, l_filt/4);
 end
 
 % obtain y, z and s (optional) from input profile
