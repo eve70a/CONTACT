@@ -33,8 +33,17 @@ contains
 
       call timer_start(itimer_temper)
 
-      if (ic%tang.eq.3) then
+      if (ic%tang.eq.0) then
+
+         ! T=0: Set the rail and wheel temperatures at the background / initial values
+
+         call gf3_set(AllElm, mater%bktemp(1), outpt%temp1, ikZDIR)
+         call gf3_set(AllElm, mater%bktemp(2), outpt%temp2, ikZDIR)
+
+      elseif (ic%tang.eq.3) then
+
          call calc_temp_steady(ic, mater, kin, cgrid, outpt)
+
       else
          call write_log('INTERNAL ERROR: Temperature calculation while T<>3.')
          call abort_run()
