@@ -9,9 +9,9 @@
 #    0: no temperature calculation,     params = []
 #    1: keep old parameters,            params = []
 #    3: calculate temperature based on new parameters and steady rolling,
-#       params = [bktemp1, heatcp1, lambda1, dens1, bktemp2, heatcp2, lambda2, dens2]
+#       params = [bktemp1, heatcp1, lambda1, dens1, bktemp2, heatcp2, lambda2, dens2, betapl]
 #
-# dimensions:  bktemp: [C],  heatcp: [J/kg-C],  lambda: [W/length-C],  dens: [kg/length^3]
+# dimensions:  bktemp: [C],  heatcp: [J/kg-C],  lambda: [W/length-C],  dens: [kg/length^3],  betapl: [-]
 #------------------------------------------------------------------------------------------------------------
 
 # Copyright 2008-2023 by Vtech CMCC.

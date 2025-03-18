@@ -36,7 +36,7 @@ if (not importlib.util.find_spec('python_intfc')):
 
 import python_intfc as cntc
 
-# $Revision: 2593 $, $Date: 2024-08-14 15:18:54 +0200 (Wed, 14 Aug 2024) $
+# $Revision: 2666 $, $Date: 2025-03-18 13:55:55 +0100 (Tue, 18 Mar 2025) $
 
 #------------------------------------------------------------------------------------------------------------
 # Part 1: Initialize the CONTACT library, register two problems 
@@ -98,7 +98,7 @@ for iwhe in [1, 2]:
 
    # friction data
 
-   if (iwhe <= 2):     # left wheel
+   if (iwhe <= 2):    # 1: left wheel, 2: right wheel
 
       imeth = 0;      # L-digit 0: Coulomb friction
       fstat = 0.30;   # [-]

@@ -1541,9 +1541,9 @@ subroutine cntc_setTemperatureData(ire, icp, imeth, nparam, params) &
 !    0: no temperature calculation,     params = []
 !    1: keep old parameters,            params = []
 !    3: calculate temperature based on new parameters and steady rolling,
-!       params = [bktemp1, heatcp1, lambda1, dens1, bktemp2, heatcp2, lambda2, dens2]
+!       params = [bktemp1, heatcp1, lambda1, dens1, bktemp2, heatcp2, lambda2, dens2, betapl]
 !
-! dimensions:  bktemp: [C],  heatcp: [J/kg-C],  lambda: [W/length-C],  dens: [kg/length^3]
+! dimensions:  bktemp: [C],  heatcp: [J/kg-C],  lambda: [W/length-C],  dens: [kg/length^3],  betapl: [-]
 !--category: 5, "m=any, wtd":       available for modules 1 and 3, in module 1 working on wtd data
    implicit none
 !--subroutine arguments:
@@ -1553,7 +1553,7 @@ subroutine cntc_setTemperatureData(ire, icp, imeth, nparam, params) &
    integer,      intent(in) :: nparam         ! number of parameters provided
    real(kind=8), intent(in) :: params(nparam) ! depending on method that is used
 !--local variables:
-   integer, parameter  :: nparam_loc(0:3) = (/ 0, 0, 0, 8 /)
+   integer, parameter  :: nparam_loc(0:3) = (/ 0, 0, 0, 9 /)
    integer      :: ierror
    character(len=*), parameter :: subnam = 'cntc_setTemperatureData'
 #ifdef _WIN32
@@ -1592,15 +1592,17 @@ subroutine cntc_setTemperatureData(ire, icp, imeth, nparam, params) &
       my_mater%heatcp(1:2) = (/ params(2), params(6) /)
       my_mater%lambda(1:2) = (/ params(3), params(7) /) / my_scl%len
       my_mater%dens(1:2)   = (/ params(4), params(8) /) / my_scl%len**3
+      my_mater%betapl      =    params(9)
 
       if (idebug.ge.2) then
-         write(bufout,'(2a,i1,2(a,f6.1),a,/, 2(a,39x, 3(a,g10.3),:,a,/))')                              &
+         write(bufout,'(2a,i1,2(a,f6.1),a,/, 3(a,39x, 3(a,g10.3),:,a,/))')                              &
             trim(pfx_str(subnam,ire,icp)), ' H=', my_ic%heat, ', BkTemp(1)=', my_mater%bktemp(1),       &
                 ', BkTemp(2)=', my_mater%bktemp(2), ',',                                                &
             pfx, 'HeatCp(1)=', my_mater%heatcp(1), ', Lambda(1)=', my_mater%lambda(1), ', Dens(1)=',    &
                 my_mater%dens(1), ',',                                                                  &
             pfx, 'HeatCp(2)=', my_mater%heatcp(2), ', Lambda(2)=', my_mater%lambda(2), ', Dens(2)=',    &
-                my_mater%dens(2)
+                my_mater%dens(2), ',',                                                                  &
+            pfx, 'Betapl=', my_mater%betapl
          call write_log(3, bufout)
       endif
    endif
