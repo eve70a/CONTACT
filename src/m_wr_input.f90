@@ -1026,7 +1026,6 @@ contains
 
       if (ic%heat.eq.3 .and. ic%mater.eq.4) then
          write(linp,5712) mater%betapl
-         write(linp,5712) mater%betapl
  5712    format (1g12.4, 46x, 'BETAPL')
       endif
 
