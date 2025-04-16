@@ -424,7 +424,7 @@ contains
       real(kind=8), parameter :: eps_fz = 1d-3
       logical        :: is_complete, new_c_hz(MAX_NUM_CPS)
       integer        :: icp, it_nr, ic_norm, ipotcn
-      real(kind=8)   :: z_shift, z_shift0, dzshift, zshift_prv, dz_defl, pen, res,                      &
+      real(kind=8)   :: z_shift, z_shift0, dzshift, zshift_prv, dz_defl, pen, res, sgn,                 &
                         alph, c_hz, fs_rel, fz_est, e_star, epshz, fn_hz, aa, bb, c_p, rho
 
       if (wtd%numcps+wtd%n_miss.le.0) then
@@ -432,6 +432,12 @@ contains
          dftot_dz   = 0d0
          use_pow    = .false.
          return
+      endif
+
+      if (wtd%ic%is_left_side()) then
+         sgn = -1d0
+      else
+         sgn =  1d0
       endif
 
       ! Determine sensible C_hz and fs_rel for new contact patches & near miss patches
@@ -484,9 +490,9 @@ contains
             associate(cp => wtd%allcps(icp)%cp)
             if (icp.gt.wtd%numcps) then
                write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' mis',icp-wtd%numcps,': alph_i=',      &
-                        cp%delttr,', C_i=',cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft1=',z_shift+cp%gap_min
+                    sgn*cp%delttr,', C_i=',cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft1=',z_shift+cp%gap_min
             else
-               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' icp',icp,': alph_i=',cp%delttr,       &
+               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' icp',icp,': alph_i=',sgn*cp%delttr,   &
                         ', C_i=', cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft0=',z_shift+cp%gap_min
             endif
             call write_log(1, bufout)
@@ -1352,9 +1358,9 @@ contains
             associate(cp => wtd%allcps(icp)%cp)
             if (icp.gt.wtd%numcps) then
                write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' mis',icp-wtd%numcps,': alph_i=',      &
-                        cp%delttr,', C_i=',cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft1=',z_shift+cp%gap_min
+                    sgn*cp%delttr,', C_i=',cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft1=',z_shift+cp%gap_min
             else
-               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' icp',icp,': alph_i=',cp%delttr,       &
+               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' icp',icp,': alph_i=',sgn*cp%delttr,   &
                         ', C_i=', cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft0=',z_shift+cp%gap_min
             endif
             call write_log(1, bufout)
@@ -1389,6 +1395,8 @@ contains
 
          do icp = 1, wtd%numcps + wtd%n_miss
 
+            ! c_hz, fs_rel, alph, pen: local results for mirrored configuration, yz_shift: non-mirrored
+
             c_hz     = wtd%allcps(icp)%cp%c_hz
             fs_rel   = wtd%allcps(icp)%cp%fs_rel
             alph     = wtd%allcps(icp)%cp%delttr
@@ -1409,16 +1417,16 @@ contains
             if (pen.gt.1d-6) ncontrb = ncontrb + 1
             pen      = max(1d-6, pen)
 
-            ! forces and Jacobian in local coordinates
+            ! forces and Jacobian in local coordinates, mirrored configuration
 
             fn_est   = c_hz * pen**1.5d0
             fs_est   = fs_rel * fn_est
 
-!           write(bufout,'(a,i3,4(a,f14.6))') ' icp=',icp,': alph=',alph,', pen=',pen,' fn=',fn_est, &
+!           write(bufout,'(a,i3,4(a,f14.6))') ' icp=',icp,': alph=',sgn*alph,', pen=',pen,' fn=',fn_est, &
 !                    ', fs=',fs_est
 !           call write_log(1, bufout)
 
-            jac_loc(1,1) = 0d0
+            jac_loc(1,1) = 0d0  ! jac_loc within mirrored configuration
             jac_loc(2,1) = 0d0
             jac_loc(1,2) = 1.5d0 * c_hz * sqrt(max(0d0, pen)) * fs_rel
             jac_loc(2,2) = 1.5d0 * c_hz * sqrt(max(0d0, pen))
@@ -1426,29 +1434,29 @@ contains
             ! R = [ ca  -sa ],   R^T = [  ca  sa ]
             !     [ sa   ca ]          [ -sa  ca ]
 
-            rot(1,1)     =  cos(alph)
-            rot(2,1)     =  sin(alph)
-            rot(1,2)     = -sin(alph)
-            rot(2,2)     =  cos(alph)
+            rot(1,1)    =      cos(alph)   ! rot within global, non-mirrored configuration
+            rot(2,1)    =  sgn*sin(alph)
+            rot(1,2)    = -sgn*sin(alph)
+            rot(2,2)    =      cos(alph)
 
-            fy_est      = rot(1,1) * fs_est + rot(1,2) * fn_est
-            fz_est      = rot(2,1) * fs_est + rot(2,2) * fn_est
+            fy_est      = rot(1,1) * sgn*fs_est + rot(1,2) * fn_est  ! f_glb: non-mirrored configuration
+            fz_est      = rot(2,1) * sgn*fs_est + rot(2,2) * fn_est
 
-            ! Jac * R^T = [ 0  J12 ] * [  ca  sa ]
+            ! Jac * R^T = [ 0  J12 ] * [  ca  sa ],  global, non-mirrored configuration
             !             [ 0  J22 ] * [ -sa  ca ]
 
-            jac_rt(1,1)  = jac_loc(1,2) * -sin(alph)
-            jac_rt(2,1)  = jac_loc(2,2) * -sin(alph)
-            jac_rt(1,2)  = jac_loc(1,2) *  cos(alph)
-            jac_rt(2,2)  = jac_loc(2,2) *  cos(alph)
+            jac_rt(1,1) = sgn*jac_loc(1,2) * rot(1,2)
+            jac_rt(2,1) =     jac_loc(2,2) * rot(1,2)
+            jac_rt(1,2) = sgn*jac_loc(1,2) * rot(2,2)
+            jac_rt(2,2) =     jac_loc(2,2) * rot(2,2)
 
-            ! R * (Jac * R^T) = [ R11  R12 ] * [ JR11  JR12 ]
+            ! R * (Jac * R^T) = [ R11  R12 ] * [ JR11  JR12 ],  global, non-mirrored configuration
             !                   [ R21  R22 ] * [ JR21  JR22 ]
 
-            rjrt(1,1)   =        rot(1,1) * jac_rt(1,1) + rot(1,2) * jac_rt(2,1)
-            rjrt(2,1)   = sgn * (rot(2,1) * jac_rt(1,1) + rot(2,2) * jac_rt(2,1))
-            rjrt(1,2)   = sgn * (rot(1,1) * jac_rt(1,2) + rot(1,2) * jac_rt(2,2))
-            rjrt(2,2)   =        rot(2,1) * jac_rt(1,2) + rot(2,2) * jac_rt(2,2)
+            rjrt(1,1)   = rot(1,1) * jac_rt(1,1) + rot(1,2) * jac_rt(2,1)
+            rjrt(2,1)   = rot(2,1) * jac_rt(1,1) + rot(2,2) * jac_rt(2,1)
+            rjrt(1,2)   = rot(1,1) * jac_rt(1,2) + rot(1,2) * jac_rt(2,2)
+            rjrt(2,2)   = rot(2,1) * jac_rt(1,2) + rot(2,2) * jac_rt(2,2)
 
             ! add to total forces and total Jacobian
 
@@ -1469,10 +1477,6 @@ contains
             endif
 
          enddo ! icp
-
-         ! undo mirroring of y-force based on right-side configuration
-
-         f_glb(1)     = sgn * f_glb(1)
 
          ! add spring force (dy_defl = -yshift_new) using overall track orientation
 
@@ -1510,6 +1514,8 @@ contains
          j_inv(2,2) =  jac_glb(1,1) / det
 
          if (x_force.ge.5) then
+            write(bufout,'(a,i3,a,g12.4)') '   k=',iter,': det=',det
+            call write_log(1, bufout)
             write(bufout,'(a,i3,a,25x,5(a,f12.1),a,/,42x,5(a,f12.1),a)') '   k=',iter,':',              &
                'F_tot = [', f_glb(1),'], J_tot = [', jac_glb(1,1), ',', jac_glb(1,2),                   &
                                      '], J_inv = [', j_inv(1,1)*1d9, ',', j_inv(1,2)*1d9,'] * 1d-9',    &
@@ -1554,10 +1560,10 @@ contains
 
       use_pow2 = (ldone .and. k.le.10)        !   (.not.was_complete .or. .not.is_complete))
 
-      ! reject large steps in 1st iteration
+      ! for one-patch cases, reject large steps in the initial iterations
 
-      if (k.le.1 .and. ncontrb.le. 1 .and. (abs(zshift_new-z_shift).gt.1d0 .or.                         &
-                                            abs(yshift_new-y_shift).gt.5d0)) use_pow2 = .false.
+      if (ncontrb.le.1 .and. k.le.3 .and. (abs(zshift_new-z_shift).gt.1d0 .or.                          &
+                                           abs(yshift_new-y_shift).gt.5d0)) use_pow2 = .false.
 
       ! for one-patch cases, switch to Brent as soon as a bracket is found
 
