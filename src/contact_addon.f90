@@ -1825,7 +1825,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
 
          if (use_nvf) then
             if (vdigit.eq.1) then
-            my_fric%paramvf(ivf) = params(iofs+1) * my_scl%angle
+               my_fric%paramvf(ivf) = params(iofs+1) * my_scl%angle
             else 
                my_fric%paramvf(ivf) = params(iofs+1) * my_scl%len
             endif
@@ -2978,9 +2978,9 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
    bind(c,name=CNAME_(cntc_setwheelsetdimensions))
 !--function: set the wheelset description for a wheel-rail contact problem
 !    E=0-2, 4: no new geometry         params = []
-!    E=3, 5:   new wheelset geometry   params = [fbdist, fbpos, nomrad]
+!    E=3, 5:   new wheelset geometry   params = [fbdist, fbpos, nomrad, {ytape}]
 !
-!  dimensions:  fbdist, fbpos, nomrad [length]
+!  dimensions:  fbdist, fbpos, nomrad, ytape [length]
 !--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
    implicit none
 !--subroutine arguments:
@@ -3007,11 +3007,20 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
       return
    endif
 
-   if (nparam.ne.nparam_loc(ewheel)) then
-      write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,-1)), ' method E=', ewheel,' needs ',        &
-                nparam_loc(ewheel),' parameters.'
-      call write_log(1, bufout)
-      return
+   if (ewheel.eq.3 .or. ewheel.eq.5) then       ! optional parameter {ytape}
+      if (nparam.lt.3 .or. nparam.gt.4) then
+         write(bufout,'(2a,i1,a)') trim(pfx_str(subnam,ire,-1)), ' method E=', ewheel,                  &
+                   ' needs 3 or 4 parameters.'
+         call write_log(1, bufout)
+         return
+      endif
+   else
+      if (nparam.ne.nparam_loc(ewheel)) then    ! no optional parameter, using nparam_loc
+         write(bufout,'(2a,2(i1,a))') trim(pfx_str(subnam,ire,-1)), ' method E=', ewheel,' needs ',     &
+                   nparam_loc(ewheel),' parameters.'
+         call write_log(1, bufout)
+         return
+      endif
    endif
 
    ! store E-digit - maintaining flexible wheelset deviations
@@ -3027,6 +3036,11 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
       wtd%ws%flback_dist  = params(1) * my_scl%len
       wtd%ws%flback_pos   = params(2) * my_scl%len
       wtd%ws%nom_radius   = params(3) * my_scl%len
+      if (nparam.ge.4) then
+         wtd%ws%ytape     = params(4) * my_scl%len
+      else
+         wtd%ws%ytape     = 1000d0
+      endif
 
       zerror = .not.check_range ('NOMRAD', wtd%ws%nom_radius, 1d-3, 1d20)
       wtd%ws%nom_radius   = max(1d-3, min(1d20, wtd%ws%nom_radius))

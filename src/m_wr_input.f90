@@ -186,7 +186,7 @@ contains
       endif
 
       !------------------------------------------------------------------------------------------------------
-      ! Read input for E-digit: wheel-set dimensions, profile, position and velocity
+      ! Read input for E-digit: wheelset dimensions, profile, position and velocity
       !------------------------------------------------------------------------------------------------------
 
       call wheelset_input(inpdir, lunit, ncase, linenr, modul, ic, ws, trk, spck, ldebug, ieof, lstop,  &
@@ -404,6 +404,10 @@ contains
 
          if (ic%gencr_inp.ge.2) mater%gencr_eff = ic%gencr_inp
 
+         ! Activate Readln debugging
+
+         ldebug = max(ldebug, ic%x_readln)
+
          if (zerror) then
             call write_log(' Errors found. Returning.')
             ierror = -1
@@ -462,7 +466,7 @@ contains
          call trackdata_input(inpdir, lspck, ncase, linenr, modul, ic, trk, spck, ldebug, ieof, lstop,  &
                 zerror)
 
-         ! Read input for E-digit: wheel-set dimensions, profile, position and velocity
+         ! Read input for E-digit: wheelset dimensions, profile, position and velocity
 
          call wheelset_input(inpdir, lspck, ncase, linenr, modul, ic, ws, trk, spck, ldebug, ieof,      &
                 lstop, zerror)
@@ -723,7 +727,7 @@ contains
 
    subroutine wheelset_input(inpdir, lunit, ncase, linenr, modul, ic, ws, trk, spck, ldebug, ieof,      &
                 lstop, zerror)
-!--purpose: read input for E-digit: wheel-set dimensions, profile, position and velocity
+!--purpose: read input for E-digit: wheelset dimensions, profile, position and velocity
       implicit none
 !--subroutine arguments:
       character*(*), intent(in) :: inpdir
@@ -743,16 +747,21 @@ contains
       character(len=16)  :: types, namside
       character(len=256) :: strngs(mxnval)
 
-      ! get the wheel-set dimensions
+      ! get the wheelset dimensions
 
       if (ic%ewheel.eq.3 .or. ic%ewheel.eq.5) then
 
-         call readline(lunit, ncase, linenr, 'wheel-set dimensions', 'ddd', ints, dbles, flags,          &
+         call readline(lunit, ncase, linenr, 'wheelset dimensions', 'dddD', ints, dbles, flags,         &
                         strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
          zerror = zerror .or. (ierror.ne.0)
          ws%flback_dist  = dbles(1)
          ws%flback_pos   = dbles(2)
          ws%nom_radius   = dbles(3)
+         if (nval.ge.4) then
+            ws%ytape     = dbles(4)
+         else
+            ws%ytape     = 1000d0
+         endif
 
          zerror = zerror .or. .not.check_range ('NOMRAD', ws%nom_radius, 1d-3, 1d20)
 
@@ -760,7 +769,7 @@ contains
 
       ! get the wheel profile
 
-      if (ic%ewheel.eq.3 .or. ic%ewheel.eq.5) then
+      if (.not.zerror .and. (ic%ewheel.eq.3 .or. ic%ewheel.eq.5)) then
 
          ! E1=3,5: get profile filename and configuration data
 
@@ -768,8 +777,10 @@ contains
 
          ! read the wheel profile, store in wheel data
 
-         call profile_read_file(ws%whl%prw, inpdir, 1, ic%x_profil, ic%x_readln, lstop)
-         zerror = zerror .or. (ws%whl%prw%ierror.ne.0)
+         if (.not.zerror) then
+            call profile_read_file(ws%whl%prw, inpdir, 1, ic%x_profil, ic%x_readln, lstop)
+            zerror = zerror .or. (ws%whl%prw%ierror.ne.0)
+         endif
 
          if (.false. .and. ic%discns1_eff.eq.5) then
             call write_log(' D=5: converting wheel to variable profile...')
@@ -778,11 +789,11 @@ contains
 
       endif
 
-      ! get the wheel-set position and orientation
+      ! get the wheelset position and orientation
 
       if (modul.ne.modul_spck .and. ic%ewheel.ge.1 .and. ic%ewheel.le.5) then
 
-         call readline(lunit, ncase, linenr, 'wheel-set position and orientation', 'dddaaa', ints,      &
+         call readline(lunit, ncase, linenr, 'wheelset position and orientation', 'dddaaa', ints,      &
                         dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
          zerror = zerror .or. (ierror.ne.0)
          if (ic%config.le.1) then
@@ -804,7 +815,7 @@ contains
          ws%pitch    = dbles(6)
       endif
 
-      ! get the wheel-set velocity
+      ! get the wheelset velocity
 
       if (modul.ne.modul_spck .and. ic%ewheel.ge.2 .and. ic%ewheel.le.5) then
 
@@ -818,7 +829,7 @@ contains
             types = 'addaad'    ! 1st VPITCH_ROL, 6th FX_WS/MY_WS
          endif
 
-         call readline(lunit, ncase, linenr, 'wheel-set velocity and rotation', types, ints, dbles,     &
+         call readline(lunit, ncase, linenr, 'wheelset velocity and rotation', types, ints, dbles,     &
                         flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
          zerror = zerror .or. (ierror.ne.0)
 
@@ -842,13 +853,13 @@ contains
          endif
       endif
 
-      ! get flexible wheel-set deviations
+      ! get flexible wheelset deviations
 
       if (ic%ewheel.eq.4 .or. ic%ewheel.eq.5) then
 
          namside = 'current'
 
-         ! read the wheel position deviations for current side of wheel-set
+         ! read the wheel position deviations for current side of wheelset
 
          call readline(lunit, ncase, linenr, trim(namside) // ' wheel position deviations', 'dddaaa',   &
                        ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
@@ -861,7 +872,7 @@ contains
          ws%whl%dyaw   = dbles(5)
          ws%whl%dpitch = dbles(6)
 
-         ! read the wheel velocity deviations for current side of wheel-set
+         ! read the wheel velocity deviations for current side of wheelset
 
          call readline(lunit, ncase, linenr, trim(namside) // ' wheel velocity deviations', 'dddaaa',   &
                        ints, dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)

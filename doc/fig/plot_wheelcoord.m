@@ -1,18 +1,5 @@
 
 print_fig = 0;
-use_track_coords = 0;
-
-if (~exist('read_simpack'))
-   addpath('../../matlab');
-end
-if (~exist('plot_arrow'))
-   addpath('../../matlab_intern');
-end
-
-set(0,'defaultaxeslinewidth',2);
-set(0,'defaultlinelinewidth',2);
-set(0,'defaulttextfontsize',15);
-set(0,'defaultaxesfontsize',15);
 
 % wheelset geometry parameters
 
@@ -23,20 +10,14 @@ flback_ypos =  -70;
 
 % wheelset position w.r.t. track system:
 
-if (use_track_coords)
-   y_cm = 30;
-   z_cm = -nom_radius - 10;
-   roll = 1.5 * pi/180;
-else
-   y_cm = 0;
-   z_cm = -nom_radius;
-   roll = 0;
-end
+y_cm = 0;
+z_cm = -nom_radius;
+roll = 0;
 roll_deg = roll * 180/pi;
 
-% the wheel profile is given with origin at the tape circle line
+% the wheel profile is given here with origin at the tape circle line
 
-prw = read_simpack('../../examples/MBench_S1002_v3.prw');
+prw = read_profile('../../examples/MBench_S1002_v3.prw');
 
 % position of tape circle line in wheelset-coordinates
 
@@ -49,7 +30,7 @@ RotRoll = [cos(roll), -sin(roll);
 yvec = RotRoll * [1;0];
 zvec = RotRoll * [0;1];
 
-% position where we want to pretend that the origin was located
+% position where we want to place the wheel profile marker
 
 yrw_ws = flange_back/2 - flback_ypos;
 zrw_ws = nom_radius;
@@ -70,18 +51,6 @@ set(gca,'ydir','reverse');
 axis equal;
 axis([-200 1000 -1000 200]);
 grid on;
-
-% plot track coordinate axes
-
-if (use_track_coords)
-   len = 200;
-   l = plot_axes([0,0], len, 0, -1, '   ','k',[],[],[],[],[],0);
-   set(l, 'linewidth',1);
-
-   text(0, -100, 'O_{track}', 'horizontalalignment','right');
-   text(len, -20, 'y_{track}', 'verticalalignment', 'top');
-   text(-70, len-20, 'z_{track}', 'verticalalignment','top');
-end
 
 % plot wheel profile
 
@@ -111,12 +80,9 @@ len = 180;
 l=plot_cm([y_cm z_cm], len*0.15, len*0.85, roll_deg, 'k');
 set(l,'linewidth',1);
 
-text(y_cm+50, z_cm-100, 'O_{wset}', 'horizontalalignment','center', ...
-                                                'rotation', -roll_deg);
-text(y_cm+len+15, z_cm-45, 'y_{wset}', 'verticalalignment','top', ...
-                                                'rotation', -roll_deg);
-text(y_cm-70, z_cm+len-40, 'z_{wset}', 'verticalalignment','top', ...
-                                                'rotation', -roll_deg);
+text(y_cm+50, z_cm-100, 'O_{wset}', 'horizontalalignment','center', 'rotation', -roll_deg);
+text(y_cm+len+15, z_cm-45, 'y_{wset}', 'verticalalignment','top', 'rotation', -roll_deg);
+text(y_cm-70, z_cm+len-40, 'z_{wset}', 'verticalalignment','top', 'rotation', -roll_deg);
 
 % plot flange-back distance <--> d/2
 
@@ -124,8 +90,8 @@ tmp = RotRoll * [   flange_back/2 * [  0  0  0  .32 NaN .68  1   1  1 ] ;
                       -nom_radius * [ .55 .45 .5 .5 NaN .5 .5 .45 .55 ] ];
 plot(y_cm+tmp(1,:), z_cm+tmp(2,:), 'k', 'linewidth',1);
 ix=[4,6];
-text(y_cm+mean(tmp(1,ix)), z_cm+mean(tmp(2,ix)), 'd_{flng}/2', ...
-                    'horizontalalignment','center', 'rotation', -roll_deg);
+text(y_cm+mean(tmp(1,ix)), z_cm+mean(tmp(2,ix)), 'd_{flng}/2', 'rotation', -roll_deg, ...
+                                                                'horizontalalignment','center');
 
 % plot tape circle line
 
@@ -138,10 +104,10 @@ plot( y_cm+tmp(1,:), z_cm+tmp(2,:) );
 tmp = RotRoll * [ flange_back/2 + [ 0 0 0 ]; [-30 0 30] ];
 plot(y_cm+tmp(1,:), z_cm+tmp(2,:), 'k-');
 
-text(y_cm+tmp(1,2)-5, z_cm+tmp(2,2)-0.85*nom_radius, 'flange-', ...
-                    'rotation', -roll_deg, 'horizontalalignment','right');
-text(y_cm+tmp(1,2)-5, z_cm+tmp(2,2)-0.70*nom_radius, 'back', ...
-                    'rotation', -roll_deg, 'horizontalalignment','right');
+text(y_cm+tmp(1,2)-5, z_cm+tmp(2,2)-0.85*nom_radius, 'flange-', 'rotation', -roll_deg, ...
+                                                                'horizontalalignment','right');
+text(y_cm+tmp(1,2)-5, z_cm+tmp(2,2)-0.70*nom_radius, 'back', 'rotation', -roll_deg, ...
+                                                                'horizontalalignment','right');
 
 % plot cross-hairs for tape circle on axle
 
@@ -149,38 +115,30 @@ tmp = RotRoll * [ ywset_tapcrc + [   0 30 NaN   0  0 ] ;
                                  [   0  0 NaN -30 30 ] ];
 plot(y_cm+tmp(1,:), z_cm+tmp(2,:), 'k-');
 
-text(y_cm+tmp(1,1)+20, z_cm+tmp(2,1)-0.84*nom_radius, 'y profile', ...
-                                                'rotation', -roll_deg);
-text(y_cm+tmp(1,1)+20, z_cm+tmp(2,1)-0.69*nom_radius, ' reference', ...
-                                                'rotation', -roll_deg);
-text(y_cm+tmp(1,1)+10, z_cm+tmp(2,1)+0.6*nom_radius, 'r_{nom,w}', ...
-                                                'rotation', -roll_deg);
+text(y_cm+tmp(1,1)+20, z_cm+tmp(2,1)-0.84*nom_radius, 'y profile', 'rotation', -roll_deg);
+text(y_cm+tmp(1,1)+20, z_cm+tmp(2,1)-0.69*nom_radius, ' reference', 'rotation', -roll_deg);
+text(y_cm+tmp(1,1)+10, z_cm+tmp(2,1)+0.6*nom_radius, 'r_{nom,w}+dr', 'rotation', -roll_deg);
 
 % plot wheel origin
 
 len = 150;
 tmp = RotRoll * [yrw_ws*[1 1]; zrw_ws*[1 -1]];
-l=plot_cm([y_cm+tmp(1,1) z_cm+tmp(2,1)], len*0.15, len*0.85, roll_deg, 'k');
+l = plot_cm([y_cm+tmp(1,1) z_cm+tmp(2,1)], len*0.15, len*0.85, roll_deg, 'k');
 set(l, 'linewidth',1);
 
-text(y_cm+tmp(1,1)+20, z_cm+tmp(2,1)+60, 'O_{wheel}', ...
-                                                'rotation', -roll_deg);
+text(y_cm+tmp(1,1)+20, z_cm+tmp(2,1)+60, 'O_{wheel}', 'rotation', -roll_deg);
 
 % plot indicators for flback_ypos
 
 tmp = RotRoll * [  yrw_ws + flback_ypos * [ 1 1 NaN 1 1 ] ;
                    zrw_ws +          [ -20 20 NaN 50 90 ] ];
 plot(y_cm+tmp(1,:), z_cm+tmp(2,:), 'k', 'linewidth',1);
-text(y_cm+tmp(1,end)+50, z_cm+tmp(2,end)+0, 'y_{fbpos}', ...
-                   'rotation', -roll_deg, 'horizontalalignment','right');
+text(y_cm+tmp(1,end)+50, z_cm+tmp(2,end)+0, 'y_{fbpos}', 'rotation', -roll_deg, ...
+                                                                'horizontalalignment','right');
 
 if (print_fig)
    axis off
    set(gcf,'paperpositionmode','auto');
-   if (use_track_coords)
-      print -djpeg95 wheel_coords.jpg
-   else
-      print -djpeg95 wheelset_def.jpg
-   end
+   print -djpeg95 wheelset_def.jpg
 end
 

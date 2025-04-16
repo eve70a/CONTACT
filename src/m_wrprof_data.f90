@@ -209,7 +209,7 @@ public
    ! data for the wheel-set:
 
    type :: t_wheelset
-      real(kind=8)  :: flback_dist, flback_pos, nom_radius
+      real(kind=8)  :: flback_dist, flback_pos, nom_radius, ytape
       real(kind=8)  :: s, x, y, z
       real(kind=8)  :: vs, vy, vz
       real(kind=8)  :: roll, yaw, pitch
@@ -222,7 +222,9 @@ public
 
       ! flback_dist  [mm]   flange-back distance, e.g. 1360 mm
       ! flback_pos   [mm]   y-position of flange-back in wheel profile coordinates, e.g. -70 mm
-      ! nom_radius   [mm]   wheel radius at the tape circle line, e.g. 460 mm
+      ! nom_radius   [mm]   wheel radius at the profile datum O_w, e.g. 460 mm
+      ! ytape        [mm]   y-position of tape circle line on the profile w.r.t. profile datum O_w,
+      !                     used to shift the profile vertically w.r.t. wheelset center to r=rnom at y=ytape
       ! s            [mm]   longitudinal position of wheel-set cm along the track curve - used on tracks
       ! x            [mm]   longitudinal position (shift) of wheel-set cm - used on roller rigs
       ! y            [mm]   lateral position (shift) of wheel-set cm
@@ -300,10 +302,10 @@ public
       ! ky_rail     [N/mm]  track stiffness in lateral direction for massless rail deflection model (F=3)
       ! kz_rail     [N/mm]  track stiffness in vertical direction for massless rail deflection model (F=3)
       ! dy_defl      [mm]   lateral rail deflection for massless rail model (F=3) 
-      !                     (left/right rail, non-mirrored)
+      !                     (left/right rail, track coordinates, non-mirrored)
       ! dz_defl      [mm]   vertical rail deflection for massless rail model (F=3)
       ! fy_rail      [N]    lateral spring force on rail at zero deflection for rail deflection model (F=3)
-      !                     (left/right rail, non-mirrored)
+      !                     (left/right rail, track coordinates, non-mirrored)
       ! fz_rail      [N]    vertical spring force on rail at zero deflection for rail deflection model (F=3)
       ! nom_radius   [rad]  nominal radius of rollers, in case of roller rigs (config>=4)
       ! vpitch_rol  [rad/s] pitch angular velocity \omega=\dot{\theta} of rollers
@@ -444,6 +446,7 @@ contains
       ws%flback_dist   = 1360d0
       ws%flback_pos    =  -70d0
       ws%nom_radius    =  460d0
+      ws%ytape         = 1000d0  ! tape circle computation disabled
 
       ! position & orientation
       ws%s             =    0d0

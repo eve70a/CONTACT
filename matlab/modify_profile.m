@@ -99,7 +99,8 @@ end
 % modification 4: align wheel z at tape circle line
 
 if (is_wheel & ~isempty(y_tape))
-   z_tape = interp1(p_out.ProfileY, p_out.ProfileZ, y_tape);
+   ix = find(abs(p_out.ProfileY-y_tape)<5);
+   z_tape = interp1(p_out.ProfileY(ix), p_out.ProfileZ(ix), y_tape);
    if (idebug>=1)
       disp(sprintf('Shifting wheel z-values by dz = %4.2f to have z=0 at y_tape = %3.1f...',-z_tape, y_tape));
    end
@@ -166,8 +167,7 @@ else
    end
 
    % copy data to work variables
-   points0 = [p_out.ProfileY, p_out.ProfileZ, p_out.ProfileAngle, ...
-                                                   p_out.ProfileCurvature];
+   points0 = [p_out.ProfileY, p_out.ProfileZ, p_out.ProfileAngle, p_out.ProfileCurvature];
    np0 = size(points0,1);
 
    % find "midpoint" of profile: tread of rail, bottom of flange on wheel

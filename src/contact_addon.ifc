@@ -536,9 +536,9 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
    bind(c,name=CNAME_(cntc_setwheelsetdimensions))
 !--function: set the wheelset description for a wheel-rail contact problem
 !    E=0-2, 4: no new geometry         params = []
-!    E=3, 5:   new wheelset geometry   params = [fbdist, fbpos, nomrad]
+!    E=3, 5:   new wheelset geometry   params = [fbdist, fbpos, nomrad, {ytape}]
 !
-!  dimensions:  fbdist, fbpos, nomrad [length]
+!  dimensions:  fbdist, fbpos, nomrad, ytape [length]
 !--subroutine arguments:
    integer,      intent(in) :: ire            ! result element ID
    integer,      intent(in) :: ewheel         ! control digit E of the computation

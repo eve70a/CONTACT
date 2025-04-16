@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.174)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.176)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -85,6 +85,8 @@
 \vtlogentry{1.172}{EV}{05-12-2024}{Added ${\tt M}=5$ for FaStrip solver}{}
 \vtlogentry{1.173}{EV}{10-12-2024}{Added note on $z$ mirroring}{}
 \vtlogentry{1.174}{EV}{05-02-2025}{Added TangCG for $k_\tau=0$}{}
+\vtlogentry{1.175}{EV}{04-04-2025}{Added tape circle on wheel}{}
+\vtlogentry{1.176}{EV}{11-04-2024}{Version for release v25.1}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -1238,12 +1240,20 @@ interpolate to the actual position of the wheelset along the track curve.
 
 \paragraph{Wheelset geometry}
 
-Wheel profiles are specified relative to profile reference points
-$O_{wheel}$ ($O_w$). In initial (design) configuration, the profile
-reference is placed at $[0, \pm (d_{flng}/2-y_{fbpos}), r_{nom,w}]^T$ with
-respect to the wheelset center (Figure \ref{fig:wheel_coord}, left). Here
-$d_{flng}$ is the flange-back distance, and $y_{fbpos}$ is the position of
-the flange back with respect to the profile reference. 
+Wheel profiles are specified relative to a profile reference point (profile
+datum) $O_{wheel}$ ($O_w$). In initial (design) configuration, the
+reference point is placed at position 
+\[
+        \vec{x}_{w(ws)} = [0, \pm (d_{flng}/2-y_{fbpos}), 
+                                        r_{nom,w}+dr_{tape}]^T
+\]
+with respect to the wheelset center (Figure 
+\ref{fig:wheel_coord}, left). Here $d_{flng}$ is the flange-back distance,
+and $y_{fbpos}$ is the position of the flange back with respect to the
+profile reference. The vertical offset $dr_{tape}$ is determined automatically
+using the tape circle computation, $dr_{tape}=-z_w(y_{tape})$, producing 
+$r(y_w)=r_{nom,w}$ at wheel position $y_w=y_{tape}$, using $dr_{tape}=0$
+if no $y_{tape}$ is given.
 
 % It is convenient if the wheel origin is located at the tape circle line,
 % with $[0,0]^T$ a point on the wheel profile, yet other choices are
@@ -1834,6 +1844,10 @@ as described on page \pageref{e1-digit}.
         Figure \ref{fig:wheel_coord}, $y_{fbpos}$ could be $-70\unit{mm}$.)}
 \inpvar{NOMRADW}{\bunit{mm}}{Nominal radius $r_{nom,w}$ of the wheel, i.e.\ the
         distance of the wheel profile reference point to the wheelset axle.}
+\inpvar{YTAPE}{\bunit{mm}}{Lateral position $y_{tape}$ of the tape circle
+        with respect to the wheel profile origin $O_w$. The tape circle
+        computation is disabled when $|y_{tape}|\ge 1000\unit{mm}$ or
+        when $y_{tape}$ falls outside the range of the profile.}
 \end{inputvars}
 The contact geometry is governed by the position of the wheel with respect
 to the rail. This is computed using the position of the wheelset center,
@@ -7391,7 +7405,7 @@ if Z=2,3, F=3: [  KYRAIL   FYRAIL   KZRAIL    FZRAIL                    ]
 
 % Information on wheelset geometry (section \ref{sec:wheelset_geom}) \& wheel profile (section \ref{sec:profiles}):
 
-if E=3,5:      [  FBDIST   FBPOS     NOMRADW   ] 
+if E=3,5:      [  FBDIST   FBPOS     NOMRADW  \{YTAPE\}  ]
 if E=3,5:      [ 'WFNAME'  MIRRORY   SCALEYZ   SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
 if PRFOPT>=1:  [  ISMOOTH  ZIGTHRS   KINKHIGH  KINKLOW  KINKWID ]
 \magenta{if PRFOPT>=2:  [  ERRHND   MAXOMIT  ]

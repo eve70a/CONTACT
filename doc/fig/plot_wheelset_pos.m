@@ -27,9 +27,9 @@ grid on;
 
 % plot track coordinate axes
 
-len = 200;
-l = plot_axes([0,0], len, 0, -1, '   ','k',[],[],[],[],[],0);
-set(l, 'linewidth',1);
+len = 200; mrksiz = []; siz_o = []; fontsiz = []; txtcol = []; th_txt = []; siz_o = 0;
+l = plot_axes([0,0], len, 0, -1, '   ','k', mrksiz, siz_o, fontsiz, txtcol, th_txt, siz_o);
+set(l(2:12), 'linewidth',1);
 
 text(0, -100, 'O_{track}', 'horizontalalignment','right');
 text(len, -20, 'y_{track}', 'verticalalignment', 'top');

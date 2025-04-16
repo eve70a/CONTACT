@@ -8,9 +8,9 @@
 %  params(nparam) - depending on method that is used
 %
 %  E=0-2, 4: no new geometry         params = []
-%  E=3, 5:   new wheelset geometry   params = [fbdist, fbpos, nomrad]
+%  E=3, 5:   new wheelset geometry   params = [fbdist, fbpos, nomrad, {ytape}]
 %
-%  dimensions:  fbdist, fbpos, nomrad [length]
+%  dimensions:  fbdist, fbpos, nomrad, ytape [length]
 %------------------------------------------------------------------------------------------------------------
 
 % Copyright 2008-2023 by Vtech CMCC.

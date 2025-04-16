@@ -142,9 +142,9 @@ contains
       integer                 :: idebug
 !--local variables:
       type(t_wheel),  pointer :: my_wheel
-      integer                 :: is_right
+      integer                 :: is_right, ierror
       character(len=5)        :: nam_wheel
-      real(kind=8)            :: whl_x, whl_y, whl_z, sgn
+      real(kind=8)            :: rdum, zwtape, xw_ws, yw_ws, zw_ws, sgn
       type(t_grid),   pointer :: p_inp
 
       if (idebug.ge.3) then
@@ -173,21 +173,30 @@ contains
 
       sgn = 2 * is_right - 1
 
+      ! optionally compute zw at tape circle position
+
+      if (abs(ws%ytape).ge.999d0) then
+         zwtape = 0d0
+      else
+         ! interpolate wheel profile to yw = ytape, return zw=0 for yw outside range of the profile
+         call spline_get_xz_at_y( p_inp%spl, ws%ytape, ierror, rdum, zwtape, 0d0 )
+      endif
+
       ! define the relation from wheel profile to wheelset coordinates
       ! including flexible wheel-set deviations: axle bending, wheel deformation
 
-      whl_x =                                            my_wheel%dx
-      whl_y = ws%flback_dist/2d0 - ws%flback_pos + sgn * my_wheel%dy
-      whl_z = ws%nom_radius                      +       my_wheel%dz
+      xw_ws =                                                     my_wheel%dx
+      yw_ws = ws%flback_dist/2d0 - ws%flback_pos          + sgn * my_wheel%dy
+      zw_ws = ws%nom_radius                      - zwtape +       my_wheel%dz
 
       call marker_init(my_wheel%m_ws)
       ! note: rotate first, then shift to desired position
       ! note: the pitch-variation dpitch is excluded: the wheel-marker is the lowest point on the wheel
       call marker_rotate(my_wheel%m_ws, sgn*my_wheel%droll, sgn*my_wheel%dyaw, 0d0, 0d0, 0d0, 0d0)
-      call marker_shift(my_wheel%m_ws, whl_x, whl_y, whl_z)
+      call marker_shift(my_wheel%m_ws, xw_ws, yw_ws, zw_ws)
 
       if (idebug.ge.3) then
-         write(bufout,123) 'offset wheel->ws x:', whl_x, ', y:', sgn*whl_y,', z:', whl_z
+         write(bufout,123) 'offset wheel->ws x:', xw_ws, ', y:', sgn*yw_ws,', z:', zw_ws
          call write_log(1, bufout)
  123     format(1x, 3(a, f12.6, :))
       endif
