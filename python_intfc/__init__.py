@@ -92,9 +92,7 @@ from .cntc_setflags                     import cntc_setflags                    
 from .cntc_setfrictionmethod            import cntc_setfrictionmethod           as setfrictionmethod    
 from .cntc_setglobalflags               import cntc_setglobalflags              as setglobalflags
 from .cntc_sethertzcontact              import cntc_sethertzcontact             as sethertzcontact
-from .cntc_setinterfaciallayer          import cntc_setinterfaciallayer         as setinterfaciallayer
 from .cntc_setmaterialparameters        import cntc_setmaterialparameters       as setmaterialparameters
-from .cntc_setmaterialproperties        import cntc_setmaterialproperties       as setmaterialproperties
 from .cntc_setmetadata                  import cntc_setmetadata                 as setmetadata
 from .cntc_setnormalforce               import cntc_setnormalforce              as setnormalforce
 from .cntc_setpenetration               import cntc_setpenetration              as setpenetration

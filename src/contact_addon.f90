@@ -30,14 +30,12 @@ private cntc_readInpFile
 private cntc_setFlags
 private cntc_setMetadata
 private cntc_setSolverFlags
-private cntc_setMaterialProperties
 private cntc_setMaterialParameters
 private cntc_setTemperatureData
 private cntc_setTimestep
 private cntc_setReferenceVelocity
 private cntc_setRollingStepsize
 private cntc_setFrictionMethod
-private cntc_setInterfacialLayer
 private cntc_setHertzContact
 private cntc_setPotContact
 private cntc_setVerticalForce
@@ -1301,52 +1299,6 @@ end subroutine cntc_setSolverFlags
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_setMaterialProperties(ire, icp, g1, nu1, g2, nu2) &
-   bind(c,name=CNAME_(cntc_setmaterialproperties))
-!--function: set the material properties for a contact problem
-!--category: 5, "m=any, wtd":       available for modules 1 and 3, in module 1 working on wtd data
-   implicit none
-!--subroutine arguments:
-   integer,      intent(in) :: ire            ! result element ID
-   integer,      intent(in) :: icp            ! contact problem ID
-   real(kind=8), intent(in) :: g1, g2         ! modulus of rigidity for body 1, 2 [force/area]
-   real(kind=8), intent(in) :: nu1, nu2       ! Poisson's ratio for body 1, 2 [-]
-!--local variables:
-   integer    :: ierror
-   character(len=*), parameter :: subnam = 'cntc_setMaterialProperties'
-#ifdef _WIN32
-!dec$ attributes dllexport :: cntc_setMaterialProperties
-#endif
-
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
-   call cntc_activate(ire, icp, 0, -1, subnam, ierror)
-   if (ierror.lt.0) return
-
-   my_mater%gg(1)    = g1 * my_scl%forc / my_scl%area
-   my_mater%poiss(1) = nu1
-   my_mater%gg(2)    = g2 * my_scl%forc / my_scl%area
-   my_mater%poiss(2) = nu2
-
-   ! compute combined material constants
-
-   call combin_mater(my_mater)
-
-   ! update MAXOUT for quasi-identity or non-quasi-identity
-
-   if (my_solv%maxout.ge.2 .and. abs(my_mater%ak).lt.1d-4) my_solv%maxout =  1
-   if (my_solv%maxout.le.1 .and. abs(my_mater%ak).ge.1d-4) my_solv%maxout = 10
-
-   if (idebug.ge.2) then
-      write(bufout,'(2a,f7.1,2(a,f5.2),a)') trim(pfx_str(subnam,ire,icp)),' G=',my_mater%ga,            &
-                ' [N/mm2], Nu=',my_mater%nu,', K=',my_mater%ak, ' [-]'
-      call write_log(1, bufout)
-   endif
-
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
-end subroutine cntc_setMaterialProperties
-
-!------------------------------------------------------------------------------------------------------------
-
 subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    bind(c,name=CNAME_(cntc_setmaterialparameters))
 !--function: set the M-digit and material parameters for a contact problem
@@ -2023,132 +1975,6 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setFrictionMethod
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
-   bind(c,name=CNAME_(cntc_setinterfaciallayer))
-!--function: set M-digit and parameters for the interfacial layer for a contact problem
-!    0: clean interface, no layer     params = [ ]
-!    2: modified Fastsim algorithm    params = [ flx, k0_mf, alfamf, betamf ]
-!    3: modified Fastsim algorithm    params = [      k0_mf, alfamf, betamf ]
-!    4: elasto-plastic intfc.layer    params = [ gg3, laythk, tau_c0, k_tau ]
-!
-!  dimensions: k0_mf, alfamf, betamf: [-],
-!              G3, tau_c0: [force/area],  laythk: [length],  k_tau: [force/area/length]
-!--category: 5, "m=any, wtd":       available for modules 1 and 3, in module 1 working on wtd data
-   implicit none
-!--subroutine arguments:
-   integer,      intent(in) :: ire            ! result element ID
-   integer,      intent(in) :: icp            ! contact problem ID
-   integer,      intent(in) :: imeth          ! M-digit, type of interfacial layer used
-   integer,      intent(in) :: nparam         ! number of parameters provided
-   real(kind=8), intent(in) :: params(nparam) ! depending on method that is used
-!--local variables:
-   integer, parameter  :: nparam_loc(0:4) = (/ 0, 9, 4, 3, 4 /)
-   integer      :: ierror
-   real(kind=8) :: gg3, laythk, tau_c0, k_tau
-   character(len=*), parameter :: subnam = 'cntc_setInterfacialLayer'
-#ifdef _WIN32
-!dec$ attributes dllexport :: cntc_setInterfacialLayer
-#endif
-
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
-   call cntc_activate(ire, icp, 0, -1, subnam, ierror)
-   if (ierror.lt.0) return
-
-   ! check value of M-digit: 0, 2, 3, or 4.
-
-   if (imeth.ne.0 .and. .not.(imeth.ge.2 .and. imeth.le.4)) then
-      write(bufout,'(2a,i2,a)') trim(pfx_str(subnam,ire,icp)),' method M=',imeth,' does not exist.'
-      call write_log(1, bufout)
-      return
-   endif
-
-   ! check number of parameters provided
-
-   if ((nparam_loc(imeth).eq.0 .and. nparam.ge.2) .or.                                                  &
-       (nparam_loc(imeth).ne.0 .and. nparam.ne.nparam_loc(imeth))) then
-      write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,icp)),' method M=',imeth,' needs',           &
-                nparam_loc(imeth),' parameters.'
-      call write_log(1, bufout)
-      return
-   endif
-
-   if (imeth.eq.0) then
-
-      ! Clean interface, no interfacial layer: set M = 0.
-
-      my_ic%mater  = 0
-
-      if (idebug.ge.2) then
-         write(bufout,'(2a,i2,a)') trim(pfx_str(subnam,ire,icp)),' M=',my_ic%mater,', no interfacial layer'
-         call write_log(1, bufout)
-      endif
-
-   elseif (imeth.eq.2) then
-
-      ! Modified Fastsim, 1 flexiblity - params == flx, k0_mf, alfamf, betamf
-
-      my_ic%mater     = imeth
-      my_mater%flx(1:3) =         params(1) * my_scl%len * my_scl%area / my_scl%forc
-      my_mater%k0_mf  = max(1d-6, params(2)) ! [-]
-      my_mater%alfamf = max(1d-6, params(3))
-      my_mater%betamf = max(1d-6, params(4))
-
-      if (idebug.ge.2) then
-         write(bufout,'(2a,i2,4(a,f7.4))') trim(pfx_str(subnam,ire,icp)),' M=',my_ic%mater,             &
-                ', flx=',my_mater%flx(1),', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf,      &
-                ', betamf=', my_mater%betamf
-         call write_log(1, bufout)
-      endif
-
-   elseif (imeth.eq.3) then
-
-      ! Modified fastsim, 3 flexibilities - params == k0_mf, alfamf, betamf
-
-      my_ic%mater     = imeth
-      my_mater%k0_mf  = max(1d-6, params(1)) ! [-]
-      my_mater%alfamf = max(1d-6, params(2))
-      my_mater%betamf = max(1d-6, params(3))
-
-      if (idebug.ge.2) then
-         write(bufout,'(2a,i2,3(a,f7.4))') trim(pfx_str(subnam,ire,icp)),' M=',my_ic%mater,             &
-            ', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf, ', betamf=', my_mater%betamf
-         call write_log(1, bufout)
-      endif
-
-   elseif (imeth.eq.4) then
-
-      ! Interfacial layer according to [Hou1997], including the elasto-plastic part
-
-      gg3      = max(1d-6, params(1) * my_scl%forc / my_scl%area)
-      laythk   = max(1d-9, params(2) * my_scl%len)
-      tau_c0   = params(3) * my_scl%forc / my_scl%area
-      k_tau    = params(4) * my_scl%forc / my_scl%area / my_scl%len
-      if (tau_c0.ge.1d10) tau_c0 = 0d0
-
-      my_ic%mater     = 4
-      my_mater%gg3    = gg3
-      my_mater%laythk = laythk
-      my_mater%tau_c0 = tau_c0
-      my_mater%k_tau  = k_tau
-
-      if (idebug.ge.2) then
-         write(bufout,'(2a,i2,a,f7.1,a,f6.3,a,/, 43x,a,g9.1,a,f7.1,a)')                                 &
-                trim(pfx_str(subnam,ire,icp)), ' M=', my_ic%mater, ', Gg3=',my_mater%gg3,               &
-                        ' [N/mm2], Laythk=',my_mater%laythk, ' [mm]',                                   &
-                '  Tau_c0=', my_mater%tau_c0,' [N/mm2], K_tau=', my_mater%k_tau,' [N/mm3]'
-         call write_log(2, bufout)
-      endif
-
-   endif
-
-   my_mater%mater_eff = my_ic%mater
-   if (my_ic%mater.eq.4) my_mater%flx(1:3) = my_mater%laythk / my_mater%gg3
-
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
-end subroutine cntc_setInterfacialLayer
 
 !------------------------------------------------------------------------------------------------------------
 

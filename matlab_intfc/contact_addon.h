@@ -27,8 +27,6 @@ void cntc_setsolverflags(int *ire, int *icp, int *gdigit, int *nints, int *ipara
 
 void cntc_setmaterialparameters(int *ire, int *icp, int *mdigit, int *nparam, double *rparam);
 
-void cntc_setmaterialproperties(int *ire, int *icp, double *g1, double *nu1, double *g2, double *nu2);
-
 void cntc_settemperaturedata(int *ire, int *icp, int *imeth, int *nparam, double *rparam);
 
 void cntc_settimestep(int *ire, int *icp, double *dt);
@@ -38,8 +36,6 @@ void cntc_setreferencevelocity(int *ire, int *icp, double *veloc);
 void cntc_setrollingstepsize(int *ire, int *icp, double *chi, double *dq);
 
 void cntc_setfrictionmethod(int *ire, int *icp, int *imeth, int *nparam, double *params);
-
-void cntc_setinterfaciallayer(int *ire, int *icp, int *imeth, int *nparam, double *params);
 
 void cntc_sethertzcontact(int *ire, int *icp, int *ipotcn, int *nparam, double *rparam);
 

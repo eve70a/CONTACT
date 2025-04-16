@@ -177,18 +177,6 @@ end subroutine cntc_setSolverFlags
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_setMaterialProperties(ire, icp, g1, nu1, g2, nu2) &
-   bind(c,name=CNAME_(cntc_setmaterialproperties))
-!--function: set the material properties for a contact problem
-!--subroutine arguments:
-   integer,      intent(in) :: ire            ! result element ID
-   integer,      intent(in) :: icp            ! contact problem ID
-   real(kind=8), intent(in) :: g1, g2         ! modulus of rigidity for body 1, 2 [force/area]
-   real(kind=8), intent(in) :: nu1, nu2       ! Poisson's ratio for body 1, 2 [-]
-end subroutine cntc_setMaterialProperties
-
-!------------------------------------------------------------------------------------------------------------
-
 subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    bind(c,name=CNAME_(cntc_setmaterialparameters))
 !--function: set the M-digit and material parameters for a contact problem
@@ -301,26 +289,6 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
    integer,      intent(in) :: nparam         ! number of parameters provided
    real(kind=8), intent(in) :: params(nparam) ! depending on method that is used
 end subroutine cntc_setFrictionMethod
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_setInterfacialLayer(ire, icp, imeth, nparam, params) &
-   bind(c,name=CNAME_(cntc_setinterfaciallayer))
-!--function: set M-digit and parameters for the interfacial layer for a contact problem
-!    0: clean interface, no layer     params = [ ]
-!    2: modified Fastsim algorithm    params = [ flx, k0_mf, alfamf, betamf ]
-!    3: modified Fastsim algorithm    params = [      k0_mf, alfamf, betamf ]
-!    4: elasto-plastic intfc.layer    params = [ gg3, laythk, tau_c0, k_tau ]
-!
-!  dimensions: k0_mf, alfamf, betamf: [-],
-!              G3, tau_c0: [force/area],  laythk: [length],  k_tau: [force/area/length]
-!--subroutine arguments:
-   integer,      intent(in) :: ire            ! result element ID
-   integer,      intent(in) :: icp            ! contact problem ID
-   integer,      intent(in) :: imeth          ! M-digit, type of interfacial layer used
-   integer,      intent(in) :: nparam         ! number of parameters provided
-   real(kind=8), intent(in) :: params(nparam) ! depending on method that is used
-end subroutine cntc_setInterfacialLayer
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1252,14 +1220,12 @@ end interface
 !dec$ attributes dllimport :: cntc_setFlags
 !dec$ attributes dllimport :: cntc_setMetadata
 !dec$ attributes dllimport :: cntc_setSolverFlags
-!dec$ attributes dllimport :: cntc_setMaterialProperties
 !dec$ attributes dllimport :: cntc_setMaterialParameters
 !dec$ attributes dllimport :: cntc_setTemperatureData
 !dec$ attributes dllimport :: cntc_setTimestep
 !dec$ attributes dllimport :: cntc_setReferenceVelocity
 !dec$ attributes dllimport :: cntc_setRollingStepsize
 !dec$ attributes dllimport :: cntc_setFrictionMethod
-!dec$ attributes dllimport :: cntc_setInterfacialLayer
 !dec$ attributes dllimport :: cntc_setHertzContact
 !dec$ attributes dllimport :: cntc_setPotContact
 !dec$ attributes dllimport :: cntc_setVerticalForce

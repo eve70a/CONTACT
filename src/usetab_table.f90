@@ -108,9 +108,11 @@ program usetab_table
       rparam(1:2) = (/ fstat, fkin /)
       call cntc_setFrictionMethod(ire, icp, imeth, 2, rparam)
 
+      imeth  = 0
       g1  = 1d0
       nu1 = 0.28d0
-      call cntc_setMaterialProperties(ire, icp, g1, nu1, g1, nu1)
+      rparam(1:4) = (/ nu1, nu1, g1, g1 /)
+      call cntc_setMaterialParameters(ire, icp, imeth, 4, rparam)
 
       veloc = 1d0
       call cntc_setReferenceVelocity(ire, icp, veloc)

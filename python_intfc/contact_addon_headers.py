@@ -75,13 +75,6 @@ def contact_addon_headers( cntc_dll ):
     cntc_dll.cntc_setmaterialparameters.argtypes  = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
                                                       POINTER(c_int),    POINTER(c_double) ]
   
-    # void cntc_setmaterialproperties               ( int *ire,          int *icp,          double *g1, 
-    #                                                 double *nu1,        double *g2,        double *nu2 );
-  
-    cntc_dll.cntc_setmaterialproperties.restype   = None
-    cntc_dll.cntc_setmaterialproperties.argtypes  = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_double),
-                                                      POINTER(c_double), POINTER(c_double), POINTER(c_double) ]
-  
     # void cntc_settemperaturedata                  ( int *ire,          int *icp,          int *imeth, 
     #                                                 int *nparam,       double *rparam );
   
@@ -111,13 +104,6 @@ def contact_addon_headers( cntc_dll ):
   
     cntc_dll.cntc_setfrictionmethod.restype       = None
     cntc_dll.cntc_setfrictionmethod.argtypes      = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
-                                                      POINTER(c_int),    POINTER(c_double) ]
-  
-    # void cntc_setinterfaciallayer                 ( int *ire,          int *icp,          int *imeth, 
-    #                                                 int *nparam,       double *params );
-  
-    cntc_dll.cntc_setinterfaciallayer.restype     = None
-    cntc_dll.cntc_setinterfaciallayer.argtypes    = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
                                                       POINTER(c_int),    POINTER(c_double) ]
   
     # void cntc_sethertzcontact                     ( int *ire,          int *icp,          int *ipotcn, 

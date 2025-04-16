@@ -22,8 +22,6 @@
 %
 % cntc_setmaterialparameters    - set material parameters
 % cntc_settemperaturedata       - set heat related material parameters
-% *cntc_setmaterialproperties   - set material parameters            Obsolete: use setmaterialparameters
-% *cntc_setinterfaciallayer     - set third body layer parameters    Obsolete: use setmaterialparameters
 % cntc_setfrictionmethod        - set friction parameters
 % cntc_settimestep              - set time step size used in shift problems
 % cntc_setreferencevelocity     - set rolling velocity
