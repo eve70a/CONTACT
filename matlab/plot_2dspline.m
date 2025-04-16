@@ -3,7 +3,7 @@ function [ myopt ] = plot_2dspline( slcs, opt )
 
 % function [ opt ] = plot_2dspline( slcs, opt )
 %
-% create 3d surface plot of variable rail profile
+% create 3d surface plot of variable rail or wheel profile
 %   slcs    - structure with variable profile as returned by read_slices
 %   opt     - plot configuration; called without options, a struct is returned with default settings
 %

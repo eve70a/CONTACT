@@ -180,7 +180,7 @@ contains
                else
                   write (bufout, 4003) cgrid%dx, kin%dq, 'solver ConvexGS'
                endif
-               call write_log(2, bufout)
+               call write_log(1, bufout)
             endif
          endif
          kin%dq  = cgrid%dx

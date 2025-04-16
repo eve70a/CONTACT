@@ -262,6 +262,9 @@ while(~feof(f))
       my_field_name = check_field(known_fields, field_name);
       if (~keep_keyword_values)
          % do not store file header keyword/value information
+         if (strcmp(my_field_name, 'ColumnDef'))
+            p.ColumnDef = field_val;
+         end
       elseif (~isempty(my_field_name))
          % interpret numerical value
          if (strcmp(known_fields.(my_field_name), 'int'))

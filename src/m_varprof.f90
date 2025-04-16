@@ -203,7 +203,7 @@ end subroutine varprof_set_debug
 
       call make_absolute_path(fname, inpdir, fulnam)
 
-      if (x_profil.ge.0) then
+      if (x_profil.ge.1) then
          write(bufout,*) 'Reading file "',trim(fulnam), '" with profile slices'
          call write_log(1, bufout)
       endif

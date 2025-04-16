@@ -1004,7 +1004,7 @@ contains
 !--local variables:
       integer,     parameter :: mxitem = 20, ncolpnt = 3
       character*2, parameter :: commnt = '!%'
-      integer            :: unitnm, ios, linenr, nblank, ncmtln, ieof, nitem, ipnt
+      integer            :: unitnm, ios, lennam, linenr, nblank, ncmtln, ieof, nitem, ipnt
       logical            :: has_key, has_str, has_match, in_header, in_spline, in_point
       character*256      :: inptxt, keywrd, valstr
       real(kind=8)       :: values(1:mxitem)
@@ -1013,7 +1013,8 @@ contains
                             bound_y_max, bound_z_min, bound_z_max, units_len_fac, units_ang_fac
 
       if (x_profil.ge.2) then
-         write(bufout,'(/,2a)') ' --- read_spck: file ',trim(fulnam)
+         lennam = min(200,len(fulnam))
+         write(bufout,'(/,2a)') ' --- read_spck: file ',trim(fulnam(1:lennam))
          call write_log(2, bufout)
       endif
 
@@ -1021,7 +1022,8 @@ contains
       unitnm = get_lunit_tmp_use()
       open(unitnm, file=fulnam, status='old', iostat=ios)
       if (ios.ne.0) then
-         write(bufout,'(3a,i4,a)') ' ERROR: cannot open file "',trim(fulnam),'" (',ios,')'
+         lennam = min(200,len(fulnam))
+         write(bufout,'(3a,i4,a)') ' ERROR: cannot open file "',trim(fulnam(1:lennam)),'" (',ios,')'
          call write_log(1, bufout)
          ierror = ios
       endif
@@ -1406,8 +1408,8 @@ contains
       integer,          parameter :: mxitem = 20, ncolpnt = 6, mxwarn_coldef = 4
       character(len=4), parameter :: commnt = '!"%#'
       real(kind=8),     parameter :: point_dist_min = 1d-4
-      integer             :: unitnm, ios, linenr, line_prv, nblank, ncmtln, in_headers, old_style,      &
-                             ieof, nwarn_coldef, nitem, i, ipnt
+      integer             :: unitnm, ios, lennam, linenr, line_prv, nblank, ncmtln, in_headers,         &
+                             old_style, ieof, nwarn_coldef, nitem, i, ipnt
       logical             :: has_key, has_str
       real(kind=8)        :: values(1:mxitem)
       integer             :: arrsiz, xypoints, mirror_z, flip_data, ncolfile, icolfile, ipnt2file(ncolpnt)
@@ -1415,7 +1417,8 @@ contains
       character(len=MAX_CHAR_INP) :: inptxt, keywrd, valstr, columndef
 
       if (x_profil.ge.2) then
-         write(bufout,'(/,2a)') '--- read_miniprof: file ',trim(fulnam)
+         lennam = min(200,len(fulnam))
+         write(bufout,'(/,2a)') '--- read_miniprof: file ',trim(fulnam(1:lennam))
          call write_log(2, bufout)
       endif
       icol_kyield = 0
@@ -1424,7 +1427,8 @@ contains
       ierror = 0
       open(unitnm, file=fulnam, status='old', iostat=ios)
       if (ios.ne.0) then
-         write(bufout,'(3a,i4,a)') ' ERROR: cannot open file "',trim(fulnam),'" (',ios,')'
+         lennam = min(200,len(fulnam))
+         write(bufout,'(3a,i4,a)') ' ERROR: cannot open file "',trim(fulnam(1:lennam)),'" (',ios,')'
          call write_log(1, bufout)
          ierror = ios
       endif
@@ -1926,11 +1930,12 @@ contains
 !--local variables:
       integer,          parameter :: ncol = 2, mxwarn = 5
       real(kind=8),     parameter :: point_dist_min = 1d-4
-      integer             :: unitnm, ios, linenr, nwarn, ieof, ipnt
+      integer             :: unitnm, ios, lennam, linenr, nwarn, ieof, ipnt
       integer             :: arrsiz, mirror_z, flip_data
 
       if (x_profil.ge.2) then
-         write(bufout,'(/,2a)') '--- read_ascii_profile: file ',trim(fulnam)
+         lennam = min(200,len(fulnam))
+         write(bufout,'(/,2a)') '--- read_ascii_profile: file ',trim(fulnam(1:lennam))
          call write_log(2, bufout)
       endif
 
@@ -1938,7 +1943,8 @@ contains
       ierror = 0
       open(unitnm, file=fulnam, status='old', iostat=ios)
       if (ios.ne.0) then
-         write(bufout,'(3a,i4,a)') ' ERROR: cannot open file "',trim(fulnam),'" (',ios,')'
+         lennam = min(200,len(fulnam))
+         write(bufout,'(3a,i4,a)') ' ERROR: cannot open file "',trim(fulnam(1:lennam)),'" (',ios,')'
          call write_log(1, bufout)
          ierror = ios
       endif

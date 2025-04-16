@@ -10,6 +10,7 @@
 #    2: modified Fastsim, 1 flexibility    params = [ nu1, nu2, g1, g2, flx,   k0_mf,  alfamf, betamf ]
 #    3: modified Fastsim, 3 flexibilities  params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf         ]
 #    4: elastic + elasto-plastic 3rd body  params = [ nu1, nu2, g1, g2, g3,    laythk, tau_c0, k_tau  ]
+#    5: modified FaStrip                   params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
 # values >= 10 are used to configure the M2-digit, M2 = m_digit - 10
 #   12: force-based proportional damping   params = [ cdampn, cdampt, dfnmax, dftmax ]
 #

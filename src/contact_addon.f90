@@ -904,6 +904,10 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
          call write_log('        use cntc_setmaterialparameters instead.')
          ! my_ic%mater  = max(0, min(5, values(i)))
 
+      elseif (params(i).eq.CNTC_ic_exrhs) then         ! set E-digit in the RE-CP-data
+
+         my_ic%rztang = max(0, min(3, values(i)))
+
       elseif (params(i).eq.CNTC_ic_iestim) then         ! set I-digit in the RE-CP-data
 
          my_ic%iestim = max(0, min(3, values(i)))
@@ -1820,7 +1824,11 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
          ! V = 1 or 2: store alphvf(i) or svf(i)
 
          if (use_nvf) then
+            if (vdigit.eq.1) then
             my_fric%paramvf(ivf) = params(iofs+1) * my_scl%angle
+            else 
+               my_fric%paramvf(ivf) = params(iofs+1) * my_scl%len
+            endif
             iofs = iofs + 1
          endif
 

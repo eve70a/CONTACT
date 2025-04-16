@@ -20,9 +20,10 @@
 #                         alphvf(1),   lparam( 1 ,1:n) ],  ...
 #                                   ...
 #                         alphvf(nvf), lparam(nvf,1:n) ]
+#  When V = 2, same as for V = 1, using svf instead of alphvf
 #    
 #  dimensions:  alphvf: [angle],  fstat, fkin, flin1,2, frat1,2, fexp1,2, polach_a, fref, dfheat: [-]
-#               sabsh1,2, mem_s0: [veloc],  memdst: [length],  polach_b [1/veloc],  tref, dtheat [C]
+#               sabsh1,2, mem_s0: [veloc],  svf, memdst: [length],  polach_b [1/veloc],  tref, dtheat [C]
 #------------------------------------------------------------------------------------------------------------
 
 # Copyright 2008-2023 by Vtech CMCC.

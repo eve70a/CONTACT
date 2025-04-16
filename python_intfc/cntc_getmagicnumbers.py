@@ -72,6 +72,7 @@ def cntc_getmagicnumbers():
                                #   3: analytical IF for halfspace, bilinear elements
                                #   4: IF for conformal contact, using angle correction
     CNTC['ic_mater']   = 1979; # code for retrieving the control digit M, MATER
+    CNTC['ic_exrhs']   = 1980; # code for setting the control digit E3, EXRHS
     CNTC['ic_xflow']   = 1981; # code for setting extended debug print output (X, XFLOW)
                                # <=0: no additional debug output
                                #  >0: codeword PSFLRIN for profil, smooth, force, locate,

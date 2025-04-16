@@ -625,15 +625,19 @@ contains
          enddo
 
          if (icount.gt.0) then
-            call write_log(' Warning: large angle variation within contact patch, ignored in the ' //   &
-                        'planar contact approach')
-            write(bufout,'(a,i0,2a)') '          there are ',icount,' points with large slope of ',     &
-                        'rail surface w.r.t. tangent plane'
-            call write_log(1, bufout)
-            write(bufout,'(a,f6.3,2(a,f5.1),a)') '          min(t_s) =',ts_min,', slope',               &
-                        acos(ts_min)*180d0/pi,' deg,',100d0*(1d0/ts_min-1d0),                           &
-                        '% error in undeformed distance computation'
-            call write_log(1, bufout)
+            if (meta%itforce.le.2 .or. idebug.ge.1) then
+               call write_log(' WARNING: large angle variation within contact patch, ignored in the' // &
+                           ' planar contact approach')
+            endif
+            if (idebug.ge.1) then
+               write(bufout,'(a,i0,2a)') '          there are ',icount,' points with large slope of ',  &
+                           'rail surface w.r.t. tangent plane'
+               call write_log(1, bufout)
+               write(bufout,'(a,f6.3,2(a,f5.1),a)') '          min(t_s) =',ts_min,', slope',            &
+                           acos(ts_min)*180d0/pi,' deg,',100d0*(1d0/ts_min-1d0),                        &
+                           '% error in undeformed distance computation'
+               call write_log(1, bufout)
+            endif
          endif
       endif
 

@@ -2033,9 +2033,11 @@ contains
       do while(.not.lstop .and. iter.lt.maxit)
          iter = iter + 1
 
-         if (iw_dbg.ge.1 .and. .not.idone(iw_dbg) .and. x_locate.ge.3) then
-            write(bufout,'(a,i3,a,f9.4)') ' starting iter=',iter,', printing data for yw=',prw_lc%y(iw_dbg)
-            call write_log(1, bufout)
+         if (iw_dbg.ge.1 .and. x_locate.ge.3) then
+            if (idone(iw_dbg)) then
+               write(bufout,'(a,i3,a,f9.4)') ' starting iter=',iter,', printing data for yw=',prw_lc%y(iw_dbg)
+               call write_log(1, bufout)
+            endif
          endif
 
          ! copy current prw_lc to prr_lc, convert prr_lc to view-coordinates to get the lc positions
@@ -2073,9 +2075,11 @@ contains
          endif
          call cartgrid_2glob(prr_lc, rr_vw)
 
-         if (iw_dbg.ge.1 .and. .not.idone(iw_dbg) .and. x_locate.ge.2) then
-            write(bufout,'(2(a,g14.6))') ' x_lc  =',prw_lc%x(iw_dbg),', dzdx_vprf=',dzdx_vprf(iw_dbg)
-            call write_log(1, bufout)
+         if (iw_dbg.ge.1 .and. x_locate.ge.2) then
+            if (.not.idone(iw_dbg)) then
+               write(bufout,'(2(a,g14.6))') ' x_lc  =',prw_lc%x(iw_dbg),', dzdx_vprf=',dzdx_vprf(iw_dbg)
+               call write_log(1, bufout)
+            endif
          endif
 
          ! estimate new x-positions for locus in wheel-coordinates

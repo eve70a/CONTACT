@@ -9,7 +9,7 @@
 
 if (~exist('cntc_initlibrary.m','file'))
    % set location of CONTACT installation folder
-   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v24.1';
+   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v25.1';
    contactdir = '..';
    addpath([contactdir, '\matlab_intfc']);
    addpath([contactdir, '\matlab']);
@@ -44,17 +44,17 @@ for iwhe = 1 : 2 % "wheel number"
             % CONTACT unit convention: [mm], [mm/s], [N], acting on body (1)
             % note that w/r profiles are needed in [mm] regardless of this setting.
    clear flags values;
-   flags(1) = CNTC.if_units ; values(1) = CNTC.un_cntc;
+   flags( 1) = CNTC.if_units ; values(1) = CNTC.un_cntc;
 
             % C1 digit (CONFIG): 0 for left side, 1 for right side
-   flags(2) = CNTC.ic_config; values(2) = iwhe-1;
-   flags(3) = CNTC.ic_tang  ; values(3) = 3;    % T=3: steady state rolling
-   flags(4) = CNTC.ic_pvtime; values(4) = 2;    % P=2: no previous time
-   flags(5) = CNTC.ic_discns; values(5) = 2;    % D=2: planar contact
-   flags(6) = CNTC.if_wrtinp; values(6) = 0;    %   0: no .inp-file needed
-   flags(7) = CNTC.ic_matfil; values(7) = 0;    % A=0: no .mat-file needed
-   flags(8) = CNTC.ic_output; values(8) = 3;    % O=1: min. output to .out-file
-   flags(9) = CNTC.ic_flow  ; values(9) = 2;    % W=2: little progress output
+   flags( 2) = CNTC.ic_config; values( 2) = iwhe-1;
+   flags( 3) = CNTC.ic_tang  ; values( 3) = 3;    % T=3: steady state rolling
+   flags( 4) = CNTC.ic_pvtime; values( 4) = 2;    % P=2: no previous time
+   flags( 5) = CNTC.ic_discns; values( 5) = 2;    % D=2: planar contact
+   flags( 6) = CNTC.if_wrtinp; values( 6) = 0;    %   0: no .inp-file needed
+   flags( 7) = CNTC.ic_matfil; values( 7) = 0;    % A=0: no .mat-file needed
+   flags( 8) = CNTC.ic_output; values( 8) = 3;    % O=1: min. output to .out-file
+   flags( 9) = CNTC.ic_flow  ; values( 9) = 2;    % W=2: little progress output
 
    cntc_setflags(iwhe, [], flags, values);
 

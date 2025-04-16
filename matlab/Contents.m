@@ -27,9 +27,22 @@
 %   read_simpack    - lower-level routine for reading Simpack prr/prw files
 %   read_miniprof   - lower-level routine for reading Miniprof ban/whl files
 %   modify_profile  - lower-level routine for making some profile adjustments
-%   resample_slices - helper routine for 2D interpolation of variable profile
+%   plot_update     - show difference of two profiles at magnification factor
+%   resample_slices - lower-level routine for 2D interpolation of variable profile
+%   smooth_profile  - compute smoothed profile using parametric smoothing spline approximation
 %   write_simpack   - routine for writing Simpack prr/prw files
 %   write_miniprof  - routine for writing Miniprof ban/whl files
+%
+% Spline curves and spline surfaces.
+%
+%   make_spline         - compute parametric smoothing spline curve (profile)
+%   eval_spline         - evaluate parametric smoothing spline curve (profile)
+%   eval_spline_deriv   - evaluate derivatives of parametric smoothing spline curve
+%   make_2dspline       - compute parametric smoothing spline surface (variable profile)
+%   eval_2dspline       - evaluate parametric smoothing spline surface (variable profile)
+%   eval_2dspline_deriv - evaluate derivatives of parametric smoothing spline surface
+%   plot_2dspline       - create 3d surface plot of a parametric spline surface (variable profile)
+%   helpers: make_arclength, make_ppform, make_reflec, eval_bspline_basisfnc, solve_cubic_eq
 
 % Copyright 2008-2023 by Vtech CMCC.
 %

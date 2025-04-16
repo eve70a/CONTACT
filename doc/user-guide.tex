@@ -244,7 +244,7 @@ incorporation of velocity dependent friction laws
 \cite{Vollebregt2014c-tractcurv,Vollebregt2012a-quasistd}, effects of
 roughness and contamination (`third body layer') 
 \cite{Vollebregt2014c-tractcurv,Vollebregt2021a-soa-paper,
-Vollebregt2024a-vt-fra}, by making extensions for solving conformal
+Vollebregt2024a-vor-fra}, by making extensions for solving conformal
 contact problems \cite{Vollebregt2018b-corrigendum,
 Vollebregt2020c-distr-force,Vollebregt2014d-conformal}, and via new
 enhanced solvers on the basis of Conjugate Gradients and FFTs 
@@ -1175,16 +1175,16 @@ $v_{y,r}=\Delta\dot{y}_{r}, \ldots$ may be specified also.
 Rail deflections may be computed resulting from the lateral and
 vertical contact forces.
 \begin{eqnarray}\label{eq:cntc_defl}
-   F_{y(tr)} - k_y\,\delta y_{defl} + F^*_y = 0 &\leftrightarrow&
-   \delta y_{\defl} = \frac{F_{y(tr)} + F^*_y}{ k_y } , \\
-   F_{z(tr)} - k_z\,\delta z_{defl} + F^*_z = 0 &\leftrightarrow&
-   \delta z_{\defl} = \frac{F_{z(tr)} + F^*_z}{ k_z } .
+   F_{y(tr)} - k^*_y\,\delta y_{defl} + F^*_y = 0 &\leftrightarrow&
+   \delta y_{\defl} = \frac{F_{y(tr)} + F^*_y}{ k^*_y } , \\
+   F_{z(tr)} - k^*_z\,\delta z_{defl} + F^*_z = 0 &\leftrightarrow&
+   \delta z_{\defl} = \frac{F_{z(tr)} + F^*_z}{ k^*_z } .
 \end{eqnarray}
 Here $F_y^*, F_z^*$ are prescribed external forces on the rail.
 This can be used to implement a massless rail with stiffness and damping:
 \begin{equation}\label{eq:massless}
    F_{y(tr)}^{n+1} + F^{n+1}_{\defl,y} = 0, \;\;
-   F^{n+1}_{\defl,y} = -k^*_y\,\delta y^{n+1}_{defl} - c^*_y \frac{\delta
+   F^{n+1}_{\defl,y} = -k_y\,\delta y^{n+1}_{defl} - c_y \frac{\delta
         y^{n+1}_{defl} - \delta y^n_{defl}}{ \delta t }
 \end{equation}
 Here $F_{y(tr)}^{n+1}$ is the contact force on the rail, at the end of a
@@ -1192,8 +1192,8 @@ time step in a time integration procedure, $F_{\defl,y}$ the lateral force
 from the ground on the rail, with balance equation $\sum F=0$.
 Equation (\ref{eq:cntc_defl}) corresponds to (\ref{eq:massless}) with
 \begin{equation}
-   k_y = k^*_y + \frac{c^*_y}{\delta t}, \;\; 
-   F^*_y = \frac{ c^*_y\,\delta y_{defl}^n}{\delta t} .
+   k^*_y = k_y + \frac{c_y}{\delta t}, \;\; 
+   F^*_y = \frac{ c_y\,\delta y_{defl}^n}{\delta t} .
 \end{equation}
 
 \paragraph{Roller rig configurations}
@@ -1784,8 +1784,8 @@ Furthermore, the gauge computation is used there for the lateral
 positioning of the profile only. In radial direction, the profile origin
 $z_r=0$ is placed at the nominal radius $r_{nom,r}$ from the roller axle.
 \begin{inputvars}
-\inpvar{NOMRADR}{\bunit{mm}}{Nominal radius $r_{nom,r}$ of the rollers, i.e.\ the
-        radius at which the profile heights $z_r$ are zero.}
+\inpvar{NOMRADR}{\bunit{mm}}{Nominal radius $r_{nom,r}$ of the rollers,
+        i.e.\ the radius at which the profile heights $z_r$ are zero.}
 \end{inputvars}
 
 Rail irregularities provide offsets with respect to the ideal (design)
@@ -1812,9 +1812,9 @@ is considered.
 The massless rail model of Equation (\ref{eq:cntc_defl}) is activated using
 control digit ${\tt F}_1=3$, and takes the following inputs:
 \begin{inputvars}
-\inpvar{KYRAIL}{\bunit{N/mm}}{Effective lateral rail stiffness $k_y$.}
+\inpvar{KYRAIL}{\bunit{N/mm}}{Effective lateral rail stiffness $k^*_y$.}
 \inpvar{FYRAIL}{\bunit{N}}{Prescribed lateral force $F_y^*$ on the rail.}
-\inpvar{KZRAIL}{\bunit{N/mm}}{Effective vertical rail stiffness $k_z$.}
+\inpvar{KZRAIL}{\bunit{N/mm}}{Effective vertical rail stiffness $k^*_z$.}
 \inpvar{FZRAIL}{\bunit{N}}{Prescribed vertical force $F_z^*$ on the rail.}
 \end{inputvars}
  
@@ -1828,13 +1828,13 @@ as described on page \pageref{e1-digit}.
 \begin{inputvars}
 \inpvar{FBDIST}{\bunit{mm}}{Lateral distance $d_{flng}$ between the inner faces
         (flange backs) of the two wheels of the wheelset.}
+\inpbreak
 \inpvar{FBPOS}{\bunit{mm}}{Lateral position $y_{fbpos}$ of the flange back with
         respect to the wheel profile origin $O_w$. (In the configuration of
         Figure \ref{fig:wheel_coord}, $y_{fbpos}$ could be $-70\unit{mm}$.)}
 \inpvar{NOMRADW}{\bunit{mm}}{Nominal radius $r_{nom,w}$ of the wheel, i.e.\ the
         distance of the wheel profile reference point to the wheelset axle.}
 \end{inputvars}
-
 The contact geometry is governed by the position of the wheel with respect
 to the rail. This is computed using the position of the wheelset center,
 and the wheelset roll, yaw and pitch angles.
@@ -1888,6 +1888,7 @@ little precautions are taken to prevent solver divergence.}
 \begin{inputvars}
 \inpvar{VS\_WS}{\bunit{mm/s}}{Wheelset forward velocity $v_{s_1}=v_x$ along
         the track center line.}
+\inpbreak
 \inpvar{VY\_WS}{\bunit{mm/s}}{Wheelset lateral velocity $v_y=\dot{y}_{ws}$ with
         respect to track coordinates.}
 \inpvar{VZ\_WS}{\bunit{mm/s}}{Wheelset vertical velocity $v_z=\dot{z}_{ws}$ 
@@ -1953,6 +1954,7 @@ wheel, but to the field side when the right wheel is considered.
         $\Delta v_x^{whl}, \Delta v_y^{whl}, \Delta v_z^{whl}$ of the
         wheel profile origin with respect to the design position in
         wheelset coordinates.}
+\inpbreak
 \inpvar{VROLLW, \mbox{\hspace{4mm}VYAWW}, \mbox{\hspace{4mm}VPITCHW}}{
         \bunit{rad/s}}{Angular velocities $\Delta v_\phi^{whl}, 
         \Delta v_\psi^{whl}, \Delta v_\theta^{whl}$ of the wheel profile
@@ -2014,7 +2016,6 @@ changes in the input positions.
         are processed separately.}
 \inpvar{D\_COMB}{\bunit{mm}}{Threshold distance $d_{comb}$ below which
         patches are combined fully, if not prohibited by the angle threshold.}
-\inpbreak
 \inpvar{D\_TURN}{\bunit{mm}}{Threshold distance $d_{turn}$ below which
         reference angle turning is used for patches that are processed
         separately. Default $2 d_{sep}-d_{comb}$.}
@@ -2127,7 +2128,6 @@ The forces are also rotated to the wheelset orientation:
 \inpvar{FX\_WS}{\bunit{N}}{Total force $F_{x_{ws}}$ on the rail in wheelset
         longitudinal direction $x_{wset}$. \magenta{Input when ${\tt
         F}_1=1$.}}
-%\inpbreak
 \inpvar{FY\_WS}{\bunit{N}}{Total force $F_{y_{ws}}$ on the rail in wheelset
         lateral direction $y_{wset}$.}
 \inpvar{FZ\_WS}{\bunit{N}}{Total force $F_{z_{ws}}$ on the rail in wheelset
@@ -3466,11 +3466,11 @@ In rolling problems (${\tt T}=2,3$) the following variables are used.
 \inpvar{DQ}{\bunit{mm}}{Rolling distance traversed per timestep, i.e.\
         $\delta q=V\cdot\delta t$. This should preferrably be of the
         order of the grid size {\tt DX} \cite{Wekken2017a-wiggles}.}
+\inpbreak
 \inpvar{VELOC}{\bunit{mm/s}}{The rolling velocity $V$. This affects
         viscoelastic material behaviour (${\tt M}=1$), velocity dependent
         friction laws (${\tt L}=2-4$), and the frictional power dissipation
         {\tt FRIC}.}
-% \inpbreak
 \inpvar{CKSI, CETA}{\bunit{-}}{Creepages in $x$- and $y$-directions
         respectively, rigid slip velocities relative to the rolling speed
         $V$.}
@@ -3648,6 +3648,7 @@ reached, or when a prescribed maximum number of iterations is exceeded.
 \inpvar{MAXNR}{-}{Maximal number of iterations for the Newton-Raphson
         procedures that are used when total forces are prescribed. A value
         of 10 or 20 is usually ok.}
+\inpbreak
 \inpvar{MAXGS}{-}{Maximal number of iterations in iterative solvers
         NormCG, Tang\-CG, ConvexGS and SteadyGS. This may be set to a high
         value such as 500 or 999.}
@@ -3706,6 +3707,7 @@ reliable than the warning suggests.
         SteadyGS for elements in the adhesion area.}
 \inpvar{OMEGAS}{\bunit{-}}{Relaxation parameter $\omega_s$ for ConvexGS and
         SteadyGS for elements in the slip area.}
+\inpbreak
 \inpvar{INISLP}{\bunit{-}}{Flag for initial estimate for slip velocity. Used in
         slip velocity dependent friction laws (${\tt L}=2-4$), else ${\tt
         INISLP}=0$ can be used.}
@@ -3828,8 +3830,9 @@ The approach {\tt PEN}, creepages {\tt CKSI}, {\tt CETA} and total forces
 \ref{sec:kincns}. These may be input or output depending on the {\tt N}-
 and {\tt F}-digits.
 \begin{inputvars}
-\inpvar{MZ}{\bunit{N\,mm}}{Torsional moment $M_z$ around the $z$-axis of the local
-        coordinate system.}
+\inpvar{MZ}{\bunit{N\,mm}}{Torsional moment $M_z$ around the $z$-axis of
+        the local coordinate system.}
+\inpbreak
 \inpvar{ELEN}{\bunit{J}}{Elastic energy.}
 \inpvar{FRIC}{\bunit{W}}{Frictional power dissipation by the surface tractions.}
 \end{inputvars}
@@ -5835,7 +5838,7 @@ scripts.
 The Matlab search path must be adjusted such that our plotting programs can
 be found. This is done in Matlab with the {\tt addpath} command, e.g.
 \begin{verbatim}
->> addpath('C:\Program Files\Vtech CMCC\contact_v24.1\matlab');
+>> addpath('C:\Program Files\Vtech CMCC\contact_v25.1\matlab');
 \end{verbatim}
 This command may be put in a file `{\tt startup.m}' in your working
 directory, in your personal overall startup-file
@@ -5843,9 +5846,9 @@ directory, in your personal overall startup-file
 configuration-file (`\verb+<MAT-+ \verb+LAB>\toolbox\local\pathdef.m+').
 
 You can check whether the path is set correctly by typing
-\verb+ help contact_v24.1\matlab+. This should show the following output:
+\verb+ help contact_v25.1\matlab+. This should show the following output:
 \begin{alltt}\small
-Matlab scripts for visualisation of output of the CONTACT program (v24.1).
+Matlab scripts for visualisation of output of the CONTACT program (v25.1).
 
 Loading results into Matlab.
 
@@ -5873,9 +5876,21 @@ Working with wheel/rail profiles.
   read_simpack    - lower-level routine for reading Simpack prr/prw files
   read_miniprof   - lower-level routine for reading Miniprof ban/whl files
   modify_profile  - lower-level routine for making some profile adjustments
-  resample_slices - helper routine for 2D interpolation of variable profile
+  plot_update     - show difference of two profiles at magnification factor
+  resample_slices - lower-level routine for 2D interpolation of variable profile
+  smooth_profile  - compute smoothed profile using smoothing spline approximation
   write_simpack   - routine for writing Simpack prr/prw files
   write_miniprof  - routine for writing Miniprof ban/whl files
+
+Spline curves and spline surfaces.
+
+  make_spline         - compute parametric smoothing spline curve (profile)
+  eval_spline         - evaluate parametric smoothing spline curve (profile)
+  eval_spline_deriv   - evaluate derivatives of parametric smoothing spline curve
+  make_2dspline       - compute parametric smoothing spline surface (var.profile)
+  eval_2dspline       - evaluate parametric smoothing spline surface (var.profile)
+  eval_2dspline_deriv - evaluate derivatives of parametric smoothing spline surfc
+  plot_2dspline       - create 3d surface plot of a parametric spline surface
 \end{alltt}
 
 \section{Inspecting the surface stresses}
@@ -6429,7 +6444,7 @@ programmers the interfaces are specified in {\tt contact\_addon.ifc}.
 
 \begin{alltt}\small
 cntc_initlibrary          - load library into matlab (Matlab)
-cntc_initializefirst_new  - open out-file, initialize data-structures (Fortran/C)
+cntc_initializefirst      - open out-file, initialize data-structures (Fortran/C)
 cntc_initialize           - further initializations per result element
 cntc_setfileunits         - configure logical file units (Fortran)
 cntc_setglobalflags       - configuration of general settings
@@ -6453,11 +6468,11 @@ valid for the actual computation.
 In Fortran and C, the analogue is {\tt cntc\_initializefirst}. In that
 case the magic numbers are provided in {\tt caddon\_\-flags.\-inc}.
 
-\paragraph{cntc\_initializefirst\_new}
+\paragraph{cntc\_initializefirst}
 
 When using the library from Fortran/C, it is needed to properly
 initialize file I/O, folders used, experiment name, license, and internal
-data-structures. This is done by subroutine {\tt cntc\_initializefirst\_new}.
+data-structures. This is done by subroutine {\tt cntc\_initializefirst}.
 This routine will be called by {\tt cntc\_initialize} if it isn't called
 explicitly. In Matlab, this routine is called by {\tt cntc\_initlibrary}. 
 
@@ -6466,11 +6481,10 @@ inconvenient, inappropriate to locate user inputs. An optional `{\tt
 wrkdir}' may be provided that will be used as the effective working folder.
 This may be left blank if the true working folder is ok to work with.
 
-The variant {\tt cntc\_initializefirst\_new} is introduced in version 24.1,
-introducing the {\tt wrkdir} option without requiring changes to existing
-code. The interface of subroutine {\tt cntc\_initialize\-first} will be
-changed in version 25.1, after which the {\tt \_new} variant will be deleted
-in version 26.1.
+The parameter {\tt wrkdir} was introduced in version 24.1 in a new
+subroutine {\tt cntc\_initialize\-first\-\_\-new}. The interface of
+subroutine {\tt cntc\_initialize\-first} was changed in version 25.1.
+The {\tt \_new} variant will be deleted in version 26.1.
 
 A second folder `{\tt outdir}' may be given for the outputs created by
 CONTACT. This can be an absolute path or a path relative to the effective
@@ -6769,31 +6783,9 @@ of {\tt caddon\_flags.inc}).
 
 \paragraph{cntc\_getprofilevalues}
 
-Two different versions of subroutine {\tt cntc\_getprofilevalues} are
-provided with slightly different interfaces. Subroutine {\tt
-cntc\_getprofilevalues} provides the old interface that was used up
-to release 23.1 for backwards compatibility reasons. Subroutine {\tt
-cntc\_\-get\-pro\-file\-values\_new} adds extensions for checking
-CONTACT's spline approximation.
-
-{\scriptsize\begin{alltt}
-!--original code, works with library versions 18.1 -- 24.2:
-   ! set itask, iparam, ...
-   call cntc_getprofilevalues(ire, itask, 1, iparam, lenarr, val) 
-\end{alltt}}
-
-This code may be updated as follows:
-{\scriptsize\begin{alltt}
-!--intermediate code, works with library versions 18.1 -- 24.1:
-   ! set itask, iparam = (/ itype, isampl /), rparam = (/ ds_out /), ...
-   if (ifcver.le.2319) then
-      call cntc_getprofilevalues(ire, itask, 1, iparam, lenarr, val) 
-   else
-      call cntc_getprofilevalues\red{_new}(ire, itask, 2, iparam, 1, rparam, lenarr, val) 
-   endif
-\end{alltt}}
-
-In version 25.1, subroutine {\tt cntc\_getprofilevalues} will be updated
+A new subroutine {\tt cntc\_getprofilevalues\_new} was introduced in version
+24.1, providing extensions for checking CONTACT's spline approximation.
+In version 25.1, subroutine {\tt cntc\_getprofilevalues} is updated
 according to the new interface. Using this version, the caller code can be
 updated as follows:
 
@@ -6814,29 +6806,6 @@ the final situation:
 !--final code, works with library versions 25.1 and newer:
    ! set itask, iparam = (/ itype, isampl /), rparam = (/ ds_out /), ...
    call cntc_getprofilevalues\red{(}ire, itask, 2, iparam, 1, rparam, lenarr, val) 
-\end{alltt}}
-
-\paragraph{cntc\_settrackdimensions}
-
-The interface to subroutine {\tt cntc\_settrackdimensions} changed in
-version 23.1, adding extensions for absolute rail placement.
-
-{\scriptsize\begin{alltt}
-!--original code, works with versions 18.1 -- 22.2:
-   params = (/ gaugwd, gaught, cant, 0d0 /)
-   call cntc_settrackdimensions(ire, 1, params, 4) 
-\end{alltt}}
-
-This caller code may be updated as follows:
-
-{\scriptsize\begin{alltt}
-!--final code, works with versions 23.1 and newer:
-   if (gaught.gt.0d0) then
-      params = (/ gaught, gaugsq, gaugwd, cant, 0d0 /)
-   else
-      params = (/ gaught, raily0, railz0, cant, 0d0 /)
-   endif
-   call cntc_settrackdimensions(ire, 1, params, 5) 
 \end{alltt}}
 
 \paragraph{cntc\_setwheelsetdimensions, position, velocity, flexibility}

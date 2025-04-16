@@ -17,7 +17,7 @@ public
    !---------------------------------------------------------------------------------------------------------
 
    ! - Version number for current version.  For the trunk: tentative version number for next release
-   integer, parameter :: my_version_major  = 24
+   integer, parameter :: my_version_major  = 25
    integer, parameter :: my_version_minor  =  2
    integer, parameter :: my_version_update =  0
 

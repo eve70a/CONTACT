@@ -5,8 +5,7 @@
 % used for retrieving various parameters from a contact problem
 %
 %  itask          - selected group of parameters (1: cntc_getcpresults, 2: material, 3: friction)
-%  lenarr         - length of values array
-%  values(lenarr) - values of the parameters obtained from CONTACT
+%  values         - values of the parameters obtained from CONTACT
 %------------------------------------------------------------------------------------------------------------
 
 % Copyright 2008-2023 by Vtech CMCC.

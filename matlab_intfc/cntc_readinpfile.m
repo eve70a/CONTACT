@@ -5,7 +5,7 @@
 % read settings from inp-file
 %
 %  in:  integer    ire          - result element ID
-%       integer    inp_type     - type of inp-file: CNTC_inp_spck, ...
+%       integer    inp_type     - type of inp-file: CNTC.inp_spck, CNTC.inp_modul1
 %       character  fname(*)     - filename
 %  out: integer    ierror       - error flag
 %------------------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ function [ ierror ] = cntc_readinpfile(ire, inp_type, c_fname)
       inp_type = [];
    end
    if (~any(inp_type==[CNTC.inp_modul1 CNTC.inp_spck]))
-      disp('ERROR(readinpfile): inp_type must be CNTC.inp_spck');
+      disp('ERROR(readinpfile): inp_type must be CNTC.inp_spck or CNTC.inp_modul1');
       return;
    end
    if (nargin<3 | isempty(c_fname))

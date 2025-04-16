@@ -828,9 +828,9 @@ if (~isempty(strmatch('fastsim',expnam)))
    shading flat
    axis equal
    axis([-8.8 8.8 -4.4 4.4]);
-   l1=plot3([6.0, 7.2],[-1.6 -2.4],[f f],'m'); t1=text(6.8,-2.8,'Adhesion');
-   l2=plot3([4.4, 5.2],[-3.2 -3.6],[f f],'m'); t2=text(5.4,-3.8,'Slip');
-   set([l1,l2],'linewidth',2); set([t1,t2],'fontsize',14);
+   l1=plot3([-6.0,-7.2],[-1.8 -3.0],[f f],'m'); t1=text(-8.2,-3.4,'slip');
+   l2=plot3([ 6.0, 7.2],[-1.8 -3.0],[f f],'m'); t2=text( 8.6,-3.4 ,'adhesion','horizontalalignment','right');
+   set([l1,l2],'linewidth',1); set([t1,t2],'fontsize',14);
    title('Full theory');
    if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_cntc.jpg']); end
 
@@ -839,9 +839,9 @@ if (~isempty(strmatch('fastsim',expnam)))
    shading flat
    axis equal
    axis([-8.8 8.8 -4.4 4.4]);
-   l1=plot3([-6.0,-4.8],[-3.2 -2.4],[f f],'m'); t1=text(-6.8,-3.6,'Slip');
-   l2=plot3([ 6.0, 7.2],[-1.6 -2.4],[f f],'m'); t2=text( 6.8,-2.8 ,'Adhesion');
-   set([l1,l2],'linewidth',2); set([t1,t2],'fontsize',14);
+   l1=plot3([-6.0,-7.2],[-1.8 -3.0],[f f],'m'); t1=text(-8.2,-3.4,'slip');
+   l2=plot3([ 6.0, 7.2],[-1.8 -3.0],[f f],'m'); t2=text( 8.6,-3.4 ,'adhesion','horizontalalignment','right');
+   set([l1,l2],'linewidth',1); set([t1,t2],'fontsize',14);
    title('Fastsim-parabolical');
    if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_parab.jpg']); end
 
@@ -850,10 +850,10 @@ if (~isempty(strmatch('fastsim',expnam)))
    shading flat
    axis equal
    axis([-8.8 8.8 -4.4 4.4]);
-   l1=plot3([-7.2,-5.6],[-2.0 -0.8],[f f],'m'); t1=text(-8.4,-2.4,'Adhesion');
-   l2=plot3([-6.0,-4.8],[-3.2 -2.4],[f f],'m'); t2=text(-6.8,-3.6,'Slip');
-   l3=plot3([ 6.0, 7.2],[-1.6 -2.4],[f f],'m'); t3=text( 6.8,-2.8 ,'Adhesion');
-   set([l1,l2,l3],'linewidth',2); set([t1,t2,t3],'fontsize',14);
+   l1=plot3([-6.0,-7.2],[-1.8 -3.0],[f f],'m'); t1=text(-8.2,-3.4,'slip');
+   l2=plot3([ 6.0, 7.2, -1.0],[-1.8 -3.0, -0.8],[f f f],'m');
+                                                t2=text( 8.6,-3.4 ,'adhesion','horizontalalignment','right');
+   set([l1,l2],'linewidth',1); set([t1,t2],'fontsize',14);
    title('Fastsim-elliptical');
    if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_ellip.jpg']); end
 
@@ -862,10 +862,10 @@ if (~isempty(strmatch('fastsim',expnam)))
    shading flat
    axis equal
    axis([-8.8 8.8 -4.4 4.4]);
-   l1=plot3([-6.0,-4.8],[-3.2 -2.4],[f f],'m'); t1=text(-6.8,-3.6,'Slip');
-   l2=plot3([ 6.0, 7.2],[-1.6 -2.4],[f f],'m'); t2=text( 6.8,-2.8 ,'Adhesion');
-   set([l1,l2],'linewidth',2); set([t1,t2],'fontsize',14);
-   title('FaStrip');
+   l1=plot3([-6.0,-7.2],[-1.8 -3.0],[f f],'m'); t1=text(-8.2,-3.4,'slip');
+   l2=plot3([ 6.0, 7.2],[-1.8 -3.0],[f f],'m'); t2=text( 8.6,-3.4 ,'adhesion','horizontalalignment','right');
+   set([l1,l2],'linewidth',1); set([t1,t2],'fontsize',14);
+   title('Modified FaStrip');
    if (print_figures), print('-djpeg95',['fastrip_',nam_plot,'.jpg']); end
 
    figure(5); clf; hold on;
@@ -873,9 +873,9 @@ if (~isempty(strmatch('fastsim',expnam)))
    shading flat
    axis equal
    axis([-8.8 8.8 -4.4 4.4]);
-   l1=plot3([ 6.0, 4.8],[-3.2 -2.4],[f f],'m'); t1=text( 6.0,-3.6,'Slip');
-   l2=plot3([-6.0,-7.2],[-1.6 -3.0],[f f],'m'); t2=text(-8.6,-3.6 ,'Adhesion');
-   set([l1,l2],'linewidth',2); set([t1,t2],'fontsize',14);
+   l1=plot3([-6.0,-7.2],[-1.8 -3.0],[f f],'m'); t1=text(-8.6,-3.4,'adhesion');
+   l2=plot3([ 6.0, 7.2],[-1.8 -3.0],[f f],'m'); t2=text( 8.2,-3.4 ,'slip','horizontalalignment','right');
+   set([l1,l2],'linewidth',1); set([t1,t2],'fontsize',14);
    title('Fastsim-parabolical, reversed');
    if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_revers.jpg']); end
 
