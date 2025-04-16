@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
+   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -346,18 +346,18 @@ Performance timers:
 |--------------------------------------------------------------------------|
 |Total                |        1 |        1.2 | 100.0 |        1.2 | 100.0 |
 |Non-Hertzian cases   |        3 |        1.2 | 100.0 |        1.2 | 100.0 |
-|Panag.process        |        3 |        1.0 |  89.2 |        1.1 |  85.3 |
-|Algorithm Norm       |        3 |        0.0 |   2.7 |        0.0 |   2.0 |
-|Algorithm Tang       |        3 |        1.0 |  86.5 |        1.0 |  83.3 |
-|Output quantities    |        3 |        0.0 |   0.0 |        0.0 |   0.9 |
+|Panag.process        |        3 |        1.0 |  85.1 |        1.0 |  84.8 |
+|Algorithm Norm       |        3 |        0.0 |   4.1 |        0.0 |   2.1 |
+|Algorithm Tang       |        3 |        0.9 |  81.1 |        1.0 |  82.7 |
+|Output quantities    |        3 |        0.0 |   1.4 |        0.0 |   1.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        3 |        0.0 |   2.7 |        0.0 |   2.0 |
-|Tang: StedyGS solver |       27 |        0.9 |  79.7 |        0.9 |  75.3 |
-|Temperature calc.    |       29 |        0.1 |   5.4 |        0.1 |   4.3 |
+|Norm: ConjGrd solver |        3 |        0.0 |   2.7 |        0.0 |   1.6 |
+|Tang: StedyGS solver |       27 |        0.8 |  71.6 |        0.9 |  74.1 |
+|Temperature calc.    |       29 |        0.1 |   6.8 |        0.1 |   5.9 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        3 |        0.1 |  10.8 |        0.1 |  11.9 |
+|Writing output-files |        3 |        0.2 |  13.5 |        0.2 |  13.3 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
+   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -147,26 +147,26 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.4 | 100.0 |        0.6 | 100.0 |
-|Wheel-rail cases     |        1 |        0.4 | 100.0 |        0.6 | 100.0 |
-|W/r profiles         |        2 |        0.1 |  19.2 |        0.4 |  69.3 |
-|Geometric analysis   |        1 |        0.2 |  61.5 |        0.2 |  24.4 |
-|Panag.process        |        1 |        0.1 |  15.4 |        0.0 |   3.3 |
-|Algorithm Norm       |        1 |        0.0 |   7.7 |        0.0 |   0.5 |
-|Algorithm Tang       |        1 |        0.0 |   7.7 |        0.0 |   2.8 |
-|Output quantities    |        2 |        0.0 |   3.8 |        0.0 |   1.0 |
+|Total                |        1 |        0.5 | 100.0 |        0.3 | 100.0 |
+|Wheel-rail cases     |        1 |        0.5 | 100.0 |        0.3 | 100.0 |
+|W/r profiles         |        2 |        0.1 |  21.2 |        0.1 |  36.9 |
+|Geometric analysis   |        1 |        0.3 |  60.6 |        0.2 |  50.2 |
+|Panag.process        |        1 |        0.1 |  12.1 |        0.0 |   9.5 |
+|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   2.5 |
+|Algorithm Tang       |        1 |        0.1 |  12.1 |        0.0 |   7.1 |
+|Output quantities    |        2 |        0.0 |   0.0 |        0.0 |   0.6 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        1 |        0.0 |   7.7 |        0.0 |   0.2 |
-|Tang: StedyGS solver |        1 |        0.0 |   7.7 |        0.0 |   2.8 |
+|Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   2.5 |
+|Tang: StedyGS solver |        1 |        0.1 |  12.1 |        0.0 |   6.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.1 |  19.2 |        0.4 |  69.3 |
-|Contact location     |        1 |        0.2 |  61.5 |        0.1 |  24.1 |
-| - Interp sf_whl     |        1 |        0.1 |  19.2 |        0.1 |   8.9 |
-| - Other calc.       |        2 |        0.0 |   3.8 |        0.0 |   3.6 |
-| - Locate interpen   |        1 |        0.0 |   7.7 |        0.0 |   2.4 |
-|Undeformed distance  |        1 |        0.0 |   0.0 |        0.0 |   0.3 |
-| - Interp whl_srfc   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Initial state/estim. |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        1 |        0.1 |  21.2 |        0.1 |  36.9 |
+|Contact location     |        1 |        0.3 |  60.6 |        0.2 |  48.6 |
+| - Interp sf_whl     |        1 |        0.1 |  18.2 |        0.1 |  16.0 |
+| - Other calc.       |        2 |        0.0 |   6.1 |        0.0 |   6.5 |
+| - Locate interpen   |        1 |        0.0 |   0.0 |        0.0 |   3.4 |
+|Undeformed distance  |        1 |        0.0 |   0.0 |        0.0 |   1.5 |
+| - Interp whl_srfc   |        1 |        0.0 |   0.0 |        0.0 |   1.5 |
+|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.9 |
+|Initial state/estim. |        1 |        0.0 |   0.0 |        0.0 |   0.6 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

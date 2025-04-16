@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
+   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -195,10 +195,10 @@ Performance timers:
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.3 | 100.0 |        0.3 | 100.0 |
 |Non-Hertzian cases   |        2 |        0.3 | 100.0 |        0.3 | 100.0 |
-|Subsurface points    |        2 |        0.0 |   5.6 |        0.0 |   8.9 |
-|Panag.process        |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurface points    |        2 |        0.0 |   9.1 |        0.0 |   7.7 |
+|Panag.process        |        2 |        0.0 |   0.0 |        0.0 |   0.6 |
 |Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Tang       |        1 |        0.0 |   0.0 |        0.0 |   0.6 |
 |Output quantities    |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Norm: ConjGrd solver |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
@@ -208,6 +208,6 @@ Performance timers:
 |Influence coeffic.   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Writing output-files |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Subsurf writing      |        4 |        0.3 |  94.4 |        0.2 |  91.1 |
+|Subsurf writing      |        4 |        0.3 |  90.9 |        0.3 |  91.1 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
+   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -1500,9 +1500,7 @@
  cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  45,  26, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 100 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.947, slope 18.8 deg,  5.6% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
  cgrid_inp: mx,my=  34,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  30,  10, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -1753,9 +1751,7 @@
  cgrid_inp: mx,my=  51, 124, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  43,  80, dx,dy=   0.400,   0.400
     no initial estimate (large change npot)...
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 349 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.868, slope 29.8 deg, 15.3% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
  cgrid_inp: mx,my=  37,  12, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  34,  11, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -2007,9 +2003,7 @@
  cgrid_inp: mx,my=  53, 125, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  51, 124, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 422 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.851, slope 31.6 deg, 17.5% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
  cgrid_inp: mx,my=  41,  13, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  37,  12, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -2258,9 +2252,7 @@
  cgrid_inp: mx,my=  51, 124, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  53, 125, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 349 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.868, slope 29.8 deg, 15.3% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
  cgrid_inp: mx,my=  37,  12, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  41,  13, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -2517,9 +2509,7 @@
  cgrid_inp: mx,my=  47,  28, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  51, 124, dx,dy=   0.400,   0.400
     no initial estimate (large change npot)...
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 100 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.947, slope 18.8 deg,  5.6% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
  cgrid_inp: mx,my=  34,  11, dx,dy=   0.400,   0.400
  cgrid_cur: mx,my=  37,  12, dx,dy=   0.400,   0.400
  using initial estimate (new case, user setting)...
@@ -5394,21 +5384,21 @@ Performance timers:
 |--------------------------------------------------------------------------|
 |Total                |        1 |        1.1 | 100.0 |        1.3 | 100.0 |
 |Wheel-rail cases     |       21 |        1.1 | 100.0 |        1.3 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   1.2 |
-|Geometric analysis   |       21 |        0.1 |   7.0 |        0.1 |   6.5 |
-|Panag.process        |       48 |        0.7 |  63.4 |        0.8 |  58.6 |
-|Algorithm Norm       |       48 |        0.3 |  23.9 |        0.3 |  23.1 |
-|Algorithm Tang       |       48 |        0.4 |  39.4 |        0.5 |  35.4 |
-|Output quantities    |       69 |        0.1 |   9.9 |        0.2 |  16.7 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |       21 |        0.0 |   1.4 |        0.1 |   6.7 |
+|Panag.process        |       48 |        0.8 |  68.5 |        0.7 |  57.0 |
+|Algorithm Norm       |       48 |        0.4 |  37.0 |        0.3 |  25.0 |
+|Algorithm Tang       |       48 |        0.4 |  31.5 |        0.4 |  31.3 |
+|Output quantities    |       69 |        0.2 |  15.1 |        0.2 |  16.4 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       48 |        0.1 |  12.7 |        0.1 |   8.7 |
-|Tang: StedyGS solver |       48 |        0.4 |  38.0 |        0.4 |  32.7 |
+|Norm: ConjGrd solver |       48 |        0.2 |  15.1 |        0.2 |  12.9 |
+|Tang: StedyGS solver |       48 |        0.4 |  31.5 |        0.4 |  29.6 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       21 |        0.0 |   0.0 |        0.0 |   1.2 |
-|Contact location     |       21 |        0.0 |   2.8 |        0.0 |   2.7 |
-|Undeformed distance  |       48 |        0.0 |   4.2 |        0.0 |   1.6 |
-| - Interp whl_srfc   |       48 |        0.0 |   2.8 |        0.0 |   1.6 |
-|Influence coeffic.   |       16 |        0.0 |   2.8 |        0.0 |   2.3 |
-|Initial state/estim. |       48 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       21 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Contact location     |       21 |        0.0 |   1.4 |        0.0 |   1.6 |
+|Undeformed distance  |       48 |        0.0 |   0.0 |        0.0 |   1.7 |
+| - Interp whl_srfc   |       48 |        0.0 |   0.0 |        0.0 |   0.9 |
+|Influence coeffic.   |       16 |        0.0 |   1.4 |        0.0 |   1.1 |
+|Initial state/estim. |       48 |        0.0 |   0.0 |        0.0 |   0.5 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
+   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -1823,8 +1823,8 @@
  reading rail  profile "profiles\MBench_UIC60_v3.prr"
  reading wheel profile "profiles\MBench_S1002_v3.prw"
          0, NR,  z_ws, Fz:     101.3834       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:     101.4196       8712., dFz/dz:   3.608E+05
-         2, NR,  z_ws, Fz:     101.4230       9945., dFz/dz:   3.629E+05
+         1, NR,  z_ws, Fz:     101.4210       9196., dFz/dz:   3.672E+05
+         2, NR,  z_ws, Fz:     101.4230       9952., dFz/dz:   3.656E+05
          3, NR,  z_ws, Fz:     101.4232       9999., dFz/dz:   3.708E+05
          4, NR,  z_ws, Fz:     101.4251   1.074E+04, dFz/dz:   3.728E+05
          5, NR,  z_ws, Fz:     101.4232      10000., dFz/dz:   3.709E+05
@@ -1920,9 +1920,9 @@
  reading rail  profile "profiles\flat_plane.prr"
  reading wheel profile "profiles\circ_r100.prw"
          0, NR,  z_ws, Fz:      -0.4534       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -0.4181       9951., dFz/dz:   4.224E+05
-         2, NR,  z_ws, Fz:      -0.4180       9999., dFz/dz:   4.262E+05
-         3, NR,  z_ws, Fz:      -0.4180   1.000E+04, dFz/dz:   4.274E+05
+         1, NR,  z_ws, Fz:      -0.4180       9981., dFz/dz:   4.228E+05
+         2, NR,  z_ws, Fz:      -0.4180       9999., dFz/dz:   4.272E+05
+         3, NR,  z_ws, Fz:      -0.4180   1.000E+04, dFz/dz:   4.272E+05
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -2332,21 +2332,10 @@
  reading wheel profile "profiles\avg_wheel.whl"
  WARNING: found data while still in headers, ignoring line    7
          0, NR,  z_ws, Fz:       0.1647       0.000, dFz/dz:       0.000
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 24 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.971, slope 13.9 deg,  3.0% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
          1, NR,  z_ws, Fz:       0.3414   1.413E+05, dFz/dz:   1.199E+06
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 16 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.970, slope 14.1 deg,  3.1% error in undeformed distance computation
          2, NR,  z_ws, Fz:       0.3269   1.237E+05, dFz/dz:   1.210E+06
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 18 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.970, slope 14.1 deg,  3.1% error in undeformed distance computation
          3, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.182E+06
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 18 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.970, slope 14.1 deg,  3.1% error in undeformed distance computation
          4, NR,  z_ws, Fz:       0.3274   1.244E+05, dFz/dz:   1.176E+06
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
@@ -3656,9 +3645,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case    34
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 530 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.739, slope 42.4 deg, 35.4% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -4557,9 +4544,7 @@
  Case    38
  reading rail  profile "profiles\site_b_hr.prr"
  reading wheel profile "profiles\worn_high_mileage.prw"
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 276 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.881, slope 28.3 deg, 13.5% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -4811,9 +4796,7 @@
      X  -->
 
  Case    39
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 233 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.898, slope 26.1 deg, 11.4% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  3 CONTACT PATCHES
 
@@ -5059,32 +5042,32 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        2.8 | 100.0 |        3.3 | 100.0 |
-|Wheel-rail cases     |       19 |        2.3 |  82.0 |        2.7 |  79.9 |
-|Non-Hertzian cases   |       20 |        0.5 |  18.0 |        0.7 |  20.1 |
-|Subsurface points    |        3 |        0.0 |   0.0 |        0.0 |   0.1 |
-|W/r profiles         |       25 |        0.1 |   2.8 |        0.3 |   8.5 |
-|Geometric analysis   |      119 |        0.2 |   8.4 |        0.3 |   7.7 |
-|Panag.process        |      133 |        2.0 |  72.5 |        2.2 |  66.0 |
-|Algorithm Norm       |      174 |        0.5 |  18.5 |        0.6 |  17.7 |
-|Algorithm Tang       |      165 |        1.5 |  53.4 |        1.6 |  48.0 |
-|Output quantities    |      152 |        0.2 |   6.7 |        0.3 |   8.9 |
+|Total                |        1 |        3.5 | 100.0 |        4.0 | 100.0 |
+|Wheel-rail cases     |       19 |        2.9 |  84.2 |        3.4 |  84.5 |
+|Non-Hertzian cases   |       20 |        0.5 |  15.8 |        0.6 |  15.2 |
+|Subsurface points    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
+|W/r profiles         |       25 |        0.1 |   2.3 |        0.4 |   9.3 |
+|Geometric analysis   |      119 |        0.4 |  10.4 |        0.3 |   8.7 |
+|Panag.process        |      133 |        2.6 |  75.7 |        2.6 |  66.5 |
+|Algorithm Norm       |      174 |        0.8 |  24.3 |        0.9 |  21.5 |
+|Algorithm Tang       |      165 |        1.8 |  51.4 |        1.8 |  44.5 |
+|Output quantities    |      152 |        0.2 |   5.4 |        0.2 |   5.9 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      174 |        0.3 |  11.8 |        0.3 |  10.4 |
-|Tang: TangCG solver  |       81 |        0.2 |   5.6 |        0.2 |   4.8 |
-|Tang: ConvxGS solver |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      131 |        1.3 |  46.1 |        1.3 |  38.6 |
+|Norm: ConjGrd solver |      174 |        0.6 |  16.2 |        0.6 |  14.0 |
+|Tang: TangCG solver  |       81 |        0.2 |   7.2 |        0.2 |   4.6 |
+|Tang: ConvxGS solver |        5 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Tang: StedyGS solver |      131 |        1.5 |  44.1 |        1.5 |  37.5 |
 |Tang: Fastsim solver |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       39 |        0.1 |   2.8 |        0.3 |   8.5 |
-|Contact location     |      119 |        0.1 |   2.8 |        0.0 |   1.1 |
-| - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       39 |        0.1 |   2.3 |        0.4 |   9.3 |
+|Contact location     |      119 |        0.1 |   2.7 |        0.1 |   2.8 |
+| - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.2 |
 | - Other calc.       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Locate interpen   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |      113 |        0.1 |   5.1 |        0.2 |   5.7 |
-| - Interp whl_srfc   |      113 |        0.1 |   2.8 |        0.1 |   3.7 |
-|Influence coeffic.   |       74 |        0.1 |   2.8 |        0.1 |   1.9 |
-|Initial state/estim. |      133 |        0.0 |   1.1 |        0.0 |   0.1 |
-|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Undeformed distance  |      113 |        0.2 |   7.2 |        0.2 |   5.1 |
+| - Interp whl_srfc   |      113 |        0.2 |   5.9 |        0.2 |   3.9 |
+|Influence coeffic.   |       74 |        0.1 |   2.3 |        0.1 |   3.0 |
+|Initial state/estim. |      133 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,14 +2,13 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
+   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
 
  Case     1
  Warning: Using DQ = DX =  0.2889     instead of  0.5000     for solver SteadyGS.
- Case     1
  NORM
        1, Norm: size of Contact, Exterior :   1376    736
       Norm: final element division: C, E=   1384    728  ItCG=     7
@@ -3281,7 +3280,6 @@
 
  Case    31
  Warning: Using DQ = DX =  0.2889     instead of  0.5000     for solver SteadyGS.
- Case    31
  NORM
        1, Norm: size of Contact, Exterior :   1376    736
       Norm: final element division: C, E=   1384    728  ItCG=     7
@@ -13616,15 +13614,15 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       12.2 | 100.0 |       12.9 | 100.0 |
-|Non-Hertzian cases   |      120 |       12.2 | 100.0 |       12.9 | 100.0 |
-|Panag.process        |      120 |       11.8 |  97.4 |       12.2 |  94.9 |
-|Algorithm Norm       |       60 |        0.2 |   1.7 |        0.2 |   1.3 |
-|Algorithm Tang       |      120 |       11.6 |  95.6 |       12.0 |  93.4 |
-|Output quantities    |      120 |        0.3 |   2.4 |        0.6 |   4.7 |
+|Total                |        1 |       28.2 | 100.0 |       29.4 | 100.0 |
+|Non-Hertzian cases   |      120 |       28.2 | 100.0 |       29.4 | 100.0 |
+|Panag.process        |      120 |       27.6 |  97.9 |       28.4 |  96.4 |
+|Algorithm Norm       |       60 |        0.4 |   1.4 |        0.4 |   1.3 |
+|Algorithm Tang       |      120 |       27.2 |  96.5 |       28.0 |  95.0 |
+|Output quantities    |      120 |        0.6 |   2.0 |        1.0 |   3.4 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       60 |        0.2 |   1.3 |        0.2 |   1.2 |
-|Tang: StedyGS solver |      154 |       11.5 |  94.2 |       11.9 |  92.4 |
+|Norm: ConjGrd solver |       60 |        0.2 |   0.9 |        0.3 |   1.0 |
+|Tang: StedyGS solver |      154 |       26.7 |  94.7 |       27.7 |  94.0 |
 |Tang: Fastsim solver |       60 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |      120 |        0.0 |   0.0 |        0.0 |   0.0 |

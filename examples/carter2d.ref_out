@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
+   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -636,15 +636,15 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Non-Hertzian cases   |        1 |        0.0 | 100.0 |        0.0 |   0.0 |
-|Panag.process        |        1 |        0.0 | 100.0 |        0.0 |   0.0 |
-|Algorithm Norm       |        1 |        0.0 | 100.0 |        0.0 |   0.0 |
-|Algorithm Tang       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Total                |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
+|Non-Hertzian cases   |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
+|Panag.process        |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
+|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Tang       |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
 |Output quantities    |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |

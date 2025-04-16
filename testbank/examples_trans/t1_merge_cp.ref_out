@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
+   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -10,9 +10,7 @@
  Case     1
  reading rail  profile "..\profiles\site_b_hr.prr"
  reading wheel profile "..\profiles\worn_high_mileage.prw"
- Warning: large angle variation within contact patch, ignored in the planar contact approach
-          there are 233 points with large slope of rail surface w.r.t. tangent plane
-          min(t_s) = 0.898, slope 26.1 deg, 11.4% error in undeformed distance computation
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  3 CONTACT PATCHES
 
@@ -268,7 +266,7 @@
      X  -->
 
  Case     2
- Warning: large angle variation within contact patch, ignored in the planar contact approach
+ WARNING: large angle variation within contact patch, ignored in the planar contact approach
           there are 276 points with large slope of rail surface w.r.t. tangent plane
           min(t_s) = 0.881, slope 28.3 deg, 13.5% error in undeformed distance computation
 
@@ -518,21 +516,21 @@ Performance timers:
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
 |Wheel-rail cases     |        2 |        0.1 | 100.0 |        0.1 | 100.0 |
-|W/r profiles         |        2 |        0.0 |  12.5 |        0.0 |   7.0 |
-|Geometric analysis   |        2 |        0.0 |   0.0 |        0.0 |  11.9 |
-|Panag.process        |        5 |        0.1 |  50.0 |        0.1 |  44.1 |
-|Algorithm Norm       |        5 |        0.0 |  12.5 |        0.0 |  21.7 |
-|Algorithm Tang       |        5 |        0.0 |  37.5 |        0.0 |  22.4 |
-|Output quantities    |        7 |        0.0 |  12.5 |        0.0 |  21.7 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |        2 |        0.0 |  14.3 |        0.0 |   6.0 |
+|Panag.process        |        5 |        0.1 |  57.1 |        0.1 |  42.1 |
+|Algorithm Norm       |        5 |        0.0 |  28.6 |        0.0 |  22.6 |
+|Algorithm Tang       |        5 |        0.0 |  28.6 |        0.0 |  19.5 |
+|Output quantities    |        7 |        0.0 |  14.3 |        0.0 |  14.3 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        5 |        0.0 |  12.5 |        0.0 |  16.8 |
-|Tang: TangCG solver  |        5 |        0.0 |  37.5 |        0.0 |  22.4 |
+|Norm: ConjGrd solver |        5 |        0.0 |  28.6 |        0.0 |  12.0 |
+|Tang: TangCG solver  |        5 |        0.0 |  28.6 |        0.0 |  19.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        2 |        0.0 |  12.5 |        0.0 |   7.0 |
-|Contact location     |        2 |        0.0 |   0.0 |        0.0 |   5.6 |
-|Undeformed distance  |        5 |        0.0 |   0.0 |        0.0 |   6.3 |
-| - Interp whl_srfc   |        5 |        0.0 |   0.0 |        0.0 |   0.7 |
-|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   2.1 |
+|Reading input-file   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |        2 |        0.0 |  14.3 |        0.0 |   0.0 |
+|Undeformed distance  |        5 |        0.0 |   0.0 |        0.0 |   6.0 |
+| - Interp whl_srfc   |        5 |        0.0 |   0.0 |        0.0 |   6.0 |
+|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |  12.8 |
 |Initial state/estim. |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

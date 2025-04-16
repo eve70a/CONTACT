@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2656 $, $Date:: 2025-02-20$        |
+   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -3887,17 +3887,17 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.0 | 100.0 |        0.1 | 100.0 |
-|Non-Hertzian cases   |       57 |        0.0 | 100.0 |        0.1 |  97.8 |
-|Panag.process        |       57 |        0.0 |  66.7 |        0.0 |  47.8 |
-|Algorithm Norm       |       57 |        0.0 |   0.0 |        0.0 |  20.0 |
-|Algorithm Tang       |       57 |        0.0 |  66.7 |        0.0 |   6.7 |
-|Output quantities    |       57 |        0.0 |   0.0 |        0.0 |  48.9 |
+|Non-Hertzian cases   |       57 |        0.0 | 100.0 |        0.1 |  98.5 |
+|Panag.process        |       57 |        0.0 |  66.7 |        0.0 |  49.3 |
+|Algorithm Norm       |       57 |        0.0 |  66.7 |        0.0 |  28.4 |
+|Algorithm Tang       |       57 |        0.0 |   0.0 |        0.0 |  10.4 |
+|Output quantities    |       57 |        0.0 |  33.3 |        0.0 |  34.3 |
 |--------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       57 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: TangCG solver  |       14 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: ConvxGS solver |       43 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       57 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       57 |        0.0 |   0.0 |        0.0 |   6.0 |
 |Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       57 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
