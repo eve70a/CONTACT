@@ -1,8 +1,4 @@
 !============================================================================================================
-! Copyright 2008-2023 by Vtech CMCC.
-!
-! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
-!============================================================================================================
 ! test_caddon - This program shows the use of the CONTACT library for Matlab, Python, Fortran and C,
 !               using the basic strategy ("module 3") where the user builds the undeformed distance himself.
 !
@@ -40,6 +36,10 @@
 ! When all calculations for all CP's of a RE are done, the finalize function should be called. This
 ! cleans up the data for the RE. And when called for the last RE, it closes files and cleans up all
 ! other data of the CONTACT add-on as well.
+!
+! Copyright 2008-2023 by Vtech CMCC.
+!
+! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !============================================================================================================
 program test_caddon
    use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
@@ -82,7 +82,7 @@ program test_caddon
 
       ioutput = 0       ! 0 = out-file, 1 = out-file + screen
       c_string   = ' ' // C_NULL_CHAR
-      call cntc_initializeFirst_new(ifcver, ierror, ioutput, c_string, c_string, c_string, 1, 1, 1)
+      call cntc_initializeFirst(ifcver, ierror, ioutput, c_string, c_string, c_string, 1, 1, 1)
 
    elseif (.false.) then
 

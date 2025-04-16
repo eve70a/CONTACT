@@ -82,7 +82,7 @@ def cntc_getprofilevalues(ire, itask, iparam, rparam=None):
         lenarr = 2
         tmp    = np.zeros(lenarr, dtype=c_double)
 
-        cntc_dll.cntc_getprofilevalues_new(c_int(ire), c_int(itask),
+        cntc_dll.cntc_getprofilevalues(c_int(ire), c_int(itask),
                                    c_int(nints),  iparam.ctypes.data_as(POINTER(c_int)),
                                    c_int(nreals), rparam.ctypes.data_as(POINTER(c_double)),
                                    c_int(lenarr), tmp.ctypes.data_as(POINTER(c_double)))
@@ -100,7 +100,7 @@ def cntc_getprofilevalues(ire, itask, iparam, rparam=None):
         else:
             itask_npnt = itask
 
-        cntc_dll.cntc_getprofilevalues_new(c_int(ire), c_int(itask_npnt),
+        cntc_dll.cntc_getprofilevalues(c_int(ire), c_int(itask_npnt),
                                 c_int(nints),  iparam.ctypes.data_as(POINTER(c_int)),
                                 c_int(nreals), rparam.ctypes.data_as(POINTER(c_double)),
                                 c_int(lenarr), tmp.ctypes.data_as(POINTER(c_double)))
@@ -123,7 +123,7 @@ def cntc_getprofilevalues(ire, itask, iparam, rparam=None):
             lenarr  = lengths[itask]
             val     = np.zeros(lenarr, dtype=c_double)
 
-            cntc_dll.cntc_getprofilevalues_new(c_int(ire), c_int(itask),
+            cntc_dll.cntc_getprofilevalues(c_int(ire), c_int(itask),
                                     c_int(nints),  iparam.ctypes.data_as(POINTER(c_int)),
                                     c_int(nreals), rparam.ctypes.data_as(POINTER(c_double)),
                                     c_int(lenarr), val.ctypes.data_as(POINTER(c_double)))

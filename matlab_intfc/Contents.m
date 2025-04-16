@@ -45,8 +45,7 @@
 %
 % cntc_getwheelsetposition      - get wheelset position parameters
 % cntc_getwheelsetvelocity      - get wheelset velocity parameters
-% *cntc_getprofilevalues        - retrieve wheel or rail profile after smoothing  Obsolete: use _new version
-% cntc_getprofilevalues_new     - retrieve wheel or rail profile after smoothing
+% cntc_getprofilevalues         - retrieve wheel or rail profile after smoothing
 % cntc_getnumcontactpatches     - get the number of separate contact patches
 % cntc_getcontactlocation       - get the location of one contact patch
 % cntc_getglobalforces          - get total forces in track/wheelset coordinates

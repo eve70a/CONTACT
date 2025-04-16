@@ -69,7 +69,7 @@ program usetab_table
    c_expnam = trim(expnam) // C_NULL_CHAR
    l_expnam = len(trim(expnam))
    iout = 0
-   call cntc_initializeFirst_new(ver, ierr, iout, c_path, c_path, c_expnam, 1, 1, l_expnam)
+   call cntc_initializeFirst(ver, ierr, iout, c_path, c_path, c_expnam, 1, 1, l_expnam)
 
    ! Set global flags: debug output, use of OpenMP
 
@@ -109,8 +109,8 @@ program usetab_table
       call cntc_setFrictionMethod(ire, icp, imeth, 2, rparam)
 
       imeth  = 0
-      g1  = 1d0
-      nu1 = 0.28d0
+      g1     = 1d0
+      nu1    = 0.28d0
       rparam(1:4) = (/ nu1, nu1, g1, g1 /)
       call cntc_setMaterialParameters(ire, icp, imeth, 4, rparam)
 

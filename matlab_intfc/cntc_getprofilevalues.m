@@ -73,7 +73,7 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
       lenarr = 2;
       p_val  = libpointer('doublePtr',zeros(lenarr,1));
 
-      calllib(libname,'cntc_getprofilevalues_new', ire, itask, nints, iparam, nreals, rparam, lenarr, p_val);
+      calllib(libname,'cntc_getprofilevalues', ire, itask, nints, iparam, nreals, rparam, lenarr, p_val);
       values = round(p_val.value);
 
    elseif (itask>=0 & itask<=8)
@@ -84,7 +84,7 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
       if (itask>=6), itask_npnt = itask; end
 
       p_npnt = libpointer('doublePtr',-1);
-      calllib(libname,'cntc_getprofilevalues_new', ire, itask_npnt, nints, iparam, nreals, rparam, 1, p_npnt);
+      calllib(libname,'cntc_getprofilevalues', ire, itask_npnt, nints, iparam, nreals, rparam, 1, p_npnt);
 
       npnt = round(p_npnt.value);
 
@@ -106,7 +106,7 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
          lenarr = lenarr(itask);
          p_val  = libpointer('doublePtr',zeros(lenarr,1));
 
-         calllib(libname,'cntc_getprofilevalues_new', ire, itask, nints, iparam, nreals, rparam, ...
+         calllib(libname,'cntc_getprofilevalues', ire, itask, nints, iparam, nreals, rparam, ...
                                                                                          lenarr, p_val);
          values = p_val.value;
 
@@ -126,7 +126,7 @@ function [ values ] = cntc_getprofilevalues(ire, itask, iparam, rparam)
       lenarr = 1;
       p_val  = libpointer('doublePtr',zeros(lenarr,1));
 
-      calllib(libname,'cntc_getprofilevalues_new', ire, itask, nints, iparam, nreals, rparam, lenarr, p_val);
+      calllib(libname,'cntc_getprofilevalues', ire, itask, nints, iparam, nreals, rparam, lenarr, p_val);
       values = [];
 
    else

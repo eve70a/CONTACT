@@ -53,7 +53,7 @@ program test_mbench
    f_expnam    = ' '
    c_expnam    =     trim(f_expnam )  // C_NULL_CHAR
    len_expnam  = len(trim(f_expnam ))
-   call cntc_initializeFirst_new(ver, ierr, iout, c_wrkdir, c_outdir, c_expnam, len_wrkdir, len_outdir, &
+   call cntc_initializeFirst(ver, ierr, iout, c_wrkdir, c_outdir, c_expnam, len_wrkdir, len_outdir,     &
                 len_expnam)
 
    ! Set the amount of output of the C.library itself; enable or disable use of OpenMP

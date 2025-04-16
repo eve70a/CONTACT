@@ -1,5 +1,5 @@
 !============================================================================================================
-! contact_addon.ifc - interface definition for CONTACT library version.
+! contact_addon.ifc - interface definition for CONTACT library version
 !
 ! Copyright 2008-2023 by Vtech CMCC.
 !
@@ -39,9 +39,9 @@ end subroutine cntc_setFileUnits
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,  &
-                                len_outdir, len_expnam) &
-   bind(c,name=CNAME_(cntc_initializefirst_new))
+subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,      &
+                                    len_outdir, len_expnam) &
+   bind(c,name=CNAME_(cntc_initializefirst))
 !--function: initialize the addon internal data structures and initialize output channels,
 !            print version information; return the addon version number.
    use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
@@ -55,12 +55,13 @@ subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir,
    integer,                intent(in)    :: len_wrkdir   ! length of C-string
    integer,                intent(in)    :: len_outdir   ! length of C-string
    integer,                intent(in)    :: len_expnam   ! length of C-string
-end subroutine cntc_initializeFirst_new
+end subroutine cntc_initializeFirst
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outdir, c_expnam, len_outdir, len_expnam) &
-   bind(c,name=CNAME_(cntc_initializefirst))
+subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,  &
+                                len_outdir, len_expnam) &
+   bind(c,name=CNAME_(cntc_initializefirst_new))
 !--function: initialize the addon internal data structures and initialize output channels,
 !            print version information; return the addon version number.
 !            Old version provided for backward compatibility. Interface will be changed in v25.1.
@@ -68,12 +69,14 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outdir, c_expnam, len
 !--subroutine arguments:
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
-   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
+   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = out-file+screen
+   character(kind=C_CHAR), intent(in)    :: c_wrkdir(*)  ! C-string: effective working folder
    character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
    character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
+   integer,                intent(in)    :: len_wrkdir   ! length of C-string
    integer,                intent(in)    :: len_outdir   ! length of C-string
    integer,                intent(in)    :: len_expnam   ! length of C-string
-end subroutine cntc_initializeFirst
+end subroutine cntc_initializeFirst_new
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -667,8 +670,8 @@ end subroutine cntc_getParameters
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
-   bind(c,name=CNAME_(cntc_getprofilevalues_new))
+subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
+   bind(c,name=CNAME_(cntc_getprofilevalues))
 !--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
 !  itask          - select type of outputs:
 !                    -1: ierr   <0: error codes, 0=profile loaded ok, 1=not set
@@ -679,17 +682,41 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 !                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
 !                     4: arc    get arc-length parameter s along profile
 !                     5: angl   get surface inclination atan2(dz, dy) [angle]
+!                     6: 2d-u   evaluate varprof [xyz]_r or [xyz]_w for cross-section at constant u_i = x_i
+!                     7: 2d-v   evaluate varprof [xyz]_r or [xyz]_w for interpolation path at constant v_j
+!                     8: 2d-y   evaluate varprof [xyz]_r or [xyz]_w for longitudinal slice at constant y_j
+!                     9: spl2d  dump 2D spline data-structure for inspection in Matlab
 !  iparam         - integer configuration parameters
 !                     1: itype     0 = rail, 1 = wheel profile
 !                     2: isampl   -1 = sampling cf. original input data;
-!                                  0 = sampling cf. spline representation (default);
-!                                  1 = sampling cf. spline representation at spacing ds_out
+!                                  0 = sampling cf. spline representation (default for tasks 0--5);
+!                                  1 = sampling cf. spline representation at spacing ds_out (required for
+!                                      tasks 6--8)
 !                            kchk>=2 = sampling cf. spline representation with integer refinement factor
 !  rparam         - real configuration parameters
-!                     1: ds_out  step-size ds used with sampling method isampl=1, default 1mm
-!                     2: x_out   for variable profiles: longitudinal position x_r [mm] (task=1) or
-!                                x_tr [mm] (task=2) or circumferential position th_w [rad] on wheel
-!  tasks 1,2,4: no unit conversion or scaling are applied for profile values
+!                     1: ds_out  step-size ds/du/dv used with sampling method isampl=1, default 1mm
+!                     2: c1_out  sample position on variable profiles (task 1, 2: x_out)
+!                     3: c2_sta  start of sample range on variable profiles
+!                     4: c2_end  end of sample range on variable profiles
+!                   task 6: c1 = u, c2 = v; task 7: c1 = v, c2 = u; task 8: c1 = y, c2 = u.
+!  units: s,x,y,z [mm], th [rad], u,v [-]
+!  tasks 1--9: no unit conversion or scaling are applied for profile values
+!--subroutine arguments:
+   integer,      intent(in)  :: ire           ! result element ID
+   integer,      intent(in)  :: itask         ! integer code for requested values
+   integer,      intent(in)  :: nints, nreals ! number of integer/real parameters provided
+   integer,      intent(in)  :: iparam(*)     ! array of integer parameters
+   real(kind=8), intent(in)  :: rparam(*)     ! array of real parameters
+   integer,      intent(in)  :: lenarr        ! length of output array
+   real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
+end subroutine cntc_getProfileValues
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
+   bind(c,name=CNAME_(cntc_getprofilevalues_new))
+!--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
+!            see cntc_getProfileValues for documentation
 !--subroutine arguments:
    integer,      intent(in)  :: ire           ! result element ID
    integer,      intent(in)  :: itask         ! integer code for requested values
@@ -699,33 +726,6 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    integer,      intent(in)  :: lenarr        ! length of output array
    real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
 end subroutine cntc_getProfileValues_new
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
-   bind(c,name=CNAME_(cntc_getprofilevalues))
-!--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
-!            Old version provided for backward compatibility. Will be changed in v25.1.
-!  itask          - select type of outputs:
-!                     0: npnt   number of points used in profile
-!                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
-!                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
-!                     3: gaug   get left-most point within gauge height, offset, point at gauge height
-!                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
-!                     4: arc    get arc-length parameter s along profile
-!                     5: angl   get surface inclination atan2(dz, dy) [angle]
-!  iparam         - integer configuration parameters
-!                     1: itype     0 = rail, 1 = wheel profile
-!                     2:  -      not used
-!  tasks 1,2,4: no unit conversion or scaling are applied for profile values
-!--subroutine arguments:
-   integer,      intent(in)  :: ire           ! result element ID
-   integer,      intent(in)  :: itask         ! integer code for requested values
-   integer,      intent(in)  :: nints         ! number of integer parameters provided
-   integer,      intent(in)  :: iparam(*)     ! array of integer parameters
-   integer,      intent(in)  :: lenarr        ! length of output array
-   real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
-end subroutine cntc_getProfileValues
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1247,8 +1247,8 @@ end interface
 !dec$ attributes dllimport :: subs_calculate
 !dec$ attributes dllimport :: cntc_getFlags
 !dec$ attributes dllimport :: cntc_getParameters
-!dec$ attributes dllimport :: cntc_getProfileValues_new
 !dec$ attributes dllimport :: cntc_getProfileValues
+!dec$ attributes dllimport :: cntc_getProfileValues_new
 !dec$ attributes dllimport :: cntc_getWheelsetPosition
 !dec$ attributes dllimport :: cntc_getWheelsetVelocity
 !dec$ attributes dllimport :: cntc_getNumContactPatches

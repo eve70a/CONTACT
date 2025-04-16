@@ -232,9 +232,9 @@ end subroutine copy_c_dirnam
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,  &
+subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,      &
                                     len_outdir, len_expnam) &
-   bind(c,name=CNAME_(cntc_initializefirst_new))
+   bind(c,name=CNAME_(cntc_initializefirst))
 !--function: initialize the addon internal data structures and initialize output channels,
 !            print version information; return the addon version number.
 !--category: 0, "m=any, glob":      not related to contact's modules 1 or 3, working on global data
@@ -250,7 +250,7 @@ subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir,
    integer,                intent(in)    :: len_outdir   ! length of C-string
    integer,                intent(in)    :: len_expnam   ! length of C-string
 !--local variables:
-   character(len=*), parameter :: subnam = 'cntc_initializeFirst_new'
+   character(len=*), parameter :: subnam = 'cntc_initializeFirst'
    integer, parameter :: max_version = 20
    integer            :: num_version, ix
    character(len=256) :: version(max_version), fname, f_recent
@@ -260,7 +260,7 @@ subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir,
    logical            :: ltmpfile = .false.
    logical            :: l_outfil, l_screen, l_simpck
 #ifdef _WIN32
-!dec$ attributes dllexport :: cntc_initializeFirst_new
+!dec$ attributes dllexport :: cntc_initializeFirst
 #endif
 
    if (caddon_initialized.ge.1) return
@@ -462,12 +462,13 @@ subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir,
 
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
 
-end subroutine cntc_initializeFirst_new
+end subroutine cntc_initializeFirst
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outdir, c_expnam, len_outdir, len_expnam) &
-   bind(c,name=CNAME_(cntc_initializefirst))
+subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,  &
+                                    len_outdir, len_expnam) &
+   bind(c,name=CNAME_(cntc_initializefirst_new))
 !--function: initialize the addon internal data structures and initialize output channels,
 !            print version information; return the addon version number.
 !            Old version provided for backward compatibility. Interface will be changed in v25.1.
@@ -476,22 +477,22 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_outdir, c_expnam, len
 !--subroutine arguments:
    integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
    integer,                intent(inout) :: ierror       ! error flag
-   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = file+screen
+   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = out-file+screen
+   character(kind=C_CHAR), intent(in)    :: c_wrkdir(*)  ! C-string: effective working folder
    character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
    character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
+   integer,                intent(in)    :: len_wrkdir   ! length of C-string
    integer,                intent(in)    :: len_outdir   ! length of C-string
    integer,                intent(in)    :: len_expnam   ! length of C-string
-!--local variables:
-   character(len= 30,kind=C_CHAR) :: c_wrkdir
 #ifdef _WIN32
-!dec$ attributes dllexport :: cntc_initializeFirst
+!dec$ attributes dllexport :: cntc_initializeFirst_new
 #endif
 
-   c_wrkdir   = ' ' // C_NULL_CHAR
-   call cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, 1, len_outdir,  &
-                        len_expnam)
+   call write_log(' initializeFirst_new: calling initializeFirst...')
+   call cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,         &
+                        len_outdir, len_expnam)
 
-end subroutine cntc_initializeFirst
+end subroutine cntc_initializeFirst_new
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -529,7 +530,7 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
 
    if (caddon_initialized.le.0) then
       c_string   = ' ' // C_NULL_CHAR
-      call cntc_initializeFirst_new(ifcver, ierror, 0, c_string, c_outdir, c_string, 1, len_outdir, 1)
+      call cntc_initializeFirst(ifcver, ierror, 0, c_string, c_outdir, c_string, 1, len_outdir, 1)
    endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
@@ -4219,8 +4220,8 @@ end subroutine cntc_getParameters
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
-   bind(c,name=CNAME_(cntc_getprofilevalues_new))
+subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
+   bind(c,name=CNAME_(cntc_getprofilevalues))
 !--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
 !  itask          - select type of outputs:
 !                    -1: ierr   <0: error codes, 0=profile loaded ok, 1=not set
@@ -4261,7 +4262,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    integer,      intent(in)  :: lenarr        ! length of output array
    real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
 !--local variables:
-   character(len=*), parameter :: subnam = 'cntc_getProfileValues_new'
+   character(len=*), parameter :: subnam = 'cntc_getProfileValues'
    character(len=5)            :: namtyp(0:1) = (/ 'rail ', 'wheel' /)
    integer                     :: itype, isampl, npnt, ip, j, jp, iu, ldebug, ierror, sub_ierror
    logical                     :: is_ok
@@ -4274,7 +4275,7 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
    type(t_grid),     pointer   :: g
    character(len=256)          :: fulnam
 #ifdef _WIN32
-!dec$ attributes dllexport :: cntc_getProfileValues_new
+!dec$ attributes dllexport :: cntc_getProfileValues
 #endif
 
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
@@ -4650,47 +4651,32 @@ subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, 
 
    end associate
    if (idebug.ge.4) call cntc_log_start(subnam, .false.)
-end subroutine cntc_getProfileValues_new
+end subroutine cntc_getProfileValues
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_getProfileValues(ire, itask, nints, iparam, lenarr, val) &
-   bind(c,name=CNAME_(cntc_getprofilevalues))
+subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
+   bind(c,name=CNAME_(cntc_getprofilevalues_new))
 !--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
-!            Old version provided for backward compatibility. Will be changed in v25.1.
-!  itask          - select type of outputs:
-!                     0: npnt   number of points used in profile
-!                     1: r/w    get (yr,zr) value for rail or (yw,zw) for wheel profile
-!                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
-!                     3: gaug   get left-most point within gauge height, offset, point at gauge height
-!                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
-!                     4: arc    get arc-length parameter s along profile
-!                     5: angl   get surface inclination atan2(dz, dy) [angle]
-!  iparam         - integer configuration parameters
-!                     1: itype     0 = rail, 1 = wheel profile
-!                     2:  -      not used
-!  tasks 1,2,4: no unit conversion or scaling are applied for profile values
+!            see cntc_getProfileValues for documentation
 !--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
    implicit none
 !--subroutine arguments:
    integer,      intent(in)  :: ire           ! result element ID
    integer,      intent(in)  :: itask         ! integer code for requested values
-   integer,      intent(in)  :: nints         ! number of integer parameters provided
+   integer,      intent(in)  :: nints, nreals ! number of integer/real parameters provided
    integer,      intent(in)  :: iparam(*)     ! array of integer parameters
+   real(kind=8), intent(in)  :: rparam(*)     ! array of real parameters
    integer,      intent(in)  :: lenarr        ! length of output array
    real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
-!--local variables:
-   integer                     :: nreals
-   real(kind=8)                :: rparam(1)
 #ifdef _WIN32
-!dec$ attributes dllexport :: cntc_getProfileValues
+!dec$ attributes dllexport :: cntc_getProfileValues_new
 #endif
 
-   nreals    = 1
-   rparam(1) = 1d0
-   call cntc_getprofilevalues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val)
+   call write_log(' getprofilevalues_new: calling getprofilevalues...')
+   call cntc_getprofilevalues(ire, itask, nints, iparam, nreals, rparam, lenarr, val)
 
-end subroutine cntc_getProfileValues
+end subroutine cntc_getProfileValues_new
 
 !------------------------------------------------------------------------------------------------------------
 

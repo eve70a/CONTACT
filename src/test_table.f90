@@ -1,5 +1,6 @@
 !============================================================================================================
-! This program tests parallel computation using the CONTACT library.
+! This program runs through 3220 test-cases used for statistical evaluation of contact methods.
+! also tests parallel computation using the CONTACT library.
 !
 ! Copyright 2008-2023 by Vtech CMCC.
 !
@@ -79,7 +80,7 @@ program test_table
    c_expnam = trim(expnam) // C_NULL_CHAR
    l_expnam = len(trim(expnam))
    iout = 0
-   call cntc_initializeFirst_new(ver, ierr, iout, c_path, c_path, c_expnam, l_path, l_path, l_expnam)
+   call cntc_initializeFirst(ver, ierr, iout, c_path, c_path, c_expnam, l_path, l_path, l_expnam)
 
    ! Set global flags: debug output, use of OpenMP
 
