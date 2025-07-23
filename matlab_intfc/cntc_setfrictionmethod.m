@@ -40,9 +40,12 @@ function [ ] = cntc_setfrictionmethod(ire, icp, imeth, params)
    if (nargin<2 | isempty(icp))
       icp = -1; % default: W/R contact, all patches
    end
-   if (nargin<4 | isempty(imeth) | isempty(params))
-      disp('ERROR in cntc_setfrictionmethod: imeth, params are mandatory.');
+   if (nargin<3 | isempty(imeth))
+      disp('ERROR in cntc_setfrictionmethod: imeth is mandatory.');
       return
+   end
+   if (nargin<4)
+      params = [];
    end
 
    calllib(libname,'cntc_setfrictionmethod', ire, icp, imeth, length(params), params);

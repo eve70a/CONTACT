@@ -25,9 +25,12 @@ function [ ] = cntc_setwheelsetdimensions(ire, ewheel, params)
    if (nargin<1 | isempty(ire))
       ire = 1;
    end
-   if (nargin<3 | isempty(ewheel) | isempty(params))
-      disp('ERROR in cntc_setwheelsetdimensions: ewheel and params are mandatory.');
+   if (nargin<2 | isempty(ewheel))
+      disp('ERROR in cntc_setwheelsetdimensions: ewheel is mandatory.');
       return
+   end
+   if (nargin<3 | isempty(params))
+      params = [];
    end
 
    calllib(libname,'cntc_setwheelsetdimensions', ire, ewheel, length(params), params);

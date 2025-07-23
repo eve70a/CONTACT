@@ -35,9 +35,8 @@ function [ ] = cntc_settrackdimensions(ire, ztrack, params)
       disp('ERROR in cntc_settrackdimensions: ztrack is mandatory.');
       return
    end
-   if (nargin<3 | isempty(params))
-      disp('ERROR in cntc_settrackdimensions: invalid params provided.');
-      return
+   if (nargin<3)
+      params = [];
    end
 
    calllib(libname,'cntc_settrackdimensions', ire, ztrack, length(params), params);
