@@ -110,7 +110,8 @@ public
 
    ! codes for the different solvers
 
-   integer, parameter :: isolv_fastrp = -1, isolv_fastsm =  0, isolv_normcg =  1,                       &
+   integer, parameter :: isolv_fastrp_full = -7, isolv_fastrp_orig = -6, isolv_modf_fastrp = -5,        &
+                         isolv_fastsm =  0, isolv_normcg =  1,                                          &
                          isolv_tangcg =  2, isolv_cnvxgs =  3, isolv_stdygs =  4,                       &
                          isolv_gdstdy =  7
 
@@ -293,7 +294,9 @@ public
       !              2 = simplified theory with flexibility L;
       !              3 = simplified theory with flexibilities L1,L2,L3.
       !              4 = linearly elastic material + elasto-plastic third body layer
-      !              5 = FaStrip method, combination of strip theory + simplified theory
+      !              5 = Modified FaStrip method, combination of strip theory + simplified theory
+      !         tmp  6 = Original FaStrip method cf. Sichani
+      !         tmp  7 = Original FaStrip method + Full sliding correction
       !              6 = reserved (pseudo-viscous damping)
       !              7 = reserved (vertical slice/gap)
       !              Note: the m-digit is copied to t_material
@@ -712,18 +715,20 @@ public
       ! spinxo [mm]    x-component of 'spin center' (xo,yo), spin creepage linearization point
       ! spinyo [mm]    y-component of 'spin center' (xo,yo), spin creepage linearization point
 
-      ! fntrue [N]     total normal force, input when N=1, output when N=0
+      ! fntrue [N]     total normal force, input when N=1, output when N=0. Conformal: fntrue == tilde(fn)
       ! fxrel  [-]     total tangential force in x-direction _on_ body (1), relative to muscal*fntrue;
-      !                input when F3>=1, output when F3=0.
+      !                input when F3>=1, output when F3=0. Conformal: fxrel == tilde(fx) / mu*tilde(fn)
       ! fyrel  [-]     total tangential force in y-direction _on_ body (1), relative to muscal*fntrue;
-      !                input when F3=2, output when F3<=1.
-      ! fcntc  [N]     total forces [fxtrue,fytrue,fntrue] of current time instance
+      !                input when F3=2, output when F3<=1. Conformal: fyrel = tilde(fs) / mu*tilde(fn)
+      ! fcntc  [N]     total forces [fxtrue,fytrue,fntrue] of current time instance.
+      !                Conformal: fcntc = bar(f), resultant force on contact reference marker
       ! fprev  [N]     total forces [fxtrue,fytrue,fntrue] of previous time instance
       ! fdamp  [N]     damping forces of current time instance
 
       ! use_muscal     flag indicating whether friction parameters are constant within the contact
       !                patch, permitting scaling of tangential forces by MU*FN (true) or by FN (false)
-      ! muscal [-]     coefficient of friction used in scaling of tangential forces. Typically equal to FSTAT.
+      ! muscal [-]     coefficient of friction used in scaling of tangential forces.
+      !                Typically equal to FSTAT; using muscal=1 in case of friction variation mu=mu(y)
 
    end type t_kincns
 
@@ -947,6 +952,7 @@ public
       type(t_solvers)  :: solv   ! variables related to solution algorithms
       type(t_output)   :: outpt1 ! solution and derived quantities
       type(t_subsurf)  :: subs   ! data of subsurface stress calculation
+      logical          :: is_new = .true. ! if true, this gd has not yet been used in subroutine contac
    end type t_probdata
 
    type :: p_probdata
@@ -2336,6 +2342,7 @@ end subroutine potcon_get_overlap
 !--subroutine arguments:
       type(t_probdata) :: gd
 
+      gd%is_new = .true.
       call meta_init    ( gd%meta, 2 )
     ! call scaling_init ( gd%scl )
       call ic_init      ( gd%ic )
@@ -2363,6 +2370,7 @@ end subroutine potcon_get_overlap
 !--subroutine arguments:
       type(t_probdata) :: gd_in, gd_out
 
+      gd_out%is_new = gd_in%is_new
       call meta_copy    ( gd_in%meta,   gd_out%meta )
       call scaling_copy ( gd_in%scl,    gd_out%scl )
       call ic_copy      ( gd_in%ic,     gd_out%ic )

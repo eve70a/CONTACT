@@ -424,7 +424,7 @@ contains
       zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress,  0, 3)
       zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp,  0, 4, 6, 6)
       zerror = zerror .or. .not.check_irng ('gap weighting',    ic%gapwgt,  0, 2)
-      zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater,   0, 5)
+      zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater,   0, 7)
 
       zerror = zerror .or. .not.check_irng ('Control digit X',  ic%xflow,   0, 1)
       zerror = zerror .or. .not.check_2rng ('Control digit H',  ic%heat,    0, 1, 3, 3)
@@ -585,7 +585,8 @@ contains
                  '               L=',i3,', H='i3,'.')
       endif
 
-      if (ic%frclaw_inp.eq.6 .and. (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5)) then
+      if (ic%frclaw_inp.eq.6 .and.                                                                      &
+          (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5 .or. ic%mater.eq.6 .or. ic%mater.eq.7)) then
          zerror = .true.
          write(lout, 2074) ic%frclaw_inp, ic%mater
          write(   *, 2074) ic%frclaw_inp, ic%mater

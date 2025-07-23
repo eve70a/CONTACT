@@ -23,6 +23,7 @@ private
 public  wr_contact_pos
 public  wr_subsurf
 public  wr_setup_cp
+private compute_sc_for_yz
 public  wr_solve_cp
 private aggregate_forces
 private cpatch_forces_moments
@@ -239,7 +240,6 @@ contains
       type(t_solvers)   :: solv
 !--local variables:
       character(len=5)          :: nam_side
-      logical                   :: new_gd
       integer                   :: ip, ii, iy, mx, my, npot, ierror
       real(kind=8)              :: sw_ref, fac_warn, xy_ofs
       type(t_marker)            :: mref_pot, mref_rai, mref_whl, whl_trk
@@ -297,13 +297,11 @@ contains
 
       ! allocate the hierarchical data-structure (TODO: already allocated?)
 
-      new_gd = .false.
       if (.not.associated(cp%gd)) then
          if (wtd_ic%x_cpatch.ge.1) then
             write(bufout,'(a,i3)') ' wr_setup_cp: allocate gd for icp=',icp
             call write_log(1, bufout)
          endif
-         new_gd = .true.
          allocate(cp%gd)
          call gd_init(cp%gd)
       endif
@@ -391,6 +389,13 @@ contains
       gd%potcon_inp%mx     = nint((cp%xend-cp%xsta)/cp%dx_eff)
       gd%potcon_inp%xl     = cp%xsta - cp%mpot%x()
 
+      if (gd%potcon_inp%mx.le.0 .or. gd%potcon_inp%mx.gt.discr%npot_max) then
+         write(bufout,'(2(a,i0))') ' Internal error (setup_cp): mx = ',gd%potcon_inp%mx,', max = ',     &
+                discr%npot_max
+         call write_log(1, bufout)
+         call abort_run()
+      endif
+
       if (wtd_ic%is_conformal()) then
          ! conformal: curved surface
          gd%potcon_inp%dy  = cp%ds_eff
@@ -411,7 +416,7 @@ contains
 
       ! update potcon_inp to cover the contact area of the previous time
  
-      if (wtd_ic%pvtime.ne.2 .and. .not.new_gd) then
+      if (wtd_ic%pvtime.ne.2 .and. .not.gd%is_new) then
          potcon_inp = cp%gd%potcon_inp
          call merge_prev_potcon(icp, cp%gd, wtd_ic%x_cpatch)
 
@@ -466,7 +471,7 @@ contains
       !  - zero previous tractions (P=2) for new contact patches
       !  - leave previous tractions untouched (P=3) if gd has been used already in case ncase
 
-      if (new_gd .or. wtd_ic%pvtime.eq.2) then
+      if (gd%is_new .or. wtd_ic%pvtime.eq.2) then
          gd%ic%pvtime = 2
       elseif (gd%meta%ncase.ge.meta%ncase) then
          gd%ic%pvtime = 3
@@ -483,7 +488,7 @@ contains
       !  - use initial estimate if this gd was used in previous iteration
       !  - no initial estimate if this gd was inactive in previous iteration
 
-      if (new_gd) then
+      if (gd%is_new) then
          gd%ic%iestim = 0
          if (wtd_ic%x_cpatch.ge.1) call write_log('    no initial estimate (new patch)...')
       elseif (.not.equal_grid_sizes(gd%potcon_inp%dx, gd%potcon_cur%dx,                                 &
@@ -594,6 +599,18 @@ contains
          associate( np => gd%geom%npatch )
          np = cp%nsub
 
+         if (x_locate.ge.3) then
+            write(bufout,'(a,i3,a)') ' npatch=',np,' sub-patches'
+            call write_log(1, bufout)
+            do ip = 1, np
+               write(bufout,'(a,i3,6(a,f8.3),a)') ' ip=',ip,': x_tr=[',cp%xyzlim(ip,1),',',             &
+                        cp%xyzlim(ip,2),'], y_tr=[', cp%xyzlim(ip,3),',',cp%xyzlim(ip,4),'], z_tr=[',   &
+                        cp%xyzlim(ip,5),',',cp%xyzlim(ip,6),']'
+               call write_log(1, bufout)
+            enddo
+            call marker_print(cp%mpot, 'mpot(trk)', 2)
+         endif
+
          call reallocate_arr(gd%geom%xylim, np, 4)
          call reallocate_arr(gd%geom%facsep, np, np)
          gd%geom%xylim(1:np,1) = -999d0
@@ -608,12 +625,19 @@ contains
          gd%geom%xylim(1:np, 1) = cp%xyzlim(1:np, 1) - cp%mpot%x() - xy_ofs
          gd%geom%xylim(1:np, 2) = cp%xyzlim(1:np, 2) - cp%mpot%x() + xy_ofs
 
-         ! convert track ysta/yend position in rail profile to lateral s_c position in tangent plane
+         ! convert track ysta/yend position in rail profile to lateral s position on contact grid
 
-         gd%geom%xylim(1:np, 3:4) = (cp%xyzlim(1:np, 3:4) - cp%mref%y()) / cos(cp%mref%roll()) +     &
+         if (.not.wtd_ic%is_conformal()) then
+            gd%geom%xylim(1:np, 3:4) = (cp%xyzlim(1:np, 3:4) - cp%mref%y()) / cos(cp%mref%roll()) +     &
                                                                                  cp%sr_ref - cp%sr_pot
+         else
+            call compute_sc_for_yz(cp, np, cp%xyzlim(1:np,3), cp%xyzlim(1:np,5), wtd_ic%x_locate,       &
+                        gd%geom%xylim(1:np,3))
+            call compute_sc_for_yz(cp, np, cp%xyzlim(1:np,4), cp%xyzlim(1:np,6), wtd_ic%x_locate,       &
+                        gd%geom%xylim(1:np,4))
+         endif
 
-         ! add safety in s_c-direction
+         ! add safety in s-direction
 
          gd%geom%xylim(1:np, 3) = gd%geom%xylim(1:np, 3) - xy_ofs
          gd%geom%xylim(1:np, 4) = gd%geom%xylim(1:np, 4) + xy_ofs
@@ -627,8 +651,8 @@ contains
             call write_log(1, bufout)
 
             do ip = 1, np
-               write(bufout,'(4(a,f8.3),a,6f6.3)') ' xlim=[',gd%geom%xylim(ip,1),',',gd%geom%xylim(ip,2), &
-                        '], ylim=[', gd%geom%xylim(ip,3),',',gd%geom%xylim(ip,4),'], fac=',            &
+               write(bufout,'(4(a,f8.3),a,6f7.3)') ' x_c=[',gd%geom%xylim(ip,1),',',gd%geom%xylim(ip,2), &
+                        '], s_p=[', gd%geom%xylim(ip,3),',',gd%geom%xylim(ip,4),'], fac=',            &
                         (gd%geom%facsep(ip,ii), ii=1, np)
                call write_log(1, bufout)
             enddo
@@ -672,6 +696,49 @@ contains
       end associate
 
    end subroutine wr_setup_cp
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine compute_sc_for_yz(cp, ny, ylim, zlim, x_locate, sclim)
+!--purpose: convert limits [yz] for sub-patches to corresponding sc on curved reference
+      implicit none
+!--subroutine arguments:
+      type(t_cpatch)  :: cp
+      integer         :: ny, x_locate
+      real(kind=8)    :: ylim(ny), zlim(ny), sclim(ny)
+!--local variables:
+      integer         :: iy, j, jmin
+      real(kind=8)    :: dstmin, dst
+
+      ! using brute-force double loop computing ny x ntot distances
+      ! TODO: optimize for large ny and large ntot
+
+      do iy = 1, ny
+         
+         ! determine closest grid point on curved reference
+
+         jmin   = 0
+         dstmin = 1d9
+         do j = 1, cp%curv_ref%ntot
+            ! dst = abs(ylim(iy) - cp%curv_ref%y(j)) + abs(zlim(iy) - cp%curv_ref%z(j))
+            dst = (ylim(iy) - cp%curv_ref%y(j))**2 + (zlim(iy) - cp%curv_ref%z(j))**2
+            if (j.eq.1 .or. dst.lt.dstmin) then
+               jmin   = j
+               dstmin = dst
+            endif
+         enddo
+
+         sclim(iy) = cp%sc_sta + (jmin-1) * cp%ds_eff
+
+         if (x_locate.ge.3) then
+            write(bufout,'(a,i3,2(a,f8.3),a,i3,3(a,f8.3),a)') ' sc_for_yz: i=',iy,' (',ylim(iy),',',    &
+                zlim(iy), '): closest j=',jmin,', sc=',sclim(iy),', (',cp%curv_ref%y(jmin),',',         &
+                cp%curv_ref%z(jmin),')'
+            call write_log(1, bufout)
+         endif
+      enddo
+
+   end subroutine compute_sc_for_yz
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -735,18 +802,8 @@ contains
       ! conformal: rotate tractions, compute overall forces
 
       if (ic%is_conformal()) then
-         if (idebug.ge.2) then
-            write(bufout,800) ' total force(cs) =  [', gd%kin%fxrel,',',gd%kin%fyrel,',',gd%kin%fntrue,']'
-            call write_log(1, bufout)
- 800        format(4(a,g14.6))
-         endif
-
          call aggregate_forces(cp, gd%ic, gd%cgrid_cur, gd%kin, gd%mater, gd%outpt1, idebug)
 
-         if (idebug.ge.2) then
-            write(bufout,800) ' total force(cp) =  [', gd%kin%fxrel,',',gd%kin%fyrel,',',gd%kin%fntrue,']'
-            call write_log(1, bufout)
-         endif
       endif
 
       ! rotate forces from contact-reference coordinates to global coordinates
@@ -774,10 +831,9 @@ contains
       type(t_vec)      :: nref
       type(t_grid)     :: curv_cp
       type(t_gridfnc3) :: ps_cp
-      real(kind=8)     :: dxdy, fxtrue, fytrue
+      real(kind=8)     :: dxdy, bar_fn, bar_fx, bar_fs
 
-      associate( npot   => cgrid%ntot,    muscal => kin%muscal,    fcntc  => kin%fcntc,                 &
-                 fntrue => kin%fntrue,    fxrel  => kin%fxrel,     fyrel  => kin%fyrel,                 &
+      associate( npot   => cgrid%ntot,    fcntc  => kin%fcntc,                                          &
                  mxtrue => outpt1%mxtrue, mytrue => outpt1%mytrue, mztrue => outpt1%mztrue )
 
       ! create 3-d version of curved reference surface
@@ -812,24 +868,13 @@ contains
       ! compute aggregate forces w.r.t. planar contact reference marker
 
       dxdy = cgrid%dxdy
+      bar_fn = dxdy * gf3_sum(AllElm, ps_cp, ikZDIR)
+      bar_fx = dxdy * gf3_sum(AllElm, ps_cp, ikXDIR)
+      bar_fs = dxdy * gf3_sum(AllElm, ps_cp, ikYDIR)
 
-      if (ic%norm.eq.0) then
-         fntrue = dxdy * gf3_sum(AllElm, ps_cp, ikZDIR)
-      endif
+      ! set resultant contact force at current time; note: leaving fntrue/fxrel/fyrel untouched (tilde(f))
 
-      if (ic%force3.eq.0) then
-         fxrel = dxdy * gf3_sum(AllElm, ps_cp, ikXDIR) / (fntrue*muscal + tiny)
-      endif
-      if (ic%force3.le.1) then
-         fyrel = dxdy * gf3_sum(AllElm, ps_cp, ikYDIR) / (fntrue*muscal + tiny)
-      endif
-
-      fxtrue = fxrel * (fntrue*muscal+tiny)
-      fytrue = fyrel * (fntrue*muscal+tiny)
-
-      ! set contact force at current time
-
-      fcntc  = (/ fxtrue, fytrue, fntrue /)
+      fcntc  = (/ bar_fx, bar_fs, bar_fn /)
 
       ! compute ad-hoc proportional damping using fprev, fcntc
 
@@ -870,7 +915,7 @@ contains
 
       associate(my_rail => trk%rai, my_wheel => ws%whl, gd => cp%gd)
 
-      ! compute derived quantities for use in total-force iteration
+      ! compute derived quantities for use in total-force iteration, based on tilde(f)
 
       cp%c_hz   = gd%kin%fntrue / max(1d-9, gd%kin%pen)**(1.5)
       cp%fs_rel = gd%kin%fyrel * gd%kin%muscal

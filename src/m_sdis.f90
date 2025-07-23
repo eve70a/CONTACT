@@ -133,7 +133,7 @@ contains
 !--local variables :
       logical  :: is_fastsm, is_roll, is_ssrol
 
-      is_fastsm = ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5
+      is_fastsm = ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5 .or. ic%mater.eq.6 .or.  ic%mater.eq.7
       is_roll   = ic%tang.eq.2 .or. ic%tang.eq.3
       is_ssrol  = ic%tang.eq.3
 
