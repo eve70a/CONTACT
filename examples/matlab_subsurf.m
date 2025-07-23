@@ -197,5 +197,3 @@ title('');
 
 cntc_finalize(iwhe);
 cntc_closelibrary;
-
-% $Revision: 2681 $, $Date: 2025-04-16 13:55:46 +0200 (Wed, 16 Apr 2025) $

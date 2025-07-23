@@ -30,8 +30,8 @@ contains
       integer, parameter       :: idebug = 0, nd = 4
       logical      :: znewln, is_roll, is_ssrol, use_plast
       integer      :: icp, icpo, n_old, i, j, ii, iin, iout, iy0, iy1, ii0, ii1, lstrow, ncon, nadh,    &
-                      nslip, nplast, nexter, ic_discns, is_right
-      real(kind=8) :: def_turn, hmp, ptabs, ptarg, rhsx, rhsy, fxtrue, fytrue, sgn, rdum(20),           &
+                      nslip, nplast, nexter, ic_discns, is_right, my_output
+      real(kind=8) :: def_turn, hmp, ptabs, ptarg, rhsx, rhsy, sgn, rdum(20),                           &
                       sc0, sc1, delt0, delt1, tmp1mx, tmp2mx, fac_in(nsens_in), fac_out(nsens_out)
       character(len= 9) :: str_muscal
       character(len=20) :: strng(max(20, nsens_in*nsens_out))
@@ -67,9 +67,15 @@ contains
 
       sgn = 2 * is_right - 1
 
+      if (out_open.eq.1) then
+         my_output = ic%output_surf
+      else
+         my_output = -1
+      endif
+
       ! Print the heading if "output" >= 2
 
-      if (ic%output_surf.ge.2 .and. out_open.eq.1) then
+      if (my_output.ge.2) then
 
          if (wtd%numcps.eq.1 .and. ic%config.ge.4) then
             write(lout, 1001) 'ROLLER', trim(nam_side), wtd%numcps, 'PATCH'
@@ -163,21 +169,21 @@ contains
 
       ! Print the input data for the W/R-problem if "output" >= 2.
 
-      if (ic%output_surf.ge.2 .and. out_open.eq.1) then
+      if (my_output.ge.2 .and. ic%gencr_inp.ge.2) then
 
          ! header per row: 2 spaces + [ 3 spaces + 9 characters ]*
 
          write(lout, 2100) mater%nu, fmt_gs(12,4,4,mater%ga), mater%ak, fmt_gs(12,4,4,wtd%solv%eps)
- 2100    format (1x, /, ' MATERIAL CONSTANTS', /,                                                       &
-            2x, 3x,'NU',7x, 3x,'G',8x, 3x,'AK',7x, 3x,'EPS',/, 2x, g12.4,a,g12.4,a,/)
+ 2100    format (/, ' MATERIAL CONSTANTS', /,                                                           &
+            2x, 3x,'NU',7x, 3x,'G',8x, 3x,'AK',7x, 3x,'EPS',/, 2x, g12.4,a,g12.4,a)
 
          write(lout, 2101) mater%poiss, fmt_gs(12,4,4,mater%gg(1)), fmt_gs(12,4,4,mater%gg(2))
- 2101    format ( 2x, 2x,'POISS(R)',2x, 2x,'POISS(W)',2x, 3x,'GG(R)',4x, 3x,'GG(W)',/, 2x, 2g12.4, 2a, /)
+ 2101    format (/, 2x, 2x,'POISS(R)',2x, 2x,'POISS(W)',2x, 3x,'GG(R)',4x, 3x,'GG(W)',/, 2x, 2g12.4, 2a)
 
          if (ic%mater2.ge.2) then
             write(lout, 2102) fmt_gs(12,4,4,mater%cdampn), fmt_gs(12,4,4,mater%cdampt),                 &
                 fmt_gs(12,4,4,mater%dfnmax), fmt_gs(12,4,4,mater%dftmax)
- 2102       format ( 2x, 2x,'CDAMPN',4x, 2x,'CDAMPT',4x, 3x,'DFNMAX',4x, 3x,'DFTMAX',/, 2x, 4a, /)
+ 2102       format (/, 2x, 2x,'CDAMPN',4x, 2x,'CDAMPT',4x, 3x,'DFNMAX',4x, 3x,'DFTMAX',/, 2x, 4a)
          endif
 
          if (ic%heat.ge.1 .and. ic%mater.ne.4) then
@@ -187,33 +193,40 @@ contains
             write(lout, 2104) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1),         &
                 mater%betapl, mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2)
          endif
- 2103    format (2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, /))
- 2104    format (2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY',5x, 'BETAPL', /,               &
-                 2x, 5g12.4, /, 2x, 4g12.4, /)
+ 2103    format (/, 2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, /))
+ 2104    format (/, 2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY',5x, 'BETAPL', /,            &
+                 2x, 5g12.4, /, 2x, 4g12.4)
 
-         if (ic%mater.eq.1) write(lout,2113) mater%nuv, mater%gav, mater%akv, mater%fg, &
-                mater%tc, mater%vt
- 2113    format (1x,'VISCOELASTIC MATERIAL CONSTANTS',/,                                                & 
+         if (ic%mater.eq.1) write(lout,2113) mater%nuv, mater%gav, mater%akv, mater%fg, mater%tc, mater%vt
+ 2113    format (/, 1x,'VISCOELASTIC MATERIAL CONSTANTS',/,                                             & 
             2x, 3x,'NUV',6x, 3x,'GV',7x, 3x,'AKV', /, 2x, 3g12.4,/,/,                                   &
             2x, 3x,'FG(R)',4x, 3x,'FG(W)',4x, 3x,'TC(R)',4x, 3x,'TC(W)',4x, 3x,'VT(R)',4x, 3x,'VT(W)',/, &
-            2x, 6g12.4,/)
+            2x, 6g12.4)
 
          if (ic%tang.gt.0 .and. ic%mater.eq.2) write(lout,2121) mater%flx(1)
- 2121    format (1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/, 2x, 3x,'FLX',/, 2x, g12.4,/)
+ 2121    format (/, 1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/, 2x, 3x,'FLX',/, 2x, g12.4)
 
          if (ic%tang.gt.0 .and. (ic%mater.eq.2 .or. ic%mater.eq.3))                                     &
                 write(lout,2135) 'FASTSIM', mater%k0_mf, mater%alfamf, mater%betamf
          if (ic%tang.gt.0 .and.  ic%mater.eq.5)                                                         &
                 write(lout,2135) 'FASTRIP', mater%k0_mf, mater%alfamf, mater%betamf
- 2135    format (1x,'MODIFIED ',a,' SLOPE REDUCTION PARAMETERS',/,                                      &
-                 2x, 3x,'K0_MF',4x, 3x,'ALFAMF',3x, 3x,'BETAMF', /, 2x, 3g12.4,/)
+ 2135    format (/, 1x,'MODIFIED ',a,' SLOPE REDUCTION PARAMETERS',/,                                   &
+                 2x, 3x,'K0_MF',4x, 3x,'ALFAMF',3x, 3x,'BETAMF', /, 2x, 3g12.4)
 
          if (ic%tang.gt.0 .and. ic%mater.eq.4)                                                          &
                 write(lout,2141) mater%gg3, mater%laythk, mater%tau_c0, mater%k_tau
- 2141    format (1x,'INTERFACIAL LAYER PARAMETERS',/,                                                   &
-            2x, 3x,'GG3',6x, 3x,'LAYTHK',3x, 3x,'TAU_C0',3x, 3x,'K_TAU',/, 2x, 4g12.4,/)
+ 2141    format (/, 1x,'INTERFACIAL LAYER PARAMETERS',/,                                                &
+            2x, 3x,'GG3',6x, 3x,'LAYTHK',3x, 3x,'TAU_C0',3x, 3x,'K_TAU',/, 2x, 4g12.4)
 
-         if (ic%tang.gt.0) call fric_output(lout, ic%output_surf, wtd%fric)
+      endif
+
+      if (my_output.ge.2) then
+
+         if (ic%tang.gt.0 .and. ic%frclaw_inp.ne.1) call fric_output(lout, ic%output_surf, wtd%fric)
+
+      endif
+
+      if (my_output.ge.2 .and. ic%discns1_inp.ge.2) then
 
          def_turn = 2d0 * discr%dist_sep - discr%dist_comb
          if (abs(discr%dist_turn-def_turn).lt.1d-6) then
@@ -230,53 +243,60 @@ contains
             2x, 3x,'DX',7x, 3x,'DS',7x, 3x,'DQREL',4x, 3x,'A_SEP',4x, 3x,'D_SEP',4x, 3x,'D_COMB',3x,    &
             3x,'D_TURN', /, 2x, 7g12.4)
 
-         ! print information on rail profile and smoothing
+      endif
 
-         if (ic%output_surf.ge.2 .and. ic%ztrack.ge.3) then
+      ! print information on rail profile and smoothing
 
-            if (ic%config.ge.4) then
-               write(lout, '(/,3a)') ' ROLLER PROFILE "', trim(my_rail%prr%fname),'"'
-            else
-               write(lout, '(/,3a)') ' RAIL PROFILE "', trim(my_rail%prr%fname),'"'
-            endif
-            if (my_rail%prr%ismooth.eq.0) then
-               write(lout, '(a)') '   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA'
-            else
-               write(lout, '(a)') '   MIRRORY     MIRRORZ     ISMOOTH      L_FILT'
-            endif
-            write(lout, '(i7,2i12,3x,f12.4)') my_rail%prr%mirror_y, my_rail%prr%mirror_z,               &
-                   my_rail%prr%ismooth, my_rail%prr%smth
+      if (my_output.ge.2 .and. ic%ztrack.ge.3) then
 
+         if (ic%config.ge.4) then
+            write(lout, '(/, 3a)') ' ROLLER PROFILE "', trim(my_rail%prr%fname),'"'
+         else
+            write(lout, '(/, 3a)') ' RAIL PROFILE "', trim(my_rail%prr%fname),'"'
          endif
+         if (my_rail%prr%ismooth.eq.0) then
+            write(lout, '(a)') '   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA'
+         else
+            write(lout, '(a)') '   MIRRORY     MIRRORZ     ISMOOTH      L_FILT'
+         endif
+         write(lout, '(i7,2i12,3x,f12.4)') my_rail%prr%mirror_y, my_rail%prr%mirror_z,               &
+                my_rail%prr%ismooth, my_rail%prr%smth
 
-         if (ic%output_surf.ge.3 .and. ic%ztrack.ge.3) then
+      endif
 
-            write(lout, '(/, a)') '   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT'
-            write(lout, '(2x, 5g12.4)') my_rail%prr%zig_thrs, my_rail%prr%kink_high,                    &
+      if (my_output.ge.3 .and. ic%ztrack.ge.3) then
+
+         write(lout, '(/, a)') '   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT'
+         write(lout, '(2x, 5g12.4)') my_rail%prr%zig_thrs, my_rail%prr%kink_high,                    &
                    my_rail%prr%kink_low, my_rail%prr%kink_wid, my_rail%prr%f_max_omit
 
-         endif
+      endif
 
          ! print information on track gauge, cant, curvature
 
-         if (ic%ztrack.eq.1 .or. ic%ztrack.eq.3) then
-            write(lout, 3000)
+      if (my_output.ge.2 .and. (ic%ztrack.eq.1 .or. ic%ztrack.eq.3)) then
 
-            if (trk%gauge_height.le.0d0) then
-               write(lout, 3001) trk%gauge_height, trk%rail_y0, trk%rail_z0, trk%cant_angle,            &
-                   fmt_gs(12,4,4,trk%track_curv)
-            else
-               write(lout, 3002) trk%gauge_height, trk%track_gauge, trk%cant_angle,                     &
-                   fmt_gs(12,4,4,trk%track_curv)
-            endif
+         write(lout, 3000)
+
+         if (trk%gauge_height.le.0d0) then
+            write(lout, 3001) trk%gauge_height, trk%rail_y0, trk%rail_z0, trk%cant_angle,            &
+                fmt_gs(12,4,4,trk%track_curv)
+         else
+            write(lout, 3002) trk%gauge_height, trk%track_gauge, trk%cant_angle,                     &
+                fmt_gs(12,4,4,trk%track_curv)
          endif
+
  3000    format (/, 1x,'TRACK DIMENSIONS AND RAIL POSITION')
  3001    format (2x, 2x,'GAUGHT',3x, 3x,'RAILY0',3x, 3x,'RAILZ0',3x, 5x,'CANT',3x, 5x,'CURV',/,         &
             f10.3, 3f12.4, a)
  3002    format (2x, 2x,'GAUGHT',3x, 3x,'GAUGWD',3x, 5x,'CANT',3x, 5x,'CURV',/,                         &
             f10.3, f12.3, f12.4, a)
 
-         ! print information on rail position, flexibility
+      endif
+
+      ! print information on rail position, flexibility
+
+      if (my_output.ge.2 .and. ic%ztrack.ge.2) then
 
          if (max(abs(my_rail%dy), abs(my_rail%dz), abs(my_rail%roll), abs(my_rail%vy), abs(my_rail%vz), &
                  abs(my_rail%vroll)).gt.1d-10) then
@@ -295,32 +315,35 @@ contains
  3203       format (2x, 3x,'KY_RAIL',2x, 3x,'DY_DEFL',2x, 3x,'FY_RAIL',2x, 3x,'KZ_RAIL',2x,             &
                    3x,'DZ_DEFL',2x, 3x,'FZ_RAIL',2x, /, 2x, 2f12.4,a, 2f12.4,a)
          endif
+      endif
 
-         ! print information on wheel profile and smoothing
-         ! TODO(?): print wheelset dimensions: fbdist, fbpos, nomrad, ytape
+      ! print information on wheel profile and smoothing
+      ! TODO(?): print wheelset dimensions: fbdist, fbpos, nomrad, ytape
 
-         if (ic%output_surf.ge.2 .and. ic%ewheel.ge.3) then
+      if (my_output.ge.2 .and. ic%ewheel.ge.3) then
 
-            write(lout, '(/,3a)') ' WHEEL PROFILE "', trim(my_wheel%prw%fname),'"'
-            if (my_wheel%prw%ismooth.eq.0) then
-               write(lout, '(a)') '   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA'
-            else
-               write(lout, '(a)') '   MIRRORY     MIRRORZ     ISMOOTH      L_FILT'
-            endif
-            write(lout, '(i7,2i12,3x,f12.4)') my_wheel%prw%mirror_y, my_wheel%prw%mirror_z,             &
+         write(lout, '(/,3a)') ' WHEEL PROFILE "', trim(my_wheel%prw%fname),'"'
+         if (my_wheel%prw%ismooth.eq.0) then
+            write(lout, '(a)') '   MIRRORY     MIRRORZ     ISMOOTH      LAMBDA'
+         else
+            write(lout, '(a)') '   MIRRORY     MIRRORZ     ISMOOTH      L_FILT'
+         endif
+         write(lout, '(i7,2i12,3x,f12.4)') my_wheel%prw%mirror_y, my_wheel%prw%mirror_z,             &
                    my_wheel%prw%ismooth, my_wheel%prw%smth
 
-         endif
+      endif
 
-         if (ic%output_surf.ge.3 .and. ic%ewheel.ge.3) then
+      if (my_output.ge.3 .and. ic%ewheel.ge.3) then
 
-            write(lout, '(/, a)') '   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT'
-            write(lout, '(2x, 5g12.4)') my_wheel%prw%zig_thrs, my_wheel%prw%kink_high,                  &
-                   my_wheel%prw%kink_low, my_wheel%prw%kink_wid, my_wheel%prw%f_max_omit
+         write(lout, '(/, a)') '   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT'
+         write(lout, '(2x, 5g12.4)') my_wheel%prw%zig_thrs, my_wheel%prw%kink_high,                  &
+                my_wheel%prw%kink_low, my_wheel%prw%kink_wid, my_wheel%prw%f_max_omit
 
-         endif
+      endif
 
-         ! print wheelset position, velocity, flexibility
+      ! print wheelset position, velocity, flexibility
+
+      if (my_output.ge.2 .and. ic%ewheel.ge.1) then
 
          write(lout, 4000)
  4000    format (/, 1x,'WHEEL-SET POSITION AND VELOCITY')
@@ -369,20 +392,20 @@ contains
 
       ! Print the overall results for the W/R-problem if "output" >= 1.
 
-      if (ic%output_surf.ge.1 .and. out_open.eq.1) then
+      if (my_output.ge.1) then
 
          if (wtd%numcps.le.0) then
             write(lout, 5000)
  5000       format(' ----- NO CONTACT FOUND FOR THIS WHEEL / WHEEL-SET -----')
          endif
 
-         if (ic%output_surf.ge.4 .and. ic%config.le.1) then
+         if (my_output.ge.4 .and. ic%config.le.1) then
             write(lout,5010) ' AND MOMENTS ', 'RAIL'
-         elseif (ic%output_surf.ge.4) then
+         elseif (my_output.ge.4) then
             write(lout,5010) ' AND MOMENTS ', 'ROLLER'
-         elseif (ic%output_surf.ge.2 .and. ic%config.le.1) then
+         elseif (my_output.ge.2 .and. ic%config.le.1) then
             write(lout,5010) ' ', 'RAIL'
-         elseif (ic%output_surf.ge.2) then
+         elseif (my_output.ge.2) then
             write(lout,5010) ' ', 'ROLLER'
          endif
          write(lout,5011)
@@ -390,7 +413,7 @@ contains
                           fmt_gs(12,nd,4,wtd%ftrk%z()), fmt_gs(12,nd,4,wtd%fws%x()),                    &
                           fmt_gs(12,nd,4,sgn*wtd%fws%y()), fmt_gs(12,nd,4,wtd%fws%z())
 !               fmt_gs(16,8,8,wtd%ftrk%z()), fmt_gs(16,8,8,wtd%fws%x()), fmt_gs(12,4,4,sgn*wtd%fws%y()), &
-         if (ic%output_surf.ge.4) then
+         if (my_output.ge.4) then
             write(lout,5012)
             write(lout,5013) fmt_gs(12,4,4,wtd%ttrk%x()), fmt_gs(12,4,4,sgn*wtd%ttrk%y()),              &
                fmt_gs(12,4,4,wtd%ttrk%z()), fmt_gs(12,4,4,wtd%tws%x()), fmt_gs(12,4,4,sgn*wtd%tws%y()), &
@@ -422,7 +445,7 @@ contains
                    frpow  => gd%outpt1%frpow, pmax1  => gd%outpt1%pmax,   eps    => gd%solv%eps,        &
                    hs1    => gd%geom%hs1,     subs   => gd%subs )
 
-         if (ic%output_surf.ge.1 .and. out_open.eq.1) then
+         if (my_output.ge.1) then
             n_old = 0
             do icpo = 1, MAX_NUM_CPS
                if (cp%prev_icp(icpo).ge.1) n_old = n_old + 1
@@ -443,26 +466,23 @@ contains
 
          ! Print additional input data for the contact patch if "output" >= 2.
 
-         if (ic%output_surf.ge.2 .and. out_open.eq.1) then
+         if (my_output.ge.2) then
 
             ! write output for contact reference position on track / rail profile
             ! note: undo mirroring for track y but not for rail y
 
             write(lout, 6100)
-            ! write(lout, 6101) 'RAIL'
             write(lout, 6102) meta%xcp_tr, sgn*meta%ycp_tr, meta%zcp_tr, sgn*meta%deltcp_tr,            &
                 sgn*meta%ycp_r, meta%zcp_r
 
             ! write output for contact reference position on wheelset / wheel profile
 
-            ! write(lout, 6101) 'WHEEL'
             write(lout, 6103) meta%xcp_w, sgn*meta%ycp_w, meta%zcp_w
 
  6100       format(/,1x,'CONTACT REFERENCE LOCATION')
- 6101       format(1x,'CONTACT POINT LOCATION ON ',a)
  6102       format(2x, 3x,'XCP(TR)',2x, 3x,'YCP(TR)',2x, 3x,'ZCP(TR)',2x, 2x,'DELTCP(TR)',1x,           &
-                   2x,'YCP(R)',3x, 3x,'ZCP(R)', /, 6f12.4, /)
- 6103       format(2x, 3x,'XCP(W)',3x, 3x,'YCP(W)',3x, 3x,'ZCP(W)', /, 3f12.4, /)
+                   2x,'YCP(R)',3x, 3x,'ZCP(R)', /, 6f12.4)
+ 6103       format(/, 2x, 3x,'XCP(W)',3x, 3x,'YCP(W)',3x, 3x,'ZCP(W)', /, 3f12.4)
 
             ! report on angle variation within the actual contact, if on-empty
 
@@ -476,9 +496,9 @@ contains
                sc1 = cgrid%y( ii1 ) + 0.5d0*cgrid%dy
                delt0 = atan( cp%curv_nrm%vy(iy0) / -cp%curv_nrm%vn(iy0) ) * 180d0 / pi
                delt1 = atan( cp%curv_nrm%vy(iy1) / -cp%curv_nrm%vn(iy1) ) * 180d0 / pi
-               write(bufout,'(3(a,i3),2(a,f7.3),a)') ' Actual contact on columns iy = [',iy0,',',       &
+               write(bufout,'(/, 3(a,i3),2(a,f7.3),a)') ' Actual contact on columns iy = [',iy0,',',    &
                             iy1,'] (my=',cgrid%ny,'), sc = [', sc0,',', sc1,']'
-               call write_log(1, bufout)
+               call write_log(2, bufout)
                write(bufout,'(3(a,f7.2),a)') ' Reference contact angle delttr =', cp%delttr*180d0/pi,   &
                             ' deg, range = [',delt0,',',delt1,'] deg'
                call write_log(1, bufout)
@@ -486,7 +506,6 @@ contains
                write(bufout,'(3(a,f12.1),a)') ' Total moments Mxp =', gd%outpt1%mxtrue,', Msp =',       &
                         gd%outpt1%mytrue, ', Mnp =', gd%outpt1%mztrue, ' N.mm'
                call write_log(1, bufout)
-               call write_log(' ')
             endif
 
             ! V = 1: report on actual friction parameters used, converted to struct with NVF = 1
@@ -494,7 +513,6 @@ contains
             if (ic%tang.gt.0 .and. wtd%ic%varfrc.ge.1) then
 
                call fric_output(lout, wtd%ic%output_surf, gd%fric)
-               write(lout,'(1x)')
 
             endif
 
@@ -502,16 +520,16 @@ contains
 
             if (ic%tang.gt.0 .and. (ic%mater.eq.3 .or. ic%mater.eq.5)) then
                write(lout,6231) gd%mater%flx(1), gd%mater%flx(2), gd%mater%flx(3)
- 6231          format (1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/,                                     &
-                 2x, 3x,'FLX1',5x, 3x,'FLX2',5x, 3x,'FLX3',/, 2x, 3g12.4,/)
+ 6231          format (/, 1x,'SIMPLIFIED THEORY MATERIAL CONSTANTS',/,                                  &
+                 2x, 3x,'FLX1',5x, 3x,'FLX2',5x, 3x,'FLX3',/, 2x, 3g12.4)
             endif
 
             if (ic%tang.gt.0 .and. (ic%mater.eq.2 .or. ic%mater.eq.3))                                  &
                write(lout,6251) 'FASTSIM', gd%mater%k_eff
             if (ic%tang.gt.0 .and.  ic%mater.eq.5)                                                      &
                write(lout,6251) 'FASTRIP', gd%mater%k_eff
- 6251       format (1x,'MODIFIED ',a,' SLOPE REDUCTION PARAMETERS',/,                                   &
-                 2x, 3x,'K0_EFF',4x, /, 2x, 1g12.4,/)
+ 6251       format (/, 1x,'MODIFIED ',a,' SLOPE REDUCTION PARAMETERS',/,                                &
+                 2x, 3x,'K0_EFF',4x, /, 2x, 1g12.4)
 
             ! report on creepages
 
@@ -522,20 +540,20 @@ contains
                strng(4) = fmt_gs(12, 4, 4, sgn*cphi)
                write(lout, 6301)
                write(lout, 6305) sgn*chi, dq, strng(1), strng(2), strng(3), strng(4)
- 6301          format (' KINEMATIC CONSTANTS')
+ 6301          format (/, ' KINEMATIC CONSTANTS')
  6305          format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 3x,'CKSI',5x, 3x,'CETA',5x,       &
-                    3x,'CPHI',/, 2x, 2g12.4, 4a12, /)
+                    3x,'CPHI',/, 2x, 2g12.4, 4a12)
 
                if (max(abs(gd%kin%spinxo),abs(gd%kin%spinyo)).ge.tiny) then
                   write(lout, 6311) gd%kin%spinxo, gd%kin%spinyo
                endif
- 6311          format (2x, 3x,'SPINXO',3x,  3x,'SPINYO',/, 2x, 2g12.4, /)
+ 6311          format (/, 2x, 3x,'SPINXO',3x,  3x,'SPINYO',/, 2x, 2g12.4)
             endif
          endif
 
          ! Print the main results for the patch: total forces, creepages
 
-         if (ic%output_surf.ge.1 .and. out_open.eq.1) then
+         if (my_output.ge.1) then
 
             ! Filter values that are dominated by noise using filt_sml()
 
@@ -546,9 +564,9 @@ contains
             strng(5) = fmt_gs(12, 4, 4, elen)
             strng(6) = fmt_gs(12, 4, 4, frpow)
 
-            if (ic%output_surf.ge.2) write(lout,6400)
+            if (my_output.ge.2) write(lout,6400)
             if (.not.ic%is_conformal()) then
-            write(lout,6401)
+               write(lout,6401)
             else
                write(lout,6402)
             endif
@@ -611,7 +629,7 @@ contains
 
          ! Print more detailed global output when "output" >= 2
 
-         if (ic%output_surf.ge.2) then
+         if (my_output.ge.2) then
 
             ! Set mirroring of sensitivities for left-side wheel/rail
 
@@ -662,7 +680,7 @@ contains
 
          ! write the statistics when "output" >= 2
 
-         if (ic%output_surf.ge.2) then
+         if (my_output.ge.2) then
             call eldiv_count(igs1, nadh, nslip, nplast, nexter)
             ncon = nadh + nslip + nplast
             if (use_plast) then
@@ -679,7 +697,7 @@ contains
 
          ! write the picture of the contact area when "output" >= 3
 
-         if (ic%output_surf.ge.3) then
+         if (my_output.ge.3) then
             write(lout, 6700)
  6700       format(/, ' FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:')
             call wrigs (igs1, is_roll, gd%kin%chi)
@@ -687,7 +705,7 @@ contains
 
          ! print the curved reference surface used for conformal contact when "output" >= 3 and D == 4
 
-         if (ic%output_surf.ge.3 .and. ic%is_conformal()) then
+         if (my_output.ge.3 .and. ic%is_conformal()) then
 
             write(lout, '(/,a,i5,a)') ' CURVED REFERENCE SURFACE, TRACK COORDINATES,', cp%curv_ref%ny, &
                 ' POINTS:'
@@ -707,7 +725,7 @@ contains
 
          ! Print the detailed solution for all elements, when "output" >= 5
 
-         if (ic%output_surf.ge.5) then
+         if (my_output.ge.5) then
 
             if (ic%tang.eq.0) then
                write(lout, 6900)
@@ -754,7 +772,7 @@ contains
             do ii = 1, gd%potcon_cur%npot
                if (cgrid%iy(ii).ne.lstrow) znewln = .true.
                lstrow = cgrid%iy(ii)
-               if (igs1%el(ii).ge.Adhes .or. ic%output_surf.ge.6) then
+               if (igs1%el(ii).ge.Adhes .or. my_output.ge.6) then
 
                   ! print header when starting a new row of the potential contact:
 
@@ -804,7 +822,7 @@ contains
 
       ! print the profiles used in track coordinates when "output" >= 4
 
-      if (ic%output_surf.ge.4) then
+      if (my_output.ge.4) then
 
          ! get the rail profile in track coordinates
 

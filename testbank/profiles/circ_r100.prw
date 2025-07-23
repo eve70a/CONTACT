@@ -4,7 +4,7 @@ header.begin
 header.end
 spline.begin
   approx.smooth = 0.000000
-  comment       = 'circular wheel, R_ry=100.00'
+  comment       = 'circular wheel, R_wy=100.00'
   units.len.f   = 1000.
   units.ang.f   =    1.
   point.begin

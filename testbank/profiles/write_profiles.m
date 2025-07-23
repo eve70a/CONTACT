@@ -1,19 +1,24 @@
 
 function write_profiles()
 
-write_circ_wr    = 0;
+write_circ_wr    = 1;
 write_concave_wh = 0;
-write_flat_wr    = 1;
+write_flat_wr    = 0;
 write_groove     = 0;
 
 % circular rail and wheel profiles
 
 if (write_circ_wr==1)
 
-   for R_ry = [10, 30, 50, 100]
+   for R_ry = [460]
       dy = 0.1;
-      ny = round(2*R_ry / dy) - 1;
-      y  = -R_ry + [1:ny]*dy;
+      if (R_ry>101)
+         ny = round(100 / dy) - 1;
+         y  = -50 + [1:ny]*dy;
+      else
+         ny = round(2*R_ry / dy) - 1;
+         y  = -R_ry + [1:ny]*dy;
+      end
       z  =  R_ry - sqrt(R_ry^2 - y.^2);
 
       % shave off minimum z-value

@@ -39,7 +39,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
 for iwhe = 1 : 2 % "wheel number"
-
+   sgn = 2 * iwhe - 3; % -1 / 1 for left/right side
 
             % CONTACT unit convention: [mm], [mm/s], [N], acting on body (1)
             % note that w/r profiles are needed in [mm] regardless of this setting.
@@ -113,7 +113,8 @@ for iwhe = 1 : 2 % "wheel number"
    % track dimensions & deviations at current side (Z=3)
 
    ztrack = 3;
-   params = [ 14, 0, 1435, 0, 0, 0, 0, 0, 0, 0, 0 ];
+   params = [ 14, 0, 1435, 0, 0, 0,   0, 0, 0, 0, 0, 0 ];
+   % params = [ -1, sgn*760.5330, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0 ];
    cntc_settrackdimensions(iwhe, ztrack, params);
 
    % rail profile, same on both sides, scaling to [mm]
@@ -184,11 +185,11 @@ for iwhe = 1 : 2
                           'cp_pos', [], 'cp_creep', [], 'cp_force', []);
 end
 
-for iwhe = 1 : 2 % wheel number
+% loop over the lateral displacements y_ws
 
-   % loop over the lateral displacements y_ws
+for icase = 1: length(y_ws)
 
-   for icase = 1: length(y_ws)
+   for iwhe = 1 : 2 % wheel number
 
       ws_pos = [    0, y_ws(icase), 0, roll_ws(icase), yaw_ws(icase),   0      ];
       ws_vel = [ 2000,     0,       0,      0,            0,     vpitch(icase) ];
@@ -314,8 +315,21 @@ for iwhe = 1 : 2 % wheel number
          plot3d(sol, opt);
       end
 
-   end % icase
-end % iwhe
+      % initialize control digits for next case, reduce size of inp and out-files
+
+      icp = -1;
+      cntc_setsolverflags(iwhe, icp, 1, [], []);
+      cntc_setfrictionmethod(iwhe, icp, 1, []);
+      cntc_settrackdimensions(iwhe, 0, []);
+      cntc_setwheelsetdimensions(iwhe, 0, []);
+
+      clear flags values;
+      flags( 1) = CNTC.ic_discns ; values(1) = 1; % D=1: keep settings
+      flags( 2) = CNTC.ic_inflcf ; values(2) = 1; % C3=1: keep settings
+      cntc_setflags(iwhe, [], flags, values);
+
+   end % iwhe
+end % icase
 
 % Cleanup
 
@@ -496,5 +510,3 @@ if (make_tbl)
       end
    end
 end
-
-% $Revision: 2519 $, $Date: 2024-03-18 18:08:59 +0100 (Mon, 18 Mar 2024) $

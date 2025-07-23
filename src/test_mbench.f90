@@ -271,6 +271,18 @@ program test_mbench
 
          if (iwhe.eq.2 .and. istep.eq.11) call max_vonmises(iwhe, ldebug)
 
+         ! set flags for next call, reducing size of inp-file, print output
+
+         flags = 0 ; values = 0
+         flags(1) = CNTC_ic_discns ; values(1) = 1                      ! D = 1
+         flags(2) = CNTC_ic_inflcf ; values(2) = 1                      ! C3 = 1
+         call cntc_setflags(iwhe, icp, 2, flags, values)
+
+         call cntc_setSolverFlags(iwhe, icp, 1, 0, flags, 0, rarr)      ! G = 1
+         call cntc_setTrackDimensions(iwhe, 0, 0, rarr)                 ! Z = 0
+         call cntc_setWheelsetDimensions(iwhe, 0, 0, rarr)              ! E = 0
+         call cntc_setFrictionMethod(iwhe, icp, 1, 0, rarr)             ! L = 1
+
       end do ! iwhe
    end do ! istep
 

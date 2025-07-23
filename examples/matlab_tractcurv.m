@@ -264,5 +264,3 @@ if (make_fig)
    plot([4 4], [0.33, 0.297], 'k-');
    text(4.8, 0.42, 'User guide, Section 5.9','horizontalalignment','right');
 end
-
-% $Revision: 2681 $, $Date: 2025-04-16 13:55:46 +0200 (Wed, 16 Apr 2025) $

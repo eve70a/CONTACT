@@ -956,7 +956,7 @@ contains
       character(len=5) :: namprm
 
       write(lout, 3001)
- 3001 format (' FRICTION LAW PARAMETERS')
+ 3001 format (/, ' FRICTION LAW PARAMETERS')
 
       if (fric%varfrc_eff.le.0) then
 

@@ -304,7 +304,8 @@ else
    if (sol.mater.m_digit==1)
       sol.mater.fg      = tmp(irow,7:8);
       sol.mater.tc      = tmp(irow,9:10);
-   elseif (sol.mater.m_digit==2 | sol.mater.m_digit==3 | sol.mater.m_digit==5)
+   elseif (sol.mater.m_digit==2 | sol.mater.m_digit==3 | sol.mater.m_digit==5 | sol.mater.m_digit==6 | ...
+           sol.mater.m_digit==7)
       sol.mater.poiss(2)= sol.mater.poiss(1); % note: poiss(2) n.a. when m_digit==2 or 3
       sol.mater.flx     = tmp(irow,6:8);
       sol.mater.k0_mf   = tmp(irow,9);

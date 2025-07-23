@@ -12,7 +12,7 @@
    999   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
    0.4705     -0.0034      0.0000     0.000      FN, CKSI, CETA, CPHI
    0.4013      0.4013                            FSTAT, FKIN
-   0.00d       0.250       30000.                CHI, DQ, VELOC
+   0.00d       0.250        1000.                CHI, DQ, VELOC
    0.280       0.280       1.000      1.000      POISS 1,2,  GG 1,2
    1.000       0.000       0.005      0.42857    GG3, LAYTHK, TAU_C0, K_TAU
     1                                            IPOTCN
@@ -23,15 +23,11 @@
 % Second case: steady rolling using solver ConvexGS (G=2)
  3  MODULE
   203100         P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
-  022420         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  121420         L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   201341         G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
    999   100    30      1     1e-5     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
    0.9   0.9     1    0.9
    0.4705     -0.0034      0.0000     0.000      FN, CKSI, CETA, CPHI
-   0.4013      0.4013                            FSTAT, FKIN
-   0.00d       0.250       30000.                CHI, DQ, VELOC
-   0.280       0.280       1.000      1.000      POISS 1,2,  GG 1,2
-   1.000       0.000       0.005      0.42857    GG3, LAYTHK, TAU_C0, K_TAU
     1                                            IPOTCN
    34   33   -4.125    -4.125    0.250   0.250   MX,MY,XL,YL,DX,DY
     1           1                                IBASE, IPLAN
@@ -41,23 +37,17 @@
 
  3  MODULE
   202110          P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
-  102400          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  101400          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   101341          G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
   0.4705      0.6918      0.000       0.000         FN, FX, CETA, CPHI
-  0.000       0.250        1000.                    CHI, DQ, VELOC
-  0.280       0.280       1.000       1.000         POISS 1,2,  GG 1,2
-  1.000       0.000       0.005       0.42857       GG3, LAYTHK, TAU_C0, K_TAU
 
 % Cases 4-59:  transient rolling (T=2) starting from previous tractions (P=0)
 
  3  MODULE      % distance traversed  1 DX
   002100          P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
-  102400          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  100400          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   110341          G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
   0.4705     -0.0034      0.000       0.000         FN, FX, CETA, CPHI
-  0.000       0.250        1000.                    CHI, DQ, VELOC
-  0.280       0.280       1.000       1.000         POISS 1,2,  GG 1,2
-  1.000       0.000       0.005       0.42857       GG3, LAYTHK, TAU_C0, K_TAU
 
 % Onwards: maintain same discretisation, material, geometry, solver (D=C=Z=G=0).
  3  MODULE      % distance traversed  2 DX
@@ -415,12 +405,9 @@
 
  3  MODULE      % distance traversed  1 DX
   002100          P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
-  102400          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  101400          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   112341          G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
   0.4705     -0.0034      0.000       0.000         FN, FX, CETA, CPHI
-  0.000       0.250        1000.                    CHI, DQ, VELOC
-  0.280       0.280       1.000       1.000         POISS 1,2,  GG 1,2
-  1.000       0.000       0.005       0.000         GG3, LAYTHK, TAU_C0, K_TAU
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Additional test-cases using k_tau = 0, solved using new solver TangCG (G=0)
@@ -429,14 +416,10 @@
 
  3  MODULE
   202100          P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
-  022420          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  121420          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   000141          G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
    999   100    30      1     1e-7     MAXGS , MAXIN , MAXNR , MAXOUT, EPS
   0.4705     -0.0800      0.000       0.020         FN, FX, CETA, CPHI
-  0.4013      0.4013                                FSTAT, FKIN
-  0.000       0.250        1000.                    CHI, DQ, VELOC
-  0.280       0.280       1.000       1.000         POISS 1,2,  GG 1,2
-  1.000       0.000       0.005       0.000         GG3, LAYTHK, TAU_C0, K_TAU
     1                                            IPOTCN
    34   33   -4.125    -4.125    0.250   0.250   MX,MY,XL,YL,DX,DY
     1           1                                IBASE, IPLAN
@@ -446,11 +429,8 @@
 
  3  MODULE      % distance traversed  1 DX
   002100          P-B-T-N-F-S   PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
-  102400          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
+  101400          L-D-C-M-Z-E   FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
   112341          G-I-A-O-W-R   GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
   0.4705     -0.0034      0.000       0.000         FN, FX, CETA, CPHI
-  0.000       0.250        1000.                    CHI, DQ, VELOC
-  0.280       0.280       1.000       1.000         POISS 1,2,  GG 1,2
-  1.000       0.000       0.005       0.000         GG3, LAYTHK, TAU_C0, K_TAU
 
  0  MODULE

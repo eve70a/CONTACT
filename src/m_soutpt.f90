@@ -69,7 +69,7 @@ contains
       type(t_probdata)         :: gd
 !--local variables :
       integer, parameter       :: idebug = 3, nd = 4
-      integer      :: ik, ii, i, j, iin, iout, lstrow, ncon, nadh, nslip, nplast, nexter
+      integer      :: ik, ii, i, j, iin, iout, lstrow, ncon, nadh, nslip, nplast, nexter, my_output
       logical      :: znewln, is_roll, is_ssrol, use_plast
       real(kind=8) :: tmp1mx, tmp2mx, hmp, trcbnd, ptabs, ptarg, rhsx, rhsy, fxtrue, fytrue, us_avg(3), &
                       frpow0
@@ -105,7 +105,13 @@ contains
 
       ! Print the heading if "output" >= 2
 
-      if (ic%output_surf.ge.2 .and. out_open.eq.1) then
+      if (out_open.eq.1) then
+         my_output = ic%output_surf
+      else
+         my_output = -1
+      endif
+
+      if (my_output.ge.2) then
 
          write(lout, 8000)
          write(lout, 8001) ic%pvtime, ic%bound, ic%tang, ic%norm, ic%force3, ic%stress
@@ -169,87 +175,85 @@ contains
  8041       format (' JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS')
  8042       format (' PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT=', I3)
          endif
+      endif
 
-         ! print data of Hertzian problem
+      ! print data of Hertzian problem
 
-         if (pot%ipotcn.lt.0) then
+      if (my_output.ge.2 .and. ic%rznorm.ge.1 .and. pot%ipotcn.lt.0) then
 
-            if (pot%ipotcn.le.-6) then
-               strng(1) = 'SDEC'
-            elseif (pot%ipotcn.le.-4) then
-               strng(1) = '2D HERTZIAN'
-            else
-               strng(1) = '3D HERTZIAN'
-            endif
-
-            if (ic%norm.eq.0) then
-               strng(2) = 'APPROACH'
-            else
-               strng(2) = 'NORMAL FORCE'
-            endif
-
-            write(lout, 8051) trim(strng(1)), trim(strng(2))
-
- 8051       format (/, 1x, a, ' GEOMETRY WITH PRESCRIBED ',a)
-
-            if (pot%ipotcn.eq.-1) then
-               write(lout, 8061) gd%hertz%a1, gd%hertz%b1
-            elseif (pot%ipotcn.eq.-2) then
-               write(lout, 8062) gd%hertz%a1, gd%hertz%aob
-            elseif (pot%ipotcn.eq.-3) then
-               write(lout, 8063) gd%hertz%aa, gd%hertz%bb
-            elseif (pot%ipotcn.eq.-4) then
-               write(lout, 8064) gd%hertz%a1, gd%hertz%bb
-            elseif (pot%ipotcn.eq.-5) then
-               write(lout, 8063) gd%hertz%aa, gd%hertz%bb
-            elseif (pot%ipotcn.eq.-6) then
-               write(lout, 8066) gd%hertz%aa, gd%hertz%bneg, gd%hertz%bpos
-            endif
-
- 8061       format (' CURVATURE PRESCRIBED, A1,B1: ', 13x, 2g12.4)
- 8062       format (' CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:', 2g12.4)
- 8063       format (' SEMIAXES PRESCRIBED, AA,BB:  ', 13x, 2g12.4)
- 8064       format (' CURVATURE PRESCRIBED, A1,BB: ', 13x, 2g12.4)
- 8066       format (' SEMIAXES PRESCRIBED, AA,BNEG,BPOS:', 8x, 3g12.4)
-
-            if (pot%ipotcn.ne.-1 .and. pot%ipotcn.ne.-6) write(lout, 8071) gd%hertz%a1, gd%hertz%b1
-            if (pot%ipotcn.ne.-3 .and. pot%ipotcn.ne.-6)                                                &
-               write(lout, 8072) gd%hertz%aa, gd%hertz%bb, gd%hertz%aob
- 8071       format (' THE CURVATURES A1,B1 ARE:    ', 13x, 2g12.4)
- 8072       format (' BASIC SEMIAXES AA,BB, RATIO  ', 13x, 3g12.4)
-
-            if (pot%ipotcn.ne.-6) write(lout, 8081) gd%hertz%rho, gd%hertz%cp
- 8081       format (' EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP', 6x, 2g12.4)
-
-            write(lout, 8091)  pot%xl, pot%yl, gd%hertz%scale, mx, my, dx, dy
- 8091       format (' POTENTIAL CONTACT, SCALE:    ', 13x, 3g12.4,/,                                    &
-                    ' DISCRETISATION MX,MY, DX,DY: ', 13x, 2i6,2g12.4)
-
+         if (pot%ipotcn.le.-6) then
+            strng(1) = 'SDEC'
+         elseif (pot%ipotcn.le.-4) then
+            strng(1) = '2D HERTZIAN'
+         else
+            strng(1) = '3D HERTZIAN'
          endif
+
+         if (ic%norm.eq.0) then
+            strng(2) = 'APPROACH'
+         else
+            strng(2) = 'NORMAL FORCE'
+         endif
+
+         write(lout, 8051) trim(strng(1)), trim(strng(2))
+
+ 8051    format (/, 1x, a, ' GEOMETRY WITH PRESCRIBED ',a)
+
+         if (pot%ipotcn.eq.-1) then
+            write(lout, 8061) gd%hertz%a1, gd%hertz%b1
+         elseif (pot%ipotcn.eq.-2) then
+            write(lout, 8062) gd%hertz%a1, gd%hertz%aob
+         elseif (pot%ipotcn.eq.-3) then
+            write(lout, 8063) gd%hertz%aa, gd%hertz%bb
+         elseif (pot%ipotcn.eq.-4) then
+            write(lout, 8064) gd%hertz%a1, gd%hertz%bb
+         elseif (pot%ipotcn.eq.-5) then
+            write(lout, 8063) gd%hertz%aa, gd%hertz%bb
+         elseif (pot%ipotcn.eq.-6) then
+            write(lout, 8066) gd%hertz%aa, gd%hertz%bneg, gd%hertz%bpos
+         endif
+
+ 8061    format (' CURVATURE PRESCRIBED, A1,B1: ', 13x, 2g12.4)
+ 8062    format (' CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:', 2g12.4)
+ 8063    format (' SEMIAXES PRESCRIBED, AA,BB:  ', 13x, 2g12.4)
+ 8064    format (' CURVATURE PRESCRIBED, A1,BB: ', 13x, 2g12.4)
+ 8066    format (' SEMIAXES PRESCRIBED, AA,BNEG,BPOS:', 8x, 3g12.4)
+
+         if (pot%ipotcn.ne.-1 .and. pot%ipotcn.ne.-6) write(lout, 8071) gd%hertz%a1, gd%hertz%b1
+         if (pot%ipotcn.ne.-3 .and. pot%ipotcn.ne.-6)                                                   &
+            write(lout, 8072) gd%hertz%aa, gd%hertz%bb, gd%hertz%aob
+ 8071    format (' THE CURVATURES A1,B1 ARE:    ', 13x, 2g12.4)
+ 8072    format (' BASIC SEMIAXES AA,BB, RATIO  ', 13x, 3g12.4)
+
+         if (pot%ipotcn.ne.-6) write(lout, 8081) gd%hertz%rho, gd%hertz%cp
+ 8081    format (' EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP', 6x, 2g12.4)
+
+         write(lout, 8091)  pot%xl, pot%yl, gd%hertz%scale, mx, my, dx, dy
+ 8091    format (' POTENTIAL CONTACT, SCALE:    ', 13x, 3g12.4,/,                                       &
+                 ' DISCRETISATION MX,MY, DX,DY: ', 13x, 2i6,2g12.4)
       endif
 
       ! print the input data if "output" >= 2.
       ! header per row: 2 spaces + [ 3 spaces + 9 characters ]*
 
-      if (ic%output_surf.ge.2 .and. out_open.eq.1) then
-
-         if (gd%solv%gausei_eff.eq.5) then
-            if (gd%solv%gd_meth.le.2) then
-               if (gd%solv%gd_meth.eq.1) gd%solv%kdown = max(999, mx+1)
-               write(lout, 7902) gd%solv%kdown, gd%solv%kdowfb, gd%solv%betath, gd%solv%d_ifc,          &
-                   gd%solv%d_lin, gd%solv%d_cns, gd%solv%d_slp, gd%solv%pow_s
-            else
-               write(lout, 7903) gd%solv%fdecay, gd%solv%kdowfb, gd%solv%betath, gd%solv%d_ifc,         &
-                   gd%solv%d_lin, gd%solv%d_cns, gd%solv%d_slp, gd%solv%pow_s
-            endif
- 7902       format (/, ' PARAMETERS FOR SOLVER GDSTEADY', /,                                            &
-               2x, 3x,'KDOWN',4x, 'KDOWFB  BETA', 3x,'D_IFC',4x, 3x,'D_LIN',4x, 3x,'D_CNS',4x,          &
-                         3x,'D_SLP',4x, 3x,'POW_S',/, 2x, i8,4x, i5,f7.3, 6g12.4)
- 7903       format (/, ' PARAMETERS FOR SOLVER GDSTEADY', /,                                            &
-               2x, 3x,'FDECAY',3x, 'KDOWFB  BETA', 3x,'D_IFC',4x, 3x,'D_LIN',4x, 3x,'D_CNS',4x,         &
-                         3x,'D_SLP',4x, 3x,'POW_S',/, 2x, g12.4, i5,f7.3, 5g12.4)
+      if (my_output.ge.2 .and. ic%gausei_inp.ne.1 .and. gd%solv%gausei_eff.eq.5) then
+         if (gd%solv%gd_meth.le.2) then
+            if (gd%solv%gd_meth.eq.1) gd%solv%kdown = max(999, mx+1)
+            write(lout, 7902) gd%solv%kdown, gd%solv%kdowfb, gd%solv%betath, gd%solv%d_ifc,             &
+                gd%solv%d_lin, gd%solv%d_cns, gd%solv%d_slp, gd%solv%pow_s
+         else
+            write(lout, 7903) gd%solv%fdecay, gd%solv%kdowfb, gd%solv%betath, gd%solv%d_ifc,            &
+                gd%solv%d_lin, gd%solv%d_cns, gd%solv%d_slp, gd%solv%pow_s
          endif
+ 7902    format (/, ' PARAMETERS FOR SOLVER GDSTEADY', /,                                               &
+            2x, 3x,'KDOWN',4x, 'KDOWFB  BETA', 3x,'D_IFC',4x, 3x,'D_LIN',4x, 3x,'D_CNS',4x,             &
+                         3x,'D_SLP',4x, 3x,'POW_S',/, 2x, i8,4x, i5,f7.3, 6g12.4)
+ 7903    format (/, ' PARAMETERS FOR SOLVER GDSTEADY', /,                                               &
+            2x, 3x,'FDECAY',3x, 'KDOWFB  BETA', 3x,'D_IFC',4x, 3x,'D_LIN',4x, 3x,'D_CNS',4x,            &
+                         3x,'D_SLP',4x, 3x,'POW_S',/, 2x, g12.4, i5,f7.3, 5g12.4)
+      endif
 
+      if (my_output.ge.2 .and. ic%gencr_inp.ge.2) then
          write(lout, 8100) mater%nu, mater%ga, mater%ak, eps
  8100    format (/, ' MATERIAL CONSTANTS', /,                                                           &
             2x, 3x,'NU',7x, 3x,'G',8x, 3x,'AK',7x, 3x,'EPS',/, 2x, 4g12.4)
@@ -296,12 +300,15 @@ contains
  8141    format (/, 1x,'INTERFACIAL LAYER PARAMETERS',/,                                                &
             2x, 3x,'GG3',6x, 3x,'LAYTHK',3x, 3x,'TAU_C0',3x, 3x,'K_TAU',/, 2x, 4g12.4)
 
-         write(lout, *)
+      endif
+
+      if (my_output.ge.2 .and. ic%frclaw_inp.ne.1) then
 
          call fric_output(lout, ic%output_surf, gd%fric)
 
-         write(lout, *)
+      endif
 
+      if (my_output.ge.2) then
          if (gd%kin%use_muscal) then
             str_muscal = '/FSTAT/FN'
          else
@@ -328,24 +335,24 @@ contains
             if (ic%force3.eq.2) write(lout, 8307) str_muscal, str_muscal, chi, dq, strng(1), strng(5),  &
                 strng(6), strng(4)
          endif
- 8301    format (' KINEMATIC CONSTANTS')
+ 8301    format (/, ' KINEMATIC CONSTANTS')
  8302    format (2x, 3x,'DT',7x,  3x,'VELOC',4x, 3x,'CKSI',5x,  3x,'CETA',5x, 3x,'CPHI',/,              &
-                 2x, f8.3,4x, 4a12, /)
+                 2x, f8.3,4x, 4a12)
  8303    format (2x, 3x,'DT',7x,  3x,'VELOC',4x, 1x,'FX',a,     3x,'CETA',5x, 3x,'CPHI',/,              &
-                 2x, f8.3,4x, 4a12, /)
+                 2x, f8.3,4x, 4a12)
  8304    format (2x, 3x,'DT',7x,  3x,'VELOC',4x, 1x,'FX',a,     1x,'FY',a,    3x,'CPHI',/,              &
-                 2x, f8.3,4x, 4a12, /)
+                 2x, f8.3,4x, 4a12)
  8305    format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 3x,'CKSI',5x, 3x,'CETA',5x, 3x,'CPHI',/, &
-                 2x, 2g12.4, 4a12, /)
+                 2x, 2g12.4, 4a12)
  8306    format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 1x,'FX',a,    3x,'CETA',5x, 3x,'CPHI',/, &
-                 2x, 2g12.4, 4a12, /)
+                 2x, 2g12.4, 4a12)
  8307    format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 1x,'FX',a,    1x,'FY',a,    3x,'CPHI',/, &
-                 2x, 2g12.4, 4a12, /)
+                 2x, 2g12.4, 4a12)
 
          if (max(abs(gd%kin%spinxo),abs(gd%kin%spinyo)).ge.tiny) then
             write(lout, 8401) gd%kin%spinxo, gd%kin%spinyo
          endif
- 8401    format (2x, 3x,'SPINXO',3x,  3x,'SPINYO',/, 2x, 2g12.4, /)
+ 8401    format (/, 2x, 3x,'SPINXO',3x,  3x,'SPINYO',/, 2x, 2g12.4)
       endif
 
       ! here starts the calculating module of output.
@@ -427,6 +434,9 @@ contains
          fxtrue = fxrel * (fntrue*muscal+tiny)
          fytrue = fyrel * (fntrue*muscal+tiny)
          fcntc  = (/ fxtrue, fytrue, fntrue /)
+!        write(bufout,'(2(a,f12.3),2(a,f10.6))') '         soutpt: fytrue=',fytrue,', fntrue=',fntrue, &
+!                       ', fyrel=',fyrel, ', muscal=',muscal
+!        call write_log(1, bufout)
 
          ! compute ad-hoc proportional damping
 
@@ -512,7 +522,7 @@ contains
 
       ! Here ends the calculating module of output.
 
-      if (ic%output_surf.le.0 .or. out_open.ne.1) goto 90
+      if (my_output.le.0) goto 90
 
       ! Arrived here, Output takes place. PRINT RESULTS. First total force
       ! and torsional moment, then elastic energy and frictional power.
@@ -526,14 +536,14 @@ contains
       strng(5) = fmt_gs(12, 4, 4, elen)
       strng(6) = fmt_gs(12, 4, 4, frpow)
 
-      if (ic%output_surf.ge.2) write(lout,8500)
+      if (my_output.ge.2) write(lout,8500)
       if (.not.is_roll) then
          write(lout,8501) 'WORK'
       else
          write(lout,8501) 'POWER'
       endif
       write(lout,8502) (strng(j), j=1,6)
- 8500 format (' TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER')
+ 8500 format (/, ' TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER')
  8501 format (2x, 3x,'FN',7x, 3x,'FX',7x, 3x,'FY',7x, 3x,'MZ',7x, 2x,'ELAST.EN.',1x, 2x,'FRIC.',a)
  8502 format (2x, 6a12)
 
@@ -600,7 +610,7 @@ contains
 
       ! Write more detailed global output when "output" >= 2
 
-      if (ic%output_surf.ge.2) then
+      if (my_output.ge.2) then
 
          ! Convert sensitivities to strings, row-wise
 
@@ -658,7 +668,7 @@ contains
 
       ! Show picture of contact/adhesion/slip areas when O-digit >= 3
 
-      if (ic%output_surf.ge.3) then
+      if (my_output.ge.3) then
          write(lout, 8650)
  8650    format(/, ' FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:')
          call wrigs (igs1, is_roll, chi)
@@ -668,7 +678,7 @@ contains
 
       ! Skip detailed output for all elements when O-digit <= 4
 
-      if (ic%output_surf.le.4) goto 90
+      if (my_output.le.4) goto 90
 
       ! write the detailed solution,  when "output" >= 5
 
@@ -721,7 +731,7 @@ contains
       do 871 ii = 1, npot
          if (gd%cgrid_cur%iy(ii).ne.lstrow) znewln = .true.
          lstrow = gd%cgrid_cur%iy(ii)
-         if (igs1%el(ii).ge.Adhes .or. ic%output_surf.ge.6) then
+         if (igs1%el(ii).ge.Adhes .or. my_output.ge.6) then
 
             ! print header when starting a new row of the potential contact:
 

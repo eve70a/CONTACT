@@ -131,7 +131,7 @@ program test_table
       alfamf = 1d0
       betamf = 1d0
       rparam(1:7) = (/ nu1, nu1, g1, g1, k0mf, alfamf, betamf /)
-      if (mdigit.eq.0) then
+      if (mdigit.eq.0 .or. mdigit.eq.6 .or. mdigit.eq.7) then
          call cntc_setMaterialParameters(ire, icp, mdigit, 4, rparam)
       elseif (mdigit.eq.3 .or. mdigit.eq.5) then
          call cntc_setMaterialParameters(ire, icp, mdigit, 7, rparam)
