@@ -100,12 +100,13 @@ subroutine subsurf_input(unitnm, ic, ncase, linenr, subs, idebug, zerror)
          call readLine(unitnm, ncase, linenr, 'subsurface input option', 'i', ints, dbles,              &
                            flags, strngs, mxnval, nval, idebug, ieof, lstop, ierror)
          isubs  = ints(1)
-         zerror = zerror .or. .not.check_3rng ('ISUBS', isubs, 1,3, 5,7, 9,9)
 
          ! While (more blocks) do
 
          subs%nblock = 0
          do while (isubs.ge.1 .and. subs%nblock.lt.MXBLCK)
+
+            zerror = zerror .or. .not.check_3rng ('ISUBS', isubs, 1,3, 5,7, 9,9)
 
             ! increment number of blocks, set reference to block data
 
