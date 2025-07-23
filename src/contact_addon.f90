@@ -282,7 +282,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
       write(37,*) 'initialize: starting...'
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
 
    ! Store folder names (note: only the value of the first call is memorized, used for all REs)
 
@@ -364,7 +364,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
       call write_log(4, bufout)
 999 continue
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    if (ltmpfile) write(37,*) 'writing to stdout...'
 
    ! Debugging of license check, cwd, executable path,...
@@ -455,12 +455,12 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
    else
       ierror = 0
    endif
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(2a,i6)') trim(pfx_str(subnam,-1,-1)),' version=',ifcver
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 
 end subroutine cntc_initializeFirst
 
@@ -533,7 +533,7 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
       call cntc_initializeFirst(ifcver, ierror, 0, c_string, c_outdir, c_string, 1, len_outdir, 1)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
 
    ! Check the result element and module number
 
@@ -576,7 +576,7 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
          call timer_name(itimer, namtmr=namtim)
       enddo
 
-      if (idebug.ge.3) then
+      if (idebug_clib.ge.3) then
          write(bufout,'(2a,i3)') trim(pfx_str(subnam,-1,-1)),' number of active result elements=',num_reids
          call write_log(1, bufout)
       endif
@@ -591,12 +591,12 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
       ierror = 0
    endif
 
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(2a,i6)') trim(pfx_str(subnam,ire,-1)),' version=',ifcver
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 
 end subroutine cntc_initialize
 
@@ -631,10 +631,10 @@ subroutine cntc_setGlobalFlags(lenflg, params, values) &
    ! Note: this subroutine may be called before cntc_initializeFirst.
    !       In that case, print-output will go nowhere.
 
-   if (caddon_initialized.ge.0 .and. idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (caddon_initialized.ge.0 .and. idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
 
    do i = 1, lenflg
-      if (caddon_initialized.ge.0 .and. idebug.ge.3) then
+      if (caddon_initialized.ge.0 .and. idebug_clib.ge.3) then
          write(bufout,'(i6,2(a,i5))') i,'-th flag: code=',params(i),', new value=',values(i)
          call write_log(1, bufout)
       endif
@@ -644,9 +644,9 @@ subroutine cntc_setGlobalFlags(lenflg, params, values) &
 
       elseif (params(i).eq.CNTC_if_idebug) then
 
-         ! set idebug-flag in the CONTACT add-on-data
+         ! set idebug_clib-flag in the CONTACT add-on-data
 
-         idebug       = values(i)
+         idebug_clib = values(i)
 
       elseif (params(i).eq.CNTC_if_licdbg) then
 
@@ -678,7 +678,7 @@ subroutine cntc_setGlobalFlags(lenflg, params, values) &
             !  - restrict the max #threads according to the license
 
             if (orig_mxthrd.gt.lic_mxthrd) then
-               if (debug_openmp .or. idebug.ge.3) then
+               if (debug_openmp .or. idebug_clib.ge.3) then
                   if (lic_mxthrd.le.1) then
                      call write_log(' Warning: no license for OpenMP, setting max. #threads=1')
                   else
@@ -696,7 +696,7 @@ subroutine cntc_setGlobalFlags(lenflg, params, values) &
 
             if (numthrd.le.-1) then
 
-               if (debug_openmp .or. idebug.ge.3) then
+               if (debug_openmp .or. idebug_clib.ge.3) then
                   write(bufout,'(a,i4)') ' cntc_setGlobalFlags: set OpenMP #threads = AUTOMATIC =',     &
                                                                                         orig_mxthrd
                   call write_log(1, bufout)
@@ -705,14 +705,14 @@ subroutine cntc_setGlobalFlags(lenflg, params, values) &
 
             elseif (numthrd.le.1) then
 
-               if (debug_openmp .or. idebug.ge.3) then
+               if (debug_openmp .or. idebug_clib.ge.3) then
                   call write_log(' cntc_setGlobalFlags: set OpenMP #threads = 1')
                endif
                call omp_set_num_threads( 1 )
 
             else
 
-               if (debug_openmp .or. idebug.ge.3) then
+               if (debug_openmp .or. idebug_clib.ge.3) then
                   write(bufout,'(2(a,i3),a)') ' cntc_setGlobalFlags: set OpenMP #threads = min(',       &
                                                                         orig_mxthrd,',',numthrd,')'
                   call write_log(1, bufout)
@@ -735,7 +735,7 @@ subroutine cntc_setGlobalFlags(lenflg, params, values) &
 
    enddo
 
-   if (caddon_initialized.ge.0 .and. idebug.ge.2) then
+   if (caddon_initialized.ge.0 .and. idebug_clib.ge.2) then
       do i = 1, lenflg
          if (params(i).ne.0) then
             write(bufout,'(2a,i2,3a,i8)') trim(pfx_str(subnam,-1,-1)),' i=',i, ', set flag ',           &
@@ -745,7 +745,7 @@ subroutine cntc_setGlobalFlags(lenflg, params, values) &
       enddo
    endif
 
-   if (caddon_initialized.ge.0 .and. idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (caddon_initialized.ge.0 .and. idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setGlobalFlags
 
 !------------------------------------------------------------------------------------------------------------
@@ -768,7 +768,7 @@ subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
 !dec$ attributes dllexport :: cntc_readInpFile
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -796,7 +796,7 @@ subroutine cntc_readInpFile(ire, inp_type, c_fname, len_fname, ierror) &
 
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_readInpFile
 
 !------------------------------------------------------------------------------------------------------------
@@ -819,7 +819,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 !dec$ attributes dllexport :: cntc_setFlags
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -951,7 +951,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
          my_ic%wrtinp = values(i)
 
-      elseif (params(i).eq.CNTC_if_idebug) then         ! set if_idebug using cntc_setGlobalFlags
+      elseif (params(i).eq.CNTC_if_idebug) then         ! set if_idebug_clib using cntc_setGlobalFlags
 
          call cntc_setGlobalFlags(1, params(i), values(i))
 
@@ -979,7 +979,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
       endif
    enddo
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       do i = 1, lenflg
          if (params(i).ne.0) then
             if (params(i).eq.CNTC_if_units) then
@@ -993,7 +993,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
          endif
       enddo
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setFlags
 
 !------------------------------------------------------------------------------------------------------------
@@ -1094,12 +1094,12 @@ subroutine cntc_setMetadata(ire, icp, lenmta, params, values) &
 !dec$ attributes dllexport :: cntc_setMetadata
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
    do i = 1, lenmta
-      if (idebug.ge.3) then
+      if (idebug_clib.ge.3) then
          write(bufout,'(i6,a,i5,a,g12.4)') i,'-th flag: code=',params(i),', value=',values(i)
          call write_log(1, bufout)
       endif
@@ -1135,7 +1135,7 @@ subroutine cntc_setMetadata(ire, icp, lenmta, params, values) &
       endif
    enddo
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       do i = 1, lenmta
          if (params(i).ne.0) then
             write(bufout,'(2a,i2,a,i5,a,g12.4)') trim(pfx_str(subnam,ire,icp)),' i=',i,', set metadata', &
@@ -1144,7 +1144,7 @@ subroutine cntc_setMetadata(ire, icp, lenmta, params, values) &
          endif
       enddo
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setMetadata
 
 !------------------------------------------------------------------------------------------------------------
@@ -1180,7 +1180,7 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
 !dec$ attributes dllexport :: cntc_setSolverFlags
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -1215,7 +1215,7 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
       my_solv%maxnr  = max(1,     iparam(3))
       my_solv%maxout = max(1,     iparam(4))
 
-      if (idebug.ge.2) then
+      if (idebug_clib.ge.2) then
          write(bufout,'(2a,i2,4(a,i6),a)') trim(pfx_str(subnam,ire,icp)),' G=',gdigit, ', MaxGS=',      &
              my_solv%maxgs,', MaxIN=',my_solv%maxin,', MaxNR=', my_solv%maxnr,', MaxOUT=',my_solv%maxout
          call write_log(1, bufout)
@@ -1229,7 +1229,7 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
          my_solv%omegas = max(1d-20, rparam(3))
          my_solv%omgslp = max(1d-20, rparam(4))
 
-         if (idebug.ge.2) then
+         if (idebug_clib.ge.2) then
             write(bufout,'(2a,i2,3(a,f7.4),a,i4,a)') trim(pfx_str(subnam,ire,icp)),' G=',gdigit,        &
                 ', OmegaH=',my_solv%omegah,', OmegaS=',my_solv%omegas,', OmgSlp=',my_solv%omgslp,       &
                 ', IniSlp=',my_solv%inislp
@@ -1243,7 +1243,7 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
          my_solv%inislp = iparam(5)
          my_solv%omgslp = max(1d-20, rparam(2))
 
-         if (idebug.ge.2) then
+         if (idebug_clib.ge.2) then
             write(bufout,'(2a,i2,a,f7.4,a,i4,a)') trim(pfx_str(subnam,ire,icp)),' G=',gdigit,           &
                 ', OmgSlp=', my_solv%omgslp, ', IniSlp=',my_solv%inislp
             call write_log(1, bufout)
@@ -1281,7 +1281,7 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
             my_solv%gd_meth = 3     ! E_keep(f)
          endif
 
-         if (idebug.ge.2) then
+         if (idebug_clib.ge.2) then
             write(bufout,'(2a,i2,3(a,f7.4))') trim(pfx_str(subnam,ire,icp)),' G=',gdigit,', f=',        &
                 my_solv%fdecay, ', d_ifc=',my_solv%d_ifc,', pow_s=',my_solv%pow_s
             call write_log(1, bufout)
@@ -1295,7 +1295,7 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
       my_solv%mxsens = max(1, iparam(1))
       my_solv%epsens = max(1d-20, rparam(1))
 
-      if (idebug.ge.2) then
+      if (idebug_clib.ge.2) then
          write(bufout,'(2a,2(i0,a),es8.1)') trim(pfx_str(subnam,ire,icp)),' G=',gdigit,', set MxSENS=', &
                 my_solv%mxsens, ', Epsens=', my_solv%epsens
          call write_log(1, bufout)
@@ -1303,7 +1303,7 @@ subroutine cntc_setSolverFlags(ire, icp, gdigit, nints, iparam, nreals, rparam) 
 
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setSolverFlags
 
 !------------------------------------------------------------------------------------------------------------
@@ -1343,7 +1343,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 !dec$ attributes dllexport :: cntc_setMaterialParameters
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -1429,7 +1429,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
          my_mater%alfamf   = max(1d-6, rparam(7))
          my_mater%betamf   = max(1d-6, rparam(8))
 
-         if (idebug.ge.2) then
+         if (idebug_clib.ge.2) then
             write(bufout,'(2a,i1,4(a,f7.4))') trim(pfx_str(subnam,ire,icp)), ' M=',my_ic%mater,         &
                    ', flx=',my_mater%flx(1),', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf,   &
                    ', betamf=', my_mater%betamf
@@ -1445,7 +1445,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
          my_mater%alfamf   = max(1d-6, rparam(6))
          my_mater%betamf   = max(1d-6, rparam(7))
 
-         if (idebug.ge.2) then
+         if (idebug_clib.ge.2) then
             write(bufout,'(2a,i1,3(a,f7.4))') trim(pfx_str(subnam,ire,icp)), ' M=',my_ic%mater,         &
                ', k0_mf=', my_mater%k0_mf, ', alfamf=', my_mater%alfamf, ', betamf=', my_mater%betamf
             call write_log(1, bufout)
@@ -1461,7 +1461,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
          my_mater%k_tau    = rparam(8) * my_scl%forc / my_scl%area / my_scl%len
          if (my_mater%tau_c0.ge.1d10) my_mater%tau_c0 = 0d0
 
-         if (idebug.ge.2) then
+         if (idebug_clib.ge.2) then
             write(bufout,'(2a,i1,a,f7.1,a,f6.3,a,/, 43x,a,g9.1,a,f7.1,a)') trim(pfx_str(subnam,ire,icp)),  &
                    ' M=', my_ic%mater,', Gg3=',my_mater%gg3,' [N/mm2], Laythk=',my_mater%laythk, ' [mm]',  &
                    '  Tau_c0=', my_mater%tau_c0,' [N/mm2], K_tau=', my_mater%k_tau,' [N/mm3]'
@@ -1483,7 +1483,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
       if (my_solv%maxout.ge.2 .and. abs(my_mater%ak).lt.1d-4) my_solv%maxout =  1
       if (my_solv%maxout.le.1 .and. abs(my_mater%ak).ge.1d-4) my_solv%maxout = 10
 
-      if (idebug.ge.2) then
+      if (idebug_clib.ge.2) then
          write(bufout,'(2a,f7.1,2(a,f5.2),a)') trim(pfx_str(subnam,ire,icp)),' G=',my_mater%ga,         &
                    ' [N/mm2], Nu=',my_mater%nu,', K=',my_mater%ak, ' [-]'
          call write_log(1, bufout)
@@ -1491,7 +1491,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 
    endif ! imeth>=10 (M2-digit)
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setMaterialParameters
 
 !------------------------------------------------------------------------------------------------------------
@@ -1521,7 +1521,7 @@ subroutine cntc_setTemperatureData(ire, icp, imeth, nparam, params) &
 !dec$ attributes dllexport :: cntc_setTemperatureData
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 0, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -1555,7 +1555,7 @@ subroutine cntc_setTemperatureData(ire, icp, imeth, nparam, params) &
       my_mater%dens(1:2)   = (/ params(4), params(8) /) / my_scl%len**3
       my_mater%betapl      =    params(9)
 
-      if (idebug.ge.2) then
+      if (idebug_clib.ge.2) then
          write(bufout,'(2a,i1,2(a,f6.1),a,/, 3(a,39x, 3(a,g10.3),:,a,/))')                              &
             trim(pfx_str(subnam,ire,icp)), ' H=', my_ic%heat, ', BkTemp(1)=', my_mater%bktemp(1),       &
                 ', BkTemp(2)=', my_mater%bktemp(2), ',',                                                &
@@ -1568,7 +1568,7 @@ subroutine cntc_setTemperatureData(ire, icp, imeth, nparam, params) &
       endif
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setTemperatureData
 
 !------------------------------------------------------------------------------------------------------------
@@ -1590,18 +1590,18 @@ subroutine cntc_setTimestep(ire, icp, dt) &
 !dec$ attributes dllexport :: cntc_setTimestep
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
    my_kin%dt  = dt
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,f9.6,a)') trim(pfx_str(subnam,ire,icp)),' dt=',my_kin%dt,' [s]'
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setTimestep
 
 !------------------------------------------------------------------------------------------------------------
@@ -1622,18 +1622,18 @@ subroutine cntc_setReferenceVelocity(ire, icp, veloc) &
 !dec$ attributes dllexport :: cntc_setReferenceVelocity
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
 
    my_kin%veloc = max(1d-9, abs(veloc) * my_scl%veloc)
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,f9.1,a)') trim(pfx_str(subnam,ire,icp)),' V=',my_kin%veloc,' [mm/s]'
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setReferenceVelocity
 
 !------------------------------------------------------------------------------------------------------------
@@ -1660,7 +1660,7 @@ subroutine cntc_setRollingStepsize(ire, icp, chi, dq) &
 !dec$ attributes dllexport :: cntc_setRollingStepsize
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -1678,14 +1678,14 @@ subroutine cntc_setRollingStepsize(ire, icp, chi, dq) &
       my_kin%chi = chi * my_scl%angle
       my_kin%dq  = dq  * my_scl%len
 
-      if (idebug.ge.2) then
+      if (idebug_clib.ge.2) then
          write(bufout,'(2a,f6.1,a,f6.3,a)') trim(pfx_str(subnam,ire,icp)),' chi=',my_kin%chi,           &
                 ' [rad], dq=',my_kin%dq,' [mm]'
          call write_log(1, bufout)
       endif
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setRollingStepsize
 
 !------------------------------------------------------------------------------------------------------------
@@ -1730,7 +1730,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
 !dec$ attributes dllexport :: cntc_setFrictionMethod
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -1843,7 +1843,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
             my_fric%fkin_arr(ivf)   = max(1d-6, min(params(iofs+1), params(iofs+2)))
             my_fric%fstat_arr(ivf)  = my_fric%fkin_arr(ivf)
 
-            if (idebug.ge.2) then
+            if (idebug_clib.ge.2) then
                write(bufout,'(2a,i2,2(a,f6.3),a)') trim(pfx_str(subnam,ire,icp)),' L=',ldigit,          &
                    ', Fstat=',my_fric%fstat_arr(ivf),', Fkin=',my_fric%fkin_arr(ivf), ' [-]'
                call write_log(1, bufout)
@@ -1863,7 +1863,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
             my_fric%mem_s0         = max(0d0,  params(iofs+7) * my_scl%veloc)
             my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%flin1(ivf) + my_fric%flin2(ivf)
     
-            if (idebug.ge.2) then
+            if (idebug_clib.ge.2) then
                write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')                    &
                    trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
                                 ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
@@ -1885,7 +1885,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
             my_fric%mem_s0         = max(0d0,  params(iofs+7) * my_scl%veloc)
             my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%frat1(ivf) + my_fric%frat2(ivf)
     
-            if (idebug.ge.2) then
+            if (idebug_clib.ge.2) then
                write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 43x,2(a,f5.2,a,f7.1),a)')                    &
                    trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
                                 ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
@@ -1907,7 +1907,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
             my_fric%mem_s0         = max(0d0,  params(iofs+7) * my_scl%veloc)
             my_fric%fstat_arr(ivf) = my_fric%fkin_arr(ivf) + my_fric%fexp1(ivf) + my_fric%fexp2(ivf)    
     
-            if (idebug.ge.2) then
+            if (idebug_clib.ge.2) then
                write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,f6.3,a,/, 2(48x,a,f5.2,a,f7.1,a,:,/))')                &
                    trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),           &
                                 ' [-], Mem_s0=',my_fric%mem_s0,' [mm/s], Memdst=',my_fric%memdst,' [mm],', &
@@ -1938,7 +1938,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
             my_fric%memdst         = 0.001d0   ! 1 micrometer
             my_fric%mem_s0         =    10d0   ! 10 mm/s
     
-            if (idebug.ge.2) then
+            if (idebug_clib.ge.2) then
                write(bufout,'(2a,i2,2(a,f5.2),a,/, 42x,2(a,f7.1),a,f5.2,a)')                            &
                    trim(pfx_str(subnam,ire,icp)), ' L=',ldigit, ', Fkin=',my_fric%fkin_arr(ivf),        &
                            ', Fexp1=',my_fric%fexp1,' [-],', ' Sabsh1=',my_fric%sabsh1,                 &
@@ -1959,7 +1959,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
             my_fric%fstat_arr(ivf) = my_fric%fref(ivf)
             my_fric%fkin_arr(ivf)  = my_fric%fref(ivf) + my_fric%dfheat(ivf)
     
-            if (idebug.ge.2) then
+            if (idebug_clib.ge.2) then
                write(bufout,'(2a,i2,a,f6.3,a,f7.1,a,/, a,40x,a,f6.3,a,f7.1,a)')                            &
                    trim(pfx_str(subnam,ire,icp)), ' L=',my_fric%frclaw_eff, ', Fref=',my_fric%fref(ivf),   &
                            ' [-], Tref=',my_fric%tref(ivf),' [C],',                                        &
@@ -1986,7 +1986,7 @@ subroutine cntc_setFrictionMethod(ire, icp, imeth, nparam, params) &
 
    endif ! L <> 1
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setFrictionMethod
 
 !------------------------------------------------------------------------------------------------------------
@@ -2018,7 +2018,7 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
 !dec$ attributes dllexport :: cntc_setHertzContact
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -2105,13 +2105,13 @@ subroutine cntc_setHertzContact(ire, icp, ipotcn, nparam, params) &
 
    gd%potcon_inp%npot  = gd%potcon_inp%mx * gd%potcon_inp%my
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,i3,a,2i5)') trim(pfx_str(subnam,ire,icp)),' ipotcn=',gd%potcon_inp%ipotcn,      &
                 ', mx,my=',gd%potcon_inp%mx,gd%potcon_inp%my
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setHertzContact
 
 !------------------------------------------------------------------------------------------------------------
@@ -2147,7 +2147,7 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
 !dec$ attributes dllexport :: cntc_setPotContact
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -2228,7 +2228,7 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
          gd%potcon_inp%dx   = max(1d-12, params(5)) * my_scl%len
          gd%potcon_inp%dy   = max(1d-12, params(6)) * my_scl%len
 
-         if (idebug.ge.2) then
+         if (idebug_clib.ge.2) then
             write(bufout,'(2a,2f8.3,a)') trim(pfx_str(subnam,ire,icp)),' coordinates xl,yl=',           &
                       gd%potcon_inp%xl, gd%potcon_inp%yl,' [mm]'
             call write_log(1, bufout)
@@ -2275,7 +2275,7 @@ subroutine cntc_setPotContact(ire, icp, ipotcn, nparam, params) &
 
    endif ! module 1
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setPotContact
 
 !------------------------------------------------------------------------------------------------------------
@@ -2296,19 +2296,19 @@ subroutine cntc_setVerticalForce(ire, fz) &
 !dec$ attributes dllexport :: cntc_setVerticalForce
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
    my_ic%norm    = 1
    wtd%ws%fz_inp = fz * my_scl%forc
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,f9.2,a)') trim(pfx_str(subnam,ire,-1)),' vertical force=', wtd%ws%fz_inp, ' [N]'
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setVerticalForce
 
 !------------------------------------------------------------------------------------------------------------
@@ -2330,18 +2330,18 @@ subroutine cntc_setPenetration(ire, icp, pen) &
 !dec$ attributes dllexport :: cntc_setPenetration
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
 
    my_ic%norm = 0
    my_kin%pen = pen * my_scl%len
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,f7.4,a)') trim(pfx_str(subnam,ire,icp)),' penetration=',my_kin%pen, ' [mm]'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setPenetration
 
 !------------------------------------------------------------------------------------------------------------
@@ -2363,19 +2363,19 @@ subroutine cntc_setNormalForce(ire, icp, fn) &
 !dec$ attributes dllexport :: cntc_setNormalForce
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
 
    my_ic%norm    = 1
    my_kin%fntrue = fn
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,f9.2,a)') trim(pfx_str(subnam,ire,icp)),' normal force=',my_kin%fntrue, ' [N]'
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setNormalForce
 
 !------------------------------------------------------------------------------------------------------------
@@ -2404,11 +2404,11 @@ subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
 !dec$ attributes dllexport :: cntc_setUndeformedDistc
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,i2,a,i6,a)') trim(pfx_str(subnam,ire,icp)),' set undeformed distance ibase=', &
                 ibase,',', nparam,' parameters'
       call write_log(1, bufout)
@@ -2497,7 +2497,7 @@ subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
             gd%geom%prmudf(ii) = prmudf(ii) * my_scl%len
          endif
       enddo
-      if (idebug.ge.2) then
+      if (idebug_clib.ge.2) then
          write(bufout,'(2a,2(f7.4,a))') trim(pfx_str(subnam,ire,icp)),' max separation=',               &
                    min(99.9d0,gd%geom%prmudf(iimax)), ', max penetration=', gd%geom%prmudf(iimin),' [mm]'
          call write_log(1, bufout)
@@ -2505,7 +2505,7 @@ subroutine cntc_setUndeformedDistc(ire, icp, ibase, nparam, prmudf) &
 
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setUndeformedDistc
 
 !------------------------------------------------------------------------------------------------------------
@@ -2527,7 +2527,7 @@ subroutine cntc_setCreepages(ire, icp, vx, vy, phi) &
 !dec$ attributes dllexport :: cntc_setCreepages
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -2543,12 +2543,12 @@ subroutine cntc_setCreepages(ire, icp, vx, vy, phi) &
       my_kin%cphi = phi / my_scl%len
    endif
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,2f7.4,a,f7.4,a)') trim(pfx_str(subnam,ire,icp)),' creepages Cksi,Ceta=',        &
                 my_kin%cksi, my_kin%ceta, ' [-], Phi=',my_kin%cphi, ' [rad/mm]'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setCreepages
 
 !------------------------------------------------------------------------------------------------------------
@@ -2572,11 +2572,11 @@ subroutine cntc_setExtraRigidSlip(ire, icp, lenarr, wx, wy) &
 !dec$ attributes dllexport :: cntc_setExtraRigidSlip
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' set extra rigid slip array exrhs [-]'
       call write_log(1, bufout)
    endif
@@ -2606,12 +2606,12 @@ subroutine cntc_setExtraRigidSlip(ire, icp, lenarr, wx, wy) &
          gd%geom%exrhs%vy(ii) = wy(ii)
       endif
    enddo
-   if (idebug.ge.-2) then
+   if (idebug_clib.ge.-2) then
       write(bufout,'(2a,f7.4,a,i5,a)') trim(pfx_str(subnam,ire,icp)),' max extra rigid slip=',          &
                 min(9.9d0,wmax), ' at element ii=',iimax
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setExtraRigidSlip
 
 !------------------------------------------------------------------------------------------------------------
@@ -2635,7 +2635,7 @@ subroutine cntc_setTangentialForces(ire, icp, fx, fy) &
 !dec$ attributes dllexport :: cntc_setTangentialForces
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -2660,7 +2660,7 @@ subroutine cntc_setTangentialForces(ire, icp, fx, fy) &
          my_kin%fyrel = my_kin%fyrel / fabs
       endif
 
-      if (idebug.ge.2) then
+      if (idebug_clib.ge.2) then
          write(bufout,'(2a,2f8.4,a)') trim(pfx_str(subnam,ire,icp)),' total forces Fx,Fy=',             &
                 my_kin%fxrel, my_kin%fyrel, ' [-]'
          call write_log(1, bufout)
@@ -2668,7 +2668,7 @@ subroutine cntc_setTangentialForces(ire, icp, fx, fy) &
 
    endif ! icp<0
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setTangentialForces
 
 !------------------------------------------------------------------------------------------------------------
@@ -2718,7 +2718,7 @@ subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nre
 !dec$ attributes dllexport :: cntc_setProfileInputFname
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -2743,7 +2743,7 @@ subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nre
    ! unknown type: taken from filename extension
 
    if (itype.ne.0 .and. itype.ne.1) then
-      call profile_get_filetype(f_fname, itype, is_spck, idebug)
+      call profile_get_filetype(f_fname, itype, is_spck, idebug_clib)
    endif
 
    ! set profile pointer for wheel or rail
@@ -2767,7 +2767,7 @@ subroutine cntc_setProfileInputFname(ire, c_fname, len_fname, nints, iparam, nre
    call profile_read_file(my_prf, my_meta%wrkdir, itype, wtd%ic%x_profil, wtd%ic%x_readln, .false.)
    call timer_stop(itimer)
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setProfileInputFname
 
 !------------------------------------------------------------------------------------------------------------
@@ -2815,7 +2815,7 @@ subroutine cntc_setProfileInputValues(ire, npoint, values, nints, iparam, nreals
 !dec$ attributes dllexport :: cntc_setProfileInputValues
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -2844,10 +2844,10 @@ subroutine cntc_setProfileInputValues(ire, npoint, values, nints, iparam, nreals
 
    ! store actual profile data
 
-   my_idebug = max(idebug, wtd%ic%x_profil)
+   my_idebug = max(idebug_clib, wtd%ic%x_profil)
    call profile_store_values(my_prf, itype, npoint, values, my_idebug)
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setProfileInputValues
 
 !------------------------------------------------------------------------------------------------------------
@@ -2882,7 +2882,7 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
 !dec$ attributes dllexport :: cntc_setTrackDimensions
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -2996,14 +2996,14 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
 
    endif
 
-   if (idebug.ge.3 .and. ztrack.ge.32) then
+   if (idebug_clib.ge.3 .and. ztrack.ge.32) then
       write(bufout,'(2a,i2,2(a,g12.4),a)') trim(pfx_str(subnam,ire,-1)),' Z=',ztrack, ', ky=',          &
                 wtd%trk%ky_rail,' [N/mm], fy_rail=',wtd%trk%fy_rail, ' [N]'
       call write_log(1, bufout)
    endif
 
    end associate
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setTrackDimensions
 
 !------------------------------------------------------------------------------------------------------------
@@ -3031,7 +3031,7 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
 !dec$ attributes dllexport :: cntc_setWheelsetDimensions
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -3081,7 +3081,7 @@ subroutine cntc_setWheelsetDimensions(ire, ewheel, nparam, params) &
 
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setWheelsetDimensions
 
 !------------------------------------------------------------------------------------------------------------
@@ -3107,7 +3107,7 @@ subroutine cntc_setWheelsetPosition(ire, ewheel, nparam, params) &
 !dec$ attributes dllexport :: cntc_setWheelsetPosition
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -3141,7 +3141,7 @@ subroutine cntc_setWheelsetPosition(ire, ewheel, nparam, params) &
 
    endif
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(3a,2f8.3,a)') trim(pfx_str(subnam,ire,-1)),' position=', fmt_gs(12,6,4,wtd%ws%s),  &
                 wtd%ws%y, wtd%ws%z, ' [mm]'
       call write_log(1, bufout)
@@ -3150,7 +3150,7 @@ subroutine cntc_setWheelsetPosition(ire, ewheel, nparam, params) &
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setWheelsetPosition
 
 !------------------------------------------------------------------------------------------------------------
@@ -3180,7 +3180,7 @@ subroutine cntc_setWheelsetVelocity(ire, ewheel, nparam, params) &
 !dec$ attributes dllexport :: cntc_setWheelsetVelocity
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -3232,7 +3232,7 @@ subroutine cntc_setWheelsetVelocity(ire, ewheel, nparam, params) &
 
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setWheelsetVelocity
 
 !------------------------------------------------------------------------------------------------------------
@@ -3261,7 +3261,7 @@ subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
 !dec$ attributes dllexport :: cntc_setWheelsetFlexibility
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -3344,7 +3344,7 @@ subroutine cntc_setWheelsetFlexibility(ire, ewheel, nparam, params) &
    endif
    end associate
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setWheelsetFlexibility
 
 !------------------------------------------------------------------------------------------------------------
@@ -3383,7 +3383,7 @@ subroutine subs_addBlock(ire, icp, iblk, isubs, npx, npy, npz, xparam, yparam, z
 !dec$ attributes dllexport :: subs_addBlock
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 0, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -3533,7 +3533,7 @@ subroutine subs_addBlock(ire, icp, iblk, isubs, npx, npy, npz, xparam, yparam, z
       end associate
    endif ! iblk<=0
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine subs_addBlock
 
 !------------------------------------------------------------------------------------------------------------
@@ -3553,7 +3553,7 @@ subroutine cntc_calculate(ire, icp, ierror) &
 !dec$ attributes dllexport :: cntc_calculate
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, -1, subnam, ierror)
 
    if (.not.my_license%is_valid) ierror = CNTC_err_allow
@@ -3570,7 +3570,7 @@ subroutine cntc_calculate(ire, icp, ierror) &
 
    call free_contact_problem(ire, icp)
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_calculate
 
 !------------------------------------------------------------------------------------------------------------
@@ -3595,7 +3595,7 @@ subroutine cntc_calculate1(ire, ierror) &
 !dec$ attributes dllexport :: cntc_calculate1
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -3607,7 +3607,7 @@ subroutine cntc_calculate1(ire, ierror) &
 
    my_meta%ncase = my_meta%ncase + 1
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a)') trim(pfx_str(subnam,ire,-1)),' checking problem specification...'
       call write_log(1, bufout)
    endif
@@ -3636,7 +3636,7 @@ subroutine cntc_calculate1(ire, ierror) &
 
    ! check that variable profiles are used with absolute rail placement
 
-   call profile_get_filetype(my_rail%prr%fname, is_wheel, i_ftype, idebug)
+   call profile_get_filetype(my_rail%prr%fname, is_wheel, i_ftype, idebug_clib)
    if (i_ftype.eq.FTYPE_SLICES .and. wtd%trk%gauge_height.gt.0d0) then
       ierror = CNTC_err_profil
       write(bufout, '(a,f8.2,a,/,15x,3a)') ' Input: ERROR. The gauge point computation (GAUGHT =',      &
@@ -3672,7 +3672,7 @@ subroutine cntc_calculate1(ire, ierror) &
       end associate
    endif
  
-   if (idebug.ge.5) then
+   if (idebug_clib.ge.5) then
       write(bufout,'(a,i3,3(a,f6.3))') 'rail profile:  err_hnd=',my_rail%prr%err_hnd,', max_omit=',     &
          my_rail%prr%f_max_omit,', zig_thrs=',my_rail%prr%zig_thrs,', kink_high=',my_rail%prr%kink_high
       call write_log(1, bufout)
@@ -3681,7 +3681,7 @@ subroutine cntc_calculate1(ire, ierror) &
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.1) then
+   if (idebug_clib.ge.1) then
       write(bufout,'(2a)') trim(pfx_str(subnam,ire,-1)),' calculating...'
       call write_log(1, bufout)
    endif
@@ -3709,7 +3709,7 @@ subroutine cntc_calculate1(ire, ierror) &
       ! error handling: file open failed
  998  continue
          inp_open = -1
-         if (idebug.ge.1) then
+         if (idebug_clib.ge.1) then
             tmpbuf = fname ! avoid potential overflow of bufout
             write(bufout,'(/,2a,/,36x,3a)') trim(pfx_str(subnam,ire,-1)),                               &
                 ' ERROR: could not open file', '"',trim(tmpbuf), '" for writing.'
@@ -3755,19 +3755,19 @@ subroutine cntc_calculate1(ire, ierror) &
    ! Check for errors in the solution
 
    if (ierror.lt.0) then
-      if (idebug.ge.0) then
+      if (idebug_clib.ge.0) then
          write(bufout,'(2a,i3,a)') trim(pfx_str(subnam,ire,-1)),' no solution for contact problem (', &
                 ierror,').'
          call write_log(1, bufout)
       endif
    endif
 
-   if (idebug.ge.1) then
+   if (idebug_clib.ge.1) then
       write(bufout,'(2a)')       trim(pfx_str(subnam,ire,-1)),' done...'
       call write_log(1, bufout)
    endif
    end associate
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_calculate1
 
 !------------------------------------------------------------------------------------------------------------
@@ -3791,7 +3791,7 @@ subroutine cntc_calculate3(ire, icp, ierror) &
 !dec$ attributes dllexport :: cntc_calculate3
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -3801,7 +3801,7 @@ subroutine cntc_calculate3(ire, icp, ierror) &
 
    ! report on the settings for the contact patch
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,f9.1,f6.3)') trim(pfx_str(subnam,ire,icp)),' g,nu1=',                           &
                 my_mater%gg(1), my_mater%poiss(1)
       call write_log(1, bufout)
@@ -3837,7 +3837,7 @@ subroutine cntc_calculate3(ire, icp, ierror) &
                 my_kin%cksi, my_kin%ceta, my_kin%cphi
       call write_log(1, bufout)
    endif
-   if (idebug.ge.1) then
+   if (idebug_clib.ge.1) then
       write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' calculating...'
       call write_log(1, bufout)
    endif
@@ -3856,7 +3856,7 @@ subroutine cntc_calculate3(ire, icp, ierror) &
       ! error handling: file open failed
  998  continue
          inp_open = -1
-         if (idebug.ge.1) then
+         if (idebug_clib.ge.1) then
             tmpbuf = fname ! avoid potential overflow of bufout
             write(bufout,'(/,2a,/,36x,3a)') trim(pfx_str(subnam,ire,icp)),                              &
                 ' ERROR: could not open file', '"',trim(tmpbuf), '" for writing.'
@@ -3892,20 +3892,20 @@ subroutine cntc_calculate3(ire, icp, ierror) &
    if (ierror.eq.0) then
       if (my_solv%itnorm.lt.0) then
          ierror = CNTC_err_norm
-         if (idebug.ge.0) then
+         if (idebug_clib.ge.0) then
             write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' no convergence in NORM algorithm.'
             call write_log(1, bufout)
          endif
       elseif (my_solv%ittang.lt.0) then
          ierror = CNTC_err_tang
-         if (idebug.ge.0) then
+         if (idebug_clib.ge.0) then
             write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' no convergence in TANG algorithm.'
             call write_log(1, bufout)
          endif
       else
          ! Count the number of interior elements at the boundaries of the potential contact
-         ierror = eldiv_count_atbnd(gd%outpt1%igs, 0, idebug)
-         if (ierror.ge.1 .and. idebug.ge.1) then
+         ierror = eldiv_count_atbnd(gd%outpt1%igs, 0, idebug_clib)
+         if (ierror.ge.1 .and. idebug_clib.ge.1) then
             write(bufout,'(2a,i5,2a)') trim(pfx_str(subnam,ire,icp)),' potential contact area too small;', &
                    ierror,' elements next to boundary...'
             call write_log(1, bufout)
@@ -3913,11 +3913,11 @@ subroutine cntc_calculate3(ire, icp, ierror) &
       endif
    endif
 
-   if (idebug.ge.1) then
+   if (idebug_clib.ge.1) then
       write(bufout,'(2a)')       trim(pfx_str(subnam,ire,icp)),' done...'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_calculate3
 
 !------------------------------------------------------------------------------------------------------------
@@ -3938,7 +3938,7 @@ subroutine subs_calculate(ire, icp, ierror) &
 !dec$ attributes dllexport :: subs_calculate
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 0, subnam, ierror)
    if (.not.my_license%is_valid) ierror = CNTC_err_allow
    if (ierror.lt.0) return
@@ -3955,7 +3955,7 @@ subroutine subs_calculate(ire, icp, ierror) &
 
       imodul = ire_module(ix_reid(ire))
 
-      if (idebug.ge.2) then
+      if (idebug_clib.ge.2) then
          write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' calculating...'
          call write_log(1, bufout)
       endif
@@ -4009,12 +4009,12 @@ subroutine subs_calculate(ire, icp, ierror) &
 
    call free_contact_problem(ire, icp)
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a)')       trim(pfx_str(subnam,ire,icp)),' done...'
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine subs_calculate
 
 !------------------------------------------------------------------------------------------------------------
@@ -4037,7 +4037,7 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
 !dec$ attributes dllexport :: cntc_getFlags
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 0, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -4167,7 +4167,7 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
       endif
    enddo
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       do i = 1, lenflg
          if (params(i).ne.0) then
             write(bufout,'(2a,i2,3a,i8)') trim(pfx_str(subnam,ire,icp)), ' i=',i,', got flag ',         &
@@ -4177,7 +4177,7 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
       enddo
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getFlags
 
 !------------------------------------------------------------------------------------------------------------
@@ -4202,7 +4202,7 @@ subroutine cntc_getParameters(ire, icp, itask, lenarr, values) &
 !dec$ attributes dllexport :: cntc_getParameters
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
 
    if (ierror.lt.0) return
@@ -4275,7 +4275,7 @@ subroutine cntc_getParameters(ire, icp, itask, lenarr, values) &
 
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getParameters
 
 !------------------------------------------------------------------------------------------------------------
@@ -4338,7 +4338,7 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
 !dec$ attributes dllexport :: cntc_getProfileValues
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -4394,7 +4394,7 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
    if (nreals.ge.3) c2_sta = rparam(3)
    if (nreals.ge.4) c2_end = rparam(4)
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(a,3(a,i2),2(a,g12.4))') trim(pfx_str(subnam,ire,-1)),' task=',itask,               &
                 ', itype=',itype,', isampl=',isampl,', ds_out=',ds_out,', x_out=',x_out
       call write_log(1, bufout)
@@ -4416,10 +4416,10 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
       ! task 2: interpret x_out as track coordinate, add s_ws to get rail coordinate
       if (itask.eq.2 .and. itype.eq.0) x_out = x_out + wtd%ws%s
 
-      if (idebug.ge.3 .and. itype.eq.0) then
+      if (idebug_clib.ge.3 .and. itype.eq.0) then
          write(bufout,'(a,g12.4)') ' setting up "current slice" for variable rail at x_out=',x_out
          call write_log(1, bufout)
-      elseif (idebug.ge.3) then
+      elseif (idebug_clib.ge.3) then
          write(bufout,'(a,g12.4)') ' setting up "current slice" for out-of-round wheel at th_out=',x_out
          call write_log(1, bufout)
       endif
@@ -4437,7 +4437,7 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
 
    endif
 
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(4a)') trim(pfx_str(subnam,ire,-1)),' fname="', trim(my_prf%fname),'"'
       call write_log(1, bufout)
    endif
@@ -4500,7 +4500,7 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
 
    endif
       
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(2a,i6)') trim(pfx_str(subnam,ire,-1)),' npnt=',npnt
       call write_log(1, bufout)
    endif
@@ -4574,7 +4574,7 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
          g_wrk%x(iu) = g_wrk%s_prf(iu)
          g_wrk%y(iu) = yarr(1)
       enddo
-      if (idebug.ge.3) then
+      if (idebug_clib.ge.3) then
          write(bufout,'(a,f9.3,a,i0,3(a,g12.3),a)') ' evaluate spl2d at yj=',yarr(1),', npnt=',npnt,    &
                    ', ui=[',g_wrk%s_prf(1),':',g_wrk%s_prf(2)-g_wrk%s_prf(1),':',g_wrk%s_prf(npnt),']'
          call write_log(1, bufout)
@@ -4710,7 +4710,7 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
    if (my_prf%is_varprof()) call grid_destroy(g_slc)
 
    end associate
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getProfileValues
 
 !------------------------------------------------------------------------------------------------------------
@@ -4758,7 +4758,7 @@ subroutine cntc_getWheelsetPosition(ire, lenarr, rvalues) &
 !dec$ attributes dllexport :: cntc_getWheelsetPosition
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -4769,7 +4769,7 @@ subroutine cntc_getWheelsetPosition(ire, lenarr, rvalues) &
    if (lenarr.ge.5) rvalues(5) = wtd%ws%yaw   / my_scl%angle
    if (lenarr.ge.6) rvalues(6) = wtd%ws%pitch / my_scl%angle
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getWheelsetPosition
 
 !------------------------------------------------------------------------------------------------------------
@@ -4792,7 +4792,7 @@ subroutine cntc_getWheelsetVelocity(ire, lenarr, rvalues) &
 !dec$ attributes dllexport :: cntc_getWheelsetVelocity
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -4803,7 +4803,7 @@ subroutine cntc_getWheelsetVelocity(ire, lenarr, rvalues) &
    if (lenarr.ge.5) rvalues(5) = wtd%ws%vyaw   / my_scl%angle ! angle/time
    if (lenarr.ge.6) rvalues(6) = wtd%ws%vpitch / my_scl%angle ! angle/time
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getWheelsetVelocity
 
 !------------------------------------------------------------------------------------------------------------
@@ -4823,13 +4823,13 @@ subroutine cntc_getNumContactPatches(ire, npatch) &
 !dec$ attributes dllexport :: cntc_getNumContactPatches
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
    npatch = wtd%numcps
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getNumContactPatches
 
 !------------------------------------------------------------------------------------------------------------
@@ -4901,7 +4901,7 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !dec$ attributes dllexport :: cntc_getContactLocation
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 1, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5000,7 +5000,7 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       end associate
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getContactLocation
 
 !------------------------------------------------------------------------------------------------------------
@@ -5021,7 +5021,7 @@ subroutine cntc_getReferenceVelocity(ire, icp, veloc) &
 !dec$ attributes dllexport :: cntc_getReferenceVelocity
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5029,12 +5029,12 @@ subroutine cntc_getReferenceVelocity(ire, icp, veloc) &
 
    veloc = gd%kin%veloc / my_scl%veloc
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,f9.1,a)') trim(pfx_str(subnam,ire,icp)),' V=',gd%kin%veloc,' [mm/s]'
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getReferenceVelocity
 
 !------------------------------------------------------------------------------------------------------------
@@ -5068,7 +5068,7 @@ subroutine cntc_getHertzContact(ire, icp, lenarr, rvalues) &
 !dec$ attributes dllexport :: cntc_getHertzContact
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5083,7 +5083,7 @@ subroutine cntc_getHertzContact(ire, icp, lenarr, rvalues) &
    if (lenarr.ge. 9) rvalues( 9) = gd%hertz%bpos / my_scl%len
    if (lenarr.ge.10) rvalues(10) = gd%hertz%aob
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getHertzContact
 
 !------------------------------------------------------------------------------------------------------------
@@ -5105,18 +5105,18 @@ subroutine cntc_getNumElements(ire, icp, mx, my) &
 !dec$ attributes dllexport :: cntc_getNumElements
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
    mx = gd%potcon_cur%mx
    my = gd%potcon_cur%my
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,2i4)')   trim(pfx_str(subnam,ire,icp)),' #elements mx,my=', mx,my
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getNumElements
 
 !------------------------------------------------------------------------------------------------------------
@@ -5137,7 +5137,7 @@ subroutine cntc_getGridDiscretization(ire, icp, dx, dy) &
 !dec$ attributes dllexport :: cntc_getGridDiscretization
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 0, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5153,11 +5153,11 @@ subroutine cntc_getGridDiscretization(ire, icp, dx, dy) &
 
    endif
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,2f8.5,a)') trim(pfx_str(subnam,ire,icp)),' step sizes dx,dy=',dx, dy,' [length]'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getGridDiscretization
 
 !------------------------------------------------------------------------------------------------------------
@@ -5180,7 +5180,7 @@ subroutine cntc_getPotContact(ire, icp, lenarr, rvalues) &
 !dec$ attributes dllexport :: cntc_getPotContact
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5200,11 +5200,11 @@ subroutine cntc_getPotContact(ire, icp, lenarr, rvalues) &
    if (lenarr.ge.6) rvalues(6) = gd%potcon_cur%dy / my_scl%len
    if (lenarr.ge.7) rvalues(7:lenarr) = 0d0
 
-   !if (idebug.ge.2) then
+   !if (idebug_clib.ge.2) then
    !   write(bufout,'(2a,2f8.5,a)') trim(pfx_str(subnam,ire,icp)),' step sizes dx,dy=',dx, dy,' [length]'
    !   call write_log(1, bufout)
    !endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getPotContact
 
 !------------------------------------------------------------------------------------------------------------
@@ -5225,7 +5225,7 @@ subroutine cntc_getPenetration(ire, icp, pen) &
 !dec$ attributes dllexport :: cntc_getPenetration
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5233,11 +5233,11 @@ subroutine cntc_getPenetration(ire, icp, pen) &
 
    pen = gd%kin%pen / my_scl%len
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,f9.6,a)') trim(pfx_str(subnam,ire,icp)),' penetration pen=',pen,' [length]'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getPenetration
 
 !------------------------------------------------------------------------------------------------------------
@@ -5259,7 +5259,7 @@ subroutine cntc_getCreepages(ire, icp, vx, vy, phi) &
 !dec$ attributes dllexport :: cntc_getCreepages
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5283,12 +5283,12 @@ subroutine cntc_getCreepages(ire, icp, vx, vy, phi) &
       phi = sgn * my_scl%body * gd%kin%cphi * my_scl%len
    endif
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,2f7.4,a,f7.4,a)') trim(pfx_str(subnam,ire,icp)),' creepages Cksi,Ceta=',        &
                 gd%kin%cksi, gd%kin%ceta, ' [-], Phi=',gd%kin%cphi, ' [rad/mm]'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getCreepages
 
 !------------------------------------------------------------------------------------------------------------
@@ -5312,7 +5312,7 @@ subroutine cntc_getContactForces(ire, icp, fn, tx, ty, mz) &
 !dec$ attributes dllexport :: cntc_getContactForces
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5327,7 +5327,7 @@ subroutine cntc_getContactForces(ire, icp, fn, tx, ty, mz) &
    ty = sgn * my_scl%body * my_kin%fcntc(2)
    mz = sgn * my_scl%body * gd%outpt1%mztrue / my_scl%len
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,2f9.1,a)') trim(pfx_str(subnam,ire,icp)),' total forces fn,mz=',fn,mz,          &
                 ' [force], [force.length]'
       call write_log(1, bufout)
@@ -5335,7 +5335,7 @@ subroutine cntc_getContactForces(ire, icp, fn, tx, ty, mz) &
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getContactForces
 
 !------------------------------------------------------------------------------------------------------------
@@ -5394,7 +5394,7 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
 !dec$ attributes dllexport :: cntc_getGlobalForces
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 1, 0, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5473,7 +5473,7 @@ subroutine cntc_getGlobalForces(ire, icp, lenarr, rvalues) &
    if (lenarr.ge.25) rvalues(25:) = 0d0
 
    end associate
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getGlobalForces
 
 !------------------------------------------------------------------------------------------------------------
@@ -5497,7 +5497,7 @@ subroutine cntc_getContactPatchAreas(ire, icp, carea, harea, sarea) &
 !dec$ attributes dllexport :: cntc_getContactPatchAreas
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5509,12 +5509,12 @@ subroutine cntc_getContactPatchAreas(ire, icp, carea, harea, sarea) &
    harea = real(nadh)  * gd%potcon_cur%dxdy / my_scl%area
    sarea = real(nslip) * gd%potcon_cur%dxdy / my_scl%area
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,3(f9.6,a))') trim(pfx_str(subnam,ire,icp)),' carea=',carea,', harea=',harea,    &
                 ', sarea=',sarea,' [area]'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getContactPatchAreas
 
 !------------------------------------------------------------------------------------------------------------
@@ -5538,7 +5538,7 @@ subroutine cntc_getElementDivision(ire, icp, lenarr, eldiv) &
 !dec$ attributes dllexport :: cntc_getElementDivision
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5547,7 +5547,7 @@ subroutine cntc_getElementDivision(ire, icp, lenarr, eldiv) &
    imodul   = ire_module(ix_reid(ire))
    mirror_y = (imodul.eq.1 .and. (my_ic%config.eq.0 .or. my_ic%config.eq.4))
 
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(2a)') trim(pfx_str(subnam,ire,icp)),' return element division array'
       call write_log(1, bufout)
    endif
@@ -5569,7 +5569,7 @@ subroutine cntc_getElementDivision(ire, icp, lenarr, eldiv) &
          enddo
       enddo
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getElementDivision
 
 !------------------------------------------------------------------------------------------------------------
@@ -5590,7 +5590,7 @@ subroutine cntc_getMaximumPressure(ire, icp, pnmax) &
 !dec$ attributes dllexport :: cntc_getMaximumPressure
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5600,11 +5600,11 @@ subroutine cntc_getMaximumPressure(ire, icp, pnmax) &
    enddo
    pnmax = abs(gd%outpt1%ps%vn(iimax)) * my_scl%area
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,g10.3,a)') trim(pfx_str(subnam,ire,icp)),' maximum pressure=',pnmax,' [force/area]'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getMaximumPressure
 
 !------------------------------------------------------------------------------------------------------------
@@ -5626,7 +5626,7 @@ subroutine cntc_getMaximumTraction(ire, icp, ptmax) &
 !dec$ attributes dllexport :: cntc_getMaximumTraction
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5639,11 +5639,11 @@ subroutine cntc_getMaximumTraction(ire, icp, ptmax) &
    enddo
    ptmax = ptmax * my_scl%area
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,g10.3,a)') trim(pfx_str(subnam,ire,icp)),' maximum traction=',ptmax,' [force/area]'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getMaximumTraction
 
 !------------------------------------------------------------------------------------------------------------
@@ -5664,7 +5664,7 @@ subroutine cntc_getMaximumTemperature(ire, icp, t1max, t2max) &
 !dec$ attributes dllexport :: cntc_getMaximumTemperature
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5679,13 +5679,13 @@ subroutine cntc_getMaximumTemperature(ire, icp, t1max, t2max) &
    t1max = gf3_max(AllElm, gd%outpt1%temp1, ikZDIR)
    t2max = gf3_max(AllElm, gd%outpt1%temp2, ikZDIR)
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,2(g10.3,a))') trim(pfx_str(subnam,ire,icp)),' maximum temperatures=',t1max,',', &
                 t2max,' [C]'
       call write_log(1, bufout)
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getMaximumTemperature
 
 !------------------------------------------------------------------------------------------------------------
@@ -5729,7 +5729,7 @@ subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
 !dec$ attributes dllexport :: cntc_getFieldData
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5816,7 +5816,7 @@ subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
       return
    endif
 
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(4a,g12.4)') trim(pfx_str(subnam,ire,icp)),' return field-array ',fldnam,         &
                 ', sclfac=', sclfac
       call write_log(1, bufout)
@@ -5840,7 +5840,7 @@ subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
       enddo
    endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getFieldData
 
 !------------------------------------------------------------------------------------------------------------
@@ -5864,7 +5864,7 @@ subroutine cntc_getTractions(ire, icp, lenarr, pn, px, py) &
 !dec$ attributes dllexport :: cntc_getTractions
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5872,7 +5872,7 @@ subroutine cntc_getTractions(ire, icp, lenarr, pn, px, py) &
    call cntc_getFieldData(ire, icp, CNTC_fld_py, lenarr, py)
    call cntc_getFieldData(ire, icp, CNTC_fld_pn, lenarr, pn)
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getTractions
 
 !------------------------------------------------------------------------------------------------------------
@@ -5895,14 +5895,14 @@ subroutine cntc_getMicroSlip(ire, icp, lenarr, sx, sy) &
 !dec$ attributes dllexport :: cntc_getMicroSlip
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
    call cntc_getFieldData(ire, icp, CNTC_fld_sx, lenarr, sx)
    call cntc_getFieldData(ire, icp, CNTC_fld_sy, lenarr, sy)
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getMicroSlip
 
 !------------------------------------------------------------------------------------------------------------
@@ -5924,7 +5924,7 @@ subroutine cntc_getDisplacements(ire, icp, lenarr, un, ux, uy) &
 !dec$ attributes dllexport :: cntc_getDisplacements
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5932,7 +5932,7 @@ subroutine cntc_getDisplacements(ire, icp, lenarr, un, ux, uy) &
    call cntc_getFieldData(ire, icp, CNTC_fld_uy, lenarr, uy)
    call cntc_getFieldData(ire, icp, CNTC_fld_un, lenarr, un)
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getDisplacements
 
 !------------------------------------------------------------------------------------------------------------
@@ -5971,7 +5971,7 @@ subroutine cntc_getSensitivities(ire, icp, lenout, lenin, sens) &
 !dec$ attributes dllexport :: cntc_getSensitivities
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -5982,7 +5982,7 @@ subroutine cntc_getSensitivities(ire, icp, lenout, lenin, sens) &
    mirror_y = (imodul.eq.1 .and. (my_ic%config.eq.0 .or. my_ic%config.eq.4))
    if (mirror_y) sgn = -1d0
 
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,icp)),' return sensitivities(nout=',         &
                 lenout,', nin=',lenin,')'
       call write_log(1, bufout)
@@ -6024,7 +6024,7 @@ subroutine cntc_getSensitivities(ire, icp, lenout, lenin, sens) &
       enddo
    enddo
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getSensitivities
 
 !------------------------------------------------------------------------------------------------------------
@@ -6046,18 +6046,18 @@ subroutine cntc_getCalculationTime(ire, icp, tcpu, twall) &
 !dec$ attributes dllexport :: cntc_getCalculationTime
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
    itimer = cntc_timer_num(ire, icp)
    call timer_read(itimer, 1, -1, namtmr, numtms, tcpu, twall, ncontrb)
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,2(f7.1,a))') trim(pfx_str(subnam,ire,icp)),' tcpu=',tcpu,', twall=',twall,' [s]'
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getCalculationTime
 
 !------------------------------------------------------------------------------------------------------------
@@ -6077,14 +6077,14 @@ subroutine cntc_resetCalculationTime(ire, icp) &
 !dec$ attributes dllexport :: cntc_resetCalculationTime
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
    itimer = cntc_timer_num(ire, icp)
    call timer_reset(itimer)
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_resetCalculationTime
 
 !------------------------------------------------------------------------------------------------------------
@@ -6107,7 +6107,7 @@ subroutine subs_getBlocksize(ire, icp, iblk, nx, ny, nz) &
 !dec$ attributes dllexport :: subs_getBlocksize
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
@@ -6121,12 +6121,12 @@ subroutine subs_getBlocksize(ire, icp, iblk, nx, ny, nz) &
       nz = my_subs%blocks(iblk)%nz
    endif
 
-   if (idebug.ge.2) then
+   if (idebug_clib.ge.2) then
       write(bufout,'(2a,i3,a,3i4)') trim(pfx_str(subnam,ire,icp)),' block',iblk,' #points nx,y,z=',     &
                 nx, ny, nz
       call write_log(1, bufout)
    endif
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine subs_getBlocksize
 
 !------------------------------------------------------------------------------------------------------------
@@ -6159,11 +6159,11 @@ subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
 !dec$ attributes dllexport :: subs_getResults
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 0, 1, subnam, ierror)
    if (ierror.lt.0) return
 
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(a,2(a,i3))') trim(pfx_str(subnam,ire,icp)),' return',ncol,                       &
                 ' outputs for subs. block',iblk
       call write_log(1, bufout)
@@ -6204,7 +6204,7 @@ subroutine subs_getResults(ire, icp, iblk, lenarr, ncol, icol, values) &
    endif
 
    end associate
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine subs_getResults
 
 !------------------------------------------------------------------------------------------------------------
@@ -6229,7 +6229,7 @@ subroutine finalize_helper(ire)
       ! clean up the gd-structures for all icps of ire
 
       do icp = 1, MAX_CPids
-         if (idebug.ge.4) then
+         if (idebug_clib.ge.4) then
             write(bufout,'(a,i6,a,i6,a)') 'cntc_finalize: destroying gd for ire=',ire,', icp=',icp,'.'
             call write_log(1, bufout)
          endif
@@ -6241,13 +6241,13 @@ subroutine finalize_helper(ire)
       ix_reid(ire) = -1
       num_reids = num_reids - 1
 
-      if (idebug.ge.3) then
+      if (idebug_clib.ge.3) then
          write(bufout,'(2a,i3)') trim(pfx_str(subnam,ire,-1)),' number of active result elements=',   &
                 num_reids
          call write_log(1, bufout)
       endif
 
-      if (idebug.ge.4) then
+      if (idebug_clib.ge.4) then
          do jre = 1, MAX_REid_id
             if (ix_reid(jre).ge.0) then
                write(bufout,*) 'REid',jre,' is active'
@@ -6285,7 +6285,7 @@ subroutine cntc_finalize(ire) &
    endif
 #endif
 
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(2a)') trim(pfx_str(subnam,ire,-1)),' finalizing...'
       call write_log(1, bufout)
    endif
@@ -6307,7 +6307,7 @@ subroutine cntc_finalize(ire) &
 
    if (num_reids.le.0) call cntc_finalizeLast
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_finalize
 
 !------------------------------------------------------------------------------------------------------------
@@ -6343,7 +6343,7 @@ subroutine cntc_finalizeLast() &
 
    call set_print_thread(-1)
 
-   if (idebug.ge.3) then
+   if (idebug_clib.ge.3) then
       write(bufout,'(2a)') trim(pfx_str(subnam,-1,-1)),': finalizing entirely...'
       call write_log(1, bufout)
    endif
@@ -6364,7 +6364,7 @@ subroutine cntc_finalizeLast() &
 
 #ifdef _OPENMP
    cur_mxthrd = omp_get_max_threads()
-   if (cur_mxthrd.gt.1 .and. idebug.ge.0) then
+   if (cur_mxthrd.gt.1 .and. idebug_clib.ge.0) then
       write(bufout,'(a,i3,a)')'Parallel run using',cur_mxthrd,' threads'
       call write_log(1, bufout)
    endif
@@ -6373,7 +6373,7 @@ subroutine cntc_finalizeLast() &
    ! print timings
 
    call timer_stop(itimer_main)
-   if (idebug.ge.0) call timers_contact_print
+   if (idebug_clib.ge.0) call timers_contact_print
 
    ! close files
 
@@ -6392,7 +6392,7 @@ subroutine cntc_finalizeLast() &
 
    caddon_initialized = -1
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_finalizeLast
 
 !------------------------------------------------------------------------------------------------------------

@@ -57,7 +57,7 @@ public
 
    ! settings w.r.t. print-output of the CONTACT add-on
 
-   integer                  :: idebug = 0         ! level of print-output of the addon itself
+   integer                  :: idebug_clib = 0    ! level of print-output of the addon itself
                                                   ! -1 = none, 0 = timers (default), 1 = calculating/done,
                                                   !  2 = full in+output, 3+ = debug
    character(*), parameter  :: pfx = ' ** '       ! prefix for printing output of addon
@@ -164,7 +164,7 @@ subroutine cntc_activate(REid, CPid, needs_module, needs_icp, calnam, ierror)
       end subroutine cntc_initialize
    end interface
 
-   if (idebug.ge.5) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.5) call cntc_log_start(subnam, .true.)
 
    ierror = 0
 
@@ -194,9 +194,9 @@ subroutine cntc_activate(REid, CPid, needs_module, needs_icp, calnam, ierror)
       ifcver = 0
       c_outdir = ' ' // C_NULL_CHAR
       len_outdir = 1
-      if (idebug.ge.5) call write_log(' calling cntc_initialize for REid...')
+      if (idebug_clib.ge.5) call write_log(' calling cntc_initialize for REid...')
       call cntc_initialize(REid, imodul, ifcver, ierror, c_outdir, len_outdir)
-      if (idebug.ge.1 .and. ierror.ne.0) then
+      if (idebug_clib.ge.1 .and. ierror.ne.0) then
          write(bufout,*) 'initialize: ierror=',ierror
          call write_log(1, bufout)
       endif
@@ -252,17 +252,17 @@ subroutine cntc_activate(REid, CPid, needs_module, needs_icp, calnam, ierror)
 
    if (ire_module(ixre).eq.1) then
 
-      if (idebug.ge.5) call write_log(' calling cntc_activate_wtd for REid...')
+      if (idebug_clib.ge.5) call write_log(' calling cntc_activate_wtd for REid...')
       call cntc_activate_wtd(REid, CPid, ierror)
 
    elseif (CPid.ge.1 .and. CPid.le.MAX_CPids) then
 
-      if (idebug.ge.5) call write_log(' calling cntc_activate_gd for REid,CPid...')
+      if (idebug_clib.ge.5) call write_log(' calling cntc_activate_gd for REid,CPid...')
       call cntc_activate_gd(REid, CPid)
 
    endif
 
-   if (idebug.ge.5) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.5) call cntc_log_start(subnam, .false.)
 end subroutine cntc_activate
 
 !------------------------------------------------------------------------------------------------------------
@@ -278,14 +278,14 @@ subroutine cntc_activate_wtd(REid, CPid, ierror)
    integer                     :: ixre           ! position in list of REids
    character(len=*), parameter :: subnam = 'cntc_activate_wtd'
 
-   if (idebug.ge.5) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.5) call cntc_log_start(subnam, .true.)
 
    ! check whether wtd data-structure for REid has been used (allocated) before, if not, allocate
 
    ixre = ix_reid(REid)
    if (.not.associated(allwtd(ixre)%wtd)) then
 
-      if (idebug.ge.5) then
+      if (idebug_clib.ge.5) then
          write(bufout,'(a,i4)') ' allocating wtd for ire=',REid
          call write_log(1, bufout)
       endif
@@ -297,7 +297,7 @@ subroutine cntc_activate_wtd(REid, CPid, ierror)
 
       ! set appropriate initial values for the control/input-variables
 
-      if (idebug.ge.5) then
+      if (idebug_clib.ge.5) then
          write(bufout,'(a,i4)') ' initializing wtd for ire=',REid
          call write_log(1, bufout)
       endif
@@ -322,12 +322,12 @@ subroutine cntc_activate_wtd(REid, CPid, ierror)
       wtd%ic%flow    = 1              ! W-digit: default only overview of calculations
       wtd%ic%return  = 1              ! R-digit: return to main program (used when inp-file is created)
       wtd%ic%wrtinp  = 0              ! wrtinp:  default no input-specification to .inp-file
-      wtd%ic%ilvout  = min(idebug, 1) ! ilvout:  switch off output when idebug=0
+      wtd%ic%ilvout  = min(idebug_clib, 1) ! ilvout:  switch off output when idebug=0
 
       write(wtd%meta%expnam,'( a,i3.3)') 'caddon_re',REid
       wtd%meta%wrkdir = caddon_wrkdir
       wtd%meta%outdir = caddon_outdir
-      if (idebug.ge.5) then
+      if (idebug_clib.ge.5) then
          write(bufout,'(3(3a,/))') ' experiment name="',trim(wtd%meta%expnam),'",',                     &
                 ' wrkdir="', trim(wtd%meta%wrkdir),'"', ' outdir="', trim(wtd%meta%outdir),'"'
          call write_log(3, bufout)
@@ -371,7 +371,7 @@ subroutine cntc_activate_wtd(REid, CPid, ierror)
       my_subs  => wtd%subs
    endif
 
-   if (idebug.ge.5) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.5) call cntc_log_start(subnam, .false.)
 end subroutine cntc_activate_wtd
 
 !------------------------------------------------------------------------------------------------------------
@@ -386,19 +386,19 @@ subroutine cntc_activate_gd(REid, CPid)
    integer                  :: ixre           ! position in list of REids
    character(len=*), parameter :: subnam = 'cntc_activate_gd'
 
-   if (idebug.ge.5) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.5) call cntc_log_start(subnam, .true.)
 
    ! check whether data-structure for REid,CPid has been used (allocated) before, if not, allocate
 
    ixre = ix_reid(REid)
-   if (idebug.ge.5) then
+   if (idebug_clib.ge.5) then
       write(bufout,*) trim(subnam),': starting for REid,CPid=',REid,CPid,', ixre=',ixre
       call write_log(1,bufout)
    endif
 
    if (.not.associated(allgds(ixre,CPid)%gd)) then
 
-      if (idebug.ge.5) then
+      if (idebug_clib.ge.5) then
          write(bufout,'(2(a,i4))') ' allocating gd for ire=',REid,', icp=',CPid
          call write_log(1, bufout)
       endif
@@ -410,7 +410,7 @@ subroutine cntc_activate_gd(REid, CPid)
 
       ! set appropriate initial values for the control/input-variables
 
-      if (idebug.ge.5) then
+      if (idebug_clib.ge.5) then
          write(bufout,'(2(a,i4))') ' initializing gd for ire=',REid,', icp=',CPid
          call write_log(1, bufout)
       endif
@@ -434,7 +434,7 @@ subroutine cntc_activate_gd(REid, CPid)
       gd%ic%output_subs = 0          ! O-digit: default no subs-data to .out-file
       gd%ic%flow    = 1              ! W-digit: default only overview of calculations
       gd%ic%wrtinp  = 0              ! wrtinp:  default no input-specification to .inp-file
-      gd%ic%ilvout  = min(idebug, 1) ! ilvout:  switch off output when idebug=0
+      gd%ic%ilvout  = min(idebug_clib, 1) ! ilvout:  switch off output when idebug=0
       gd%kin%cksi   = 0d0
       gd%kin%ceta   = 0d0
       gd%kin%cphi   = 0d0            ! start with zero creepages
@@ -445,7 +445,7 @@ subroutine cntc_activate_gd(REid, CPid)
       gd%meta%wrkdir = caddon_wrkdir
       gd%meta%outdir = caddon_outdir
 
-      if (idebug.ge.5) then
+      if (idebug_clib.ge.5) then
          write(bufout,'(2(3a,/))') ' experiment name="',trim(gd%meta%expnam),'"',                       &
                 ' outdir="',trim(gd%meta%outdir),'"'
          call write_log(2, bufout)
@@ -464,7 +464,7 @@ subroutine cntc_activate_gd(REid, CPid)
    my_solv    => gd%solv
    my_subs    => gd%subs
 
-   if (idebug.ge.5) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.5) call cntc_log_start(subnam, .false.)
 end subroutine cntc_activate_gd
 
 !------------------------------------------------------------------------------------------------------------
@@ -485,7 +485,7 @@ subroutine set_actv_thread(REid, CPid)
 
 #ifdef _OPENMP
    if (my_thread.lt.0) then
-      if (idebug.ge.4) then
+      if (idebug_clib.ge.4) then
          write(bufout,'(a,i3,a,i1,a)') ' a new thread is starting, (ire,icp)=(',REid,',',CPid,')'
          call write_log(1, bufout)
       endif
@@ -524,7 +524,7 @@ subroutine set_actv_thread(REid, CPid)
       call timer_thread_config(my_thread)
       call set_print_thread(my_thread)
 
-      if (idebug.ge.4) then
+      if (idebug_clib.ge.4) then
          write(bufout,'(a,i2,a,i3,a,i1,a)') ' thread',my_thread,': starting for contact problem (',     &
                 REid,'.',CPid,')'
          call write_log(1, bufout)
@@ -535,7 +535,7 @@ subroutine set_actv_thread(REid, CPid)
    ! compiled without OpenMP, must be explict threading
 
    if (my_thread.lt.0) then
-      if (idebug.ge.4) then
+      if (idebug_clib.ge.4) then
          write(bufout,'(a,i3,a,i1,a)') ' a new thread is starting, (ire,icp)=(',REid,',',CPid,')'
          call write_log(1, bufout)
       endif
@@ -563,7 +563,7 @@ subroutine cntc_getMaxNumThreads(mxthrd) &
 !dec$ attributes dllexport :: cntc_getMaxNumThreads
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
 
 #ifdef _OPENMP
    mxthrd = min(999, orig_mxthrd)
@@ -571,7 +571,7 @@ subroutine cntc_getMaxNumThreads(mxthrd) &
    mxthrd = 1
 #endif
 
-   if (idebug.ge.4) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getMaxNumThreads
 
 !------------------------------------------------------------------------------------------------------------
@@ -609,7 +609,7 @@ subroutine lock_contact_problem(ire, icp, ierror)
 
    if (num_actv_threads.gt.lic_mxthrd) then
       ierror = CNTC_err_allow
-      if (debug_openmp .or. idebug.ge.1) then
+      if (debug_openmp .or. idebug_clib.ge.1) then
          write(bufout,'(a,i0,2a)') ' ERROR: no more than ',lic_mxthrd,' active threads allowed, ',      &
                 'skipping calculation'
          call write_log(1, bufout)
@@ -705,7 +705,7 @@ subroutine cntc_destroy_gd(REid, CPid)
    integer                  :: ixre           ! position in list of REids
    character(len=*), parameter :: subnam = 'cntc_destroy_gd'
 
-   if (idebug.ge.5) call cntc_log_start(subnam, .true.)
+   if (idebug_clib.ge.5) call cntc_log_start(subnam, .true.)
 
    ! check values of REid, CPid
    ! TODO: don't stop program execution, find something better to do.
@@ -735,7 +735,7 @@ subroutine cntc_destroy_gd(REid, CPid)
    deallocate(allgds(ixre,CPid)%gd)
    nullify(allgds(ixre,CPid)%gd)
 
-   if (idebug.ge.5) call cntc_log_start(subnam, .false.)
+   if (idebug_clib.ge.5) call cntc_log_start(subnam, .false.)
 end subroutine cntc_destroy_gd
 
 !------------------------------------------------------------------------------------------------------------
