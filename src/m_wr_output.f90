@@ -663,8 +663,13 @@ contains
                 ' POINTS:'
             write(lout, '(a)') '    I        Y(I)       Z(I)       A(I)'
 
-            do ii = 1, cp%curv_ref%ny
-               write(lout,6800) ii, sgn*cp%curv_ref%y(ii), cp%curv_ref%z(ii), sgn*cp%curv_incln%vy(ii)
+            do j = 1, cp%curv_ref%ny
+               if (is_right) then
+                  ii = j
+               else
+                  ii = cp%curv_ref%ny - j + 1
+               endif
+               write(lout,6800) j, sgn*cp%curv_ref%y(ii), cp%curv_ref%z(ii), sgn*cp%curv_incln%vy(ii)
  6800          format(i6,4(:,' ',f10.4))
             enddo
 
