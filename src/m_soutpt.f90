@@ -572,8 +572,8 @@ contains
          strng(10) = fmt_gs(12,nd, 4, us_avg(1))
       endif
       if (ic%heat.ge.1) then
-         tmp1mx = gf3_max(AllElm, temp1, ikZDIR)
-         tmp2mx = gf3_max(AllElm, temp2, ikZDIR)
+         tmp1mx = gf3_max(AllInt, temp1, ikZDIR)
+         tmp2mx = gf3_max(AllInt, temp2, ikZDIR)
          if (.not.ic%print_pmax) then
             strng(7)  = '     MAX(T1)'
             strng(8)  = '     MAX(T2)'
@@ -931,7 +931,7 @@ subroutine writmt (meta, ic, cgrid, potcon, mater, fric, kin, geom, outpt1, mirr
                 'FG2',11x, 'TC1',11x, 'TC2',11x, 20(a3,:,11x))
  172     format(i7,1x,i4,2x, 20g14.6)
 
-      elseif (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5) then
+      elseif (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5 .or. ic%mater.eq.6 .or. ic%mater.eq.7) then
 
          write(lmat,181) ('-', j=12,ncol)               ! skipping poiss(2) for lack of columns
          write(lmat,182) ic%tang, ic%mater, (mater%gg(j), j=1,2), (mater%poiss(j), j=1,1),              &

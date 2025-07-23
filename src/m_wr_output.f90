@@ -551,8 +551,8 @@ contains
                strng(9)  = fmt_gs(12,nd, 4, pmax1)
             endif
             if (ic%heat.ge.1) then
-               tmp1mx = gf3_max(AllElm, temp1, ikZDIR)
-               tmp2mx = gf3_max(AllElm, temp2, ikZDIR)
+               tmp1mx = gf3_max(AllInt, temp1, ikZDIR)
+               tmp2mx = gf3_max(AllInt, temp2, ikZDIR)
                if (.not.ic%print_pmax) then
                   strng(7)  = '     MAX(T1)'
                   strng(8)  = '     MAX(T2)'
