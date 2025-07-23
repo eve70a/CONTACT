@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -81,6 +81,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV
+    -1.000    750.0000      0.0000      0.0000       0.000
+
  WHEEL PROFILE "../profiles/MBench_S1002_v3.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0          -1           0         0.0000
@@ -113,11 +117,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1999.  -1.187E-03  -2.673E-04   1.087E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          6171.       1611.       152.9      -141.4   4.516E-02      -3.697
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      7.525E-02      0.8704   8.262E-02   1.725E-02       634.5
 
  CONTACT STATISTICS
@@ -165,11 +168,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2016.   1.546E-02   6.235E-03   1.492E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4790.      -1313.      -557.3      -268.6   4.373E-02      -48.49
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.842E-02     -0.9135     -0.3878   2.054E-02       1584.
 
  CONTACT STATISTICS
@@ -203,26 +205,26 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.9 | 100.0 |        0.7 | 100.0 |
-|Wheel-rail cases     |        1 |        0.9 | 100.0 |        0.7 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   5.1 |        0.0 |   4.2 |
-|Geometric analysis   |        5 |        0.8 |  86.4 |        0.6 |  82.3 |
-|Panag.process        |        8 |        0.0 |   5.1 |        0.1 |   6.8 |
-|Algorithm Norm       |        8 |        0.0 |   1.7 |        0.0 |   1.2 |
-|Algorithm Tang       |        8 |        0.0 |   3.4 |        0.0 |   5.6 |
-|Output quantities    |        9 |        0.0 |   1.7 |        0.0 |   0.0 |
+|Total                |        1 |        0.8 | 100.0 |        0.6 | 100.0 |
+|Wheel-rail cases     |        1 |        0.8 | 100.0 |        0.6 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   3.7 |        0.0 |   5.9 |
+|Geometric analysis   |        5 |        0.8 |  88.9 |        0.5 |  84.4 |
+|Panag.process        |        8 |        0.0 |   3.7 |        0.0 |   6.3 |
+|Algorithm Norm       |        8 |        0.0 |   0.0 |        0.0 |   1.5 |
+|Algorithm Tang       |        8 |        0.0 |   3.7 |        0.0 |   4.8 |
+|Output quantities    |        9 |        0.0 |   1.9 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        8 |        0.0 |   1.7 |        0.0 |   1.2 |
-|Tang: StedyGS solver |        8 |        0.0 |   3.4 |        0.0 |   5.6 |
+|Norm: ConjGrd solver |        8 |        0.0 |   0.0 |        0.0 |   0.9 |
+|Tang: StedyGS solver |        8 |        0.0 |   3.7 |        0.0 |   4.8 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   5.1 |        0.0 |   4.2 |
-|Contact location     |        5 |        0.7 |  79.7 |        0.6 |  79.0 |
-| - Interp sf_whl     |        5 |        0.2 |  23.7 |        0.1 |  19.7 |
-| - Other calc.       |       10 |        0.0 |   3.4 |        0.0 |   4.4 |
-| - Locate interpen   |        5 |        0.0 |   0.0 |        0.0 |   2.1 |
-|Undeformed distance  |        8 |        0.1 |   6.8 |        0.0 |   3.3 |
+|Reading input-file   |        1 |        0.0 |   3.7 |        0.0 |   5.9 |
+|Contact location     |        5 |        0.7 |  83.3 |        0.5 |  78.9 |
+| - Interp sf_whl     |        5 |        0.1 |  13.0 |        0.1 |  18.5 |
+| - Other calc.       |       10 |        0.1 |   7.4 |        0.0 |   4.9 |
+| - Locate interpen   |        5 |        0.0 |   5.6 |        0.0 |   1.9 |
+|Undeformed distance  |        8 |        0.0 |   5.6 |        0.0 |   5.6 |
 | - Interp whl_srfc   |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        8 |        0.0 |   0.0 |        0.0 |   2.9 |
+|Influence coeffic.   |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

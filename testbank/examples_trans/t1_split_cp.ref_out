@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -45,6 +45,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
+
  WHEEL PROFILE "../profiles/worn_high_mileage.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -84,11 +88,10 @@
      SPINXO      SPINYO
     -3.123      -3.672    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.274E+05   2.579E+04      -3526.   6.000E+04       4.122  -1.852E-02
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.554      0.5783  -7.907E-02   7.715E-02       1701.
 
  CONTACT STATISTICS
@@ -233,11 +236,10 @@
      SPINXO      SPINYO
      4.076      -50.55    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4562.      -725.2      -536.5  -3.916E+04   2.348E-02  -8.378E-03
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.563E-02     -0.7949     -0.5880   1.233E-02       640.2
 
  CONTACT STATISTICS
@@ -275,22 +277,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.3500      0.3500    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
         0.4000       14.74      1.2110  -1.300E-03   5.000E-03       0.000
@@ -323,11 +309,10 @@
      SPINXO      SPINYO
     -3.154       5.372    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.923E+04   2.018E+04      -2319.  -1.027E+05       2.298  -4.799E-03
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9663      0.7278  -8.362E-02   6.681E-02       807.5
 
  CONTACT STATISTICS
@@ -423,11 +408,10 @@
      SPINXO      SPINYO
     -1.655      -26.95    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.797E+04       5919.      -1475.   1.594E+05       1.449  -5.546E-04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.5850      0.3525  -8.787E-02   7.538E-02       1648.
 
  CONTACT STATISTICS
@@ -476,11 +460,10 @@
      SPINXO      SPINYO
      4.476      -50.56    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4392.      -687.3      -522.7  -3.734E+04   2.204E-02  -1.644E-04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.356E-02     -0.7824     -0.5951   1.202E-02       633.5
 
  CONTACT STATISTICS
@@ -513,22 +496,22 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.2 | 100.0 |        0.2 | 100.0 |
-|Wheel-rail cases     |        2 |        0.2 | 100.0 |        0.2 | 100.0 |
-|W/r profiles         |        2 |        0.0 |  10.0 |        0.0 |   9.8 |
-|Geometric analysis   |        2 |        0.0 |  10.0 |        0.0 |  11.7 |
-|Panag.process        |        5 |        0.1 |  60.0 |        0.1 |  52.8 |
-|Algorithm Norm       |        5 |        0.0 |  30.0 |        0.0 |  22.7 |
-|Algorithm Tang       |        5 |        0.0 |  20.0 |        0.0 |  30.1 |
-|Output quantities    |        7 |        0.0 |  10.0 |        0.0 |   8.6 |
+|Wheel-rail cases     |        2 |        0.1 |  90.0 |        0.2 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   8.1 |
+|Geometric analysis   |        2 |        0.0 |   0.0 |        0.0 |  11.2 |
+|Panag.process        |        5 |        0.1 |  40.0 |        0.1 |  46.9 |
+|Algorithm Norm       |        5 |        0.0 |  20.0 |        0.0 |  17.5 |
+|Algorithm Tang       |        5 |        0.0 |  20.0 |        0.0 |  29.4 |
+|Output quantities    |        7 |        0.0 |  10.0 |        0.0 |  12.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        5 |        0.0 |  30.0 |        0.0 |  20.9 |
-|Tang: TangCG solver  |        5 |        0.0 |  20.0 |        0.0 |  27.6 |
+|Norm: ConjGrd solver |        5 |        0.0 |  10.0 |        0.0 |  16.2 |
+|Tang: TangCG solver  |        5 |        0.0 |  10.0 |        0.0 |  26.9 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        2 |        0.0 |  10.0 |        0.0 |   9.8 |
-|Contact location     |        2 |        0.0 |  10.0 |        0.0 |   0.0 |
-|Undeformed distance  |        5 |        0.0 |   0.0 |        0.0 |   8.6 |
-| - Interp whl_srfc   |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Reading input-file   |        2 |        0.0 |   0.0 |        0.0 |   8.1 |
+|Contact location     |        2 |        0.0 |   0.0 |        0.0 |   8.1 |
+|Undeformed distance  |        5 |        0.0 |   0.0 |        0.0 |   3.1 |
+| - Interp whl_srfc   |        5 |        0.0 |   0.0 |        0.0 |   1.3 |
+|Influence coeffic.   |        5 |        0.0 |  10.0 |        0.0 |   3.7 |
 |Initial state/estim. |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

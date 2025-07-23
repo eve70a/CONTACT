@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -122,11 +122,11 @@
      BKTEMP      HEATCP      LAMBDA      DENSITY
      0.000       450.0      0.5000E-01  0.7850E-05
      0.000       450.0      0.5000E-01  0.7850E-05
- 
+
  FRICTION LAW PARAMETERS
      FREF        TREF        DFHEAT      DTHEAT
     0.3000       100.0     -0.1800       30.00    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04  -3.333E-02       0.000       0.000
@@ -305,21 +305,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-04
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
-     BKTEMP      HEATCP      LAMBDA      DENSITY
-     0.000       450.0      0.5000E-01  0.7850E-05
-     0.000       450.0      0.5000E-01  0.7850E-05
- 
- FRICTION LAW PARAMETERS
-     FREF        TREF        DFHEAT      DTHEAT
-    0.3000       100.0     -0.1800       30.00    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04  -3.333E-02       0.000       0.000
@@ -498,21 +483,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-04
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
-     BKTEMP      HEATCP      LAMBDA      DENSITY
-     0.000       450.0      0.5000E-01  0.7850E-05
-     0.000       450.0      0.5000E-01  0.7850E-05
- 
- FRICTION LAW PARAMETERS
-     FREF        TREF        DFHEAT      DTHEAT
-    0.3000       100.0     -0.1800       30.00    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04  -3.333E-02       0.000       0.000
@@ -610,21 +580,10 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-04
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
-     BKTEMP      HEATCP      LAMBDA      DENSITY
-     0.000       450.0      0.5000E-01  0.7850E-05
-     0.000       450.0      0.5000E-01  0.7850E-05
- 
  FRICTION LAW PARAMETERS
      FREF        TREF        DFHEAT      DTHEAT
     0.3000       100.0     -0.1800       30.00    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04  -3.333E-02       0.000       0.000
@@ -738,21 +697,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-04
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
-     BKTEMP      HEATCP      LAMBDA      DENSITY
-     0.000       450.0      0.5000E-01  0.7850E-05
-     0.000       450.0      0.5000E-01  0.7850E-05
- 
- FRICTION LAW PARAMETERS
-     FREF        TREF        DFHEAT      DTHEAT
-    0.3000       100.0     -0.1800       30.00    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04  -3.333E-02       0.000       0.000
@@ -833,20 +777,20 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       34.8 | 100.0 |       35.4 | 100.0 |
-|Non-Hertzian cases   |        5 |       34.8 | 100.0 |       35.4 | 100.0 |
-|Panag.process        |        5 |       34.2 |  98.4 |       34.8 |  98.4 |
-|Algorithm Norm       |        5 |        0.1 |   0.3 |        0.1 |   0.4 |
-|Algorithm Tang       |        5 |       34.1 |  98.2 |       34.7 |  98.0 |
-|Output quantities    |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Total                |        1 |       36.6 | 100.0 |       37.6 | 100.0 |
+|Non-Hertzian cases   |        5 |       36.6 |  99.9 |       37.6 |  99.9 |
+|Panag.process        |        5 |       36.0 |  98.2 |       37.0 |  98.2 |
+|Algorithm Norm       |        5 |        0.1 |   0.3 |        0.1 |   0.3 |
+|Algorithm Tang       |        5 |       35.9 |  97.9 |       36.9 |  98.0 |
+|Output quantities    |        5 |        0.1 |   0.2 |        0.0 |   0.1 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        5 |        0.1 |   0.3 |        0.1 |   0.4 |
-|Tang: StedyGS solver |      309 |       31.7 |  91.2 |       32.2 |  91.0 |
-|Temperature calc.    |      314 |        2.0 |   5.6 |        2.0 |   5.5 |
+|Norm: ConjGrd solver |        5 |        0.1 |   0.2 |        0.1 |   0.2 |
+|Tang: StedyGS solver |      309 |       33.5 |  91.5 |       34.1 |  90.6 |
+|Temperature calc.    |      314 |        1.8 |   4.8 |        2.2 |   5.7 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        5 |        0.5 |   1.4 |        0.5 |   1.5 |
+|Writing output-files |        5 |        0.6 |   1.5 |        0.6 |   1.5 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

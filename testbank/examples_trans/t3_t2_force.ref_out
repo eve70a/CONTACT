@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -90,6 +90,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
+
  WHEEL PROFILE "../profiles/worn_high_mileage.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -126,11 +130,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.503E+04   4.540E-03   4.986E-03   4.116E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.868E+04  -4.045E+04  -4.875E+04  -4.988E+04       3.831      -6288.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9595     -0.5713     -0.6884   6.646E-02       801.2
 
  CONTACT STATISTICS
@@ -224,11 +227,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.515E+04   2.000E-02   5.781E-03   6.296E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.724E+04  -4.009E+04  -1.371E+04      -9974.       2.738  -1.319E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.5761     -0.9430     -0.3225   7.370E-02       1627.
 
  CONTACT STATISTICS
@@ -275,11 +277,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.551E+04   6.528E-02   1.735E-02   2.088E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4374.      -843.2      -225.0      -221.0   2.246E-02      -921.3
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.335E-02     -0.9639     -0.2572   1.189E-02       653.9
 
  CONTACT STATISTICS
@@ -334,30 +335,6 @@
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
- WHEEL-SET POSITION AND VELOCITY
-     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       14.74      1.2108  -1.300E-03   5.000E-03       0.000
-
-     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-     1.500E+04       0.000       0.000       0.000       0.000 -33.9200000
-
-
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -8.104E+04  -2.894E+04   1.370E+05  -8.119E+04  -2.871E+04   1.370E+05
@@ -382,11 +359,10 @@
      SPINXO      SPINYO
     -3.554       5.381    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.873E+04  -4.007E+04  -4.857E+04   3.374E+05       3.814      -6846.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9601     -0.5654     -0.6854   6.645E-02       803.5
 
  CONTACT STATISTICS
@@ -482,11 +458,10 @@
      SPINXO      SPINYO
     -2.055      -26.96    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.725E+04  -4.014E+04  -1.364E+04  -1.063E+06       2.743  -1.296E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.5762     -0.9439     -0.3208   7.417E-02       1621.
 
  CONTACT STATISTICS
@@ -535,11 +510,10 @@
      SPINXO      SPINYO
      4.076      -50.56    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4353.      -839.6      -222.3  -4.356E+04   2.177E-02      -915.9
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.309E-02     -0.9644     -0.2554   1.195E-02       631.9
 
  CONTACT STATISTICS
@@ -600,30 +574,6 @@
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
- WHEEL-SET POSITION AND VELOCITY
-     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       14.74      1.2108  -1.300E-03   5.000E-03       0.000
-
-     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-     1.500E+04       0.000       0.000       0.000       0.000 -33.9200000
-
-
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -8.108E+04  -2.897E+04   1.370E+05  -8.122E+04  -2.874E+04   1.370E+05
@@ -648,11 +598,10 @@
      SPINXO      SPINYO
     -3.554       5.381    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.873E+04  -4.011E+04  -4.861E+04   3.378E+05       3.815      -6193.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9601     -0.5661     -0.6860   6.645E-02       803.5
 
  CONTACT STATISTICS
@@ -748,11 +697,10 @@
      SPINXO      SPINYO
     -2.055      -26.96    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.725E+04  -4.013E+04  -1.364E+04  -1.063E+06       2.743  -1.320E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.5762     -0.9438     -0.3208   7.417E-02       1622.
 
  CONTACT STATISTICS
@@ -801,11 +749,10 @@
      SPINXO      SPINYO
      4.076      -50.56    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4353.      -839.6      -222.3  -4.356E+04   2.177E-02      -916.4
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.308E-02     -0.9644     -0.2553   1.195E-02       631.9
 
  CONTACT STATISTICS
@@ -866,30 +813,6 @@
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
- WHEEL-SET POSITION AND VELOCITY
-     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       14.74      1.2108  -1.300E-03   5.000E-03       0.000
-
-     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-     1.500E+04       0.000       0.000       0.000       0.000 -33.9200000
-
-
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -8.111E+04  -2.899E+04   1.370E+05  -8.125E+04  -2.876E+04   1.370E+05
@@ -914,11 +837,10 @@
      SPINXO      SPINYO
     -3.554       5.381    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.873E+04  -4.014E+04  -4.862E+04   3.380E+05       3.816      -6227.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9601     -0.5665     -0.6862   6.645E-02       803.5
 
  CONTACT STATISTICS
@@ -1014,11 +936,10 @@
      SPINXO      SPINYO
     -2.055      -26.96    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.724E+04  -4.013E+04  -1.364E+04  -1.063E+06       2.743  -1.320E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.5762     -0.9437     -0.3209   7.417E-02       1622.
 
  CONTACT STATISTICS
@@ -1067,11 +988,10 @@
      SPINXO      SPINYO
      4.076      -50.56    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4353.      -839.5      -222.2  -4.356E+04   2.177E-02      -916.3
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.308E-02     -0.9644     -0.2553   1.195E-02       631.9
 
  CONTACT STATISTICS
@@ -1132,30 +1052,6 @@
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
- WHEEL-SET POSITION AND VELOCITY
-     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       14.74      1.2108  -1.300E-03   5.000E-03       0.000
-
-     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-     1.500E+04       0.000       0.000       0.000       0.000 -33.9200000
-
-
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -8.113E+04  -2.901E+04   1.370E+05  -8.127E+04  -2.878E+04   1.370E+05
@@ -1180,11 +1076,10 @@
      SPINXO      SPINYO
     -3.554       5.381    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.873E+04  -4.017E+04  -4.864E+04   3.381E+05       3.817      -6228.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9601     -0.5669     -0.6865   6.645E-02       803.5
 
  CONTACT STATISTICS
@@ -1280,11 +1175,10 @@
      SPINXO      SPINYO
     -2.055      -26.96    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.724E+04  -4.012E+04  -1.365E+04  -1.063E+06       2.743  -1.320E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.5761     -0.9436     -0.3210   7.418E-02       1622.
 
  CONTACT STATISTICS
@@ -1333,11 +1227,10 @@
      SPINXO      SPINYO
      4.076      -50.56    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4353.      -839.5      -222.2  -4.356E+04   2.177E-02      -916.3
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.308E-02     -0.9644     -0.2553   1.195E-02       631.9
 
  CONTACT STATISTICS
@@ -1398,30 +1291,6 @@
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
- WHEEL-SET POSITION AND VELOCITY
-     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       14.74      1.2107  -1.300E-03   5.000E-03       0.000
-
-     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-     1.500E+04       0.000       0.000       0.000       0.000 -33.9200000
-
-
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
   -8.115E+04  -2.903E+04   1.370E+05  -8.130E+04  -2.880E+04   1.370E+05
@@ -1446,11 +1315,10 @@
      SPINXO      SPINYO
     -3.554       5.381    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.872E+04  -4.020E+04  -4.866E+04   3.383E+05       3.818      -6224.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9600     -0.5673     -0.6868   6.645E-02       803.5
 
  CONTACT STATISTICS
@@ -1546,11 +1414,10 @@
      SPINXO      SPINYO
     -2.055      -26.96    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.724E+04  -4.012E+04  -1.365E+04  -1.063E+06       2.743  -1.319E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.5761     -0.9435     -0.3211   7.418E-02       1622.
 
  CONTACT STATISTICS
@@ -1599,11 +1466,10 @@
      SPINXO      SPINYO
      4.076      -50.56    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4352.      -839.5      -222.2  -4.356E+04   2.177E-02      -916.3
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.308E-02     -0.9644     -0.2553   1.195E-02       631.9
 
  CONTACT STATISTICS
@@ -1637,22 +1503,22 @@ Performance timers:
 |--------------------------------------------------------------------------|
 |Total                |        1 |        1.5 | 100.0 |        1.7 | 100.0 |
 |Wheel-rail cases     |        6 |        1.5 | 100.0 |        1.7 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   1.0 |
-|Geometric analysis   |       23 |        0.0 |   0.0 |        0.0 |   2.5 |
-|Panag.process        |       64 |        1.2 |  79.4 |        1.2 |  74.8 |
-|Algorithm Norm       |       64 |        0.2 |  10.3 |        0.2 |  13.6 |
-|Algorithm Tang       |       64 |        1.0 |  69.1 |        1.0 |  61.2 |
-|Output quantities    |       70 |        0.0 |   3.1 |        0.1 |   6.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Geometric analysis   |       23 |        0.1 |   4.1 |        0.0 |   1.6 |
+|Panag.process        |       64 |        1.2 |  77.6 |        1.2 |  73.9 |
+|Algorithm Norm       |       64 |        0.2 |  11.2 |        0.2 |  10.7 |
+|Algorithm Tang       |       64 |        1.0 |  65.3 |        1.1 |  63.1 |
+|Output quantities    |       70 |        0.1 |   5.1 |        0.1 |   7.1 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       64 |        0.1 |   7.2 |        0.1 |   7.4 |
-|Tang: TangCG solver  |       45 |        0.1 |   9.3 |        0.1 |   8.6 |
-|Tang: StedyGS solver |       19 |        0.9 |  56.7 |        0.8 |  48.2 |
+|Norm: ConjGrd solver |       64 |        0.1 |   8.2 |        0.1 |   6.6 |
+|Tang: TangCG solver  |       45 |        0.1 |   6.1 |        0.2 |   9.3 |
+|Tang: StedyGS solver |       19 |        0.8 |  55.1 |        0.9 |  51.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   1.0 |
-|Contact location     |       23 |        0.0 |   0.0 |        0.0 |   1.7 |
-|Undeformed distance  |       64 |        0.0 |   0.0 |        0.0 |   0.8 |
-| - Interp whl_srfc   |       64 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Influence coeffic.   |       22 |        0.0 |   1.0 |        0.0 |   0.5 |
-|Initial state/estim. |       64 |        0.0 |   1.0 |        0.0 |   0.0 |
+|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Contact location     |       23 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Undeformed distance  |       64 |        0.1 |   4.1 |        0.0 |   0.8 |
+| - Interp whl_srfc   |       64 |        0.0 |   1.0 |        0.0 |   0.4 |
+|Influence coeffic.   |       22 |        0.0 |   2.0 |        0.0 |   0.4 |
+|Initial state/estim. |       64 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

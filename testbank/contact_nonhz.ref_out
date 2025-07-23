@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -86,11 +86,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000       2.400E+04   1.000E-03       0.000   4.000E-04
@@ -205,11 +205,11 @@
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
      100.0      0.1000E-01   0.000       0.000    
- 
+
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
     0.1800      0.1200       1250.       0.000      0.1000E+05
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000       2.400E+04   1.000E-03       0.000   4.000E-04
@@ -326,11 +326,11 @@
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
      100.0      0.1000E-01   0.000       0.000    
- 
+
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
     0.1800      0.1200       1250.       0.000      0.1000E+05
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000       2.400E+04   1.000E-03       0.000  -3.000E-04
@@ -389,7 +389,7 @@
  **      cntc_getContactPatchAreas(  2.2): carea= 0.000056, harea= 0.000053, sarea= 0.000003 [area]
  **        cntc_getMaximumPressure(  2.2): maximum pressure= 0.523E+09 [force/area]
  **        cntc_getMaximumTraction(  2.2): maximum traction= 0.795E+08 [force/area]
- **        cntc_getCalculationTime(  2.2): tcpu=    0.0, twall=    0.1 [s]
+ **        cntc_getCalculationTime(  2.2): tcpu=    0.0, twall=    0.0 [s]
  **                cntc_calculate3(  1.2): g,nu1=  82000.0 0.280
  **                cntc_calculate3(  1.2): g,nu2=  82000.0 0.280
  **                cntc_calculate3(  1.2): nvf, fstat, fkin =   1 0.30 0.30
@@ -428,11 +428,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000       2.400E+04   1.000E-03       0.000   4.000E-04
@@ -509,13 +509,13 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
-|Panag.process        |        4 |        0.1 |  62.5 |        0.1 |  85.0 |
-|Algorithm Norm       |        4 |        0.0 |  12.5 |        0.0 |  24.1 |
-|Algorithm Tang       |        4 |        0.1 |  50.0 |        0.1 |  60.9 |
-|Output quantities    |        4 |        0.0 |  25.0 |        0.0 |  10.5 |
+|Panag.process        |        4 |        0.0 |  50.0 |        0.1 |  93.5 |
+|Algorithm Norm       |        4 |        0.0 |   0.0 |        0.0 |  35.5 |
+|Algorithm Tang       |        4 |        0.0 |  50.0 |        0.0 |  58.1 |
+|Output quantities    |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        4 |        0.0 |  12.5 |        0.0 |  24.1 |
-|Tang: StedyGS solver |       10 |        0.1 |  50.0 |        0.1 |  60.9 |
+|Norm: ConjGrd solver |        4 |        0.0 |   0.0 |        0.0 |  35.5 |
+|Tang: StedyGS solver |       10 |        0.0 |  50.0 |        0.0 |  58.1 |
 |--------------------------------------------------------------------------|
-|Cp. 2 on Res.el.  2  |        2 |        0.0 |  37.5 |        0.1 |  43.6 |
+|Cp. 2 on Res.el.  2  |        2 |        0.0 |  25.0 |        0.0 |  51.6 |
 |--------------------------------------------------------------------------|

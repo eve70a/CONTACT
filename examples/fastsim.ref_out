@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -38,11 +38,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       3.000E+04       0.000  -6.250E-04   6.250E-04
@@ -149,11 +149,7 @@
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
      1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       3.000E+04       0.000  -6.250E-04   6.250E-04
@@ -260,11 +256,7 @@
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
      1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       3.000E+04       0.000  -6.250E-04   6.250E-04
@@ -338,7 +330,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case     4
- TANG: STEADY STATE ROLLING BY THE FASTRIP APPROACH
+ TANG: STEADY STATE ROLLING BY THE MODIFIED FASTRIP APPROACH
       Tang: final element division: A, S=    626    638  ItGS=     0
 
  
@@ -371,11 +363,7 @@
  MODIFIED FASTRIP SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
      1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       3.000E+04       0.000  -6.250E-04   6.250E-04
@@ -482,11 +470,7 @@
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
      1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.8000E-01   3.000E+04       0.000  -6.250E-04   6.250E-04
@@ -752,11 +736,7 @@
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
      1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.8000E-01   3.000E+04       0.000  -6.250E-04   6.250E-04
@@ -989,7 +969,7 @@
      X  -->        Chi=  0.00 degrees
 
  Case     7
- TANG: STEADY STATE ROLLING BY THE FASTRIP APPROACH
+ TANG: STEADY STATE ROLLING BY THE MODIFIED FASTRIP APPROACH
       Tang: final element division: A, S=  15866  15562  ItGS=     0
 
  
@@ -1022,11 +1002,7 @@
  MODIFIED FASTRIP SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
      1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.8000E-01   3.000E+04       0.000  -6.250E-04   6.250E-04
@@ -1292,11 +1268,7 @@
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
      1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.8000E-01   3.000E+04       0.000  -6.250E-04  -6.250E-04
@@ -1535,21 +1507,21 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.2 | 100.0 |        1.3 | 100.0 |
-|Non-Hertzian cases   |        8 |        1.2 | 100.0 |        1.3 | 100.0 |
-|Panag.process        |        8 |        0.3 |  26.0 |        0.3 |  26.2 |
-|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |        8 |        0.3 |  26.0 |        0.3 |  26.0 |
-|Output quantities    |        8 |        0.0 |   2.6 |        0.1 |   7.5 |
+|Total                |        1 |        0.9 | 100.0 |        1.1 | 100.0 |
+|Non-Hertzian cases   |        8 |        0.9 | 100.0 |        1.1 | 100.0 |
+|Panag.process        |        8 |        0.3 |  30.0 |        0.3 |  26.8 |
+|Algorithm Norm       |        1 |        0.0 |   1.7 |        0.0 |   0.6 |
+|Algorithm Tang       |        8 |        0.3 |  28.3 |        0.3 |  26.2 |
+|Output quantities    |        8 |        0.0 |   1.7 |        0.1 |   7.4 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |        1 |        0.3 |  24.7 |        0.3 |  23.7 |
-|Tang: Fastsim solver |        5 |        0.0 |   1.3 |        0.0 |   0.0 |
-|Tang: Fastrip solver |        2 |        0.0 |   0.0 |        0.0 |   0.5 |
+|Norm: ConjGrd solver |        1 |        0.0 |   1.7 |        0.0 |   0.6 |
+|Tang: StedyGS solver |        1 |        0.3 |  28.3 |        0.3 |  25.5 |
+|Tang: Fastsim solver |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: Fastrip solver |        2 |        0.0 |   0.0 |        0.0 |   0.3 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        8 |        0.1 |  10.4 |        0.1 |   8.3 |
-|Initial state/estim. |        8 |        0.0 |   0.0 |        0.0 |   0.5 |
-|Writing output-files |        5 |        0.7 |  61.0 |        0.7 |  55.5 |
+|Influence coeffic.   |        8 |        0.1 |  11.7 |        0.1 |  10.7 |
+|Initial state/estim. |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |        5 |        0.5 |  56.7 |        0.6 |  53.7 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

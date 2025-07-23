@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -42,6 +42,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    14.000    1435.000      0.0250       0.000
 
  WHEEL PROFILE "../profiles/MBench_S1002_v3.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
@@ -87,12 +91,11 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.   9.357E-03   2.659E-02   9.007E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          8677.      -573.0      -1669.       261.2   9.042E-02      -97.68
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-        0.1058  -6.604E-02     -0.1923   2.476E-02       1075.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         8686.  -6.596E-02     -0.1888   2.476E-02       1075.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -166,12 +169,11 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.   2.540E-02   7.204E-02   2.042E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          3310.      -220.4      -626.1      -13.81   1.622E-02      -101.3
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     4.037E-02  -6.659E-02     -0.1891   1.182E-02       1195.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         3311.  -6.658E-02     -0.1885   1.182E-02       1195.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -213,19 +215,19 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Wheel-rail cases     |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|W/r profiles         |        2 |        0.0 |  50.0 |        0.0 |  56.3 |
-|Geometric analysis   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Panag.process        |        2 |        0.0 |  50.0 |        0.0 |  28.1 |
-|Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |        2 |        0.0 |  50.0 |        0.0 |  28.1 |
-|Output quantities    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Wheel-rail cases     |        1 |        0.0 | 100.0 |        0.0 |  92.0 |
+|W/r profiles         |        2 |        0.0 |  50.0 |        0.0 |  40.0 |
+|Geometric analysis   |        1 |        0.0 |   0.0 |        0.0 |   8.0 |
+|Panag.process        |        2 |        0.0 |   0.0 |        0.0 |  20.0 |
+|Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |  20.0 |
+|Algorithm Tang       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Output quantities    |        3 |        0.0 |   0.0 |        0.0 |   8.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |        2 |        0.0 |  50.0 |        0.0 |  28.1 |
+|Norm: ConjGrd solver |        2 |        0.0 |   0.0 |        0.0 |  12.0 |
+|Tang: StedyGS solver |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |  50.0 |        0.0 |  56.3 |
-|Contact location     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        1 |        0.0 |  50.0 |        0.0 |  40.0 |
+|Contact location     |        1 |        0.0 |   0.0 |        0.0 |   8.0 |
 |Undeformed distance  |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |

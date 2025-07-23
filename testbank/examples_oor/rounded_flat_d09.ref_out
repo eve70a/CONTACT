@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -48,6 +48,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV
+    -1.000      0.0000      0.0000      0.0000       0.000
+
  WHEEL PROFILE "../profiles/flat_d09.slcw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0          -1           0         0.0000
@@ -80,11 +84,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.  -1.001E-09  -1.375E-18  -2.324E-15
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000       0.000       0.000   9.085E-02       0.000
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220       0.000       0.000   2.271E-02       573.4
 
  CONTACT STATISTICS
@@ -140,21 +143,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.0280       0.000       0.000     -0.1047
@@ -180,11 +168,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.  -1.222E-05  -2.076E-15  -1.815E-15
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
         10000.       32.04       0.000       0.000   9.251E-02  -7.232E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220   1.068E-02       0.000   2.249E-02       664.3
 
  CONTACT STATISTICS
@@ -249,21 +236,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.0750       0.000       0.000  -8.727E-02
@@ -289,11 +261,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.  -1.297E-04  -4.431E-15  -9.764E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       378.3       0.000       0.000   7.357E-02  -3.303E-02
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.1261       0.000   1.665E-02       678.8
 
  CONTACT STATISTICS
@@ -380,21 +351,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.1816       0.000       0.000  -6.981E-02
@@ -420,11 +376,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.  -3.760E-04  -4.575E-15  -5.858E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
         10000.       1297.       0.000       0.000   5.783E-02     -0.7061
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.4323       0.000   1.244E-02       531.6
 
  CONTACT STATISTICS
@@ -546,21 +501,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.3417       0.000       0.000  -5.236E-02
@@ -586,11 +526,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1999.  -7.376E-04  -4.264E-15  -4.038E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       2549.       0.000       0.000   4.831E-02      -3.253
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.8498       0.000   9.906E-03       505.8
 
  CONTACT STATISTICS
@@ -742,21 +681,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.5430       0.000       0.000  -3.491E-02
@@ -782,11 +706,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1999.  -1.190E-03  -3.514E-15  -2.841E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       2986.       0.000       0.000   4.040E-02      -6.617
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.9954       0.000   7.984E-03       486.8
 
  CONTACT STATISTICS
@@ -972,21 +895,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.7599       0.000       0.000  -1.745E-02
@@ -1010,13 +918,12 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -1.675E-03  -2.668E-15  -2.233E-16
-
+     0.000      0.2000           1998.  -1.675E-03  -2.667E-15  -2.233E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
         10000.       3000.       0.000       0.000   3.276E-02      -9.735
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.9999       0.000   6.543E-03       326.9
 
  CONTACT STATISTICS
@@ -1236,21 +1143,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.9037       0.000       0.000       0.000
@@ -1276,11 +1168,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1998.  -1.997E-03      -0.000  -1.981E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
         10000.       3000.       0.000       0.000   2.474E-02      -11.87
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      1.0000       0.000   5.925E-03       791.8
 
  CONTACT STATISTICS
@@ -1548,21 +1439,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.7599       0.000       0.000   1.745E-02
@@ -1588,11 +1464,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1998.  -1.675E-03   2.602E-15  -2.179E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
         10000.       3000.       0.000       0.000   3.276E-02      -9.735
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.9999       0.000   6.543E-03       326.9
 
  CONTACT STATISTICS
@@ -1812,21 +1687,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.5430       0.000       0.000   3.491E-02
@@ -1852,11 +1712,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1999.  -1.190E-03   3.582E-15  -2.896E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       3000.       0.000       0.000   4.043E-02      -6.641
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.9999       0.000   7.984E-03       486.8
 
  CONTACT STATISTICS
@@ -2042,21 +1901,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.3417       0.000       0.000   5.236E-02
@@ -2082,11 +1926,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1999.  -7.376E-04   4.185E-15  -3.963E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       2569.       0.000       0.000   4.836E-02      -3.253
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.8563       0.000   9.906E-03       505.8
 
  CONTACT STATISTICS
@@ -2237,21 +2080,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.1816       0.000       0.000   6.981E-02
@@ -2277,11 +2105,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.  -3.760E-04   4.578E-15  -5.862E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
         10000.       1310.       0.000       0.000   5.785E-02     -0.6850
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.4365       0.000   1.244E-02       531.6
 
  CONTACT STATISTICS
@@ -2404,21 +2231,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.0750       0.000       0.000   8.727E-02
@@ -2444,11 +2256,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.  -1.297E-04   4.431E-15  -9.764E-16
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       375.9       0.000       0.000   7.357E-02  -3.692E-02
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220      0.1253       0.000   1.665E-02       678.8
 
  CONTACT STATISTICS
@@ -2534,21 +2345,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.0280       0.000       0.000      0.1047
@@ -2574,11 +2370,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.  -1.222E-05   2.076E-15  -1.815E-15
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
         10000.       32.12       0.000       0.000   9.251E-02  -3.383E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220   1.071E-02       0.000   2.249E-02       664.3
 
  CONTACT STATISTICS
@@ -2639,21 +2434,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.0227       0.000       0.000      0.1222
@@ -2679,11 +2459,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.  -1.001E-09   1.375E-18  -2.324E-15
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000       0.000       0.000   9.085E-02       0.000
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220       0.000       0.000   2.271E-02       573.4
 
  CONTACT STATISTICS
@@ -2731,28 +2510,28 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       42.5 | 100.0 |       43.5 | 100.0 |
-|Wheel-rail cases     |       15 |       42.5 | 100.0 |       43.5 | 100.0 |
-|W/r profiles         |        2 |        0.1 |   0.2 |        0.3 |   0.6 |
-|Geometric analysis   |       80 |        6.7 |  15.8 |        6.9 |  15.9 |
-|Panag.process        |       65 |       34.9 |  82.1 |       35.4 |  81.3 |
-|Algorithm Norm       |       65 |        1.2 |   2.8 |        1.2 |   2.7 |
-|Algorithm Tang       |       65 |       33.8 |  79.4 |       34.2 |  78.5 |
-|Output quantities    |       80 |        0.2 |   0.5 |        0.4 |   0.9 |
+|Total                |        1 |       36.8 | 100.0 |       37.2 | 100.0 |
+|Wheel-rail cases     |       15 |       36.8 | 100.0 |       37.2 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.1 |        0.0 |   0.1 |
+|Geometric analysis   |       80 |        5.5 |  15.1 |        5.6 |  14.9 |
+|Panag.process        |       65 |       30.5 |  82.8 |       30.8 |  82.8 |
+|Algorithm Norm       |       65 |        1.0 |   2.6 |        1.0 |   2.7 |
+|Algorithm Tang       |       65 |       29.5 |  80.2 |       29.8 |  80.0 |
+|Output quantities    |       80 |        0.4 |   1.0 |        0.4 |   1.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       65 |        0.9 |   2.0 |        0.9 |   2.2 |
-|Tang: StedyGS solver |       65 |       33.4 |  78.5 |       33.9 |  77.8 |
+|Norm: ConjGrd solver |       65 |        0.8 |   2.2 |        0.7 |   2.0 |
+|Tang: StedyGS solver |       65 |       29.1 |  79.2 |       29.4 |  79.1 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       15 |        0.1 |   0.2 |        0.3 |   0.6 |
-|Contact location     |       80 |        6.4 |  15.0 |        6.7 |  15.3 |
-| - Eval whl spline   |       80 |        0.5 |   1.2 |        0.6 |   1.3 |
-| - Interp sf_whl     |       80 |        2.7 |   6.4 |        3.1 |   7.2 |
-| - Eval rail spline  |       80 |        0.6 |   1.4 |        0.6 |   1.4 |
-| - Other calc.       |      160 |        1.4 |   3.2 |        1.2 |   2.8 |
-| - Locate interpen   |       80 |        0.9 |   2.0 |        0.9 |   2.0 |
-|Undeformed distance  |       65 |        0.3 |   0.7 |        0.2 |   0.6 |
-| - Interp whl_srfc   |       65 |        0.1 |   0.1 |        0.1 |   0.2 |
-|Influence coeffic.   |       18 |        0.1 |   0.3 |        0.1 |   0.2 |
+|Reading input-file   |       15 |        0.0 |   0.1 |        0.0 |   0.1 |
+|Contact location     |       80 |        5.3 |  14.4 |        5.4 |  14.4 |
+| - Eval whl spline   |       80 |        0.4 |   1.2 |        0.6 |   1.5 |
+| - Interp sf_whl     |       80 |        2.5 |   6.7 |        2.4 |   6.6 |
+| - Eval rail spline  |       80 |        0.5 |   1.4 |        0.5 |   1.3 |
+| - Other calc.       |      160 |        1.0 |   2.8 |        1.0 |   2.7 |
+| - Locate interpen   |       80 |        0.7 |   1.9 |        0.6 |   1.7 |
+|Undeformed distance  |       65 |        0.2 |   0.7 |        0.2 |   0.5 |
+| - Interp whl_srfc   |       65 |        0.1 |   0.3 |        0.1 |   0.2 |
+|Influence coeffic.   |       18 |        0.0 |   0.1 |        0.0 |   0.1 |
 |Initial state/estim. |       65 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

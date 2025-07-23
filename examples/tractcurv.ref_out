@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -40,11 +40,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3300      0.3300    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-05       0.000       0.000
@@ -135,25 +135,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-04       0.000       0.000
@@ -244,25 +225,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   8.000E-04       0.000       0.000
@@ -353,25 +315,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.200E-03       0.000       0.000
@@ -462,25 +405,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.600E-03       0.000       0.000
@@ -571,25 +495,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.000E-03       0.000       0.000
@@ -680,25 +585,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.400E-03       0.000       0.000
@@ -789,25 +675,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.800E-03       0.000       0.000
@@ -898,25 +765,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.200E-03       0.000       0.000
@@ -1007,25 +855,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.600E-03       0.000       0.000
@@ -1116,25 +945,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-03       0.000       0.000
@@ -1225,25 +1035,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.400E-03       0.000       0.000
@@ -1334,25 +1125,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.800E-03       0.000       0.000
@@ -1443,25 +1215,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.200E-03       0.000       0.000
@@ -1552,25 +1305,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.600E-03       0.000       0.000
@@ -1661,25 +1395,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   6.000E-03       0.000       0.000
@@ -1770,25 +1485,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   8.000E-03       0.000       0.000
@@ -1879,25 +1575,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-02       0.000       0.000
@@ -1988,25 +1665,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.000E-02       0.000       0.000
@@ -2097,25 +1755,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.000E-02       0.000       0.000
@@ -2206,25 +1845,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-02       0.000       0.000
@@ -2315,25 +1935,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.000E-02       0.000       0.000
@@ -2424,25 +2025,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   7.500E-02       0.000       0.000
@@ -2533,25 +2115,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1000       0.000       0.000
@@ -2642,25 +2205,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1250       0.000       0.000
@@ -2751,25 +2295,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1500       0.000       0.000
@@ -2860,25 +2385,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1750       0.000       0.000
@@ -2969,25 +2475,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2000       0.000       0.000
@@ -3078,25 +2565,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2250       0.000       0.000
@@ -3187,25 +2655,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2500       0.000       0.000
@@ -3318,11 +2767,11 @@
  INTERFACIAL LAYER PARAMETERS
      GG3         LAYTHK      TAU_C0      K_TAU
      8200.       1.250       0.000       0.000    
- 
+
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
     0.1400      0.1900       1250.       0.000      0.1000E-03
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-05       0.000       0.000
@@ -3418,29 +2867,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-03       0.000       0.000
@@ -3538,29 +2964,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.000E-03       0.000       0.000
@@ -3658,29 +3061,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.000E-03       0.000       0.000
@@ -3778,29 +3158,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-03       0.000       0.000
@@ -3898,29 +3255,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.000E-03       0.000       0.000
@@ -4018,29 +3352,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   6.000E-03       0.000       0.000
@@ -4138,29 +3449,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   7.000E-03       0.000       0.000
@@ -4258,29 +3546,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   8.000E-03       0.000       0.000
@@ -4378,29 +3643,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   9.000E-03       0.000       0.000
@@ -4498,29 +3740,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-02       0.000       0.000
@@ -4618,29 +3837,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.100E-02       0.000       0.000
@@ -4738,29 +3934,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.200E-02       0.000       0.000
@@ -4858,29 +4031,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.300E-02       0.000       0.000
@@ -4978,29 +4128,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.400E-02       0.000       0.000
@@ -5098,29 +4225,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.500E-02       0.000       0.000
@@ -5218,29 +4322,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.600E-02       0.000       0.000
@@ -5338,29 +4419,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.800E-02       0.000       0.000
@@ -5458,29 +4516,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.000E-02       0.000       0.000
@@ -5580,29 +4615,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.000E-02       0.000       0.000
@@ -5702,29 +4714,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-02       0.000       0.000
@@ -5824,29 +4813,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.000E-02       0.000       0.000
@@ -5946,29 +4912,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   7.500E-02       0.000       0.000
@@ -6068,29 +5011,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1000       0.000       0.000
@@ -6190,29 +5110,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1250       0.000       0.000
@@ -6312,29 +5209,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1500       0.000       0.000
@@ -6432,29 +5306,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1750       0.000       0.000
@@ -6552,29 +5403,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2000       0.000       0.000
@@ -6672,29 +5500,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2250       0.000       0.000
@@ -6792,29 +5597,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- INTERFACIAL LAYER PARAMETERS
-     GG3         LAYTHK      TAU_C0      K_TAU
-     8200.       1.250       0.000       0.000    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1400      0.1900       1250.       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2500       0.000       0.000
@@ -6922,11 +5704,11 @@
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
      1.000       1.000       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3300      0.3300    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-05       0.000       0.000
@@ -7012,33 +5794,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6701E-04  0.4581E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-04       0.000       0.000
@@ -7124,33 +5879,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6626E-04  0.4637E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   8.000E-04       0.000       0.000
@@ -7236,33 +5964,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6552E-04  0.4693E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.200E-03       0.000       0.000
@@ -7348,33 +6049,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6477E-04  0.4749E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.600E-03       0.000       0.000
@@ -7460,33 +6134,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6403E-04  0.4805E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.000E-03       0.000       0.000
@@ -7572,33 +6219,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6328E-04  0.4861E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.400E-03       0.000       0.000
@@ -7684,33 +6304,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6254E-04  0.4917E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.800E-03       0.000       0.000
@@ -7796,33 +6389,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6179E-04  0.4973E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.200E-03       0.000       0.000
@@ -7908,33 +6474,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6105E-04  0.5029E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.600E-03       0.000       0.000
@@ -8020,33 +6559,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6030E-04  0.5085E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-03       0.000       0.000
@@ -8132,33 +6644,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5956E-04  0.5141E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.400E-03       0.000       0.000
@@ -8244,33 +6729,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5881E-04  0.5197E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.800E-03       0.000       0.000
@@ -8356,33 +6814,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5807E-04  0.5253E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.200E-03       0.000       0.000
@@ -8468,33 +6899,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5732E-04  0.5309E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.600E-03       0.000       0.000
@@ -8580,33 +6984,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5658E-04  0.5365E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   6.000E-03       0.000       0.000
@@ -8692,33 +7069,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   8.000E-03       0.000       0.000
@@ -8804,33 +7154,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-02       0.000       0.000
@@ -8916,33 +7239,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.000E-02       0.000       0.000
@@ -9028,33 +7324,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.000E-02       0.000       0.000
@@ -9140,33 +7409,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-02       0.000       0.000
@@ -9252,33 +7494,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.000E-02       0.000       0.000
@@ -9364,33 +7579,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   7.500E-02       0.000       0.000
@@ -9476,33 +7664,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1000       0.000       0.000
@@ -9588,33 +7749,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1250       0.000       0.000
@@ -9700,33 +7834,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1500       0.000       0.000
@@ -9812,33 +7919,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1750       0.000       0.000
@@ -9924,33 +8004,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2000       0.000       0.000
@@ -10036,33 +8089,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2250       0.000       0.000
@@ -10148,33 +8174,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-     1.000       1.000       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3300      0.3300    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2500       0.000       0.000
@@ -10282,11 +8281,11 @@
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
     0.5400      0.2000E-01  0.6200      0.5391    
- 
+
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
     0.1368      0.2232       990.0       0.000      0.1000E-03
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-05       0.000       0.000
@@ -10372,33 +8371,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6605E-04  0.4653E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.4638    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-03       0.000       0.000
@@ -10484,33 +8456,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6434E-04  0.4782E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.4064    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.000E-03       0.000       0.000
@@ -10596,33 +8541,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6263E-04  0.4910E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.3616    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.000E-03       0.000       0.000
@@ -10708,33 +8626,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.6092E-04  0.5038E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.3256    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-03       0.000       0.000
@@ -10820,33 +8711,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5921E-04  0.5167E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.2961    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.000E-03       0.000       0.000
@@ -10932,33 +8796,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5751E-04  0.5295E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.2714    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   6.000E-03       0.000       0.000
@@ -11044,33 +8881,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5580E-04  0.5424E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.2505    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   7.000E-03       0.000       0.000
@@ -11156,33 +8966,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.2326    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   8.000E-03       0.000       0.000
@@ -11268,33 +9051,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.2035    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.000E-02       0.000       0.000
@@ -11380,33 +9136,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1807    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.200E-02       0.000       0.000
@@ -11492,33 +9221,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1626    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.400E-02       0.000       0.000
@@ -11604,33 +9306,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1477    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.600E-02       0.000       0.000
@@ -11716,33 +9391,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1353    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   1.800E-02       0.000       0.000
@@ -11828,33 +9476,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1248    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.000E-02       0.000       0.000
@@ -11940,33 +9561,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1158    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.200E-02       0.000       0.000
@@ -12052,33 +9646,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1045    
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   2.500E-02       0.000       0.000
@@ -12164,33 +9731,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.8992E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.000E-02       0.000       0.000
@@ -12276,33 +9816,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.7891E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   3.500E-02       0.000       0.000
@@ -12388,33 +9901,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.7033E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   4.000E-02       0.000       0.000
@@ -12500,33 +9986,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.5787E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   5.000E-02       0.000       0.000
@@ -12612,33 +10071,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.4592E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   6.500E-02       0.000       0.000
@@ -12724,33 +10156,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.3831E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04   8.000E-02       0.000       0.000
@@ -12836,33 +10241,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.3169E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1000       0.000       0.000
@@ -12948,33 +10326,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.2647E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1250       0.000       0.000
@@ -13060,33 +10411,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.2309E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1500       0.000       0.000
@@ -13172,33 +10496,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.2077E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.1750       0.000       0.000
@@ -13284,33 +10581,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1909E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2000       0.000       0.000
@@ -13396,33 +10666,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1785E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2250       0.000       0.000
@@ -13508,33 +10751,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- CURVATURE AND ELLIPTIC. PRESCRB, A1,AA/BB:  0.8000E-03  0.5000    
- THE CURVATURES A1,B1 ARE:                   0.8000E-03  0.2814E-03
- BASIC SEMIAXES AA,BB, RATIO                  6.304       12.61      0.5000    
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         1849.       8.915    
- POTENTIAL CONTACT, SCALE:                   -6.934      -13.87       1.100    
- DISCRETISATION MX,MY, DX,DY:                  48    44  0.2889      0.6304    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
- SIMPLIFIED THEORY MATERIAL CONSTANTS
-     FLX1        FLX2        FLX3
-    0.5491E-04  0.5491E-04  0.5491E-04
-
- MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
-     K0_MF       ALFAMF      BETAMF      K_EFF
-    0.5400      0.2000E-01  0.6200      0.1690E-01
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1368      0.2232       990.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2889       1.000E+04      0.2500       0.000       0.000
@@ -13614,15 +10830,15 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       28.2 | 100.0 |       29.4 | 100.0 |
-|Non-Hertzian cases   |      120 |       28.2 | 100.0 |       29.4 | 100.0 |
-|Panag.process        |      120 |       27.6 |  97.9 |       28.4 |  96.4 |
-|Algorithm Norm       |       60 |        0.4 |   1.4 |        0.4 |   1.3 |
-|Algorithm Tang       |      120 |       27.2 |  96.5 |       28.0 |  95.0 |
-|Output quantities    |      120 |        0.6 |   2.0 |        1.0 |   3.4 |
+|Total                |        1 |       24.2 | 100.0 |       25.3 | 100.0 |
+|Non-Hertzian cases   |      120 |       24.2 | 100.0 |       25.3 | 100.0 |
+|Panag.process        |      120 |       23.9 |  98.8 |       24.6 |  97.3 |
+|Algorithm Norm       |       60 |        0.2 |   0.8 |        0.3 |   1.2 |
+|Algorithm Tang       |      120 |       23.7 |  97.9 |       24.3 |  96.1 |
+|Output quantities    |      120 |        0.2 |   1.0 |        0.6 |   2.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       60 |        0.2 |   0.9 |        0.3 |   1.0 |
-|Tang: StedyGS solver |      154 |       26.7 |  94.7 |       27.7 |  94.0 |
+|Norm: ConjGrd solver |       60 |        0.2 |   0.8 |        0.3 |   1.1 |
+|Tang: StedyGS solver |      154 |       23.5 |  97.0 |       24.1 |  95.1 |
 |Tang: Fastsim solver |       60 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |      120 |        0.0 |   0.0 |        0.0 |   0.0 |

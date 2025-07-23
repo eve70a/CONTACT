@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -35,11 +35,11 @@
      BKTEMP      HEATCP      LAMBDA      DENSITY
      0.000       450.0      0.5000E-01  0.7850E-05
      0.000       450.0      0.5000E-01  0.7850E-05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04  -3.333E-02       0.000       0.000
@@ -81,21 +81,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-04
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
-     BKTEMP      HEATCP      LAMBDA      DENSITY
-     0.000       450.0      0.5000E-01  0.7850E-05
-     150.0       450.0      0.5000E-01  0.7850E-05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04       0.000       0.000       0.000
@@ -104,7 +89,7 @@
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      1.000E+05       0.000       0.000       0.000       3.276       0.000
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX      MAX(T1,T2)
-         1.220       0.000       0.000   8.190E-02       770.6       150.0
+         1.220       0.000       0.000   8.190E-02       770.6       75.00
 
  THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
  A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
@@ -137,21 +122,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-04
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
-     BKTEMP      HEATCP      LAMBDA      DENSITY
-     0.000       450.0      0.5000E-01  0.7850E-05
-     150.0       450.0      0.5000E-01  0.7850E-05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04  -3.333E-02       0.000       0.000
@@ -193,21 +163,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-04
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
-
-     BKTEMP      HEATCP      LAMBDA      DENSITY
-     0.000       450.0      0.5000E-01  0.7850E-05
-     150.0       450.0      0.5000E-01  0.7850E-05
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04  -2.000E-03   1.000E-03   2.000E-04
@@ -216,7 +171,7 @@
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      1.000E+05   2.182E+04      -4476.  -4.626E+04       3.491      -1672.
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX      MAX(T1,T2)
-         1.220      0.7274     -0.1492   8.190E-02       770.6       150.0
+         1.220      0.7274     -0.1492   8.190E-02       770.6       90.85
 
  THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
  A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
@@ -238,20 +193,20 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.8 | 100.0 |        0.9 | 100.0 |
-|Non-Hertzian cases   |        4 |        0.8 | 100.0 |        0.9 | 100.0 |
-|Panag.process        |        4 |        0.5 |  67.3 |        0.6 |  68.7 |
-|Algorithm Norm       |        4 |        0.0 |   3.8 |        0.1 |   6.0 |
-|Algorithm Tang       |        4 |        0.5 |  63.5 |        0.5 |  62.7 |
-|Output quantities    |        4 |        0.0 |   1.9 |        0.0 |   3.5 |
+|Total                |        1 |        0.7 | 100.0 |        0.8 | 100.0 |
+|Non-Hertzian cases   |        4 |        0.7 |  97.9 |        0.7 |  99.5 |
+|Panag.process        |        4 |        0.5 |  68.1 |        0.5 |  69.6 |
+|Algorithm Norm       |        4 |        0.0 |   6.4 |        0.0 |   5.5 |
+|Algorithm Tang       |        4 |        0.5 |  61.7 |        0.5 |  64.1 |
+|Output quantities    |        4 |        0.0 |   2.1 |        0.0 |   0.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        4 |        0.0 |   3.8 |        0.0 |   5.6 |
-|Tang: StedyGS solver |        4 |        0.5 |  63.5 |        0.5 |  61.9 |
-|Temperature calc.    |        4 |        0.0 |   1.9 |        0.0 |   0.0 |
+|Norm: ConjGrd solver |        4 |        0.0 |   6.4 |        0.0 |   4.4 |
+|Tang: StedyGS solver |        4 |        0.5 |  61.7 |        0.5 |  63.9 |
+|Temperature calc.    |        4 |        0.0 |   2.1 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   1.1 |
-|Initial state/estim. |        4 |        0.0 |   1.9 |        0.0 |   1.1 |
-|Writing output-files |        4 |        0.2 |  26.9 |        0.2 |  25.7 |
+|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |        4 |        0.2 |  25.5 |        0.2 |  29.3 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

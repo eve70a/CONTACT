@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -533,11 +533,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000E-01   3.000E+04  -2.400E-04       0.000       0.000
@@ -638,17 +638,17 @@ Performance timers:
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
 |Non-Hertzian cases   |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
-|Panag.process        |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
-|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
-|Output quantities    |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Panag.process        |        1 |        0.0 |   0.0 |        0.0 |  50.0 |
+|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 |  50.0 |
+|Algorithm Tang       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Output quantities    |        1 |        0.0 |   0.0 |        0.0 |  44.4 |
 |--------------------------------------------------------------------------|
 |Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
+|Tang: StedyGS solver |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |        1 |        0.0 |   0.0 |        0.0 |   5.6 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

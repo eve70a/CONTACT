@@ -193,7 +193,7 @@ contains
             write(lout, 2104) mater%bktemp(1), mater%heatcp(1), mater%lambda(1), mater%dens(1),         &
                 mater%betapl, mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2)
          endif
- 2103    format (/, 2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, /))
+ 2103    format (/, 2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, :, /))
  2104    format (/, 2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY',5x, 'BETAPL', /,            &
                  2x, 5g12.4, /, 2x, 4g12.4)
 

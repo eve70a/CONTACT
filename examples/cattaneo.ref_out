@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -28,11 +28,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.4200      0.4200       200.0       200.0    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4000      0.4000    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC       CKSI        CETA        CPHI
      1.000           1.000       0.000       0.000       0.000
@@ -116,11 +116,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.4200      0.4200       200.0       200.0    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4000      0.4000    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
      1.000           1.000     -0.8750       0.000       0.000
@@ -409,17 +409,17 @@ Performance timers:
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
 |Non-Hertzian cases   |        2 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Panag.process        |        2 |        0.0 |  50.0 |        0.0 | 100.0 |
-|Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |  21.7 |
-|Algorithm Tang       |        1 |        0.0 |  50.0 |        0.0 |  78.3 |
-|Output quantities    |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Panag.process        |        2 |        0.0 |  50.0 |        0.0 |  11.5 |
+|Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Tang       |        1 |        0.0 |  50.0 |        0.0 |  11.5 |
+|Output quantities    |        2 |        0.0 |   0.0 |        0.0 |  65.4 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        2 |        0.0 |   0.0 |        0.0 |  21.7 |
-|Tang: TangCG solver  |       13 |        0.0 |  50.0 |        0.0 |  78.3 |
+|Norm: ConjGrd solver |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: TangCG solver  |       13 |        0.0 |  50.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |        2 |        0.0 |   0.0 |        0.0 |  11.5 |
 |Initial state/estim. |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Writing output-files |        1 |        0.0 |  50.0 |        0.0 |  11.5 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

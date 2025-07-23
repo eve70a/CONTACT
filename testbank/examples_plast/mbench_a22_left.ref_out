@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -51,6 +51,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    14.000    1435.000      0.0000       0.000
+
  WHEEL PROFILE "../profiles/MBench_S1002_v3.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -83,11 +87,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2002.   1.927E-03       0.000  -6.309E-05
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.000E+04      -2274.       60.66       1812.   6.486E-02      -8.209
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1220     -0.7578   2.021E-02   1.596E-02       338.4
 
  CONTACT STATISTICS
@@ -190,22 +193,22 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.7 | 100.0 |        0.7 | 100.0 |
-|Wheel-rail cases     |        1 |        0.7 | 100.0 |        0.7 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   2.2 |        0.0 |   0.0 |
-|Geometric analysis   |        5 |        0.0 |   0.0 |        0.0 |   0.8 |
-|Panag.process        |        4 |        0.7 |  91.3 |        0.7 |  90.0 |
-|Algorithm Norm       |        4 |        0.0 |   4.3 |        0.0 |   2.5 |
-|Algorithm Tang       |        4 |        0.6 |  87.0 |        0.6 |  87.6 |
-|Output quantities    |        5 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Wheel-rail cases     |        1 |        0.7 | 100.0 |        0.7 |  99.4 |
+|W/r profiles         |        2 |        0.0 |   2.3 |        0.0 |   0.7 |
+|Geometric analysis   |        5 |        0.0 |   0.0 |        0.0 |   1.4 |
+|Panag.process        |        4 |        0.6 |  88.6 |        0.6 |  87.2 |
+|Algorithm Norm       |        4 |        0.0 |   2.3 |        0.0 |   4.7 |
+|Algorithm Tang       |        4 |        0.6 |  86.4 |        0.6 |  82.5 |
+|Output quantities    |        5 |        0.0 |   2.3 |        0.0 |   2.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        4 |        0.0 |   4.3 |        0.0 |   2.1 |
-|Tang: StedyGS solver |        4 |        0.6 |  87.0 |        0.6 |  87.6 |
+|Norm: ConjGrd solver |        4 |        0.0 |   2.3 |        0.0 |   4.4 |
+|Tang: StedyGS solver |        4 |        0.6 |  86.4 |        0.6 |  82.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   2.2 |        0.0 |   0.0 |
-|Contact location     |        5 |        0.0 |   0.0 |        0.0 |   0.8 |
-|Undeformed distance  |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-| - Interp whl_srfc   |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        1 |        0.0 |   2.3 |        0.0 |   2.3 |
+|Contact location     |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Undeformed distance  |        4 |        0.0 |   0.0 |        0.0 |   1.4 |
+| - Interp whl_srfc   |        4 |        0.0 |   0.0 |        0.0 |   0.7 |
+|Influence coeffic.   |        4 |        0.0 |   4.5 |        0.0 |   1.9 |
 |Initial state/estim. |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

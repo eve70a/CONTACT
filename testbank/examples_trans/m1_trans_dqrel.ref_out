@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -42,6 +42,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV
+    -1.000      0.0000      0.0000      0.0000       0.000
+
  WHEEL PROFILE "../profiles/flat_plane.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -77,11 +81,10 @@
      SPINXO      SPINYO
      0.000      0.2695E-11
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          237.0       51.71       0.000       0.000   1.599E-02  -1.123E-02
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.185      0.5454       0.000    0.160000       7.075
 
  CONTACT STATISTICS
@@ -149,21 +152,6 @@
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       4.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.1600       0.000       0.000       0.000
@@ -192,11 +180,10 @@
      SPINXO      SPINYO
      0.000      0.2695E-11
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          237.0       53.14       0.000       0.000   1.607E-02  -6.063E-03
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.185      0.5604       0.000    0.160000       7.075
 
  CONTACT STATISTICS
@@ -264,21 +251,6 @@
  TRANSIENT ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       4.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.1600       0.000       0.000       0.000
@@ -307,11 +279,10 @@
      SPINXO      SPINYO
      0.000      0.2695E-11
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          237.0       54.03       0.000       0.000   1.613E-02  -8.155E-03
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.185      0.5699       0.000    0.160000       7.075
 
  CONTACT STATISTICS
@@ -375,23 +346,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.1 | 100.0 |        0.2 | 100.0 |
-|Wheel-rail cases     |        3 |        0.1 | 100.0 |        0.2 | 100.0 |
-|W/r profiles         |        2 |        0.0 |  14.3 |        0.0 |  11.0 |
-|Geometric analysis   |        3 |        0.0 |   0.0 |        0.0 |   6.5 |
-|Panag.process        |        3 |        0.1 |  57.1 |        0.1 |  46.8 |
-|Algorithm Norm       |        3 |        0.0 |  28.6 |        0.0 |  16.9 |
-|Algorithm Tang       |        3 |        0.0 |  28.6 |        0.0 |  29.9 |
-|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |  23.4 |
+|Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
+|Wheel-rail cases     |        3 |        0.1 | 100.0 |        0.1 | 100.0 |
+|W/r profiles         |        2 |        0.0 |  12.5 |        0.0 |  10.6 |
+|Geometric analysis   |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Panag.process        |        3 |        0.1 |  62.5 |        0.1 |  62.0 |
+|Algorithm Norm       |        3 |        0.0 |  37.5 |        0.1 |  38.0 |
+|Algorithm Tang       |        3 |        0.0 |  25.0 |        0.0 |  23.9 |
+|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   3.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        3 |        0.0 |   0.0 |        0.0 |  10.4 |
-|Tang: TangCG solver  |        3 |        0.0 |  28.6 |        0.0 |  27.3 |
+|Norm: ConjGrd solver |        3 |        0.0 |  25.0 |        0.0 |  27.5 |
+|Tang: TangCG solver  |        3 |        0.0 |  25.0 |        0.0 |  22.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        3 |        0.0 |  14.3 |        0.0 |  11.0 |
-|Contact location     |        3 |        0.0 |   0.0 |        0.0 |   5.2 |
+|Reading input-file   |        3 |        0.0 |  12.5 |        0.0 |  10.6 |
+|Contact location     |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Undeformed distance  |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   1.9 |
+|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -38,11 +38,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN   CETA        CPHI
      1.000           1.000     -0.6570       0.000       0.000
@@ -134,11 +134,7 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      0.000      0.2500           1000.     -0.6570       0.000       0.000
@@ -1105,17 +1101,6 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       1.000       0.000      0.1000E-06
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4013      0.4013    
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      0.000      0.2500           1000.     -0.6570       0.000       0.000
@@ -1208,11 +1193,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN   CETA        CPHI
      1.000           1.000     -0.6570       0.000       0.000
@@ -1300,17 +1285,6 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       1.000       0.000      0.1000E-06
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4013      0.4013    
- 
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN   CETA        CPHI
      1.000           1.000     -0.6570       0.000       0.000
@@ -2275,17 +2249,6 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       1.000       0.000      0.1000E-06
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4013      0.4013    
- 
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN   CETA        CPHI
      1.000           1.000     -0.6570       0.000       0.000
@@ -2378,11 +2341,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN   CETA        CPHI
      1.000           1.000     -0.6570       0.000       0.000
@@ -2470,17 +2433,6 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       1.000       0.000      0.1000E-06
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4013      0.4013    
- 
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN   CETA        CPHI
      1.000           1.000     -0.6570       0.000       0.000
@@ -3445,17 +3397,6 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       1.000       0.000      0.1000E-06
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800       1.000       1.000    
- 
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4013      0.4013    
- 
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN   CETA        CPHI
      1.000           1.000     -0.6570       0.000       0.000
@@ -3524,19 +3465,19 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.9 | 100.0 |        2.4 | 100.0 |
-|Non-Hertzian cases   |      171 |        1.9 | 100.0 |        2.4 | 100.0 |
-|Panag.process        |      171 |        1.7 |  85.5 |        2.0 |  85.3 |
-|Algorithm Norm       |      171 |        0.3 |  17.7 |        0.4 |  18.1 |
-|Algorithm Tang       |      171 |        1.2 |  64.5 |        1.5 |  65.4 |
-|Output quantities    |      171 |        0.1 |   4.0 |        0.1 |   4.2 |
+|Total                |        1 |        2.2 | 100.0 |        2.6 | 100.0 |
+|Non-Hertzian cases   |      171 |        2.2 | 100.0 |        2.6 | 100.0 |
+|Panag.process        |      171 |        2.0 |  89.6 |        2.3 |  85.8 |
+|Algorithm Norm       |      171 |        0.4 |  16.7 |        0.5 |  19.2 |
+|Algorithm Tang       |      171 |        1.6 |  71.5 |        1.7 |  64.4 |
+|Output quantities    |      171 |        0.1 |   3.5 |        0.1 |   4.2 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      171 |        0.2 |  12.9 |        0.4 |  15.3 |
-|Tang: TangCG solver  |      430 |        1.0 |  52.4 |        1.2 |  52.7 |
+|Norm: ConjGrd solver |      171 |        0.2 |  11.1 |        0.3 |  13.2 |
+|Tang: TangCG solver  |      430 |        1.4 |  62.5 |        1.4 |  53.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |      171 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Influence coeffic.   |        4 |        0.0 |   0.8 |        0.0 |   0.0 |
-|Initial state/estim. |      171 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       24 |        0.1 |   6.5 |        0.2 |   7.2 |
+|Reading input-file   |      171 |        0.0 |   0.7 |        0.0 |   0.2 |
+|Influence coeffic.   |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |      171 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Writing output-files |       24 |        0.1 |   3.5 |        0.2 |   7.4 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

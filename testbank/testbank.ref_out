@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -31,11 +31,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC       CKSI        CETA        CPHI
      1.000           1.000   3.040E-03       0.000       0.000
@@ -105,11 +105,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC       CKSI        CETA        CPHI
      1.000           1.000   3.040E-03       0.000       0.000
@@ -179,11 +179,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       200.0       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
      1.000       1.000    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC       CKSI        CETA        CPHI
      1.000           1.000       0.000       0.000       0.000
@@ -324,11 +324,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       200.0       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
      1.000       1.000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      0.000       1.000           1000.      0.9990       0.000       0.000
@@ -450,11 +450,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       200.0       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
      1.000       1.000    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC       CKSI        CETA        CPHI
      1.000           1.000       0.000       0.000       0.000
@@ -572,11 +572,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000       3.000E+04  -2.400E-04       0.000       0.000
@@ -624,11 +624,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1000.  -3.040E-03       0.000       0.000
@@ -722,7 +722,7 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
          1      0.2000      0.2000    
@@ -730,7 +730,7 @@
                       ...
         40      0.5900      0.5900    
         41      0.6000      0.6000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1000.  -3.040E-03       0.000       0.000
@@ -940,11 +940,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.1000      0.2800       1.000      0.8100E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.6000      0.6000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      0.000       1.100           1000.     -0.4718       0.000   1.000E-04
@@ -1038,11 +1038,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
      1.000           1.000     -0.8750       0.000       0.000
@@ -1120,11 +1120,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
      1.000           1.000     -0.8750       0.000       0.000
@@ -1210,11 +1210,11 @@
  MODIFIED FASTSIM SLOPE REDUCTION PARAMETERS
      K0_MF       ALFAMF      BETAMF      K_EFF
      1.000       1.000       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      0.000      0.2000           1000.      0.6000       0.000   1.000E-03
@@ -1317,11 +1317,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      DT          VELOC     FX/FSTAT/FN   CETA        CPHI
      1.000           1.000      0.6570       0.000       0.000
@@ -1428,11 +1428,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      0.000      0.2000           1000.      0.6570       0.000       0.000
@@ -1522,24 +1522,10 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- 3D HERTZIAN GEOMETRY WITH PRESCRIBED NORMAL FORCE
- SEMIAXES PRESCRIBED, AA,BB:                  4.100       4.100    
- THE CURVATURES A1,B1 ARE:                   0.2963E-02  0.2963E-02
- EFFECTIVE RAD.CURV RHO, SEMI-AXIS CP         337.5       4.100    
- POTENTIAL CONTACT, SCALE:                   -4.803      -4.803       1.171    
- DISCRETISATION MX,MY, DX,DY:                  41    41  0.2343      0.2343    
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       1.000       0.000      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800       1.000       1.000    
- 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      0.000      0.2000           1000.      0.6570       0.000       0.000
@@ -1641,11 +1627,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.8000           1000.  -2.124E-03       0.000       0.000
@@ -1745,11 +1731,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800       1.000       1.000    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.4013      0.4013    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      0.000      0.4000           1000.      0.6570       0.000       0.000
@@ -1843,7 +1829,6 @@
     POISS(R)    POISS(W)     GG(R)       GG(W)
     0.2800      0.2800       8.200E+04   8.200E+04
 
-
  DISCRETISATION PARAMETERS
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.2000      0.2000       1.000       90.00       8.000       4.000    
@@ -1854,6 +1839,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    14.000    1435.000      0.0000       0.000
 
  RAIL IRREGULARITY
      DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
@@ -1887,11 +1876,10 @@
      XCP(W)      YCP(W)      ZCP(W)
       0.0000    -52.0219     27.5872
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.098E+04       0.000       0.000       0.000      0.1589       0.000
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1339       0.000       0.000   3.616E-02       3058.
 
  CONTACT STATISTICS
@@ -1938,7 +1926,6 @@
     POISS(R)    POISS(W)     GG(R)       GG(W)
     0.2800      0.2800       8.200E+04   8.200E+04
 
-
  DISCRETISATION PARAMETERS
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.2000      0.2000       1.000       90.00       8.000       4.000    
@@ -1949,6 +1936,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV
+    -1.000    750.0000      0.0000      0.0000       0.000
 
  RAIL IRREGULARITY
      DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
@@ -1982,11 +1973,10 @@
      XCP(W)      YCP(W)      ZCP(W)
       0.3473      9.9461     -0.5319
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.005E+04       0.000       0.000       0.000      0.1418       0.000
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1226       0.000       0.000   3.528E-02       1370.
 
  CONTACT STATISTICS
@@ -2026,7 +2016,7 @@
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
  reading wheel profile "profiles\fr_ol.csv"
       Norm: final element division: C, E=    755   1470  ItCG=    17
-      Tang: final element division: A, S=      0    755  ItGS=     3
+      Tang: final element division: A, S=    755      0  ItGS=     1
 
  WHEEL-ROLLER CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -2059,6 +2049,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV
+    -1.000      0.0000      0.0000      0.0000       0.000
+
  WHEEL PROFILE "profiles/fr_ol.csv"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -2076,7 +2070,7 @@
 
  TOTAL FORCES ON ROLLER
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -79.77      -234.3       9019.      -79.77      -234.3       9019.
+       0.000   1.894E-10       9019.   3.988E-15   1.894E-10       9019.
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2089,108 +2083,107 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000E-01       0.000       1.000       1.000       1.000
-
+     0.000      0.4000E-01       0.000       0.000       0.000       0.000
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-         9019.      -79.77      -234.3      -3014.   7.101E-02  -3.329E-10
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
-        0.1099     -0.1106     -0.3248   1.650E-02       2815.
+         9019.       0.000       0.000       0.000   7.060E-02       0.000
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
+        0.1099       0.000       0.000   1.650E-02       2815.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   2225    755      0    755      1      1
+   2225    755    755      0      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     89   o . . . . . . . . . . . o
     88   . . . . . . . . . . . . .
     87   . . . . . . . . . . . . .
-    86   . . S S S S S S S S S . .
-    85   . S S S S S S S S S S S .
-    84   . S S S S S S S S S S S .
-    83   . . S S S S S S S S S . .
-    82   . . S S S S S S S S S . .
-    81   . . S S S S S S S S S . .
-    80   . . S S S S S S S S S . .
-    79   . . S S S S S S S S S . .
-    78   . . S S S S S S S S S . .
-    77   . . S S S S S S S S S . .
-    76   . . S S S S S S S S S . .
-    75   . . S S S S S S S S S . .
-    74   . . S S S S S S S S S . .
-    73   . . S S S S S S S S S . .
-    72   . . S S S S S S S S S . .
-    71   . . S S S S S S S S S . .
-    70   . . S S S S S S S S S . .
-    69   . . S S S S S S S S S . .
-    68   . . S S S S S S S S S . .
-    67   . . S S S S S S S S S . .
-    66   . . S S S S S S S S S . .
-    65   . . S S S S S S S S S . .
-    64   . . S S S S S S S S S . .
-    63   . . S S S S S S S S S . .
-    62   . . S S S S S S S S S . .
-    61   . . S S S S S S S S S . .
-    60   . . S S S S S S S S S . .
-    59   . . S S S S S S S S S . .
-    58   . . S S S S S S S S S . .
-    57   . . S S S S S S S S S . .
-    56   . . S S S S S S S S S . .
-    55   . . S S S S S S S S S . .
-    54   . . S S S S S S S S S . .
-    53   . . S S S S S S S S S . .
-    52   . . S S S S S S S S S . .
-    51   . . S S S S S S S S S . .
-    50   . . S S S S S S S S S . .
-    49   . . S S S S S S S S S . .
-    48   . . S S S S S S S S S . .
-    47   . . S S S S S S S S S . .
-    46   . . S S S S S S S S S . .
-    45   . . S S S S S S S S S . .
-    44   . . S S S S S S S S S . .
-    43   . . S S S S S S S S S . .
-    42   . . S S S S S S S S S . .
-    41   . . S S S S S S S S S . .
-    40   . . S S S S S S S S S . .
-    39   . . S S S S S S S S S . .
-    38   . . S S S S S S S S S . .
-    37   . . S S S S S S S S S . .
-    36   . . S S S S S S S S S . .
-    35   . . S S S S S S S S S . .
-    34   . . S S S S S S S S S . .
-    33   . . S S S S S S S S S . .
-    32   . . S S S S S S S S S . .
-    31   . . S S S S S S S S S . .
-    30   . . S S S S S S S S S . .
-    29   . . S S S S S S S S S . .
-    28   . . S S S S S S S S S . .
-    27   . . S S S S S S S S S . .
-    26   . . S S S S S S S S S . .
-    25   . . S S S S S S S S S . .
-    24   . . S S S S S S S S S . .
-    23   . . S S S S S S S S S . .
-    22   . . S S S S S S S S S . .
-    21   . . S S S S S S S S S . .
-    20   . . S S S S S S S S S . .
-    19   . . S S S S S S S S S . .
-    18   . . S S S S S S S S S . .
-    17   . . S S S S S S S S S . .
-    16   . . S S S S S S S S S . .
-    15   . . S S S S S S S S S . .
-    14   . . S S S S S S S S S . .
-    13   . . S S S S S S S S S . .
-    12   . . S S S S S S S S S . .
-    11   . . S S S S S S S S S . .
-    10   . . S S S S S S S S S . .
-     9   . . S S S S S S S S S . .
-     8   . . S S S S S S S S S . .
-     7   . . S S S S S S S S S . .
-     6   . S S S S S S S S S S S .
-     5   . S S S S S S S S S S S .
-     4   . . S S S S S S S S S . .
+    86   . . * * * * * * * * * . .
+    85   . * * * * * * * * * * * .
+    84   . * * * * * * * * * * * .
+    83   . . * * * * * * * * * . .
+    82   . . * * * * * * * * * . .
+    81   . . * * * * * * * * * . .
+    80   . . * * * * * * * * * . .
+    79   . . * * * * * * * * * . .
+    78   . . * * * * * * * * * . .
+    77   . . * * * * * * * * * . .
+    76   . . * * * * * * * * * . .
+    75   . . * * * * * * * * * . .
+    74   . . * * * * * * * * * . .
+    73   . . * * * * * * * * * . .
+    72   . . * * * * * * * * * . .
+    71   . . * * * * * * * * * . .
+    70   . . * * * * * * * * * . .
+    69   . . * * * * * * * * * . .
+    68   . . * * * * * * * * * . .
+    67   . . * * * * * * * * * . .
+    66   . . * * * * * * * * * . .
+    65   . . * * * * * * * * * . .
+    64   . . * * * * * * * * * . .
+    63   . . * * * * * * * * * . .
+    62   . . * * * * * * * * * . .
+    61   . . * * * * * * * * * . .
+    60   . . * * * * * * * * * . .
+    59   . . * * * * * * * * * . .
+    58   . . * * * * * * * * * . .
+    57   . . * * * * * * * * * . .
+    56   . . * * * * * * * * * . .
+    55   . . * * * * * * * * * . .
+    54   . . * * * * * * * * * . .
+    53   . . * * * * * * * * * . .
+    52   . . * * * * * * * * * . .
+    51   . . * * * * * * * * * . .
+    50   . . * * * * * * * * * . .
+    49   . . * * * * * * * * * . .
+    48   . . * * * * * * * * * . .
+    47   . . * * * * * * * * * . .
+    46   . . * * * * * * * * * . .
+    45   . . * * * * * * * * * . .
+    44   . . * * * * * * * * * . .
+    43   . . * * * * * * * * * . .
+    42   . . * * * * * * * * * . .
+    41   . . * * * * * * * * * . .
+    40   . . * * * * * * * * * . .
+    39   . . * * * * * * * * * . .
+    38   . . * * * * * * * * * . .
+    37   . . * * * * * * * * * . .
+    36   . . * * * * * * * * * . .
+    35   . . * * * * * * * * * . .
+    34   . . * * * * * * * * * . .
+    33   . . * * * * * * * * * . .
+    32   . . * * * * * * * * * . .
+    31   . . * * * * * * * * * . .
+    30   . . * * * * * * * * * . .
+    29   . . * * * * * * * * * . .
+    28   . . * * * * * * * * * . .
+    27   . . * * * * * * * * * . .
+    26   . . * * * * * * * * * . .
+    25   . . * * * * * * * * * . .
+    24   . . * * * * * * * * * . .
+    23   . . * * * * * * * * * . .
+    22   . . * * * * * * * * * . .
+    21   . . * * * * * * * * * . .
+    20   . . * * * * * * * * * . .
+    19   . . * * * * * * * * * . .
+    18   . . * * * * * * * * * . .
+    17   . . * * * * * * * * * . .
+    16   . . * * * * * * * * * . .
+    15   . . * * * * * * * * * . .
+    14   . . * * * * * * * * * . .
+    13   . . * * * * * * * * * . .
+    12   . . * * * * * * * * * . .
+    11   . . * * * * * * * * * . .
+    10   . . * * * * * * * * * . .
+     9   . . * * * * * * * * * . .
+     8   . . * * * * * * * * * . .
+     7   . . * * * * * * * * * . .
+     6   . * * * * * * * * * * * .
+     5   . * * * * * * * * * * * .
+     4   . . * * * * * * * * * . .
      3   . . . . . . . . . . . . .
      2   . . . . . . . . . . . . .
      1   o . . . . . . . . . . . o
@@ -2215,7 +2208,6 @@
     POISS(R)    POISS(W)     GG(R)       GG(W)
     0.2800      0.2800       8.200E+04   8.200E+04
 
-
  DISCRETISATION PARAMETERS
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.1000      0.1000       1.000       90.00       8.000       4.000    
@@ -2226,6 +2218,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV
+    -1.000      0.0000      0.0000      0.0000       0.000
 
  WHEEL PROFILE "profiles/final_clean.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
@@ -2255,11 +2251,10 @@
      XCP(W)      YCP(W)      ZCP(W)
       0.0000      7.3254     -0.0130
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          297.2       0.000       0.000       0.000   1.377E-03       0.000
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      3.624E-03       0.000       0.000   1.432E-02       166.8
 
  CONTACT STATISTICS
@@ -2370,6 +2365,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
+
  WHEEL PROFILE "profiles/avg_wheel.whl"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0        10.0000
@@ -2406,11 +2405,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000       1.436E+04   7.973E-03  -9.760E-03  -1.413E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.140E+05  -3.717E+04   5.545E+04   4.105E+04       8.276  -1.262E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.390     -0.5435      0.8109    0.128573       1935.
 
  CONTACT STATISTICS
@@ -2460,28 +2458,16 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.6000      0.6000    
-   -0.3491      0.6000      0.6000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.5000      0.5000       1.000       90.00       8.000       4.000    
-
  RAIL PROFILE "profiles/avg_low2.ban"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       1           0           0        10.0000
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -2512,11 +2498,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000       1.422E+04  -1.234E-02  -7.671E-03   1.188E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.254E+04   3.751E+04   2.202E+04      -659.3       3.516      -8734.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.8847      0.8618      0.5060   8.463E-02       1111.
 
  CONTACT STATISTICS
@@ -2628,11 +2613,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.1000      0.2800       1.000      0.8100E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.6000      0.6000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000       2.200           1000.   1.000E-04       0.000   1.000E-05
@@ -2763,6 +2748,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
+
  WHEEL PROFILE "profiles/whl_left_iter288.whl"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0        10.0000
@@ -2799,11 +2788,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000       1.325E+04   4.253E-02  -1.403E-02  -2.051E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.427E+05  -7.899E+04   2.190E+04   5.660E+05       56.95  -6.393E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          5.399     -0.8619      0.2389    0.301986       7533.
 
  CONTACT STATISTICS
@@ -2881,6 +2869,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       0.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
+
  WHEEL PROFILE "profiles/whl_left_iter288.whl"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0        10.0000
@@ -2917,11 +2909,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000       1.325E+04   4.254E-02  -1.423E-02  -2.032E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.059E+05  -7.298E+04   2.008E+04   4.955E+05       49.33  -5.822E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          4.951     -0.8685      0.2389    0.285946       7280.
 
  CONTACT STATISTICS
@@ -2989,6 +2980,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
+
  WHEEL PROFILE "profiles/whl_left_iter795.whl"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0        10.0000
@@ -3025,11 +3020,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000       1.851E+04   6.817E-02   9.695E-04  -7.836E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      2.053E+05  -6.337E+04      -125.0   9.076E+04       25.38  -8.106E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          2.504     -0.9970  -1.966E-03    0.271713   1.458E+04
 
  CONTACT STATISTICS
@@ -3086,6 +3080,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV
+    -1.000    717.5600      0.0000      0.0000       0.000
+
  WHEEL PROFILE "profiles/Car7813_0001r.whl"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0        10.0000
@@ -3122,11 +3120,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000           9345.   1.608E-02  -8.124E-02  -2.258E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          5383.      -348.7       1764.       351.7   3.613E-02      -1401.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      6.565E-02     -0.1939      0.9809   1.461E-02       1182.
 
  CONTACT STATISTICS
@@ -3157,22 +3154,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED POSITION, FULL SOLUTION
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.3340      0.3340    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.5000      0.5000       1.000       3.142       8.000       4.000    
 
  WHEEL PROFILE "profiles/Car7216_0001r.whl"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
@@ -3210,11 +3191,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000           5261.   3.262E-03  -1.350E-02   1.093E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.386E+05  -1.120E+04   4.488E+04      -6168.       8.212      -3324.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.691     -0.2420      0.9694    0.131645       1429.
 
  CONTACT STATISTICS
@@ -3272,11 +3252,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000           5296.   1.577E-02     -0.1260  -2.290E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.194E+05      -5331.   3.949E+04   8.732E+04       5.895  -2.789E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.456     -0.1337      0.9901    0.111759       4848.
 
  CONTACT STATISTICS
@@ -3324,22 +3303,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.3340      0.3340    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.5000      0.5000       1.000       3.142       8.000       4.000    
-
  WHEEL PROFILE "profiles/Car7358_0001r.whl"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0        10.0000
@@ -3376,11 +3339,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.5000           2937.   3.329E-02  -6.640E-02  -2.229E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.767E+04  -1.174E+04   2.297E+04   2.694E+04       3.504      -5812.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9472     -0.4524      0.8856   9.863E-02       5816.
 
  CONTACT STATISTICS
@@ -3438,6 +3400,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
+
  WHEEL PROFILE "profiles/worn_high_mileage.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0           0           0         0.0000
@@ -3474,11 +3440,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.463E+04  -5.063E-02   4.883E-03   1.356E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      2.758E+04       9608.      -929.3      -671.7      0.4012      -7162.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.3363      0.9953  -9.627E-02   3.221E-02       519.8
 
  CONTACT STATISTICS
@@ -3554,11 +3519,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.475E+04  -3.413E-02   6.068E-03   1.325E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.850E+04   1.529E+04      -2895.      -7119.       3.161      -8077.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9574      0.9737     -0.1844   9.677E-02       1664.
 
  CONTACT STATISTICS
@@ -3608,11 +3572,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.505E+04   7.150E-03   1.725E-02   2.036E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.198E+05  -1.189E+04  -1.713E+04  -6.453E+04       5.174      -7724.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.461     -0.4961     -0.7147    0.104893       1860.
 
  CONTACT STATISTICS
@@ -3656,29 +3619,9 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.3500      0.3500    
-
  DISCRETISATION PARAMETERS
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       1.571       10.00       6.000    
-
- WHEEL-SET POSITION AND VELOCITY
-     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       14.85      1.1700  -1.300E-03   5.000E-03       0.000
-
-     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-     1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
-
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
@@ -3701,11 +3644,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.463E+04  -5.063E-02   4.883E-03   1.356E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      2.758E+04       9608.      -929.3      -671.7      0.4012      -7162.
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.3363      0.9953  -9.627E-02   3.221E-02       519.8
 
  CONTACT STATISTICS
@@ -3781,11 +3723,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.499E+04  -1.834E-03   1.537E-02   1.976E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.949E+05       4691.  -1.935E+04  -3.791E+05       9.591  -1.581E+04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          2.377      0.1203     -0.4964    0.117189       2443.
 
  CONTACT STATISTICS
@@ -3878,29 +3819,9 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.3500      0.3500    
-
  DISCRETISATION PARAMETERS
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.4000      0.4000       1.000       1.571       30.00       20.00    
-
- WHEEL-SET POSITION AND VELOCITY
-     S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       14.85      1.1700  -1.300E-03   5.000E-03       0.000
-
-     VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
-     1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
-
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
@@ -3931,12 +3852,11 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.500E+04  -4.336E-03   1.403E-02   1.117E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.654E+05       6803.  -5.116E+04  -2.127E+05       7.462  -1.721E+04
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         2.017   4.114E-02     -0.3094    0.105082       1820.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.834E+05   3.709E-02  -9.825E-02    0.105082       1820.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -4292,50 +4212,52 @@
  Case    36
          0, NR,  zshift, Fztot:      -1.9499  -4.038E+04, dFz/dz:       0.000
          1, NR,  zshift, Fztot:      -1.4255   2.281E+04, dFz/dz:   1.205E+05
-         2, NR,  zshift, Fztot:      -1.4049   2.636E+04, dFz/dz:   1.722E+05
-         3, NR,  zshift, Fztot:      -1.3856   2.973E+04, dFz/dz:   1.744E+05
-         4, NR,  zshift, Fztot:      -1.3574   3.473E+04, dFz/dz:   1.775E+05
+         2, NR,  zshift, Fztot:      -1.4076   2.591E+04, dFz/dz:   1.721E+05
+         3, NR,  zshift, Fztot:      -1.3860   2.967E+04, dFz/dz:   1.742E+05
+         4, NR,  zshift, Fztot:      -1.3578   3.467E+04, dFz/dz:   1.774E+05
          5, NR,  zshift, Fztot:      -1.3841   3.000E+04, dFz/dz:   1.751E+05
-         6, NR,  zshift, Fztot:      -1.3841   3.000E+04, dFz/dz:   1.709E+05
+         6, NR,  zshift, Fztot:      -1.3841   3.000E+04, dFz/dz:   1.722E+05
      0, BR,  yshift, Fytot:       0.0000   1.643E+05, dFy/dy:       0.000,  1 patches
-         0, NR,  zshift, Fztot:       1.1552      -9332., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.1986   3.152E+04, dFz/dz:   9.405E+05
-         2, NR,  zshift, Fztot:       1.1975   3.005E+04, dFz/dz:   1.341E+06
-         3, NR,  zshift, Fztot:       1.1975   3.000E+04, dFz/dz:   1.336E+06
-     1, BR,  yshift, Fytot:      -1.0000      -9139., dFy/dy:   1.735E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.1665  -1.922E+04, dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       0.2767      -8796., dFz/dz:   9.462E+04
-         2, NR,  zshift, Fztot:       0.4893   3.428E+04, dFz/dz:   2.026E+05
-         3, NR,  zshift, Fztot:       0.4681   2.926E+04, dFz/dz:   2.376E+05
-         4, NR,  zshift, Fztot:       0.4713   2.999E+04, dFz/dz:   2.358E+05
-         5, NR,  zshift, Fztot:       0.4713   3.000E+04, dFz/dz:   2.363E+05
-     2, BR,  yshift, Fytot:      -0.5000   9.262E+04, dFy/dy:   2.035E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.8212  -1.267E+04, dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0829   2.668E+04, dFz/dz:   1.504E+05
-         2, NR,  zshift, Fztot:       1.0967   3.408E+04, dFz/dz:   5.368E+05
-         3, NR,  zshift, Fztot:       1.0891   2.986E+04, dFz/dz:   5.135E+05
-         4, NR,  zshift, Fztot:       1.0893   3.000E+04, dFz/dz:   5.296E+05
-         5, NR,  zshift, Fztot:       1.0893   3.000E+04, dFz/dz:   5.292E+05
-     3, BR,  yshift, Fytot:      -0.7016   6.730E+04, dFy/dy:   1.256E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.7975      -9991., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0823   3.219E+04, dFz/dz:   1.482E+05
-         2, NR,  zshift, Fztot:       1.0727   2.759E+04, dFz/dz:   4.818E+05
-         3, NR,  zshift, Fztot:       1.0777   2.992E+04, dFz/dz:   5.003E+05
-         4, NR,  zshift, Fztot:       1.0779   3.000E+04, dFz/dz:   4.862E+05
-         5, NR,  zshift, Fztot:       1.0779   3.000E+04, dFz/dz:   4.861E+05
-     4, BR,  yshift, Fytot:      -0.6942   7.141E+04, dFy/dy:   5.548E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.8159  -1.003E+04, dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0834   2.823E+04, dFz/dz:   1.430E+05
-         2, NR,  zshift, Fztot:       1.0911   3.228E+04, dFz/dz:   5.233E+05
-         3, NR,  zshift, Fztot:       1.0868   2.997E+04, dFz/dz:   5.135E+05
-         4, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   5.264E+05
-         5, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   5.248E+05
-     5, BR,  yshift, Fytot:      -0.6999   6.824E+04, dFy/dy:   5.626E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.8159     -10000., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0868   2.999E+04, dFz/dz:   1.476E+05
-         2, NR,  zshift, Fztot:       1.0869   3.001E+04, dFz/dz:   5.262E+05
-         3, NR,  zshift, Fztot:       1.0869   3.000E+04, dFz/dz:   5.263E+05
-     6, BR,  yshift, Fytot:      -0.7000   6.823E+04, dFy/dy:   5.644E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.9769  -1.112E+04, dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.1444   2.582E+04, dFz/dz:   2.205E+05
+         2, NR,  zshift, Fztot:       1.1548   3.731E+04, dFz/dz:   1.104E+06
+         3, NR,  zshift, Fztot:       1.1481   2.953E+04, dFz/dz:   9.805E+05
+         4, NR,  zshift, Fztot:       1.1486   2.999E+04, dFz/dz:   1.017E+06
+         5, NR,  zshift, Fztot:       1.1486   3.000E+04, dFz/dz:   1.120E+06
+     1, BR,  yshift, Fytot:      -0.7500   3.865E+04, dFy/dy:   1.676E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.4060  -1.682E+04, dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       0.5173      -6291., dFz/dz:   9.469E+04
+         2, NR,  zshift, Fztot:       0.7156   3.030E+04, dFz/dz:   1.845E+05
+         3, NR,  zshift, Fztot:       0.7140   2.993E+04, dFz/dz:   2.266E+05
+         4, NR,  zshift, Fztot:       0.7143   3.000E+04, dFz/dz:   2.265E+05
+         5, NR,  zshift, Fztot:       0.7143   3.000E+04, dFz/dz:   2.144E+05
+     2, BR,  yshift, Fytot:      -0.5735   8.616E+04, dFy/dy:   2.692E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.8257  -1.263E+04, dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0849   2.663E+04, dFz/dz:   1.514E+05
+         2, NR,  zshift, Fztot:       1.1112   4.197E+04, dFz/dz:   5.824E+05
+         3, NR,  zshift, Fztot:       1.0907   2.964E+04, dFz/dz:   5.202E+05
+         4, NR,  zshift, Fztot:       1.0914   3.000E+04, dFz/dz:   5.344E+05
+         5, NR,  zshift, Fztot:       1.0914   3.000E+04, dFz/dz:   5.379E+05
+     3, BR,  yshift, Fytot:      -0.7030   6.650E+04, dFy/dy:   1.518E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.7893      -9970., dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0805   3.337E+04, dFz/dz:   1.488E+05
+         2, NR,  zshift, Fztot:       1.0650   2.640E+04, dFz/dz:   4.503E+05
+         3, NR,  zshift, Fztot:       1.0730   2.974E+04, dFz/dz:   4.854E+05
+         4, NR,  zshift, Fztot:       1.0736   2.998E+04, dFz/dz:   4.562E+05
+         5, NR,  zshift, Fztot:       1.0736   3.000E+04, dFz/dz:   4.582E+05
+     4, BR,  yshift, Fytot:      -0.6916   7.278E+04, dFy/dy:   5.516E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.8156  -1.004E+04, dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0815   2.736E+04, dFz/dz:   1.407E+05
+         2, NR,  zshift, Fztot:       1.0936   3.379E+04, dFz/dz:   5.282E+05
+         3, NR,  zshift, Fztot:       1.0865   2.990E+04, dFz/dz:   5.072E+05
+         4, NR,  zshift, Fztot:       1.0867   3.000E+04, dFz/dz:   5.224E+05
+         5, NR,  zshift, Fztot:       1.0867   3.000E+04, dFz/dz:   5.246E+05
+     5, BR,  yshift, Fytot:      -0.6999   6.827E+04, dFy/dy:   5.642E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.8159      -9987., dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0867   2.998E+04, dFz/dz:   1.475E+05
+         2, NR,  zshift, Fztot:       1.0868   3.003E+04, dFz/dz:   5.264E+05
+         3, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   5.264E+05
+     6, BR,  yshift, Fytot:      -0.6999   6.823E+04, dFy/dy:   5.640E+05,  1 patches
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -4346,29 +4268,13 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.3500      0.3500    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       30.00       20.00    
-
  MASSLESS RAIL DEFLECTION
      KY_RAIL     DY_DEFL     FY_RAIL     KZ_RAIL     DZ_DEFL     FZ_RAIL
-    10000.0000      0.7000  -6.823E+04  10000.0000      1.0000  -3.000E+04
+    10000.0000      0.6999  -6.823E+04  10000.0000      0.9987  -3.000E+04
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       15.55      2.0868  -1.300E-03   5.000E-03       0.000
+         0.000       15.55      2.0855  -1.300E-03   5.000E-03       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
@@ -4376,20 +4282,20 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -6750.   7.523E+04   4.000E+04      -6374.   7.521E+04   4.010E+04
+      -6756.   7.523E+04   3.999E+04      -6380.   7.521E+04   4.008E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.1281    715.4150     27.8762     -1.2681    -34.4493     26.8762
+      4.1283    715.4147     27.8759     -1.2681    -34.4496     26.8771
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.6243     25.5243     26.6988
+      7.6245     25.5240     26.6998
 
  Actual contact on columns iy = [  5, 68] (my= 72), sc = [ -2.600, 23.000]
- Reference contact angle delttr = -72.66 deg, range = [ -71.83, -31.34] deg
- Total moments Mxp =     43545.7, Msp =     33739.4, Mnp =    -35588.3 N.mm
+ Reference contact angle delttr = -72.66 deg, range = [ -71.83, -31.35] deg
+ Total moments Mxp =     43253.4, Msp =     33655.6, Mnp =    -35579.7 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -4401,14 +4307,13 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.500E+04   7.647E-03   1.710E-02   1.961E-03
-
+     0.000      0.4000       1.500E+04   7.649E-03   1.710E-02   1.962E-03
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     8.373E+04      -6750.  -1.575E+04  -3.559E+04       2.689      -5631.
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.021  -8.061E-02     -0.1881   8.000E-02       1612.
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     8.373E+04      -6756.  -1.574E+04  -3.558E+04       2.689      -5629.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     8.526E+04  -7.924E-02     -0.1393   8.000E-02       1612.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -4417,50 +4322,46 @@
    5904    754      0    754      1      1
 
  Case    37
-         0, NR,  zshift, Fztot:       0.8127     -10000., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0884   3.160E+04, dFz/dz:   1.509E+05
-         2, NR,  zshift, Fztot:       1.0817   2.811E+04, dFz/dz:   5.157E+05
-         3, NR,  zshift, Fztot:       1.0853   2.997E+04, dFz/dz:   5.256E+05
-         4, NR,  zshift, Fztot:       1.0854   3.000E+04, dFz/dz:   5.152E+05
-     0, BR,  yshift, Fytot:      -0.7000   6.881E+04, dFy/dy:       0.000,  1 patches
-         0, NR,  zshift, Fztot:       0.8447  -1.244E+04, dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0923   2.590E+04, dFz/dz:   1.548E+05
-         2, NR,  zshift, Fztot:       1.1054   3.325E+04, dFz/dz:   5.640E+05
-         3, NR,  zshift, Fztot:       1.0996   2.984E+04, dFz/dz:   5.919E+05
-         4, NR,  zshift, Fztot:       1.0999   3.000E+04, dFz/dz:   5.784E+05
-         5, NR,  zshift, Fztot:       1.0999   3.000E+04, dFz/dz:   5.225E+05
-     1, BR,  yshift, Fytot:      -0.7100   6.303E+04, dFy/dy:   5.787E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.8287      -9885., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0951   3.133E+04, dFz/dz:   1.547E+05
-         2, NR,  zshift, Fztot:       1.0897   2.841E+04, dFz/dz:   5.377E+05
-         3, NR,  zshift, Fztot:       1.0926   2.999E+04, dFz/dz:   5.431E+05
-         4, NR,  zshift, Fztot:       1.0927   3.000E+04, dFz/dz:   5.402E+05
-         5, NR,  zshift, Fztot:       1.0927   3.000E+04, dFz/dz:   5.355E+05
-     2, BR,  yshift, Fytot:      -0.7050   6.589E+04, dFy/dy:   5.853E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.8165      -9910., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0890   3.108E+04, dFz/dz:   1.504E+05
-         2, NR,  zshift, Fztot:       1.0844   2.870E+04, dFz/dz:   5.215E+05
-         3, NR,  zshift, Fztot:       1.0869   2.999E+04, dFz/dz:   5.274E+05
-         4, NR,  zshift, Fztot:       1.0870   3.000E+04, dFz/dz:   5.268E+05
-     3, BR,  yshift, Fytot:      -0.7011   6.805E+04, dFy/dy:   6.516E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.8161      -9930., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0868   3.003E+04, dFz/dz:   1.476E+05
-         2, NR,  zshift, Fztot:       1.0867   2.996E+04, dFz/dz:   5.246E+05
-         3, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   5.266E+05
-         4, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   5.300E+05
-     4, BR,  yshift, Fytot:      -0.7010   6.812E+04, dFy/dy:   5.645E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.8160      -9931., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0868   3.001E+04, dFz/dz:   1.475E+05
-         2, NR,  zshift, Fztot:       1.0867   2.999E+04, dFz/dz:   5.249E+05
-         3, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   5.256E+05
-     5, BR,  yshift, Fytot:      -0.7010   6.813E+04, dFy/dy:   5.640E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.8160      -9931., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   1.475E+05
-         2, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   5.236E+05
-     6, BR,  yshift, Fytot:      -0.7010   6.813E+04, dFy/dy:   2.332E+05,  1 patches
-         0, NR,  zshift, Fztot:       0.8160      -9931., dFz/dz:       0.000
-         1, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   1.475E+05
-     7, BR,  yshift, Fytot:      -0.7010   6.813E+04, dFy/dy:   8.788E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.8127      -9987., dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0897   3.229E+04, dFz/dz:   1.526E+05
+         2, NR,  zshift, Fztot:       1.0794   2.705E+04, dFz/dz:   5.117E+05
+         3, NR,  zshift, Fztot:       1.0852   2.993E+04, dFz/dz:   5.271E+05
+         4, NR,  zshift, Fztot:       1.0853   3.000E+04, dFz/dz:   5.139E+05
+     0, BR,  yshift, Fytot:      -0.6999   6.882E+04, dFy/dy:       0.000,  1 patches
+         0, NR,  zshift, Fztot:       0.8827  -1.206E+04, dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.1096   2.635E+04, dFz/dz:   1.693E+05
+         2, NR,  zshift, Fztot:       1.1340   4.208E+04, dFz/dz:   6.454E+05
+         3, NR,  zshift, Fztot:       1.1152   2.974E+04, dFz/dz:   6.002E+05
+         4, NR,  zshift, Fztot:       1.1157   3.000E+04, dFz/dz:   6.232E+05
+         5, NR,  zshift, Fztot:       1.1157   3.000E+04, dFz/dz:   5.982E+05
+     1, BR,  yshift, Fytot:      -0.7218   5.623E+04, dFy/dy:   5.762E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.8165      -9727., dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0961   3.515E+04, dFz/dz:   1.605E+05
+         2, NR,  zshift, Fztot:       1.0737   2.378E+04, dFz/dz:   5.072E+05
+         3, NR,  zshift, Fztot:       1.0859   2.956E+04, dFz/dz:   5.505E+05
+         4, NR,  zshift, Fztot:       1.0867   2.998E+04, dFz/dz:   5.194E+05
+         5, NR,  zshift, Fztot:       1.0868   3.000E+04, dFz/dz:   5.217E+05
+     2, BR,  yshift, Fytot:      -0.7011   6.792E+04, dFy/dy:   7.480E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.8156      -9821., dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0865   3.008E+04, dFz/dz:   1.473E+05
+         2, NR,  zshift, Fztot:       1.0861   2.989E+04, dFz/dz:   5.205E+05
+         3, NR,  zshift, Fztot:       1.0864   3.000E+04, dFz/dz:   5.217E+05
+         4, NR,  zshift, Fztot:       1.0864   3.000E+04, dFz/dz:   5.175E+05
+     3, BR,  yshift, Fytot:      -0.7009   6.808E+04, dFy/dy:   5.628E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.8154      -9822., dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0863   3.002E+04, dFz/dz:   1.471E+05
+         2, NR,  zshift, Fztot:       1.0862   2.997E+04, dFz/dz:   5.194E+05
+         3, NR,  zshift, Fztot:       1.0862   3.000E+04, dFz/dz:   5.192E+05
+     4, BR,  yshift, Fytot:      -0.7008   6.813E+04, dFy/dy:   5.630E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.8153      -9823., dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0862   3.000E+04, dFz/dz:   1.470E+05
+         2, NR,  zshift, Fztot:       1.0862   3.000E+04, dFz/dz:   5.193E+05
+         3, NR,  zshift, Fztot:       1.0862   3.000E+04, dFz/dz:   5.192E+05
+     5, BR,  yshift, Fytot:      -0.7008   6.813E+04, dFy/dy:   5.613E+05,  1 patches
+         0, NR,  zshift, Fztot:       0.8153      -9823., dFz/dz:       0.000
+         1, NR,  zshift, Fztot:       1.0862   3.000E+04, dFz/dz:   1.470E+05
+         2, NR,  zshift, Fztot:       1.0862   3.000E+04, dFz/dz:   4.990E+05
+     6, BR,  yshift, Fytot:      -0.7008   6.813E+04, dFy/dy:   1.684E+05,  1 patches
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -4471,29 +4372,13 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.3500      0.3500    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       30.00       20.00    
-
  MASSLESS RAIL DEFLECTION
      KY_RAIL     DY_DEFL     FY_RAIL     KZ_RAIL     DZ_DEFL     FZ_RAIL
-    10000.0000      0.7010  -6.813E+04  10000.0000      0.9931  -3.000E+04
+    10000.0000      0.7008  -6.813E+04  10000.0000      0.9823  -3.000E+04
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000       15.55      2.0799  -1.300E-03   5.000E-03       0.000
+         0.000       15.55      2.0685  -1.300E-03   5.000E-03       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
      1.500E+04       0.000       0.000       0.000       0.000 -32.1000000
@@ -4501,45 +4386,44 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-      -6753.   7.514E+04   3.993E+04      -6377.   7.512E+04   4.003E+04
+      -6799.   7.514E+04   3.982E+04      -6423.   7.512E+04   3.992E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.1284    715.4152     27.8722     -1.2681    -34.4501     26.8791
+      4.1308    715.4126     27.8689     -1.2684    -34.4525     26.8867
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.6246     25.5235     26.7018
+      7.6270     25.5209     26.7099
 
  Actual contact on columns iy = [  5, 68] (my= 72), sc = [ -2.600, 23.000]
- Reference contact angle delttr = -72.66 deg, range = [ -71.83, -31.35] deg
- Total moments Mxp =     43024.2, Msp =     33537.5, Mnp =    -35504.2 N.mm
+ Reference contact angle delttr = -72.67 deg, range = [ -71.82, -31.37] deg
+ Total moments Mxp =     40536.6, Msp =     32827.3, Mnp =    -35435.1 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
          1      0.2000      0.2000    
          2      0.2000      0.2000    
                       ...
-        71      0.2235      0.2235    
-        72      0.2362      0.2362    
+        71      0.2233      0.2233    
+        72      0.2360      0.2360    
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.500E+04   7.653E-03   1.710E-02   1.962E-03
-
+     0.000      0.4000       1.500E+04   7.671E-03   1.710E-02   1.962E-03
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     8.363E+04      -6753.  -1.572E+04  -3.550E+04       2.684      -5621.
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.020  -8.075E-02     -0.1880   7.994E-02       1611.
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     8.359E+04      -6799.  -1.564E+04  -3.544E+04       2.686      -5609.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     8.507E+04  -7.992E-02     -0.1396   7.995E-02       1611.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   5904    752      0    752      1      1
+   5904    750      0    750      1      1
 
  Case    38
  reading rail  profile "profiles\site_b_hr.prr"
@@ -4577,6 +4461,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
 
  WHEEL PROFILE "profiles\worn_high_mileage.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
@@ -4617,11 +4505,10 @@
      SPINXO      SPINYO
     -3.123      -3.672    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.274E+05   2.579E+04      -3526.   6.000E+04       4.122  -1.852E-02
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.554      0.5783  -7.907E-02   7.715E-02       1701.
 
  CONTACT STATISTICS
@@ -4766,11 +4653,10 @@
      SPINXO      SPINYO
      4.076      -50.55    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4562.      -725.2      -536.5  -3.916E+04   2.348E-02  -8.378E-03
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.563E-02     -0.7949     -0.5880   1.233E-02       640.2
 
  CONTACT STATISTICS
@@ -4807,22 +4693,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.3500      0.3500    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
         0.4000       14.74      1.2110  -1.300E-03   5.000E-03       0.000
@@ -4855,11 +4725,10 @@
      SPINXO      SPINYO
     -3.154       5.372    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      7.923E+04   2.018E+04      -2319.  -1.027E+05       2.298  -4.799E-03
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.9663      0.7278  -8.362E-02   6.681E-02       807.5
 
  CONTACT STATISTICS
@@ -4955,11 +4824,10 @@
      SPINXO      SPINYO
     -1.655      -26.95    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      4.797E+04       5919.      -1475.   1.594E+05       1.449  -5.546E-04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.5850      0.3525  -8.787E-02   7.538E-02       1648.
 
  CONTACT STATISTICS
@@ -5008,11 +4876,10 @@
      SPINXO      SPINYO
      4.476      -50.56    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          4392.      -687.3      -522.7  -3.734E+04   2.204E-02  -1.644E-04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      5.356E-02     -0.7824     -0.5951   1.202E-02       633.5
 
  CONTACT STATISTICS
@@ -5042,32 +4909,32 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        3.5 | 100.0 |        4.0 | 100.0 |
-|Wheel-rail cases     |       19 |        2.9 |  84.2 |        3.4 |  84.5 |
-|Non-Hertzian cases   |       20 |        0.5 |  15.8 |        0.6 |  15.2 |
+|Total                |        1 |        2.9 | 100.0 |        3.2 | 100.0 |
+|Wheel-rail cases     |       19 |        2.4 |  81.6 |        2.5 |  80.1 |
+|Non-Hertzian cases   |       20 |        0.5 |  18.4 |        0.6 |  19.8 |
 |Subsurface points    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|W/r profiles         |       25 |        0.1 |   2.3 |        0.4 |   9.3 |
-|Geometric analysis   |      119 |        0.4 |  10.4 |        0.3 |   8.7 |
-|Panag.process        |      133 |        2.6 |  75.7 |        2.6 |  66.5 |
-|Algorithm Norm       |      174 |        0.8 |  24.3 |        0.9 |  21.5 |
-|Algorithm Tang       |      165 |        1.8 |  51.4 |        1.8 |  44.5 |
-|Output quantities    |      152 |        0.2 |   5.4 |        0.2 |   5.9 |
+|W/r profiles         |       25 |        0.0 |   1.1 |        0.1 |   2.3 |
+|Geometric analysis   |      119 |        0.2 |   8.6 |        0.3 |   8.4 |
+|Panag.process        |      133 |        2.2 |  75.7 |        2.2 |  69.3 |
+|Algorithm Norm       |      174 |        0.6 |  19.5 |        0.6 |  20.2 |
+|Algorithm Tang       |      165 |        1.6 |  54.6 |        1.5 |  48.4 |
+|Output quantities    |      152 |        0.2 |   7.6 |        0.3 |  10.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      174 |        0.6 |  16.2 |        0.6 |  14.0 |
-|Tang: TangCG solver  |       81 |        0.2 |   7.2 |        0.2 |   4.6 |
-|Tang: ConvxGS solver |        5 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Tang: StedyGS solver |      131 |        1.5 |  44.1 |        1.5 |  37.5 |
+|Norm: ConjGrd solver |      174 |        0.4 |  13.5 |        0.4 |  13.9 |
+|Tang: TangCG solver  |       81 |        0.2 |   6.5 |        0.2 |   6.1 |
+|Tang: ConvxGS solver |        5 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Tang: StedyGS solver |      131 |        1.3 |  44.9 |        1.3 |  39.7 |
 |Tang: Fastsim solver |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       39 |        0.1 |   2.3 |        0.4 |   9.3 |
-|Contact location     |      119 |        0.1 |   2.7 |        0.1 |   2.8 |
-| - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Reading input-file   |       39 |        0.0 |   1.1 |        0.1 |   2.3 |
+|Contact location     |      119 |        0.1 |   2.7 |        0.1 |   2.5 |
+| - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Other calc.       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Locate interpen   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |      113 |        0.2 |   7.2 |        0.2 |   5.1 |
-| - Interp whl_srfc   |      113 |        0.2 |   5.9 |        0.2 |   3.9 |
-|Influence coeffic.   |       74 |        0.1 |   2.3 |        0.1 |   3.0 |
-|Initial state/estim. |      133 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Undeformed distance  |      113 |        0.2 |   5.4 |        0.2 |   5.2 |
+| - Interp whl_srfc   |      113 |        0.1 |   3.8 |        0.1 |   4.2 |
+|Influence coeffic.   |       74 |        0.1 |   2.7 |        0.2 |   4.8 |
+|Initial state/estim. |      133 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.3 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -50,11 +50,11 @@
 
      FG(1)       FG(2)       TC(1)       TC(2)       VT(1)       VT(2)
      1.000       1.000           0.000       0.000       0.000       0.000
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
      0.000      0.1600           1000.     -0.6000       0.000       0.000
@@ -127,11 +127,11 @@
 
      FG(1)       FG(2)       TC(1)       TC(2)       VT(1)       VT(2)
      1.000       1.000       9.000E-03   9.000E-03       9.000       9.000
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
      0.000      0.1600           1000.     -0.6000       0.000       0.000
@@ -206,11 +206,11 @@
 
      FG(1)       FG(2)       TC(1)       TC(2)       VT(1)       VT(2)
      1.000       1.000       4.500E-02   4.500E-02       45.00       45.00
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
      0.000      0.1600           1000.     -0.6000       0.000       0.000
@@ -285,11 +285,11 @@
 
      FG(1)       FG(2)       TC(1)       TC(2)       VT(1)       VT(2)
      1.000       1.000           2.000       2.000       2000.       2000.
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
      0.000      0.1600           1000.     -0.6000       0.000       0.000
@@ -355,11 +355,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.4000      0.4000       571.5       571.5    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
      0.000      0.1600           1000.     -0.6000       0.000       0.000
@@ -425,11 +425,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.4000      0.4000       1143.       1143.    
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN FY/FSTAT/FN   CPHI
      0.000      0.1600           1000.     -0.6000       0.000       0.000
@@ -467,18 +467,18 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
-|Non-Hertzian cases   |        6 |        0.1 | 100.0 |        0.1 | 100.0 |
-|Panag.process        |        6 |        0.1 |  71.4 |        0.1 |  64.3 |
-|Algorithm Norm       |        6 |        0.0 |  14.3 |        0.0 |   4.8 |
-|Algorithm Tang       |        6 |        0.1 |  57.1 |        0.1 |  59.5 |
-|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   9.5 |
+|Non-Hertzian cases   |        6 |        0.1 | 100.0 |        0.1 |  99.1 |
+|Panag.process        |        6 |        0.0 |  60.0 |        0.1 |  62.9 |
+|Algorithm Norm       |        6 |        0.0 |  20.0 |        0.0 |   4.3 |
+|Algorithm Tang       |        6 |        0.0 |  40.0 |        0.1 |  56.9 |
+|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   4.3 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       70 |        0.1 |  57.1 |        0.1 |  43.7 |
+|Norm: ConjGrd solver |        6 |        0.0 |  20.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |       70 |        0.0 |  40.0 |        0.1 |  48.3 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   2.4 |
-|Influence coeffic.   |        6 |        0.0 |  28.6 |        0.0 |   8.7 |
+|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |        6 |        0.0 |  40.0 |        0.0 |  12.9 |
 |Initial state/estim. |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        6 |        0.0 |   0.0 |        0.0 |  10.3 |
+|Writing output-files |        6 |        0.0 |   0.0 |        0.0 |  13.8 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

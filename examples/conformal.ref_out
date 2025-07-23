@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -31,11 +31,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       3.000E+04  -4.000E-03  -9.900E-03  -1.537E-03
@@ -127,11 +127,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       3.000E+04  -4.000E-03  -9.900E-03  -1.537E-03
@@ -287,11 +287,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       3.000E+04  -4.000E-03  -9.900E-03  -1.537E-03
@@ -374,11 +374,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       3.000E+04       0.000       0.000       0.000
@@ -534,11 +534,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.3000      0.3000    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       3.000E+04       0.000       0.000       0.000
@@ -604,20 +604,20 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.8 | 100.0 |        2.0 | 100.0 |
-|Non-Hertzian cases   |        5 |        1.8 | 100.0 |        2.0 | 100.0 |
-|Panag.process        |        5 |        1.1 |  60.0 |        1.2 |  60.3 |
-|Algorithm Norm       |       19 |        0.5 |  25.2 |        0.5 |  27.1 |
-|Algorithm Tang       |       19 |        0.6 |  33.9 |        0.6 |  32.4 |
-|Output quantities    |        5 |        0.0 |   2.6 |        0.0 |   2.2 |
+|Total                |        1 |        1.4 | 100.0 |        1.5 | 100.0 |
+|Non-Hertzian cases   |        5 |        1.3 |  98.9 |        1.5 | 100.0 |
+|Panag.process        |        5 |        0.8 |  56.3 |        0.9 |  60.6 |
+|Algorithm Norm       |       19 |        0.3 |  20.7 |        0.4 |  24.1 |
+|Algorithm Tang       |       19 |        0.5 |  35.6 |        0.5 |  34.3 |
+|Output quantities    |        5 |        0.0 |   2.3 |        0.1 |   4.2 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       19 |        0.4 |  20.9 |        0.4 |  20.8 |
-|Tang: StedyGS solver |       19 |        0.5 |  29.6 |        0.6 |  28.4 |
+|Norm: ConjGrd solver |       19 |        0.2 |  16.1 |        0.3 |  18.6 |
+|Tang: StedyGS solver |       19 |        0.4 |  28.7 |        0.4 |  26.9 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        5 |        0.0 |   1.7 |        0.0 |   0.0 |
-|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Load infl.coeffic.   |        2 |        0.6 |  34.8 |        0.7 |  33.9 |
+|Reading input-file   |        5 |        0.0 |   1.1 |        0.0 |   1.2 |
+|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   0.5 |
+|Load infl.coeffic.   |        2 |        0.5 |  35.6 |        0.5 |  32.3 |
 |Initial state/estim. |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        5 |        0.0 |   0.9 |        0.1 |   3.3 |
+|Writing output-files |        5 |        0.0 |   3.4 |        0.0 |   1.1 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

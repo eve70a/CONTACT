@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -40,17 +40,10 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.3034      0.3592E+05  0.1002      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.3100      0.2800      0.2300E+05  0.8200E+05
- 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.1000E-03  0.1000E-03
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      3.142      0.1000E-02       1000.       0.000       0.000       0.000
@@ -151,17 +144,10 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.3034      0.3592E+05  0.1002      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.3100      0.2800      0.2300E+05  0.8200E+05
- 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
      10.00       10.00    
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      3.142      0.1000E-02       1000.       0.000       0.000       0.000
@@ -263,17 +249,10 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.3034      0.3592E+05  0.1002      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.3100      0.2800      0.2300E+05  0.8200E+05
- 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.5000E-01  0.5000E-01
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      3.142      0.1000E-02       1000.       0.000       0.000       0.000
@@ -370,17 +349,10 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.3034      0.3592E+05  0.1002      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.3100      0.2800      0.2300E+05  0.8200E+05
- 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.5000E-01  0.5000E-01
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      3.142      0.1000E-02       1000.      0.7500       0.000       0.000
@@ -492,17 +464,10 @@
  X-FORCE,  Y-CREEPAGE PRESCRIBED
  PANAGIOTOPOULOS" METHOD IS USED FOR THE FRICTIONAL STRESS. MAXOUT= 10
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.3034      0.3592E+05  0.1002      0.1000E-05
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.3100      0.2800      0.2300E+05  0.8200E+05
- 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
     0.5000E-01  0.5000E-01
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC     FX/FSTAT/FN   CETA        CPHI
      3.142      0.1000E-02       1000.     -0.7500       0.000       0.000
@@ -540,19 +505,19 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.5 | 100.0 |        0.6 | 100.0 |
-|Non-Hertzian cases   |        6 |        0.5 | 100.0 |        0.6 | 100.0 |
-|Panag.process        |        6 |        0.5 |  97.1 |        0.5 |  91.0 |
-|Algorithm Norm       |       19 |        0.0 |   0.0 |        0.0 |   0.7 |
-|Algorithm Tang       |       19 |        0.5 |  97.1 |        0.5 |  86.0 |
-|Output quantities    |        6 |        0.0 |   2.9 |        0.0 |   5.3 |
+|Total                |        1 |        0.5 | 100.0 |        0.5 | 100.0 |
+|Non-Hertzian cases   |        6 |        0.5 | 100.0 |        0.5 | 100.0 |
+|Panag.process        |        6 |        0.4 |  93.1 |        0.5 |  94.6 |
+|Algorithm Norm       |       19 |        0.0 |   0.0 |        0.0 |   2.3 |
+|Algorithm Tang       |       19 |        0.4 |  89.7 |        0.5 |  88.9 |
+|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   1.6 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       19 |        0.0 |   0.0 |        0.0 |   0.7 |
-|Tang: StedyGS solver |       77 |        0.5 |  91.2 |        0.5 |  78.2 |
+|Norm: ConjGrd solver |       19 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Tang: StedyGS solver |       77 |        0.4 |  89.7 |        0.4 |  78.8 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   1.7 |
+|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        5 |        0.0 |   0.0 |        0.0 |   2.0 |
+|Writing output-files |        5 |        0.0 |   0.0 |        0.0 |   3.9 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

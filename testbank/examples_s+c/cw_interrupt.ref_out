@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -81,6 +81,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV
+    -1.000    750.0000      0.0000      0.0000       0.000
+
  WHEEL PROFILE "../profiles/MBench_S1002_v3.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
       0          -1           0         0.0000
@@ -113,11 +117,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           1998.  -1.699E-03  -1.923E-04   1.660E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
      1.002E+04       2093.      -178.5      -463.5      0.1585      -6.740
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1221      0.6967  -5.942E-02   3.732E-02       3388.
 
  CONTACT STATISTICS
@@ -159,17 +162,6 @@
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.3000      0.3000    
-
  DISCRETISATION PARAMETERS
      DX          DS          DQREL       A_SEP       D_SEP       D_COMB
     0.2000      0.5000E-01   1.000       1.571       8.000       4.000    
@@ -199,11 +191,10 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.2000           2000.  -4.556E-04   3.020E-05   1.921E-05
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          9892.       605.2      -54.54      -56.91      0.1441  -3.728E-04
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
         0.1206      0.2039  -1.838E-02   3.871E-02       5106.
 
  CONTACT STATISTICS
@@ -296,25 +287,25 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        1.0 | 100.0 |        0.8 | 100.0 |
-|Wheel-rail cases     |        2 |        1.0 | 100.0 |        0.8 | 100.0 |
-|W/r profiles         |        2 |        0.1 |   6.3 |        0.1 |   8.8 |
-|Geometric analysis   |        5 |        0.7 |  71.4 |        0.5 |  61.6 |
-|Panag.process        |        4 |        0.2 |  19.0 |        0.2 |  24.8 |
-|Algorithm Norm       |        4 |        0.0 |   1.6 |        0.0 |   3.9 |
-|Algorithm Tang       |        4 |        0.2 |  17.5 |        0.2 |  21.0 |
-|Output quantities    |        6 |        0.0 |   1.6 |        0.0 |   2.4 |
+|Wheel-rail cases     |        2 |        1.0 |  98.4 |        0.8 | 100.0 |
+|W/r profiles         |        2 |        0.1 |   9.4 |        0.1 |  12.9 |
+|Geometric analysis   |        5 |        0.7 |  67.2 |        0.5 |  62.1 |
+|Panag.process        |        4 |        0.2 |  18.8 |        0.2 |  21.2 |
+|Algorithm Norm       |        4 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Algorithm Tang       |        4 |        0.2 |  18.8 |        0.2 |  20.4 |
+|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   0.3 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        4 |        0.0 |   1.6 |        0.0 |   3.6 |
-|Tang: StedyGS solver |        4 |        0.2 |  17.5 |        0.2 |  21.0 |
+|Norm: ConjGrd solver |        4 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Tang: StedyGS solver |        4 |        0.2 |  18.8 |        0.2 |  20.4 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        2 |        0.1 |   6.3 |        0.1 |   8.8 |
-|Contact location     |        5 |        0.6 |  65.1 |        0.5 |  59.7 |
-| - Interp sf_whl     |        1 |        0.1 |   6.3 |        0.1 |   7.3 |
-| - Other calc.       |        2 |        0.0 |   3.2 |        0.0 |   2.6 |
-| - Locate interpen   |        1 |        0.0 |   0.0 |        0.0 |   1.5 |
-|Undeformed distance  |        4 |        0.1 |   6.3 |        0.0 |   1.6 |
-| - Interp whl_srfc   |        4 |        0.0 |   1.6 |        0.0 |   0.0 |
-|Influence coeffic.   |        4 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Reading input-file   |        2 |        0.1 |   9.4 |        0.1 |  12.9 |
+|Contact location     |        5 |        0.7 |  65.6 |        0.5 |  59.5 |
+| - Interp sf_whl     |        1 |        0.1 |   6.2 |        0.1 |   8.4 |
+| - Other calc.       |        2 |        0.0 |   3.1 |        0.0 |   4.1 |
+| - Locate interpen   |        1 |        0.0 |   1.6 |        0.0 |   1.8 |
+|Undeformed distance  |        4 |        0.0 |   1.6 |        0.0 |   2.4 |
+| - Interp whl_srfc   |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |        4 |        0.0 |   1.6 |        0.0 |   1.1 |
 |Initial state/estim. |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -33,11 +33,11 @@
 
     POISS(1)    POISS(2)     GG(1)       GG(2)
     0.2800      0.2800      0.8200E+05  0.8200E+05
- 
+
  FRICTION LAW PARAMETERS
      FKIN        FEXP1       SABSH1      FEXP2       SABSH2
     0.1800      0.1200       100.0       0.000      0.1000E-03
- 
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.1000       4.500E+04  -9.999E-04       0.000       0.000
@@ -86,17 +86,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-06
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1800      0.1200       100.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.1000       4.500E+04  -1.000E-03       0.000       0.000
@@ -167,17 +156,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-06
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1800      0.1200       100.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.1000       4.500E+04  -1.000E-03       0.000       0.000
@@ -1474,17 +1452,6 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800      0.8200E+05   0.000      0.1000E-06
-
-    POISS(1)    POISS(2)     GG(1)       GG(2)
-    0.2800      0.2800      0.8200E+05  0.8200E+05
- 
- FRICTION LAW PARAMETERS
-     FKIN        FEXP1       SABSH1      FEXP2       SABSH2
-    0.1800      0.1200       100.0       0.000      0.1000E-03
- 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.1000       4.500E+04  -1.000E-03       0.000       0.000
@@ -1521,20 +1488,20 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.7 | 100.0 |        0.9 | 100.0 |
-|Non-Hertzian cases   |       53 |        0.7 | 100.0 |        0.9 | 100.0 |
-|Panag.process        |       53 |        0.7 |  97.8 |        0.8 |  90.3 |
-|Algorithm Norm       |       53 |        0.0 |   2.2 |        0.0 |   4.4 |
-|Algorithm Tang       |       53 |        0.7 |  95.7 |        0.8 |  85.9 |
-|Output quantities    |       53 |        0.0 |   0.0 |        0.0 |   3.3 |
+|Total                |        1 |        0.8 | 100.0 |        0.9 | 100.0 |
+|Non-Hertzian cases   |       53 |        0.8 | 100.0 |        0.9 | 100.0 |
+|Panag.process        |       53 |        0.7 |  94.0 |        0.9 |  95.8 |
+|Algorithm Norm       |       53 |        0.0 |   4.0 |        0.1 |   8.1 |
+|Algorithm Tang       |       53 |        0.7 |  90.0 |        0.8 |  84.6 |
+|Output quantities    |       53 |        0.0 |   0.0 |        0.0 |   0.9 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       53 |        0.0 |   0.0 |        0.0 |   2.0 |
-|Tang: TangCG solver  |      789 |        0.4 |  50.0 |        0.5 |  55.5 |
-|Tang: ConvxGS solver |       12 |        0.0 |   2.2 |        0.0 |   3.2 |
+|Norm: ConjGrd solver |       53 |        0.0 |   2.0 |        0.0 |   5.2 |
+|Tang: TangCG solver  |      789 |        0.5 |  70.0 |        0.4 |  48.0 |
+|Tang: ConvxGS solver |       12 |        0.0 |   4.0 |        0.0 |   4.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       53 |        0.0 |   0.0 |        0.0 |   1.8 |
+|Reading input-file   |       53 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       53 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        6 |        0.0 |   2.2 |        0.0 |   2.5 |
+|Writing output-files |        6 |        0.0 |   0.0 |        0.0 |   2.4 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -41,6 +41,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV
+    -1.000      0.0000      0.0000      0.0000       0.000
 
  WHEEL PROFILE "../profiles/flat_plane.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
@@ -83,11 +87,10 @@
      SPINXO      SPINYO
    -0.6970E-01   8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -23.19      -26.15       286.0   1.595E-02  -7.839E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.2417     -0.2725    0.161199       7.100
 
  CONTACT STATISTICS
@@ -154,21 +157,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
         0.2000       0.000     -0.2201       0.000   4.000E-03  -2.000E-03
@@ -203,11 +191,10 @@
      SPINXO      SPINYO
     0.1303       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -23.92      -26.29       288.6   1.597E-02  -2.702E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.2493     -0.2740    0.161199       7.100
 
  CONTACT STATISTICS
@@ -274,21 +261,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
         0.4000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -323,11 +295,10 @@
      SPINXO      SPINYO
     0.3303       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -24.62      -26.40       290.8   1.599E-02  -2.875E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.2567     -0.2752    0.161199       7.100
 
  CONTACT STATISTICS
@@ -394,21 +365,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
         0.6000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -443,11 +399,10 @@
      SPINXO      SPINYO
     0.5303       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -25.31      -26.48       292.5   1.601E-02  -3.037E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.2638     -0.2760    0.161199       7.100
 
  CONTACT STATISTICS
@@ -514,21 +469,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
         0.8000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -563,11 +503,10 @@
      SPINXO      SPINYO
     0.7303       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -25.96      -26.53       293.8   1.603E-02  -3.197E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.2706     -0.2766    0.161199       7.100
 
  CONTACT STATISTICS
@@ -634,21 +573,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          1.000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -683,11 +607,10 @@
      SPINXO      SPINYO
     0.9303       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -26.60      -26.56       294.7   1.605E-02  -3.370E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.2772     -0.2768    0.161199       7.100
 
  CONTACT STATISTICS
@@ -754,21 +677,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          1.200       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -803,11 +711,10 @@
      SPINXO      SPINYO
      1.130       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -27.20      -26.55       295.2   1.607E-02  -3.537E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.2835     -0.2768    0.161199       7.100
 
  CONTACT STATISTICS
@@ -874,21 +781,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          1.400       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -923,11 +815,10 @@
      SPINXO      SPINYO
      1.330       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -27.78      -26.53       295.4   1.608E-02  -3.685E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.2896     -0.2766    0.161199       7.100
 
  CONTACT STATISTICS
@@ -994,21 +885,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          1.600       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -1043,11 +919,10 @@
      SPINXO      SPINYO
      1.530       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -28.34      -26.49       295.2   1.609E-02  -3.833E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.2954     -0.2761    0.161199       7.100
 
  CONTACT STATISTICS
@@ -1114,21 +989,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          1.800       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -1163,11 +1023,10 @@
      SPINXO      SPINYO
      1.730       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -28.87      -26.43       294.8   1.611E-02  -3.979E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3009     -0.2755    0.161199       7.100
 
  CONTACT STATISTICS
@@ -1234,21 +1093,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          2.000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -1283,11 +1127,10 @@
      SPINXO      SPINYO
      1.930       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -29.38      -26.36       294.0   1.612E-02  -4.118E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3062     -0.2747    0.161199       7.100
 
  CONTACT STATISTICS
@@ -1354,21 +1197,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          2.200       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -1403,11 +1231,10 @@
      SPINXO      SPINYO
      2.130       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -29.86      -26.27       293.0   1.613E-02  -4.251E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3113     -0.2738    0.161199       7.100
 
  CONTACT STATISTICS
@@ -1474,21 +1301,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          2.400       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -1523,11 +1335,10 @@
      SPINXO      SPINYO
      2.330       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -30.32      -26.17       291.6   1.614E-02  -4.388E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3161     -0.2728    0.161199       7.100
 
  CONTACT STATISTICS
@@ -1594,21 +1405,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          2.600       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -1643,11 +1439,10 @@
      SPINXO      SPINYO
      2.530       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -30.76      -26.05       290.1   1.615E-02  -4.509E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3206     -0.2716    0.161199       7.100
 
  CONTACT STATISTICS
@@ -1714,21 +1509,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          2.800       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -1763,11 +1543,10 @@
      SPINXO      SPINYO
      2.730       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -31.17      -25.93       288.3   1.616E-02  -4.628E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3249     -0.2703    0.161199       7.100
 
  CONTACT STATISTICS
@@ -1834,21 +1613,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          3.000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -1883,11 +1647,10 @@
      SPINXO      SPINYO
      2.930       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -31.56      -25.81       286.4   1.616E-02  -4.717E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3290     -0.2690    0.161199       7.100
 
  CONTACT STATISTICS
@@ -1954,21 +1717,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          3.200       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -2003,11 +1751,10 @@
      SPINXO      SPINYO
      3.130       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -31.93      -25.67       284.2   1.617E-02  -4.836E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3329     -0.2676    0.161199       7.100
 
  CONTACT STATISTICS
@@ -2074,21 +1821,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          3.400       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -2123,11 +1855,10 @@
      SPINXO      SPINYO
      3.330       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -32.28      -25.54       281.8   1.617E-02  -4.913E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3365     -0.2662    0.161199       7.100
 
  CONTACT STATISTICS
@@ -2194,21 +1925,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          3.600       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -2243,11 +1959,10 @@
      SPINXO      SPINYO
      3.530       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -32.61      -25.40       279.3   1.618E-02  -4.993E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3399     -0.2648    0.161199       7.100
 
  CONTACT STATISTICS
@@ -2314,21 +2029,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          3.800       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -2363,11 +2063,10 @@
      SPINXO      SPINYO
      3.730       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -32.92      -25.27       276.6   1.618E-02  -5.081E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3431     -0.2634    0.161199       7.100
 
  CONTACT STATISTICS
@@ -2434,21 +2133,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          4.000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -2483,11 +2167,10 @@
      SPINXO      SPINYO
      3.930       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -33.21      -25.13       273.8   1.618E-02  -5.134E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3461     -0.2620    0.161199       7.100
 
  CONTACT STATISTICS
@@ -2554,21 +2237,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          4.200       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -2603,11 +2271,10 @@
      SPINXO      SPINYO
      4.130       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -33.47      -25.00       270.8   1.618E-02  -5.202E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3489     -0.2606    0.161199       7.100
 
  CONTACT STATISTICS
@@ -2674,21 +2341,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          4.400       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -2723,11 +2375,10 @@
      SPINXO      SPINYO
      4.330       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -33.72      -24.87       267.7   1.618E-02  -5.255E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3515     -0.2592    0.161199       7.100
 
  CONTACT STATISTICS
@@ -2794,21 +2445,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          4.600       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -2843,11 +2479,10 @@
      SPINXO      SPINYO
      4.530       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -33.95      -24.75       264.4   1.618E-02  -5.282E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3539     -0.2580    0.161199       7.100
 
  CONTACT STATISTICS
@@ -2914,21 +2549,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          4.800       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -2963,11 +2583,10 @@
      SPINXO      SPINYO
      4.730       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -34.16      -24.63       261.1   1.618E-02  -5.328E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3561     -0.2568    0.161199       7.100
 
  CONTACT STATISTICS
@@ -3034,21 +2653,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          5.000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -3083,11 +2687,10 @@
      SPINXO      SPINYO
      4.930       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -34.36      -24.53       257.6   1.618E-02  -5.337E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3581     -0.2557    0.161199       7.100
 
  CONTACT STATISTICS
@@ -3154,21 +2757,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          5.200       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -3203,11 +2791,10 @@
      SPINXO      SPINYO
      5.130       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -34.53      -24.43       254.0   1.618E-02  -5.352E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3600     -0.2547    0.161199       7.100
 
  CONTACT STATISTICS
@@ -3274,21 +2861,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          5.400       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -3323,11 +2895,10 @@
      SPINXO      SPINYO
      5.330       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -34.69      -24.35       250.3   1.618E-02  -5.350E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3616     -0.2538    0.161199       7.100
 
  CONTACT STATISTICS
@@ -3394,21 +2965,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          5.600       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -3443,11 +2999,10 @@
      SPINXO      SPINYO
      5.530       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -34.84      -24.28       246.5   1.618E-02  -5.345E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3631     -0.2531    0.161199       7.100
 
  CONTACT STATISTICS
@@ -3514,21 +3069,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          5.800       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -3563,11 +3103,10 @@
      SPINXO      SPINYO
      5.730       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -34.96      -24.22       242.6   1.618E-02  -5.335E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3645     -0.2525    0.161199       7.100
 
  CONTACT STATISTICS
@@ -3634,21 +3173,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          6.000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -3683,11 +3207,10 @@
      SPINXO      SPINYO
      5.930       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.08      -24.19       238.6   1.618E-02  -5.276E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3657     -0.2521    0.161199       7.100
 
  CONTACT STATISTICS
@@ -3754,21 +3277,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          6.200       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -3803,11 +3311,10 @@
      SPINXO      SPINYO
      6.130       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.19      -24.17       234.6   1.618E-02  -5.191E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3668     -0.2520    0.161199       7.100
 
  CONTACT STATISTICS
@@ -3874,21 +3381,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          6.400       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -3923,11 +3415,10 @@
      SPINXO      SPINYO
      6.330       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.29      -24.17       230.5   1.618E-02  -5.152E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3679     -0.2519    0.161199       7.100
 
  CONTACT STATISTICS
@@ -3994,21 +3485,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          6.600       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -4043,11 +3519,10 @@
      SPINXO      SPINYO
      6.530       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.38      -24.18       226.3   1.619E-02  -5.149E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3688     -0.2520    0.161199       7.100
 
  CONTACT STATISTICS
@@ -4114,21 +3589,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          6.800       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -4163,11 +3623,10 @@
      SPINXO      SPINYO
      6.730       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.46      -24.19       222.1   1.619E-02  -5.154E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3696     -0.2521    0.161199       7.100
 
  CONTACT STATISTICS
@@ -4234,21 +3693,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          7.000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -4283,11 +3727,10 @@
      SPINXO      SPINYO
      6.930       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.54      -24.19       217.8   1.619E-02  -5.164E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3704     -0.2522    0.161199       7.100
 
  CONTACT STATISTICS
@@ -4354,21 +3797,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          7.200       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -4403,11 +3831,10 @@
      SPINXO      SPINYO
      7.130       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.61      -24.20       213.6   1.619E-02  -5.174E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3712     -0.2523    0.161199       7.100
 
  CONTACT STATISTICS
@@ -4474,21 +3901,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          7.400       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -4523,11 +3935,10 @@
      SPINXO      SPINYO
      7.330       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.68      -24.20       209.3   1.619E-02  -5.183E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3719     -0.2523    0.161199       7.100
 
  CONTACT STATISTICS
@@ -4594,21 +4005,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          7.600       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -4643,11 +4039,10 @@
      SPINXO      SPINYO
      7.530       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.75      -24.20       205.0   1.619E-02  -5.191E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3726     -0.2523    0.161199       7.100
 
  CONTACT STATISTICS
@@ -4714,21 +4109,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          7.800       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -4763,11 +4143,10 @@
      SPINXO      SPINYO
      7.730       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.82      -24.20       200.7   1.620E-02  -5.199E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3733     -0.2523    0.161199       7.100
 
  CONTACT STATISTICS
@@ -4834,21 +4213,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          8.000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -4883,11 +4247,10 @@
      SPINXO      SPINYO
      7.930       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.88      -24.20       196.5   1.620E-02  -5.207E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3740     -0.2522    0.161199       7.100
 
  CONTACT STATISTICS
@@ -4954,21 +4317,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          8.200       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -5003,11 +4351,10 @@
      SPINXO      SPINYO
      8.130       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -35.95      -24.19       192.2   1.620E-02  -5.214E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3747     -0.2521    0.161199       7.100
 
  CONTACT STATISTICS
@@ -5074,21 +4421,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          8.400       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -5123,11 +4455,10 @@
      SPINXO      SPINYO
      8.330       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.02      -24.18       188.0   1.620E-02  -5.221E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3754     -0.2520    0.161199       7.100
 
  CONTACT STATISTICS
@@ -5194,21 +4525,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          8.600       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -5243,11 +4559,10 @@
      SPINXO      SPINYO
      8.530       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.08      -24.17       183.7   1.620E-02  -5.228E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3761     -0.2519    0.161199       7.100
 
  CONTACT STATISTICS
@@ -5314,21 +4629,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          8.800       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -5363,11 +4663,10 @@
      SPINXO      SPINYO
      8.730       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.14      -24.16       179.4   1.620E-02  -5.235E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3767     -0.2518    0.161199       7.100
 
  CONTACT STATISTICS
@@ -5434,21 +4733,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          9.000       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -5483,11 +4767,10 @@
      SPINXO      SPINYO
      8.930       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.20      -24.15       175.1   1.620E-02  -5.242E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3774     -0.2517    0.161199       7.100
 
  CONTACT STATISTICS
@@ -5554,21 +4837,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          9.200       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -5603,11 +4871,10 @@
      SPINXO      SPINYO
      9.130       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.26      -24.14       170.8   1.620E-02  -5.248E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3780     -0.2516    0.161199       7.100
 
  CONTACT STATISTICS
@@ -5674,21 +4941,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          9.400       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -5723,11 +4975,10 @@
      SPINXO      SPINYO
      9.330       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.32      -24.13       166.5   1.620E-02  -5.255E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3785     -0.2515    0.161199       7.100
 
  CONTACT STATISTICS
@@ -5794,21 +5045,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          9.600       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -5843,11 +5079,10 @@
      SPINXO      SPINYO
      9.530       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.37      -24.11       162.2   1.621E-02  -5.261E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3791     -0.2514    0.161199       7.100
 
  CONTACT STATISTICS
@@ -5914,21 +5149,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          9.800       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -5963,11 +5183,10 @@
      SPINXO      SPINYO
      9.730       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.42      -24.10       157.8   1.621E-02  -5.267E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3796     -0.2512    0.161199       7.100
 
  CONTACT STATISTICS
@@ -6034,21 +5253,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          10.00       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -6083,11 +5287,10 @@
      SPINXO      SPINYO
      9.930       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.47      -24.09       153.5   1.621E-02  -5.272E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3801     -0.2511    0.161199       7.100
 
  CONTACT STATISTICS
@@ -6154,21 +5357,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          10.20       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -6203,11 +5391,10 @@
      SPINXO      SPINYO
      10.13       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.52      -24.08       149.1   1.621E-02  -5.277E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3806     -0.2510    0.161199       7.100
 
  CONTACT STATISTICS
@@ -6274,21 +5461,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          10.40       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -6323,11 +5495,10 @@
      SPINXO      SPINYO
      10.33       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.56      -24.07       144.7   1.621E-02  -5.282E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3811     -0.2509    0.161199       7.100
 
  CONTACT STATISTICS
@@ -6394,21 +5565,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          10.60       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -6443,11 +5599,10 @@
      SPINXO      SPINYO
      10.53       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.60      -24.06       140.3   1.621E-02  -5.287E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3816     -0.2508    0.161199       7.100
 
  CONTACT STATISTICS
@@ -6514,21 +5669,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          10.80       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -6563,11 +5703,10 @@
      SPINXO      SPINYO
      10.73       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.65      -24.05       135.9   1.621E-02  -5.291E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3820     -0.2507    0.161199       7.100
 
  CONTACT STATISTICS
@@ -6634,21 +5773,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          11.00       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -6683,11 +5807,10 @@
      SPINXO      SPINYO
      10.93       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.68      -24.04       131.5   1.621E-02  -5.295E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3824     -0.2506    0.161199       7.100
 
  CONTACT STATISTICS
@@ -6754,21 +5877,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          11.20       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -6803,11 +5911,10 @@
      SPINXO      SPINYO
      11.13       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.72      -24.03       127.1   1.621E-02  -5.299E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3828     -0.2505    0.161199       7.100
 
  CONTACT STATISTICS
@@ -6874,21 +5981,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          11.40       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -6923,11 +6015,10 @@
      SPINXO      SPINYO
      11.33       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.76      -24.03       122.6   1.621E-02  -5.303E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3832     -0.2504    0.161199       7.100
 
  CONTACT STATISTICS
@@ -6994,21 +6085,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          11.60       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -7043,11 +6119,10 @@
      SPINXO      SPINYO
      11.53       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.79      -24.02       118.2   1.621E-02  -5.306E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3835     -0.2504    0.161199       7.100
 
  CONTACT STATISTICS
@@ -7114,21 +6189,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          11.80       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -7163,11 +6223,10 @@
      SPINXO      SPINYO
      11.73       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.82      -24.01       113.7   1.621E-02  -5.310E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3839     -0.2503    0.161199       7.100
 
  CONTACT STATISTICS
@@ -7234,21 +6293,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          12.00       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -7283,11 +6327,10 @@
      SPINXO      SPINYO
      11.93       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.86      -24.00       109.2   1.621E-02  -5.313E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3842     -0.2502    0.161199       7.100
 
  CONTACT STATISTICS
@@ -7354,21 +6397,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          12.20       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -7403,11 +6431,10 @@
      SPINXO      SPINYO
      12.13       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.89      -24.00       104.7   1.622E-02  -5.316E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3845     -0.2501    0.161199       7.100
 
  CONTACT STATISTICS
@@ -7474,21 +6501,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          12.40       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -7523,11 +6535,10 @@
      SPINXO      SPINYO
      12.33       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.91      -23.99       100.2   1.622E-02  -5.319E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3848     -0.2501    0.161199       7.100
 
  CONTACT STATISTICS
@@ -7594,21 +6605,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          12.60       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -7643,11 +6639,10 @@
      SPINXO      SPINYO
      12.53       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.94      -23.99       95.64   1.622E-02  -5.322E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3851     -0.2500    0.161199       7.100
 
  CONTACT STATISTICS
@@ -7714,21 +6709,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          12.80       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -7763,11 +6743,10 @@
      SPINXO      SPINYO
      12.73       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.97      -23.98       91.10   1.622E-02  -5.325E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3853     -0.2500    0.161199       7.100
 
  CONTACT STATISTICS
@@ -7834,21 +6813,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          13.00       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -7883,11 +6847,10 @@
      SPINXO      SPINYO
      12.93       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -36.99      -23.98       86.56   1.622E-02  -5.327E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3856     -0.2499    0.161199       7.100
 
  CONTACT STATISTICS
@@ -7954,21 +6917,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          13.20       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -8003,11 +6951,10 @@
      SPINXO      SPINYO
      13.13       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.01      -23.97       82.00   1.622E-02  -5.330E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3858     -0.2499    0.161199       7.100
 
  CONTACT STATISTICS
@@ -8074,21 +7021,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          13.40       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -8123,11 +7055,10 @@
      SPINXO      SPINYO
      13.33       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.04      -23.97       77.44   1.622E-02  -5.333E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3861     -0.2498    0.161199       7.100
 
  CONTACT STATISTICS
@@ -8194,21 +7125,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          13.60       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -8243,11 +7159,10 @@
      SPINXO      SPINYO
      13.53       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.06      -23.96       72.86   1.622E-02  -5.335E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3863     -0.2498    0.161199       7.100
 
  CONTACT STATISTICS
@@ -8314,21 +7229,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          13.80       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -8363,11 +7263,10 @@
      SPINXO      SPINYO
      13.73       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.08      -23.96       68.28   1.622E-02  -5.337E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3865     -0.2497    0.161199       7.100
 
  CONTACT STATISTICS
@@ -8434,21 +7333,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          14.00       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -8483,11 +7367,10 @@
      SPINXO      SPINYO
      13.93       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.10      -23.95       63.69   1.622E-02  -5.340E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3867     -0.2497    0.161199       7.100
 
  CONTACT STATISTICS
@@ -8554,21 +7437,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          14.20       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -8603,11 +7471,10 @@
      SPINXO      SPINYO
      14.13       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.12      -23.95       59.09   1.622E-02  -5.342E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3869     -0.2497    0.161199       7.100
 
  CONTACT STATISTICS
@@ -8674,21 +7541,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          14.40       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -8723,11 +7575,10 @@
      SPINXO      SPINYO
      14.33       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.13      -23.95       54.49   1.622E-02  -5.344E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3871     -0.2496    0.161199       7.100
 
  CONTACT STATISTICS
@@ -8794,21 +7645,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          14.60       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -8843,11 +7679,10 @@
      SPINXO      SPINYO
      14.53       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.15      -23.94       49.88   1.622E-02  -5.346E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3873     -0.2496    0.161199       7.100
 
  CONTACT STATISTICS
@@ -8914,21 +7749,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          14.80       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -8963,11 +7783,10 @@
      SPINXO      SPINYO
      14.73       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.17      -23.94       45.26   1.622E-02  -5.348E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3874     -0.2495    0.161199       7.100
 
  CONTACT STATISTICS
@@ -9034,21 +7853,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          15.00       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -9083,11 +7887,10 @@
      SPINXO      SPINYO
      14.93       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.18      -23.94       40.64   1.622E-02  -5.350E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3876     -0.2495    0.161199       7.100
 
  CONTACT STATISTICS
@@ -9154,21 +7957,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          15.20       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -9203,11 +7991,10 @@
      SPINXO      SPINYO
      15.13       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.20      -23.93       36.01   1.622E-02  -5.352E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3877     -0.2495    0.161199       7.100
 
  CONTACT STATISTICS
@@ -9274,21 +8061,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          15.40       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -9323,11 +8095,10 @@
      SPINXO      SPINYO
      15.33       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.21      -23.93       31.38   1.622E-02  -5.354E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3879     -0.2495    0.161199       7.100
 
  CONTACT STATISTICS
@@ -9394,21 +8165,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          15.60       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -9443,11 +8199,10 @@
      SPINXO      SPINYO
      15.53       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.23      -23.93       26.74   1.622E-02  -5.355E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3880     -0.2494    0.161199       7.100
 
  CONTACT STATISTICS
@@ -9514,21 +8269,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          15.80       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -9563,11 +8303,10 @@
      SPINXO      SPINYO
      15.73       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.24      -23.93       22.10   1.622E-02  -5.357E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3882     -0.2494    0.161199       7.100
 
  CONTACT STATISTICS
@@ -9634,21 +8373,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800           200.0   0.000       1.000E-05
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800           200.0       200.0
-
- FRICTION LAW PARAMETERS
-     FSTAT       FKIN
-    0.4000      0.4000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.2000      0.2000       1.000       1.571       8.000       4.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          16.00       0.000     -0.2201       0.000   4.000E-03  -4.000E-03
@@ -9683,11 +8407,10 @@
      SPINXO      SPINYO
      15.93       8.721    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          239.8      -37.25      -23.92       17.45   1.622E-02  -5.359E-05
-     FN/G      FX/FSTAT/FN  FS/FSTAT/FN  APPROACH     PMAX    
+     FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          1.199     -0.3883     -0.2494    0.161199       7.100
 
  CONTACT STATISTICS
@@ -9750,23 +8473,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        4.8 | 100.0 |        5.4 | 100.0 |
-|Wheel-rail cases     |       81 |        4.8 |  99.7 |        5.4 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.3 |        0.0 |   0.0 |
-|Geometric analysis   |       81 |        0.2 |   3.9 |        0.3 |   5.9 |
-|Panag.process        |       81 |        3.1 |  64.2 |        3.2 |  59.5 |
-|Algorithm Norm       |       81 |        1.1 |  23.5 |        1.3 |  23.4 |
-|Algorithm Tang       |       81 |        2.0 |  40.6 |        2.0 |  36.1 |
-|Output quantities    |      162 |        0.4 |   7.4 |        0.6 |  11.6 |
+|Total                |        1 |        4.9 | 100.0 |        5.6 | 100.0 |
+|Wheel-rail cases     |       81 |        4.9 | 100.0 |        5.6 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.3 |        0.0 |   0.2 |
+|Geometric analysis   |       81 |        0.3 |   6.0 |        0.3 |   6.0 |
+|Panag.process        |       81 |        3.1 |  62.9 |        3.3 |  58.6 |
+|Algorithm Norm       |       81 |        1.0 |  21.0 |        1.2 |  21.0 |
+|Algorithm Tang       |       81 |        2.0 |  41.6 |        2.1 |  37.6 |
+|Output quantities    |      162 |        0.5 |   9.2 |        0.7 |  13.1 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       81 |        0.7 |  14.8 |        0.7 |  13.0 |
-|Tang: TangCG solver  |       81 |        1.9 |  38.4 |        1.8 |  33.7 |
+|Norm: ConjGrd solver |       81 |        0.7 |  13.3 |        0.7 |  12.3 |
+|Tang: TangCG solver  |       81 |        1.9 |  38.7 |        2.0 |  35.6 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       81 |        0.0 |   0.3 |        0.0 |   0.0 |
-|Contact location     |       81 |        0.0 |   1.0 |        0.2 |   3.6 |
-|Undeformed distance  |       81 |        0.1 |   2.9 |        0.1 |   2.0 |
-| - Interp whl_srfc   |       81 |        0.1 |   1.3 |        0.0 |   0.8 |
-|Influence coeffic.   |        2 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Initial state/estim. |       81 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       81 |        0.0 |   0.3 |        0.0 |   0.3 |
+|Contact location     |       81 |        0.2 |   3.5 |        0.2 |   3.6 |
+|Undeformed distance  |       81 |        0.1 |   2.5 |        0.1 |   2.4 |
+| - Interp whl_srfc   |       81 |        0.0 |   1.0 |        0.1 |   1.5 |
+|Influence coeffic.   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |       81 |        0.0 |   0.6 |        0.0 |   0.1 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

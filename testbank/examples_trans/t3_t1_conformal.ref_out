@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2681 $, $Date:: 2025-04-16$        |
+   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -20,29 +20,29 @@
          1, NR,  z_ws, Fz:       1.2065   1.115E+05, dFz/dz:   2.098E+06
       Norm: final element division: C, E=   1430   4720  ItCG=    14
       Tang: final element division: A, S=    277   1153  ItGS=    25
-      Norm: final element division: C, E=     92    340  ItCG=    10
+      Norm: final element division: C, E=     92    340  ItCG=    11
       Tang: final element division: A, S=      0     92  ItGS=     4
-         2, NR,  z_ws, Fz:       1.2165   1.246E+05, dFz/dz:   1.313E+06
-      Norm: final element division: C, E=   1519   4805  ItCG=    12
-      Tang: final element division: A, S=    315   1204  ItGS=    23
+         2, NR,  z_ws, Fz:       1.2165   1.246E+05, dFz/dz:   1.314E+06
+      Norm: final element division: C, E=   1514   4810  ItCG=    12
+      Tang: final element division: A, S=    312   1202  ItGS=    23
       Norm: final element division: C, E=    105    351  ItCG=    10
-      Tang: final element division: A, S=      0    105  ItGS=     4
-         3, NR,  z_ws, Fz:       1.2214   1.356E+05, dFz/dz:   2.218E+06
-      Norm: final element division: C, E=   1629   4943  ItCG=    12
-      Tang: final element division: A, S=    355   1274  ItGS=    23
-      Norm: final element division: C, E=    116    391  ItCG=    10
-      Tang: final element division: A, S=      0    116  ItGS=     3
-         4, NR,  z_ws, Fz:       1.2261   1.473E+05, dFz/dz:   2.477E+06
+      Tang: final element division: A, S=      0    105  ItGS=     3
+         3, NR,  z_ws, Fz:       1.2211   1.349E+05, dFz/dz:   2.202E+06
+      Norm: final element division: C, E=   1623   4949  ItCG=    12
+      Tang: final element division: A, S=    352   1271  ItGS=    23
+      Norm: final element division: C, E=    115    392  ItCG=    10
+      Tang: final element division: A, S=      0    115  ItGS=     3
+         4, NR,  z_ws, Fz:       1.2259   1.466E+05, dFz/dz:   2.472E+06
       Norm: final element division: C, E=   1532   4792  ItCG=    11
       Tang: final element division: A, S=    321   1211  ItGS=    22
       Norm: final element division: C, E=    106    388  ItCG=     9
       Tang: final element division: A, S=      0    106  ItGS=     3
-         5, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.445E+06
+         5, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.443E+06
       Norm: final element division: C, E=   1532   4792  ItCG=     5
       Tang: final element division: A, S=    321   1211  ItGS=    12
       Norm: final element division: C, E=    106    388  ItCG=     4
       Tang: final element division: A, S=      0    106  ItGS=     2
-         6, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.448E+06
+         6, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.449E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -76,6 +76,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ TRACK DIMENSIONS AND RAIL POSITION
+    GAUGHT      GAUGWD        CANT        CURV
+    15.875    1435.100      0.0000       0.000
 
  WHEEL PROFILE "../profiles/worn_high_mileage.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
@@ -121,12 +125,11 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.500E+04   8.310E-03   5.285E-03   4.342E-04
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.274E+05  -6.102E+04  -4.919E+04   2.710E+05       6.608  -1.017E+04
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.554     -0.4789     -0.3861   8.051E-02       1545.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4429     -0.3901   8.051E-02       1545.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -404,12 +407,11 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.4000       1.500E+04   6.742E-02   1.780E-02   2.159E-03
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6339.      -1222.      -327.2      -398.0   4.120E-02      -1334.
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.731E-02     -0.1928  -5.162E-02   1.519E-02       739.9
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6339.     -0.1928  -5.096E-02   1.519E-02       739.9
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -453,12 +455,12 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2220   1.373E+05, dFz/dz:   2.162E+06
       Norm: final element division: C, E=   1528   4796  ItCG=     6
-      Tang: final element division: A, S=    330   1198  ItCG=    22
+      Tang: final element division: A, S=    330   1198  ItCG=    25
       Norm: final element division: C, E=    104    352  ItCG=     6
       Tang: final element division: A, S=      0    104  ItCG=     4
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.417E+06
-      Norm: final element division: C, E=   1528   4796  ItCG=     4
-      Tang: final element division: A, S=    330   1198  ItCG=    12
+      Norm: final element division: C, E=   1528   4796  ItCG=     5
+      Tang: final element division: A, S=    330   1198  ItCG=    15
       Norm: final element division: C, E=    104    352  ItCG=     4
       Tang: final element division: A, S=      0    104  ItCG=     2
          3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.417E+06
@@ -472,22 +474,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -512,7 +498,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -248740.2, Msp =    260204.5, Mnp =    400030.4 N.mm
+ Total moments Mxp =   -248740.1, Msp =    260204.4, Mnp =    400030.4 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -529,12 +515,11 @@
      SPINXO      SPINYO
     -2.737      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.074E+04  -4.884E+04   4.000E+05       6.591     -0.2877
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4764     -0.3831   8.070E-02       1544.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4408     -0.3880   8.070E-02       1544.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -815,12 +800,11 @@
      SPINXO      SPINYO
      4.479      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6284.      -1212.      -323.4      -1837.   4.014E-02  -3.528E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.663E-02     -0.1928  -5.146E-02   1.524E-02       709.4
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6284.     -0.1928  -5.069E-02   1.524E-02       709.4
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -867,16 +851,16 @@
       Tang: final element division: A, S=      0    104  ItCG=     5
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.160E+06
-      Norm: final element division: C, E=   1528   4796  ItCG=     5
+      Norm: final element division: C, E=   1528   4796  ItCG=     4
       Tang: final element division: A, S=    328   1200  ItCG=    13
       Norm: final element division: C, E=    104    352  ItCG=     4
       Tang: final element division: A, S=      0    104  ItCG=     2
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.417E+06
       Norm: final element division: C, E=   1528   4796  ItCG=     3
-      Tang: final element division: A, S=    328   1200  ItCG=     4
+      Tang: final element division: A, S=    328   1200  ItCG=     6
       Norm: final element division: C, E=    104    352  ItCG=     3
       Tang: final element division: A, S=      0    104  ItCG=     2
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.417E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -887,22 +871,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -927,7 +895,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -248407.1, Msp =    209228.4, Mnp =    380516.7 N.mm
+ Total moments Mxp =   -248406.9, Msp =    209228.2, Mnp =    380516.6 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -944,12 +912,11 @@
      SPINXO      SPINYO
     -2.337      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.075E+04  -4.884E+04   3.805E+05       6.591     -0.2699
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4765     -0.3831   8.069E-02       1544.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4408     -0.3880   8.069E-02       1544.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1213,7 +1180,7 @@
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -855.9, Msp =    -30319.6, Mnp =     -1966.6 N.mm
+ Total moments Mxp =      -855.9, Msp =    -30319.5, Mnp =     -1966.6 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -1230,12 +1197,11 @@
      SPINXO      SPINYO
      4.879      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6283.      -1212.      -323.2      -1967.   4.012E-02  -3.526E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.662E-02     -0.1928  -5.144E-02   1.523E-02       709.4
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6283.     -0.1928  -5.068E-02   1.523E-02       709.4
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1288,10 +1254,10 @@
       Tang: final element division: A, S=      0    104  ItCG=     2
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
       Norm: final element division: C, E=   1528   4796  ItCG=     3
-      Tang: final element division: A, S=    328   1200  ItCG=     4
-      Norm: final element division: C, E=    104    352  ItCG=     2
+      Tang: final element division: A, S=    328   1200  ItCG=     6
+      Norm: final element division: C, E=    104    352  ItCG=     3
       Tang: final element division: A, S=      0    104  ItCG=     2
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.418E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1302,22 +1268,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -1342,7 +1292,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -248091.3, Msp =    158253.2, Mnp =    361027.0 N.mm
+ Total moments Mxp =   -248091.2, Msp =    158253.0, Mnp =    361026.9 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -1359,12 +1309,11 @@
      SPINXO      SPINYO
     -1.937      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.076E+04  -4.884E+04   3.610E+05       6.592     -0.2700
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4766     -0.3831   8.068E-02       1544.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4409     -0.3880   8.068E-02       1544.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1645,12 +1594,11 @@
      SPINXO      SPINYO
      5.279      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6282.      -1211.      -323.2      -2096.   4.011E-02  -3.526E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.661E-02     -0.1928  -5.144E-02   1.523E-02       709.3
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6282.     -0.1928  -5.068E-02   1.523E-02       709.3
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -1703,10 +1651,10 @@
       Tang: final element division: A, S=      0    104  ItCG=     2
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
       Norm: final element division: C, E=   1528   4796  ItCG=     3
-      Tang: final element division: A, S=    327   1201  ItCG=     3
-      Norm: final element division: C, E=    104    352  ItCG=     2
+      Tang: final element division: A, S=    327   1201  ItCG=     6
+      Norm: final element division: C, E=    104    352  ItCG=     3
       Tang: final element division: A, S=      0    104  ItCG=     2
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.422E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.417E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -1717,22 +1665,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -1757,7 +1689,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -247784.5, Msp =    107282.4, Mnp =    341529.2 N.mm
+ Total moments Mxp =   -247784.4, Msp =    107282.3, Mnp =    341529.0 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -1774,12 +1706,11 @@
      SPINXO      SPINYO
     -1.537      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.077E+04  -4.885E+04   3.415E+05       6.592     -0.2700
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4767     -0.3832   8.068E-02       1544.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4409     -0.3880   8.068E-02       1544.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2060,12 +1991,11 @@
      SPINXO      SPINYO
      5.679      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6281.      -1211.      -323.1      -2225.   4.010E-02  -3.525E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.660E-02     -0.1928  -5.145E-02   1.523E-02       709.3
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6281.     -0.1928  -5.069E-02   1.523E-02       709.3
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2118,10 +2048,10 @@
       Tang: final element division: A, S=      0    104  ItCG=     2
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
       Norm: final element division: C, E=   1528   4796  ItCG=     3
-      Tang: final element division: A, S=    326   1202  ItCG=     4
-      Norm: final element division: C, E=    104    352  ItCG=     2
+      Tang: final element division: A, S=    326   1202  ItCG=     8
+      Norm: final element division: C, E=    104    352  ItCG=     3
       Tang: final element division: A, S=      0    104  ItCG=     2
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.418E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2132,22 +2062,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -2172,7 +2086,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -247483.5, Msp =     56311.8, Mnp =    322045.7 N.mm
+ Total moments Mxp =   -247483.4, Msp =     56311.8, Mnp =    322045.5 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -2189,12 +2103,11 @@
      SPINXO      SPINYO
     -1.137      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.077E+04  -4.886E+04   3.220E+05       6.592     -0.2700
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4767     -0.3833   8.067E-02       1544.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4410     -0.3880   8.067E-02       1544.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2475,12 +2388,11 @@
      SPINXO      SPINYO
      6.079      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6280.      -1211.      -323.1      -2354.   4.009E-02  -3.525E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.659E-02     -0.1928  -5.145E-02   1.523E-02       709.2
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6280.     -0.1928  -5.070E-02   1.523E-02       709.2
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2524,7 +2436,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.160E+06
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.426E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.420E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2535,22 +2447,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -2575,7 +2471,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -247188.4, Msp =      5339.0, Mnp =    302576.9 N.mm
+ Total moments Mxp =   -247188.3, Msp =      5339.0, Mnp =    302576.9 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -2592,12 +2488,11 @@
      SPINXO      SPINYO
    -0.7374      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.887E+04   3.026E+05       6.593     -0.2699
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4767     -0.3833   8.066E-02       1544.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4410     -0.3881   8.066E-02       1544.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2861,7 +2756,7 @@
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -849.6, Msp =    -40375.5, Mnp =     -2483.2 N.mm
+ Total moments Mxp =      -849.6, Msp =    -40375.4, Mnp =     -2483.2 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -2878,12 +2773,11 @@
      SPINXO      SPINYO
      6.479      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6279.      -1211.      -323.1      -2483.   4.008E-02  -3.524E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.658E-02     -0.1928  -5.146E-02   1.522E-02       709.2
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6279.     -0.1928  -5.070E-02   1.522E-02       709.2
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -2927,7 +2821,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.159E+06
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.417E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.418E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -2938,22 +2832,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -2978,7 +2856,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -246904.9, Msp =    -45632.4, Mnp =    283062.6 N.mm
+ Total moments Mxp =   -246904.8, Msp =    -45632.4, Mnp =    283062.4 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -2995,12 +2873,11 @@
      SPINXO      SPINYO
    -0.3374      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.888E+04   2.831E+05       6.593     -0.2701
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4768     -0.3834   8.065E-02       1543.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4410     -0.3881   8.065E-02       1543.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3281,12 +3158,11 @@
      SPINXO      SPINYO
      6.879      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6278.      -1211.      -323.1      -2612.   4.007E-02  -3.524E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.656E-02     -0.1928  -5.146E-02   1.522E-02       709.1
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6278.     -0.1928  -5.071E-02   1.522E-02       709.1
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3330,7 +3206,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.159E+06
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.424E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.417E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -3341,22 +3217,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -3381,7 +3241,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -246625.1, Msp =    -96605.3, Mnp =    263547.2 N.mm
+ Total moments Mxp =   -246625.0, Msp =    -96605.2, Mnp =    263547.1 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -3398,12 +3258,11 @@
      SPINXO      SPINYO
     0.6260E-01  -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.889E+04   2.635E+05       6.593     -0.2701
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4768     -0.3835   8.064E-02       1543.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4410     -0.3881   8.064E-02       1543.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3684,12 +3543,11 @@
      SPINXO      SPINYO
      7.279      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6277.      -1210.      -323.1      -2741.   4.006E-02  -3.523E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.655E-02     -0.1928  -5.146E-02   1.522E-02       709.1
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6277.     -0.1928  -5.072E-02   1.522E-02       709.1
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3733,7 +3591,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.159E+06
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.428E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.421E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -3744,22 +3602,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -3784,7 +3626,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -246358.2, Msp =   -147585.0, Mnp =    244034.4 N.mm
+ Total moments Mxp =   -246358.1, Msp =   -147585.0, Mnp =    244034.4 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -3801,12 +3643,11 @@
      SPINXO      SPINYO
     0.4626      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.890E+04   2.440E+05       6.593     -0.2701
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4768     -0.3836   8.063E-02       1543.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4410     -0.3882   8.063E-02       1543.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -4087,12 +3928,11 @@
      SPINXO      SPINYO
      7.679      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6276.      -1210.      -323.0      -2871.   4.004E-02  -3.523E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.654E-02     -0.1928  -5.147E-02   1.522E-02       709.0
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6277.     -0.1928  -5.072E-02   1.522E-02       709.0
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -4136,7 +3976,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.159E+06
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
-         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.416E+06
+         3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.421E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -4147,22 +3987,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -4187,7 +4011,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -246096.0, Msp =   -198567.4, Mnp =    224522.3 N.mm
+ Total moments Mxp =   -246095.9, Msp =   -198567.3, Mnp =    224522.4 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -4204,12 +4028,11 @@
      SPINXO      SPINYO
     0.8626      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.891E+04   2.245E+05       6.593     -0.2701
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4768     -0.3836   8.062E-02       1543.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4411     -0.3882   8.062E-02       1543.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -4490,12 +4313,11 @@
      SPINXO      SPINYO
      8.079      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6275.      -1210.      -323.0      -3000.   4.003E-02  -3.522E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.653E-02     -0.1928  -5.147E-02   1.522E-02       709.0
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6276.     -0.1928  -5.073E-02   1.522E-02       709.0
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -4551,22 +4373,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          4.400       14.74      1.2219  -1.300E-03   5.000E-03       0.000
@@ -4590,7 +4396,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -245847.7, Msp =   -249559.4, Mnp =    205028.8 N.mm
+ Total moments Mxp =   -245847.6, Msp =   -249559.3, Mnp =    205028.9 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -4607,12 +4413,11 @@
      SPINXO      SPINYO
      1.263      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.892E+04   2.050E+05       6.593     -0.2699
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4768     -0.3837   8.061E-02       1543.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4411     -0.3883   8.061E-02       1543.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -4876,7 +4681,7 @@
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -842.5, Msp =    -52929.5, Mnp =     -3128.8 N.mm
+ Total moments Mxp =      -842.5, Msp =    -52929.4, Mnp =     -3128.8 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -4893,12 +4698,11 @@
      SPINXO      SPINYO
      8.479      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6275.      -1210.      -323.0      -3129.   4.002E-02  -3.522E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.652E-02     -0.1928  -5.148E-02   1.521E-02       708.9
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6275.     -0.1928  -5.074E-02   1.521E-02       708.9
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -4954,22 +4758,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          4.800       14.74      1.2220  -1.300E-03   5.000E-03       0.000
@@ -4993,7 +4781,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -245605.8, Msp =   -300549.6, Mnp =    185496.6 N.mm
+ Total moments Mxp =   -245605.8, Msp =   -300549.5, Mnp =    185496.7 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -5010,12 +4798,11 @@
      SPINXO      SPINYO
      1.663      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.893E+04   1.855E+05       6.593     -0.2701
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4768     -0.3838   8.060E-02       1543.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4411     -0.3883   8.060E-02       1543.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -5279,7 +5066,7 @@
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -841.2, Msp =    -55438.8, Mnp =     -3258.0 N.mm
+ Total moments Mxp =      -841.2, Msp =    -55438.7, Mnp =     -3258.0 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -5296,12 +5083,11 @@
      SPINXO      SPINYO
      8.879      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6274.      -1210.      -323.0      -3258.   4.001E-02  -3.521E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.651E-02     -0.1928  -5.148E-02   1.521E-02       708.9
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6274.     -0.1928  -5.074E-02   1.521E-02       708.9
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -5357,22 +5143,6 @@
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
-
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          5.200       14.74      1.2220  -1.300E-03   5.000E-03       0.000
@@ -5396,7 +5166,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -245375.1, Msp =   -351544.2, Mnp =    165956.0 N.mm
+ Total moments Mxp =   -245375.1, Msp =   -351544.1, Mnp =    165956.2 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -5413,12 +5183,11 @@
      SPINXO      SPINYO
      2.063      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.894E+04   1.660E+05       6.593     -0.2701
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4768     -0.3839   8.059E-02       1543.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4411     -0.3883   8.059E-02       1543.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -5602,7 +5371,7 @@
     54   738.5899     2.2170    -0.1747
     55   738.9840     2.1483    -0.1705
     56   739.3783     2.0812    -0.1663
-    57   739.7729     2.0159    -0.1620
+    57   739.7729     2.0158    -0.1620
     58   740.1678     1.9522    -0.1577
     59   740.5630     1.8901    -0.1537
     60   740.9584     1.8297    -0.1497
@@ -5682,7 +5451,7 @@
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -840.0, Msp =    -57947.7, Mnp =     -3387.1 N.mm
+ Total moments Mxp =      -840.0, Msp =    -57947.6, Mnp =     -3387.1 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -5699,12 +5468,11 @@
      SPINXO      SPINYO
      9.279      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6273.      -1210.      -323.0      -3387.   4.000E-02  -3.521E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.650E-02     -0.1928  -5.149E-02   1.521E-02       708.9
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6273.     -0.1928  -5.075E-02   1.521E-02       708.9
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -5748,7 +5516,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.159E+06
          2, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.416E+06
-         3, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.422E+06
+         3, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.417E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -5759,22 +5527,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -5799,7 +5551,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -245153.0, Msp =   -402542.3, Mnp =    146409.6 N.mm
+ Total moments Mxp =   -245153.0, Msp =   -402542.2, Mnp =    146409.9 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -5816,12 +5568,11 @@
      SPINXO      SPINYO
      2.463      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.894E+04   1.464E+05       6.593     -0.2701
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4768     -0.3840   8.058E-02       1543.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4411     -0.3884   8.058E-02       1543.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -6102,12 +5853,11 @@
      SPINXO      SPINYO
      9.679      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6272.      -1209.      -323.0      -3516.   3.999E-02  -3.520E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.649E-02     -0.1928  -5.149E-02   1.521E-02       708.8
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6272.     -0.1928  -5.075E-02   1.521E-02       708.8
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -6151,7 +5901,7 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.159E+06
          2, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.415E+06
-         3, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.422E+06
+         3, NR,  z_ws, Fz:       1.2220   1.370E+05, dFz/dz:   2.417E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -6162,22 +5912,6 @@
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  SHIFT TRANSIENT, SHIFT PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
-
- MATERIAL CONSTANTS
-     NU          G           AK          EPS
-    0.2800       8.200E+04   0.000       1.000E-06
-
-    POISS(R)    POISS(W)     GG(R)       GG(W)
-    0.2800      0.2800       8.200E+04   8.200E+04
-
- FRICTION LAW PARAMETERS
-     ALPHA       FSTAT       FKIN
-   -0.5236      0.2000      0.2000    
-   -0.3491      0.9000      0.9000    
-
- DISCRETISATION PARAMETERS
-     DX          DS          DQREL       A_SEP       D_SEP       D_COMB
-    0.4000      0.4000       1.000       1.571       6.000       3.000    
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -6202,7 +5936,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -244935.4, Msp =   -453542.1, Mnp =    126857.5 N.mm
+ Total moments Mxp =   -244935.3, Msp =   -453542.0, Mnp =    126858.0 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -6219,12 +5953,11 @@
      SPINXO      SPINYO
      2.863      -3.530    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.078E+04  -4.895E+04   1.269E+05       6.593     -0.2701
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-         1.555     -0.4768     -0.3840   8.057E-02       1543.
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     1.378E+05     -0.4411     -0.3884   8.057E-02       1543.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -6488,7 +6221,7 @@
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -837.7, Msp =    -62964.6, Mnp =     -3645.5 N.mm
+ Total moments Mxp =      -837.7, Msp =    -62964.5, Mnp =     -3645.5 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -6505,12 +6238,11 @@
      SPINXO      SPINYO
      10.08      -50.52    
 
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
+     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
          6272.      -1209.      -323.0      -3646.   3.999E-02  -3.520E-02
-     FN/G        FX/FN       FS/FN       APPROACH     PMAX    
-     7.648E-02     -0.1928  -5.150E-02   1.520E-02       708.8
+     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+         6272.     -0.1928  -5.076E-02   1.520E-02       708.8
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -6557,24 +6289,24 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        3.9 | 100.0 |        4.2 | 100.0 |
-|Wheel-rail cases     |       16 |        3.9 | 100.0 |        4.2 | 100.0 |
+|Total                |        1 |        3.4 | 100.0 |        3.7 | 100.0 |
+|Wheel-rail cases     |       16 |        3.4 | 100.0 |        3.7 | 100.0 |
 |W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Geometric analysis   |       52 |        0.2 |   5.2 |        0.2 |   5.8 |
-|Panag.process        |      103 |        2.7 |  68.9 |        2.7 |  63.5 |
-|Algorithm Norm       |      103 |        0.5 |  13.9 |        0.5 |  11.0 |
-|Algorithm Tang       |      103 |        2.2 |  55.0 |        2.2 |  52.5 |
-|Output quantities    |      119 |        0.2 |   5.6 |        0.4 |  10.2 |
+|Geometric analysis   |       52 |        0.2 |   7.4 |        0.2 |   5.6 |
+|Panag.process        |      103 |        2.3 |  68.5 |        2.3 |  63.8 |
+|Algorithm Norm       |      103 |        0.4 |  11.6 |        0.4 |  12.0 |
+|Algorithm Tang       |      103 |        1.9 |  56.9 |        1.9 |  51.7 |
+|Output quantities    |      119 |        0.2 |   6.5 |        0.4 |   9.7 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      103 |        0.4 |  11.2 |        0.3 |   8.2 |
-|Tang: TangCG solver  |       90 |        1.0 |  25.1 |        1.0 |  23.1 |
-|Tang: StedyGS solver |       13 |        1.0 |  26.7 |        1.1 |  25.4 |
+|Norm: ConjGrd solver |      103 |        0.3 |   9.3 |        0.3 |   8.5 |
+|Tang: TangCG solver  |       90 |        0.8 |  22.7 |        0.7 |  19.8 |
+|Tang: StedyGS solver |       13 |        1.0 |  31.0 |        1.0 |  27.9 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |       16 |        0.0 |   0.0 |        0.0 |   0.2 |
-|Contact location     |       52 |        0.0 |   0.0 |        0.0 |   0.5 |
-|Undeformed distance  |      103 |        0.2 |   4.4 |        0.2 |   4.2 |
-| - Interp whl_srfc   |      103 |        0.1 |   3.6 |        0.1 |   2.7 |
+|Contact location     |       52 |        0.0 |   0.9 |        0.0 |   0.5 |
+|Undeformed distance  |      103 |        0.2 |   6.0 |        0.1 |   4.1 |
+| - Interp whl_srfc   |      103 |        0.2 |   4.6 |        0.1 |   3.0 |
 |Influence coeffic.   |       15 |        0.0 |   0.0 |        0.0 |   0.4 |
-|Initial state/estim. |      103 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Initial state/estim. |      103 |        0.0 |   0.0 |        0.0 |   0.3 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
