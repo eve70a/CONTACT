@@ -39,7 +39,7 @@ contains
       type(t_ws_track)              :: wtd
       integer,          intent(out) :: my_ierror
 !--local variables:
-      logical            :: lfound
+      logical            :: lfound, loutpt
       integer            :: iestim_br, x_locate, icp, icpo, i, sub_ierror, known_err(10)
 
       my_ierror = 0
@@ -109,10 +109,12 @@ contains
 
       ! translate errors
 
-      if (my_ierror.eq.-1 .or. my_ierror.eq.-3) then ! -1 = no solution: NaN in residual
+      if (my_ierror.eq.-1 .or. my_ierror.eq.-3 .or. my_ierror.eq.-4) then
+                                                     ! -1 = no solution: NaN in residual
          my_ierror = CNTC_err_ftot                   ! -3 = zero determinant
-      elseif (my_ierror.eq.-2) then                  ! -2 = residual > tolerance
-         my_ierror = CNTC_err_tol
+                                                     ! -4 = z_shift > 1.1*r_nom
+      elseif (my_ierror.eq.-2) then
+         my_ierror = CNTC_err_tol                    ! -2 = residual > tolerance
       endif
 
       if (my_ierror.ne.0) then
@@ -126,9 +128,13 @@ contains
          if (.not.lfound) my_ierror = CNTC_err_other
       endif
 
+      ! determine whether output may be generated for the case
+
+      loutpt = (my_ierror.eq.0 .or. my_ierror.eq.CNTC_err_tol)
+
       ! if requested: write mat-files for final solution
 
-      if (wtd%ic%matfil_surf.ge.1) then
+      if (loutpt .and. wtd%ic%matfil_surf.ge.1) then
          if (x_locate.ge.5) call write_log(' ...wr_contact: calling writmt')
          do icp = 1, wtd%numcps
             associate( gd => wtd%allcps(icp)%cp%gd )
@@ -141,13 +147,13 @@ contains
 
       ! compute subsurface stresses when requested
 
-      if (wtd%ic%stress.ge.1) then
+      if (loutpt .and. wtd%ic%stress.ge.1) then
          call wr_subsurf(wtd, x_locate)
       endif
 
       ! write output when R=0 or 1
 
-      if (wtd%ic%return.le.1) call wr_output(wtd)
+      if (loutpt .and. wtd%ic%return.le.1) call wr_output(wtd)
 
       ! destroy remaining (unconnected) contact patches (gds) of the previous time
 
@@ -421,7 +427,7 @@ contains
       logical,           intent(out)   :: use_pow
 !--local variables:
       integer,      parameter :: max_nr = 20
-      real(kind=8), parameter :: eps_fz = 1d-3
+      real(kind=8), parameter :: eps_fz = 1d-3, a_max = 0.5d0*pi-0.001d0
       logical        :: is_complete, new_c_hz(MAX_NUM_CPS)
       integer        :: icp, it_nr, ic_norm, ipotcn
       real(kind=8)   :: z_shift, z_shift0, dzshift, zshift_prv, dz_defl, pen, res, sgn,                 &
@@ -489,10 +495,10 @@ contains
          do icp = 1, wtd%numcps+wtd%n_miss
             associate(cp => wtd%allcps(icp)%cp)
             if (icp.gt.wtd%numcps) then
-               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' mis',icp-wtd%numcps,': alph_i=',      &
+               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f10.6))') ' mis',icp-wtd%numcps,': alph_i=',     &
                     sgn*cp%delttr,', C_i=',cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft1=',z_shift+cp%gap_min
             else
-               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' icp',icp,': alph_i=',sgn*cp%delttr,   &
+               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f10.6))') ' icp',icp,': alph_i=',sgn*cp%delttr,  &
                         ', C_i=', cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft0=',z_shift+cp%gap_min
             endif
             call write_log(1, bufout)
@@ -533,7 +539,7 @@ contains
          do icp = 1, wtd%numcps+wtd%n_miss
             c_hz     = wtd%allcps(icp)%cp%c_hz
             fs_rel   = wtd%allcps(icp)%cp%fs_rel
-            alph     = wtd%allcps(icp)%cp%delttr
+            alph     = max(-a_max, min(a_max, wtd%allcps(icp)%cp%delttr))
             pen      = (zshift_new - z_shift - wtd%allcps(icp)%cp%gap_min) * cos(alph)
             if (x_force.ge.4) then
                write(bufout,'(5(a,f12.4))') ' pen=(',zshift_new,'-',z_shift,'-',                        &
@@ -717,18 +723,18 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_contact_fz_brent(wtd, iestim_br, my_ierror)
+   subroutine wr_contact_fz_brent(wtd, iestim_inp, my_ierror)
 !--purpose: process the w/r problem for a case with prescribed vertical force with Brents algorithm
       implicit none
 !--subroutine arguments:
       type(t_ws_track)              :: wtd
-      integer,          intent(in)  :: iestim_br
+      integer,          intent(in)  :: iestim_inp
       integer,          intent(out) :: my_ierror
 !--local variables:
       integer, parameter       :: maxit = 100
       logical, parameter       :: use_powerlaw = .true.
-      logical                  :: used_bisec, was_complete, use_pow, ldone
-      integer                  :: k, x_force, x_locate, ic_return, sub_ierror
+      logical                  :: used_bisec, was_complete, has_contact, use_pow, ldone
+      integer                  :: k, x_force, x_locate, ic_return, iestim_br, sub_ierror
       real(kind=8)             :: ftot, ftarg, res_fk, tol_fk, dfk, tol_zk, z_shift0, z_shift, fz_cntc, &
                                   dftot_dz, r_new, aa, bb
       type(t_brent_its)        :: its
@@ -744,6 +750,8 @@ contains
 
       if (wtd%ic%norm.eq.1 .and. wtd%ws%fz_inp.lt.1d-9) then
          wtd%numcps = 0
+         wtd%ws%z   = 0d0
+         wtd%ftrk   = vec_zero()
          if (x_force.ge.1) then  
             call write_log(' Prescribed total force is zero or negative, skipping computation.')
          endif
@@ -771,6 +779,19 @@ contains
 
       if (wtd%ic%norm.eq.1 .and. abs(wtd%trk%kz_rail).le.1d-10) wtd%trk%fz_rail = -wtd%ws%fz_inp
 
+      ! reject iestim_br=1 in case of large difference fz_inp vs ftrk of previous case
+
+      iestim_br = iestim_inp
+      if (wtd%meta%ncase.gt.1 .and. wtd%ic%norm.eq.1 .and. iestim_br.eq.1 .and. &
+         (wtd%ws%fz_inp.gt.5d0*wtd%ftrk%z() .or. wtd%ftrk%z().gt.5d0*wtd%ws%fz_inp)) then
+         iestim_br = 0
+         if (x_force.ge.1) then
+            write(bufout,'(2(a,g12.3),a)') ' Fz_prv=',wtd%ftrk%z(),', Fz_inp=',wtd%ws%fz_inp,           &
+                        ': overriding I=1'
+            call write_log(1, bufout)
+         endif
+      endif
+
       ! prepare structure to hold iterates
 
       ftarg = -wtd%trk%fz_rail
@@ -792,7 +813,6 @@ contains
 
          ! method 0: analyze geometry for overall minimum gap and curvatures, set initial estimates k=0, k=1
 
-         call write_log(' use_powerlaw=F: contact_init_hertz')
          call wr_contact_init_hertz(wtd, its, ftarg, dftot_dz, aa, bb, IMETH_BRENT, x_force, x_locate,  &
                         sub_ierror)
          if (my_ierror.eq.0) my_ierror = sub_ierror
@@ -826,63 +846,72 @@ contains
          if (my_ierror.eq.0) my_ierror = sub_ierror
          wtd%ic%return = ic_return
 
-         ! store initial point { z_shift0, r_0 } at which initial contact occurs
+         if (my_ierror.eq.0 .and. wtd%ws%has_overlap) then
 
-         k        = 0
-         z_shift0 = z_shift + wtd%ws%gap_min    ! N=0: rail moving up; N=1: wheel moving down
-         fz_cntc  = 0d0
-         ftot     = get_f_totz(wtd, fz_cntc)
-         if (wtd%ic%norm.eq.0) ftot = ftot + wtd%trk%kz_rail * wtd%ws%gap_min
-         r_new    = ftot - ftarg
-         if (x_force.ge.3) then
-            write(bufout,'(3(a,f12.6))') ' z_shift=',z_shift,': gap_min=',wtd%ws%gap_min,', fz_cntc=',  &
-                        fz_cntc
-            call write_log(1, bufout)
-            write(bufout,'(a,f12.6,4(a,f12.3))') ' z_shift=',z_shift,': ftot=',get_f_totz(wtd),         &
+            ! store initial point { z_shift0, r_0 } at which initial contact occurs
+
+            k        = 0
+            z_shift0 = z_shift + wtd%ws%gap_min    ! N=0: rail moving up; N=1: wheel moving down
+            fz_cntc  = 0d0
+            ftot     = get_f_totz(wtd, fz_cntc)
+            if (wtd%ic%norm.eq.0) ftot = ftot + wtd%trk%kz_rail * wtd%ws%gap_min
+            r_new    = ftot - ftarg
+            if (x_force.ge.3) then
+               write(bufout,'(3(a,f12.6))') ' z_shift=',z_shift,': gap_min=',wtd%ws%gap_min,            &
+                        ', fz_cntc=',fz_cntc
+               call write_log(1, bufout)
+               write(bufout,'(a,f12.6,4(a,f12.3))') ' z_shift=',z_shift,': ftot=',get_f_totz(wtd),      &
                         ', ftot0=',ftot,', ftarg=',ftarg,', res=',r_new
-            call write_log(1, bufout)
-         endif
-         call brent_its_add_iterate(its, k, wtd%numcps, z_shift0, r_new, sub_ierror)
-         if (my_ierror.eq.0) my_ierror = sub_ierror
-         call brent_its_print(k, its, wtd%ic, x_force)
-
-         if (x_force.ge.3) then
-            write(bufout,'(a,i3)')   ' wr_contact_fz_brent: starting iteration k=', 1
-            call write_log(1, bufout)
-         endif
-
-         ! estimate z_shift using powerlaw method
-
-         k   = 1
-         wtd%meta%itforc_inn = k
-
-         tol_zk  = wtd%solv%eps
-         call solve_zshift_powerlaw(wtd, k, its, ftarg, tol_zk, z_shift, dftot_dz, x_force,                &
-                        was_complete, use_pow)
-
-         if (use_pow) then
-            if (x_force.ge.2) then
-               write(bufout,'(a,i2,a,f12.6,a,l2)') ' iteration k=',k,': using z_shift=',z_shift,            &
-                        ' from powerlaw method, is_complete=',was_complete
                call write_log(1, bufout)
             endif
-         else
-            call write_log(' Error: use_pow=.false., no initial estimate?')
-         endif
+            call brent_its_add_iterate(its, k, wtd%numcps, z_shift0, r_new, sub_ierror)
+            if (my_ierror.eq.0) my_ierror = sub_ierror
+            call brent_its_print(k, its, wtd%ic, x_force)
 
-         ! compute problem with new z_shift, get new fk
+            if (x_force.ge.3) then
+               write(bufout,'(a,i3)')   ' wr_contact_fz_brent: starting iteration k=', 1
+               call write_log(1, bufout)
+            endif
 
-         call set_z_shift(wtd, z_shift)
-         call wr_contact_pos(wtd, x_locate, sub_ierror)
-         if (my_ierror.eq.0) my_ierror = sub_ierror
+            ! estimate z_shift using powerlaw method
 
-         ! store first point { z_shift1, r_1 } for initial estimate z_shift
+            k   = 1
+            wtd%meta%itforc_inn = k
 
-         ftot  = get_f_totz(wtd)
-         r_new = ftot - ftarg
-         call brent_its_add_iterate(its, k, wtd%numcps, z_shift, r_new, sub_ierror)
-         if (my_ierror.eq.0) my_ierror = sub_ierror
-         call brent_its_print(k, its, wtd%ic, x_force)
+            tol_zk  = wtd%solv%eps
+            call solve_zshift_powerlaw(wtd, k, its, ftarg, tol_zk, z_shift, dftot_dz, x_force,          &
+                           was_complete, use_pow)
+
+            ! prevent loss of contact due to unforeseen contact configuration (alph>pi2, fsrel?)
+            z_shift = max(z_shift, z_shift0+0.001d0)
+
+            if (use_pow) then
+               if (x_force.ge.2) then
+                  write(bufout,'(a,i2,a,f12.6,a,l2)') ' iteration k=',k,': using z_shift=',z_shift,     &
+                           ' from powerlaw method, is_complete=',was_complete
+                  call write_log(1, bufout)
+               endif
+            else
+               call write_log(' Error: use_pow=.false., no initial estimate?')
+            endif
+
+            ! compute problem with new z_shift, get new fk
+
+            call set_z_shift(wtd, z_shift)
+            call wr_contact_pos(wtd, x_locate, sub_ierror)
+            if (my_ierror.eq.0) my_ierror = sub_ierror
+
+            ! store first point { z_shift1, r_1 } for initial estimate z_shift
+
+            ftot  = get_f_totz(wtd)
+            r_new = ftot - ftarg
+            call brent_its_add_iterate(its, k, wtd%numcps, z_shift, r_new, sub_ierror)
+            if (my_ierror.eq.0) my_ierror = sub_ierror
+            call brent_its_print(k, its, wtd%ic, x_force)
+
+            has_contact = (wtd%ftrk%z().ge.1d-6)
+
+         endif ! has_overlap
 
       elseif (iestim_br.eq.1) then
 
@@ -921,13 +950,14 @@ contains
          if (my_ierror.eq.0) my_ierror = sub_ierror
          call brent_its_print(k, its, wtd%ic, x_force)
 
+         has_contact = .true.
          was_complete = .true.
 
       endif
 
       ! Abort in case of error or if the profiles have no overlap at all
 
-      if (my_ierror.ne.0 .or. .not.wtd%ws%has_overlap) then
+      if (my_ierror.ne.0 .or. .not.wtd%ws%has_overlap .or. .not.has_contact) then
          call write_log(' no overlap...')
          call total_forces_moments(wtd)
          ! call brent_its_destroy(its)
@@ -978,31 +1008,43 @@ contains
 
          if (use_pow) then
             if (x_force.ge.2) then
-               write(bufout,'(a,i2,a,f11.7,a,l2)') ' iteration k=',k,': using z_shift=',z_shift,        &
+               write(bufout,'(a,i2,a,f12.7,a,l2)') ' iteration k=',k,': using z_shift=',z_shift,        &
                         ' from powerlaw method, is_complete=',was_complete
                call write_log(1, bufout)
             endif
          else
             call brent_set_xnew(k, its, dftot_dz, used_bisec, tol_zk, z_shift, x_force)
             if (x_force.ge.2) then
-               write(bufout,'(a,i2,a,f11.7,a)') ' iteration k=',k,': using z_shift=',z_shift,           &
+               write(bufout,'(a,i2,a,f12.7,a)') ' iteration k=',k,': using z_shift=',z_shift,           &
                         ' from Brents method'
                call write_log(1, bufout)
             endif
          endif
 
-         ! compute problem with new z_shift^k, get new fk
+         if (z_shift.gt.1.1d0*wtd%ws%nom_radius) then
 
-         call set_z_shift(wtd, z_shift)
-         call wr_contact_pos(wtd, x_locate, sub_ierror)
-         if (my_ierror.eq.0) my_ierror = sub_ierror
+            ! Abort in case z_shift grows out of bounds
 
-         ftot = get_f_totz(wtd)
-         r_new = ftot - ftarg
+            my_ierror = -4
+            write(bufout,'(a,i3,2(a,f9.3))') ' Error: iteration k=',k,': z_shift=',z_shift,             &
+                        ' too large wrt r_nom=',wtd%ws%nom_radius,', aborting'
+            call write_log(1, bufout)
 
-         call brent_its_add_iterate(its, k, wtd%numcps, z_shift, r_new, sub_ierror)
-         if (my_ierror.eq.0) my_ierror = sub_ierror
-         call brent_its_print(k, its, wtd%ic, x_force)
+         else
+
+            ! compute problem with new z_shift^k, get new fk
+
+            call set_z_shift(wtd, z_shift)
+            call wr_contact_pos(wtd, x_locate, sub_ierror)
+            if (my_ierror.eq.0) my_ierror = sub_ierror
+
+            ftot = get_f_totz(wtd)
+            r_new = ftot - ftarg
+
+            call brent_its_add_iterate(its, k, wtd%numcps, z_shift, r_new, sub_ierror)
+            if (my_ierror.eq.0) my_ierror = sub_ierror
+            call brent_its_print(k, its, wtd%ic, x_force)
+         endif
 
          ! check convergence
 
@@ -1011,7 +1053,7 @@ contains
                         k.ge.wtd%solv%maxnr .or. my_ierror.ne.0 .or. brent_its_has_jump(its, x_force) )
 
          if (my_ierror.lt.0) then
-            write(bufout,'(a,i3,a)') ' An error occurred the in Brent algorithm (',my_ierror,           &
+            write(bufout,'(a,i3,a)') ' An error occurred in the Brent algorithm (',my_ierror,           &
                 '), aborting contact solution'
             call write_log(1, bufout)
          endif
@@ -1140,25 +1182,25 @@ contains
 
       if (.not.ldone) then
 
-         call solve_yshift_powerlaw(wtd, k, its, ftarg, yshift_pow, z_shift, x_force, use_pow2)
+         call solve_yshift_powerlaw(wtd, k, its, ftarg, r_new, yshift_pow, z_shift, x_force, use_pow2)
 
          ! fall-back: set second guess dy_defl = +/- 1, solve for z_shift using inner iteration
 
          if (use_pow2) then
             y_shift = yshift_pow
             if (x_force.ge.2) then
-               write(bufout,'(a,i2,2(a,f10.6),a)') ' fy, iteration k=',k,': using y_shift=',y_shift,    &
+               write(bufout,'(a,i2,2(a,f11.6),a)') ' fy, iteration k=',k,': using y_shift=',y_shift,    &
                         ', z_shift=',z_shift,' from powerlaw method'
                call write_log(1, bufout)
             endif
          else
             if (r_new.gt.0d0) then
-               y_shift = y_shift - 1d0
+               y_shift = y_shift - wtd%trk%dystep0
             else
-               y_shift = y_shift + 1d0
+               y_shift = y_shift + wtd%trk%dystep0
             endif
             if (x_force.ge.2) then
-               write(bufout,'(a,i2,a,f10.6)') ' fy, iteration k=',k,': using fall-back y_shift=', y_shift
+               write(bufout,'(a,i2,a,f11.6)') ' fy, iteration k=',k,': using fall-back y_shift=', y_shift
                call write_log(1, bufout)
             endif
          endif
@@ -1205,14 +1247,14 @@ contains
          ! determine new point y_shift using 2x2 powerlaw method
 
          z_shift  = get_z_shift(wtd)
-         call solve_yshift_powerlaw(wtd, k, its, ftarg, y_shift, zshift_pow, x_force, use_pow2)
+         call solve_yshift_powerlaw(wtd, k, its, ftarg, r_new, y_shift, zshift_pow, x_force, use_pow2)
 
          ! fall-back: determine new point y_shift using Brent update
 
          if (use_pow2) then
             z_shift = zshift_pow
             if (x_force.ge.2) then
-               write(bufout,'(a,i2,2(a,f11.7),a)') ' fy, iteration k=',k,': using y_shift=',y_shift,    &
+               write(bufout,'(a,i2,2(a,f11.6),a)') ' fy, iteration k=',k,': using y_shift=',y_shift,    &
                         ', z_shift=',z_shift,' from powerlaw method'
                call write_log(1, bufout)
             endif
@@ -1221,7 +1263,7 @@ contains
             call brent_set_xnew(k, its, dfy_dy, used_bisec, tol_xk, y_shift, x_force)
 
             if (x_force.ge.2) then
-               write(bufout,'(a,i2,2(a,f11.7))') ' fy, iteration k=',k,': using y_shift=',y_shift,      &
+               write(bufout,'(a,i2,2(a,f11.6))') ' fy, iteration k=',k,': using y_shift=',y_shift,      &
                         ' from Brents method, keep z_shift=',z_shift
                call write_log(1, bufout)
             endif
@@ -1261,7 +1303,7 @@ contains
                         k.ge.wtd%solv%maxnr .or. my_ierror.ne.0 .or. brent_its_has_jump(its, x_force) )
 
          if (my_ierror.lt.0) then
-            write(bufout,'(a,i3,a)') ' An error occurred the in Brent algorithm (',my_ierror,           &
+            write(bufout,'(a,i3,a)') ' An error occurred in the Brent algorithm (',my_ierror,           &
                 '), aborting contact solution'
             call write_log(1, bufout)
          endif
@@ -1280,7 +1322,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine solve_yshift_powerlaw(wtd, k, its, ftarg, yshift_new, zshift_new, x_force, use_pow2)
+   subroutine solve_yshift_powerlaw(wtd, k, its, ftarg, res_fy, yshift_new, zshift_new, x_force, use_pow2)
 !--purpose: determine new (y_shift,z_shift) using approximate 2x2 power law for each contact patch:
 !           F_{n,i} = C_i pen_i^1.5 , F_{s,i} = f_{s,i} * F_{n,i}
       implicit none
@@ -1288,7 +1330,7 @@ contains
       type(t_ws_track)                 :: wtd
       integer,           intent(in)    :: k, x_force
       type(t_brent_its), intent(in)    :: its
-      real(kind=8),      intent(in)    :: ftarg(2)
+      real(kind=8),      intent(in)    :: ftarg(2), res_fy
       real(kind=8),      intent(out)   :: yshift_new, zshift_new
       logical,           intent(out)   :: use_pow2
 !--local variables:
@@ -1299,7 +1341,8 @@ contains
       real(kind=8)   :: y_shift, z_shift, dz_defl, c_hz, fs_rel, alph, pen, sgn, fac,                   &
                         e_star, epshz, fn_hz, aa, bb, c_p, rho, fac_max, dx_n
       real(kind=8)   :: rot(2,2), jac_loc(2,2), jac_rt(2,2), rjrt(2,2), jac_glb(2,2), j_inv(2,2),       &
-                        det, res(2), dx(2), fn_est, fs_est, fy_est, fz_est, f_glb(2), tol_brack
+                        det, res(2), dx(2), fn_est, fs_est, fy_est, fz_est, f_glb(2), tol_brack,        &
+                        dy_est, dy_tbl, dy_new
 
       if (wtd%ic%is_left_side()) then
          sgn = -1d0
@@ -1357,10 +1400,10 @@ contains
          do icp = 1, wtd%numcps+wtd%n_miss
             associate(cp => wtd%allcps(icp)%cp)
             if (icp.gt.wtd%numcps) then
-               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' mis',icp-wtd%numcps,': alph_i=',      &
+               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f10.6))') ' mis',icp-wtd%numcps,': alph_i=',     &
                     sgn*cp%delttr,', C_i=',cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft1=',z_shift+cp%gap_min
             else
-               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f9.6))') ' icp',icp,': alph_i=',sgn*cp%delttr,   &
+               write(bufout,'(a,i2,a,f9.5,a,es12.5,2(a,f10.6))') ' icp',icp,': alph_i=',sgn*cp%delttr,  &
                         ', C_i=', cp%c_hz, ', F_s,i=',cp%fs_rel, ', zshft0=',z_shift+cp%gap_min
             endif
             call write_log(1, bufout)
@@ -1372,6 +1415,8 @@ contains
 
       ! - initial estimate: current values
 
+      ldone = .false.
+      iter  = 0
       yshift_new = y_shift
       zshift_new = z_shift
 
@@ -1381,8 +1426,6 @@ contains
          call write_log(1, bufout)
       endif
 
-      ldone = .false.
-      iter  = 0
       do while(iter.lt.max_nr .and. .not.ldone)
 
          iter    = iter + 1
@@ -1503,7 +1546,6 @@ contains
 
          res(1) = f_glb(1) - ftarg(1)
          res(2) = f_glb(2) - ftarg(2)
-         ldone  = (max(abs(res(1)), abs(res(2))).lt.eps_fz)
 
          ! solve J * dx = -res
 
@@ -1527,7 +1569,7 @@ contains
          dx(1) = -( j_inv(1,1) * res(1) + j_inv(1,2) * res(2) )
          dx(2) = -( j_inv(2,1) * res(1) + j_inv(2,2) * res(2) )
 
-         ! apply back-tracking to ensure pen>=0
+         ! apply back-tracking to maintain contact (pen>=0) on true contact patches
 
          fac_max = 1d0
 
@@ -1544,6 +1586,9 @@ contains
             endif
          enddo
 
+         ldone  = (max(abs(res(1)), abs(res(2))).lt.eps_fz .or. fac_max.lt.0.0001d0 .or.                &
+                   wtd%numcps+wtd%n_miss.le.0)
+
          fac = fac_max
          yshift_new = yshift_new + fac * dx(1)
          zshift_new = zshift_new + fac * dx(2)
@@ -1558,12 +1603,50 @@ contains
 
       ! tell the iteration method whether to use [yz]shift_new or not
 
-      use_pow2 = (ldone .and. k.le.10)        !   (.not.was_complete .or. .not.is_complete))
+      use_pow2 = (max(abs(res(1)), abs(res(2))).lt.eps_fz) 
+                                                ! (k.lt.10, .not.was_complete .or. .not.is_complete))
+
+      if (.not.brent_its_has_bracket(its)) then
+
+         ! require step in the right direction
+
+         if (k.le.2 .and. res_fy*yshift_new.gt.0d0) then
+            if (x_force.ge.2) then
+               write(bufout,'(3(a,g12.4))') ' solve_yshift: no bracket, r=',res_fy,', dy=',yshift_new,  &
+                        ': wrong direction'
+               call write_log(1, bufout)
+            endif
+            use_pow2 = .false.
+         endif
+
+         dy_tbl = its%itdata(its%numit)%xk - its%itdata(1)%xk
+         dy_est = yshift_new - y_shift
+
+         if (k.ge.2) then
+            if (its%itdata(1)%rk.gt.0d0) then
+
+               ! expecting Fy(-50) < 0, keep moving in direction dy_tbl even if dy_new suggests otherwise
+               !                        require step dy_new \in [ -1.5, -0.2 ] * (x_n - x_0)
+   
+               dy_new = max(-1.5d0*dy_tbl, min(-0.2d0*dy_tbl, dy_est))
+            else
+               dy_new = max( 0.2d0*dy_tbl, min( 1.5d0*dy_tbl, dy_est))
+            endif
+            yshift_new = y_shift + dy_new
+            if (x_force.ge.2) then
+               write(bufout,'(4(a,g12.4))') ' rk=',its%itdata(1)%rk,', dy_tbl=',dy_tbl,', y_new=',      &
+                           y_shift+dy_est,' -->', y_shift+dy_new
+               call write_log(1, bufout)
+            endif
+         endif
+
+      endif
 
       ! for one-patch cases, reject large steps in the initial iterations
 
-      if (ncontrb.le.1 .and. k.le.3 .and. (abs(zshift_new-z_shift).gt.1d0 .or.                          &
-                                           abs(yshift_new-y_shift).gt.5d0)) use_pow2 = .false.
+      ! if (ncontrb.le.1) use_pow2 = .false.
+      if (ncontrb.le.2 .and. k.le.8 .and. (abs(zshift_new-z_shift).gt.1d0 .or.                          &
+                                           abs(yshift_new-y_shift).gt.3d0)) use_pow2 = .false.
 
       ! for one-patch cases, switch to Brent as soon as a bracket is found
 
@@ -1845,7 +1928,7 @@ contains
          call secant_fx_print(neq, k, xk, fk, ftarg, bk, wtd%ic, x_force)
 
          if (my_ierror.lt.0) then
-            write(bufout,'(a,i3,a)') ' An error occurred the in Secant algorithm (',my_ierror,          &
+            write(bufout,'(a,i3,a)') ' An error occurred in the Secant algorithm (',my_ierror,          &
                 '), aborting contact solution'
             call write_log(1, bufout)
          endif

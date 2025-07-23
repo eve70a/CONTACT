@@ -429,8 +429,12 @@ contains
             dfdx = brent_sensitivity_k(its%itdata(it)%k, its, idebug_br)
 
             strptr = ' <--'
-            if (associated(its%it_0) .and. its%itdata(it)%k.eq.its%it_0%k) strptr = trim(strptr) // ' x0,'
-            if (associated(its%it_1) .and. its%itdata(it)%k.eq.its%it_1%k) strptr = trim(strptr) // ' x1,'
+            if (associated(its%it_0)) then
+               if (its%itdata(it)%k.eq.its%it_0%k) strptr = trim(strptr) // ' x0,'
+            endif
+            if (associated(its%it_1)) then
+               if (its%itdata(it)%k.eq.its%it_1%k) strptr = trim(strptr) // ' x1,'
+            endif
             if (its%itdata(it)%k.eq.its%it_a%k) strptr = trim(strptr) // ' A,'
             if (its%itdata(it)%k.eq.its%it_b%k) strptr = trim(strptr) // ' B,'
             if (its%itdata(it)%k.eq.its%it_c%k) strptr = trim(strptr) // ' C,'
@@ -737,22 +741,24 @@ contains
          if (its%itdata(1)%rk.gt.0d0) then
 
             ! expecting Fy(-50) < 0, extrapolate at start of table + 5% to shoot past zero
-            !                        require step dx_new \in [ -1.5, -0.1 ] * (x_n - x_0)
+            !                        keep moving in direction dx even if dr suggests otherwise
+            !                        require step dx_new \in [ -1.5, -0.2 ] * (x_n - x_0)
 
             dx_est = -r_b * dx / dr * 1.05d0
-            dx_new = max(-1.5d0*dx, min(-0.1d0*dx, dx_est))
+            dx_new = max(-1.5d0*dx, min(-0.2d0*dx, dx_est))
             x_new  =  its%itdata(1)%xk + dx_new
 
          else
 
             ! expecting Fy(50) > 0, extrapolate at end of table + 5% to shoot past zero
-            !                       require step dx_new \in [ 0.1, 1.5 ] * (x_n - x_0)
+            !                       keep moving in direction dx even if dr suggests otherwise
+            !                       require step dx_new \in [ 0.2, 1.5 ] * (x_n - x_0)
 
             dx = its%itdata(its%numit)%xk - its%itdata(1)%xk
             dr = its%itdata(its%numit)%rk - its%itdata(1)%rk
 
             dx_est = -r_b * dx / dr * 1.05d0
-            dx_new = max(0.1d0*dx, min(1.5d0*dx, dx_est))
+            dx_new = max(0.2d0*dx, min(1.5d0*dx, dx_est))
             x_new  =  its%itdata(its%numit)%xk + dx_new
 
          endif
@@ -818,13 +824,13 @@ contains
 
          ztest(1) = (x_new-(3d0*x_a+x_b)/4d0) * (x_new-x_b) .gt. 0d0
          ztest(2) =      used_bisec .and. abs(x_new-x_b) .ge. 0.5d0*abs(x_k -x_km1)
-         ztest(3) = .not.used_bisec .and. abs(x_new-x_b) .ge. 0.5d0*abs(x_km1-x_km2)
+         ztest(3) = .not.used_bisec .and. abs(x_new-x_b) .ge. 0.5d0*abs(x_km1-x_km2) .and. k.gt.2
          ztest(4) =      used_bisec .and. abs(x_k  -x_km1) .lt. tol_xk
-         ztest(5) = .not.used_bisec .and. abs(x_km1-x_km2) .lt. tol_xk
+         ztest(5) = .not.used_bisec .and. abs(x_km1-x_km2) .lt. tol_xk .and. k.gt.2
 
-         if (idebug_br.ge.4) then
+         if (idebug_br.ge.2) then
             if (ztest(1)) then
-               write(bufout,*) ' 1: |x_new=',x_new,' not in [', (3d0*x_a+x_b)/4d0, ',', x_b, ']'
+               write(bufout,*) ' 1: x_new=',x_new,' not in [', (3d0*x_a+x_b)/4d0, ',', x_b, ']'
                call write_log(1, bufout)
             elseif (ztest(2)) then
                ! call brent_its_print(k, its, ic, idebug_br+2)
