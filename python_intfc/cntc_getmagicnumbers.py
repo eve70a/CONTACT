@@ -127,6 +127,7 @@ def cntc_getmagicnumbers():
                                #       patches concurrently
     CNTC['if_timers']  = 2004; # code for level of output w.r.t. performance timers
                                #     0 = none, 1 = overview, 2 = full
+    CNTC['if_ncase']   = 2005; # code for retrieving the case number of a result element
 
     # codes for cntc_getFieldData:
 

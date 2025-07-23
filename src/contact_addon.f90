@@ -967,6 +967,10 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
          call timers_contact_outlevel(values(i))
 
+      elseif (params(i).eq.CNTC_if_ncase) then          ! set case number in the RE-CP-data
+
+         my_meta%ncase = max(0, values(i)-1)            ! user supplied ncase --> next mat-file number
+
       else
 
          write(bufout,'(a,i8,a)') ' WARNING: unknown parameter code=',params(i),' is ignored.'
@@ -3599,6 +3603,10 @@ subroutine cntc_calculate1(ire, ierror) &
 
    associate(my_wheel => wtd%ws%whl, my_rail  => wtd%trk%rai)
 
+   ! Increment the case number for this (ire)
+
+   my_meta%ncase = my_meta%ncase + 1
+
    if (idebug.ge.2) then
       write(bufout,'(2a)') trim(pfx_str(subnam,ire,-1)),' checking problem specification...'
       call write_log(1, bufout)
@@ -3754,10 +3762,6 @@ subroutine cntc_calculate1(ire, ierror) &
       endif
    endif
 
-   ! Increment the number of cases computed for this (ire)
-
-   my_meta%ncase = my_meta%ncase + 1
-
    if (idebug.ge.1) then
       write(bufout,'(2a)')       trim(pfx_str(subnam,ire,-1)),' done...'
       call write_log(1, bufout)
@@ -3790,6 +3794,10 @@ subroutine cntc_calculate3(ire, icp, ierror) &
    if (idebug.ge.4) call cntc_log_start(subnam, .true.)
    call cntc_activate(ire, icp, 3, 1, subnam, ierror)
    if (ierror.lt.0) return
+
+   ! increment the case number for this (ire,icp)
+
+   my_meta%ncase = my_meta%ncase + 1
 
    ! report on the settings for the contact patch
 
@@ -3878,10 +3886,6 @@ subroutine cntc_calculate3(ire, icp, ierror) &
                         gd%outpt1, gd%subs, .true.)
       call timer_stop(itimer_files)
    endif
-
-   ! Increment the number of cases computed for this (ire,icp)
-
-   my_meta%ncase = my_meta%ncase + 1
 
    ! Check for errors in NORM and TANG or too small pot.contact area
 
@@ -4150,6 +4154,10 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
       elseif (params(i).eq.CNTC_if_wrtinp) then         ! get flag wrtinp from the RE-CP-data
 
          values(i) = my_ic%wrtinp
+
+      elseif (params(i).eq.CNTC_if_ncase) then          ! get case number from the RE-CP-data
+
+         values(i) = my_meta%ncase
 
       else
 
