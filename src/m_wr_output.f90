@@ -394,8 +394,8 @@ contains
 
          associate(cgrid  => gd%cgrid_cur,    muscal => gd%kin%muscal,    pen    => gd%kin%pen,         &
                    cksi   => gd%kin%cksi,     ceta   => gd%kin%ceta,      cphi   => gd%kin%cphi,        &
-                   fntrue => gd%kin%fntrue,   fxrel  => gd%kin%fxrel,                                   &
-                   fyrel  => gd%kin%fyrel,    chi    => gd%kin%chi,       veloc  => gd%kin%veloc,       &
+                   fntrue => gd%kin%fntrue,   fxrel  => gd%kin%fxrel,     fyrel  => gd%kin%fyrel,       &
+                   fcntc  => gd%kin%fcntc,    chi    => gd%kin%chi,       veloc  => gd%kin%veloc,       &
                    dq     => gd%kin%dq,       mus1   => gd%outpt1%mus,    igs1   => gd%outpt1%igs,      &
                    ps1    => gd%outpt1%ps,    shft1  => gd%outpt1%shft,   mztrue => gd%outpt1%mztrue,   &
                    elen   => gd%outpt1%elen,  temp1  => gd%outpt1%temp1,  temp2  => gd%outpt1%temp2,    &
@@ -519,63 +519,73 @@ contains
 
             ! Filter values that are dominated by noise using filt_sml()
 
-            fxtrue = fxrel * (fntrue*muscal+tiny)
-            fytrue = fyrel * (fntrue*muscal+tiny)
-
-            strng(1) = fmt_gs(12,nd, 4, fntrue)
-            strng(2) = fmt_gs(12,nd, 4, filt_sml(    fxtrue,0.5d0*eps*fntrue*muscal))
-            strng(3) = fmt_gs(12,nd, 4, filt_sml(sgn*fytrue,0.5d0*eps*fntrue*muscal))
+            strng(1) = fmt_gs(12,nd, 4, fcntc(3))
+            strng(2) = fmt_gs(12,nd, 4, filt_sml(    fcntc(1), 0.5d0*eps*fcntc(3)*muscal))
+            strng(3) = fmt_gs(12,nd, 4, filt_sml(sgn*fcntc(2), 0.5d0*eps*fcntc(3)*muscal))
             strng(4) = fmt_gs(12, 4, 4, sgn*mztrue)
             strng(5) = fmt_gs(12, 4, 4, elen)
             strng(6) = fmt_gs(12, 4, 4, frpow)
 
             if (ic%output_surf.ge.2) write(lout,6400)
+            if (.not.ic%is_conformal()) then
             write(lout,6401)
-            write(lout,6402) (strng(j), j=1,6)
+            else
+               write(lout,6402)
+            endif
+            write(lout,6403) (strng(j), j=1,6)
  6400       format (1x, /, ' TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER')
  6401       format (2x, 3x,'FN',7x, 3x,'FX',7x, 3x,'FS',7x, 3x,'MN',7x, 2x,'ELAST.EN.',1x, 2x,'FRIC.POWER')
- 6402       format ( 2x, 6a12)
+ 6402       format (2x, 3x,'BAR_FN',3x, 3x,'BAR_FX',3x, 3x,'BAR_FS',3x, 3x,'MN',7x, 2x,'ELAST.EN.',1x,  &
+                        2x,'FRIC.POWER')
+ 6403       format ( 2x, 6a12)
 
-            strng(1) = 'FX/FSTAT/FN'
-            strng(2) = 'FS/FSTAT/FN'
-            if (.not.gd%kin%use_muscal) strng(1) = '  FX/FN'
-            if (.not.gd%kin%use_muscal) strng(2) = ' FS/FN'
+            if (.not.ic%is_conformal()) then
+               strng( 1) = '   FN/G'
+               strng(11) = fmt_gs(12, 4, 4, fcntc(3)/mater%ga)
+            else
+               strng( 1) = '   TILDE_FN'
+               strng(11) = fmt_gs(12, 4, 4, fntrue)
+            endif
 
-            strng(3) = fmt_gs(12, 4, 4, fntrue/mater%ga)
-            strng(4) = fmt_gs(12, 4, 4, filt_sml(fxrel, 0.5d0*eps))
-            strng(5) = fmt_gs(12, 4, 4, filt_sml(sgn*fyrel, 0.5d0*eps))
-            strng(6) = fmt_gs(12, 6, 4, gd%kin%pen)
+            strng( 2) = ' FX/FSTAT/FN'
+            strng( 3) = ' FS/FSTAT/FN'
+            if (.not.gd%kin%use_muscal) strng(2) = '   FX/FN'
+            if (.not.gd%kin%use_muscal) strng(3) = '   FS/FN'
+            strng(12) = fmt_gs(12, 4, 4, filt_sml(    fxrel, 0.5d0*eps))
+            strng(13) = fmt_gs(12, 4, 4, filt_sml(sgn*fyrel, 0.5d0*eps))
+
+            strng( 4) = '   APPROACH'
+            strng(14) = fmt_gs(12, 6, 4, gd%kin%pen)
 
             if (ic%print_pmax) then
-               strng(7)  = '    PMAX    '
-               strng(9)  = fmt_gs(12,nd, 4, pmax1)
+               strng( 5)  = '    PMAX'
+               strng(15)  = fmt_gs(12,nd, 4, pmax1)
             endif
             if (ic%heat.ge.1) then
                tmp1mx = gf3_max(AllInt, temp1, ikZDIR)
                tmp2mx = gf3_max(AllInt, temp2, ikZDIR)
                if (.not.ic%print_pmax) then
-                  strng(7)  = '     MAX(T1)'
-                  strng(8)  = '     MAX(T2)'
-                  strng(9)  = fmt_gs(12, 4, 4, tmp1mx)
-                  strng(10) = fmt_gs(12, 4, 4, tmp2mx)
+                  strng( 5) = '     MAX(T1)'
+                  strng( 6) = '     MAX(T2)'
+                  strng(15) = fmt_gs(12, 4, 4, tmp1mx)
+                  strng(16) = fmt_gs(12, 4, 4, tmp2mx)
                else
-                  strng(8)  = '  MAX(T1,T2)'
-                  strng(10) = fmt_gs(12, 4, 4, max(tmp1mx,tmp2mx))
+                  strng( 6)  = '  MAX(T1,T2)'
+                  strng(16) = fmt_gs(12, 4, 4, max(tmp1mx,tmp2mx))
                endif
             endif
 
             if (ic%heat.ge.1) then
-               write(lout,6411) (strng(j), j=1,2), strng(7), strng(8)
-               write(lout,6412) (strng(j), j=3,6), strng(9), strng(10)
+               write(lout,6411) (strng(j), j= 1, 6)
+               write(lout,6411) (strng(j), j=11,16)
             elseif (ic%print_pmax) then
-               write(lout,6411) (strng(j), j=1,2), strng(7)
-               write(lout,6412) (strng(j), j=3,6), strng(9)
+               write(lout,6411) (strng(j), j= 1, 5)
+               write(lout,6411) (strng(j), j=11,15)
             else
-               write(lout,6411) (strng(j), j=1,2)
-               write(lout,6412) (strng(j), j=3,6)
+               write(lout,6411) (strng(j), j= 1, 4)
+               write(lout,6411) (strng(j), j=11,14)
             endif
- 6411       format('     FN/G      ',a12,1x,a12,' APPROACH',:,1x,2a12)
- 6412       format(2x, 6a12)
+ 6411       format(2x,6a12)
 
          endif
 
