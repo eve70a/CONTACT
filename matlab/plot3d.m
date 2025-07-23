@@ -1847,8 +1847,17 @@ function show_rw_rear_view(sol, field, opt)
    end
 
    % convert field to 2d view, aggregating values over columns
-   % TODO: provide max, absmax, maxabs, sum
-   val   = max(val, [], 2)';
+   %   field: [my,mx] --> result: [1,my]
+   use_max    = (ischar(field) & strcmp(opt.field,'pn'));
+   use_maxabs = ~use_max;
+   if (use_max)         % pn: plain maximum
+      val   = max(val');
+   elseif (use_maxabs)  % ps, px, etc: entries with maximum absolute value
+      [~,i]   = max(abs(val), [], 2, 'linear');
+      val = val(i)';
+   else
+      % absmax, integral, ...
+   end
    scale = get_vecscale( sol, opt, val );
 
    yc = sol.y; zc = -scale*val;
@@ -1930,9 +1939,20 @@ function show_rw_side_view(sol, field, opt)
    end
 
    % convert field to 2d view, aggregating values over rows
-   % TODO: provide max, absmax, maxabs, sum
+   %   field: [my,mx] --> result: [1,mx]
 
-   val   = max(val, [], 1);
+   use_max    = (ischar(field) & strcmp(opt.field,'pn'));
+   use_maxabs = ~use_max;
+
+   if (use_max)
+      val   = max(val, [], 1);
+   elseif (use_maxabs)
+      [~,i] = max(abs(val), [], 'linear');
+      val   = val(i);
+   else
+      % absmax, sum, integral
+   end 
+
    scale = get_vecscale( sol, opt, val );
 
    xc = sol.x; zc = -scale*val;
