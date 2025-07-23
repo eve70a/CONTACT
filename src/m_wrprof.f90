@@ -41,10 +41,14 @@ contains
          wtd%meta%ncase = wtd%meta%ncase + 1
          lfirst = .false.
 
-         if (wtd%meta%ncase.le.99999) then
-            write(bufout,'(/,a,i6)') ' Case',wtd%meta%ncase
+         if (wtd%meta%REid.ge.1 .and. wtd%meta%ncase.le.99999) then
+            write(bufout,'(/,a,i6,a,i4)') ' Case',wtd%meta%ncase,', result element',wtd%meta%REid
+         elseif (wtd%meta%REid.ge.1) then
+            write(bufout,'(/,a,i8,a,i4)') ' Case',wtd%meta%ncase,', result element',wtd%meta%REid
+         elseif (                     wtd%meta%ncase.le.99999) then
+            write(bufout,'(/,a,i6)')      ' Case',wtd%meta%ncase
          else
-            write(bufout,'(/,a,i8)') ' Case',wtd%meta%ncase
+            write(bufout,'(/,a,i8)')      ' Case',wtd%meta%ncase
          endif
          call write_log(2, bufout)
 

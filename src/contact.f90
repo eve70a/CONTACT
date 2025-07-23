@@ -7,6 +7,7 @@
 !============================================================================================================
 
 program contact
+   use m_global_data
    use m_hierarch_data
    use m_wrprof_data
    use m_nonhz
@@ -29,7 +30,7 @@ program contact
    logical, parameter :: lstop = .true.
    integer, parameter :: mxnval = 20
    integer            :: ints(mxnval)
-   logical            :: flags(mxnval)
+   logical            :: flags(mxnval), zerror
    real(kind=8)       :: dbles(mxnval)
    character*256      :: strngs(mxnval)
    integer            :: linenr, nval, idebug, ieof, ierror
@@ -37,28 +38,14 @@ program contact
    ! Other 'local' variables :
 
    integer, parameter :: timer_output = 2   !  0 = none, 1 = overview, 2 = full, 3+ = debug
-   integer            :: imode, modul, mxthrd
+   integer            :: imode, imodul, REid, CPid, mxthrd
 
-   ! Pointer to the main problem data (-structure)
 
-   type(t_probdata), pointer :: gd
-   type(t_ws_track), pointer :: wtd
-
-   ! Create a single global instance "gd" of the hierarchical data-structure,
-   ! initialize with a sensible default problem
-
-   allocate(gd)
-   call gd_init(gd)
-
-   allocate(wtd)
-   call wrprof_init(wtd)
+   program_id = program_cexe
 
    ! Obtain mode of operation and experiment name, open file-units linp, lout
 
-   call ReadModeExp(imode, gd, linenr)
-   wtd%meta%wrkdir  = gd%meta%wrkdir
-   wtd%meta%outdir  = gd%meta%outdir
-   wtd%meta%expnam  = gd%meta%expnam
+   call ReadModeExp(imode, linenr)
 
    call set_print_streams(nw_outfil=.true., nw_screen=.true., nw_simpck=.false.)
 
@@ -67,6 +54,18 @@ program contact
    if (.false.) then
       call set_print_streams(nw_outfil=.false., nw_screen=.false., nw_simpck=.false.)
    endif
+
+   ! Initialise performance timers
+
+   call timers_contact_init(louttm=lout, idebug=timer_output)
+   call timer_start(itimer_main)
+
+   ! Initialize the result element data-structures, esp allwtd, allgds, wtd, gd
+
+   ierror = 0
+   call cntc_initialize_data()
+   call cntc_activate_wtd(0, -1, ierror)
+   call cntc_activate_gd(0, 1, ierror)
 
    ! Check if there is a license present for this version of CONTACT.
    ! Display information from the licensefile, if it is valid.
@@ -94,43 +93,75 @@ program contact
 
    else
 
-      ! Initialise performance timers
-
-      call timers_contact_init(louttm=lout, idebug=timer_output)
-      call timer_start(itimer_main)
-
       ! Perform a loop for executing all "cases" of the simulation
 
-      modul = 1
+      imodul = 1
 
-      do while (modul.ne.0)
+      do while (imodul.ne.0)
 
          ! Get the module-number for the next case or sequence of cases
 
          idebug = 0
          ieof   = -1 ! eof=error
-         call readLine(linp, gd%meta%ncase+1, linenr, 'module number', 'i', ints, dbles, flags,         &
+         call readLine(linp, my_meta%ncase+1, linenr, 'module number', 'iII', ints, dbles, flags,       &
                        strngs, mxnval, nval, idebug, ieof, lstop, ierror)
-         modul = ints(1)
-         if (modul.ne.0 .and. modul.ne.1 .and. modul.ne.3) then
-            write(bufout,7200) modul, linenr
+         zerror = (ierror.ne.0)
+
+         imodul = ints(1)
+         if (imodul.ne.0 .and. imodul.ne.1 .and. imodul.ne.3) then
+            zerror = .true.
+            write(bufout,7200) imodul, linenr
             call write_log(2, bufout)
  7200       format (/' ERROR: invalid module number (',i6,') at line',i6,'.')
-            if (modul.eq.1) modul = 0
          endif
 
-         ! Start processing the next case
-         ! Note: each call to WrProf or NonHz may handle more than one case.
+         ! get optional REid, CPid
 
-         if (modul.eq.1) then
-            call wrprof (imode, wtd, linenr)
-            gd%meta%ncase = wtd%meta%ncase
-         elseif (modul.eq.3) then
-            call nonhz (imode, gd, linenr)
-            wtd%meta%ncase = gd%meta%ncase
+         if (nval.ge.2) then    ! if specified, require REid >= 1
+            REid = ints(2)
+            zerror = zerror .or. .not.check_irng('Result Element number', REid, 1, MAX_REid_id)
+         else
+            REid = 0
+         endif
+         if (imodul.eq.1) then
+            CPid = -1
+         elseif (nval.ge.3) then
+            CPid = ints(3)
+            zerror = zerror .or. .not.check_irng('Contact patch number', CPid, 1, MAX_CPids)
+         else
+            CPid = 1            ! default Result element: (REid, CPid) = (0, 1)
          endif
 
-      ! end while (modul.ne.0)
+         if (zerror) then
+
+            call write_log(' Errors found, aborting execution')
+            imodul = 0
+
+         elseif (imodul.ne.0) then
+
+            ! Activate data-structure for current result element
+
+            if (imodul.eq.1 .or. REid.eq.0) then
+               call cntc_activate_wtd(REid, -1, ierror)
+            endif
+            if (imodul.eq.3 .or. REid.eq.0) then
+               call cntc_activate_gd(REid, max(1,CPid), ierror)
+            endif
+            if (ierror.ne.0) call abort_run()
+
+            ! Start processing the next case
+            ! Note: each call to WrProf or NonHz may handle more than one case.
+
+            if (imodul.eq.1) then
+               call wrprof (imode, wtd, linenr)
+               if (REid.eq.0) gd%meta%ncase = wtd%meta%ncase
+            elseif (imodul.eq.3) then
+               call nonhz (imode, gd, linenr)
+               if (REid.eq.0) wtd%meta%ncase = gd%meta%ncase
+            endif
+         endif ! zerror
+
+      ! end while (imodul.ne.0)
 
       enddo
 
@@ -153,14 +184,22 @@ program contact
 
    endif ! IMODE = 1 / 2 & 3
 
-   ! clean up global datastructure
+   ! clean up global datastructures
 
-   call gd_destroy(gd)
-   deallocate(gd)
-   nullify(gd)
-   call wrprof_destroy(wtd)
-   deallocate(wtd)
-   nullify(wtd)
+   call cntc_destroy_wtd(0)
+   call cntc_destroy_gd(0, 1)
+
+   do REid = 1, MAX_REid_id
+      if (ix_reid(REid).gt.0) then
+         if (ire_module(ix_reid(REid)).eq.1) then
+            call cntc_destroy_wtd(REid)
+         else
+            do CPid = 1, MAX_CPids
+               call cntc_destroy_gd(REid, CPid)
+            enddo
+         endif
+      endif
+   enddo
 
 #if   defined WITH_MKLFFT
    call fft_cleanup()
@@ -172,13 +211,13 @@ program contact
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine ReadModeExp(imode, gd, linenr)
+   subroutine ReadModeExp(imode, linenr)
 !--purpose: read mode of operation for entire run, read experiment name, check existence of files
 !           and open files.
+   use m_global_data
    use m_hierarch_data
    implicit none
 !--subroutine arguments:
-   type(t_probdata)           :: gd
    integer, intent(out)       :: imode, linenr
 !--local variables :
    integer       :: icount, ierror, ln, ix
@@ -231,47 +270,47 @@ program contact
 
       if (icount.ge.2) then
 #ifdef PLATF_ppc
-         call GETARG(2, gd%meta%expnam)
+         call GETARG(2, overal_expnam)
 #else
-         call get_command_argument(2, gd%meta%expnam, status=ierror)
+         call get_command_argument(2, overal_expnam, status=ierror)
          if (ierror.lt.0) goto 982
 #endif
       else
          write (*, 250)
  250     format(//, ' Give base-name of experiment, default "contact": ',$)
-         read (*,'(a)') gd%meta%expnam
-         if (gd%meta%expnam.eq.' ') gd%meta%expnam = 'contact'
+         read (*,'(a)') overal_expnam
+         if (overal_expnam.eq.' ') overal_expnam = 'contact'
       endif
 
       ! strip off the extension .inp from experiment name
 
-      ln = len(trim(gd%meta%expnam))
-      if (ln.gt.4 .and. gd%meta%expnam(ln-3:ln).eq.'.inp') then
+      ln = len(trim(overal_expnam))
+      if (ln.gt.4 .and. overal_expnam(ln-3:ln).eq.'.inp') then
          write(*,*) '...removing filename extension ".inp" to form experiment name'
-         gd%meta%expnam = gd%meta%expnam(1:ln-4)
-         ! write(*,*) 'new gd%meta%expnam="',trim(gd%meta%expnam),'"'
+         overal_expnam = overal_expnam(1:ln-4)
+         ! write(*,*) 'new overal_expnam="',trim(overal_expnam),'"'
       endif
 
       ! strip off the directory name from experiment name, store as input+output folder
 
-      ix = index_pathsep(gd%meta%expnam, back=.true.)
+      ix = index_pathsep(overal_expnam, back=.true.)
       if (ix.gt.1) then
          ! write(*,*) '...directory separator found at ix=',ix
          ! write(*,*) '...removing wrkdir to form true experiment name'
-         gd%meta%wrkdir = gd%meta%expnam(1:ix-1)
-         gd%meta%outdir = gd%meta%wrkdir
-         gd%meta%expnam = gd%meta%expnam(ix+1:)
-         ! write(*,*) '...wrkdir=',trim(gd%meta%wrkdir)
-         ! write(*,*) '...expnam= ',trim(gd%meta%expnam)
+         overal_wrkdir = overal_expnam(1:ix-1)
+         overal_outdir = overal_wrkdir
+         overal_expnam = overal_expnam(ix+1:)
+         ! write(*,*) '...wrkdir=',trim(overal_wrkdir)
+         ! write(*,*) '...expnam= ',trim(overal_expnam)
       endif
 
       ! Open input-file <EXPERIM>.inp or <STDIN>, unit linp
       !  - mode 2-3: batch usage, input from <EXPERIM>.inp
 
       if (imode.ge.2 .and. imode.le.3) then
-         fname = trim(gd%meta%expnam) // '.inp'
-         if (gd%meta%wrkdir.ne.' ') then
-            fname = trim(gd%meta%wrkdir) // path_sep // trim(fname)
+         fname = trim(overal_expnam) // '.inp'
+         if (overal_wrkdir.ne.' ') then
+            fname = trim(overal_wrkdir) // path_sep // trim(fname)
          endif
 
          inp_open = -1
@@ -283,9 +322,9 @@ program contact
       ! Open output-file <EXPERIM>.out, unit lout
       !  - used for flow-output and results in human-readable form
 
-      fname = trim(gd%meta%expnam) // '.out'
-      if (gd%meta%outdir.ne.' ') then
-         fname = trim(gd%meta%outdir) // path_sep // trim(fname)
+      fname = trim(overal_expnam) // '.out'
+      if (overal_outdir.ne.' ') then
+         fname = trim(overal_outdir) // path_sep // trim(fname)
       endif
 
       out_open = -1

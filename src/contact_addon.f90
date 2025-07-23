@@ -256,7 +256,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
    character(len=256) :: version(max_version), fname, f_recent
    character          :: c_recent(256)
    character(len=len(bufout)-5) :: tmpbuf
-   integer            :: jre, jcp, ilen, louttm
+   integer            :: ilen, louttm
    logical            :: ltmpfile = .false.
    logical            :: l_outfil, l_screen, l_simpck
 #ifdef _WIN32
@@ -273,6 +273,8 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
    endif
 #endif
 
+   program_id = program_clib
+
    ! Upon first call: perform one-time-only initializations
 
    if (ltmpfile) then
@@ -286,32 +288,32 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
 
    ! Store folder names (note: only the value of the first call is memorized, used for all REs)
 
-   call copy_c_dirnam(c_wrkdir, len_wrkdir, caddon_wrkdir, ltmpfile)
-   call copy_c_dirnam(c_outdir, len_outdir, caddon_outdir, ltmpfile)
+   call copy_c_dirnam(c_wrkdir, len_wrkdir, overal_wrkdir, ltmpfile)
+   call copy_c_dirnam(c_outdir, len_outdir, overal_outdir, ltmpfile)
 
    ! If provided: store experiment name (note: only the value of the first call is memorized)
 
    if (len_expnam.ge.1 .and. c_expnam(1).ne.' ') then
-      call c_to_f_string(c_expnam, caddon_expnam, len_expnam)
+      call c_to_f_string(c_expnam, overal_expnam, len_expnam)
 
       if (ltmpfile) then
-         write(37,*) 'len=',len(caddon_expnam), len_expnam
-         write(37,*) 'expnam=',trim(caddon_expnam),'.'
+         write(37,*) 'len=',len(overal_expnam), len_expnam
+         write(37,*) 'expnam=',trim(overal_expnam),'.'
       endif
    endif
 
    ! strip off directory name from experiment name, use as fallback for effective working folder
 
-   ix = index_pathsep(caddon_expnam, back=.true.)
+   ix = index_pathsep(overal_expnam, back=.true.)
    if (ix.gt.1) then
-      if (caddon_wrkdir.eq.' ') caddon_wrkdir  = caddon_expnam(1:ix-1)
-      caddon_expnam  = caddon_expnam(ix+1:)
+      if (overal_wrkdir.eq.' ') overal_wrkdir  = overal_expnam(1:ix-1)
+      overal_expnam  = overal_expnam(ix+1:)
 
       if (ltmpfile) then
          write(37,*) '...directory separator found at ix=',ix
          write(37,*) '...removing dirname to form true experiment name'
-         write(37,*) '...wrkdir= ',trim(caddon_wrkdir)
-         write(37,*) '...expnam=  ',trim(caddon_expnam)
+         write(37,*) '...wrkdir= ',trim(overal_wrkdir)
+         write(37,*) '...expnam=  ',trim(overal_expnam)
       endif
    endif
 
@@ -333,7 +335,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
 
    ! Try to open the .out-file in the requested output directory
 
-   fname = trim(caddon_outdir) // trim(caddon_expnam) // '.out'
+   fname = trim(overal_outdir) // trim(overal_expnam) // '.out'
    if (ltmpfile) write(37,*) 'init=',caddon_initialized,', fname=',trim(fname)
    if (.false. .and. caddon_initialized.eq.-1) then
       ! Continuing after finalizelast (init==-1), append output after previous contents
@@ -391,34 +393,9 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
 #  include 'VERSION'
    call WriteVersion(num_version, version, my_license, show_lic_error)
 
-   ! Initialize the indirection table for result elements
+   ! Initialize the result element data-structures, esp allwtd, allgds
 
-   do jre = 1, MAX_REid_id
-      ix_reid(jre) = -1
-   enddo
-
-   ! Initialize the module number per jre
-
-   ire_module(1:MAX_NUM_REs) = -1
-
-   ! Initialize the wheel-rail track data per jre
-
-   do jre = 1, MAX_NUM_REs
-      nullify(allwtd(jre)%wtd)
-   enddo
-
-   ! Initialize the contact data per jre+jcp
-
-   do jre = 1, MAX_NUM_REs
-      do jcp = 1, MAX_CPids
-         nullify(allgds(jre,jcp)%gd)
-      enddo
-   enddo
-
-   ! Initialize the active wtd and contact data pointers
-
-   nullify(wtd)
-   nullify(gd)
+   call cntc_initialize_data()
 
    ! Determine the maximum number of threads available, used a.o. to define timers;
    ! Start with OpenMP disabled, using 1 thread
@@ -513,7 +490,7 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
    character(len=*), parameter    :: subnam = 'cntc_initialize'
    character(len= 30,kind=C_CHAR) :: c_string
    character(len=256) :: namtim
-   integer            :: jcp, itimer
+   integer            :: ixre, jcp, itimer
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_initialize
 #endif
@@ -557,12 +534,10 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
       write(bufout,'(a,i6,a,i6,a)') ' Warning: Initialize: ire=',ire,' already initialized.'
       call write_log(1, bufout)
    else
-      num_reids = num_reids + 1
-      ix_reid(ire) = num_reids
 
-      ! store module number for ire
+      ! select free sequence number ixre for ire
 
-      ire_module(ire) = imodul
+      ixre = cntc_lookup_reid(ire, imodul, ierror)
 
       ! initialize timers for ire
 
@@ -585,7 +560,7 @@ subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
    ! return the version number and an error flag
 
    ifcver = caddon_version
-   if (.not.my_license%is_valid) then
+   if (.not.my_license%is_valid .or. ierror.ne.0) then
       ierror = CNTC_err_allow
    else
       ierror = 0
@@ -646,7 +621,8 @@ subroutine cntc_setGlobalFlags(lenflg, params, values) &
 
          ! set idebug_clib-flag in the CONTACT add-on-data
 
-         idebug_clib = values(i)
+         idebug_clib       = values(i)
+         ilvout_glb        = idebug_clib     ! level of print-output of calculating routines
 
       elseif (params(i).eq.CNTC_if_licdbg) then
 
@@ -2911,10 +2887,10 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
       if (nparam_loc(ztrack,1).eq.nparam_loc(ztrack,2)) then
          write(bufout,'(2a,3(i2,a))') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' needs ',      &
                 nparam_loc(ztrack,1),', got ',nparam,' parameters.'
-   else
+      else
          write(bufout,'(2a,4(i2,a))') trim(pfx_str(subnam,ire,-1)),' method Z=',ztrack,                 &
              ' needs ', nparam_loc(ztrack,1), '-- ', nparam_loc(ztrack,2),', got ',nparam,' parameters.'
-   endif
+      endif
       call write_log(1, bufout)
       return
    endif
@@ -2928,7 +2904,7 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
    if (ztrack.le.0) then
       my_ic%ztrack = 0
    else
-   my_ic%ztrack = 3
+      my_ic%ztrack = 3
    endif
 
    if (ztrack.eq.1) then
@@ -3588,7 +3564,7 @@ subroutine cntc_calculate1(ire, ierror) &
 !--local variables:
    character(len=*),   parameter :: subnam = 'cntc_calculate1'
    integer                       :: is_wheel, i_ftype
-   character(len=256)            :: fname
+   character(len=256)            :: fname, descrp
    character(len=len(bufout)-52) :: tmpbuf
    integer                       :: itimer
    logical                       :: is_ok
@@ -3703,7 +3679,7 @@ subroutine cntc_calculate1(ire, ierror) &
    ! Open .inp-file for writing (output-folder) if not done so before
 
    if (my_ic%wrtinp.ge.1 .and. linp.ge.1 .and. inp_open.eq.0) then
-      fname = trim(caddon_outdir) // trim(caddon_expnam) // '.inp'
+      fname = trim(overal_outdir) // trim(overal_expnam) // '.inp'
       open(unit=linp, file=fname, action='write', err=998)
       inp_open = 1
       goto 999
@@ -3724,19 +3700,20 @@ subroutine cntc_calculate1(ire, ierror) &
 
    if (my_ic%wrtinp.ge.1 .and. inp_open.ge.0) then
       call timer_start(itimer_files)
-      if (my_ic%return.eq.0 .or. my_ic%return.eq.2 .and. my_meta%irun.eq.0) then
-         write (linp,'(a,i0,a,i3)')    '% case ',my_meta%ncase,' for result element',ire
-      elseif (my_ic%return.eq.0 .or. my_ic%return.eq.2) then
-         write (linp,'(a,i0,4(a,i4))') '% case ',my_meta%ncase,' for result element',ire, ': run',      &
-                my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
-      elseif (my_meta%irun.eq.0 .and. my_meta%tim.eq.0d0) then
-         write (linp,'(a,i0,a,i3)')         ' 1  MODULE   % case ',my_meta%ncase,' for result element',ire
+
+      if     (my_meta%irun.eq.0 .and. my_meta%tim.eq.0d0) then
+         write(descrp,'(a,i0,a,i3)')         '% case ',my_meta%ncase,' for result element',ire
       elseif (my_meta%irun.eq.0) then
-         write (linp,'(a,i0,a,i3,a,f16.8)') ' 1  MODULE   % case ',my_meta%ncase,' for result element', &
-                ire,', t=',my_meta%tim
+         write(descrp,'(a,i0,a,i3,a,f16.8)') '% case ',my_meta%ncase,' for result element',ire,         &
+                ', t=',my_meta%tim
       else
-         write (linp,'(a,i0,4(a,i4))')      ' 1  MODULE   % case ',my_meta%ncase,' for result element', &
-                ire, ': run', my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
+         write(descrp,'(a,i0,4(a,i4))')      '% case ',my_meta%ncase,' for result element',ire,         &
+                ': run', my_meta%irun,', axle', my_meta%iax,', side',my_meta%iside
+      endif
+      if (my_ic%return.eq.0 .or. my_ic%return.eq.2) then
+         write(linp,'(8x,a)') trim(descrp)
+      else
+         write(linp,'(2i4,2a)') 1, ire, '  MODULE, RE  ', trim(descrp)
       endif
 
       call wr_write_inp(-1, wtd)
@@ -3850,7 +3827,7 @@ subroutine cntc_calculate3(ire, icp, ierror) &
    ! Open .inp-file for writing (output-folder) if not done so before
 
    if (my_ic%wrtinp.ge.1 .and. linp.ge.1 .and. inp_open.eq.0) then
-      fname = trim(caddon_outdir) // trim(caddon_expnam) // '.inp'
+      fname = trim(overal_outdir) // trim(overal_expnam) // '.inp'
       open(unit=linp, file=fname, action='write', err=998)
       inp_open = 1
       goto 999
@@ -3882,8 +3859,8 @@ subroutine cntc_calculate3(ire, icp, ierror) &
 
    if (my_ic%wrtinp.ge.1 .and. inp_open.ge.0) then
       call timer_start(itimer_files)
-      write (linp,'(a,i7,2(a,i3))') ' 3  MODULE   % case', my_meta%ncase, ' for result element', ire,   &
-                ', contact problem',icp
+      write (linp,'(3i4,a,i0,2(a,i3))') 3, ire, icp, '  MODULE, RE, CP: case ', my_meta%ncase,          &
+                ' for result element',ire,', contact problem',icp
       call wrtinp (-1, my_ic, gd%potcon_cur, my_mater, gd%hertz, gd%geom, gd%fric, my_kin, my_solv,     &
                         gd%outpt1, gd%subs, .true.)
       call timer_stop(itimer_files)

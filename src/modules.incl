@@ -25,8 +25,7 @@ $(P)m_bspline_make.mod    $(P)m_bspline_make.$O:    \
                                                     $(P)m_ptrarray.mod        \
                                                     $(P)m_interp.mod         
 $(P)m_caddon_data.mod     $(P)m_caddon_data.$O:     \
-                                                    $(P)m_hierarch_data.mod   \
-                                                    $(P)m_wrprof_data.mod     \
+                                                    $(P)m_global_data.mod     \
                                                     $(P)m_wrprof.mod         
 $(P)m_errormsg.mod        $(P)m_errormsg.$O:        \
                                                     $(P)m_print_output.mod   
@@ -36,6 +35,10 @@ $(P)m_friclaw.mod         $(P)m_friclaw.$O:         \
                                                     $(P)m_ptrarray.mod        \
                                                     $(P)m_grids.mod           \
                                                     $(P)m_interp.mod         
+$(P)m_global_data.mod     $(P)m_global_data.$O:     \
+                                                    $(P)m_hierarch_data.mod   \
+                                                    $(P)m_wrprof_data.mod     \
+                                                    $(P)m_wrprof.mod         
 $(P)m_globals.mod         $(P)m_globals.$O:         \
                                                     caddon_flags.inc          \
                                                     $(P)m_print_output.mod    \

@@ -41,7 +41,9 @@ integer, parameter :: itimer_fastsim            = itimer_gdstdy    + 1
 integer, parameter :: itimer_fastrip            = itimer_fastsim   + 1
 integer, parameter :: itimer_temper             = itimer_fastrip   + 1
 
-integer, parameter :: itimer_initcf             = itimer_temper    + 1
+integer, parameter :: itimer_licmngmt           = itimer_temper    + 1
+
+integer, parameter :: itimer_initcf             = itimer_licmngmt  + 1
 integer, parameter :: itimer_input              = itimer_initcf    + 1
 integer, parameter :: itimer_locatecp           = itimer_input     + 1
 integer, parameter :: itimer_interp1            = itimer_locatecp  + 1
@@ -159,6 +161,8 @@ integer, intent(in),  optional :: mxthrd
    call timer_name(itimer_fastrip   , namtmr='Tang: Fastrip solver')
    call timer_name(itimer_temper    , namtmr='Temperature calc.   ')
 
+   call timer_name(itimer_licmngmt  , namtmr='License enquiry     ')
+
    call timer_name(itimer_initcf    , namtmr='Initial time-step   ')
    call timer_name(itimer_input     , namtmr='Reading input-file  ')
    call timer_name(itimer_locatecp  , namtmr='Contact location    ')
@@ -227,11 +231,11 @@ subroutine timers_contact_print
    ilines = 0
    do i = 1, num_timers
 
-      if (timer_outlevel.ge.2 .or. i.lt.itimer_initcf .or. i.gt.my_i0addon) then
+      if (timer_outlevel.ge.2 .or. i.lt.itimer_licmngmt .or. i.gt.my_i0addon) then
 
          ! print separator when reaching first timer of new block
 
-         if (i.eq.itimer_normcg .or. i.eq.itimer_initcf .or. i.eq.my_i0addon+1) then
+         if (i.eq.itimer_normcg .or. i.eq.itimer_licmngmt .or. i.eq.my_i0addon+1) then
             if (ilines.gt.0) call write_log('|--------------------------------------------------------------------------|')
             ilines = 0
          endif

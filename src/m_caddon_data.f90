@@ -30,8 +30,7 @@ module m_caddon_data
 
 ! incorporate all global dimensions and type-definitions
 
-use m_hierarch_data
-use m_wrprof_data
+use m_global_data
 use m_wrprof
 #ifdef _OPENMP
    use omp_lib, only : omp_in_parallel, omp_get_max_threads, omp_set_num_threads
@@ -47,27 +46,14 @@ public
                                                         + my_version_update
    logical                  :: show_lic_error     = .true.  ! suppress errors in case of license management
 
-   ! administration of "result elements" == "rail-wheel pairs" == "wheels"
-
-   integer,      parameter  :: MAX_REid_id  = 999   ! highest REid allowed
-   integer, dimension(:)    :: ix_reid(MAX_REid_id) ! position of REid in list of REids
-   integer,      parameter  :: MAX_NUM_REs  = 100   ! maximum number of CONTACT result elements
-   integer,      parameter  :: MAX_CPids    =   9   ! maximum number of contact patches per REid
-   integer                  :: num_reids    =   0   ! counter for REid's that are in use
-
    ! settings w.r.t. print-output of the CONTACT add-on
 
-   integer                  :: idebug_clib = 0    ! level of print-output of the addon itself
+   integer                  :: idebug_clib = 0     ! level of print-output of the addon itself
                                                   ! -1 = none, 0 = timers (default), 1 = calculating/done,
                                                   !  2 = full in+output, 3+ = debug
    character(*), parameter  :: pfx = ' ** '       ! prefix for printing output of addon
    integer                  :: timer_output = 1   ! 0 = none, 1 = overview, 2 = full, 3+ = debug
-                                                  ! the value is increased when idebug is increased
-
-   ! using a single out-file and inp-file (wrtinp) for all result elements together
-   character(len=256)       :: caddon_expnam = 'contact_addon' ! overall experiment name, ex. folder
-   character(len=256)       :: caddon_wrkdir  = ' '            ! working folder for all result elements
-   character(len=256)       :: caddon_outdir  = ' '            ! output folder for all result elements
+                                                  ! the value is increased when idebug_clib is increased
 
    ! internal data w.r.t. OpenMP and/or explicit multi-threading:
 
@@ -86,43 +72,14 @@ public
    integer                  :: numtmr = MAX_NUM_REs * (1+MAX_CPids) ! number of timers for REid+CPid's
    integer                  :: ioftmr             ! offset of timers for REid+CPid's
 
-   ! define a list of module numbers for the wheel-rail pairs
-
-   integer,          dimension(:)   :: ire_module(MAX_NUM_REs)
-
-   ! create an array of wtd-pointers for module 1, encompassing the whole wheel-rail pair
-
-   type(p_ws_track), dimension(:,:) :: allwtd(MAX_NUM_REs)
-
-   ! create an array of gd-pointers for module 3, for each contact patch separately
-
-   type(p_probdata), dimension(:,:) :: allgds(MAX_NUM_REs, MAX_CPids)
-
-   ! declare pointers to the "active wheel-rail pair data", "active contact patch data", etc.
-
-   type(t_ws_track), pointer        :: wtd        => NULL()
-   type(t_probdata), pointer        :: gd         => NULL()
-   type(t_metadata), pointer        :: my_meta    => NULL()
-   type(t_scaling),  pointer        :: my_scl     => NULL()
-   type(t_ic),       pointer        :: my_ic      => NULL()
-   type(t_material), pointer        :: my_mater   => NULL()
-   type(t_kincns),   pointer        :: my_kin     => NULL()
-   type(t_solvers),  pointer        :: my_solv    => NULL()
-   type(t_subsurf),  pointer        :: my_subs    => NULL()
-!$omp                threadprivate   ( wtd, gd, my_meta, my_scl, my_ic, my_mater, my_kin, my_solv, my_subs )
-
    ! internal support functions for working with multiple contact patches and timers
 
    public  cntc_activate
-   private cntc_activate_wtd
-   private cntc_activate_gd
    private set_actv_thread
    public  cntc_getMaxNumThreads
    public  lock_contact_problem
    public  free_contact_problem
-   public  cntc_destroy_gd
    public  cntc_timer_num
-   public  cntc_select_units
    public  cntc_log_start
 
 !------------------------------------------------------------------------------------------------------------
@@ -203,7 +160,9 @@ subroutine cntc_activate(REid, CPid, needs_module, needs_icp, calnam, ierror)
    endif
 !$omp end critical (activate_init)
 
-   ixre = ix_reid(REid)
+   ! get the sequence number, set by cntc_initialize if not used before
+
+   ixre = cntc_lookup_reid(REid, imodul, ierror)
 
    ! check whether the calling subroutine allows for the module that's used by ire
 
@@ -258,214 +217,12 @@ subroutine cntc_activate(REid, CPid, needs_module, needs_icp, calnam, ierror)
    elseif (CPid.ge.1 .and. CPid.le.MAX_CPids) then
 
       if (idebug_clib.ge.5) call write_log(' calling cntc_activate_gd for REid,CPid...')
-      call cntc_activate_gd(REid, CPid)
+      call cntc_activate_gd(REid, CPid, ierror)
 
    endif
 
    if (idebug_clib.ge.5) call cntc_log_start(subnam, .false.)
 end subroutine cntc_activate
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_activate_wtd(REid, CPid, ierror)
-!--function: helper to cntc_activate: activate the wheel-track data-structure for result element REid
-   implicit none
-!--subroutine arguments:
-   integer,      intent(in)    :: REid           ! result element ID
-   integer,      intent(in)    :: CPid           ! contact patch ID
-   integer,      intent(inout) :: ierror         ! error code
-!--local variables:
-   integer                     :: ixre           ! position in list of REids
-   character(len=*), parameter :: subnam = 'cntc_activate_wtd'
-
-   if (idebug_clib.ge.5) call cntc_log_start(subnam, .true.)
-
-   ! check whether wtd data-structure for REid has been used (allocated) before, if not, allocate
-
-   ixre = ix_reid(REid)
-   if (.not.associated(allwtd(ixre)%wtd)) then
-
-      if (idebug_clib.ge.5) then
-         write(bufout,'(a,i4)') ' allocating wtd for ire=',REid
-         call write_log(1, bufout)
-      endif
-
-      ! allocate space for the wheel-track data-structure for REid
-
-      allocate(allwtd(ixre)%wtd)
-      wtd => allwtd(ixre)%wtd
-
-      ! set appropriate initial values for the control/input-variables
-
-      if (idebug_clib.ge.5) then
-         write(bufout,'(a,i4)') ' initializing wtd for ire=',REid
-         call write_log(1, bufout)
-      endif
-
-      ! first get the basic settings from wrprof_init
-
-      call wrprof_init(wtd)
-
-      ! then overwrite values as needed
-
-      wtd%meta%REid  = REid
-      wtd%meta%CPid  = -1
-      wtd%meta%ncase =  1
-
-      call cntc_select_units(wtd%scl, CNTC_un_cntc) !  Default: CONTACT units
-
-      wtd%ic%norm    = 0              ! N-digit: z_ws position prescribed i.s.o. total vertical force
-      wtd%ic%matfil_surf = 0          ! A-digit: default no .mat-file
-      wtd%ic%output_surf = 0          ! O-digit: default no surf-data to .out-file
-      wtd%ic%matfil_subs = 0          ! A_s:     default no .subs-file
-      wtd%ic%output_subs = 0          ! O_s:     default no subs-data to .out-file
-      wtd%ic%flow    = 1              ! W-digit: default only overview of calculations
-      wtd%ic%return  = 1              ! R-digit: return to main program (used when inp-file is created)
-      wtd%ic%wrtinp  = 0              ! wrtinp:  default no input-specification to .inp-file
-      wtd%ic%ilvout  = min(idebug_clib, 1) ! ilvout:  switch off output when idebug=0
-
-      write(wtd%meta%expnam,'( a,i3.3)') 'caddon_re',REid
-      wtd%meta%wrkdir = caddon_wrkdir
-      wtd%meta%outdir = caddon_outdir
-      if (idebug_clib.ge.5) then
-         write(bufout,'(3(3a,/))') ' experiment name="',trim(wtd%meta%expnam),'",',                     &
-                ' wrkdir="', trim(wtd%meta%wrkdir),'"', ' outdir="', trim(wtd%meta%outdir),'"'
-         call write_log(3, bufout)
-      endif
-   endif
-
-   ! make REid the active wheel-rail pair
-
-   wtd => allwtd(ixre)%wtd
-
-   ! if the calling subroutine works on cp-data, activate contact patch CPid
-
-   if (CPid.ge.1 .and. CPid.le.MAX_CPids) then
-      if (.not.associated(wtd%allcps(CPid)%cp) .or. .not.associated(wtd%allcps(CPid)%cp%gd)) then
-         write(bufout,'(a,i2,a,i4,a)') ' ERROR: contact patch',CPid,' of wheel-rail problem',REid,      &
-                ' hasnt been initialized yet.'
-         call write_log(1, bufout)
-         ierror = CNTC_err_icp
-         return
-      else
-         gd       => wtd%allcps(CPid)%cp%gd
-         my_scl   => wtd%scl    ! note: scl isnt copied from wtd to the cps
-         my_meta  => wtd%meta   ! note: meta isnt copied from wtd to the cps
-         my_ic    => gd%ic
-         my_mater => gd%mater
-         my_kin   => gd%kin
-         my_solv  => gd%solv
-         my_subs  => gd%subs
-      endif
-
-   ! else, the calling subroutine works on the wtd-problem as a whole, set pointers to its configuration data
-
-   else
-      gd       => NULL()
-      my_meta  => wtd%meta
-      my_scl   => wtd%scl
-      my_ic    => wtd%ic
-      my_mater => wtd%mater
-      my_kin   => wtd%kin
-      my_solv  => wtd%solv
-      my_subs  => wtd%subs
-   endif
-
-   if (idebug_clib.ge.5) call cntc_log_start(subnam, .false.)
-end subroutine cntc_activate_wtd
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_activate_gd(REid, CPid)
-!--function: helper to cntc_activate: activate data-structure for contact patch CPid on result element REid
-   implicit none
-!--subroutine arguments:
-   integer,      intent(in) :: REid           ! result element ID
-   integer,      intent(in) :: CPid           ! contact patch ID
-!--local variables:
-   integer                  :: ixre           ! position in list of REids
-   character(len=*), parameter :: subnam = 'cntc_activate_gd'
-
-   if (idebug_clib.ge.5) call cntc_log_start(subnam, .true.)
-
-   ! check whether data-structure for REid,CPid has been used (allocated) before, if not, allocate
-
-   ixre = ix_reid(REid)
-   if (idebug_clib.ge.5) then
-      write(bufout,*) trim(subnam),': starting for REid,CPid=',REid,CPid,', ixre=',ixre
-      call write_log(1,bufout)
-   endif
-
-   if (.not.associated(allgds(ixre,CPid)%gd)) then
-
-      if (idebug_clib.ge.5) then
-         write(bufout,'(2(a,i4))') ' allocating gd for ire=',REid,', icp=',CPid
-         call write_log(1, bufout)
-      endif
-
-      ! allocate space for the hierarchical data-structure for (REid,CPid)
-
-      allocate(allgds(ixre,CPid)%gd)
-      gd => allgds(ixre,CPid)%gd
-
-      ! set appropriate initial values for the control/input-variables
-
-      if (idebug_clib.ge.5) then
-         write(bufout,'(2(a,i4))') ' initializing gd for ire=',REid,', icp=',CPid
-         call write_log(1, bufout)
-      endif
-
-      ! first get defaults from gd_init
-
-      call gd_init(gd)
-
-      ! then overwrite selected values as needed
-
-      gd%meta%REid  = REid
-      gd%meta%CPid  = CPid
-      gd%meta%ncase = 1
-
-      call cntc_select_units(gd%scl, CNTC_un_cntc) !  Default: CONTACT units
-
-      gd%ic%norm    = 0              ! N-digit: penetration prescribed i.s.o. total normal force
-      gd%ic%matfil_surf = 0          ! A-digit: default no .mat-file
-      gd%ic%matfil_subs = 0          ! A-digit: default no .subs-file
-      gd%ic%output_surf = 0          ! O-digit: default no surf-data to .out-file
-      gd%ic%output_subs = 0          ! O-digit: default no subs-data to .out-file
-      gd%ic%flow    = 1              ! W-digit: default only overview of calculations
-      gd%ic%wrtinp  = 0              ! wrtinp:  default no input-specification to .inp-file
-      gd%ic%ilvout  = min(idebug_clib, 1) ! ilvout:  switch off output when idebug=0
-      gd%kin%cksi   = 0d0
-      gd%kin%ceta   = 0d0
-      gd%kin%cphi   = 0d0            ! start with zero creepages
-      gd%kin%fxrel  = 0d0
-      gd%kin%fyrel  = 0d0
-
-      write(gd%meta%expnam,'(a,i3.3,a,i1)') 'caddon_re',REid,'_cp',CPid
-      gd%meta%wrkdir = caddon_wrkdir
-      gd%meta%outdir = caddon_outdir
-
-      if (idebug_clib.ge.5) then
-         write(bufout,'(2(3a,/))') ' experiment name="',trim(gd%meta%expnam),'"',                       &
-                ' outdir="',trim(gd%meta%outdir),'"'
-         call write_log(2, bufout)
-      endif
-   endif
-
-   ! set pointers to the relevant data-structures for contact patch (REid, CPid),
-   ! i.e. make it the active contact patch
-
-   gd => allgds(ixre,CPid)%gd
-   my_meta    => gd%meta
-   my_scl     => gd%scl
-   my_ic      => gd%ic
-   my_mater   => gd%mater
-   my_kin     => gd%kin
-   my_solv    => gd%solv
-   my_subs    => gd%subs
-
-   if (idebug_clib.ge.5) call cntc_log_start(subnam, .false.)
-end subroutine cntc_activate_gd
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -695,51 +452,6 @@ end subroutine free_contact_problem
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_destroy_gd(REid, CPid)
-!--function: destroy the contact hierarchical data-structure for contact patch CPid on result element REid
-   implicit none
-!--subroutine arguments:
-   integer,      intent(in) :: REid           ! result element ID
-   integer,      intent(in) :: CPid           ! contact patch ID
-!--local variables:
-   integer                  :: ixre           ! position in list of REids
-   character(len=*), parameter :: subnam = 'cntc_destroy_gd'
-
-   if (idebug_clib.ge.5) call cntc_log_start(subnam, .true.)
-
-   ! check values of REid, CPid
-   ! TODO: don't stop program execution, find something better to do.
-
-   if (REid.le.0 .or. REid.gt.MAX_REid_id) then
-      write(bufout,'(a,i6,a,i4,a)') 'ERROR: ire=',REid,' ID too large [1,',MAX_REid_id,'], aborting.'
-      call write_log(1, bufout)
-      call abort_run()
-   endif
-   if (CPid.le.0 .or. CPid.gt.MAX_CPids) then
-      write(bufout,'(a,i6,a,i2,a)') 'ERROR: icp=',CPid,' number too large [1,',MAX_CPids,'], aborting.'
-      call write_log(1, bufout)
-      call abort_run()
-   endif
-
-   ! check whether data-structure for REid,CPid has been used (allocated), if not, return
-
-   ixre = ix_reid(REid)
-   if (.not.associated(allgds(ixre,CPid)%gd)) return
-
-   ! clean up all space allocated in the hierarchical data-structure gd for (REid,CPid)
-
-   call gd_destroy( allgds(ixre,CPid)%gd )
-
-   ! destroy the gd structure itself
-
-   deallocate(allgds(ixre,CPid)%gd)
-   nullify(allgds(ixre,CPid)%gd)
-
-   if (idebug_clib.ge.5) call cntc_log_start(subnam, .false.)
-end subroutine cntc_destroy_gd
-
-!------------------------------------------------------------------------------------------------------------
-
 integer function cntc_timer_num(REid, CPid)
 !--function: return the timer number for contact patch (REid,CPid)
    implicit none
@@ -756,73 +468,6 @@ integer function cntc_timer_num(REid, CPid)
       cntc_timer_num = ioftmr + 1 + CPid + (ixre-1)*(1+MAX_CPids)
    endif
 end function cntc_timer_num
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_select_units(scl, iunits)
-!--function: set the scaling factors for unit scheme iunits
-   implicit none
-!--subroutine arguments:
-   type(t_scaling), intent(out) :: scl
-   integer,         intent(in)  :: iunits
-
-   if (iunits.eq.CNTC_un_cntc) then
-
-      ! selecting CONTACT's unit convention: length in [mm], veloc in [mm/s], force in [N], acting on body 1
-
-      scl%units = CNTC_un_cntc
-      scl%len   =  1d0                          ! [mm]   / [unit length]
-      scl%area  =  1d0                          ! [mm^2] / [unit area]
-      scl%forc  =  1d0                          ! [N]    / [unit force]
-      scl%veloc =  1d0                          ! [mm/s] / [unit speed]
-      scl%angle =  1d0                          ! [rad]  / [unit angle]
-      scl%body  =  1d0                          ! [on body 1] / [on output body]
-
-   elseif (iunits.eq.CNTC_un_spck) then
-
-      ! selecting SIMPACK's unit convention: length in [m], veloc in [m/s], force in [N], acting on body 2
-
-      scl%units = CNTC_un_spck
-      scl%len   =  1d3                          ! [mm]   / [m]
-      scl%area  =  1d6                          ! [mm^2] / [m^2]
-      scl%forc  =  1d0                          ! [N]    / [N]
-      scl%veloc =  1d3                          ! [mm/s] / [m/s]
-      scl%angle =  1d0                          ! [rad]  / [rad]
-      scl%body  = -1d0                          ! [on body 1] / [on body 2]
-
-   elseif (iunits.eq.CNTC_un_si) then
-
-      ! selecting SI unit convention: length in [m], veloc in [m/s], force in [N], acting on body 1
-
-      scl%units = CNTC_un_si
-      scl%len   =  1d3                          ! [mm]   / [m]
-      scl%area  =  1d6                          ! [mm^2] / [m^2]
-      scl%forc  =  1d0                          ! [N]    / [N]
-      scl%veloc =  1d3                          ! [mm/s] / [m/s]
-      scl%angle =  1d0                          ! [rad]  / [rad]
-      scl%body  =  1d0                          ! [on body 1] / [on output body]
-
-   elseif (iunits.eq.CNTC_un_imper) then
-
-      ! selecting imperial units (n.y.a.): length in [in], force in [lbf], acting on body 1
-
-      call write_log('imperial units not yet available')
-      scl%units = CNTC_un_imper
-      scl%len   =  1d0                          ! [mm]   / [unit length]
-      scl%area  =  1d0                          ! [mm^2] / [unit area]
-      scl%forc  =  1d0                          ! [N]    / [unit force]
-      scl%veloc =  1d0                          ! [mm/s] / [unit speed]
-      scl%angle =  1d0                          ! [rad]  / [rad]
-      scl%body  =  1d0                          ! [on body 1] / [on output body]
-
-   else
-
-      write(bufout,*) 'Invalid value for flag CNTC_if_units:',iunits
-      call write_log(1, bufout)
-
-   endif
-
-end subroutine cntc_select_units
 
 !------------------------------------------------------------------------------------------------------------
 

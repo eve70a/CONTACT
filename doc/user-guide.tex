@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `trunk' \magenta{(1.180)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.180)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -766,6 +766,10 @@ $^*$ Option ${\tt C}_3=9$ is not available in module 1.
 \item[5] -- Modified FaStrip method, combination of strip theory and
         simplified theory (\S \ref{sec:fastsim});
 \magenta{
+\item[6] -- temporary, for testing purposes: Original FaStrip method cf.\
+        Sichani \cite{Sichani2016b-fastrip}.
+\item[7] -- temporary, for testing purposes: Original FaStrip method with
+        `full sliding correction'.
 \item[6] -- reserved for pseudo-viscous damping;
 \item[7] -- reserved for two quarter-spaces with vertical gap in between.
 }
@@ -6427,8 +6431,8 @@ This interface can be accessed from Matlab and Python as well.
 
 \section{Result elements and contact problems}
 
-The library is set up to compute the evolution of multiple contact problems
-that can be grouped in different ways.
+The CONTACT program is set up to compute the evolution of multiple contact
+problems that can be grouped in different ways.
 
 Contact problems are stored using containers that are called `result
 elements'. CONTACT does not care how these containers are used. 
@@ -6449,19 +6453,21 @@ patches are identified by an integer number {\tt icp} below 10, and these
 also don't have to be numbered consecutively.
 
 Most data are configured and stored separately for each contact patch or
-contact problem.  Therefore practically all subroutines start with the
+contact problem. Therefore practically all subroutines start with the
 arguments {\tt ire} and {\tt icp}. The code ${\tt icp}=-1$ is used to
 indicate a task working on all patches of a result element. The memory
 requirement is proportional to the total number of contact patches that are
 stored simultaneously.
 
-The number of cases computed can be different for each contact problem.
+The number of cases computed can be different for each contact problem,
+``$({\tt ire},-1)$'' in module 1, or ``$({\tt ire},{\tt icp})$'' in module 3.
 The cases for different contact problems can be interlaced in any way as
 well. Each contact problem is solved independently, using its own internal
-data and possibly its own previous state. Two consecutive cases for the
-same contact problem are governed by the same rules as consecutive cases in
-the input file. For instance, the grid can be changed between steady state
-cases but must stay the same in transient scenarios.
+data and possibly its own previous state. Consecutive cases for the
+same contact problem are governed by consistency rules. For instance,
+friction data need to be provided in the first case for a result element,
+and the grid can be changed between steady state cases but must stay the
+same in transient scenarios.
 
 \section{Data units and sign conventions}
 \label{sec:units}
@@ -7426,6 +7432,8 @@ wheel/rail contact using module 1 and one case of basic contact with module 3.
 
 The input for one case of wheel/rail contact consists of:
 \begin{alltt}\small
+ 1   \{REID\}    % module number, optional result element number
+
 % Control integers, see section \ref{sec:controldigits}:
 
  CPBTNFS       (        CONFIG, PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
@@ -7473,10 +7481,10 @@ if INFLCF>=2:
       if INFLCF=4: [ IF\_METH  VARIANT               ]
                      POISS1  POISS2  GG1     GG2
 \magenta{      if BOUND =1: [ FLXZ                           ]
-}      if MATER =1: [ FG1     FG2       VT1     VT2  ]
-      if MATER =2: [ FLX     K0\_MF   ALFAMF  BETAMF ]
+}      if MATER =1:   [ FG1     FG2       VT1     VT2  ]
+      if MATER =2:   [ FLX     K0\_MF   ALFAMF  BETAMF ]
       if MATER =3,5: [         K0\_MF   ALFAMF  BETAMF ]
-      if MATER =4: [ GG3     LAYTHK  TAU\_C0  K\_TAU  ]
+      if MATER =4:   [ GG3     LAYTHK  TAU\_C0  K\_TAU  ]
 
 % Material parameters for damping and temperature calculation (section \ref{sec:matcns}):
 
@@ -7544,6 +7552,8 @@ This input is illustrated in the {\tt mbench\_a22\_left} example in the
 
 For module 3, the input for one case consists of:
 \begin{alltt}\small
+ 3   \{REID, CPID\}    % module number, optional result element & contact problem
+
 % Control integers, see section \ref{sec:controldigits}:
 
   PBTNFS                     (PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
@@ -7564,7 +7574,7 @@ if G=4:       [ INISLP  OMGSLP                          ]
 \magenta{if G=5:       [ FDECAY  BETATH  KDOWFB  D\_IFC   D\_LIN   D\_CNS   D\_SLP   POW\_S ]
 }
 % Kinematics description (section \ref{sec:kincns}):
-% Note: PEN  is needed when N=0,      FN when N=1
+% Note: PEN  is needed when N=0,      FN    when N=1
 %       CKSI is needed when F=0,      FXREL when F=1 or 2
 %       CETA is needed when F=0 or 1, FYREL when F=2
 

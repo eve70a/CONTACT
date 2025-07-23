@@ -44,9 +44,16 @@ subroutine nonhz (inp, gd, linenr)
       gd%meta%ncase = gd%meta%ncase + 1
       lfirst = .false.
 
-      write(bufout,1001) gd%meta%ncase
+      if (gd%meta%REid.ge.1 .and. gd%meta%ncase.le.99999) then
+         write(bufout,'(/,a,i6,a,i4)') ' Case',gd%meta%ncase,', result element',gd%meta%REid
+      elseif (gd%meta%REid.ge.1) then
+         write(bufout,'(/,a,i8,a,i4)') ' Case',gd%meta%ncase,', result element',gd%meta%REid
+      elseif (                     gd%meta%ncase.le.99999) then
+         write(bufout,'(/,a,i6)')      ' Case',gd%meta%ncase
+      else
+         write(bufout,'(/,a,i8)')      ' Case',gd%meta%ncase
+      endif
       call write_log(2, bufout)
- 1001 format (/' Case',i6)
 
       ! read and test new input quantities
 
