@@ -625,11 +625,11 @@ contains
 
             ! get the track design dimensions (using 'd' for either gaugsq or raily0)
 
-            call readline(lunit, ncase, linenr, 'track design dimensions', 'ddda', ints, dbles, flags,  &
+            call readline(lunit, ncase, linenr, 'track design dimensions', 'dddaD', ints, dbles, flags, &
                            strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
             zerror = zerror .or. (ierror.ne.0)
 
-            trk%gauge_height = dbles(1)
+            trk%gauge_height    = dbles(1)
             if (trk%gauge_height.gt.0d0) then
                trk%gauge_seqnum = nint(dbles(2))
                trk%track_gauge  = dbles(3)
@@ -637,17 +637,22 @@ contains
                trk%rail_y0      = dbles(2)
                trk%rail_z0      = dbles(3)
             endif
-            trk%cant_angle   = dbles(4)
+            trk%cant_angle      = dbles(4)
+            if (nval.ge.5) then
+               trk%track_curv   = dbles(5)
+            else
+               trk%track_curv   = 0d0   ! default: tangent track
+            endif
 
          else
 
             ! get the roller rig design dimensions (using 'd' for either gaugsq or raily0)
 
-            call readline(lunit, ncase, linenr, 'roller rig design dimensions', 'dddd', ints, dbles,    &
+            call readline(lunit, ncase, linenr, 'roller rig design dimensions', 'ddddD', ints, dbles,   &
                            flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
             zerror = zerror .or. (ierror.ne.0)
 
-            trk%gauge_height = dbles(1)
+            trk%gauge_height    = dbles(1)
             if (trk%gauge_height.gt.0d0) then
                trk%gauge_seqnum = nint(dbles(2))
                trk%track_gauge  = dbles(3)
@@ -655,7 +660,12 @@ contains
                trk%rail_y0      = dbles(2)
                trk%rail_z0      = dbles(3)
             endif
-            trk%nom_radius   = dbles(4)
+            trk%nom_radius      = dbles(4)
+            if (nval.ge.5) then
+               trk%track_curv   = dbles(5)
+            else
+               trk%track_curv   = 0d0   ! default: straight rolling
+            endif
 
          endif
 
@@ -710,14 +720,19 @@ contains
 
          ! read the track deflection parameters for current side of the track
 
-         call readline(lunit, ncase, linenr, 'current rail deflection parameters', 'dddd', ints, dbles, &
+         call readline(lunit, ncase, linenr, 'current rail deflection parameters', 'ddddD', ints, dbles, &
                         flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
          zerror = zerror .or. (ierror.ne.0)
 
-         trk%ky_rail   = dbles(1)
-         trk%fy_rail   = dbles(2)
-         trk%kz_rail   = dbles(3)
-         trk%fz_rail   = dbles(4)
+         trk%ky_rail    = dbles(1)
+         trk%fy_rail    = dbles(2)
+         trk%kz_rail    = dbles(3)
+         trk%fz_rail    = dbles(4)
+         if (nval.ge.5) then
+            trk%dystep0 = dbles(5)
+         else
+            trk%dystep0 = 1d0   ! default 1mm
+         endif
 
       endif
 
@@ -791,7 +806,7 @@ contains
 
       ! get the wheelset position and orientation
 
-      if (modul.ne.modul_spck .and. ic%ewheel.ge.1 .and. ic%ewheel.le.5) then
+      if (.not.zerror .and. modul.ne.modul_spck .and. ic%ewheel.ge.1 .and. ic%ewheel.le.5) then
 
          call readline(lunit, ncase, linenr, 'wheelset position and orientation', 'dddaaa', ints,      &
                         dbles, flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
@@ -817,7 +832,7 @@ contains
 
       ! get the wheelset velocity
 
-      if (modul.ne.modul_spck .and. ic%ewheel.ge.2 .and. ic%ewheel.le.5) then
+      if (.not.zerror .and. modul.ne.modul_spck .and. ic%ewheel.ge.2 .and. ic%ewheel.le.5) then
 
          if     (ic%config.le.1 .and. (ic%force1.le.0 .or. ic%force1.eq.3)) then
             types = 'dddaaa'    ! 1st VS_WS,      6th VPITCH_WS
@@ -855,7 +870,7 @@ contains
 
       ! get flexible wheelset deviations
 
-      if (ic%ewheel.eq.4 .or. ic%ewheel.eq.5) then
+      if (.not.zerror .and. (ic%ewheel.eq.4 .or. ic%ewheel.eq.5)) then
 
          namside = 'current'
 
@@ -959,7 +974,11 @@ contains
 
       ! write parameters for the iterative solution algorithms
 
-      if (ic%gausei_inp.ne.1) write(linp, 1201) solv%maxgs, solv%maxin, solv%maxnr, solv%maxout, solv%eps
+      if (ic%gausei_inp.ne.1 .and. discr%npot_max.eq.20000) then
+         write(linp, 1201) solv%maxgs, solv%maxin, solv%maxnr, solv%maxout, solv%eps
+      elseif (ic%gausei_inp.ne.1) then
+         write(linp, 1202) solv%maxgs, solv%maxin, solv%maxnr, solv%maxout, solv%eps, discr%npot_max
+      endif
       if (ic%gausei_inp.eq.2 .or. ic%gausei_inp.eq.3)                                                   &
          write(linp, 1211) solv%omegah, solv%omegas, solv%inislp, solv%omgslp
       if (ic%gausei_inp.eq.4) write(linp, 1212) solv%inislp, solv%omgslp
@@ -971,6 +990,7 @@ contains
       endif
 
  1201 format( 4i6,    3x, es8.1, 14x, 'MAXGS,  MAXIN,  MAXNR,  MAXOUT, EPS')
+ 1202 format( 4i6,    3x, es8.1, i9, 5x, 'MAXGS,  MAXIN,  MAXNR,  MAXOUT, EPS, NPOMAX')
  1211 format( 2g12.4, i6, g12.4,  7x, 'OMEGAH, OMEGAS, INISLP, OMGSLP')
  1212 format(         i6, g12.4, 40x, 'INISLP, OMGSLP')
  1215 format( 6f8.3,  10x, 'FDECAY, D_IFC/LIN/CNS, D_SLP, POW_S')
@@ -1062,16 +1082,20 @@ contains
       if (ic%ztrack.eq.1 .or. ic%ztrack.eq.3) then
 
          if     (ic%config.le.1 .and. trk%gauge_height.gt.0d0) then
-            write(linp, 7101) trk%gauge_height, trk%gauge_seqnum, trk%track_gauge, trk%cant_angle, 'CANT'
+            write(linp, 7101) trk%gauge_height, trk%gauge_seqnum, trk%track_gauge, trk%cant_angle,      &
+                        trk%track_curv, 'CANT'
          elseif (                     trk%gauge_height.gt.0d0) then
-            write(linp, 7101) trk%gauge_height, trk%gauge_seqnum, trk%track_gauge, trk%nom_radius, 'NOMRAD'
+            write(linp, 7101) trk%gauge_height, trk%gauge_seqnum, trk%track_gauge, trk%nom_radius,      &
+                        trk%track_curv, 'NOMRAD'
          elseif (ic%config.le.1) then
-            write(linp, 7102) trk%gauge_height, trk%rail_y0, trk%rail_z0, trk%cant_angle, 'CANT'
+            write(linp, 7102) trk%gauge_height, trk%rail_y0, trk%rail_z0, trk%cant_angle,               &
+                        trk%track_curv, 'CANT'
          else
-            write(linp, 7102) trk%gauge_height, trk%rail_y0, trk%rail_z0, trk%nom_radius, 'NOMRAD'
+            write(linp, 7102) trk%gauge_height, trk%rail_y0, trk%rail_z0, trk%nom_radius,               &
+                        trk%track_curv, 'NOMRAD'
          endif
- 7101    format ( g14.6, i6, 2g14.6, 10x, 'GAUGHT, GAUGSQ, GAUGWD, ',a)
- 7102    format (4g14.6,  2x, 'GAUGHT, RAILY0, RAILZ0, ',a)
+ 7101    format ( f9.4, i4, f11.3, f11.6, g14.5, 9x, 'GAUGHT, GAUGSQ, GAUGWD, ',a,', CURV')
+ 7102    format ( f6.1, f12.4, f11.4, f11.6, g14.5,  4x, 'GAUGHT, RAILY0, RAILZ0, ',a,', CURV')
 
       endif
 
@@ -1103,8 +1127,13 @@ contains
 
       if (ic%ewheel.eq.3 .or. ic%ewheel.eq.5) then
 
-         write(linp, 8101) ws%flback_dist, ws%flback_pos, ws%nom_radius
- 8101    format (3g14.6, 16x, 'FBDIST, FBPOS, NOMRAD')
+         if (abs(ws%ytape).ge.999d0) then
+            write(linp, 8101) ws%flback_dist, ws%flback_pos, ws%nom_radius
+ 8101       format (3g14.6, 16x, 'FBDIST, FBPOS, NOMRAD')
+         else
+            write(linp, 8102) ws%flback_dist, ws%flback_pos, ws%nom_radius, ws%ytape
+ 8102       format (4g14.6,  2x, 'FBDIST, FBPOS, NOMRAD, YTAPE')
+         endif
 
       endif
 
@@ -1128,8 +1157,8 @@ contains
             write(linp, 8201) ws%x, ws%y, ws%fz_inp, 'X', 'FZ'
          endif
          write(linp, 8203) ws%roll, ws%yaw, ws%pitch
- 8201    format( 3(g15.8, 1x), 13x, '% ',a,', Y, ',a)
- 8203    format( 3(g15.8, 1x), 13x, '% ROLL, YAW, PITCH')
+ 8201    format( 3(g15.8, 1x), 12x, '% ',a,', Y, ',a)
+ 8203    format( 3(g15.8, 1x), 12x, '% ROLL, YAW, PITCH')
       endif
 
       if (ic%ewheel.ge.2) then
@@ -1138,7 +1167,7 @@ contains
          else
             write(linp, 8301) trk%vpitch_rol, ws%vy,     ws%vz, 'VPITCH_ROL'
          endif
- 8301    format( 3(g15.8, 1x), 13x, '% ',a,', VY, VZ')
+ 8301    format( 3(g15.8, 1x), 12x, '% ',a,', VY, VZ')
 
          if (ic%force1.eq.0 .or. ic%force1.eq.3) then
             write(linp, 8303) ws%vroll, ws%vyaw,   ws%vpitch, 'VPITCH'

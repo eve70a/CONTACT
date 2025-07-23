@@ -263,6 +263,7 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
 !dec$ attributes dllexport :: cntc_initializeFirst
 #endif
 
+   ifcver   = caddon_version
    if (caddon_initialized.ge.1) return
 
 #ifdef _OPENMP
@@ -449,7 +450,6 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
 
    ! return the version number and an error flag
 
-   ifcver   = caddon_version
    if (.not.my_license%is_valid) then
       ierror = CNTC_err_allow
    else
@@ -2851,17 +2851,19 @@ end subroutine cntc_setProfileInputValues
 subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
    bind(c,name=CNAME_(cntc_settrackdimensions))
 !--function: set the track or roller-rig description for a wheel-rail contact problem
+!  ztrack - control digit ZTRACK      params - depending on method that is used
 !    0: maintain track dimensions     params = [ ]
-!    1: new design track dimensions   params = [gaught, gaugsq, gaugwd, cant, nomrad],   if gaught >  0,
-!                                         or   [gaught, raily0, railz0, cant, nomrad],   if gaught <= 0.
+!    1: new design track dimensions   params = [gaught,  dummy, gaugwd, cant, nomrad, curv],  if gaught >  0,
+!                                         or   [gaught, raily0, railz0, cant, nomrad, curv],  if gaught <= 0.
 !    2: new track deviations          params = [dyrail, dzrail, drollr, vyrail, vzrail, vrollr]
 !    3: new dimensions & track deviations for current side of the track
-!                                     params = params(1:5) cf. Z=1 followed by params(6:11) cf. Z=2;
-!                                              additionally, [kyrail, fyrail, kzrail, fzrail] when F=3.
+!                                     params = params(1:6) cf. Z=1 followed by params(7:12) cf. Z=2;
+!  ztrack >= 30 is used to configure the massless rail model, F=3
+!   32/33: "F=3, Z=2/3":              params = [kyrail, fyrail, kzrail, fzrail, {dystep0} ]
 !
-! dimensions: gaught, gaugwd, raily0, railz0, nomrad, dyrail, dzrail [length],    cant, drollr [angle]
-!                                                     vyrail, vzrail [veloc],           vrollr [ang.veloc]
-!                                                kyrail, kzrail [force/length], fyrail, fzrail [force]
+! dimensions: gaught, gaugwd, raily0, railz0, nomrad  [length],  cant  [angle],  curv [1/length]
+!             dyrail, dzrail  [length],  drollr  [angle],  vyrail, vzrail  [veloc], vrollr  [ang.veloc]
+!             kyrail, kzrail  [force/length],  fyrail, fzrail  [force],  dystep0  [length]
 !--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
    implicit none
 !--subroutine arguments:
@@ -2870,8 +2872,7 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
    integer,      intent(in) :: nparam         ! number of parameters provided
    real(kind=8), intent(in) :: params(nparam) ! parameters depending on method that is used
 !--local variables:
-   integer             :: nparam_loc(0:3)
-   integer             :: ierror
+   integer             :: nparam_loc(0:33, 2), iofs, ierror
    character(len=*), parameter :: subnam = 'cntc_setTrackDimensions'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_setTrackDimensions
@@ -2881,25 +2882,33 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
    call cntc_activate(ire, -1, 1, -1, subnam, ierror)
    if (ierror.lt.0) return
 
-   ! check value of ZTRACK digit
+   ! check value of ZTRACK digit: 0--3 or 32--33
 
-   if (ztrack.lt.0 .or. ztrack.gt.3) then
+   if (.not.((ztrack.ge.0 .and. ztrack.le.3) .or. (ztrack.ge.32 .and. ztrack.le.33))) then
       write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' does not exist.'
       call write_log(1, bufout)
       return
    endif
 
-   ! check number of parameters supplied, expecting 4 additional params when Z = 3, F = 3
+   ! set minimum / maximum number of parameters for each option
 
-   if (ztrack.eq.3 .and. wtd%ic%force1.eq.3) then
-      nparam_loc(0:3) = (/ 0, 5, 6, 15 /)
+   nparam_loc( 0, 1:2) = (/  0,  0 /)
+   nparam_loc( 1, 1:2) = (/  5,  6 /)
+   nparam_loc( 2, 1:2) = (/  6,  6 /)
+   nparam_loc( 3, 1:2) = (/ 11, 12 /)
+   nparam_loc(32, 1:2) = (/  4,  5 /)
+   nparam_loc(33, 1:2) = (/  4,  5 /)
+
+   ! check number of parameters supplied
+
+   if (nparam.lt.nparam_loc(ztrack,1) .or. nparam.gt.nparam_loc(ztrack,2)) then
+      if (nparam_loc(ztrack,1).eq.nparam_loc(ztrack,2)) then
+         write(bufout,'(2a,3(i2,a))') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' needs ',      &
+                nparam_loc(ztrack,1),', got ',nparam,' parameters.'
    else
-      nparam_loc(0:3) = (/ 0, 5, 6, 11 /)
+         write(bufout,'(2a,4(i2,a))') trim(pfx_str(subnam,ire,-1)),' method Z=',ztrack,                 &
+             ' needs ', nparam_loc(ztrack,1), '-- ', nparam_loc(ztrack,2),', got ',nparam,' parameters.'
    endif
-
-   if (nparam.ne.nparam_loc(ztrack)) then
-      write(bufout,'(2a,2(i2,a))') trim(pfx_str(subnam,ire,-1)),' method Z=', ztrack,' needs ',         &
-                nparam_loc(ztrack),' parameters.'
       call write_log(1, bufout)
       return
    endif
@@ -2910,7 +2919,11 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
 
    ! store the supplied values
 
+   if (ztrack.le.0) then
+      my_ic%ztrack = 0
+   else
    my_ic%ztrack = 3
+   endif
 
    if (ztrack.eq.1) then
 
@@ -2924,6 +2937,11 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
       endif
       wtd%trk%cant_angle      = params(4) * my_scl%angle
       wtd%trk%nom_radius      = params(5) * my_scl%len
+      if (nparam.ge.6) then
+         wtd%trk%track_curv   = params(6) / my_scl%len
+      else
+         wtd%trk%track_curv   = 0d0     ! default curvature = 0: tangent track
+      endif
 
    elseif (ztrack.eq.2) then
 
@@ -2946,23 +2964,35 @@ subroutine cntc_setTrackDimensions(ire, ztrack, nparam, params) &
       endif
       wtd%trk%cant_angle      = params( 4) * my_scl%angle
       wtd%trk%nom_radius      = params( 5) * my_scl%len
-      my_rail%dy              = params( 6) * my_scl%len
-      my_rail%dz              = params( 7) * my_scl%len
-      my_rail%roll            = params( 8) * my_scl%angle
-      my_rail%vy              = params( 9) * my_scl%veloc
-      my_rail%vz              = params(10) * my_scl%veloc
-      my_rail%vroll           = params(11) * my_scl%angle
+      if (nparam.ge.12) then
+         wtd%trk%track_curv   = params( 6) / my_scl%len
+         iofs = 6
+      else
+         wtd%trk%track_curv   = 0d0     ! default curvature = 0: tangent track
+         iofs = 5
+      endif
+      my_rail%dy              = params(iofs+1) * my_scl%len
+      my_rail%dz              = params(iofs+2) * my_scl%len
+      my_rail%roll            = params(iofs+3) * my_scl%angle
+      my_rail%vy              = params(iofs+4) * my_scl%veloc
+      my_rail%vz              = params(iofs+5) * my_scl%veloc
+      my_rail%vroll           = params(iofs+6) * my_scl%angle
 
-      if (wtd%ic%force1.eq.3) then
-         wtd%trk%ky_rail      = params(12) * my_scl%forc / my_scl%len
-         wtd%trk%fy_rail      = params(13) * my_scl%forc
-         wtd%trk%kz_rail      = params(14) * my_scl%forc / my_scl%len
-         wtd%trk%fz_rail      = params(15) * my_scl%forc
+   elseif (ztrack.eq.32 .or. ztrack.eq.33) then
+
+      wtd%trk%ky_rail         = params(1) * my_scl%forc / my_scl%len
+      wtd%trk%fy_rail         = params(2) * my_scl%forc
+      wtd%trk%kz_rail         = params(3) * my_scl%forc / my_scl%len
+      wtd%trk%fz_rail         = params(4) * my_scl%forc
+      if (nparam.ge.5) then
+         wtd%trk%dystep0      = params(5) * my_scl%len
+      else
+         wtd%trk%dystep0      = 1d0
       endif
 
    endif
 
-   if (idebug.ge.3) then
+   if (idebug.ge.3 .and. ztrack.ge.32) then
       write(bufout,'(2a,i2,2(a,g12.4),a)') trim(pfx_str(subnam,ire,-1)),' Z=',ztrack, ', ky=',          &
                 wtd%trk%ky_rail,' [N/mm], fy_rail=',wtd%trk%fy_rail, ' [N]'
       call write_log(1, bufout)
@@ -5284,15 +5314,11 @@ subroutine cntc_getContactForces(ire, icp, fn, tx, ty, mz) &
    imodul = ire_module(ix_reid(ire))
    if (imodul.eq.1 .and. my_ic%is_left_side()) sgn = -1d0
 
-   fn = my_kin%fntrue                                        ! note: in simpack, output body == body 2
-   tx =       my_scl%body * my_kin%muscal * my_kin%fntrue * my_kin%fxrel
-   ty = sgn * my_scl%body * my_kin%muscal * my_kin%fntrue * my_kin%fyrel
+   fn =                     my_kin%fcntc(3)     ! note: in simpack, output body == body 2
+   tx =       my_scl%body * my_kin%fcntc(1)
+   ty = sgn * my_scl%body * my_kin%fcntc(2)
    mz = sgn * my_scl%body * gd%outpt1%mztrue / my_scl%len
 
-   if (idebug.ge.3) then
-      write(bufout,'(2a,f9.1)') trim(pfx_str(subnam,ire,icp)),' scaling: muscal=',my_kin%muscal
-      call write_log(1, bufout)
-   endif
    if (idebug.ge.2) then
       write(bufout,'(2a,2f9.1,a)') trim(pfx_str(subnam,ire,icp)),' total forces fn,mz=',fn,mz,          &
                 ' [force], [force.length]'

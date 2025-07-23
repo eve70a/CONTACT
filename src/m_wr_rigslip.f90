@@ -81,7 +81,7 @@ contains
       real(kind=8)          :: dqrel
 !--local variables:
       integer               :: is_right
-      real(kind=8)          :: r_loc, w_loc, sgn, vs_est
+      real(kind=8)          :: r_loc, w_loc, sgn, vs_est, vpsi_rail, vpsi_rol
       type(t_marker)        :: m_rol, mref_r, mref_rol, mw_trk, mq_w, mq_ws, mq_cp, mq_trk
       type(t_vec)           :: rol_tvel_trk, rol_rvel_trk, rail_tvel_rol, rail_rvel_rol, rail_tvel_trk, &
                                rail_rvel_trk, vp_tvel_rol, vp_rvel_rol, vp_tvel_trk, vp_rvel_trk,       &
@@ -117,8 +117,9 @@ contains
 
          ! define velocity vectors 'tvel' and 'rvel' for rail profile (origin O) w.r.t track coordinates
 
-         rail_tvel_trk = vec( 0d0, sgn*my_rail%vy, my_rail%vz )
-         rail_rvel_trk = vec( sgn*my_rail%vroll, 0d0, 0d0 )
+         vpsi_rail = -sgn * ws%vs * trk%track_curv 
+         rail_tvel_trk = vec( -vpsi_rail*my_rail%m_trk%y(), sgn*my_rail%vy, my_rail%vz )
+         rail_rvel_trk = vec( sgn*my_rail%vroll, 0d0, vpsi_rail )
 
          ! call write_log(' velocity of O_rail wrt O_trk')
          ! call vec_print(rail_tvel_trk, 'tvel_rail(trk)', 2)
@@ -134,7 +135,7 @@ contains
          ! call marker_print(cp%mref,       'O_cp(trk)', 2)
 
          ! call write_log(' velocity of O_cp wrt O_trk')
-         ! call vec_print(vp_tvel_trk, 'tvel_cp(trk)', 2)
+         ! call vec_print(vp_tvel_trk, 'vp_tvel_cp(trk)', 2)
 
          ! transform velocity vectors 'tvel' and 'rvel' from track to contact coordinates
 
@@ -142,8 +143,8 @@ contains
          vp_rvel_cp = cp%mref%rot .transp. vp_rvel_trk
 
          ! call write_log(' velocity of P_cp wrt O_cp')
-         ! call vec_print(vp_tvel_cp, 'tvel_cp(cp)', 2)
-         ! call vec_print(vp_rvel_cp, 'rvel_cp(cp)', 2)
+         ! call vec_print(vp_tvel_cp, 'vp_tvel_cp(cp)', 2)
+         ! call vec_print(vp_rvel_cp, 'vp_rvel_cp(cp)', 2)
 
       else
 
@@ -159,7 +160,7 @@ contains
 
          ! get local rolling radius: z-position of the contact point on the roller
 
-         r_loc     = mref_rol%z()
+         r_loc     = abs(mref_rol%z())
 
          ! define velocity vectors 'tvel' and 'rvel' for rail profile origin O in roller coordinates
          !    these are equal to the velocities in track coordinates because R_{rol(trk)} == I
@@ -187,8 +188,9 @@ contains
 
          ! define velocity vectors 'tvel' and 'rvel' of roller in track coordinates
 
+         vpsi_rol = -sgn * r_loc * trk%vpitch_rol * trk%track_curv 
          rol_tvel_trk = vec_zero()
-         rol_rvel_trk = m_rol%rot * vec( 0d0, trk%vpitch_rol, 0d0 )
+         rol_rvel_trk = m_rol%rot * vec( 0d0, trk%vpitch_rol, vpsi_rol )
 
          ! compute velocity vectors 'tvel' and 'rvel' of the contact reference point P in track coordinates
          ! v_P(trk) = v_rol(trk) + omega_rol(trk) x ( R_rol(trk) * m_P(rol) ) + R_rol(trk) * v_P(rol)
@@ -322,11 +324,8 @@ contains
          gd%kin%chi     = 0d0
          gd%kin%dq      = 1d0
       elseif (.not.ic%is_roller()) then
-         ! gd%kin%veloc =   ws%vs
-         ! gd%kin%veloc =  (ws%vs - ws%vpitch * ws%nom_radius) / 2d0
-         vs_est = vq_tvel_trk%x() - pitch_tvel_trk%x()
-         ! gd%kin%veloc   =   abs(vs_est)
-         gd%kin%veloc   =  (abs(vs_est) + abs(pitch_tvel_trk%x())) / 2d0
+         vs_est         = vq_tvel_trk%x() - vp_tvel_trk%x() - pitch_tvel_trk%x()
+         gd%kin%veloc   = (abs(vs_est) + abs(pitch_tvel_trk%x())) / 2d0
          if (abs(vs_est).ge.abs(pitch_tvel_trk%x()) .and. vs_est.ge.0d0) then
             gd%kin%chi  = 0d0
          elseif (abs(pitch_tvel_trk%x()).gt.abs(vs_est) .and. pitch_tvel_trk%x().le.0d0) then
@@ -358,10 +357,10 @@ contains
       ! creepage = { velocity of rail/roller (1) - velocity of wheel (2) } / reference velocity
 
       if (abs(gd%kin%veloc).lt.1d-6) then
-         ! rolling at V=0: creepages +/- 1 for pos/neg velocity difference
-         gd%kin%cksi = 1d0 * sign(1d0, vp_tvel_cp%x() - vq_tvel_cp%x())
-         gd%kin%ceta = 1d0 * sign(1d0, vp_tvel_cp%y() - vq_tvel_cp%y())
-         gd%kin%cphi = 1d0 * sign(1d0, vp_rvel_cp%z() - vq_rvel_cp%z())
+         ! rolling at V=0: zero creepage
+         gd%kin%cksi = 0d0
+         gd%kin%ceta = 0d0
+         gd%kin%cphi = 0d0
       else
          ! rolling: compute creepage; shift: V=dt=1, cksi--cphi = shift distance
          gd%kin%cksi = (vp_tvel_cp%x() - vq_tvel_cp%x()) / gd%kin%veloc
@@ -445,7 +444,7 @@ contains
 !--local variables:
       logical, parameter    :: project_on_cref = .false.
       integer               :: npot, ii, iimin, iidbg, is_right
-      real(kind=8)          :: sgn, dst2, dstmin, zmin, zmax, veloci
+      real(kind=8)          :: sgn, dst2, dstmin, zmin, zmax, veloci, vpsi_rail, vpsi_rol
       type(t_marker)        :: m_rol, mrol_cp, mr_rol, mr_cp, mw_arm, mw_trk, mw_cp, mws_cp
       type(t_vec)           :: rail_tvel_rol, rail_rvel_rol, rail_tvel_trk, rail_rvel_trk,              &
                                rail_tvel_cp, rail_rvel_cp,                                              &
@@ -495,13 +494,15 @@ contains
 
          ! define velocity vectors 'tvel' and 'rvel' for rail profile (origin O) w.r.t track coordinates
 
-         rail_tvel_trk = vec( 0d0, sgn*my_rail%vy, my_rail%vz )
-         rail_rvel_trk = vec( sgn*my_rail%vroll, 0d0, 0d0 )
+         vpsi_rail = -sgn * ws%vs * trk%track_curv 
+         rail_tvel_trk = vec( -vpsi_rail*my_rail%m_trk%y(), sgn*my_rail%vy, my_rail%vz )
+         rail_rvel_trk = vec( sgn*my_rail%vroll, 0d0, vpsi_rail )
 
          ! convert velocity vectors 'tvel' and 'rvel' to contact coordinates
+         ! parentheses needed to force correct order of .trans. + .cross.
 
          rail_rvel_cp = cp%mpot%rot .transp. rail_rvel_trk
-         rail_tvel_cp = cp%mpot%rot .transp. rail_tvel_trk + rail_rvel_cp .cross. mr_cp%o 
+         rail_tvel_cp = (cp%mpot%rot .transp. rail_tvel_trk) + (rail_rvel_cp .cross. mr_cp%o)
          ! call vec_print(rail_tvel_cp, 'vr_cp', 2)
          ! call vec_print(rail_rvel_cp, 'wr_cp', 2)
 
@@ -520,6 +521,7 @@ contains
                 gf_tvel_rail%vy(iidbg)
             call write_log(1, bufout)
          endif
+
       else
 
          !---------------------------------------------------------------------------------------------------
@@ -545,8 +547,9 @@ contains
          ! define velocity vectors 'tvel' and 'rvel' of roller in track/roller coordinates
          ! angular velocity: using \omega_rol \approx \dot{\nu}_rol, \nu = [\phi,\theta,\psi] (Euler angles)
 
+         vpsi_rol = -sgn * trk%nom_radius * trk%vpitch_rol * trk%track_curv 
          rol_tvel_trk  = vec_zero()
-         rol_rvel_rol  = vec( 0d0, trk%vpitch_rol, 0d0 )
+         rol_rvel_rol  = vec( 0d0, trk%vpitch_rol, vpsi_rol )
 
          ! convert wheelset velocity to contact coordinates
 
@@ -714,6 +717,7 @@ contains
             dstmin = dst2
          endif
       enddo
+      iimin = max(1, iimin)
 
       ! set the velocity, rolling direction and rolling step size
 

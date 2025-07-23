@@ -162,7 +162,8 @@ public
       ! for use in wr_undefdistc and wr_rigslip:
       ! rail_srfc [mm]   rail surface [x,sp,np]_r(cp) in planar contact reference coordinates
       ! whl_srfc  [mm]   wheel surface [x,sp,np]_w(cp) in planar contact reference coordinates
-      !                  note: sp_j may be non-uniform in the conformal approach where d sc=const
+      !                  note: sp_j may be non-uniform in the conformal approach where ds=const along
+      !                        the curved reference
       !
       ! for actual computation:
       ! has_own_subs     cp has specific subs-data or use subs-data of overall problem?
@@ -284,9 +285,9 @@ public
 
    type :: t_trackdata
       integer               :: gauge_seqnum
-      real(kind=8)          :: gauge_height, track_gauge, cant_angle
+      real(kind=8)          :: gauge_height, track_gauge, cant_angle, track_curv
       real(kind=8)          :: rail_y0, rail_z0
-      real(kind=8)          :: ky_rail, kz_rail, dy_defl, dz_defl, fy_rail, fz_rail
+      real(kind=8)          :: ky_rail, kz_rail, dy_defl, dz_defl, fy_rail, fz_rail, dystep0
       real(kind=8)          :: nom_radius, vpitch_rol
       type(t_rail), pointer :: rai => NULL()
 
@@ -295,6 +296,7 @@ public
       ! gauge_seqnum   -    sequence number of gauge face used: 0, 1 = inner-most face, 
       !                      2 = second inside face, particularly for situation with guard rail
       ! track_gauge  [mm]   lateral distance between inner sides of rails, e.g. 1435 mm
+      ! track_curv   [1/mm] track curvature, 1/r_curv, positive for a right hand curve
       ! cant_angle   [rad]  rail rotation towards track center, if not included in rail profile(s)
       !                     should not be used for roller rigs
       ! rail_y0      [mm]   lateral position of rail origin in track system, e.g. +/-755 mm
@@ -307,6 +309,7 @@ public
       ! fy_rail      [N]    lateral spring force on rail at zero deflection for rail deflection model (F=3)
       !                     (left/right rail, track coordinates, non-mirrored)
       ! fz_rail      [N]    vertical spring force on rail at zero deflection for rail deflection model (F=3)
+      ! dystep0      [mm]   expected magnitude of dy_defl, guiding the initial step in iterative solution
       ! nom_radius   [rad]  nominal radius of rollers, in case of roller rigs (config>=4)
       ! vpitch_rol  [rad/s] pitch angular velocity \omega=\dot{\theta} of rollers
       !              [rad]  when T=1, this stores the angle increment vpitch_rol = shft_rpit / dt*, dt* = 1
@@ -501,6 +504,7 @@ contains
       trk%gauge_height =   14d0
       trk%gauge_seqnum =    0
       trk%track_gauge  = 1435d0
+      trk%track_curv   =    0d0
       trk%cant_angle   =    0d0
       trk%rail_y0      =    0d0
       trk%rail_z0      =    0d0
@@ -510,6 +514,7 @@ contains
       trk%dz_defl      =    0d0
       trk%fy_rail      =    0d0
       trk%fz_rail      =    0d0
+      trk%dystep0      =    1d0    ! default 1mm
 
       ! initialize rail data
 

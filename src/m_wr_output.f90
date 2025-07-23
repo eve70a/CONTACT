@@ -257,6 +257,25 @@ contains
 
          endif
 
+         ! print information on track gauge, cant, curvature
+
+         if (ic%ztrack.eq.1 .or. ic%ztrack.eq.3) then
+            write(lout, 3000)
+
+            if (trk%gauge_height.le.0d0) then
+               write(lout, 3001) trk%gauge_height, trk%rail_y0, trk%rail_z0, trk%cant_angle,            &
+                   fmt_gs(12,4,4,trk%track_curv)
+            else
+               write(lout, 3002) trk%gauge_height, trk%track_gauge, trk%cant_angle,                     &
+                   fmt_gs(12,4,4,trk%track_curv)
+            endif
+         endif
+ 3000    format (/, 1x,'TRACK DIMENSIONS AND RAIL POSITION')
+ 3001    format (2x, 2x,'GAUGHT',3x, 3x,'RAILY0',3x, 3x,'RAILZ0',3x, 5x,'CANT',3x, 5x,'CURV',/,         &
+            f10.3, 3f12.4, a)
+ 3002    format (2x, 2x,'GAUGHT',3x, 3x,'GAUGWD',3x, 5x,'CANT',3x, 5x,'CURV',/,                         &
+            f10.3, f12.3, f12.4, a)
+
          ! print information on rail position, flexibility
 
          if (max(abs(my_rail%dy), abs(my_rail%dz), abs(my_rail%roll), abs(my_rail%vy), abs(my_rail%vz), &
@@ -278,6 +297,7 @@ contains
          endif
 
          ! print information on wheel profile and smoothing
+         ! TODO(?): print wheelset dimensions: fbdist, fbpos, nomrad, ytape
 
          if (ic%output_surf.ge.2 .and. ic%ewheel.ge.3) then
 

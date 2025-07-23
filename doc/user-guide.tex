@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.176)}}
+\reportnumber{20-01, version `trunk' \magenta{(1.180)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -85,8 +85,14 @@
 \vtlogentry{1.172}{EV}{05-12-2024}{Added ${\tt M}=5$ for FaStrip solver}{}
 \vtlogentry{1.173}{EV}{10-12-2024}{Added note on $z$ mirroring}{}
 \vtlogentry{1.174}{EV}{05-02-2025}{Added TangCG for $k_\tau=0$}{}
+\vtlogsheetbreak
 \vtlogentry{1.175}{EV}{04-04-2025}{Added tape circle on wheel}{}
 \vtlogentry{1.176}{EV}{11-04-2024}{Version for release v25.1}{}
+\vtlogentry{1.177}{EV}{10-06-2024}{Distinguish tilde-fs vs.\ bar-fs}{}
+\vtlogentry{1.178}{EV}{24-06-2024}{Add {\tt dystep0} for massless rail}{}
+\vtlogentry{1.179}{EV}{15-07-2024}{Add track curvature}{}
+\vtlogentry{1.180}{EV}{22-07-2024}{Support different result elements in
+                inp-file}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -1119,10 +1125,10 @@ that's considered is governed by the CONFIG control digit (${\tt C}_1$,
 page \pageref{c1-digit}).
 
 Inside the program, calculations for the left side are solved using
-an equivalent right side configuration. This shows up in print output for
-the flow of computations that is given for this mirrored situation. The
-mirroring is undone in the final print output and {\tt mat}-file showing
-the results of the computation.
+an equivalent right side configuration. This sometimes shows up in detailed
+print output for the flow of computations that is given for the mirrored
+situation. Mirroring is undone in the final print output and in the
+{\tt mat}-file showing the results of the computation.
 
 \paragraph{Gauge point computation}
 
@@ -1138,17 +1144,17 @@ the results of the computation.
 \end{figure}
 
 In case the rails are placed symmetrically with respect to the track
-origin, the position of the rail profile (datum) in the track system can
-be computed automatically. This uses the gauge width between the inner
-faces of the two rails (i.e.\ the grey stops in Figure
-\ref{fig:track_coords}).  Figure \ref{fig:rail_coords} (left) shows the
-right rail as it is seen in the track system. This rail has an installation
-angle of $-2.9^\circ$ corresponding to a cant of $1:20$. The profile is
-specified with respect to the rail origin $O_{rail}$ (datum, denoted also
-$O_{r}$). It is first rotated for cant and then shifted up to just touch
-the track plane and shifted left to touch the gauge stop. Note that
-$O_{rail}$ may be associated with the highest point in the uncanted rail,
-which need not be the highest point on the rail after cant is applied.
+origin, the position of the rail profile (datum) in the track system can be
+computed automatically. This uses the gauge width between the inner faces
+of the two rails (i.e.\ the grey stops in Figure \ref{fig:track_coords}).
+Figure \ref{fig:rail_coords} (left) shows the right rail as it is seen in
+the track system. This rail has an installation angle of $-2.9^\circ$
+corresponding to a cant angle of $1:20$. The profile is specified
+with respect to the rail origin $O_{rail}$ (datum, denoted also $O_{r}$).
+It is first rotated for cant and then shifted up to just touch the track
+plane and shifted left to touch the gauge stop. Note that $O_{rail}$ may be
+associated with the highest point in the uncanted rail, which need not be
+the highest point on the rail after cant is applied.
 
 \paragraph{Absolute rail placement}
 
@@ -1797,6 +1803,13 @@ $z_r=0$ is placed at the nominal radius $r_{nom,r}$ from the roller axle.
 \inpvar{NOMRADR}{\bunit{mm}}{Nominal radius $r_{nom,r}$ of the rollers,
         i.e.\ the radius at which the profile heights $z_r$ are zero.}
 \end{inputvars}
+Track curvature may be specified for use in the creep calculation.
+\begin{inputvars}
+\inpvar{CURV}{\bunit{mm^{-1}}}{Signed track curvature $k_{trk}=1/r_{curv}$
+        (Figure \ref{fig:fc_coords}) with $r_{curv}<0$ for a left hand
+        curve, $>0$ for a right hand curve. Default: tangent track,
+        $k_{trk}=0$.}
+\end{inputvars}
 
 Rail irregularities provide offsets with respect to the ideal (design)
 geometry. Track coordinates are used, such that $\Delta y>0$ is towards
@@ -1826,6 +1839,13 @@ control digit ${\tt F}_1=3$, and takes the following inputs:
 \inpvar{FYRAIL}{\bunit{N}}{Prescribed lateral force $F_y^*$ on the rail.}
 \inpvar{KZRAIL}{\bunit{N/mm}}{Effective vertical rail stiffness $k^*_z$.}
 \inpvar{FZRAIL}{\bunit{N}}{Prescribed vertical force $F_z^*$ on the rail.}
+\end{inputvars}
+The resulting rail deflection is determined using an iterative solution
+procedure. Information may be provided on the expected magnitude of $\delta
+y_{defl}$ to speed up this iteration.
+\begin{inputvars}
+\inpvar{DYSTEP0}{\bunit{mm}}{Order of magnitude expected for the lateral
+                rail deflection $\delta y_{defl}$, default $1\unit{mm}$.}
 \end{inputvars}
  
 \section{Wheelset geometry \& state}
@@ -2147,7 +2167,6 @@ The forces are also rotated to the wheelset orientation:
 \inpvar{FZ\_WS}{\bunit{N}}{Total force $F_{z_{ws}}$ on the rail in wheelset
         vertical direction $z_{wset}$.}
 \end{inputvars}
-\magenta{
 Rail deflections $\delta y_{\defl}, \delta z_{\defl}$ are output when ${\tt
 F}_1=3$:
 \begin{inputvars}
@@ -2158,7 +2177,6 @@ F}_1=3$:
         with respect to the input position according to the model of
         Equation (\ref{eq:cntc_defl}).}
 \end{inputvars}
-}
 After the values for the wheel/rail pair as a whole, data are displayed for
 all the contact patches that have been detected and solved. This concerns
 firstly the contact reference point that was discussed in Section
@@ -3421,8 +3439,11 @@ order: $f_{1,2}, f_{1,3}, f_{2,3}$.
 \section{Kinematic variables}
 \label{sec:kincns}
 
-The normal problem is specified either using the approach or the total
-normal force, depending on the ${\tt N}_3$-digit (page \pageref{n3-digit}).
+\subsection{Approach and normal force}
+
+In module 3, the normal problem is specified either using the approach or
+the total normal force, depending on the ${\tt N}_3$-digit (page
+\pageref{n3-digit}). One is prescribed, the other computed.
 \begin{inputvars}
 \inpvar{PEN}{\bunit{mm}}{Approach $\delta_n$ of the two bodies. Constant offset to
         the profile specification $h(x,y)$: the total undeformed distance
@@ -3430,9 +3451,11 @@ normal force, depending on the ${\tt N}_3$-digit (page \pageref{n3-digit}).
         the maximum penetration of the undeformed surfaces.}
 \inpvar{FN}{\bunit{N}}{Total normal force in the contact area.}
 \end{inputvars}
+In module 1, these quantities are both computed based on the vertical
+position or vertical force (${\tt N}_1$ digit, page \pageref{n1-digit}).
 
 \subsection{\texorpdfstring{Tangential quantities in case of a shift 
-        (${\tt T}=1$)}{}}
+        (${\tt T}=1$)}{Tangential quantities in case of a shift (T=1)}}
 \label{sec:kincns_shift}
 
 In the calculation of a shift (${\tt T}=1$), the following variables are used
@@ -3466,8 +3489,8 @@ ${\tt VELOC}=1\unit{mm/s}$. Internally in the program, a shift of $3\unit{mm}$
 corresponds to an absolute slip velocity of $3\unit{mm/s}$ and a relative
 slip velocity of $3$.
 
-\subsection{Tangential quantities in case of rolling \texorpdfstring{(${\tt
-        T}=2-3$)}{}}
+\subsection{\texorpdfstring{Tangential quantities in case of rolling (${\tt
+        T}=2-3$)}{Tangential quantities in case of rolling (T=2--3)}}
 \label{sec:kincns_roll}
 
 In rolling problems (${\tt T}=2,3$) the following variables are used.
@@ -3513,18 +3536,78 @@ In this case the rigid shift is computed from the function
 The additional terms $(sn,cs)\cdot\delta q/6$ compensate for the rolling
 distance traversed in a time step, along rolling direction {\tt CHI}.
 
-The total forces in $x$- and $y$-directions are defined as follows.
+\subsection{Tangential forces}
+
+Tangential forces are presented in different ways dependent on the mode of
+computation.
+\begin{enumerate}
+\item Curvilinear coordinates $[\tilde{x},\tilde{s},\tilde{n}]^T$ are used
+        in the conformal contact approach \cite{Vollebregt2020c-distr-force}.
+\item Rectilinear coordinates $[\bar{x},\bar{s},\bar{n}]^T$ are used for
+        the tangent plane in the planar contact approach.
+\item Rectilinear coordinates $[x,y,z]^T$ are used in module 3 with contact
+        in the plane $z=0$.
+\end{enumerate}
+Tangential forces are named {\tt FX}, {\tt FS} in module 1, {\tt FX}, {\tt
+FY} in module 3. 
 \begin{inputvars}
-\inpvar{FX, FY}{\bunit{-}}{Total tangential forces in $x$- and $y$-directions,
-        divided by the static traction bound {\tt FSTAT $\cdot$ FN}.}
+\inpvar{FX, FS}{\bunit{N}}{Module 1: total tangential forces in $x$- and
+        $s$-directions.}
+\inpvar{FX, FY}{\bunit{N}}{Module 3: total tangential forces in $x$- and
+        $y$-directions.}
 \end{inputvars}
-These can be both output (${\tt F}=0,1$) and input (${\tt F}=1,2$) of the
-program. Note that a problem with creepages prescribed is easier to solve
-than a problem with total forces prescribed. An additional (Newton-Raphson)
+Relative tangential forces provide information on the size of adhesion and
+slip areas, utilization of available friction.
+\begin{inputvars}
+\inpvar{FXREL, FYREL}{\bunit{-}}{Total tangential forces in $x$- and
+        $y$-directions, divided by the static traction bound {\tt FSTAT
+        $\cdot$ FN}.}
+\end{inputvars}
+The static coefficient of friction is obtained using $s_a=0$ in Equations
+(\ref{eq:exponential_law})--(\ref{eq:rational_law}) or $T=T_{ref}$ in
+Equation (\ref{eq:mu_T}). The value ${\tt FSTAT}=1$ in case of friction
+variation (${\tt V}=1$).
+
+In conformal computations (module 1, ${\tt D}=4$), two variants are
+distinguished for the tangential force in lateral direction: $\tilde{F}_s$
+({\tt tilde-fs}) and $F_s=\bar{F}_s$ ({\tt bar-fs}). The former is obtained
+by direct integration of stresses over the contact area:
+\begin{eqnarray}
+  \tilde{F}_s = \int_C p_s(\tilde{x},\tilde{s}) \,d\tilde{x}\,d\tilde{s},
+        \;\;
+  \tilde{F}_n = \int_C p_n(\tilde{x},\tilde{s}) \,d\tilde{x}\,d\tilde{s}
+\end{eqnarray}
+The latter concerns the resultant force for the contact patch in overall
+(tangent) $\bar{s}$ direction. This is obtained by rotating tractions
+$[p_x,p_s,p_n]^T$ to the tangent plane followed by integration.
+\begin{eqnarray}
+  \left[ \begin{array}{c} F_x \\ F_s \\ F_n
+                \end{array} \right] = 
+  \int_C \left[ \begin{array}{ccc} 1 & 0 & 0 \\
+                        0 & c_\alpha & -s_\alpha \\
+                        0 & s_\alpha & c_\alpha 
+        \end{array} \right] \cdot
+  \left[ \begin{array}{c} \tilde{p}_x \\ \tilde{p}_s \\ \tilde{p}_n
+                \end{array} \right] \, \,d\tilde{x}\,d\tilde{s} , 
+        \;\; \begin{array}{c}
+        c_\alpha = \cos(\alpha-\alpha_{ref}) \\
+        s_\alpha = \sin(\alpha-\alpha_{ref}) \end{array} .
+\end{eqnarray}
+% This includes contributions from pressures $p_n$ dependent on the
+% difference between local and tangent plane orientations. 
+In the output, {\tt FS} shows $F_s$ on the tangent plane while {\tt FSREL}
+is computed using $\tilde{F}_s$ and $\tilde{F}_n$.
+
+In module 3, the tangential problem may be specified using tangential forces
+instead of creepages, using the ${\tt F}_3$ digit of page \pageref{f3-digit}.
+The input values concern the relative forces.
+
+Note that a problem with creepages prescribed is easier to solve than a
+problem with prescribed tangential forces. An additional (Newton-Raphson)
 iteration process is used when total forces are prescribed, to determine
 the appropriate values for the creepages. This process is not fully
-reliable when the total forces are close to the maximum values that can be
-attained (full sliding solution).
+reliable when the total forces are close to the maximum possible values
+(full sliding solution).
 
 \section{Solution processes}
 \label{sec:solut_proc}
@@ -3837,11 +3920,28 @@ frictional power. Finally sensitivities computed by the Newton-Raphson
 processes may be displayed, statistics about the element division and
 iterations and a picture of the contact area.  
 
-\subsection{\texorpdfstring{Output in rolling problems (${\tt T}=2-3$)}{}}
+\subsection{\texorpdfstring{Output in rolling problems (${\tt T}=2-3$)}{Output in rolling problems (T=2-3)}}
 
 The approach {\tt PEN}, creepages {\tt CKSI}, {\tt CETA} and total forces
 {\tt FN}, {\tt FX} and {\tt FY} were already described in Section
-\ref{sec:kincns}. These may be input or output depending on the {\tt N}-
+\ref{sec:kincns}. 
+
+The total forces in $x$- and $y$-directions are defined as follows.
+\begin{inputvars}
+\inpvar{FX, FY}{\bunit{-}}{Total tangential forces in $x$- and $y$-directions,
+        divided by the static traction bound {\tt FSTAT $\cdot$ FN}.}
+\end{inputvars}
+These can be both output (${\tt F}=0,1$) and input (${\tt F}=1,2$) of the
+program. Note that a problem with creepages prescribed is easier to solve
+than a problem with total forces prescribed. An additional (Newton-Raphson)
+iteration process is used when total forces are prescribed, to determine
+the appropriate values for the creepages. This process is not fully
+reliable when the total forces are close to the maximum values that can be
+attained (full sliding solution).
+
+
+
+These may be input or output depending on the {\tt N}-
 and {\tt F}-digits.
 \begin{inputvars}
 \inpvar{MZ}{\bunit{N\,mm}}{Torsional moment $M_z$ around the $z$-axis of
@@ -3898,7 +3998,7 @@ in the output.
 The sensitivities of {\tt FX} to {\tt CETA} and of {\tt FY} to {\tt CKSI}
 and {\tt CETA} are likewise defined.
 
-\subsection{\texorpdfstring{Output in case of shifts (${\tt T}=1$)}{}}
+\subsection{\texorpdfstring{Output in case of shifts (${\tt T}=1$)}{Output in case of shifts (T=1)}}
 
 In case of a tangential shift, there are some differences compared to the
 output of rolling problems described above.
@@ -7375,7 +7475,7 @@ if INFLCF>=2:
 \magenta{      if BOUND =1: [ FLXZ                           ]
 }      if MATER =1: [ FG1     FG2       VT1     VT2  ]
       if MATER =2: [ FLX     K0\_MF   ALFAMF  BETAMF ]
-      if MATER =3\magenta{,5}: [         K0\_MF   ALFAMF  BETAMF ]
+      if MATER =3,5: [         K0\_MF   ALFAMF  BETAMF ]
       if MATER =4: [ GG3     LAYTHK  TAU\_C0  K\_TAU  ]
 
 % Material parameters for damping and temperature calculation (section \ref{sec:matcns}):
@@ -7392,16 +7492,16 @@ if D>=2:     [ DX    DS   DQREL   A\_SEP   D\_SEP   D\_COMB  \{D\_TURN   G\_MISS
 % Information on the track geometry (section \ref{sec:track_geom}) \& rail profile (section \ref{sec:profiles}):
 
 if Z=1,3:
-      if CONFIG=0,1:  [  GAUGHT    GAUGSQ   GAUGWD   CANT     ]  if GAUGHT >  0
-                 or:  [  GAUGHT    RAILY0   RAILZ0   CANT     ]  if GAUGHT <= 0
-      if CONFIG=4,5:  [  GAUGHT    GAUGSQ   GAUGWD   NOMRADR  ]  if GAUGHT >  0
-                 or:  [  GAUGHT    RAILY0   RAILZ0   NOMRADR  ]  if GAUGHT <= 0
+   if CONFIG=0,1:  [  GAUGHT   GAUGSQ   GAUGWD   CANT     \{CURV\} ]  if GAUGHT >  0
+              or:  [  GAUGHT   RAILY0   RAILZ0   CANT     \{CURV\} ]  if GAUGHT <= 0
+   if CONFIG=4,5:  [  GAUGHT   GAUGSQ   GAUGWD   NOMRADR  \{CURV\} ]  if GAUGHT >  0
+              or:  [  GAUGHT   RAILY0   RAILZ0   NOMRADR  \{CURV\} ]  if GAUGHT <= 0
 
 if Z=3:        [ 'RFNAME'  MIRRORY  SCALEYZ   SMOOTH  \{MIRRORZ\}  \{PRFOPT\} ]
 if PRFOPT>=1:  [  ISMOOTH  ZIGTHRS  KINKHIGH  KINKLOW  KINKWID ]
 \magenta{if PRFOPT>=2:  [  ERRHND   MAXOMIT  ]}
 if Z=2,3:      [  DYRAIL   DZRAIL   DROLLR    VYRAIL   VZRAIL   VROLLR  ]
-if Z=2,3, F=3: [  KYRAIL   FYRAIL   KZRAIL    FZRAIL                    ]
+if Z=2,3, F=3: [  KYRAIL   FYRAIL   KZRAIL    FZRAIL  \{DYSTEP0\}         ]
 
 % Information on wheelset geometry (section \ref{sec:wheelset_geom}) \& wheel profile (section \ref{sec:profiles}):
 
@@ -7465,10 +7565,10 @@ if G=4:       [ INISLP  OMGSLP                          ]
 }
 % Kinematics description (section \ref{sec:kincns}):
 % Note: PEN  is needed when N=0,      FN when N=1
-%       CKSI is needed when F=0,      FX when F=1 or 2
-%       CETA is needed when F=0 or 1, FY when F=2
+%       CKSI is needed when F=0,      FXREL when F=1 or 2
+%       CETA is needed when F=0 or 1, FYREL when F=2
 
-PEN/FN  CKSI/FX  CETA/FY  CPHI   \{SPINXO   SPINYO\}
+PEN/FN  CKSI/FXREL  CETA/FYREL  CPHI   \{SPINXO   SPINYO\}
 
 % Friction description (section \ref{sec:fric_dscrp}):
 %      L=0 --> Coulomb friction with static/kinetic coefficients

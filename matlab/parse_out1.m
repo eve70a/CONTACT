@@ -381,6 +381,11 @@ while (iline<f.nline)
       %     25.00      0.1885       0.000       0.000       4.736       0.000
       %     FN/G       SHIFT X      SHIFT Y    APPROACH       PMAX
       %     25.00      -2.708E-03  -1.106E-15  6.492E-03    12.34
+      % D=4:
+      %     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+      %     1.654E+05       6803.  -5.116E+04  -2.127E+05       7.462  -1.721E+04
+      %     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+      %     1.834E+05   3.709E-02  -9.825E-02    0.105082       1820.
 
       % get the creepages or forces
 
@@ -394,8 +399,8 @@ while (iline<f.nline)
       [s1, iline] = read_line(f, iline, idebug);
       tmp = sscanf(s1, '%f %f %f %f %f %f');
       fn_loc(ipatch,icase)    = tmp(1);
-      fx_loc(ipatch,icase)    = tmp(2); % storing absolute force
-      fs_loc(ipatch,icase)    = tmp(3); % storing absolute force
+      fx_loc(ipatch,icase)    = tmp(2); % storing dimensioned force
+      fs_loc(ipatch,icase)    = tmp(3); % storing dimensioned force
       mn_loc(ipatch,icase)    = tmp(4);
       elen(ipatch,icase)      = tmp(5);
       fric(ipatch,icase)      = tmp(6);
