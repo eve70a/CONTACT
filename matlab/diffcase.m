@@ -49,7 +49,8 @@ end
 
 % Enlarge grids if needed. TODO: check that offset is integer * (dx,dy)
 
-if (exist('change_potcon') & (sol1.mx ~= sol2.mx | sol1.my ~= sol2.my))
+if (exist('change_potcon') & (sol1.mx ~= sol2.mx | abs(sol2.xl-sol1.xl)>0.5*sol1.dx | ...
+                              sol1.my ~= sol2.my | abs(sol2.yl-sol1.yl)>0.5*sol1.dy ))
    % correct for different contact reference positions, shift sol2(0,0) to nearest grid point in sol1
    ofs_xcp = round( (sol2.meta.xcp_r - sol1.meta.xcp_r) / sol1.dx ) * sol1.dx;
    ofs_ycp = round( (sol2.meta.ycp_r - sol1.meta.ycp_r) / cos(sol1.meta.deltcp_r) / sol1.dy ) * sol1.dy;
