@@ -6,7 +6,8 @@ function s = mysetfield(s,varargin)
 %
 %   S = MYSETFIELD(S,'field',V) sets the contents of the specified
 %   field to the value V.  This is equivalent to the syntax S.field = V.
-%   S must be a 1-by-1 structure.  The changed structure is returned.
+%   S must be an n-by-1 array of structures with n-by-1 array V.
+%   The changed structures S are returned.
 %
 %   S = MYSETFIELD(S,{i,j},'field',{k},V) is equivalent to the syntax
 %       S(i,j).field(k) = V;
@@ -32,9 +33,18 @@ end
 arglen = length(varargin);
 strField = varargin{1};
 if (arglen==2)
-    eval(['s.',deblank(strField),' = varargin{end};']);
+    len = length(s);
+    if (len<=1)
+        eval(['s.',deblank(strField),' = varargin{end};']);
+    else
+       val = varargin{end};
+       for i = 1 : len
+          eval(['s(i).',deblank(strField),'= val(i);']);
+       end
+    end
     return
 end
+
 
 subs = varargin(1:end-1);
 for i = 1:arglen-1
