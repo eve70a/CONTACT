@@ -541,6 +541,13 @@ module subroutine interp_wgt_surf2unif(nnode_x, nnode_y, nnode, x_node, y_node, 
    my_ierror = 0
    num_error_msg = 0
 
+   if (mx.le.0 .or. my.le.0) then
+      write(bufout,'(2(a,i0))') ' Internal error (wgt_surf2unif): invalid lengths mx=',mx,', my=',my
+      call write_log(1, bufout)
+      my_ierror = -1
+      return
+   endif
+
    ! determine whether the output grid is uniform/non-uniform in x and y
 
    is_uniform_x = (dx_arg.gt.0d0)

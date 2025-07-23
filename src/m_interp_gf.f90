@@ -262,6 +262,13 @@ subroutine interp_cartz2unif_grid(g_surf, g_unif, my_ierror, defval, bicubic)
       write(bufout,'(2(a,i5),a)') ' Internal error: cartz2unif_grid: 1-d grids (', g_surf%nx,' x',      &
              g_surf%ny,') are not supported.'
       call write_log(1, bufout)
+      my_ierror = -1
+   endif
+   if (min(g_surf%nx, g_surf%ny).le.0) then
+      write(bufout,'(2(a,i5),a)') ' Internal error: cartz2unif_grid: empty grids (', g_surf%nx,' x',      &
+             g_surf%ny,').'
+      call write_log(1, bufout)
+      my_ierror = -2
    endif
    if (ldebug.ge.2 .and. .not.g_unif%is_uniform) then
       call write_log(' interp_cartz2unif_grid: assuming the output grid is a cartesian product')

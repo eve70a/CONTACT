@@ -407,9 +407,9 @@ contains
          else
             if (ic%x_locate.ge.2) call write_log(' --- calling locate_interpen_2d ---')
             call timer_start(itimer_interp6)
-            call locate_interpen_2d(meta, ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, discr%dx,           &
-                        ws%nom_radius, rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, max_n_miss,   &
-                        numnew, newcps, sub_ierror)
+            call locate_interpen_2d(meta, ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, ws%nom_radius,      &
+                        rgn_gap_min, ws%delt_min, ws%zw_min, ws%a1, ws%b1, max_n_miss, numnew, newcps,  &
+                        sub_ierror)
             if (my_ierror.eq.0) my_ierror = sub_ierror
             call timer_stop(itimer_interp6)
          endif
@@ -524,7 +524,7 @@ contains
       if (numnew.ge.2) then
          ! call write_log(' --- calling combine_cpatches ---')
          call combine_cpatches( ic, numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_comb,    &
-                discr%gap_miss)
+                discr%gap_miss, sgn)
       endif
 
       ! turn contact reference angles for 'true' contact patches that lie close together
@@ -1847,7 +1847,7 @@ contains
 
       ! for debugging: bounding-boxes of prw_lc, sf_whl and sf_rai
 
-      if (ic%x_locate.ge.3 .or. (ic%x_locate.ge.1 .and. .not.has_overlap)) then
+      if (ic%x_locate.ge.2 .or. (ic%x_locate.ge.1 .and. .not.has_overlap)) then
          write(bufout,248) 'Grid locus(vw)', bbw%x(1), bbw%x(8), bbw%y(1), bbw%y(8), bbw%z(1), bbw%z(8)
          call write_log(2, bufout)
 
@@ -2606,8 +2606,8 @@ contains
          write(lgap,*) 'clear tmp;'
          close(lgap)
          call free_lunit_tmp_use(lgap)
-         if (ic%x_locate.ge.4) then
-            call write_log(' idebug>=4: aborting')
+         if (ic%x_locate.ge.5) then
+            call write_log(' idebug>=5: aborting')
             call abort_run()
          endif
          goto 999
@@ -2638,16 +2638,22 @@ contains
       delt_min = sf_incl%vy(iy_min)
       zw_min   = zw(iy_min)
 
-      if (ic%x_locate.ge.4) then
+      if (ic%x_locate.ge.4 .or. gap_min.lt.-1000d0) then
          write(bufout,*) 'overall minimum is',gap_min,' at iy_min=',iy_min,', delt=', delt_min*180d0/pi, &
                 ', zw=',zw_min
          call write_log(1, bufout)
       endif
 
+      if (gap_min.lt.-1000d0) then
+         write(bufout,'(a,g12.4,a)') ' Penetration too large (',gap_min,'), aborting.'
+         call write_log(1, bufout)
+         call abort_run()
+      endif
+
       ! 3. estimate curvatures a1, b1 at the minimum gap location
       !    Note: using curve zr instead of gap function!
 
-      if (gap_min.ge.-1d-4) then
+      if (gap_min.ge.-0.0001d0) then
          if (ic%x_locate.ge.4) call write_log('--- estimate curvatures ---')
          call estimate_curvatures_v1(x, y, zr, nx, ny, iy_min, nom_radius, a1, b1, ic%x_locate)
       endif
@@ -2763,7 +2769,8 @@ contains
                curv_y = 0.5d0 / nom_radius                             ! add zw for wheel profile
             endif
 
-            call compute_wgt_center_1d(ic, cp, ny, x, y, zr, gap, sf_incl%vy, iy_sta, iy_end, curv_y, sgn)
+            call compute_wgt_center_1d(ic, cp, ny, sf_whl%dy, x, y, zr, gap, sf_incl%vy, iy_sta,        &
+                        iy_end, curv_y, sgn)
          endif
 
          ! 5.h compute contact length [x0,x1] of potential contact needed for 1d gap function
@@ -2911,7 +2918,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine locate_interpen_2d(meta, ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, dx, nom_radius, gap_min, &
+   subroutine locate_interpen_2d(meta, ic, sf_whl, sf_rai, uv_whl, sf_incl, sgn, nom_radius, gap_min,   &
                                  delt_min, zw_min, a1, b1, max_n_miss, numnew, newcps, ierror)
 !--purpose: find the points in the wheel mesh with (locally) minimum gap / maximum interpenetration,
 !           define the corresponding interpenetration regions
@@ -2925,7 +2932,6 @@ contains
       type(t_gridfnc3)            :: sf_incl             ! rail surface inclination wrt view orientation
                                                          ! at y-pos of sf_rai
       real(kind=8), intent(in)    :: sgn                 ! +1/-1 for right/left w/r-combination
-      real(kind=8), intent(in)    :: dx
       real(kind=8), intent(in)    :: nom_radius          ! nominal wheel radius
       real(kind=8), intent(out)   :: gap_min             ! overall minimum gap found (view direction)
       real(kind=8), intent(out)   :: delt_min            ! contact angle at the overall minimum gap value
@@ -3021,14 +3027,14 @@ contains
       zw_min   = zw(ii_min)
 
       if (ic%x_locate.ge.4) then
-         write(bufout,*) 'overall minimum is',gap_min,' at ii_min=',ii_min,', delt=', delt_min*180d0/pi, &
-                        ', zw_vw=',zw_min
+         write(bufout,'(a,g12.4,a,i0,a,f9.4,a,g12.4)') 'overall minimum is',gap_min,' at ii_min=',      &
+                ii_min,', delt=', delt_min*180d0/pi, ', zw_vw=',zw_min
          call write_log(1, bufout)
       endif
 
       ! 3. estimate curvatures a1, b1 at the minimum gap location
 
-      if (gap_min.ge.-1d-4) then
+      if (gap_min.ge.-0.0001d0) then
          if (ic%x_locate.ge.4) call write_log('--- estimate curvatures ---')
          call estimate_curvatures_v1(x, y, gap, nx, ny, ii_min, nom_radius, a1, b1, ic%x_locate)
       endif
@@ -3142,8 +3148,8 @@ contains
             ii = ix + (iy-1) * nx
             cp%wgt_agap = sf_incl%vy(ii)
          else
-            call compute_wgt_center_2d( ic, cp, nx, ny, dx, x, y, zr, gap, sf_incl%vy, ix_sta, ix_end,  &
-                        iy_sta, iy_end, sgn)
+            call compute_wgt_center_2d( ic, cp, nx, ny, sf_whl%dx, sf_whl%dy, x, y, zr, gap,            &
+                        sf_incl%vy, ix_sta, ix_end, iy_sta, iy_end, sgn)
          endif
 
          ! 5.f determine extent of (u,v) coordinates for interpenetration area
@@ -3293,8 +3299,8 @@ contains
             tzero  = sqrt(pen_y / (cos_a * curv_y))
             xmin   = min(xmin, x(iy)-tzero)
             xmax   = max(xmax, x(iy)+tzero)
-            if (x_locate.ge.4) then
-               write(bufout,'(a,i4,5(a,f9.4),a)') ' iy=',iy,': xlc=',x(iy), ', pen=', pen_y,            &
+            if (x_locate.ge.4 .or. abs(xmax).gt.1d6) then
+               write(bufout,'(a,i4,a,f9.4,4(a,g12.4),a)') ' iy=',iy,': xlc=',x(iy), ', pen=', pen_y,    &
                         ', curv=', curv_y, ', x in [', x(iy)-tzero,',', x(iy)+tzero, ']'
                call write_log(1,bufout)
             endif
@@ -3302,7 +3308,7 @@ contains
       enddo
 
       if (x_locate.ge.2) then
-         write(bufout,'(3(a,f8.3),a)') ' x in [',xmin,',',xmax,']'
+         write(bufout,'(3(a,g14.6),a)') ' x in [',xmin,',',xmax,']'
          call write_log(1,bufout)
       endif
 
@@ -3315,16 +3321,17 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine compute_wgt_center_1d( ic, cp, ny, x, y, z, gap, sf_incl, iy_sta, iy_end, curv_y, sgn)
+   subroutine compute_wgt_center_1d( ic, cp, ny, dy, x, y, z, gap, sf_incl, iy_sta, iy_end, curv_y, sgn)
 !--purpose: compute the "interpenetration center of gravity" in x and y for 1d gap function
       implicit none
 !--subroutine arguments:
       type(t_ic)                              :: ic
       type(t_cpatch)                          :: cp
       integer,                    intent(in)  :: ny, iy_sta, iy_end
-      real(kind=8),               intent(in)  :: curv_y, sgn
+      real(kind=8),               intent(in)  :: dy, curv_y, sgn
       real(kind=8), dimension(:), intent(in)  :: x(ny), y(ny), z(ny), gap(ny), sf_incl(ny)
 !--local variables:
+      logical,      parameter    :: debug_wgt  = .false.
       logical      :: use_linear_wgt
       integer      :: iy
       real(kind=8) :: pen_y, tzero, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap, totgap, part_xgap,          &
@@ -3362,15 +3369,15 @@ contains
             part_zgap = z(iy) * part_tot
             part_agap = sf_incl(iy) * part_tot
 
-            if (ic%x_locate.ge.5 .and. abs(y(iy)-726.4d0).lt.0.05d0) then
-               write(bufout,'(6g12.4)') x(iy), y(iy), gap(iy), pen_y, curv_y, tzero
+            if (debug_wgt .and. abs(y(iy)-999.9d0).lt.0.05d0) then
+               write(bufout,'(7g14.6)') x(iy), y(iy), gap(iy), pen_y, curv_y, tzero, part_tot
                call write_log(1, bufout)
             endif
-            totgap   = totgap   + part_tot
-            wgt_xgap = wgt_xgap + part_xgap
-            wgt_ygap = wgt_ygap + part_ygap
-            wgt_zgap = wgt_zgap + part_zgap
-            wgt_agap = wgt_agap + part_agap
+            totgap   = totgap   + dy * part_tot
+            wgt_xgap = wgt_xgap + dy * part_xgap
+            wgt_ygap = wgt_ygap + dy * part_ygap
+            wgt_zgap = wgt_zgap + dy * part_zgap
+            wgt_agap = wgt_agap + dy * part_agap
          else
             part_tot  = 0d0
             part_xgap = 0d0
@@ -3379,7 +3386,7 @@ contains
             part_agap = 0d0
          endif
 
-         if (ic%x_locate.ge.4) then
+         if (ic%x_locate.ge.4 .or. debug_wgt) then
             write(bufout, 197) iy, y(iy), part_xgap, part_ygap, part_zgap, part_agap, part_tot, gap(iy)
             call write_log(1, bufout)
  197        format(' row',i4,', y=',f6.2,': wgtx=',g12.4,', wgty=',g12.4,', wgtz=',g12.4,', wgta=',g12.4, &
@@ -3387,7 +3394,7 @@ contains
          endif
       enddo
 
-      if (ic%x_locate.ge.4) then
+      if (ic%x_locate.ge.4 .or. debug_wgt) then
          write(bufout, '(14x, 5(a,g12.4))') 'total wgtx=',wgt_xgap, ', wgty=',wgt_ygap, ', wgtz=',      &
                         wgt_zgap, ', wgta=',wgt_agap, ', tot=', totgap
          call write_log(1, bufout)
@@ -3398,7 +3405,7 @@ contains
       wgt_zgap = wgt_zgap / totgap
       wgt_agap = wgt_agap / totgap
 
-      if (ic%x_locate.ge.2 .or. isnan(wgt_xgap)) then
+      if (ic%x_locate.ge.2 .or. isnan(wgt_xgap) .or. debug_wgt) then
          write(bufout,'(4(a,f12.6))') ' interpen. center of gravity: x_cg=',wgt_xgap,                &
              ', y_cg=', sgn*wgt_ygap, ', z_cg=',wgt_zgap, ', a_avg=', wgt_agap
          call write_log(1, bufout)
@@ -3414,17 +3421,18 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine compute_wgt_center_2d( ic, cp, nx, ny, dx, x, y, z, gap, sf_incl, ix_sta, ix_end, iy_sta, &
-                iy_end, sgn)
+   subroutine compute_wgt_center_2d( ic, cp, nx, ny, dx, dy, x, y, z, gap, sf_incl, ix_sta, ix_end,     &
+                iy_sta, iy_end, sgn)
 !--purpose: compute the "interpenetration center of gravity" in x and y for 2d gap function
       implicit none
 !--subroutine arguments:
       type(t_ic)                              :: ic
       type(t_cpatch)                          :: cp
       integer,                    intent(in)  :: nx, ny, ix_sta, ix_end, iy_sta, iy_end
-      real(kind=8),               intent(in)  :: dx, sgn
+      real(kind=8),               intent(in)  :: dx, dy, sgn
       real(kind=8), dimension(:), intent(in)  :: x(nx*ny), y(nx*ny), z(nx*ny), gap(nx*ny), sf_incl(nx*ny)
 !--local variables:
+      logical,      parameter    :: debug_wgt  = .false.
       logical      :: use_linear_wgt
       integer      :: ii, ix, iy
       real(kind=8) :: wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap, totgap, part_xgap, part_ygap, part_zgap,  &
@@ -3464,19 +3472,19 @@ contains
                part_zgap = part_zgap +       z(ii) * cell_tot
                part_agap = part_agap + sf_incl(ii) * cell_tot
                part_tot  = part_tot  +               cell_tot
-               if (ic%x_locate.ge.5 .and. abs(y(ii)-13.87d0).lt.0.003d0) then
+               if (debug_wgt .and. abs(y(ii)-999.9d0).lt.0.05d0) then
                   write(bufout,'(i6,4g14.6)') ii, x(ii), y(ii), -gap(ii), sf_incl(ii)
                   call write_log(1, bufout)
                endif
             endif
          enddo
-         wgt_xgap = wgt_xgap + part_xgap
-         wgt_ygap = wgt_ygap + part_ygap
-         wgt_zgap = wgt_zgap + part_zgap
-         wgt_agap = wgt_agap + part_agap
-         totgap   = totgap   + part_tot
+         wgt_xgap = wgt_xgap + dy * part_xgap
+         wgt_ygap = wgt_ygap + dy * part_ygap
+         wgt_zgap = wgt_zgap + dy * part_zgap
+         wgt_agap = wgt_agap + dy * part_agap
+         totgap   = totgap   + dy * part_tot
 
-         if (ic%x_locate.ge.4) then
+         if (ic%x_locate.ge.4 .or. debug_wgt) then
             write(bufout, 197) iy, y(ii), part_xgap, part_ygap, part_zgap, part_agap, part_tot, part_max
             call write_log(1, bufout)
  197        format(' row',i4,', y=',f7.3,': wgtx=',g12.4,', wgty=',g12.4,', wgtz=',g12.4,               &
@@ -3484,7 +3492,7 @@ contains
          endif
       enddo
 
-      if (ic%x_locate.ge.4) then
+      if (ic%x_locate.ge.4 .or. debug_wgt) then
          write(bufout, '(14x, 5(a,g12.4))') 'total wgtx=',wgt_xgap,', wgty=', wgt_ygap,                 &
                 ', wgtz=',wgt_zgap, ', wgta=',wgt_agap, ', tot=', totgap
          call write_log(1, bufout)
@@ -3495,7 +3503,7 @@ contains
       wgt_zgap = wgt_zgap / max(totgap, 1d-40)
       wgt_agap = wgt_agap / max(totgap, 1d-40)
 
-      if (ic%x_locate.ge.2) then
+      if (ic%x_locate.ge.2 .or. debug_wgt) then
          write(bufout,'(4(a,f12.6))') ' interpen. center of gravity: x_cg=',wgt_xgap,                &
              ', y_cg=', sgn*wgt_ygap, ', z_cg=',wgt_zgap, ', a_avg=', wgt_agap
          call write_log(1, bufout)
@@ -3695,7 +3703,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine combine_cpatches( ic, numnew, newcps, angl_sep, dist_sep, dist_comb, gap_miss)
+   subroutine combine_cpatches( ic, numnew, newcps, angl_sep, dist_sep, dist_comb, gap_miss, sgn)
 !--purpose: combine contact problems with overlapping x_r or s_r-positions or lying too close together.
 !            1)          distance <= d_comb : combined fully
 !            2) d_comb < distance <= d_sep  : kept as separate sub-patches within single cpatch
@@ -3704,7 +3712,7 @@ contains
       type(t_ic)                  :: ic
       type(p_cpatch)              :: newcps(numnew)     ! data of contact problems
       integer,      intent(inout) :: numnew
-      real(kind=8), intent(in)    :: angl_sep, dist_sep, dist_comb, gap_miss
+      real(kind=8), intent(in)    :: angl_sep, dist_sep, dist_comb, gap_miss, sgn
 !--local variables:
       logical,      parameter    :: debug_comb = .false.
       integer                    :: n_miss, ipass, icp, jcp, kcp, isub, jsub, n_true
@@ -3746,7 +3754,7 @@ contains
          enddo
       endif
 
-      ! expand true patches towards near misses with gap < gap_miss:
+      ! shift bounds of true patches to include adjacent near misses with gap < gap_miss:
       !    smooth transition where new patches appear in between existing patches
 
       n_miss = 0
@@ -3819,10 +3827,20 @@ contains
       enddo
 
       if (ic%x_locate.ge.3 .or. debug_comb) then
-         call write_log(' after expansion towards near misses:')
+         call write_log(' distances between true patches accounting for nearby near misses:')
          do icp = n_true, 1, -1
             write(bufout,'(a,i3,a,8f8.3)') ' icp=',icp,': dist=',(all_dist(icp,jcp), jcp=n_true,1,-1)
             call write_log(1, bufout)
+         enddo
+      endif
+      if (ic%x_locate.ge.2 .or. debug_comb) then
+         do icp = 1, n_true
+            associate( cp => newcps(icp)%cp )
+            write(bufout,'(i3,5(a,f12.6))') icp,': interpen. center of gravity: x_cg=', cp%wgt_xgap,    &
+                ', y_cg=', sgn*cp%wgt_ygap, ', z_cg=',cp%wgt_zgap, ', a_avg=',cp%wgt_agap,              &
+                ', totgap=',cp%totgap
+            call write_log(1, bufout)
+            end associate
          enddo
       endif
 
@@ -3951,6 +3969,13 @@ contains
                   cp_tot%wgt_agap = (cp_tot%wgt_agap * cp_tot%totgap +                                  &
                                         cp_add%wgt_agap * cp_add%totgap) / (cp_tot%totgap + cp_add%totgap)
                   cp_tot%totgap   = cp_tot%totgap + cp_add%totgap
+
+                  if (ic%x_locate.ge.2 .or. debug_comb) then
+                     write(bufout,'(i3,5(a,f12.6))') icp,': interpen. center of gravity: x_cg=',        &
+                         cp_tot%wgt_xgap, ', y_cg=', sgn*cp_tot%wgt_ygap, ', z_cg=',cp_tot%wgt_zgap,    &
+                         ', a_avg=',cp_tot%wgt_agap, ', totgap=',cp_tot%totgap
+                     call write_log(1, bufout)
+                  endif
                
                   ! in 2nd pass: add jcp to list of sub-patches in patch icp
 
@@ -4203,6 +4228,14 @@ contains
          cp%delttr = cp%wgt_agap
       else
          call compute_contact_angle( prr, cref_y, cref_z, cp%delttr, ic%x_locate )
+      endif
+
+      ! avoid contact angles +/- 90 deg, add offset of 1 mrad
+
+      if (cp%delttr.gt.0d0 .and. abs(cp%delttr-0.5d0*pi).lt.0.001d0) then
+         cp%delttr =  0.5d0*pi + 0.001d0 * sign(1d0, cp%delttr-0.5d0*pi)
+      elseif (cp%delttr.lt.0d0 .and. abs(cp%delttr+0.5d0*pi).lt.0.001d0) then
+         cp%delttr = -0.5d0*pi + 0.001d0 * sign(1d0, cp%delttr+0.5d0*pi)
       endif
 
       if (ic%x_locate.ge.2) then
@@ -4743,7 +4776,11 @@ contains
       if (ic%x_locate.ge.2) then
          write(bufout,'(3(a,i4))') ' curved ref: selecting iy=[',iy0,':', iy1,'] of 1:',ny
          call write_log(1,bufout)
+         write(bufout,'(4(a,f12.6),a)') ' yr_sta,yr_end=[', rsrf%y(iy0),',',rsrf%y(iy1),                &
+                                      '], zr_sta,zr_end=[', rsrf%z(iy0),',',rsrf%z(iy1), ']'
+         call write_log(1, bufout)
       endif
+
       if (iy0.gt.ny .or. iy1.lt.1) then
          write(bufout,'(a,f6.3,a)') ' Internal ERROR: no grid points selected on curved reference.'
          call write_log(1, bufout)

@@ -349,6 +349,13 @@ contains
          nslc  = nslow + nshig + 1
          xslc1 = mpot_whl%x() - nslow * dx_cp
 
+         if (nslc.le.0) then
+            write(bufout,'(3(a,g12.4),a,i0,a)') ' Internal error (undefdist): x=',xmin,',',mpot_whl%x(), &
+                ',',xmax,': nslc= ',nslc,' <= 0, aborting.'
+            call write_log(1, bufout)
+            call abort_run()
+         endif
+
          !  3. form wheel mesh in wheel-set coordinates using nslc slices, with resolution dx
    
          !  - initialize surface whl_srfw_full for the wheel height z_cntc above the contact plane
