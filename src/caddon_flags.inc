@@ -118,8 +118,9 @@
                                  ! note: per-patch multi-threading is disabled if multi-
                                  !       threading is used to compute different contact
                                  !       patches concurrently
-      CNTC_if_timers  = 2004     ! code for level of output w.r.t. performance timers
+      CNTC_if_timers  = 2004, &  ! code for level of output w.r.t. performance timers
                                  !     0 = none, 1 = overview, 2 = full
+      CNTC_if_ncase   = 2005     ! code for retrieving the case number of a result element
 
       ! codes for cntc_getFieldData:
 
@@ -176,5 +177,4 @@
       CNTC_err_other  =  -99, & ! other error, unspecified
       CNTC_err_broydn =  CNTC_err_ftot  ! obsolete, kept for backward compatibility
 
-! $Revision: 2557 $, $Date: 2024-06-03 14:17:50 +0200 (Mon, 03 Jun 2024) $
 !------------------------------------------------------------------------------------------------------------
