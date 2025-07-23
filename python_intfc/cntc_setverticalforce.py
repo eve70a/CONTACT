@@ -1,6 +1,6 @@
 
 #------------------------------------------------------------------------------------------------------------
-# function [ ] = cntc_setverticalforce(ire, icp, fz)
+# function [ ] = cntc_setverticalforce(ire, fz)
 #
 # set the total vertical force between the contacting bodies for a w/r contact problem (module 1)
 # Note: this function sets control digit N = 1
