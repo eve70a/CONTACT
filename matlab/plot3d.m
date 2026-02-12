@@ -2,16 +2,20 @@
 function [ opts3 ] = plot3d(sol, opt3, prr, prw, subs)
 
 %
-% function [ opts3 ] = plot3d([sol], [opt3], [prr], [prw], [subs])
+% function [ opts3 ] = plot3d([init])                            -- initialize options
+% function [ opts3 ] = plot3d(sol, [opt3], [prr], [prw], [subs]) -- plot results
 %
 % Make a plot of different quantities in the contact area.
 %
+%  init   == 1, '1d', 'rear'  - set options for rear plot, profiles + contact patches (default)
+%            2, '2d', 'tract' - set options for tractions plot in flat view;
+%            3, '3d'          - set options for tractions plot on rw surfaces
+%
 %  sol    == structure with CONTACT results as returned by loadcase.
-%            may be empty; may be array of sol structures (#patches>1).
+%            may be array of sol structures (#patches>1).
 %
 %  opt3, opts3 == structure with options for plot3d.
-%           A valid structure opts3 is returned when plot3d is called with
-%           no input arguments.
+%           A valid structure opts3 is returned when plot3d is called with no arguments.
 %
 %  prr, prw == rail and wheel profiles (structs) or profile filenames. 
 %           prr may be a variable profile in slcs-format, prw may be in slcw-format.
@@ -44,7 +48,7 @@ function [ opts3 ] = plot3d(sol, opt3, prr, prw, subs)
 %    rw_surfc: 'none' for flat view, 'prr' for rail coordinates, 'prw' for wheel surface view,
 %               or 'both' for track coordinates;
 %    exterval: the value to be plotted at points of the exterior area;
-%    typplot:  type of plot: 'surf' (default), 'contourf', 'rw_rear' or 'rw_side';
+%    typplot:  type of plot: 'surf', 'contourf', 'rw_rear' (default), or 'rw_side';
 %    view:     the view direction, e.g. [30 30], or 'rail' for [90 -90], 'rdyn' for [180 90];
 %    xrange:   the range of the x-axis to be displayed in 3D plots
 %    xysteps:  one or two step sizes for sampling surfaces along the x- and y-axes
@@ -69,7 +73,7 @@ function [ opts3 ] = plot3d(sol, opt3, prr, prw, subs)
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -78,14 +82,29 @@ function [ opts3 ] = plot3d(sol, opt3, prr, prw, subs)
 old_graphics = verLessThan('matlab', '8.4.0'); % 8.4 == R2014b
 new_graphics = ~old_graphics;
 
-% construct a local struct "myopt" in which default values are filled in for
-% all available options.
+% selection of default settings: '1d' (rw_rear), '2d' (surf plot, flat view), '3d' (tractions on rw surface)
+
+if (nargin<1 | isempty(sol))
+   init = 1;
+elseif (isnumeric(sol))
+   init = max(1, min(3, sol));
+elseif (ischar(sol) & (strcmp(sol,'1d') | strcmp(sol,'rear')))
+   init = 1;
+elseif (ischar(sol) & (strcmp(sol,'2d') | strcmp(sol,'tract')))
+   init = 2;
+elseif (ischar(sol) & strcmp(sol,'3d'))
+   init = 3;
+else
+   init = 0;
+end
+
+% construct a local struct "myopt" in which default values are filled in for all available options.
 
 myopt = struct( ...
-   'field',    'default', ...
-   'rw_surfc', 'none', ...
+   'field',    'pn', ...        % init==1: pn, rw_rear
+   'rw_surfc', 'both', ...
    'exterval',  NaN, ...
-   'typplot',  'surf', ...
+   'typplot',  'rw_rear', ...
    'view',     'default', ...
    'xrange',    [], ...
    'xysteps',   [], ...
@@ -104,6 +123,13 @@ myopt = struct( ...
    'colormap', 'parula', ...
    'addplot',    0  ... % clear plot (0) or add to exist.plot (1, experimental)
 );
+if (init==2 | init==3)
+   myopt.typplot = 'surf';
+   myopt.field   = 'ptabs+vec';
+end
+if (init==2)
+   myopt.rw_surfc = 'none';
+end
 if (old_graphics)
    myopt.colormap = 'jet';
 end
@@ -111,7 +137,7 @@ end
 % If the user has not supplied any arguments,
 %    return default options as first and only output argument
 
-if (nargin<1)
+if (init>=1)
    opts3 = myopt;
    return
 elseif (~isstruct(sol) | ~isfield(sol,'pn'))
@@ -169,14 +195,10 @@ for i = 1:length(myopts)
    end
 end
 
-% Set default field
+% Override default field in case of no tangential data
 
-if (strcmp(myopt.field, 'default'))
-   if (isempty(sol) | sol(1).kincns.t_digit<=0)
-      myopt.field = 'pn';
-   else
-      myopt.field = 'ptabs+vec';
-   end
+if (strcmp(myopt.field, 'ptabs+vec') & sol(1).kincns.t_digit<=0)
+   myopt.field = 'pn';
 end
 
 % Check whether requested field is valid
@@ -322,8 +344,8 @@ if (ischar(myopt.view))
           strcmp(myopt.field,'fricdens') );
          myopt.view=[-37.5 30];
       else
-         myopt.view=[0 90]; % traditional view, rolling to the right
-         % myopt.view=[90 -90]; % rail view, rolling up in the picture
+         % myopt.view=[0 90]; % traditional view, rolling to the right
+         myopt.view=[90 -90]; % rail view, rolling up in the picture
       end
    end 
 end
@@ -1491,7 +1513,7 @@ function [ ] = show_3d_field(sol, field, opt)
       elseif (strcmp(opt.field,'srel') | ...
               (sol.kincns.t_digit>=2 & (strcmp(opt.field,'sx')  | strcmp(opt.field,'sy'))) )
          ylabel(h, 'Relative slip velocity [-]');
-      elseif (strcmp(opt.field,'sabs'))
+      elseif (strcmp(opt.field,'sabs') | strcmp(opt.field,'sabs+vec'))
          ylabel(h, 'Absolute slip velocity [mm/s]');
       elseif (strcmp(opt.field,'fricdens'))
          ylabel(h, 'Frictional power density [W/mm^2]');
@@ -2072,7 +2094,7 @@ function [ ] = set_xyzlabels(sol, opt)
          ylabel ('y_{tr} [mm]');
       else
          xlabel ('x_c [mm]');
-         if (sol.d_digit==4)
+         if (is_conformal(sol))
             ylabel ('s_c [mm]');
          else
             ylabel ('y_c [mm]');
@@ -2272,7 +2294,7 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
    R_r  = rotx(sol.meta.roll_r*180/pi);
    o_r  = [0; sol.meta.y_r; sol.meta.z_r];
 
-   if (sol.d_digit~=4)
+   if (~is_conformal(sol))
 
       % change coordinates from contact to rail to track coordinates
 
@@ -2376,7 +2398,7 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
       oref = [              sol.meta.xcp_r; sol.meta.ycp_r; sol.meta.zcp_r];
    end
 
-   if (sol.d_digit~=4)
+   if (~is_conformal(sol))
 
       % change coordinates from contact to rail coordinates
 
@@ -2464,7 +2486,7 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
    R_w  = rotx(sol.meta.roll_w*180/pi) * rotz(sol.meta.yaw_w*180/pi);
    o_w  = [sol.meta.x_w; sol.meta.y_w; sol.meta.z_w];
 
-   if (sol.d_digit~=4)
+   if (~is_conformal(sol))
 
       % change coordinates from contact to rail to track to wheel coordinates
 
@@ -2699,6 +2721,14 @@ function [ rot ] = rotz(yaw_deg)
            0,   0, 1];
 
 end % function rotz
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [ is_conf ] = is_conformal(sol)
+
+  is_conf = (sol.d_digit==4 | sol.d_digit==7);
+
+end % is_conformal
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

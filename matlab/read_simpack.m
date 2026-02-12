@@ -5,7 +5,7 @@ function [ p ] = read_simpack(fname, idebug, make_plot)
 % Lower-level routine for reading wheel/rail profiles in SIMPACK format.
 % Does not do automatic corrections like mirroring or reversing order.
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -39,6 +39,7 @@ known_fields_spline = struct( ...
    'bound_z_max',       'real', ...
    'mirror_y',          'int', ...
    'mirror_z',          'int', ...
+   'split_dist',        'real', ...
    'inversion',         'int', ...
    'units_len',         'str', ...
    'units_ang',         'str', ...
@@ -183,6 +184,12 @@ fclose(f);
 opts   = p.spline;
 points = p.OrigData;
 np     = size(points,1);
+
+% modification **: split profile into separate sections
+
+if (isfield(opts,'split_dist') & opts.split_dist>=1e-12)
+   disp(sprintf('Error: option split_dist = %6.1e not yet supported', opts.split_dist));
+end
 
 % modification 1: remove points too close together
 
