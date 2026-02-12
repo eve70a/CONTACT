@@ -267,7 +267,7 @@ contains
 
       endif
 
-         ! print information on track gauge, cant, curvature
+      ! print information on track gauge, cant, curvature
 
       if (my_output.ge.2 .and. (ic%ztrack.eq.1 .or. ic%ztrack.eq.3)) then
 
@@ -313,7 +313,6 @@ contains
       endif
 
       ! print information on wheel profile and smoothing
-      ! TODO(?): print wheelset dimensions: fbdist, fbpos, nomrad, ytape
 
       if (my_output.ge.2 .and. ic%ewheel.ge.3) then
 
@@ -323,7 +322,7 @@ contains
          else
             write(lout, '(a)') '   MIRRORY     MIRRORZ     ISMOOTH      L_FILT'
          endif
-         write(lout, '(i7,2i12,3x,f12.4)') my_wheel%prw%mirror_y, my_wheel%prw%mirror_z,             &
+         write(lout, '(i7,2i12,3x,f12.4)') my_wheel%prw%mirror_y, my_wheel%prw%mirror_z,                &
                    my_wheel%prw%ismooth, my_wheel%prw%smth
 
       endif
@@ -331,8 +330,25 @@ contains
       if (my_output.ge.3 .and. ic%ewheel.ge.3) then
 
          write(lout, '(/, a)') '   ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT'
-         write(lout, '(2x, 5g12.4)') my_wheel%prw%zig_thrs, my_wheel%prw%kink_high,                  &
+         write(lout, '(2x, 5g12.4)') my_wheel%prw%zig_thrs, my_wheel%prw%kink_high,                     &
                 my_wheel%prw%kink_low, my_wheel%prw%kink_wid, my_wheel%prw%f_max_omit
+
+      endif
+
+      ! print information on wheelset dimensions: fbdist, fbpos, nomrad, ytape
+
+      if (my_output.ge.2 .and. (ic%ewheel.eq.3 .or. ic%ewheel.eq.5)) then
+
+         write(lout, 4100)
+         if (abs(ws%ytape).ge.999d0) then
+            write(lout, 4101) ' ', ws%flback_dist, ws%flback_pos, ws%nom_radius
+         else
+            write(lout, 4101) 'YTAPE', ws%flback_dist, ws%flback_pos, ws%nom_radius, ws%ytape
+         endif
+
+ 4100    format (/, 1x,'WHEELSET DIMENSIONS')
+ 4101    format (2x, 2x,'FBDIST',3x, 3x,'YFBPOS',3x, 3x,'NOMRAD',3x, 4x,a,/,                            &
+            f10.3, 3f12.4)
 
       endif
 
@@ -340,8 +356,8 @@ contains
 
       if (my_output.ge.2 .and. ic%ewheel.ge.1) then
 
-         write(lout, 4000)
- 4000    format (/, 1x,'WHEEL-SET POSITION AND VELOCITY')
+         write(lout, 4200)
+ 4200    format (/, 1x,'WHEEL-SET POSITION AND VELOCITY')
 
          if (.false.) then
             strng(1) = fmt_gs(18,10,10,ws%z)
@@ -350,33 +366,33 @@ contains
          endif
          if (ic%config.le.1) then
             ! wheelset on track: print S_WS, VX_WS
-            write(lout, 4001) 'S', fmt_gs(12,nd,6,ws%s), fmt_gs(12,4,4,ws%y), trim(strng(1)),           &
+            write(lout, 4201) 'S', fmt_gs(12,nd,6,ws%s), fmt_gs(12,4,4,ws%y), trim(strng(1)),           &
                    fmt_gs(12,nd,4,ws%roll), fmt_gs(12,nd,4,ws%yaw), fmt_gs(12,nd,4,ws%pitch)
-            write(lout, 4002) fmt_gs(12,4,4,ws%vs), fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),               &
+            write(lout, 4202) fmt_gs(12,4,4,ws%vs), fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),         &
                    fmt_gs(12,4,4,ws%vroll), fmt_gs(12,4,4,ws%vyaw), ws%vpitch
          else
             ! wheelset on roller rig: print X_WS, VPITCH_ROL
-            write(lout, 4001) 'X', fmt_gs(12,4,4,ws%x), fmt_gs(12,4,4,ws%y), trim(strng(1)),            &
+            write(lout, 4201) 'X', fmt_gs(12,4,4,ws%x), fmt_gs(12,4,4,ws%y), trim(strng(1)),            &
                    fmt_gs(12,nd,4,ws%roll), fmt_gs(12,nd,4,ws%yaw), fmt_gs(12,nd,4,ws%pitch)
-            write(lout, 4003) trk%vpitch_rol, fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),               &
+            write(lout, 4203) trk%vpitch_rol, fmt_gs(12,4,4,ws%vy), fmt_gs(12,4,4,ws%vz),               &
                   fmt_gs(12,4,4,ws%vroll), fmt_gs(12,4,4,ws%vyaw), ws%vpitch
          endif
- 4001    format (2x, 3x,a1,'_WS',5x, 3x,'Y_WS',5x, 3x,'Z_WS',5x, 3x,'ROLL_WS',2x, 3x,'YAW_WS',3x,       &
+ 4201    format (2x, 3x,a1,'_WS',5x, 3x,'Y_WS',5x, 3x,'Z_WS',5x, 3x,'ROLL_WS',2x, 3x,'YAW_WS',3x,       &
             3x,'PITCH_WS',1x,/, 2x, 6a /)
- 4002    format( 2x, 3x,'VX_WS',4x, 3x,'VY_WS',4x, 3x,'VZ_WS',4x, 3x,'VROLL_WS',1x, 3x,'VYAW_WS',2x,    &
+ 4202    format( 2x, 3x,'VX_WS',4x, 3x,'VY_WS',4x, 3x,'VZ_WS',4x, 3x,'VROLL_WS',1x, 3x,'VYAW_WS',2x,    &
             3x,'VPITCH_WS',/, 2x, 5a, f12.7 /)
- 4003    format( 2x, 2x,'VPITCH_ROL', 3x,'VY_WS',4x, 3x,'VZ_WS',4x, 3x,'VROLL_WS',1x, 3x,'VYAW_WS',2x,  &
+ 4203    format( 2x, 2x,'VPITCH_ROL', 3x,'VY_WS',4x, 3x,'VZ_WS',4x, 3x,'VROLL_WS',1x, 3x,'VYAW_WS',2x,  &
             3x,'VPITCH_WS',/, 2x, f12.7, 4a, f12.7 /)
 
          rdum(1:12) =  (/ my_wheel%dx, my_wheel%dy, my_wheel%dz, my_wheel%droll, my_wheel%dyaw,         &
                           my_wheel%dpitch, my_wheel%vx, my_wheel%vy, my_wheel%vz, my_wheel%vroll,       &
                           my_wheel%vyaw, my_wheel%vpitch /)
          if (maxval(abs(rdum(1:12))).gt.1d-10) then
-            write(lout, 4101) fmt_gs(12,4,4,rdum( 1)), fmt_gs(12,4,4,rdum( 2)), fmt_gs(12,4,4,rdum( 3)), &
+            write(lout, 4301) fmt_gs(12,4,4,rdum( 1)), fmt_gs(12,4,4,rdum( 2)), fmt_gs(12,4,4,rdum( 3)), &
                               fmt_gs(12,4,4,rdum( 4)), fmt_gs(12,4,4,rdum( 5)), fmt_gs(12,4,4,rdum( 6)), &
                               fmt_gs(12,4,4,rdum( 7)), fmt_gs(12,4,4,rdum( 8)), fmt_gs(12,4,4,rdum( 9)), &
                               fmt_gs(12,4,4,rdum(10)), fmt_gs(12,4,4,rdum(11)), fmt_gs(12,4,4,rdum(12))
- 4101       format (1x,'FLEXIBLE WHEEL-SET DEVIATIONS',/,                                               &
+ 4301       format (1x,'FLEXIBLE WHEEL-SET DEVIATIONS',/,                                               &
                2x, 3x,'DXWHL',4x, 3x,'DYWHL',4x, 3x,'DZWHL',4x, 3x,'DROLLW',3x, 3x,'DYAWW',4x,          &
                    3x,'DPITCHW',2x, /, 2x, 6a, /,                                                       &
                2x, 3x,'VXWHL',4x, 3x,'VYWHL',4x, 3x,'VZWHL',4x, 3x,'VROLLW',3x, 3x,'VYAWW',4x,          &
