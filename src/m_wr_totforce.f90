@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_wr_totforce - iterative solution of w/r contact (module 1) with total forces prescribed
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -19,14 +19,25 @@ implicit none
 private
 
 public  wr_contact
+private delete_empty_cps
+private shift_grid_super
 
 private wr_contact_init_hertz
+private solve_zshift_powerlaw
+private get_z_shift
+private set_z_shift
+private get_f_totz
+private get_y_shift
+private set_y_shift
+private get_f_toty
+
 private wr_contact_fz_brent
+
+private wr_contact_fy_brent
+private solve_yshift_powerlaw
 
 private wr_contact_fx_secant
 private secant_fx_print
-
-private wr_contact_fy_brent
 
 contains
 
@@ -128,6 +139,10 @@ contains
          if (.not.lfound) my_ierror = CNTC_err_other
       endif
 
+      ! delete contact patches with no elements in contact
+
+      call delete_empty_cps( wtd, x_locate )
+
       ! determine whether output may be generated for the case
 
       loutpt = (my_ierror.eq.0 .or. my_ierror.eq.CNTC_err_tol)
@@ -182,6 +197,64 @@ contains
       wtd%ic_prv = wtd%ic
 
    end subroutine wr_contact
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine delete_empty_cps(wtd, idebug)
+!--purpose: delete patches from list numcps that have Fn=0, no elements in contact
+      implicit none
+!--subroutine arguments:
+      type(t_ws_track)  :: wtd
+      integer           :: idebug
+!--local variables:
+      integer           :: icp, jcp, ncon, nadh, nslip, nplast, nexter
+
+      ! check true patches 1 : numcps in reverse order (updating numcps)
+
+      do icp = wtd%numcps, 1, -1
+         associate( gd => wtd%allcps(icp)%cp%gd )
+
+         ! count number of elements in contact, slip and adhesion
+
+         call eldiv_count(gd%outpt1%igs, nadh, nslip, nplast, nexter)
+         ncon = nadh + nslip + nplast
+
+         if (idebug.ge.3) then
+            write(bufout,'(3(a,i0),a,g12.4)') ' patch ',icp,' (',gd%meta%ipatch,') of ',wtd%numcps,     &
+                ': ncon=',ncon,', fn=', gd%kin%fntrue
+            call write_log(1, bufout)
+         endif
+
+         if (ncon.le.0 .and. gd%kin%fntrue.le.0d0) then
+
+            if (idebug.ge.0) then
+               write(bufout,'(a,i0,a)') ' contact patch ',icp,' is empty, deleting'
+               call write_log(1, bufout)
+            endif
+
+            ! if empty: destroy patch icp
+
+            call cp_destroy(wtd%allcps(icp))
+
+            ! shift patches icp+1:numtot by one position, decrement ipatch in meta information
+
+            do jcp = icp+1, wtd%numtot
+               if (jcp.le.wtd%numcps) then
+                  wtd%allcps(jcp)%cp%gd%meta%ipatch = wtd%allcps(jcp)%cp%gd%meta%ipatch - 1
+               endif
+               wtd%allcps(jcp-1)%cp => wtd%allcps(jcp)%cp
+            enddo
+            nullify(wtd%allcps(wtd%numtot)%cp)
+
+            ! decrement numcps and numtot
+
+            wtd%numcps = wtd%numcps - 1
+            wtd%numtot = wtd%numtot - 1
+         endif
+         end associate
+      enddo
+
+   end subroutine delete_empty_cps
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -960,7 +1033,7 @@ contains
       if (my_ierror.ne.0 .or. .not.wtd%ws%has_overlap .or. .not.has_contact) then
          call write_log(' no overlap...')
          call total_forces_moments(wtd)
-         ! call brent_its_destroy(its)
+         call brent_its_destroy(its)
          return
       endif
 
@@ -1068,7 +1141,7 @@ contains
          call write_log(1, bufout)
          my_ierror = -2
       endif
-      ! call brent_its_destroy(its)
+      call brent_its_destroy(its)
 
    end subroutine wr_contact_fz_brent
 
@@ -1314,7 +1387,7 @@ contains
          call write_log(1, bufout)
          my_ierror = -2
       endif
-      ! call brent_its_destroy(its)
+      call brent_its_destroy(its)
 
       wtd%ic%x_force = x_force
 
