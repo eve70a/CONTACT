@@ -87,12 +87,14 @@ for iwhe in [1, 2]:
 
    cntc.setflags(iwhe, [], flags, values)
 
-   # material data
+   # material data using M = 0 (fully elastic model)
 
    gg    = 82000;  # [N/mm^2]
    poiss = 0.28;   # [-]
 
-   cntc.setmaterialproperties(iwhe, [], gg, poiss, gg, poiss);
+   mdigit = 0;
+   rparam = [ poiss, poiss, gg, gg ];
+   cntc.setmaterialparameters(iwhe, [], mdigit, rparam);
 
    # friction data
 
@@ -237,6 +239,7 @@ for iwhe in [1, 2]:  # wheel number
    for jcase in range(0, ncase):
       icase = jcase + 1
 
+      ws_pos = [    0, y_ws[jcase], 0, roll_ws[jcase], yaw_ws[jcase],   0      ], dtype=c_double )
       ws_pos = np.array( [    0, y_ws[jcase], 0, roll_ws[jcase], yaw_ws[jcase],   0      ], dtype=c_double )
       ws_vel = np.array( [ 2000,     0,       0,      0,            0,     vpitch[jcase] ], dtype=c_double )
 

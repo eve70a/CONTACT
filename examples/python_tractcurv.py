@@ -82,12 +82,14 @@ flags[7] = CNTC['ic_pvtime']; values[7] = 2;  # P=2, no previous time
 
 cntc.setflags(iwhe, icp, flags, values)
 
-# material data
+# material data using M = 0 (fully elastic model)
 
 gg    = 82000   # [N/mm^2]
 poiss = 0.28    # [-]
 
-cntc.setmaterialproperties(iwhe, icp, gg, poiss, gg, poiss) 
+mdigit = 0
+rparam = [ poiss, poiss, gg, gg ]
+cntc.setmaterialparameters(iwhe, icp, mdigit, rparam)
 
 # Hertzian discretization, automatic potential contact area, ellipticity a/b = 0.5
 

@@ -38,10 +38,8 @@
  3  MODULE
   203100     P-B-T-N-F-S        PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS
   100000     L-D-C-M-Z-E        FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS
- 3102241   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
+ 1102241   H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN
   100000.  -0.03333  0.000    0.000            FN, CKSI, CETA, CPHI
-     0.0    450.0    50e-3    7.85e-6          BKTEMP, HEATCP1, LAMBDA1, DENS1
-   150.0    450.0    50e-3    7.85e-6          BKTEMP, HEATCP2, LAMBDA2, DENS2
 
 % Fourth case: partial sliding, initial wheel temperature 150deg, cold rail
 
