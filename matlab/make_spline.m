@@ -15,7 +15,7 @@ function [ spl ] = make_spline( s, y, z, lambda, wgt, ikinks, iaccel, use_bsplin
 %   use_deriv = 2 or 3 for penalty on 2nd or 3rd derivative
 %   use_repl  = 1=replicate knots at s(1) and s(end) or 0=extend knots, replicating intervals ds(1), ds(end)
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -114,7 +114,7 @@ function [ spl ] = make_bspline( s_in, y_in, z_in, lambda, wgt, ikinks, iaccel, 
    end
    k  = 4;  % spline order 4, cubic splines
    tiny_dt = 1e-12;
-   
+
    % check size of ds_bspl: too small value spoils the condition of matrix M
    
    ds_min = 0.1 * lambda^(1/(2*use_deriv));
@@ -136,7 +136,7 @@ function [ spl ] = make_bspline( s_in, y_in, z_in, lambda, wgt, ikinks, iaccel, 
    
    [tj, keep_reduc] = make_knot_vector( s_in, ikinks, iaccel, ds_bspl, use_simple, use_repl, idebug );
    nknot = length(tj);
-   
+
    % determine collocation matrix: evaluate each B-spline at each measurement location
    
    nmeas = length(s_in);
@@ -517,7 +517,7 @@ function [ tj ] = make_knot_vector_simple( si, ikinks, iaccel, ds_bspl, use_repl
       % add knots for this section including start/end-points 
       % Note: this may introduce round-off differences between replicated knots
    
-      tj   = [tj; si(sec(1)) + [0:nintv]' * dt ];
+      tj   = [tj; si(sec(1)) + [0:nintv-1]' * dt ; si(sec(2))];
    
       if (idebug>=3)
          disp(sprintf('section %d of %d: len=%5.1f, dt=%5.3f, nintv=%3d, adding knots %7.3f : dt : %7.3f', ...

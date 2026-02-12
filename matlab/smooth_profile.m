@@ -19,7 +19,7 @@ function [ p_out, spl ] = smooth_profile( p_in, l_filt, lambda, ds_sampl, ikinks
 %
 % preferred approach: set l_filt, lambda=[], ikinks=-1, use_wgt=1, use_bspline=1, ds_bspl=[]
 
-% Copyright 2008-2025 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -63,7 +63,7 @@ else
 end
 use_repl = 1;
 
-% compute lambda when l_filt is given
+% compute lambda or l_filt from each other
 
 if     ( isempty(l_filt) &  isempty(lambda))
    disp('Either L_filt or lambda must be given.');
@@ -120,11 +120,6 @@ if (~isstruct(p_in))
    p_in = struct('ProfileY',y_in, 'ProfileZ',z_in, 'ProfileS',s_in, 'is_wheel',is_wheel);
 end
 
-% estimate curvatures needed for adaptive weighting, using moving window [-sw,sw]
-
-imeth = 0; s_windw = 4; k_hlf = 4;
-curv = estimate_curv(p_in, imeth, [s_windw, k_hlf]);
-
 % compute weights on data
 %  0: uniform
 %  1: using w_i = ds_i
@@ -144,6 +139,11 @@ else
    end
 
    if (use_wgt>=2)
+      % estimate curvatures needed for adaptive weighting, using moving window [-sw,sw]
+
+      imeth = 0; s_windw = 4; k_hlf = 4;
+      curv = estimate_curv(p_in, imeth, [s_windw, k_hlf]);
+
       ix = find(abs(curv)>0.1);
       fac = 50; wgt(ix) = fac * wgt(ix);
       ix = find(abs(curv)>0.07 & abs(curv)<=0.1);

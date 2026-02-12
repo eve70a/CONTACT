@@ -17,7 +17,7 @@ function [ dst_max, l, n ] = plot_update(prf1, prf2, fac, plot_n, use_angl2, nor
 %
 % l, n      == handles to graphics objects
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -42,18 +42,19 @@ end
 if (nargin<9 | isempty(force_spline))
    force_spline = 0;
 end
+fig_upd = gcf;
 
 % get (y,z)-data for the two profiles
 
-y1_in = prf1.ProfileY;
-z1_in = prf1.ProfileZ;
-n1    = length(y1_in);
-if (min(size(y1_in))>1)
-   disp('ERROR in plot_update: y1_in should be an n x 1 vector');
+y1    = prf1.ProfileY;
+z1    = prf1.ProfileZ;
+n1    = length(y1);
+if (min(size(y1))>1)
+   disp('ERROR in plot_update: y1 should be an n x 1 vector');
    return;
 end
-if (size(y1_in,1)<size(y1_in,2))
-   y1_in = y1_in'; z1_in = z1_in';  % make column vectors
+if (size(y1,1)<size(y1,2))
+   y1 = y1'; z1 = z1';  % make column vectors
 end
 
 y2    = prf2.ProfileY;
@@ -69,38 +70,45 @@ end
 
 % different #points: resample using spline interpolation
 
+y1_int = y1;
+z1_int = z1;
+y2_int = y2;
+z2_int = z2;
+
 if (n1~=n2 | force_spline)
-   % form spline for profile 1
+   % map rougher profile onto spline(smoother profile)
    lambda = 0; use_bspline = 0; wgt = []; ikinks = []; iaccel = [];
-   spl  = make_spline([], y1_in, z1_in, lambda, wgt, ikinks, iaccel, use_bspline);
-
-   % determine coordinates s1 in spline 1 for points (y2,z2)
-   % figure(5); clf; hold on;
-   % plot(y1_in, z1_in, '-o');
-   % plot(y2(774:776), z2(774:776), '*');
-   % set(gca,'ydir','reverse');
-   % grid on;
-   % axis equal;
-   % axis([-0.5 0.5 1.4 2.2]);
-
    idebug = -2; ifig = -5;
-   si   = map_pts_to_spline(spl, y2, z2, idebug, ifig);
+   if (use_angl2)
+      % form spline for profile 2
+      spl  = make_spline([], y2, z2, lambda, wgt, ikinks, iaccel, use_bspline);
 
-   % determine (y1,z1) at s1-positions
-   [~, y1_int, z1_int] = eval_spline(spl, si);
-else
-   y1_int = y1_in;
-   z1_int = z1_in;
+      % determine coordinates si in spline 2 for points (y1,z1)
+      si   = map_pts_to_spline(spl, y1, z1, idebug, ifig);
+
+      % determine (y2,z2) at si-positions
+      [~, y2_int, z2_int] = eval_spline(spl, si);
+   else
+      % form spline for profile 1
+      spl  = make_spline([], y1, z1, lambda, wgt, ikinks, iaccel, use_bspline);
+
+      % determine coordinates si in spline 1 for points (y2,z2)
+      si   = map_pts_to_spline(spl, y2, z2, idebug, ifig);
+
+      % determine (y1,z1) at si-positions
+      [~, y1_int, z1_int] = eval_spline(spl, si);
+   end
 end
 
 % tangent and inward normal on profile surface at positions used for prf2
 
 if (use_angl2)
-   dy = diff(y2);
-   dz = diff(z2);
+   dy = diff(y2_int);
+   dz = diff(z2_int);
 else
    dy = diff(y1_int);
    dz = diff(z1_int);
+   ix = 63;
 end
 ds = sqrt(dy.^2 + dz.^2);
 
@@ -108,6 +116,14 @@ ty = dy ./ ds;
 tz = dz ./ ds;
 ny = -tz;
 nz =  ty;
+
+ix = find( ty(1:end-1).*ty(2:end) + tz(1:end-1).*tz(2:end) < 0 );
+if (~isempty(ix))
+   ix = ix(1:2:end);
+   ty(ix+1) = -ty(ix+1); tz(ix+1) = -tz(ix+1);
+   ny(ix+1) = -ny(ix+1); nz(ix+1) = -nz(ix+1);
+   % disp(sprintf('plot_update: tangent direction reversing at %d positions',length(ix)));
+end
 
 % move normals from segments to end-points
 
@@ -119,8 +135,8 @@ alph = atan2(tz, ty);
 
 % dst_n, dst_t: signed distance in normal/tangential direction between input profiles
 
-dst_y = (y2 - y1_int);
-dst_z = (z2 - z1_int);
+dst_y = (y2_int - y1_int);
+dst_z = (z2_int - z1_int);
 dst_n = ny .* dst_y + nz .* dst_z;
 dst_t = ty .* dst_y + tz .* dst_z;
 
@@ -137,13 +153,14 @@ end
 if (fac<0)
    fac_list  = [ -1e-6 0.00005 0.0001 0.00025 0.0005 0.001 0.0025 0.005 0.01 0.025 0.05 0.1 0.25 0.5 1.0;
                   1000   20000  10000    4000   2000  1000    400   200  100    40   20  10    4   2   1];
-   tot_width = max(y1_in) - min(y1_in);
+   tot_width = max(y1) - min(y1);
    ifac      = find(fac_list(1,:)<25*dst_max/tot_width, 1, 'last');
    fac       = fac_list(2,ifac);
 end
 
 % plot original profiles 1 + 2
 
+figure(fig_upd);
 if (~add_plot)
    clf; hold on;
 end
@@ -151,8 +168,8 @@ set(gca,'ydir','reverse');
 axis equal;
 grid on;
 
-l(1) = plot(y1_in, z1_in);
-l(2) = plot(y2, z2, '--');
+l(1) = plot(y1, z1, '--');
+l(2) = plot(y2, z2, '-');
 
 % plot magnified updates 2-1 and maximum update
 
@@ -197,14 +214,6 @@ if (plot_n)
          end
       end
    end
-end
-
-% pull smoothed profile to foreground
-
-if (1==1)
-   c = get(gca,'children');
-   c = [c(end-1); c(1:end-2); c(end)];
-   set(gca,'children',c);
 end
 
 % plot angle indicators
@@ -255,5 +264,13 @@ else % southeast / southwest
                                         'horizontalalignment','right', 'interpreter','latex');
    text(0.05, 0.07, sprintf('max update %5.3f mm',dst_max), 'units','normalized', ...
                                         'horizontalalignment','left', 'interpreter','latex');
+end
+
+% pull smoothed profile to foreground
+
+if (1==1)
+   c = get(gca,'children');
+   c = [c(end-1); c(end); c(1:end-2)];
+   set(gca,'children',c);
 end
 
