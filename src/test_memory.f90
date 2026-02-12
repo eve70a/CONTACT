@@ -1,7 +1,7 @@
 !============================================================================================================
 ! test_memory - Test program for spotting potential memory leaks
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !============================================================================================================
@@ -74,12 +74,18 @@ program test_memory
 
       ! test 3: w/r CONTACT, mbench case 1 left wheel
 
-      call test3_initialize(ire)
+      do ire = 1, 2
+         call test3_initialize(ire)
+      enddo
       do itim = 1, ntim
          if (ldebug.ge.1) write(*,'(a,i7)') '  test 3: time step itim=', itim
-         call test3_calculate(ire, ldebug)
+         do ire = 1, 2
+            call test3_calculate(ire, ldebug)
+         enddo
       enddo
-      call cntc_finalize(ire)
+      do ire = 1, 2
+         call cntc_finalize(ire)
+      enddo
 
    elseif (itest.eq.4) then
 
@@ -313,10 +319,10 @@ subroutine test3_initialize(iwhe)
    integer                       :: imodul, icp, iver, ierr, mdigit
    integer                       :: len_string, flags(mxflgs), values(mxflgs)
    real(kind=8)                  :: gg, poiss, fstat, fkin, dx, ds, dqrel, rdum
-   integer                       :: itype, iside, mirrory, ewheel, ztrack, iparam(3)
-   real(kind=8)                  :: sclfac, smooth, rparam(2), rvalues(mxflgs)
-   character(len=256)             :: f_string, f_fname
-   character(len=256,kind=C_CHAR) :: c_string, c_fname
+   integer                       :: ewheel, ztrack
+   real(kind=8)                  :: rvalues(mxflgs)
+   character(len=256)             :: f_string
+   character(len=256,kind=C_CHAR) :: c_string
 !--external functions used:
 #include "contact_addon.ifc"
 
@@ -333,15 +339,16 @@ subroutine test3_initialize(iwhe)
    ! set flags: configure control digits & output
 
    flags = 0 ; values = 0
-   flags(1) = CNTC_if_units  ; values(1) = CNTC_un_cntc  ! CONTACT unit convention: mm
-   flags(2) = CNTC_ic_config ; values(2) = 0             ! C1: 0=left wheel, 1=right
-   flags(3) = CNTC_ic_tang   ; values(3) = 3             ! T=3: steady state rolling
-   flags(4) = CNTC_ic_pvtime ; values(4) = 2             ! P=2: no previous time
-   flags(5) = CNTC_ic_norm   ; values(5) = 1             ! N=1: vertical force prescribed
-   flags(6) = CNTC_if_wrtinp ; values(6) = 0             !   0: no inp-file needed
-   flags(7) = CNTC_ic_matfil ; values(7) = 0             !   0: no mat-files needed
-   flags(8) = CNTC_ic_output ; values(8) = 0             ! O=1: little output to out-file
-   flags(9) = CNTC_ic_flow   ; values(9) = 0             ! W=1: little flow trace
+   flags( 1) = CNTC_if_units  ; values( 1) = CNTC_un_cntc  ! CONTACT unit convention: mm
+   flags( 2) = CNTC_ic_config ; values( 2) = iwhe-1        ! C1: 0=left wheel, 1=right
+   flags( 3) = CNTC_ic_tang   ; values( 3) = 3             ! T=3: steady state rolling
+   flags( 4) = CNTC_ic_pvtime ; values( 4) = 2             ! P=2: no previous time
+   flags( 5) = CNTC_ic_norm   ; values( 5) = 1             ! N=1: vertical force prescribed
+   flags( 6) = CNTC_if_wrtinp ; values( 6) = 0             !   0: no inp-file needed
+   flags( 7) = CNTC_ic_matfil ; values( 7) = 0             !   0: no mat-files needed
+   flags( 8) = CNTC_ic_output ; values( 8) = 0             ! O=1: little output to out-file
+   flags( 9) = CNTC_ic_flow   ; values( 9) = 0             ! W=1: little flow trace
+   flags(10) = CNTC_ic_bound  ; values(10) = 5             ! B=5: KPEC method
    call cntc_setFlags(iwhe, icp, mxflgs, flags, values)
 
    ! set material parameters
@@ -378,6 +385,36 @@ subroutine test3_initialize(iwhe)
    rvalues(1:11) = (/ 14d0, 0d0, 1435d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0 /)
    call cntc_setTrackDimensions(iwhe, ztrack, 11, rvalues)
 
+   ! set wheelset dimensions
+
+   ewheel = 3
+   rvalues(1:3) = (/ 1360d0, -70d0, 460d0 /)
+   call cntc_setWheelsetDimensions(iwhe, ewheel, 3, rvalues)
+
+   ! set rail and wheel profiles.
+
+   call test3_profiles(iwhe)
+
+end subroutine test3_initialize
+
+!------------------------------------------------------------------------------------------------------------ 
+
+subroutine test3_profiles(iwhe)
+!--test 3: w/r CONTACT, mbench
+   use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
+   implicit none
+   include 'caddon_flags.inc'
+!--subroutine arguments:
+   integer                       :: iwhe
+!--local variables:
+   integer                       :: len_string
+   integer                       :: itype, iside, mirrory, iparam(3)
+   real(kind=8)                  :: sclfac, smooth, rparam(2)
+   character(len=256)             :: f_fname
+   character(len=256,kind=C_CHAR) :: c_fname
+!--external functions used:
+#include "contact_addon.ifc"
+
    ! set rail profile for left and right sides
 
    f_fname   = 'profiles/MBench_UIC60_v3.prr'
@@ -394,13 +431,7 @@ subroutine test3_initialize(iwhe)
 
    call cntc_setProfileInputFname(iwhe, c_fname, len_string, 3, iparam, 2, rparam)
 
-   ! set wheelset dimensions
-
-   ewheel = 3
-   rvalues(1:3) = (/ 1360d0, -70d0, 460d0 /)
-   call cntc_setWheelsetDimensions(iwhe, ewheel, 3, rvalues)
-
-   ! set wheel profile. If two profiles are given, first is for left side, second for right side
+   ! set wheel profile.
 
    f_fname   = 'profiles/MBench_S1002_v3.prw'
    c_fname   =     trim(f_fname)  // C_NULL_CHAR
@@ -416,7 +447,7 @@ subroutine test3_initialize(iwhe)
 
    call cntc_setProfileInputFname(iwhe, c_fname, len_string, 3, iparam, 2, rparam)
 
-end subroutine test3_initialize
+end subroutine test3_profiles
 
 !------------------------------------------------------------------------------------------------------------ 
 
@@ -445,7 +476,11 @@ subroutine test3_calculate(iwhe, ldebug)
    call cntc_setWheelsetPosition(iwhe, 1, 6, rvalues)
 
    rvalues(1:6) = (/ 2000d0, 0d0, 0d0, 0d0, 0d0, vpitch /)
-   call cntc_setWheelsetVelocity(iwhe, 1, 6, rvalues)
+   call cntc_setWheelsetVelocity(iwhe, 2, 6, rvalues)
+
+   ! re-load rail and wheel profiles.
+
+   if (.true.) call test3_profiles(iwhe)
 
    ! set vertical force
 
@@ -592,7 +627,7 @@ subroutine test4_initialize(iwhe)
 
    ! set wheel profile
 
-   f_fname   = 'profiles/S1002_flat.slcw'
+   f_fname   = '../examples/S1002_flat.slcw'
    c_fname   =     trim(f_fname)  // C_NULL_CHAR
    len_fname = len(trim(f_fname))
 
@@ -643,7 +678,7 @@ subroutine test4_calculate(iwhe, ldebug)
       call cntc_setWheelsetPosition(iwhe, 1, 6, rvalues)
 
       rvalues(1:6) = (/ 2000d0, 0d0, 0d0, 0d0, 0d0, vpitch(icase) /)
-      call cntc_setWheelsetVelocity(iwhe, 1, 6, rvalues)
+      call cntc_setWheelsetVelocity(iwhe, 2, 6, rvalues)
 
       ! set vertical force
 

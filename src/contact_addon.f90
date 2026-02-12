@@ -1,7 +1,7 @@
 !============================================================================================================
 ! m_contact_addon - interface functions for CONTACT library version
 !
-! Copyright 2008-2023 by Vtech CMCC.
+! Copyright 2008-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !============================================================================================================
@@ -6214,6 +6214,10 @@ subroutine finalize_helper(ire)
          endif
          call cntc_destroy_gd(ire, icp)
       enddo
+
+      ! clean up the wtd-structure for ire
+
+      call cntc_destroy_wtd(ire)
 
       ! deactivate ire, decrement number of ire's remaining
 

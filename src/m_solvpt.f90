@@ -1,7 +1,7 @@
 !============================================================================================================
 ! m_solvpt - solution methods for tangential contact problem
 !
-! Copyright 1993-2023 by Vtech CMCC.
+! Copyright 1993-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !============================================================================================================
@@ -578,8 +578,7 @@ contains
       call gf3_copy_struc(ps1, wsloc, 'wsloc', .true.)
       call gf3_copy_struc(ps1, ssloc, 'ssloc', .true.)
       call gf3_copy_struc(ps1, usloc, 'usloc', .true.)
-      call eldiv_nullify(igsloc)
-      call eldiv_new(igsloc, ps1%grid)
+      call eldiv_new(igsloc, ps1%grid, nulify=.true.)
 
       ! compute original values of total forces fx, fy and spin moment mz
 

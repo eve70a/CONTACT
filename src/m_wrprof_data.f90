@@ -2,7 +2,7 @@
 ! m_wrprof_data - declare user-defined types for the wheel-set and track, grouping important variables
 !                 into a hierarchical, tree-like data-structure.
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -34,15 +34,19 @@ public
 
    public  t_wheel
    public  wheel_init
+   public  wheel_destroy
 
    public  t_wheelset
    public  wheelset_init
+   public  wheelset_destroy
 
    public  t_rail
    public  rail_init
+   public  rail_destroy
 
    public  t_trackdata
    public  trackdata_init
+   public  trackdata_destroy
 
    public  t_ws_track
    public  p_ws_track
@@ -383,7 +387,8 @@ contains
       type(t_ic),      intent(in) :: ic
       type(t_profile), intent(in) :: prw
 
-      use_brute = (ic%discns1_eff.eq.5 .or. ic%discns1_eff.eq.6 .or. ic%discns1_eff.eq.9)
+      use_brute = (ic%discns1_eff.eq.5 .or. ic%discns1_eff.eq.6 .or. ic%discns1_eff.eq.7 .or.           &
+                   ic%discns1_eff.eq.9)
       use_brute = use_brute .or. prw%is_varprof()
 
    end function use_brute
@@ -417,6 +422,19 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine wheel_destroy(whl)
+!--purpose: Cleanup a wheel data-structure
+      implicit none
+!--subroutine parameters:
+      type(t_wheel)  :: whl
+!--local variables:
+
+   call profile_destroy( whl%prw )
+
+   end subroutine wheel_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine rail_init(rail)
 !--purpose: Initialize a rail data-structure
       implicit none
@@ -435,6 +453,18 @@ contains
       call profile_init(rail%prr)
 
    end subroutine rail_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine rail_destroy(rail)
+!--purpose: Clean-up a rail data-structure
+      implicit none
+!--subroutine parameters:
+      type(t_rail)  :: rail
+
+      call profile_destroy( rail%prr )
+
+   end subroutine rail_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -492,6 +522,20 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine wheelset_destroy(ws)
+!--purpose: Cleanup a wheelset data-structure
+      implicit none
+!--subroutine parameters:
+      type(t_wheelset) :: ws
+
+      call wheel_destroy( ws%whl )
+      deallocate( ws%whl )
+      nullify( ws%whl )
+
+   end subroutine wheelset_destroy
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine trackdata_init(trk)
 !--purpose: Initialize a track data-structure
       implicit none
@@ -522,6 +566,20 @@ contains
       call rail_init(trk%rai)
 
    end subroutine trackdata_init
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine trackdata_destroy(trk)
+!--purpose: Clean-up a track data-structure
+      implicit none
+!--subroutine parameters:
+      type(t_trackdata)      :: trk
+
+      call rail_destroy(trk%rai)
+      deallocate(trk%rai)
+      trk%rai => NULL()
+
+   end subroutine trackdata_destroy
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -713,26 +771,19 @@ contains
 !--subroutine parameters:
       type(t_ws_track)  :: wtd
 !--local variables:
-      integer                :: icp, iblk
+      integer           :: icp
 
-      ! no action: meta, scl, ic, mater, discr, kin, solv
+      ! no action: meta, scl, ic, ic_prv, mater, discr, kin, solv, spck
 
       ! cleanup subsurf data, friction data
 
-      do iblk = 1, wtd%subs%nblock
-         call subsblk_destroy( wtd%subs%blocks(iblk) )
-      enddo
+      call subsurf_destroy ( wtd%subs )
       call fric_destroy( wtd%fric )
 
       ! wheelset, trackdata: just clean up the profiles
 
-      call profile_destroy( wtd%ws%whl%prw )
-      deallocate( wtd%ws%whl )
-      nullify( wtd%ws%whl )
-
-      call profile_destroy( wtd%trk%rai%prr )
-      deallocate( wtd%trk%rai )
-      nullify( wtd%trk%rai )
+      call wheelset_destroy( wtd%ws )
+      call trackdata_destroy( wtd%trk )
 
       ! clean up contact patch data (grids, gd)
 

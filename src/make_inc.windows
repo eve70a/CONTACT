@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------------------------------------
 # make_inc.windows - Make include-file for generating CONTACT exe and dlls for Windows 
 #
-# Copyright 2008-2023 by Vtech CMCC.
+# Copyright 2008-2026 by Vtech CMCC.
 #
 # Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 #-----------------------------------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ P = obj\$(PLATF)_$(TARGET)\\
 
 # compiler for current platform:
 
-F90   = ifort
+F90   = ifx
 MS    = C:\Program Files (x86)\Microsoft Visual Studio 12.0
 CXX   = "$(MS)\VC\bin\cl.exe"
 
@@ -83,7 +83,7 @@ FFOPTS32        =
 CCOPTS          = $(CCOPTS_ALL) $(CCOPTS32)
 
 FFOPTS_ALL      = -DTARGET_$(TARGET) /nologo /I. $(LICINC) $(MKLINC) /fpp /O3 /Qdiag-disable:10448 \
-                  $(FFOPTS32) $(OPENMP) /heap-arrays:64 /MT /module:$(P) /object:$(P)
+                  /fpscomp:logicals $(FFOPTS32) $(OPENMP) /heap-arrays:64 /MT /module:$(P) /object:$(P)
 FFOPTS_DEBUG    = /debug /Zi /RTCu /warn:ignore_loc /warn:interfaces /warn:uncalled \
                   /check:pointers /check:bounds /check:uninit /check:format /traceback
 FFOPTS_DEVELOP  = /debug /Zi /warn:unused /traceback

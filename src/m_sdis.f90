@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_sdis - basic tasks (preparations) for a basic contact problem (module 3)
 !
-! Copyright 1979-2023 by Vtech CMCC.
+! Copyright 1979-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -467,7 +467,7 @@ contains
 
          ! iplan == 4: Planform is union of npatch rectangles
 
-         call eldiv_new(cpatch, cgrid)
+         call eldiv_new(cpatch, cgrid, nulify=.true.)
          call eldiv_cpatches(cpatch, geom%npatch, geom%xylim, 0)
          do ii = 1, cgrid%ntot
             if (cpatch%el(ii).le.0) hs1%vn(ii) = 1d30

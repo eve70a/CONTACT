@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_varprof - working with 'variable profiles' consisting of multiple 'profile slices'
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -318,7 +318,7 @@ end subroutine varprof_set_debug
          enddo ! islc
 
          if (x_profil.ge.1 .and. ierror.eq.0) then
-            write(bufout,'(a,i3,3a,2(g12.4,a))') ' obtained ',nslc,' slices, ',trim(x_nam),' = [',      &
+            write(bufout,'(a,i0,3a,2(g12.4,a))') ' obtained ',nslc,' slices, ',trim(x_nam),' = [',      &
                 vprf%slc_u(1), ',',vprf%slc_u(nslc),']'
             call write_log(1, bufout)
          endif
