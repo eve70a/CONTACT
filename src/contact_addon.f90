@@ -891,7 +891,7 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
       elseif (params(i).eq.CNTC_ic_matfil) then         ! set A-digit in the RE-CP-data
 
          my_ic%matfil_surf = values(i)
-         if (values(i).lt.0 .or. values(i).gt.2) my_ic%matfil_surf = 0
+         if (abs(values(i)).gt.2) my_ic%matfil_surf = 0
 
       elseif (params(i).eq.CNTC_ic_output) then         ! set O-digit in the RE-CP-data
 
@@ -4164,7 +4164,8 @@ end subroutine cntc_getFlags
 subroutine cntc_getParameters(ire, icp, itask, lenarr, values) &
    bind(c,name=CNAME_(cntc_getparameters))
 !--function: internal routine for retrieving various parameters from a contact problem
-!            itask: selected group of parameters (1: cntc_getcpresults, 2: material, 3: friction)
+!            itask: selected group of parameters
+!                    1: cntc_getcpresults, 2: material, 3: friction, 4: track, 5: wheelset
 !--category: 6, "m=any, cp":        available for modules 1 and 3, in module 1 working on cp data
    implicit none
 !--subroutine arguments:
@@ -4182,7 +4183,11 @@ subroutine cntc_getParameters(ire, icp, itask, lenarr, values) &
 #endif
 
    if (idebug_clib.ge.4) call cntc_log_start(subnam, .true.)
-   call cntc_activate(ire, icp, 0, 1, subnam, ierror)
+   if (itask.eq.4 .or. itask.eq.5) then
+      call cntc_activate(ire, -1, 1, -1, subnam, ierror) !--category: 2, "m=1 only, wtd"
+   else
+      call cntc_activate(ire, icp, 0, 1, subnam, ierror) !--category: 6, "m=any, cp"
+   endif
 
    if (ierror.lt.0) return
 
@@ -4251,6 +4256,28 @@ subroutine cntc_getParameters(ire, icp, itask, lenarr, values) &
          ! slip-velocity dependent friction: flin1/2, frat1/2, fexp1/2, sabsh1/2
          ! temperature dependent friction: fref, tref, dfheat, dheat?
       enddo
+
+   elseif (itask.eq.4) then
+
+      ! 4: track dimensions
+
+      if (lenarr.ge.1) values(1) = wtd%trk%gauge_height / my_scl%len
+      if (lenarr.ge.2) values(2) = wtd%trk%gauge_seqnum
+      if (lenarr.ge.3) values(3) = wtd%trk%track_gauge  / my_scl%len
+      if (lenarr.ge.4) values(4) = wtd%trk%cant_angle   / my_scl%angle
+      if (lenarr.ge.5) values(5) = wtd%trk%track_curv   * my_scl%len
+      if (lenarr.ge.6) values(6) = wtd%trk%rail_y0      / my_scl%len
+      if (lenarr.ge.7) values(7) = wtd%trk%rail_z0      / my_scl%len
+      if (lenarr.ge.8) values(8) = wtd%trk%nom_radius   / my_scl%len
+
+   elseif (itask.eq.5) then
+
+      ! 5: wheelset dimensions
+
+      if (lenarr.ge.1) values(1) = wtd%ws%flback_dist   / my_scl%len
+      if (lenarr.ge.2) values(2) = wtd%ws%flback_pos    / my_scl%len
+      if (lenarr.ge.3) values(3) = wtd%ws%nom_radius    / my_scl%len
+      if (lenarr.ge.4) values(4) = wtd%ws%ytape         / my_scl%len
 
    endif
 
@@ -4638,7 +4665,7 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
 
       ! output surface inclination on rail or wheel
 
-      call gf3_new(dxyz, 'dxyz', g_wrk, lzero=.true.)
+      call gf3_new(dxyz, 'dxyz', g_wrk, nulify=.true., lzero=.true.)
       call spline_get_dxyz_at_s_gfout(g%spl, dxyz, sub_ierror)
       ! call gf3_print(dxyz, 'dxyz', ikALL, 4)
       do ip = 1, min(lenarr     ,npnt)
@@ -5672,23 +5699,26 @@ end subroutine cntc_getMaximumTemperature
 subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
    bind(c,name=CNAME_(cntc_getfielddata))
 !--function: return an array with values for all elements in the potential contact for a contact problem
-!          fields provided: CNTC_fld_h      =    1 ! for retrieving array h      [length]
-!                           CNTC_fld_mu     =    2 ! for retrieving array mu     [-]
-!                           CNTC_fld_px     =    3 ! for retrieving array px     [force/area]
-!                           CNTC_fld_py     =    4 ! for retrieving array py     [force/area]
-!                           CNTC_fld_pn     =    5 ! for retrieving array pn     [force/area]
-!                           CNTC_fld_ux     =    7 ! for retrieving array ux     [length]
-!                           CNTC_fld_uy     =    8 ! for retrieving array uy     [length]
-!                           CNTC_fld_un     =    9 ! for retrieving array un     [length]
-!                           CNTC_fld_taucrt =   11 ! for retrieving array taucrt [force/area]
-!                           CNTC_fld_uplsx  =   12 ! for retrieving array uplsx  [length]
-!                           CNTC_fld_uplsy  =   13 ! for retrieving array uplsy  [length]
-!                           CNTC_fld_sx     =   15 ! for retrieving array sx     [-]
-!                           CNTC_fld_sy     =   16 ! for retrieving array sy     [-]
-!                           CNTC_fld_temp1  =   20 ! for retrieving array temp1  [C]
-!                           CNTC_fld_temp2  =   21 ! for retrieving array temp2  [C]
-!                           CNTC_fld_wx     =   22 ! for retrieving array wx     [-]
-!                           CNTC_fld_wy     =   23 ! for retrieving array wy     [-]
+!          fields provided: CNTC_fld_h      =    1 ! for retrieving array h         [length]
+!                           CNTC_fld_mu     =    2 ! for retrieving array mu        [-]
+!                           CNTC_fld_px     =    3 ! for retrieving array px        [force/area]
+!                           CNTC_fld_py     =    4 ! for retrieving array py        [force/area]
+!                           CNTC_fld_pn     =    5 ! for retrieving array pn        [force/area]
+!                           CNTC_fld_ux     =    7 ! for retrieving array ux        [length]
+!                           CNTC_fld_uy     =    8 ! for retrieving array uy        [length]
+!                           CNTC_fld_un     =    9 ! for retrieving array un        [length]
+!                           CNTC_fld_taucrt =   11 ! for retrieving array taucrt    [force/area]
+!                           CNTC_fld_uplsx  =   12 ! for retrieving array uplsx     [length]
+!                           CNTC_fld_uplsy  =   13 ! for retrieving array uplsy     [length]
+!                           CNTC_fld_sx     =   15 ! for retrieving array sx        [-]
+!                           CNTC_fld_sy     =   16 ! for retrieving array sy        [-]
+!                           CNTC_fld_temp1  =   20 ! for retrieving array temp1     [C]
+!                           CNTC_fld_temp2  =   21 ! for retrieving array temp2     [C]
+!                           CNTC_fld_wx     =   22 ! for retrieving array wx        [-]
+!                           CNTC_fld_wy     =   23 ! for retrieving array wy        [-]
+!                           CNTC_fld_crefy  =   32 ! for retrieving array cref_y    [length]
+!                           CNTC_fld_crefz  =   33 ! for retrieving array cref_z    [length]
+!                           CNTC_fld_cangl  =   34 ! for retrieving array cref_incl [angle]
 !--category: 6, "m=any, cp":        available for modules 1 and 3, in module 1 working on cp data
    implicit none
 !--subroutine arguments:
@@ -5699,7 +5729,7 @@ subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
    real(kind=8), intent(out) :: fld(lenarr)   ! output values for all elements of contact area
 !--local variables:
    character(len=*), parameter :: subnam = 'cntc_getFieldData'
-   integer           :: imodul, ix, iy, ii, jy, jj, ierror
+   integer           :: imodul, nx, ny, ix, iy, ii, jy, jj, ierror
    logical           :: mirror_y
    real(kind=8)      :: sgn, sclfac
    character(len=6)  :: fldnam
@@ -5718,6 +5748,11 @@ subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
    mirror_y = (imodul.eq.1 .and. (my_ic%config.eq.0 .or. my_ic%config.eq.4))
    sgn      = 1d0
    if (mirror_y) sgn = -1d0
+
+   ! default: 2d grid (nx,ny)
+
+   nx = gd%cgrid_cur%nx
+   ny = gd%cgrid_cur%ny
 
    ! look up the requested field
 
@@ -5789,6 +5824,21 @@ subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
       fldnam = 'temp2'
       sclfac =       1d0
       val    => gd%outpt1%temp2%vn
+   elseif (ifld.eq.CNTC_fld_crefy) then
+      fldnam = 'crefy'
+      sclfac = sgn * 1d0 / my_scl%len
+      nx     = 1
+      val    => wtd%allcps(icp)%cp%curv_ref%y
+   elseif (ifld.eq.CNTC_fld_crefz) then
+      fldnam = 'crefz'
+      sclfac =       1d0 / my_scl%len
+      nx     = 1
+      val    => wtd%allcps(icp)%cp%curv_ref%z
+   elseif (ifld.eq.CNTC_fld_cangl) then
+      fldnam = 'cangl'
+      sclfac = sgn * 1d0 / my_scl%angle
+      nx     = 1
+      val    => wtd%allcps(icp)%cp%curv_incln%vy
    else
       write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)),' field',ifld,' does not exist.'
       call write_log(1, bufout)
@@ -5805,15 +5855,15 @@ subroutine cntc_getFieldData(ire, icp, ifld, lenarr, fld) &
       write(bufout,'(4a)') trim(pfx_str(subnam,ire,icp)),' array ', fldnam,' not available'
       call write_log(1, bufout)
    else
-      do jy = 1, gd%cgrid_cur%ny
-         do ix = 1, gd%cgrid_cur%nx
+      do jy = 1, ny
+         do ix = 1, nx
             if (mirror_y) then
-               iy = gd%cgrid_cur%ny + 1 - jy
+               iy = ny + 1 - jy
             else
                iy = jy
             endif
-            jj = ix + gd%cgrid_cur%nx * (jy-1)    ! external numbering jj == (ix,jy)
-            ii = ix + gd%cgrid_cur%nx * (iy-1)    ! internal numbering ii == (ix,iy)
+            jj = ix + nx * (jy-1)    ! external numbering jj == (ix,jy)
+            ii = ix + nx * (iy-1)    ! internal numbering ii == (ix,iy)
             if (jj.le.lenarr) fld(jj) = sclfac * val(ii)
          enddo
       enddo

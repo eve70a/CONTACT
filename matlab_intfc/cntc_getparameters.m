@@ -8,7 +8,7 @@
 %  values         - values of the parameters obtained from CONTACT
 %------------------------------------------------------------------------------------------------------------
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -65,7 +65,6 @@ function [ values ] = cntc_getparameters(ire, icp, itask)
       values.dfnmax = tmp(21);
       values.dftmax = tmp(22);
    elseif (itask==3)
-      disp(tmp(1:10)')
       values.lmeth  = tmp( 1);
       values.nvf    = tmp( 2);
       values.memdst = tmp( 3);
@@ -73,6 +72,20 @@ function [ values ] = cntc_getparameters(ire, icp, itask)
       values.alpha  = tmp( 5+3*[0:values.nvf-1]);
       values.fstat  = tmp( 6+3*[0:values.nvf-1]);
       values.fkin   = tmp( 7+3*[0:values.nvf-1]);
+   elseif (itask==4)
+      values.gaught  = tmp( 1);
+      values.gaugsq  = tmp( 2);
+      values.gaugwd  = tmp( 3);
+      values.cant    = tmp( 4);
+      values.curv    = tmp( 5);
+      values.raily0  = tmp( 6);
+      values.railz0  = tmp( 7);
+      values.nomradr = tmp( 8);
+   elseif (itask==5) 
+      values.fbdist  = tmp( 1);
+      values.fbpos   = tmp( 2);
+      values.nomradw = tmp( 3);
+      values.ytape   = tmp( 4);
    end
 
 end % cntc_getparameters

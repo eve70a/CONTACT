@@ -7,7 +7,7 @@
 %  dx, dy        - grid discretization step sizes [length]
 %------------------------------------------------------------------------------------------------------------
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -21,10 +21,6 @@ function [ dx, dy ] = cntc_getgriddiscretization(ire, icp)
    end
    if (nargin<2 | isempty(icp))
       icp = 1;
-   end
-   if (icp<=0)
-      disp(sprintf('ERROR in cntc_getgriddiscretization: not available for icp=%d',icp));
-      return
    end
 
    p_dx = libpointer('doublePtr',-1);

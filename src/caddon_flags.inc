@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! caddon_flags.inc - include file with magic numbers for CONTACT library version
 !
-! Copyright 2008-2023 by Vtech CMCC.
+! Copyright 2008-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -125,29 +125,33 @@
       ! codes for cntc_getFieldData:
 
       integer, parameter ::   &
-      CNTC_fld_h      =    1, & ! for retrieving array h      [length]
-      CNTC_fld_mu     =    2, & ! for retrieving array mu     [-]
-      CNTC_fld_px     =    3, & ! for retrieving array px     [force/area]
-      CNTC_fld_py     =    4, & ! for retrieving array py     [force/area]
-      CNTC_fld_pn     =    5, & ! for retrieving array pn     [force/area]
+      CNTC_fld_h      =    1, & ! for retrieving array h         [length]
+      CNTC_fld_mu     =    2, & ! for retrieving array mu        [-]
+      CNTC_fld_px     =    3, & ! for retrieving array px        [force/area]
+      CNTC_fld_py     =    4, & ! for retrieving array py        [force/area]
+      CNTC_fld_pn     =    5, & ! for retrieving array pn        [force/area]
     ! CNTC_fld_ptabs  =    6, & ! for retrieving sqrt(px^2+py^2)
-      CNTC_fld_ux     =    7, & ! for retrieving array ux     [length]
-      CNTC_fld_uy     =    8, & ! for retrieving array uy     [length]
-      CNTC_fld_un     =    9, & ! for retrieving array un     [length]
+      CNTC_fld_ux     =    7, & ! for retrieving array ux        [length]
+      CNTC_fld_uy     =    8, & ! for retrieving array uy        [length]
+      CNTC_fld_un     =    9, & ! for retrieving array un        [length]
     ! CNTC_fld_utabs  =   10, & ! for retrieving sqrt(ux^2+uy^2)
-      CNTC_fld_taucrt =   11, & ! for retrieving array taucrt [force/area]
-      CNTC_fld_uplsx  =   12, & ! for retrieving array uplsx  [length]
-      CNTC_fld_uplsy  =   13, & ! for retrieving array uplsy  [length]
+      CNTC_fld_taucrt =   11, & ! for retrieving array taucrt    [force/area]
+      CNTC_fld_uplsx  =   12, & ! for retrieving array uplsx     [length]
+      CNTC_fld_uplsy  =   13, & ! for retrieving array uplsy     [length]
     ! CNTC_fld_uplabs =   14, & ! for retrieving sqrt(uplsx^2+uplsy^2)
-      CNTC_fld_sx     =   15, & ! for retrieving array sx     [-]
-      CNTC_fld_sy     =   16, & ! for retrieving array sy     [-]
+      CNTC_fld_sx     =   15, & ! for retrieving array sx        [-]
+      CNTC_fld_sy     =   16, & ! for retrieving array sy        [-]
     ! CNTC_fld_shft   =   17, & ! for retrieving sqrt(sx^2+sy^2) * dt
     ! CNTC_fld_srel   =   18, & ! for retrieving sqrt(sx^2+sy^2)
     ! CNTC_fld_sabs   =   19, & ! for retrieving sqrt(sx^2+sy^2) * V
-      CNTC_fld_temp1  =   20, & ! for retrieving array temp1  [C]
-      CNTC_fld_temp2  =   21, & ! for retrieving array temp2  [C]
-      CNTC_fld_wx     =   22, & ! for retrieving array wx     [-]
-      CNTC_fld_wy     =   23    ! for retrieving array wy     [-]
+      CNTC_fld_temp1  =   20, & ! for retrieving array temp1     [C]
+      CNTC_fld_temp2  =   21, & ! for retrieving array temp2     [C]
+      CNTC_fld_wx     =   22, & ! for retrieving array wx        [-]
+      CNTC_fld_wy     =   23, & ! for retrieving array wy        [-]
+    ! CNTC_fld_crefx  =   31, & ! for retrieving array cref_x    [length]
+      CNTC_fld_crefy  =   32, & ! for retrieving array cref_y    [length]
+      CNTC_fld_crefz  =   33, & ! for retrieving array cref_z    [length]
+      CNTC_fld_cangl  =   34    ! for retrieving array cref_incl [angle]
 
       ! in module 3, the calling environment may provide additional information to be stored in the mat-file:
 

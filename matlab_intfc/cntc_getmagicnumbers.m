@@ -7,7 +7,7 @@
 %  CNTC         - struct with 'magic numbers' for configuring CONTACT
 %------------------------------------------------------------------------------------------------------------
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -130,23 +130,26 @@ function [ CNTC ] = cntc_getmagicnumbers();
 
    % codes for cntc_getFieldData:
 
-   CNTC.fld_h      =   1; % for retrieving array h      [length]
-   CNTC.fld_mu     =   2; % for retrieving array mu     [-]
-   CNTC.fld_px     =   3; % for retrieving array px     [force/area]
-   CNTC.fld_py     =   4; % for retrieving array py     [force/area]
-   CNTC.fld_pn     =   5; % for retrieving array pn     [force/area]
-   CNTC.fld_ux     =   7; % for retrieving array ux     [length]
-   CNTC.fld_uy     =   8; % for retrieving array uy     [length]
-   CNTC.fld_un     =   9; % for retrieving array un     [length]
-   CNTC.fld_taucrt =  11; % for retrieving array taucrt [force/area]
-   CNTC.fld_uplsx  =  12; % for retrieving array uplsx  [length]
-   CNTC.fld_uplsy  =  13; % for retrieving array uplsy  [length]
-   CNTC.fld_sx     =  15; % for retrieving array sx     [-]
-   CNTC.fld_sy     =  16; % for retrieving array sy     [-]
-   CNTC.fld_temp1  =  20; % for retrieving array temp1  [C]
-   CNTC.fld_temp2  =  21; % for retrieving array temp2  [C]
-   CNTC.fld_wx     =  22; % for retrieving array wx     [-]
-   CNTC.fld_wy     =  23; % for retrieving array wy     [-]
+   CNTC.fld_h      =   1; % for retrieving array h         [length]
+   CNTC.fld_mu     =   2; % for retrieving array mu        [-]
+   CNTC.fld_px     =   3; % for retrieving array px        [force/area]
+   CNTC.fld_py     =   4; % for retrieving array py        [force/area]
+   CNTC.fld_pn     =   5; % for retrieving array pn        [force/area]
+   CNTC.fld_ux     =   7; % for retrieving array ux        [length]
+   CNTC.fld_uy     =   8; % for retrieving array uy        [length]
+   CNTC.fld_un     =   9; % for retrieving array un        [length]
+   CNTC.fld_taucrt =  11; % for retrieving array taucrt    [force/area]
+   CNTC.fld_uplsx  =  12; % for retrieving array uplsx     [length]
+   CNTC.fld_uplsy  =  13; % for retrieving array uplsy     [length]
+   CNTC.fld_sx     =  15; % for retrieving array sx        [-]
+   CNTC.fld_sy     =  16; % for retrieving array sy        [-]
+   CNTC.fld_temp1  =  20; % for retrieving array temp1     [C]
+   CNTC.fld_temp2  =  21; % for retrieving array temp2     [C]
+   CNTC.fld_wx     =  22; % for retrieving array wx        [-]
+   CNTC.fld_wy     =  23; % for retrieving array wy        [-]
+   CNTC.fld_crefy  =  32; % for retrieving array cref_y    [length]
+   CNTC.fld_crefz  =  33; % for retrieving array cref_z    [length]
+   CNTC.fld_cangl  =  34; % for retrieving array cref_incl [angle]
 
    % in module 3, the calling environment may provide additional information to be stored in the mat-file:
 

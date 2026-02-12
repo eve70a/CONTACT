@@ -23,9 +23,14 @@
 #                           CNTC_fld_temp2  =   21 ! for retrieving array temp2  [C]
 #                           CNTC_fld_wx     =   22 ! for retrieving array wx     [-]
 #                           CNTC_fld_wy     =   23 ! for retrieving array wy     [-]
+#
+#  fld(my)       - output value of field 'ifld' for all rows of contact area
+#                           CNTC_fld_crefy  =   32 ! for retrieving array cref_y    [length]
+#                           CNTC_fld_crefz  =   33 ! for retrieving array cref_z    [length]
+#                           CNTC_fld_cangl  =   34 ! for retrieving array cref_incl [angle]
 #------------------------------------------------------------------------------------------------------------
 
-# Copyright 2008-2023 by Vtech CMCC.
+# Copyright 2008-2026 by Vtech CMCC.
 #
 # Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -35,9 +40,12 @@ import sys
 import numpy               as     np
 from python_intfc          import cntc_dll
 from ctypes                import c_int, c_double, POINTER
+from .cntc_getmagicnumbers import cntc_getmagicnumbers
 from .cntc_getnumelements  import cntc_getnumelements
 
 def cntc_getfielddata(ire, icp, ifld):
+
+    CNTC = cntc_getmagicnumbers()
 
     if (not isinstance(ire, int)):
         ire = 1
@@ -50,13 +58,18 @@ def cntc_getfielddata(ire, icp, ifld):
 
     mx, my = cntc_getnumelements(ire, icp)
 
-    lenarr = mx * my
+    if (ifld>=CNTC.fld_crefy):
+        lenarr =      my       # array (my) per row of c.grid
+    else:
+        lenarr = mx * my       # array (my,mx) for entire c.grid
+
     val = np.zeros(lenarr, dtype=c_double)
 
     cntc_dll.cntc_getfielddata(c_int(ire), c_int(icp), c_int(ifld), c_int(lenarr), 
                                val.ctypes.data_as(POINTER(c_double)))
 
-    val = np.reshape(val, (my, mx))
+    if (lenarr>my):
+        val = np.reshape(val, (my, mx))
 
     return val
 
