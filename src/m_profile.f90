@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_profile - data-structures for wheel/rail profiles
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -1752,6 +1752,8 @@ contains
             ! adjust column definition if not specified before
 
             if (nitem.gt.ncolfile .and. columndef.eq.'X,Y,*') then
+               write(bufout,'(3(a,i4))') ' line',linenr,': nitem=',nitem,', coldef=XY*, ncolfile=',ncolfile
+               call write_log(1, bufout)
                if (x_profil.ge.1) then
                   if (nitem.eq.3) then
                      write(bufout,'(a,i3,a,/,9x,3a)') ' WARNING: unspecified ColumnDef with',nitem,     &
@@ -1759,11 +1761,11 @@ contains
                   else
                      write(bufout,'(a,i3,a,/,9x,3a,i2,a)') ' WARNING: unspecified ColumnDef with',nitem, &
                            ' values per line.',                                                         &
-                           ' Assuming "', trim(columndef), '", ignoring last', ncolfile-2,' columns.'
+                           ' Assuming "', trim(columndef), '", ignoring last', nitem-2,' columns.'
                   endif
                   call write_log(2, bufout)
                endif
-               ncolfile = min(ncolpnt, nitem)
+               ncolfile = nitem  ! read values from subsequent lines, ignoring all but 2 columns
             endif
 
             ! store current data-values: y-value, z-value, [angle], [curvature], [spline wgt], [yield]
