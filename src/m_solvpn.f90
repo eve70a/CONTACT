@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_solvpn - solve normal contact problem using NormCG method
 !
-! Copyright 1993-2023 by Vtech CMCC.
+! Copyright 1993-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ contains
       ! Initialize element division for scaled interaction between different patches
 
       if (geom%iplan.eq.4) then
-         call eldiv_new(cpatch, ps%grid)
+         call eldiv_new(cpatch, ps%grid, nulify=.true.)
          call eldiv_cpatches(cpatch, geom%npatch, geom%xylim, idebug)
       endif
 
@@ -112,18 +112,17 @@ contains
          if (igs%el(ii).ge.Adhes) ncon = ncon + 1
       enddo
 
-      ! If penetration is prescribed:
-
-      if (ic%norm.eq.0) then
+      if (ncon.le.0) then
 
          ! Check if there are points with negative separation hstot
 
          hsmin = gf3_min(AllElm, hstot, ikZDIR) - pen
-         if (hsmin.ge.0d0) then
+
+         if (ic%norm.le.0 .and. hsmin.ge.0d0) then
 
             ! if not: return zero solution, empty contact area
 
-            !!! write(bufout,'(2a,g10.3,a)') ' WARNING: minimum separation', ' is',                        &
+            !!! write(bufout,'(2a,g10.3,a)') ' WARNING: minimum separation', ' is',                     &
             !!!                              hsmin,' > 0, no contact at all.'
             !!! call write_log(1, bufout)
             call gf3_set(AllElm, 0d0, ps, ikZDIR)
@@ -133,17 +132,12 @@ contains
             itcg = 0
             err = 0d0
             goto 9000
-         endif
 
-      else
+         else
 
-      ! Else: normal force prescribed: 
+            ! Make sure that the contact area is non-empty
 
-         ! make sure that the contact area is non-empty
-
-         if (ncon.le.0) then
-            hsmin = gf3_min(AllElm, hstot, ikZDIR)
-            hsmax = gf3_max(AllElm, hstot, ikZDIR)
+            hsmax = gf3_max(AllElm, hstot, ikZDIR) - pen
             htrsh = hsmin + 0.1d0 * max(hsmax-hsmin, 1d-10)
             do ii = 1, npot
                if (hstot%vn(ii).lt.htrsh) then
@@ -152,9 +146,16 @@ contains
                endif
             enddo
             call areas(igs)
+
          endif
 
-         ! scale initial estimate such that it gets the correct force
+      endif  ! ncon<=0
+
+      ! If normal force is prescribed:
+
+      if (ic%norm.eq.1) then
+
+         ! Scale initial estimate such that it gets the correct force
 
          fk = dxdy * gf3_sum(AllElm, ps, ikZDIR)
          if (abs(fk).lt.1e-3*fntrue) then
