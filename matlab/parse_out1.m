@@ -23,7 +23,7 @@ function [npatch, ws_pos, tot_forc, cp_pos, cp_creep, cp_force] = parse_out1(fna
 %              [sighyd, sigvm, sigtr, sigma1, sigma3, sigxx, sigyy, sigzz]
 %
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -128,15 +128,22 @@ while (iline<f.nline)
       end
 
       % Case     1
+      % Case     1, result element  1
       % Case  29246 for w/r contact on result element  2, t=      0.08706221
 
-      tmp = sscanf(s,' Case %d for w/r contact on result element %d, t= %f');
-      jcase(icase) = tmp(1);
-      if (~isempty(strfind(s, 'result element')))
-         ire(icase) = tmp(2);
+      tmp = sscanf(s,' Case %d');
+      jcase(icase) = tmp;
+
+      ix = strfind(s, 'result element');
+      if (~isempty(ix))
+         tmp = sscanf(s(ix:end), 'result element %d');
+         ire(icase) = tmp;
       end
-      if (~isempty(strfind(s, ', t=')))
-         tim(icase) = tmp(3);
+
+      ix = strfind(s, ', t=');
+      if (~isempty(ix))
+         tmp = sscanf(s(ix:end), ', t= %f');
+         tim(icase) = tmp;
       end
 
       % initialize the patch number for module 3
