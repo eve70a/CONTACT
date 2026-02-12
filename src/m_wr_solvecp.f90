@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_wr_solvecp - solve one case with w/r contact (module 1) with prescribed position
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -366,7 +366,7 @@ contains
       gd%ic%norm        = 0
       gd%ic%force3      = 0
       gd%ic%discns3     = 1
-      gd%ic%matfil_surf = -wtd_ic%matfil_surf
+      gd%ic%matfil_surf = -abs(wtd_ic%matfil_surf)
 
       ! copy solver settings
 
@@ -831,7 +831,7 @@ contains
       type(t_vec)      :: nref
       type(t_grid)     :: curv_cp
       type(t_gridfnc3) :: ps_cp
-      real(kind=8)     :: dxdy, bar_fn, bar_fx, bar_fs
+      real(kind=8)     :: dxdy, fn_pln, fx_pln, fs_pln
 
       associate( npot   => cgrid%ntot,    fcntc  => kin%fcntc,                                          &
                  mxtrue => outpt1%mxtrue, mytrue => outpt1%mytrue, mztrue => outpt1%mztrue )
@@ -868,13 +868,13 @@ contains
       ! compute aggregate forces w.r.t. planar contact reference marker
 
       dxdy = cgrid%dxdy
-      bar_fn = dxdy * gf3_sum(AllElm, ps_cp, ikZDIR)
-      bar_fx = dxdy * gf3_sum(AllElm, ps_cp, ikXDIR)
-      bar_fs = dxdy * gf3_sum(AllElm, ps_cp, ikYDIR)
+      fn_pln = dxdy * gf3_sum(AllElm, ps_cp, ikZDIR)
+      fx_pln = dxdy * gf3_sum(AllElm, ps_cp, ikXDIR)
+      fs_pln = dxdy * gf3_sum(AllElm, ps_cp, ikYDIR)
 
-      ! set resultant contact force at current time; note: leaving fntrue/fxrel/fyrel untouched (tilde(f))
+      ! set resultant contact force at current time; note: leaving fntrue/fxrel/fyrel untouched (f_crv)
 
-      fcntc  = (/ bar_fx, bar_fs, bar_fn /)
+      fcntc  = (/ fx_pln, fs_pln, fn_pln /)
 
       ! compute ad-hoc proportional damping using fprev, fcntc
 
@@ -915,7 +915,7 @@ contains
 
       associate(my_rail => trk%rai, my_wheel => ws%whl, gd => cp%gd)
 
-      ! compute derived quantities for use in total-force iteration, based on tilde(f)
+      ! compute derived quantities for use in total-force iteration, based on f_crv
 
       cp%c_hz   = gd%kin%fntrue / max(1d-9, gd%kin%pen)**(1.5)
       cp%fs_rel = gd%kin%fyrel * gd%kin%muscal

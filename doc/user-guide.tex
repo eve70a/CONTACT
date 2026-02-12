@@ -3604,18 +3604,20 @@ variation (${\tt V}=1$).
 
 In conformal computations (module 1, ${\tt D}=4$), two variants are
 distinguished for the tangential force in lateral direction: $\tilde{F}_s$
-({\tt tilde-fs}) and $F_s=\bar{F}_s$ ({\tt bar-fs}). The former is obtained
+({\tt fs\_crv}) and $F_s=\bar{F}_s$ ({\tt fs\_pln}). The former is obtained
 by direct integration of stresses over the contact area:
 \begin{eqnarray}
   \tilde{F}_s = \int_C p_s(\tilde{x},\tilde{s}) \,d\tilde{x}\,d\tilde{s},
         \;\;
   \tilde{F}_n = \int_C p_n(\tilde{x},\tilde{s}) \,d\tilde{x}\,d\tilde{s}
 \end{eqnarray}
-The latter concerns the resultant force for the contact patch in overall
-(tangent) $\bar{s}$ direction. This is obtained by rotating tractions
-$[p_x,p_s,p_n]^T$ to the tangent plane followed by integration.
+Note that the tangent direction varies along the curved reference
+($\tilde{s}$ coordinate). The latter concerns the resultant force for the
+contact patch in overall (tangent) $\bar{s}$ direction. This is obtained
+by rotating tractions $[p_x,p_s,p_n]^T$ to the tangent plane followed by
+integration.
 \begin{eqnarray}
-  \left[ \begin{array}{c} F_x \\ F_s \\ F_n
+  \left[ \begin{array}{c} \bar{F}_x \\ \bar{F}_s \\ \bar{F}_n
                 \end{array} \right] = 
   \int_C \left[ \begin{array}{ccc} 1 & 0 & 0 \\
                         0 & c_\alpha & -s_\alpha \\
@@ -3629,8 +3631,8 @@ $[p_x,p_s,p_n]^T$ to the tangent plane followed by integration.
 \end{eqnarray}
 % This includes contributions from pressures $p_n$ dependent on the
 % difference between local and tangent plane orientations. 
-In the output, {\tt FS} shows $F_s$ on the tangent plane while {\tt FSREL}
-is computed using $\tilde{F}_s$ and $\tilde{F}_n$.
+In the output, {\tt FS} shows $\bar{F}_s$ on the tangent plane while {\tt
+FSREL} is computed using $\tilde{F}_s$ and $\tilde{F}_n$.
 
 In module 3, the tangential problem may be specified using tangential forces
 instead of creepages, using the ${\tt F}_3$ digit of page \pageref{f3-digit}.

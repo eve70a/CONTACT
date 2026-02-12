@@ -725,13 +725,13 @@ public
       ! spinxo [mm]    x-component of 'spin center' (xo,yo), spin creepage linearization point
       ! spinyo [mm]    y-component of 'spin center' (xo,yo), spin creepage linearization point
 
-      ! fntrue [N]     total normal force, input when N=1, output when N=0. Conformal: fntrue == tilde(fn)
+      ! fntrue [N]     total normal force, input when N=1, output when N=0. Conformal: fntrue == fn_crv
       ! fxrel  [-]     total tangential force in x-direction _on_ body (1), relative to muscal*fntrue;
-      !                input when F3>=1, output when F3=0. Conformal: fxrel == tilde(fx) / mu*tilde(fn)
+      !                input when F3>=1, output when F3=0. Conformal: fxrel == fx_crv / mu*fn_crv
       ! fyrel  [-]     total tangential force in y-direction _on_ body (1), relative to muscal*fntrue;
-      !                input when F3=2, output when F3<=1. Conformal: fyrel = tilde(fs) / mu*tilde(fn)
+      !                input when F3=2, output when F3<=1. Conformal: fyrel = fs_crv / mu*fn_crv
       ! fcntc  [N]     total forces [fxtrue,fytrue,fntrue] of current time instance.
-      !                Conformal: fcntc = bar(f), resultant force on contact reference marker
+      !                Conformal: fcntc = f_pln, resultant force on contact reference marker
       ! fprev  [N]     total forces [fxtrue,fytrue,fntrue] of previous time instance
       ! fdamp  [N]     damping forces of current time instance
 

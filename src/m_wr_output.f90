@@ -584,7 +584,7 @@ contains
             write(lout,6403) (strng(j), j=1,6)
  6400       format (1x, /, ' TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER')
  6401       format (2x, 3x,'FN',7x, 3x,'FX',7x, 3x,'FS',7x, 3x,'MN',7x, 2x,'ELAST.EN.',1x, 2x,'FRIC.POWER')
- 6402       format (2x, 3x,'BAR_FN',3x, 3x,'BAR_FX',3x, 3x,'BAR_FS',3x, 3x,'MN',7x, 2x,'ELAST.EN.',1x,  &
+ 6402       format (2x, 3x,'FN_PLN',3x, 3x,'FX_PLN',3x, 3x,'FS_PLN',3x, 3x,'MN',7x, 2x,'ELAST.EN.',1x,  &
                         2x,'FRIC.POWER')
  6403       format ( 2x, 6a12)
 
@@ -592,14 +592,19 @@ contains
                strng( 1) = '   FN/G'
                strng(11) = fmt_gs(12, 4, 4, fcntc(3)/mater%ga)
             else
-               strng( 1) = '   TILDE_FN'
+               strng( 1) = '   FN_CRV'
                strng(11) = fmt_gs(12, 4, 4, fntrue)
             endif
 
             strng( 2) = ' FX/FSTAT/FN'
             strng( 3) = ' FS/FSTAT/FN'
-            if (.not.gd%kin%use_muscal) strng(2) = '   FX/FN'
-            if (.not.gd%kin%use_muscal) strng(3) = '   FS/FN'
+            if (.not.gd%kin%use_muscal .and. ic%is_conformal()) then
+               strng(2) = '   FX_C/FN_C'
+               strng(3) = '   FS_C/FN_C'
+            elseif (.not.gd%kin%use_muscal) then
+               strng(2) = '   FX/FN'
+               strng(3) = '   FS/FN'
+            endif
             strng(12) = fmt_gs(12, 4, 4, filt_sml(    fxrel, 0.5d0*eps))
             strng(13) = fmt_gs(12, 4, 4, filt_sml(sgn*fyrel, 0.5d0*eps))
 
