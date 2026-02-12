@@ -647,7 +647,7 @@ contains
          hsthrs   = (1d0 - eps_kpec) * hsmin
          if (idebug.ge.3) then
             if (iy.eq.1) then
-               write(bufout,'(5(a,f10.4))') 'eps_kpec=', a1*aa**2, '- (', a1*aa**2,' -',                &
+               write(bufout,'(5(a,f10.4))') ' eps_kpec=', a1*aa**2, '- (', a1*aa**2,' -',               &
                         b1*bb**2,') * (', (yi-ymid)/bb, ')**2) / ',pentot
                call write_log(1, bufout)
             endif
@@ -809,8 +809,8 @@ contains
       !  - take three points within row iymin at equal distance from each other
       !    {x0, xmid, x1}, with {h0, h1} in the KP scaled interpenetration area htot <= hstrsh
 
-      ix0    = ixmin - 1        ! ix0 = last outside before contact
-      ix1    = ixmin + 1        ! ix1 = first outside after contact
+      ix0    = ixmin - 1        ! ix0 can become the last point outside before contact
+      ix1    = ixmin + 1        ! ix1 can become the first point outside after contact
       lfound = .false.
       do while(.not.lfound)
          ii0 = ix0 + (iymin-1)*mx
@@ -841,8 +841,8 @@ contains
 
       !   - locate first and last rows iy0, iy1 with points in KP interpenetration area
 
-      iy0 = my + 1              ! iy0 = first inside contact
-      iy1 = 0                   ! iy1 = last inside contact
+      iy0 = my + 1              ! iy0 = first row inside contact
+      iy1 = 0                   ! iy1 = last row inside contact
 
       do iy = 1, my
 
@@ -876,6 +876,7 @@ contains
       iiext  = ixmin + (iy0-2) * mx     ! (ixmin, iy0-1)
       iiint  = ixmin + (iy0-1) * mx     ! (ixmin, iy0  )
       ysta   = y(iiint) - (hsthrs - h(iiint)) * dy / (h(iiext) - h(iiint))
+      ysta   = min(y(iiint)+dy, max(y(iiint)-dy, ysta))
 
       if (idebug.ge.3) then
          write(bufout,'(a,2i4,a,i4,a,2f7.3,a,2f10.6,a,f10.6)') ' iy_sta=',iy0-1,iy0,': ix=',ixmin,      &
@@ -900,6 +901,7 @@ contains
       iiint  = ixmin + (iy1-1) * mx     ! (ixmin, iy1  )
       iiext  = ixmin + (iy1  ) * mx     ! (ixmin, iy1+1)
       yend   = y(iiint) + (hsthrs - h(iiint)) * dy / (h(iiext) - h(iiint))
+      yend   = min(y(iiint)+dy, max(y(iiint)-dy, yend))
 
       if (idebug.ge.3) then
          write(bufout,'(a,2i4,a,i4,a,2f7.3,a,2f10.6,a,f10.6)') ' iy_end=',iy1,iy1+1,': ix=',ixmin,      &
