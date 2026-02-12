@@ -22,6 +22,7 @@ public fric_input
 public veloc_input
 public mater_input
 public mater2_input
+public mater3_input
 public heat_input
 public potcon_input
 public geom_input
@@ -134,6 +135,12 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       call mater2_input(linp, ncase, linenr, ic, mater, idebug, ieof, lstop, zerror)
+
+      !------------------------------------------------------------------------------------------------------
+      ! read material parameters for extra flexibility
+      !------------------------------------------------------------------------------------------------------
+
+      call mater3_input(linp, ncase, linenr, ic, mater, idebug, ieof, lstop, zerror)
 
       !------------------------------------------------------------------------------------------------------
       ! read material parameters for temperature calculation
@@ -330,7 +337,7 @@ contains
       logical, intent(inout)   :: zerror
 !--local variables:
       integer, parameter :: mxnval = 10
-      integer            :: ints(mxnval), nval, ierror, cpbtnfs, vldcmze, xhgiaowr, psflcin, d_digit
+      integer            :: ints(mxnval), nval, ierror, cpbtnfs, vldcmze, m3m2, xhgiaowr, psflcin, d_digit
       logical            :: flags(mxnval), is_roll, is_ssrol, was_roll
       real(kind=8)       :: dbles(mxnval)
       character(len=256) :: strngs(mxnval)
@@ -359,9 +366,9 @@ contains
       zerror  = zerror .or. (ierror.ne.0)
       vldcmze = ints(1)
       if (nval.ge.2) then
-         ic%mater2 = ints(2)
+         m3m2   = ints(2)
       else
-         ic%mater2 = 1
+         m3m2   = 0
       endif
 
       call readline(linp, ncase, linenr, 'control integers hgiaowr', 'i', ints, dbles, flags,           &
@@ -369,7 +376,7 @@ contains
       zerror   = zerror .or. (ierror.ne.0)
       xhgiaowr = ints(1)
 
-      call ic_unpack (imodul, cpbtnfs, vldcmze, xhgiaowr, ic)
+      call ic_unpack (imodul, cpbtnfs, vldcmze, m3m2, xhgiaowr, ic)
 
       ! read & process debug parameters
 
@@ -423,6 +430,8 @@ contains
       zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress,  0, 3)
       zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp,  0, 4, 6, 6)
       zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater,   0, 7)
+      zerror = zerror .or. .not.check_irng ('Control digit M2', ic%mater2,  0, 2)
+      zerror = zerror .or. .not.check_irng ('Control digit M3', ic%mater3,  0, 2)
 
       zerror = zerror .or. .not.check_irng ('Control digit X',  ic%xflow,   0, 1)
       zerror = zerror .or. .not.check_2rng ('Control digit H',  ic%heat,    0, 1, 3, 3)
@@ -1070,6 +1079,52 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine mater3_input(linp, ncase, linenr, ic, mater, idebug, ieof, lstop, zerror)
+!--purpose: read material parameters for damping
+      implicit none
+!--subroutine arguments:
+      integer, intent(in)      :: linp, ncase, idebug
+      integer, intent(inout)   :: linenr, ieof
+      type(t_ic)               :: ic
+      type(t_material)         :: mater
+      logical, intent(in)      :: lstop
+      logical, intent(inout)   :: zerror
+!--local variables:
+      integer, parameter :: mxnval = 10
+      integer            :: ints(mxnval), nval, ierror
+      logical            :: flags(mxnval)
+      real(kind=8)       :: dbles(mxnval)
+      character(len=256) :: strngs(mxnval)
+
+      if (ic%mater3.le.0) then
+         mater%uthrs  =  0d0
+         mater%lpow0  =  5d0
+         mater%lpow1  = -5d0
+      endif
+
+      if (ic%mater3.ge.2) then
+         call readline(linp, ncase, linenr, 'extra flexibility', 'ddd', ints, dbles, flags, strngs,     &
+                        mxnval, nval, idebug, ieof, lstop, ierror)
+         mater%uthrs  = dbles(1)
+         mater%lpow0  = dbles(2)
+         mater%lpow1  = dbles(3)
+
+         zerror = zerror .or. (ierror.ne.0)
+         zerror = zerror .or. .not.check_range ('UTHRS', mater%uthrs, 1d-6, 1d20)
+         zerror = zerror .or. .not.check_range ('LPOW0', mater%lpow0, -8d0, 8d0)
+         zerror = zerror .or. .not.check_range ('LPOW1', mater%lpow1, -8d0, 8d0)
+         if (mater%lpow1.le.mater%lpow0+1d0) then
+            zerror = .true.
+            write(lout, 3001) mater%lpow1, mater%lpow0+1d0
+            write(   *, 3001) mater%lpow1, mater%lpow0+1d0
+ 3001       format (' Input: ERROR: LPOW1=',g12.4,' must be >= LPOW0+1 =',g12.4,'.')
+         endif
+      endif
+
+   end subroutine mater3_input
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine heat_input(linp, ncase, linenr, ic, mater, idebug, ieof, lstop, zerror)
 !--purpose: read material parameters for temperature calculation
       implicit none
@@ -1518,7 +1573,7 @@ contains
       type(t_subsurf)  :: subs
       logical          :: ltight  ! flag: use solution to create tight pot.con.
 !--local variables:
-      integer      :: vldcmze, xgiaowr, pbtnfs, psflcin
+      integer      :: pbtnfs, vldcmze, m3m2, xgiaowr, psflcin
       integer      :: ii, ix, ix0, ix1, iy, iy0, iy1, iof, k, len1
       logical      :: is_roll
       real(kind=8) :: fun, fux, fuy
@@ -1526,7 +1581,7 @@ contains
 
       ! Convert control integers to packed form
 
-      call ic_pack (3, pbtnfs, vldcmze, xgiaowr, ic)
+      call ic_pack (3, pbtnfs, vldcmze, m3m2, xgiaowr, ic)
       is_roll = ic%tang.eq.2 .or. ic%tang.eq.3
 
       ! If tight potential contact desired: determine box around actual contact area (requires solution!)

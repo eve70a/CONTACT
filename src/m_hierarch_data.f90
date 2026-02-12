@@ -150,6 +150,7 @@ public
       integer :: gencr_inp
       integer :: mater
       integer :: mater2
+      integer :: mater3
       integer :: ztrack
       integer :: ewheel
       integer :: rznorm
@@ -302,6 +303,10 @@ public
       !              0 = no damping
       !              1 = ad-hoc proportional damping with parameters from storage
       !              2 = ad-hoc proportional damping with new parameters from input
+      ! m3, mater3  add flexibility in elements with small elastic displacement
+      !              0 = no additional flexibility
+      !              1 = additional flexibility with parameters from storage
+      !              2 = additional flexibility with new parameters from input
       ! z1, ztrack  concerns the track geometry, profile, deviation, and deflection parameters (module 1)
       !              0 = maintain track dimensions, profile, deviations, and deflection parameters;
       !              1 = read new dimensions and profile;
@@ -441,6 +446,9 @@ public
       real(kind=8) :: cdampt
       real(kind=8) :: dfnmax
       real(kind=8) :: dftmax
+      real(kind=8) :: uthrs
+      real(kind=8) :: lpow0
+      real(kind=8) :: lpow1
       integer      :: bound_eff
       integer      :: mater_eff
       integer      :: gencr_eff
@@ -486,6 +494,10 @@ public
       ! cdampt  [s]    damping coefficient for tangential contact forces
       ! dfnmax [N/s]   maximum value for dFn/dt used in damping of normal contact forces
       ! dftmax [N/s]   maximum value for dFt/dt used in damping of tangential contact forces
+
+      ! uthrs   [mm]   threshold to activate additional flexibility for small elastic displacements
+      ! lpow0   [-]    flexibility l_z = 10^lpow0 at minimum additional flexibility per element
+      ! lpow1   [-]    flexibility l_z = 10^lpow1 at maximum additional flexibility per element
 
       ! bound_eff      effective bound-digit used, see field "bound" in type t_ic.
       ! mater_eff      effective material model used, see field "mater" in type t_ic.
@@ -984,6 +996,7 @@ contains
       ic%gencr_inp   = 2
       ic%mater  = 0
       ic%mater2 = 0
+      ic%mater3 = 0
       ic%rznorm = 2
       ic%rztang = 0
       ic%gausei_inp  = 1
@@ -1137,12 +1150,12 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine ic_unpack (modul, cpbtnfs, vldcmze, xhgiaowr, ic)
+   subroutine ic_unpack (modul, cpbtnfs, vldcmze, m3m2, xhgiaowr, ic)
 !--purpose: unpack the control-words into array ic
       implicit none
 !--subroutine parameters:
       type(t_ic) :: ic
-      integer    :: modul, cpbtnfs, vldcmze, xhgiaowr
+      integer    :: modul, cpbtnfs, vldcmze, m3m2, xhgiaowr
 !--local variables:
       integer, parameter :: idebug = 0
       integer            :: ihulp, fdigit, ddigit, zdigit, edigit
@@ -1171,6 +1184,12 @@ contains
          ic%force1 = -99
          ic%force3 = fdigit
       endif
+
+      ihulp         = 0
+      ic%mater3     = (m3m2    - ihulp) / 10
+         ihulp      = ihulp +      10 * ic%mater3
+      ic%mater2     = (m3m2    - ihulp) / 1
+      if (idebug.ge.2) write(*,'(7(a,i2))') 'unpack: M3=',ic%mater3,', M2=',ic%mater2
 
       ihulp         = 0
       ic%varfrc     = (vldcmze - ihulp) / 1000000
@@ -1229,12 +1248,12 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine ic_pack (modul, cpbtnfs, vldcmze, xhgiaowr, ic)
+   subroutine ic_pack (modul, cpbtnfs, vldcmze, m3m2, xhgiaowr, ic)
 !--purpose: pack the controls in Ic together in the control-words
       implicit none
 !--subroutine parameters:
       type(t_ic) :: ic
-      integer    :: modul, cpbtnfs, vldcmze, xhgiaowr
+      integer    :: modul, cpbtnfs, vldcmze, m3m2, xhgiaowr
 
       cpbtnfs = 0
 
@@ -1256,6 +1275,8 @@ contains
          vldcmze =  100000*ic%frclaw_inp  +    10000*ic%discns3     +    1000*ic%gencr_inp   +          &
                        100*ic%mater       +       10*ic%rznorm      +       1*ic%rztang
       endif
+
+      m3m2     =        10*ic%mater3      +       1*ic%mater2
 
       xhgiaowr =                            10000000*ic%xflow       + 1000000*ic%heat        +          &
                     100000*ic%gausei_inp  +    10000*ic%iestim      +    1000*ic%matfil_surf +          &
@@ -1464,18 +1485,21 @@ contains
    m%heatcp  = (/     450d0,    450d0 /)
    m%lambda  = (/      50d3,     50d3 /)
    m%dens    = (/   7850d-9,  7850d-9 /)
-   m%betapl  = 1d0
-   m%k0_mf   = 1d0
-   m%alfamf  = 1d0
-   m%betamf  = 1d0
-   m%gg3     = 1d0
-   m%laythk  = 0d0
-   m%tau_c0  = 0d0
-   m%k_tau   = 0d0
-   m%cdampn  = 0d0
-   m%cdampt  = 0d0
-   m%dfnmax  = 0d0
-   m%dftmax  = 0d0
+   m%betapl  =  1d0
+   m%k0_mf   =  1d0
+   m%alfamf  =  1d0
+   m%betamf  =  1d0
+   m%gg3     =  1d0
+   m%laythk  =  0d0
+   m%tau_c0  =  0d0
+   m%k_tau   =  0d0
+   m%cdampn  =  0d0
+   m%cdampt  =  0d0
+   m%dfnmax  =  0d0
+   m%dftmax  =  0d0
+   m%uthrs   =  0d0
+   m%lpow0   =  5d0
+   m%lpow1   = -5d0
    m%bound_eff = ic%bound
    m%mater_eff = ic%mater
    m%gencr_eff = ic%gencr_inp
@@ -1524,6 +1548,9 @@ contains
    m_out%cdampt             = m_in%cdampt  
    m_out%dfnmax             = m_in%dfnmax  
    m_out%dftmax             = m_in%dftmax  
+   m_out%uthrs              = m_in%uthrs
+   m_out%lpow0              = m_in%lpow0
+   m_out%lpow1              = m_in%lpow1
    m_out%bound_eff          = m_in%bound_eff 
    m_out%mater_eff          = m_in%mater_eff 
    m_out%gencr_eff          = m_in%gencr_eff 

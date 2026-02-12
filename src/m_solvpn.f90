@@ -14,6 +14,7 @@ implicit none
 private
 
 public  normcg
+public  normcg_flx
 public  normcg_matvec
 public  sens_norm
 
@@ -21,8 +22,8 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine normcg (ic, geom, npot, dxdy, use_fftprec, maxcg, eps, is_sens, cs, ms, hstot, pen,       &
-                      fntrue, igs, ps, itcg, err)
+   subroutine normcg (ic, mater, geom, npot, dxdy, use_fftprec, maxcg, eps, is_sens, cs, ms, hstot,     &
+                      pen, fntrue, igs, ps, itcg, err)
 !--purpose: Conjugate Gradient type solver for the system of equations in NORM with fixed/known PENetration
 !           or with prescribed force FN. Matrix-free implementation, using routine VecAijPj for evaluating
 !           "A * ps" and "A * v", with A represented by Cs.
@@ -30,6 +31,7 @@ contains
       implicit none
 !--subroutine arguments:
       type(t_ic),       intent(in)      :: ic
+      type(t_material), intent(in)      :: mater
       type(t_geomet),   intent(in)      :: geom
       type(t_inflcf),   intent(in)      :: cs, ms
       type(t_gridfnc3), intent(in)      :: hstot
@@ -51,6 +53,7 @@ contains
       integer            :: numinn
       integer, parameter :: idebug = 0
 
+      if (.false.) vav = mater%ga
       if (npot.le.150) then
          numinn = 3
       elseif (npot.le.400) then
@@ -463,6 +466,449 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine normcg_flx (ic, mater, geom, npot, dxdy, use_fftprec, maxcg, eps, is_sens, cs, ms, hstot, &
+                      pen, fntrue, igs, ps, itcg, err)
+!--purpose: Conjugate Gradient type solver for the system of equations in NORM with fixed PENetration
+!           with added flexibility at small elastic displacement.
+      implicit none
+!--subroutine arguments:
+      type(t_ic),       intent(in)      :: ic
+      type(t_material), intent(in)      :: mater
+      type(t_geomet),   intent(in)      :: geom
+      type(t_inflcf),   intent(in)      :: cs, ms
+      type(t_gridfnc3), intent(in)      :: hstot
+      integer,          intent(in)      :: npot, maxcg
+      logical,          intent(in)      :: use_fftprec, is_sens
+      real(kind=8),     intent(in)      :: eps, fntrue, dxdy
+      real(kind=8),     intent(inout)   :: pen
+      type(t_eldiv),    intent(inout)   :: igs
+      type(t_gridfnc3), intent(inout)   :: ps
+      integer,          intent(out)     :: itcg
+      real(kind=8),     intent(out)     :: err
+!--local variables:
+      type(t_gridfnc3)   :: rhs, res, z, v, q, dd, r_prv, ps0, estar, lflx, tmp1, tmp2
+      type(t_eldiv)      :: cpatch
+      integer            :: ii, ncon, itinn, itchg
+      logical            :: lchg_negpn, lchg_intpen, lchanged
+      real(kind=8)       :: alpha, beta, rms_upd, rms_upd1, rms_xk, conv, rz1, rz2, rrprv, rv, vav,     &
+                            hsmin, uthrs, ustar, a00, gi, lzi
+      integer, parameter :: idebug = 0, numinn = 1
+
+!     write(bufout,'(a,f9.6,2(a,f4.1))') ' starting normcg_flx, uthrs=',mater%uthrs,', lpow0=',         &
+!                       mater%lpow0,', lpow1=',mater%lpow1
+!     call write_log(1, bufout)
+
+      if (.false.) hsmin = dxdy * fntrue
+      if (idebug.ge.1) then
+         if (use_fftprec) then
+            write(bufout,*) 'Using BCCG+ with FFT-preconditioner, ', 'MaxCG=',maxcg,', NumInn=',numinn
+         else
+            write(bufout,*) 'Using BCCG+ without preconditioner, ', 'MaxCG=',maxcg,', NumInn=',numinn
+         endif
+         call write_log(1, bufout)
+      endif
+
+      if (ic%norm.ne.0) then
+         call write_log(' Internal ERROR: NormCG_flx requires N=0.')
+         call abort_run()
+      endif
+
+      ! set tolerance for small displacements. Elements are introduced in 'dC' when |e^*_n| < u_thrs
+
+      if (ic%mater3.le.0) then
+         uthrs = 0d0
+      else
+         uthrs = max(0d0, mater%uthrs)
+      endif
+      a00  = cs%cf(0, 0, ikZDIR, ikZDIR) * cs%ga_inv
+
+      ! Initialize element division for scaled interaction between different patches
+
+      if (geom%iplan.eq.4) then
+         call eldiv_new(cpatch, ps%grid, nulify=.true.)
+         call eldiv_cpatches(cpatch, geom%npatch, geom%xylim, idebug)
+      endif
+
+      ! Initialize grid functions rhs, res, v and q.
+      ! Note: rhs is computed in entire potential contact area.
+      !       res should be up-to-date in the exterior area at all times.
+      !       v is the search direction, which should be zero in the exterior area. q = A * v.
+
+      call gf3_copy_struc(ps, rhs,   'normcg:rhs',   .true.)
+      call gf3_copy_struc(ps, res,   'normcg:res',   .true.)
+      call gf3_copy_struc(ps, r_prv, 'normcg:r_prv', .true.)
+      call gf3_copy_struc(ps, dd,    'normcg:dd',    .true.)
+      call gf3_copy_struc(ps, z,     'normcg:z',     .true.)
+      call gf3_copy_struc(ps, v,     'normcg:v',     .true.)
+      call gf3_copy_struc(ps, q,     'normcg:q',     .true.)
+      call gf3_copy_struc(ps, estar, 'normcg:estar', .true.)
+      call gf3_copy_struc(ps, lflx,  'normcg:lflx',  .true.)
+      call gf3_copy_struc(ps, tmp1,  'normcg:tmp1',  .true.)
+      call gf3_copy_struc(ps, tmp2,  'normcg:tmp2',  .true.)
+
+      ! Save initial estimate for modified stopping criterion
+
+      if (is_sens) then
+         call gf3_copy_struc(ps, ps0, 'normcg:ps0', .true.)
+         call gf3_copy(AllElm, ps, ps0, ikZDIR)
+      endif
+
+      ! rhs = pen - hstot    : Right-hand side of the equations
+      ! When the total force is prescribed, the rhs should not include pen
+      ! The initial estimate for pen is contained in igs
+
+      call gf3_set (AllElm, pen, rhs, ikZDIR)
+      call gf3_axpy(AllElm, -1.0d0, hstot, rhs, ikZDIR)
+
+      ! Count the number of elements in the actual contact area.
+
+      ncon = 0
+      do ii = 1, npot
+         if (igs%el(ii).ge.Adhes) ncon = ncon + 1
+      enddo
+
+      ! Penetration prescribed:
+      ! Check if there are points with negative separation hstot
+
+      hsmin = gf3_min(AllElm, hstot, ikZDIR) - pen
+      if (hsmin.ge.0d0) then
+
+         ! if not: return zero solution, empty contact area
+
+         !!! write(bufout,'(2a,g10.3,a)') ' WARNING: minimum separation', ' is',                        &
+         !!!                              hsmin,' > 0, no contact at all.'
+         !!! call write_log(1, bufout)
+         call gf3_set(AllElm, 0d0, ps, ikZDIR)
+         do ii = 1, npot
+            igs%el(ii) = Exter
+         enddo
+         itcg = 0
+         err = 0d0
+         goto 9000
+      endif
+
+      ! Initialize diagonal matrix with added flexibility, L = 0
+
+      call gf3_set(AllElm, 0d0, lflx, ikZDIR)
+
+      ! res = rhs - (A+L) * ps : Residual of the linear system
+
+      call normcg_matvec (geom, cpatch, igs, AllInt, cs, ps, res, tmp1, tmp2)
+      call gf3_scal(AllInt, -1.0d0, res, ikZDIR)
+      call gf3_axpy(AllInt, 1.0d0, rhs, res, ikZDIR)
+
+      rz2 = 0d0
+
+      ! This routine uses a relative stop-criterion on the updates 
+      ! rms_upd == ||Pk - Pk-1||_rms, which are meaningful to the user. 
+
+      itcg    = 0
+      itchg   = 0
+      itinn   = 0
+      rms_xk  = 1d0
+      rms_upd = 2d0*eps*rms_xk
+      lchanged = .false.
+
+      ! WHILE ( (Changes to el.div OR rms_upd > eps*rms_xk) ) do
+
+      do while((lchanged .or. rms_upd.gt.eps*rms_xk) .and. itcg.lt.maxcg)
+
+         ! increment iteration counter "it"
+
+         itcg  = itcg + 1
+         itinn = itinn + 1
+
+         ! compute preconditioned residual z = M * res
+
+         if (use_fftprec) then
+            call VecAijPj(igs, AllInt, z, ikZDIR, res, jkZDIR, ms)
+         else
+            call gf3_copy(AllElm, res, z, ikZDIR)
+         endif
+
+         ! cycle previous (r,z), compute new (r,z)
+
+         rz1 = rz2
+         rz2 = gf3_dot(AllInt, z, res, ikZDIR)
+         if (rz2.lt.0d0) then
+            if (is_sens) then
+               write(bufout,'(a,i4,a,g12.4)') ' WARNING: itcg',itcg, ' (sens): (r,z)=',rz2,' < 0!'
+            else
+               write(bufout,'(a,i4,a,g12.4)') ' WARNING: itcg',itcg, ': (r,z)=',rz2,' < 0!'
+            endif
+            call write_log(1, bufout)
+         endif
+
+         ! Set new search direction v(it)
+
+         if (itcg.le.1 .or. rz1.lt.tiny) then
+
+            ! first iteration: steepest descent direction  v(1) = z(0)
+
+            call gf3_copy(AllInt, z, v, ikZDIR)
+         else
+
+            ! use v conjugate to previous search direction(s) v(it) = z(it-1) + beta v(it-1)
+
+            rrprv = gf3_dot(AllInt, z, r_prv, ikZDIR)
+            beta = max(0d0, (rz2-rrprv) / max(tiny, rz1))
+            call gf3_scal(AllInt, beta, v, ikZDIR)
+            call gf3_axpy(AllInt, 1.0d0, z, v, ikZDIR)
+         endif
+
+         ! q = (A+L) v, interior elements only
+
+         call normcg_matvec (geom, cpatch, igs, AllInt, cs, v, q, tmp1, tmp2)
+         do ii = 1, npot
+            if (igs%el(ii).ge.Adhes) then
+               q%vn(ii) = q%vn(ii) + lflx%vn(ii) * v%vn(ii)
+            endif
+         enddo
+
+         ! alpha = (r,v) / (v, A * v)
+         ! Note: if A is truely pos.definite then vav is always >= 0, vav == 0 iff v == 0.
+         !       Avoid division by zero for the special case of a single element where v == 0 occurs.
+
+         rv    = gf3_dot(AllInt, res, v, ikZDIR)
+         vav   = gf3_dot(AllInt, q, v, ikZDIR)
+
+         if (abs(vav).gt.1d-32 .and. ncon.eq.1) then
+            alpha = rv / vav
+         else
+            alpha = rv / max(tiny, vav)
+         endif
+
+         ! Update estimate of pressures ps:
+         !    ps(it) = ps(it-1) + alpha * v
+
+         call gf3_axpy(AllInt, alpha, v, ps, ikZDIR)
+
+         ! Relative stop-criterion on updates |Pk - Pk-1|:
+         !    rms_upd = |Pk - Pk-1| == alpha |v|;  
+         !    rms_xk  = |Pk|
+
+         rms_upd = abs(alpha) * gf3_rms(AllInt, v, ikZDIR)
+         !!! write(nam, '(a,i3.3)') 'ps', itcg
+         !!! call gf3_print(ps, nam, ikZDIR, 3, 12)
+
+         if (itcg.eq.1) rms_upd1 = rms_upd
+         if (itcg.le.3 .or. mod(itcg,10).eq.0) then
+            if (.not.is_sens) then
+               rms_xk  = gf3_rms(AllInt, ps, ikZDIR)
+            else
+               call gf3_copy(AllElm, ps, tmp1, ikZDIR)
+               call gf3_axpy(AllElm, -1d0, ps0, tmp1, ikZDIR)
+               rms_xk  = gf3_rms(AllInt, tmp1, ikZDIR)
+            endif
+         endif
+
+         ! Save residual for use in Polak-Ribiere formula in next iteration
+
+         call gf3_copy(AllElm, res, r_prv, ikZDIR)
+
+         ! Check for end of inner iteration
+
+         if (itinn.lt.numinn .and. rms_upd.ge.eps*rms_xk) then
+
+            ! In inner iterations, we skip the checks on ps<0 and dd<0.
+            ! Update the residual   res(it) = res(it-1) - alpha * q(it)
+
+            call gf3_axpy(AllInt, -alpha, q, res, ikZDIR)
+
+         else
+
+            ! When the inner iteration is complete, check for negative pressures
+
+            lchg_negpn = .false.
+            do ii = 1, npot
+               if (igs%el(ii).ge.Adhes .and. estar%vn(ii).gt.uthrs .and. ps%vn(ii).lt.0d0) then
+                  if (idebug.ge.5) write(*,*) 'it=',itcg,': moving ','element ii=',ii,' to exterior'
+                  igs%el(ii) = Exter
+                  ncon = ncon - 1
+                  ps%vn(ii) = 0d0
+                  lchg_negpn = .true.
+               endif
+            enddo
+
+            ! If there are no elements in contact anymore,
+            ! select the elements with the largest interpenetration.
+
+            if (ncon.le.0) then
+               hsmin = gf3_min(AllElm, hstot, ikZDIR)
+               do ii = 1, npot
+                  if (hstot%vn(ii).le.hsmin+1d-5) then
+                     igs%el(ii) = Adhes
+                     ncon = ncon + 1
+                     ps%vn(ii) = 0d0
+                     lchg_negpn = .true.
+                  endif
+               enddo
+            endif
+
+            if (lchg_negpn) call areas(igs)
+
+            ! Compute dd = -rhs + (A+L)*p in whole potential contact area
+            ! (test: check that res=0 in the Exterior area)
+
+            call normcg_matvec (geom, cpatch, igs, AllElm, cs, ps, dd, tmp1, tmp2)
+            do ii = 1, npot
+               dd%vn(ii) = dd%vn(ii) + lflx%vn(ii) * ps%vn(ii)
+            enddo
+            call gf3_axpy(AllElm, -1.0d0, rhs, dd, ikZDIR)
+
+            ! Compute estar: deformed distance excluding contribution from element itself
+
+            do ii = 1, npot
+               estar%vn(ii) = dd%vn(ii) - (a00 + lflx%vn(ii)) * ps%vn(ii)
+            enddo
+
+            ! Check for negative deformed distances (interpenetration) in the exterior area
+
+            lchg_intpen = .false.
+            associate(lpow0 => mater%lpow0, lpow1 => mater%lpow1)
+            do ii = 1, npot
+               if (igs%el(ii).eq.Exter .and. dd%vn(ii).lt.uthrs) then
+
+                  ! deformed distance < uthrs ?  --> insert into contact area C
+
+                  igs%el(ii) = Adhes
+                  ncon = ncon + 1
+                  res%vn(ii) = -dd%vn(ii)
+                  if (idebug.ge.5) write(*,*) 'it=',itcg, ': moving element ii=',ii,' to interior'
+                  lchg_intpen = .true.
+
+                  if (abs(dd%vn(ii)).lt.uthrs) then
+
+                     ! small elastic displacement: add flexibility lz
+
+                     ustar = -estar%vn(ii)
+                     gi   = max(0d0, min(1d0, 0.5d0*(uthrs - ustar)/uthrs))
+                     lzi  = a00 * 10**( lpow0 + (lpow1-lpow0) * gi )
+                     lflx%vn(ii) = lzi
+                     ps%vn(ii)   = -estar%vn(ii) / (a00 + lzi)
+                     dd%vn(ii)   = dd%vn(ii) + lzi * ps%vn(ii)
+                     write(bufout,'(a,i4,a,f10.6,a,f6.3,a,g12.4)') ' ii=',ii,': ustar=',ustar,       &
+                              ', g=',gi, ', lzi=',lzi
+                     ! call write_log(1, bufout)
+                  endif
+               endif
+            enddo
+            end associate
+
+            ! add extra flexibility at elements with small elastic displacement
+
+            if (ic%mater3.ge.1) then
+               associate(lpow0 => mater%lpow0, lpow1 => mater%lpow1)
+               do ii = 1, npot
+                  ustar = -estar%vn(ii)
+                  ! write(bufout,'(a,i4,a,f8.4)') ' ii=',ii,': ustar=',ustar
+                  ! call write_log(1, bufout)
+                  if (igs%el(ii).ge.Adhes .and. abs(ustar).le.uthrs) then
+                     gi   = max(0d0, min(1d0, 0.5d0*(uthrs - ustar)/uthrs))
+                     lzi  = a00 * 10**( lpow0 + (lpow1-lpow0) * gi )
+                     lflx%vn(ii) = lzi
+                     ! ps%vn(ii)   = -estar%vn(ii) / (a00 + lzi)
+                     ! dd%vn(ii)   = dd%vn(ii) + lzi * ps%vn(ii)
+                     write(bufout,'(a,i4,a,f10.6,a,f6.3,a,g12.4)') ' ii=',ii,': ustar=',ustar,          &
+                              ', g=',gi, ', lzi=',lzi
+                     call write_log(1, bufout)
+                  else
+                     lflx%vn(ii) = 0d0
+                  endif
+               enddo
+               end associate
+            endif
+
+            ! Compute dd = -rhs + (A+L)*p in whole potential contact area
+            ! (test: check that res=0 in the Exterior area)
+
+            call normcg_matvec (geom, cpatch, igs, AllElm, cs, ps, dd, tmp1, tmp2)
+            do ii = 1, npot
+               dd%vn(ii) = dd%vn(ii) + lflx%vn(ii) * ps%vn(ii)
+            enddo
+            call gf3_axpy(AllElm, -1.0d0, rhs, dd, ikZDIR)
+
+            ! set residual res = -dd
+
+            call gf3_set(AllElm, 0d0, res, ikZDIR)
+            call gf3_axpy(AllInt, -1.0d0, dd, res, ikZDIR)
+
+            ! regularize v := 0 in exterior area
+
+            do ii = 1, npot
+               if (igs%el(ii).eq.Exter) v%vn(ii) = 0d0
+            enddo
+
+            if (lchg_intpen) call areas(igs)
+
+            itinn = 0
+            lchanged = lchg_intpen .or. lchg_negpn
+            if (lchanged) itchg = itchg + 1
+            if (idebug.ge.5 .and. lchanged) call wrigs(igs, .false.,0d0)
+
+         endif ! check for negative ps or interpenetration
+
+         write(bufout,'(a,6f12.6)') ' ps1= ',(ps%vn(ii), ii=2,5)
+         ! call write_log(1, bufout)
+
+         if (ic%flow.ge.6) then
+            write(bufout,5200) itcg, ncon, npot-ncon, rms_upd, eps*rms_xk
+            call write_log(1, bufout)
+ 5200       format (9x,i3, ', size C, E =',2i6,', |dPn(k)|, ', 'Eps|Pn|:', 2g11.3)
+         endif
+
+
+      ! end-while (not converged)
+
+      enddo
+
+      conv = 1d0
+      if (rms_upd*rms_upd1.gt.0d0 .and. itcg.gt.1) then
+         conv = exp (dlog(rms_upd/rms_upd1) / (itcg-1))
+      endif
+
+      if (rms_upd.gt.rms_xk .and. conv.gt.1d0 .and. itcg.ge.maxcg) then
+         write(bufout, 6000) maxcg, rms_upd, conv
+         call write_log(2, bufout)
+ 6000    format (' ERROR. MaxCG= ',i3, ' reached in NormCG.', /, ' |Pk - Pk-1| = ', g12.4,             &
+                 '  Estim. avg rate of conv =', g12.4)
+         call abort_run()
+      endif
+
+      if (ic%flow.ge.5) then
+         write(bufout, 6200) itcg, rms_upd, conv
+         call write_log(1, bufout)
+ 6200    format (14x, 'NormCG:', i4, ' iterations. |Pk - Pk-1|,', ' C_est:', g12.4, f8.4)
+      endif
+      if (ic%flow.ge.9) call wrigs (igs, .false., 0d0)
+
+      err = rms_upd
+
+      ! if (conv.lt.1d0) err = rms_upd * (conv / (1-conv))
+
+      ! end of routine: cleanup
+
+ 9000 continue
+      call gf3_destroy(rhs)
+      call gf3_destroy(res)
+      call gf3_destroy(r_prv)
+      call gf3_destroy(dd)
+      call gf3_destroy(z)
+      call gf3_destroy(v)
+      call gf3_destroy(q)
+      call gf3_destroy(tmp1)
+      call gf3_destroy(tmp2)
+      if (is_sens) then
+         call gf3_destroy(ps0)
+      endif
+      if (geom%iplan.eq.4) then
+         call eldiv_destroy(cpatch)
+      endif
+
+   end subroutine normcg_flx
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine normcg_matvec (geom, cpatch, igs, iigs, cs, ps, res, tmp1, tmp2)
 !--purpose: perform matrix-vector computation for NormCG
       implicit none
@@ -529,12 +975,13 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine sens_norm(ic, geom, npot, dxdy, use_fftprec, mxsens, epsens, cs, ms, hstot, pen,          &
+   subroutine sens_norm(ic, mater, geom, npot, dxdy, use_fftprec, mxsens, epsens, cs, ms, hstot, pen,   &
                            fntrue, igs, ps, unn, sens, itcg)
 !--purpose: quickly compute senstitivity d Fn/d pen with < 1% accuracy
       implicit none
 !--subroutine arguments:
       type(t_ic),       intent(in)      :: ic
+      type(t_material), intent(in)      :: mater
       type(t_geomet),   intent(in)      :: geom
       type(t_inflcf),   intent(in)      :: cs, ms
       type(t_gridfnc3), intent(in)      :: hstot
@@ -586,7 +1033,7 @@ contains
       ! solve system with perturbed pen
 
       max_loc = mxsens
-      call NormCG (icloc, geom, npot, dxdy, use_fftprec, max_loc, epsens, .true., cs, ms,               &
+      call NormCG (icloc, mater, geom, npot, dxdy, use_fftprec, max_loc, epsens, .true., cs, ms,        &
                    hstot, penloc, fnloc, igsloc, psloc, itcg, err)
 
       ! compute and display results
@@ -620,7 +1067,7 @@ contains
 
             ! solve system with perturbed pen
 
-            call NormCG(icloc, geom, npot, dxdy, use_fftprec, max_loc, epsens, .true., cs,              &
+            call NormCG(icloc, mater, geom, npot, dxdy, use_fftprec, max_loc, epsens, .true., cs,       &
                         ms, hstot, penloc, fnloc, igsloc, psloc, itcg, err)
 
             ! compute and display results

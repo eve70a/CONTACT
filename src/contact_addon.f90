@@ -1286,8 +1286,9 @@ end subroutine cntc_setSolverFlags
 
 subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    bind(c,name=CNAME_(cntc_setmaterialparameters))
-!--function: set the M-digit and material parameters for a contact problem
-! values < 10 are used to configure the M-digit
+!--function: set the M-, M2-, M3-digits and material parameters for a contact problem
+!
+! values in [ 0, 9] are used to configure the M-digit
 !    0: purely elastic material,           params = [ nu1, nu2, g1, g2 ]
 !    1: visco-elastic material,            params = [ nu1, nu2, g1, g2, fg1, fg2, vt1, vt2 ]
 !    2: modified Fastsim, 1 flexibility    params = [ nu1, nu2, g1, g2, flx, k0_mf, alfamf, betamf ]
@@ -1296,14 +1297,21 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 !    5: modified FaStrip                   params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
 !    6: original FaStrip                   params = [ nu1, nu2, g1, g2 ]
 !    7: original FaStrip + full sliding    params = [ nu1, nu2, g1, g2 ]
-! values >= 10 are used to configure the M2-digit, M2 = imeth - 10
-!   12: force-based proportional damping   params = [ cdampn, cdampt, dfnmax, dftmax ]
-!
 ! dimensions: nu1, nu2        [-],        g1, g2    [force/area],   
 !             fg1, fg2        [-],        vt1, vt2  [time],
 !             flx         [volume/force], k0_mf, alfamf, betamf [-], 
 !             g3, tau_c0   [force/area],  laythk    [length],        k_tau [force/volume]
+!
+! values in [20,29] are used to configure the M2-digit, M2 = imeth - 20
+!   20: no force-based proportional damping   params = [ ]
+!   22: force-based proportional damping      params = [ cdampn, cdampt, dfnmax, dftmax ]
 !             cdampn, cdampt  [time],     dfnmax, dftmax   [force/time]
+!
+! values in [30,39] are used to configure the M3-digit, M3 = imeth - 30
+!   30: no added flexibility                   params = [ ]
+!   32: add flexibility at small displacement  params = [ uthrs, lpow0, lpow1 ]
+!             uthrs [length],             lpow0, lpow1 [-]
+!
 !--category: 5, "m=any, wtd":       available for modules 1 and 3, in module 1 working on wtd data
    implicit none
 !--subroutine arguments:
@@ -1313,8 +1321,11 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    integer,      intent(in) :: nparam         ! number of parameters in rparam
    real(kind=8), intent(in) :: rparam(nparam) ! material parameters, dependent on m-digit
 !--local variables:
-   integer, parameter  :: nparam_loc(0:12) = (/ 4, 8, 8, 7, 8, 7, 4, 4, 0, 0, 0, 0, 4 /)
-   logical             :: set_m_digit, set_m2_digit
+   integer, parameter  :: nparam_loc(0:32) = (/ 4, 8, 8, 7, 8, 7, 4, 4, 0, 0,                           &
+                                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,                           &
+                                                0, 0, 4, 0, 0, 0, 0, 0, 0, 0,                           &
+                                                0, 0, 3  /)
+   logical             :: set_m_digit, set_m2_digit, set_m3_digit
    integer             :: ierror
    character(len=*), parameter :: subnam = 'cntc_setMaterialParameters'
 #ifdef _WIN32
@@ -1327,9 +1338,10 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 
    ! check value of M-digit. 
 
-   set_m_digit  = (imeth.ge.0 .and. imeth.le.7)
-   set_m2_digit = (imeth.ge.10 .and. imeth.le.12)
-   if (.not.set_m_digit .and. .not.set_m2_digit) then
+   set_m_digit  = (imeth.ge. 0 .and. imeth.le. 7)
+   set_m2_digit = (imeth.ge.20 .and. imeth.le.22)
+   set_m3_digit = (imeth.ge.30 .and. imeth.le.32)
+   if (.not.set_m_digit .and. .not.set_m2_digit .and. .not.set_m3_digit) then
       write(bufout,'(2a,i4,a)') trim(pfx_str(subnam,ire,icp)), ' method',imeth,' does not exist.'
       call write_log(1, bufout)
       return
@@ -1349,9 +1361,9 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 
       ! configuring M2-digit
 
-      my_ic%mater2    = imeth - 10
+      my_ic%mater2    = imeth - 20
 
-      if (imeth.eq.10) then       
+      if (imeth.eq.20) then       
 
          ! M2 = 0 - no damping
 
@@ -1360,7 +1372,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
          my_mater%dfnmax = 0d0
          my_mater%dftmax = 0d0
 
-      elseif (imeth.eq.12) then
+      elseif (imeth.eq.22) then
 
          ! M2 = 2 - force-based proportional damping
 
@@ -1368,6 +1380,30 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
          my_mater%cdampt = rparam(2)                ! [s]
          my_mater%dfnmax = rparam(3) * my_scl%forc  ! [N/s]
          my_mater%dftmax = rparam(4) * my_scl%forc  ! [N/s]
+
+      endif
+
+   elseif (set_m3_digit) then
+
+      ! configuring M3-digit
+
+      my_ic%mater3    = imeth - 30
+
+      if (imeth.eq.30) then       
+
+         ! M3 = 0 - no added flexibility
+
+         my_mater%uthrs  = -1d0
+         my_mater%lpow0  = -5d0
+         my_mater%lpow1  =  5d0
+
+      elseif (imeth.eq.32) then
+
+         ! M3 = 2 - add flexibility at elements with small elastic displacement
+
+         my_mater%uthrs  = rparam(1) * my_scl%len   ! [mm]
+         my_mater%lpow0  = rparam(2)                ! [-]
+         my_mater%lpow1  = rparam(3)                ! [-]
 
       endif
 

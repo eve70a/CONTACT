@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.180)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.184)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -87,12 +87,17 @@
 \vtlogentry{1.174}{EV}{05-02-2025}{Added TangCG for $k_\tau=0$}{}
 \vtlogsheetbreak
 \vtlogentry{1.175}{EV}{04-04-2025}{Added tape circle on wheel}{}
-\vtlogentry{1.176}{EV}{11-04-2024}{Version for release v25.1}{}
-\vtlogentry{1.177}{EV}{10-06-2024}{Distinguish tilde-fs vs.\ bar-fs}{}
-\vtlogentry{1.178}{EV}{24-06-2024}{Add {\tt dystep0} for massless rail}{}
-\vtlogentry{1.179}{EV}{15-07-2024}{Add track curvature}{}
-\vtlogentry{1.180}{EV}{22-07-2024}{Support different result elements in
+\vtlogentry{1.176}{EV}{11-04-2025}{Version for release v25.1}{}
+\vtlogentry{1.177}{EV}{10-06-2025}{Distinguish tilde-fs vs.\ bar-fs}{}
+\vtlogentry{1.178}{EV}{24-06-2025}{Add {\tt dystep0} for massless rail}{}
+\vtlogentry{1.179}{EV}{15-07-2025}{Add track curvature}{}
+\vtlogentry{1.180}{EV}{22-07-2025}{Support different result elements in
                 inp-file}{}
+\vtlogentry{1.181}{EV}{31-10-2025}{Add flexibility at small displacement}{}
+\vtlogentry{1.182}{EV}{18-01-2026}{Renamed tilde/bar-fs to fs\_crv/pln}{}
+\vtlogentry{1.183}{EV}{29-01-2026}{Added {\tt init} option to {\tt plot3d}}{}
+\vtlogentry{1.184}{EV}{29-01-2026}{Changed ${\tt D}=7$: conformal + brute
+                force method}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -816,6 +821,18 @@ $^*$ Option ${\tt C}_3=9$ is not available in module 1.
         damping method (\S \ref{sec:damping}).
 \end{description}
 
+\magenta{
+\item[M$_3$ - MATER3] \label{m3-digit} : activate additional flexibility at
+        discretization elements with small elastic displacement:
+\begin{description}
+\item[0] -- no additional flexibility;
+\item[1] -- add additional flexibility using the same parameters as used in
+        the previous case;
+\item[2] -- read new input data, and activate additional flexibility at
+        small displacement. % (\S \ref{sec:damping}).
+\end{description}
+}
+
 \end{description}
 
 The third control word `{\bf XHGIAOWR}' concerns the output of
@@ -1390,9 +1407,10 @@ slcw} file extension.
 
 Profiles are transformed into a canonical form to simplify usage and
 processing in CONTACT. This form uses wheel and rail coordinates with lateral
-$y$-direction positive towards the field side (`right side profile').
-Optional mirroring is provided for profile data that have $y$-coordinate
-values increasing towards the track center (`left side').
+$y_w$ and $y_r$ directions positive towards the field side (`right side
+profile'). Optional mirroring is provided for profile data that have
+$y$-coordinate values increasing towards the track center (`left side
+profile').
 
 The canonical form uses $\unit{mm}$ as the unit of length and has positive
 $z$ pointing downwards. Optional scaling and mirroring are provided to
@@ -1463,11 +1481,11 @@ shown in Figure \ref{fig:profile_errors}.
         The feature may be kept in the profile as long as there's no
         contact at the bottom of the flange. Else, it may be attenuated or
         removed using profile smoothing.
-\item Figure \ref{fig:profile_errors} (c) shows a wheel profile with an
-        anomalous `dolphin nose shape'. This may have been introduced by
-        discarding of points with apparent measurement error (cf.\ situation
-        (d)) followed by agressive smoothing. CONTACT cannot detect and
-        repair this situation.
+%\item Figure \ref{fig:profile_errors} (c) shows a wheel profile with an
+%        anomalous `dolphin nose shape'. This may have been introduced by
+%        discarding of points with apparent measurement error (cf.\ situation
+%        (d)) followed by agressive smoothing. CONTACT cannot detect and
+%        repair this situation.
 \item Figure \ref{fig:profile_errors} (e) shows a local dent in the rail
         side face. It is up to the user to decide whether this feature
         is real and should be kept in the profile, or unwanted and to be
@@ -2075,7 +2093,7 @@ changes in the input positions.
 \end{inputvars}
 For each contact patch that remains after combination, CONTACT determines a
 so-called {\em contact reference position\/}. In steady rolling (${\tt
-T}=3$), this is the origin of the local coordinates used for solving the
+T}=3$), this is made the origin for the local coordinates used for solving the
 contact problem \cite{Vollebregt2020b-wrgeom}. The contact reference is
 determined by a heuristic rule to be centered within the contact patch in
 a weighted sense. This may be different from the {\em initial contact
@@ -7443,8 +7461,8 @@ The input for one case of wheel/rail contact consists of:
 % Control integers, see section \ref{sec:controldigits}:
 
  CPBTNFS       (        CONFIG, PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
- VLDCMZE  \{M\}  (        VARFRC, FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL,
-                                                                        MATER2)
+ VLDCMZE  \{\magenta{M}M\} (        VARFRC, FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL,
+                                                                \magenta{MATER3,} MATER2)
 XHGIAOWR       (XFLOW , HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
 
 % Parameters for additional debug output
@@ -7484,9 +7502,9 @@ if L=2,3,4,6: [ MEMDST MEM\_S0                                   ]
 % particularly the material parameters (section \ref{sec:matcns}):
 
 if INFLCF>=2:
-      if INFLCF=4: [ IF\_METH  VARIANT               ]
-                     POISS1  POISS2  GG1     GG2
-\magenta{      if BOUND =1: [ FLXZ                           ]
+      if INFLCF=4:   [ IF\_METH  VARIANT               ]
+                       POISS1  POISS2  GG1     GG2
+\magenta{      if BOUND =1:   [ FLXZ                           ]
 }      if MATER =1:   [ FG1     FG2       VT1     VT2  ]
       if MATER =2:   [ FLX     K0\_MF   ALFAMF  BETAMF ]
       if MATER =3,5: [         K0\_MF   ALFAMF  BETAMF ]
@@ -7495,7 +7513,8 @@ if INFLCF>=2:
 % Material parameters for damping and temperature calculation (section \ref{sec:matcns}):
 
 if M2=2:     [ CDAMPN   CDAMPT   DFNMAX   DFTMAX   ]
-if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
+\magenta{if M3=2:     [ UTHRS    LPOW0    LPOW1           ]
+}if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
                BKTEMP2  HEATCP2  LAMBDA2  DENS2    ]
 if H=3, M=4: [ BETAPL                              ]
 
@@ -7563,8 +7582,8 @@ For module 3, the input for one case consists of:
 % Control integers, see section \ref{sec:controldigits}:
 
   PBTNFS                     (PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
-  LDCMZE  \{M\}                (FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS ,
-                                                                      MATER2)
+  LDCMZE  \{\magenta{M}M\}                (FRCLAW, DISCNS, INFLCF, MATER , RZNORM, EXRHS ,
+                                                              \magenta{MATER3,} MATER2)
 XHGIAOWR     (XFLOW , HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
 
 % Parameters for additional debug output
@@ -7621,7 +7640,8 @@ if C>=2:\magenta{
 % Material parameters for damping and temperature calculation (section \ref{sec:matcns}):
 
 if M2=2:     [ CDAMPN   CDAMPT   DFNMAX   DFTMAX ]
-if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
+\magenta{if M3=2:     [ UTHRS    LPOW0    LPOW1             ]
+}if H=3:      [ BKTEMP1  HEATCP1  LAMBDA1  DENS1           
                BKTEMP2  HEATCP2  LAMBDA2  DENS2  ]
 if H=3, M=4: [ BETAPL                            ]
 

@@ -1,7 +1,7 @@
 !============================================================================================================
 ! m_soutpt - print output to out-file and/or mat-file
 !
-! Copyright 1979-2023 by Vtech CMCC.
+! Copyright 1979-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -121,7 +121,10 @@ contains
             write(lout, 8003) ic%varfrc, ic%frclaw_inp, ic%discns3, ic%gencr_inp, ic%mater, ic%rznorm,  &
                         ic%rztang
          endif
-         write(lout, 8004) ic%heat, ic%gausei_inp, ic%iestim, ic%matfil_surf, ic%output_surf,           &
+         if (ic%mater2.ge.1 .or. ic%mater3.ge.1) then
+            write(lout, 8004) ic%mater3, ic%mater2
+         endif
+         write(lout, 8005) ic%heat, ic%gausei_inp, ic%iestim, ic%matfil_surf, ic%output_surf,           &
                                 ic%flow, ic%return
  8000    format (' ')
  8001    format ('  PBTNFS.        ',2x, '  PVTIME',i2, ', BOUND ',i2, ', TANG  ',i2, ', NORM  ',i2,    &
@@ -130,7 +133,8 @@ contains
                         ', RZNORM',i2, ', RZTANG',i2)
  8003    format (' VLDCMZE.  VARFRC',i2, ', FRCLAW',i2, ', DISCNS',i2, ', INFLCF',i2, ', MATER ',i2,    &
                         ', RZNORM',i2, ', RZTANG',i2)
- 8004    format (' HGIAOWR.  HEAT  ',i2, ', GAUSEI',i2, ', IESTIM',i2, ', MATFIL',i2, ', OUTPUT',i2,    &
+ 8004    format ('    M3M2.        ',42x,'  MATER3',i2, ', MATER2',i2)
+ 8005    format (' HGIAOWR.  HEAT  ',i2, ', GAUSEI',i2, ', IESTIM',i2, ', MATFIL',i2, ', OUTPUT',i2,    &
                         ', FLOW  ',i2, ', RETURN',i2)
 
          ! z == (Norm called)
@@ -260,16 +264,35 @@ contains
 
          write(lout, 8101) mater%poiss, mater%gg
  8101    format (/, 2x, 2x,'POISS(1)',2x, 2x,'POISS(2)',2x, 3x,'GG(1)',4x, 3x,'GG(2)',/, 2x, 4g12.4)
+      endif
 
+      if (my_output.ge.2) then
          if (ic%mater2.ge.2) then
+            write(lout, '(a)')
+            if (ic%gencr_inp.le.1) write(lout, '(a)') ' MATERIAL CONSTANTS'
             write(lout, 8102) fmt_gs(12,4,4,mater%cdampn), fmt_gs(12,4,4,mater%cdampt),                 &
                 fmt_gs(12,4,4,mater%dfnmax), fmt_gs(12,4,4,mater%dftmax)
- 8102       format (/, 2x, 2x,'CDAMPN',4x, 2x,'CDAMPT',4x, 3x,'DFNMAX',4x, 3x,'DFTMAX',/, 2x, 4a)
+ 8102       format (2x, 2x,'CDAMPN',4x, 2x,'CDAMPT',4x, 3x,'DFNMAX',4x, 3x,'DFTMAX',/, 2x, 4a)
          endif
 
-         if (ic%heat.ge.1) write(lout, 8108) mater%bktemp(1), mater%heatcp(1), mater%lambda(1),         &
+         if (ic%mater3.ge.2) then
+            write(lout, '(a)')
+            if (ic%gencr_inp.le.1 .and. ic%mater2.le.1) write(lout, '(a)') ' MATERIAL CONSTANTS'
+            write(lout, 8103) mater%uthrs, mater%lpow0, mater%lpow1
+ 8103       format (2x, 2x,'UTHRS',5x, 2x,'LPOW0',5x, 3x,'LPOW1',/, 2x, f10.6,2x, f8.4,4x, f8.4)
+         endif
+
+         if (ic%heat.ge.3) then
+            write(lout, '(a)')
+            if (ic%gencr_inp.le.1 .and. ic%mater2.le.1 .and. ic%mater3.le.1)                            &
+               write(lout, '(a)') ' MATERIAL CONSTANTS'
+            write(lout, 8108) mater%bktemp(1), mater%heatcp(1), mater%lambda(1),                        &
                 mater%dens(1), mater%bktemp(2), mater%heatcp(2), mater%lambda(2), mater%dens(2)
- 8108    format (/, 2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, :, /))
+ 8108       format (2x, 3x,'BKTEMP',6x, 'HEATCP',6x, 'LAMBDA',6x, 'DENSITY', /, 2(2x, 4g12.4, :, /))
+         endif
+      endif
+
+      if (my_output.ge.2 .and. ic%gencr_inp.ge.2) then
 
          if (ic%mater.eq.1) then
             strng(1) = fmt_gs(12, 4, 4, mater%tc(1))

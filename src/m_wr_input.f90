@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_wr_input - read input-file for one case with w/r contact (module 1)
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -155,6 +155,12 @@ contains
       !------------------------------------------------------------------------------------------------------
 
       call mater2_input(lunit, ncase, linenr, ic, mater, ldebug, ieof, lstop, zerror)
+
+      !------------------------------------------------------------------------------------------------------
+      ! Read input for M3-digit: material parameters for extra flexibility
+      !------------------------------------------------------------------------------------------------------
+
+      call mater3_input(lunit, ncase, linenr, ic, mater, ldebug, ieof, lstop, zerror)
 
       !------------------------------------------------------------------------------------------------------
       ! Read input for H-digit: material parameters for temperature calculation
@@ -449,6 +455,10 @@ contains
 
          call mater2_input(lspck, ncase, linenr, ic, mater, ldebug, ieof, lstop, zerror)
 
+         ! Read input for M3-digit: material parameters for extra flexibility
+
+         call mater3_input(lspck, ncase, linenr, ic, mater, ldebug, ieof, lstop, zerror)
+
          ! Read input for H-digit: material parameters for temperature calculation
 
          if (ic%heat.eq.3) then
@@ -701,7 +711,7 @@ contains
 
       if (modul.ne.modul_spck .and. ic%ztrack.ge.2 .and. ic%ztrack.le.3) then
 
-         ! read the track deviations for current side of the track
+         ! read the track deviations for current side of the track (skipped for Simpack input)
 
          call readline(lunit, ncase, linenr, 'current rail deviations', 'ddadda', ints, dbles, flags,   &
                         strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
@@ -718,7 +728,7 @@ contains
 
       if (modul.ne.modul_spck .and. ic%ztrack.ge.2 .and. ic%ztrack.le.3 .and. ic%force1.eq.3) then
 
-         ! read the track deflection parameters for current side of the track
+         ! read the track deflection parameters for current side of the track (skipped for Simpack input)
 
          call readline(lunit, ncase, linenr, 'current rail deflection parameters', 'ddddD', ints, dbles, &
                         flags, strngs, mxnval, nval, ldebug, ieof, lstop, ierror)
@@ -913,7 +923,7 @@ contains
       integer                   :: ncase
       type(t_ws_track)          :: wtd
 !--local variables:
-      integer                  :: vldcmze, xhgiaowr, cpbtnfs, psflcin
+      integer                  :: cpbtnfs, vldcmze, m3m2, xhgiaowr, psflcin
       real(kind=8)             :: dflt_turn
       character(len=1)         :: namside
       character(len=10)        :: strng
@@ -939,13 +949,13 @@ contains
 
       ! write control integers
 
-      call ic_pack (1, cpbtnfs, vldcmze, xhgiaowr, ic)
+      call ic_pack (1, cpbtnfs, vldcmze, m3m2, xhgiaowr, ic)
 
       write(linp, 1101) cpbtnfs
       if (ic%mater2.le.0) then
          write(linp, 1102) vldcmze
       else
-         write(linp, 1103) vldcmze, ic%mater2
+         write(linp, 1103) vldcmze, m3m2
       endif
       if (ic%xflow.le.0) then
          write(linp, 1104) xhgiaowr

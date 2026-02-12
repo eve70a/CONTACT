@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_snorm - solve normal contact problem (basically, just delegate to m_solvpn)
 !
-! Copyright 1979-2023 by Vtech CMCC.
+! Copyright 1979-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -49,8 +49,8 @@ contains
 !--local variables :
       type(t_gridfnc3)      :: htang, hstot, tmp, unn
       logical               :: zready, use_vecfft, use_fftprec
-      integer               :: ii, ix, iy, npot, ncon, nconprev, newext, newcon, itcg, it, smllpn, smlldd
-      real(kind=8)          :: dd, errpn, tol, dxdy
+      integer               :: ii, npot, ncon, nconprev, itcg, it
+      real(kind=8)          :: errpn, dxdy
       logical, parameter    :: writechg = .true.
       integer, parameter    :: iidbg = 34
 
@@ -122,207 +122,79 @@ contains
          call snorm_nmdbg ('problem to NORM:', 1, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
       endif
 
-      ! the main loop :
-      ! 20  repeat
-      !        zready = true
-      !        set up eqs
-      !        solve
-      !        if (contact conds violated)
-      !            zready = false
-      !            change contact area
-      !        if (precision not reached)
-      !            zready = false
-      !     until (zready)
+      itnorm = 1
+      itcg   = 0
+      zready = .true.
 
-      ! This main loop works solely on ps1 and igs1, using influence coefficients from cs to compute
-      ! displacement differences.
+      ! Count the number of elements in the contact area, regularize Pn
 
-      itnorm = 0
-      itcg = 0
- 20   continue
-         itnorm = itnorm + 1
-         zready = .true.
-
-         ! Count the number of elements in the contact area, regularize Pn
-
-         ncon = 0
-         do ii = 1, npot
-            if (igs1%el(ii).ge.Adhes) then
-               ncon = ncon + 1
-            else
-               ps1%vn(ii) = 0d0
-            endif
-         enddo
-
-         if (ic%flow.ge.4 .or. (ic%flow.ge.3 .and. itnorm.ge.2)) then
-            write(bufout, 2200) itnorm, ncon, npot-ncon
-            call write_log(1, bufout)
- 2200       format (4x,i4, ', Norm: size of Contact, Exterior :', 2i7)
+      ncon = 0
+      do ii = 1, npot
+         if (igs1%el(ii).ge.Adhes) then
+            ncon = ncon + 1
+         else
+            ps1%vn(ii) = 0d0
          endif
-         if (ic%flow.ge.9) call wrigs (igs1, .false., 0d0)
-         call areas (igs1)
+      enddo
 
-         ! Compute new normal tractions ps1 and element division igs1
+      if (ic%flow.ge.4 .or. (ic%flow.ge.3 .and. itnorm.ge.2)) then
+         write(bufout, 2200) itnorm, ncon, npot-ncon
+         call write_log(1, bufout)
+ 2200    format (4x,i4, ', Norm: size of Contact, Exterior :', 2i7)
+      endif
+      if (ic%flow.ge.9) call wrigs (igs1, .false., 0d0)
+      call areas (igs1)
 
-         if (ic%x_nmdbg.ge.8) then
-            call snorm_nmdbg ('problem to normcg:', 2, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
-         endif
+      ! Compute new normal tractions ps1 and element division igs1
 
-         call timer_start(itimer_normcg)
-         call normcg (ic, geom, npot, dxdy, use_fftprec, solv%maxgs, solv%eps, .false., cs, ms, hstot,  &
-                      pen, kin%fntrue, igs1, ps1, it, errpn)
-         call timer_stop(itimer_normcg)
+      if (ic%x_nmdbg.ge.8) then
+         call snorm_nmdbg ('problem to normcg:', 2, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
+      endif
 
-         itcg = itcg + it
+      call timer_start(itimer_normcg)
+      if (ic%mater3.ge.1) then
+         call normcg_flx (ic, mater, geom, npot, dxdy, use_fftprec, solv%maxgs, solv%eps, .false.,   &
+                     cs, ms, hstot, pen, kin%fntrue, igs1, ps1, it, errpn)
+      else
+         call normcg (ic, mater, geom, npot, dxdy, use_fftprec, solv%maxgs, solv%eps, .false.,       &
+                     cs, ms, hstot, pen, kin%fntrue, igs1, ps1, it, errpn)
+      endif
+      call timer_stop(itimer_normcg)
 
-         ! Count the number of elements in contact again, print output
+      itcg = itcg + it
 
-         nconprev = ncon
-         ncon = 0
-         do ii = 1, npot
-            if (igs1%el(ii).ge.Adhes) ncon = ncon + 1
-         enddo
+      ! Count the number of elements in contact again, print output
 
-         if (ic%flow.ge.6 .and. ncon.ne.nconprev) then
-            write(bufout, 2200) itnorm, ncon, npot-ncon
-            call write_log(1, bufout)
-         endif
+      nconprev = ncon
+      ncon = 0
+      do ii = 1, npot
+         if (igs1%el(ii).ge.Adhes) ncon = ncon + 1
+      enddo
 
-         if (ic%x_nmdbg.ge.7) then
-            call snorm_nmdbg ('solution of normcg:', 2, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
-         endif
+      if (ic%flow.ge.6 .and. ncon.ne.nconprev) then
+         write(bufout, 2200) itnorm, ncon, npot-ncon
+         call write_log(1, bufout)
+      endif
 
-         ! Contract the contact
-
-         newext = 0
-         smllpn = 0
-         do ii = 1, npot
-            if (igs1%el(ii).ge.Adhes) then
-
-               ! negative pressure? --> move to exterior, clear pressure
-
-               if (ps1%vn(ii).lt.-errpn) then
-                  if (writechg) then
-                     write(bufout,*) 'Norm: move element ii=', ii,' to exterior'
-                     call write_log(1, bufout)
-                  endif
-                  igs1%el(ii) = Exter
-                  newext = newext + 1
-                  ps1%vn(ii) = 0d0
-               endif
-
-               ! small pressure w.r.t. error margins? --> count
-
-               if (abs(ps1%vn(ii)).lt.errpn) smllpn = smllpn + 1
-            endif
-         enddo
-         ncon = ncon - newext
-
-         ! Contact changed? --> iterate
-
-         if (newext.gt.0) zready = .false.
-
-         if (geom%iplan.eq.4) smlldd = 0
-
-         if (zready .and. geom%iplan.ne.4) then   ! skip computation for sub-patches with reduced interaction
-            call areas (igs1)
-
-            ! Compute deformation differences due to normal pressures in unn
-
-            if (use_vecfft) then
-               call VecAijPj(igs1, AllElm, unn, ikZDIR, ps1, jkZDIR, cs)
-            endif
-
-            if (ic%x_nmdbg.ge.7) then
-               call snorm_nmdbg ('solution of "contract" phase:', 3, cgrid, igs1, hs, pen, ps1, htang,  &
-                                 hstot, unn)
-            endif
-
-            ! Compute deformation in middle element
-            ! Maximal row sum, safe tolerance
-
-            ix = max(1, cgrid%nx/2)
-            iy = max(1, cgrid%ny/2)
-            ii = ix + (iy-1)*cgrid%nx
-            call gf3_set(AllElm, 1d0, tmp, ikZDIR)
-            tol = abs(errpn * AijPj(ii, ikZDIR, tmp, jkZDIR, cs))
-
-            ! Expand the contact area
-
-            smlldd = 0
-            newcon = 0
-            do ii = 1, npot
-               if (igs1%el(ii).eq.Exter .and. hstot%vn(ii)-pen.lt.0d0) then
-
-                  ! Compute deformed distance.
-
-                  if (use_vecfft) then
-                     ! note: slower for small problems, marginally faster for 35x35 test-problem
-                     dd = hstot%vn(ii) - pen + unn%vn(ii)
-                  else
-                     dd = hstot%vn(ii) - pen + AijPj(ii, ikZDIR, ps1, jkZDIR, cs)
-                  endif
-
-                  ! deformed distance < 0 ?  --> insert into contact area
-
-                  if (dd.lt.-tol) then
-                     if (writechg) then
-                        write(bufout,*) 'Norm: move element ii=', ii,' to interior'
-                        call write_log(1, bufout)
-                     endif
-                     igs1%el(ii) = Adhes
-                     newcon = newcon + 1
-                  endif
-
-                  ! small deformed distance ? --> count
-                  if (abs(dd).lt.tol) then
-                     smlldd = smlldd + 1
-                     if (.false.) then
-                        write(bufout,'(a,i6,2(a,g12.4))') ' element ii=',ii,': dd=',dd,', tol=',tol
-                        call write_log(1, bufout)
-                     endif
-                  endif
-               endif
-            enddo
-
-            ! Contact changed? --> iterate
-
-            ncon = ncon + newcon
-            if (newcon.ne.0) zready = .false.
-         endif
-
-         ! Also iterate if the solver did not fully converge
-
-         if (it.ge.solv%maxgs) zready = .false.
-
-      ! main loop is repeated until contact area is not changed anymore
-
-      if (.not.zready .and. itnorm.lt.solv%maxin) goto 20
-
-
-      ! if not converged: abort execution
-
-      if (.not.zready) then
-         write(bufout, 5800) solv%maxin
-         call write_log(2, bufout)
-         ! stop
- 5800    format (/,' NORM: ERROR. MaxIn = ', i5, ' reached.')
-         itnorm = -1
+      if (ic%x_nmdbg.ge.7) then
+         call snorm_nmdbg ('solution of normcg:', 2, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
       endif
 
       ! Regularize normal tractions, move elements to exterior
 
-      do ii = 1, npot
-         if (ps1%vn(ii).lt.0d0 .and. igs1%el(ii).ge.Adhes) then
-            ps1%vn(ii) = 0d0
-            igs1%el(ii)   = Exter
-            if (writechg) then
-               write(bufout,*) 'Norm: move element ii=', ii,' to exterior'
-               call write_log(1, bufout)
+      if (.false.) then
+         do ii = 1, npot
+            if (ps1%vn(ii).lt.0d0 .and. igs1%el(ii).ge.Adhes) then
+               ps1%vn(ii) = 0d0
+               igs1%el(ii)   = Exter
+               if (writechg) then
+                  write(bufout,*) 'Norm: move element ii=', ii,' to exterior'
+                  call write_log(1, bufout)
+               endif
+               ncon = ncon - 1
             endif
-            ncon = ncon - 1
-         endif
-      enddo
+         enddo
+      endif
 
       ! Print final element division and number of iterations of CG
 
@@ -330,15 +202,6 @@ contains
       if (ic%flow.ge.3) call write_log(1, bufout)
  6000 format (6x, 'Norm: final element division: C, E=', 2i7, '  ItCG=', i6)
       solv%itcg = itcg
-
-      ! Print warning for potential errors in element division
-
-      if (smlldd+smllpn.ge.5 .and. (ic%flow.ge.3 .or. ic%x_nmdbg.ge.1)) then
-         write(bufout, 6100) smlldd, smllpn
-         call write_log(3, bufout)
- 6100    format (/,' NORM: WARNING. There are',i6,' elements with ', 'small deformed distance', /,     &
-                 22x, 'and',i6,' elements with ', 'small pressure')
-      endif
 
       if (ic%x_nmdbg.ge.4) then
          call snorm_nmdbg ('solution of NORM:', 4, cgrid, igs1, hs, pen, ps1, htang, hstot, unn)
@@ -359,8 +222,8 @@ contains
          if (.not.use_vecfft) then
             call VecAijPj(igs1, AllElm, unn, ikZDIR, ps1, jkZDIR, cs)
          endif
-         call sens_norm (ic, geom, npot, dxdy, use_fftprec, solv%mxsens, solv%epsens, cs, ms, hstot, pen, &
-                         kin%fntrue, igs1, ps1, unn, sens, it)
+         call sens_norm (ic, mater, geom, npot, dxdy, use_fftprec, solv%mxsens, solv%epsens, cs, ms,    &
+                         hstot, pen, kin%fntrue, igs1, ps1, unn, sens, it)
          solv%itcg = solv%itcg + it
          call timer_stop(itimer_sens)
       else
