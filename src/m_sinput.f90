@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_sinput - read one case from the input-file and check the input
 !
-! Copyright 1979-2023 by Vtech CMCC.
+! Copyright 1979-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -359,8 +359,7 @@ contains
       zerror  = zerror .or. (ierror.ne.0)
       vldcmze = ints(1)
       if (nval.ge.2) then
-         ic%gapwgt = ints(2) / 10
-         ic%mater2 = ints(2) - 10*ic%gapwgt
+         ic%mater2 = ints(2)
       else
          ic%mater2 = 1
       endif
@@ -423,7 +422,6 @@ contains
       zerror = zerror .or. .not.check_irng ('Control digit T',  ic%tang,    0, 3)
       zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress,  0, 3)
       zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp,  0, 4, 6, 6)
-      zerror = zerror .or. .not.check_irng ('gap weighting',    ic%gapwgt,  0, 2)
       zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater,   0, 7)
 
       zerror = zerror .or. .not.check_irng ('Control digit X',  ic%xflow,   0, 1)

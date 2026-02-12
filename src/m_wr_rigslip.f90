@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_wr_rigid_slip - compute rigid slip for one contact patch in a w/r contact problem (module 1)
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -33,16 +33,12 @@ contains
       type(t_trackdata)     :: trk
       type(t_cpatch)        :: cp
       type(t_probdata)      :: gd
-!--local variables:
-      logical               :: use_creep_cref
 
       if (idebug.ge.2) call write_log(' --- Start subroutine wr_rigid_slip ---')
 
-      use_creep_cref = (ic%discns1_eff.le.2 .or. (ic%discns1_eff.ge.5 .and. ic%discns1_eff.le.9))
-
       ! compute the rigid slip according to the method of choice
 
-      if (use_creep_cref) then
+      if (ic%use_creep_cref()) then
 
          ! compute creepages at the contact reference point
 
@@ -458,10 +454,10 @@ contains
       if (idebug.ge.2) then
          if (project_on_cref) then
             call write_log(' computing rigid slip with projection on contact reference plane')
-         elseif (ic%discns1_eff.le.3) then
-            call write_log(' planar contact, with rigid slip on actual surfaces in planar (s,n)')
          elseif (ic%is_conformal()) then
             call write_log(' conformal contact, with rigid slip on actual surfaces, curved (s,n)')
+         else
+            call write_log(' planar contact, with rigid slip on actual surfaces in planar (s,n)')
          endif
       endif
 
@@ -513,7 +509,7 @@ contains
             cp%rail_srfc%z(1:cp%rail_srfc%ntot) = 0d0
          endif
 
-         call gf3_new(gf_tvel_rail, 'gf_tvel_rail', cp%rail_srfc, lzero=.true.)
+         call gf3_new(gf_tvel_rail, 'gf_tvel_rail', cp%rail_srfc, nulify=.true., lzero=.true.)
          call gf3_veloc2glob(mr_cp, rail_tvel_cp, rail_rvel_cp, cp%rail_srfc, gf_tvel_rail)
 
          if (idebug.ge.2) then
@@ -588,7 +584,7 @@ contains
             cp%rail_srfc%z(1:cp%rail_srfc%ntot) = 0d0
          endif
 
-         call gf3_new(gf_tvel_rail, 'gf_tvel_rail', cp%rail_srfc, lzero=.true.)
+         call gf3_new(gf_tvel_rail, 'gf_tvel_rail', cp%rail_srfc, nulify=.true., lzero=.true.)
          call gf3_veloc2glob(mr_cp, rail_tvel_cp, rail_rvel_cp, cp%rail_srfc, gf_tvel_rail)
 
          if (idebug.ge.2) then
@@ -677,7 +673,7 @@ contains
          cp%whl_srfc%z(1:cp%whl_srfc%ntot) = gd%kin%pen
       endif
 
-      call gf3_new(gf_tvel_whl, 'gf_tvel_whl', cp%whl_srfc, lzero=.true.)
+      call gf3_new(gf_tvel_whl, 'gf_tvel_whl', cp%whl_srfc, nulify=.true., lzero=.true.)
       call gf3_veloc2glob(mw_cp, whl_tvel_cp, whl_rvel_cp, cp%whl_srfc, gf_tvel_whl)
       ! call gf3_print(gf_tvel_whl, 'gf_tvel_whl', ikZDIR, 5)
 
@@ -950,7 +946,7 @@ contains
 
       ! create grid-function for mid-plane inclination
 
-      call gf3_new(vmid, 'vmid', gf_tvel_rail%grid, lzero=.true.)
+      call gf3_new(vmid, 'vmid', gf_tvel_rail%grid, nulify=.true., lzero=.true.)
 
       ! set sign for forward direction
 

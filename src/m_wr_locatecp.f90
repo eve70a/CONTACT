@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_wr_locatecp - identify contact patches for one case of w/r contact (module 1)
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -529,7 +529,7 @@ contains
 
       ! turn contact reference angles for 'true' contact patches that lie close together
 
-      if (numnew.ge.2) then
+      if (numnew.ge.2 .and. .not.ic%is_conformal()) then
          ! call write_log(' --- calling turn_cpatch_refangle ---')
          call turn_cpatch_refangle( numnew, newcps, discr%angl_sep, discr%dist_sep, discr%dist_turn,    &
                 ic%x_locate )
@@ -1552,7 +1552,7 @@ contains
          ! optionally create grid-function with (u,v) coordinates of wheel surface points
 
          if (compute_uv) then
-            call gf3_new(whl_uv, 'whl_uv', whl_curv)
+            call gf3_new(whl_uv, 'whl_uv', whl_curv, nulify=.true.)
 
             do iv = 1, nw
                do iu = 1, nslc
@@ -3331,13 +3331,11 @@ contains
       real(kind=8),               intent(in)  :: dy, curv_y, sgn
       real(kind=8), dimension(:), intent(in)  :: x(ny), y(ny), z(ny), gap(ny), sf_incl(ny)
 !--local variables:
-      logical,      parameter    :: debug_wgt  = .false.
-      logical      :: use_linear_wgt
+      logical,      parameter    :: debug_wgt      = .false.
+      logical,      parameter    :: use_linear_wgt = .false.
       integer      :: iy
       real(kind=8) :: pen_y, tzero, wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap, totgap, part_xgap,          &
                       part_ygap, part_zgap, part_agap, part_tot
-
-      use_linear_wgt = (ic%gapwgt.eq.1)
 
       ! 5.e compute the "interpenetration center of gravity" in x and y, weighted average angle
       !      - weighted mean \int_{gap<0} x * gap; \int_{gap<0} y * gap; \int_{gap<0} angl * gap.
@@ -3432,13 +3430,11 @@ contains
       real(kind=8),               intent(in)  :: dx, dy, sgn
       real(kind=8), dimension(:), intent(in)  :: x(nx*ny), y(nx*ny), z(nx*ny), gap(nx*ny), sf_incl(nx*ny)
 !--local variables:
-      logical,      parameter    :: debug_wgt  = .false.
-      logical      :: use_linear_wgt
+      logical,      parameter    :: debug_wgt      = .false.
+      logical,      parameter    :: use_linear_wgt = .false.
       integer      :: ii, ix, iy
       real(kind=8) :: wgt_xgap, wgt_ygap, wgt_zgap, wgt_agap, totgap, part_xgap, part_ygap, part_zgap,  &
                       part_agap, part_tot, cell_tot, part_max
-
-      use_linear_wgt = (ic%gapwgt.eq.1)
 
       ! 5.e compute the "interpenetration center of gravity" in x and y, weighted avg. angle
       !      - weighted mean \int_{gap<0} x * -gap; \int_{gap<0} y * -gap; \int_{gap<0} angl * -gap.
@@ -4041,6 +4037,12 @@ contains
 
                   cp_tot%f_sep2(isub,jsub)  = ( max(0d0, dist_sep - dist) / (dist_sep - dist_comb) )**0.8d0
 
+                  if (ic%x_locate.ge.2 .or. debug_comb) then
+                     write(bufout,'(3(a,i3),2(a,f12.6))') ' cp',icp,': subpatches',isub,',',jsub,       &
+                                ': dist=', dist,', f_sep=',cp_tot%f_sep2(isub,jsub)
+                     call write_log(1, bufout)
+                  endif
+               
                endif ! isub==jsub
 
             enddo ! jsub

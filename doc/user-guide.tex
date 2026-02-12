@@ -719,8 +719,12 @@ be used:
 \magenta{
 \item[6] -- same as 5, using a larger grid supporting steep slopes, esp.\
         for guard rail contacts;
-\item[7] -- same as 2, using a the initial contact point and local contact
-        angle (icp-loc);
+}
+\item[7] -- same as 4, using brute force, grid-based algorithm instead of
+        contact locus.
+\magenta{
+%\item[7] -- same as 2, using a the initial contact point and local contact
+%        angle (icp-loc);
 \item[8] -- same as 2, using a hard-coded oblique view direction;
 \item[9] -- same as 5, using a hard-coded oblique view direction.
 }
@@ -869,12 +873,20 @@ the program and the flow of the calculations.
 \item[A - MATFIL, surface tractions] \label{a-digit} : governs the use of
         the {\em Matlab-file\/} {\tt <experim>.\-<case>\-.mat}:
 \begin{description}
+\magenta{
+\item[$\mathbf{-2}$] -- detailed results are computed for all points of the
+        potential contact area, the {\tt mat}-file is not created;
+\item[$\mathbf{-1}$] -- detailed results are computed for elements inside
+        the contact area, the {\tt mat}-file is not created;
+}
 \item[0] -- the {\tt mat}-file is not created;
 \item[1] -- the detailed results of the case are written to a Matlab-file
         {\tt <experim>.<case>.mat}, for points inside the contact area;
 \item[2] -- the detailed results are written for all points of the potential
         contact area.
 \end{description}
+\magenta{Options ${\tt A}=-2, -1$ are provided for the CONTACT library
+version.}
 Note: a separate {\tt A}-digit is maintained to control the output
 of the subsurface stress calculation, as described in Section
 \ref{sec:subsurf_control}.
@@ -1363,7 +1375,7 @@ to read existing files and transform into the form as needed by CONTACT.
 Constant rail profiles may be provided in SIMPACK {\tt prr}-format or
 Miniprof {\tt ban}-format, with the format taken from the file extension,
 or as a 2-column table with $(y_i,z_i)$-values if another file extension is
-used.  Variable rail profiles may be provided in a slices-file with {\tt
+used. Variable rail profiles may be provided in a slices-file with {\tt
 slcs} file extension. Constant wheel profiles may be provided in SIMPACK
 {\tt prw}-format or Miniprof {\tt whl}-format, with the actual format taken
 from the file extension, or as a 2-column table if another file extension
@@ -4899,7 +4911,7 @@ plot(v3.x-12*v3.dx, -v3.px(17,:), '--o');
 \end{alltt}
 Figure \ref{fig:catt_cart} (right) shows the element division:
 \begin{alltt}\small
-opt=plot3d; opt.field='eldiv'; plot3d(r3,opt);
+opt=plot3d(2); opt.field='eldiv'; plot3d(r3,opt);
 \end{alltt}
 
 \allexamp{
@@ -5229,7 +5241,7 @@ surface. These pictures are created as follows:
 \begin{alltt}\small
 l13 = loadcase('mbench_a22_left',13);
 prr = read_profile('MBench_UIC60_v3.prr');
-opt = plot3d; opt.rw_surfc = 'prr';
+opt = plot3d(3); opt.rw_surfc = 'prr';
 plot3d(l13, opt, prr);
 \end{alltt}
 \color{black}
@@ -5905,7 +5917,7 @@ The pictures are created with the Matlab program {\tt plot3d} (Section
 \ref{sec:plot_surf}), in which the following settings are used:
 \begin{alltt}\small
 s = loadcase('fastsim'); 
-opt = plot3d; opt.field='ptabs+vec'; 
+opt = plot3d(2); opt.field='ptabs+vec'; 
 opt.numvecx=22; opt.numvecy=12; opt.vecwidth=1;
 opt.exterval=NaN; opt.zrange=[0 400]; opt.eldivwid=1;
 plot3d(s, opt); shading flat; axis equal;
@@ -6105,29 +6117,29 @@ Several standardised contour- and surface-plots are provided by the script
 loadcase} and further uses an options structure to configure the plot. The
 options structure is initialized by {\tt plot3d} itself:
 \begin{alltt}\small
->> opt = plot3d
-opt =
-       field: 'default'
-    rw_surfc: 'none'
-    exterval: NaN
-     typplot: 'surf'
-        view: 'default'
-      xrange: []
-     xysteps: []
-      zrange: []
-     ixrange: 'auto'
-     iyrange: 'auto'
-     numvecx: 15
-     numvecy: 15
-    xstretch: 1
-    vecscale: []
-    veccolor: []
-    vecwidth: []
-    addeldiv: []
-    eldivcol: [3x3 double]
-    eldivwid: []
-    colormap: 'parula'
-     addplot: 0
+>> opt = plot3d(init)
+%               init=1 (default)     init=2               init=3
+       field:   'pn'                 'ptabs+vec'          'ptabs+vec'
+    rw_surfc:   'both'               'none'               'both'
+    exterval:   NaN
+     typplot:   'rw_rear'            'surf'               'surf'
+        view:   'default'
+      xrange:   []
+     xysteps:   []
+      zrange:   []
+     ixrange:   'auto'
+     iyrange:   'auto'
+     numvecx:   15
+     numvecy:   15
+    xstretch:   1
+    vecscale:   []
+    veccolor:   []
+    vecwidth:   []
+    addeldiv:   []
+    eldivcol:   [3x3 double]
+    eldivwid:   []
+    colormap:   'parula'
+     addplot:   0
 \end{alltt}
 The main option is the {\bf field} of the solution structure to be plotted.
 Possible values are (see `{\tt help plot3d}'):
@@ -6204,9 +6216,6 @@ is created using
 \begin{alltt}\small
   s = loadcase('siteB_z117',1);
   opt          = plot3d;
-  opt.typplot  = 'rw_rear';
-  opt.rw_surfc = 'both';
-  opt.field    = 'pn';
   opt.vecscale = 10/2000; % mm/MPa
   plot3d( s, opt, prr, prw );
 \end{alltt}
@@ -6984,9 +6993,6 @@ included in the structure returned and can be omitted calling {\tt plot3d}.
    sol = cntc_getcpresults(iwhe, icp);
 
    opt = plot3d;
-   opt.typplot  = 'rw_rear';
-   opt.field    = 'pn';
-   opt.rw_surfc = 'both';
    plot3d(sol, opt);
 \end{alltt}
 

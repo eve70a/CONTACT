@@ -2,7 +2,7 @@
 ! m_hierarch_data - declare user-defined types that define a grouping of important variables into
 !                   a hierarchical, tree-like data-structure.
 !
-! Copyright 1993-2023 by Vtech CMCC.
+! Copyright 1993-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -147,7 +147,6 @@ public
       integer :: discns1_inp
       integer :: discns1_eff
       integer :: discns3
-      integer :: gapwgt
       integer :: gencr_inp
       integer :: mater
       integer :: mater2
@@ -181,6 +180,7 @@ public
       procedure :: is_left_side     => ic_is_left_side
       procedure :: is_roller        => ic_is_roller
       procedure :: is_conformal     => ic_is_conformal
+      procedure :: use_creep_cref   => ic_use_creep_cref
       procedure :: use_initial_cp   => ic_use_initial_cp
       procedure :: use_oblique      => ic_use_oblique
       procedure :: use_steep_slopes => ic_use_steep_slopes
@@ -266,8 +266,7 @@ public
       !              4 = "curved",     same as 2, with curved reference and conformal contact computation
       !              5 = "brute",      same as 2, using brute force instead of contact locus
       !              6 = "brute+steep" same as 5, using larger grid to accomodate steep slopes
-      !              7 = "icp-loc",    same as 2, using initial contact point instead of weighted center,
-      !                                           using the local contact angle instead of a weighted value
+      !              7 = "curv+brute"  same as 4, using brute force instead of contact locus
       !              8 = "locus+view"  same as 2, using a hard-coded oblique view direction
       !              9 = "brute+view"  same as 5, using a hard-coded oblique view direction
       !             Note: the variable ic%discns1_inp contains the value obtained from (and written to) the
@@ -276,7 +275,6 @@ public
       !              0 = maintain the discretisation grid of the previous case;
       !              1 = form the discretisation grid from parameters in storage;
       !              2 = read new parameters from input-file and form the discretisation
-      !     gapwgt  variations of weighted center method: 0 == default, 1 == linear weighting, 2 == quadratic
       ! c3, gencr   concerns the material parameters and influence coefficients
       !              0 = maintain inluence coefficients;
       !              1 = generate influence coefficients from parameters in storage;
@@ -982,7 +980,6 @@ contains
       ic%discns1_inp = 2
       ic%discns1_eff = ic%discns1_inp
       ic%discns3     = 2
-      ic%gapwgt      = 0
       ic%frclaw_inp  = 0
       ic%gencr_inp   = 2
       ic%mater  = 0
@@ -1063,9 +1060,24 @@ contains
 !--subroutine arguments
       class(t_ic),   intent(in) :: this
 
-      ic_is_conformal = (this%discns1_eff.eq.4)
+      ic_is_conformal = (this%discns1_eff.eq.4 .or. this%discns1_eff.eq.7)
 
    end function ic_is_conformal
+
+!------------------------------------------------------------------------------------------------------------
+
+   function ic_use_creep_cref(this)
+!--function: determine from the ic-struct whether creepage is computed in the reference plane
+      implicit none
+!--result value
+      logical                   :: ic_use_creep_cref
+!--subroutine arguments
+      class(t_ic),   intent(in) :: this
+
+      ic_use_creep_cref = (this%discns1_eff.le.2 .or. this%discns1_eff.eq.5 .or.                        &
+                           this%discns1_eff.ge.6 .or. this%discns1_eff.eq.8 .or. this%discns1_eff.eq.9)
+
+   end function ic_use_creep_cref
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1077,7 +1089,7 @@ contains
 !--subroutine arguments
       class(t_ic),   intent(in) :: this
 
-      ic_use_initial_cp = (this%discns1_eff.eq.7)
+      ic_use_initial_cp = (this%discns1_eff.eq.999)
 
    end function ic_use_initial_cp
 
@@ -1288,7 +1300,6 @@ contains
       if (modul.ne.1) then
          ic%x_profil = 0
          ic%x_smooth = 0
-         ic%x_force  = 0
          ic%x_locate = 0
       endif
 
@@ -2495,7 +2506,7 @@ end subroutine potcon_get_overlap
 
       ! create mask-array for sub-patches within pot.contact
 
-      call eldiv_new(mask, cgrid_tot)
+      call eldiv_new(mask, cgrid_tot, nulify=.true.)
       call eldiv_exter(mask)
 
       ! determine extent of actual contact areas

@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_wr_output - print output to out-file for one case of w/r contact (module 1)
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ contains
       integer, parameter       :: idebug = 0, nd = 4
       logical      :: znewln, is_roll, is_ssrol, use_plast
       integer      :: icp, icpo, n_old, i, j, ii, iin, iout, iy0, iy1, ii0, ii1, lstrow, ncon, nadh,    &
-                      nslip, nplast, nexter, ic_discns, is_right, my_output
+                      nslip, nplast, nexter, is_right, my_output
       real(kind=8) :: def_turn, hmp, ptabs, ptarg, rhsx, rhsy, sgn, rdum(20),                           &
                       sc0, sc1, delt0, delt1, tmp1mx, tmp2mx, fac_in(nsens_in), fac_out(nsens_out)
       character(len= 9) :: str_muscal
@@ -88,13 +88,8 @@ contains
          endif
  1001    format(/,' WHEEL-',a,' CONTACT, ',a,' WHEEL,', i3,' CONTACT ',a,/)
 
-         if (ic%gapwgt.eq.0) then
-            ic_discns = ic%discns1_inp
-         else
-            ic_discns = ic%discns1_inp + 10*ic%gapwgt
-         endif
          write(lout, 1101) ic%config, ic%pvtime, ic%bound, ic%tang, ic%norm, ic%force1, ic%stress
-         write(lout, 1102) ic%varfrc, ic%frclaw_inp, ic_discns, ic%gencr_inp, ic%mater, ic%ztrack,      &
+         write(lout, 1102) ic%varfrc, ic%frclaw_inp, ic%discns1_inp, ic%gencr_inp, ic%mater, ic%ztrack, &
                         ic%ewheel
          write(lout, 1103) ic%heat, ic%gausei_inp, ic%iestim, ic%matfil_surf, ic%output_surf, ic%flow,  &
                         ic%return
