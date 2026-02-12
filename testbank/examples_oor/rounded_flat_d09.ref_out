@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -10,7 +10,7 @@
  Case     1
  reading rail  profile "..\profiles\circ_r300.prr"
  Reading file "..\profiles\flat_d09.slcw" with profile slices
- obtained  57 slices, th = [ -0.1247    ,  0.1247    ]
+ obtained 57 slices, th = [ -0.1247    ,  0.1247    ]
  reading wheel profile "..\profiles\flat_d09\flat_d09_1.txt"
  make_2dspline: constructing approximating spline surface
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
@@ -59,6 +59,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+     0.000      0.0000    450.0000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.0227       0.000       0.000     -0.1222
@@ -69,7 +73,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   3.147E-03  -3.085E-09   1.000E+04   3.147E-03  -3.085E-09   1.000E+04
+   3.147E-03  -3.076E-09   1.000E+04   3.147E-03  -3.076E-09   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -374,7 +378,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           2000.  -3.760E-04  -4.575E-15  -5.858E-16
+     0.000      0.2000           2000.  -3.760E-04  -4.579E-15  -5.863E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -524,7 +528,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1999.  -7.376E-04  -4.264E-15  -4.038E-16
+     0.000      0.2000           1999.  -7.376E-04  -4.234E-15  -4.009E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -704,7 +708,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1999.  -1.190E-03  -3.514E-15  -2.841E-16
+     0.000      0.2000           1999.  -1.190E-03  -3.583E-15  -2.896E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -918,7 +922,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -1.675E-03  -2.667E-15  -2.233E-16
+     0.000      0.2000           1998.  -1.675E-03  -2.766E-15  -2.316E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -1159,14 +1163,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000     -0.0000     -0.0000      0.0000     -0.0000     -0.0000
+     -0.0000     -0.0000     -0.0000      0.0000     -0.0000     -0.0000
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000     -0.0000     -0.9037
+     -0.0000     -0.0000     -0.9037
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -1.997E-03      -0.000  -1.981E-16
+     0.000      0.2000           1998.  -1.997E-03       0.000  -2.006E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -1462,7 +1466,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1998.  -1.675E-03   2.602E-15  -2.179E-16
+     0.000      0.2000           1998.  -1.675E-03   2.681E-15  -2.244E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -1710,7 +1714,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1999.  -1.190E-03   3.582E-15  -2.896E-16
+     0.000      0.2000           1999.  -1.190E-03   3.583E-15  -2.896E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -1924,7 +1928,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           1999.  -7.376E-04   4.185E-15  -3.963E-16
+     0.000      0.2000           1999.  -7.376E-04   4.234E-15  -4.010E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -2103,7 +2107,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           2000.  -3.760E-04   4.578E-15  -5.862E-16
+     0.000      0.2000           2000.  -3.760E-04   4.579E-15  -5.863E-16
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -2444,7 +2448,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   3.147E-03  -3.083E-09   1.000E+04   3.147E-03  -3.083E-09   1.000E+04
+   3.147E-03  -3.093E-09   1.000E+04   3.147E-03  -3.093E-09   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -2510,28 +2514,28 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       36.8 | 100.0 |       37.2 | 100.0 |
-|Wheel-rail cases     |       15 |       36.8 | 100.0 |       37.2 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.1 |        0.0 |   0.1 |
-|Geometric analysis   |       80 |        5.5 |  15.1 |        5.6 |  14.9 |
-|Panag.process        |       65 |       30.5 |  82.8 |       30.8 |  82.8 |
-|Algorithm Norm       |       65 |        1.0 |   2.6 |        1.0 |   2.7 |
-|Algorithm Tang       |       65 |       29.5 |  80.2 |       29.8 |  80.0 |
-|Output quantities    |       80 |        0.4 |   1.0 |        0.4 |   1.0 |
+|Total                |        1 |       10.5 | 100.0 |       10.8 | 100.0 |
+|Wheel-rail cases     |       15 |       10.5 | 100.0 |       10.8 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.1 |        0.0 |   0.3 |
+|Geometric analysis   |       80 |        2.1 |  19.7 |        2.3 |  21.0 |
+|Panag.process        |       65 |        8.1 |  77.0 |        8.1 |  74.9 |
+|Algorithm Norm       |       65 |        0.2 |   2.4 |        0.3 |   2.8 |
+|Algorithm Tang       |       65 |        7.8 |  74.6 |        7.8 |  72.1 |
+|Output quantities    |       80 |        0.2 |   1.6 |        0.1 |   0.9 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       65 |        0.8 |   2.2 |        0.7 |   2.0 |
-|Tang: StedyGS solver |       65 |       29.1 |  79.2 |       29.4 |  79.1 |
+|Norm: ConjGrd solver |       65 |        0.2 |   2.1 |        0.2 |   2.2 |
+|Tang: StedyGS solver |       65 |        7.7 |  73.7 |        7.7 |  71.3 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       15 |        0.0 |   0.1 |        0.0 |   0.1 |
-|Contact location     |       80 |        5.3 |  14.4 |        5.4 |  14.4 |
-| - Eval whl spline   |       80 |        0.4 |   1.2 |        0.6 |   1.5 |
-| - Interp sf_whl     |       80 |        2.5 |   6.7 |        2.4 |   6.6 |
-| - Eval rail spline  |       80 |        0.5 |   1.4 |        0.5 |   1.3 |
-| - Other calc.       |      160 |        1.0 |   2.8 |        1.0 |   2.7 |
-| - Locate interpen   |       80 |        0.7 |   1.9 |        0.6 |   1.7 |
-|Undeformed distance  |       65 |        0.2 |   0.7 |        0.2 |   0.5 |
-| - Interp whl_srfc   |       65 |        0.1 |   0.3 |        0.1 |   0.2 |
-|Influence coeffic.   |       18 |        0.0 |   0.1 |        0.0 |   0.1 |
+|Reading input-file   |       15 |        0.0 |   0.1 |        0.0 |   0.3 |
+|Contact location     |       80 |        2.0 |  19.0 |        2.2 |  20.3 |
+| - Eval whl spline   |       80 |        0.1 |   0.6 |        0.1 |   1.4 |
+| - Interp sf_whl     |       80 |        1.0 |  10.0 |        1.0 |   9.1 |
+| - Eval rail spline  |       80 |        0.1 |   0.9 |        0.1 |   1.2 |
+| - Other calc.       |      160 |        0.4 |   3.4 |        0.5 |   4.9 |
+| - Locate interpen   |       80 |        0.3 |   3.3 |        0.2 |   2.2 |
+|Undeformed distance  |       65 |        0.1 |   0.6 |        0.1 |   0.7 |
+| - Interp whl_srfc   |       65 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Influence coeffic.   |       18 |        0.0 |   0.0 |        0.0 |   0.3 |
 |Initial state/estim. |       65 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

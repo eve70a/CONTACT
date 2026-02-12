@@ -87,6 +87,14 @@ for iwhe in [1, 2]:
 
    cntc.setflags(iwhe, [], flags, values)
 
+   # G=0: set maxgs, maxin, maxnr, maxout, eps
+
+   gdigit  = 0;
+   values  = [ 999, 100, 30, 1 ];
+   rvalues = [ 1e-5 ];
+   cntc.setsolverflags(iwhe, [], gdigit, values, rvalues);
+
+
    # material data using M = 0 (fully elastic model)
 
    gg    = 82000;  # [N/mm^2]
@@ -98,34 +106,19 @@ for iwhe in [1, 2]:
 
    # friction data
 
-   if (iwhe <= 2):    # 1: left wheel, 2: right wheel
+   ldigit = 0;     # L-digit 0: Coulomb friction
+   fstat = 0.30;   # [-]
+   params = fstat * np.ones( 2, dtype=c_double )
+   cntc.setfrictionmethod(iwhe, [], ldigit, params)
 
-      imeth = 0;      # L-digit 0: Coulomb friction
-      fstat = 0.30;   # [-]
-      params = fstat * np.ones( 2, dtype=c_double )
-      cntc.setfrictionmethod(iwhe, [], imeth, params)
+   # example of friction variation across rail profile:
 
-   elif (1):          # right wheel, main example
+   # ldigit = 10;     # VL-digit 10: Coulomb friction, variable across rail
+   # nvf = 2;
+   # params = np.array( [ nvf, -20*pi/180, 0.20, 0.20, -10*pi/180, 0.30, 0.30 ], dtype=c_double )
+   # cntc.setfrictionmethod(iwhe, [], ldigit, params);
 
-      imeth = 10;     # VL-digit 10: Coulomb friction, variable across rail
-      nvf = 2;
-      params = np.array( [ nvf, -20*pi/180, 0.20, 0.20, -10*pi/180, 0.30, 0.30 ], dtype=c_double )
-      cntc.setfrictionmethod(iwhe, [], imeth, params);
-
- # else               # right wheel, falling friction
-
- #    imeth  = 14;    # L-digit 4: exponential falling friction
- #    memdst = 0.003; # [mm]
- #    mem_s0 = 1.000; # [mm/s]
- #    #        alpha [rad], fkin, fexp1, sabsh1, -, -
- #    table  = [ -20*pi/180, 0.09, 0.11, 1250, 0, 0, memdst, mem_s0;
- #               -10*pi/180, 0.14, 0.16, 1250, 0, 0, memdst, mem_s0 ];
- #    nvf    = size(table,1);
- #    params = [ nvf, reshape(table', 1, 8*nvf) ];
- #    cntc_setfrictionmethod(iwhe, [], imeth, length(params), params);
- # end
-
-   # total vertical force specified, see N-digit above
+   # total vertical force specified, setting the N-digit to 1
 
    fz = 10000;   # [N]
 
@@ -133,6 +126,7 @@ for iwhe in [1, 2]:
 
    # grid discretization
 
+   ipotcn = -1     # -1 = w/r contact with fixed grid sizes & combination of patches
    dx     = 0.2;   # [mm]
    ds     = 0.2;   # [mm]
    a_sep  = pi/2;  # [rad]
@@ -141,28 +135,24 @@ for iwhe in [1, 2]:
 
    params = np.array( [dx, ds, a_sep, d_sep, d_comb], dtype=c_double )
 
-   cntc.setpotcontact(iwhe, [], -1, params)
+   cntc.setpotcontact(iwhe, [], ipotcn, params)
 
    dqrel = 1;
    cntc.setrollingstepsize(iwhe, [], [], dqrel);
 
-   # track dimensions & deviations at current side (Z=3)
+   # track dimensions & rail deviations (Z=3)
 
    ztrack = 3;
-   params = np.array( [ 14, 0, 1435, 0, 0, 0, 0, 0, 0, 0, 0 ], dtype=c_double )
+   params = np.array( [ 14, 0, 1435, 0, 0, 0,   0, 0, 0, 0, 0, 0 ], dtype=c_double )
    cntc.settrackdimensions(iwhe, ztrack, params)
 
-   # rail profile
+   # rail profile, scaling to mm
 
-   itype = -1;
+   iswheel = 0; # 0 = rail, 1 = wheel
    sclfac = 1; smooth = 0; rparam = [sclfac, smooth];
 
-   if (iwhe==1): # using Simpack prr-file
-      mirror_y = 0; iparam = [itype, 0, mirror_y];
-      cntc.setprofileinputfname(iwhe, 'MBench_UIC60_v3.prr', iparam, rparam)
-   else:         # using Miniprof ban-file
-      mirror_y = 1; iparam = [itype, 0, mirror_y];
-      cntc.setprofileinputfname(iwhe, 'MBench_UIC60_v3.ban', iparam, rparam)
+   mirror_y = 0; iparam = [iswheel, 0, mirror_y];
+   cntc.setprofileinputfname(iwhe, 'MBench_UIC60_v3.prr', iparam, rparam)
 
    # wheelset dimensions
 
@@ -172,7 +162,7 @@ for iwhe in [1, 2]:
 
    # wheel profile
 
-   mirror_y = 0; iparam = [itype, 0, mirror_y];
+   iswheel = 1; mirror_y = 0; iparam = [iswheel, 0, mirror_y];
    cntc.setprofileinputfname(iwhe, 'MBench_S1002_v3.prw', iparam, rparam)
 
    ewheel = 1
@@ -181,20 +171,20 @@ for iwhe in [1, 2]:
 
    # positions for subsurface stress calculation
 
-#  iblk = 1
-#  isubs = 1
-#  nz = 11
-#  zl = 1e-6
-#  dz = 0.5
-#  cntc.subs_addblock(iwhe, [], iblk, isubs, [], [], [nz, zl, dz])
+   iblk = 1
+   isubs = 1
+   nz = 11; zl = 1e-6; dz = 0.5;
+   cntc.subs_addblock(iwhe, [], iblk, isubs, [], [], [nz, zl, dz])
 
-   iblk  = 1
-   isubs = 9
-   xp = [  0. ]
-   yp = [  0. ]
-   zp = [ 0, 0.1, 0.2 ]
-   cntc.subs_addblock(iwhe, [], iblk, isubs, xp, yp, zp)
+   # configure output of subsurface stress calculation
 
+   flags = np.zeros( 2, dtype=c_int )
+   values = np.zeros( 2, dtype=c_int )
+   flags[0] = CNTC['ic_sbsout']; values[0] = 0;   # O_s = 0: no output to out-file
+   flags[1] = CNTC['ic_sbsfil']; values[1] = 0;   # A_s=0: no subs-file
+
+   cntc.setflags(iwhe, [], flags, values)
+   
 # end for iwhe
 
 #-----------------------------------------------------------------------  
@@ -234,12 +224,12 @@ for iwhe in [1, 2]:
 # loop over the lateral displacements y_ws
 
 ncase = len(y_ws)
-for iwhe in [1, 2]:  # wheel number
+for jcase in range(0, ncase):
+   icase = jcase + 1
 
-   for jcase in range(0, ncase):
-      icase = jcase + 1
+   for iwhe in [1, 2]:  # wheel number
 
-      ws_pos = [    0, y_ws[jcase], 0, roll_ws[jcase], yaw_ws[jcase],   0      ], dtype=c_double )
+
       ws_pos = np.array( [    0, y_ws[jcase], 0, roll_ws[jcase], yaw_ws[jcase],   0      ], dtype=c_double )
       ws_vel = np.array( [ 2000,     0,       0,      0,            0,     vpitch[jcase] ], dtype=c_double )
 
@@ -364,8 +354,24 @@ for iwhe in [1, 2]:  # wheel number
          pn, px, py = cntc.gettractions(iwhe, 1)
          print('Array pn: size=',pn.size,', shape=',pn.shape)
 
-   # end for jcase
-# end for iwhe
+
+      # initialize control digits for next case, reduce size of inp and out-files
+
+      icp = -1;
+      cntc.setsolverflags(iwhe, icp, 1, [], []);
+      cntc.setfrictionmethod(iwhe, icp, 1, []);
+      cntc.settrackdimensions(iwhe, 0, []);
+      cntc.setwheelsetdimensions(iwhe, 0, []);
+
+      flags = np.zeros( 2, dtype=c_int )
+      values = np.zeros( 2, dtype=c_int )
+      flags[0] = CNTC['ic_discns']; values[0] = 1; # D=1: keep settings
+      flags[1] = CNTC['ic_inflcf']; values[1] = 1; # C3=1: keep settings
+      cntc.setflags(iwhe, [], flags, values);
+
+
+   # end for iwhe
+# end for jcase
 
 tcpu, twall = cntc.getcalculationtime(1)
 print('ire=1: tcpu=',tcpu,', twall=',twall)

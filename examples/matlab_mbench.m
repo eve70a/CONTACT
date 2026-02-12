@@ -110,14 +110,14 @@ for iwhe = 1 : 2 % "wheel number"
    dqrel = 1;
    cntc_setrollingstepsize(iwhe, [], [], dqrel);
 
-   % track dimensions & deviations at current side (Z=3)
+   % track dimensions & rail deviations (Z=3)
 
    ztrack = 3;
    params = [ 14, 0, 1435, 0, 0, 0,   0, 0, 0, 0, 0, 0 ];
    % params = [ -1, sgn*760.5330, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0 ];
    cntc_settrackdimensions(iwhe, ztrack, params);
 
-   % rail profile, same on both sides, scaling to [mm]
+   % rail profile, scaling to [mm]
 
    iswheel = 0; % 0 = rail, 1 = wheel
    mirror_y = 0; iparam = [iswheel, 0, mirror_y];
@@ -131,16 +131,28 @@ for iwhe = 1 : 2 % "wheel number"
    params = [1360, -70, 460];
    cntc_setwheelsetdimensions(iwhe, ewheel, params);
 
-   % wheel profile, provided to CONTACT as a table of values
+   if (1==1)
 
-   mirror_y = []; mirror_z = []; scale_yz = []; idebug = 0;
-   tmp = read_profile('MBench_S1002_v3.prw',[], mirror_y, mirror_z, scale_yz, idebug);
-   values = [tmp.ProfileY, tmp.ProfileZ];
+      % wheel profile, provided to CONTACT as a table of values
 
-   iswheel = 1; mirror_y = 0; iparam = [iswheel, 0, mirror_y];
-   scale_yz = 1; smooth = 0; rparam = [scale_yz, smooth];
+      mirror_y = []; mirror_z = []; scale_yz = []; idebug = 0;
+      tmp = read_profile('MBench_S1002_v3.prw',[], mirror_y, mirror_z, scale_yz, idebug);
+      values = [tmp.ProfileY, tmp.ProfileZ];
 
-   cntc_setprofileinputvalues(iwhe, values, iparam, rparam);
+      iswheel = 1; mirror_y = 0; iparam = [iswheel, 0, mirror_y];
+      scale_yz = 1; smooth = 0; rparam = [scale_yz, smooth];
+
+      cntc_setprofileinputvalues(iwhe, values, iparam, rparam);
+   else
+
+      % wheel profile, provided to CONTACT using input filename
+
+      iswheel = 1; % 0 = rail, 1 = wheel
+      mirror_y = 0; iparam = [iswheel, 0, mirror_y];
+      scale_yz = 1; smooth = 0; rparam = [scale_yz, smooth];
+
+      cntc_setprofileinputfname(iwhe, 'MBench_S1002_v3.prw', iparam, rparam);
+   end
 
    % positions for subsurface stress calculation
 

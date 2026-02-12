@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -53,6 +53,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+     0.000      0.0000    100.0000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.1600       0.000       0.000       0.000
@@ -63,7 +67,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       51.71  -1.684E-10       237.0       51.71  -1.684E-10       237.0
+       51.71  -1.687E-10       237.0       51.71  -1.687E-10       237.0
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -76,10 +80,10 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.8000           98.00  -4.082E-02       0.000  -6.969E-15
+     0.000      0.8000           98.00  -4.082E-02       0.000  -6.981E-15
 
      SPINXO      SPINYO
-     0.000      0.2695E-11
+     0.000      0.1421E-10
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -162,7 +166,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       53.14  -1.637E-10       237.0       53.14  -1.637E-10       237.0
+       53.14  -1.640E-10       237.0       53.14  -1.640E-10       237.0
 
  ----- DATA FOR CONTACT PATCH  1 (PREV  1) -----
 
@@ -175,10 +179,10 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.8000           99.80  -4.008E-03       0.000  -7.100E-15
+     0.000      0.8000           99.80  -4.008E-03       0.000  -7.112E-15
 
      SPINXO      SPINYO
-     0.000      0.2695E-11
+     0.000      0.1421E-10
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -261,7 +265,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-       54.03  -1.560E-10       237.0       54.03  -1.560E-10       237.0
+       54.03  -1.563E-10       237.0       54.03  -1.563E-10       237.0
 
  ----- DATA FOR CONTACT PATCH  1 (PREV  1) -----
 
@@ -274,10 +278,10 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.8000           99.80  -4.008E-03       0.000  -7.100E-15
+     0.000      0.8000           99.80  -4.008E-03       0.000  -7.112E-15
 
      SPINXO      SPINYO
-     0.000      0.2695E-11
+     0.000      0.1421E-10
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -347,22 +351,22 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
-|Wheel-rail cases     |        3 |        0.1 | 100.0 |        0.1 | 100.0 |
-|W/r profiles         |        2 |        0.0 |  12.5 |        0.0 |  10.6 |
-|Geometric analysis   |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Panag.process        |        3 |        0.1 |  62.5 |        0.1 |  62.0 |
-|Algorithm Norm       |        3 |        0.0 |  37.5 |        0.1 |  38.0 |
-|Algorithm Tang       |        3 |        0.0 |  25.0 |        0.0 |  23.9 |
-|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   3.5 |
+|Wheel-rail cases     |        3 |        0.1 | 100.0 |        0.1 |  87.0 |
+|W/r profiles         |        2 |        0.0 |  20.0 |        0.0 |  23.9 |
+|Geometric analysis   |        3 |        0.0 |   0.0 |        0.0 |   4.3 |
+|Panag.process        |        3 |        0.0 |  20.0 |        0.0 |  31.5 |
+|Algorithm Norm       |        3 |        0.0 |   0.0 |        0.0 |  10.9 |
+|Algorithm Tang       |        3 |        0.0 |  20.0 |        0.0 |  20.7 |
+|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   7.6 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        3 |        0.0 |  25.0 |        0.0 |  27.5 |
-|Tang: TangCG solver  |        3 |        0.0 |  25.0 |        0.0 |  22.5 |
+|Norm: ConjGrd solver |        3 |        0.0 |   0.0 |        0.0 |  10.9 |
+|Tang: TangCG solver  |        3 |        0.0 |  20.0 |        0.0 |  20.7 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        3 |        0.0 |  12.5 |        0.0 |  10.6 |
-|Contact location     |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        3 |        0.0 |  20.0 |        0.0 |  23.9 |
+|Contact location     |        3 |        0.0 |   0.0 |        0.0 |   4.3 |
 |Undeformed distance  |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |        1 |        0.0 |  20.0 |        0.0 |   0.0 |
 |Initial state/estim. |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

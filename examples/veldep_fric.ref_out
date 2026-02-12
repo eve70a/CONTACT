@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -73,9 +73,9 @@
     1, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        3.807   3.807E-03
     2, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.4460   4.201E-03
     3, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    4.617E-02   4.277E-03
-    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    5.638E-03   4.285E-03
-    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    6.312E-04   4.286E-03
-      Tang: final element division: A, S=     77      4  ItCG=    47
+    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    5.637E-03   4.285E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    6.462E-04   4.286E-03
+      Tang: final element division: A, S=     77      4  ItCG=    46
 
  
   PBTNFS.            PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
@@ -145,7 +145,7 @@
     9, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.9940      0.4621
    10, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.6449      0.4616
    11, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.4239      0.4613
-      Tang: final element division: A, S=     34     47  ItCG=   126
+      Tang: final element division: A, S=     34     47  ItCG=   123
 
  
   PBTNFS.            PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
@@ -211,7 +211,7 @@
     5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.7841   6.093E-03
     6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.1185   5.997E-03
     7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.268E-02   5.979E-03
-    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    4.342E-03   5.976E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    4.341E-03   5.976E-03
       Tang: final element division: A, S=     77      4  ItCG=   120
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -230,10 +230,10 @@
     6, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.487   1.191E-02
     7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.7698   1.124E-02
     8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2536   1.103E-02
-    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    8.427E-02   1.095E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    8.428E-02   1.095E-02
    10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.807E-02   1.093E-02
-   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.380E-03   1.092E-02
-      Tang: final element division: A, S=     75      6  ItCG=   169
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.374E-03   1.092E-02
+      Tang: final element division: A, S=     75      6  ItCG=   170
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.084E+05       0.000       0.000       27.14      -132.1
@@ -257,9 +257,9 @@
    12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1619   1.647E-02
    13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    7.651E-02   1.640E-02
    14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.625E-02   1.637E-02
-   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.719E-02   1.635E-02
-   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    8.176E-03   1.634E-02
-      Tang: final element division: A, S=     73      8  ItCG=   234
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.721E-02   1.635E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    8.164E-03   1.634E-02
+      Tang: final element division: A, S=     73      8  ItCG=   236
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.089E+05       0.000       0.000       27.15      -293.8
@@ -292,7 +292,7 @@
    21, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    3.863E-02   2.195E-02
    22, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.358E-02   2.193E-02
    23, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.439E-02   2.192E-02
-      Tang: final element division: A, S=     71     10  ItCG=   325
+      Tang: final element division: A, S=     71     10  ItCG=   326
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.094E+05       0.000       0.000       27.16      -528.2
@@ -337,13 +337,13 @@
    33, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.2228   2.776E-02
    34, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.1648   2.760E-02
    35, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.1222   2.748E-02
-   36, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    9.078E-02   2.739E-02
-   37, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    6.756E-02   2.733E-02
-   38, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    5.036E-02   2.728E-02
-   39, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    3.758E-02   2.724E-02
+   36, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    9.076E-02   2.739E-02
+   37, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    6.757E-02   2.733E-02
+   38, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    5.037E-02   2.728E-02
+   39, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    3.759E-02   2.724E-02
    40, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    2.807E-02   2.722E-02
    41, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :    2.098E-02   2.720E-02
-      Tang: final element division: A, S=     69     12  ItCG=   548
+      Tang: final element division: A, S=     69     12  ItCG=   546
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.098E+05       0.000       0.000       27.17      -821.9
@@ -367,11 +367,11 @@
    12, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7742      0.3304
    13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.5353      0.3299
    14, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3726      0.3296
-   15, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2607      0.3294
-      Tang: final element division: A, S=     36     45  ItCG=   254
+   15, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2606      0.3294
+      Tang: final element division: A, S=     36     45  ItCG=   217
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.067E+05       0.000       0.000       27.12  -2.563E+04
+     6.222E+05   1.067E+05       0.000  -1.109E-02       27.12  -2.563E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5714       0.000   8.879E-02       495.3
 
@@ -387,7 +387,7 @@
       Tang: final element division: A, S=     79      2  ItCG=    97
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.074E+05       0.000       0.000       27.13      -5.239
+     6.222E+05   1.074E+05       0.000  -1.103E-02       27.13      -5.239
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5751       0.000   8.879E-02       495.3
 
@@ -401,9 +401,9 @@
     5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        2.300   6.430E-03
     6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.2988   6.187E-03
     7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    5.684E-02   6.141E-03
-    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.082E-02   6.132E-03
-    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.074E-03   6.130E-03
-      Tang: final element division: A, S=     77      4  ItCG=   118
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.083E-02   6.132E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.069E-03   6.130E-03
+      Tang: final element division: A, S=     77      4  ItCG=   117
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.080E+05       0.000       0.000       27.14      -42.53
@@ -422,10 +422,10 @@
     7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.064   1.201E-02
     8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.6414   1.145E-02
     9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2100   1.127E-02
-   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    6.921E-02   1.121E-02
-   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.283E-02   1.119E-02
-   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.552E-03   1.118E-02
-      Tang: final element division: A, S=     75      6  ItCG=   185
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    6.920E-02   1.121E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.284E-02   1.119E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.551E-03   1.118E-02
+      Tang: final element division: A, S=     75      6  ItCG=   181
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.086E+05       0.000       0.000       27.15      -138.5
@@ -449,10 +449,10 @@
    12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.6701   1.722E-02
    13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.3099   1.694E-02
    14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1443   1.681E-02
-   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    6.745E-02   1.675E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    6.746E-02   1.675E-02
    16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.158E-02   1.672E-02
-   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.479E-02   1.670E-02
-      Tang: final element division: A, S=     73      8  ItCG=   242
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.481E-02   1.670E-02
+      Tang: final element division: A, S=     73      8  ItCG=   247
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.091E+05       0.000       0.000       27.16      -306.4
@@ -487,11 +487,11 @@
    23, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.3439   2.299E-02
    24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.2053   2.280E-02
    25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1226   2.268E-02
-   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    7.330E-02   2.261E-02
-   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.388E-02   2.257E-02
-   28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.631E-02   2.255E-02
+   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    7.331E-02   2.261E-02
+   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.390E-02   2.257E-02
+   28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.630E-02   2.255E-02
    29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.577E-02   2.253E-02
-      Tang: final element division: A, S=     71     10  ItCG=   408
+      Tang: final element division: A, S=     71     10  ItCG=   415
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.096E+05       0.000       0.000       27.17      -554.0
@@ -515,9 +515,9 @@
    12, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.9994      0.3179
    13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7152      0.3173
    14, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.5159      0.3169
-   15, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3746      0.3165
+   15, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3745      0.3165
    16, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2732      0.3163
-      Tang: final element division: A, S=     36     45  ItCG=   234
+      Tang: final element division: A, S=     36     45  ItCG=   278
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.066E+05       0.000       0.000       27.12  -2.469E+04
@@ -532,7 +532,7 @@
     3, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        26.65   6.022E-03
     4, Vel-dep: A, S=    78     3, |Sk-Sk-1|, .001 |Sk| :        5.443   1.979E-03
     5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.3352   1.951E-03
-    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    1.222E-04   1.951E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    1.221E-04   1.951E-03
       Tang: final element division: A, S=     79      2  ItCG=   106
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -551,11 +551,11 @@
     6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.3383   6.219E-03
     7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    6.424E-02   6.167E-03
     8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.223E-02   6.157E-03
-    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.332E-03   6.155E-03
-      Tang: final element division: A, S=     77      4  ItCG=   123
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.319E-03   6.155E-03
+      Tang: final element division: A, S=     77      4  ItCG=   130
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.079E+05       0.000       0.000       27.14      -42.87
+     6.222E+05   1.079E+05       0.000  -1.101E-02       27.14      -42.87
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5781       0.000   8.879E-02       495.3
 
@@ -571,13 +571,13 @@
     7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.584   1.223E-02
     8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.7828   1.155E-02
     9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2552   1.133E-02
-   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    8.390E-02   1.126E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    8.391E-02   1.126E-02
    11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.765E-02   1.123E-02
-   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.111E-03   1.122E-02
-      Tang: final element division: A, S=     75      6  ItCG=   186
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.103E-03   1.122E-02
+      Tang: final element division: A, S=     75      6  ItCG=   179
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.085E+05       0.000       0.000       27.15      -139.5
+     6.222E+05   1.085E+05       0.000  -9.759E-03       27.15      -139.5
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5813       0.000   8.879E-02       495.3
 
@@ -599,13 +599,13 @@
    13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.4747   1.719E-02
    14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2197   1.699E-02
    15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1021   1.690E-02
-   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    4.759E-02   1.686E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    4.760E-02   1.686E-02
    17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    2.221E-02   1.684E-02
-   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.037E-02   1.683E-02
-      Tang: final element division: A, S=     73      8  ItCG=   272
+   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.035E-02   1.683E-02
+      Tang: final element division: A, S=     73      8  ItCG=   274
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.090E+05       0.000       0.000       27.16      -310.4
+     6.222E+05   1.090E+05       0.000  -1.083E-02       27.16      -310.4
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5841       0.000   8.879E-02       495.3
 
@@ -640,14 +640,14 @@
    26, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.2922   2.331E-02
    27, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.2085   2.312E-02
    28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1433   2.299E-02
-   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    8.537E-02   2.291E-02
+   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    8.536E-02   2.291E-02
    30, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    5.104E-02   2.286E-02
-   31, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    3.041E-02   2.283E-02
+   31, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    3.042E-02   2.283E-02
    32, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.812E-02   2.282E-02
       Tang: final element division: A, S=     71     10  ItCG=   450
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.095E+05       0.000       0.000       27.17      -564.8
+     6.222E+05   1.095E+05       0.000  -1.116E-02       27.17      -564.8
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5866       0.000   8.879E-02       495.3
 
@@ -666,13 +666,13 @@
    10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.122      0.3312
    11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.583      0.3299
    12, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.062      0.3290
-   13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7069      0.3283
+   13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7070      0.3283
    14, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.4693      0.3279
    15, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3117      0.3277
-      Tang: final element division: A, S=     36     45  ItCG=   223
+      Tang: final element division: A, S=     36     45  ItCG=   224
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.064E+05       0.000  -1.361E-02       27.11  -2.566E+04
+     6.222E+05   1.064E+05       0.000  -1.306E-02       27.11  -2.566E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5698       0.000   8.879E-02       495.3
 
@@ -688,7 +688,7 @@
       Tang: final element division: A, S=     79      2  ItCG=    98
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.071E+05       0.000  -1.379E-02       27.13      -5.237
+     6.222E+05   1.071E+05       0.000  -1.282E-02       27.13      -5.237
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5735       0.000   8.879E-02       495.3
 
@@ -704,10 +704,10 @@
     7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    6.195E-02   6.139E-03
     8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.180E-02   6.129E-03
     9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.248E-03   6.127E-03
-      Tang: final element division: A, S=     77      4  ItCG=   123
+      Tang: final element division: A, S=     77      4  ItCG=   124
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.077E+05       0.000  -1.392E-02       27.14      -42.49
+     6.222E+05   1.077E+05       0.000  -1.256E-02       27.14      -42.49
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5770       0.000   8.879E-02       495.3
 
@@ -725,11 +725,11 @@
     9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2349   1.127E-02
    10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.741E-02   1.120E-02
    11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.557E-02   1.118E-02
-   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    8.443E-03   1.117E-02
-      Tang: final element division: A, S=     75      6  ItCG=   178
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    8.436E-03   1.117E-02
+      Tang: final element division: A, S=     75      6  ItCG=   180
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.083E+05       0.000  -1.377E-02       27.15      -138.3
+     6.222E+05   1.083E+05       0.000  -1.193E-02       27.15      -138.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5802       0.000   8.879E-02       495.3
 
@@ -750,14 +750,14 @@
    12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.8087   1.737E-02
    13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.3725   1.703E-02
    14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1730   1.688E-02
-   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    8.071E-02   1.680E-02
-   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.771E-02   1.677E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    8.069E-02   1.680E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.772E-02   1.677E-02
    17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.765E-02   1.675E-02
-   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    8.261E-03   1.675E-02
-      Tang: final element division: A, S=     73      8  ItCG=   250
+   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    8.263E-03   1.674E-02
+      Tang: final element division: A, S=     73      8  ItCG=   246
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.088E+05       0.000  -1.486E-02       27.16      -307.7
+     6.222E+05   1.088E+05       0.000  -1.305E-02       27.16      -307.7
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5830       0.000   8.879E-02       495.3
 
@@ -790,14 +790,14 @@
    24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.3302   2.312E-02
    25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1961   2.294E-02
    26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1171   2.283E-02
-   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    6.987E-02   2.276E-02
+   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    6.988E-02   2.276E-02
    28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.169E-02   2.272E-02
-   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.490E-02   2.270E-02
-   30, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.488E-02   2.268E-02
-      Tang: final element division: A, S=     71     10  ItCG=   423
+   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.489E-02   2.270E-02
+   30, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.486E-02   2.268E-02
+      Tang: final element division: A, S=     71     10  ItCG=   424
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.093E+05       0.000  -1.310E-02       27.17      -559.3
+     6.222E+05   1.093E+05       0.000  -1.288E-02       27.17      -559.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5855       0.000   8.879E-02       495.3
 
@@ -812,17 +812,17 @@
     6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        8.608      0.3388
     7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        5.687      0.3340
     8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        3.981      0.3306
-    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.904      0.3281
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.905      0.3281
    10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.192      0.3263
    11, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.701      0.3248
    12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.349      0.3237
    13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.089      0.3228
    14, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.8925      0.3220
    15, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.7400      0.3214
-   16, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.6018      0.3209
-   17, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.4213      0.3205
+   16, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.6017      0.3209
+   17, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.4212      0.3205
    18, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2898      0.3203
-      Tang: final element division: A, S=     36     45  ItCG=   241
+      Tang: final element division: A, S=     36     45  ItCG=   240
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.062E+05       0.000       0.000       27.11  -2.514E+04
@@ -838,7 +838,7 @@
     4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        6.322   2.260E-03
     5, Vel-dep: A, S=    78     3, |Sk-Sk-1|, .001 |Sk| :        1.045   1.952E-03
     6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.1165   1.948E-03
-    7, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    7.933E-05   1.948E-03
+    7, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    7.951E-05   1.948E-03
       Tang: final element division: A, S=     79      2  ItCG=   123
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -858,7 +858,7 @@
     7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    6.891E-02   6.159E-03
     8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.312E-02   6.148E-03
     9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.496E-03   6.146E-03
-      Tang: final element division: A, S=     77      4  ItCG=   140
+      Tang: final element division: A, S=     77      4  ItCG=   139
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.076E+05       0.000       0.000       27.13      -42.74
@@ -877,10 +877,10 @@
     7, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        2.862   1.231E-02
     8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.8544   1.156E-02
     9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2782   1.132E-02
-   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.145E-02   1.124E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.146E-02   1.124E-02
    11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    3.016E-02   1.122E-02
-   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.940E-03   1.121E-02
-      Tang: final element division: A, S=     75      6  ItCG=   191
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    9.947E-03   1.121E-02
+      Tang: final element division: A, S=     75      6  ItCG=   173
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.082E+05       0.000       0.000       27.14      -139.1
@@ -903,12 +903,12 @@
    11, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        2.589   1.887E-02
    12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.249   1.775E-02
    13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.5663   1.724E-02
-   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2619   1.700E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2618   1.700E-02
    15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1217   1.689E-02
-   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    5.674E-02   1.684E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    5.675E-02   1.684E-02
    17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    2.650E-02   1.681E-02
    18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.237E-02   1.680E-02
-      Tang: final element division: A, S=     73      8  ItCG=   273
+      Tang: final element division: A, S=     73      8  ItCG=   261
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
      6.222E+05   1.087E+05       0.000       0.000       27.16      -309.6
@@ -947,7 +947,7 @@
    27, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :       0.3056   2.324E-02
    28, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.2115   2.304E-02
    29, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.1257   2.292E-02
-   30, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    7.512E-02   2.285E-02
+   30, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    7.513E-02   2.285E-02
    31, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    4.478E-02   2.281E-02
    32, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    2.670E-02   2.279E-02
    33, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    1.590E-02   2.277E-02
@@ -975,65 +975,66 @@
    12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.350      0.3392
    13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.9179      0.3385
    14, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.6242      0.3379
-   15, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.4257      0.3376
-   16, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.2915      0.3373
-      Tang: final element division: A, S=     35     46  ItCG=   206
+   15, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.311      0.3363
+   16, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.470      0.3365
+   17, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :    8.094E-02      0.3366
+      Tang: final element division: A, S=     35     46  ItCG=   223
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.059E+05       0.000       0.000       27.11  -2.681E+04
+     6.222E+05   1.059E+05       0.000       0.000       27.11  -2.674E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5673       0.000   8.879E-02       495.3
+         7.588      0.5674       0.000   8.879E-02       495.3
 
  Case    36
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1931
-    2, Vel-dep: A, S=    49    32, |Sk-Sk-1|, .001 |Sk| :        172.6   3.581E-02
-    3, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        27.99   7.889E-03
-    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        6.929   2.119E-03
-    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.8541   1.938E-03
-    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    1.071E-04   1.938E-03
-      Tang: final element division: A, S=     79      2  ItCG=   104
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1939
+    2, Vel-dep: A, S=    48    33, |Sk-Sk-1|, .001 |Sk| :        173.0   3.624E-02
+    3, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        28.23   8.030E-03
+    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        7.092   2.112E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.8345   1.939E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    1.080E-04   1.939E-03
+      Tang: final element division: A, S=     79      2  ItCG=   108
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.066E+05       0.000       0.000       27.12      -5.210
+     6.222E+05   1.066E+05       0.000       0.000       27.12      -5.213
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5711       0.000   8.879E-02       495.3
 
  Case    37
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.481E+04      0.2463
-    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        137.9      0.1117
-    3, Vel-dep: A, S=    60    21, |Sk-Sk-1|, .001 |Sk| :        97.16   2.344E-02
-    4, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        17.73   8.266E-03
-    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        3.199   6.414E-03
-    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.3055   6.165E-03
-    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    5.816E-02   6.118E-03
-    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.106E-02   6.109E-03
-    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.125E-03   6.107E-03
-      Tang: final element division: A, S=     77      4  ItCG=   131
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.480E+04      0.2471
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        137.1      0.1132
+    3, Vel-dep: A, S=    60    21, |Sk-Sk-1|, .001 |Sk| :        98.44   2.379E-02
+    4, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        18.05   8.313E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        3.267   6.420E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.3096   6.168E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    5.892E-02   6.120E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.123E-02   6.111E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.154E-03   6.110E-03
+      Tang: final element division: A, S=     77      4  ItCG=   130
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.072E+05       0.000       0.000       27.13      -42.21
+     6.222E+05   1.073E+05       0.000       0.000       27.13      -42.24
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5745       0.000   8.879E-02       495.3
+         7.588      0.5746       0.000   8.879E-02       495.3
 
  Case    38
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.477E+04      0.2992
-    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        100.6      0.2036
-    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        97.98      0.1108
-    4, Vel-dep: A, S=    55    26, |Sk-Sk-1|, .001 |Sk| :        82.63   3.901E-02
-    5, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        23.30   1.929E-02
-    6, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        6.635   1.375E-02
-    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.090   1.197E-02
-    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.6504   1.141E-02
-    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2132   1.123E-02
-   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.036E-02   1.117E-02
-   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.326E-02   1.115E-02
-   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.695E-03   1.114E-02
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.477E+04      0.3000
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        100.1      0.2048
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        96.63      0.1131
+    4, Vel-dep: A, S=    55    26, |Sk-Sk-1|, .001 |Sk| :        84.43   3.979E-02
+    5, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        23.96   1.949E-02
+    6, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        6.808   1.382E-02
+    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        2.143   1.200E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.6651   1.142E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.2179   1.123E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.189E-02   1.117E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    2.378E-02   1.115E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    7.865E-03   1.114E-02
       Tang: final element division: A, S=     75      6  ItCG=   172
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
@@ -1044,404 +1045,406 @@
  Case    39
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.473E+04      0.3504
-    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        80.19      0.2777
-    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        50.68      0.2303
-    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        50.05      0.1836
-    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        74.59      0.1181
-    6, Vel-dep: A, S=    53    28, |Sk-Sk-1|, .001 |Sk| :        64.54   6.481E-02
-    7, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        29.50   3.982E-02
-    8, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        13.77   2.793E-02
-    9, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        6.694   2.210E-02
-   10, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        3.187   1.928E-02
-   11, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.570   1.789E-02
-   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.7050   1.725E-02
-   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.3260   1.695E-02
-   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1518   1.681E-02
-   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    7.096E-02   1.675E-02
-   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.323E-02   1.672E-02
-   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.556E-02   1.670E-02
-      Tang: final element division: A, S=     73      8  ItCG=   246
+    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.473E+04      0.3511
+    2, Vel-dep: A, S=    30    51, |Sk-Sk-1|, .001 |Sk| :        79.90      0.2788
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        50.19      0.2319
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        49.01      0.1860
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        71.60      0.1227
+    6, Vel-dep: A, S=    52    29, |Sk-Sk-1|, .001 |Sk| :        67.54   6.703E-02
+    7, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        31.01   4.083E-02
+    8, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        14.37   2.842E-02
+    9, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        7.024   2.232E-02
+   10, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        3.300   1.940E-02
+   11, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.643   1.794E-02
+   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.7352   1.727E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.3396   1.697E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1581   1.682E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    7.387E-02   1.675E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.457E-02   1.672E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.622E-02   1.671E-02
+      Tang: final element division: A, S=     73      8  ItCG=   229
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.084E+05       0.000       0.000       27.15      -306.1
+     6.222E+05   1.084E+05       0.000       0.000       27.15      -306.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5805       0.000   8.879E-02       495.3
+         7.588      0.5806       0.000   8.879E-02       495.3
 
  Case    40
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.469E+04      0.3988
-    2, Vel-dep: A, S=    28    53, |Sk-Sk-1|, .001 |Sk| :        68.34      0.3399
-    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        35.28      0.3090
-    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        22.77      0.2885
-    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        17.30      0.2727
-    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        14.84      0.2591
-    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        13.93      0.2463
-    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        14.87      0.2328
-    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        18.21      0.2164
-   10, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        24.58      0.1946
-   11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        41.15      0.1599
-   12, Vel-dep: A, S=    46    35, |Sk-Sk-1|, .001 |Sk| :        58.12      0.1145
-   13, Vel-dep: A, S=    55    26, |Sk-Sk-1|, .001 |Sk| :        37.81   8.317E-02
-   14, Vel-dep: A, S=    62    19, |Sk-Sk-1|, .001 |Sk| :        24.64   6.228E-02
-   15, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        15.78   4.860E-02
-   16, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        10.22   3.959E-02
-   17, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        6.564   3.371E-02
-   18, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        4.346   2.980E-02
-   19, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.688   2.733E-02
-   20, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.744   2.572E-02
-   21, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.174   2.465E-02
-   22, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.8104   2.391E-02
-   23, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.5698   2.339E-02
-   24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.3517   2.306E-02
-   25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.2099   2.286E-02
-   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1253   2.275E-02
-   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    7.488E-02   2.267E-02
-   28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.477E-02   2.263E-02
-   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.679E-02   2.261E-02
-   30, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.603E-02   2.259E-02
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.469E+04      0.3995
+    2, Vel-dep: A, S=    28    53, |Sk-Sk-1|, .001 |Sk| :        68.16      0.3409
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        35.09      0.3101
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        22.52      0.2898
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        16.94      0.2744
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        14.41      0.2612
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        13.28      0.2490
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        13.84      0.2364
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        16.39      0.2216
+   10, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        21.34      0.2025
+   11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        33.10      0.1739
+   12, Vel-dep: A, S=    40    41, |Sk-Sk-1|, .001 |Sk| :        61.28      0.1263
+   13, Vel-dep: A, S=    54    27, |Sk-Sk-1|, .001 |Sk| :        42.84   9.124E-02
+   14, Vel-dep: A, S=    59    22, |Sk-Sk-1|, .001 |Sk| :        27.96   6.768E-02
+   15, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        18.10   5.211E-02
+   16, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        11.63   4.190E-02
+   17, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        7.624   3.514E-02
+   18, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        4.813   3.078E-02
+   19, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        3.089   2.796E-02
+   20, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.970   2.614E-02
+   21, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.313   2.494E-02
+   22, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.9005   2.411E-02
+   23, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.6299   2.354E-02
+   24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.4175   2.316E-02
+   25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.2479   2.293E-02
+   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1481   2.279E-02
+   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    8.839E-02   2.270E-02
+   28, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    5.283E-02   2.265E-02
+   29, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    3.160E-02   2.262E-02
+   30, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.892E-02   2.260E-02
       Tang: final element division: A, S=     71     10  ItCG=   397
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.088E+05       0.000       0.000       27.16      -555.8
+     6.222E+05   1.088E+05       0.000       0.000       27.16      -556.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5830       0.000   8.879E-02       495.3
+         7.588      0.5831       0.000   8.879E-02       495.3
 
  Case    41
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.466E+04      0.4425
-    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        60.50      0.3926
-    3, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        29.72      0.3684
-    4, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        16.73      0.3544
-    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        9.696      0.3462
-    6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        6.359      0.3407
-    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        4.251      0.3371
-    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.588      0.3348
-    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.595      0.3334
-   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.9896      0.3325
-   11, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.6178      0.3320
-   12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.3875      0.3316
-   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.2440      0.3314
-      Tang: final element division: A, S=     35     46  ItCG=   166
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.466E+04      0.4432
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        60.39      0.3935
+    3, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        29.62      0.3693
+    4, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        16.62      0.3555
+    5, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        9.612      0.3473
+    6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        6.274      0.3419
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        4.215      0.3383
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.548      0.3361
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.559      0.3347
+   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.9594      0.3339
+   11, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.5937      0.3333
+   12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.3691      0.3330
+   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.2301      0.3328
+      Tang: final element division: A, S=     35     46  ItCG=   185
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.056E+05       0.000       0.000       27.10  -2.654E+04
+     6.222E+05   1.056E+05       0.000   9.701E-03       27.10  -2.666E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5659       0.000   8.879E-02       495.3
+         7.588      0.5658       0.000   8.879E-02       495.3
 
  Case    42
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1822
-    2, Vel-dep: A, S=    54    27, |Sk-Sk-1|, .001 |Sk| :        169.5   2.380E-02
-    3, Vel-dep: A, S=    76     5, |Sk-Sk-1|, .001 |Sk| :        20.08   3.619E-03
-    4, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :        3.017   1.941E-03
-    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    2.051E-03   1.942E-03
-    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    1.979E-04   1.942E-03
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.485E+04      0.1815
+    2, Vel-dep: A, S=    56    25, |Sk-Sk-1|, .001 |Sk| :        168.9   2.369E-02
+    3, Vel-dep: A, S=    76     5, |Sk-Sk-1|, .001 |Sk| :        19.99   3.622E-03
+    4, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :        3.021   1.940E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    2.075E-03   1.941E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    2.002E-04   1.941E-03
       Tang: final element division: A, S=     79      2  ItCG=    88
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.063E+05       0.000       0.000       27.11      -5.229
+     6.222E+05   1.063E+05       0.000   1.007E-02       27.11      -5.225
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5696       0.000   8.879E-02       495.3
 
  Case    43
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.481E+04      0.2358
-    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        146.6   9.267E-02
-    3, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        83.07   1.663E-02
-    4, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        11.18   7.569E-03
-    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        1.516   6.383E-03
-    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.2604   6.171E-03
-    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    4.958E-02   6.131E-03
-    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    9.451E-03   6.123E-03
-    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.796E-03   6.122E-03
-      Tang: final element division: A, S=     77      4  ItCG=   133
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.481E+04      0.2351
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        147.4   9.130E-02
+    3, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        81.78   1.645E-02
+    4, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        11.01   7.543E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        1.494   6.376E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.2564   6.168E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    4.883E-02   6.128E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    9.311E-03   6.120E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.781E-03   6.119E-03
+      Tang: final element division: A, S=     77      4  ItCG=   135
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.070E+05       0.000   1.059E-02       27.12      -42.41
+     6.222E+05   1.070E+05       0.000       0.000       27.12      -42.37
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5731       0.000   8.879E-02       495.3
+         7.588      0.5730       0.000   8.879E-02       495.3
 
  Case    44
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.477E+04      0.2889
-    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        106.0      0.1881
-    3, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        116.7   8.152E-02
-    4, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        58.85   3.093E-02
-    5, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        16.12   1.726E-02
-    6, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        4.869   1.313E-02
-    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        1.546   1.180E-02
-    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.4929   1.137E-02
-    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.1619   1.123E-02
-   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    5.342E-02   1.119E-02
-   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    1.764E-02   1.117E-02
-   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    5.829E-03   1.117E-02
-      Tang: final element division: A, S=     75      6  ItCG=   164
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.478E+04      0.2882
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        106.5      0.1870
+    3, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        118.1   7.944E-02
+    4, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        57.06   3.038E-02
+    5, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        15.65   1.710E-02
+    6, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        4.760   1.307E-02
+    7, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        1.501   1.178E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.4798   1.136E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.1576   1.123E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    5.202E-02   1.118E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    1.719E-02   1.117E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    5.672E-03   1.116E-02
+      Tang: final element division: A, S=     75      6  ItCG=   168
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.076E+05       0.000   1.130E-02       27.13      -138.1
+     6.222E+05   1.076E+05       0.000       0.000       27.13      -138.0
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5762       0.000   8.879E-02       495.3
 
  Case    45
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.474E+04      0.3399
-    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        83.77      0.2639
-    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        58.17      0.2100
-    4, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        68.78      0.1482
-    5, Vel-dep: A, S=    48    33, |Sk-Sk-1|, .001 |Sk| :        81.48   8.154E-02
-    6, Vel-dep: A, S=    62    19, |Sk-Sk-1|, .001 |Sk| :        39.62   4.814E-02
-    7, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        18.75   3.204E-02
-    8, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :        8.971   2.422E-02
-    9, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        4.333   2.040E-02
-   10, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        2.256   1.843E-02
-   11, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.003   1.752E-02
-   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.4601   1.710E-02
-   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2134   1.691E-02
-   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    9.946E-02   1.682E-02
-   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    4.647E-02   1.677E-02
-   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    2.176E-02   1.675E-02
-   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.017E-02   1.674E-02
-      Tang: final element division: A, S=     73      8  ItCG=   248
+    1, Vel-dep: A, S=    19    62, |Sk-Sk-1|, .001 |Sk| :    4.474E+04      0.3393
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        84.03      0.2630
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        58.69      0.2085
+    4, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        70.06      0.1457
+    5, Vel-dep: A, S=    48    33, |Sk-Sk-1|, .001 |Sk| :        80.39   7.996E-02
+    6, Vel-dep: A, S=    62    19, |Sk-Sk-1|, .001 |Sk| :        38.60   4.737E-02
+    7, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        18.30   3.165E-02
+    8, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :        8.753   2.402E-02
+    9, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        4.224   2.029E-02
+   10, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        2.209   1.836E-02
+   11, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.9685   1.749E-02
+   12, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.4447   1.708E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2063   1.689E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    9.619E-02   1.680E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    4.495E-02   1.676E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    2.105E-02   1.674E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    9.848E-03   1.674E-02
+      Tang: final element division: A, S=     73      8  ItCG=   259
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.081E+05       0.000   1.177E-02       27.14      -307.6
+     6.222E+05   1.081E+05       0.000       0.000       27.14      -307.3
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5791       0.000   8.879E-02       495.3
+         7.588      0.5790       0.000   8.879E-02       495.3
 
  Case    46
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.470E+04      0.3884
-    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        71.75      0.3266
-    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        37.96      0.2931
-    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        27.48      0.2685
-    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        24.84      0.2462
-    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        26.83      0.2225
-    7, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        35.56      0.1918
-    8, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        56.85      0.1464
-    9, Vel-dep: A, S=    51    30, |Sk-Sk-1|, .001 |Sk| :        49.67      0.1062
-   10, Vel-dep: A, S=    58    23, |Sk-Sk-1|, .001 |Sk| :        33.57   7.816E-02
-   11, Vel-dep: A, S=    63    18, |Sk-Sk-1|, .001 |Sk| :        22.11   5.930E-02
-   12, Vel-dep: A, S=    66    15, |Sk-Sk-1|, .001 |Sk| :        14.48   4.674E-02
-   13, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        9.275   3.852E-02
-   14, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        6.017   3.311E-02
-   15, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        4.059   2.946E-02
-   16, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.490   2.717E-02
-   17, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.622   2.567E-02
-   18, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.092   2.467E-02
-   19, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.7536   2.398E-02
-   20, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.5289   2.350E-02
-   21, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.3680   2.317E-02
-   22, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.2177   2.296E-02
-   23, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1300   2.284E-02
-   24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    7.755E-02   2.276E-02
-   25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.628E-02   2.272E-02
-   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.764E-02   2.269E-02
-   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.650E-02   2.268E-02
-      Tang: final element division: A, S=     71     10  ItCG=   392
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.470E+04      0.3878
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        71.91      0.3258
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        38.17      0.2920
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        27.78      0.2672
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        25.29      0.2445
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        27.69      0.2200
+    7, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        37.25      0.1880
+    8, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        61.27      0.1399
+    9, Vel-dep: A, S=    52    29, |Sk-Sk-1|, .001 |Sk| :        47.09      0.1015
+   10, Vel-dep: A, S=    60    21, |Sk-Sk-1|, .001 |Sk| :        31.69   7.491E-02
+   11, Vel-dep: A, S=    63    18, |Sk-Sk-1|, .001 |Sk| :        20.95   5.703E-02
+   12, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        13.55   4.522E-02
+   13, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        8.693   3.750E-02
+   14, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        5.621   3.244E-02
+   15, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        3.788   2.903E-02
+   16, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.330   2.688E-02
+   17, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.527   2.547E-02
+   18, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.034   2.452E-02
+   19, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.7158   2.387E-02
+   20, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.5038   2.341E-02
+   21, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.3323   2.311E-02
+   22, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1977   2.292E-02
+   23, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :       0.1181   2.281E-02
+   24, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    7.046E-02   2.274E-02
+   25, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    4.206E-02   2.270E-02
+   26, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    2.514E-02   2.268E-02
+   27, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :    1.502E-02   2.266E-02
+      Tang: final element division: A, S=     71     10  ItCG=   378
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.086E+05       0.000   1.373E-02       27.15      -559.2
+     6.222E+05   1.085E+05       0.000       0.000       27.15      -558.6
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5816       0.000   8.879E-02       495.3
+         7.588      0.5815       0.000   8.879E-02       495.3
 
  Case    47
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.467E+04      0.4321
-    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        62.64      0.3803
-    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        31.34      0.3544
-    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        17.99      0.3393
-    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        11.96      0.3291
-    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        8.063      0.3222
-    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        5.691      0.3172
-    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        4.243      0.3135
-    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        3.306      0.3106
-   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.670      0.3083
-   11, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.223      0.3064
-   12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.898      0.3048
-   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.656      0.3033
-   14, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.473      0.3021
-   15, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.332      0.3009
-   16, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.178      0.2999
-   17, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.9500      0.2991
-   18, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7605      0.2984
-   19, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.6076      0.2979
-   20, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.4864      0.2974
-   21, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3908      0.2971
-   22, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3150      0.2968
-   23, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2548      0.2966
-      Tang: final element division: A, S=     36     45  ItCG=   330
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.467E+04      0.4314
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        62.74      0.3795
+    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        31.43      0.3536
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        18.08      0.3383
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        12.07      0.3281
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        8.153      0.3210
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        5.790      0.3160
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        4.348      0.3122
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        3.415      0.3092
+   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.785      0.3068
+   11, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.343      0.3048
+   12, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        2.024      0.3030
+   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.790      0.3015
+   14, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        1.615      0.3001
+   15, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.446      0.2989
+   16, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        1.173      0.2978
+   17, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.9473      0.2970
+   18, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.7650      0.2963
+   19, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.6201      0.2958
+   20, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.5052      0.2953
+   21, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.4134      0.2950
+   22, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.3398      0.2947
+   23, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :       0.2804      0.2944
+      Tang: final element division: A, S=     36     45  ItCG=   351
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.058E+05       0.000   1.359E-02       27.11  -2.313E+04
+     6.222E+05   1.058E+05       0.000       0.000       27.11  -2.294E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5666       0.000   8.879E-02       495.3
+         7.588      0.5667       0.000   8.879E-02       495.3
 
  Case    48
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.483E+04      0.2089
-    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        176.0   4.246E-02
-    3, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        35.39   6.381E-03
-    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        5.680   2.012E-03
-    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.4321   1.965E-03
-    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    2.506E-04   1.964E-03
-      Tang: final element division: A, S=     79      2  ItCG=   107
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.483E+04      0.2104
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        173.7   4.519E-02
+    3, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        37.25   6.634E-03
+    4, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        5.947   2.003E-03
+    5, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :       0.3980   1.966E-03
+    6, Vel-dep: A, S=    79     2, |Sk-Sk-1|, .001 |Sk| :    3.209E-04   1.966E-03
+      Tang: final element division: A, S=     79      2  ItCG=    99
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.065E+05       0.000   1.355E-02       27.12      -5.342
+     6.222E+05   1.065E+05       0.000       0.000       27.12      -5.351
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5703       0.000   8.879E-02       495.3
+         7.588      0.5704       0.000   8.879E-02       495.3
 
  Case    49
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.479E+04      0.2622
-    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        120.1      0.1449
-    3, Vel-dep: A, S=    52    29, |Sk-Sk-1|, .001 |Sk| :        127.6   2.752E-02
-    4, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        21.42   8.962E-03
-    5, Vel-dep: A, S=    76     5, |Sk-Sk-1|, .001 |Sk| :        3.301   6.638E-03
-    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.4304   6.287E-03
-    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    8.087E-02   6.221E-03
-    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.536E-02   6.209E-03
-    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    2.920E-03   6.206E-03
-      Tang: final element division: A, S=     77      4  ItCG=   135
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.479E+04      0.2637
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        118.8      0.1478
+    3, Vel-dep: A, S=    51    30, |Sk-Sk-1|, .001 |Sk| :        129.6   2.842E-02
+    4, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        22.28   9.073E-03
+    5, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :        3.423   6.659E-03
+    6, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :       0.4418   6.297E-03
+    7, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    8.356E-02   6.228E-03
+    8, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    1.586E-02   6.215E-03
+    9, Vel-dep: A, S=    77     4, |Sk-Sk-1|, .001 |Sk| :    3.029E-03   6.213E-03
+      Tang: final element division: A, S=     77      4  ItCG=   139
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.071E+05       0.000   1.329E-02       27.13      -43.57
+     6.222E+05   1.071E+05       0.000       0.000       27.13      -43.66
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
          7.588      0.5738       0.000   8.879E-02       495.3
 
  Case    50
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.476E+04      0.3149
-    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        90.22      0.2303
-    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        72.76      0.1606
-    4, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        105.6   6.613E-02
-    5, Vel-dep: A, S=    66    15, |Sk-Sk-1|, .001 |Sk| :        45.46   2.727E-02
-    6, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        12.80   1.642E-02
-    7, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        4.080   1.296E-02
-    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        1.297   1.185E-02
-    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.4148   1.148E-02
-   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.1357   1.137E-02
-   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    4.457E-02   1.133E-02
-   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    1.466E-02   1.132E-02
-   13, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    4.816E-03   1.131E-02
-      Tang: final element division: A, S=     75      6  ItCG=   187
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.475E+04      0.3164
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        89.47      0.2326
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        71.04      0.1645
+    4, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        100.3   7.337E-02
+    5, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        51.80   2.917E-02
+    6, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        14.37   1.698E-02
+    7, Vel-dep: A, S=    74     7, |Sk-Sk-1|, .001 |Sk| :        4.486   1.318E-02
+    8, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :        1.466   1.192E-02
+    9, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.4646   1.152E-02
+   10, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :       0.1519   1.139E-02
+   11, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    4.985E-02   1.134E-02
+   12, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    1.637E-02   1.133E-02
+   13, Vel-dep: A, S=    75     6, |Sk-Sk-1|, .001 |Sk| :    5.376E-03   1.132E-02
+      Tang: final element division: A, S=     75      6  ItCG=   176
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.077E+05       0.000   1.473E-02       27.14      -141.6
+     6.222E+05   1.077E+05       0.000       0.000       27.14      -141.9
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5769       0.000   8.879E-02       495.3
+         7.588      0.5770       0.000   8.879E-02       495.3
 
  Case    51
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3654
-    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        74.36      0.2995
-    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        41.88      0.2611
-    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        34.45      0.2293
-    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        37.18      0.1951
-    6, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        48.57      0.1512
-    7, Vel-dep: A, S=    44    37, |Sk-Sk-1|, .001 |Sk| :        77.09   8.868E-02
-    8, Vel-dep: A, S=    60    21, |Sk-Sk-1|, .001 |Sk| :        42.76   5.286E-02
-    9, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        21.11   3.480E-02
-   10, Vel-dep: A, S=    71    10, |Sk-Sk-1|, .001 |Sk| :        10.41   2.579E-02
-   11, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        5.063   2.134E-02
-   12, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        2.530   1.910E-02
-   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.306   1.795E-02
-   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.5842   1.741E-02
-   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.2689   1.717E-02
-   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1244   1.705E-02
-   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    5.769E-02   1.700E-02
-   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    2.679E-02   1.698E-02
-   19, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.245E-02   1.696E-02
-      Tang: final element division: A, S=     73      8  ItCG=   276
+    1, Vel-dep: A, S=    20    61, |Sk-Sk-1|, .001 |Sk| :    4.472E+04      0.3670
+    2, Vel-dep: A, S=    31    50, |Sk-Sk-1|, .001 |Sk| :        73.92      0.3015
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        41.24      0.2638
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        33.40      0.2329
+    5, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        35.27      0.2005
+    6, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        44.58      0.1600
+    7, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        76.37   9.745E-02
+    8, Vel-dep: A, S=    59    22, |Sk-Sk-1|, .001 |Sk| :        47.98   5.749E-02
+    9, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        23.92   3.712E-02
+   10, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        11.70   2.699E-02
+   11, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        5.814   2.191E-02
+   12, Vel-dep: A, S=    72     9, |Sk-Sk-1|, .001 |Sk| :        2.816   1.942E-02
+   13, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :        1.501   1.810E-02
+   14, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.6637   1.749E-02
+   15, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.3048   1.721E-02
+   16, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :       0.1408   1.708E-02
+   17, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    6.523E-02   1.702E-02
+   18, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    3.027E-02   1.700E-02
+   19, Vel-dep: A, S=    73     8, |Sk-Sk-1|, .001 |Sk| :    1.405E-02   1.698E-02
+      Tang: final element division: A, S=     73      8  ItCG=   280
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.082E+05       0.000   1.203E-02       27.15      -315.0
+     6.222E+05   1.082E+05       0.000       0.000       27.15      -315.7
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5797       0.000   8.879E-02       495.3
+         7.588      0.5798       0.000   8.879E-02       495.3
 
  Case    52
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.468E+04      0.4135
-    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        66.21      0.3580
-    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        31.15      0.3313
-    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        18.86      0.3149
-    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        13.58      0.3030
-    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        10.05      0.2941
-    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        8.028      0.2870
-    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        6.934      0.2809
-    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        6.424      0.2752
-   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        6.360      0.2696
-   11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        6.163      0.2642
-   12, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        6.065      0.2588
-   13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        6.263      0.2532
-   14, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        6.147      0.2477
-   15, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        6.314      0.2420
-   16, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        6.848      0.2359
-   17, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        7.914      0.2288
-   18, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        9.829      0.2201
-   19, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        12.34      0.2092
-   20, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        17.27      0.1943
-   21, Vel-dep: A, S=    39    42, |Sk-Sk-1|, .001 |Sk| :        27.38      0.1713
-   22, Vel-dep: A, S=    43    38, |Sk-Sk-1|, .001 |Sk| :        48.68      0.1337
-   23, Vel-dep: A, S=    53    28, |Sk-Sk-1|, .001 |Sk| :        40.01      0.1011
-   24, Vel-dep: A, S=    59    22, |Sk-Sk-1|, .001 |Sk| :        29.33   7.660E-02
-   25, Vel-dep: A, S=    63    18, |Sk-Sk-1|, .001 |Sk| :        20.19   5.938E-02
-   26, Vel-dep: A, S=    65    16, |Sk-Sk-1|, .001 |Sk| :        13.60   4.756E-02
-   27, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        9.081   3.954E-02
-   28, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        6.047   3.413E-02
-   29, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        3.964   3.053E-02
-   30, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.655   2.811E-02
-   31, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.686   2.654E-02
-   32, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.114   2.551E-02
-   33, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.7529   2.482E-02
-   34, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.5173   2.434E-02
-   35, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.3597   2.401E-02
-   36, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.2521   2.378E-02
-   37, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.1778   2.362E-02
-   38, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.1259   2.350E-02
-   39, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    8.941E-02   2.342E-02
-   40, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    6.363E-02   2.336E-02
-   41, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    4.535E-02   2.332E-02
-   42, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    3.237E-02   2.329E-02
-   43, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    2.311E-02   2.327E-02
-      Tang: final element division: A, S=     70     11  ItCG=   552
+    1, Vel-dep: A, S=    21    60, |Sk-Sk-1|, .001 |Sk| :    4.468E+04      0.4150
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        65.95      0.3598
+    3, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        30.89      0.3334
+    4, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        18.58      0.3173
+    5, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        13.23      0.3058
+    6, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        9.717      0.2972
+    7, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        7.628      0.2904
+    8, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        6.447      0.2847
+    9, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        5.820      0.2796
+   10, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :        5.582      0.2747
+   11, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        5.541      0.2698
+   12, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        5.235      0.2652
+   13, Vel-dep: A, S=    36    45, |Sk-Sk-1|, .001 |Sk| :        5.138      0.2606
+   14, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        5.250      0.2560
+   15, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        5.045      0.2514
+   16, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        5.030      0.2469
+   17, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        5.231      0.2422
+   18, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        5.711      0.2371
+   19, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        6.583      0.2312
+   20, Vel-dep: A, S=    37    44, |Sk-Sk-1|, .001 |Sk| :        8.078      0.2240
+   21, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        9.876      0.2153
+   22, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        13.09      0.2038
+   23, Vel-dep: A, S=    38    43, |Sk-Sk-1|, .001 |Sk| :        19.51      0.1871
+   24, Vel-dep: A, S=    39    42, |Sk-Sk-1|, .001 |Sk| :        32.56      0.1604
+   25, Vel-dep: A, S=    46    35, |Sk-Sk-1|, .001 |Sk| :        46.81      0.1238
+   26, Vel-dep: A, S=    54    27, |Sk-Sk-1|, .001 |Sk| :        36.68   9.364E-02
+   27, Vel-dep: A, S=    61    20, |Sk-Sk-1|, .001 |Sk| :        26.46   7.142E-02
+   28, Vel-dep: A, S=    64    17, |Sk-Sk-1|, .001 |Sk| :        18.18   5.585E-02
+   29, Vel-dep: A, S=    67    14, |Sk-Sk-1|, .001 |Sk| :        12.22   4.519E-02
+   30, Vel-dep: A, S=    68    13, |Sk-Sk-1|, .001 |Sk| :        8.050   3.803E-02
+   31, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        5.372   3.319E-02
+   32, Vel-dep: A, S=    69    12, |Sk-Sk-1|, .001 |Sk| :        3.624   2.991E-02
+   33, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        2.373   2.773E-02
+   34, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.524   2.632E-02
+   35, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :        1.012   2.539E-02
+   36, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.6860   2.475E-02
+   37, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.4721   2.432E-02
+   38, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.3284   2.402E-02
+   39, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.2302   2.381E-02
+   40, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.1622   2.366E-02
+   41, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :       0.1148   2.355E-02
+   42, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    8.140E-02   2.348E-02
+   43, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    5.783E-02   2.342E-02
+   44, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    4.116E-02   2.339E-02
+   45, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    2.933E-02   2.336E-02
+   46, Vel-dep: A, S=    70    11, |Sk-Sk-1|, .001 |Sk| :    2.090E-02   2.334E-02
+      Tang: final element division: A, S=     70     11  ItCG=   582
 
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.087E+05       0.000       0.000       27.16      -583.4
+     6.222E+05   1.087E+05       0.000       0.000       27.16      -586.4
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5822       0.000   8.879E-02       495.3
+         7.588      0.5823       0.000   8.879E-02       495.3
 
  Case    53
       Norm: final element division: C, E=     81     11  ItCG=    16
  TANG: TRANSIENT ROLLING CONTACT
-    1, Vel-dep: A, S=    22    59, |Sk-Sk-1|, .001 |Sk| :    4.465E+04      0.4566
-    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        59.23      0.4088
-    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        28.21      0.3863
-    4, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        15.02      0.3741
-    5, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        9.120      0.3667
-    6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        5.598      0.3621
-    7, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        3.364      0.3593
-    8, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        2.095      0.3575
-    9, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        1.337      0.3564
-   10, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.8678      0.3557
-   11, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.5705      0.3552
-   12, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.3782      0.3549
-   13, Vel-dep: A, S=    35    46, |Sk-Sk-1|, .001 |Sk| :       0.2522      0.3547
-      Tang: final element division: A, S=     35     46  ItCG=   195
+    1, Vel-dep: A, S=    22    59, |Sk-Sk-1|, .001 |Sk| :    4.465E+04      0.4580
+    2, Vel-dep: A, S=    29    52, |Sk-Sk-1|, .001 |Sk| :        59.08      0.4104
+    3, Vel-dep: A, S=    32    49, |Sk-Sk-1|, .001 |Sk| :        28.09      0.3881
+    4, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        14.91      0.3760
+    5, Vel-dep: A, S=    33    48, |Sk-Sk-1|, .001 |Sk| :        9.014      0.3687
+    6, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        5.538      0.3642
+    7, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        3.305      0.3614
+    8, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        2.045      0.3597
+    9, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :        1.295      0.3586
+   10, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.8337      0.3579
+   11, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.5434      0.3575
+   12, Vel-dep: A, S=    34    47, |Sk-Sk-1|, .001 |Sk| :       0.3571      0.3572
+      Tang: final element division: A, S=     34     47  ItCG=   181
 
  
   PBTNFS.            PVTIME 0, BOUND  0, TANG   2, NORM   1, FORCE  0, STRESS 0
@@ -1458,9 +1461,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FY          MZ         ELAST.EN.   FRIC.POWER
-     6.222E+05   1.052E+05       0.000       0.000       27.10  -2.809E+04
+     6.222E+05   1.052E+05       0.000       0.000       27.10  -2.830E+04
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
-         7.588      0.5638       0.000   8.879E-02       495.3
+         7.588      0.5637       0.000   8.879E-02       495.3
 
  THE SENSITIVITIES. (FX,FY) MEANS: (FX,FY)/FN/FSTAT.
  A ZERO ENTRY MEANS THAT IT HAS NOT BEEN CALCULATED.
@@ -1473,10 +1476,10 @@
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-      92     81     35     46      1     13
+      92     81     34     47      1     12
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
-     1  oSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS***********************************So
+     1  oSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS**********************************SSo
             1         2         3         4         5         6         7         8
         67890123456789012345678901234567890123456789012345678901234567890123456789012345678
      X  -->        Chi=  0.00 degrees
@@ -1488,20 +1491,20 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.8 | 100.0 |        0.9 | 100.0 |
-|Non-Hertzian cases   |       53 |        0.8 | 100.0 |        0.9 | 100.0 |
-|Panag.process        |       53 |        0.7 |  94.0 |        0.9 |  95.8 |
-|Algorithm Norm       |       53 |        0.0 |   4.0 |        0.1 |   8.1 |
-|Algorithm Tang       |       53 |        0.7 |  90.0 |        0.8 |  84.6 |
-|Output quantities    |       53 |        0.0 |   0.0 |        0.0 |   0.9 |
+|Total                |        1 |        0.3 | 100.0 |        0.4 | 100.0 |
+|Non-Hertzian cases   |       53 |        0.3 | 100.0 |        0.4 |  96.4 |
+|Panag.process        |       53 |        0.3 |  94.7 |        0.3 |  86.5 |
+|Algorithm Norm       |       53 |        0.0 |   5.3 |        0.0 |   1.6 |
+|Algorithm Tang       |       53 |        0.3 |  89.5 |        0.3 |  84.9 |
+|Output quantities    |       53 |        0.0 |   0.0 |        0.0 |   0.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       53 |        0.0 |   2.0 |        0.0 |   5.2 |
-|Tang: TangCG solver  |      789 |        0.5 |  70.0 |        0.4 |  48.0 |
-|Tang: ConvxGS solver |       12 |        0.0 |   4.0 |        0.0 |   4.5 |
+|Norm: ConjGrd solver |       53 |        0.0 |   0.0 |        0.0 |   1.6 |
+|Tang: TangCG solver  |      792 |        0.0 |   0.0 |        0.3 |  72.7 |
+|Tang: ConvxGS solver |       12 |        0.0 |   0.0 |        0.0 |   0.3 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       53 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       53 |        0.0 |   0.0 |        0.0 |   0.5 |
 |Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       53 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        6 |        0.0 |   0.0 |        0.0 |   2.4 |
+|Writing output-files |        6 |        0.0 |   5.3 |        0.0 |   7.6 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

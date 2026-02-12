@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -81,6 +81,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+     0.000      0.0000    420.0000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.0224       0.000       0.000       0.000
@@ -111,9 +115,9 @@
      0.000      0.9583E-01       420.0  -2.809E-04   1.910E-12  -1.196E-10
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
      1.000E+04   1.914E-04   6.518E-04   4.769E-05   8.958E-02  -8.395E-02
-     TILDE_FN  FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
+     FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          9915.   6.434E-08       0.000   2.237E-02       530.2
 
  CONTACT STATISTICS
@@ -197,28 +201,31 @@
  Kink in rail profile at ( -10.10, -10.10) (ip=  101): successive angles    0.0,   86.0 deg
  Kink in rail profile at (  10.10, -10.10) (ip=  303): successive angles  -86.0,   -0.0 deg
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0189       9561., dFz/dz:   7.602E+05
-         2, NR,  z_ws, Fz:       0.0299   1.860E+04, dFz/dz:   8.214E+05
-         3, NR,  z_ws, Fz:       0.0194       9959., dFz/dz:   7.438E+05
-     1, SC, z, omg_ws:    0.019400  -1.00000000, res:    0.10855093, dFx/domg:  370.442902
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0194       9990., dFz/dz:   7.725E+05
-     2, SC, z, omg_ws:    0.019400  -1.00029303, res:    0.03680748, dFx/domg:  244.833029
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0194   1.001E+04, dFz/dz:   7.737E+05
-     3, SC, z, omg_ws:    0.019400  -1.00044337, res:   -0.00053818, dFx/domg:  248.412877
-         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0194   1.001E+04, dFz/dz:   7.736E+05
+         1, NR,  z_ws, Fz:       0.0188       9544., dFz/dz:   7.598E+05
+         2, NR,  z_ws, Fz:       0.0298   1.858E+04, dFz/dz:   8.210E+05
+         3, NR,  z_ws, Fz:       0.0194       9957., dFz/dz:   7.440E+05
+     1, SC, z, omg_ws:    0.019398  -1.00000000, res:    0.10855255, dFx/domg:  371.329253
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194       9989., dFz/dz:   7.724E+05
+     2, SC, z, omg_ws:    0.019398  -1.00029234, res:    0.03696821, dFx/domg:  244.870897
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.736E+05
+     3, SC, z, omg_ws:    0.019398  -1.00044331, res:   -0.00052923, dFx/domg:  248.376414
+         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.736E+05
          2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
          3, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
-     4, SC, z, omg_ws:    0.019392  -1.00044120, res:   -0.00003106, dFx/domg:  234.078230
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+     4, SC, z, omg_ws:    0.019392  -1.00044117, res:   -0.00002456, dFx/domg:  236.848466
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194      10000., dFz/dz:   7.735E+05
          2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.531E+05
-     5, SC, z, omg_ws:    0.019392  -1.00044107, res:    0.00000179, dFx/domg:  247.538887
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
+     5, SC, z, omg_ws:    0.019392  -1.00044107, res:    0.00000111, dFx/domg:  236.848466
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
-     6, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000000, dFx/domg:  247.538887
+     6, SC, z, omg_ws:    0.019392  -1.00044108, res:   -0.00000005, dFx/domg:  236.848466
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
+     7, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000000, dFx/domg:  236.848466
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -250,7 +257,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   3.806E-05  -3.364E-06   1.000E+04   3.806E-05  -3.364E-06   1.000E+04
+   1.892E-05  -3.314E-06   1.000E+04   1.892E-05  -3.314E-06   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -267,12 +274,12 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0  -5.742E-04   1.795E-17  -1.124E-15
+     0.000      0.9583E-01       420.0  -5.742E-04  -9.375E-19   5.823E-17
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000       0.000   1.410E-05   7.848E-02     -0.3018
-     TILDE_FN  FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+     1.000E+04       0.000       0.000   1.371E-05   7.848E-02     -0.3018
+     FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          9931.       0.000       0.000   1.939E-02       409.3
 
  CONTACT STATISTICS
@@ -350,7 +357,7 @@
     23    -0.7493    -0.0183     0.0746
     24    -0.4998    -0.0027     0.0498
     25    -0.2500     0.0066     0.0249
-    26    -0.0000     0.0097     0.0000
+    26     0.0000     0.0097    -0.0000
     27     0.2500     0.0066    -0.0249
     28     0.4998    -0.0027    -0.0498
     29     0.7493    -0.0183    -0.0746
@@ -380,7 +387,7 @@
  Case     3
  reading rail  profile "..\profiles\groove_r1005.prr"
  Kink in rail profile at ( -10.10, -10.05) (ip=  100): successive angles    0.0,   84.3 deg
- Kink in rail profile at (  10.10, -10.05) (ip=  302): successive angles  -84.3,   -0.0 deg
+ Kink in rail profile at (  10.10, -10.05) (ip=  302): successive angles  -84.3,    0.0 deg
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0166       9277., dFz/dz:   8.368E+05
          2, NR,  z_ws, Fz:       0.0276   1.894E+04, dFz/dz:   8.780E+05
@@ -442,7 +449,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -2.555E-06   8.483E-06   1.000E+04  -2.555E-06   8.483E-06   1.000E+04
+  -2.555E-06   8.484E-06   1.000E+04  -2.555E-06   8.484E-06   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -462,9 +469,9 @@
      0.000      0.9583E-01       420.0  -9.767E-04   4.655E-13  -2.915E-11
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000   3.600E-04   5.573E-06   7.171E-02     -0.6444
-     TILDE_FN  FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+     1.000E+04       0.000   3.600E-04   5.572E-06   7.171E-02     -0.6444
+     FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      1.001E+04       0.000       0.000   1.743E-02       348.7
 
  CONTACT STATISTICS
@@ -677,9 +684,9 @@
      0.000      0.9583E-01       420.0  -1.868E-03   2.364E-11  -1.480E-09
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000   1.893E-02   1.590E-02   6.552E-02      -1.389
-     TILDE_FN  FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
+     FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      1.026E+04       0.000   4.431E-06   1.541E-02       296.8
 
  CONTACT STATISTICS
@@ -874,19 +881,19 @@
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.949E-03   5.460E-03
          2, NR,  z_ws, Fz:       0.0224      10000., dFz/dz:   6.792E+05
-     5, SC, z, omg_ws:    0.022365  -1.00023663, res:   -0.00000607, dFx/domg:  278.360068
+     5, SC, z, omg_ws:    0.022365  -1.00023663, res:   -0.00000607, dFx/domg:  278.360067
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.084E-03   1.070E-04
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.136E-05   1.070E-04
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.746E-05   1.070E-04
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.638E+05
-     6, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000044, dFx/domg:  278.360068
+     6, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000044, dFx/domg:  278.360067
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.388E-04   1.070E-04
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.348E-06   1.070E-04
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
-     7, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000002, dFx/domg:  278.360068
+     7, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000002, dFx/domg:  278.360067
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -931,6 +938,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+     0.000      0.0000    420.0000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.0224       0.000       0.000       0.000
@@ -961,9 +972,9 @@
      0.000      0.9583E-01       420.0  -2.744E-04   1.902E-12  -1.191E-10
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
      1.000E+04  -2.373E-04   5.741E-04  -9.433E-05   8.993E-02  -8.602E-02
-     TILDE_FN  FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
+     FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          9956.  -7.946E-08       0.000   2.237E-02       520.6
 
  CONTACT STATISTICS
@@ -1047,39 +1058,39 @@
  Kink in rail profile at ( -10.10, -10.10) (ip=  101): successive angles    0.0,   86.0 deg
  Kink in rail profile at (  10.10, -10.10) (ip=  303): successive angles  -86.0,   -0.0 deg
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       164.8       8.238
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       2.991       8.129
-         1, NR,  z_ws, Fz:       0.0189       9663., dFz/dz:   7.683E+05
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       211.0       10.55
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       5.322       10.40
-         2, NR,  z_ws, Fz:       0.0299   1.893E+04, dFz/dz:   8.424E+05
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       165.8       8.292
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.533       8.291
-         3, NR,  z_ws, Fz:       0.0193       9965., dFz/dz:   7.542E+05
-     1, SC, z, omg_ws:    0.019266  -1.00000000, res:    0.11444607, dFx/domg:  370.442902
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       18.04       18.97
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0193       9997., dFz/dz:   7.784E+05
-     2, SC, z, omg_ws:    0.019266  -1.00030894, res:    0.03882050, dFx/domg:  244.787379
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       9.830       6.429
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.5466       6.433
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0193       9991., dFz/dz:   7.779E+05
-     3, SC, z, omg_ws:    0.019266  -1.00046753, res:   -0.00026890, dFx/domg:  246.482990
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.4783   8.286E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.477E-03   8.286E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.383E-05   8.286E-05
-  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.600E-06   8.286E-05
-         0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:       0.0193       9991., dFz/dz:   7.778E+05
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.1938   8.291E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.114E-03   8.291E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.156E-05   8.291E-05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       164.4       8.221
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       2.924       8.113
+         1, NR,  z_ws, Fz:       0.0188       9646., dFz/dz:   7.679E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       210.9       10.54
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       5.304       10.40
+         2, NR,  z_ws, Fz:       0.0298   1.891E+04, dFz/dz:   8.420E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       165.8       8.291
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.524       8.288
+         3, NR,  z_ws, Fz:       0.0193       9961., dFz/dz:   7.487E+05
+     1, SC, z, omg_ws:    0.019263  -1.00000000, res:    0.11446055, dFx/domg:  371.329253
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       18.01       18.97
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0193       9995., dFz/dz:   7.783E+05
+     2, SC, z, omg_ws:    0.019263  -1.00030825, res:    0.03898564, dFx/domg:  244.853296
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       9.865       6.455
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.5498       6.459
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0193       9989., dFz/dz:   7.778E+05
+     3, SC, z, omg_ws:    0.019263  -1.00046747, res:   -0.00026608, dFx/domg:  246.524466
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.5127   8.284E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.543E-03   8.285E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.853E-05   8.285E-05
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.811E-06   8.285E-05
+         0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:       0.0193       9988., dFz/dz:   7.778E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.2392   8.291E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.326E-03   8.291E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.895E-05   8.291E-05
          2, NR,  z_ws, Fz:       0.0193      10000., dFz/dz:   7.625E+05
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.417E-03   8.291E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.338E-05   8.291E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.404E-06   8.291E-05
-         3, NR,  z_ws, Fz:       0.0193      10000., dFz/dz:   7.623E+05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.247E-03   8.291E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.032E-04   8.291E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.488E-06   8.291E-05
+         3, NR,  z_ws, Fz:       0.0193      10000., dFz/dz:   7.624E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       13.55   8.484E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.3163   8.473E-05
   3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.286E-03   8.473E-05
@@ -1087,28 +1098,28 @@
          4, NR,  z_ws, Fz:       0.0202   1.074E+04, dFz/dz:   7.702E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       12.55   8.280E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.3273   8.291E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.513E-03   8.291E-05
-  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.653E-05   8.291E-05
-         5, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.619E+05
-     4, SC, z, omg_ws:    0.019278  -1.00046644, res:    0.00005310, dFx/domg:  295.155774
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.222E-02   8.805E-03
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.442E-04   8.805E-03
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.514E-03   8.291E-05
+  4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.651E-05   8.291E-05
+         5, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.592E+05
+     4, SC, z, omg_ws:    0.019278  -1.00046639, res:    0.00006671, dFx/domg:  308.326489
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.470E-02   1.106E-02
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.137E-04   1.106E-02
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
-     5, SC, z, omg_ws:    0.019278  -1.00046662, res:    0.00000861, dFx/domg:  247.272013
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.376E-03   1.429E-03
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.161E-04   1.429E-03
+     5, SC, z, omg_ws:    0.019278  -1.00046660, res:    0.00001321, dFx/domg:  247.275364
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.639E-03   2.190E-03
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.570E-04   2.190E-03
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
-     6, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000006, dFx/domg:  247.272013
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.179E-04   8.291E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.629E-06   8.291E-05
+     6, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000008, dFx/domg:  247.275364
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.815E-04   8.291E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.357E-06   8.291E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.951E-04   8.291E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.187E-06   8.291E-05
-         2, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.435E+05
-     7, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000001, dFx/domg:  247.272013
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.474E-04   8.291E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.191E-05   8.291E-05
+         2, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.347E+05
+     7, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000001, dFx/domg:  247.275364
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1141,7 +1152,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-   5.138E-05   1.109E-06   1.000E+04   5.138E-05   1.109E-06   1.000E+04
+   7.923E-05  -8.237E-06   1.000E+04   7.923E-05  -8.237E-06   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1154,16 +1165,16 @@
 
  Actual contact on columns iy = [  9, 43] (my= 51), sc = [ -4.375,  4.375]
  Reference contact angle delttr =  -0.00 deg, range = [  24.23, -24.23] deg
- Total moments Mxp =        -0.0, Msp =      -331.0, Mnp =        -0.0 N.mm
+ Total moments Mxp =        -0.0, Msp =      -331.0, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.9583E-01       420.0  -5.401E-04   1.795E-17  -1.124E-15
+     0.000      0.9583E-01       420.0  -5.401E-04  -9.070E-19   5.666E-17
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000       0.000  -9.323E-07   7.837E-02     -0.3223
-     TILDE_FN  FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+     1.000E+04       0.000       0.000   8.566E-06   7.837E-02     -0.3223
+     FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          9967.       0.000       0.000   1.928E-02       397.6
 
  CONTACT STATISTICS
@@ -1241,7 +1252,7 @@
     23    -0.7493    -0.0183     0.0746
     24    -0.4998    -0.0028     0.0498
     25    -0.2500     0.0065     0.0249
-    26    -0.0000     0.0096     0.0000
+    26     0.0000     0.0096    -0.0000
     27     0.2500     0.0065    -0.0249
     28     0.4998    -0.0028    -0.0498
     29     0.7493    -0.0183    -0.0746
@@ -1271,7 +1282,7 @@
  Case     7
  reading rail  profile "..\profiles\groove_r1005.prr"
  Kink in rail profile at ( -10.10, -10.05) (ip=  100): successive angles    0.0,   84.3 deg
- Kink in rail profile at (  10.10, -10.05) (ip=  302): successive angles  -84.3,   -0.0 deg
+ Kink in rail profile at (  10.10, -10.05) (ip=  302): successive angles  -84.3,    0.0 deg
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       139.4       6.972
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.089       6.897
@@ -1301,29 +1312,29 @@
          2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.244E+05
      4, SC, z, omg_ws:    0.017176  -1.00069776, res:   -0.00005288, dFx/domg:  263.249271
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.777E-02   7.049E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.312E-04   7.049E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.045E-05   7.049E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.292E-04   7.049E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.033E-05   7.049E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.733E+05
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.999E-03   7.049E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.777E-05   7.049E-05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.000E-03   7.049E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.741E-05   7.049E-05
          2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.389E+05
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.780E-05   7.049E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.369E-06   7.049E-05
-         3, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.223E+05
-     5, SC, z, omg_ws:    0.017176  -1.00069756, res:   -0.00000880, dFx/domg:  219.434898
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.781E-05   7.049E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.341E-06   7.049E-05
+         3, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.227E+05
+     5, SC, z, omg_ws:    0.017176  -1.00069756, res:   -0.00000880, dFx/domg:  219.435463
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.160E-03   7.049E-05
-  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.401E-05   7.049E-05
-  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.166E-06   7.049E-05
+  2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.393E-05   7.049E-05
+  3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.135E-06   7.049E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0172      10000., dFz/dz:   8.733E+05
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.047E-05   7.049E-05
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.048E-05   7.049E-05
          2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.134E+05
-     6, SC, z, omg_ws:    0.017176  -1.00069752, res:   -0.00000004, dFx/domg:  219.434898
-  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.077E-05   7.049E-05
+     6, SC, z, omg_ws:    0.017176  -1.00069752, res:   -0.00000004, dFx/domg:  219.435463
+  1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.076E-05   7.049E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.733E+05
-     7, SC, z, omg_ws:    0.017176  -1.00069752, res:   -0.00000000, dFx/domg:  219.434898
+     7, SC, z, omg_ws:    0.017176  -1.00069752, res:   -0.00000000, dFx/domg:  219.435463
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1356,7 +1367,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -1.893E-06   3.005E-06   1.000E+04  -1.893E-06   3.005E-06   1.000E+04
+  -1.998E-06   3.132E-06   1.000E+04  -1.998E-06   3.132E-06   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1376,9 +1387,9 @@
      0.000      0.9583E-01       420.0  -9.158E-04  -1.296E-12   8.114E-11
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000  -1.714E-04  -4.079E-05   7.093E-02     -0.7063
-     TILDE_FN  FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+     1.000E+04       0.000  -1.713E-04  -4.066E-05   7.093E-02     -0.7063
+     FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      1.005E+04       0.000       0.000   1.718E-02       336.1
 
  CONTACT STATISTICS
@@ -1551,7 +1562,7 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.800E-02   1.049E-02
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.810E-04   1.049E-02
          2, NR,  z_ws, Fz:       0.0149      10000., dFz/dz:   9.581E+05
-     6, SC, z, omg_ws:    0.014927  -1.00107451, res:   -0.00001271, dFx/domg:  157.323283
+     6, SC, z, omg_ws:    0.014927  -1.00107451, res:   -0.00001271, dFx/domg:  157.323284
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.656E-03   5.938E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.319E-04   5.938E-05
   3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.394E-06   5.938E-05
@@ -1560,14 +1571,14 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.298E-04   5.938E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.744E-05   5.938E-05
          2, NR,  z_ws, Fz:       0.0149      10000., dFz/dz:   9.203E+05
-     7, SC, z, omg_ws:    0.014927  -1.00107443, res:    0.00000098, dFx/domg:  157.323283
+     7, SC, z, omg_ws:    0.014927  -1.00107443, res:    0.00000098, dFx/domg:  157.323284
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.475E-04   1.166E-04
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.251E-06   1.166E-04
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0149      10000., dFz/dz:   1.005E+06
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.838E-05   1.166E-04
          2, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   9.660E+05
-     8, SC, z, omg_ws:    0.014927  -1.00107443, res:   -0.00000000, dFx/domg:  157.323283
+     8, SC, z, omg_ws:    0.014927  -1.00107443, res:   -0.00000000, dFx/domg:  157.323284
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1600,7 +1611,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -2.168E-05  -5.807E-03   1.000E+04  -2.168E-05  -5.807E-03   1.000E+04
+  -2.169E-05  -5.807E-03   1.000E+04  -2.169E-05  -5.807E-03   1.000E+04
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -1620,9 +1631,9 @@
      0.000      0.9583E-01       420.0  -1.732E-03   2.622E-11  -1.641E-09
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
      1.000E+04       0.000   2.484E-03   9.411E-03   6.353E-02      -1.578
-     TILDE_FN  FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
+     FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      1.034E+04       0.000  -1.939E-06   1.493E-02       283.6
 
  CONTACT STATISTICS
@@ -1794,23 +1805,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       85.0 | 100.0 |       87.5 | 100.0 |
-|Wheel-rail cases     |        8 |       85.0 | 100.0 |       87.5 | 100.0 |
-|W/r profiles         |       10 |        0.1 |   0.1 |        0.1 |   0.1 |
-|Geometric analysis   |      119 |        0.5 |   0.6 |        0.6 |   0.7 |
-|Panag.process        |      103 |       70.6 |  83.0 |       72.3 |  82.7 |
-|Algorithm Norm       |      157 |       20.5 |  24.1 |       21.2 |  24.2 |
-|Algorithm Tang       |      157 |       50.0 |  58.8 |       51.1 |  58.4 |
-|Output quantities    |      111 |        6.6 |   7.7 |        6.8 |   7.8 |
+|Total                |        1 |       21.3 | 100.0 |       21.5 | 100.0 |
+|Wheel-rail cases     |        8 |       21.3 | 100.0 |       21.5 | 100.0 |
+|W/r profiles         |       10 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |      120 |        0.1 |   0.4 |        0.3 |   1.2 |
+|Panag.process        |      104 |       16.9 |  79.2 |       17.1 |  79.4 |
+|Algorithm Norm       |      158 |        4.2 |  19.9 |        4.2 |  19.4 |
+|Algorithm Tang       |      158 |       12.6 |  58.9 |       12.9 |  59.9 |
+|Output quantities    |      112 |        1.7 |   7.8 |        1.6 |   7.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      157 |       16.0 |  18.8 |       16.4 |  18.7 |
-|Tang: StedyGS solver |      157 |       46.6 |  54.8 |       47.5 |  54.4 |
+|Norm: ConjGrd solver |      158 |        3.5 |  16.4 |        3.3 |  15.3 |
+|Tang: StedyGS solver |      158 |       11.8 |  55.2 |       12.1 |  56.1 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        8 |        0.1 |   0.1 |        0.1 |   0.1 |
-|Contact location     |      119 |        0.1 |   0.1 |        0.1 |   0.1 |
-|Undeformed distance  |      103 |        0.3 |   0.4 |        0.5 |   0.5 |
-| - Interp whl_srfc   |      103 |        0.2 |   0.3 |        0.3 |   0.4 |
-|Influence coeffic.   |      120 |        7.1 |   8.4 |        7.4 |   8.4 |
-|Initial state/estim. |      103 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |      120 |        0.0 |   0.1 |        0.1 |   0.4 |
+|Undeformed distance  |      104 |        0.1 |   0.4 |        0.1 |   0.6 |
+| - Interp whl_srfc   |      104 |        0.1 |   0.3 |        0.1 |   0.3 |
+|Influence coeffic.   |      120 |        2.4 |  11.3 |        2.3 |  10.8 |
+|Initial state/estim. |      104 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

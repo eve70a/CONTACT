@@ -82,15 +82,6 @@ flags[7] = CNTC['ic_pvtime']; values[7] = 2;  # P=2, no previous time
 
 cntc.setflags(iwhe, icp, flags, values)
 
-# material data using M = 0 (fully elastic model)
-
-gg    = 82000   # [N/mm^2]
-poiss = 0.28    # [-]
-
-mdigit = 0
-rparam = [ poiss, poiss, gg, gg ]
-cntc.setmaterialparameters(iwhe, icp, mdigit, rparam)
-
 # Hertzian discretization, automatic potential contact area, ellipticity a/b = 0.5
 
 ipotcn = -2     # ellipticity
@@ -179,33 +170,40 @@ for icurv in range(1, 5):
         params = [fkin, fexp1, sabsh1, 0, 0, memdst, mem_s0]
         cntc.setfrictionmethod(iwhe, icp, imeth, params)
 
-    # interfacial layer
+    # material data, interfacial layer
 
-    if (icurv == 1):
-        imeth  = 0      # M-digit 0: linear elastic half-spaces, no interfacial layer
-        nparam = 0 
-        params = [] 
-        cntc.setinterfaciallayer(iwhe, icp, imeth, params) 
-    elif (icurv == 2):
-        imeth  = 4      # M-digit 4: elasto-plastic interfacial layer
-        gg3    = 8200   # [N/mm2]
-        h3     = 1.25   # [mm]
-        params = [gg3, h3, 0, 0] 
-        nparam = len(params) 
-        cntc.setinterfaciallayer(iwhe, icp, imeth, params) 
+    gg = 82000    # [N/mm^2]
+    nu = 0.28     # [-]
+
+    if (icurv==1):
+
+        mdigit = 0     # M-digit 0: linear elastic half-spaces, no interfacial layer
+        params = [ nu, nu, gg, gg ]
+
+    elif (icurv==2):
+
+        mdigit = 4     # M-digit 4: elastic interfacial layer, no plasticity
+        gg3    = 8200  # [N/mm2]
+        h3     = 1.25  # [mm]
+        tau_c0 = 0     # [N/mm2]
+        k_tau  = 0     # [N/mm2/mm]
+        params = [ nu, nu, gg, gg, gg3, h3, tau_c0, k_tau]
+
     else:
-        imeth  = 3      # M-digit 3: modified Fastsim
-        if (icurv == 3):
-            k0_mf  = 1.0    # [-]
-            alfamf = 1.0    # [-]
-            betamf = 1.0    # [-]
+
+        mdigit  = 3     # M-digit 3: modified Fastsim, automatic flexbilities L1,L2,L3
+        if (icurv==3):
+            k0_mf  = 1.0   # [-]
+            alfamf = 1.0   # [-]
+            betamf = 1.0   # [-]
         else:
-            k0_mf  = 0.54   # [-]
-            alfamf = 0.02   # [-]
-            betamf = 0.62   # [-]
-        params = [k0_mf, alfamf, betamf] 
-        nparam = len(params) 
-        cntc.setinterfaciallayer(iwhe, icp, imeth, params) 
+            k0_mf  = 0.54  # [-]
+            alfamf = 0.02  # [-]
+            betamf = 0.62  # [-]
+        params = [ nu, nu, gg, gg, k0_mf, alfamf, betamf]
+
+    nparam = len(params)
+    cntc.setmaterialparameters(iwhe, icp, mdigit, params)
 
     # Traction bound: for CONTACT or Fastsim
 

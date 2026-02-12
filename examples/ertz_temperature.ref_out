@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -81,6 +81,11 @@
  CREEPAGE PRESCRIBED
  JOHNSON"S METHOD IS USED FOR THE FRICTIONAL STRESS
 
+ MATERIAL CONSTANTS
+     BKTEMP      HEATCP      LAMBDA      DENSITY
+     0.000       450.0      0.5000E-01  0.7850E-05
+     150.0       450.0      0.5000E-01  0.7850E-05
+
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      3.142      0.2000       3.000E+04       0.000       0.000       0.000
@@ -116,7 +121,7 @@
  
   PBTNFS.            PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
   LDCMZE.            FRCLAW 1, DISCNS 0, INFLCF 0, MATER  0, RZNORM 0, RZTANG 0
- HGIAOWR.  HEAT   3, GAUSEI 1, IESTIM 0, MATFIL 2, OUTPUT 2, FLOW   4, RETURN 1
+ HGIAOWR.  HEAT   1, GAUSEI 1, IESTIM 0, MATFIL 2, OUTPUT 2, FLOW   4, RETURN 1
  NORMAL PROBLEM WITH PRESCRIBED NORMAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING
  CREEPAGE PRESCRIBED
@@ -193,20 +198,20 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.7 | 100.0 |        0.8 | 100.0 |
-|Non-Hertzian cases   |        4 |        0.7 |  97.9 |        0.7 |  99.5 |
-|Panag.process        |        4 |        0.5 |  68.1 |        0.5 |  69.6 |
-|Algorithm Norm       |        4 |        0.0 |   6.4 |        0.0 |   5.5 |
-|Algorithm Tang       |        4 |        0.5 |  61.7 |        0.5 |  64.1 |
-|Output quantities    |        4 |        0.0 |   2.1 |        0.0 |   0.5 |
+|Total                |        1 |        0.5 | 100.0 |        0.5 | 100.0 |
+|Non-Hertzian cases   |        4 |        0.5 | 100.0 |        0.5 |  97.5 |
+|Panag.process        |        4 |        0.3 |  66.7 |        0.3 |  63.6 |
+|Algorithm Norm       |        4 |        0.0 |   3.3 |        0.0 |   4.3 |
+|Algorithm Tang       |        4 |        0.3 |  63.3 |        0.3 |  59.2 |
+|Output quantities    |        4 |        0.0 |   0.0 |        0.0 |   1.2 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        4 |        0.0 |   6.4 |        0.0 |   4.4 |
-|Tang: StedyGS solver |        4 |        0.5 |  61.7 |        0.5 |  63.9 |
-|Temperature calc.    |        4 |        0.0 |   2.1 |        0.0 |   0.0 |
+|Norm: ConjGrd solver |        4 |        0.0 |   0.0 |        0.0 |   3.9 |
+|Tang: StedyGS solver |        4 |        0.3 |  60.0 |        0.3 |  59.2 |
+|Temperature calc.    |        4 |        0.0 |   3.3 |        0.0 |   2.1 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Initial state/estim. |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        4 |        0.2 |  25.5 |        0.2 |  29.3 |
+|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.6 |
+|Initial state/estim. |        4 |        0.0 |   3.3 |        0.0 |   0.0 |
+|Writing output-files |        4 |        0.1 |  26.7 |        0.1 |  28.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

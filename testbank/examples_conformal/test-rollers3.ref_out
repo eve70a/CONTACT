@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -52,6 +52,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+   200.000   -100.0000    100.0000
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -391,7 +395,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     3.142      0.2000           95.53   3.615E-04  -2.473E-04   3.770E-14
+     3.142      0.2000           95.53   3.615E-04  -2.473E-04   3.769E-14
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -608,6 +612,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+   300.000    -50.0000    133.3333
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.1600       0.000       0.000       0.000
@@ -724,6 +732,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  -100.000    -50.0000    133.3333
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000      0.1600       0.000     -0.3000       0.000
@@ -747,7 +759,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.2000           95.53   1.193E-04   6.853E-05  -2.263E-15
+     0.000      0.2000           95.53   1.193E-04   6.853E-05  -2.433E-15
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -841,7 +853,7 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     3.142      0.2000           95.53  -1.193E-04  -6.853E-05   2.263E-15
+     3.142      0.2000           95.53  -1.193E-04  -6.853E-05   2.433E-15
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -935,6 +947,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+   300.000    -50.0000    133.3333
 
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -1066,6 +1082,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+   200.000   -100.0000    133.3333
 
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -1202,6 +1222,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+   200.000   -100.0000    133.3333
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000     -1.8700       0.000       0.000       0.000
@@ -1218,7 +1242,7 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000    180.1450     -4.0248      0.2000    -20.2588     -0.0000
+      0.0000    180.1450     -4.0248      0.2000    -20.2588      0.0000
 
      XCP(W)      YCP(W)      ZCP(W)
       0.0000    -19.8550     -2.1548
@@ -1333,6 +1357,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+   200.000   -100.0000    133.3333
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       0.000    -56.6096      0.2667       0.000       0.000
@@ -1425,23 +1453,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        3.6 | 100.0 |        3.8 | 100.0 |
-|Wheel-rail cases     |       12 |        3.6 | 100.0 |        3.8 |  99.9 |
-|W/r profiles         |       14 |        0.0 |   0.9 |        0.1 |   2.3 |
-|Geometric analysis   |       12 |        0.1 |   2.2 |        0.0 |   0.8 |
-|Panag.process        |       12 |        3.5 |  96.1 |        3.5 |  94.3 |
-|Algorithm Norm       |       12 |        0.1 |   2.2 |        0.1 |   3.6 |
-|Algorithm Tang       |       12 |        3.4 |  93.9 |        3.4 |  90.7 |
-|Output quantities    |       24 |        0.0 |   0.4 |        0.1 |   2.2 |
+|Total                |        1 |        1.9 | 100.0 |        1.9 | 100.0 |
+|Wheel-rail cases     |       12 |        1.9 | 100.0 |        1.9 |  99.7 |
+|W/r profiles         |       14 |        0.1 |   4.2 |        0.1 |   4.3 |
+|Geometric analysis   |       12 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Panag.process        |       12 |        1.8 |  94.2 |        1.8 |  90.8 |
+|Algorithm Norm       |       12 |        0.0 |   2.5 |        0.1 |   3.0 |
+|Algorithm Tang       |       12 |        1.7 |  91.7 |        1.7 |  87.8 |
+|Output quantities    |       24 |        0.0 |   1.7 |        0.1 |   3.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       12 |        0.1 |   1.7 |        0.1 |   2.3 |
-|Tang: StedyGS solver |       12 |        3.4 |  93.9 |        3.4 |  90.4 |
+|Norm: ConjGrd solver |       12 |        0.0 |   2.5 |        0.1 |   2.6 |
+|Tang: StedyGS solver |       12 |        1.7 |  91.7 |        1.7 |  87.2 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       12 |        0.0 |   0.9 |        0.1 |   2.3 |
-|Contact location     |       12 |        0.0 |   0.9 |        0.0 |   0.0 |
-|Undeformed distance  |       12 |        0.0 |   1.3 |        0.0 |   0.5 |
-| - Interp whl_srfc   |       12 |        0.0 |   0.9 |        0.0 |   0.0 |
-|Influence coeffic.   |       12 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Initial state/estim. |       12 |        0.0 |   0.4 |        0.0 |   0.0 |
+|Reading input-file   |       12 |        0.1 |   4.2 |        0.1 |   4.3 |
+|Contact location     |       12 |        0.0 |   0.0 |        0.0 |   0.6 |
+|Undeformed distance  |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
+| - Interp whl_srfc   |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       12 |        0.0 |   0.0 |        0.0 |   0.4 |
+|Initial state/estim. |       12 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -15,11 +15,11 @@
  TANG: STEADY STATE ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :      80      0
          0, NR_Fy,    Cksi, Fxk:    1.000E-06  -5.330E-05
-                      Ceta, Fyk:        0.000       0.000   ItGS:   29
+                      Ceta, Fyk:        0.000  -2.977E-19   ItGS:   29
          1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.132E-04
                       Ceta, Fyk:    3.000E-06  -9.595E-05   ItGS:   54
          2, NR_Fy,    Cksi, Fxk:    1.126E-02     -0.5099
-                      Ceta, Fyk:        0.000   2.419E-08   ItGS:   36
+                      Ceta, Fyk:   -3.769E-20   2.419E-08   ItGS:   36
          3, NR_Fy,    Cksi, Fxk:    1.325E-02     -0.5816
                       Ceta, Fyk:    8.543E-10  -2.174E-08   ItGS:   21
          4, NR_Fy,    Cksi, Fxk:    1.376E-02     -0.5991
@@ -92,15 +92,15 @@
  TANG: STEADY STATE ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :      62      0
          0, NR_Fy,    Cksi, Fxk:    1.000E-06  -5.338E-05
-                      Ceta, Fyk:        0.000       0.000   ItGS:   53
+                      Ceta, Fyk:        0.000  -4.124E-19   ItGS:   53
          1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.135E-04
                       Ceta, Fyk:    3.000E-06  -9.610E-05   ItGS:  100
          2, NR_Fy,    Cksi, Fxk:    1.124E-02     -0.5132
-                      Ceta, Fyk:        0.000  -1.328E-09   ItGS:   55
+                      Ceta, Fyk:   -5.082E-20  -1.328E-09   ItGS:   55
          3, NR_Fy,    Cksi, Fxk:    1.314E-02     -0.5823
                       Ceta, Fyk:   -4.669E-11   1.347E-09   ItGS:   32
          4, NR_Fy,    Cksi, Fxk:    1.363E-02     -0.5992
-                      Ceta, Fyk:    6.878E-13  -5.147E-11   ItGS:   26
+                      Ceta, Fyk:    6.877E-13  -5.147E-11   ItGS:   26
          5, NR_Fy,    Cksi, Fxk:    1.365E-02     -0.6000
                       Ceta, Fyk:   -1.123E-12   3.230E-11   ItGS:   13
       Tang: final element division: A, S=     37     25  ItGS=   279
@@ -169,11 +169,11 @@
  TANG: STEADY STATE ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :      57      0
          0, NR_Fy,    Cksi, Fxk:    1.000E-06  -6.220E-05
-                      Ceta, Fyk:        0.000       0.000   ItGS:   33
+                      Ceta, Fyk:        0.000  -2.852E-19   ItGS:   33
          1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.488E-04
                       Ceta, Fyk:    3.000E-06  -1.120E-04   ItGS:   62
          2, NR_Fy,    Cksi, Fxk:    9.647E-03     -0.5188
-                      Ceta, Fyk:        0.000   1.489E-08   ItGS:   37
+                      Ceta, Fyk:   -3.007E-20   1.489E-08   ItGS:   37
          3, NR_Fy,    Cksi, Fxk:    1.116E-02     -0.5848
                       Ceta, Fyk:    4.444E-10  -1.418E-08   ItGS:   22
          4, NR_Fy,    Cksi, Fxk:    1.150E-02     -0.5994
@@ -181,7 +181,7 @@
          5, NR_Fy,    Cksi, Fxk:    1.152E-02     -0.6000
                       Ceta, Fyk:   -1.786E-11   5.282E-10   ItGS:    8
          6, NR_Fy,    Cksi, Fxk:    1.152E-02     -0.6000
-                      Ceta, Fyk:   -2.091E-12   1.035E-10   ItGS:    3
+                      Ceta, Fyk:   -2.092E-12   1.035E-10   ItGS:    3
       Tang: final element division: A, S=     36     21  ItGS=   182
 
  
@@ -248,11 +248,11 @@
  TANG: STEADY STATE ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :      56      0
          0, NR_Fy,    Cksi, Fxk:    1.000E-06  -7.379E-05
-                      Ceta, Fyk:        0.000       0.000   ItGS:   25
+                      Ceta, Fyk:        0.000  -3.832E-19   ItGS:   25
          1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.952E-04
                       Ceta, Fyk:    3.000E-06  -1.330E-04   ItGS:   47
          2, NR_Fy,    Cksi, Fxk:    8.131E-03     -0.5109
-                      Ceta, Fyk:        0.000   3.736E-08   ItGS:   32
+                      Ceta, Fyk:   -3.473E-20   3.736E-08   ItGS:   32
          3, NR_Fy,    Cksi, Fxk:    9.548E-03     -0.5817
                       Ceta, Fyk:    9.502E-10  -3.310E-08   ItGS:   18
          4, NR_Fy,    Cksi, Fxk:    9.914E-03     -0.5992
@@ -327,11 +327,11 @@
  TANG: STEADY STATE ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :      80      0
          0, NR_Fy,    Cksi, Fxk:    1.000E-06  -5.330E-05
-                      Ceta, Fyk:        0.000       0.000   ItGS:   29
+                      Ceta, Fyk:        0.000  -2.977E-19   ItGS:   29
          1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.132E-04
                       Ceta, Fyk:    3.000E-06  -9.595E-05   ItGS:   54
          2, NR_Fy,    Cksi, Fxk:    1.126E-02     -0.5099
-                      Ceta, Fyk:        0.000   2.419E-08   ItGS:   36
+                      Ceta, Fyk:   -3.769E-20   2.419E-08   ItGS:   36
          3, NR_Fy,    Cksi, Fxk:    1.325E-02     -0.5816
                       Ceta, Fyk:    8.543E-10  -2.174E-08   ItGS:   21
          4, NR_Fy,    Cksi, Fxk:    1.376E-02     -0.5991
@@ -397,11 +397,11 @@
  TANG: STEADY STATE ROLLING CONTACT
        1, Tang: size of Adhes, Slip area :      56      0
          0, NR_Fy,    Cksi, Fxk:    1.000E-06  -7.468E-05
-                      Ceta, Fyk:        0.000       0.000   ItGS:   25
+                      Ceta, Fyk:        0.000  -3.919E-19   ItGS:   25
          1, NR_Fy,    Cksi, Fxk:    4.000E-06  -2.987E-04
                       Ceta, Fyk:    3.000E-06  -1.344E-04   ItGS:   46
          2, NR_Fy,    Cksi, Fxk:    8.035E-03     -0.5120
-                      Ceta, Fyk:        0.000   9.987E-09   ItGS:   33
+                      Ceta, Fyk:   -3.515E-20   9.987E-09   ItGS:   33
          3, NR_Fy,    Cksi, Fxk:    9.416E-03     -0.5819
                       Ceta, Fyk:    2.508E-10  -8.796E-09   ItGS:   18
          4, NR_Fy,    Cksi, Fxk:    9.773E-03     -0.5991
@@ -466,19 +466,19 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
-|Non-Hertzian cases   |        6 |        0.1 | 100.0 |        0.1 |  99.1 |
-|Panag.process        |        6 |        0.0 |  60.0 |        0.1 |  62.9 |
-|Algorithm Norm       |        6 |        0.0 |  20.0 |        0.0 |   4.3 |
-|Algorithm Tang       |        6 |        0.0 |  40.0 |        0.1 |  56.9 |
-|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   4.3 |
+|Total                |        1 |        0.0 | 100.0 |        0.1 | 100.0 |
+|Non-Hertzian cases   |        6 |        0.0 | 100.0 |        0.1 |  82.8 |
+|Panag.process        |        6 |        0.0 |  66.7 |        0.0 |  59.4 |
+|Algorithm Norm       |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Tang       |        6 |        0.0 |  66.7 |        0.0 |  59.4 |
+|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   3.1 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        6 |        0.0 |  20.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       70 |        0.0 |  40.0 |        0.1 |  48.3 |
+|Norm: ConjGrd solver |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |       70 |        0.0 |  33.3 |        0.0 |  57.8 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        6 |        0.0 |  40.0 |        0.0 |  12.9 |
+|Influence coeffic.   |        6 |        0.0 |  33.3 |        0.0 |  17.2 |
 |Initial state/estim. |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        6 |        0.0 |   0.0 |        0.0 |  13.8 |
+|Writing output-files |        6 |        0.0 |   0.0 |        0.0 |   3.1 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -62,6 +62,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    444.0000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000       14.74      1.2220  -1.300E-03   5.000E-03       0.000
@@ -100,9 +104,9 @@
      0.000      0.4000       1.500E+04   8.310E-03   5.285E-03   4.342E-04
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
      1.274E+05  -6.102E+04  -4.919E+04   2.710E+05       6.608  -1.017E+04
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.378E+05     -0.4429     -0.3901   8.051E-02       1545.
 
  CONTACT STATISTICS
@@ -382,9 +386,9 @@
      0.000      0.4000       1.500E+04   6.742E-02   1.780E-02   2.159E-03
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
          6339.      -1222.      -327.2      -398.0   4.120E-02      -1334.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          6339.     -0.1928  -5.096E-02   1.519E-02       739.9
 
  CONTACT STATISTICS
@@ -478,9 +482,9 @@
     -3.137      -3.530    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
      1.275E+05  -6.075E+04  -4.883E+04   4.196E+05       6.591  -1.080E+04
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.378E+05     -0.4408     -0.3880   8.070E-02       1544.
 
  CONTACT STATISTICS
@@ -518,9 +522,9 @@
      4.079      -50.52    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
          6285.      -1212.      -323.4      -1708.   4.015E-02      -1323.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          6286.     -0.1928  -5.068E-02   1.524E-02       709.5
 
  CONTACT STATISTICS
@@ -533,17 +537,11 @@
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.160E+06
          2, NR,  z_ws, Fz:       1.2139   1.235E+05, dFz/dz:   1.685E+06
-         3, NR,  z_ws, Fz:       1.2099   1.211E+05, dFz/dz:   6.017E+05
-         4, NR,  z_ws, Fz:       1.1683   3.205E+04, dFz/dz:   2.143E+06
-         5, NR,  z_ws, Fz:       1.2080   1.164E+05, dFz/dz:   2.464E+06
-         6, NR,  z_ws, Fz:       1.2082   1.170E+05, dFz/dz:   2.586E+06
-         7, NR,  z_ws, Fz:       1.2082   1.170E+05, dFz/dz:  -1.059E+06
-         8, NR,  z_ws, Fz:       1.2081   1.169E+05, dFz/dz:   9.429E+05
-         9, NR,  z_ws, Fz:       1.2082   1.171E+05, dFz/dz:  -2.056E+05
-        10, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.071E+06
-        11, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.799E+06
-        12, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.913E+06
-        13, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   1.886E+06
+         3, NR,  z_ws, Fz:       1.2099   1.216E+05, dFz/dz:   4.803E+05
+         4, NR,  z_ws, Fz:       1.1683   3.205E+04, dFz/dz:   2.155E+06
+         5, NR,  z_ws, Fz:       1.2078   1.160E+05, dFz/dz:   2.606E+06
+         6, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   2.580E+06
+         7, NR,  z_ws, Fz:       1.2081   1.170E+05, dFz/dz:   2.588E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  3 CONTACT PATCHES
 
@@ -565,20 +563,20 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -5.535E+04  -1.641E+04   1.170E+05  -5.543E+04  -1.629E+04   1.170E+05
+  -5.536E+04  -1.644E+04   1.170E+05  -5.544E+04  -1.631E+04   1.170E+05
 
  ----- DATA FOR CONTACT PATCH  1 (PREV  1) -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.5554    754.7588      0.4127     -0.0875      5.5945      0.4127
+     -3.5554    754.7584      0.4128     -0.0650      5.5941      0.4127
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.1418     65.7506      0.1662
+      0.1418     65.7501      0.1663
 
  Actual contact on columns iy = [ 51,110] (my=117), sc = [ -9.800, 14.200]
- Reference contact angle delttr =  -5.01 deg, range = [  -9.28,  -1.61] deg
- Total moments Mxp =     15196.6, Msp =    254558.6, Mnp =    164601.8 N.mm
+ Reference contact angle delttr =  -3.72 deg, range = [  -9.28,  -1.61] deg
+ Total moments Mxp =     15107.0, Msp =    258328.4, Mnp =    158814.1 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -593,32 +591,32 @@
      0.000      0.4000       1.500E+04   4.762E-03   5.026E-03   1.741E-04
 
      SPINXO      SPINYO
-    -3.555       5.475    
+    -3.555       5.474    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-     7.261E+04  -4.620E+04  -4.700E+04   1.646E+05       3.636  -1.762E+04
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
-     7.379E+04     -0.6261     -0.6138   6.328E-02       769.2
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+     7.368E+04  -4.621E+04  -4.537E+04   1.588E+05       3.638  -1.760E+04
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
+     7.382E+04     -0.6261     -0.6137   6.330E-02       769.3
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   4914   1027    113    914      1      1
+   4914   1027    114    913      1      1
 
  ----- DATA FOR CONTACT PATCH  2 (PREV  2) -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -2.0554    723.3827      7.3803     -0.5252    -25.7816      7.3803
+     -2.0554    723.3827      7.3803     -0.5793    -25.7816      7.3802
 
      XCP(W)      YCP(W)      ZCP(W)
       1.4849     34.3583      7.0930
 
  Actual contact on columns iy = [  6, 19] (my=116), sc = [-29.800,-24.200]
- Reference contact angle delttr = -30.09 deg, range = [ -40.59, -26.69] deg
- Total moments Mxp =      1718.3, Msp =     91237.4, Mnp =      3624.8 N.mm
+ Reference contact angle delttr = -33.19 deg, range = [ -40.59, -26.69] deg
+ Total moments Mxp =      1751.9, Msp =     91040.6, Mnp =      8579.4 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -630,16 +628,16 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.4000       1.500E+04   2.043E-02   6.053E-03   1.234E-03
+     0.000      0.4000       1.500E+04   2.043E-02   6.051E-03   1.233E-03
 
      SPINXO      SPINYO
     -2.055      -26.96    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-     4.415E+04      -8397.      -2011.       3625.       1.270      -5574.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
-     4.409E+04     -0.1905  -9.399E-02   6.948E-02       1511.
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+     4.394E+04      -8391.      -4395.       8579.       1.268      -5572.
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
+     4.405E+04     -0.1905  -9.397E-02   6.945E-02       1511.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -651,14 +649,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0748    714.2548     28.3706     -1.2697    -34.9095     28.3706
+      4.0748    714.2548     28.3706     -1.2697    -34.9095     28.3705
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.5692     25.1726     28.0715
+      7.5692     25.1726     28.0714
 
  Actual contact on columns iy = [  4,  7] (my= 11), sc = [-51.400,-49.800]
  Reference contact angle delttr = -72.75 deg, range = [ -72.39, -73.02] deg
- Total moments Mxp =      -331.2, Msp =    -15759.0, Mnp =      -977.8 N.mm
+ Total moments Mxp =      -331.5, Msp =    -15766.7, Mnp =      -978.4 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -676,10 +674,10 @@
      4.075      -50.57    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-         3906.      -753.9      -199.5      -977.8   1.823E-02      -852.2
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
-         3906.     -0.1930  -5.065E-02   1.110E-02       618.4
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+         3908.      -754.3      -199.6      -978.4   1.825E-02      -852.6
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
+         3908.     -0.1930  -5.065E-02   1.110E-02       618.5
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -690,13 +688,11 @@
  Case     4
          0, NR,  z_ws, Fz:       1.1268       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       1.2081   1.167E+05, dFz/dz:   2.151E+06
-         2, NR,  z_ws, Fz:       1.2120   1.238E+05, dFz/dz:   1.841E+06
-         3, NR,  z_ws, Fz:       1.2132   1.235E+05, dFz/dz:  -1.835E+05
-         4, NR,  z_ws, Fz:       1.2175   1.268E+05, dFz/dz:   7.465E+05
-         5, NR,  z_ws, Fz:       1.2220   1.376E+05, dFz/dz:   2.382E+06
-         6, NR,  z_ws, Fz:       1.2176   1.270E+05, dFz/dz:   2.365E+06
-         7, NR,  z_ws, Fz:       1.2176   1.270E+05, dFz/dz:   1.915E+06
-         8, NR,  z_ws, Fz:       1.2176   1.270E+05, dFz/dz:   2.363E+06
+         2, NR,  z_ws, Fz:       1.2120   1.237E+05, dFz/dz:   1.791E+06
+         3, NR,  z_ws, Fz:       1.2133   1.236E+05, dFz/dz:  -9.541E+04
+         4, NR,  z_ws, Fz:       1.2176   1.270E+05, dFz/dz:   8.005E+05
+         5, NR,  z_ws, Fz:       1.2173   1.263E+05, dFz/dz:   2.360E+06
+         6, NR,  z_ws, Fz:       1.2176   1.270E+05, dFz/dz:   2.364E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -718,7 +714,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -5.803E+04  -1.588E+04   1.270E+05  -5.811E+04  -1.575E+04   1.270E+05
+  -5.804E+04  -1.588E+04   1.270E+05  -5.812E+04  -1.576E+04   1.270E+05
 
  ----- DATA FOR CONTACT PATCH  1 (PREV  1) -----
 
@@ -731,7 +727,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -12.04 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -238961.5, Msp =    284493.9, Mnp =    418441.3 N.mm
+ Total moments Mxp =   -238961.6, Msp =    284485.3, Mnp =    418491.6 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -749,16 +745,16 @@
     -3.132      -3.572    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-     1.180E+05  -5.697E+04  -4.667E+04   4.184E+05       5.882      -4275.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
-     1.276E+05     -0.4466     -0.4001   7.709E-02       1514.
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+     1.180E+05  -5.697E+04  -4.668E+04   4.185E+05       5.883      -4285.
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
+     1.276E+05     -0.4467     -0.4001   7.709E-02       1514.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   6324   1457    465    992      1      1
+   6324   1457    464    993      1      1
 
  ----- DATA FOR CONTACT PATCH  2 (PREV  2) -----
 
@@ -771,7 +767,7 @@
 
  Actual contact on columns iy = [  4,  7] (my= 12), sc = [-51.400,-49.800]
  Reference contact angle delttr = -72.76 deg, range = [ -72.39, -73.02] deg
- Total moments Mxp =      -667.3, Msp =    -22145.1, Mnp =     -1463.1 N.mm
+ Total moments Mxp =      -667.3, Msp =    -22144.9, Mnp =     -1463.0 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -789,9 +785,9 @@
      4.078      -50.53    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-         5503.      -1061.      -283.1      -1463.   3.219E-02      -1129.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+         5503.      -1061.      -283.0      -1463.   3.219E-02      -1129.
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          5504.     -0.1929  -5.076E-02   1.395E-02       681.9
 
  CONTACT STATISTICS
@@ -808,7 +804,7 @@
          3, NR,  z_ws, Fz:       1.2218   1.369E+05, dFz/dz:   2.408E+06
          4, NR,  z_ws, Fz:       1.2266   1.485E+05, dFz/dz:   2.437E+06
          5, NR,  z_ws, Fz:       1.2218   1.370E+05, dFz/dz:   2.410E+06
-         6, NR,  z_ws, Fz:       1.2218   1.370E+05, dFz/dz:   2.411E+06
+         6, NR,  z_ws, Fz:       1.2218   1.370E+05, dFz/dz:   2.415E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -830,7 +826,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -6.077E+04  -1.474E+04   1.370E+05  -6.084E+04  -1.462E+04   1.370E+05
+  -6.077E+04  -1.475E+04   1.370E+05  -6.085E+04  -1.462E+04   1.370E+05
 
  ----- DATA FOR CONTACT PATCH  1 (PREV  1) -----
 
@@ -843,7 +839,7 @@
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -251154.8, Msp =    311869.0, Mnp =    419768.3 N.mm
+ Total moments Mxp =   -251155.2, Msp =    311863.1, Mnp =    419803.1 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -861,16 +857,16 @@
     -3.137      -3.531    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-     1.277E+05  -5.956E+04  -4.805E+04   4.198E+05       6.539      -5445.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+     1.277E+05  -5.956E+04  -4.805E+04   4.198E+05       6.539      -5449.
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.377E+05     -0.4325     -0.3827   8.067E-02       1544.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   6324   1528    463   1065      1      1
+   6324   1528    460   1068      1      1
 
  ----- DATA FOR CONTACT PATCH  2 (PREV  2) -----
 
@@ -883,7 +879,7 @@
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -857.5, Msp =    -25256.4, Mnp =     -1707.9 N.mm
+ Total moments Mxp =      -857.5, Msp =    -25256.2, Mnp =     -1707.9 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -901,9 +897,9 @@
      4.079      -50.52    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
          6277.      -1211.      -323.1      -1708.   4.007E-02      -1306.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          6278.     -0.1928  -5.071E-02   1.523E-02       709.2
 
  CONTACT STATISTICS
@@ -918,7 +914,7 @@
          2, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.413E+06
          3, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.413E+06
          4, NR,  z_ws, Fz:       1.2266   1.486E+05, dFz/dz:   2.446E+06
-         5, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.425E+06
+         5, NR,  z_ws, Fz:       1.2219   1.370E+05, dFz/dz:   2.424E+06
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -940,20 +936,20 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -6.110E+04  -1.487E+04   1.370E+05  -6.117E+04  -1.475E+04   1.370E+05
+  -6.110E+04  -1.488E+04   1.370E+05  -6.118E+04  -1.475E+04   1.370E+05
 
  ----- DATA FOR CONTACT PATCH  1 (PREV  1) -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.1373    745.7868      1.1739     -0.2081     -3.3775      1.1739
+     -3.1373    745.7868      1.1739     -0.2081     -3.3776      1.1739
 
      XCP(W)      YCP(W)      ZCP(W)
       0.5150     56.7756      0.9020
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -250261.6, Msp =    311557.3, Mnp =    419907.0 N.mm
+ Total moments Mxp =   -250262.2, Msp =    311554.7, Mnp =    419922.5 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -971,10 +967,10 @@
     -3.137      -3.530    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
-     1.276E+05  -5.989E+04  -4.818E+04   4.199E+05       6.556      -9477.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
-     1.378E+05     -0.4347     -0.3834   8.069E-02       1544.
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
+     1.276E+05  -5.989E+04  -4.818E+04   4.199E+05       6.556      -9485.
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
+     1.378E+05     -0.4347     -0.3835   8.069E-02       1544.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -993,7 +989,7 @@
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -858.6, Msp =    -25275.3, Mnp =     -1707.4 N.mm
+ Total moments Mxp =      -858.6, Msp =    -25275.2, Mnp =     -1707.4 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -1011,9 +1007,9 @@
      4.079      -50.52    
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
          6282.      -1212.      -323.1      -1707.   4.012E-02      -1322.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          6282.     -0.1928  -5.066E-02   1.523E-02       709.4
 
  CONTACT STATISTICS
@@ -1029,24 +1025,24 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        2.5 | 100.0 |        2.6 | 100.0 |
-|Wheel-rail cases     |        6 |        2.5 | 100.0 |        2.6 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.6 |        0.0 |   0.3 |
-|Geometric analysis   |       42 |        0.1 |   4.9 |        0.2 |   6.2 |
-|Panag.process        |       94 |        2.0 |  77.2 |        2.0 |  77.1 |
-|Algorithm Norm       |       94 |        0.4 |  14.2 |        0.4 |  13.7 |
-|Algorithm Tang       |       94 |        1.6 |  63.0 |        1.7 |  63.4 |
-|Output quantities    |      100 |        0.2 |   6.2 |        0.2 |   6.4 |
+|Total                |        1 |        1.5 | 100.0 |        1.5 | 100.0 |
+|Wheel-rail cases     |        6 |        1.5 |  98.9 |        1.5 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |       34 |        0.0 |   2.1 |        0.1 |   5.1 |
+|Panag.process        |       72 |        1.2 |  79.8 |        1.2 |  77.4 |
+|Algorithm Norm       |       72 |        0.2 |  13.8 |        0.2 |  11.6 |
+|Algorithm Tang       |       72 |        1.0 |  66.0 |        1.0 |  65.4 |
+|Output quantities    |       78 |        0.1 |   5.3 |        0.0 |   2.8 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       94 |        0.2 |   9.9 |        0.3 |   9.7 |
-|Tang: TangCG solver  |       81 |        0.5 |  20.4 |        0.6 |  21.6 |
-|Tang: StedyGS solver |       13 |        1.0 |  40.1 |        1.0 |  39.5 |
+|Norm: ConjGrd solver |       72 |        0.2 |  13.8 |        0.2 |  10.3 |
+|Tang: TangCG solver  |       59 |        0.3 |  21.3 |        0.3 |  22.4 |
+|Tang: StedyGS solver |       13 |        0.6 |  42.6 |        0.6 |  39.8 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        6 |        0.0 |   0.6 |        0.0 |   0.3 |
-|Contact location     |       42 |        0.1 |   2.5 |        0.1 |   2.1 |
-|Undeformed distance  |       94 |        0.1 |   2.5 |        0.1 |   4.0 |
-| - Interp whl_srfc   |       94 |        0.1 |   2.5 |        0.1 |   2.5 |
-|Influence coeffic.   |       16 |        0.0 |   1.2 |        0.0 |   0.7 |
-|Initial state/estim. |       94 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |       34 |        0.0 |   0.0 |        0.0 |   1.2 |
+|Undeformed distance  |       72 |        0.0 |   0.0 |        0.0 |   3.0 |
+| - Interp whl_srfc   |       72 |        0.0 |   0.0 |        0.0 |   2.0 |
+|Influence coeffic.   |       16 |        0.0 |   0.0 |        0.0 |   1.4 |
+|Initial state/estim. |       72 |        0.0 |   0.0 |        0.0 |   0.3 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

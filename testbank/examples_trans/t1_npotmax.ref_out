@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -54,6 +54,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    444.0000
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -494,23 +498,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.1 | 100.0 |        0.2 | 100.0 |
-|Wheel-rail cases     |        2 |        0.1 | 100.0 |        0.2 | 100.0 |
-|W/r profiles         |        2 |        0.0 |  11.1 |        0.0 |   8.3 |
-|Geometric analysis   |        2 |        0.0 |   0.0 |        0.0 |   5.9 |
-|Panag.process        |        5 |        0.1 |  55.6 |        0.1 |  54.4 |
-|Algorithm Norm       |        5 |        0.0 |  33.3 |        0.0 |  26.6 |
-|Algorithm Tang       |        5 |        0.0 |  22.2 |        0.0 |  27.8 |
-|Output quantities    |        7 |        0.0 |  11.1 |        0.0 |  14.2 |
+|Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
+|Wheel-rail cases     |        2 |        0.1 |  80.0 |        0.1 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   7.5 |
+|Geometric analysis   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Panag.process        |        5 |        0.0 |  60.0 |        0.0 |  53.7 |
+|Algorithm Norm       |        5 |        0.0 |  20.0 |        0.0 |  35.0 |
+|Algorithm Tang       |        5 |        0.0 |  40.0 |        0.0 |  18.7 |
+|Output quantities    |        7 |        0.0 |   0.0 |        0.0 |  15.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        5 |        0.0 |  33.3 |        0.0 |  21.9 |
-|Tang: TangCG solver  |        5 |        0.0 |  22.2 |        0.0 |  26.0 |
+|Norm: ConjGrd solver |        5 |        0.0 |   0.0 |        0.0 |  32.5 |
+|Tang: TangCG solver  |        5 |        0.0 |  40.0 |        0.0 |  18.7 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        2 |        0.0 |  11.1 |        0.0 |   8.3 |
-|Contact location     |        2 |        0.0 |   0.0 |        0.0 |   4.1 |
-|Undeformed distance  |        5 |        0.0 |   0.0 |        0.0 |   1.8 |
+|Reading input-file   |        2 |        0.0 |   0.0 |        0.0 |   7.5 |
+|Contact location     |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Undeformed distance  |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   2.4 |
+|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |  10.0 |
 |Initial state/estim. |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

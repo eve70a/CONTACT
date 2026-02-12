@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2707 $, $Date:: 2025-07-23$        |
+   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -370,7 +370,7 @@
 
  Y =    0.000     ROW  2 OF THE POTENTIAL CONTACT
 
-    0.000     -0.406       1.00       1.00      0.999           0.0     0.00     -0.289       0.00    
+    0.000     -0.406       1.00       1.00      0.999          -0.0     0.00     -0.289       0.00    
 
  SUBSURFACE STRESSES BLOCK  1:
  
@@ -507,16 +507,16 @@
  
  Position (X,Y,Z):   0.000       0.000      -1.000    
  I,Displacement(I); Stress(I,J),J = 1,3
-  1   -0.1058E-14;  -0.5950E-02   0.000      0.2441E-14
-  2    0.1064E-14;    0.000     -0.5950E-02 -0.2407E-14
-  3   -0.1561    ;   0.2441E-14 -0.2407E-14 -0.2720    
+  1     0.000    ;  -0.5950E-02   0.000      0.2410E-14
+  2     0.000    ;    0.000     -0.5950E-02 -0.2300E-14
+  3   -0.1561    ;   0.2410E-14 -0.2300E-14 -0.2720    
   SigHyd =  -0.9463E-01, SigVM =   0.2660    
 
  Position (X,Y,Z):  0.4000       0.000      -1.000    
  I,Displacement(I); Stress(I,J),J = 1,3
-  1    0.9979E-02;  -0.1709E-01 -0.1385E-14  0.5616E-01
-  2     0.000    ;  -0.1385E-14 -0.5581E-02 -0.1433E-14
-  3   -0.1457    ;   0.5616E-01 -0.1433E-14 -0.2303    
+  1    0.9979E-02;  -0.1709E-01 -0.1452E-14  0.5616E-01
+  2     0.000    ;  -0.1452E-14 -0.5581E-02 -0.1376E-14
+  3   -0.1457    ;   0.5616E-01 -0.1376E-14 -0.2303    
   SigHyd =  -0.8431E-01, SigVM =   0.2398    
 
  Position (X,Y,Z):   0.000       0.000      0.2000    
@@ -1006,7 +1006,7 @@
  TANG: SHIFT TRANSIENT
        1, Tang: size of Adhes, Slip area :     177      0
          0, NR_Fy,    Cksi, Fxk:    1.000E-06  -3.635E-04
-                      Ceta, Fyk:        0.000   2.758E-20   ItCG:   10
+                      Ceta, Fyk:        0.000  -3.570E-19   ItCG:   10
          1, NR_Fy,    Cksi, Fxk:    4.000E-06  -1.454E-03
                       Ceta, Fyk:    3.000E-06  -1.091E-03   ItCG:   20
          2, NR_Fy,    Cksi, Fxk:    2.407E-03     -0.7411
@@ -1855,6 +1855,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1360.000    -70.0000    460.0000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -50.00    101.4232     -0.1745       0.000       0.000
@@ -1951,6 +1955,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1360.000    -70.0000    100.0000
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -2059,6 +2067,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+     0.000      0.0000      6.3145
 
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -2230,6 +2242,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+     0.000      0.0000    127.0000
+
  WHEEL-SET POSITION AND VELOCITY
      X_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -5.500      0.0550       0.000       0.000       0.000
@@ -2375,6 +2391,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1352.200      0.0000    419.1000
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -2668,16 +2688,14 @@
   4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.934E-02   3.582E-07
   5, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.844E-02   3.581E-07
   6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.879E-03   3.581E-07
-  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.616E-03   3.581E-07
-  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.187E-04   3.581E-07
-  9, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.241E-04   3.581E-07
- 10, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.833E-05   3.581E-07
- 11, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.142E-05   3.581E-07
- 12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.797E-06   3.581E-07
- 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.915E-06   3.581E-07
- 14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.737E-07   3.581E-07
- 15, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.669E-07   3.581E-07
- 16, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.653E-07   3.581E-07
+  7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.635E-03   3.581E-07
+  8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.901E-04   3.581E-07
+  9, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   6.662E-05   3.581E-07
+ 10, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.687E-05   3.581E-07
+ 11, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.528E-06   3.581E-07
+ 12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.740E-06   3.581E-07
+ 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.108E-07   3.581E-07
+ 14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.305E-07   3.581E-07
      FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
      4.000E+05       0.000       0.000       0.000       564.1      -10.46
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
@@ -2692,12 +2710,12 @@
   6, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.958E-03   5.360E-07
   7, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.955E-03   5.360E-07
   8, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.769E-04   5.360E-07
-  9, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.352E-05   5.360E-07
+  9, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.351E-05   5.360E-07
  10, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.967E-05   5.360E-07
  11, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.019E-06   5.360E-07
- 12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.869E-06   5.360E-07
- 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.851E-07   5.360E-07
- 14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.644E-07   5.360E-07
+ 12, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.870E-06   5.360E-07
+ 13, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.854E-07   5.360E-07
+ 14, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.647E-07   5.360E-07
      FN          FX          FY          MZ         ELAST.EN.   FRIC.WORK
      4.000E+05   1.401E+04       0.000       0.000       640.3      -7.050
      FN/G      FX/FSTAT/FN  FY/FSTAT/FN  APPROACH     PMAX    
@@ -2758,6 +2776,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    457.2000
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -2880,6 +2902,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       0.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    457.2000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -10.35     -3.2152   7.667E-04  -3.625E-03       0.000
@@ -2991,6 +3017,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    457.2000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -7.414     -0.8778  -1.980E-04   8.107E-04       0.000
@@ -3091,6 +3121,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    431.8000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -8.278     -1.5024   2.933E-04  -1.261E-02       0.000
@@ -3161,6 +3195,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    431.8000
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -3310,6 +3348,10 @@
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
 
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    431.8000
+
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
          0.000      -9.921     -4.8664  -4.340E-03  -1.326E-02       0.000
@@ -3410,6 +3452,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    444.0000
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -3853,9 +3899,9 @@
      0.000      0.4000       1.500E+04  -4.336E-03   1.403E-02   1.117E-03
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
      1.654E+05       6803.  -5.116E+04  -2.127E+05       7.462  -1.721E+04
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.834E+05   3.709E-02  -9.825E-02    0.105082       1820.
 
  CONTACT STATISTICS
@@ -4310,9 +4356,9 @@
      0.000      0.4000       1.500E+04   7.649E-03   1.710E-02   1.962E-03
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
      8.373E+04      -6756.  -1.574E+04  -3.558E+04       2.689      -5629.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      8.526E+04  -7.924E-02     -0.1393   8.000E-02       1612.
 
  CONTACT STATISTICS
@@ -4414,9 +4460,9 @@
      0.000      0.4000       1.500E+04   7.671E-03   1.710E-02   1.962E-03
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
-     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
      8.359E+04      -6799.  -1.564E+04  -3.544E+04       2.686      -5609.
-     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+     FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      8.507E+04  -7.992E-02     -0.1396   7.995E-02       1611.
 
  CONTACT STATISTICS
@@ -4472,6 +4518,10 @@
 
    ZIGTHRS     KINKHIG     KINKLOW      KINKWID     MAXOMIT
      2.618      0.5236      0.1047       2.000      0.5000    
+
+ WHEELSET DIMENSIONS
+    FBDIST      YFBPOS      NOMRAD        
+  1347.400      0.0000    444.0000
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
@@ -4909,32 +4959,32 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        2.9 | 100.0 |        3.2 | 100.0 |
-|Wheel-rail cases     |       19 |        2.4 |  81.6 |        2.5 |  80.1 |
-|Non-Hertzian cases   |       20 |        0.5 |  18.4 |        0.6 |  19.8 |
+|Total                |        1 |        1.7 | 100.0 |        1.8 | 100.0 |
+|Wheel-rail cases     |       19 |        1.4 |  82.9 |        1.5 |  82.1 |
+|Non-Hertzian cases   |       20 |        0.3 |  17.1 |        0.3 |  17.6 |
 |Subsurface points    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|W/r profiles         |       25 |        0.0 |   1.1 |        0.1 |   2.3 |
-|Geometric analysis   |      119 |        0.2 |   8.6 |        0.3 |   8.4 |
-|Panag.process        |      133 |        2.2 |  75.7 |        2.2 |  69.3 |
-|Algorithm Norm       |      174 |        0.6 |  19.5 |        0.6 |  20.2 |
-|Algorithm Tang       |      165 |        1.6 |  54.6 |        1.5 |  48.4 |
-|Output quantities    |      152 |        0.2 |   7.6 |        0.3 |  10.0 |
+|W/r profiles         |       25 |        0.0 |   0.9 |        0.1 |   4.7 |
+|Geometric analysis   |      119 |        0.2 |   9.0 |        0.2 |  10.6 |
+|Panag.process        |      133 |        1.2 |  69.4 |        1.2 |  68.0 |
+|Algorithm Norm       |      172 |        0.3 |  19.8 |        0.4 |  22.1 |
+|Algorithm Tang       |      163 |        0.8 |  47.7 |        0.8 |  45.1 |
+|Output quantities    |      152 |        0.1 |   5.4 |        0.2 |   9.8 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      174 |        0.4 |  13.5 |        0.4 |  13.9 |
-|Tang: TangCG solver  |       81 |        0.2 |   6.5 |        0.2 |   6.1 |
-|Tang: ConvxGS solver |        5 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Tang: StedyGS solver |      131 |        1.3 |  44.9 |        1.3 |  39.7 |
+|Norm: ConjGrd solver |      172 |        0.3 |  18.0 |        0.3 |  17.6 |
+|Tang: TangCG solver  |       79 |        0.1 |   5.4 |        0.1 |   5.9 |
+|Tang: ConvxGS solver |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: StedyGS solver |      131 |        0.7 |  37.8 |        0.7 |  37.4 |
 |Tang: Fastsim solver |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       39 |        0.0 |   1.1 |        0.1 |   2.3 |
-|Contact location     |      119 |        0.1 |   2.7 |        0.1 |   2.5 |
-| - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Reading input-file   |       39 |        0.0 |   0.9 |        0.1 |   4.7 |
+|Contact location     |      119 |        0.0 |   0.9 |        0.1 |   3.2 |
+| - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.3 |
 | - Other calc.       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Locate interpen   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |      113 |        0.2 |   5.4 |        0.2 |   5.2 |
-| - Interp whl_srfc   |      113 |        0.1 |   3.8 |        0.1 |   4.2 |
-|Influence coeffic.   |       74 |        0.1 |   2.7 |        0.2 |   4.8 |
+|Undeformed distance  |      113 |        0.1 |   4.5 |        0.1 |   6.6 |
+| - Interp whl_srfc   |      113 |        0.0 |   1.8 |        0.1 |   3.0 |
+|Influence coeffic.   |       74 |        0.0 |   0.0 |        0.0 |   1.3 |
 |Initial state/estim. |      133 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.2 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
