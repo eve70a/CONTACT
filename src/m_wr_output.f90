@@ -91,19 +91,23 @@ contains
          write(lout, 1101) ic%config, ic%pvtime, ic%bound, ic%tang, ic%norm, ic%force1, ic%stress
          write(lout, 1102) ic%varfrc, ic%frclaw_inp, ic%discns1_inp, ic%gencr_inp, ic%mater, ic%ztrack, &
                         ic%ewheel
-         write(lout, 1103) ic%heat, ic%gausei_inp, ic%iestim, ic%matfil_surf, ic%output_surf, ic%flow,  &
+         if (ic%ztrck2.gt.0 .or. ic%mater3.gt.0 .or. ic%mater2.gt.0) then
+            write(lout, 1103) ic%ztrck2, ic%mater3, ic%mater2
+         endif
+         write(lout, 1104) ic%heat, ic%gausei_inp, ic%iestim, ic%matfil_surf, ic%output_surf, ic%flow,  &
                         ic%return
          if (ic%xflow.ge.1) then
-            write(lout, 1104) ic%x_profil, ic%x_smooth, ic%x_force, ic%x_locate, ic%x_readln,           &
+            write(lout, 1105) ic%x_profil, ic%x_smooth, ic%x_force, ic%x_locate, ic%x_readln,           &
                         ic%x_inflcf, ic%x_nmdbg
          endif
  1101    format (' CPBTNFS.  CONFIG',i2, ', PVTIME',i2, ', BOUND ',i2, ', TANG  ',i2, ', NORM  ',i2,    &
                         ', FORCE ',i2, ', STRESS',i2)
  1102    format (' VLDCMZE.  VARFRC',i2, ', FRCLAW',i2, ', DISCNS',i2, ', INFLCF',i2, ', MATER ',i2,    &
                         ', ZTRACK',i2, ', EWHEEL',i2)
- 1103    format (' HGIAOWR.  HEAT  ',i2,', GAUSEI',i2, ', IESTIM',i2, ', MATFIL',i2, ', OUTPUT',i2,     &
+ 1103    format ('     ZMM.  ',40x,'ZTRCK2',i2, ', MATER3',i2, ', MATER2',i2)
+ 1104    format (' HGIAOWR.  HEAT  ',i2,', GAUSEI',i2, ', IESTIM',i2, ', MATFIL',i2, ', OUTPUT',i2,     &
                         ', FLOW  ',i2, ', RETURN',i2)
- 1104    format (' PSFLRIN.  PROFIL',i2,', SMOOTH',i2, ', FORCE ',i2, ', LOCATE',i2, ', READLN',i2,     &
+ 1105    format (' PSFLRIN.  PROFIL',i2,', SMOOTH',i2, ', FORCE ',i2, ', LOCATE',i2, ', READLN',i2,     &
                         ', INFLCF',i2, ', NMDBG ',i2)
 
          if (ic%bound.eq.0 .and. ic%norm.eq.0) write(lout, 1201) 'POSITION',       'FULL'
