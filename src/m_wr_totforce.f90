@@ -486,6 +486,119 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
+   subroutine estimate_creepage(wtd, cp, sgn, cksi, ceta, cphi, idebug)
+!--purpose: determine approximate creepages for a contact patch
+      implicit none
+!--subroutine arguments:
+      type(t_ws_track)             :: wtd
+      type(t_cpatch)               :: cp
+      real(kind=8),    intent(in)  :: sgn
+      real(kind=8),    intent(out) :: cksi, ceta, cphi
+      integer,         intent(in)  :: idebug
+!--local variables:
+      real(kind=8) :: ycpws, rwhl, rrol, veloc
+
+      if (.not.wtd%ic%is_roller()) then
+         ! TODO: check/improve, rewrite using markers?
+         ycpws = cp%mref%y() - sgn * wtd%ws%y + wtd%ws%roll * wtd%ws%nom_radius
+         write(bufout,'(a,6g12.4)') ' ycpws=',cp%mref%y(), -sgn*wtd%ws%y, wtd%ws%roll*wtd%ws%nom_radius, ycpws
+         call write_log(1, bufout)
+         rwhl  = wtd%ws%nom_radius + cp%mref%z() - wtd%ws%z - wtd%ws%gap_min - sgn*wtd%ws%roll * ycpws
+         veloc = abs(wtd%ws%vs - rwhl * wtd%ws%vpitch) / 2d0
+         cksi  =   -(wtd%ws%vs + rwhl * wtd%ws%vpitch) / veloc
+         write(bufout,'(a,6g12.4)') ' rwhl=',wtd%ws%nom_radius, cp%mref%z(), -wtd%ws%z,                 &
+                -wtd%ws%gap_min, rwhl, veloc
+         call write_log(1, bufout)
+      else
+         rwhl  = wtd%ws%nom_radius + cp%mref%z() - wtd%ws%z
+         rrol  = wtd%trk%nom_radius - cp%mref%z()
+         veloc = (rrol * wtd%trk%vpitch_rol - rwhl * wtd%ws%vpitch) / 2d0
+         cksi  = (rrol * wtd%trk%vpitch_rol + rwhl * wtd%ws%vpitch) / veloc
+      endif
+      ceta = sgn * wtd%ws%yaw / cos(cp%delttr)
+      cphi = -cp%delttr / wtd%ws%nom_radius
+
+      if (idebug.ge.0) then
+         write(bufout,'(6a)') ' estimated creepages cksi=',fmt_gs(12,4,4,cksi),', ceta=',               &
+                fmt_gs(12,4,4,sgn*ceta), ', cphi=',fmt_gs(12,4,4,sgn*cphi)
+         call write_log(1, bufout)
+      endif
+
+   end subroutine estimate_creepage
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine estimate_chz_fsrel(wtd, new_c_hz, sgn, x_force)
+!--purpose: determine approximate creepages for a contact patch
+      implicit none
+!--subroutine arguments:
+      type(t_ws_track)              :: wtd
+      logical,         dimension(:) :: new_c_hz
+      real(kind=8),    intent(in)   :: sgn
+      integer,         intent(in)   :: x_force
+!--local variables:
+      integer      :: icp, ic_norm, ipotcn
+      real(kind=8) :: e_star, epshz, fn_hz, aa, bb, pen, c_p, rho,                                      &
+                      cxx, cyy, cyz, cksi, ceta, cphi, fx_sh, fy_sh
+
+      new_c_hz(1:MAX_NUM_CPS) = .false.
+
+      do icp = 1, wtd%numcps+wtd%n_miss
+         associate(cp => wtd%allcps(icp)%cp)
+         if (cp%c_hz.le.0d0 .or. icp.gt.wtd%numcps) then
+
+            ! use curvatures a1, b1 to get sensible C_hz
+
+            ic_norm =  1
+            ipotcn  = -1
+            e_star  = wtd%mater%ga / (1d0 - wtd%mater%nu)
+            epshz   = wtd%solv%eps
+            fn_hz   = 10d3
+         
+            call hzcalc3d (e_star, epshz, ipotcn, cp%a1, cp%b1, aa, bb, ic_norm, pen, fn_hz, c_p, rho)
+            cp%c_hz = fn_hz / max(1d-9,pen)**(1.5)
+            new_c_hz(icp) = .true.
+
+            if (x_force.ge.4) then
+               write(bufout,'(2(a,g12.4),a,i0,2(a,g12.4))') ' e_star=',e_star,', eps=',epshz,           &
+                      ', ipotcn=', ipotcn,', a1=',cp%a1, ', b1=',cp%b1
+               call write_log(1, bufout)
+               write(bufout,'(2(a,f8.3),a,i0,4(a,g12.4))') ' aa=',aa,', bb=',bb,', ic_norm=',ic_norm,   &
+                      ', pen=',pen,', fn_hz=',fn_hz, ', cp=',c_p,', rho=',rho
+               call write_log(1, bufout)
+            endif
+
+            if (wtd%ic%tang.eq.0) then
+               cp%fs_rel = 0d0
+            elseif (.true.) then
+               ! assume fs_rel proportional to contact angle
+
+               cp%fs_rel = wtd%fric%fstat_min() * sin(cp%delttr)
+            else
+               ! TODO: use Shen-Hedrick-Elkins approximation to get sensible fs_rel
+
+               call estimate_creepage(wtd, cp, sgn, cksi, ceta, cphi, x_force)
+               call linrol(wtd%mater%nu, aa/bb, cxx, cyy, cyz)
+               call shen(aa, bb, wtd%mater%ga, wtd%fric%fstat_min(), fn_hz, cxx, cyy, cyz, cksi, ceta,  &
+                         cphi, fx_sh, fy_sh)
+
+               cp%fs_rel = fy_sh / (wtd%fric%fstat_min() * fn_hz)
+
+               if (x_force.ge.2 .and. icp.le.wtd%numcps) then
+                  write(bufout,'(2(a,f6.3))') ' fs_rel=',cp%fs_rel,', old=',                            &
+                        wtd%fric%fstat_min() * sin(cp%delttr)
+                  call write_log(1, bufout)
+               endif
+            endif
+
+         endif
+         end associate
+      enddo
+
+   end subroutine estimate_chz_fsrel
+
+!------------------------------------------------------------------------------------------------------------
+
    subroutine solve_zshift_powerlaw(wtd, k, its, ftarg, tol_zk, zshift_new, dftot_dz, x_force,          &
                                  was_complete, use_pow)
 !--purpose: determine new z_shift using approximate power law for each contact patch: F_n = C_i pen_i^1.5 
@@ -502,9 +615,9 @@ contains
       integer,      parameter :: max_nr = 20
       real(kind=8), parameter :: eps_fz = 1d-3, a_max = 0.5d0*pi-0.001d0
       logical        :: is_complete, new_c_hz(MAX_NUM_CPS)
-      integer        :: icp, it_nr, ic_norm, ipotcn
+      integer        :: icp, it_nr 
       real(kind=8)   :: z_shift, z_shift0, dzshift, zshift_prv, dz_defl, pen, res, sgn,                 &
-                        alph, c_hz, fs_rel, fz_est, e_star, epshz, fn_hz, aa, bb, c_p, rho
+                        alph, c_hz, fs_rel, fz_est
 
       if (wtd%numcps+wtd%n_miss.le.0) then
          zshift_new = 0d0
@@ -521,37 +634,7 @@ contains
 
       ! Determine sensible C_hz and fs_rel for new contact patches & near miss patches
 
-      new_c_hz(1:MAX_NUM_CPS) = .false.
-
-      do icp = 1, wtd%numcps+wtd%n_miss
-         associate(cp => wtd%allcps(icp)%cp)
-         if (cp%c_hz.le.0d0 .or. icp.gt.wtd%numcps) then
-
-            ! use curvatures a1, b1 to get sensible C_hz, assume fs_rel proportional to contact angle
-
-            ic_norm =  1
-            ipotcn  = -1
-            e_star  = wtd%mater%ga / (1d0 - wtd%mater%nu)
-            epshz   = wtd%solv%eps
-            fn_hz   = 10d3
-         
-            call hzcalc3d (e_star, epshz, ipotcn, cp%a1, cp%b1, aa, bb, ic_norm, pen, fn_hz, c_p, rho)
-            cp%c_hz = fn_hz / max(1d-9,pen)**(1.5)
-            new_c_hz(icp) = .true.
-            cp%fs_rel = wtd%fric%fstat_min() * sin(cp%delttr)
-            if (wtd%ic%tang.eq.0) cp%fs_rel = 0d0
-
-            if (x_force.ge.4) then
-               write(bufout,'(2(a,g12.4),a,i0,2(a,g12.4))') ' e_star=',e_star,', eps=',epshz,           &
-                      ', ipotcn=', ipotcn,', a1=',cp%a1, ', b1=',cp%b1
-               call write_log(1, bufout)
-               write(bufout,'(2(a,f8.3),a,i0,4(a,g12.4))') ' aa=',aa,', bb=',bb,', ic_norm=',ic_norm,   &
-                      ', pen=',pen,', fn_hz=',fn_hz, ', cp=',c_p,', rho=',rho
-               call write_log(1, bufout)
-            endif
-         endif
-         end associate
-      enddo
+      call estimate_chz_fsrel(wtd, new_c_hz, sgn, x_force)
 
       ! get current estimate z_shift and value z_shift0 at initial contact
 
@@ -665,6 +748,7 @@ contains
       endif
 
       if (use_pow .and. isnan(zshift_new)) then
+         ! TODO: return error code instead of aborting
          call write_log(' NaN in solve_zshift_powerlaw')
          call abort_run()
       endif
@@ -982,7 +1066,12 @@ contains
             if (my_ierror.eq.0) my_ierror = sub_ierror
             call brent_its_print(k, its, wtd%ic, x_force)
 
-            has_contact = (wtd%ftrk%z().ge.1d-6)
+            ! has_contact = (wtd%ftrk%z().ge.1d-6)
+            if (wtd%numcps.ge.1) then
+               has_contact = (wtd%allcps(1)%cp%gd%kin%fntrue.ge.1d-6)
+            else
+               has_contact = .false.
+            endif
 
          endif ! has_overlap
 
@@ -1410,9 +1499,8 @@ contains
       integer,      parameter :: max_nr = 20
       real(kind=8), parameter :: eps_fz = 1d-3
       logical        :: new_c_hz(MAX_NUM_CPS), ldone
-      integer        :: icp, ic_norm, ipotcn, iter, ncontrb
-      real(kind=8)   :: y_shift, z_shift, dz_defl, c_hz, fs_rel, alph, pen, sgn, fac,                   &
-                        e_star, epshz, fn_hz, aa, bb, c_p, rho, fac_max, dx_n
+      integer        :: icp, iter, ncontrb
+      real(kind=8)   :: y_shift, z_shift, dz_defl, c_hz, fs_rel, pen, alph, sgn, fac, fac_max, dx_n
       real(kind=8)   :: rot(2,2), jac_loc(2,2), jac_rt(2,2), rjrt(2,2), jac_glb(2,2), j_inv(2,2),       &
                         det, res(2), dx(2), fn_est, fs_est, fy_est, fz_est, f_glb(2), tol_brack,        &
                         dy_est, dy_tbl, dy_new
@@ -1423,38 +1511,9 @@ contains
          sgn =  1d0
       endif
 
-      ! Determine sensible c_hz and fs_rel for new contact patches & near miss patches
+      ! Determine sensible C_hz and fs_rel for new contact patches & near miss patches
 
-      new_c_hz(1:MAX_NUM_CPS) = .false.
-
-      do icp = 1, wtd%numcps+wtd%n_miss
-         associate(cp => wtd%allcps(icp)%cp)
-         if (cp%c_hz.le.0d0 .or. icp.gt.wtd%numcps) then
-
-            ! use curvatures a1, b1 to get sensible C_hz, assume fs_rel proportional to contact angle
-
-            ic_norm =  1
-            ipotcn  = -1
-            e_star  = wtd%mater%ga / (1d0 - wtd%mater%nu)
-            epshz   = wtd%solv%eps
-            fn_hz   = 10d3
-         
-            call hzcalc3d(e_star, epshz, ipotcn, cp%a1, cp%b1, aa, bb, ic_norm, pen, fn_hz, c_p, rho)
-            cp%c_hz = fn_hz / max(1d-9,pen)**(1.5)
-            new_c_hz(icp) = .true.
-            cp%fs_rel = wtd%fric%fstat_min() * sin(cp%delttr)
-
-            if (x_force.ge.4) then
-               write(bufout,'(2(a,g12.4),a,i0,2(a,g12.4))') ' e_star=',e_star,', eps=',epshz,           &
-                      ', ipotcn=', ipotcn,', a1=',cp%a1, ', b1=',cp%b1
-               call write_log(1, bufout)
-               write(bufout,'(2(a,f8.3),a,i0,4(a,g12.4))') ' aa=',aa,', bb=',bb,', ic_norm=',ic_norm,   &
-                      ', pen=',pen,', fn_hz=',fn_hz, ', cp=',c_p,', rho=',rho
-               call write_log(1, bufout)
-            endif
-         endif
-         end associate
-      enddo
+      call estimate_chz_fsrel(wtd, new_c_hz, sgn, x_force)
 
       ! get current estimates y_shift, z_shift
 
@@ -2035,7 +2094,7 @@ contains
          call write_log(1, bufout)
       endif
 
- 8000 format(2x, i4,', SC, z, omg_ws:',f12.6,f13.8,', res: ',f13.8,', dFx/domg: ',f11.6)
+ 8000 format(2x, i4,', SC, z, omg_ws:',f12.6,f13.8,', res: ',f13.8,', dFx/domg: ',g14.6)
 
    end subroutine secant_fx_print
 

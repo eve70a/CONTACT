@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_hertz - computation of 2D and 3D Hertz solution
 !
-! Copyright 1979-2023 by Vtech CMCC.
+! Copyright 1979-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -21,6 +21,7 @@ private ellip_bd
 public  equiv_ellipse
 public  simpflex
 public  linrol
+public  shen
 
 contains
 
@@ -1245,6 +1246,42 @@ subroutine linrol(nu, aob, cxx, cyy, cyz)
    end if
 
 end subroutine linrol
+
+!------------------------------------------------------------------------------------------------------------
+
+subroutine shen(aa, bb, ga, fstat, fn, cxx, cyy, cyz, cksi, ceta, cphi, fx, fy)
+!--purpose: determine approximate creep forces fx,fy for Hertzian contact w. prescribed creepage
+!           using Shen-Hedrick-Elkins approach
+   implicit none
+!--subroutine arguments:
+   real(kind=8), intent(in)  :: aa, bb, ga, fstat, fn, cxx, cyy, cyz, cksi, ceta, cphi
+   real(kind=8), intent(out) :: fx, fy
+!--local variables:
+   real(kind=8) :: beta, gamma, ex, ey, etot, ftot
+
+   beta = 3d0*fstat*fn / (pi*aa*bb*ga)
+   ex   = cxx*cksi
+   ey   = cyy*ceta + sqrt(aa*bb)*cyz*cphi
+   etot = sqrt(max(1d-20, ex**2 + ey**2))
+   if (etot.le.pi*beta) then
+      gamma = 1d0 - etot/(pi*beta)
+      ftot  = (1d0 - gamma**3) * fstat*fn
+   else
+      ftot  = 1d0 * fstat*fn
+   endif
+   fx     = -ex/etot * ftot
+   fy     = -ey/etot * ftot
+
+   write(bufout,'(2(a,f8.2),a,f8.0,a,f8.2)') ' Shen: aa=  ',aa,', bb=  ',bb,', ga=  ',ga,', fstat=',fstat
+   call write_log(1, bufout)
+   write(bufout,'(3(a,f8.2))') '       cxx= ',cxx,', cyy= ',cyy,', cyz= ',cyz
+   call write_log(1, bufout)
+   write(bufout,'(3(a,f8.5))') '       cksi=',cksi,', ceta=',ceta,', cphi=',cphi
+   call write_log(1, bufout)
+   write(bufout,'(3(a,f8.1))') '       fn=  ',fn,', fx=  ',fx,', fy=  ',fy
+   call write_log(1, bufout)
+
+end subroutine shen
 
 !------------------------------------------------------------------------------------------------------------
 
