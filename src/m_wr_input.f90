@@ -923,7 +923,7 @@ contains
       integer                   :: ncase
       type(t_ws_track)          :: wtd
 !--local variables:
-      integer                  :: cpbtnfs, vldcmze, m3m2, xhgiaowr, psflcin
+      integer                  :: cpbtnfs, vldcmze, z2m3m2, xhgiaowr, psflcin
       real(kind=8)             :: dflt_turn
       character(len=1)         :: namside
       character(len=10)        :: strng
@@ -949,13 +949,13 @@ contains
 
       ! write control integers
 
-      call ic_pack (1, cpbtnfs, vldcmze, m3m2, xhgiaowr, ic)
+      call ic_pack (1, cpbtnfs, vldcmze, z2m3m2, xhgiaowr, ic)
 
       write(linp, 1101) cpbtnfs
       if (ic%mater2.le.0) then
          write(linp, 1102) vldcmze
       else
-         write(linp, 1103) vldcmze, m3m2
+         write(linp, 1103) vldcmze, z2m3m2
       endif
       if (ic%xflow.le.0) then
          write(linp, 1104) xhgiaowr

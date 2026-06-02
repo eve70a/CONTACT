@@ -337,7 +337,7 @@ contains
       logical, intent(inout)   :: zerror
 !--local variables:
       integer, parameter :: mxnval = 10
-      integer            :: ints(mxnval), nval, ierror, cpbtnfs, vldcmze, m3m2, xhgiaowr, psflcin, d_digit
+      integer            :: ints(mxnval), nval, ierror, cpbtnfs, vldcmze, z2m3m2, xhgiaowr, psflcin, d_digit
       logical            :: flags(mxnval), is_roll, is_ssrol, was_roll
       real(kind=8)       :: dbles(mxnval)
       character(len=256) :: strngs(mxnval)
@@ -366,9 +366,9 @@ contains
       zerror  = zerror .or. (ierror.ne.0)
       vldcmze = ints(1)
       if (nval.ge.2) then
-         m3m2   = ints(2)
+         z2m3m2 = ints(2)
       else
-         m3m2   = 0
+         z2m3m2 = 0
       endif
 
       call readline(linp, ncase, linenr, 'control integers hgiaowr', 'i', ints, dbles, flags,           &
@@ -376,7 +376,7 @@ contains
       zerror   = zerror .or. (ierror.ne.0)
       xhgiaowr = ints(1)
 
-      call ic_unpack (imodul, cpbtnfs, vldcmze, m3m2, xhgiaowr, ic)
+      call ic_unpack (imodul, cpbtnfs, vldcmze, z2m3m2, xhgiaowr, ic)
 
       ! read & process debug parameters
 
@@ -429,7 +429,7 @@ contains
       zerror = zerror .or. .not.check_irng ('Control digit T',  ic%tang,    0, 3)
       zerror = zerror .or. .not.check_irng ('Control digit S',  ic%stress,  0, 3)
       zerror = zerror .or. .not.check_2rng ('Control digit L',  ic%frclaw_inp,  0, 4, 6, 6)
-      zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater,   0, 7)
+      zerror = zerror .or. .not.check_irng ('Control digit M',  ic%mater,   0, 5)
       zerror = zerror .or. .not.check_irng ('Control digit M2', ic%mater2,  0, 2)
       zerror = zerror .or. .not.check_irng ('Control digit M3', ic%mater3,  0, 2)
 
@@ -592,8 +592,7 @@ contains
                  '               L=',i3,', H='i3,'.')
       endif
 
-      if (ic%frclaw_inp.eq.6 .and.                                                                      &
-          (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5 .or. ic%mater.eq.6 .or. ic%mater.eq.7)) then
+      if (ic%frclaw_inp.eq.6 .and.  (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5)) then
          zerror = .true.
          write(lout, 2074) ic%frclaw_inp, ic%mater
          write(   *, 2074) ic%frclaw_inp, ic%mater
@@ -935,7 +934,7 @@ contains
          mater%betamf   = dbles(4)
       endif
 
-      ! M=3: read parameters of slope reduction for modified Fastsim/FaStrip algorithm
+      ! M=3/5: read parameters of slope reduction for modified Fastsim/FaStrip algorithm
 
       if (ic%mater.eq.3 .or. ic%mater.eq.5) then
          call readline(linp, ncase, linenr, 'slope reduction parameters', 'ddd', ints, dbles,        &
@@ -1573,7 +1572,7 @@ contains
       type(t_subsurf)  :: subs
       logical          :: ltight  ! flag: use solution to create tight pot.con.
 !--local variables:
-      integer      :: pbtnfs, vldcmze, m3m2, xgiaowr, psflcin
+      integer      :: pbtnfs, vldcmze, z2m3m2, xgiaowr, psflcin
       integer      :: ii, ix, ix0, ix1, iy, iy0, iy1, iof, k, len1
       logical      :: is_roll
       real(kind=8) :: fun, fux, fuy
@@ -1581,7 +1580,7 @@ contains
 
       ! Convert control integers to packed form
 
-      call ic_pack (3, pbtnfs, vldcmze, m3m2, xgiaowr, ic)
+      call ic_pack (3, pbtnfs, vldcmze, z2m3m2, xgiaowr, ic)
       is_roll = ic%tang.eq.2 .or. ic%tang.eq.3
 
       ! If tight potential contact desired: determine box around actual contact area (requires solution!)

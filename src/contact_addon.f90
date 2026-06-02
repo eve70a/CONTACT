@@ -880,7 +880,11 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
          call write_log('        use cntc_setmaterialparameters instead.')
          ! my_ic%mater  = max(0, min(7, values(i)))
 
-      elseif (params(i).eq.CNTC_ic_exrhs) then         ! set E-digit in the RE-CP-data
+      elseif (params(i).eq.CNTC_ic_ztrck2) then         ! set Z2-digit in the RE-CP-data
+
+         my_ic%ztrck2 = max(0, min(1, values(i)))
+
+      elseif (params(i).eq.CNTC_ic_exrhs) then          ! set E-digit in the RE-CP-data
 
          my_ic%rztang = max(0, min(3, values(i)))
 
@@ -1010,6 +1014,8 @@ function cntc_flagName(iflag)
       cntc_flagName = 'CNTC_ic_inflcf'
    elseif (iflag.eq.CNTC_ic_mater) then
       cntc_flagName = 'CNTC_ic_mater'
+   elseif (iflag.eq.CNTC_ic_ztrck2) then
+      cntc_flagName = 'CNTC_ic_ztrck2'
    elseif (iflag.eq.CNTC_ic_xflow) then
       cntc_flagName = 'CNTC_ic_xflow'
    elseif (iflag.eq.CNTC_ic_iestim) then

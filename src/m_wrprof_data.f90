@@ -134,7 +134,7 @@ public
       ! [uv]end   [-]    end-position of (estimated) interpenetration area in wheel surf (u,v) coordinates
       !
       ! variables concerning the potential contact area:
-      ! mref             contact reference marker w.r.t. track coordinates
+      ! mref             contact reference marker w.r.t. track coordinates (weighted center of interpen.area)
       ! mpot             potential contact marker w.r.t. track coordinates (origin of local coordinates)
       ! delttr    [rad]  mref%roll(), contact angle in track coordinates, rotation from track z-axis to
       !                  contact n-axis

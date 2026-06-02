@@ -82,8 +82,10 @@ plot(yact(1), zact(1), 'k.', 'markersize',10);
 
 % plot gauge measuring point
 
-plot(yact(ixg)+[-45 0 0], gauge_height*[1 1 -0.2], 'color',0.6*[1 1 1]);
-text(yact(ixg)-15, -3, '0.5 g_{width}', 'horizontalalignment','center', ...
+plot(yact(ixg)+[-45 0 -5 -5 0 0], gauge_height*[1 1 0.8 0.2 0 -0.3], 'color',0.6*[1 1 1]);
+plot(yact(ixg)+[0 0], gauge_height*[1 -0.3], '--', 'color',0.6*[1 1 1], 'linewidth',1);
+plot(yact(ixg), gauge_height, 'k.', 'markersize',8);
+text(yact(ixg)-10, -3, '0.5 g_{width}', 'horizontalalignment','center', ...
                                         'verticalalignment','bottom');
 text(yact(ixg)-25, gauge_height+2, 'g_{height}', ...
                 'horizontalalignment','right');

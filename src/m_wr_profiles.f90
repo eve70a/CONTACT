@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_wr_profiles - place w/r profiles in track coordinate system (module 1)
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ contains
 !--local variables:
       type(t_rail),   pointer :: my_rail
       integer                 :: is_right
-      real(kind=8)            :: sgn, ygauge, yvampr, zgauge, zmin, rail_y, rail_z, rail_phi
+      real(kind=8)            :: sgn, ygauge0, ygauge1, zgauge1, zmin, rail_y, rail_z, rail_phi
       type(t_grid),   pointer :: p_inp
       character(len=5)        :: nam_rail
 
@@ -65,15 +65,14 @@ contains
 
       if (trk%gauge_height.gt.0d0) then
 
-         ! find the left-most point in the canted profile within gauge measuring height
+         ! find ygauge0, ygauge1: point in the canted profile at gaug.height resp. left-most in [0,gaught]
          ! note: ygauge,zmin are along the track y,z-directions
 
-         call find_gauge_meas_pt(p_inp, trk%cant_angle, trk%gauge_height, ygauge, zgauge, yvampr,       &
+         call find_gauge_meas_pt(p_inp, trk%cant_angle, trk%gauge_height, ygauge0, ygauge1, zgauge1,    &
                                  zmin, idebug)
 
          if (idebug.ge.2) then
-            write(bufout,123) 'rail gauge point yg=',ygauge,', offset rail->track=',                    &
-                   sgn*(trk%track_gauge/2 - ygauge)
+            write(bufout,123) 'rail gauge point yg0=',ygauge0,', yg1=',ygauge1
             call write_log(1, bufout)
  123        format(1x, 3(a, f12.6, :))
          endif
@@ -107,7 +106,11 @@ contains
 
          ! gauge_height >  0: rail placement using half gauge width + deviations, subject to mirroring
 
-         rail_y    =  trk%track_gauge/2d0 - ygauge + sgn * (my_rail%dy + trk%dy_defl)
+         if (ic%ztrck2.le.0) then
+            rail_y    =  trk%track_gauge/2d0 - ygauge0 + sgn * (my_rail%dy + trk%dy_defl)
+         else
+            rail_y    =  trk%track_gauge/2d0 - ygauge1 + sgn * (my_rail%dy + trk%dy_defl)
+         endif
 
          ! wheelset on track: shift vertically to put highest point on z=0 + deviations
          ! wheelset on roller rig: no vertical shifting
@@ -220,10 +223,9 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine find_gauge_meas_pt (prr_orig, cant, gauge_height, ygauge, zgauge, yvampr, zmin, idebug)
+   subroutine find_gauge_meas_pt (prr_orig, cant, gauge_height, ygauge0, ygauge1, zgauge1, zmin, idebug)
 !--purpose: determine the shift [ygauge,-zmin] in track [y,z] needed to position the canted rail
-!           profile such that it touches the plane z=0 and has z > gauge_height for all profile points
-!           y < ygauge.
+!           profile such that it touches the plane z=0 and has y=half gwidth at gauge point
 !--note: assuming that the rail profile has the track center at negative y (right rail) and that cant
 !        is positive if the normal is rotated towards the track center.
       implicit none
@@ -232,9 +234,9 @@ contains
       real(kind=8), intent(in)  :: cant
       real(kind=8), intent(in)  :: gauge_height    ! gauge measuring height w.r.t. highest point on rail
       integer,      intent(in)  :: idebug
-      real(kind=8), intent(out) :: ygauge          ! inner-most point on rail profile within gauge meas.range
-      real(kind=8), intent(out) :: zgauge          ! rail profile z-value at gauge point ygauge
-      real(kind=8), intent(out) :: yvampr          ! rail profile y-value at gauge meas.height
+      real(kind=8), intent(out) :: ygauge0         ! rail profile y-value at gauge meas.height
+      real(kind=8), intent(out) :: ygauge1         ! inner-most point on rail profile within gauge meas.range
+      real(kind=8), intent(out) :: zgauge1         ! rail profile z-value at gauge point ygauge1
       real(kind=8), intent(out) :: zmin            ! lowest z-coordinate on canted rail profile
 !--local variables:
       integer                   :: iminy, i1st, ilast, ir, is0, is1, j, ierror
@@ -294,7 +296,7 @@ contains
       ir    =  1
       i1st  = -1
       iminy =  1
-      ygauge = 1d9
+      ygauge1 = 1d9
       do while( prr_cant%s_prf(ir).lt.sout .and. ir.lt.prr_cant%ntot)
 
          if (prr_cant%z(ir)-zmin.le.gauge_height) then
@@ -305,9 +307,9 @@ contains
 
             ! minimum y-value over points with z in [0, gauge_height]
 
-            if (prr_cant%y(ir).lt.ygauge) then
-               ygauge = prr_cant%y(ir)
-               iminy  = ir
+            if (prr_cant%y(ir).lt.ygauge1) then
+               ygauge1 = prr_cant%y(ir)
+               iminy   = ir
             endif
 
          endif
@@ -343,24 +345,24 @@ contains
             call write_log(1, bufout)
          endif
 
-         ygauge = prr_cant%y(1)
-         zgauge = prr_cant%z(1)
-         yvampr = ygauge
+         ygauge1 = prr_cant%y(1)
+         zgauge1 = prr_cant%z(1)
+         ygauge0 = ygauge1
 
       else
 
          ! compute y-value at gauge-height using spline interpolation
 
          call grid_trim(prr_cant, prr_trim, 1, 1, 1, ilast)
-         call spline_get_xy_at_z( prr_trim%spl, zmin+gauge_height, ierror, xout, yvampr, 999d0)
+         call spline_get_xy_at_z( prr_trim%spl, zmin+gauge_height, ierror, xout, ygauge0, 999d0)
 
          if (iminy.eq.i1st) then
 
             ! 4.b gauge point is found at height z-zmin == gauge_height, using interpolation
 
-            if (idebug.ge.3) call write_log(' gauge point at z=zgauge, using interpolation...')
-            ygauge = yvampr
-            zgauge = zmin + gauge_height
+            if (idebug.ge.3) call write_log(' gauge point at z=gaught, using interpolation...')
+            ygauge1 = ygauge0
+            zgauge1 = zmin + gauge_height
 
          else
 
@@ -373,15 +375,15 @@ contains
             s1 = prr_cant%s_prf(ilast)
             call locate_interval(prr_cant%spl%npnt, prr_cant%spl%s, s0, s1, is0, is1)
 
-            if (idebug.ge.3) call write_log(' gauge point at zgauge<z<0, using slope dy/ds=0...')
+            if (idebug.ge.3) call write_log(' gauge point at z\in[0,gaught], using slope dy/ds=0...')
 
             ! call spline_set_debug(5)
-            call spline_get_xyz_at_miny(prr_cant%spl, is0, is1, ierror, sout, xout, ygauge, zgauge)
+            call spline_get_xyz_at_miny(prr_cant%spl, is0, is1, ierror, sout, xout, ygauge1, zgauge1)
             ! call spline_set_debug(0)
 
             if (idebug.ge.1) then
                write(bufout,'(2a,f8.3,a,f7.3)') ' INFO: left-most rail point found above gauge ',    &
-                        'height: zr=', zgauge-zmin, ' at yr=', ygauge
+                        'height: zr=', zgauge1-zmin, ' at yr=', ygauge1
                call write_log(1, bufout)
             endif
          endif

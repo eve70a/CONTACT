@@ -1,5 +1,5 @@
 
-print_fig = 0;
+print_fig = 1;
 
 addpath('../../matlab_intern');
 set(0,'defaultaxeslinewidth',2);
@@ -98,11 +98,11 @@ set(h, 'linewidth',1, 'linestyle','-');
 
 % plot gauge measuring bar
 
-plot(ydsgn(ixg)+[-45 0 0], gauge_height*[1 1 -0.2], 'color',0.6*[1 1 1]);
-%text(ydsgn(ixg)-15, -3, '0.5 g_{width}', 'horizontalalignment','center', ...
-%                                        'verticalalignment','bottom');
-%text(ydsgn(ixg)-25, gauge_height+2, 'g_{height}', ...
-%                'horizontalalignment','right');
+plot(ydsgn(ixg)+[-45 0 -5 -5 0 0], gauge_height*[1 1 0.8 0.2 0 -0.3], 'color',0.6*[1 1 1]);
+plot(ydsgn(ixg)+[0 0], gauge_height*[1 -0.3], '--', 'color',0.6*[1 1 1], 'linewidth',1);
+plot(ydsgn(ixg), gauge_height, 'k.', 'markersize',8);
+%text(ydsgn(ixg)-10, -3, '0.5 g_{width}', 'horizontalalignment','center', 'verticalalignment','bottom');
+%text(ydsgn(ixg)-25, gauge_height+2, 'g_{height}', 'horizontalalignment','right');
 
 % rotate & shift rail to actual position
 

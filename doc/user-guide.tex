@@ -77,7 +77,7 @@
 \vtlogentry{1.166}{EV}{21-05-2024}{Added effective working folder}{}
 \vtlogentry{1.167}{EV}{16-06-2024}{Version for release v24.1}{}
 \vtlogentry{1.168}{EV}{06-07-2024}{Added ${\tt V}=2$, friction variation in
-                        track direction }{}
+                        track direction}{}
 \vtlogentry{1.169}{EV}{20-08-2024}{Require total profile length in
                 $[5,500]\unit{mm}$}{}
 \vtlogentry{1.170}{EV}{04-11-2024}{Added $g_{miss}$ in blending approach}{}
@@ -811,6 +811,15 @@ $^*$ Option ${\tt C}_3=9$ is not available in module 1.
         wheel profile, and read flexible wheelset deviations.
 \end{description}
 
+\item[Z$_2$ - ZTRCK2] \label{z2-digit} : detailed configuration of the
+        gauge point computation (page \pageref{sec:ztrck2}):
+\begin{description}
+\item[0] -- default: sampling the rail profile at the gauge height
+        $z_r=g_{height}$.
+\item[1] -- original approach: using the left-most point of the rail for
+        $z_r\in [0,g_{height}]$.
+\end{description}
+
 \item[M$_2$ - MATER2] \label{m2-digit} : type of {\em material model\/} to
         be used with respect to damping:
 \begin{description}
@@ -1188,6 +1197,25 @@ It is first rotated for cant and then shifted up to just touch the track
 plane and shifted left to touch the gauge stop. Note that $O_{rail}$ may be
 associated with the highest point in the uncanted rail, which need not be
 the highest point on the rail after cant is applied.
+
+\label{sec:ztrck2}Two different variants of the gauge point computation are
+implemented in CONTACT. The default method ${\tt Z}_2=0$ shifts the rail up
+to touch the track plane ($\min(z_r)=0$), then measures the gauge at a fixed
+height
+\begin{equation}
+        y_{gauge0}=y_r(z_r=g_{height}) 
+\end{equation}
+using interpolation. This corresponds to the measuring bar shown in Figure
+\ref{fig:rail_coords} with a pin at the gauge measuring height. An
+alternative is activated using ${\tt Z}_2=1$:
+\begin{equation}
+        y_{gauge1} = \mathrm{min}_{z_r\in[0,g_{height}]} y_r(z_r) .
+\end{equation}
+This method uses the left-most point over the range $[0,g_{height}]$,
+corresponding to a measuring bar with straight vertical side.
+% (\cite[Fig.\ 8]{Vollebregt2020-wrgeom})
+The two methods result in different placement for rails with a gauge corner
+lip or bulge created by plastic flow. 
 
 \paragraph{Absolute rail placement}
 
@@ -7357,9 +7385,7 @@ This computes the same cases as in the {\tt subsurf}-example of Section
 
 \clearpage
 
-% \renewcommand{\bibname}{Xeferenties}
 \addcontentsline{toc}{chapter}{\bibname}
-
 \bibliographystyle{plain}
 \bibliography{ug_contact}
 
@@ -7463,8 +7489,8 @@ The input for one case of wheel/rail contact consists of:
 % Control integers, see section \ref{sec:controldigits}:
 
  CPBTNFS       (        CONFIG, PVTIME, BOUND , TANG  , NORM  , FORCE , STRESS)
- VLDCMZE  \{\magenta{M}M\} (        VARFRC, FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL,
-                                                                \magenta{MATER3,} MATER2)
+ VLDCMZE \{\magenta{ZM}M\} (        VARFRC, FRCLAW, DISCNS, INFLCF, MATER , ZTRACK, EWHEEL,
+                                                        \magenta{ZTRCK2,} \magenta{MATER3,} MATER2)
 XHGIAOWR       (XFLOW , HEAT  , GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW  , RETURN)
 
 % Parameters for additional debug output
@@ -7934,7 +7960,7 @@ High-level functions are provided for wheel-rail contacts in `module 1'.
 This is based on wheel and rail profiles and corresponding dimensions and
 states. In this case, CONTACT performs analysis of the contact geometry
 problem, identifying contact patches and computing the creepage
-\cite{Vollebregt2020b-wrgeom,Vollebregt2020c-distr-force}. Low-level
+\cite{Vollebregt2020c-distr-force,Vollebregt2020b-wrgeom}. Low-level
 functions are provided in `module 3' that are more general by nature but
 may be harder to use.
 

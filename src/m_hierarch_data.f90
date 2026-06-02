@@ -152,6 +152,7 @@ public
       integer :: mater2
       integer :: mater3
       integer :: ztrack
+      integer :: ztrck2
       integer :: ewheel
       integer :: rznorm
       integer :: rztang
@@ -312,6 +313,9 @@ public
       !              1 = read new dimensions and profile;
       !              2 = read new track deviations and deflection parameters (if F=3);
       !              3 = read new dimensions, profile, track deviations, and deflection parameters if F=3
+      ! z2, ztrck2  concerns the detailed configuration of the gauge point computation
+      !              0 = default method, sampling rail at gauge measuring height
+      !              1 = original method, using left-most point within z=[0, gheight]
       ! e1, ewheel   concerns the wheel-set geometry, profile, position and velocity (module 1)
       !              0 = maintain wheel-set geometry, profile, position and velocity;
       !              1 = read new position data;
@@ -989,14 +993,18 @@ contains
       ic%heat   = 0
       ic%stress = 0
       ic%sens   = 1
+      ic%varfrc = 0
+      ic%frclaw_inp  = 0
       ic%discns1_inp = 2
       ic%discns1_eff = ic%discns1_inp
       ic%discns3     = 2
-      ic%frclaw_inp  = 0
       ic%gencr_inp   = 2
       ic%mater  = 0
       ic%mater2 = 0
       ic%mater3 = 0
+      ic%ztrack = 0
+      ic%ztrck2 = 0
+      ic%ewheel = 0
       ic%rznorm = 2
       ic%rztang = 0
       ic%gausei_inp  = 1
@@ -1012,14 +1020,14 @@ contains
       ic%x_force  = 0
       ic%x_locate = 0
       ic%x_cpatch = 0
-      ic%x_readln = 0
       ic%x_inflcf = 0
       ic%x_nmdbg  = 0
+      ic%x_readln = 0
       ic%wrtinp   = 0
       ic%return   = 1
+      ic%ilvout   = 1
       ic%print_pmax  = .true.
       ic%print_uxavg = .false.
-      ic%ilvout   = 1
 
    end subroutine ic_init
 
@@ -1150,12 +1158,12 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine ic_unpack (modul, cpbtnfs, vldcmze, m3m2, xhgiaowr, ic)
+   subroutine ic_unpack (modul, cpbtnfs, vldcmze, z2m3m2, xhgiaowr, ic)
 !--purpose: unpack the control-words into array ic
       implicit none
 !--subroutine parameters:
       type(t_ic) :: ic
-      integer    :: modul, cpbtnfs, vldcmze, m3m2, xhgiaowr
+      integer    :: modul, cpbtnfs, vldcmze, z2m3m2, xhgiaowr
 !--local variables:
       integer, parameter :: idebug = 0
       integer            :: ihulp, fdigit, ddigit, zdigit, edigit
@@ -1186,10 +1194,12 @@ contains
       endif
 
       ihulp         = 0
-      ic%mater3     = (m3m2    - ihulp) / 10
+      ic%ztrck2     = (z2m3m2  - ihulp) / 100
+         ihulp      = ihulp +     100 * ic%ztrck2
+      ic%mater3     = (z2m3m2  - ihulp) / 10
          ihulp      = ihulp +      10 * ic%mater3
-      ic%mater2     = (m3m2    - ihulp) / 1
-      if (idebug.ge.2) write(*,'(7(a,i2))') 'unpack: M3=',ic%mater3,', M2=',ic%mater2
+      ic%mater2     = (z2m3m2  - ihulp) / 1
+      if (idebug.ge.2) write(*,'(7(a,i2))') 'unpack: Z2=',ic%ztrck2,', M3=',ic%mater3,', M2=',ic%mater2
 
       ihulp         = 0
       ic%varfrc     = (vldcmze - ihulp) / 1000000
@@ -1248,12 +1258,12 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine ic_pack (modul, cpbtnfs, vldcmze, m3m2, xhgiaowr, ic)
+   subroutine ic_pack (modul, cpbtnfs, vldcmze, z2m3m2, xhgiaowr, ic)
 !--purpose: pack the controls in Ic together in the control-words
       implicit none
 !--subroutine parameters:
       type(t_ic) :: ic
-      integer    :: modul, cpbtnfs, vldcmze, m3m2, xhgiaowr
+      integer    :: modul, cpbtnfs, vldcmze, z2m3m2, xhgiaowr
 
       cpbtnfs = 0
 
@@ -1276,7 +1286,7 @@ contains
                        100*ic%mater       +       10*ic%rznorm      +       1*ic%rztang
       endif
 
-      m3m2     =        10*ic%mater3      +       1*ic%mater2
+      z2m3m2     =     100*ic%ztrck2      +       10*ic%mater3      +       1*ic%mater2
 
       xhgiaowr =                            10000000*ic%xflow       + 1000000*ic%heat        +          &
                     100000*ic%gausei_inp  +    10000*ic%iestim      +    1000*ic%matfil_surf +          &

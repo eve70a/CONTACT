@@ -106,6 +106,7 @@
                                  !   1: displacements and stress-invariants are written
                                  !   2: the full stress tensor is written as well
       CNTC_ic_npomax  = 1993, &  ! code for setting the max. #elements in the potential contact area
+      CNTC_ic_ztrck2  = 1994, &  ! code for setting the control digit Z2, ZTRCK2
                      
       CNTC_if_idebug  = 2000, &  ! code for level of print-output of the addon itself
                                  !     0 = none, 1 = overview (default), 2 = full, 3+ = debug
