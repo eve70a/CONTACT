@@ -1,18 +1,22 @@
 
 function write_profiles()
 
-write_circ_wr    = 1;
+write_circ_wr    = 0;
 write_concave_wh = 0;
-write_flat_wr    = 0;
+write_flat_wr    = 1;
 write_groove     = 0;
 
 % circular rail and wheel profiles
 
 if (write_circ_wr==1)
 
-   for R_ry = [460]
-      dy = 0.1;
-      if (R_ry>101)
+   for R_ry = [ 12.7 25.4 ]
+      if (R_ry<10)
+         dy = 0.01;
+      else
+         dy = 0.1;
+      end
+      if (R_ry>110)
          ny = round(100 / dy) - 1;
          y  = -50 + [1:ny]*dy;
       else
@@ -30,9 +34,9 @@ if (write_circ_wr==1)
       comment = sprintf('circular rail, R_ry=%6.2f', R_ry);
       write_simpack(fname, comment, y,  z);
 
-      fname   = sprintf('circ_r%d.prw', round(R_ry));
-      comment = sprintf('circular wheel, R_wy=%6.2f', R_ry);
-      write_simpack(fname, comment, y, -z);
+%     fname   = sprintf('circ_r%d.prw', round(R_ry));
+%     comment = sprintf('circular wheel, R_wy=%6.2f', R_ry);
+%     write_simpack(fname, comment, y, -z);
    end
 
    if (1==1)
@@ -72,16 +76,31 @@ end
 
 if (write_flat_wr==1)
 
-   for ang = [0, 0.002, 0.01, 0.02, 0.1, 0.2, pi/6]
-      y = [ -50 : 1 : 50 ];
-      z = tan(ang) * y;
+   % for ang = [0, 0.002, 0.01, 0.02, 0.1, 0.2, pi/6]
+   use_deg = 1;
+   ds_targ = 0.1;
+   for ang = [ 65, 70 ]
+      if (use_deg)
+         ang_rad = ang * pi/ 180;
+      else
+         ang_rad = ang;
+      end
 
-      fname   = sprintf('flat_ang%03d.prw', round(1000*ang));
-      comment = sprintf('flat (conical) wheel, angle = %6.4f rad', ang);
+      dy = ds_targ * sin(ang_rad);
+      y = [ -13 : dy : 13 ];
+      z = tan(ang_rad) * y;
+
+      if (use_deg)
+         fname   = sprintf('flat_ang%02d.prw', round(ang));
+         comment = sprintf('flat (conical) wheel, angle = %5.2f deg = %6.4f rad', ang, ang_rad);
+      else
+         fname   = sprintf('flat_ang%03d.prw', round(1000*ang_rad));
+         comment = sprintf('flat (conical) wheel, angle = %6.4f rad', ang_rad);
+      end
+
       write_simpack(fname, comment, y, z);
-
-      fname   = sprintf('flat_ang%03d.prr', round(1000*ang));
-      comment = sprintf('flat (inclined) rail, angle = %6.4f rad', ang);
+      fname   = strrep(fname, 'prw', 'prr');
+      comment = strrep(comment, 'wheel', 'rail');
       write_simpack(fname, comment, y, z);
    end
 end
