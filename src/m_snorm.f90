@@ -270,6 +270,7 @@ contains
       ! if "table 1" is requested: problem to NORM
 
       if (itable.eq.1 .and. print_tables) then
+         write(lout,'(a,es12.4)') ' pen=',pen
          write(lout,101)
          do ii = 1, npot
             write(lout,102) ix4ii(ii), iy4ii(ii), ii, hs%vn(ii), htang%vn(ii), hstot%vn(ii),           &

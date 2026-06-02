@@ -106,51 +106,50 @@ contains
       if (ic%norm.eq.1) pen = 0d0
       call gf3_set (AllElm, pen, rhs, ikZDIR)
       call gf3_axpy(AllElm, -1.0d0, hstot, rhs, ikZDIR)
+      hsmin = gf3_min(AllElm, hstot, ikZDIR)
       davg = 0d0
 
-      ! Count the number of elements in the actual contact area.
+      ! If penetration is prescribed: check if there are points with negative separation
+
+      if (ic%norm.le.0 .and. hsmin-pen.ge.0d0) then
+
+         ! no penetration at all: return zero solution, empty contact area
+
+         if (ic%x_nmdbg.ge.2) then
+             write(bufout,'(a,g10.3,a)') ' WARNING: minimum separation is', hsmin-pen,                  &
+                     ' > 0, no contact at all.'
+             call write_log(1, bufout)
+         endif
+
+         call gf3_set(AllElm, 0d0, ps, ikZDIR)
+         do ii = 1, npot
+            igs%el(ii) = Exter
+         enddo
+         itcg = 0
+         err  = 0d0
+         goto 9000
+      endif
+
+      ! Count the number of elements in the actual contact area in the initial estimate
 
       ncon = 0
       do ii = 1, npot
          if (igs%el(ii).ge.Adhes) ncon = ncon + 1
       enddo
 
+      ! Make sure that the contact area is non-empty
+
       if (ncon.le.0) then
 
-         ! Check if there are points with negative separation hstot
-
-         hsmin = gf3_min(AllElm, hstot, ikZDIR) - pen
-
-         if (ic%norm.le.0 .and. hsmin.ge.0d0) then
-
-            ! if not: return zero solution, empty contact area
-
-            !!! write(bufout,'(2a,g10.3,a)') ' WARNING: minimum separation', ' is',                     &
-            !!!                              hsmin,' > 0, no contact at all.'
-            !!! call write_log(1, bufout)
-            call gf3_set(AllElm, 0d0, ps, ikZDIR)
-            do ii = 1, npot
-               igs%el(ii) = Exter
-            enddo
-            itcg = 0
-            err = 0d0
-            goto 9000
-
-         else
-
-            ! Make sure that the contact area is non-empty
-
-            hsmax = gf3_max(AllElm, hstot, ikZDIR) - pen
-            htrsh = hsmin + 0.1d0 * max(hsmax-hsmin, 1d-10)
-            do ii = 1, npot
-               if (hstot%vn(ii).lt.htrsh) then
-                  igs%el(ii) = Adhes
-                  ncon = ncon + 1
-               endif
-            enddo
-            call areas(igs)
-
-         endif
+         hsmax = gf3_max(AllElm, hstot, ikZDIR)
+         htrsh = hsmin + 0.1d0 * max(hsmax-hsmin, 1d-10)
+         do ii = 1, npot
+            if (hstot%vn(ii).lt.htrsh) then
+               igs%el(ii) = Adhes
+               ncon = ncon + 1
+            endif
+         enddo
+         call areas(igs)
 
       endif  ! ncon<=0
 
@@ -313,7 +312,10 @@ contains
             lchg_negpn = .false.
             do ii = 1, npot
                if (igs%el(ii).ge.Adhes .and. ps%vn(ii).lt.0d0) then
-                  if (idebug.ge.5) write(*,*) 'it=',itcg,': moving ','element ii=',ii,' to exterior'
+                  if (idebug.ge.5) then
+                     write(bufout,'(3(a,i0))') 'it=',itcg,': moving element ii=',ii,' to exterior'
+                     call write_log(1, bufout)
+                  endif
                   igs%el(ii) = Exter
                   ncon = ncon - 1
                   ps%vn(ii) = 0d0
@@ -377,7 +379,10 @@ contains
                      igs%el(ii) = Adhes
                      ncon = ncon + 1
                      res%vn(ii) = -(dd%vn(ii)-davg)
-                     if (idebug.ge.5) write(*,*) 'it=',itcg, ': moving element ii=',ii,' to interior'
+                     if (idebug.ge.5) then
+                        write(bufout,'(3(a,i0))') 'it=',itcg,': moving element ii=',ii,' to interior'
+                        call write_log(1, bufout)
+                     endif
                      lchg_intpen = .true.
                   endif
                endif
@@ -491,7 +496,7 @@ contains
       integer            :: ii, ncon, itinn, itchg
       logical            :: lchg_negpn, lchg_intpen, lchanged
       real(kind=8)       :: alpha, beta, rms_upd, rms_upd1, rms_xk, conv, rz1, rz2, rrprv, rv, vav,     &
-                            hsmin, uthrs, ustar, a00, gi, lzi
+                            hsmin, hsmax, htrsh, uthrs, ustar, a00, gi, lzi
       integer, parameter :: idebug = 0, numinn = 1
 
 !     write(bufout,'(a,f9.6,2(a,f4.1))') ' starting normcg_flx, uthrs=',mater%uthrs,', lpow0=',         &
@@ -559,33 +564,51 @@ contains
 
       call gf3_set (AllElm, pen, rhs, ikZDIR)
       call gf3_axpy(AllElm, -1.0d0, hstot, rhs, ikZDIR)
+      hsmin = gf3_min(AllElm, hstot, ikZDIR)
 
-      ! Count the number of elements in the actual contact area.
+      ! If penetration is prescribed: check if there are points with negative separation
+
+      if (ic%norm.le.0 .and. hsmin-pen.ge.0d0) then
+
+         ! no penetration at all: return zero solution, empty contact area
+
+         if (ic%x_nmdbg.ge.2) then
+             write(bufout,'(a,g10.3,a)') ' WARNING: minimum separation is', hsmin-pen,                  &
+                     ' > 0, no contact at all.'
+             call write_log(1, bufout)
+         endif
+
+         call gf3_set(AllElm, 0d0, ps, ikZDIR)
+         do ii = 1, npot
+            igs%el(ii) = Exter
+         enddo
+         itcg = 0
+         err  = 0d0
+         goto 9000
+      endif
+
+      ! Count the number of elements in the actual contact area in the initial estimate
 
       ncon = 0
       do ii = 1, npot
          if (igs%el(ii).ge.Adhes) ncon = ncon + 1
       enddo
 
-      ! Penetration prescribed:
-      ! Check if there are points with negative separation hstot
+      ! Make sure that the contact area is non-empty
 
-      hsmin = gf3_min(AllElm, hstot, ikZDIR) - pen
-      if (hsmin.ge.0d0) then
+      if (ncon.le.0) then
 
-         ! if not: return zero solution, empty contact area
-
-         !!! write(bufout,'(2a,g10.3,a)') ' WARNING: minimum separation', ' is',                        &
-         !!!                              hsmin,' > 0, no contact at all.'
-         !!! call write_log(1, bufout)
-         call gf3_set(AllElm, 0d0, ps, ikZDIR)
+         hsmax = gf3_max(AllElm, hstot, ikZDIR)
+         htrsh = hsmin + 0.1d0 * max(hsmax-hsmin, 1d-10)
          do ii = 1, npot
-            igs%el(ii) = Exter
+            if (hstot%vn(ii).lt.htrsh) then
+               igs%el(ii) = Adhes
+               ncon = ncon + 1
+            endif
          enddo
-         itcg = 0
-         err = 0d0
-         goto 9000
-      endif
+         call areas(igs)
+
+      endif  ! ncon<=0
 
       ! Initialize diagonal matrix with added flexibility, L = 0
 
