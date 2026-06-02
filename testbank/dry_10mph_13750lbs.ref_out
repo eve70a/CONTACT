@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -49,8 +49,8 @@
      2.618      0.5236      0.1047       2.000      0.5000    
 
  TRACK DIMENSIONS AND RAIL POSITION
-    GAUGHT      GAUGWD        CANT        CURV
-    14.000    1435.000      0.0000       0.000
+    GAUGHT      GAUGWD        CANT        CURV      NOMRAD
+    14.000    1435.000      0.0000       0.000    800.1000
 
  RAIL IRREGULARITY
      DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
@@ -183,8 +183,8 @@
      2.618      0.5236      0.1047       2.000      0.5000    
 
  TRACK DIMENSIONS AND RAIL POSITION
-    GAUGHT      GAUGWD        CANT        CURV
-    14.000    1435.000      0.0000       0.000
+    GAUGHT      GAUGWD        CANT        CURV      NOMRAD
+    14.000    1435.000      0.0000       0.000    800.1000
 
  RAIL IRREGULARITY
      DYRAIL      DZRAIL      DROLLR      VYRAIL      VZRAIL      VROLLR
@@ -6783,24 +6783,24 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.7 | 100.0 |        0.8 | 100.0 |
-|Wheel-rail cases     |       74 |        0.7 | 100.0 |        0.8 | 100.0 |
-|W/r profiles         |        4 |        0.0 |   0.0 |        0.0 |   1.9 |
-|Geometric analysis   |       74 |        0.0 |   6.7 |        0.1 |   9.5 |
-|Panag.process        |       87 |        0.5 |  75.6 |        0.6 |  74.1 |
-|Algorithm Norm       |       87 |        0.1 |  17.8 |        0.1 |  14.3 |
-|Algorithm Tang       |       87 |        0.4 |  57.8 |        0.5 |  59.8 |
-|Output quantities    |      161 |        0.1 |  17.8 |        0.1 |  10.1 |
+|Total                |        1 |        0.8 | 100.0 |        0.7 | 100.0 |
+|Wheel-rail cases     |       74 |        0.8 | 100.0 |        0.7 |  98.9 |
+|W/r profiles         |        4 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Geometric analysis   |       74 |        0.0 |   2.1 |        0.0 |   6.3 |
+|Panag.process        |       87 |        0.5 |  66.7 |        0.6 |  79.4 |
+|Algorithm Norm       |       87 |        0.1 |   8.3 |        0.2 |  21.6 |
+|Algorithm Tang       |       87 |        0.4 |  58.3 |        0.4 |  57.8 |
+|Output quantities    |      161 |        0.2 |  31.2 |        0.1 |   9.3 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       87 |        0.1 |  17.8 |        0.1 |  11.5 |
-|Tang: StedyGS solver |       87 |        0.4 |  57.8 |        0.5 |  59.5 |
+|Norm: ConjGrd solver |       87 |        0.0 |   6.2 |        0.2 |  21.3 |
+|Tang: StedyGS solver |       87 |        0.4 |  58.3 |        0.4 |  57.8 |
 |Temperature calc.    |       37 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       74 |        0.0 |   0.0 |        0.0 |   2.0 |
-|Contact location     |       74 |        0.0 |   4.4 |        0.1 |   7.9 |
-|Undeformed distance  |       87 |        0.0 |   2.2 |        0.0 |   1.5 |
-| - Interp whl_srfc   |       87 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Influence coeffic.   |       87 |        0.0 |   0.0 |        0.0 |   4.3 |
+|Reading input-file   |       74 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Contact location     |       74 |        0.0 |   0.0 |        0.0 |   4.7 |
+|Undeformed distance  |       87 |        0.0 |   2.1 |        0.0 |   1.6 |
+| - Interp whl_srfc   |       87 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       87 |        0.0 |   0.0 |        0.0 |   0.9 |
 |Initial state/estim. |       87 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

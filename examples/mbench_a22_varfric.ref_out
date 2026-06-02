@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -585,14 +585,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -7.3697    726.1166      3.3007     -0.3363    -34.4159      3.3007
+     -7.3784    726.1329      3.3138     -0.3351    -34.3997      3.3138
 
      XCP(W)      YCP(W)      ZCP(W)
-      2.1398    -29.5703      3.7309
+      2.1313    -29.5540      3.7440
 
  Actual contact on columns iy = [  6, 12] (my= 17), sc = [ -0.700,  0.700]
  Reference contact angle delttr = -19.27 deg, range = [ -21.30, -17.29] deg
- Total moments Mxp =       133.0, Msp =        67.5, Mnp =        45.4 N.mm
+ Total moments Mxp =       -11.1, Msp =        78.4, Mnp =        38.5 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -608,7 +608,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         9897.      -613.9      -1991.       45.39      0.1240      -60.81
+         9900.      -613.9      -1979.       38.54      0.1240      -60.81
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          9903.  -6.199E-02     -0.1999   2.980E-02       1499.
 
@@ -840,14 +840,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -7.3699    726.1168      3.3007     -0.3363    -34.4158      3.3007
+     -7.3787    726.1329      3.3136     -0.3351    -34.3997      3.3136
 
      XCP(W)      YCP(W)      ZCP(W)
-      2.1397    -29.5701      3.7313
+      2.1311    -29.5539      3.7442
 
  Actual contact on columns iy = [  6, 12] (my= 17), sc = [ -0.700,  0.700]
  Reference contact angle delttr = -19.27 deg, range = [ -21.30, -17.29] deg
- Total moments Mxp =       136.2, Msp =        62.5, Mnp =        16.8 N.mm
+ Total moments Mxp =       -13.9, Msp =        76.1, Mnp =         8.3 N.mm
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -859,7 +859,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         9714.      -775.2      -2517.       16.82      0.1239      -76.92
+         9717.      -775.2      -2505.       8.257      0.1239      -76.92
      FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          9718.     -0.2954     -0.9549   2.943E-02       1490.
 
@@ -910,28 +910,28 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.7 | 100.0 |        1.8 | 100.0 |
-|Wheel-rail cases     |        7 |        1.7 | 100.0 |        1.8 |  99.1 |
-|Subsurface points    |        3 |        0.1 |   5.4 |        0.1 |   5.6 |
-|W/r profiles         |        2 |        0.0 |   0.9 |        0.0 |   0.0 |
-|Geometric analysis   |       36 |        0.0 |   0.0 |        0.0 |   0.8 |
-|Panag.process        |       33 |        0.9 |  49.5 |        0.9 |  49.1 |
-|Algorithm Norm       |       33 |        0.0 |   2.7 |        0.1 |   3.7 |
-|Algorithm Tang       |       33 |        0.8 |  46.8 |        0.8 |  45.0 |
-|Output quantities    |       40 |        0.0 |   2.7 |        0.0 |   1.3 |
+|Total                |        1 |        1.6 | 100.0 |        1.7 | 100.0 |
+|Wheel-rail cases     |        7 |        1.6 | 100.0 |        1.7 |  99.3 |
+|Subsurface points    |        3 |        0.1 |   4.8 |        0.1 |   5.1 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Geometric analysis   |       36 |        0.0 |   0.0 |        0.0 |   2.4 |
+|Panag.process        |       33 |        0.9 |  54.8 |        0.9 |  49.2 |
+|Algorithm Norm       |       33 |        0.1 |   5.8 |        0.1 |   3.4 |
+|Algorithm Tang       |       33 |        0.8 |  49.0 |        0.8 |  45.1 |
+|Output quantities    |       40 |        0.0 |   0.0 |        0.0 |   1.2 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       33 |        0.0 |   1.8 |        0.1 |   2.8 |
-|Tang: StedyGS solver |       33 |        0.8 |  46.8 |        0.8 |  44.5 |
+|Norm: ConjGrd solver |       33 |        0.1 |   4.8 |        0.0 |   2.1 |
+|Tang: StedyGS solver |       33 |        0.8 |  49.0 |        0.8 |  45.1 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        7 |        0.0 |   0.9 |        0.0 |   0.0 |
-|Contact location     |       36 |        0.0 |   0.0 |        0.0 |   0.3 |
-|Undeformed distance  |       33 |        0.0 |   0.0 |        0.0 |   0.5 |
-| - Interp whl_srfc   |       33 |        0.0 |   0.0 |        0.0 |   0.4 |
-|Influence coeffic.   |       16 |        0.0 |   0.0 |        0.0 |   1.2 |
-|Initial state/estim. |       33 |        0.0 |   0.0 |        0.0 |   0.1 |
-|Subsurf infl.cf.     |       33 |        0.1 |   3.6 |        0.0 |   2.5 |
-|Subsurf FFTs         |       33 |        0.0 |   1.8 |        0.0 |   2.5 |
-|Subsurf derived qnt  |       33 |        0.0 |   0.0 |        0.0 |   0.6 |
-|Subsurf writing      |        6 |        0.7 |  37.8 |        0.7 |  37.9 |
+|Reading input-file   |        7 |        0.0 |   0.0 |        0.0 |   0.1 |
+|Contact location     |       36 |        0.0 |   0.0 |        0.0 |   1.1 |
+|Undeformed distance  |       33 |        0.0 |   0.0 |        0.0 |   0.9 |
+| - Interp whl_srfc   |       33 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |       16 |        0.0 |   1.0 |        0.0 |   0.6 |
+|Initial state/estim. |       33 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Subsurf infl.cf.     |       33 |        0.1 |   3.8 |        0.0 |   0.9 |
+|Subsurf FFTs         |       33 |        0.0 |   0.0 |        0.1 |   4.2 |
+|Subsurf derived qnt  |       33 |        0.0 |   1.0 |        0.0 |   0.0 |
+|Subsurf writing      |        6 |        0.6 |  37.5 |        0.6 |  37.4 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

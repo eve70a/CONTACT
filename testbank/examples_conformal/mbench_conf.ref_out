@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -74,14 +74,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-    -12.2183    724.9451      4.5350     -0.4232    -35.1633      3.5880
+    -12.2638    724.9848      4.5378     -0.4198    -35.1237      3.5917
 
      XCP(W)      YCP(W)      ZCP(W)
-      5.0322    -31.2187      4.3630
+      4.9877    -31.1779      4.3658
 
  Actual contact on columns iy = [  7, 16] (my= 21), sc = [ -1.100,  0.900]
  Reference contact angle delttr = -24.25 deg, range = [ -28.16, -21.19] deg
- Total moments Mxp =       314.9, Msp =       349.3, Mnp =       261.2 N.mm
+ Total moments Mxp =       -20.9, Msp =       360.9, Mnp =       239.9 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -97,7 +97,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         8677.      -573.0      -1669.       261.2   9.042E-02      -97.68
+         8683.      -573.0      -1639.       239.9   9.042E-02      -97.68
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          8686.  -6.596E-02     -0.1888   2.476E-02       1075.
 
@@ -152,14 +152,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     14.0993    718.0626     11.9436     -1.2220    -42.2288     10.8221
+     14.1028    718.0650     11.9553     -1.2214    -42.2267     10.8339
 
      XCP(W)      YCP(W)      ZCP(W)
-     31.1771    -38.7307     11.7716
+     31.1806    -38.7285     11.7833
 
  Actual contact on columns iy = [  4,  6] (my=  9), sc = [ -0.300,  0.300]
  Reference contact angle delttr = -70.01 deg, range = [ -70.44, -69.55] deg
- Total moments Mxp =       -30.3, Msp =       -12.9, Mnp =       -13.8 N.mm
+ Total moments Mxp =        -0.4, Msp =       -11.6, Mnp =       -11.6 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -175,7 +175,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         3310.      -220.4      -626.1      -13.81   1.622E-02      -101.3
+         3311.      -220.4      -624.2      -11.56   1.622E-02      -101.3
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          3311.  -6.658E-02     -0.1885   1.182E-02       1195.
 
@@ -218,19 +218,19 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Wheel-rail cases     |        1 |        0.0 | 100.0 |        0.0 |  85.7 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |  38.1 |
+|Total                |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
+|Wheel-rail cases     |        1 |        0.0 |   0.0 |        0.0 |  31.9 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Geometric analysis   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Panag.process        |        2 |        0.0 |   0.0 |        0.0 |  14.3 |
+|Panag.process        |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Algorithm Norm       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |        2 |        0.0 |   0.0 |        0.0 |  14.3 |
+|Algorithm Tang       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Output quantities    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Norm: ConjGrd solver |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |        2 |        0.0 |   0.0 |        0.0 |  14.3 |
+|Tang: StedyGS solver |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |  38.1 |
+|Reading input-file   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Contact location     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Undeformed distance  |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |

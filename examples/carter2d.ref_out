@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -10,6 +10,7 @@
  Case     1
  NORM
  Nmdbg: problem to NORM:
+ pen=  6.0440E-03
   ix,  iy,   ii,  undef.dst + tang.part =   rhs h* , init C, init.press
    1,   1,    1,  0.0011025,  0.0000000,  0.0011025,     1,     0.0000
    2,   1,    2,  0.0010201,  0.0000000,  0.0010201,     1,     0.0000
@@ -637,11 +638,11 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Non-Hertzian cases   |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Panag.process        |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
-|Algorithm Norm       |        1 |        0.0 |   0.0 |        0.0 | 100.0 |
+|Non-Hertzian cases   |        1 |        0.0 | 100.0 |        0.0 |   0.0 |
+|Panag.process        |        1 |        0.0 | 100.0 |        0.0 |   0.0 |
+|Algorithm Norm       |        1 |        0.0 | 100.0 |        0.0 |   0.0 |
 |Algorithm Tang       |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Output quantities    |        1 |        0.0 | 100.0 |        0.0 |   0.0 |
+|Output quantities    |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
 |Norm: ConjGrd solver |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: StedyGS solver |        1 |        0.0 |   0.0 |        0.0 |   0.0 |

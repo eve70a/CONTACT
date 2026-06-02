@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -509,13 +509,13 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Panag.process        |        4 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Algorithm Norm       |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Algorithm Tang       |        4 |        0.0 | 100.0 |        0.0 | 100.0 |
+|Panag.process        |        4 |        0.0 |  50.0 |        0.0 | 100.0 |
+|Algorithm Norm       |        4 |        0.0 |   0.0 |        0.0 |  15.6 |
+|Algorithm Tang       |        4 |        0.0 |  50.0 |        0.0 |  84.4 |
 |Output quantities    |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        4 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |       10 |        0.0 | 100.0 |        0.0 | 100.0 |
+|Norm: ConjGrd solver |        4 |        0.0 |   0.0 |        0.0 |  15.6 |
+|Tang: StedyGS solver |       10 |        0.0 |  50.0 |        0.0 |  84.4 |
 |--------------------------------------------------------------------------|
-|Cp. 2 on Res.el.  2  |        2 |        0.0 |  50.0 |        0.0 |  36.4 |
+|Cp. 2 on Res.el.  2  |        2 |        0.0 |   0.0 |        0.0 |  37.5 |
 |--------------------------------------------------------------------------|

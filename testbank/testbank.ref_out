@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -2058,8 +2058,8 @@
      2.618      0.5236      0.1047       2.000      0.5000    
 
  TRACK DIMENSIONS AND RAIL POSITION
-    GAUGHT      RAILY0      RAILZ0        CANT        CURV
-    -1.000      0.0000      0.0000      0.0000       0.000
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV      NOMRAD
+    -1.000      0.0000      0.0000      0.0000       0.000     22.7020
 
  WHEEL PROFILE "profiles/fr_ol.csv"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
@@ -2232,8 +2232,8 @@
      2.618      0.5236      0.1047       2.000      0.5000    
 
  TRACK DIMENSIONS AND RAIL POSITION
-    GAUGHT      RAILY0      RAILZ0        CANT        CURV
-    -1.000      0.0000      0.0000      0.0000       0.000
+    GAUGHT      RAILY0      RAILZ0        CANT        CURV      NOMRAD
+    -1.000      0.0000      0.0000      0.0000       0.000    571.5000
 
  WHEEL PROFILE "profiles/final_clean.prw"
    MIRRORY     MIRRORZ     ISMOOTH      LAMBDA
@@ -2473,6 +2473,7 @@
 
  CPBTNFS.  CONFIG 1, PVTIME 2, BOUND  0, TANG   3, NORM   1, FORCE  0, STRESS 0
  VLDCMZE.  VARFRC 1, FRCLAW 1, DISCNS 0, INFLCF 1, MATER  0, ZTRACK 3, EWHEEL 1
+     ZMM.                                          ZTRCK2 1, MATER3 0, MATER2 0
  HGIAOWR.  HEAT   0, GAUSEI 1, IESTIM 0, MATFIL 1, OUTPUT 3, FLOW   2, RETURN 1
  VERTICAL PROBLEM WITH PRESCRIBED VERTICAL FORCE, FULL SOLUTION
  STEADY STATE ROLLING, CREEPAGE PRESCRIBED
@@ -2724,15 +2725,15 @@
  Case    27
  reading rail  profile "profiles\rail_left_iter288.ban"
  INFO: mirroring z_rail = -z_rail to get z positive downwards...
- WARNING: profile spline deviates up to  0.151 mm from input profile
+ WARNING: profile spline deviates up to  0.187 mm from input profile
  reading wheel profile "profiles\whl_left_iter288.whl"
  WARNING: profile spline deviates up to  0.184 mm from input profile
-         0, NR,  z_ws, Fz:      -4.1702       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -3.5604   6.618E+04, dFz/dz:   1.628E+05
-         2, NR,  z_ws, Fz:      -3.1356   1.373E+05, dFz/dz:   1.675E+05
-         3, NR,  z_ws, Fz:      -3.1136   1.415E+05, dFz/dz:   1.885E+05
-         4, NR,  z_ws, Fz:      -3.0608   1.515E+05, dFz/dz:   1.892E+05
-         5, NR,  z_ws, Fz:      -3.1133   1.415E+05, dFz/dz:   1.888E+05
+         0, NR,  z_ws, Fz:      -4.1722       0.000, dFz/dz:       0.000
+         1, NR,  z_ws, Fz:      -3.5562   6.707E+04, dFz/dz:   1.633E+05
+         2, NR,  z_ws, Fz:      -3.1366   1.376E+05, dFz/dz:   1.680E+05
+         3, NR,  z_ws, Fz:      -3.1159   1.415E+05, dFz/dz:   1.886E+05
+         4, NR,  z_ws, Fz:      -3.0631   1.515E+05, dFz/dz:   1.890E+05
+         5, NR,  z_ws, Fz:      -3.1156   1.415E+05, dFz/dz:   1.888E+05
 
  WHEEL-RAIL CONTACT, LEFT WHEEL,  1 CONTACT PATCH
 
@@ -2783,7 +2784,7 @@
 
  WHEEL-SET POSITION AND VELOCITY
      S_WS        Y_WS        Z_WS        ROLL_WS     YAW_WS      PITCH_WS
-         0.000      -10.35     -3.1133   7.667E-04  -3.625E-03       0.000
+         0.000      -10.35     -3.1156   7.667E-04  -3.625E-03       0.000
 
      VX_WS       VY_WS       VZ_WS       VROLL_WS    VYAW_WS     VPITCH_WS
      1.296E+04       0.000       0.000       0.000       0.000 -28.2363500
@@ -2791,16 +2792,16 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -7.899E+04  -4.201E+05   1.415E+05  -7.747E+04  -4.203E+05   1.419E+05
+  -7.898E+04  -4.200E+05   1.415E+05  -7.745E+04  -4.201E+05   1.419E+05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      3.7886   -716.9894     18.1452      1.2952     31.1092     19.8779
+      3.7761   -716.9853     18.1556      1.2952     31.1126     19.8883
 
      XCP(W)      YCP(W)      ZCP(W)
-      6.3487    -32.5533     21.8001
+      6.3362    -32.5493     21.8128
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -2808,27 +2809,27 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.5000       1.325E+04   4.253E-02  -1.403E-02  -2.051E-03
+     0.000      0.5000       1.325E+04   4.255E-02  -1.401E-02  -2.051E-03
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     4.427E+05  -7.899E+04   2.190E+04   5.660E+05       56.95  -6.393E+04
+     4.426E+05  -7.898E+04   2.190E+04   5.650E+05       56.93  -6.391E+04
      FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
-         5.399     -0.8619      0.2389    0.301986       7533.
+         5.398     -0.8619      0.2390    0.302337       7532.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
  POT: POTENTIAL CONTACT AREA,  CON: CONTACT,  ADH: ADHESION
     NPOT   NCON   NADH  NSLIP  INORM  ITANG
-   3354    433      0    433      1      1
+   3225    434      0    434      1      1
 
  FORM OF THE CONTACT, ADHESION AND SLIP-AREA`S:
     10  o.................................................................................................................o
-     9  ..........................................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...........
+     9  ........................................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..........
      8  .......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
      7  .SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...
      6  ......SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.............
-     5  ........................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS..................................
+     5  .........................SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS...................................
      4  o.................................................................................................................o
           1         2         3         4         5         6         7         8         9         0         1         2
         8901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012
@@ -3178,7 +3179,7 @@
 
  Case    31
  reading wheel profile "profiles\Car7216_0001r.whl"
- WARNING: profile spline deviates up to  0.547 mm from input profile
+ WARNING: profile spline deviates up to  0.385 mm from input profile
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  2 CONTACT PATCHES
 
@@ -3210,7 +3211,7 @@
 
  TOTAL FORCES ON RAIL
      FX(TR)      FY(TR)      FZ(TR)      FX(WS)      FY(WS)      FZ(WS)
-  -1.654E+04  -6.107E+04   1.906E+05  -1.570E+04  -6.209E+04   1.904E+05
+  -1.653E+04  -6.104E+04   1.906E+05  -1.570E+04  -6.206E+04   1.903E+05
 
  ----- DATA FOR CONTACT PATCH  1 -----
 
@@ -3277,10 +3278,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     63.3133    665.8256      6.4656      1.4412    -51.7344      6.4656
+     63.3107    665.8255      6.4651      1.4412    -51.7345      6.4651
 
      XCP(W)      YCP(W)      ZCP(W)
-     54.2840      0.0762      4.9609
+     54.2815      0.0761      4.9605
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -3292,9 +3293,9 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     1.194E+05      -5331.   3.949E+04   8.732E+04       5.895  -2.789E+04
+     1.194E+05      -5329.   3.948E+04   8.730E+04       5.893  -2.788E+04
      FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
-         1.456     -0.1337      0.9901    0.111759       4848.
+         1.456     -0.1336      0.9901    0.111752       4849.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3323,10 +3324,10 @@
 
  Case    32
  reading wheel profile "profiles\Car7358_0001r.whl"
- WARNING: profile spline deviates up to  0.245 mm from input profile
+ WARNING: profile spline deviates up to  0.248 mm from input profile
          0, NR,  z_ws, Fz:      -5.3631       0.000, dFz/dz:       0.000
-         1, NR,  z_ws, Fz:      -5.0617   1.824E+04, dFz/dz:   9.075E+04
-         2, NR,  z_ws, Fz:      -4.8838   3.783E+04, dFz/dz:   1.101E+05
+         1, NR,  z_ws, Fz:      -5.0616   1.824E+04, dFz/dz:   9.075E+04
+         2, NR,  z_ws, Fz:      -4.8838   3.782E+04, dFz/dz:   1.101E+05
          3, NR,  z_ws, Fz:      -4.8679   3.982E+04, dFz/dz:   1.252E+05
          4, NR,  z_ws, Fz:      -4.8431   4.298E+04, dFz/dz:   1.277E+05
          5, NR,  z_ws, Fz:      -4.8664   4.000E+04, dFz/dz:   1.258E+05
@@ -3368,10 +3369,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     37.3689    665.6696      5.3158      1.3419    -51.8904      5.3158
+     37.3681    665.6695      5.3158      1.3419    -51.8905      5.3158
 
      XCP(W)      YCP(W)      ZCP(W)
-     28.4352      0.4015     13.1104
+     28.4344      0.4015     13.1103
 
  FRICTION LAW PARAMETERS
      FSTAT       FKIN
@@ -3379,13 +3380,13 @@
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
-     0.000      0.5000           2937.   3.329E-02  -6.640E-02  -2.229E-03
+     0.000      0.5000           2937.   3.329E-02  -6.639E-02  -2.229E-03
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
-     7.767E+04  -1.174E+04   2.297E+04   2.694E+04       3.504      -5812.
+     7.767E+04  -1.174E+04   2.297E+04   2.695E+04       3.504      -5812.
      FN/G      FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
-        0.9472     -0.4524      0.8856   9.863E-02       5816.
+        0.9472     -0.4524      0.8856   9.862E-02       5816.
 
  CONTACT STATISTICS
  N: NUMBER OF ELEMENTS IN REGION,  I: NUMBER OF ITERATIONS,
@@ -3877,14 +3878,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      3.1945    716.5528     20.2773     -1.1587    -32.6115     20.2773
+      1.4527    720.7469     18.7517     -0.9475    -28.4174     18.7517
 
      XCP(W)      YCP(W)      ZCP(W)
-      6.7000     27.3754     20.0192
+      4.9792     31.5802     18.4990
 
  Actual contact on columns iy = [  6,167] (my=173), sc = [ -9.800, 55.000]
  Reference contact angle delttr = -66.39 deg, range = [ -71.80,  -2.06] deg
- Total moments Mxp =    530836.5, Msp =    347370.8, Mnp =   -212738.6 N.mm
+ Total moments Mxp =   -143496.0, Msp =    277967.9, Mnp =   -255729.6 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -3900,7 +3901,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.654E+05       6803.  -5.116E+04  -2.127E+05       7.462  -1.721E+04
+     1.724E+05       6803.  -1.537E+04  -2.557E+05       7.462  -1.721E+04
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.834E+05   3.709E-02  -9.825E-02    0.105082       1820.
 
@@ -4334,14 +4335,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.1283    715.4147     27.8759     -1.2681    -34.4496     26.8771
+      3.6487    715.8415     27.1967     -1.2184    -34.0227     26.1979
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.6245     25.5240     26.6998
+      7.1471     25.9541     26.0212
 
  Actual contact on columns iy = [  5, 68] (my= 72), sc = [ -2.600, 23.000]
  Reference contact angle delttr = -72.66 deg, range = [ -71.83, -31.35] deg
- Total moments Mxp =     43253.4, Msp =     33655.6, Mnp =    -35579.7 N.mm
+ Total moments Mxp =    -24909.8, Msp =     32969.2, Mnp =    -42509.2 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -4357,7 +4358,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     8.373E+04      -6756.  -1.574E+04  -3.558E+04       2.689      -5629.
+     8.441E+04      -6756.  -1.157E+04  -4.251E+04       2.689      -5629.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      8.526E+04  -7.924E-02     -0.1393   8.000E-02       1612.
 
@@ -4438,14 +4439,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.1308    715.4126     27.8689     -1.2684    -34.4525     26.8867
+      3.6624    715.8235     27.2251     -1.2199    -34.0416     26.2428
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.6270     25.5209     26.7099
+      7.1607     25.9349     26.0666
 
  Actual contact on columns iy = [  5, 68] (my= 72), sc = [ -2.600, 23.000]
  Reference contact angle delttr = -72.67 deg, range = [ -71.82, -31.37] deg
- Total moments Mxp =     40536.6, Msp =     32827.3, Mnp =    -35435.1 N.mm
+ Total moments Mxp =    -24202.4, Msp =     32190.8, Mnp =    -42054.2 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -4461,7 +4462,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     8.359E+04      -6799.  -1.564E+04  -3.544E+04       2.686      -5609.
+     8.425E+04      -6799.  -1.157E+04  -4.205E+04       2.686      -5609.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      8.507E+04  -7.992E-02     -0.1396   7.995E-02       1611.
 
@@ -4960,31 +4961,31 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        1.7 | 100.0 |        1.8 | 100.0 |
-|Wheel-rail cases     |       19 |        1.4 |  82.9 |        1.5 |  82.1 |
-|Non-Hertzian cases   |       20 |        0.3 |  17.1 |        0.3 |  17.6 |
+|Wheel-rail cases     |       19 |        1.4 |  84.4 |        1.5 |  82.9 |
+|Non-Hertzian cases   |       20 |        0.3 |  15.6 |        0.3 |  17.1 |
 |Subsurface points    |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|W/r profiles         |       25 |        0.0 |   0.9 |        0.1 |   4.7 |
-|Geometric analysis   |      119 |        0.2 |   9.0 |        0.2 |  10.6 |
-|Panag.process        |      133 |        1.2 |  69.4 |        1.2 |  68.0 |
-|Algorithm Norm       |      172 |        0.3 |  19.8 |        0.4 |  22.1 |
-|Algorithm Tang       |      163 |        0.8 |  47.7 |        0.8 |  45.1 |
-|Output quantities    |      152 |        0.1 |   5.4 |        0.2 |   9.8 |
+|W/r profiles         |       25 |        0.0 |   1.8 |        0.0 |   2.4 |
+|Geometric analysis   |      119 |        0.2 |   9.2 |        0.2 |  11.5 |
+|Panag.process        |      133 |        1.2 |  69.7 |        1.3 |  72.1 |
+|Algorithm Norm       |      172 |        0.4 |  22.0 |        0.4 |  22.6 |
+|Algorithm Tang       |      163 |        0.8 |  47.7 |        0.9 |  49.5 |
+|Output quantities    |      152 |        0.1 |   3.7 |        0.1 |   4.5 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      172 |        0.3 |  18.0 |        0.3 |  17.6 |
-|Tang: TangCG solver  |       79 |        0.1 |   5.4 |        0.1 |   5.9 |
-|Tang: ConvxGS solver |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Tang: StedyGS solver |      131 |        0.7 |  37.8 |        0.7 |  37.4 |
+|Norm: ConjGrd solver |      172 |        0.3 |  20.2 |        0.3 |  18.9 |
+|Tang: TangCG solver  |       79 |        0.0 |   2.8 |        0.1 |   5.8 |
+|Tang: ConvxGS solver |        5 |        0.0 |   0.0 |        0.0 |   0.8 |
+|Tang: StedyGS solver |      131 |        0.7 |  39.4 |        0.7 |  40.4 |
 |Tang: Fastsim solver |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |       39 |        0.0 |   0.9 |        0.1 |   4.7 |
-|Contact location     |      119 |        0.0 |   0.9 |        0.1 |   3.2 |
-| - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Reading input-file   |       39 |        0.0 |   1.8 |        0.0 |   2.4 |
+|Contact location     |      119 |        0.0 |   0.9 |        0.0 |   1.2 |
+| - Interp sf_whl     |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Other calc.       |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Locate interpen   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Undeformed distance  |      113 |        0.1 |   4.5 |        0.1 |   6.6 |
-| - Interp whl_srfc   |      113 |        0.0 |   1.8 |        0.1 |   3.0 |
-|Influence coeffic.   |       74 |        0.0 |   0.0 |        0.0 |   1.3 |
+|Undeformed distance  |      113 |        0.1 |   3.7 |        0.1 |   6.4 |
+| - Interp whl_srfc   |      113 |        0.0 |   1.8 |        0.1 |   4.7 |
+|Influence coeffic.   |       74 |        0.1 |   3.7 |        0.1 |   3.4 |
 |Initial state/estim. |      133 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.2 |
+|Subsurf writing      |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

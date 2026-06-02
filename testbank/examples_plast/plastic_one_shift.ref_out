@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -1658,11 +1658,11 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
-|Non-Hertzian cases   |       27 |        0.0 | 100.0 |        0.0 |  85.0 |
-|Panag.process        |       27 |        0.0 |   0.0 |        0.0 |  30.0 |
-|Algorithm Norm       |       27 |        0.0 |   0.0 |        0.0 |  20.0 |
-|Algorithm Tang       |       27 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Output quantities    |       27 |        0.0 |   0.0 |        0.0 |  32.5 |
+|Non-Hertzian cases   |       27 |        0.0 | 100.0 |        0.0 |  65.7 |
+|Panag.process        |       27 |        0.0 |   0.0 |        0.0 |  45.7 |
+|Algorithm Norm       |       27 |        0.0 |   0.0 |        0.0 |  28.6 |
+|Algorithm Tang       |       27 |        0.0 |   0.0 |        0.0 |  17.1 |
+|Output quantities    |       27 |        0.0 |   0.0 |        0.0 |   8.6 |
 |--------------------------------------------------------------------------|
 |Norm: ConjGrd solver |       27 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Tang: ConvxGS solver |       27 |        0.0 |   0.0 |        0.0 |   0.0 |
@@ -1670,6 +1670,6 @@ Performance timers:
 |Reading input-file   |       27 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       27 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |       27 |        0.0 | 100.0 |        0.0 |  22.5 |
+|Writing output-files |       27 |        0.0 |   0.0 |        0.0 |  11.4 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

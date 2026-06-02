@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -16,28 +16,28 @@
          1, NR,  z_ws, Fz:       0.0222       9894., dFz/dz:   6.678E+05
          2, NR,  z_ws, Fz:       0.0332   1.796E+04, dFz/dz:   7.331E+05
          3, NR,  z_ws, Fz:       0.0224       9990., dFz/dz:   6.630E+05
-     1, SC, z, omg_ws:    0.022371  -1.00000007, res:    0.05947114, dFx/domg:  312.985263
+     1, SC, z, omg_ws:    0.022371  -1.00000007, res:    0.05947114, dFx/domg:    312.985
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224      10000., dFz/dz:   6.705E+05
-     2, SC, z, omg_ws:    0.022371  -1.00019009, res:    0.01042117, dFx/domg:  258.140632
+     2, SC, z, omg_ws:    0.022371  -1.00019009, res:    0.01042117, dFx/domg:    258.141
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
-     3, SC, z, omg_ws:    0.022371  -1.00023046, res:   -0.00009055, dFx/domg:  260.383705
+     3, SC, z, omg_ws:    0.022371  -1.00023046, res:   -0.00009055, dFx/domg:    260.384
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
          3, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.604E+05
-     4, SC, z, omg_ws:    0.022367  -1.00023011, res:   -0.00001002, dFx/domg:  231.576608
+     4, SC, z, omg_ws:    0.022367  -1.00023011, res:   -0.00001002, dFx/domg:    231.577
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.706E+05
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.570E+05
-     5, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000125, dFx/domg:  231.576608
+     5, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000125, dFx/domg:    231.577
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.706E+05
-     6, SC, z, omg_ws:    0.022367  -1.00023007, res:   -0.00000015, dFx/domg:  231.576608
+     6, SC, z, omg_ws:    0.022367  -1.00023007, res:   -0.00000015, dFx/domg:    231.577
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.706E+05
-     7, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000002, dFx/domg:  231.576608
+     7, SC, z, omg_ws:    0.022367  -1.00023007, res:    0.00000002, dFx/domg:    231.577
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -101,14 +101,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000     -0.0000     -0.0000      0.0000     -0.0000     -0.0000
+      0.0000     -0.0000     -0.0711      0.0000     -0.0000     -0.0711
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000     -0.0000     -0.0224
+      0.0000     -0.0000     -0.0934
 
  Actual contact on columns iy = [  8, 30] (my= 37), sc = [ -2.875,  2.875]
  Reference contact angle delttr =   0.00 deg, range = [  15.56, -15.56] deg
- Total moments Mxp =         0.0, Msp =       -99.0, Mnp =         0.0 N.mm
+ Total moments Mxp =        -0.0, Msp =       -99.0, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -116,7 +116,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04   1.914E-04   6.518E-04   4.769E-05   8.958E-02  -8.395E-02
+     1.000E+04   1.914E-04       0.000   4.186E-05   8.958E-02  -8.395E-02
      FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          9915.   6.434E-08       0.000   2.237E-02       530.2
 
@@ -204,28 +204,28 @@
          1, NR,  z_ws, Fz:       0.0188       9544., dFz/dz:   7.598E+05
          2, NR,  z_ws, Fz:       0.0298   1.858E+04, dFz/dz:   8.210E+05
          3, NR,  z_ws, Fz:       0.0194       9957., dFz/dz:   7.440E+05
-     1, SC, z, omg_ws:    0.019398  -1.00000000, res:    0.10855255, dFx/domg:  371.329253
+     1, SC, z, omg_ws:    0.019398  -1.00000000, res:    0.10855255, dFx/domg:    371.329
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194       9989., dFz/dz:   7.724E+05
-     2, SC, z, omg_ws:    0.019398  -1.00029234, res:    0.03696821, dFx/domg:  244.870897
+     2, SC, z, omg_ws:    0.019398  -1.00029234, res:    0.03696821, dFx/domg:    244.871
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.736E+05
-     3, SC, z, omg_ws:    0.019398  -1.00044331, res:   -0.00052923, dFx/domg:  248.376414
+     3, SC, z, omg_ws:    0.019398  -1.00044331, res:   -0.00052923, dFx/domg:    248.376
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.736E+05
          2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
          3, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.532E+05
-     4, SC, z, omg_ws:    0.019392  -1.00044117, res:   -0.00002456, dFx/domg:  236.848466
+     4, SC, z, omg_ws:    0.019392  -1.00044117, res:   -0.00002456, dFx/domg:    236.848
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194      10000., dFz/dz:   7.735E+05
          2, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.531E+05
-     5, SC, z, omg_ws:    0.019392  -1.00044107, res:    0.00000111, dFx/domg:  236.848466
+     5, SC, z, omg_ws:    0.019392  -1.00044107, res:    0.00000111, dFx/domg:    236.848
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
-     6, SC, z, omg_ws:    0.019392  -1.00044108, res:   -0.00000005, dFx/domg:  236.848466
+     6, SC, z, omg_ws:    0.019392  -1.00044108, res:   -0.00000005, dFx/domg:    236.848
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0194   1.000E+04, dFz/dz:   7.735E+05
-     7, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000000, dFx/domg:  236.848466
+     7, SC, z, omg_ws:    0.019392  -1.00044108, res:    0.00000000, dFx/domg:    236.848
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -263,10 +263,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000      0.0000      0.0000     -0.0000      0.0000      0.0000
+     -0.0000     -0.0000     -0.1750      0.0000     -0.0000     -0.1750
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000      0.0000     -0.0194
+     -0.0000     -0.0000     -0.1944
 
  Actual contact on columns iy = [  9, 43] (my= 51), sc = [ -4.375,  4.375]
  Reference contact angle delttr =  -0.00 deg, range = [  24.23, -24.23] deg
@@ -278,7 +278,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000       0.000   1.371E-05   7.848E-02     -0.3018
+     1.000E+04       0.000       0.000   1.392E-05   7.848E-02     -0.3018
      FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          9931.       0.000       0.000   1.939E-02       409.3
 
@@ -392,32 +392,32 @@
          1, NR,  z_ws, Fz:       0.0166       9277., dFz/dz:   8.368E+05
          2, NR,  z_ws, Fz:       0.0276   1.894E+04, dFz/dz:   8.780E+05
          3, NR,  z_ws, Fz:       0.0175       9935., dFz/dz:   7.993E+05
-     1, SC, z, omg_ws:    0.017453  -1.00000007, res:    0.14728565, dFx/domg:  424.359157
+     1, SC, z, omg_ws:    0.017453  -1.00000007, res:    0.14728565, dFx/domg:    424.359
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0175       9982., dFz/dz:   8.579E+05
-     2, SC, z, omg_ws:    0.017453  -1.00034715, res:    0.06891420, dFx/domg:  225.803684
+     2, SC, z, omg_ws:    0.017453  -1.00034715, res:    0.06891420, dFx/domg:    225.804
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0175   1.002E+04, dFz/dz:   8.613E+05
-     3, SC, z, omg_ws:    0.017453  -1.00065235, res:   -0.00053104, dFx/domg:  227.543673
+     3, SC, z, omg_ws:    0.017453  -1.00065235, res:   -0.00053104, dFx/domg:    227.544
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0175   1.002E+04, dFz/dz:   8.613E+05
          2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.129E+05
          3, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.126E+05
-     4, SC, z, omg_ws:    0.017427  -1.00065001, res:   -0.00011387, dFx/domg:  178.751154
+     4, SC, z, omg_ws:    0.017427  -1.00065001, res:   -0.00011387, dFx/domg:    178.751
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.607E+05
          2, NR,  z_ws, Fz:       0.0174      10000., dFz/dz:   8.125E+05
-     5, SC, z, omg_ws:    0.017427  -1.00064938, res:    0.00002853, dFx/domg:  223.541435
+     5, SC, z, omg_ws:    0.017427  -1.00064938, res:    0.00002853, dFx/domg:    223.541
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
-     6, SC, z, omg_ws:    0.017427  -1.00064950, res:    0.00000007, dFx/domg:  223.541435
+     6, SC, z, omg_ws:    0.017427  -1.00064950, res:    0.00000007, dFx/domg:    223.541
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
          2, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.125E+05
-     7, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000005, dFx/domg:  223.541435
+     7, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000005, dFx/domg:    223.541
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0174   1.000E+04, dFz/dz:   8.607E+05
-     8, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000000, dFx/domg:  223.541435
+     8, SC, z, omg_ws:    0.017427  -1.00064950, res:   -0.00000000, dFx/domg:    223.541
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -455,14 +455,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000     -0.0000     -0.0000      0.0000     -0.0000     -0.0000
+      0.0000      0.0000     -0.3102     -0.0000      0.0000     -0.3102
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000     -0.0000     -0.0174
+      0.0000      0.0000     -0.3276
 
  Actual contact on columns iy = [ 10, 54] (my= 63), sc = [ -5.625,  5.625]
  Reference contact angle delttr =   0.00 deg, range = [  31.43, -31.43] deg
- Total moments Mxp =         0.0, Msp =      -677.5, Mnp =         0.0 N.mm
+ Total moments Mxp =        -0.0, Msp =      -677.5, Mnp =        -0.0 N.mm
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -470,7 +470,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000   3.600E-04   5.572E-06   7.171E-02     -0.6444
+     1.000E+04       0.000       0.000  -1.868E-05   7.171E-02     -0.6444
      FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      1.001E+04       0.000       0.000   1.743E-02       348.7
 
@@ -606,33 +606,33 @@
          1, NR,  z_ws, Fz:       0.0139       8561., dFz/dz:   9.260E+05
          2, NR,  z_ws, Fz:       0.0249   1.867E+04, dFz/dz:   9.192E+05
          3, NR,  z_ws, Fz:       0.0154       9892., dFz/dz:   8.501E+05
-     1, SC, z, omg_ws:    0.015434  -1.00000001, res:    0.19115097, dFx/domg:  512.598375
+     1, SC, z, omg_ws:    0.015434  -1.00000001, res:    0.19115097, dFx/domg:    512.598
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154       9947., dFz/dz:   9.667E+05
-     2, SC, z, omg_ws:    0.015434  -1.00037292, res:    0.11690954, dFx/domg:  199.088889
+     2, SC, z, omg_ws:    0.015434  -1.00037292, res:    0.11690954, dFx/domg:    199.089
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.002E+04, dFz/dz:   9.741E+05
-     3, SC, z, omg_ws:    0.015434  -1.00096014, res:    0.00289001, dFx/domg:  194.167394
+     3, SC, z, omg_ws:    0.015434  -1.00096014, res:    0.00289001, dFx/domg:    194.167
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.002E+04, dFz/dz:   9.742E+05
          2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.753E+05
-     4, SC, z, omg_ws:    0.015409  -1.00097502, res:    0.00020592, dFx/domg:  180.332596
+     4, SC, z, omg_ws:    0.015409  -1.00097502, res:    0.00020592, dFx/domg:    180.333
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.737E+05
          2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.838E+05
-     5, SC, z, omg_ws:    0.015406  -1.00097617, res:   -0.00000923, dFx/domg:  188.417122
+     5, SC, z, omg_ws:    0.015406  -1.00097617, res:   -0.00000923, dFx/domg:    188.417
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
          2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.734E+05
          3, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.733E+05
-     6, SC, z, omg_ws:    0.015406  -1.00097612, res:   -0.00000217, dFx/domg:  188.417122
+     6, SC, z, omg_ws:    0.015406  -1.00097612, res:   -0.00000217, dFx/domg:    188.417
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
          2, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   8.707E+05
-     7, SC, z, omg_ws:    0.015406  -1.00097611, res:   -0.00000015, dFx/domg:  188.417122
+     7, SC, z, omg_ws:    0.015406  -1.00097611, res:   -0.00000015, dFx/domg:    188.417
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0154   1.000E+04, dFz/dz:   9.736E+05
-     8, SC, z, omg_ws:    0.015406  -1.00097611, res:   -0.00000001, dFx/domg:  188.417122
+     8, SC, z, omg_ws:    0.015406  -1.00097611, res:   -0.00000001, dFx/domg:    188.417
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -670,14 +670,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000     -0.0000     -0.0000      0.0000     -0.0000     -0.0000
+      0.0000     -0.0000     -0.5771      0.0000     -0.0000     -0.5771
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000     -0.0000     -0.0154
+      0.0000     -0.0000     -0.5925
 
  Actual contact on columns iy = [ 11, 71] (my= 81), sc = [ -7.625,  7.625]
  Reference contact angle delttr =   0.00 deg, range = [  42.93, -42.93] deg
- Total moments Mxp =         0.0, Msp =     -1429.8, Mnp =         0.0 N.mm
+ Total moments Mxp =        -0.0, Msp =     -1429.8, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -685,7 +685,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000   1.893E-02   1.590E-02   6.552E-02      -1.389
+     1.000E+04       0.000   1.549E-02   1.541E-02   6.552E-02      -1.389
      FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      1.026E+04       0.000   4.431E-06   1.541E-02       296.8
 
@@ -856,12 +856,12 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       214.1       10.71
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       5.080       10.68
          1, NR,  z_ws, Fz:       0.0222       9901., dFz/dz:   6.682E+05
-     1, SC, z, omg_ws:    0.022227  -1.00000007, res:    0.06173917, dFx/domg:  312.985263
+     1, SC, z, omg_ws:    0.022227  -1.00000007, res:    0.06173917, dFx/domg:    312.985
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       15.22       13.18
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.3971       13.16
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0222       9907., dFz/dz:   6.686E+05
-     2, SC, z, omg_ws:    0.022227  -1.00019733, res:    0.01005579, dFx/domg:  262.007645
+     2, SC, z, omg_ws:    0.022227  -1.00019733, res:    0.01005579, dFx/domg:    262.008
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.282       2.145
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.750E-02       2.144
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
@@ -869,31 +869,31 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       2.286       2.150
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.117E-02       2.149
          2, NR,  z_ws, Fz:       0.0224       9999., dFz/dz:   6.627E+05
-     3, SC, z, omg_ws:    0.022366  -1.00023571, res:    0.00020592, dFx/domg:  256.642272
+     3, SC, z, omg_ws:    0.022366  -1.00023571, res:    0.00020592, dFx/domg:    256.642
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.4607   4.408E-02
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.006E-03   4.408E-02
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
-     4, SC, z, omg_ws:    0.022366  -1.00023652, res:    0.00002551, dFx/domg:  224.854948
+     4, SC, z, omg_ws:    0.022366  -1.00023652, res:    0.00002551, dFx/domg:    224.855
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.927E-02   5.460E-03
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.251E-04   5.460E-03
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.949E-03   5.460E-03
          2, NR,  z_ws, Fz:       0.0224      10000., dFz/dz:   6.792E+05
-     5, SC, z, omg_ws:    0.022365  -1.00023663, res:   -0.00000607, dFx/domg:  278.360067
+     5, SC, z, omg_ws:    0.022365  -1.00023663, res:   -0.00000607, dFx/domg:    278.360
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.084E-03   1.070E-04
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.136E-05   1.070E-04
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.746E-05   1.070E-04
          2, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.638E+05
-     6, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000044, dFx/domg:  278.360067
+     6, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000044, dFx/domg:    278.360
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.388E-04   1.070E-04
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.348E-06   1.070E-04
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0224   1.000E+04, dFz/dz:   6.707E+05
-     7, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000002, dFx/domg:  278.360067
+     7, SC, z, omg_ws:    0.022365  -1.00023661, res:   -0.00000002, dFx/domg:    278.360
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -958,10 +958,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000     -0.0000     -0.0000      0.0000     -0.0000     -0.0000
+     -0.0014     -0.0000     -0.0746      0.0000     -0.0000     -0.0746
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000     -0.0000     -0.0224
+     -0.0014     -0.0000     -0.0969
 
  Actual contact on columns iy = [  8, 30] (my= 37), sc = [ -2.875,  2.875]
  Reference contact angle delttr =   0.00 deg, range = [  15.56, -15.56] deg
@@ -973,7 +973,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04  -2.373E-04   5.741E-04  -9.433E-05   8.993E-02  -8.602E-02
+     1.000E+04  -2.373E-04       0.000  -9.950E-05   8.993E-02  -8.602E-02
      FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          9956.  -7.946E-08       0.000   2.237E-02       520.6
 
@@ -1067,16 +1067,16 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       165.8       8.291
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.524       8.288
          3, NR,  z_ws, Fz:       0.0193       9961., dFz/dz:   7.487E+05
-     1, SC, z, omg_ws:    0.019263  -1.00000000, res:    0.11446055, dFx/domg:  371.329253
+     1, SC, z, omg_ws:    0.019263  -1.00000000, res:    0.11446055, dFx/domg:    371.329
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       18.01       18.97
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193       9995., dFz/dz:   7.783E+05
-     2, SC, z, omg_ws:    0.019263  -1.00030825, res:    0.03898564, dFx/domg:  244.853296
+     2, SC, z, omg_ws:    0.019263  -1.00030825, res:    0.03898564, dFx/domg:    244.853
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       9.865       6.455
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.5498       6.459
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193       9989., dFz/dz:   7.778E+05
-     3, SC, z, omg_ws:    0.019263  -1.00046747, res:   -0.00026608, dFx/domg:  246.524466
+     3, SC, z, omg_ws:    0.019263  -1.00046747, res:   -0.00026608, dFx/domg:    246.524
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.5127   8.284E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.543E-03   8.285E-05
   3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.853E-05   8.285E-05
@@ -1101,17 +1101,17 @@
   3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.514E-03   8.291E-05
   4, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.651E-05   8.291E-05
          5, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.592E+05
-     4, SC, z, omg_ws:    0.019278  -1.00046639, res:    0.00006671, dFx/domg:  308.326489
+     4, SC, z, omg_ws:    0.019278  -1.00046639, res:    0.00006671, dFx/domg:    308.326
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.470E-02   1.106E-02
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.137E-04   1.106E-02
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
-     5, SC, z, omg_ws:    0.019278  -1.00046660, res:    0.00001321, dFx/domg:  247.275364
+     5, SC, z, omg_ws:    0.019278  -1.00046660, res:    0.00001321, dFx/domg:    247.275
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.639E-03   2.190E-03
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.570E-04   2.190E-03
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.781E+05
-     6, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000008, dFx/domg:  247.275364
+     6, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000008, dFx/domg:    247.275
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.815E-04   8.291E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.357E-06   8.291E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
@@ -1119,7 +1119,7 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.474E-04   8.291E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.191E-05   8.291E-05
          2, NR,  z_ws, Fz:       0.0193   1.000E+04, dFz/dz:   7.347E+05
-     7, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000001, dFx/domg:  247.275364
+     7, SC, z, omg_ws:    0.019278  -1.00046666, res:    0.00000001, dFx/domg:    247.275
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1158,14 +1158,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000      0.0000      0.0000     -0.0000      0.0000      0.0000
+     -0.0024     -0.0000     -0.1879      0.0000     -0.0000     -0.1879
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000      0.0000     -0.0193
+     -0.0024     -0.0000     -0.2072
 
  Actual contact on columns iy = [  9, 43] (my= 51), sc = [ -4.375,  4.375]
  Reference contact angle delttr =  -0.00 deg, range = [  24.23, -24.23] deg
- Total moments Mxp =        -0.0, Msp =      -331.0, Mnp =         0.0 N.mm
+ Total moments Mxp =         0.0, Msp =      -331.0, Mnp =         0.0 N.mm
 
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
@@ -1173,7 +1173,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000       0.000   8.566E-06   7.837E-02     -0.3223
+     1.000E+04       0.000       0.000   8.723E-06   7.837E-02     -0.3223
      FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
          9967.       0.000       0.000   1.928E-02       397.6
 
@@ -1293,16 +1293,16 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       141.4       7.068
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       3.382       7.018
          3, NR,  z_ws, Fz:       0.0172       9953., dFz/dz:   8.358E+05
-     1, SC, z, omg_ws:    0.017179  -1.00000007, res:    0.15550908, dFx/domg:  424.359157
+     1, SC, z, omg_ws:    0.017179  -1.00000007, res:    0.15550908, dFx/domg:    424.359
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       17.46       21.83
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.733E+05
-     2, SC, z, omg_ws:    0.017179  -1.00036653, res:    0.07367714, dFx/domg:  223.306136
+     2, SC, z, omg_ws:    0.017179  -1.00036653, res:    0.07367714, dFx/domg:    223.306
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       15.62       10.38
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.9077       10.38
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.733E+05
-     3, SC, z, omg_ws:    0.017179  -1.00069647, res:    0.00028815, dFx/domg:  222.432787
+     3, SC, z, omg_ws:    0.017179  -1.00069647, res:    0.00028815, dFx/domg:    222.433
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.4343   4.063E-02
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.510E-03   4.063E-02
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
@@ -1310,7 +1310,7 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.375E-02   4.062E-02
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.189E-03   4.062E-02
          2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.244E+05
-     4, SC, z, omg_ws:    0.017176  -1.00069776, res:   -0.00005288, dFx/domg:  263.249271
+     4, SC, z, omg_ws:    0.017176  -1.00069776, res:   -0.00005288, dFx/domg:    263.249
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.777E-02   7.049E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.292E-04   7.049E-05
   3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.033E-05   7.049E-05
@@ -1322,7 +1322,7 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   7.781E-05   7.049E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.341E-06   7.049E-05
          3, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.227E+05
-     5, SC, z, omg_ws:    0.017176  -1.00069756, res:   -0.00000880, dFx/domg:  219.435463
+     5, SC, z, omg_ws:    0.017176  -1.00069756, res:   -0.00000880, dFx/domg:    219.435
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.160E-03   7.049E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   8.393E-05   7.049E-05
   3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.135E-06   7.049E-05
@@ -1330,11 +1330,11 @@
          1, NR,  z_ws, Fz:       0.0172      10000., dFz/dz:   8.733E+05
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.048E-05   7.049E-05
          2, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.134E+05
-     6, SC, z, omg_ws:    0.017176  -1.00069752, res:   -0.00000004, dFx/domg:  219.435463
+     6, SC, z, omg_ws:    0.017176  -1.00069752, res:   -0.00000004, dFx/domg:    219.435
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.076E-05   7.049E-05
          0, NR,  z_ws, Fz:       0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0172   1.000E+04, dFz/dz:   8.733E+05
-     7, SC, z, omg_ws:    0.017176  -1.00069752, res:   -0.00000000, dFx/domg:  219.435463
+     7, SC, z, omg_ws:    0.017176  -1.00069752, res:   -0.00000000, dFx/domg:    219.435
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1373,10 +1373,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000      0.0000     -0.0000     -0.0000      0.0000     -0.0000
+     -0.0023      0.0000     -0.3395     -0.0000      0.0000     -0.3395
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000      0.0000     -0.0172
+     -0.0023      0.0000     -0.3566
 
  Actual contact on columns iy = [  9, 55] (my= 63), sc = [ -5.875,  5.875]
  Reference contact angle delttr =  -0.00 deg, range = [  32.86, -32.86] deg
@@ -1388,7 +1388,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000  -1.713E-04  -4.066E-05   7.093E-02     -0.7063
+     1.000E+04       0.000       0.000  -2.868E-05   7.093E-02     -0.7063
      FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      1.005E+04       0.000       0.000   1.718E-02       336.1
 
@@ -1532,21 +1532,21 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       118.6       5.932
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       2.893       5.887
          3, NR,  z_ws, Fz:       0.0149       9908., dFz/dz:   9.057E+05
-     1, SC, z, omg_ws:    0.014919  -1.00000001, res:    0.20149460, dFx/domg:  512.598375
+     1, SC, z, omg_ws:    0.014919  -1.00000001, res:    0.20149460, dFx/domg:    512.598
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       14.86       23.75
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0149       9969., dFz/dz:   1.002E+06
-     2, SC, z, omg_ws:    0.014919  -1.00039310, res:    0.12521398, dFx/domg:  194.056417
+     2, SC, z, omg_ws:    0.014919  -1.00039310, res:    0.12521398, dFx/domg:    194.056
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       21.34       14.91
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       1.212       14.76
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0149       9993., dFz/dz:   1.005E+06
-     3, SC, z, omg_ws:    0.014919  -1.00103834, res:    0.00607024, dFx/domg:  184.648765
+     3, SC, z, omg_ws:    0.014919  -1.00103834, res:    0.00607024, dFx/domg:    184.649
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :       1.426      0.7206
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.766E-02      0.7205
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0149       9992., dFz/dz:   1.005E+06
-     4, SC, z, omg_ws:    0.014919  -1.00107122, res:    0.00045261, dFx/domg:  170.881114
+     4, SC, z, omg_ws:    0.014919  -1.00107122, res:    0.00045261, dFx/domg:    170.881
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :      0.1862   5.372E-02
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.134E-03   5.372E-02
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
@@ -1554,7 +1554,7 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.097E-02   5.375E-02
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   3.116E-03   5.375E-02
          2, NR,  z_ws, Fz:       0.0149       9999., dFz/dz:   9.232E+05
-     5, SC, z, omg_ws:    0.014926  -1.00107387, res:    0.00008832, dFx/domg:  137.537215
+     5, SC, z, omg_ws:    0.014926  -1.00107387, res:    0.00008832, dFx/domg:    137.537
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.558E-02   1.049E-02
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.238E-03   1.049E-02
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
@@ -1562,7 +1562,7 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.800E-02   1.049E-02
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.810E-04   1.049E-02
          2, NR,  z_ws, Fz:       0.0149      10000., dFz/dz:   9.581E+05
-     6, SC, z, omg_ws:    0.014927  -1.00107451, res:   -0.00001271, dFx/domg:  157.323284
+     6, SC, z, omg_ws:    0.014927  -1.00107451, res:   -0.00001271, dFx/domg:    157.323
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.656E-03   5.938E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.319E-04   5.938E-05
   3, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.394E-06   5.938E-05
@@ -1571,14 +1571,14 @@
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   5.298E-04   5.938E-05
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   1.744E-05   5.938E-05
          2, NR,  z_ws, Fz:       0.0149      10000., dFz/dz:   9.203E+05
-     7, SC, z, omg_ws:    0.014927  -1.00107443, res:    0.00000098, dFx/domg:  157.323284
+     7, SC, z, omg_ws:    0.014927  -1.00107443, res:    0.00000098, dFx/domg:    157.323
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   2.475E-04   1.166E-04
   2, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   9.251E-06   1.166E-04
          0, NR,  z_ws, Fz:      -0.0000       0.000, dFz/dz:       0.000
          1, NR,  z_ws, Fz:       0.0149      10000., dFz/dz:   1.005E+06
   1, Panag/Out: |Pk - Pk-1|,  5 Eps |Pk| :   4.838E-05   1.166E-04
          2, NR,  z_ws, Fz:       0.0149   1.000E+04, dFz/dz:   9.660E+05
-     8, SC, z, omg_ws:    0.014927  -1.00107443, res:   -0.00000000, dFx/domg:  157.323284
+     8, SC, z, omg_ws:    0.014927  -1.00107443, res:   -0.00000000, dFx/domg:    157.323
 
  WHEEL-RAIL CONTACT, RIGHT WHEEL,  1 CONTACT PATCH
 
@@ -1617,10 +1617,10 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      0.0000     -0.0000     -0.0000      0.0000     -0.0000     -0.0000
+     -0.0015     -0.0000     -0.6498      0.0000     -0.0000     -0.6498
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.0000     -0.0000     -0.0149
+     -0.0015     -0.0000     -0.6647
 
  Actual contact on columns iy = [  9, 73] (my= 81), sc = [ -8.125,  8.125]
  Reference contact angle delttr =   0.00 deg, range = [  45.79, -45.79] deg
@@ -1632,7 +1632,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.000E+04       0.000   2.484E-03   9.411E-03   6.353E-02      -1.578
+     1.000E+04       0.000  -3.821E-03   8.393E-03   6.353E-02      -1.578
      FN_CRV    FX/FSTAT/FN FS/FSTAT/FN   APPROACH     PMAX    
      1.034E+04       0.000  -1.939E-06   1.493E-02       283.6
 
@@ -1805,23 +1805,23 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |       21.3 | 100.0 |       21.5 | 100.0 |
-|Wheel-rail cases     |        8 |       21.3 | 100.0 |       21.5 | 100.0 |
+|Total                |        1 |       22.1 | 100.0 |       22.5 | 100.0 |
+|Wheel-rail cases     |        8 |       22.1 | 100.0 |       22.4 |  99.9 |
 |W/r profiles         |       10 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Geometric analysis   |      120 |        0.1 |   0.4 |        0.3 |   1.2 |
-|Panag.process        |      104 |       16.9 |  79.2 |       17.1 |  79.4 |
-|Algorithm Norm       |      158 |        4.2 |  19.9 |        4.2 |  19.4 |
-|Algorithm Tang       |      158 |       12.6 |  58.9 |       12.9 |  59.9 |
-|Output quantities    |      112 |        1.7 |   7.8 |        1.6 |   7.5 |
+|Geometric analysis   |      120 |        0.2 |   0.8 |        0.2 |   1.0 |
+|Panag.process        |      104 |       17.7 |  80.0 |       17.9 |  79.7 |
+|Algorithm Norm       |      158 |        4.5 |  20.3 |        4.5 |  20.0 |
+|Algorithm Tang       |      158 |       13.0 |  59.0 |       13.4 |  59.6 |
+|Output quantities    |      112 |        1.5 |   7.0 |        1.6 |   7.1 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |      158 |        3.5 |  16.4 |        3.3 |  15.3 |
-|Tang: StedyGS solver |      158 |       11.8 |  55.2 |       12.1 |  56.1 |
+|Norm: ConjGrd solver |      158 |        3.6 |  16.5 |        3.7 |  16.3 |
+|Tang: StedyGS solver |      158 |       12.2 |  55.3 |       12.5 |  55.8 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |        8 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Contact location     |      120 |        0.0 |   0.1 |        0.1 |   0.4 |
-|Undeformed distance  |      104 |        0.1 |   0.4 |        0.1 |   0.6 |
+|Undeformed distance  |      104 |        0.1 |   0.3 |        0.1 |   0.5 |
 | - Interp whl_srfc   |      104 |        0.1 |   0.3 |        0.1 |   0.3 |
-|Influence coeffic.   |      120 |        2.4 |  11.3 |        2.3 |  10.8 |
-|Initial state/estim. |      104 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Influence coeffic.   |      120 |        2.4 |  11.0 |        2.5 |  10.9 |
+|Initial state/estim. |      104 |        0.0 |   0.0 |        0.0 |   0.1 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

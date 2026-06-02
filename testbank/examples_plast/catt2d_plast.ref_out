@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -2396,19 +2396,19 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        0.0 | 100.0 |        0.1 | 100.0 |
-|Non-Hertzian cases   |       50 |        0.0 | 100.0 |        0.0 |  84.6 |
-|Panag.process        |       50 |        0.0 |  66.7 |        0.0 |  51.9 |
-|Algorithm Norm       |       50 |        0.0 |  66.7 |        0.0 |  25.0 |
-|Algorithm Tang       |       50 |        0.0 |   0.0 |        0.0 |  26.9 |
-|Output quantities    |       50 |        0.0 |  33.3 |        0.0 |  21.2 |
+|Total                |        1 |        0.0 | 100.0 |        0.0 | 100.0 |
+|Non-Hertzian cases   |       50 |        0.0 |  50.0 |        0.0 |  82.5 |
+|Panag.process        |       50 |        0.0 |  50.0 |        0.0 |  62.5 |
+|Algorithm Norm       |       50 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Algorithm Tang       |       50 |        0.0 |  50.0 |        0.0 |  45.0 |
+|Output quantities    |       50 |        0.0 |   0.0 |        0.0 |  20.0 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       50 |        0.0 |   0.0 |        0.0 |   3.8 |
-|Tang: ConvxGS solver |       54 |        0.0 |   0.0 |        0.0 |  11.5 |
+|Norm: ConjGrd solver |       50 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Tang: ConvxGS solver |       54 |        0.0 |   0.0 |        0.0 |  22.5 |
 |--------------------------------------------------------------------------|
 |Reading input-file   |       50 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Influence coeffic.   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |       50 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Writing output-files |        6 |        0.0 |   0.0 |        0.0 |  11.5 |
+|Writing output-files |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

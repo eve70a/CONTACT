@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -81,9 +81,6 @@
  KINEMATIC CONSTANTS
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.8000           98.00  -4.082E-02       0.000  -6.981E-15
-
-     SPINXO      SPINYO
-     0.000      0.1421E-10
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
@@ -181,9 +178,6 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.8000           99.80  -4.008E-03       0.000  -7.112E-15
 
-     SPINXO      SPINYO
-     0.000      0.1421E-10
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          237.0       53.14       0.000       0.000   1.607E-02  -6.063E-03
@@ -280,9 +274,6 @@
      CHI         DQ          VELOC       CKSI        CETA        CPHI
      0.000      0.8000           99.80  -4.008E-03       0.000  -7.112E-15
 
-     SPINXO      SPINYO
-     0.000      0.1421E-10
-
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN          FX          FS          MN         ELAST.EN.   FRIC.POWER
          237.0       54.03       0.000       0.000   1.613E-02  -8.155E-03
@@ -351,22 +342,22 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
-|Wheel-rail cases     |        3 |        0.1 | 100.0 |        0.1 |  87.0 |
-|W/r profiles         |        2 |        0.0 |  20.0 |        0.0 |  23.9 |
-|Geometric analysis   |        3 |        0.0 |   0.0 |        0.0 |   4.3 |
-|Panag.process        |        3 |        0.0 |  20.0 |        0.0 |  31.5 |
-|Algorithm Norm       |        3 |        0.0 |   0.0 |        0.0 |  10.9 |
-|Algorithm Tang       |        3 |        0.0 |  20.0 |        0.0 |  20.7 |
-|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   7.6 |
+|Wheel-rail cases     |        3 |        0.1 | 100.0 |        0.1 |  87.9 |
+|W/r profiles         |        2 |        0.0 |  25.0 |        0.0 |  20.9 |
+|Geometric analysis   |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Panag.process        |        3 |        0.0 |  50.0 |        0.0 |  45.1 |
+|Algorithm Norm       |        3 |        0.0 |  25.0 |        0.0 |  30.8 |
+|Algorithm Tang       |        3 |        0.0 |  25.0 |        0.0 |  14.3 |
+|Output quantities    |        6 |        0.0 |   0.0 |        0.0 |   2.2 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        3 |        0.0 |   0.0 |        0.0 |  10.9 |
-|Tang: TangCG solver  |        3 |        0.0 |  20.0 |        0.0 |  20.7 |
+|Norm: ConjGrd solver |        3 |        0.0 |  25.0 |        0.0 |  18.7 |
+|Tang: TangCG solver  |        3 |        0.0 |  25.0 |        0.0 |  14.3 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        3 |        0.0 |  20.0 |        0.0 |  23.9 |
-|Contact location     |        3 |        0.0 |   0.0 |        0.0 |   4.3 |
+|Reading input-file   |        3 |        0.0 |  25.0 |        0.0 |  20.9 |
+|Contact location     |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Undeformed distance  |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        1 |        0.0 |  20.0 |        0.0 |   0.0 |
+|Influence coeffic.   |        1 |        0.0 |   0.0 |        0.0 |   0.0 |
 |Initial state/estim. |        3 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

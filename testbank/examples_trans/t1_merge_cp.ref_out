@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -502,22 +502,22 @@ Performance timers:
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
 |Total                |        1 |        0.1 | 100.0 |        0.1 | 100.0 |
-|Wheel-rail cases     |        2 |        0.1 | 100.0 |        0.1 |  96.4 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |  15.7 |
-|Geometric analysis   |        2 |        0.0 |  20.0 |        0.0 |   6.0 |
+|Wheel-rail cases     |        2 |        0.1 | 100.0 |        0.1 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Geometric analysis   |        2 |        0.0 |  20.0 |        0.0 |   0.0 |
 |Panag.process        |        5 |        0.0 |  60.0 |        0.0 |  50.6 |
-|Algorithm Norm       |        5 |        0.0 |  20.0 |        0.0 |  13.3 |
-|Algorithm Tang       |        5 |        0.0 |  40.0 |        0.0 |  37.3 |
-|Output quantities    |        7 |        0.0 |   0.0 |        0.0 |  15.7 |
+|Algorithm Norm       |        5 |        0.0 |  20.0 |        0.0 |  26.6 |
+|Algorithm Tang       |        5 |        0.0 |  40.0 |        0.0 |  24.1 |
+|Output quantities    |        7 |        0.0 |   0.0 |        0.0 |  15.2 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |        5 |        0.0 |   0.0 |        0.0 |  10.8 |
-|Tang: TangCG solver  |        5 |        0.0 |  20.0 |        0.0 |  36.1 |
+|Norm: ConjGrd solver |        5 |        0.0 |  20.0 |        0.0 |  24.1 |
+|Tang: TangCG solver  |        5 |        0.0 |  40.0 |        0.0 |  21.5 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        2 |        0.0 |   0.0 |        0.0 |  15.7 |
-|Contact location     |        2 |        0.0 |  20.0 |        0.0 |   3.6 |
-|Undeformed distance  |        5 |        0.0 |   0.0 |        0.0 |   2.4 |
+|Reading input-file   |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Contact location     |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
+|Undeformed distance  |        5 |        0.0 |  20.0 |        0.0 |   0.0 |
 | - Interp whl_srfc   |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |   2.4 |
+|Influence coeffic.   |        5 |        0.0 |   0.0 |        0.0 |  11.4 |
 |Initial state/estim. |        5 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.

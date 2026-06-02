@@ -2,7 +2,7 @@
    |  CONTACT - detailed investigation of 3D frictional contact problems  |
    |            by E.A.H. Vollebregt and J.J. Kalker                      |
    |                                                                      |
-   |  Version: open(win64), $Revision: 2748 $, $Date:: 2026-02-12$        |
+   |  Version: open(win64), $Revision: 2781 $, $Date:: 2026-06-02$        |
    |  Copyright Vtech CMCC, all rights reserved.                          |
    |  Open source version                                                 |
    ------------------------------------------------------------------------
@@ -82,14 +82,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.1375    745.7876      1.1738     -0.2080     -3.3767      1.1738
+     -3.0455    744.1618      2.8621     -0.2382     -5.0025      2.8621
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.5149     56.7764      0.9018
+      0.5987     55.1480      2.5880
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-26.200, 18.200]
  Reference contact angle delttr = -11.92 deg, range = [ -40.32,  -1.44] deg
- Total moments Mxp =   -243408.3, Msp =    -90498.8, Mnp =    271039.7 N.mm
+ Total moments Mxp =    -61068.1, Msp =    -21960.7, Mnp =    388887.6 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -105,7 +105,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.274E+05  -6.102E+04  -4.919E+04   2.710E+05       6.608  -1.017E+04
+     1.259E+05  -6.102E+04  -5.301E+04   3.889E+05       6.608  -1.017E+04
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.378E+05     -0.4429     -0.3901   8.051E-02       1545.
 
@@ -364,14 +364,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0789    714.2694     28.3237     -1.2700    -34.8949     28.3237
+      4.0708    714.2383     28.4481     -1.2693    -34.9261     28.4480
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.5734     25.1873     28.0107
+      7.5652     25.1560     28.1350
 
  Actual contact on columns iy = [  4,  8] (my= 13), sc = [ -1.000,  1.000]
  Reference contact angle delttr = -72.77 deg, range = [ -72.29, -73.12] deg
- Total moments Mxp =      -808.7, Msp =        42.2, Mnp =      -398.0 N.mm
+ Total moments Mxp =         0.4, Msp =        50.7, Mnp =      -241.7 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -387,7 +387,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         6339.      -1222.      -327.2      -398.0   4.120E-02      -1334.
+         6339.      -1222.      -323.0      -241.7   4.120E-02      -1334.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          6339.     -0.1928  -5.096E-02   1.519E-02       739.9
 
@@ -457,14 +457,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.1373    745.7869      1.1739     -0.2081     -3.3774      1.1739
+     -3.0562    744.1214      2.8716     -0.2390     -5.0429      2.8715
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.5150     56.7757      0.9020
+      0.5879     55.1077      2.5975
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -249009.2, Msp =    311166.7, Mnp =    419557.4 N.mm
+ Total moments Mxp =    -60860.9, Msp =    374306.5, Mnp =    551677.3 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -483,7 +483,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.275E+05  -6.075E+04  -4.883E+04   4.196E+05       6.591  -1.080E+04
+     1.259E+05  -6.075E+04  -5.274E+04   5.517E+05       6.591  -1.080E+04
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.378E+05     -0.4408     -0.3880   8.070E-02       1544.
 
@@ -497,14 +497,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0788    714.2693     28.3241     -1.2700    -34.8950     28.3241
+      4.0219    714.2354     28.4572     -1.2692    -34.9289     28.4572
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.5734     25.1871     28.0112
+      7.5162     25.1533     28.1442
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -859.3, Msp =    -25287.8, Mnp =     -1707.8 N.mm
+ Total moments Mxp =         0.4, Msp =    -25280.4, Mnp =     -1522.2 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -523,7 +523,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         6285.      -1212.      -323.4      -1708.   4.015E-02      -1323.
+         6286.      -1212.      -318.6      -1522.   4.015E-02      -1323.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          6286.     -0.1928  -5.068E-02   1.524E-02       709.5
 
@@ -569,14 +569,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.5554    754.7584      0.4128     -0.0650      5.5941      0.4127
+     -3.5608    754.9838      0.4819     -0.0639      5.8194      0.4819
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.1418     65.7501      0.1663
+      0.1376     65.9754      0.2357
 
  Actual contact on columns iy = [ 51,110] (my=117), sc = [ -9.800, 14.200]
  Reference contact angle delttr =  -3.72 deg, range = [  -9.28,  -1.61] deg
- Total moments Mxp =     15107.0, Msp =    258328.4, Mnp =    158814.1 N.mm
+ Total moments Mxp =     -4928.3, Msp =    262354.5, Mnp =    148344.3 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -595,7 +595,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     7.368E+04  -4.621E+04  -4.537E+04   1.588E+05       3.638  -1.760E+04
+     7.373E+04  -4.621E+04  -4.529E+04   1.483E+05       3.638  -1.760E+04
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      7.382E+04     -0.6261     -0.6137   6.330E-02       769.3
 
@@ -609,14 +609,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -2.0554    723.3827      7.3803     -0.5793    -25.7816      7.3802
+     -2.0853    723.4493      7.4108     -0.5734    -25.7150      7.4108
 
      XCP(W)      YCP(W)      ZCP(W)
-      1.4849     34.3583      7.0930
+      1.4553     34.4250      7.1236
 
  Actual contact on columns iy = [  6, 19] (my=116), sc = [-29.800,-24.200]
  Reference contact angle delttr = -33.19 deg, range = [ -40.59, -26.69] deg
- Total moments Mxp =      1751.9, Msp =     91040.6, Mnp =      8579.4 N.mm
+ Total moments Mxp =      -233.1, Msp =     91608.5, Mnp =      7708.9 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -635,7 +635,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     4.394E+04      -8391.      -4395.       8579.       1.268      -5572.
+     4.397E+04      -8391.      -4134.       7709.       1.268      -5572.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      4.405E+04     -0.1905  -9.397E-02   6.945E-02       1511.
 
@@ -649,14 +649,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0748    714.2548     28.3706     -1.2697    -34.9095     28.3705
+      4.0336    714.2346     28.4534     -1.2693    -34.9297     28.4534
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.5692     25.1726     28.0714
+      7.5280     25.1525     28.1542
 
  Actual contact on columns iy = [  4,  7] (my= 11), sc = [-51.400,-49.800]
  Reference contact angle delttr = -72.75 deg, range = [ -72.39, -73.02] deg
- Total moments Mxp =      -331.5, Msp =    -15766.7, Mnp =      -978.4 N.mm
+ Total moments Mxp =         0.2, Msp =    -15763.1, Mnp =      -907.6 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -675,7 +675,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         3908.      -754.3      -199.6      -978.4   1.825E-02      -852.6
+         3908.      -754.3      -197.9      -907.6   1.825E-02      -852.6
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          3908.     -0.1930  -5.065E-02   1.110E-02       618.5
 
@@ -720,14 +720,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.1317    745.7453      1.1786     -0.2101     -3.4191      1.1786
+     -3.0514    744.0544      2.8942     -0.2409     -5.1100      2.8942
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.5205     56.7340      0.9109
+      0.5923     55.0405      2.6244
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -12.04 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -238961.6, Msp =    284485.3, Mnp =    418491.6 N.mm
+ Total moments Mxp =    -63557.4, Msp =    343397.3, Mnp =    543935.4 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -746,7 +746,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.180E+05  -5.697E+04  -4.668E+04   4.185E+05       5.883      -4285.
+     1.165E+05  -5.697E+04  -5.029E+04   5.439E+05       5.883      -4285.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.276E+05     -0.4467     -0.4001   7.709E-02       1514.
 
@@ -760,14 +760,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0776    714.2648     28.3387     -1.2699    -34.8996     28.3387
+      4.0225    714.2349     28.4568     -1.2692    -34.9294     28.4568
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.5721     25.1826     28.0301
+      7.5169     25.1528     28.1482
 
  Actual contact on columns iy = [  4,  7] (my= 12), sc = [-51.400,-49.800]
  Reference contact angle delttr = -72.76 deg, range = [ -72.39, -73.02] deg
- Total moments Mxp =      -667.3, Msp =    -22144.9, Mnp =     -1463.0 N.mm
+ Total moments Mxp =         0.3, Msp =    -22139.0, Mnp =     -1319.0 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -786,7 +786,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         5503.      -1061.      -283.0      -1463.   3.219E-02      -1129.
+         5504.      -1061.      -279.4      -1319.   3.219E-02      -1129.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          5504.     -0.1929  -5.076E-02   1.395E-02       681.9
 
@@ -832,14 +832,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.1373    745.7866      1.1739     -0.2081     -3.3777      1.1739
+     -3.0561    744.1209      2.8718     -0.2390     -5.0435      2.8717
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.5151     56.7754      0.9021
+      0.5879     55.1071      2.5977
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -251155.2, Msp =    311863.1, Mnp =    419803.1 N.mm
+ Total moments Mxp =    -61614.1, Msp =    373510.7, Mnp =    549571.2 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -858,7 +858,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.277E+05  -5.956E+04  -4.805E+04   4.198E+05       6.539      -5449.
+     1.261E+05  -5.956E+04  -5.197E+04   5.496E+05       6.539      -5449.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.377E+05     -0.4325     -0.3827   8.067E-02       1544.
 
@@ -872,14 +872,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0788    714.2692     28.3243     -1.2700    -34.8951     28.3242
+      4.0219    714.2354     28.4572     -1.2692    -34.9289     28.4572
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.5733     25.1871     28.0114
+      7.5163     25.1533     28.1443
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -857.5, Msp =    -25256.2, Mnp =     -1707.9 N.mm
+ Total moments Mxp =         0.4, Msp =    -25248.9, Mnp =     -1522.7 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -898,7 +898,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         6277.      -1211.      -323.1      -1708.   4.007E-02      -1306.
+         6278.      -1211.      -318.3      -1523.   4.007E-02      -1306.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          6278.     -0.1928  -5.071E-02   1.523E-02       709.2
 
@@ -942,14 +942,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-     -3.1373    745.7868      1.1739     -0.2081     -3.3776      1.1739
+     -3.0562    744.1212      2.8716     -0.2390     -5.0431      2.8716
 
      XCP(W)      YCP(W)      ZCP(W)
-      0.5150     56.7756      0.9020
+      0.5879     55.1074      2.5976
 
  Actual contact on columns iy = [  7,117] (my=124), sc = [-29.800, 14.600]
  Reference contact angle delttr = -11.92 deg, range = [ -40.53,  -1.46] deg
- Total moments Mxp =   -250262.2, Msp =    311554.7, Mnp =    419922.5 N.mm
+ Total moments Mxp =    -60974.3, Msp =    373608.6, Mnp =    550331.3 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -968,7 +968,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-     1.276E+05  -5.989E+04  -4.818E+04   4.199E+05       6.556      -9485.
+     1.261E+05  -5.989E+04  -5.210E+04   5.503E+05       6.556      -9485.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
      1.378E+05     -0.4347     -0.3835   8.069E-02       1544.
 
@@ -982,14 +982,14 @@
 
  CONTACT REFERENCE LOCATION
      XCP(TR)     YCP(TR)     ZCP(TR)    DELTCP(TR)   YCP(R)      ZCP(R)
-      4.0788    714.2693     28.3242     -1.2700    -34.8950     28.3241
+      4.0219    714.2354     28.4572     -1.2692    -34.9289     28.4572
 
      XCP(W)      YCP(W)      ZCP(W)
-      7.5733     25.1871     28.0113
+      7.5162     25.1533     28.1443
 
  Actual contact on columns iy = [  4,  8] (my= 12), sc = [-51.400,-49.400]
  Reference contact angle delttr = -72.77 deg, range = [ -72.39, -73.15] deg
- Total moments Mxp =      -858.6, Msp =    -25275.2, Mnp =     -1707.4 N.mm
+ Total moments Mxp =         0.4, Msp =    -25267.9, Mnp =     -1521.9 N.mm
 
  FRICTION LAW PARAMETERS
       IY         FSTAT       FKIN
@@ -1008,7 +1008,7 @@
 
  TOTAL FORCES, TORSIONAL MOMENT, ELASTIC ENERGY, FRICTIONAL POWER
      FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
-         6282.      -1212.      -323.1      -1707.   4.012E-02      -1322.
+         6282.      -1212.      -318.3      -1522.   4.012E-02      -1322.
      FN_CRV      FX_C/FN_C   FS_C/FN_C   APPROACH     PMAX    
          6282.     -0.1928  -5.066E-02   1.523E-02       709.4
 
@@ -1025,24 +1025,24 @@ Performance timers:
 |                                |--------------------|--------------------|
 |                     |  #times  |    sec     |  %    |    sec     |  %    |
 |--------------------------------------------------------------------------|
-|Total                |        1 |        1.5 | 100.0 |        1.5 | 100.0 |
-|Wheel-rail cases     |        6 |        1.5 |  98.9 |        1.5 | 100.0 |
-|W/r profiles         |        2 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Geometric analysis   |       34 |        0.0 |   2.1 |        0.1 |   5.1 |
-|Panag.process        |       72 |        1.2 |  79.8 |        1.2 |  77.4 |
-|Algorithm Norm       |       72 |        0.2 |  13.8 |        0.2 |  11.6 |
-|Algorithm Tang       |       72 |        1.0 |  66.0 |        1.0 |  65.4 |
-|Output quantities    |       78 |        0.1 |   5.3 |        0.0 |   2.8 |
+|Total                |        1 |        1.4 | 100.0 |        1.5 | 100.0 |
+|Wheel-rail cases     |        6 |        1.4 | 100.0 |        1.5 | 100.0 |
+|W/r profiles         |        2 |        0.0 |   1.1 |        0.0 |   1.1 |
+|Geometric analysis   |       34 |        0.0 |   3.4 |        0.1 |   6.9 |
+|Panag.process        |       72 |        1.0 |  75.3 |        1.1 |  74.8 |
+|Algorithm Norm       |       72 |        0.1 |   7.9 |        0.2 |  11.6 |
+|Algorithm Tang       |       72 |        0.9 |  66.3 |        1.0 |  63.2 |
+|Output quantities    |       78 |        0.1 |   7.9 |        0.1 |   4.4 |
 |--------------------------------------------------------------------------|
-|Norm: ConjGrd solver |       72 |        0.2 |  13.8 |        0.2 |  10.3 |
-|Tang: TangCG solver  |       59 |        0.3 |  21.3 |        0.3 |  22.4 |
-|Tang: StedyGS solver |       13 |        0.6 |  42.6 |        0.6 |  39.8 |
+|Norm: ConjGrd solver |       72 |        0.1 |   6.7 |        0.2 |  11.1 |
+|Tang: TangCG solver  |       59 |        0.4 |  25.8 |        0.3 |  20.5 |
+|Tang: StedyGS solver |       13 |        0.6 |  40.4 |        0.6 |  40.6 |
 |--------------------------------------------------------------------------|
-|Reading input-file   |        6 |        0.0 |   0.0 |        0.0 |   0.0 |
-|Contact location     |       34 |        0.0 |   0.0 |        0.0 |   1.2 |
-|Undeformed distance  |       72 |        0.0 |   0.0 |        0.0 |   3.0 |
-| - Interp whl_srfc   |       72 |        0.0 |   0.0 |        0.0 |   2.0 |
-|Influence coeffic.   |       16 |        0.0 |   0.0 |        0.0 |   1.4 |
-|Initial state/estim. |       72 |        0.0 |   0.0 |        0.0 |   0.3 |
+|Reading input-file   |        6 |        0.0 |   1.1 |        0.0 |   1.1 |
+|Contact location     |       34 |        0.0 |   0.0 |        0.0 |   2.3 |
+|Undeformed distance  |       72 |        0.0 |   3.4 |        0.1 |   4.4 |
+| - Interp whl_srfc   |       72 |        0.0 |   2.2 |        0.0 |   2.3 |
+|Influence coeffic.   |       16 |        0.0 |   2.2 |        0.0 |   2.0 |
+|Initial state/estim. |       72 |        0.0 |   0.0 |        0.0 |   0.0 |
 |--------------------------------------------------------------------------|
  The CONTACT program ended succesfully.
