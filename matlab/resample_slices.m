@@ -26,7 +26,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
 %  - the number of points per part is set accordingly, e.g. n_p = [ 6, 6, 6, 10, 15, 10, 9 ]
 %  - each slice is resampled using its own step sizes ds, e.g. ds_p = [ NaN, NaN, 5.3/(6-1), ... ]
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -205,7 +205,7 @@ function [ slcs, ierror ] = resample_slices( slcs, ds_max2d, idebug, show_fig, f
             dst_max         = 2.0;
             scale_z         = 1.0;
             is_wheel        = [];
-            ikinks = detect_kinks( slc.ProfileS, slc.ProfileY, slc.ProfileZ, dalph_thrs_high, ...
+            ikinks = detect_kinks( slc.ProfileY, slc.ProfileZ, dalph_thrs_high, ...
                                                 dalph_thrs_low, dst_max, scale_z, is_wheel);
          end
 

@@ -7,7 +7,8 @@ function [ s ] = make_arclength( y, z, opt )
 % cumulative sum of distances ds between successive points
 % with correction for fluctuations wrt locally average heading
 %
-% opt = struct('cos_thrs',0.5, 'frac_ds_min',0.1, 'kmax',10);
+% opt = struct('corrc_cos_thrs',0.5, 'corrc_fds_min',0.1, 'corrc_kmax',10, ...
+%              'kink_high',pi/6, 'kink_low',pi/30, 'kink_wid',2.0, 'idebug',0);
 
 % Copyright 2008-2026 by Vtech CMCC.
 %
@@ -16,15 +17,38 @@ function [ s ] = make_arclength( y, z, opt )
 if (nargin<3 | ~isstruct(opt))
    opt = struct;
 end
-if (~isfield(opt, 'cos_thrs'))
-   opt.cos_thrs = 0.5;
+if (~isfield(opt, 'corrc_cos_thrs'))
+   opt.corrc_cos_thrs = 0.5;    % disable correction: corrc_cos_thrs <= -1
 end
-if (~isfield(opt, 'frac_ds_min'))
-   opt.frac_ds_min = 0.1;
+if (~isfield(opt, 'corrc_fds_min'))
+   opt.corrc_fds_min  = 0.1;
 end
-if (~isfield(opt, 'kmax'))
-   opt.kmax        =  10;
+if (~isfield(opt, 'corrc_kmax'))
+   opt.corrc_kmax     =  10;
 end
+if (~isfield(opt, 'kink_high'))
+   opt.kink_high = pi/6;        % disable kink detection: kink_high >= pi
+end
+if (~isfield(opt, 'kink_low'))
+   opt.kink_low  = opt.kink_high / 5;
+end
+if (~isfield(opt, 'kink_wid'))
+   opt.kink_wid  = 2.0;
+end
+if (~isfield(opt, 'idebug'))
+   opt.idebug    = 0;
+end
+
+if (~exist('detect_kinks'))
+   ikinks    = [];
+else
+   scale_z   = 1.0;
+   is_wheel  = [];
+   make_plot = 0;
+   ikinks = detect_kinks( y, z, opt.kink_high, opt.kink_low, opt.kink_wid, scale_z, is_wheel, make_plot);
+end
+is_kink = zeros(size(y));
+is_kink(ikinks) = 1;
 
 % convert to column vectors
 
@@ -41,12 +65,13 @@ s  = [0; cumsum(ds) ];
 % check for larger angles dalpha between successive segments
 
 cos_da = (dy(1:end-1) .* dy(2:end) + dz(1:end-1) .* dz(2:end)) ./ (ds(1:end-1) .* ds(2:end));
-ix     = find(cos_da<opt.cos_thrs);
+ip_da  = find(cos_da<opt.corrc_cos_thrs & ~is_kink(2:end-1));
+if (~isempty(ip_da)), ip_da = ip_da + 1; end
 
 if (0==1)
    figure(15); clf; hold on;
    plot(cos_da);
-   plot([0, length(dy)], opt.cos_thrs*[1 1], '--', 'color',matlab_color(3));
+   plot([0, length(dy)], opt.corrc_cos_thrs*[1 1], '--', 'color',matlab_color(3));
    grid on;
    xlabel('point $i$', 'interpreter','latex');
    ylabel('$\cos\delta\alpha_i$', 'interpreter','latex');
@@ -55,12 +80,15 @@ end
 
 % for wiggly signal, correct lengths using the average heading
 
-if (~isempty(ix))
-   % disp(sprintf('%d segments with change dalpha > %3.1f deg', length(ix), acos(opt.cos_thrs)*180/pi ));
+if (~isempty(ip_da))
+   if (opt.idebug>=1)
+      disp(sprintf('corrected chord length: %d points with change dalpha > %3.1f deg', length(ip_da), ...
+                                                               acos(opt.corrc_cos_thrs)*180/pi ));
+   end
 
    % determine average heading (ty_avg,tz_avg) per segment
 
-   [ ty_avg, tz_avg ] = avg_heading( y, z, opt.kmax );
+   [ ty_avg, tz_avg ] = avg_heading( y, z, opt.corrc_kmax );
 
    % compute angle davg between segment and average heading
 
@@ -68,7 +96,7 @@ if (~isempty(ix))
 
    % scale segment lengths ds to the length in the average heading direction
 
-   ds = ds .* max(opt.frac_ds_min, cos_tavg);
+   ds = ds .* max(opt.corrc_fds_min, cos_tavg);
    s  = [0; cumsum(ds) ];
 end
 

@@ -34,6 +34,15 @@ end
 if (use_yz | ~isfield(p,'OrigData'))
    p.OrigData = [ p.ProfileY, p.ProfileZ ];
    p.ColumnDef = 'X,Y';
+else
+   if (length(p.ProfileY)~=size(p.OrigData,1))
+      disp('write_miniprof: using values from OrigData rather than ProfileY,Z');
+   else
+      dst = sqrt( (p.OrigData(:,1)-p.ProfileY).^2 + (p.OrigData(:,2)-p.ProfileZ).^2 );
+      if (max(dst)>1e-3)
+         disp('write_miniprof: using values from OrigData rather than ProfileY,Z');
+      end
+   end
 end
 
 f = fopen(fname, 'w');

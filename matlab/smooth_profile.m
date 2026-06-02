@@ -1,7 +1,9 @@
 
-function [ p_out, spl ] = smooth_profile( p_in, l_filt, lambda, ds_sampl, ikinks, iaccel, ...
-                                                                use_wgt, use_bspline, ds_bspl, idebug );
+function [ p_out, spl ] = smooth_profile( p_in, lfilt_arg, lambda_arg, ds_sampl_arg, ikinks_arg, ...
+                                          iaccel_arg, use_wgt_arg, use_bspline_arg, ds_bspl_arg, idebug_arg );
 
+% function [ opt ]        = smooth_profile;
+% function [ p_out, spl ] = smooth_profile( p_in, opt );
 % function [ p_out, spl ] = smooth_profile( p_in, [l_filt], [lambda], [ds_sampl], [ikinks], [iaccel], 
 %                                                           [use_wgt], [use_bspline], [ds_bspl], [idebug] );
 %
@@ -17,38 +19,80 @@ function [ p_out, spl ] = smooth_profile( p_in, l_filt, lambda, ds_sampl, ikinks
 % use uniform weighting (use_wgt<=0), by segment length (1, default), increase wgt for curvature (2)
 % using PP-spline (use_bspline=0) or B-spline (use_bspline=1, default) with target step ds_bspl.
 %
-% preferred approach: set l_filt, lambda=[], ikinks=-1, use_wgt=1, use_bspline=1, ds_bspl=[]
+% default method:   opt.ikinks=-1, opt.use_wgt=1, opt.use_bspline=1, opt.ds_bspl=[]
+% default settings: opt.l_filt=[], opt.ds_sampl=[]
 
 % Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
-if (nargin<2)
-   l_filt = [];
+% construct a local struct "myopt" in which default values are filled in for all available options.
+
+myopt = struct( ...
+   'l_filt',       [], ...
+   'lambda',       [], ...
+   'ds_sampl',     [], ...
+   'ikinks',       -1, ...
+   'iaccel',       [], ...
+   'use_wgt',       1, ...
+   'use_bspline',   1, ...
+   'ds_bspl',      [], ...
+   'idebug',        0, ...
+   'kink_high',      pi/6, ...  % kink detection, high/low dalpha, window +/-wid
+   'kink_low',       pi/6 / 5, ...
+   'kink_wid',        2.0, ...
+   'corrc_cos_thrs',  0.5, ...  % correction in of summed chord length at cos(dalph)<thrs
+   'corrc_fds_min',   0.1, ...
+   'corrc_kmax',       10  ...
+);
+
+% If the user has not supplied any arguments, return default options in first output argument
+
+if (nargin<=0)
+   p_out = myopt;
+   spl   = [];
+   return
 end
-if (nargin<3)
-   lambda = [];
-end
-if (nargin<4)
-   ds_sampl = [];
-end
-if (nargin<5)
-   ikinks = -1;
-end
-if (nargin<6)
-   iaccel = [];
-end
-if (nargin<7 | isempty(use_wgt))
-   use_wgt = 1;
-end
-if (nargin<8 | isempty(use_bspline))
-   use_bspline = 1;
-end
-if (nargin<9)
-   ds_bspl = [];
-end
-if (nargin<10 | isempty(idebug))
-   idebug = 0;
+
+% If the user supplied an opt-struct, rename to opt
+% else, start from the default, overwrite with user-options
+
+if (nargin<=2 & isstruct(lfilt_arg))
+
+   opt = lfilt_arg;
+
+else
+
+   opt = myopt;
+
+   if (nargin>=2 & ~isempty(lfilt_arg))
+      opt.l_filt   = lfilt_arg;
+   end
+   if (nargin>=3 & ~isempty(lambda_arg))
+      opt.lambda   = lambda_arg;
+   end
+   if (nargin>=4 & ~isempty(ds_sampl_arg))
+      opt.ds_sampl = ds_sampl_arg;
+   end
+   if (nargin>=5)
+      opt.ikinks   = ikinks_arg;
+   end
+   if (nargin>=6)
+      opt.iaccel   = iaccel_arg;
+   end
+   if (nargin>=7 & ~isempty(use_wgt_arg))
+      opt.use_wgt  = use_wgt_arg;
+   end
+   if (nargin>=8 & ~isempty(use_bspline_arg))
+      opt.use_bspline = use_bspline_arg;
+   end
+   if (nargin>=9)
+      opt.ds_bspl = ds_bspl_arg;
+   end
+   if (nargin>=10 & ~isempty(idebug_arg))
+      opt.idebug  = idebug_arg;
+   end
+
 end
 
 is_wheel = 0;
@@ -56,36 +100,36 @@ if (isstruct(p_in))
    is_wheel = p_in.is_wheel;
 end
 
-if (use_bspline)
-   use_deriv = 3;
+if (opt.use_bspline)
+   opt.use_deriv = 3;
 else
-   use_deriv = 2;
+   opt.use_deriv = 2;
 end
-use_repl = 1;
+opt.use_repl = 1;
 
 % compute lambda or l_filt from each other
 
-if     ( isempty(l_filt) &  isempty(lambda))
-   disp('Either L_filt or lambda must be given.');
+if     ( isempty(opt.l_filt) &  isempty(opt.lambda))
+   disp('Either l_filt or lambda must be given.');
    return;
-elseif (~isempty(l_filt) & ~isempty(lambda))
-   disp('L_filt and lambda may not both be given.');
+elseif (~isempty(opt.l_filt) & ~isempty(opt.lambda))
+   disp('l_filt and lambda may not both be given.');
    return;
-elseif (~isempty(l_filt))
-   if (use_deriv==3)
-      lambda = (l_filt / (2*pi))^6;
+elseif (~isempty(opt.l_filt))
+   if (opt.use_deriv==3)
+      opt.lambda = (opt.l_filt / (2*pi))^6;
    else
-      lambda = (l_filt / (2*pi))^4;
+      opt.lambda = (opt.l_filt / (2*pi))^4;
    end
 else
-   if (use_deriv==3)
-      l_filt = 2*pi * lambda^(1/6);
+   if (opt.use_deriv==3)
+      opt.l_filt = 2*pi * opt.lambda^(1/6);
    else
-      l_filt = 2*pi * lambda^(1/4);
+      opt.l_filt = 2*pi * opt.lambda^(1/4);
    end
 end
-if (isempty(ds_bspl))
-   ds_bspl = max(0.001, l_filt/4);
+if (isempty(opt.ds_bspl))
+   ds_bspl = max(0.001, opt.l_filt/4);
 end
 
 % obtain y, z and s (optional) from input profile
@@ -98,7 +142,7 @@ if (isstruct(p_in))
    else
       s_in = [];
    end
-   if (size(y_in,2)>1), y_in = y_in'; end
+   if (size(y_in,2)>1), y_in = y_in'; end       % make column vectors
    if (size(z_in,2)>1), z_in = z_in'; end
    if (size(s_in,2)>1), s_in = s_in'; end
 else
@@ -113,7 +157,7 @@ end
 % compute arc-lengths s if not provided in input profile
 
 if (isempty(s_in))
-   s_in = make_arclength(y_in, z_in);
+   s_in = make_arclength(y_in, z_in, opt);
 end
 
 if (~isstruct(p_in))
@@ -125,20 +169,20 @@ end
 %  1: using w_i = ds_i
 %  2: w_i = ds_i * f, with f = f(rho)
 
-if (use_wgt<=0)
+if (opt.use_wgt<=0)
    wgt = ones(size(y_in));
-   if (~use_bspline)
+   if (~opt.use_bspline)
       wgt([1,end  ]) = wgt([1,end  ]) * 20;     % PP-spline: increase weight at end points
    end
 else
    ds_in = diff(s_in);
    ds_in = [ds_in(1); (ds_in(1:end-1)+ds_in(2:end))/2; ds_in(end)];
    wgt   = ds_in;
-   if (~use_bspline)
+   if (~opt.use_bspline)
       wgt([1,end  ]) = wgt([1,end  ]) * 20;     % PP-spline: increase weight at end points
    end
 
-   if (use_wgt>=2)
+   if (opt.use_wgt>=2)
       % estimate curvatures needed for adaptive weighting, using moving window [-sw,sw]
 
       imeth = 0; s_windw = 4; k_hlf = 4;
@@ -155,38 +199,40 @@ else
    end
 end
 
-% ikinks=-1: autodetect kinks between successive segments
+% ikinks=-1: autodetect 'true kinks' between successive segments
 
-if (length(ikinks)==1 & ikinks<0)
-   dalph_thrs_high = pi/6; 
-   dalph_thrs_low  = dalph_thrs_high / 5;
-   dst_max         = 0.0;
-   scale_z         = 1.0;
-   is_wheel        = [];
-   make_plot       = 0;
-   ikinks = detect_kinks( s_in, y_in, z_in, dalph_thrs_high, dalph_thrs_low, dst_max, scale_z, ...
+if (length(opt.ikinks)~=1 | opt.ikinks>0)
+   ikinks_lst = opt.ikinks;
+else
+   if (~exist('detect_kinks'))
+      ikinks_lst = [];
+   else
+      scale_z    = 1.0;
+      make_plot  = 0;
+      ikinks_lst = detect_kinks( y_in, z_in, opt.kink_high, opt.kink_low, opt.kink_wid, scale_z, ...
                                                                                 is_wheel, make_plot);
+   end
 
    % PP-spline: increase weight at kink points
-   if (~isempty(ikinks) & ~use_bspline)
+   if (~isempty(ikinks_lst) & ~opt.use_bspline)
       disp('Increasing weight * 100 at break points')
-      wgt(ikinks) = 100 * wgt(ikinks);
+      wgt(ikinks_lst) = 100 * wgt(ikinks_lst);
    end
 end
 
 % create spline representation
 
-spl = make_spline( s_in, y_in, z_in, lambda, wgt, ikinks, iaccel, use_bspline, ds_bspl, ...
-                                                                  use_deriv, use_repl, idebug );
+spl = make_spline( s_in, y_in, z_in, opt.lambda, wgt, ikinks_lst, opt.iaccel, opt.use_bspline, ...
+                                                 opt.ds_bspl, opt.use_deriv, opt.use_repl, opt.idebug );
 
 % evaluate spline at output positions
 
-if (~isempty(ds_sampl))
-   is_min = ceil(min(spl.s)/ds_sampl);
-   is_max = floor(max(spl.s)/ds_sampl);
-   s_out = [is_min : is_max]' * ds_sampl;
+if (~isempty(opt.ds_sampl))
+   is_min = ceil(min(spl.s)/opt.ds_sampl);
+   is_max = floor(max(spl.s)/opt.ds_sampl);
+   s_out = [is_min : is_max]' * opt.ds_sampl;
    % disp(sprintf('sampling at is=[%d:%d], s=[%5.2f,%5.2f]', is_min, is_max, s_out(1), s_out(end)));
-elseif ( use_bspline )
+elseif ( opt.use_bspline )
    s_out = s_in;
 else
    s_out = spl.s;

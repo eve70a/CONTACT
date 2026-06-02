@@ -9,7 +9,7 @@ function [ p ] = read_vampire(fname, right_side, idebug, make_plot)
 %   right_side - select right side profile (1, default) or left side (0)
 %   make_plot  - figure number to use for plotting the profile
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -132,7 +132,21 @@ while(~feof(f))
    ix = strfind(s, ','); if (~isempty(ix)), s(ix)=' '; end
    [tmp, cnt] = sscanf(s, '%f %f %f %f %f %f %f %f');
 
-   if (cnt>0)
+   if (cnt>4)
+      disp(sprintf('Vampire rail file: got %d values, ignoring 5:end',cnt));
+      tmp = tmp(1:4); cnt = 4;
+   end
+   if (cnt==2)
+      if (tmp(1)>0)     % right rail only
+         tmp = [0; 0; tmp];
+      else              % left rail only
+         tmp = [tmp; 0; 0];
+      end
+      cnt = 4;
+   end
+   if (cnt~=4)
+      disp(sprintf('Vampire rail file: incomprehensible data (%d values), ignoring',cnt));
+   else
       nrows_data = nrows_data + 1;
       p.ProfileData(nrows_data, 1:cnt) = tmp;
    end
@@ -143,11 +157,13 @@ fclose(f);
 % select left or right side profile, convert to right side profile
 
 if (right_side)
-   p.ProfileY =  p.ProfileData(:,3);
-   p.ProfileZ =  p.ProfileData(:,4);
+   ix = find(p.ProfileData(:,3)>0);
+   p.ProfileY =  p.ProfileData(ix,3);
+   p.ProfileZ =  p.ProfileData(ix,4);
 else
-   p.ProfileY = -p.ProfileData(:,1);
-   p.ProfileZ =  p.ProfileData(:,2);
+   ix = find(p.ProfileData(:,1)<0);
+   p.ProfileY = -p.ProfileData(ix,1);
+   p.ProfileZ =  p.ProfileData(ix,2);
 end
 
 % renumber rails from track center to field side

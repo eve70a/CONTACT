@@ -192,6 +192,10 @@ if (~exist(fname,'file'))
    disp(['ERROR: cannot find file ',fname]);
    return
 end
+
+[~,~,ext] = fileparts(fname);
+p.is_wheel = (strcmp(lower(ext), '.whe') | strcmp(lower(ext), '.whl')); % default: rail
+
 f = fopen(fname,'r');
 iline = 0;
 in_profile = 0;

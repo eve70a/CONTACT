@@ -1,8 +1,10 @@
 function [ p_out ] = modify_profile(p_in, is_wheel, mirror_y, mirror_z, scale_yz, y_tape, ...
-                                    reverse_order, point_dist_min, delete_foldback, make_plot, idebug)
+                                    reverse_order, point_dist_min, delete_zigzag, delete_foldback, ...
+                                    make_plot, idebug)
 
 % function [ p_out ] = modify_profile(p_in, is_wheel, mirror_y, mirror_z, scale_yz, y_tape, ...
-%                                     reverse_order, point_dist_min, delete_foldback, make_plot, idebug)
+%                                     reverse_order, point_dist_min, delete_zigzag, delete_foldback, ...
+%                                     make_plot, idebug)
 %
 % apply a number of common filters to the input profile p_in
 %   - mirror_y         - change y(i)  --> -y(i)    <=0 means no, >=1 yes
@@ -11,9 +13,10 @@ function [ p_out ] = modify_profile(p_in, is_wheel, mirror_y, mirror_z, scale_yz
 %   - y_tape           - align wheel vertically with z_tape = 0 at y = y_tape
 %   - reverse_order    - change [1:n] --> [n:-1:1]
 %   - point_dist_min   - delete points that lie too close together
+%   - delete_zigzag    - interchange points at double kinks  
 %   - delete_foldback  - identify & remove points where y(i+1)<y(i) (rail) or y(i+1)>y(i) (wheel)
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -38,13 +41,16 @@ end
 if (nargin<8 | isempty(point_dist_min))
    point_dist_min = -1;
 end
-if (nargin<9 | isempty(delete_foldback))
+if (nargin<9 | isempty(delete_zigzag))
+   delete_zigzag = 0;
+end
+if (nargin<10 | isempty(delete_foldback))
    delete_foldback = 0;
 end
-if (nargin<10 | isempty(make_plot))
+if (nargin<11 | isempty(make_plot))
    make_plot = 0;
 end
-if (nargin<11 | isempty(idebug))
+if (nargin<12 | isempty(idebug))
    idebug = 1;
 end
 
@@ -156,7 +162,53 @@ if (point_dist_min>=1e-6)
    p_out.ProfileCurvature = p_out.ProfileCurvature(ix1);
 end
 
-% modification 7: remove points where the profile folds back
+% modification 7: interchange points on the profile that form a Z-pattern with double kink
+
+if (delete_zigzag)
+   zig_thrs = 4/6*pi;  % 120deg
+
+   is_changed = 1; iter=0;
+   while(is_changed & iter<3)
+      iter = iter + 1;
+
+      dy    = diff(p_out.ProfileY);
+      dz    = diff(p_out.ProfileZ);
+      alph  = atan2(dz, dy);       % inclination per segment 1:nseg, range [-pi,pi]
+
+      dalph = diff(alph);          % change between segments at points 2:npnt-1, range [-pi,pi] 
+      ix    = find(dalph<-pi); dalph(ix) = dalph(ix) + 2*pi;
+      ix    = find(dalph> pi); dalph(ix) = dalph(ix) - 2*pi;
+
+      iseg  = find( abs(dalph(1:end-1))>zig_thrs & abs(dalph(2:end))>zig_thrs );
+      if (~isempty(iseg)), iseg = iseg + 1; end
+      i_flipped = -999;
+      for j = 1 : length(iseg)
+         if (iseg(j)==i_flipped+1)
+            if (idebug>=2)
+               disp(sprintf('%d: Adjacent zig-zags at %d and %d, skipping %d', ...
+                                iter, i_flipped,iseg(j),iseg(j)));
+            end
+         else
+            if (idebug>=1)
+               disp(sprintf('%d: zig-zag at segment %d, successive alpha=%6.1f, %6.1f, %6.1f deg', ...
+                                iter, iseg(j), alph(iseg(j)+[-1:1])*180/pi ));
+            end
+
+            % interchange points iseg and iseg+1
+            p_out.ProfileY(iseg(j)+[0,1]) = p_out.ProfileY(iseg(j)+[1,0]);
+            p_out.ProfileZ(iseg(j)+[0,1]) = p_out.ProfileZ(iseg(j)+[1,0]);
+            p_out.ProfileAngle(iseg(j)+[0,1]) = p_out.ProfileAngle(iseg(j)+[1,0]);
+            p_out.ProfileCurvature(iseg(j)+[0,1]) = p_out.ProfileCurvature(iseg(j)+[1,0]);
+            i_flipped = iseg(j);
+         end
+      end
+
+      is_changed = (~isempty(iseg));
+
+   end
+end
+
+% modification 8: remove points where the profile folds back
 %                 (i.e. where the function y --> z(y) is multi-valued)
 
 if (~delete_foldback)
@@ -239,13 +291,13 @@ else
    msk = zeros(np0,1);
    msk( ikeep1(ikeep2) ) = 1;
    
-   if (delete_foldback<=1)
+   if (delete_foldback<=1)              % option 1: keep all points with mask 
       p_out.Mask             = msk;
       p_out.ProfileY         = points0(:,1);
       p_out.ProfileZ         = points0(:,2);
       p_out.ProfileAngle     = points0(:,3);
       p_out.ProfileCurvature = points0(:,4);
-   else
+   else                                 % option 2: discard masked points
       p_out.Mask             = ones(np2,1);
       p_out.ProfileY         = points2(:,1);
       p_out.ProfileZ         = points2(:,2);
@@ -274,5 +326,5 @@ end
 
 end % function modify_profile
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

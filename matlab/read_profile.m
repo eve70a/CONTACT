@@ -1,7 +1,7 @@
 function [ p ] = read_profile(fname, is_wheel, mirror_y, mirror_z, scale_yz, y_tape, rgt_side, ...
                                                                                         idebug, make_plot)
 
-% function [ p ] = read_profile(fname, [is_wheel], [mirror_y], [mirror_z], [y_tape], [scale_yz], ...
+% function [ p ] = read_profile(fname, [is_wheel], [mirror_y], [mirror_z], [scale_yz], [y_tape], ...
 %                                                                          [rgt_side], [idebug], [make_plot])
 %
 % Main routine for reading wheel/rail profiles. 
@@ -16,7 +16,7 @@ function [ p ] = read_profile(fname, is_wheel, mirror_y, mirror_z, scale_yz, y_t
 % rgt_side    - Vampire format: select right side (1, default) or left side (0)
 % make_plot   - <=0 for no, fig.number for yes
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -71,7 +71,7 @@ elseif (any(strcmp(lower(ext), {'.prr', '.prw'}) ))
 elseif (any(strcmp(lower(ext), {'.rai', '.whe'}) ))
 
    p = read_vampire(fname, rgt_side, idebug, make_plot);
-   is_vampire = 1;
+   is_vampire = 1; mirror_y = 0; mirror_z = -1;
 
 elseif (any(strcmp(lower(ext), {'.ban', '.whl'}) ))
 
@@ -147,9 +147,10 @@ if (~is_slices)
    else
       point_dist_min = 1e-7; % m
    end
+   delete_zigzag = 1;
 
    p = modify_profile(p, is_wheel, mirror_y, mirror_z, scale_yz, y_tape, reverse_order, ...
-                                             point_dist_min, delete_foldback, make_plot, idebug);
+                                   point_dist_min, delete_zigzag, delete_foldback, make_plot, idebug);
 
    % check for big gaps in the data
 
