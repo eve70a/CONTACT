@@ -11,7 +11,7 @@
 ! Further, the module declares the unit numbers for in- and output-files, such as the .out-file
 ! where the results are stored.
 !
-! Copyright 2008-2023 by Vtech CMCC.
+! Copyright 2008-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ public
    ! lsbs     logical unit number of .subs file for subsurface stresses
    ! ltmp*    logical units for temporary use, see get_lunit_tmp_use
 
-   integer,      parameter :: fmtmat =   2410
+   integer,      parameter :: fmtmat =   2610
    integer                 :: linp   =     11
    integer                 :: lout   =     12
    integer                 :: ltmp1  =     17

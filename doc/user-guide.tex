@@ -19,7 +19,7 @@
 \author{Dr.ir.\ E.A.H.\ Vollebregt}
 \cprtext{\copyright\ \vtechcmcc.}
 \date{\today}
-\reportnumber{20-01, version `open-src' \magenta{(1.184)}}
+\reportnumber{20-01, version `open-src' \magenta{(1.187)}}
 
 \parindent 0mm
 \parskip 1ex
@@ -98,6 +98,9 @@
 \vtlogentry{1.183}{EV}{29-01-2026}{Added {\tt init} option to {\tt plot3d}}{}
 \vtlogentry{1.184}{EV}{29-01-2026}{Changed ${\tt D}=7$: conformal + brute
                 force method}{}
+\vtlogentry{1.185}{EV}{18-05-2026}{Changed contact reference using pcog}{}
+\vtlogentry{1.186}{EV}{01-06-2026}{Removed {\tt initializefirst\_new} and
+        {\tt getprofilevalues\_new}}{}
 \vtfilelocation{$<$svn-contc$>$/contact/doc}
 \end{vtlogsheet}
 }
@@ -191,9 +194,10 @@ pressures (`frictionless') and tangential (frictional) shear stresses
 (tractions) for stationary and instationary problems (shift, rolling). This
 is done for bodies of linearly elastic or viscoelastic materials. Both
 bodies are considered homogeneous --although possibly of different--
-materials.  The geometry of the bodies is free (non-Hertzian).  With
-respect to kinematic parameters (overall motion), total forces, approach
-and creepages may be prescribed.
+materials. A third body layer may be considered between the two bodies,
+undergoing elastic and plastic shear deformation. The geometry of the bodies
+is free (non-Hertzian). With respect to kinematic parameters (overall
+motion), total forces, approach and creepages may be prescribed.
 
 After the surface loading (stresses) has been computed, the elastic field
 inside the bodies may be calculated \cite{Kalker1986a,Wekken2019a-subsurf}.
@@ -256,9 +260,9 @@ VORtech extended the range of applicability of CONTACT since 2009 by
 incorporation of velocity dependent friction laws
 \cite{Vollebregt2014c-tractcurv,Vollebregt2012a-quasistd}, effects of
 roughness and contamination (`third body layer') 
-\cite{Vollebregt2014c-tractcurv,Vollebregt2021a-soa-paper,
-Vollebregt2024a-vor-fra}, by making extensions for solving conformal
-contact problems \cite{Vollebregt2018b-corrigendum,
+\cite{Vollebregt2014c-tractcurv,Vollebregt2026a-tractcurv,
+Vollebregt2021a-soa-paper,Vollebregt2024a-vor-fra}, by making extensions
+for solving conformal contact problems \cite{Vollebregt2018b-corrigendum,
 Vollebregt2020c-distr-force,Vollebregt2014d-conformal}, and via new
 enhanced solvers on the basis of Conjugate Gradients and FFTs 
 \cite{Vollebregt2014a-fftprec,Zhao_Jing2015a-tangcg}. 
@@ -728,14 +732,11 @@ be used:
 \item[7] -- same as 4, using brute force, grid-based algorithm instead of
         contact locus.
 \magenta{
-%\item[7] -- same as 2, using a the initial contact point and local contact
-%        angle (icp-loc);
 \item[8] -- same as 2, using a hard-coded oblique view direction;
 \item[9] -- same as 5, using a hard-coded oblique view direction.
 }
 \end{description}
-New inputs are read when ${\tt D}_1=2,\magenta{3,}4$ or $5$\magenta{, 
-$6,8$ or $9$}.
+New inputs are read when ${\tt D}_1\ge 2$.
 
 \item[C$_3$ - INFLCF] \label{c3-digit} : concerns the material parameters
         and corresponding {\em influence coefficients\/}:
@@ -1912,7 +1913,6 @@ as described on page \pageref{e1-digit}.
 \begin{inputvars}
 \inpvar{FBDIST}{\bunit{mm}}{Lateral distance $d_{flng}$ between the inner faces
         (flange backs) of the two wheels of the wheelset.}
-\inpbreak
 \inpvar{FBPOS}{\bunit{mm}}{Lateral position $y_{fbpos}$ of the flange back with
         respect to the wheel profile origin $O_w$. (In the configuration of
         Figure \ref{fig:wheel_coord}, $y_{fbpos}$ could be $-70\unit{mm}$.)}
@@ -1935,6 +1935,7 @@ and the wheelset roll, yaw and pitch angles.
 \inpvar{Z\_WS}{\bunit{mm}}{Vertical position $z_{ws}$ of the wheelset center
         in terms of track coordinates, zero at the nominal position
         $z_{tr}=-r_{nom,w}$.}
+\inpbreak
 \inpvar{ROLL}{\bunit{rad}}{Wheelset roll angle $\phi_{ws}$ with respect to the
         track plane.}
 % \inpbreak
@@ -1976,7 +1977,6 @@ little precautions are taken to prevent solver divergence.}
 \begin{inputvars}
 \inpvar{VS\_WS}{\bunit{mm/s}}{Wheelset forward velocity $v_{s_1}=v_x$ along
         the track center line.}
-\inpbreak
 \inpvar{VY\_WS}{\bunit{mm/s}}{Wheelset lateral velocity $v_y=\dot{y}_{ws}$ with
         respect to track coordinates.}
 \inpvar{VZ\_WS}{\bunit{mm/s}}{Wheelset vertical velocity $v_z=\dot{z}_{ws}$ 
@@ -2042,7 +2042,6 @@ wheel, but to the field side when the right wheel is considered.
         $\Delta v_x^{whl}, \Delta v_y^{whl}, \Delta v_z^{whl}$ of the
         wheel profile origin with respect to the design position in
         wheelset coordinates.}
-\inpbreak
 \inpvar{VROLLW, \mbox{\hspace{4mm}VYAWW}, \mbox{\hspace{4mm}VPITCHW}}{
         \bunit{rad/s}}{Angular velocities $\Delta v_\phi^{whl}, 
         \Delta v_\psi^{whl}, \Delta v_\theta^{whl}$ of the wheel profile
@@ -2079,9 +2078,10 @@ the difference in contact reference angle. Two patches are processed
 independently when $|\alpha_{cp1}- \alpha_{cp2}| > \alpha_{sep}$ or when
 $d > d_{turn}$. Else,
 \begin{itemize}
-\item Two separate contact patches are used when $d_{sep} < d\le
-        d_{turn}$, with contact reference angles $\alpha_{cp1}$ and
-        $\alpha_{cp2}$ turned towards their weighted average;
+\item Two separate contact patches are used when $d_{sep} < d\le d_{turn}$.
+        In planar contact computations, contact reference angles
+        $\alpha_{cp1}$ and $\alpha_{cp2}$ are turned towards their
+        weighted average value;
 \item One combined contact patch is used with a `blending approach'
         when $d_{comb}< d\le d_{sep}$, attenuating the cross-influence
         between the different parts;
@@ -2119,6 +2119,19 @@ determined by a heuristic rule to be centered within the contact patch in
 a weighted sense. This may be different from the {\em initial contact
 point\/} where the undeformed distance is minimum. 
 
+In the conformal contact method (${\tt D}=4$), the contact reference is
+replaced on the basis of the contact solution. This uses the pressure
+center of gravity (pcog) and pressure-weighted reference angle (pwra)
+\cite{Vollebregt2018a-sdec}. The pcog may be understood as the `effective
+contact position' with corresponding effective contact angle (pwra) and
+effective rolling radius $r_w$.
+%\begin{equation}
+%   \vec{x}_{ref} = \int_C \vec{x} p_n(\vec{x}) \,dC \Big/
+%                \int_C p_n(\vec{x}) \, dC , \;\;
+%   \alpha_{ref} = \int_C \alpha(\vec{x}) p_n(\vec{x}) \,dC \Big/
+%                \int_C p_n(\vec{x}) \, dC .
+%\end{equation}
+
 In transient contact, the local coordinate system is based off the rail
 profile reference $s_r=0$ in lateral direction. Longitudinally, a fixed
 super-grid is used when ${\tt T}=1$, based at the start of the track curve
@@ -2141,6 +2154,14 @@ in terms of the track-, rail- and wheel coordinates.\label{pg:contact_refpos}
 \inpvar{DELTTR}{\bunit{rad}}{Contact angle: rotation from the track $z$-axis
         to the contact $n$-axis. Typically positive for left wheel/rail pairs
         and negative at right wheel/rail pairs.}
+\end{inputvars}
+In transient and conformal computations there's an offset between the
+contact grid and the reference position. This is stored in the mat-file.
+\begin{inputvars}
+\inpvar{XCP\_POT,..}{\bunit{mm}}{Position of the contact reference point
+        with respect to the contact origin.}
+\inpvar{DELTCP\_POT}{\bunit{rad}}{Rotation from contact grid to the contact
+        reference angle.}
 \end{inputvars}
 These values are all given with respect to right handed coordinate systems
 with positive $y$ to the right. For a left-side wheel/rail pair, positive
@@ -2216,6 +2237,7 @@ The forces are also rotated to the wheelset orientation:
 \inpvar{FX\_WS}{\bunit{N}}{Total force $F_{x_{ws}}$ on the rail in wheelset
         longitudinal direction $x_{wset}$. \magenta{Input when ${\tt
         F}_1=1$.}}
+\inpbreak
 \inpvar{FY\_WS}{\bunit{N}}{Total force $F_{y_{ws}}$ on the rail in wheelset
         lateral direction $y_{wset}$.}
 \inpvar{FZ\_WS}{\bunit{N}}{Total force $F_{z_{ws}}$ on the rail in wheelset
@@ -3801,7 +3823,6 @@ reached, or when a prescribed maximum number of iterations is exceeded.
 \inpvar{MAXNR}{-}{Maximal number of iterations for the Newton-Raphson
         procedures that are used when total forces are prescribed. A value
         of 10 or 20 is usually ok.}
-\inpbreak
 \inpvar{MAXGS}{-}{Maximal number of iterations in iterative solvers
         NormCG, Tang\-CG, ConvexGS and SteadyGS. This may be set to a high
         value such as 500 or 999.}
@@ -3860,7 +3881,6 @@ reliable than the warning suggests.
         SteadyGS for elements in the adhesion area.}
 \inpvar{OMEGAS}{\bunit{-}}{Relaxation parameter $\omega_s$ for ConvexGS and
         SteadyGS for elements in the slip area.}
-\inpbreak
 \inpvar{INISLP}{\bunit{-}}{Flag for initial estimate for slip velocity. Used in
         slip velocity dependent friction laws (${\tt L}=2-4$), else ${\tt
         INISLP}=0$ can be used.}
@@ -3994,8 +4014,6 @@ iteration process is used when total forces are prescribed, to determine
 the appropriate values for the creepages. This process is not fully
 reliable when the total forces are close to the maximum values that can be
 attained (full sliding solution).
-
-
 
 These may be input or output depending on the {\tt N}-
 and {\tt F}-digits.
@@ -7854,18 +7872,24 @@ A}=2$). The first few lines contain several extra variables that are needed
 for the pictures. All lines lines have an equal number of columns. There
 are $11\text{--}15$ columns, depending on the presence of plasticity and
 temperature in the calculations.
+
+The precise layout of the initial lines may be changed between successive
+versions of CONTACT. A complete specification is found in {\tt loadcase.m},
+showing the layout for the current version and other recent versions.
 \begin{alltt}\small
- line  1: % comment line, describing wheel and rail markers
- line  2:   Tim   Sws   Xw    Yw      ...                 ...   (dum)  Fmt
- line  3: % comment line, describing contact reference position
- line  4:   Xcp   Ycp   Zcp   Deltcp  ...
- line  5: % comment line, describing grid discretisation variables
- line  6:   Mx    My    Xl    Yl    Dx    Dy   Chi   Dq  ...
- line  7: % comment line, describing the material parameters used
- line  8:   Tdigit Mdigit Gg1    Gg2    Poiss1 Poiss2
- line  9: % comment line, describing the friction law used
- line 10:   Ldigit  (dum)  Veloc  (if L=0:) Fstat  Fkin
- line 11: % comment line, describing columns of the table
+ line  1: % comment line, describing time, track position and rail markers
+ line  2:   Tim   Sws   Thws  Yr    Zr      ...         ...   (dum)  Fmt
+ line  3: % comment line, describing wheel marker
+ line  4:   Xw    Yw    Zw    Rollw   ...
+ line  5: % comment line, describing contact reference position
+ line  6:   Xcp   Ycp   Zcp   Deltcp  ...
+ line  7: % comment line, describing grid discretisation variables
+ line  8:   Mx    My    Xl    Yl    Dx    Dy   Chi   Dq  ...
+ line  9: % comment line, describing the material parameters used
+ line 10:   Tdigit Mdigit Gg1    Gg2    Poiss1 Poiss2
+ line 11: % comment line, describing the friction law used
+ line 12:   Ldigit  (dum)  Veloc  (if L=0:) Fstat  Fkin
+ line 13: % comment line, describing columns of the table
  for all elements in the (potential) contact area:
    i  Igs(i)  H(i)  Mu(i)  Pn(i)  Px(i)  Py(i)  Un(i)  Ux(i)  Uy(i)  SRel(i) ...
                             [ TauCrt(i) UplsX(i) UplsY(i) ] [ Temp1(i) Temp2(i)]
@@ -8438,7 +8462,11 @@ These contact conditions state that:
 \item If there is slip then the tractions are on the traction bound and
         opposite to the slip direction.
 \end{itemize}
-These contact conditions can be seen as a complex set of boundary conditions
+These contact conditions are augmented in the Extended CONTACT model
+\cite{Vollebregt2026a-tractcurv,Vollebregt2024a-vor-fra}, accounting for
+plastic shear deformation in the third body layer.
+
+The contact conditions can be seen as a complex set of boundary conditions
 for the solid mechanics problems (\ref{eq:lin_elasticity}) for bodies $a=1,2$.
 The deformations in the two bodies' interiors cannot be solved independently
 but are connected, via their overall position and motion ($\delta_n, h, 

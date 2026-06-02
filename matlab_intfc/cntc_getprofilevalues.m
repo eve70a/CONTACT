@@ -7,12 +7,12 @@
 %  itask          - select type of outputs:
 %                    -1: ierr   <0: error codes, 0=profile loaded ok, 1=not set
 %                     0: npnt   number of points used in requested sampling method
-%                     1: r/w    get (yr,zr) values for rail or (yw,zw) for wheel profile
+%                     1: r/w    get (yr,zr) values for rail or (yw,zw) for wheel profile (right-side view)
 %                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
 %                     3: gaug   get left-most point within gauge height, offset, point at gauge height
 %                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
 %                     4: arc    get arc-length parameter s along profile
-%                     5: angl   get surface inclination atan2(dz, dy) [angle]
+%                     5: angl   get surface inclination atan2(dz, dy) [angle] (right-side view)
 %                     6: 2d-u   evaluate varprof [xyz]_r or [xyz]_w for cross-section at constant u_i = x_i
 %                     7: 2d-v   evaluate varprof [xyz]_r or [xyz]_w for interpolation path at constant v_j
 %                     8: 2d-y   evaluate varprof [xyz]_r or [xyz]_w for longitudinal slice at constant y_j
@@ -35,7 +35,7 @@
 %  tasks 1--9: no unit conversion or scaling are applied for profile values
 %------------------------------------------------------------------------------------------------------------
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 

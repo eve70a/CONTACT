@@ -9,7 +9,7 @@
 
 if (~exist('cntc_initlibrary.m','file'))
    % set location of CONTACT installation folder
-   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v25.1';
+   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v26.1';
    contactdir = '..';
    addpath([contactdir, '\matlab_intfc']);
    addpath([contactdir, '\matlab']);
@@ -50,7 +50,7 @@ for iwhe = 1 : 2 % "wheel number"
    flags( 2) = CNTC.ic_config; values( 2) = iwhe-1;
    flags( 3) = CNTC.ic_tang  ; values( 3) = 3;    % T=3: steady state rolling
    flags( 4) = CNTC.ic_pvtime; values( 4) = 2;    % P=2: no previous time
-   flags( 5) = CNTC.ic_discns; values( 5) = 2;    % D=2: planar contact
+   flags( 5) = CNTC.ic_discns; values( 5) = 4;    % D=2: planar contact
    flags( 6) = CNTC.if_wrtinp; values( 6) = 0;    %   0: no .inp-file needed
    flags( 7) = CNTC.ic_matfil; values( 7) = 0;    % A=0: no .mat-file needed
    flags( 8) = CNTC.ic_output; values( 8) = 3;    % O=1: min. output to .out-file
@@ -259,6 +259,9 @@ for icase = 1: length(y_ws)
          results{iwhe}.cp_pos.xw(icase,icp)     = values(10);
          results{iwhe}.cp_pos.yw(icase,icp)     = values(11);
          results{iwhe}.cp_pos.zw(icase,icp)     = values(12);
+         results{iwhe}.cp_pos.xpn(icase,icp)     = values(15);
+         results{iwhe}.cp_pos.ypn(icase,icp)     = values(16);
+         results{iwhe}.cp_pos.zpn(icase,icp)     = values(17);
 
          % get reference velocity
 

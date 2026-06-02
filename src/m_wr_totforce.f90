@@ -155,7 +155,7 @@ contains
             associate( gd => wtd%allcps(icp)%cp%gd )
             gd%ic%matfil_surf = wtd%ic%matfil_surf
             call writmt (gd%meta, gd%ic, gd%cgrid_cur, gd%potcon_cur, gd%mater, gd%fric, gd%kin,        &
-                gd%geom, gd%outpt1, wtd%ic%is_left_side())
+                         gd%geom, gd%outpt1, wtd%ic%is_left_side())
             end associate
          enddo
       endif

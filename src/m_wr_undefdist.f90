@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_wr_undefdist - compute undeformed distance for one contact patch in a w/r contact problem (module 1)
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -41,9 +41,9 @@ contains
       integer                 :: lud, ios, nx, nxlow, nxhig, nw, nslc, nslow, nshig, ix, iy, ii, ii0,   &
                                  ii1, ixdbg, iydbg, iu, iv, icount, ierror
       real(kind=8)            :: xslc1, hmin, h_ii, xmin, xmax, ymin, ymax, zmin, zmax, smin, smax,     &
-                                 swsta, swmid, swend, ds, dx_cp, zp_sta, zp_end, z_axle, xtr_sta,       &
+                                 swsta, swmid, swend, ds_cp, dx_cp, zp_sta, zp_end, z_axle, xtr_sta,    &
                                  vy_ref, vz_ref, vy_iy, vz_iy, delt_iy, vlen_inv, t_s, t_n, dst_inv,    &
-                                 ts_min
+                                 ts_min, ds_prf
       real(kind=8)            :: rmin, rmax, th_min, th_max, dth, v_min, v_max, dv
       real(kind=8),   dimension(:), allocatable :: u_out, v_out
       type(t_vec)             :: vtmp(4)
@@ -131,7 +131,7 @@ contains
          xtr_sta = cp%mpot%x() - nxlow * dx_cp
 
          if (idebug.ge.3) then
-            write(bufout,'(3(a,f12.6),a)') ' cref%x(tr)=',cp%mpot%x(),', c.grid has x(tr) in [',        &
+            write(bufout,'(3(a,f12.6),a)') ' mpot%x(tr)=',cp%mpot%x(),', c.grid has x(tr) in [',        &
                         cp%xsta, ',', cp%xend,']'
             call write_log(1,bufout)
          endif
@@ -163,16 +163,16 @@ contains
     
          ! create trimmed grid to avoid multi-valued function at large rotation angles
 
-         smin = cgrid%y( 1 )
-         smax = cgrid%y( cgrid%ntot )
-         ds   = cgrid%dy
+         smin  = cgrid%y( 1 )
+         smax  = cgrid%y( cgrid%ntot )
+         ds_cp = cgrid%dy
 
          if (idebug.ge.4) then
-            write(bufout, *) 'contact grid: s = [', smin,',', smax, '], step ds =', ds
+            write(bufout, *) 'contact grid: s = [', smin,',', smax, '], step ds_cp =', ds_cp
             call write_log(1, bufout)
          endif
 
-         call trim_rail_mesh (rail_sn_full, smin, smax, ds, rail_sn, idebug)
+         call trim_rail_mesh (rail_sn_full, smin, smax, ds_cp, rail_sn, idebug)
     
          if (idebug.ge.3) then
             call write_log('rail surface in pot.contact-coordinates:')
@@ -189,9 +189,20 @@ contains
          endif
     
          ! interpolate rail height 'n' from surface rail_sn to the contact grid sp-locations in rail_srfc
-         ! roller, varprof: rail_sn is 3D surface
-    
-         call interp_cartz2unif( rail_sn, rail_srfc, ierror, 999d0 )
+         ! roller, varprof: rail_sn is a 3D surface
+
+         ! get indicative step size ds_prf for the profile around the contact location
+
+         call get_profile_stepsize(my_rail, cp, ds_prf, idebug)
+         use_bicubic = (.true. .and. ds_prf.gt.1.2d0*ds_cp)
+
+         if (idebug.ge.2 .and. use_bicubic) then
+            write(bufout,'(2(a,f8.3),a)') ' grid sizes ds_cp=',ds_cp,', ds_prf=',ds_prf,                &
+                ': switching to bicubic interpolation'
+            call write_log(1, bufout)
+         endif
+
+         call interp_cartz2unif( rail_sn, rail_srfc, ierror, 999d0, use_bicubic )
     
          ! check interpolation, warn if rail grid was defined too small
 
@@ -247,7 +258,7 @@ contains
       ! express pot.contact reference in terms of wheel profile coordinates
 
       mwhl_trk  = marker_2glob( my_wheel%m_ws, ws%m_trk )
-      mpot_whl   = marker_2loc( cp%mpot, mwhl_trk )
+      mpot_whl  = marker_2loc( cp%mpot, mwhl_trk )
 
       if (idebug.ge.2) then
          call write_log(' pot.contact origin w.r.t. O_trk')
@@ -723,6 +734,38 @@ contains
 
    end subroutine wr_ud_planar
 
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine get_profile_stepsize(my_rail, cp, ds_avg, idebug)
+!--purpose: determine indicative step size ds for rail profile around contact location 
+      implicit none
+!--subroutine arguments:
+      type(t_rail)               :: my_rail
+      type(t_cpatch)             :: cp
+      integer                    :: idebug
+      real(kind=8),  intent(out) :: ds_avg
+!--local variables:
+      integer                    :: iseg, i0, i1
+
+      associate(prr => my_rail%prr%grd_data)
+
+      iseg = 0
+      call locate_segment(prr%ntot, prr%s_prf, cp%sr_ref, iseg)
+
+      i0 = max(1, iseg-3)
+      i1 = min(prr%ntot, iseg+4)
+      ds_avg = (prr%s_prf(i1) - prr%s_prf(i0)) / (i1 - i0)
+
+      if (idebug.ge.2) then
+         write(bufout,'(a,f8.3,a,i4,3(a,f8.3))') ' cp%sr_ref = ',cp%sr_ref,' in iseg=',iseg,            &
+                   ', s=[',prr%s_prf(iseg),',',prr%s_prf(iseg+1),'], ds_avg=',ds_avg
+         call write_log(1, bufout)
+      endif
+
+      end associate
+
+   end subroutine get_profile_stepsize
+      
 !------------------------------------------------------------------------------------------------------------
 
    subroutine curved_sc_to_planar_sp (mpot, cgrid, curv_ref, idebug)

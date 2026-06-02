@@ -27,6 +27,7 @@
 #
 #  15 - XPN_TR    - x-position of the pressure center of gravity in track coordinates
 #  16 - YPN_TR    - y-position of the pressure center of gravity in track coordinates
+#  17 - ZPN_TR    - y-position of the pressure center of gravity in track coordinates
 #
 #  18 - DY_DEFL   - lateral rail shift according to massless rail deflection
 #  19 - DZ_DEFL   - vertical rail shift according to massless rail deflection
@@ -52,11 +53,17 @@
 #  37 - ROLLW_WS  - roll angle of wheel profile marker in wheelset coordinates
 #  38 - YAWW_WS   - yaw angle of wheel profile marker in wheelset coordinates
 #
-#  The "contact reference point" is the origin of the contact local coordinate system. It is determined by
-#  a heuristic rule and is centered within the contact patch in a weighted sense.
+#  40 - XCP_POT   - x-position of the contact reference point in contact grid coordinates
+#  41 - YCP_POT   - y-position of the contact reference point in contact grid coordinates
+#  42 - ZCP_POT   - z-position of the contact reference point in contact grid coordinates
+#  43 - DELTCP_POT - rotation about x-axis from contact grid positive n-axis to contact reference n-axis
+#
+#  The "contact reference position" (m_cp) is the estimated effective contact position. This is
+#  determined by a heuristic rule and is centered within the contact patch in a weighted sense.
+#  The "contact grid origin" (m_pot) is the origin of the contact local coordinate system.
 #------------------------------------------------------------------------------------------------------------
 
-# Copyright 2008-2023 by Vtech CMCC.
+# Copyright 2008-2026 by Vtech CMCC.
 #
 # Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -72,7 +79,7 @@ def cntc_getcontactlocation(ire=1, icp=1):
     if (icp<=0):
         sys.exit('ERROR in cntc_getcontactlocation: not available for icp=%d' % icp)
 
-    lenarr = 32
+    lenarr = 43
     values = np.zeros(lenarr, dtype=c_double)
 
     cntc_dll.cntc_getcontactlocation(c_int(ire), c_int(icp), c_int(lenarr),

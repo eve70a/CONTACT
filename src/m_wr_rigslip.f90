@@ -446,7 +446,7 @@ contains
                                rail_tvel_cp, rail_rvel_cp,                                              &
                                rol_tvel_trk, rol_rvel_rol, rol_tvel_cp, rol_rvel_cp,                    &
                                ws_tvel_trk, ws_rvel_ws, ws_tvel_cp, ws_rvel_cp,                         &
-                               whl_tvel_ws, whl_rvel_ws, whl_tvel_cp, whl_rvel_cp, nref
+                               whl_tvel_ws, whl_rvel_ws, whl_tvel_cp, whl_rvel_cp, nvec
       type(t_gridfnc3)      :: gf_tvel_rail, gf_tvel_whl
       character(len=5)        :: nam_side 
 
@@ -481,7 +481,7 @@ contains
 
       if (.not.ic%is_roller()) then
 
-         ! convert rail profile origin to contact coordinates
+         ! convert rail profile origin to contact coordinates. Note: 'contact coords' relative to m_pot.
 
          ! call marker_print(my_rail%m_trk, 'mr_trk',  2)
          ! call marker_print(cp%mpot,       'mcp_trk', 2)
@@ -682,13 +682,14 @@ contains
       if (ic%is_conformal()) then
 
          ! D=4: conformal rigid slip on curved potential contact
+         !      rotate velocities from overall sp-direction (mref%tvec=mpot%tvec) to local sc-direction
 
          if (idebug.ge.2) call write_log(' call gf3_cart2curv for conformal...')
          if (idebug.ge.5) call gf3_print(cp%curv_nrm, 'curv_nrm', ikALL, 5)
 
-         nref = -cp%mref%kvec()
-         call gf3_cart2curv(gf_tvel_rail, nref, cp%curv_nrm, 1, idebug)
-         call gf3_cart2curv(gf_tvel_whl, nref, cp%curv_nrm, 1, idebug)
+         nvec = -cp%mpot%kvec()
+         call gf3_cart2curv(gf_tvel_rail, nvec, cp%curv_nrm, 1, idebug)
+         call gf3_cart2curv(gf_tvel_whl, nvec, cp%curv_nrm, 1, idebug)
 
       endif
 

@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_markers - data-structures for 'markers' defining local coordinate systems
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -1190,17 +1190,17 @@ end subroutine marker_shift
 !------------------------------------------------------------------------------------------------------------
 
 subroutine marker_roll(m, roll, yc_arg, zc_arg)
-!--function: rotate a marker by roll angle roll [rad] (about x-axis/point [yc;zc])
+!--function: rotate a marker by roll angle roll [rad] (about m%o or about point [yc;zc])
    implicit none
 !--subroutine arguments
    type(t_marker)                     :: m
    real(kind=8), intent(in)           :: roll           ! rotation angle [rad]
-   real(kind=8), intent(in), optional :: yc_arg, zc_arg ! rotation origin, default (0,0)
+   real(kind=8), intent(in), optional :: yc_arg, zc_arg ! rotation origin, default m%o
 !--local variables
    real(kind=8)             :: yc, zc, cs, sn, yrel, zrel
 
-   yc = 0d0
-   zc = 0d0
+   yc = m%o%v(2)
+   zc = m%o%v(3)
    if (present(yc_arg)) yc = yc_arg
    if (present(zc_arg)) zc = zc_arg
 
@@ -1223,17 +1223,17 @@ end subroutine marker_roll
 !------------------------------------------------------------------------------------------------------------
 
 subroutine marker_yaw(m, yaw, xc_arg, yc_arg)
-!--function: rotate a marker by pure yaw angle yaw [rad] (about z-axis/point [xc;yc])
+!--function: rotate a marker by pure yaw angle yaw [rad] (about m%o or about point [xc;yc])
    implicit none
 !--subroutine arguments
    type(t_marker)                     :: m
    real(kind=8), intent(in)           :: yaw            ! rotation angle [rad]
-   real(kind=8), intent(in), optional :: xc_arg, yc_arg ! rotation origin, default (0,0)
+   real(kind=8), intent(in), optional :: xc_arg, yc_arg ! rotation origin, default m%o
 !--local variables
    real(kind=8)             :: xc, yc, cs, sn, xrel, yrel
 
-   xc = 0d0
-   yc = 0d0
+   xc = m%o%v(1)
+   yc = m%o%v(2)
    if (present(xc_arg)) xc = xc_arg
    if (present(yc_arg)) yc = yc_arg
 

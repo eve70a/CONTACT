@@ -4302,12 +4302,12 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
 !  itask          - select type of outputs:
 !                    -1: ierr   <0: error codes, 0=profile loaded ok, 1=not set
 !                     0: npnt   number of points used in requested sampling method
-!                     1: r/w    get (yr,zr) values for rail or (yw,zw) for wheel profile
+!                     1: r/w    get (yr,zr) values for rail or (yw,zw) for wheel profile (right-side view)
 !                     2: trk    get (ytr,ztr) values for rail or wheel profile (principal profile)
 !                     3: gaug   get left-most point within gauge height, offset, point at gauge height
 !                               [ygauge1, zgauge1, yoffs, zoffs, ygauge2, zgauge2]  [length]
 !                     4: arc    get arc-length parameter s along profile
-!                     5: angl   get surface inclination atan2(dz, dy) [angle]
+!                     5: angl   get surface inclination atan2(dz, dy) [angle] (right-side view)
 !                     6: 2d-u   evaluate varprof [xyz]_r or [xyz]_w for cross-section at constant u_i = x_i
 !                     7: 2d-v   evaluate varprof [xyz]_r or [xyz]_w for interpolation path at constant v_j
 !                     8: 2d-y   evaluate varprof [xyz]_r or [xyz]_w for longitudinal slice at constant y_j
@@ -4608,7 +4608,7 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
 
    elseif (itask.eq.1) then     ! 1 = r/w
 
-      ! output rail or wheel profile in its own coordinates
+      ! output rail or wheel profile in its own coordinates (internal, right-side view)
 
       do ip = 1, min(lenarr     ,npnt)
          val(     ip) = g_wrk%y(ip)
@@ -4673,7 +4673,7 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
 
    elseif (itask.eq.5) then     ! 5 = angl
 
-      ! output surface inclination on rail or wheel
+      ! output surface inclination on rail or wheel (internal, right-side view)
 
       call gf3_new(dxyz, 'dxyz', g_wrk, nulify=.true., lzero=.true.)
       call spline_get_dxyz_at_s_gfout(g%spl, dxyz, sub_ierror)
@@ -4849,6 +4849,7 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !
 !  15 - XPN_TR    - x-position of the pressure center of gravity in track coordinates
 !  16 - YPN_TR    - y-position of the pressure center of gravity in track coordinates
+!  17 - ZPN_TR    - y-position of the pressure center of gravity in track coordinates
 !
 !  18 - DY_DEFL   - lateral rail shift according to massless rail deflection
 !  19 - DZ_DEFL   - vertical rail shift according to massless rail deflection
@@ -4874,8 +4875,14 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !  37 - ROLLW_WS  - roll angle of wheel profile marker in wheelset coordinates
 !  38 - YAWW_WS   - yaw angle of wheel profile marker in wheelset coordinates
 !
-!  The "contact reference point" is the origin of the contact local coordinate system. It is determined by
-!  a heuristic rule and is centered within the contact patch in a weighted sense.
+!  40 - XCP_POT   - x-position of the contact reference point in contact grid coordinates
+!  41 - YCP_POT   - y-position of the contact reference point in contact grid coordinates
+!  42 - ZCP_POT   - z-position of the contact reference point in contact grid coordinates
+!  43 - DELTCP_POT - rotation about x-axis from contact grid positive n-axis to contact reference n-axis
+!
+!  The "contact reference position" (m_cp) is the estimated effective contact position. This is
+!  determined by a heuristic rule and is centered within the contact patch in a weighted sense.
+!  The "contact grid origin" (m_pot) is the origin of the contact local coordinate system.
 !--category: 3, "m=1 only, cp":     available for module 1 only, working on cp data
    implicit none
 !--subroutine arguments:
@@ -4886,7 +4893,7 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
 !--local variables:
    integer                     :: ierror, ii
    real(kind=8)                :: sgn, sum_pn, sum_xpn, sum_ypn
-   type(t_marker)              :: m_pn, mref_ws
+   type(t_marker)              :: m_pn, mref_ws, mref_pot
    character(len=*), parameter :: subnam = 'cntc_getContactLocation'
 #ifdef _WIN32
 !dec$ attributes dllexport :: cntc_getContactLocation
@@ -4933,30 +4940,34 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       if (lenarr.ge.14) rvalues(14) = sgn * meta%deltcp_w  / my_scl%angle
 
       if (lenarr.ge.15) then
+         if (my_ic%is_conformal()) then
+            ! conformal contact: pressure center of gravity == contact reference
+            m_pn = cp%mref
+         else
+            ! planar contact: compute the pressure center of gravity in contact grid coords
+            !   - weighted mean \int_C (xc,yc) * pn / \int_C pn .
 
-         ! compute the pressure center of gravity in x and y
-         !      - weighted mean \int_C  x * pn / \int_C pn; \int_C y * pn / \int_C pn.
+            sum_xpn = 0d0
+            sum_ypn = 0d0
+            sum_pn  = 1d-10
 
-         sum_xpn = 0d0
-         sum_ypn = 0d0
-         sum_pn  = 1d-10
+            do ii = 1, cp%gd%cgrid_cur%ntot
+               sum_xpn = sum_xpn + cp%gd%cgrid_cur%x(ii) * cp%gd%outpt1%ps%vn(ii)
+               sum_ypn = sum_ypn + cp%gd%cgrid_cur%y(ii) * cp%gd%outpt1%ps%vn(ii)
+               sum_pn  = sum_pn  + cp%gd%outpt1%ps%vn(ii)
+            enddo
+   
+            ! transform pcog from contact grid-coordinates to track coords
 
-         do ii = 1, cp%gd%cgrid_cur%ntot
-            sum_xpn = sum_xpn + cp%gd%cgrid_cur%x(ii) * cp%gd%outpt1%ps%vn(ii)
-            sum_ypn = sum_ypn + cp%gd%cgrid_cur%y(ii) * cp%gd%outpt1%ps%vn(ii)
-            sum_pn  = sum_pn  + cp%gd%outpt1%ps%vn(ii)
-         enddo
-
-         ! create marker for pressure c.g. in contact-coordinates
-
-         m_pn = marker( sum_xpn/sum_pn, sum_ypn/sum_pn, 0d0 )
-         m_pn = marker_2glob( m_pn, cp%mref )
+            m_pn = marker( sum_xpn/sum_pn, sum_ypn/sum_pn, 0d0 )
+            m_pn = marker_2glob( m_pn, cp%mpot )
+         endif
       endif
 
-      ! 15--16: pressure center of gravity
+      ! 15--17: pressure center of gravity
       if (lenarr.ge.15) rvalues(15) =       m_pn%x() / my_scl%len
       if (lenarr.ge.16) rvalues(16) = sgn * m_pn%y() / my_scl%len
-      if (lenarr.ge.17) rvalues(17) = 0d0
+      if (lenarr.ge.17) rvalues(17) =       m_pn%z() / my_scl%len
 
       ! 18--19: massless rail deflections
       if (lenarr.ge.18) rvalues(18) =       wtd%trk%dy_defl / my_scl%len
@@ -4988,6 +4999,13 @@ subroutine cntc_getContactLocation(ire, icp, lenarr, rvalues) &
       if (lenarr.ge.36) rvalues(36) =       my_wheel%m_ws%z()    / my_scl%len
       if (lenarr.ge.37) rvalues(37) = sgn * my_wheel%m_ws%roll() / my_scl%angle
       if (lenarr.ge.38) rvalues(38) = sgn * my_wheel%m_ws%yaw()  / my_scl%angle
+
+      ! 40--43: contact reference marker in contact grid coordinates
+      mref_pot = marker_2loc( cp%mref, cp%mpot )
+      if (lenarr.ge.40) rvalues(40) =       mref_pot%x()    / my_scl%len
+      if (lenarr.ge.41) rvalues(41) = sgn * mref_pot%y()    / my_scl%len
+      if (lenarr.ge.42) rvalues(42) =       mref_pot%z()    / my_scl%len
+      if (lenarr.ge.43) rvalues(43) = sgn * mref_pot%roll() / my_scl%angle
       end associate
    endif
 

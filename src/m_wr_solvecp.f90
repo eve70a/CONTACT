@@ -240,9 +240,9 @@ contains
       type(t_solvers)   :: solv
 !--local variables:
       character(len=5)          :: nam_side
-      integer                   :: ip, ii, iy, mx, my, npot, ierror
-      real(kind=8)              :: sw_ref, fac_warn, xy_ofs
-      type(t_marker)            :: mref_pot, mref_rai, mref_whl, whl_trk
+      integer                   :: ip, ii, iy, mx, my, npot
+      real(kind=8)              :: fac_warn, xy_ofs
+      type(t_marker)            :: mref_pot
       type(t_potcon)            :: potcon_inp
       type(t_probdata), pointer :: gd
 
@@ -258,41 +258,6 @@ contains
          nam_side = 'left'
       else
          nam_side = 'right'
-      endif
-
-      ! convert wheel-marker from wheel-set coords to track-coords
-
-      whl_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
-
-      ! convert contact reference from track-coords to rail coords
-
-      mref_rai = marker_2loc( cp%mref, my_rail%m_trk )
-
-      ! convert contact reference from track-coords to potcon-coords
-
-      if (wtd_ic%use_supergrid()) then
-         mref_pot = marker_2loc( cp%mref, cp%mpot )
-      else
-         call marker_init(mref_pot)
-      endif
-
-      ! convert contact reference from track-coords to wheel coords
-
-      mref_whl = marker_2loc( cp%mref, whl_trk )
-
-      ! get sw-position of mref on wheel profile
-
-      call spline_get_s_at_y( my_wheel%prw%grd_data%spl, mref_whl%y(), sw_ref, ierror )
-
-      if (x_locate.ge.3) then
-         call marker_print( ws%m_trk,      'm_ws(trk)', 2 )
-         call marker_print( my_wheel%m_ws, 'm_whl(ws)', 2 )
-         call marker_print( whl_trk,       'm_whl(trk)', 2 )
-         call marker_print( mref_whl,      'm_cp(whl)', 2 )
-         call marker_print( mref_rai,      'm_cp(rai)', 2 )
-         call marker_print( my_rail%m_trk, 'm_rai(trk)', 2 )
-         call marker_print( cp%mref,       'm_cp(trk)', 2 )
-         call marker_print( mref_pot,      'm_cp(pot)', 2 )
       endif
 
       ! allocate the hierarchical data-structure (TODO: already allocated?)
@@ -318,47 +283,8 @@ contains
       !  - iteration-related metadata are set at the actual solution in wr_solve_cp
 
       ! copy wheel and rail position data to meta-data
-      ! note: mirrorring for left wheel is ignored, internal data written to gd%meta
 
-      gd%meta%tim       = meta%tim
-      gd%meta%s_ws      = ws%s
-      gd%meta%th_ws     = ws%pitch
-      gd%meta%ynom_whl  = ws%whl%m_ws%y()
-      gd%meta%rnom_whl  = ws%nom_radius
-      gd%meta%rnom_rol  = 0d0
-      if (wtd_ic%is_roller()) gd%meta%rnom_rol  = trk%nom_radius
-
-      !  - position of wheel profile origin w.r.t. track origin
-      gd%meta%x_w       = whl_trk%x()
-      gd%meta%y_w       = whl_trk%y()
-      gd%meta%z_w       = whl_trk%z()
-      gd%meta%roll_w    = whl_trk%roll()
-      gd%meta%yaw_w     = whl_trk%yaw()
-
-      !  - position of rail profile origin w.r.t. track origin
-      gd%meta%y_r       = my_rail%m_trk%y()
-      gd%meta%z_r       = my_rail%m_trk%z()
-      gd%meta%roll_r    = my_rail%m_trk%roll()
-
-      !  - position of contact reference w.r.t. track origin
-      gd%meta%xcp_tr    = cp%mref%x()
-      gd%meta%ycp_tr    = cp%mref%y()
-      gd%meta%zcp_tr    = cp%mref%z()
-      gd%meta%deltcp_tr = cp%mref%roll()
-
-      !  - position of contact reference w.r.t. rail origin
-      gd%meta%xcp_r     = mref_rai%x()
-      gd%meta%ycp_r     = mref_rai%y()
-      gd%meta%zcp_r     = mref_rai%z()
-      gd%meta%scp_r     = cp%sr_ref
-      gd%meta%deltcp_r  = mref_rai%roll()
-
-      !  - position of contact reference w.r.t. wheel origin
-      gd%meta%xcp_w     = mref_whl%x()
-      gd%meta%ycp_w     = mref_whl%y()
-      gd%meta%zcp_w     = mref_whl%z()
-      gd%meta%scp_w     = sw_ref
-      gd%meta%deltcp_w  = mref_whl%roll()
+      call meta_copy_markers(wtd_ic, meta%tim, ws, trk, cp, x_locate)
 
       ! copy control digits, override some of them
 
@@ -663,17 +589,19 @@ contains
 
       ! compute velocity and creepages
 
+      mref_pot = marker_2loc( cp%mref, cp%mpot )
+
       if (wtd_ic%tang.eq.0 .or. wtd_ic%return.ge.2) then
 
          ! T = 0: skip tangential contact calculation
          ! R = 2 or 3: skip actual computation
 
-         gd%ic%tang     =  0
-         gd%kin%cksi    =  0d0
-         gd%kin%ceta    =  0d0
-         gd%kin%cphi    =  0d0
-         gd%kin%spinxo  = mref_pot%x()
-         gd%kin%spinyo  = mref_pot%y()
+         gd%ic%tang    =  0
+         gd%kin%cksi   =  0d0
+         gd%kin%ceta   =  0d0
+         gd%kin%cphi   =  0d0
+         gd%kin%spinxo = mref_pot%x()
+         gd%kin%spinyo = mref_pot%y()
 
       else
 
@@ -696,6 +624,111 @@ contains
       end associate
 
    end subroutine wr_setup_cp
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine meta_copy_markers(wtd_ic, tim, ws, trk, cp, x_locate)
+!--purpose: define the contact problem for an initial contact point for a W/R contact case. 
+      implicit none
+!--subroutine arguments:
+      type(t_wheelset)  :: ws
+      type(t_trackdata) :: trk
+      type(t_cpatch)    :: cp
+      type(t_ic)        :: wtd_ic
+      integer           :: x_locate
+      real(kind=8)      :: tim
+!--local variables:
+      integer                   :: ierror
+      real(kind=8)              :: sw_ref
+      type(t_marker)            :: mref_pot, mref_rai, mref_whl, whl_trk
+
+      ! set pointer to the active rail and wheel in the current configuration
+
+      associate(my_rail => trk%rai, my_wheel => ws%whl, gd => cp%gd)
+
+      gd%meta%tim       = tim
+      gd%meta%s_ws      = ws%s
+      gd%meta%th_ws     = ws%pitch
+      gd%meta%ynom_whl  = ws%whl%m_ws%y()
+      gd%meta%rnom_whl  = ws%nom_radius
+      gd%meta%rnom_rol  = 0d0
+      if (wtd_ic%is_roller()) gd%meta%rnom_rol  = trk%nom_radius
+
+      ! convert wheel-marker from wheel-set coords to track-coords
+
+      whl_trk = marker_2glob( my_wheel%m_ws, ws%m_trk )
+
+      ! convert contact reference from track-coords to rail coords
+
+      mref_rai = marker_2loc( cp%mref, my_rail%m_trk )
+
+      ! convert contact reference from track-coords to potcon-coords
+
+      mref_pot = marker_2loc( cp%mref, cp%mpot )
+
+      ! convert contact reference from track-coords to wheel coords
+
+      mref_whl = marker_2loc( cp%mref, whl_trk )
+
+      ! get sw-position of mref on wheel profile
+
+      call spline_get_s_at_y( my_wheel%prw%grd_data%spl, mref_whl%y(), sw_ref, ierror )
+
+      if (x_locate.ge.3) then
+         call marker_print( ws%m_trk,      'm_ws(trk)', 2 )
+         call marker_print( my_wheel%m_ws, 'm_whl(ws)', 2 )
+         call marker_print( whl_trk,       'm_whl(trk)', 2 )
+         call marker_print( mref_whl,      'm_cp(whl)', 2 )
+         call marker_print( mref_rai,      'm_cp(rai)', 2 )
+         call marker_print( my_rail%m_trk, 'm_rai(trk)', 2 )
+         call marker_print( cp%mref,       'm_cp(trk)', 2 )
+         call marker_print( mref_pot,      'm_cp(pot)', 2 )
+      endif
+
+      ! copy wheel and rail position data to meta-data
+      ! note: mirrorring for left wheel is ignored, internal data written to gd%meta
+
+      !  - position of wheel profile origin w.r.t. track origin
+      gd%meta%x_w        = whl_trk%x()
+      gd%meta%y_w        = whl_trk%y()
+      gd%meta%z_w        = whl_trk%z()
+      gd%meta%roll_w     = whl_trk%roll()
+      gd%meta%yaw_w      = whl_trk%yaw()
+
+      !  - position of rail profile origin w.r.t. track origin
+      gd%meta%y_r        = my_rail%m_trk%y()
+      gd%meta%z_r        = my_rail%m_trk%z()
+      gd%meta%roll_r     = my_rail%m_trk%roll()
+
+      !  - position of contact reference w.r.t. track origin
+      gd%meta%xcp_tr     = cp%mref%x()
+      gd%meta%ycp_tr     = cp%mref%y()
+      gd%meta%zcp_tr     = cp%mref%z()
+      gd%meta%deltcp_tr  = cp%mref%roll()
+                        
+      !  - position of contact reference w.r.t. rail origin
+      gd%meta%xcp_r      = mref_rai%x()
+      gd%meta%ycp_r      = mref_rai%y()
+      gd%meta%zcp_r      = mref_rai%z()
+      gd%meta%scp_r      = cp%sr_ref
+      gd%meta%deltcp_r   = mref_rai%roll()
+
+      !  - position of contact reference w.r.t. wheel origin
+      gd%meta%xcp_w      = mref_whl%x()
+      gd%meta%ycp_w      = mref_whl%y()
+      gd%meta%zcp_w      = mref_whl%z()
+      gd%meta%scp_w      = sw_ref
+      gd%meta%deltcp_w   = mref_whl%roll()
+
+      !  - position of contact reference w.r.t. potential contact marker
+      gd%meta%xcp_pot    = mref_pot%x()
+      gd%meta%ycp_pot    = mref_pot%y()
+      gd%meta%zcp_pot    = mref_pot%z()
+      gd%meta%deltcp_pot = mref_pot%roll()
+
+      end associate
+
+   end subroutine meta_copy_markers
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -742,27 +775,26 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine wr_solve_cp(meta, ws, trk, icp, cp, ic, idebug, ierror)
+   subroutine wr_solve_cp(meta, ws, trk, icp, cp, wtd_ic, x_locate, ierror)
 !--purpose: solve the contact problem for an initial contact point for a W/R contact case. 
       implicit none
 !--subroutine arguments:
       type(t_metadata)  :: meta
       type(t_wheelset)  :: ws
       type(t_trackdata) :: trk
-      integer           :: icp, idebug
+      integer           :: icp, x_locate
       type(t_cpatch)    :: cp
-      type(t_ic)        :: ic
+      type(t_ic)        :: wtd_ic
       integer           :: ierror
 !--local variables:
       integer                   :: nadh, nslip, nplast, nexter, ncon, iatbnd
-      type(t_probdata), pointer :: gd
 
-      if (idebug.ge.3) then
+      if (x_locate.ge.3) then
          write(bufout,'(a,i2,a)') ' --- Start subroutine wr_solve_cp for cp',icp,' ---'
          call write_log(1, bufout)
       endif
 
-      gd => cp%gd
+      associate(my_rail => trk%rai, my_wheel => ws%whl, gd => cp%gd)
 
       ! set iteration-related metadata -- 'last calculated time+iteration'
 
@@ -772,7 +804,7 @@ contains
       ! solve the contact problem
 
       gd%ic%output_surf = 0
-      if (idebug.ge.5) call write_log(' ... calling contac')
+      if (x_locate.ge.5) call write_log(' ... calling contac')
       call contac(gd, ierror)
 
       ! Count the number of elements in contact
@@ -780,39 +812,123 @@ contains
       call eldiv_count(gd%outpt1%igs, nadh, nslip, nplast, nexter)
       ncon = nadh + nslip + nplast
 
-      if (ncon.le.0 .and. ic%ilvout.ge.1 .and. idebug.ge.-1) then
+      if (ncon.le.0 .and. wtd_ic%ilvout.ge.1 .and. x_locate.ge.-1) then
          write(bufout,'(2(a,i0))') ' WARNING: no actual contact in patch ',icp,': ncon = ',ncon
          call write_log(1, bufout)
 
-         if (idebug.ge.3) call wrigs(gd%outpt1%igs, .true., 0d0)
+         if (x_locate.ge.3) call wrigs(gd%outpt1%igs, .true., 0d0)
       endif
 
       ! Count the number of interior elements at the boundaries of the potential contact
 
-      iatbnd = eldiv_count_atbnd(gd%outpt1%igs, 0, idebug)
-      if (iatbnd.ge.1 .and. ic%ilvout.ge.1 .and. idebug.ge.-1) then
+      iatbnd = eldiv_count_atbnd(gd%outpt1%igs, 0, x_locate)
+      if (iatbnd.ge.1 .and. wtd_ic%ilvout.ge.1 .and. x_locate.ge.-1) then
          write(bufout,'(a,i5,a)') ' WARNING: potential contact area too small;',iatbnd,                 &
                 ' elements next to boundary.'
          call write_log(1, bufout)
 
-         if (idebug.ge.3) call wrigs(gd%outpt1%igs, .true., 0d0)
+         if (x_locate.ge.3) call wrigs(gd%outpt1%igs, .true., 0d0)
          ! ierror = -17
       endif
 
       ! conformal: rotate tractions, compute overall forces
 
-      if (ic%is_conformal()) then
-         call aggregate_forces(cp, gd%ic, gd%cgrid_cur, gd%kin, gd%mater, gd%outpt1, idebug)
+      if (wtd_ic%is_conformal()) then
 
+         ! compute pressure center of gravity, change reference position
+
+         call change_cref_pcog(cp, gd%cgrid_cur, gd%outpt1, x_locate)
+
+         ! propagate changes into gd%meta
+
+         call meta_copy_markers(wtd_ic, meta%tim, ws, trk, cp, x_locate)
+
+         ! compute overall forces
+
+         call aggregate_forces(cp, gd%ic, gd%cgrid_cur, gd%kin, gd%mater, gd%outpt1, x_locate)
       endif
 
       ! rotate forces from contact-reference coordinates to global coordinates
 
-      call cpatch_forces_moments(ws, trk, cp, idebug)
+      call cpatch_forces_moments(ws, trk, cp, x_locate)
+      end associate
 
-      if (idebug.ge.4) write(*,*) '--- end subroutine wr_solve_cp ---'
+      if (x_locate.ge.4) write(*,*) '--- end subroutine wr_solve_cp ---'
 
    end subroutine wr_solve_cp
+
+!------------------------------------------------------------------------------------------------------------
+
+   subroutine change_cref_pcog(cp, cgrid, outpt1, idebug)
+!--purpose: conformal contact: replace the contact reference point/reference angle by the
+!                              pressure-center-of-gravity and pressure-weighted-reference-angle
+      implicit none
+!--subroutine arguments:
+      type(t_cpatch)   :: cp
+      type(t_grid)     :: cgrid
+      type(t_output)   :: outpt1
+      integer          :: idebug
+!--local variables:
+      integer          :: ix, iy, ii
+      real(kind=8)     :: row_pn, row_pn_a, row_pn_x, row_pn_y, row_pn_z,                               &
+                          tot_pn, tot_pn_a, tot_pn_x, tot_pn_y, tot_pn_z,                               &
+                          pcog_a, pcog_x, pcog_y, pcog_z
+
+      associate( mx => cgrid%nx, my => cgrid%ny, npot => cgrid%ntot, igs => outpt1%igs%el,              &
+                 pn => outpt1%ps%vn)
+
+      ! compute \int cref_{y,z,a} * pn dx dy / \int pn dx dy
+      ! cannot use ddot because curv_ref/incln are (1,my) instead of (mx,my)
+
+      tot_pn   = 0d0
+      tot_pn_a = 0d0
+      tot_pn_x = 0d0
+      tot_pn_y = 0d0
+      tot_pn_z = 0d0
+
+      do iy = 1, my
+         row_pn   = 0d0
+         row_pn_x = 0d0
+         row_pn_y = 0d0
+         row_pn_z = 0d0
+         row_pn_a = 0d0
+         do ix = 1, mx
+            ii = ix + (iy-1) * mx
+            if (igs(ii).ge.1) then
+               row_pn   = row_pn   +                        pn(ii)
+               row_pn_a = row_pn_a + cp%curv_incln%vy(iy) * pn(ii)
+               row_pn_x = row_pn_x +         cgrid%x(ix)  * pn(ii)
+               row_pn_y = row_pn_y +   cp%curv_ref%y(iy)  * pn(ii)
+               row_pn_z = row_pn_z +   cp%curv_ref%z(iy)  * pn(ii)
+            endif
+         enddo
+         tot_pn   = tot_pn   + row_pn  
+         tot_pn_a = tot_pn_a + row_pn_a
+         tot_pn_x = tot_pn_x + row_pn_x
+         tot_pn_y = tot_pn_y + row_pn_y
+         tot_pn_z = tot_pn_z + row_pn_z
+      enddo
+
+      pcog_a = tot_pn_a / max(1d-6, tot_pn)
+      pcog_x = tot_pn_x / max(1d-6, tot_pn) + cp%mpot%x()
+      pcog_y = tot_pn_y / max(1d-6, tot_pn)
+      pcog_z = tot_pn_z / max(1d-6, tot_pn)
+
+      if (idebug.ge.2) then
+         write(bufout,'(5(a,g14.7))') ' Pcog: x=',pcog_x,', y=',pcog_y,', z=',pcog_z,', a=',pcog_a,     &
+                ', pn=',tot_pn*cgrid%dx*cgrid%dy
+         call write_log(1, bufout)
+      endif
+
+      end associate
+
+      ! overwrite contact reference position using pcog
+
+      call marker_init(cp%mref)
+      call marker_shift(cp%mref, pcog_x, pcog_y, pcog_z)
+      call marker_roll(cp%mref, pcog_a)
+
+   end subroutine change_cref_pcog
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -1060,7 +1176,7 @@ contains
             associate( gd => wtd%allcps(icp)%cp%gd )
             gd%ic%matfil_surf = 2
             call writmt (gd%meta, gd%ic, gd%cgrid_cur, gd%potcon_cur, gd%mater, gd%fric, gd%kin,        &
-                gd%geom, gd%outpt1, wtd%ic%is_left_side())
+                         gd%geom, gd%outpt1, wtd%ic%is_left_side())
             end associate
          enddo
       endif

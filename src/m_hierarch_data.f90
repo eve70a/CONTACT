@@ -876,6 +876,7 @@ public
       real(kind=8)       :: xcp_tr, ycp_tr, zcp_tr, deltcp_tr
       real(kind=8)       :: xcp_r, ycp_r, zcp_r, scp_r, deltcp_r
       real(kind=8)       :: xcp_w, ycp_w, zcp_w, scp_w, deltcp_w
+      real(kind=8)       :: xcp_pot, ycp_pot, zcp_pot, deltcp_pot
       character(len=256) :: wrkdir, outdir, expnam
 
       ! REid              result element ID, used by CONTACT add-on
@@ -897,20 +898,21 @@ public
       ! ynom_whl   [mm]   lateral position of wheel origin in wheelset coordinates
       ! rnom_whl   [mm]   nominal wheel radius == vertical position of wheel origin in wheelset coords
       ! rnom_rol   [mm]   nominal roller radius
-      ! [xyz]_w    [mm]   location of right wheel origin m_w in terms of track coordinates
-      ! roll_w     [rad]  roll angle of right wheel (marker m_w) with respect to track coordinates
-      ! yaw_w      [rad]  yaw angle of right wheel (marker m_w) with respect to track coordinates
-      ! [yz]_r     [mm]   location of right rail origin m_r in terms of track coordinates
-      ! roll_r     [rad]  roll angle of right rail marker m_r with respect to track coordinates
+      ! [xyz]_w    [mm]   location of wheel origin m_w in terms of track coordinates (internal, mirrored view)
+      ! roll_w     [rad]  roll angle of wheel (marker m_w) with respect to track coordinates
+      ! yaw_w      [rad]  yaw angle of wheel (marker m_w) with respect to track coordinates
+      ! [yz]_r     [mm]   location of rail origin m_r in terms of track coordinates (internal, mirrored view)
+      ! roll_r     [rad]  roll angle of rail marker m_r with respect to track coordinates
       ! [xyz]cp_tr [mm]   location of contact reference point m_ref (m_cp) in terms of track coordinates
       ! deltcp_tr  [rad]  contact angle: roll angle from track vertical to contact reference normal direction
-      ! [xyz]cp_r  [mm]   location of contact reference point m_ref (m_cp) in terms of right rail coordinates
+      ! [xyz]cp_r  [mm]   location of contact reference point m_ref (m_cp) in terms of rail coordinates
       ! scp_r      [mm]   position of the contact reference point measured along the curved rail surface
-      ! deltcp_r   [rad]  roll angle from right rail vertical to contact reference normal direction
-      ! [xyz]cp_w  [mm]   location of contact reference point m_ref (m_cp) in terms of right wheel coordinates
+      ! deltcp_r   [rad]  roll angle from rail vertical to contact reference normal direction
+      ! [xyz]cp_w  [mm]   location of contact reference point m_ref (m_cp) in terms of wheel coordinates
       ! scp_w      [mm]   position of the contact reference point measured along the curved wheel surface
-      ! deltcp_w   [rad]  roll angle from right wheel vertical to contact reference normal direction
-      ! [xy]o_spin [mm]   offset from super-grid pot.contact origin to contact reference position
+      ! deltcp_w   [rad]  roll angle from wheel vertical to contact reference normal direction
+      ! [xyz]cp_pot [mm]  location of contact reference point m_ref (m_cp) wrt m_pot, origin of pot.contact
+      ! deltcp_pot [rad]  roll angle from pot.contact normal to contact reference normal direction
       ! wrkdir            optional 'effective working folder' for experiment, can be an absolute path or
       !                   relative to the program's working folder
       ! outdir            optional folder for output files, can be an absolute path or relative to wrkdir
@@ -1423,6 +1425,11 @@ contains
       m%zcp_w     = 0d0
       m%scp_w     = 0d0
       m%deltcp_w  = 0d0
+
+      m%xcp_pot     = 0d0
+      m%ycp_pot     = 0d0
+      m%zcp_pot     = 0d0
+      m%deltcp_pot  = 0d0
    endif
 
    end subroutine meta_init

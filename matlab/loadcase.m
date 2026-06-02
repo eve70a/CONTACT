@@ -13,7 +13,7 @@ function [ s1, s2, s3, s4, s5, s6, s7, s8, s9, s10 ] = loadcase( expnam, icase, 
 %             default: 0 when nargin<=1, -1 when nargin>1
 % s1,...    = structure(s) with results of the computation
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -147,7 +147,7 @@ function [ sol ] = fill_struct(tmp, fname)
 % check the file format
 
 fmtmat = tmp(1,end);
-if (fmtmat>2410)
+if (fmtmat>2610)
    disp('ERROR: the mat-file is created with a newer version of CONTACT.');
    disp('       Please use the corresponding version of this Matlab script.');
    sol=[];
@@ -178,6 +178,12 @@ if (fmtmat>=2320)
    sol.meta.roll_w   = tmp(irow,4);     % orientation of wheel marker wrt track reference
    sol.meta.yaw_w    = tmp(irow,5);
    sol.meta.rnom_whl = tmp(irow,6);
+   if (fmtmat>=2610)
+      sol.meta.xcp_pot = tmp(irow,7);   % position of contact ref.point wrt pot.contact origin
+      sol.meta.ycp_pot = tmp(irow,8);
+      sol.meta.zcp_pot = tmp(irow,9);
+      sol.meta.deltcp_pot = tmp(irow,10);
+   end
    irow = irow + 1;
 
    sol.meta.xcp_r    = tmp(irow,1);     % position of contact ref.point wrt rail marker
@@ -189,8 +195,12 @@ if (fmtmat>=2320)
    sol.meta.zcp_w    = tmp(irow,7);
    sol.meta.npatch   = tmp(irow,8);
    sol.meta.ipatch   = tmp(irow,9);
-   sol.meta.spinxo   = tmp(irow,10);
-   sol.meta.spinyo   = tmp(irow,11);
+   if (fmtmat<2610)
+      sol.meta.xcp_pot = tmp(irow,10);
+      sol.meta.ycp_pot = tmp(irow,11);
+      sol.meta.zcp_pot = 0;
+      sol.meta.deltcp_pot = 0;
+   end
    irow = irow + 1;
 elseif (fmtmat>=1801)
    sol.meta.tim      = tmp(irow,1);     % time: may be provided by calling program
@@ -217,8 +227,10 @@ elseif (fmtmat>=1801)
    sol.meta.ipatch   = tmp(irow,9);
    sol.meta.rnom_whl = tmp(irow,10);
    sol.meta.rnom_rol = tmp(irow,11);
-   sol.meta.spinxo   = 0;
-   sol.meta.spinyo   = 0;
+   sol.meta.xcp_pot  = 0;
+   sol.meta.ycp_pot  = 0;
+   sol.meta.zcp_pot  = 0;
+   sol.meta.deltcp_pot = 0;
    irow = irow + 1;
 else
    sol.meta.tim      = 0;
@@ -243,8 +255,10 @@ else
    sol.meta.ipatch   = 0;
    sol.meta.rnom_whl = 460;
    sol.meta.rnom_rol = 800;
-   sol.meta.spinxo   = 0;
-   sol.meta.spinyo   = 0;
+   sol.meta.xcp_pot  = 0;
+   sol.meta.ycp_pot  = 0;
+   sol.meta.zcp_pot  = 0;
+   sol.meta.deltcp_pot = 0;
    if (fmtmat>=1401)
       sol.meta.tim      = tmp(irow,1);
       sol.meta.xcp_r    = tmp(irow,2);
@@ -300,13 +314,12 @@ else
    sol.kincns.t_digit = tmp(irow,1);
    sol.mater.m_digit  = tmp(irow,2);
    sol.mater.gg       = tmp(irow,3:4);
-   sol.mater.poiss    = tmp(irow,5:6); % note: poiss(2) n.a. when m_digit==2 or 3
+   sol.mater.poiss    = tmp(irow,5:6); % note: poiss(2) n.a. when m_digit==2,3 or 5
    if (sol.mater.m_digit==1)
       sol.mater.fg      = tmp(irow,7:8);
       sol.mater.tc      = tmp(irow,9:10);
-   elseif (sol.mater.m_digit==2 | sol.mater.m_digit==3 | sol.mater.m_digit==5 | sol.mater.m_digit==6 | ...
-           sol.mater.m_digit==7)
-      sol.mater.poiss(2)= sol.mater.poiss(1); % note: poiss(2) n.a. when m_digit==2 or 3
+   elseif (sol.mater.m_digit==2 | sol.mater.m_digit==3 | sol.mater.m_digit==5)
+      sol.mater.poiss(2)= sol.mater.poiss(1); % note: poiss(2) n.a. when m_digit==2,3 or 5
       sol.mater.flx     = tmp(irow,6:8);
       sol.mater.k0_mf   = tmp(irow,9);
       sol.mater.alfamf  = tmp(irow,10);

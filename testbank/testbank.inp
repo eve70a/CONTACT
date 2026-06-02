@@ -424,7 +424,7 @@
 
   1  MODULE
  1203100    C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
- 1101031    V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
+ 1101031  100   V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
  0101321    H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
  15.8750     0    1435.10   0.000               GAUGHT, GAUGSQ, GAUGWD, CANT
  'profiles/avg_low2.ban'   1  1.   10.0  0  1   RFNAME, MIRRORY, SCALE, SMOOTH, MIRRORZ, PRFOPT
@@ -624,7 +624,7 @@
 
 % Pictures for illustrating multiple patches and combination in user guide
 
-% Case 33: - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 4 - 8
+% Case 33: - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 3 - 6
 
  1  MODULE
  1203000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
@@ -647,7 +647,7 @@
   15000.00       0.000000       0.000000                  % VS, VY, VZ
   0.000000       0.000000      -32.10000                  % VROLL, VYAW, FX
 
-% Case 34: - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 8 - 12
+% Case 34: - Planar, Weighted reference method, z_ws 1.17 mm, combination distance 6 - 10
 
  1  MODULE
  1203000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
@@ -655,13 +655,13 @@
  0101321        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
   0.400    0.400    1.000    90d   10.0    6.0   14.0     DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN
 
-% Case 35: - Conformal contact method, combination distance 20 - 30
+% Case 35: - Conformal contact method, combination distance 20 - 30, no turning in conf.contact
 
  1  MODULE
  1203000        C-P-B-T-N-F-S  CONFIG, PVTIME, BOUND, TANG, NORM, FORCE, STRESS
  1141000        V-L-D-C-M-Z-E  VARFRC, FRCLAW, DISCNS, INFLCF, MATER, ZTRACK, EWHEEL
  0101321        H-G-I-A-O-W-R  HEAT, GAUSEI, IESTIM, MATFIL, OUTPUT, FLOW, RETURN
-  0.400   0.400     1.000    90d   30.0   20.0   40.0     DX, DS, DQREL, A_SEP, D_SEP, D_COMB, D_TURN
+  0.400   0.400     1.000    90d   30.0   20.0            DX, DS, DQREL, A_SEP, D_SEP, D_COMB
 
 % Case 36: - Massless rail F=3 with N=0, producing dy_defl = 0.7, dz_defl = 1.0
 

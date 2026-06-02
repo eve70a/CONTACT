@@ -372,7 +372,7 @@ contains
  8307    format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 1x,'FX',a,    1x,'FY',a,    3x,'CPHI',/, &
                  2x, 2g12.4, 4a12)
 
-         if (max(abs(gd%kin%spinxo),abs(gd%kin%spinyo)).ge.tiny) then
+         if (max(abs(gd%kin%spinxo),abs(gd%kin%spinyo)).ge.1d-10) then
             write(lout, 8401) gd%kin%spinxo, gd%kin%spinyo
          endif
  8401    format (/, 2x, 3x,'SPINXO',3x,  3x,'SPINYO',/, 2x, 2g12.4)
@@ -917,21 +917,21 @@ subroutine writmt (meta, ic, cgrid, potcon, mater, fric, kin, geom, outpt1, mirr
                 'RNOM_ROL',6x, 10(a3,:,11x))
  102  format(7g14.6, 20(i6,:,8x))
 
-      write(lmat,103, err=998) ('  -', j=8,ncol)
+      write(lmat,103, err=998) ('  -', j=11,ncol)
       write(lmat,104) meta%x_w, sgn*meta%y_w, meta%z_w, sgn*meta%roll_w, sgn*meta%yaw_w, meta%rnom_whl, &
-                (0d0, j=7,ncol)
+                meta%xcp_pot, meta%ycp_pot, meta%zcp_pot, meta%deltcp_pot, (0d0, j=11,ncol)
  103  format('%  X_W(TR)',7x, 'Y_W(TR)',7x, 'Z_W(TR)',7x, 'ROLL_W(TR)',4x, 'YAW_W(TR)',5x,              &
-                'RNOM_WHL',6x, 10(a3,:,11x))
+                'RNOM_WHL',6x, 'X_CP(POT)',5x, 'Y_CP(POT)',5x, 'Z_CP(POT)',5x, 'DELT_CP(POT)',2x,       &
+                 10(a3,:,11x))
  104  format(6g14.6, 20g14.6)
 
       ! 2: write comment and contact position
 
       write(lmat,105, err=998) ('-', j=10,ncol)
       write(lmat,106) meta%xcp_r, sgn*meta%ycp_r, meta%zcp_r, sgn*meta%deltcp_r, meta%xcp_w,            &
-                sgn*meta%ycp_w, meta%zcp_w, meta%npatch, meta%ipatch, kin%spinxo, kin%spinyo,           &
-                (0., j=12,ncol)
+                sgn*meta%ycp_w, meta%zcp_w, meta%npatch, meta%ipatch, (0., j=10,ncol)
  105  format('%  X_CP(R)',7x, 'Y_CP(R)',7x, 'Z_CP(R)',7x, 'DELT_CP(R)',4x, 'X_CP(W)',7x, 'Y_CP(W)',7x,  &
-                'Z_CP(W)',7x, 'NPATCH',8x, 'IPATCH',8x, 'SPINXO',8x, 'SPINYO',8x, 20(a3,:,11x))
+                'Z_CP(W)',7x, 'NPATCH',8x, 'IPATCH',8x, 20(a3,:,11x))
  106  format(7g14.6, 2(i6,8x), 20g14.6)
 
       ! 3: write comment and parameters for the grid discretisation used

@@ -1901,7 +1901,7 @@ function show_rw_rear_view(sol, field, opt)
    % plot contact reference point, origin of contact local coordinate system
 
    axlen = 0.1 * (sol.y(end) - sol.y(1));
-   yc = sol.meta.spinyo+[0,0,1]*axlen; zc = [1,0,0]*axlen;
+   yc = sol.meta.ycp_pot+[0,0,1]*axlen; zc = sol.meta.zcp_pot+[1,0,0]*axlen;
    if (strcmp(opt.rw_surfc,'prr'))
       [ ~, yval, zval, delta ] = cntc_to_rail_coords(sol, [], yc, zc);
    elseif (strcmp(opt.rw_surfc,'prw'))
@@ -1998,7 +1998,7 @@ function show_rw_side_view(sol, field, opt)
 
    v = axis;
    axlen = 0.03 * (v(2) - v(1));
-   xc = sol.meta.spinxo+[0,0,1]*axlen; zc = [1,0,0]*axlen;
+   xc = sol.meta.xcp_pot+[0,0,1]*axlen; zc = [1,0,0]*axlen;
    if (strcmp(opt.rw_surfc,'prr'))
       [ xval, ~, zval ] = cntc_to_rail_coords(sol, xc, [], zc);
    elseif (strcmp(opt.rw_surfc,'prw'))
@@ -2271,9 +2271,9 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
    if (nargin<3), yc = []; end
    if (nargin<4), zc = []; end
    sz = max( [ size(xc) ; size(yc) ; size(zc) ] );
-   if (isempty(xc)), xc = sol.meta.spinxo*ones(sz); end
-   if (isempty(yc)), yc = sol.meta.spinyo*ones(sz); end
-   if (isempty(zc)), zc = zeros(sz); end
+   if (isempty(xc)), xc = sol.meta.xcp_pot*ones(sz); end
+   if (isempty(yc)), yc = sol.meta.ycp_pot*ones(sz); end
+   if (isempty(zc)), zc = sol.meta.zcp_pot*ones(sz); end
 
    % reshape inputs to row vectors
 
@@ -2281,7 +2281,7 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
    xc = reshape(xc, 1, m*n);
    yc = reshape(yc, 1, m*n);
    zc = reshape(zc, 1, m*n);
-   coords = [xc - sol.meta.spinxo; yc - sol.meta.spinyo; zc];
+   coords = [xc - sol.meta.xcp_pot; yc - sol.meta.ycp_pot; zc - sol.meta.zcp_pot];
 
    % form transformation matrices and vectors
 
@@ -2302,6 +2302,15 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
 
    else
 
+      % create marker m_pot(r) from m_cp(r) and m_cp(pot)
+
+      deltpot = sol.meta.deltcp_r - sol.meta.deltcp_pot;
+      cs = cos(deltpot); sn = sin(deltpot); rot = [ cs, -sn; sn, cs ];
+      ofs = rot * [ sol.meta.ycp_pot ; sol.meta.zcp_pot ];
+      x_pot = sol.meta.xcp_r - sol.meta.xcp_pot;
+      y_pot = sol.meta.ycp_r - ofs(1);
+      z_pot = sol.meta.zcp_r - ofs(2);
+
       % mirror ProfileY for left-side w/r pairs
 
       prf_s = sol.prr.ProfileS; prf_y = sol.prr.ProfileY; prf_z = sol.prr.ProfileZ;
@@ -2309,13 +2318,13 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
          prf_s = -flipud(prf_s); prf_y = -flipud(prf_y); prf_z =  flipud(prf_z);
       end
 
-      % find oref in the rail profile
+      % find m_pot(r) in the rail profile
 
-      dst = sqrt( (prf_y-sol.meta.ycp_r).^2 + (prf_z-sol.meta.zcp_r).^2 );
+      dst = sqrt( (prf_y-y_pot).^2 + (prf_z-z_pot).^2 );
       [~,ix] = min(dst);
       rg = [max(1,ix-5) : min(length(prf_y),ix+5)];
 
-      sref = interp1(prf_y(rg), prf_s(rg), sol.meta.ycp_r);
+      sref = interp1(prf_y(rg), prf_s(rg), y_pot);
       if (isnan(sref))
          disp(sprintf('ERROR: prr seems different from prr used in simulation (needs mirroring?).'))
          sref = prf_s(ix);
@@ -2342,7 +2351,7 @@ function [ xtr, ytr, ztr, delta_tr ] = cntc_to_track_coords(sol, xc, yc, zc);
       % hack: slight raise to put the data above the surfaces
       % zc = zc - 0.3;
 
-      coords = [xc+oref(1); yr_at_s; zr_at_s] + nvec .* ([1;1;1] * zc);
+      coords = [xc+x_pot; yr_at_s; zr_at_s] + nvec .* ([1;1;1] * zc);
 
       % change coordinates from rail to track coordinates
 
@@ -2370,9 +2379,9 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
    if (nargin<3), yc = []; end
    if (nargin<4), zc = []; end
    sz = max( [ size(xc) ; size(yc) ; size(zc) ] );
-   if (isempty(xc)), xc = sol.meta.spinxo*ones(sz); end
-   if (isempty(yc)), yc = sol.meta.spinyo*ones(sz); end
-   if (isempty(zc)), zc = zeros(sz); end
+   if (isempty(xc)), xc = sol.meta.xcp_pot*ones(sz); end
+   if (isempty(yc)), yc = sol.meta.ycp_pot*ones(sz); end
+   if (isempty(zc)), zc = sol.meta.zcp_pot*ones(sz); end
 
    % reshape inputs to row vectors
 
@@ -2380,7 +2389,7 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
    xc = reshape(xc, 1, m*n);
    yc = reshape(yc, 1, m*n);
    zc = reshape(zc, 1, m*n);
-   coords = [xc - sol.meta.spinxo; yc - sol.meta.spinyo; zc];
+   coords = [xc - sol.meta.xcp_pot; yc - sol.meta.ycp_pot; zc - sol.meta.zcp_pot];
 
    % form transformation matrices and vectors
 
@@ -2408,6 +2417,15 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
 
       if (has_slcs), disp('Rail coords not supported for conformal on variable profile'); end
 
+      % create marker m_pot(r) from m_cp(r) and m_cp(pot)
+
+      deltpot = sol.meta.deltcp_r - sol.meta.deltcp_pot;
+      cs = cos(deltpot); sn = sin(deltpot); rot = [ cs, -sn; sn, cs ];
+      ofs = rot * [ sol.meta.ycp_pot ; sol.meta.zcp_pot ];
+      x_pot = sol.meta.xcp_r - sol.meta.xcp_pot;
+      y_pot = sol.meta.ycp_r - ofs(1);
+      z_pot = sol.meta.zcp_r - ofs(2);
+
       % mirror ProfileY for left-side w/r pairs
 
       prf_s = sol.prr.ProfileS; prf_y = sol.prr.ProfileY; prf_z = sol.prr.ProfileZ;
@@ -2415,13 +2433,13 @@ function [ xr, yr, zr, deltar ] = cntc_to_rail_coords(sol, xc, yc, zc);
          prf_s = -flipud(prf_s); prf_y = -flipud(prf_y); prf_z =  flipud(prf_z);
       end
 
-      % find oref in the rail profile
+      % find m_pot(r) in the rail profile
 
-      dst = sqrt( (prf_y-sol.meta.ycp_r).^2 + (prf_z-sol.meta.zcp_r).^2 );
+      dst = sqrt( (prf_y-y_pot).^2 + (prf_z-z_pot).^2 );
       [~,ix] = min(dst);
       rg = [max(1,ix-5), min(length(prf_y),ix+5)];
 
-      sref = interp1(prf_y(rg), prf_s(rg), sol.meta.ycp_r);
+      sref = interp1(prf_y(rg), prf_s(rg), y_pot);
 
       % find grid points in the rail profile
 
@@ -2463,9 +2481,9 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
    if (nargin<3), yc = []; end
    if (nargin<4), zc = []; end
    sz = max( [ size(xc) ; size(yc) ; size(zc) ] );
-   if (isempty(xc)), xc = sol.meta.spinxo*ones(sz); end
-   if (isempty(yc)), yc = sol.meta.spinyo*ones(sz); end
-   if (isempty(zc)), zc = zeros(sz); end
+   if (isempty(xc)), xc = sol.meta.xcp_pot*ones(sz); end
+   if (isempty(yc)), yc = sol.meta.ycp_pot*ones(sz); end
+   if (isempty(zc)), zc = sol.meta.zcp_pot*ones(sz); end
 
    % reshape inputs to row vectors
 
@@ -2473,7 +2491,7 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
    xc = reshape(xc, 1, m*n);
    yc = reshape(yc, 1, m*n);
    zc = reshape(zc, 1, m*n);
-   coords = [xc - sol.meta.spinxo; yc - sol.meta.spinyo; zc];
+   coords = [xc - sol.meta.xcp_pot; yc - sol.meta.ycp_pot; zc - sol.meta.zcp_pot];
 
    % form transformation matrices and vectors
 
@@ -2495,6 +2513,15 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
 
    else
 
+      % create marker m_pot(r) from m_cp(r) and m_cp(pot)
+
+      deltpot = sol.meta.deltcp_r - sol.meta.deltcp_pot;
+      cs = cos(deltpot); sn = sin(deltpot); rot = [ cs, -sn; sn, cs ];
+      ofs = rot * [ sol.meta.ycp_pot ; sol.meta.zcp_pot ];
+      x_pot = sol.meta.xcp_r - sol.meta.xcp_pot;
+      y_pot = sol.meta.ycp_r - ofs(1);
+      z_pot = sol.meta.zcp_r - ofs(2);
+
       % mirror ProfileY for left-side w/r pairs
 
       prf_s = sol.prw.ProfileS; prf_y = sol.prw.ProfileY; prf_z = sol.prw.ProfileZ;
@@ -2502,9 +2529,9 @@ function [ xw, yw, zw, deltaw ] = cntc_to_wheel_coords(sol, xc, yc, zc);
          prf_s = -flipud(prf_s); prf_y = -flipud(prf_y); prf_z =  flipud(prf_z);
       end
 
-      % change oref from rail to track to wheel coordinates
+      % change m_pot(r) from rail to track to wheel coordinates
 
-      wref = R_w' * ( o_r + R_r * oref - o_w );
+      wref = R_w' * ( o_r + R_r * [0; y_pot; z_pot] - o_w );
 
       % find wref.y in the wheel profile
 

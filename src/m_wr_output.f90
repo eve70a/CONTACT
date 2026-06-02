@@ -559,7 +559,7 @@ contains
  6305          format (2x, 3x,'CHI',6x, 3x,'DQ',7x,    3x,'VELOC',4x, 3x,'CKSI',5x, 3x,'CETA',5x,       &
                     3x,'CPHI',/, 2x, 2g12.4, 4a12)
 
-               if (max(abs(gd%kin%spinxo),abs(gd%kin%spinyo)).ge.tiny) then
+               if (max(abs(gd%kin%spinxo),abs(gd%kin%spinyo)).ge.1d-10) then
                   write(lout, 6311) gd%kin%spinxo, gd%kin%spinyo
                endif
  6311          format (/, 2x, 3x,'SPINXO',3x,  3x,'SPINYO',/, 2x, 2g12.4)
