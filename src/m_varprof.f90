@@ -1147,7 +1147,8 @@ end subroutine varprof_set_debug
 !--local variables:
       real(kind=8),   parameter :: defval = 999d0, tiny = 1d-6
       type(t_grid)              :: g_curv, g_slc, g_trim, g_out1d
-      integer                   :: ix, iy, iy0, iy1, ii, ii0, nx, ns, nline, nbefor, nafter, sub_ierror
+      integer                   :: ix, iy, iy0, iy1, ii, ii0, nx, ns, nline, nbefor, nafter, nkink,     &
+                                   ikinks(2), sub_ierror
       real(kind=8), dimension(:), allocatable :: xi
       real(kind=8)              :: xdum2d(1,1)
 
@@ -1286,7 +1287,9 @@ end subroutine varprof_set_debug
          call grid_trim(g_slc, g_trim, 1, 1, iy0, iy1, with_spline=.false.)
          ! call grid_print(g_trim, 'g_trim', 5)
 
-         call grid_make_arclength(g_trim, sub_ierror)
+         nkink = 2
+         ikinks = (/ 1, g_trim%ntot /)
+         call grid_make_arclength(g_trim, .true., nkink, ikinks, ldebug, sub_ierror)
          my_ierror = sub_ierror
 
          if (ldebug.ge.1) then
@@ -1342,7 +1345,7 @@ end subroutine varprof_set_debug
       real(kind=8),   parameter :: defval = 999d0, tiny = 1d-6
       type(t_grid)              :: g_curv, g_slc, g_trim, g_out1d
       integer                   :: ix, iy, iy0, iy1, ii, ii0, nx, ns, nline, nbefor, nafter,            &
-                                   my_ierror, sub_ierror
+                                   nkink, ikinks(2), my_ierror, sub_ierror
       real(kind=8)              :: xdum2d(1,1)
       real(kind=8), dimension(:), allocatable :: xi
 
@@ -1486,7 +1489,9 @@ end subroutine varprof_set_debug
 
          call cartgrid_2glob(g_trim, m_trk)
 
-         call grid_make_arclength(g_trim, sub_ierror)
+         nkink  = 2
+         ikinks = (/ 1, g_trim%ntot /)
+         call grid_make_arclength(g_trim, .true., nkink, ikinks, ldebug, sub_ierror)
          my_ierror = sub_ierror
 
          if (ldebug.ge.1) then
@@ -1649,7 +1654,8 @@ end subroutine varprof_set_debug
       integer,        intent(out) :: my_ierror
 !--local variables:
       real(kind=8), parameter :: defval = 999d0, tiny = 1d-6
-      integer                 :: ix, iv, iv0, iv1, is, ii, nv, nline, nbefor, nafter, sub_ierror
+      integer                 :: ix, iv, iv0, iv1, is, ii, nv, nline, nbefor, nafter, nkink,            &
+                                 ikinks(2), sub_ierror
       real(kind=8)            :: xi(nx), xdum2d(1,1)
       type(t_grid)            :: g_trim
 
@@ -1766,7 +1772,9 @@ end subroutine varprof_set_debug
          call grid_destroy(g_trim)
 
          ! call write_log(' ...grid_make_arclength')
-         call grid_make_arclength(g_out, sub_ierror)
+         nkink  = 2
+         ikinks = (/ 1, g_out%ntot /)
+         call grid_make_arclength(g_out, .true., nkink, ikinks, ldebug, sub_ierror)
          my_ierror = sub_ierror
 
          ! call grid_print(g_out, 'g_slc', 5)
