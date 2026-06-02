@@ -847,7 +847,6 @@ subroutine cntc_setFlags(ire, icp, lenflg, params, values) &
 
          call write_log(' ERROR: the M-digit cannot be set by cntc_setflags (anymore).')
          call write_log('        use cntc_setmaterialparameters instead.')
-         ! my_ic%mater  = max(0, min(7, values(i)))
 
       elseif (params(i).eq.CNTC_ic_ztrck2) then         ! set Z2-digit in the RE-CP-data
 
@@ -1270,8 +1269,6 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 !    3: modified Fastsim, 3 flexibilities  params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
 !    4: elastic + elasto-plastic 3rd body  params = [ nu1, nu2, g1, g2, g3, laythk, tau_c0, k_tau ]
 !    5: modified FaStrip                   params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
-!    6: original FaStrip                   params = [ nu1, nu2, g1, g2 ]
-!    7: original FaStrip + full sliding    params = [ nu1, nu2, g1, g2 ]
 ! dimensions: nu1, nu2        [-],        g1, g2    [force/area],   
 !             fg1, fg2        [-],        vt1, vt2  [time],
 !             flx         [volume/force], k0_mf, alfamf, betamf [-], 
@@ -1296,7 +1293,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
    integer,      intent(in) :: nparam         ! number of parameters in rparam
    real(kind=8), intent(in) :: rparam(nparam) ! material parameters, dependent on m-digit
 !--local variables:
-   integer, parameter  :: nparam_loc(0:32) = (/ 4, 8, 8, 7, 8, 7, 4, 4, 0, 0,                           &
+   integer, parameter  :: nparam_loc(0:32) = (/ 4, 8, 8, 7, 8, 7, 0, 0, 0, 0,                           &
                                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,                           &
                                                 0, 0, 4, 0, 0, 0, 0, 0, 0, 0,                           &
                                                 0, 0, 3  /)
@@ -1313,7 +1310,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
 
    ! check value of M-digit. 
 
-   set_m_digit  = (imeth.ge. 0 .and. imeth.le. 7)
+   set_m_digit  = (imeth.ge. 0 .and. imeth.le. 5)
    set_m2_digit = (imeth.ge.20 .and. imeth.le.22)
    set_m3_digit = (imeth.ge.30 .and. imeth.le.32)
    if (.not.set_m_digit .and. .not.set_m2_digit .and. .not.set_m3_digit) then
@@ -1478,7 +1475,7 @@ subroutine cntc_setMaterialParameters(ire, icp, imeth, nparam, rparam) &
          call write_log(1, bufout)
       endif
 
-   endif ! imeth>=10 (M2-digit)
+   endif ! (M-digit / M2-digit / M3-digit)
 
    if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_setMaterialParameters
@@ -4079,9 +4076,9 @@ subroutine cntc_getFlags(ire, icp, lenflg, params, values) &
 
          values(i) = my_ic%frclaw_inp
 
-      elseif (params(i).eq.CNTC_ic_discns) then         ! get D-digit from the RE-CP-data
+      elseif (params(i).eq.CNTC_ic_discns) then         ! get effective D-digit from the RE-CP-data
 
-         values(i) = my_ic%discns1_inp
+         values(i) = my_ic%discns1_eff
 
       elseif (params(i).eq.CNTC_ic_npomax) then         ! get max. #elements in potential contact (mod. 1)
 

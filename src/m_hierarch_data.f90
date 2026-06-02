@@ -110,8 +110,7 @@ public
 
    ! codes for the different solvers
 
-   integer, parameter :: isolv_fastrp_full = -7, isolv_fastrp_orig = -6, isolv_modf_fastrp = -5,        &
-                         isolv_fastsm =  0, isolv_normcg =  1,                                          &
+   integer, parameter :: isolv_fastrp = -5, isolv_fastsm =  0, isolv_normcg =  1,                       &
                          isolv_tangcg =  2, isolv_cnvxgs =  3, isolv_stdygs =  4,                       &
                          isolv_gdstdy =  7
 
@@ -295,8 +294,6 @@ public
       !              3 = simplified theory with flexibilities L1,L2,L3.
       !              4 = linearly elastic material + elasto-plastic third body layer
       !              5 = Modified FaStrip method, combination of strip theory + simplified theory
-      !         tmp  6 = Original FaStrip method cf. Sichani
-      !         tmp  7 = Original FaStrip method + Full sliding correction
       !              6 = reserved (pseudo-viscous damping)
       !              7 = reserved (vertical slice/gap)
       !              Note: the m-digit is copied to t_material

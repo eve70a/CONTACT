@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_stang - set-up of tangential contact problem and TANG algorithm calling the actual solvers
 !
-! Copyright 1979-2023 by Vtech CMCC.
+! Copyright 1979-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ public  stang_empty
 contains
 
 !------------------------------------------------------------------------------------------------------------
-   subroutine stang (ic, mater, hz, pot, cgrid, fric, kin, solv, outpt1, ittang, hs1, infl)
+   subroutine stang (ic, mater, cgrid, fric, kin, solv, outpt1, ittang, hs1, infl)
 !--purpose: Tang calculates the tangential traction ps(i,ik), i=1..npot, ik=1,2, with the normal
 !           pressure and contact area fixed. This normal pressure is not affected.
 !           The kind of problem (shift, transient/steady rolling) is specified by ic%tang.
@@ -33,8 +33,6 @@ contains
 !--subroutine parameters :
       type(t_ic)               :: ic
       type(t_material)         :: mater
-      type(t_hertz)            :: hz
-      type(t_potcon)           :: pot
       type(t_grid)             :: cgrid
       type(t_friclaw)          :: fric
       type(t_kincns)           :: kin
@@ -70,7 +68,7 @@ contains
       frclaw     = fric%frclaw_eff
       use_out_it = ((frclaw.ge.2 .and. frclaw.le.4) .or. frclaw.eq.6)
 
-      if (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5 .or. ic%mater.eq.6 .or. ic%mater.eq.7) then
+      if (ic%mater.eq.2 .or. ic%mater.eq.3 .or. ic%mater.eq.5) then
          call write_log(' Internal error: stang called for Fastsim/Fastrip')
          call abort_run()
       endif
@@ -143,7 +141,7 @@ contains
 
       ! Set the actual solver to be used
       !   M  = 2, 3    : FASTSIM
-      !   M  = 5, 6, 7 : FASTRIP
+      !   M  = 5       : FASTRIP
       !   G  = 0, 4    : default solver
       !                   T = 3            : SteadyGS
       !                   T = 1, 2, M = 4  : ConvexGS
@@ -155,11 +153,7 @@ contains
       if (mater%mater_eff.eq.2 .or. mater%mater_eff.eq.3) then
          solv%solver_eff = isolv_fastsm
       elseif (mater%mater_eff.eq.5) then
-         solv%solver_eff = isolv_modf_fastrp    ! 5: new Modified FaStrip algorithm
-      elseif (mater%mater_eff.eq.6) then
-         solv%solver_eff = isolv_fastrp_orig    ! 6: original FaStrip cf. Matin Sichani
-      elseif (mater%mater_eff.eq.7) then
-         solv%solver_eff = isolv_fastrp_full    ! 7: original FaStrip with full sliding correction
+         solv%solver_eff = isolv_fastrp
       elseif (is_ssrol) then
          if (solv%gausei_eff.eq.5 .and. ixsta.eq.1) then
             if (ixsta.ne.1) then
@@ -403,7 +397,7 @@ contains
                                  wsfix1, tmp, tmp, tmp, ss1)
             endif
 
-            call solvpt(ic, mater, hz, pot, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg,   &
+            call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg,            &
                         outpt1, imeth, info, it, errpt)
             itgs = itgs + it
 
@@ -725,8 +719,7 @@ contains
 
       if (ic%sens.ge.3) then
          call timer_start(itimer_sens)
-         call sens_tang(ic, hz, pot, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, npot, k, iel,   &
-                        wsfix1)
+         call sens_tang(ic, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, npot, k, iel, wsfix1)
          call timer_stop(itimer_sens)
       endif
 
@@ -1123,7 +1116,7 @@ contains
                ww = (ss%vx(ii) * ps%vx(ii) + ss%vy(ii) * ps%vy(ii))
                pabs = max(1d-9, dsqrt(ps%vx(ii)**2+ps%vy(ii)**2))
                sabs = max(1d-9, dsqrt(ss%vx(ii)**2+ss%vy(ii)**2))
-               angl = acos(ww/(pabs*sabs)) * 180d0/pi
+               angl = acos(max(-1d0,ww/(pabs*sabs))) * 180d0/pi
                if (isnan(angl)) then
                   write(lout,*) 'NaN:', ps%vx(ii), ps%vy(ii), pabs
                   write(lout,*) '    ', ss%vx(ii), ss%vy(ii), sabs
@@ -1166,7 +1159,7 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-   subroutine stang_fastsim (ic, mater, hz, pot, cgrid, fric, kin, solv, outpt1, ittang, hs1, infl)
+   subroutine stang_fastsim (ic, mater, cgrid, fric, kin, solv, outpt1, ittang, hs1, infl)
 !--purpose: Tang calculates the tangential traction ps(i,ik), i=1..npot, ik=1,2, with the normal
 !           pressure and contact area fixed. This normal pressure is not affected.
 !           The kind of problem (shift, transient/steady rolling) is specified by ic%tang.
@@ -1175,8 +1168,6 @@ contains
 !--subroutine parameters :
       type(t_ic)               :: ic
       type(t_material)         :: mater
-      type(t_hertz)            :: hz
-      type(t_potcon)           :: pot
       type(t_grid)             :: cgrid
       type(t_friclaw)          :: fric
       type(t_kincns)           :: kin
@@ -1213,7 +1204,7 @@ contains
 
       ! check restrictions
 
-      if (ic%mater.lt.2 .or. ic%mater.gt.7 .or. ic%mater.eq.4) then
+      if (ic%mater.lt.2 .or. ic%mater.eq.4 .or. ic%mater.gt.5) then
          call write_log(' ERROR: tang_fastsim should only be called for Fastsim or FaStrip.')
          call abort_run()
       endif
@@ -1231,10 +1222,6 @@ contains
             call write_log(' TANG: TRANSIENT ROLLING CONTACT USING FASTSIM')
          elseif (ic%tang.eq.3 .and. ic%mater.eq.5) then
             call write_log(' TANG: STEADY STATE ROLLING BY THE MODIFIED FASTRIP APPROACH')
-         elseif (ic%tang.eq.3 .and. ic%mater.eq.6) then
-            call write_log(' TANG: STEADY STATE ROLLING BY THE ORIGINAL FASTRIP APPROACH')
-         elseif (ic%tang.eq.3 .and. ic%mater.eq.7) then
-            call write_log(' TANG: STEADY STATE ROLLING BY ORIGINAL FASTRIP + FULL SLIDING CORRECTION')
          elseif (ic%tang.eq.3) then
             call write_log(' TANG: STEADY STATE ROLLING BY THE FASTSIM APPROACH')
          endif
@@ -1276,14 +1263,10 @@ contains
 
       ! Set the actual solver to be used
       !   M  = 2, 3    : FASTSIM
-      !   M  = 5, 6, 7 : FASTRIP
+      !   M  = 5       : FASTRIP
 
       if (ic%mater.eq.5) then
-         solv%solver_eff = isolv_modf_fastrp   ! 5: new Modified FaStrip algorithm
-      elseif (ic%mater.eq.6) then
-         solv%solver_eff = isolv_fastrp_orig    ! 6: original FaStrip cf. Matin Sichani
-      elseif (ic%mater.eq.7) then
-         solv%solver_eff = isolv_fastrp_full    ! 7: original FaStrip with full sliding correction
+         solv%solver_eff = isolv_fastrp
       else
          solv%solver_eff = isolv_fastsm
       endif
@@ -1298,7 +1281,7 @@ contains
                            tmp, tmp, tmp, ss1)
       endif
 
-      call solvpt(ic, mater, hz, pot, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg, outpt1, &
+      call solvpt(ic, mater, cgrid, npot, k, iel, fric, kin, solv, wsfix1, infl, ledg, outpt1,          &
                   imeth, info, it, errpt)
 
       if (ic%x_nmdbg.ge.5) then
@@ -1325,8 +1308,7 @@ contains
 
       if (ic%sens.ge.3) then
          call timer_start(itimer_sens)
-         call sens_tang(ic, hz, pot, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, npot, k, iel,   &
-                        wsfix1)
+         call sens_tang(ic, cgrid, mater, fric, kin, solv, infl, ledg, outpt1, npot, k, iel, wsfix1)
          call timer_stop(itimer_sens)
       endif
 
@@ -1374,10 +1356,6 @@ contains
             call write_log(' TANG: STEADY STATE ROLLING BY THE FASTSIM APPROACH')
          elseif (ic%mater.eq.5) then
             call write_log(' TANG: STEADY STATE ROLLING BY THE MODIFIED FASTRIP APPROACH')
-         elseif (ic%mater.eq.6) then
-            call write_log(' TANG: STEADY STATE ROLLING BY THE ORIGINAL FASTRIP APPROACH')
-         elseif (ic%mater.eq.7) then
-            call write_log(' TANG: STEADY STATE ROLLING BY ORIGINAL FASTRIP + FULL SLIDING CORRECTION')
          elseif (ic%tang.eq.1) then
             call write_log(' TANG: SHIFT TRANSIENT')
          elseif (ic%tang.eq.2) then

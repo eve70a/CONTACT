@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_scontc - driver routine for solving a basic contact problem (module 3)
 !
-! Copyright 1979-2023 by Vtech CMCC.
+! Copyright 1979-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ contains
          ! call print_fld(outpt1%ps, ikZDIR)
 
          if (idebug.ge.5) call write_log(' contac: calling panprc')
-         call panprc (ic, ihertz, mater, hertz, potcon_cur, cgrid, influ, fric, kin, solv, outpt1, geom)
+         call panprc (ic, ihertz, mater, potcon_cur, cgrid, influ, fric, kin, solv, outpt1, geom)
 
          ! TODO: fill outputs uv, sv, uplv, taucv, etc. in steady rolling problems
 
@@ -353,14 +353,13 @@ contains
 
 !------------------------------------------------------------------------------------------------------------
 
-      subroutine panprc(ic, ihertz, mater, hertz, potcon, cgrid, infl, fric, kin, solv, outpt1, geom)
+      subroutine panprc(ic, ihertz, mater, potcon, cgrid, infl, fric, kin, solv, outpt1, geom)
 !--purpose: Implement Panagiotopoulos-process, alternatively compute normal and tangential stresses,
 !           with the other stresses fixed.
       implicit none
 !--subroutine arguments:
       type(t_ic)              :: ic
       type(t_material)        :: mater
-      type(t_hertz)           :: hertz
       type(t_potcon)          :: potcon
       type(t_grid)            :: cgrid
       type(t_geomet)          :: geom
@@ -484,7 +483,7 @@ contains
             ! Using Fastsim: Compute the new tangential traction, Pan.process is done
 
             if (idebug.ge.5) call write_log('panprc: call stang_fastsim...')
-            call stang_fastsim (ic, mater, hertz, potcon, cgrid, fric, kin, solv, outpt1, it, hs1, infl)
+            call stang_fastsim (ic, mater, cgrid, fric, kin, solv, outpt1, it, hs1, infl)
             if (idebug.ge.5) call write_log('panprc: returned from stang_fastsim')
             solv%ittang = solv%ittang + it
             dif = 0d0
@@ -494,7 +493,7 @@ contains
             ! Else: Compute the new tangential traction
 
             if (idebug.ge.5) call write_log('panprc: call stang...')
-            call stang (ic, mater, hertz, potcon, cgrid, fric, kin, solv, outpt1, it, hs1, infl)
+            call stang (ic, mater, cgrid, fric, kin, solv, outpt1, it, hs1, infl)
             if (idebug.ge.5) call write_log('panprc: returned from stang')
             if (it.ge.0) then
                solv%ittang = solv%ittang + it

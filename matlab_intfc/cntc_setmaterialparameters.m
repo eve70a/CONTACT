@@ -11,8 +11,6 @@
 %    3: modified Fastsim, 3 flexibilities  params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
 %    4: elastic + elasto-plastic 3rd body  params = [ nu1, nu2, g1, g2, g3, laythk, tau_c0, k_tau ]
 %    5: modified FaStrip                   params = [ nu1, nu2, g1, g2, k0_mf, alfamf, betamf ]
-%    6: original FaStrip                   params = [ nu1, nu2, g1, g2 ]
-%    7: original FaStrip + full sliding    params = [ nu1, nu2, g1, g2 ]
 % dimensions: nu1, nu2        [-],        g1, g2    [force/area],   
 %             fg1, fg2        [-],        vt1, vt2  [time],
 %             flx         [volume/force], k0_mf, alfamf, betamf [-], 
