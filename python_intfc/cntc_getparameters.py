@@ -1,14 +1,14 @@
-
 #------------------------------------------------------------------------------------------------------------
 # function [ values ] = cntc_getparameters(ire, icp, itask)
 #
 # used for retrieving various parameters from a contact problem
 #
-#  itask       - selected group of parameters (1: cntc_getcpresults, 2: material, 3: friction)
+#  itask       - selected group of parameters (1: cntc_getcpresults, 2: material, 3: friction,
+#                                              4: track dimensions, 5: wheelset dimensions)
 #  values      - values of the parameters obtained from CONTACT
 #------------------------------------------------------------------------------------------------------------
 
-# Copyright 2008-2023 by Vtech CMCC.
+# Copyright 2008-2026 by Vtech CMCC.
 #
 # Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -36,12 +36,14 @@ def cntc_getparameters(ire, icp, itask):
 
     values = {}
     if (itask==1):
-        values['veloc' ] = tmparr[ 1-1]
-        values['chi'   ] = tmparr[ 2-1]
-        values['dq'    ] = tmparr[ 3-1]
-        values['spinxo'] = tmparr[ 4-1]
-        values['spinyo'] = tmparr[ 5-1]
-        values['tau_c0'] = tmparr[ 6-1]
+        values['veloc' ]  = tmparr[ 1-1]
+        values['chi'   ]  = tmparr[ 2-1]
+        values['dq'    ]  = tmparr[ 3-1]
+        values['xcp_pot'] = tmparr[ 4-1]
+        values['ycp_pot'] = tmparr[ 5-1]
+        values['zcp_pot'] = tmparr[ 6-1]
+        values['deltcp_pot'] = tmparr[ 7-1]
+        values['tau_c0']  = tmparr[ 8-1]
     elif (itask==2):
         values['gg1'   ] = tmparr[ 1-1]
         values['gg2'   ] = tmparr[ 2-1]
@@ -73,6 +75,20 @@ def cntc_getparameters(ire, icp, itask):
         values['alpha' ] = [ tmparr[ 5+3*i-1] for i in range(values['nvf']) ]
         values['fstat' ] = [ tmparr[ 6+3*i-1] for i in range(values['nvf']) ]
         values['fkin'  ] = [ tmparr[ 7+3*i-1] for i in range(values['nvf']) ]
+    elif (itask==4):
+        values['gaught']  = tmparr[ 1-1]
+        values['gaugsq']  = tmparr[ 2-1]
+        values['gaugwd']  = tmparr[ 3-1]
+        values['cant']    = tmparr[ 4-1]
+        values['curv']    = tmparr[ 5-1]
+        values['raily0']  = tmparr[ 6-1]
+        values['railz0']  = tmparr[ 7-1]
+        values['nomradr'] = tmparr[ 8-1]
+    elif (itask==5):
+        values['fbdist']  = tmparr[ 1-1]
+        values['fbpos']   = tmparr[ 2-1]
+        values['nomradw'] = tmparr[ 3-1]
+        values['ytape']   = tmparr[ 4-1]
 
     return values
 

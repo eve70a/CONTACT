@@ -651,7 +651,8 @@ end subroutine cntc_getFlags
 subroutine cntc_getParameters(ire, icp, itask, lenarr, values) &
    bind(c,name=CNAME_(cntc_getparameters))
 !--function: internal routine for retrieving various parameters from a contact problem
-!            itask: selected group of parameters (1: cntc_getcpresults, 2: material, 3: friction)
+!            itask: selected group of parameters
+!                    1: cntc_getcpresults, 2: material, 3: friction, 4: track, 5: wheelset
 !--subroutine arguments:
    integer,      intent(in)  :: ire            ! result element ID
    integer,      intent(in)  :: icp            ! contact problem ID

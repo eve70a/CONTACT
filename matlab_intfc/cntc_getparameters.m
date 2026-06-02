@@ -4,7 +4,8 @@
 %
 % used for retrieving various parameters from a contact problem
 %
-%  itask          - selected group of parameters (1: cntc_getcpresults, 2: material, 3: friction)
+%  itask          - selected group of parameters (1: cntc_getcpresults, 2: material, 3: friction,
+%                                                 4: track dimensions, 5: wheelset dimensions)
 %  values         - values of the parameters obtained from CONTACT
 %------------------------------------------------------------------------------------------------------------
 
@@ -35,12 +36,14 @@ function [ values ] = cntc_getparameters(ire, icp, itask)
    tmp    = p_values.value;
    values = struct();
    if (itask==1)
-      values.veloc  = tmp( 1);
-      values.chi    = tmp( 2);
-      values.dq     = tmp( 3);
-      values.spinxo = tmp( 4);
-      values.spinyo = tmp( 5);
-      values.tau_c0 = tmp( 6);
+      values.veloc   = tmp( 1);
+      values.chi     = tmp( 2);
+      values.dq      = tmp( 3);
+      values.xcp_pot = tmp( 4);
+      values.ycp_pot = tmp( 5);
+      values.zcp_pot = tmp( 6);
+      values.deltcp_pot = tmp( 7);
+      values.tau_c0  = tmp( 8);
    elseif (itask==2)
       values.gg1    = tmp( 1);
       values.gg2    = tmp( 2);

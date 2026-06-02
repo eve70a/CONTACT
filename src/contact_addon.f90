@@ -4203,12 +4203,14 @@ subroutine cntc_getParameters(ire, icp, itask, lenarr, values) &
 
       ! 1: parameters used by plot3d
 
-   if (lenarr.ge.1) values(1) = gd%kin%veloc    / my_scl%veloc
-   if (lenarr.ge.2) values(2) = gd%kin%chi      / my_scl%angle
-   if (lenarr.ge.3) values(3) = gd%kin%dq       / my_scl%len
-   if (lenarr.ge.4) values(4) = gd%kin%spinxo   / my_scl%len
-   if (lenarr.ge.5) values(5) = gd%kin%spinyo   / my_scl%len
-   if (lenarr.ge.6) values(6) = gd%mater%tau_c0 * my_scl%area
+      if (lenarr.ge.1) values(1) = gd%kin%veloc    / my_scl%veloc
+      if (lenarr.ge.2) values(2) = gd%kin%chi      / my_scl%angle
+      if (lenarr.ge.3) values(3) = gd%kin%dq       / my_scl%len
+      if (lenarr.ge.4) values(4) = gd%meta%xcp_pot / my_scl%len
+      if (lenarr.ge.5) values(5) = gd%meta%ycp_pot / my_scl%len
+      if (lenarr.ge.6) values(6) = gd%meta%zcp_pot / my_scl%len
+      if (lenarr.ge.7) values(7) = gd%meta%deltcp_pot / my_scl%angle
+      if (lenarr.ge.8) values(8) = gd%mater%tau_c0 * my_scl%area
 
    elseif (itask.eq.2) then
 

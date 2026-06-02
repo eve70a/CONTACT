@@ -5,7 +5,7 @@
 % get results of a single contact patch in the form used by loadcase and plot3d
 %------------------------------------------------------------------------------------------------------------
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -56,8 +56,10 @@ function [ sol ] = cntc_getcpresults(ire, icp)
    sol.kincns.chi    = values.chi;
    sol.kincns.dq     = values.dq;
    sol.meta          = struct();
-   sol.meta.spinxo   = values.spinxo;
-   sol.meta.spinyo   = values.spinyo;
+   sol.meta.xcp_pot  = values.xcp_pot;
+   sol.meta.ycp_pot  = values.ycp_pot;
+   sol.meta.zcp_pot  = values.zcp_pot;
+   sol.meta.deltcp_pot = values.deltcp_pot;
    sol.mater.tau_c0  = values.tau_c0;
    use_plast = (sol.mater.m_digit==4 & (sol.mater.tau_c0>1e-10 & sol.mater.tau_c0<1e10));
 
