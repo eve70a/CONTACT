@@ -775,10 +775,6 @@ $^*$ Option ${\tt C}_3=9$ is not available in module 1.
 \item[5] -- Modified FaStrip method, combination of strip theory and
         simplified theory (\S \ref{sec:fastsim});
 \magenta{
-\item[6] -- temporary, for testing purposes: Original FaStrip method cf.\
-        Sichani \cite{Sichani2016b-fastrip}.
-\item[7] -- temporary, for testing purposes: Original FaStrip method with
-        `full sliding correction'.
 \item[6] -- reserved for pseudo-viscous damping;
 \item[7] -- reserved for two quarter-spaces with vertical gap in between.
 }
@@ -1499,21 +1495,16 @@ shown in Figure \ref{fig:profile_errors}.
         such cases and reject the profile with an error code/error message.
 \item Figure \ref{fig:profile_errors} (b) shows a `zig-zag pattern' that
         happens due to improper stitching of profile sections. The same
-        point is repeated as the end-point of one section and the beginning
-        of the next one, with slight offset in coordinate values. CONTACT
-        will detect this pattern, delete the two points, and replace by the
-        average of the two.
+        data point is repeated as the end-point of one section and the
+        beginning of the next one, with slight offset in coordinate values.
+        CONTACT will detect this pattern, delete the two points, and insert
+        the average of the two positions.
 \item Figure \ref{fig:profile_errors} (d) shows irregular data in a wheel
         profile, at the bottom of the flange. This happens due to the
         measurement system producing mixed signals in this region.
         The feature may be kept in the profile as long as there's no
         contact at the bottom of the flange. Else, it may be attenuated or
         removed using profile smoothing.
-%\item Figure \ref{fig:profile_errors} (c) shows a wheel profile with an
-%        anomalous `dolphin nose shape'. This may have been introduced by
-%        discarding of points with apparent measurement error (cf.\ situation
-%        (d)) followed by agressive smoothing. CONTACT cannot detect and
-%        repair this situation.
 \item Figure \ref{fig:profile_errors} (e) shows a local dent in the rail
         side face. It is up to the user to decide whether this feature
         is real and should be kept in the profile, or unwanted and to be
@@ -1548,6 +1539,7 @@ the low threshold.
 \inpvar{KINKLOW}{\bunit{rad}}{Angle threshold $\Delta\alpha_{low}$ for
         neighbouring points at kink pattern detection. Default
         $\Delta\alpha_{high}/5$.}
+\inpbreak
 \inpvar{KINKWID}{\bunit{mm}}{Half-width of window used for kink pattern
         detection. Default: checking profile points within $2\unit{mm}$ on
         either side of possible kink locations.}
@@ -1621,6 +1613,7 @@ Three different smoothing methods are currently provided:
 \inpvar{ISMOOTH}{\bunit{-}}{Use smoothing method 0 (unweighted spline), 1
         (weighted with 2nd order penalty) or 2 (weighted with 3rd order
         penalty).}
+\inpbreak
 \inpvar{LAMBDA}{\bunit{-}}{Input parameter $\lambda$ for the unweighted
         smoothing spline (${\tt ismooth}=0$), using $\lambda\le 0$ to
         disable smoothing.}
@@ -1662,7 +1655,6 @@ polygonization.}
 \inpvar{U\_OFFSET}{\bunit{usr}}{Offset $u_{\ofs}$ added to input $u_{slc}$
         positions to align with track $u_{\fc}$-coordinates as used in
         CONTACT, with dimension `$\unit{usr}$' defined by the user.}
-% \inpbreak
 \inpvar{U\_SCALE}{\bunit{mm/usr}}{Multiplication factor to convert input
         $u_{slc}$ positions to $\unit{mm}$.}
 \inpvar{U\_SLC}{\bunit{usr}}{Input $u_{slc}$-position of a slice along the
@@ -8582,9 +8574,9 @@ provides a shape correction in a way that fits with the discretization
 used in CONTACT. The pressure distribution is approximated the same as in
 the KP-method, and is solved in the same way. 
 An implementation of the ANALYN method is also provided \cite{Sichani2014b}.
-For the tangential contact problem, CONTACT provides an implementation of
-Modified FASTSIM \cite{Spiryagin2013}\magenta{\ and an extended version of
-the FaStrip approach \cite{Sichani2016b-fastrip}}.
+For the tangential contact problem, CONTACT provides implementations of
+Modified FASTSIM \cite{Spiryagin2013} and the Modified FaStrip approach
+\cite{Vollebregt2025a-indicators}.
 
 Using these fast algorithms, one may benefit from CONTACT's detailed
 contact search algorithms without jeopardizing the speed of the simulation.
