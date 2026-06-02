@@ -277,19 +277,38 @@ contains
 
          write(lout, 3000)
 
-         if (trk%gauge_height.le.0d0) then
+         if (ic%config.ge.4) then
+            strng(1) = 'NOMRAD'
+            strng(2) = 'NOMRAD'
+         else
+            strng(1) = ' '
+            strng(2) = ' '
+         endif
+
+         if     (trk%gauge_height.le.0d0 .and. .not.ic%is_roller()) then
             write(lout, 3001) trk%gauge_height, trk%rail_y0, trk%rail_z0, trk%cant_angle,            &
                 fmt_gs(12,4,4,trk%track_curv)
-         else
-            write(lout, 3002) trk%gauge_height, trk%track_gauge, trk%cant_angle,                     &
+         elseif (trk%gauge_height.le.0d0 .and.      ic%is_roller()) then
+            write(lout, 3002) trk%gauge_height, trk%rail_y0, trk%rail_z0, trk%cant_angle,            &
+                fmt_gs(12,4,4,trk%track_curv), trk%nom_radius
+         elseif (                              .not.ic%is_roller()) then
+            write(lout, 3003) trk%gauge_height, trk%track_gauge, trk%cant_angle,                     &
                 fmt_gs(12,4,4,trk%track_curv)
+         else
+            write(lout, 3004) trk%gauge_height, trk%track_gauge, trk%cant_angle,                     &
+                fmt_gs(12,4,4,trk%track_curv), trk%nom_radius
          endif
 
  3000    format (/, 1x,'TRACK DIMENSIONS AND RAIL POSITION')
  3001    format (2x, 2x,'GAUGHT',3x, 3x,'RAILY0',3x, 3x,'RAILZ0',3x, 5x,'CANT',3x, 5x,'CURV',/,         &
-            f10.3, 3f12.4, a)
- 3002    format (2x, 2x,'GAUGHT',3x, 3x,'GAUGWD',3x, 5x,'CANT',3x, 5x,'CURV',/,                         &
-            f10.3, f12.3, f12.4, a)
+                     f10.3, 3f12.4, a)
+ 3002    format (2x, 2x,'GAUGHT',3x, 3x,'RAILY0',3x, 3x,'RAILZ0',3x, 5x,'CANT',3x, 5x,'CURV',3x,        &
+                     3x,'NOMRAD',/, f10.3, 3f12.4, a, f12.4)
+
+ 3003    format (2x, 2x,'GAUGHT',3x, 3x,'GAUGWD',3x, 5x,'CANT',3x, 5x,'CURV',/,                         &
+                     f10.3, f12.3, f12.4, a)
+ 3004    format (2x, 2x,'GAUGHT',3x, 3x,'GAUGWD',3x, 5x,'CANT',3x, 5x,'CURV',3x, 3x,'NOMRAD',/,         &
+                     f10.3, f12.3, f12.4, a, f12.4)
 
       endif
 

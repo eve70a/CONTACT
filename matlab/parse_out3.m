@@ -14,7 +14,7 @@ function [creep, force, subs_max] = parse_out3(fname, use_struct, idebug)
 %
 % if use_struct=0, the outputs are returned in arrays instead of structs.
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -249,6 +249,11 @@ fclose(f);
 
 if (use_struct)
    sol = struct;
+
+   if (exist('parse_hertz'))
+     sol.hertz = parse_hertz(fname, idebug);
+   end
+
    sol.creep = struct('pen',pen, 'cksi',cksi, 'ceta',ceta, 'cphi',cphi, 'uxavg',uxavg, ...
                       'ncon',ncon, 'nadh',nadh, 'nslip',nslip, 'nplast',nplast);
    sol.force = struct('fn',fn, 'fx',fx, 'fy',fy, 'mz',mz, 'elen',elen, 'fric',fric, ...
@@ -266,6 +271,7 @@ else
    creep = [pen; cksi; ceta; cphi; ncon; nadh; nslip; nplast]';
    force = [fn; fx; fy; mz; elen; fric; pmax; temp1; temp2]';
 end
+
 
 end % function parse_out3
 

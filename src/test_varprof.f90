@@ -3,7 +3,7 @@
 !
 ! Usage: test_varprof [expnam], with expnam = cross_brute, cross+wing, mbench_intrup, etc.
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -139,8 +139,8 @@ program test_varprof
    ! set track dimensions & deviations
 
    ztrack = 3
-   rvalues(1:11) = (/ -1d0, 750d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0, 0d0 /)
-   call cntc_setTrackDimensions(iwhe, ztrack, 11, rvalues)
+   rvalues(1:12) = (/ -1d0, 750d0, 0d0, 0d0, 0d0, 0d0,   0d0, 0d0, 0d0, 0d0, 0d0, 0d0 /)
+   call cntc_setTrackDimensions(iwhe, ztrack, 12, rvalues)
 
    !---------------------------------------------------------------------------------------------------------
    ! Further settings dependent on experiment name
@@ -681,7 +681,7 @@ program test_varprof
 
          rparam(1) = 0d0
          call cntc_setfrictionmethod(iwhe, icp, 1, 0, rparam)
-         call cntc_setmaterialparameters(iwhe, icp, 11, 0, rparam)
+         call cntc_setmaterialparameters(iwhe, icp, 21, 0, rparam)
          call cntc_settrackdimensions(iwhe, 0, 0, rparam)
          call cntc_setwheelsetdimensions(iwhe, 0, 0, rparam)
          call cntc_setsolverflags(iwhe, icp, 1, 0, flags, 0, rparam)

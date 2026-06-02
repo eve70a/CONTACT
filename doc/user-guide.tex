@@ -6026,7 +6026,7 @@ scripts.
 The Matlab search path must be adjusted such that our plotting programs can
 be found. This is done in Matlab with the {\tt addpath} command, e.g.
 \begin{verbatim}
->> addpath('C:\Program Files\Vtech CMCC\contact_v25.1\matlab');
+>> addpath('C:\Program Files\Vtech CMCC\contact_v26.1\matlab');
 \end{verbatim}
 This command may be put in a file `{\tt startup.m}' in your working
 directory, in your personal overall startup-file
@@ -6034,9 +6034,9 @@ directory, in your personal overall startup-file
 configuration-file (`\verb+<MAT-+ \verb+LAB>\toolbox\local\pathdef.m+').
 
 You can check whether the path is set correctly by typing
-\verb+ help contact_v25.1\matlab+. This should show the following output:
+\verb+ help contact_v26.1\matlab+. This should show the following output:
 \begin{alltt}\small
-Matlab scripts for visualisation of output of the CONTACT program (v25.1).
+Matlab scripts for visualisation of output of the CONTACT program (v26.1).
 
 Loading results into Matlab.
 
@@ -6250,13 +6250,13 @@ using rail coordinates, or {\tt 'prw'} for using the wheel surface view,
 see Figure \ref{fig:mbench_prr} for an example. The latter options require
 that rail and/or wheel profiles or filenames are provided, e.g.\
 \begin{alltt}\small
-  plot3d( s1a, opt, 'MBench_UIC60_v4.prr', 'MBench_S1002_v3.prw' );
+  plot3d( s1a, opt, 'MBench_UIC60_v3.prr', 'MBench_S1002_v3.prw' );
 \end{alltt}
 In case the profiles need additional preparations, like scaling, smoothing,
 or mirroring, they can be read and processed separately, e.g.:
 \begin{alltt}\small
   mirror_y = 1; mirror_z = -1; scale_yz = 1000;
-  prr = read_profile('MBench_UIC60_v4.prr', [], mirror_y, mirror_z, scale_yz);
+  prr = read_profile('MBench_UIC60_v3.prr', [], mirror_y, mirror_z, scale_yz);
   plot3d( s1a, opt, prr, 'MBench_S1002_v3.prw' );
 \end{alltt}
 The meaning of the other options is:
@@ -6948,7 +6948,7 @@ routines, providing appropriate options for their interpretation.
         than {\tt maxomit} of the profile points are removed during
         profile cleanup. Default $0.5$. Set to 1 to disable this error.
 \item[\tt rparam(4) - zigthrs]: angle threshold for zig-zag pattern
-        detection. Default $\pi/2\unit{rad}$. Should be larger than
+        detection. Default $5/6\,\pi\unit{rad}$. Should be larger than
         $\pi/4$, set to $\ge\pi$ to disable zig-zag detection.
 \item[\tt rparam(5) - kinkhigh]: angle threshold $\delta\alpha_{high}$ for
         kink detection. Default $\pi/6\unit{rad}$. Set to $\ge\pi$ to disable

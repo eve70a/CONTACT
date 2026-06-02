@@ -4363,7 +4363,7 @@ contains
       real(kind=8), intent(in)  :: nom_radius           ! radius in case of a roller
       real(kind=8), intent(in)  :: sgn, dx_in, ds_in    ! dx, ds: user input
 !--local variables:
-      integer        :: sub_ierror, mx, my, ix_l, ix_h, iy_l, iy_h
+      integer        :: sub_ierror, mx, my, ix_l, ix_h, iy_l, iy_h, npot_orig
       real(kind=8)   :: cref_x, zc_rol, sr_sta, sr_end, rsta, rend, zsta, zend, xp_l, xp_h,             &
                         sp_l, sp_h, fac, du, dv, tmp
 
@@ -4456,9 +4456,10 @@ contains
       !  - use of npot_max is disabled in transient contact (use_supergrid)
 
       if (ic%return.le.1 .and. .not.ic%use_supergrid() .and. npot_max.ge.100 .and. mx*my.ge.npot_max) then
-         if (ic%x_locate.ge.-1) then
-            write(bufout,'(a,2i5,a,i6,a,2f7.3,4(a,i4),a)') ' setting mx,my=', mx, my, ', npot=',        &
-                mx*my, ', setting  dx,dy=', cp%dx_eff, cp%ds_eff
+         npot_orig = mx*my
+         if (ic%x_locate.ge.2) then
+            write(bufout,'(a,2i5,a,i7,a,2f7.3,4(a,i4),a)') ' initial mx,my=', mx, my, ', npot=',        &
+                mx*my, ', original dx,dy=', cp%dx_eff, cp%ds_eff
                 ! ', ix=[',ix_l,' :',ix_h, '], iy=[',iy_l,' :', iy_h,']'
             call write_log(1, bufout)
          endif
@@ -4480,13 +4481,19 @@ contains
                my   = iy_h - iy_l + 1
             endif
 
-            if (ic%x_locate.ge.-1) then
-               write(bufout,'(a,2i5,a,i6,a,2f7.3,4(a,i4),a)') ' reduced mx,my=', mx, my, ', npot=',     &
+            if (ic%x_locate.ge.2) then
+               write(bufout,'(a,2i5,a,i7,a,2f7.3,4(a,i4),a)') ' reduced mx,my=', mx, my, ', npot=',     &
                    mx*my, ', enlarged dx,dy=', cp%dx_eff, cp%ds_eff
                    ! ', ix=[',ix_l,' :',ix_h, '], iy=[',iy_l, ' :',iy_h,']'
                call write_log(1, bufout)
             endif
-         enddo
+         enddo ! while
+
+         if (ic%x_locate.ge.-1) then
+            write(bufout,'(a,i7,a,2f7.3,a,2i5,a,i6)') ' original npot=',npot_orig,', enlarged dx,dy=', &
+                        cp%dx_eff, cp%ds_eff,', reduced mx,my=',mx,my,', npot=',mx*my
+            call write_log(1, bufout)
+         endif
       endif
 
       ! compute extent [xl,xh] x [sl,sh] of potential contact area

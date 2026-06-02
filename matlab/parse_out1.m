@@ -389,9 +389,9 @@ while (iline<f.nline)
       %     FN/G       SHIFT X      SHIFT Y    APPROACH       PMAX
       %     25.00      -2.708E-03  -1.106E-15  6.492E-03    12.34
       % D=4:
-      %     BAR_FN      BAR_FX      BAR_FS      MN         ELAST.EN.   FRIC.POWER
+      %     FN_PLN      FX_PLN      FS_PLN      MN         ELAST.EN.   FRIC.POWER
       %     1.654E+05       6803.  -5.116E+04  -2.127E+05       7.462  -1.721E+04
-      %     TILDE_FN    FX/FN       FS/FN       APPROACH     PMAX    
+      %     FN_CRV      FX_C/FN_C   FS_C/FN_C    APPROACH     PMAX    
       %     1.834E+05   3.709E-02  -9.825E-02    0.105082       1820.
 
       % get the creepages or forces

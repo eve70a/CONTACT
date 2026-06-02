@@ -9,9 +9,10 @@ end
 expnam = strvcat('cattaneo', 'carter2d', 'bentall', 'visc_cylindr', 'catt_to_cart', ...
                  'subsurf', 'spence35', 'mbench', 'kpec', 'wheelflat', 'tractcurv', 'conformal', ...
                  'ertz_temperature', 'plastic_3bl', 'fastsim', 'veldep_fric');
+expnam = strvcat( 'fastsim', 'veldep_fric');
 % expnam = strvcat('kpec');
 % expnam = strvcat('plastic_3bl');
-expnam = strvcat('fastsim');
+% expnam = strvcat('fastsim');
 
 pause_after_plot = 1 * (size(expnam,1)>1);
 print_figures = 0;
@@ -32,7 +33,7 @@ set(0,'defaultfigurepaperpositionmode','auto');
 % 5.1 : The Cattaneo shift problem
 
 if (~isempty(strmatch('cattaneo',expnam)))
-   figure(1); clf; hold on;
+   my_close(1); figure(1); clf; hold on;
    s = loadcase('cattaneo',2); % the tangential problem concerns the
    opt2 = plot2d;              % second case in the actual input-file
    opt2.yslc = 0.0;
@@ -47,7 +48,7 @@ end
 % 5.2 : The 2D Carter/Fromm problem
 
 if (~isempty(strmatch('carter2d',expnam)))
-   figure(1); clf; hold on;
+   my_close(1); figure(1); clf; hold on;
    s = loadcase('carter2d');
    opt2 = plot2d;
    opt2.yslc = 0.0;
@@ -68,7 +69,7 @@ if (~isempty(strmatch('bentall',expnam)))
 
    for icase = 5:6
       ifig = icase - 4;
-      figure(ifig); clf; hold on
+      my_close(ifig); figure(ifig); clf; hold on
       tmp = loadcase('bentall', icase);
       sx = sign(-tmp.px) .* tmp.srel;
       scl = 10000;
@@ -112,10 +113,10 @@ end
 % 5.4 : The viscoelastic two-cylinder Carter/Fromm problem 
 
 if (~isempty(strmatch('visc_cylindr',expnam)))
-   figure(11);
-   set(11,'position',[220 590 730 500]);
-   set(11,'defaulttextfontsize',11);
-   set(11,'defaultaxesfontsize',11);
+   my_close(1); figure(1);
+   set(gcf,'position',[220 590 730 500]);
+   set(gcf,'defaulttextfontsize',11);
+   set(gcf,'defaultaxesfontsize',11);
    clf; hold on;
 
 %  material parameters used:
@@ -171,7 +172,7 @@ end
 % 5.5 : Instationary problems - from Cattaneo to Carter
 
 if (~isempty(strmatch('catt_to_cart',expnam)))
-   figure(1); clf; hold on;
+   my_close(1); figure(1); clf; hold on;
    r3 = loadcase('catt_to_cart',13);   % "r3" = rolling, 3 units == case 13
    s3 = loadcase('catt_to_cart',70);   % "s3" = shift + fixed view, 3 units == case 70
    v3 = loadcase('catt_to_cart',127);  % "v3" = shift + moving view, 3 units == case 127
@@ -182,17 +183,17 @@ if (~isempty(strmatch('catt_to_cart',expnam)))
    l=plot(v3.x-12*v3.dx, -v3.px(17,:), '--o');
    if (print_figures), print -djpeg95 catt_distc_12dx.jpg; end
 
-   figure(2); clf; hold on;
-   opt=plot3d; opt.field='eldiv'; opt.ixrange = [1 999];
+   my_close(2); figure(2); clf; hold on;
+   opt=plot3d(2); opt.view=[0 90]; opt.field='eldiv'; opt.ixrange = [1 999];
    plot3d(r3,opt);
    title('T = 2, transient rolling');
    if (print_figures), print -djpeg95 catt_eldiv_3units.jpg; end
 
-   figure(3); clf; hold on;
+   my_close(3); figure(3); clf; hold on;
    plot3d(s3,opt);
    title('T = 1, shift, constant grid');
 
-   figure(4); clf; hold on;
+   my_close(4); figure(4); clf; hold on;
    plot3d(v3,opt);
    title('T = 1, shift, moving grid');
 
@@ -203,9 +204,9 @@ end
 % 5.6 : The calculation of subsurface stresses
 
 if (~isempty(strmatch('subsurf',expnam)))
-   figure(9); 
-   set(9,'defaulttextfontsize',10);
-   set(9,'defaultaxesfontsize',10);
+   my_close(1); figure(1); 
+   set(gcf,'defaulttextfontsize',10);
+   set(gcf,'defaultaxesfontsize',10);
    clf; hold on;
    [s1a, s1b] = loadstrs('subsurf',1);
    [s2a, s2b] = loadstrs('subsurf',2);
@@ -227,7 +228,7 @@ if (~isempty(strmatch('subsurf',expnam)))
    set(gca,'dataaspectratio',[1.5 1 1]);
    if (print_figures), print -djpeg95 subsurf_zaxis.jpg; end
 
-   figure(2); clf; hold on;
+   my_close(2); figure(2); clf; hold on;
    opt = plotstrs; opt.yslc = 0; opt.field = 'uz';
    opt.typplot = 'contourf';
    opt.cntrlvl = [0:0.02:0.08, 0.12:0.04:0.40];
@@ -262,8 +263,8 @@ if (~isempty(strmatch('spence35',expnam)))
    end
 
    % plot element-division, direction of tangential tractions
-   figure(1); clf;
-   opt3=plot3d; opt3.field='ptvec'; opt3.numvecx=35; opt3.numvecy=35;
+   my_close(1); figure(1); clf;
+   opt3=plot3d(2); opt3.field='ptvec'; opt3.numvecx=35; opt3.numvecy=35;
    plot3d(s35,opt3);
    axis([-3.7 3.7 -3.7 3.7])
    % title('Spence compression, 35 x 35 elements, final stage');
@@ -276,7 +277,7 @@ if (~isempty(strmatch('spence35',expnam)))
    fn=0.4705; a=3.5; b=3.5;
    pmax=1.5/pi*fn/(a*b);
    xhz=[0:0.05:a]; phz=pmax*sqrt(1-(xhz/a).^2);
-   figure(2); clf; hold on;
+   my_close(2); figure(2); clf; hold on;
    plot(xhz, s35.fric.fstat*phz, 'r--');
    plot(s35.x, s35.fric.fstat*s35.pn(ix,:), 'b--');
    plot(s35.x, s35.px(ix,:), 'b-o');
@@ -309,12 +310,12 @@ if (~isempty(strmatch('mbench',expnam)))
    r13 = loadcase('mbench_a22_right',13);
    prr = read_profile('Mbench_UIC60_v3.prr');
    prw = read_profile('Mbench_S1002_v3.prw');
-   opt = plot3d;
+   opt = plot3d(3);
    opt.rw_surfc = 'prr';
    opt.vecwidth = 0.5;
    opt.eldivwid = 1;
 
-   figure(1); clf;
+   my_close(1); figure(1); clf;
    plot3d(l11, opt, prr);
    set(gca,'cameraviewangle',8)
    set(gca,'cameratarget',[10 -6 25])
@@ -328,7 +329,7 @@ if (~isempty(strmatch('mbench',expnam)))
 
    if (print_figures), print -djpeg95 mbench_a22_5mm_lft_prr.jpg; end
 
-   figure(2); clf;
+   my_close(2); figure(2); clf;
    if (~isempty(r11b))
       opta = opt; opta.addplot = 1;
       plot3d(r11b, opt, prr);
@@ -348,7 +349,7 @@ if (~isempty(strmatch('mbench',expnam)))
 
    if (print_figures), print -djpeg95 mbench_a22_5mm_rgt_prr.jpg; end
 
-   figure(3); clf;
+   my_close(3); figure(3); clf;
    plot3d(l13, opt, prr);
    set(gca,'cameraviewangle',8)
    set(gca,'cameratarget',[10 -6 25])
@@ -363,7 +364,7 @@ if (~isempty(strmatch('mbench',expnam)))
 
    if (print_figures), print -djpeg95 mbench_a22_6mm_lft_prr.jpg; end
 
-   figure(4); clf;
+   my_close(4); figure(4); clf;
    plot3d(r13, opt, prr);
    set(gca,'cameraviewangle',8)
    set(gca,'cameratarget',[10 -6 25])
@@ -377,15 +378,15 @@ if (~isempty(strmatch('mbench',expnam)))
 
    if (print_figures), print -djpeg95 mbench_a22_6mm_rgt_prr.jpg; end
 
-   opt = plot3d; opt.field='pn'; opt.rw_surfc='both'; opt.typplot='rw_rear';
+   opt = plot3d(1);
 
-   figure(5); clf;
+   my_close(5); figure(5); clf;
    plot3d(l11, opt, prr, prw);
    axis([-800 -720 -25 10]);
    text(0.05, 0.92, 'Case A-2.2, 5 mm, 12.0 mrad', 'units', 'normalized')
    text(0.05, 0.78, 'Left wheel', 'units', 'normalized');
 
-   figure(6); clf;
+   my_close(6); figure(6); clf;
    plot3d(r11a, opt, prr, prw);
    axis([ 700  780 -15 20]);
    text(0.05, 0.92, 'Case A-2.2, 5 mm, 12.0 mrad', 'units', 'normalized')
@@ -431,12 +432,11 @@ if (~isempty(strmatch('kpec',expnam)))
          end
       end
 
-      opt = plot3d; 
+      opt = plot3d(2); 
       opt.field = 'eldiv';
-      opt.view  = 'rail';
       opt.addplot = 1;
 
-      figure(5+icase); clf; 
+      my_close(icase); figure(icase); clf; 
       subplot(ny,nx,1);
       plot3d(cntc, opt);
       axis equal;
@@ -468,9 +468,8 @@ end
 % 5.8 : Wheel flat example
 
 if (~isempty(strmatch('wheelflat',expnam)))
-   opt = plot3d;
+   opt = plot3d(2);
    opt.field = 'pn';
-   opt.view  = 'rail';
    opt.addeldiv = 0;
    opt.addplot = 1;
    opt.zrange  = [0 2500];
@@ -478,8 +477,8 @@ if (~isempty(strmatch('wheelflat',expnam)))
    sol = parse_out1('wheelflat.out');
 
    sref = loadcase('wheelflat', 1);
-   sref.x_offset = sref.meta.xcp_r - sref.meta.spinxo;
-   sref.y_offset = sref.meta.ycp_r - sref.meta.spinyo;
+   sref.x_offset = sref.meta.xcp_r - sref.meta.xcp_pot;
+   sref.y_offset = sref.meta.ycp_r - sref.meta.ycp_pot;
 
    optel = opt;
    optel.field = 'eldiv_contour';
@@ -496,7 +495,7 @@ if (~isempty(strmatch('wheelflat',expnam)))
       show_cases = [4 : 2 : 18];
    end
 
-   figure(9); clf;
+   my_close(1); figure(1); clf;
    p = get(gcf,'position'); p(3) = 2.1*p(4); set(gcf,'position',p,'paperpositionmode','auto');
    for isub = 1 : length(show_cases)
       icase = show_cases(isub);
@@ -522,15 +521,16 @@ if (~isempty(strmatch('wheelflat',expnam)))
       text(-15, -13, sprintf('$\\theta_{ws}=%3d^\\circ$', round(sol.ws_pos.pitch(icase)*180/pi)), ...
                                                                                 'interpreter','latex');
    end
+   if (pause_after_plot), pause; end
 end
 
 % 5.8 : Calculation of traction curves, Eurosprinter test-case
 
 if (~isempty(strmatch('tractcurv',expnam)))
-   figure(8); clf;
-   set(8,'defaulttextfontsize',10);
-   set(8,'defaultaxesfontsize', 8);
-   set(8,'defaultaxeslinewidth',1);
+   my_close(1); figure(1); clf;
+   set(gcf,'defaulttextfontsize',10);
+   set(gcf,'defaultaxesfontsize', 8);
+   set(gcf,'defaultaxeslinewidth',1);
    hold on;
 
    fstat = [0.33, 0.33, 0.33, 0.36];   % [-]
@@ -629,10 +629,9 @@ end
 % 5.9 Conformal contact situation
 
 if (~isempty(strmatch('conformal',expnam)))
-   opt=plot3d;
+   opt=plot3d(2);
    opt.exterval=NaN;
    opt.view=[90 -90];
-   opt.field='ptabs+vec';
    opt.zrange=[0 320];
    opt.numvecx=10;
    opt.numvecy=10;
@@ -649,7 +648,7 @@ if (~isempty(strmatch('conformal',expnam)))
    disp(sprintf('Max pressures: Hertzian %5.1f, full conformal %5.1f',...
                 max(max(t1.pn)), max(max(t5.pn))));
 
-   figure(1); clf;
+   my_close(1); figure(1); clf;
    subplot(1,2,1);
    plot3d(t1,opt); axis equal; axis([-a a -b b]);
    title(''); ylabel(''); colormap jet;
@@ -676,7 +675,7 @@ if (~isempty(strmatch('conformal',expnam)))
    opt.zrange=[0 130];
    opt.vecscale=0.005;
    opt.veccolor='m';
-   figure(2); clf;
+   my_close(2); figure(2); clf;
    subplot(1,2,1);
    plot3d(dif3,opt); axis equal; axis([-a a -b b]);
    title(''); ylabel('')
@@ -712,7 +711,7 @@ if (~isempty(strmatch('ertz_temperature',expnam)))
 
    % plot surface temperature due to frictional heating, bktemp=0
 
-   opt = plot3d;
+   opt = plot3d(2);
    opt.field    = 'temp1';
    opt.typplot  = 'contourf';
    opt.exterval = [];
@@ -722,7 +721,7 @@ if (~isempty(strmatch('ertz_temperature',expnam)))
    opt.eldivcol(2,:) = m(160,:);
    a = 5.88; 
 
-   figure(1); clf; hold on
+   my_close(1); figure(1); clf; hold on
    plot3d(s1, opt);
    shading flat;
    title('case 1: sliding at 1 m/s');
@@ -734,7 +733,7 @@ if (~isempty(strmatch('ertz_temperature',expnam)))
    % plot temperatures Tr,Tw along centerline y=0 for conduction
 
    iy=23;
-   figure(2); clf; 
+   my_close(2); figure(2); clf; 
    subplot(2,1,1); hold on;
    l = plot(s1.x/a, [s1.temp2(iy,:); s1.temp1(iy,:)]);
    set(l(2), 'linestyle','--');
@@ -777,7 +776,7 @@ if (~isempty(strmatch('plastic_3bl',expnam)))
       iofs = iofs + ncase(iser);
    end
 
-   figure(1); clf; hold on;
+   my_close(1); figure(1); clf; hold on;
    plot(1000*shft, px, '.-', 'markersize',12);
    xlabel('applied displacement [$\mathrm{\mu{}m}$]', 'interpreter','latex');
    ylabel('shear stress $\tau$ [$\mathrm{N/mm^2}$]', 'interpreter','latex');
@@ -806,9 +805,9 @@ if (~isempty(strmatch('fastsim',expnam)))
    fs_ell = loadcase('fastsim',6); % Fastsim ellip, fine
    fstrp  = loadcase('fastsim',7); % Fastrip, fine
    fs_rev = loadcase('fastsim',8); % Fastsim parab, fine, reversed
-   opt = plot3d;
+   opt = plot3d(2);
    if (1==1)
-      opt.field='ptabs+vec'; opt.zrange=[0 400];
+      opt.field='ptabs+vec'; opt.zrange=[0 400]; opt.view=[0 90];
       opt.numvecx = 22; opt.numvecy = 12;
       f = 2e5;
       nam_plot = 'eldiv';
@@ -823,7 +822,7 @@ if (~isempty(strmatch('fastsim',expnam)))
    opt.vecwidth = 1;
    opt.exterval=NaN;
 
-   figure(1); clf; hold on;
+   my_close(1); figure(1); clf; hold on;
    plot3d(cntc, opt); 
    shading flat
    axis equal
@@ -834,7 +833,7 @@ if (~isempty(strmatch('fastsim',expnam)))
    title('Full theory');
    if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_cntc.jpg']); end
 
-   figure(2); clf; hold on;
+   my_close(2); figure(2); clf; hold on;
    plot3d(fs_par, opt); 
    shading flat
    axis equal
@@ -845,7 +844,7 @@ if (~isempty(strmatch('fastsim',expnam)))
    title('Fastsim-parabolical');
    if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_parab.jpg']); end
 
-   figure(3); clf; hold on;
+   my_close(3); figure(3); clf; hold on;
    plot3d(fs_ell, opt); 
    shading flat
    axis equal
@@ -857,7 +856,7 @@ if (~isempty(strmatch('fastsim',expnam)))
    title('Fastsim-elliptical');
    if (print_figures), print('-djpeg95',['fastsim_',nam_plot,'_ellip.jpg']); end
 
-   figure(4); clf; hold on;
+   my_close(4); figure(4); clf; hold on;
    plot3d(fstrp, opt); 
    shading flat
    axis equal
@@ -868,7 +867,7 @@ if (~isempty(strmatch('fastsim',expnam)))
    title('Modified FaStrip');
    if (print_figures), print('-djpeg95',['fastrip_',nam_plot,'.jpg']); end
 
-   figure(5); clf; hold on;
+   my_close(5); figure(5); clf; hold on;
    plot3d(fs_rev, opt); 
    shading flat
    axis equal
@@ -891,7 +890,7 @@ if (~isempty(strmatch('veldep_fric',expnam)))
    end
    g = 82000;
 
-   figure(1); clf; hold on
+   my_close(1); figure(1); clf; hold on
    % get point numbers for x=-4, x=4, select points for markers
    ix=find(abs(4-abs(s1.x))<0.001); 
    dp=(ix(2)-ix(1))/16; rg=round([ix(1):dp:ix(2)]);
@@ -926,7 +925,7 @@ if (~isempty(strmatch('veldep_fric',expnam)))
       eval(['print -djpeg95 veldep_l',l,'_dx',grd,'_mult.jpg']);
    end
 
-   figure(2); clf; hold on
+   my_close(2); figure(2); clf; hold on
    % plot traction bound for s52
    plot(s52.x, s52.trcbnd/g, '--')
    % plot tractions p, slip s
@@ -953,4 +952,10 @@ if (~isempty(strmatch('veldep_fric',expnam)))
 end
 
 clear pause_after_plot print_figures expnam;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function [] = my_close(ifig)
+   if (ishandle(ifig)), close(ifig); end
+end % function my_close
 

@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_licensing -  implementation of license checking functionality - dummy version
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ public
    !---------------------------------------------------------------------------------------------------------
 
    ! - Version number for current version.  For the trunk: tentative version number for next release
-   integer, parameter :: my_version_major  = 25
+   integer, parameter :: my_version_major  = 26
    integer, parameter :: my_version_minor  =  2
    integer, parameter :: my_version_update =  0
 

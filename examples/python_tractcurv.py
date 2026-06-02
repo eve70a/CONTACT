@@ -27,7 +27,7 @@ if (not importlib.util.find_spec('python_intfc')):
             CONTACTDIR = '/v3/CMCC/contact'
         else:
             CONTACTDIR = 'C:\\CMCC\\contact'
-            # CONTACTDIR = 'C:\Program Files\Vtech CMCC\contact_v25.1'
+            # CONTACTDIR = 'C:\Program Files\Vtech CMCC\contact_v26.1'
         print('Setting CONTACTDIR as', CONTACTDIR)
     sys.path.append( CONTACTDIR )
 

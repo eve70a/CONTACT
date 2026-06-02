@@ -18,7 +18,7 @@
 %             kyrail, kzrail  [force/length],  fyrail, fzrail  [force],  dystep0  [length]
 %------------------------------------------------------------------------------------------------------------
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 

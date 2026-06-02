@@ -12,11 +12,12 @@ set EXE4=..\bin\test_table_win64.exe
 set EXE5=..\bin\caddon_license_win64.exe
 
 rem Since version 20.2, the use of OpenMP is disabled in the library version for Windows
+set FORT=ifx
 set FFOPTS=/nologo /I. /fpp /O3 /MT /nodebug /Qdiag-disable:10448 /names:lowercase /iface:nomixed_str_len_arg 
 
-echo ifort %FFOPTS% test_caddon.f90 %CNTC_LIB% -o %EXE1%
-ifort %FFOPTS% test_caddon.f90 %CNTC_LIB% -o %EXE1%
-ifort %FFOPTS% test_mbench.f90 %CNTC_LIB% -o %EXE2%
-ifort %FFOPTS% test_varprof.f90 %CNTC_LIB% -o %EXE3%
-ifort %FFOPTS% test_table.f90 %CNTC_LIB% -o %EXE4%
-ifort %FFOPTS% caddon_license.f90 %CNTC_LIB% -o %EXE5%
+echo %FORT% %FFOPTS% test_caddon.f90 %CNTC_LIB% -o %EXE1%
+%FORT% %FFOPTS% test_caddon.f90 %CNTC_LIB% -o %EXE1%
+%FORT% %FFOPTS% test_mbench.f90 %CNTC_LIB% -o %EXE2%
+%FORT% %FFOPTS% test_varprof.f90 %CNTC_LIB% -o %EXE3%
+%FORT% %FFOPTS% test_table.f90 %CNTC_LIB% -o %EXE4%
+%FORT% %FFOPTS% caddon_license.f90 %CNTC_LIB% -o %EXE5%
