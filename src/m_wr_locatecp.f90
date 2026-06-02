@@ -1768,7 +1768,9 @@ contains
       ! call grid_print(prw_lc, 'locus_vw', 5)
 
       if (.not.is_prismatic) then
-         call grid_make_arclength(prr_lc, sub_ierror)
+         call grid_make_arclength(prr_lc, .false., nkink, ikinks, ic%x_profil, sub_ierror)
+
+         ! considering kinks in (x,y)-plane, ignoring kinks wrt vertical direction(!)
 
          call profile_find_kinks(nw, prr_lc%y, prr_lc%x, is_wheel, kink_high, kink_low, kink_wid,       &
                         scale_z, nkink, ikinks, ic%x_locate-1, sub_ierror, s=prr_lc%s_prf, ds_thrs=ds_thrs)

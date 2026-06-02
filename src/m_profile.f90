@@ -121,7 +121,7 @@ private
       !                  with weight p for the data and weight (1-p) for the 2nd derivative, or 
       !                  l_filt for weighted splines (ismooth=1,2)
 
-      ! zig_thrs  [rad]  angle threshold for zig-zag pattern detection. Default pi/2. 
+      ! zig_thrs  [rad]  angle threshold for zig-zag pattern detection. Default 150deg
       !                  Set to pi to disable zig-zag detection.
       ! kink_high [rad]  angle threshold for kink detection. Default pi/6. 
       !                  Set to pi to disable kink detection.
@@ -829,10 +829,29 @@ contains
       deallocate(points)
       points => NULL()
 
+      ! detect kinks in input profile, including overall start/end-points
+
+      if (ierror.eq.0) then
+         if (x_profil.ge.2) then
+            write(bufout, '(9x,2(a,f6.3,a,f6.1),a,f6.1)') 'kink_high=', kink_high,' (',                 &
+                kink_high*180d0/pi,' deg), kink_low=', kink_low,' (',kink_low*180d0/pi,                 &
+                ' deg), kink_wid=',kink_wid
+            call write_log(1, bufout)
+         endif
+
+         call profile_find_kinks(prf_grd%ntot, prf_grd%y, prf_grd%z, is_wheel, kink_high, kink_low,     &
+                              kink_wid, 1d0, nkink, ikinks, x_profil, ierror)
+
+         if (nkink.gt.2 .and. ismooth.ge.1) then
+            write(bufout,'(a,i3,a,10i5)') ' find_kinks: nkink=',nkink,', ikinks=',ikinks(1:nkink)
+            call write_log(1, bufout)
+         endif
+      endif
+
       ! fill in the s-coordinate, distance along profile
 
       if (ierror.eq.0) then
-         call grid_make_arclength(prf_grd, ierror)
+         call grid_make_arclength(prf_grd, .true., nkink, ikinks, x_profil, ierror)
       endif
 
       ! check total length of profile curve
@@ -865,25 +884,10 @@ contains
                 ', smooth=', smooth
             call write_log(1, bufout)
          endif
-         if (x_profil.ge.2) then
-            write(bufout, '(9x,2(a,f6.3,a,f6.1),a,f6.1)') 'kink_high=', kink_high,' (',kink_high*180d0/pi, &
-                ' deg), kink_low=', kink_low,' (',kink_low*180d0/pi,' deg), kink_wid=',kink_wid
-            call write_log(1, bufout)
-         endif
 
          if (ismooth.eq.0 .or. ismooth.eq.1) then
 
             ! ismooth = 0 or 1: using non-weighted or weighted smoothing PP-spline
-
-            ! detect kinks in input profile, including overall start/end-points
-
-            call profile_find_kinks(prf_grd%ntot, prf_grd%y, prf_grd%z, is_wheel, kink_high, kink_low,  &
-                           kink_wid, 1d0, nkink, ikinks, x_profil, ierror)
-
-            if (nkink.gt.2 .and. ismooth.eq.1) then
-               write(bufout,'(a,i3,a,10i5)') ' find_kinks: nkink=',nkink,', ikinks=',ikinks(1:nkink)
-               call write_log(1, bufout)
-            endif
 
             if (ismooth.eq.0) then
                use_wgt = .false.
@@ -922,16 +926,6 @@ contains
                call spline_set_debug(0)
                call write_log(' done test_bspline...')
                call abort_run()
-            endif
-
-            ! detect kinks in input profile, including overall start/end-points
-
-            call profile_find_kinks(prf_grd%ntot, prf_grd%y, prf_grd%z, is_wheel, kink_high, kink_low,  &
-                           kink_wid, 1d0, nkink, ikinks, x_profil, ierror)
-
-            if (nkink.gt.2) then
-               write(bufout,'(a,i3,a,10i5)') ' find_kinks: nkink=',nkink,', ikinks=',ikinks(1:nkink)
-               call write_log(1, bufout)
             endif
 
             ! ismooth = 2: using weighted smoothing B-spline
@@ -2348,11 +2342,11 @@ contains
 
          ! compute change of angle to previous and following segments
 
-         dalph0 = alpha(iseg) - alpha(iseg-1)
+         dalph0 = alpha(iseg) - alpha(iseg-1)           ! point ip=iseg
          if (dalph0.lt.-pi) dalph0 = dalph0 + 2d0 * pi
          if (dalph0.gt. pi) dalph0 = dalph0 - 2d0 * pi
 
-         dalph1 = alpha(iseg+1) - alpha(iseg)
+         dalph1 = alpha(iseg+1) - alpha(iseg)           ! point ip=iseg+1
          if (dalph1.lt.-pi) dalph1 = dalph1 + 2d0 * pi
          if (dalph1.gt. pi) dalph1 = dalph1 - 2d0 * pi
 
@@ -3088,7 +3082,7 @@ contains
 
             is_kink = .true.
 
-            ! check neighbours ipnt+k to the left
+            ! check neighbours ipnt+k to the left, simple distance |x_i - x_j|
 
             k = 0
             dst = 0d0

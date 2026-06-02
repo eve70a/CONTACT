@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_grids - data-structures for grids - uniform / non-uniform
 !
-! Copyright 2016-2023 by Vtech CMCC.
+! Copyright 2016-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -163,6 +163,20 @@ module m_grids
    type :: p_grid
       type(t_grid), pointer :: g => NULL()      ! pointer to a grid data-structure
    end type p_grid
+
+   interface    ! subroutines from m_grids_sub
+
+      module subroutine grid_make_arclength(g, use_correction, nkink, ikinks, idebug, my_ierror)
+      !--purpose: compute the summed chord length s for a 1-d grid (wheel or rail profile)
+      !--subroutine arguments:
+         type(t_grid)               :: g
+         logical,      intent(in)   :: use_correction
+         integer,      intent(in)   :: nkink, idebug
+         integer,      intent(in)   :: ikinks(nkink)
+         integer,      intent(out)  :: my_ierror
+      end subroutine grid_make_arclength
+
+   end interface
 
 contains
 
@@ -866,79 +880,6 @@ subroutine grid_xspline_init(g)
    g%lies_in_oyz = .false.
 
 end subroutine grid_xspline_init
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine grid_make_arclength(g, my_ierror)
-!--purpose: compute the arc-length s for a 1-d grid (wheel or rail profile)
-   implicit none
-!--subroutine arguments:
-   type(t_grid)               :: g
-   integer,      intent(out)  :: my_ierror
-!--local variables:
-   integer            :: ip, ipmin, sub_ierror
-   real(kind=8)       :: dy, dz, ds, dst, dstmin, s0
-
-   ! re-allocate s-array at the appropriate size
-
-   my_ierror = 0
-   call reallocate_arr(g%s_prf, g%ntot)
-
-   ! compute cumulative sum of distances between successive points
-
-   g%s_prf(1) = 0d0
-   do ip = 2, g%ntot
-      dy = g%y(ip) - g%y(ip-1)
-      dz = g%z(ip) - g%z(ip-1)
-      ds = sqrt(dy**2 + dz**2)
-      ! write(*,*) 'ip=',ip,': ds=',ds
-      g%s_prf(ip) = g%s_prf(ip-1) + ds
-   enddo
-
-   ! select reference position in profile where s:=0
-
-   if (is_strictly_monotonic(g%ntot, g%y)) then
-
-      ! interpolate [g%y, g%s_prf] to y = 0
-
-      call interp_1d_to_scalar( g%ntot, g%y, g%s_prf, 0d0, s0, sub_ierror )
-      if (my_ierror.eq.0) my_ierror = sub_ierror
-
-   elseif (.false.) then
-
-      ! shifting can be omitted cf. read_profile.m
-
-      s0 = 0d0
-
-   else
-
-      ! select point (g%y, g%z) closest to origin (0, 0)
-
-      ipmin  = -1
-      dstmin = 1e12
-      do ip = 1, g%ntot
-         dst = g%y(ip)**2 + g%z(ip)**2
-         if (dst.le.dstmin) then
-            ipmin  = ip
-            dstmin = dst
-         endif
-      enddo
-      s0 = g%s_prf(ipmin)
-
-   endif
-
-   if (.false.) then
-      write(bufout,'(a,f8.3)') ' grid_make_arclength: s0=', s0
-      call write_log(1, bufout)
-   endif
-
-   ! shift s := s - s0
-
-   do ip = 1, g%ntot
-      g%s_prf(ip) = g%s_prf(ip) - s0
-   enddo
-
-end subroutine grid_make_arclength
 
 !------------------------------------------------------------------------------------------------------------
 

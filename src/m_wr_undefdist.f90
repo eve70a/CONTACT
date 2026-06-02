@@ -920,7 +920,7 @@ contains
       real(kind=8), intent(in)  :: sw_sta, sw_mid, sw_end, ds
       type(t_grid)              :: prw_grd, prw_trim
 !--local variables:
-      integer                   :: nx, ns, is, is_mid, ierror
+      integer                   :: nx, ns, is, is_mid, ierror, nkink, ikinks(2)
       real(kind=8), dimension(:), allocatable :: s, x, y, z
 
       ! compute number of points for s-grid; note: s-values decreasing, sw_sta > sw_mid > sw_end
@@ -962,7 +962,9 @@ contains
       call grid_create_curvil( prw_trim, nx, ns, x, y, z)
 
       if (idebug.ge.4) then
-         call grid_make_arclength( prw_trim, ierror )
+         nkink  = 2
+         ikinks = (/ 1, prw_trim%ntot /)
+         call grid_make_arclength( prw_trim, .true., nkink, ikinks, idebug-2, ierror )
          call write_log(' trim_prw: output profile:')
          call grid_print( prw_trim, 'prw(whl)', 5)
       endif

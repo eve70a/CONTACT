@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------
 ! m_gridfunc - data-structures for grid-based data
 !
-! Copyright 1993-2023 by Vtech CMCC.
+! Copyright 1993-2026 by Vtech CMCC.
 !
 ! Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 !------------------------------------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ module m_gridfunc
       type(t_gridfnc3), pointer :: gf => NULL()      ! pointer to a gridfnc3 data-structure
    end type p_gridfnc3
 
-   interface
+   interface    ! subroutines from m_gridfunc_sub
 
       module subroutine eldiv_resize(e1, g_new)
       !--purpose: resize element division to the new (matching) grid provided

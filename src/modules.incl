@@ -64,6 +64,10 @@ $(P)m_grids.mod           $(P)m_grids.$O:           \
                                                     $(P)m_interp.mod          \
                                                     $(P)m_spline.mod          \
                                                     $(P)m_bspline.mod        
+$(P)m_grids_sub.mod       $(P)m_grids_sub.$O:       \
+                                                    $(P)m_globals.mod         \
+                                                    $(P)m_markers.mod         \
+                                                    $(P)m_ptrarray.mod       
 $(P)m_hertz.mod           $(P)m_hertz.$O:           \
                                                     $(P)m_hierarch_data.mod  
 $(P)m_hierarch_data.mod   $(P)m_hierarch_data.$O:   \
