@@ -59,7 +59,6 @@ private cntc_calculate3
 private subs_calculate
 private cntc_getFlags
 private cntc_getParameters
-private cntc_getProfileValues_new
 private cntc_getProfileValues
 private cntc_getWheelsetPosition
 private cntc_getWheelsetVelocity
@@ -440,36 +439,6 @@ subroutine cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_e
    if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 
 end subroutine cntc_initializeFirst
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,  &
-                                    len_outdir, len_expnam) &
-   bind(c,name=CNAME_(cntc_initializefirst_new))
-!--function: initialize the addon internal data structures and initialize output channels,
-!            print version information; return the addon version number.
-!            Old version provided for backward compatibility. Interface will be changed in v25.1.
-!--category: 0, "m=any, glob":      not related to contact's modules 1 or 3, working on global data
-   implicit none
-!--subroutine arguments:
-   integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
-   integer,                intent(inout) :: ierror       ! error flag
-   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = out-file+screen
-   character(kind=C_CHAR), intent(in)    :: c_wrkdir(*)  ! C-string: effective working folder
-   character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
-   character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
-   integer,                intent(in)    :: len_wrkdir   ! length of C-string
-   integer,                intent(in)    :: len_outdir   ! length of C-string
-   integer,                intent(in)    :: len_expnam   ! length of C-string
-#ifdef _WIN32
-!dec$ attributes dllexport :: cntc_initializeFirst_new
-#endif
-
-   call write_log(' initializeFirst_new: calling initializeFirst...')
-   call cntc_initializeFirst(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,         &
-                        len_outdir, len_expnam)
-
-end subroutine cntc_initializeFirst_new
 
 !------------------------------------------------------------------------------------------------------------
 
@@ -4760,31 +4729,6 @@ subroutine cntc_getProfileValues(ire, itask, nints, iparam, nreals, rparam, lena
    end associate
    if (idebug_clib.ge.4) call cntc_log_start(subnam, .false.)
 end subroutine cntc_getProfileValues
-
-!------------------------------------------------------------------------------------------------------------
-
-subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
-   bind(c,name=CNAME_(cntc_getprofilevalues_new))
-!--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
-!            see cntc_getProfileValues for documentation
-!--category: 2, "m=1 only, wtd":    available for module 1 only, working on wtd data
-   implicit none
-!--subroutine arguments:
-   integer,      intent(in)  :: ire           ! result element ID
-   integer,      intent(in)  :: itask         ! integer code for requested values
-   integer,      intent(in)  :: nints, nreals ! number of integer/real parameters provided
-   integer,      intent(in)  :: iparam(*)     ! array of integer parameters
-   real(kind=8), intent(in)  :: rparam(*)     ! array of real parameters
-   integer,      intent(in)  :: lenarr        ! length of output array
-   real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
-#ifdef _WIN32
-!dec$ attributes dllexport :: cntc_getProfileValues_new
-#endif
-
-   call write_log(' getprofilevalues_new: calling getprofilevalues...')
-   call cntc_getprofilevalues(ire, itask, nints, iparam, nreals, rparam, lenarr, val)
-
-end subroutine cntc_getProfileValues_new
 
 !------------------------------------------------------------------------------------------------------------
 

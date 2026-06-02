@@ -59,27 +59,6 @@ end subroutine cntc_initializeFirst
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_initializeFirst_new(ifcver, ierror, ioutput, c_wrkdir, c_outdir, c_expnam, len_wrkdir,  &
-                                len_outdir, len_expnam) &
-   bind(c,name=CNAME_(cntc_initializefirst_new))
-!--function: initialize the addon internal data structures and initialize output channels,
-!            print version information; return the addon version number.
-!            Old version provided for backward compatibility. Interface will be changed in v25.1.
-   use, intrinsic        :: iso_c_binding, only: C_CHAR, C_NULL_CHAR
-!--subroutine arguments:
-   integer,                intent(out)   :: ifcver       ! version of the CONTACT add-on
-   integer,                intent(inout) :: ierror       ! error flag
-   integer,                intent(in)    :: ioutput      ! output channels: 0 = out-file, 1 = out-file+screen
-   character(kind=C_CHAR), intent(in)    :: c_wrkdir(*)  ! C-string: effective working folder
-   character(kind=C_CHAR), intent(in)    :: c_outdir(*)  ! C-string: output folder
-   character(kind=C_CHAR), intent(in)    :: c_expnam(*)  ! C-string: experiment name
-   integer,                intent(in)    :: len_wrkdir   ! length of C-string
-   integer,                intent(in)    :: len_outdir   ! length of C-string
-   integer,                intent(in)    :: len_expnam   ! length of C-string
-end subroutine cntc_initializeFirst_new
-
-!------------------------------------------------------------------------------------------------------------
-
 subroutine cntc_initialize(ire, imodul, ifcver, ierror, c_outdir, len_outdir) &
    bind(c,name=CNAME_(cntc_initialize))
 !--function: upon first call: perform one-time initializations;
@@ -718,22 +697,6 @@ end subroutine cntc_getProfileValues
 
 !------------------------------------------------------------------------------------------------------------
 
-subroutine cntc_getProfileValues_new(ire, itask, nints, iparam, nreals, rparam, lenarr, val) &
-   bind(c,name=CNAME_(cntc_getprofilevalues_new))
-!--function: return a wheel or rail profile for a wheel-rail contact problem as a table of values
-!            see cntc_getProfileValues for documentation
-!--subroutine arguments:
-   integer,      intent(in)  :: ire           ! result element ID
-   integer,      intent(in)  :: itask         ! integer code for requested values
-   integer,      intent(in)  :: nints, nreals ! number of integer/real parameters provided
-   integer,      intent(in)  :: iparam(*)     ! array of integer parameters
-   real(kind=8), intent(in)  :: rparam(*)     ! array of real parameters
-   integer,      intent(in)  :: lenarr        ! length of output array
-   real(kind=8), intent(out) :: val(lenarr)   ! output values for selected task
-end subroutine cntc_getProfileValues_new
-
-!------------------------------------------------------------------------------------------------------------
-
 subroutine cntc_getWheelsetPosition(ire, lenarr, rvalues) &
    bind(c,name=CNAME_(cntc_getwheelsetposition))
 !--function: get the wheelset position data for a wheel-rail contact problem
@@ -1256,7 +1219,6 @@ end interface
 !dec$ attributes dllimport :: cntc_getFlags
 !dec$ attributes dllimport :: cntc_getParameters
 !dec$ attributes dllimport :: cntc_getProfileValues
-!dec$ attributes dllimport :: cntc_getProfileValues_new
 !dec$ attributes dllimport :: cntc_getWheelsetPosition
 !dec$ attributes dllimport :: cntc_getWheelsetVelocity
 !dec$ attributes dllimport :: cntc_getNumContactPatches

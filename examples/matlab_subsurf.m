@@ -8,7 +8,7 @@
 
 if (~exist('cntc_initlibrary.m','file'))
    % set location of CONTACT installation folder
-   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v25.1';
+   % contactdir = 'C:\Program Files\Vtech CMCC\contact_v26.1';
    contactdir = '..';
    addpath([contactdir, '\matlab_intfc']);
    addpath([contactdir, '\matlab']);
@@ -56,8 +56,10 @@ cntc_setflags(iwhe, icp, flags, values);
 
 gg = 1.00;     % [N/mm^2]
 nu = 0.28;     % [-]
+m_digit = 0;
+rparam  = [ nu, nu, gg, gg ];
 
-cntc_setmaterialproperties(iwhe, icp, gg, nu, gg, nu);
+cntc_setmaterialparameters(iwhe, icp, m_digit, rparam);
 
 % Hertzian discretization, one element of 1 x 1 mm
 

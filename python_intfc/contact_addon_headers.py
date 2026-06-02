@@ -1,7 +1,7 @@
 from ctypes import c_char_p, c_int, c_double, POINTER
 
 ############################################################################################################# 
-# Copyright 2008-2023 by Vtech CMCC.
+# Copyright 2008-2026 by Vtech CMCC.
 #
 # Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -14,15 +14,6 @@ def contact_addon_headers( cntc_dll ):
 
     cntc_dll.cntc_initializefirst.restype         = None
     cntc_dll.cntc_initializefirst.argtypes        = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int), 
-                                                      c_char_p,          c_char_p,          c_char_p,
-                                                      POINTER(c_int),    POINTER(c_int),    POINTER(c_int) ]
-
-    # void cntc_initializefirst_new                 ( int *ifcver,       int *ierror,       int *ioutput,
-    #                                           const char* c_wrkdir, const char* c_outdir, const char* c_expnam,
-    #                                                 int *len_wrkdir,   int *len_outdir,   int *len_expnam );
-
-    cntc_dll.cntc_initializefirst_new.restype     = None
-    cntc_dll.cntc_initializefirst_new.argtypes    = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int), 
                                                       c_char_p,          c_char_p,          c_char_p,
                                                       POINTER(c_int),    POINTER(c_int),    POINTER(c_int) ]
 
@@ -243,15 +234,6 @@ def contact_addon_headers( cntc_dll ):
     
     cntc_dll.cntc_getprofilevalues.restype        = None
     cntc_dll.cntc_getprofilevalues.argtypes       = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
-                                                      POINTER(c_int),    POINTER(c_int),    POINTER(c_double),
-                                                      POINTER(c_int),    POINTER(c_double) ]
-    
-    # void cntc_getprofilevalues_new                ( int *ire,          int *itask,        int *nints, 
-    #                                                 int *iparam,       int *nreals,       double *rparam,
-    #                                                 int *lenarr,       double *values );
-    
-    cntc_dll.cntc_getprofilevalues_new.restype    = None
-    cntc_dll.cntc_getprofilevalues_new.argtypes   = [ POINTER(c_int),    POINTER(c_int),    POINTER(c_int),
                                                       POINTER(c_int),    POINTER(c_int),    POINTER(c_double),
                                                       POINTER(c_int),    POINTER(c_double) ]
     

@@ -1,14 +1,10 @@
 /*
- Copyright 2008-2023 by Vtech CMCC.
+ Copyright 2008-2026 by Vtech CMCC.
 
  Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 */
 
 void cntc_initializefirst(int *ifcver, int *ierror, int *ioutput, const char *c_wrkdir,
-                        const char *c_outdir, const char *c_expnam, int *len_wrkdir, 
-                        int *len_outdir, int *len_expnam);
-
-void cntc_initializefirst_new(int *ifcver, int *ierror, int *ioutput, const char *c_wrkdir,
                         const char *c_outdir, const char *c_expnam, int *len_wrkdir, 
                         int *len_outdir, int *len_expnam);
 
@@ -84,9 +80,6 @@ void cntc_getflags(int *ire, int *icp, int *nparam, int *iparam, int *values);
 void cntc_getparameters(int *ire, int *icp, int *itask, int *lenarr, double *values);
 
 void cntc_getprofilevalues(int *ire, int *itask, int *nints, int *iparam, int *nreals, double *rparam,
-                                        int *lenarr, double *values);
-
-void cntc_getprofilevalues_new(int *ire, int *itask, int *nints, int *iparam, int *nreals, double *rparam,
                                         int *lenarr, double *values);
 
 void cntc_getwheelsetposition(int *ire, int *lenarr, double *values);

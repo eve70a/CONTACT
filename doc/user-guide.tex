@@ -6661,7 +6661,7 @@ This may be left blank if the true working folder is ok to work with.
 The parameter {\tt wrkdir} was introduced in version 24.1 in a new
 subroutine {\tt cntc\_initialize\-first\-\_\-new}. The interface of
 subroutine {\tt cntc\_initialize\-first} was changed in version 25.1.
-The {\tt \_new} variant will be deleted in version 26.1.
+The {\tt \_new} variant was deleted in version 26.1.
 
 A second folder `{\tt outdir}' may be given for the outputs created by
 CONTACT. This can be an absolute path or a path relative to the effective
@@ -6962,28 +6962,9 @@ of {\tt caddon\_flags.inc}).
 
 A new subroutine {\tt cntc\_getprofilevalues\_new} was introduced in version
 24.1, providing extensions for checking CONTACT's spline approximation.
-In version 25.1, subroutine {\tt cntc\_getprofilevalues} is updated
-according to the new interface. Using this version, the caller code can be
-updated as follows:
-
-{\scriptsize\begin{alltt}
-!--intermediate code, works with library versions 23.2 and newer:
-   ! set itask, iparam = (/ itype, isampl /), rparam = (/ ds_out /), ...
-   if (ifcver.le.2499) then
-      call cntc_getprofilevalues\red{_new}(ire, itask, 2, iparam, 1, rparam, lenarr, val) 
-   else
-      call cntc_getprofilevalues\red{(}ire, itask, 2, iparam, 1, rparam, lenarr, val) 
-   endif
-\end{alltt}}
-
-Once version 24.1 is no longer needed, the switch may be removed to reach
-the final situation:
-
-{\scriptsize\begin{alltt}
-!--final code, works with library versions 25.1 and newer:
-   ! set itask, iparam = (/ itype, isampl /), rparam = (/ ds_out /), ...
-   call cntc_getprofilevalues\red{(}ire, itask, 2, iparam, 1, rparam, lenarr, val) 
-\end{alltt}}
+In version 25.1, subroutine {\tt cntc\_getprofilevalues} was updated
+according to the new interface. The {\tt \_new} variant was deleted in
+version 26.1.
 
 \paragraph{cntc\_setwheelsetdimensions, position, velocity, flexibility}
 

@@ -12,7 +12,7 @@
 #       integer    ierror       - error flag
 #------------------------------------------------------------------------------------------------------------
 
-# Copyright 2008-2023 by Vtech CMCC.
+# Copyright 2008-2026 by Vtech CMCC.
 #
 # Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -37,7 +37,7 @@ def cntc_initlibrary(wrkdir=' ', outdir=' ', expnam=' ', idebug=1):
     len_outdir    = c_int( len(outdir_bytes) )
     len_expnam    = c_int( len(expnam_bytes) )
 
-    cntc_dll.cntc_initializefirst_new( ifcver, ierror, ioutput, wrkdir_bytes, outdir_bytes, expnam_bytes, 
+    cntc_dll.cntc_initializefirst( ifcver, ierror, ioutput, wrkdir_bytes, outdir_bytes, expnam_bytes, 
                                                                     len_wrkdir, len_outdir, len_expnam )
 
     # print('initializeFirst: ifcver = ',ifcver.value,', ierror = ',ierror.value)

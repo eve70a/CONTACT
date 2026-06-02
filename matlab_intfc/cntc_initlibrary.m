@@ -14,7 +14,7 @@
 %       integer    ierror       - error flag
 %------------------------------------------------------------------------------------------------------------
 
-% Copyright 2008-2023 by Vtech CMCC.
+% Copyright 2008-2026 by Vtech CMCC.
 %
 % Licensed under Apache License v2.0.  See the file "LICENSE.txt" for more information.
 
@@ -87,7 +87,7 @@ function [ CNTC, ifcver, ierror ] = cntc_initlibrary(c_wrkdir, c_outdir, c_expna
       p_ver  = libpointer('int32Ptr',-1);
 
       p_ierr.value = 0;
-      calllib(libname,'cntc_initializefirst_new', p_ver, p_ierr, ioutput, c_wrkdir, c_outdir, c_expnam, ...
+      calllib(libname,'cntc_initializefirst', p_ver, p_ierr, ioutput, c_wrkdir, c_outdir, c_expnam, ...
                                                                        len_wrkdir, len_outdir, len_expnam);
       % disp(sprintf('test_caddon: obtained ver=%d, ierr=%d', p_ver.value, p_ierr.value));
 
